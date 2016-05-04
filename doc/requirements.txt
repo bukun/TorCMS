@@ -1,0 +1,11 @@
+beautifulsoup4
+html2text
+jieba
+markdown
+peewee
+Pillow
+tornado
+Jinja2
+Whoosh
+WTForms
+wtforms-tornado
