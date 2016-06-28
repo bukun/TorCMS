@@ -24,6 +24,8 @@ pypi:  The kernel of this CMS has been submit to pypi.
 
     git clone https://github.com/bukun/TorCMS.git
 
+
+
 ## Under Debian
 
     aptitude install postgresql-server-dev-all
@@ -41,6 +43,13 @@ Install libs for Python 3.4 or 3.5,
 
 # How to Run
 
+## Pull info_tags
+
+Yes,  the info_tags is used to generate some files needed by every project.
+
+    cd TorCMS/src
+    git clone https://github.com/bukun/info_tags.git
+
 ## Edit the configiure.
 
     cd TorCMS/src
@@ -57,7 +66,7 @@ Modify the file in src/database/meta.
 
 ## Initialize the PostgreSQL schema
 
-    script_init_database_shema.py    
+    python script_init_table.py
 
 ## Initialing the metadata in database
 
