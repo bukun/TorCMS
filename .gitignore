@@ -73,3 +73,5 @@ src/static/upload/
 src/static/tass/.sass-cache/
 src/templates/pycate/autogen/
 src/templates/autogen/
+
+src/info_tags
