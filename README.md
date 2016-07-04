@@ -15,7 +15,7 @@ pypi:  The kernel of this CMS has been submit to pypi.
 * [http://www.osgeo.cn](http://www.osgeo.cn)
 * [http://www.maplet.org](http://www.maplet.org)
 * [http://www.yunsuan.org](http://www.yunsuan.org)
-* [http://drr.osgeo.cn](http://drr.wetland.ac.cn)
+* [http://drr.osgeo.cn](http://drr.osgeo.cn)
 
 
 
