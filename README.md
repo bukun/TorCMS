@@ -12,10 +12,11 @@ pypi:  The kernel of this CMS has been submit to pypi.
 
 ## Application
 
+* [http://www.osgeo.cn](http://www.osgeo.cn)
 * [http://www.maplet.org](http://www.maplet.org)
 * [http://www.yunsuan.org](http://www.yunsuan.org)
-* [http://www.wetland.ac.cn](http://www.wetland.ac.cn)
-* [http://www.osgeo.cn](http://www.osgeo.cn)
+* [http://drr.osgeo.cn](http://drr.wetland.ac.cn)
+
 
 
 # Install
