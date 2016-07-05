@@ -14,6 +14,7 @@ pypi:  The kernel of this CMS has been submit to pypi.
 
 * [http://geodata.osgeo.cn/](http://geodata.osgeo.cn/)  (The default theme, and DEMO. ) 
 
+### Others
 
 * [http://www.osgeo.cn](http://www.osgeo.cn)
 * [http://www.maplet.org](http://www.maplet.org)
