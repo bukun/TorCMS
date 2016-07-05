@@ -12,9 +12,7 @@ pypi:  The kernel of this CMS has been submit to pypi.
 
 ## Application
 
-* [http://geodata.osgeo.cn/](http://geodata.osgeo.cn/)
-
-The default theme. 
+* [http://geodata.osgeo.cn/](http://geodata.osgeo.cn/)  (The default theme, and DEMO. ) 
 
 
 * [http://www.osgeo.cn](http://www.osgeo.cn)
