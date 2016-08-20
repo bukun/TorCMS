@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='torcms',
-    version='0.2.2',
+    version='0.4.0',
     keywords=('torcms', 'tornado', 'cms',),
     description='''CMS based on Python 3 and Tornado. Flexible, extensible web CMS framework built on Tornado and Peewee, compatible with Python 3.4 and 3.5.''',
     long_description=''.join(open('README.rst').readlines()),
