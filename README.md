@@ -108,6 +108,14 @@ Enjoy it!
 此CMS系统原本用于[云算笔记](http://www.yunsuan.org)
 、[开放地理空间实验室](http://lab.osgeo.cn)（现合并到[OSGeo中国中心](http://www.osgeo.cn)）等网站，
 后来慢慢将 CMS 从中抽取出来。
+
+在网站设计方面，提出了文档（Post）、信息（Infor）两种对等的模型进行信息的组织。
+这两种模型结构相似，分别用与网站的内容管理，以及应用管理。
+其中应用管理，使用了PostgreSQL的JSON扩展，可以设计为App、分类信息、商城应用等。
+这些可以在下面的应用中看一下。
+
+网站的文档，除了Post之外，还有Page、Wiki，针对不同的目的作为文档使用。
+
 # 应用
 
 * [OSGeo中国中心](http://www.osgeo.cn)
