@@ -67,11 +67,11 @@ config.py
 *.db
 *.rdb
 
-src/database/whoosh
-src/database/whoosh*
-src/static/upload/
-src/static/tass/.sass-cache/
-src/templates/pycate/autogen/
-src/templates/autogen/
+database/whoosh
+database/whoosh*
+static/upload/
+static/tass/.sass-cache/
+templates/pycate/autogen/
+templates/autogen/
 
-src/info_tags
+info_tags
