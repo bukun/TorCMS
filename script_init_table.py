@@ -18,6 +18,11 @@ try:
 except:
     pass
 
+try:
+    CabLink.create_table()
+except:
+    pass
+
 
 
 # uu = CabPost()
