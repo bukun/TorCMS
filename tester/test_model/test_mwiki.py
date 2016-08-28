@@ -57,7 +57,6 @@ class TestWiki():
 
     def test_get_by_title(self):
         post_data = {
-
             'title': [self.wiki_title],
             'cnt_md': ['## adslkfjasdf\n lasdfkjsadf'],
             'user_name': 'Tome',
@@ -73,7 +72,6 @@ class TestWiki():
     def test_get_by_title2(self):
         '''Test Wiki title with SPACE'''
         post_data = {
-
             'title': ['  ' + self.wiki_title + '  '],
             'cnt_md': ['## adslkfjasdf\n lasdfkjsadf'],
             'user_name': 'Tome',

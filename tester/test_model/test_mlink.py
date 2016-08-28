@@ -42,8 +42,6 @@ class TestUM():
         print(self.raw_count)
 
     def test_insert(self):
-
-
         uid = self.id
         post_data = {
             'name': ['asdf'],
