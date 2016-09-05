@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 from torcms.core import tools
-from torcms.model.mlink import MLink
+from torcms.model.link_model import MLink
 
 print('hello')
 

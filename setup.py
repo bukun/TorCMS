@@ -17,7 +17,7 @@ setup(
 
 
     # packages=find_packages(exclude=["maplet.*", "maplet"]),
-    packages=find_packages(exclude=["tester"]),
+    packages=find_packages(exclude=["tester", "torcms_helper"]),
 
     platforms='any',
     zip_safe=True,

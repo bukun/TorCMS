@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 from torcms.core import tools
-from torcms.model.mentity import MEntity
+from torcms.model.picture_model import MEntity
 import tornado.escape
 
 

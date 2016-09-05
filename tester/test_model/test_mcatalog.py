@@ -1,14 +1,14 @@
 # -*- coding:utf-8 -*-
 
 from torcms.core import tools
-from torcms.model.mcatalog import MCatalog
+from torcms.model.postcatalog_model import MPostCatalog
 import tornado.escape
 
 
 class TestCatalog():
     def setup(self):
         print('setup 方法执行于本类中每条用例之前')
-        self.uu = MCatalog()
+        self.uu = MPostCatalog()
         self.uid = tools.get_uu4d()
         self.slug = 'ccc'
 

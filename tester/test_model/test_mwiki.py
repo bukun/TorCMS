@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 from torcms.core import tools
-from torcms.model.mwiki import MWiki
+from torcms.model.wiki_model import MWiki
 import tornado.escape
 
 

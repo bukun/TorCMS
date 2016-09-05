@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 from torcms.core import tools
-from torcms.model.mlabel_model import MLabel
+from torcms.model.label_model import MLabel
 import tornado.escape
 
 

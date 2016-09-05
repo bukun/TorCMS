@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 from torcms.core import tools
-from torcms.model.muser import MUser
+from torcms.model.user_model import MUser
 import tornado.escape
 
 

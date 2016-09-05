@@ -6,21 +6,10 @@ import tornado.escape
 from whoosh.index import create_in
 from whoosh.fields import *
 from jieba.analyse import ChineseAnalyzer
-from torcms.model.mpost import MPost
-from torcms.model.app_model import MApp
+from torcms.model.post_model import MPost
+from torcms.model.infor_model import MInfor
 
 whoosh_database = 'database/whoosh'
-
-def build_directory():
-    if os.path.exists('locale'):
-        pass
-    else:
-        os.mkdir('locale')
-    if os.path.exists(whoosh_database):
-        pass
-    else:
-        os.makedirs(whoosh_database)
-
 
 def build_whoosh_database():
     analyzer = ChineseAnalyzer()
@@ -30,7 +19,7 @@ def build_whoosh_database():
 
     writer = ix.writer()
 
-    uu = MApp()
+    uu = MInfor()
 
     tt = uu.get_all()
     for rec in tt:
@@ -57,6 +46,5 @@ def build_whoosh_database():
     writer.commit()
 
 if __name__ == '__main__':
-    build_directory()
     build_whoosh_database()
 

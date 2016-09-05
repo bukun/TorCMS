@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 from torcms.core import tools
-from torcms.model.mpage import MPage
+from torcms.model.page_model import MPage
 import tornado.escape
 
 

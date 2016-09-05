@@ -1,14 +1,14 @@
 # -*- coding:utf-8 -*-
 
 from torcms.core import tools
-from torcms.model.app_model import MApp
+from torcms.model.infor_model import MInfor
 import tornado.escape
 
 
 class TestApp():
     def setup(self):
         print('setup 方法执行于本类中每条用例之前')
-        self.uu = MApp()
+        self.uu = MInfor()
 
         self.title = '哈哈sdfsdf'
         self.uid = tools.get_uu4d()

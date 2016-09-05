@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 from torcms.core import tools
-from torcms.model.mpost import MPost
+from torcms.model.post_model import MPost
 import tornado.escape
 
 

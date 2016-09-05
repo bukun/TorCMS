@@ -1,9 +1,9 @@
 # -*- coding:utf-8 -*-
 
 from torcms.core import tools
-from torcms.model.mpost import MPost
-from torcms.model.mreply import MReply
-from torcms.model.muser import MUser
+from torcms.model.post_model import MPost
+from torcms.model.reply_model import MReply
+from torcms.model.user_model import MUser
 import tornado.escape
 
 
