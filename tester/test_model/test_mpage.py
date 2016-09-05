@@ -5,7 +5,7 @@ from torcms.model.mpage import MPage
 import tornado.escape
 
 
-class TestWiki():
+class TestPage():
     def setup(self):
         print('setup 方法执行于本类中每条用例之前')
         self.uu = MPage()

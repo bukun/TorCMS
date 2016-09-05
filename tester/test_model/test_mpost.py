@@ -175,9 +175,6 @@ class TestPost():
         self.uu.query_most_pic(3)
         assert True
 
-    #def test_get_num_by_cat(self):
-    #    self.uu.get_num_by_cat(3)
-    #    assert True
 
 
     def test_query_cat_recent(self):
@@ -186,9 +183,6 @@ class TestPost():
     def test_query_most(self):
         self.uu.query_most()
         assert True
-    #def test_query_cat_by_pager(self):
-    #    self.uu.query_cat_by_pager()
-    #    assert True
 
     def test_update_keywords(self):
         self.uu.update_keywords(self.uid,'adf')

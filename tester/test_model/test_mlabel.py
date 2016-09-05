@@ -1,79 +1,49 @@
 # -*- coding:utf-8 -*-
 
 from torcms.core import tools
-from torcms.model.mpage import MPage
+from torcms.model.mlabel_model import MLabel
 import tornado.escape
 
 
-class TestWiki():
+class TestLabel():
     def setup(self):
         print('setup 方法执行于本类中每条用例之前')
-        self.uu = MPage()
-        self.raw_count = self.uu.get_counts()
-        self.page_slug = 'aaa'
+        self.uu = MLabel()
+        self.name = 'name'
+        self.tmpl_uid = ''
 
     def test_insert(self):
-        raw_count = self.uu.get_counts()
+
         post_data = {
-            'title':'title',
-            'id_user':'Tome',
-            'cnt_md':'## adslkfjasdf\n lasdfkjsadf',
-            'view_count':1,
-
+            'name': 'titlesdf',
         }
-        self.uu.insert_data(post_data)
-        new_count = self.uu.get_counts()
+        newid = self.uu.create_tag(post_data['name'])
 
-        tt = self.uu.get_by_slug(self.page_slug)
-
-        #assert tt.title == post_data['title'][0]
-        #assert tt.cnt_md == tornado.escape.xhtml_unescape(post_data['cnt_md'][0])
-        #assert raw_count + 1 == new_count
+        tt = self.uu.get_id_by_name(post_data['name'])
+        # assert tt.uid == suid
+        self.tmpl_uid = tt
+        assert tt == newid
 
     def test_insert_2(self):
         '''Wiki insert: Test invalid title'''
         post_data = {
-            'title': [''],
-            'id_user':'Tome',
-            'cnt_md':'## adslkfjasdf\n lasdfkjsadf',
-            'view_count':1,
+            'name': 'title',
         }
-        uu = self.uu.insert_data(post_data)
+        uu = self.uu.create_tag(post_data['name'])
         assert uu == False
 
         post_data = {
-            'title': ['1'],
-            'id_user':'Tome',
-            'cnt_md':'## adslkfjasdf\n lasdfkjsadf',
-            'view_count':1,
+            'name': '',
         }
-        uu = self.uu.insert_data(post_data)
+        uu = self.uu.create_tag(post_data['name'])
         assert uu == False
 
-        post_data = {
-            'title': ['天'],
-            'id_user':'Tome',
-            'cnt_md':'## adslkfjasdf\n lasdfkjsadf',
-            'view_count':1,
-        }
-        uu = self.uu.insert_data(post_data)
-        assert uu == False
-
-
-    def test_query_all(self):
-        self.uu.query_all()
-        assert True
-
-    def test_get_by_slug(self):
-        self.uu.get_by_slug('aa')
-        assert True
 
 
     def test_upate(self):
         assert True
 
     def tearDown(self):
-        print ("function teardown")
-        tt = self.uu.get_by_slug(self.page_slug)
-        if tt:
-            self.uu.delete(tt.uid)
+        print("function teardown")
+        tt = self.uu.get_id_by_name(self.name)
+        self.uu.delete(self.tmpl_uid)
