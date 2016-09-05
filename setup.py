@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='torcms',
-    version='0.4.1',
+    version='0.4.2',
     keywords=('torcms', 'tornado', 'cms',),
     description='''CMS based on Python 3 and Tornado. Flexible, extensible web CMS framework built on Tornado and Peewee, compatible with Python 3.4 and 3.5.''',
     long_description=''.join(open('README.rst').readlines()),
@@ -17,15 +17,8 @@ setup(
 
 
     # packages=find_packages(exclude=["maplet.*", "maplet"]),
-    packages=find_packages(),
+    packages=find_packages(exclude=["tester"]),
 
-    # packages=find_packages(exclude=["maplet"]),
-    # package_data=find_package_data(
-    # 	PACKAGE,
-    # 	only_in_packages=False
-    #  ),
-    # include_package_data=True,
-    # exclude_package_data={'': ['*maplet*']},
     platforms='any',
     zip_safe=True,
     install_requires=['beautifulsoup4', 'jieba', 'markdown', 'peewee', 'Pillow',

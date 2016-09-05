@@ -30,7 +30,6 @@ def build_whoosh_database():
 
     writer = ix.writer()
 
-
     uu = MApp()
 
     tt = uu.get_all()
@@ -55,9 +54,7 @@ def build_whoosh_database():
             content=text2
         )
 
-
     writer.commit()
-
 
 if __name__ == '__main__':
     build_directory()

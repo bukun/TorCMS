@@ -10,8 +10,7 @@ class TestEntity():
         print('setup 方法执行于本类中每条用例之前')
         self.uu = MEntity()
         self.uid = tools.get_uu4d()
-        self.imgpath='imgpath'
-
+        self.imgpath = 'imgpath'
 
     def test_insert(self):
         uid = self.uid
@@ -20,9 +19,8 @@ class TestEntity():
 
         }
 
-        self.uu.insert_data(uid,post_data['imgpath'])
+        self.uu.insert_data(uid, post_data['imgpath'])
         assert True
-
 
     def test_insert_2(self):
         '''Wiki insert: Test invalid title'''
@@ -37,8 +35,6 @@ class TestEntity():
         }
         uu = self.uu.get_id_by_impath(post_data['imgpath'])
         assert uu == False
-
-
 
     def test_upate(self):
         assert True

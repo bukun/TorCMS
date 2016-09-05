@@ -16,37 +16,33 @@ class TestCatalog():
         uid = self.uid
         post_data = {
             'name': 'titlesdf',
-            'slug':self.slug,
-            'order':'1',
+            'slug': self.slug,
+            'order': '1',
 
         }
 
-        newid=self.uu.insert_data(uid,post_data)
+        newid = self.uu.insert_data(uid, post_data)
 
         tt = self.uu.get_by_slug(self.slug)
-        #assert tt == newid
-
-
+        # assert tt == newid
 
     def test_insert_2(self):
         '''Wiki insert: Test invalid title'''
         post_data = {
             'name': [''],
-            'slug':['asa'],
-            'order':['2'],
+            'slug': ['asa'],
+            'order': ['2'],
         }
-        uu = self.uu.insert_data(self.uid,post_data)
-        #assert uu == False
+        uu = self.uu.insert_data(self.uid, post_data)
+        # assert uu == False
 
         post_data = {
-           'name':[ 'f'],
-           'slug':[self.uid],
-           'order':['3'],
+            'name': ['f'],
+            'slug': [self.uid],
+            'order': ['3'],
         }
-        uu = self.uu.insert_data(self.uid,post_data)
-        #assert uu == False
-
-
+        uu = self.uu.insert_data(self.uid, post_data)
+        # assert uu == False
 
     def test_upate(self):
         assert True
