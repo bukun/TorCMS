@@ -52,10 +52,10 @@ class TestUser():
 
     def test_update_info(self):
         post_data = {
-            'user_email': ['ss@163.com']
+            'user_email': ['ssadfs@163.com']
         }
-        tt = self.uu.update_info(self.username, post_data['user_email'])
-        assert tt == True
+        tt = self.uu.update_info(self.username, post_data['user_email'][0])
+        assert tt['success'] == True
 
     def test_update_pass(self):
         post_data = {
