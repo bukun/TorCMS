@@ -23,13 +23,13 @@ cookie_secret = '12345'
 redis_kw = 'lsadfkj'
 
 smtp_cfg = {
+    'name': 'TorCMS',
     'host': "smtp.ym.163.com",
     'user': "user_name@yunsuan.org",
     'pass': "password_here",
     'postfix': 'yunsuan.org',
 }
 
-Email_site_name = '云算笔记'
 PORT = '8088'
 
 dbconnect = PostgresqlExtDatabase(
