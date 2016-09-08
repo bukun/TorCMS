@@ -20,7 +20,7 @@ class TestUser():
 
         tt = self.uu.insert_data(post_data)
 
-        assert tt == True
+        assert tt['success'] == True
 
     def test_insert2(self):
         post_data = {
@@ -30,7 +30,7 @@ class TestUser():
         }
 
         tt = self.uu.insert_data(post_data)
-        assert tt == False
+        assert tt['success'] == False
 
         post_data = {
             'user_name': ['天'],
@@ -39,7 +39,7 @@ class TestUser():
         }
 
         tt = self.uu.insert_data(post_data)
-        assert tt == False
+        assert tt['success'] == False
 
         post_data = {
             'user_name': ['/sdfadf'],
@@ -48,7 +48,7 @@ class TestUser():
         }
 
         tt = self.uu.insert_data(post_data)
-        assert tt == False
+        assert tt['success'] == False
 
     def test_update_info(self):
         post_data = {

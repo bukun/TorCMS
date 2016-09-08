@@ -15,7 +15,7 @@ class TestPost():
         self.reply = MReply()
 
         self.post_title = 'ccc'
-        self.username = 'admin'
+        self.username = 'adminsadfl'
         self.uid = tools.get_uu4d()
 
 
@@ -48,7 +48,8 @@ class TestPost():
 
         tt=self.user.insert_data(post_data)
 
-        assert tt == True
+
+        assert tt['success'] == True
 
 
     def test_insert_reply(self):
@@ -63,23 +64,23 @@ class TestPost():
         tt=self.user.insert_data(post_data)
 
 
-        u_id = self.user.get_by_id(self.username)
-
-
-        self.userid = u_id.uid
-
-        print("*" * 50)
-        print(self.userid)
-        print("*" * 50)
-        post_data = {
-            'user_name':[self.username],
-            'create_user_id':[self.userid],
-            'timestamp':['2'],
-            'date':['1'],
-            'cnt_md':['###adfafasf/sdf'],
-            'cnt_html':['###adfafasf/sdf'],
-            'vote':0,
-        }
+        # u_id = self.user.get_by_name(self.username)
+        #
+        #
+        # self.userid = u_id.uid
+        #
+        # print("*" * 50)
+        # print(self.userid)
+        # print("*" * 50)
+        # post_data = {
+        #     'user_name':[self.username],
+        #     'create_user_id':[self.userid],
+        #     'timestamp':['2'],
+        #     'date':['1'],
+        #     'cnt_md':['###adfafasf/sdf'],
+        #     'cnt_html':['###adfafasf/sdf'],
+        #     'vote':0,
+        # }
 
 
 
