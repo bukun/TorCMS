@@ -15,7 +15,7 @@ class TestUser():
         post_data = {
             'user_name': [self.username],
             'user_pass': ['g131322'],
-            'user_email': ['name@qq.com'],
+            'user_email': ['name@kljhqq.com'],
         }
 
         tt = self.uu.insert_data(post_data)
@@ -26,7 +26,7 @@ class TestUser():
         post_data = {
             'user_name': [''],
             'user_pass': ['g131322'],
-            'user_email': ['name@qq.com'],
+            'user_email': ['name@qkjhlq.com'],
         }
 
         tt = self.uu.insert_data(post_data)
@@ -35,7 +35,7 @@ class TestUser():
         post_data = {
             'user_name': ['天'],
             'user_pass': ['g131322'],
-            'user_email': ['name@qq.com'],
+            'user_email': ['name@qhjq.com'],
         }
 
         tt = self.uu.insert_data(post_data)
@@ -44,7 +44,7 @@ class TestUser():
         post_data = {
             'user_name': ['/sdfadf'],
             'user_pass': ['g131322'],
-            'user_email': ['name@qq.com'],
+            'user_email': ['name@qjhgq.com'],
         }
 
         tt = self.uu.insert_data(post_data)

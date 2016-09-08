@@ -42,7 +42,7 @@ class TestPost():
         post_data = {
             'user_name':[self.username],
             'user_pass':['g131322'],
-            'user_email':['name@qq.com'],
+            'user_email':['name@qkhq.com'],
         }
 
 
@@ -57,7 +57,7 @@ class TestPost():
         post_data = {
             'user_name':[self.username],
             'user_pass':['g131322'],
-            'user_email':['name@qq.com'],
+            'user_email':['name@qlkjq.com'],
         }
 
 
