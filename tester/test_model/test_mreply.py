@@ -42,13 +42,15 @@ class TestPost():
         post_data = {
             'user_name':[self.username],
             'user_pass':['g131322'],
-            'user_email':['name@qkhq.com'],
+            'user_email':['nahme@qkhlkq.com'],
         }
 
 
         tt=self.user.insert_data(post_data)
 
 
+        print('=' * 20)
+        print(tt)
         assert tt['success'] == True
 
 

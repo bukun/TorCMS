@@ -64,7 +64,6 @@ class TestUser():
         # tt = self.uu.update_pass(self.username,  post_data['user_pass'])
         # assert tt
 
-    # Todo: error
     def test_update_privilege(self):
         post_data = {
             'privilege': '11111'
