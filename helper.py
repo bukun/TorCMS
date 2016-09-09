@@ -1,8 +1,11 @@
-from torcms.script.catalog_count import update_doc_count
-from torcms.script.catalog_count import update_app_count
-from torcms.script.script_info_catalog import uu
-from torcms.script.torcms_helper import create_admin
-update_app_count()
-update_doc_count()
-uu()
-create_admin()
+# -*- coding: utf-8
+import sys
+from torcms.script.command import entry
+
+if __name__ == '__main__':
+    if len(sys.argv) == 1:
+        print('run:')
+        print('    python helper.py -h ')
+        print('for help')
+    else:
+        entry(sys.argv[1:])

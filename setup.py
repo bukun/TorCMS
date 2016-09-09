@@ -22,7 +22,7 @@ setup(
     platforms='any',
     zip_safe=True,
     install_requires=['beautifulsoup4', 'jieba', 'markdown', 'peewee', 'Pillow',
-        'tornado', 'Whoosh', 'WTForms', 'wtforms-tornado','psycopg2'],
+        'tornado', 'Whoosh', 'WTForms', 'wtforms-tornado','psycopg2','html2text', 'redis', 'pyyaml'],
 
     classifiers=[
         # How mature is this project? Common values are
