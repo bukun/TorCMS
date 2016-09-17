@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 
-from torcms.handlers.info_tag_hanler import InfoTagHandler
+from torcms.handlers.infocate_tag_hanler import InfoTagHandler
 
 
 def Test():
