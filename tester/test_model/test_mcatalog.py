@@ -18,6 +18,7 @@ class TestCatalog():
             'name': 'titlesdf',
             'slug': self.slug,
             'order': '1',
+            'type': 1,
 
         }
 
@@ -32,6 +33,7 @@ class TestCatalog():
             'name': [''],
             'slug': ['asa'],
             'order': ['2'],
+            'type':1,
         }
         uu = self.uu.insert_data(self.uid, post_data)
         # assert uu == False
@@ -40,6 +42,7 @@ class TestCatalog():
             'name': ['f'],
             'slug': [self.uid],
             'order': ['3'],
+            'type': 1,
         }
         uu = self.uu.insert_data(self.uid, post_data)
         # assert uu == False

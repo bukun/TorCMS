@@ -15,19 +15,18 @@ class TestWiki():
     def test_insert(self):
         raw_count = self.uu.get_counts()
         post_data = {
-
             'title': [self.wiki_title],
             'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
             'user_name': 'Tome',
         }
-        self.uu.insert_data(post_data)
-        new_count = self.uu.get_counts()
+        if self.uu.insert_data(post_data):
+            new_count = self.uu.get_counts()
 
-        tt = self.uu.get_by_wiki(self.wiki_title)
+            tt = self.uu.get_by_wiki(self.wiki_title)
 
-        assert tt.title == post_data['title'][0]
-        assert tt.cnt_md == tornado.escape.xhtml_unescape(post_data['cnt_md'][0])
-        assert raw_count + 1 == new_count
+            assert tt.title == post_data['title'][0]
+            assert tt.cnt_md == tornado.escape.xhtml_unescape(post_data['cnt_md'][0])
+            assert raw_count + 1 == new_count
 
     def test_insert_2(self):
         '''Wiki insert: Test invalid title'''
@@ -92,17 +91,17 @@ class TestWiki():
             'cnt_md': ['## adslkfjasdf\n lasdfkjsadf'],
             'user_name': 'Tome',
         }
-        self.uu.insert_data(post_data)
+        if self.uu.insert_data(post_data):
 
-        rec = self.uu.get_by_wiki(self.wiki_title)
+            rec = self.uu.get_by_wiki(self.wiki_title)
 
-        viewcount0 = rec.view_count
-        assert viewcount0 == 2
-        for x in range(100):
-            self.uu.update_view_count_by_uid(rec.uid)
+            viewcount0 = rec.view_count
+            assert viewcount0 == 2
+            for x in range(100):
+                self.uu.update_view_count_by_uid(rec.uid)
 
-        viewcount1 = self.uu.get_by_wiki(self.wiki_title).view_count
-        assert viewcount1 == 103
+            viewcount1 = self.uu.get_by_wiki(self.wiki_title).view_count
+            assert viewcount1 == 103
 
     def test_upate(self):
         assert True

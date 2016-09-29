@@ -24,7 +24,7 @@ class TestPage():
         self.uu.insert_data(post_data)
         new_count = self.uu.get_counts()
 
-        tt = self.uu.get_by_slug(self.page_slug)
+        tt = self.uu.get_by_uid(self.page_slug)
 
         #assert tt.title == post_data['title'][0]
         #assert tt.cnt_md == tornado.escape.xhtml_unescape(post_data['cnt_md'][0])
@@ -65,7 +65,7 @@ class TestPage():
         assert True
 
     def test_get_by_slug(self):
-        self.uu.get_by_slug('aa')
+        self.uu.get_by_uid('aa')
         assert True
 
 
@@ -74,6 +74,6 @@ class TestPage():
 
     def tearDown(self):
         print ("function teardown")
-        tt = self.uu.get_by_slug(self.page_slug)
+        tt = self.uu.get_by_uid(self.page_slug)
         if tt:
             self.uu.delete(tt.uid)
