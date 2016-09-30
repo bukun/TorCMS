@@ -13,11 +13,6 @@ page_num = 10
 site_name = 'TorCMS网站'
 site_url = 'http://127.0.0.1:8088'
 
-# 使用DataBase的不同形式，以应对Peewe针对数据库的不同语法
-# 1 for SQLite
-# 2 for MySQL
-# 3 for PostgreSQL
-dbtype = 3
 
 cookie_secret = '12345'
 redis_kw = 'lsadfkj'
@@ -50,7 +45,7 @@ app_template_name = 'pycate'
 
 lang = 'en_US'
 
-# Used in HTML render files.
+
 
 cfg = {
     'info_per_page': 10,
