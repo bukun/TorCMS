@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 
-from torcms.handlers.post_handler import PostHandler, MPost, MPostCatalog
+from torcms.handlers.post_handler import PostHandler, MPost, MCategory
 
 
 def Test():
@@ -9,4 +9,4 @@ def Test():
         ("/label/(.*)", PostHandler, dict()), ]
     assert urls
     assert MPost()
-    assert MPostCatalog()
+    assert MCategory()

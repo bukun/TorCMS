@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
-from torcms.model.postcatalog_model import MPostCatalog
+from torcms.model.category_model import MCategory
 
 def Test():
-    assert MPostCatalog()
+    assert MCategory()
 
 

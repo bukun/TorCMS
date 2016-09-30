@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 from torcms.core import tools
-from torcms.model.infor_model import MInfor
+from torcms.model.info_model import MInfor
 import tornado.escape
 
 

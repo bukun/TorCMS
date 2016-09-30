@@ -7,7 +7,7 @@ from whoosh.index import create_in
 from whoosh.fields import *
 from jieba.analyse import ChineseAnalyzer
 from torcms.model.post_model import MPost
-from torcms.model.infor_model import MInfor
+from torcms.model.info_model import MInfor
 
 whoosh_database = 'database/whoosh'
 
