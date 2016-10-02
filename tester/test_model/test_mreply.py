@@ -24,7 +24,7 @@ class TestPost():
         raw_count = self.post.get_counts()
 
         post_data = {
-            'title': [self.post_title],
+            'title': self.post_title,
             'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
             'user_name': 'Tome',
             'view_count': 1,

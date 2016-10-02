@@ -30,18 +30,18 @@ class TestCatalog():
     def test_insert_2(self):
         '''Wiki insert: Test invalid title'''
         post_data = {
-            'name': [''],
-            'slug': ['asa'],
-            'order': ['2'],
+            'name': '',
+            'slug': 'asa',
+            'order': '2',
             'type':1,
         }
         uu = self.uu.insert_data(self.uid, post_data)
         # assert uu == False
 
         post_data = {
-            'name': ['f'],
-            'slug': [self.uid],
-            'order': ['3'],
+            'name': 'f',
+            'slug': self.uid,
+            'order': '3',
             'type': 1,
         }
         uu = self.uu.insert_data(self.uid, post_data)

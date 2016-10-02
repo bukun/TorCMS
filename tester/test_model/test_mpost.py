@@ -17,7 +17,7 @@ class TestPost():
         raw_count = self.uu.get_counts()
 
         post_data = {
-            'title': [self.post_title],
+            'title': self.post_title,
             'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
             'user_name': 'Tome',
             'view_count': 1,
@@ -31,16 +31,16 @@ class TestPost():
         tt = self.uu.get_by_uid(self.uid)
 
 
-        assert tt.title == post_data['title'][0]
-        assert tt.cnt_md == tornado.escape.xhtml_unescape(post_data['cnt_md'][0])
-        assert tt.cnt_html == tools.markdown2html(post_data['cnt_md'][0])
+        assert tt.title == post_data['title']
+        assert tt.cnt_md == tornado.escape.xhtml_unescape(post_data['cnt_md'])
+        assert tt.cnt_html == tools.markdown2html(post_data['cnt_md'])
         assert raw_count + 1 == new_count
 
     def test_insert_2(self):
         '''Wiki insert: Test invalid title'''
 
         post_data = {
-            'title': [''],
+            'title': '',
             'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
             'user_name': 'Tome',
             'view_count': 1,
@@ -51,7 +51,7 @@ class TestPost():
         assert uu == False
 
         post_data = {
-            'title': ['1'],
+            'title': '1',
             'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
             'user_name': 'Tome',
             'view_count': 1,
@@ -62,7 +62,7 @@ class TestPost():
         assert uu == False
 
         post_data = {
-            'title': ['天'],
+            'title': '天',
             'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
             'user_name': 'Tome',
             'view_count': 1,
@@ -76,7 +76,7 @@ class TestPost():
 
         post_data = {
 
-            'title': [self.post_title],
+            'title': self.post_title,
             'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
             'user_name': 'Tome',
             'view_count': 1,
@@ -86,7 +86,7 @@ class TestPost():
         uid = self.uu.insert_data(self.uid, post_data)
 
         ss = self.uu.get_by_uid(uid)
-        assert ss.title == post_data['title'][0]
+        assert ss.title == post_data['title']
 
 
 
@@ -96,7 +96,7 @@ class TestPost():
 
         post_data = {
 
-            'title': ['  ' + self.post_title + '  '],
+            'title': '  ' + self.post_title + '  ',
             'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
             'user_name': 'Tome',
             'view_count': 1,
@@ -192,7 +192,7 @@ class TestPost():
         uid = tools.get_uu4d()
         post_data = {
 
-            'title': [self.post_title],
+            'title': self.post_title,
             'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
             'user_name': 'Tome',
             'view_count': 1,
