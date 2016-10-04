@@ -13,7 +13,6 @@ class TestLabel():
         self.tmpl_uid = ''
 
     def test_insert(self):
-
         post_data = {
             'name': 'titlesdf',
         }

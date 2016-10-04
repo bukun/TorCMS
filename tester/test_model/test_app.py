@@ -11,48 +11,44 @@ class TestApp():
         self.uu = MInfor()
 
         self.title = '哈哈sdfsdf'
-        self.uid = tools.get_uu4d()
+        self.uid = 'g' + tools.get_uu4d()
 
     def test_insert(self):
         uid = self.uid
         post_data = {
-
             'title': self.title,
             'keywords': 'sd,as',
             'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
             'logo': '/static/',
             'user_name': 'ss',
-            'extinfo': ''
+            'extinfo': '',
+            'valid': 1,
         }
-        extinfo = {
-
-        }
+        extinfo = {}
 
         self.uu.add_meta(uid, post_data, extinfo)
         tt = self.uu.get_by_uid(uid)
-        assert tt == False
+        assert tt.uid == uid
 
     def test_insert2(self):
         uid = self.uid
         post_data = {
 
-            'title': [''],
+            'title': '',
             'keywords': 'sd,as',
             'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
             'logo': '/static/',
             'user_name': 'ss',
             'extinfo': ''
         }
-        extinfo = {
-
-        }
+        extinfo = {        }
 
         self.uu.add_meta(uid, post_data, extinfo)
         tt = self.uu.get_by_uid(uid)
         assert tt == False
 
         post_data = {
-            'title': ['1'],
+            'title': '1',
             'keywords': 'sd,as',
             'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
             'logo': '/static/',
@@ -63,7 +59,7 @@ class TestApp():
         assert uu == False
 
         post_data = {
-            'title': ['天'],
+            'title': '天',
             'keywords': 'sd,as',
             'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
             'logo': '/static/',

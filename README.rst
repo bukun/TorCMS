@@ -1,5 +1,5 @@
 TorCMS Introduction
-===================
+==============================
 
 Flexible, extensible web CMS framework built on Tornado and Peewee,
 compatible with Python 3.4 and 3.5. Using PostgreSQL with JSON
@@ -13,12 +13,12 @@ https://pypi.python.org/pypi/torcms . Could be installed via:
     pip install torcms
 
 Application
------------
+------------------
 
 -  http://geodata.osgeo.cn/ (The default theme, and DEMO. )
 
 Others
-~~~~~~
+~~~~~~~~~~
 
 -  http://www.osgeo.cn
 -  http://www.maplet.org
@@ -26,23 +26,39 @@ Others
 -  http://drr.osgeo.cn
 
 Install
-=======
+================
 
 Pull the codes.
----------------
+----------------------
 
 ::
 
     git clone https://github.com/bukun/TorCMS.git
 
 Under Debian
-------------
+------------------
 
 ::
 
     aptitude install postgresql-server-dev-all
     aptitude install postgresql-contrib
     aptitude install redis-server
+
+Create the Database
+---------------------------
+
+Create the database, and user in PostgreSQL.
+The information should be used in the config.py file.
+And, create hstore extension in the database.
+
+::
+
+    CREATE USER torcms WITH PASSWORD '131322';
+    CREATE DATABASE torcms OWNER torcms;
+    GRANT ALL PRIVILEGES ON DATABASE torcms to torcms;
+    \c torcms
+    create extension hstore;
+
 
 For Python
 ----------
@@ -59,22 +75,22 @@ Install libs for Python 3.4 or 3.5,
 How to Run
 ==========
 
-Pull info\_tags
----------------
+Pull torcms\_helper
+--------------------------------
 
-Yes, the info\_tags is used to generate database schema and some files needed by every project.
+Yes, the torcms\_helper is used to generate database schema and some files needed by every project.
 
 ::
 
-    cd TorCMS/src
-    git clone https://github.com/bukun/info_tags.git
+    cd TorCMS/
+    git clone https://github.com/bukun/torcms_helper.git
 
 Edit the configiure.
 --------------------
 
 ::
 
-    cd TorCMS/src
+    cd TorCMS/
     copy config_demo.py config.py   
 
 And, edit the config.py file.
@@ -82,25 +98,30 @@ And, edit the config.py file.
 Modify the meta information of the web application.
 ---------------------------------------------------
 
-Modify the file in src/database/meta.
+Modify the file in TorCMS/database/meta.
 
 -  doc\_catalog.yaml , which define the catalog of post.
 -  info\_tags.xlsx , which define the catalog of info.
+
+Fetch the F2E libraries.
+---------------------------------
+::
+
+    python helper.py -i fetch_f2elib
 
 Initialize the PostgreSQL schema
 --------------------------------
 
 ::
 
-    python script_init_table.py
+    python helper.py -i init_tables
 
 Initialing the metadata in database
 -----------------------------------
 
 ::
 
-    python script_doc_catalog.py
-    python script_info_catalog.py
+    python helper.py -i gen_category
     cd  info_tags/autocrud
     sh run_gen_all.sh
 
@@ -109,7 +130,6 @@ And, the whoosh database should be initialized first.
 
 ::
 
-    cd TorCMS/src 
     python script_init_env.py
 
 The upload directory for files should be created.
@@ -120,13 +140,7 @@ The upload directory for files should be created.
     mkdir static/upload
 
 Run
----
-
-Do some initializtion work,
-
-::
-
-    python script_init_env.py
+---------
 
 Run the web application,
 
@@ -134,7 +148,8 @@ Run the web application,
 
     python server.py
 
-Open web brower and navigate to http://127.0.0.1:8088 . 
+Open web brower and navigate to http://127.0.0.1:8088 .
+
 The port should as be defined in config.py .
 
 Enjoy it!
