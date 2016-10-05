@@ -122,7 +122,7 @@ Initialing the metadata in database
 ::
 
     python helper.py -i gen_category
-    cd  info_tags/autocrud
+    cd  torcms_helper/autocrud
     sh run_gen_all.sh
 
 And, the whoosh database should be initialized first.
@@ -130,6 +130,7 @@ And, the whoosh database should be initialized first.
 
 ::
 
+    cd TorCMS
     python script_init_env.py
 
 The upload directory for files should be created.

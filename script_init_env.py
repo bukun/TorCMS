@@ -10,6 +10,10 @@ from torcms.model.post_model import MPost
 from torcms.model.info_model import MInfor
 
 whoosh_database = 'database/whoosh'
+if os.path.exists(whoosh_database):
+    pass
+else:
+    os.mkdir(whoosh_database)
 
 def build_whoosh_database():
     analyzer = ChineseAnalyzer()

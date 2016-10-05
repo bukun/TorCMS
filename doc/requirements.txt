@@ -1,3 +1,6 @@
+# Run with the command:
+# pip install -r requirements.txt
+# pip install -r doc/requirements.txt
 beautifulsoup4
 html2text
 jieba
@@ -8,3 +11,7 @@ tornado
 Whoosh
 WTForms
 wtforms-tornado
+psycopg2
+redis
+pyyaml
+openpyxl

@@ -69,7 +69,9 @@ config.py
 
 database/whoosh
 database/whoosh*
+
 static/upload/
+static/f2elib/
 static/tass/.sass-cache/
 templates/pycate/autogen/
 templates/autogen/
