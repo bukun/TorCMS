@@ -1,4 +1,4 @@
-
+#####################################
 .idea/
 .idea
 
@@ -57,7 +57,7 @@ docs/_build/
 # PyBuilder
 target/
 
-### Configure for TorCMS/torlite
+## Configure for TorCMS/torlite
 
 .DS_Store
 xx*
@@ -76,5 +76,5 @@ static/tass/.sass-cache/
 templates/pycate/autogen/
 templates/autogen/
 
-info_tags
 torcms_helper
+api-doc
