@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 
+post_emails = []
 
 
 email_cfg = {
