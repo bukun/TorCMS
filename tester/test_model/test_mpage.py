@@ -16,6 +16,7 @@ class TestPage():
         raw_count = self.uu.get_counts()
         post_data = {
             'title':'title',
+            'slug': 'sadfsadf',
             'id_user':'Tome',
             'cnt_md':'## adslkfjasdf\n lasdfkjsadf',
             'view_count':1,
@@ -33,7 +34,7 @@ class TestPage():
     def test_insert_2(self):
         '''Wiki insert: Test invalid title'''
         post_data = {
-            'title': [''],
+            'title': '',
             'id_user':'Tome',
             'cnt_md':'## adslkfjasdf\n lasdfkjsadf',
             'view_count':1,
@@ -42,7 +43,7 @@ class TestPage():
         assert uu == False
 
         post_data = {
-            'title': ['1'],
+            'title': '1',
             'id_user':'Tome',
             'cnt_md':'## adslkfjasdf\n lasdfkjsadf',
             'view_count':1,
@@ -51,7 +52,7 @@ class TestPage():
         assert uu == False
 
         post_data = {
-            'title': ['天'],
+            'title': '天',
             'id_user':'Tome',
             'cnt_md':'## adslkfjasdf\n lasdfkjsadf',
             'view_count':1,
