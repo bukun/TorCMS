@@ -40,9 +40,9 @@ class TestPost():
     def test_insert_user(self):
 
         post_data = {
-            'user_name':[self.username],
-            'user_pass':['g131322'],
-            'user_email':['nahme@qkhlkq.com'],
+            'user_name':self.username,
+            'user_pass':'g131322',
+            'user_email':'nahme@qkhlkq.com',
         }
 
 
@@ -57,9 +57,9 @@ class TestPost():
     def test_insert_reply(self):
 
         post_data = {
-            'user_name':[self.username],
-            'user_pass':['g131322'],
-            'user_email':['name@qlkjq.com'],
+            'user_name':self.username,
+            'user_pass':'g131322',
+            'user_email':'name@qlkjq.com',
         }
 
 
