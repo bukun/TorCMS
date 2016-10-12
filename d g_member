@@ -1,0 +1,39 @@
+                   关联列表
+ 架构模式 |      名称       |  型别  | 拥有者 
+----------+-----------------+--------+--------
+ public   | cabcatalog      | 资料表 | pycate
+ public   | cablabel        | 资料表 | pycate
+ public   | cablink         | 资料表 | pycate
+ public   | cabmember       | 资料表 | pycate
+ public   | cabpic          | 资料表 | pycate
+ public   | cabpost         | 资料表 | pycate
+ public   | cabpost2catalog | 资料表 | pycate
+ public   | cabpost2label   | 资料表 | pycate
+ public   | cabposthist     | 资料表 | pycate
+ public   | cabpostrelation | 资料表 | pycate
+ public   | cabrelation     | 资料表 | pycate
+ public   | cabwiki         | 资料表 | pycate
+ public   | cabwikihist     | 资料表 | pycate
+ public   | g_collect       | 资料表 | pycate
+ public   | g_entity        | 资料表 | pycate
+ public   | g_evaluation    | 资料表 | pycate
+ public   | g_link          | 资料表 | pycate
+ public   | g_member        | 资料表 | pycate
+ public   | g_post          | 资料表 | pycate
+ public   | g_post2reply    | 资料表 | pycate
+ public   | g_post2tag      | 资料表 | pycate
+ public   | g_posthist      | 资料表 | pycate
+ public   | g_rel           | 资料表 | pycate
+ public   | g_reply         | 资料表 | pycate
+ public   | g_tag           | 资料表 | pycate
+ public   | g_usage         | 资料表 | pycate
+ public   | g_voter2reply   | 资料表 | pycate
+ public   | g_wiki          | 资料表 | pycate
+ public   | g_wikihist      | 资料表 | pycate
+ public   | phpmps_category | 资料表 | pycate
+ public   | rabapp2post     | 资料表 | pycate
+ public   | tabcollect      | 资料表 | pycate
+ public   | tabevaluation   | 资料表 | pycate
+ public   | tabusage        | 资料表 | pycate
+(34 行记录)
+
