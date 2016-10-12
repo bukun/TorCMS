@@ -51,3 +51,7 @@ cfg = {
     'info_per_page': 10,
     'debug': False,
 }
+
+router_post = {'1': 'post',
+               '2': 'info',
+               }
