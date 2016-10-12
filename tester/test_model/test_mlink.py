@@ -14,20 +14,20 @@ def test_mlink_insert():
     raw_count = uu.get_counts()
 
     post_data = {
-        'name': ['asdf'],
-        'link': ['sadf'],
-        'order': ['1'],
-        'logo': ['asf'],
+        'name': 'asdf',
+        'link': 'sadf',
+        'order': '1',
+        'logo': 'asf',
     }
     uu.insert_data(uid, post_data)
     new_count = uu.get_counts()
 
     tt = uu.get_by_uid(uid)
     # assert
-    assert tt.name == post_data['name'][0]
-    assert tt.link == post_data['link'][0]
-    assert tt.order == int(post_data['order'][0])
-    assert tt.logo == post_data['logo'][0]
+    assert tt.name == post_data['name']
+    assert tt.link == post_data['link']
+    assert tt.order == int(post_data['order'])
+    assert tt.logo == post_data['logo']
     assert raw_count + 1 == new_count
 
     uu.delete(uid)
@@ -44,10 +44,10 @@ class TestUM():
     def test_insert(self):
         uid = self.id
         post_data = {
-            'name': ['asdf'],
-            'link': ['sadf'],
-            'order': ['1'],
-            'logo': ['asf'],
+            'name': 'asdf',
+            'link': 'sadf',
+            'order': '1',
+            'logo': 'asf',
         }
         self.uu.insert_data(uid, post_data)
 
@@ -55,19 +55,19 @@ class TestUM():
 
         tt = self.uu.get_by_uid(uid)
         # assert
-        assert tt.name == post_data['name'][0]
-        assert tt.link == post_data['link'][0]
-        assert tt.order == int(post_data['order'][0])
-        assert tt.logo == post_data['logo'][0]
+        assert tt.name == post_data['name']
+        assert tt.link == post_data['link']
+        assert tt.order == int(post_data['order'])
+        assert tt.logo == post_data['logo']
         assert  self.raw_count + 1 == new_count
 
     def test_upate(self):
         uid = self.id
         post_data = {
-            'name': ['asdf'],
-            'link': ['sadf'],
-            'order': ['1'],
-            'logo': ['asf'],
+            'name': 'asdf',
+            'link': 'sadf',
+            'order': '1',
+            'logo': 'asf',
         }
         self.uu.insert_data(uid, post_data)
         new_count = self.uu.get_counts()
@@ -76,10 +76,10 @@ class TestUM():
 
         post_data2 = {
 
-            'name': ['asdlkjf'],
-            'link': ['sakljdf'],
-            'order': ['13'],
-            'logo': ['asfa'],
+            'name': 'asdlkjf',
+            'link': 'sakljdf',
+            'order': '13',
+            'logo': 'asfa',
         }
 
         self.uu.update(uid, post_data2)
@@ -90,15 +90,15 @@ class TestUM():
 
         tt = self.uu.get_by_uid(uid)
 
-        assert tt.name != post_data['name'][0]
-        assert tt.link != post_data['link'][0]
-        assert tt.order != int(post_data['order'][0])
-        assert tt.logo != post_data['logo'][0]
+        assert tt.name != post_data['name']
+        assert tt.link != post_data['link']
+        assert tt.order != int(post_data['order'])
+        assert tt.logo != post_data['logo']
 
-        assert tt.name == post_data2['name'][0]
-        assert tt.link == post_data2['link'][0]
-        assert tt.order == int(post_data2['order'][0])
-        assert tt.logo == post_data2['logo'][0]
+        assert tt.name == post_data2['name']
+        assert tt.link == post_data2['link']
+        assert tt.order == int(post_data2['order'])
+        assert tt.logo == post_data2['logo']
 
     def tearDown(self):
         print ("function teardown")
