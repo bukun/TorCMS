@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 
-post_emails = []
+post_emails = ['bukun@osgeo.cn', '118171@qq.com']
 
 
 email_cfg = {
