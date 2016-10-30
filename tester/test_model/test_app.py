@@ -23,6 +23,7 @@ class TestApp():
             'user_name': 'ss',
             'extinfo': '',
             'valid': 1,
+            'kind': '1',
         }
         extinfo = {}
 

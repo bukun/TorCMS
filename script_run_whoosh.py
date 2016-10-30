@@ -16,8 +16,12 @@ if __name__ == '__main__':
         rand = False
     else:
         rand = True
-    post_type =    {
-        'doc_type': '<span style="color:blue;">[文档]</span>',
-        'info_type': '<span style="color:red;">[信息]</span>',
+    post_type = {
+        '1': '<span style="color:green;" class="glyphicon glyphicon-list-alt">[{0}]</span>'.format('文档'),
+        '2': '<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>'.format('信息'),
+        'w': '<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>'.format('湿地'),
+        'm': '<span style="color:red;" class="glyphicon glyphicon-map-marker">[{0}]</span>'.format('地图'),
+        's': '<span style="color:red;" class="glyphicon glyphicon-play-circle">[{0}]</span>'.format('计算'),
     }
-    gen_whoosh_database(if_rand = rand , post_type = post_type)
+
+    gen_whoosh_database(if_rand = rand , kind_arr = ['m', 's'], post_type = post_type)

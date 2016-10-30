@@ -19,6 +19,8 @@ class TestCatalog():
             'slug': self.slug,
             'order': '1',
             'type': 1,
+            'tmpl': 0,
+            'pid': '0000',
 
         }
 
@@ -34,6 +36,9 @@ class TestCatalog():
             'slug': 'asa',
             'order': '2',
             'type':1,
+
+            'tmpl': 0,
+            'pid': '0000',
         }
         uu = self.uu.insert_data(self.uid, post_data)
         # assert uu == False
@@ -43,6 +48,9 @@ class TestCatalog():
             'slug': self.uid,
             'order': '3',
             'type': 1,
+
+            'tmpl': 0,
+            'pid': '0000',
         }
         uu = self.uu.insert_data(self.uid, post_data)
         # assert uu == False

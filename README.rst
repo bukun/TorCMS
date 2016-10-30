@@ -75,15 +75,6 @@ Install libs for Python 3.4 or 3.5,
 How to Run
 ==========
 
-Pull torcms\_helper
---------------------------------
-
-Yes, the torcms\_helper is used to generate database schema and some files needed by every project.
-
-::
-
-    cd TorCMS/
-    git clone https://github.com/bukun/torcms_helper.git
 
 Edit the configiure.
 --------------------
@@ -122,8 +113,7 @@ Initialing the metadata in database
 ::
 
     python helper.py -i gen_category
-    cd  torcms_helper/autocrud
-    sh run_gen_all.sh
+    python helper.py -i crud
 
 And, the whoosh database should be initialized first.
 -----------------------------------------------------
@@ -131,7 +121,7 @@ And, the whoosh database should be initialized first.
 ::
 
     cd TorCMS
-    python script_init_env.py
+    python script_run_whoosh.py
 
 The upload directory for files should be created.
 -------------------------------------------------
