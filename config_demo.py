@@ -53,5 +53,6 @@ cfg = {
 }
 
 router_post = {'1': 'post',
-               '2': 'info',
+               '9': 'info',
+               'm': 'map',
                }
