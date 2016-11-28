@@ -145,6 +145,28 @@ The port should as be defined in config.py .
 
 Enjoy it!
 
+Build the API documents
+---------------------------------
+
+under TorCMS
+
+::
+
+    sphinx-apidoc -F -o api_doc torcms
+
+Editing  ``conf.py``. Add the following line after ``import os``.
+
+::
+
+    sys.path.insert(0, os.path.abspath('../'))
+
+That's OK. then generate the HTML documents. Under TorCMS:
+
+::
+
+    sphinx-build -b html api_doc api_html
+
+
 In Chinese
 =========================
 

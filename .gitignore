@@ -77,4 +77,5 @@ templates/pycate/autogen/
 templates/autogen/
 
 torcms_helper
-api-doc
+api_doc
+api_html
