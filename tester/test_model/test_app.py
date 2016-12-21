@@ -2,8 +2,6 @@
 
 from torcms.core import tools
 from torcms.model.info_model import MInfor
-import tornado.escape
-
 
 class TestApp():
     def setup(self):

@@ -3,39 +3,9 @@
 from torcms.core import tools
 from torcms.model.link_model import MLink
 
-print('hello')
-
-
-def test_mlink_insert():
-    ''' Test mlink insert '''
-    # assert 0
-    uu = MLink()
-    uid = tools.get_uu4d()
-    raw_count = uu.get_counts()
-
-    post_data = {
-        'name': 'asdf',
-        'link': 'sadf',
-        'order': '1',
-        'logo': 'asf',
-    }
-    uu.insert_data(uid, post_data)
-    new_count = uu.get_counts()
-
-    tt = uu.get_by_uid(uid)
-    # assert
-    assert tt.name == post_data['name']
-    assert tt.link == post_data['link']
-    assert tt.order == int(post_data['order'])
-    assert tt.logo == post_data['logo']
-    assert raw_count + 1 == new_count
-
-    uu.delete(uid)
-
 
 class TestUM():
     def setup(self):
-        print('setup 方法执行于本类中每条用例之前')
         self.uu = MLink()
         self.id = tools.get_uu4d()
         self.raw_count = self.uu.get_counts()
@@ -54,12 +24,11 @@ class TestUM():
         new_count = self.uu.get_counts()
 
         tt = self.uu.get_by_uid(uid)
-        # assert
         assert tt.name == post_data['name']
         assert tt.link == post_data['link']
         assert tt.order == int(post_data['order'])
         assert tt.logo == post_data['logo']
-        assert  self.raw_count + 1 == new_count
+        assert self.raw_count + 1 == new_count
 
     def test_upate(self):
         uid = self.id
@@ -101,5 +70,4 @@ class TestUM():
         assert tt.logo == post_data2['logo']
 
     def tearDown(self):
-        print ("function teardown")
         self.uu.delete(self.id)

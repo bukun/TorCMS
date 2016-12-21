@@ -66,7 +66,7 @@ class TestUser():
 
     def test_update_privilege(self):
         post_data = {
-            'role': '11111'
+            'role': '1111'
         }
         tt = self.uu.update_role(self.username, post_data['role'])
         assert tt == True

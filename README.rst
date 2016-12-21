@@ -21,9 +21,10 @@ Others
 ~~~~~~~~~~
 
 -  http://www.osgeo.cn
--  http://www.maplet.org
--  http://www.yunsuan.org
 -  http://drr.osgeo.cn
+-  http://www.maplet.org (Merged into www.osgeo.cn)
+-  http://www.yunsuan.org (Merged into www.osgeo.cn)
+
 
 Install
 ================
@@ -73,7 +74,7 @@ Install libs for Python 3.4 or 3.5,
     pip install -r requirements.txt    
 
 How to Run
-==========
+=========================
 
 
 Edit the configiure.
@@ -145,8 +146,19 @@ The port should as be defined in config.py .
 
 Enjoy it!
 
+Unit Tests
+=========================================
+
+First you should install nose with pip, the run as follow:
+
+::
+
+    nosetests -v -d --exe
+
+Note: I alway writing code in the folder which is mounted by Debian in VirtualBox, so ``--exe``.
+
 Build the API documents
----------------------------------
+========================================
 
 under TorCMS
 
@@ -185,7 +197,16 @@ Email: bukun#osgeo.cn
 ------------------------
 
 -  http://www.osgeo.cn
--  http://www.maplet.org
--  http://www.yunsuan.org
 -  http://drr.osgeo.cn
 
+编码规范
+-----------------------------------------
+
+对于一般
+
+Ajax请求
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Ajax请求，使用 ``j_foo`` 来发起请求
+* 在 Hander 中，使用 ``j_foo`` 对函数进行命名
+* 在 模板中， 使用 ``j_foo`` 对模板文件进行命名
