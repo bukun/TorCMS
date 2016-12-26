@@ -80,3 +80,5 @@ templates/autogen/
 torcms_helper
 api_doc
 api_html
+
+torcms_tester

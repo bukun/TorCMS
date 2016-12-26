@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 
-from torcms.handlers.page_handler import PageAjaxHandler, PageHandler
+from torcms.handlers.page_handler import PageHandler
+from torcms.handlers.page_ajax_handler import PageAjaxHandler
 
 
 def Test():
