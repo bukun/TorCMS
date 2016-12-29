@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 
-from torcms.handlers.infocate_publish_handler import InfoPublishHandler
+from torcms.handlers.info2_publish_handler import InfoPublishHandler
 
 
 def Test():

@@ -1,11 +1,11 @@
 # -*- coding:utf-8 -*-
 
-from torcms.handlers.info_tag_hanlder import InforTagHandler
+from torcms.handlers.info_category_hanlder import InforCategoryHandler
 
 
 def Test():
     urls = [
-        ("/label/(.*)", InforTagHandler, dict()),
+        ("/label/(.*)", InforCategoryHandler, dict()),
     ]
 
     assert urls
