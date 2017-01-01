@@ -16,12 +16,19 @@ class PostAjaxHandler(PostHandler):
             self.count_plus(url_arr[1])
 
     @tornado.web.authenticated
-    def delete(self, del_id):
+    def delete(self, *args, **kwargs):
+        '''
+        Delete the post via Ajax request.
+        :param args:
+        :param kwargs:
+        :return:
+        '''
+        uid = args[0]
         if self.check_post_role(self.userinfo)['DELETE']:
             pass
         else:
             return False
-        is_deleted = self.mpost.delete(del_id)
+        is_deleted = self.mpost.delete(uid)
 
         if is_deleted:
             output = {
@@ -34,6 +41,11 @@ class PostAjaxHandler(PostHandler):
         return json.dump(output, self)
 
     def count_plus(self, uid):
+        '''
+        Ajax request, that the view count will plus 1.
+        :param uid:
+        :return:
+        '''
         self.set_header("Content-Type", "application/json")
         output = {
             'status': 1 if self.mpost.update_view_count_by_uid(uid) else 0,

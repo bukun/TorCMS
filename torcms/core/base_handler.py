@@ -114,3 +114,6 @@ class BaseHandler(tornado.web.RequestHandler):
             #     })
             #     content = self.render_template(template_name, **kwargs)
             #     self.write(content)
+
+    def data_received(self, chunk):
+        return False

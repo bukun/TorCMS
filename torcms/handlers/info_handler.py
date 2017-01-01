@@ -444,7 +444,10 @@ class InfoHandler(PostHandler):
                     app2label_info=self.mpost2label.get_by_id(infoid, kind=self.kind + '1'))
 
     def get_def_cat_uid(self, post_data):
-        # 下面两种处理方式，上面是原有的，暂时保留以保持兼容
+        '''
+        得到预定义的分类 uid
+        下面两种处理方式，上面是原有的，暂时保留以保持兼容
+        '''
         ext_cat_uid = {}
         if 'def_cat_uid' in post_data:
             ext_cat_uid['def_cat_uid'] = post_data['def_cat_uid']
@@ -452,7 +455,7 @@ class InfoHandler(PostHandler):
         if 'gcat0' in post_data:
             ext_cat_uid['def_cat_uid'] = post_data['gcat0']
             ext_cat_uid['def_cat_pid'] = self.mcat.get_by_uid(post_data['gcat0']).pid
-        logger.info(ext_cat_uid)
+
         return ext_cat_uid
 
     @tornado.web.authenticated

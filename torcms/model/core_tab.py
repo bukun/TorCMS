@@ -11,13 +11,10 @@ class g_Tag(BaseModel):
     name = peewee.CharField(null=False, max_length=255, help_text='', )
     order = peewee.IntegerField()
     count = peewee.IntegerField(default=0)
-    kind = peewee.CharField(null=False, max_length=1, default='z',
-                            help_text='4 - f for category. g -  for tags', )
+    kind = peewee.CharField(null=False, max_length=1, default='z',help_text='4 - f for category. g -  for tags', )
     # 'xxxx' for unkonw, 'zzzz' for tag.
     pid = peewee.CharField(null=False, max_length=4, default='xxxx', help_text='parent id' )
     tmpl = peewee.IntegerField(null=False, default='9', help_text='tmplate type')
-    # todo: useless
-    # role_mask = peewee.CharField(null=False, default='00100', help_text='Member Privilege')
 
 
 class g_Link(BaseModel):

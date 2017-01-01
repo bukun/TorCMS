@@ -1,5 +1,9 @@
 # -*- coding:utf-8 -*-
 
+'''
+The basic HTML Page handler.
+'''
+
 import json
 
 import tornado.escape
@@ -19,18 +23,23 @@ from torcms.model.relation_model import MRelation
 
 
 class PostHandler(BaseHandler):
+    '''
+    The basic HTML Page handler.
+    '''
+
     def initialize(self):
         super(PostHandler, self).initialize()
         self.mpost = MPost()
         self.mcat = MCategory()
-        self.cats = self.mcat.query_all()
         self.mpost_hist = MPostHist()
         self.mpost2catalog = MPost2Catalog()
         self.mpost2label = MPost2Label()
         self.mrel = MRelation()
         self.kind = '1'
 
-    def get(self, url_str=''):
+    def get(self, *args, **kwargs):
+
+        url_str = args[0]
         url_arr = self.parse_url(url_str)
 
         if url_str == '':
@@ -61,7 +70,8 @@ class PostHandler(BaseHandler):
             self.render('html/404.html', kwd=kwd,
                         userinfo=self.userinfo, )
 
-    def post(self, url_str=''):
+    def post(self, *args, **kwargs):
+        url_str = args[0]
         logger.info('post url: {0}'.format(url_str))
 
         url_arr = self.parse_url(url_str)
@@ -77,12 +87,20 @@ class PostHandler(BaseHandler):
             self.redirect('html/404.html')
 
     def index(self):
+        '''
+        The default page of POST.
+        :return:
+        '''
         self.render('post_{0}/index.html'.format(self.kind),
                     userinfo=self.userinfo,
-                    kwd={'uid': '',}
-                    )
+                    kwd={'uid': '',}, )
 
     def j_count_plus(self, uid):
+        '''
+        Ajax request, that the view count will plus 1.
+        :param uid:
+        :return:
+        '''
         logger.info('Deprecated, you should use: /post_j/count_plus')
         self.set_header("Content-Type", "application/json")
         output = {
@@ -100,6 +118,12 @@ class PostHandler(BaseHandler):
         return ext_dic
 
     def recent(self, with_catalog=True, with_date=True):
+        '''
+        List posts that recent edited.
+        :param with_catalog:
+        :param with_date:
+        :return:
+        '''
         kwd = {
             'pager': '',
             'unescape': tornado.escape.xhtml_unescape,
@@ -113,16 +137,18 @@ class PostHandler(BaseHandler):
                     postinfo=self.mpost.query_recent(num=20, kind=self.kind),
                     format_date=tools.format_date,
                     userinfo=self.userinfo,
-                    cfg=cfg,
-                    )
+                    cfg=cfg, )
 
     @tornado.web.authenticated
     def __could_edit(self, postid):
-
         post_rec = self.mpost.get_by_uid(postid)
-        if not post_rec:
+        if post_rec:
+            pass
+        else:
             return False
-        if self.check_post_role(self.userinfo)['EDIT'] or post_rec.user_name == self.userinfo.user_name:
+        if self.check_post_role(self.userinfo)['EDIT']:
+            return True
+        elif post_rec.user_name == self.userinfo.user_name:
             return True
         else:
             return False
@@ -157,26 +183,30 @@ class PostHandler(BaseHandler):
             self.to_add(uid)
 
     @tornado.web.authenticated
-    def to_add(self, uid=''):
+    def to_add(self, *args):
+        uid = args[0]
         if self.check_post_role(self.userinfo)['ADD']:
             pass
         else:
             return False
         kwd = {
             'pager': '',
-            'cats': self.cats,
-            'uid': '',
-
+            'cats': self.mcat.query_all(),
+            'uid': uid,
         }
         self.render('post_{0}/post_add.html'.format(self.kind),
                     kwd=kwd,
                     tag_infos=self.mcat.query_all(),
                     userinfo=self.userinfo,
-                    cfg=cfg,
-                    )
+                    cfg=cfg, )
 
     @tornado.web.authenticated
     def update(self, uid):
+        '''
+        Update the post according to the uid.
+        :param uid:
+        :return:
+        '''
         if self.__could_edit(uid):
             pass
         else:
@@ -210,6 +240,11 @@ class PostHandler(BaseHandler):
 
     @tornado.web.authenticated
     def update_tag(self, signature):
+        '''
+        Update the tags when updating.
+        :param signature:
+        :return:
+        '''
         current_tag_infos = self.mpost2label.get_by_id(signature, kind=self.kind)
         post_data = self.get_post_data()
         if 'tags' in post_data:
@@ -272,27 +307,31 @@ class PostHandler(BaseHandler):
                 self.mpost2catalog.remove_relation(uid, cur_info.tag)
 
     @tornado.web.authenticated
-    def to_edit(self, id_rec):
-        if self.__could_edit(id_rec):
+    def to_edit(self, uid):
+        '''
+        Show the HTML page for editing the post.
+        :param uid:
+        :return:
+        '''
+        if self.__could_edit(uid):
             pass
         else:
             return False
 
         kwd = {
             'pager': '',
-            'cats': self.cats,
+            'cats': self.mcat.query_all(),
 
         }
         self.render('post_{0}/post_edit.html'.format(self.kind),
                     kwd=kwd,
                     unescape=tornado.escape.xhtml_unescape,
                     tag_infos=self.mcat.query_all(kind=self.kind),
-                    app2label_info=self.mpost2label.get_by_id(id_rec),
-                    app2tag_info=self.mpost2catalog.query_by_entity_uid(id_rec, self.kind),
-                    dbrec=self.mpost.get_by_id(id_rec),
+                    app2label_info=self.mpost2label.get_by_id(uid),
+                    app2tag_info=self.mpost2catalog.query_by_entity_uid(uid, self.kind),
+                    dbrec=self.mpost.get_by_id(uid),
                     userinfo=self.userinfo,
-                    cfg=cfg,
-                    )
+                    cfg=cfg, )
 
     def __gen_last_current_relation(self, post_id):
         '''
@@ -350,16 +389,12 @@ class PostHandler(BaseHandler):
                     relations=rel_recs,
                     rand_recs=rand_recs,
                     replys=[],
-                    cfg=cfg,
-                    )
+                    cfg=cfg, )
 
     def add_relation(self, f_uid, t_uid):
         if self.mpost.get_by_id(t_uid) is False:
             return False
-        if f_uid == t_uid:
-            '''
-            relate to itself.
-            '''
+        if f_uid == t_uid: # relate to itself.
             return False
         # 双向关联，但权重不一样.
         self.mrel.add_relation(f_uid, t_uid, 2)
@@ -373,11 +408,11 @@ class PostHandler(BaseHandler):
         else:
             return False
         post_data = self.get_post_data()
-        if not ('title' in post_data):
+        if 'title' in post_data:
+            pass
+        else:
             self.set_status(400)
             return False
-        else:
-            pass
 
         if uid == '':
             uid = self.__gen_uid()
@@ -404,12 +439,13 @@ class PostHandler(BaseHandler):
         return new_uid
 
     @tornado.web.authenticated
-    def delete(self, uid):
+    def delete(self, *args, **kwargs):
         '''
         Delete the post.
         :param uid: The ID to be deleted.
         :return:
         '''
+        uid = args[0]
         if self.check_post_role(self.userinfo)['DELETE']:
             pass
         else:
@@ -420,14 +456,19 @@ class PostHandler(BaseHandler):
             return False
 
     @tornado.web.authenticated
-    def j_delete(self, del_id):
+    def j_delete(self, uid):
+        '''
+        Delete the post, but return the JSON.
+        :param uid:
+        :return:
+        '''
         logger.info('Deprecated, you should use: /post_j/delete')
 
         if self.check_post_role(self.userinfo)['DELETE']:
             pass
         else:
             return False
-        is_deleted = self.mpost.delete(del_id)
+        is_deleted = self.mpost.delete(uid)
 
         if is_deleted:
             output = {
@@ -438,5 +479,3 @@ class PostHandler(BaseHandler):
                 'del_info ': 0,
             }
         return json.dump(output, self)
-
-

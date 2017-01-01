@@ -1,5 +1,6 @@
+# -*- coding:utf-8 -*-
+
 import tornado.web
-# from config import app_url_name
 
 from torcms.model.json_model import MJson
 from torcms.model.layout_model import MLayout
@@ -11,8 +12,6 @@ class app_json(tornado.web.UIModule):
         self.mlayout = MLayout()
 
         json_recs = self.mjson.query_by_app(app_id, user_id)
-
-        print('map data count: ', json_recs.count())
 
         kwd = {
             'pager': '',
@@ -32,8 +31,6 @@ class app_layout(tornado.web.UIModule):
         self.mlayout = MLayout()
 
         layout_recs = self.mlayout.query_by_app(app_id, user_id)
-
-        print(layout_recs.count())
 
         kwd = {
             'pager': '',

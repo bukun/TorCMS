@@ -50,6 +50,7 @@ lang = 'en_US'
 cfg = {
     'info_per_page': 10,
     'debug': False,
+    'tpl2': ['9'],
 }
 
 router_post = {'1': 'post',

@@ -4,6 +4,7 @@ from .base_modules import *
 from .info_modules import *
 from .widget_modules import *
 from .map_modules import *
+
 core_modules = {'ModuleCatMenu': ModuleCatMenu,
                 'get_footer': get_footer,
                 'previous_post_link': previous_post_link,
@@ -67,11 +68,10 @@ core_modules = {'ModuleCatMenu': ModuleCatMenu,
                 'app_user_recent_by_cat': app_user_recent_by_cat,
                 'widget_editor': widget_editor,
                 'show_page': show_page,
-               'star_rating': star_rating,
+                'star_rating': star_rating,
                 'use_f2e': use_f2e,
-'app_layout': app_layout,
+                'app_layout': app_layout,
                 'app_json': app_json,
                 'navigate_panel': navigate_panel,
 
-
-}
+                }
