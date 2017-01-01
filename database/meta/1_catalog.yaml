@@ -1,0 +1,110 @@
+z0100:
+   slug: foundation
+   name: 原理
+   order: 1
+
+z01:
+ - z11:
+    slug: rs
+    name: 遥感
+    order: 1
+ - z12:
+    slug: gis
+    name: GIS
+    order: 2
+
+z0200:
+  slug: tech
+  name: 技术
+  order: 2
+z02:
+ - z08:
+    slug: develop
+    name: 编程与开发
+    order: 1
+ - z10:
+    slug: software
+    name: 软件应用
+    order: 2
+ - z13:
+    slug: osgis
+    name: 开源GIS
+    order: 3
+ - z20:
+    slug: spatech
+    name: 空间技术
+    order: 4
+ - z30:
+    slug: gps
+    name: GPS
+    order: 5
+
+z0300:
+  slug: edu
+  name: 教育
+  order: 3
+z03:
+ - z04:
+    slug: education
+    name: 教育培训
+    order: 1
+
+z0400:
+  slug: special
+  name: 专业
+  order: 4
+z04:
+ - z40:
+    slug: application
+    name: 应用
+    order: 1
+ - z41:
+    slug: wetland
+    name: 湿地生态
+    order: 2
+ 
+z0500:
+  slug: resource
+  name: 资源
+  order: 5
+z05:
+ - z02:
+    slug: data
+    name: 数据
+    order: 1
+ - z09:
+    slug: resourc
+    name: 资源下载
+    order: 2
+
+z0600:
+  slug: advance
+  name: 进展
+  order: 6
+z06:
+ - z01:
+    slug: others
+    name: 其他
+    order: 1
+ - z60:
+    slug: showout
+    name: 图文
+    order: 2
+ - z07:
+    slug: news
+    name: 新闻
+    order: 3
+
+z0800:
+  slug: lab
+  name: 实验室
+  order: 8
+z08:
+ - z01:
+    slug: general
+    name: 概况
+    order: 1
+ - z03:
+    slug: archieve
+    name: 成果
+    order: 2 
