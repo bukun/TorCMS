@@ -30,12 +30,7 @@ class BaseHandler(tornado.web.RequestHandler):
     '''
     The base class for handlers.
     '''
-    # def initialize(self):
-    #     self.muser = MUser()
-    #     if self.get_current_user():
-    #         self.userinfo = self.muser.get_by_name(self.get_current_user())
-    #     else:
-    #         self.userinfo = None
+
     def initialize(self):
         super(BaseHandler, self).initialize()
         self.muser = MUser()
@@ -47,7 +42,8 @@ class BaseHandler(tornado.web.RequestHandler):
     def get_post_data(self):
         '''
         Get all the arguments from post request.
-        :return: direction.
+        Only get the first argument by default.
+        :return: post_data.
         '''
         post_data = {}
         for key in self.request.arguments:
@@ -56,13 +52,12 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def parse_url(self, url_str):
         '''
-
+        split the url_str to array.
         :param url_str: the request url.
         :return: the array of request url.
         '''
         url_str = url_str.strip()
-        url_arr = [] if len(url_str) == 0 else url_str.split('/')
-        return url_arr
+        return  [] if len(url_str) == 0 else url_str.split('/')
 
     def check_post_role(self, userinfo):
         '''
@@ -83,37 +78,24 @@ class BaseHandler(tornado.web.RequestHandler):
             priv_dic['DELETE'] = True
         if userinfo.role[1] >= '2':
             priv_dic['ADMIN'] = True
-        print('user role: ', priv_dic)
         return priv_dic
 
     def get_current_user(self):
         return self.get_secure_cookie("user")
 
     def is_admin(self):
-        if self.userinfo and self.check_post_role(self.userinfo)['ADMIN']:
+        if self.check_post_role(self.userinfo)['ADMIN']:
             return True
         else:
             return False
 
     def editable(self):
-        # Deprecated.
-        if self.get_current_user():
-            return 1
+        # Deprecated
+        if self.check_post_role(self.userinfo)['EDIT']:
+            return True
         else:
-            return 0
+            return False
 
-            # Deprecated, because it can not use the module of Tornado
-            # def render_jinja2(self, template_name, **kwargs):
-            #     kwargs.update({
-            #         'settings': self.settings,
-            #         'STATIC_URL': self.settings.get('static_url_prefix', '/static/'),
-            #         'request': self.request,
-            #         'current_user': self.current_user,
-            #         'xsrf_token': self.xsrf_token,
-            #         'xsrf_form_html': self.xsrf_form_html,
-            #     })
-            #     content = self.render_template(template_name, **kwargs)
-            #     self.write(content)
 
     def data_received(self, chunk):
         return False

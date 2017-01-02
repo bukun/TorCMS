@@ -113,7 +113,6 @@ class InfoHandler(PostHandler):
         else:
             return False
 
-
     def viewinfo(self, postinfo):
         info_id = postinfo.uid
 
@@ -309,8 +308,8 @@ class InfoHandler(PostHandler):
     @tornado.web.authenticated
     def __to_add_with_category(self, catid):
         '''
-        Used for OSGeo
-        :param catid:
+        Used for info2.
+        :param catid: the uid of category
         :return:
         '''
         if self.check_post_role(self.userinfo)['ADD']:
@@ -332,7 +331,9 @@ class InfoHandler(PostHandler):
 
     @tornado.web.authenticated
     def to_add(self, **kwargs):
-        # Used for yunsuan, maplet
+        '''
+        Used for info1.
+        '''
 
         if 'catid' in kwargs:
             catid = kwargs['catid']
@@ -439,7 +440,6 @@ class InfoHandler(PostHandler):
     def get_extra_data(self, **kwargs):
         '''
         得到预定义的额外信息
-
         '''
         postdata = kwargs['postdata']
         logger.info('Def Extra data: args - {0}'.format(postdata))

@@ -66,7 +66,7 @@ class MWiki(MSuperTable):
         cnt_html = tools.markdown2html(post_data['cnt_md'])
 
         entry = self.tab.create(
-            # No page slug should startswith '_'
+            # No page slug should starts with '_'
             uid=post_data['uid'] if 'uid' in post_data else '_' + tools.get_uu8d(),
             title=title,
             date=datetime.datetime.now(),
@@ -78,7 +78,7 @@ class MWiki(MSuperTable):
             view_count=1,
             kind=post_data['kind'] if 'kind' in post_data else '1',
         )
-        return (entry.uid)
+        return entry.uid
 
     def query_dated(self, num=10, kind='1'):
         return self.tab.select().where(self.tab.kind == kind).order_by(self.tab.time_update.desc()).limit(num)

@@ -11,18 +11,15 @@ setup(
     license='MIT License',
 
     url='https://github.com/bukun/TorCMS',
-    # download_url = 'https://github.com/peterldowns/mypackage/tarball/0.1', #
     author='bukun',
     author_email='bukun@osgeo.cn',
 
-
-    # packages=find_packages(exclude=["maplet.*", "maplet"]),
     packages=find_packages(exclude=["tester", "torcms_tester"]),
 
     platforms='any',
     zip_safe=True,
     install_requires=['beautifulsoup4', 'jieba', 'markdown', 'peewee', 'Pillow',
-        'tornado', 'Whoosh', 'WTForms', 'wtforms-tornado','psycopg2','html2text', 'redis', 'pyyaml'],
+                      'tornado', 'Whoosh', 'WTForms', 'wtforms-tornado', 'psycopg2', 'html2text', 'redis', 'pyyaml'],
 
     classifiers=[
         # How mature is this project? Common values are

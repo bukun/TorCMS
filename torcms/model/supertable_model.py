@@ -27,8 +27,6 @@ class MSuperTable():
     def query_old(self):
         return self.tab.select().order_by('time_update').limit(10)
 
-
-
     def get_parent_list(self, kind='1'):
         db_data = self.tab.select().where((self.tab.kind == kind) & (self.tab.uid.endswith('00'))).order_by(
             self.tab.uid)
@@ -57,9 +55,10 @@ class MSuperTable():
             else:
                 return self.tab.select().limit(limit_num)
 
-    def query_random(self, num=6, kind = '1'):
+    def query_random(self, num=6, kind='1'):
         return self.tab.select().where(self.tab.kind == kind).order_by(peewee.fn.Random()).limit(num)
-    def query_recent(self, num=8, kind = '1'):
+
+    def query_recent(self, num=8, kind='1'):
         return self.tab.select().where(self.tab.kind == kind).limit(num)
 
     def delete(self, del_id):
@@ -68,6 +67,12 @@ class MSuperTable():
         del_count.execute()
 
     def query_recent_most(self, num=8, recent=30):
+        '''
+        Query the records from database that recently updated.
+        :param num: the number that will returned.
+        :param recent: the number of days recent.
+        :return:
+        '''
         time_that = int(time.time()) - recent * 24 * 3600
         return self.tab.select().where(self.tab.time_update > time_that).order_by(self.tab.view_count.desc()).limit(num)
 
