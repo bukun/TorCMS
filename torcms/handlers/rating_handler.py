@@ -1,23 +1,10 @@
 # -*- coding:utf-8 -*-
-import os
-import uuid
 
-import tornado.ioloop
-import tornado.web
-
-import config
-from torcms.core.base_handler import BaseHandler
-from torcms.model.picture_model import MEntity
-
-from PIL import Image
-
-import json
-import tornado.escape
-import tornado.web
-import config
 from torcms.core.base_handler import BaseHandler
 from torcms.model.rating_model import MRating
 from torcms.model.post_model import MPost
+
+from torcms.core.tools import logger
 
 
 class RatingHandler(BaseHandler):
@@ -29,7 +16,6 @@ class RatingHandler(BaseHandler):
     def post(self, url_str=''):
 
         url_arr = self.parse_url(url_str)
-        print(url_arr)
         if len(url_arr) == 2 and url_arr[0] == '_update':
             self.update_rating(url_arr[1])
         elif len(url_arr) == 2 and url_arr[0] == '_updatepost':
@@ -42,7 +28,7 @@ class RatingHandler(BaseHandler):
         else:
             rating = 5
 
-        print('Get post rating:', rating)
+        logger.info('Get post rating: {rating}'.format(rating = rating))
         self.mpost.update_rating(postid, rating)
 
     def update_rating(self, postid):

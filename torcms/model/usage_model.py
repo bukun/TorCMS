@@ -1,5 +1,9 @@
 # -*- coding:utf-8 -*-
 
+'''
+Handle the usage of the info.
+'''
+
 import time
 
 import peewee
@@ -10,8 +14,10 @@ from torcms.model.user_model import MUser
 
 
 class MUsage(object):
+    '''
+    Handle the usage of the info.
+    '''
     def __init__(self):
-
         self.tab = g_Usage
         try:
             g_Usage.create_table()
@@ -52,7 +58,14 @@ class MUsage(object):
         entry.execute()
 
     def add_or_update(self, user_id, post_id, kind):
-        print('usage: add ')
+        '''
+        Create the record if new, else update it.
+        :param user_id:
+        :param post_id:
+        :param kind:
+        :return:
+        '''
+
         tt = self.get_by_signature(user_id, post_id)
         uu = self.mapp2catalog.get_entry_catalog(post_id)
         if uu:

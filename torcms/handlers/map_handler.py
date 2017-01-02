@@ -1,3 +1,5 @@
+# coding:utf-8
+
 from torcms.model.infor2label_model import MInfor2Label
 from torcms.model.info_model import MInfor
 from torcms.model.info_relation_model import MInforRel
