@@ -41,6 +41,6 @@ class MCollect(object):
             entry = self.tab.create(
                 uid=tools.get_uuid(),
                 user=user_id,
-                app=app_id,
+                post=app_id,
                 timestamp=int(time.time()),
             )

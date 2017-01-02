@@ -41,7 +41,7 @@ from torcms.handlers.admin_post_handler import AdminPostHandler
 urls = [
 
     ('/map/overlay/(.*)', MapOverlayHandler, dict()),
-    ("/map/(.*)", MapPostHandler, dict()),
+    ("/map/(.*)", MapPostHandler, dict(kind='m')),
     ("/admin_post/(.*)", AdminPostHandler, dict()),
     ('/geojson/(.*)', GeoJsonHandler, dict()),
     ('/layout/(.*)', MapLayoutHandler, dict()),
@@ -65,7 +65,8 @@ urls = [
 
     ("/maintain/p/category/(.*)", MaintainCategoryAjaxHandler, dict()),
     ("/maintain/category/(.*)", MaintainCategoryHandler, dict()),
-    ("/link/p/(.*)", LinkHandler, dict()),
+    ("/link/p/(.*)", LinkHandler, dict()), # deprecated
+    ("/link_j/(.*)", LinkHandler, dict()),
     ("/link/(.*)", LinkHandler, dict()),
 
     ("/page/p/(.*)", PageAjaxHandler, dict()),  # Deprecated

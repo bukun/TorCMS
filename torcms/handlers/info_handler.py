@@ -1,5 +1,9 @@
 # -*- coding:utf-8 -*-
 
+'''
+The difference of Info and post, is that Info has extra data, saved in JSBONB format in PostgreSQL.
+'''
+
 import random
 import tornado.escape
 import tornado.web
@@ -15,14 +19,17 @@ from torcms.model.usage_model import MUsage
 from torcms.model.infor2catalog_model import MInfor2Catalog
 from torcms.model.reply_model import MReply
 from torcms.handlers.post_handler import PostHandler
-
 from torcms.model.info_hist_model import MInfoHist
-from config import router_post, cfg
 from torcms.core.tools import logger
+from config import router_post, cfg
 
 
 class InfoHandler(PostHandler):
-    def initialize(self,  kind = ''):
+    '''
+    Handler for Info.
+    '''
+
+    def initialize(self, **kwargs):
         super(InfoHandler, self).initialize()
         self.mevaluation = MEvaluation()
         self.mpost2label = MInfor2Label()
@@ -34,35 +41,29 @@ class InfoHandler(PostHandler):
         self.mreply = MReply()
         self.mpost_hist = MInfoHist()
 
-        if kind == '':
-            self.kind = '9'
+        if 'kind' in kwargs:
+            self.kind = kwargs['kind']
         else:
-            self.kind = kind
+            self.kind = '9'
 
-
-    def get(self, url_str=''):
-        '''
-
-        :param url_str: The url of the request.
-        :return:
-        '''
+    def get(self, *args):
+        url_str = args[0]
         url_arr = self.parse_url(url_str)
 
         if url_str == '':
             self.index()
-        elif url_arr[0] in ['cat_add', '_cat_add']:
-            self.to_add_with_category(url_arr[1])
+        elif url_arr[0] in ['_cat_add', 'cat_add']:
+            self.to_add(catid=url_arr[1])
         elif url_arr[0] in ['_add', 'add_document', 'add']:
             if len(url_arr) == 2:
-                self.to_add(url_arr[1])
+                self.to_add(uid=url_arr[1])
             else:
                 self.to_add()
         elif len(url_arr) == 2:
             if url_arr[0] in ['edit', 'modify', '_edit']:
                 self.to_edit(url_arr[1])
-
             elif url_arr[0] == 'delete':
-                self.to_del_app(url_arr[1])
+                self.delete(url_arr[1])
             else:
                 '''
                 从相关计算中过来的。
@@ -71,8 +72,7 @@ class InfoHandler(PostHandler):
 
         elif len(url_arr) == 1:
             if len(url_str) in [4, 5]:
-                self.view_info(url_str)
-
+                self.view_or_add(url_str)
         else:
             kwd = {
                 'title': '',
@@ -83,17 +83,17 @@ class InfoHandler(PostHandler):
                         kwd=kwd,
                         userinfo=self.userinfo, )
 
-    def post(self, url_str=''):
-
+    def post(self, *args):
+        url_str = args[0]
         url_arr = self.parse_url(url_str)
 
-        if url_arr[0] in ['to_add', '_add', 'add']:
+        if url_arr[0] in ['_add', 'to_add', 'add']:
             if len(url_arr) == 2:
                 self.add(uid=url_arr[1])
             else:
                 self.add()
 
-        elif url_arr[0] in ['cat_add', '_cat_add']:
+        elif url_arr[0] in ['_cat_add', 'cat_add']:
             self.add(catid=url_arr[1])
         elif url_arr[0] == 'rel':
             if self.get_current_user():
@@ -101,9 +101,8 @@ class InfoHandler(PostHandler):
             else:
                 self.redirect('/user/login')
 
-        elif url_arr[0] in ['edit', '_edit']:
+        elif url_arr[0] in ['_edit', 'edit']:
             self.update(url_arr[1])
-
 
         elif url_arr[0] == 'rel':
             if self.get_current_user():
@@ -114,7 +113,8 @@ class InfoHandler(PostHandler):
         else:
             return False
 
-    def __viewinfo(self, postinfo):
+
+    def viewinfo(self, postinfo):
         info_id = postinfo.uid
 
         logger.warning('info kind:{0} '.format(postinfo.kind))
@@ -215,28 +215,13 @@ class InfoHandler(PostHandler):
                     userinfo=self.userinfo,
                     catinfo=catinfo,
                     pcatinfo=p_catinfo,
-
                     relations=rel_recs,
                     rand_recs=rand_recs,
                     unescape=tornado.escape.xhtml_unescape,
                     ad_switch=random.randint(1, 18),
                     tag_info=self.mpost2label.get_by_id(info_id),
-
                     recent_apps=recent_apps,
-                    cat_enum=self.mcat.get_qian2(ext_catid2[:2]) if ext_catid else [],
-                    )
-
-    def view_info(self, info_id):
-        '''
-        Render the info
-        :param info_id: The id of the post.
-        :return:
-        '''
-        postinfo = self.mpost.get_by_uid(info_id)
-        if postinfo:
-            self.__viewinfo(postinfo)
-        else:
-            self.to_add(info_id)
+                    cat_enum=self.mcat.get_qian2(ext_catid2[:2]) if ext_catid else [], )
 
     def extra_kwd(self, info_rec):
         '''
@@ -322,7 +307,7 @@ class InfoHandler(PostHandler):
         return cur_uid
 
     @tornado.web.authenticated
-    def to_add_with_category(self, catid):
+    def __to_add_with_category(self, catid):
         '''
         Used for OSGeo
         :param catid:
@@ -335,7 +320,7 @@ class InfoHandler(PostHandler):
         catinfo = self.mcat.get_by_uid(catid)
         kwd = {
             'uid': self.__gen_uid(),
-            'userid': self.userinfo.user_name,
+            'userid': self.userinfo.user_name if self.userinfo else '',
             'def_cat_uid': catid,
             'parentname': self.mcat.get_by_id(catinfo.pid).name,
             'catname': self.mcat.get_by_id(catid).name,
@@ -346,24 +331,34 @@ class InfoHandler(PostHandler):
                     kwd=kwd)
 
     @tornado.web.authenticated
-    def to_add(self, uid=''):
+    def to_add(self, **kwargs):
         # Used for yunsuan, maplet
-        if self.check_post_role(self.userinfo)['ADD']:
-            pass
+
+        if 'catid' in kwargs:
+            catid = kwargs['catid']
+            return self.__to_add_with_category(catid)
+
         else:
-            return False
-        if uid != '' and self.mpost.get_by_uid(uid):
-            # todo:
-            # self.redirect('/{0}/edit/{1}'.format(self.app_url_name, uid))
-            pass
-        self.render('post_{0}/add.html'.format(self.kind),
-                    tag_infos=self.mcat.query_all(by_order=True, kind=self.kind),
-                    userinfo=self.userinfo,
-                    kwd={'uid': uid,}
-                    )
+
+            if self.check_post_role(self.userinfo)['ADD']:
+                pass
+            else:
+                return False
+
+            if 'uid' in kwargs and self.mpost.get_by_uid(kwargs['uid']):
+                # todo:
+                # self.redirect('/{0}/edit/{1}'.format(self.app_url_name, uid))
+                uid = kwargs['uid']
+            else:
+                uid = ''
+            self.render('post_{0}/add.html'.format(self.kind),
+                        tag_infos=self.mcat.query_all(by_order=True, kind=self.kind),
+                        userinfo=self.userinfo,
+                        kwd={'uid': uid,})
 
     @tornado.web.authenticated
-    def to_del_app(self, uid):
+    def delete(self, *args, **kwargs):
+        uid = args[0]
         current_infor = self.mpost.get_by_uid(uid)
 
         if self.check_post_role(self.userinfo)['DELETE']:
@@ -378,7 +373,6 @@ class InfoHandler(PostHandler):
 
     @tornado.web.authenticated
     def to_edit(self, infoid):
-
         if self.check_post_role(self.userinfo)['EDIT']:
             pass
         else:
@@ -417,8 +411,7 @@ class InfoHandler(PostHandler):
             'parentname': '',
             'catname': '',
             'parentlist': self.mcat.get_parent_list(),
-            'userip': self.request.remote_ip
-        }
+            'userip': self.request.remote_ip}
 
         if self._is_tpl2():
             tmpl = 'autogen/edit/edit_{0}.html'.format(catid)
@@ -443,20 +436,28 @@ class InfoHandler(PostHandler):
                     app2tag_info=self.mpost2catalog.query_by_entity_uid(infoid, kind=self.kind),
                     app2label_info=self.mpost2label.get_by_id(infoid, kind=self.kind + '1'))
 
-    def get_def_cat_uid(self, post_data):
+    def get_extra_data(self, **kwargs):
         '''
-        得到预定义的分类 uid
-        下面两种处理方式，上面是原有的，暂时保留以保持兼容
-        '''
-        ext_cat_uid = {}
-        if 'def_cat_uid' in post_data:
-            ext_cat_uid['def_cat_uid'] = post_data['def_cat_uid']
-            ext_cat_uid['def_cat_pid'] = self.mcat.get_by_uid(post_data['def_cat_uid']).pid
-        if 'gcat0' in post_data:
-            ext_cat_uid['def_cat_uid'] = post_data['gcat0']
-            ext_cat_uid['def_cat_pid'] = self.mcat.get_by_uid(post_data['gcat0']).pid
+        得到预定义的额外信息
 
-        return ext_cat_uid
+        '''
+        postdata = kwargs['postdata']
+        logger.info('Def Extra data: args - {0}'.format(postdata))
+
+        ext_data = {}
+        # 针对分类下面两种处理方式，上面是原有的，暂时保留以保持兼容
+        if 'def_cat_uid' in postdata:
+            ext_data['def_cat_uid'] = postdata['def_cat_uid']
+            ext_data['def_cat_pid'] = self.mcat.get_by_uid(postdata['def_cat_uid']).pid
+        if 'gcat0' in postdata:
+            ext_data['def_cat_uid'] = postdata['gcat0']
+            ext_data['def_cat_pid'] = self.mcat.get_by_uid(postdata['gcat0']).pid
+
+        ext_data['def_tag_arr'] = [x.strip() for x in postdata['tags'].strip().strip(',').split(',')]
+
+        ext_data = dict(ext_data, **self.extor_data(postdata=postdata))
+
+        return ext_data
 
     @tornado.web.authenticated
     def update(self, uid):
@@ -489,10 +490,7 @@ class InfoHandler(PostHandler):
         ext_dic['def_uid'] = str(uid)
         logger.info(post_data)
 
-        ext_dic = dict(ext_dic, **self.get_def_cat_uid(post_data))
-
-        ext_dic['def_tag_arr'] = [x.strip() for x in post_data['tags'].strip().strip(',').split(',')]
-        ext_dic = self.extra_data(ext_dic, post_data)
+        ext_dic = dict(ext_dic, **self.get_extra_data(postdata=post_data))
 
         cnt_old = tornado.escape.xhtml_unescape(postinfo.cnt_md).strip()
         cnt_new = post_data['cnt_md'].strip()
@@ -513,8 +511,11 @@ class InfoHandler(PostHandler):
         self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], uid))
 
     @tornado.web.authenticated
-    def add(self, uid='', catid=''):
-        logger.info('info adding: ', 'catid: ', catid, 'infoid:', uid)
+    def add(self, **kwargs):
+        if 'uid' in kwargs:
+            uid = kwargs['uid']
+        else:
+            uid = self.__gen_uid()
 
         if self.check_post_role(self.userinfo)['ADD']:
             pass
@@ -529,19 +530,22 @@ class InfoHandler(PostHandler):
             else:
                 post_data[key] = self.get_arguments(key)[0]
         post_data['user_name'] = self.userinfo.user_name
+
         post_data['kind'] = self.kind
-        if catid == '':
-            pass
-        else:
+
+        if 'catid' in kwargs:
+            catid = kwargs['catid']
+
             catinfo = self.mcat.get_by_uid(catid)
             if catinfo:
                 post_data['kind'] = catinfo.kind
                 logger.info('Got category inf: {0} , kind: {1}'.format(catinfo.name, catinfo.kind))
             else:
                 logger.info('Could not find the category: {0}'.format(catid))
+        else:
+            catid = ''
 
-        if uid == '':
-            uid = self.__gen_uid()
+        logger.info('info adding: ', 'catid: ', catid, 'infoid:', uid)
 
         if 'valid' in post_data:
             post_data['valid'] = int(post_data['valid'])
@@ -550,10 +554,7 @@ class InfoHandler(PostHandler):
 
         ext_dic['def_uid'] = uid
 
-        ext_dic = dict(ext_dic, **self.get_def_cat_uid(post_data))
-
-        ext_dic['def_tag_arr'] = [x.strip() for x in post_data['tags'].strip().strip(',').split(',')]
-        ext_dic = self.extra_data(ext_dic, post_data)
+        ext_dic = dict(ext_dic, **self.get_extra_data(postdata=post_data))
 
         self.mpost.modify_meta(ext_dic['def_uid'],
                                post_data,

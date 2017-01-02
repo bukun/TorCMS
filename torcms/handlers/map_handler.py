@@ -10,7 +10,7 @@ from torcms.model.info_hist_model import MInfoHist
 
 
 class MapPostHandler(InfoHandler):
-    def initialize(self, hinfo=''):
+    def initialize(self, **kwargs):
         super(MapPostHandler, self).initialize()
         self.mevaluation = MEvaluation()
         self.mpost2catalog = MInfor2Catalog()
@@ -20,9 +20,7 @@ class MapPostHandler(InfoHandler):
         self.musage = MUsage()
         self.mcat = MCategory()
         self.mrel = MInforRel()
-        # self.mreply = MInfor2Reply()
         self.kind = 'm'
-        self.sig = '1'
 
     def extra_kwd(self, info_rec):
         post_data = self.get_post_data()

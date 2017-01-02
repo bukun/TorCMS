@@ -1,5 +1,9 @@
 # -*- coding:utf-8 -*-
 
+'''
+Manage the posts by Administrator.
+'''
+
 import tornado.escape
 import tornado.web
 from config import router_post

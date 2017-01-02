@@ -8,8 +8,9 @@ class AdminHandler(BaseHandler):
     def initialize(self):
         super(AdminHandler, self).initialize()
 
-    def get(self, input=''):
-        if input == '':
+    def get(self, *args, **kwargs):
+        url_str = args[0]
+        if url_str == '':
             self.index()
         else:
             self.render('html/404.html',

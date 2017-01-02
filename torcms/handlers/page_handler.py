@@ -22,7 +22,9 @@ class PageHandler(BaseHandler):
         self.cats = self.mcat.query_all()
         self.kind = '2'
 
-    def get(self, url_str=''):
+    def get(self, *args):
+
+        url_str = args[0]
         url_arr = self.parse_url(url_str)
 
         if len(url_arr) == 1 and url_str.endswith('.html'):

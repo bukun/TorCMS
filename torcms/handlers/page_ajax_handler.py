@@ -13,7 +13,8 @@ class PageAjaxHandler(PageHandler):
         self.mcat = MCategory()
         self.cats = self.mcat.query_all()
 
-    def get(self, url_str=''):
+    def get(self, *args):
+        url_str = args[0]
         url_arr = self.parse_url(url_str)
 
         if url_arr[0] in ['count_plus']:

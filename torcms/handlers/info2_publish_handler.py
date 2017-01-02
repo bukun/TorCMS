@@ -10,11 +10,12 @@ from config import router_post
 
 
 class InfoPublishHandler(BaseHandler):
-    def initialize(self, hinfo=''):
+    def initialize(self, **kwargs):
         super(InfoPublishHandler, self).initialize()
         self.minforcatalog = MCategory()
 
-    def get(self, url_str=''):
+    def get(self, *args):
+        url_str = args[0]
         url_arr = self.parse_url(url_str)
 
         if len(url_str) == 1:

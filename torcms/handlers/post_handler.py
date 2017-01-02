@@ -37,7 +37,7 @@ class PostHandler(BaseHandler):
         self.mrel = MRelation()
         self.kind = '1'
 
-    def get(self, *args, **kwargs):
+    def get(self, *args):
 
         url_str = args[0]
         url_arr = self.parse_url(url_str)
@@ -70,7 +70,7 @@ class PostHandler(BaseHandler):
             self.render('html/404.html', kwd=kwd,
                         userinfo=self.userinfo, )
 
-    def post(self, *args, **kwargs):
+    def post(self, *args):
         url_str = args[0]
         logger.info('post url: {0}'.format(url_str))
 
@@ -82,7 +82,7 @@ class PostHandler(BaseHandler):
             self.add()
         elif len(url_arr) == 1:
             if len(url_str) in [4, 5]:
-                self.add(url_str)
+                self.add(uid=url_str)
         else:
             self.redirect('html/404.html')
 
@@ -109,13 +109,13 @@ class PostHandler(BaseHandler):
         self.write(json.dumps(output))
 
     @tornado.web.authenticated
-    def extra_data(self, ext_dic, post_data):
+    def extor_data(self, **kwargs):
         '''
         The additional information.
         :param post_data:
         :return: directory.
         '''
-        return ext_dic
+        return {}
 
     def recent(self, with_catalog=True, with_date=True):
         '''
@@ -177,14 +177,15 @@ class PostHandler(BaseHandler):
         :param uid:
         :return:
         '''
+        postinfo = self.mpost.get_by_uid(uid)
         if self.mpost.get_by_id(uid):
-            self.view_post(uid)
+            self.viewinfo(postinfo)
         else:
             self.to_add(uid)
 
     @tornado.web.authenticated
     def to_add(self, *args):
-        uid = args[0]
+        # uid = args[0]
         if self.check_post_role(self.userinfo)['ADD']:
             pass
         else:
@@ -192,7 +193,7 @@ class PostHandler(BaseHandler):
         kwd = {
             'pager': '',
             'cats': self.mcat.query_all(),
-            'uid': uid,
+            'uid': '',
         }
         self.render('post_{0}/post_add.html'.format(self.kind),
                     kwd=kwd,
@@ -347,11 +348,11 @@ class PostHandler(BaseHandler):
         if last_post_id and self.mpost.get_by_id(last_post_id):
             self.add_relation(last_post_id, post_id)
 
-    def view_post(self, post_id):
+    def viewinfo(self, postinfo):
+        post_id = postinfo.uid
         self.__gen_last_current_relation(post_id)
         cats = self.mpost2catalog.query_by_entity_uid(post_id)
         tag_info = self.mpost2label.get_by_id(post_id)
-        postinfo = self.mpost.get_by_id(post_id)
         if postinfo.kind == self.kind:
             pass
         else:
@@ -394,7 +395,7 @@ class PostHandler(BaseHandler):
     def add_relation(self, f_uid, t_uid):
         if self.mpost.get_by_id(t_uid) is False:
             return False
-        if f_uid == t_uid: # relate to itself.
+        if f_uid == t_uid:  # relate to itself.
             return False
         # 双向关联，但权重不一样.
         self.mrel.add_relation(f_uid, t_uid, 2)
@@ -402,7 +403,12 @@ class PostHandler(BaseHandler):
         return True
 
     @tornado.web.authenticated
-    def add(self, uid=''):
+    def add(self, **kwargs):
+
+        if 'uid' in kwargs:
+            uid = kwargs['uid']
+        else:
+            uid = self.__gen_uid()
         if self.check_post_role(self.userinfo)['ADD']:
             pass
         else:
@@ -413,9 +419,6 @@ class PostHandler(BaseHandler):
         else:
             self.set_status(400)
             return False
-
-        if uid == '':
-            uid = self.__gen_uid()
 
         post_data['user_name'] = self.userinfo.user_name
         post_data['kind'] = self.kind

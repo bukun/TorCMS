@@ -30,9 +30,10 @@ class IndexHandler(BaseHandler):
     def get_current_user(self):
         return self.get_secure_cookie("user")
 
-    def get(self, *args, **kwargs):
+    def get(self, *args):
         if len(args) == 0:
             self.index()
+
         else:
             self.render('html/404.html', kwd={}, userinfo=self.userinfo)
 
