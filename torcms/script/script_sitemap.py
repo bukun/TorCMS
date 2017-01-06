@@ -18,11 +18,12 @@ import re
 import datetime
 from config import router_post
 
+
 def run_sitemap():
-    fo  = open('sitemap.txt', 'w')
+    fo = open('sitemap.txt', 'w')
     mpost = MPost()
     for key in router_post.keys():
-        recent_posts = mpost.query_all(kind= key)
+        recent_posts = mpost.query_all(kind=key)
         for recent_post in recent_posts:
             url = 'http://www.osgeo.cn/{0}/{1}\n'.format(router_post[recent_post.kind], recent_post.uid)
             fo.write(url)
@@ -38,4 +39,3 @@ def run_sitemap():
     for recent_post in recent_posts:
         url = 'http://www.osgeo.cn/page/{0}\n'.format(recent_post.uid)
         fo.write(url)
-

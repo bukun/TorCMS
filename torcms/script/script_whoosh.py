@@ -25,18 +25,18 @@ minfo2tag = MInfor2Catalog()
 from torcms.model.wiki_model import MWiki
 from torcms.model.page_model import MPage
 
-def do_for_app(writer, rand=True, kind = '',  doc_type=''):
+
+def do_for_app(writer, rand=True, kind='', doc_type={}):
     mpost = MApp()
     if rand:
-        recs = mpost.query_random(50, kind = kind)
+        recs = mpost.query_random(50, kind=kind)
     else:
-        recs = mpost.query_recent(50, kind = kind)
+        recs = mpost.query_recent(50, kind=kind)
 
-    print(recs.count())
     for rec in recs:
         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
         writer.update_document(
-             catid = '00000',
+            catid='00000',
             title=rec.title,
             type=doc_type[rec.kind],
             link='/{0}/{1}'.format(router_post[rec.kind], rec.uid),
@@ -44,22 +44,18 @@ def do_for_app(writer, rand=True, kind = '',  doc_type=''):
         )
 
 
-def do_for_app2(writer, rand=True ):
+def do_for_app2(writer, rand=True):
     mpost = MApp()
     if rand:
         recs = mpost.query_random(50)
     else:
         recs = mpost.query_recent(50)
 
-    print(recs.count())
     for rec in recs:
         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
 
         info = minfo2tag.get_entry_catalog(rec.uid)
         if info:
-            print(info.uid)
-            print(info.tag.uid)
-            print(info.tag.kind)
             pass
         else:
             continue
@@ -74,21 +70,19 @@ def do_for_app2(writer, rand=True ):
         writer.update_document(
             title=rec.title,
             catid=catid,
-            type='<span style="color:red;">[{0}]</span>'.format( cat_name               ),
+            type='<span style="color:red;">[{0}]</span>'.format(cat_name),
             link='/{0}/{1}'.format(router_post[rec.kind], rec.uid),
             content=text2
         )
 
 
 def do_for_post(writer, rand=True, doc_type=''):
-
     mpost = MPost()
     if rand:
         recs = mpost.query_random(50)
     else:
         recs = mpost.query_recent(50)
 
-    print(recs.count())
     for rec in recs:
         # sleep(0.1)
         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
@@ -109,7 +103,6 @@ def do_for_wiki(writer, rand=True, doc_type=''):
     else:
         recs = mpost.query_recent(50, )
 
-    print(recs.count())
     for rec in recs:
         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
         writer.update_document(
@@ -120,6 +113,7 @@ def do_for_wiki(writer, rand=True, doc_type=''):
             content=text2
         )
 
+
 def do_for_page(writer, rand=True, doc_type=''):
     mpost = MPage()
     if rand:
@@ -127,7 +121,6 @@ def do_for_page(writer, rand=True, doc_type=''):
     else:
         recs = mpost.query_recent(50, )
 
-    print(recs.count())
     for rec in recs:
         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
         writer.update_document(
@@ -137,7 +130,9 @@ def do_for_page(writer, rand=True, doc_type=''):
             link='/page/{0}'.format(rec.uid),
             content=text2
         )
-def gen_whoosh_database(if_rand=True, kind='1', kind_arr = [] , post_type={}):
+
+
+def gen_whoosh_database(if_rand=True, kind='1', kind_arr=[], post_type={}):
     analyzer = ChineseAnalyzer()
     schema = Schema(title=TEXT(stored=True, analyzer=analyzer),
                     catid=TEXT(stored=True),
@@ -160,8 +155,5 @@ def gen_whoosh_database(if_rand=True, kind='1', kind_arr = [] , post_type={}):
     do_for_page(writer, rand=if_rand, doc_type=post_type['1'])
 
     for kind in kind_arr:
-        do_for_app(writer, rand=if_rand, kind = kind, doc_type=post_type)
-    print('-' * 10)
+        do_for_app(writer, rand=if_rand, kind=kind, doc_type=post_type)
     writer.commit()
-
-

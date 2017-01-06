@@ -1,7 +1,10 @@
+# -*- coding: utf-8
+
 from .autocrud import gen_dics_from_xls
 from .autocrud import gen_add_edit_view_html
 from .autocrud import gen_listinfo_html
 from .autocrud import gen_list_select_html
+
 
 def run_crud():
     gen_dics_from_xls.gen_html_dic()

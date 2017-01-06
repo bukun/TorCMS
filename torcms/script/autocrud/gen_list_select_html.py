@@ -27,19 +27,13 @@ def to_html(bl_str):
 def do_for_dir(html_tpl):
     var_names = globals().copy().keys()
     out_dir = os.path.join(os.getcwd(), crud_path, 'list')
-    # out_dir = os.getcwd()
     if os.path.exists(out_dir):
         pass
     else:
         os.mkdir(out_dir)
     for var_name in var_names:
         if var_name.startswith('dic_'):
-            # 根据父类，决定是否有子类。
-            # if var_name.startswith('dic_a') and (not var_name.endswith('00')):
-            #     subdir = 'tmpl{0}/'.format(var_name[-2:])
-            # else:
-            #     subdir = ''
-            # 此处简化一下。
+            # 此处简化一下，不考虑子类的问题。
             subdir = ''
             outfile = os.path.join(out_dir, 'list' + '_' + var_name.split('_')[1] + '.html')
             html_view_str_arr = []
@@ -47,7 +41,6 @@ def do_for_dir(html_tpl):
             for x in tview_var:
                 sig = eval('html_' + x)
                 if sig['type'] == 'select':
-                    # html_view_str_arr.append(gen_select_view(sig))
                     html_view_str_arr.append(to_html('html_' + x))
 
             with open(outfile, 'w') as outfileo:

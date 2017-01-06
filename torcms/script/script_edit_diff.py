@@ -22,7 +22,8 @@ now = datetime.datetime.now()
 
 datestr = now.strftime('%Y-%m-%d %H:%M:%S')
 
-time_limit  = 7 * 60 * 60 # 每7小时
+time_limit = 7 * 60 * 60  # 每7小时
+
 
 def run_edit_diff():
     email_cnt = '''<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -45,7 +46,7 @@ def run_edit_diff():
     mposthist = MPostHist()
 
     for key in router_post.keys():
-        recent_posts = mpost.query_recent_edited(tools.timestamp() - time_limit, kind= key)
+        recent_posts = mpost.query_recent_edited(tools.timestamp() - time_limit, kind=key)
         for recent_post in recent_posts:
             hist_rec = mposthist.get_last(recent_post.uid)
             if hist_rec:
@@ -76,14 +77,14 @@ def run_edit_diff():
                     <tr><td>{0}</td><td>{1}</td><td class="diff_chg">Edit</td><td>{2}</td>
                     <td><a href="{3}">{3}</a></td></tr>
                     '''.format(idx, recent_post.user_name, recent_post.title,
-                               os.path.join(site_url, 'wiki', recent_post.title ))
+                               os.path.join(site_url, 'wiki', recent_post.title))
             email_cnt = email_cnt + foo_str
         else:
             foo_str = '''
                     <tr><td>{0}</td><td>{1}</td><td class="diff_add">New </td><td>{2}</td>
                     <td><a href="{3}">{3}</a></td></tr>
                     '''.format(idx, recent_post.user_name, recent_post.title,
-                               os.path.join(site_url, 'wiki', recent_post.title ))
+                               os.path.join(site_url, 'wiki', recent_post.title))
             email_cnt = email_cnt + foo_str
         idx = idx + 1
 
@@ -96,14 +97,14 @@ def run_edit_diff():
                     <tr><td>{0}</td><td>{1}</td><td class="diff_chg">Edit</td><td>{2}</td>
                     <td><a href="{3}">{3}</a></td></tr>
                     '''.format(idx, recent_post.user_name, recent_post.title,
-                               os.path.join(site_url, 'page', recent_post.uid ))
+                               os.path.join(site_url, 'page', recent_post.uid))
             email_cnt = email_cnt + foo_str
         else:
             foo_str = '''
                     <tr><td>{0}</td><td>{1}</td><td class="diff_add">New </td><td>{2}</td>
                     <td><a href="{3}">{3}</a></td></tr>
                     '''.format(idx, recent_post.user_name, recent_post.title,
-                               os.path.join(site_url, 'page', recent_post.uid ))
+                               os.path.join(site_url, 'page', recent_post.uid))
             email_cnt = email_cnt + foo_str
         idx = idx + 1
 
@@ -132,12 +133,12 @@ def run_edit_diff():
                 # infobox = test[start:end] + '</table>'
                 # if ('diff_add' in infobox) or ('diff_chg' in infobox) or ('diff_sub' in infobox):
                 diff_str = diff_str + '<h2 style="color:red; font-size:larger; font-weight:70;">TITLE: {0}</h2>'.format(
-                        recent_post.title) + infobox
+                    recent_post.title) + infobox
 
                 infobox = diff_table(hist_rec.cnt_md, recent_post.cnt_md)
 
                 diff_str = diff_str + '<h3>CONTENT</h3>'.format(
-                        recent_post.title) + infobox + '</hr>'
+                    recent_post.title) + infobox + '</hr>'
             else:
                 continue
     ###########################################################

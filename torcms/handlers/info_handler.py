@@ -113,6 +113,30 @@ class InfoHandler(PostHandler):
         else:
             return False
 
+    def ext_view_kwd(self, info_rec):
+        '''
+        The additional information.
+        :param info_rec:
+        :return: directory.
+        '''
+        return {}
+
+    def ext_tmpl_name(self, rec):
+        '''
+        Used for self defined templates.
+        :param rec:
+        :return:
+        '''
+        return None
+
+    def ext_post_data(self, **kwargs):
+        '''
+        The additional information.
+        :param post_data:
+        :return: directory.
+        '''
+        return {}
+
     def viewinfo(self, postinfo):
         info_id = postinfo.uid
 
@@ -207,7 +231,7 @@ class InfoHandler(PostHandler):
         else:
             recent_apps = []
         self.render(tmpl,
-                    kwd=dict(kwd, **self.extra_kwd(postinfo)),
+                    kwd=dict(kwd, **self.ext_view_kwd(postinfo)),
                     calc_info=postinfo,  # Deprecated
                     post_info=postinfo,  # Deprecated
                     postinfo=postinfo,
@@ -222,13 +246,7 @@ class InfoHandler(PostHandler):
                     recent_apps=recent_apps,
                     cat_enum=self.mcat.get_qian2(ext_catid2[:2]) if ext_catid else [], )
 
-    def extra_kwd(self, info_rec):
-        '''
-        The additional information.
-        :param info_rec:
-        :return: directory.
-        '''
-        return {}
+
 
     def chuli_cookie_relation(self, app_id):
         '''
@@ -244,8 +262,7 @@ class InfoHandler(PostHandler):
         if last_app_uid and self.mpost.get_by_uid(last_app_uid):
             self.add_relation(last_app_uid, app_id)
 
-    def ext_tmpl_name(self, rec):
-        return None
+
 
     def _is_tpl2(self):
         if 'tpl2' in cfg and self.kind in cfg['tpl2']:
@@ -265,7 +282,7 @@ class InfoHandler(PostHandler):
         if cat_id and self._is_tpl2():
             tmpl = 'autogen/view/view_{0}.html'.format(cat_id)
         else:
-            tmpl = 'post_{0}/show_map.html'.format(self.kind)
+            tmpl = 'post_{0}/post_view.html'.format(self.kind)
         return tmpl
 
     def add_relation(self, f_uid, t_uid):
@@ -455,7 +472,7 @@ class InfoHandler(PostHandler):
 
         ext_data['def_tag_arr'] = [x.strip() for x in postdata['tags'].strip().strip(',').split(',')]
 
-        ext_data = dict(ext_data, **self.extor_data(postdata=postdata))
+        ext_data = dict(ext_data, **self.ext_post_data(postdata=postdata))
 
         return ext_data
 

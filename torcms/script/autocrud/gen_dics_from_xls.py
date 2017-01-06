@@ -2,9 +2,9 @@
 '''
 Generate the dic of Python from xlsx file.
 '''
+
 import os
 from openpyxl.reader.excel import load_workbook
-from torcms.core.tools import logger
 from .base_crud import crud_path
 
 wb = load_workbook(filename='./database/meta/info_tags.xlsx')
@@ -30,8 +30,7 @@ for sheet_name in sheet_arr:
 
 def gen_html_dic():
     fo = open('xxtmp_html_dic.py', 'w')
-    # sig_name_arr = []
-    # for sheet_ranges in sheet_ranges_arr:
+
     for sheet_name in sheet_arr:
         try:
             sheet_ranges = wb[sheet_name]
@@ -43,11 +42,10 @@ def gen_html_dic():
             dd_val = sheet_ranges['{0}2'.format(jj)].value
 
             if cc_val and cc_val != '':
-                # (qian, hou) = cc_val.split(':')
-                # c_name, e_name = qian.split(',')
+
                 c_name, e_name = cc_val.split(',')
                 sig_name_arr[sheet_name].append(e_name)
-                # tags1 = hou.split(',')
+
                 tags1 = dd_val.split(',')
                 tags1 = [x.strip() for x in tags1]
                 tags_dic = {}

@@ -95,6 +95,7 @@ class PostHandler(BaseHandler):
                     userinfo=self.userinfo,
                     kwd={'uid': '',}, )
 
+
     def j_count_plus(self, uid):
         '''
         Ajax request, that the view count will plus 1.
@@ -108,14 +109,6 @@ class PostHandler(BaseHandler):
         }
         self.write(json.dumps(output))
 
-    @tornado.web.authenticated
-    def extor_data(self, **kwargs):
-        '''
-        The additional information.
-        :param post_data:
-        :return: directory.
-        '''
-        return {}
 
     def recent(self, with_catalog=True, with_date=True):
         '''

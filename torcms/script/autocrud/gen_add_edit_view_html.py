@@ -1,4 +1,4 @@
-__author__ = 'ycb'
+# -*- coding: utf-8
 
 import os
 
@@ -21,6 +21,7 @@ def gen_add_edit_view_tmpl():
     for bianliang in bianliang_arr:
         if bianliang.startswith('dic_') and (not bianliang.endswith('00')):
             # 根据父类，决定是否有子类。
+            # 这里使用固定的值，类别id以"a"开头。
             if bianliang.startswith('dic_a'):
                 subdir = 'sub{0}/'.format(bianliang[-2:])
             else:
@@ -40,7 +41,6 @@ def gen_add_edit_view_tmpl():
             var_dic = eval(bianliang)
             for sig in var_dic:
                 html_sig = '_'.join(['html', sig])
-                # print(html_sig)
                 var_html = eval(html_sig)
                 if var_html['type'] == 'text':
                     tp = (gen_input_add(var_html))
@@ -65,7 +65,6 @@ def gen_add_edit_view_tmpl():
             var_dic = eval(bianliang)
             for sig in var_dic:
                 html_sig = '_'.join(['html', sig])
-                # print(html_sig)
                 var_html = eval(html_sig)
                 if var_html['type'] == 'text':
                     tp = (gen_input_view(var_html))
@@ -88,7 +87,6 @@ def gen_add_edit_view_tmpl():
             var_dic = eval(bianliang)
             for sig in var_dic:
                 html_sig = '_'.join(['html', sig])
-                # print(html_sig)
                 var_html = eval(html_sig)
                 if var_html['type'] == 'text':
                     tp = (gen_input_edit(var_html))

@@ -24,7 +24,7 @@ class MapPostHandler(InfoHandler):
         self.mrel = MInforRel()
         self.kind = 'm'
 
-    def extra_kwd(self, info_rec):
+    def ext_view_kwd(self, info_rec):
         post_data = self.get_post_data()
 
         out_dic = {

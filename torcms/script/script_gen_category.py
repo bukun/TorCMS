@@ -73,7 +73,6 @@ def gen_infor_category():
                 # 'role_mask': role_mask,
                 'kind': kind_sig,
             }
-            print(post_data)
             mappcat.insert_data(u_uid, post_data)
             order_index = order_index + 1
 
@@ -89,7 +88,6 @@ def gen_category(yaml_file, sig):
     mcat = MCategory()
     f = open(yaml_file)
     out_dic = yaml.load(f)
-    # print(out_dic)
     vv = json.dumps(out_dic, indent=2)
 
     porder = 0
@@ -98,7 +96,6 @@ def gen_category(yaml_file, sig):
 
         if key.endswith('00'):
             uid = key[1:]
-            # print(uid)
             cur_dic = out_dic[key]
             porder = cur_dic['order']
             cat_dic = {
