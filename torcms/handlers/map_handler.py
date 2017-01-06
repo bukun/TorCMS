@@ -55,7 +55,7 @@ class MapPostHandler(InfoHandler):
                 map_hist.append(self.get_secure_cookie('map_hist').decode('utf-8')[xx: xx + 4])
         return map_hist
 
-    def get_tmpl_name(self, rec):
+    def ext_tmpl_name(self, rec):
         if 'fullscreen' in self.request.arguments:
             tmpl = 'post_{0}/full_screen.html'.format(self.kind)
         else:

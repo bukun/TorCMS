@@ -230,6 +230,7 @@ class InfoHandler(PostHandler):
             recent_apps = self.musage.query_recent(self.userinfo.uid, postinfo.kind, 6)[1:]
         else:
             recent_apps = []
+        logger.info('The Info Template: {0}'.format(tmpl))
         self.render(tmpl,
                     kwd=dict(kwd, **self.ext_view_kwd(postinfo)),
                     calc_info=postinfo,  # Deprecated
