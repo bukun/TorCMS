@@ -122,9 +122,6 @@ def run_edit_diff():
         for recent_post in recent_posts:
             hist_rec = mposthist.get_last(recent_post.uid)
             if hist_rec:
-                print('=' * 10)
-
-                print(recent_post.title)
 
                 raw_title = hist_rec.title
                 new_title = recent_post.title
@@ -146,7 +143,5 @@ def run_edit_diff():
         email_cnt = email_cnt + diff_str
     email_cnt = email_cnt + '''</body></html>'''
 
-    # print (email_cnt)
-    print('edit diff count:', idx)
     if idx > 1:
         send_mail(post_emails, "{0}|{1}|{2}".format(smtp_cfg['name'], '文档更新情况', datestr), email_cnt)

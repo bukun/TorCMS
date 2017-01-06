@@ -115,9 +115,6 @@ def gen_category(yaml_file, sig):
             pid = key[1:3]
 
             for sub_dic in sub_arr:
-                # print('x' * 10)
-                # print(sub_dic)
-                # cur_dic = sub_dic
                 porder = out_dic['z' + pid + '00']['order']
 
                 for key in sub_dic:
