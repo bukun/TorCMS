@@ -22,7 +22,10 @@ class MapPostHandler(InfoHandler):
         self.musage = MUsage()
         self.mcat = MCategory()
         self.mrel = MInforRel()
-        self.kind = 'm'
+        if 'kind' in kwargs:
+            self.kind = kwargs['kind']
+        else:
+            self.kind = '9'
 
     def ext_view_kwd(self, info_rec):
         post_data = self.get_post_data()
