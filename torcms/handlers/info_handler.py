@@ -34,7 +34,7 @@ class InfoHandler(PostHandler):
         self.mevaluation = MEvaluation()
         self.mpost2label = MInfor2Label()
         self.mpost2catalog = MInfor2Catalog()
-        self.mpost = MInfor()
+        self.mmap = MInfor()
         self.musage = MUsage()
         self.mcat = MCategory()
         self.mrel = MInforRel()
@@ -170,9 +170,9 @@ class InfoHandler(PostHandler):
         logger.info('rel_recs count: {0}'.format(rel_recs.count()))
 
         if len(cat_uid_arr) > 0:
-            rand_recs = self.mpost.query_cat_random(cat_uid_arr[0], 4 - rel_recs.count() + 4)
+            rand_recs = self.mmap.query_cat_random(cat_uid_arr[0], 4 - rel_recs.count() + 4)
         else:
-            rand_recs = self.mpost.query_random(num=4 - rel_recs.count() + 4, kind=postinfo.kind)
+            rand_recs = self.mmap.query_random(num=4 - rel_recs.count() + 4, kind=postinfo.kind)
 
         self.chuli_cookie_relation(info_id)
         cookie_str = tools.get_uuid()
@@ -217,7 +217,7 @@ class InfoHandler(PostHandler):
             'catname': '',
             'router': router_post[postinfo.kind]
         }
-        self.mpost.view_count_increase(info_id)
+        self.mmap.view_count_increase(info_id)
         if self.get_current_user():
             self.musage.add_or_update(self.userinfo.uid, info_id, postinfo.kind)
         self.set_cookie('user_pass', cookie_str)
@@ -260,7 +260,7 @@ class InfoHandler(PostHandler):
         if last_app_uid:
             last_app_uid = last_app_uid.decode('utf-8')
         self.set_secure_cookie('use_app_uid', app_id)
-        if last_app_uid and self.mpost.get_by_uid(last_app_uid):
+        if last_app_uid and self.mmap.get_by_uid(last_app_uid):
             self.add_relation(last_app_uid, app_id)
 
 
@@ -293,7 +293,7 @@ class InfoHandler(PostHandler):
         :param t_uid:
         :return: return True if the relation has been succesfully added.
         '''
-        if self.mpost.get_by_uid(t_uid):
+        if self.mmap.get_by_uid(t_uid):
             pass
         else:
             return False
@@ -319,7 +319,7 @@ class InfoHandler(PostHandler):
 
     def __gen_uid(self):
         cur_uid = self.kind + tools.get_uu4d()
-        while self.mpost.get_by_id(cur_uid):
+        while self.mmap.get_by_id(cur_uid):
             cur_uid = self.kind + tools.get_uu4d()
         return cur_uid
 
@@ -364,7 +364,7 @@ class InfoHandler(PostHandler):
             else:
                 return False
 
-            if 'uid' in kwargs and self.mpost.get_by_uid(kwargs['uid']):
+            if 'uid' in kwargs and self.mmap.get_by_uid(kwargs['uid']):
                 # todo:
                 # self.redirect('/{0}/edit/{1}'.format(self.app_url_name, uid))
                 uid = kwargs['uid']
@@ -378,14 +378,14 @@ class InfoHandler(PostHandler):
     @tornado.web.authenticated
     def delete(self, *args, **kwargs):
         uid = args[0]
-        current_infor = self.mpost.get_by_uid(uid)
+        current_infor = self.mmap.get_by_uid(uid)
 
         if self.check_post_role(self.userinfo)['DELETE']:
             pass
         else:
             return False
 
-        if self.mpost.delete(uid):
+        if self.mmap.delete(uid):
             self.redirect('/list/{0}'.format(current_infor.extinfo['def_cat_uid']))
         else:
             self.redirect('/{0}/{1}'.format(router_post[self.kind], uid))
@@ -397,7 +397,7 @@ class InfoHandler(PostHandler):
         else:
             return False
 
-        rec_info = self.mpost.get_by_uid(infoid)
+        rec_info = self.mmap.get_by_uid(infoid)
         postinfo = rec_info
 
         if rec_info:
@@ -484,7 +484,7 @@ class InfoHandler(PostHandler):
         else:
             return False
 
-        postinfo = self.mpost.get_by_uid(uid)
+        postinfo = self.mmap.get_by_uid(uid)
         if postinfo.kind == self.kind:
             pass
         else:
@@ -517,9 +517,9 @@ class InfoHandler(PostHandler):
         else:
             self.mpost_hist.insert_data(postinfo)
 
-        self.mpost.modify_meta(uid,
-                               post_data,
-                               extinfo=ext_dic)
+        self.mmap.modify_meta(uid,
+                              post_data,
+                              extinfo=ext_dic)
         self.update_category(uid)
         self.update_tag(uid)
 
@@ -574,9 +574,9 @@ class InfoHandler(PostHandler):
 
         ext_dic = dict(ext_dic, **self.get_extra_data(postdata=post_data))
 
-        self.mpost.modify_meta(ext_dic['def_uid'],
-                               post_data,
-                               extinfo=ext_dic)
+        self.mmap.modify_meta(ext_dic['def_uid'],
+                              post_data,
+                              extinfo=ext_dic)
         self.update_category(ext_dic['def_uid'])
         self.update_tag(ext_dic['def_uid'])
 

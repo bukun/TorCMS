@@ -356,3 +356,4 @@ class MInfor(MInforBase):
         db_data = self.tab_app.select().where(
             (self.tab_app.kind == kind) & (self.tab_app.valid == 1) & (self.tab_app.extinfo.contains(condition)))
         return db_data.count()
+

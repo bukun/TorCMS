@@ -18,7 +18,7 @@ class MapPostHandler(InfoHandler):
         self.mpost2catalog = MInfor2Catalog()
         self.mpost2label = MInfor2Label()
         self.mpost_hist = MInfoHist()
-        self.mpost = MInfor()
+        self.mmap = MInfor()
         self.musage = MUsage()
         self.mcat = MCategory()
         self.mrel = MInforRel()
@@ -26,6 +26,7 @@ class MapPostHandler(InfoHandler):
             self.kind = kwargs['kind']
         else:
             self.kind = '9'
+
 
     def ext_view_kwd(self, info_rec):
         post_data = self.get_post_data()
@@ -64,3 +65,22 @@ class MapPostHandler(InfoHandler):
         else:
             tmpl = 'post_{0}/show_map.html'.format(self.kind)
         return tmpl
+
+class MapAdminHandler(MapPostHandler):
+    def post(self, *args):
+        url_str = args[0]
+        url_arr = self.parse_url(url_str)
+        if url_arr[0] == '_update_view':
+            self.update_view(url_arr[1])
+    def update_view(self, uid):
+        post_data = self.get_post_data()
+
+        zoom_current = int(post_data['ext_zoom_current'])
+        if zoom_current == 0:
+            return False
+        post_data['ext_zoom_max'] = str(zoom_current + 3)
+        post_data['ext_zoom_min'] = str(zoom_current -1)
+
+        self.mmap.update_jsonb(uid, post_data)
+
+        # self.mmap.update_map_view(uid = uid, post_data= post_data)

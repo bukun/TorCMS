@@ -29,7 +29,7 @@ class PostHandler(BaseHandler):
 
     def initialize(self):
         super(PostHandler, self).initialize()
-        self.mpost = MPost()
+        self.mmap = MPost()
         self.mcat = MCategory()
         self.mpost_hist = MPostHist()
         self.mpost2catalog = MPost2Catalog()
@@ -105,7 +105,7 @@ class PostHandler(BaseHandler):
         logger.info('Deprecated, you should use: /post_j/count_plus')
         self.set_header("Content-Type", "application/json")
         output = {
-            'status': 1 if self.mpost.update_view_count_by_uid(uid) else 0,
+            'status': 1 if self.mmap.update_view_count_by_uid(uid) else 0,
         }
         self.write(json.dumps(output))
 
@@ -126,15 +126,15 @@ class PostHandler(BaseHandler):
         }
         self.render('post_{0}/post_list.html'.format(self.kind),
                     kwd=kwd,
-                    view=self.mpost.query_recent(num=20, kind=self.kind),
-                    postinfo=self.mpost.query_recent(num=20, kind=self.kind),
+                    view=self.mmap.query_recent(num=20, kind=self.kind),
+                    postinfo=self.mmap.query_recent(num=20, kind=self.kind),
                     format_date=tools.format_date,
                     userinfo=self.userinfo,
                     cfg=cfg, )
 
     @tornado.web.authenticated
     def __could_edit(self, postid):
-        post_rec = self.mpost.get_by_uid(postid)
+        post_rec = self.mmap.get_by_uid(postid)
         if post_rec:
             pass
         else:
@@ -158,8 +158,8 @@ class PostHandler(BaseHandler):
         self.render('post_{0}/post_list.html'.format(self.kind),
                     kwd=kwd,
                     userinfo=self.userinfo,
-                    view=self.mpost.query_dated(10),
-                    postrecs=self.mpost.query_dated(10),
+                    view=self.mmap.query_dated(10),
+                    postrecs=self.mmap.query_dated(10),
                     format_date=tools.format_date,
                     unescape=tornado.escape.xhtml_unescape,
                     cfg=cfg, )
@@ -170,8 +170,8 @@ class PostHandler(BaseHandler):
         :param uid:
         :return:
         '''
-        postinfo = self.mpost.get_by_uid(uid)
-        if self.mpost.get_by_id(uid):
+        postinfo = self.mmap.get_by_uid(uid)
+        if self.mmap.get_by_id(uid):
             self.viewinfo(postinfo)
         else:
             self.to_add(uid)
@@ -206,7 +206,7 @@ class PostHandler(BaseHandler):
         else:
             return False
 
-        postinfo = self.mpost.get_by_id(uid)
+        postinfo = self.mmap.get_by_id(uid)
         if postinfo.kind == self.kind:
             pass
         else:
@@ -227,7 +227,7 @@ class PostHandler(BaseHandler):
 
         logger.info('upadte: {0}'.format(uid))
         logger.info('Update post_data: {0}'.format(post_data))
-        self.mpost.update(uid, post_data, update_time=is_update_time)
+        self.mmap.update(uid, post_data, update_time=is_update_time)
         self.update_category(uid)
         self.update_tag(uid)
         self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], uid))
@@ -323,7 +323,7 @@ class PostHandler(BaseHandler):
                     tag_infos=self.mcat.query_all(kind=self.kind),
                     app2label_info=self.mpost2label.get_by_id(uid),
                     app2tag_info=self.mpost2catalog.query_by_entity_uid(uid, self.kind),
-                    dbrec=self.mpost.get_by_id(uid),
+                    dbrec=self.mmap.get_by_id(uid),
                     userinfo=self.userinfo,
                     cfg=cfg, )
 
@@ -338,7 +338,7 @@ class PostHandler(BaseHandler):
             last_post_id = last_post_id.decode('utf-8')
         self.set_secure_cookie('last_post_uid', post_id)
 
-        if last_post_id and self.mpost.get_by_id(last_post_id):
+        if last_post_id and self.mmap.get_by_id(last_post_id):
             self.add_relation(last_post_id, post_id)
 
     def viewinfo(self, postinfo):
@@ -371,7 +371,7 @@ class PostHandler(BaseHandler):
         }
 
         rel_recs = self.mrel.get_app_relations(postinfo.uid, 4)
-        rand_recs = self.mpost.query_random(4 - rel_recs.count() + 2)
+        rand_recs = self.mmap.query_random(4 - rel_recs.count() + 2)
 
         self.render('post_{0}/post_view.html'.format(self.kind),
                     view=postinfo,
@@ -386,7 +386,7 @@ class PostHandler(BaseHandler):
                     cfg=cfg, )
 
     def add_relation(self, f_uid, t_uid):
-        if self.mpost.get_by_id(t_uid) is False:
+        if self.mmap.get_by_id(t_uid) is False:
             return False
         if f_uid == t_uid:  # relate to itself.
             return False
@@ -415,11 +415,11 @@ class PostHandler(BaseHandler):
 
         post_data['user_name'] = self.userinfo.user_name
         post_data['kind'] = self.kind
-        cur_post_rec = self.mpost.get_by_id(uid)
+        cur_post_rec = self.mmap.get_by_id(uid)
         if cur_post_rec:
             pass
         else:
-            if self.mpost.insert_data(uid, post_data):
+            if self.mmap.insert_data(uid, post_data):
                 self.update_tag(uid)
                 self.update_category(uid)
         self.redirect('/{0}/{1}'.format(router_post[self.kind], uid))
@@ -430,7 +430,7 @@ class PostHandler(BaseHandler):
         :return: the new ID.
         '''
         new_uid = tools.get_uu5d()
-        while self.mpost.get_by_id(new_uid):
+        while self.mmap.get_by_id(new_uid):
             new_uid = tools.get_uu5d()
         return new_uid
 
@@ -446,7 +446,7 @@ class PostHandler(BaseHandler):
             pass
         else:
             return False
-        if self.mpost.delete(uid):
+        if self.mmap.delete(uid):
             self.redirect('/{0}/recent'.format(router_post[self.kind]))
         else:
             return False
@@ -464,7 +464,7 @@ class PostHandler(BaseHandler):
             pass
         else:
             return False
-        is_deleted = self.mpost.delete(uid)
+        is_deleted = self.mmap.delete(uid)
 
         if is_deleted:
             output = {

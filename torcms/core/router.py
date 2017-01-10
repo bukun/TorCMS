@@ -37,10 +37,12 @@ from torcms.handlers.map_layout_handler import MapLayoutHandler
 from torcms.handlers.map_handler import MapPostHandler
 from torcms.handlers.map_overlay_handler import MapOverlayHandler
 from torcms.handlers.admin_post_handler import AdminPostHandler
+from torcms.handlers.map_handler import MapAdminHandler
 
 urls = [
 
     ('/map/overlay/(.*)', MapOverlayHandler, dict()),
+    ('/admin_map/(.*)', MapAdminHandler, dict()),
     ("/map/(.*)", MapPostHandler, dict(kind='m')),
     ("/admin_post/(.*)", AdminPostHandler, dict()),
     ('/geojson/(.*)', GeoJsonHandler, dict()),
