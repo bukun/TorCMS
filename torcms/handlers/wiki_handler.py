@@ -100,7 +100,7 @@ class WikiHandler(BaseHandler):
         :return:
         '''
         postinfo = self.mwiki.get_by_id(uid)
-        if self.check_post_role(self.userinfo)['EDIT'] or postinfo.user_name == self.get_current_user():
+        if self.check_post_role()['EDIT'] or postinfo.user_name == self.get_current_user():
             pass
         else:
             return False
@@ -124,7 +124,7 @@ class WikiHandler(BaseHandler):
     def to_edit(self, id_rec):
         wiki_rec = self.mwiki.get_by_id(id_rec)
         # 用户具有管理权限，或文章是用户自己发布的。
-        if self.check_post_role(self.userinfo)['EDIT'] or wiki_rec.user_name == self.get_current_user():
+        if self.check_post_role()['EDIT'] or wiki_rec.user_name == self.get_current_user():
             pass
         else:
             return False

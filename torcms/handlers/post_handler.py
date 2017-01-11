@@ -72,7 +72,7 @@ class PostHandler(BaseHandler):
 
     def post(self, *args):
         url_str = args[0]
-        logger.info('post url: {0}'.format(url_str))
+        logger.info('Post url: {0}'.format(url_str))
 
         url_arr = self.parse_url(url_str)
 
@@ -139,7 +139,7 @@ class PostHandler(BaseHandler):
             pass
         else:
             return False
-        if self.check_post_role(self.userinfo)['EDIT']:
+        if self.check_post_role()['EDIT']:
             return True
         elif post_rec.user_name == self.userinfo.user_name:
             return True
@@ -173,13 +173,19 @@ class PostHandler(BaseHandler):
         postinfo = self.mmap.get_by_uid(uid)
         if self.mmap.get_by_id(uid):
             self.viewinfo(postinfo)
+        elif self.userinfo:
+            self.to_add(uid = uid)
         else:
-            self.to_add(uid)
+            kwd = {
+                'info': '404. Page not found!',
+            }
+            self.render('html/404.html', kwd=kwd,
+                        userinfo=self.userinfo, )
 
     @tornado.web.authenticated
-    def to_add(self, *args):
+    def to_add(self, **args):
         # uid = args[0]
-        if self.check_post_role(self.userinfo)['ADD']:
+        if self.check_post_role()['ADD']:
             pass
         else:
             return False
@@ -402,7 +408,7 @@ class PostHandler(BaseHandler):
             uid = kwargs['uid']
         else:
             uid = self.__gen_uid()
-        if self.check_post_role(self.userinfo)['ADD']:
+        if self.check_post_role()['ADD']:
             pass
         else:
             return False
@@ -442,7 +448,7 @@ class PostHandler(BaseHandler):
         :return:
         '''
         uid = args[0]
-        if self.check_post_role(self.userinfo)['DELETE']:
+        if self.check_post_role()['DELETE']:
             pass
         else:
             return False
@@ -460,7 +466,7 @@ class PostHandler(BaseHandler):
         '''
         logger.info('Deprecated, you should use: /post_j/delete')
 
-        if self.check_post_role(self.userinfo)['DELETE']:
+        if self.check_post_role()['DELETE']:
             pass
         else:
             return False

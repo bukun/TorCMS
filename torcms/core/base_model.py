@@ -1,9 +1,17 @@
 # -*- coding:utf-8 -*-
 
+'''
+create a base model class that our application's models will extend. From django
+'''
 import config
 import peewee
 
-# create a base model class that our application's models will extend. From django
 class BaseModel(peewee.Model):
+    '''
+    base model
+    '''
     class Meta:
+        '''
+        meta
+        '''
         database = config.dbconnect

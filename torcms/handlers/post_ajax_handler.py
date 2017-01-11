@@ -24,7 +24,7 @@ class PostAjaxHandler(PostHandler):
         :return:
         '''
         uid = args[0]
-        if self.check_post_role(self.userinfo)['DELETE']:
+        if self.check_post_role()['DELETE']:
             pass
         else:
             return False

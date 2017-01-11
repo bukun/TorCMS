@@ -330,7 +330,7 @@ class InfoHandler(PostHandler):
         :param catid: the uid of category
         :return:
         '''
-        if self.check_post_role(self.userinfo)['ADD']:
+        if self.check_post_role()['ADD']:
             pass
         else:
             return False
@@ -359,7 +359,7 @@ class InfoHandler(PostHandler):
 
         else:
 
-            if self.check_post_role(self.userinfo)['ADD']:
+            if self.check_post_role()['ADD']:
                 pass
             else:
                 return False
@@ -380,7 +380,7 @@ class InfoHandler(PostHandler):
         uid = args[0]
         current_infor = self.mmap.get_by_uid(uid)
 
-        if self.check_post_role(self.userinfo)['DELETE']:
+        if self.check_post_role()['DELETE']:
             pass
         else:
             return False
@@ -392,7 +392,7 @@ class InfoHandler(PostHandler):
 
     @tornado.web.authenticated
     def to_edit(self, infoid):
-        if self.check_post_role(self.userinfo)['EDIT']:
+        if self.check_post_role()['EDIT']:
             pass
         else:
             return False
@@ -479,7 +479,7 @@ class InfoHandler(PostHandler):
 
     @tornado.web.authenticated
     def update(self, uid):
-        if self.check_post_role(self.userinfo)['EDIT']:
+        if self.check_post_role()['EDIT']:
             pass
         else:
             return False
@@ -535,7 +535,7 @@ class InfoHandler(PostHandler):
         else:
             uid = self.__gen_uid()
 
-        if self.check_post_role(self.userinfo)['ADD']:
+        if self.check_post_role()['ADD']:
             pass
         else:
             return False

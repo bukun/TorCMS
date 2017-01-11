@@ -5,14 +5,19 @@ from whoosh.index import open_dir
 from whoosh.qparser import QueryParser
 from whoosh.query import *
 
+
 # analyzer = ChineseAnalyzer()
 def singleton(cls, *args, **kwargs):
     instances = {}
+
     def _singleton():
         if cls not in instances:
             instances[cls] = cls(*args, **kwargs)
         return instances[cls]
+
     return _singleton
+
+
 @singleton
 class yunsearch():
     def __init__(self):
@@ -47,4 +52,3 @@ class yunsearch():
             return (tt[(page_index - 1) * doc_per_page: page_index * doc_per_page])
         finally:
             pass
-

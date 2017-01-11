@@ -67,7 +67,7 @@ class LinkHandler(BaseHandler):
         return self.mlink.query_random()
 
     def to_add_link(self, ):
-        if self.check_post_role(self.userinfo)['ADD']:
+        if self.check_post_role()['ADD']:
             pass
         else:
             return False
@@ -149,7 +149,7 @@ class LinkHandler(BaseHandler):
     @tornado.web.authenticated
     def p_user_add_link(self):
 
-        if self.check_post_role(self.userinfo)['ADD']:
+        if self.check_post_role()['ADD']:
             pass
         else:
             return False
@@ -174,7 +174,7 @@ class LinkHandler(BaseHandler):
     @tornado.web.authenticated
     def user_add_link(self):
 
-        if self.check_post_role(self.userinfo)['ADD']:
+        if self.check_post_role()['ADD']:
             pass
         else:
             return False
@@ -192,7 +192,7 @@ class LinkHandler(BaseHandler):
 
     @tornado.web.authenticated
     def delete(self, del_id):
-        if self.check_post_role(self.userinfo)['DELETE']:
+        if self.check_post_role()['DELETE']:
             pass
         else:
             return False

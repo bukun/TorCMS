@@ -63,7 +63,7 @@ class MaintainCategoryHandler(BaseHandler):
 
     @tornado.web.authenticated
     def to_add(self):
-        if self.check_post_role(self.userinfo)['ADD']:
+        if self.check_post_role()['ADD']:
             pass
         else:
             return False
@@ -82,7 +82,7 @@ class MaintainCategoryHandler(BaseHandler):
         raw_data = self.mclass.get_by_id(uid)
         if not raw_data:
             return False
-        if self.check_post_role(self.userinfo)['EDIT'] or raw_data.id_user == self.userinfo.user_name:
+        if self.check_post_role()['EDIT'] or raw_data.id_user == self.userinfo.user_name:
             return True
         else:
             return False
@@ -134,7 +134,7 @@ class MaintainCategoryHandler(BaseHandler):
 
     @tornado.web.authenticated
     def add_post(self):
-        if self.check_post_role(self.userinfo)['ADD']:
+        if self.check_post_role()['ADD']:
             pass
         else:
             return False
@@ -153,7 +153,7 @@ class MaintainCategoryHandler(BaseHandler):
     @tornado.web.authenticated
     def p_add_catalog(self):
 
-        if self.check_post_role(self.userinfo)['ADD']:
+        if self.check_post_role()['ADD']:
             pass
         else:
             return False
@@ -180,7 +180,7 @@ class MaintainCategoryHandler(BaseHandler):
 
     @tornado.web.authenticated
     def add_catalog(self):
-        if self.check_post_role(self.userinfo)['ADD']:
+        if self.check_post_role()['ADD']:
             pass
         else:
             return False
@@ -200,7 +200,7 @@ class MaintainCategoryHandler(BaseHandler):
 
     @tornado.web.authenticated
     def delete_by_uid(self, del_id):
-        if self.check_post_role(self.userinfo)['DELETE']:
+        if self.check_post_role()['DELETE']:
             pass
         else:
             return False

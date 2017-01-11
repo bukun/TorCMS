@@ -75,7 +75,7 @@ class WikiManHandler(BaseHandler):
 
     @tornado.web.authenticated
     def delete(self, uid):
-        if self.check_post_role(self.userinfo)['DELETE']:
+        if self.check_post_role()['DELETE']:
             pass
         else:
             return False
@@ -118,7 +118,7 @@ class WikiManHandler(BaseHandler):
 
     @tornado.web.authenticated
     def restore(self, hist_uid):
-        if self.check_post_role(self.userinfo)['ADMIN']:
+        if self.check_post_role()['ADMIN']:
             pass
         else:
             return False

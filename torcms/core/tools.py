@@ -1,38 +1,44 @@
 # -*- coding:utf-8 -*-
 
+'''
+Some common function used by the CMS.
+'''
+
 import uuid
 import random
-import tornado.escape
-import markdown
-from markdown.extensions.wikilinks import WikiLinkExtension
-from bs4 import BeautifulSoup
+import logging
 import time
 import hashlib
 import re
 from difflib import HtmlDiff
+import markdown
+from markdown.extensions.wikilinks import WikiLinkExtension
+import tornado.escape
 
-import logging
-# 配置日志信息
+
+# Config for logging
 logging.basicConfig(level=logging.DEBUG,
-          format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
-          datefmt='%m-%d %H:%M',
-          filename='xx_torcms.log',
-          filemode='w')
+                    format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+                    datefmt='%m-%d %H:%M',
+                    filename='xx_torcms.log',
+                    filemode='w')
 # 定义一个Handler打印INFO及以上级别的日志到sys.stderr
-console = logging.StreamHandler()
-console.setLevel(logging.INFO)
+stream_handler = logging.StreamHandler()
+stream_handler.setLevel(logging.INFO)
 # 设置日志打印格式
-formatter = logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s')
-console.setFormatter(formatter)
+logger_formatter = logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s')
+stream_handler.setFormatter(logger_formatter)
 # 将定义好的console日志handler添加到root logger
-logging.getLogger('').addHandler(console)
+logging.getLogger('').addHandler(stream_handler)
 
 logger = logging
 
+
 def diff_table(rawinfo, newinfo):
     return HtmlDiff.make_table(HtmlDiff(), rawinfo.split('\n'), newinfo.split('\n'),
-                        context=True,
-                        numlines=1)
+                               context=True,
+                               numlines=1)
+
 
 def check_username_valid(username):
     '''
@@ -58,11 +64,6 @@ def check_email_valid(email_str):
     if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$", email_str) != None:
         return True
 
-    '''
-    [\\w-\\.]+@([\\w]+\\.)+[a-z]{2,3}
-    :param email_str:
-    :return:
-    '''
     return False
 
 
@@ -87,23 +88,25 @@ def get_uuid():
 
 
 def get_uu8d():
-    return (str(uuid.uuid1()).split('-')[0])
+    return str(uuid.uuid1()).split('-')[0]
+
 
 def get_uu4d_v2():
     sel_arr = [x for x in 'ghijklmnopqrstuvwxyz']
-    slice = random.sample(sel_arr, 4)
-    return (''.join(slice))
+    rarr = random.sample(sel_arr, 4)
+    return ''.join(rarr)
+
 
 def get_uu4d():
     sel_arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f']
-    slice = random.sample(sel_arr, 4)
-    return (''.join(slice))
+    rarr = random.sample(sel_arr, 4)
+    return ''.join(rarr)
 
 
 def get_uu5d():
     sel_arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f']
-    slice = random.sample(sel_arr, 5)
-    return (''.join(slice))
+    rarr = random.sample(sel_arr, 5)
+    return ''.join(rarr)
 
 
 def get_uudd(lenth):
@@ -113,16 +116,16 @@ def get_uudd(lenth):
     :return:
     '''
     sel_arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-    slice = random.sample(sel_arr, lenth)
-    while slice[0] == '0':
-        slice = random.sample(sel_arr, lenth)
-    return (int(''.join(slice)))
+    rarr = random.sample(sel_arr, lenth)
+    while rarr[0] == '0':
+        rarr = random.sample(sel_arr, lenth)
+    return int(''.join(rarr))
 
 
 def get_uu6d():
     sel_arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f']
-    slice = random.sample(sel_arr, 6)
-    return (''.join(slice))
+    rarr = random.sample(sel_arr, 6)
+    return ''.join(rarr)
 
 
 def markdown2html(markdown_text):
@@ -131,8 +134,7 @@ def markdown2html(markdown_text):
                                          'markdown.extensions.extra',
                                          'markdown.extensions.toc',
                                          'markdown.extensions.codehilite',
-                                         'markdown.extensions.meta',
-                                         ])
+                                         'markdown.extensions.meta', ])
     han_biaodians = ['。', '，', '；', '、', '！', '？']
     for han_biaodian in han_biaodians:
         html = html.replace(han_biaodian + '\n', han_biaodian)
@@ -141,9 +143,13 @@ def markdown2html(markdown_text):
 
 ##  弃用的函数
 def gen_pager_bootstrap_url(cat_slug, page_num, current):
-    # cat_slug 分类
-    # page_num 页面总数
-    # current 当前页面
+    '''
+
+    :param cat_slug: 分类
+    :param page_num: 页面总数
+    :param current: 当前页面
+    :return:
+    '''
     if page_num == 1:
         return ''
 
@@ -176,7 +182,7 @@ def gen_pager_bootstrap_url(cat_slug, page_num, current):
                 </li>
                 '''.format('hidden' if current >= page_num else '', cat_slug, page_num)
     pager = pager_shouye + pager_pre + pager_mid + pager_next + pager_last
-    return (pager)
+    return pager
 
 
 ##  弃用的函数
@@ -216,6 +222,4 @@ def gen_pager_purecss(cat_slug, page_num, current):
                 </li>
                 '''.format('hidden' if current >= page_num else '', cat_slug, page_num)
     pager = pager_shouye + pager_pre + pager_mid + pager_next + pager_last
-    return (pager)
-
-
+    return pager
