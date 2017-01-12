@@ -250,8 +250,8 @@ class MInfor(MInforBase):
         current_list = all_list[(page_num - 1) * cfg['info_per_page']: (page_num) * cfg['info_per_page']]
         return (all_list)
 
-    def query_pager_by_tag(self, tag, current_page_num=1):
-        recs = self.query_by_tagname(tag).paginate(current_page_num, config.page_num)
+    def query_pager_by_tag(self, tag, current_page_num=1,kind='2'):
+        recs = self.query_by_tagname(tag,kind).paginate(current_page_num, config.page_num)
         return recs
 
     def add_meta(self, uid, data_dic, extinfo={}):

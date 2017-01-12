@@ -17,6 +17,7 @@ class InfoTagHandler(BaseHandler):
         super(InfoTagHandler, self).initialize()
         self.minfo = MInfor()
         self.mcat = MCategory()
+        self.kind = '2'
 
     def get(self, url_str=''):
 
@@ -61,7 +62,7 @@ class InfoTagHandler(BaseHandler):
         self.render('infor/label/list.html',
                     kwd=kwd,
                     userinfo=self.userinfo,
-                    infos=self.minfo.query_pager_by_tag(tag_slug, current_page_num),
+                    infos=self.minfo.query_pager_by_tag(tag_slug, current_page_num,self.kind),
                     pager=self.gen_pager(tag_slug, page_num, current_page_num),
 
                     )
