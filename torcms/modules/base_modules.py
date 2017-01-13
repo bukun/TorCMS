@@ -22,12 +22,19 @@ mpage = MPage()
 
 
 class show_page(tornado.web.UIModule):
-    def render(self, page_id):
+    def render(self, *args, **kwargs):
+        page_id = kwargs['page_id']
+        userinfo = kwargs['userinfo'] if 'userinfo' in kwargs else None
         page = mpage.get_by_uid(page_id)
+        kwd  = {
+            'uid': page_id,
+        }
         if page:
             return self.render_string('modules/show_page.html',
                                       unescape=tornado.escape.xhtml_unescape,
-                                      postinfo=page
+                                      postinfo=page,
+                                      userinfo = userinfo,
+                                      kwd = kwd,
                                       )
         else:
             return '<a href="/page/{0}">{0}</a>'.format(page_id)
