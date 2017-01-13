@@ -20,6 +20,14 @@ def gen_infor_category():
         sheet_ranges_arr.append(wb['Sheet3'])
     except:
         pass
+    try:
+        sheet_ranges_arr.append(wb['Sheet4'])
+    except:
+        pass
+    try:
+        sheet_ranges_arr.append(wb['Sheet5'])
+    except:
+        pass
     class_arr = ['D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T']
     sig_name_arr = []
     mappcat = MCategory()
