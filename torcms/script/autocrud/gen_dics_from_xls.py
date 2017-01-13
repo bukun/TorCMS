@@ -8,7 +8,7 @@ from openpyxl.reader.excel import load_workbook
 from .base_crud import crud_path
 
 wb = load_workbook(filename='./database/meta/info_tags.xlsx')
-sheet_arr = ['Sheet1', 'Sheet2', 'Sheet3']
+sheet_arr = ['Sheet1', 'Sheet2', 'Sheet3','Sheet4', 'Sheet5']
 
 
 def build_dir():
