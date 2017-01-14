@@ -1,12 +1,10 @@
 # -*- coding:utf-8 -*-
 
 from whoosh.index import open_dir
-# from jieba.analyse import ChineseAnalyzer
 from whoosh.qparser import QueryParser
 from whoosh.query import *
 
 
-# analyzer = ChineseAnalyzer()
 def singleton(cls, *args, **kwargs):
     instances = {}
 

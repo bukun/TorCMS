@@ -10,7 +10,12 @@ from torcms.model.category_model import MCategory
 
 
 def gen_xlsx_category():
-    wb = load_workbook(filename='./database/meta/info_tags.xlsx')
+    xlsx_file = './database/meta/info_tags.xlsx'
+    if os.path.exists(xlsx_file):
+        pass
+    else:
+        return
+    wb = load_workbook(filename=xlsx_file)
     mappcat = MCategory()
     # 在分类中排序
     order_index = 1
@@ -67,9 +72,6 @@ def gen_xlsx_category():
             print(post_data)
             mappcat.insert_data(u_uid, post_data)
             order_index = order_index + 1
-
-
-
 
 def gen_category(yaml_file, sig):
     mcat = MCategory()

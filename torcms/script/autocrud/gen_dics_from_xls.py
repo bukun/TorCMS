@@ -7,8 +7,14 @@ import os
 from openpyxl.reader.excel import load_workbook
 from .base_crud import crud_path
 
-wb = load_workbook(filename='./database/meta/info_tags.xlsx')
-sheet_arr = ['Sheet1', 'Sheet2', 'Sheet3','Sheet4', 'Sheet5']
+xlsx_file = './database/meta/info_tags.xlsx'
+
+if os.path.exists(xlsx_file):
+    wb = load_workbook(filename=xlsx_file)
+else:
+    wb = None
+
+sheet_arr = ['Sheet1', 'Sheet2', 'Sheet3', 'Sheet4', 'Sheet5']
 
 
 def build_dir():
@@ -29,13 +35,12 @@ for sheet_name in sheet_arr:
 
 
 def gen_html_dic():
+    if wb:
+        pass
+    else:
+        return False
+
     fo = open('xxtmp_html_dic.py', 'w')
-    #
-    # for sheet_name in sheet_arr:
-    #     try:
-    #         sheet_ranges = wb[sheet_name]
-    #     except:
-    #         return
 
     for wk_sheet in wb:
         for jj in class_arr:
@@ -70,6 +75,11 @@ def gen_html_dic():
 
 
 def gen_array_crud():
+    if wb:
+        pass
+    else:
+        return False
+
     kind_dic = {}
     # 父类索引
     papa_index = 1

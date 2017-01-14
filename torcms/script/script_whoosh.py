@@ -1,14 +1,11 @@
 # -*- coding: UTF-8 -*-
 
-import sys, os
+import os
 import html2text
 import tornado.escape
 
-from time import sleep
-import config
 from whoosh.index import create_in, open_dir
 from whoosh.fields import *
-from whoosh.qparser import QueryParser
 
 from jieba.analyse import ChineseAnalyzer
 
@@ -17,13 +14,14 @@ from torcms.model.info_model import MInfor as MApp
 
 from torcms.model.category_model import MCategory as  MInforCatalog
 from torcms.model.infor2catalog_model import MInfor2Catalog
+
+from torcms.model.wiki_model import MWiki
+from torcms.model.page_model import MPage
+
 from config import router_post
 
 mappcat = MInforCatalog()
 minfo2tag = MInfor2Catalog()
-
-from torcms.model.wiki_model import MWiki
-from torcms.model.page_model import MPage
 
 
 def do_for_app(writer, rand=True, kind='', doc_type={}):
@@ -84,9 +82,7 @@ def do_for_post(writer, rand=True, doc_type=''):
         recs = mpost.query_recent(50)
 
     for rec in recs:
-        # sleep(0.1)
         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
-        # writer.update_document(path=u"/a",content="Replacement for the first document")
         writer.update_document(
             title=rec.title,
             catid='0000',
