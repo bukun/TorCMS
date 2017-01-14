@@ -30,28 +30,30 @@ for sheet_name in sheet_arr:
 
 def gen_html_dic():
     fo = open('xxtmp_html_dic.py', 'w')
+    #
+    # for sheet_name in sheet_arr:
+    #     try:
+    #         sheet_ranges = wb[sheet_name]
+    #     except:
+    #         return
 
-    for sheet_name in sheet_arr:
-        try:
-            sheet_ranges = wb[sheet_name]
-        except:
-            return
+    for wk_sheet in wb:
         for jj in class_arr:
 
-            cc_val = sheet_ranges['{0}1'.format(jj)].value
-            dd_val = sheet_ranges['{0}2'.format(jj)].value
+            row1_val = wk_sheet['{0}1'.format(jj)].value
+            row2_val = wk_sheet['{0}2'.format(jj)].value
 
-            if cc_val and cc_val != '':
+            if row1_val and row1_val != '':
 
-                c_name, e_name = cc_val.split(',')
-                sig_name_arr[sheet_name].append(e_name)
+                c_name, slug_name = row1_val.split(',')
+                sig_name_arr[sheet_name].append(slug_name)
 
-                tags1 = dd_val.split(',')
+                tags1 = row2_val.split(',')
                 tags1 = [x.strip() for x in tags1]
                 tags_dic = {}
 
                 if len(tags1) == 1:
-                    tags_dic[1] = dd_val
+                    tags_dic[1] = row2_val
                     ctr_type = 'text'
                 else:
                     for ii in range(len(tags1)):
@@ -63,7 +65,7 @@ def gen_html_dic():
                     'zh': '{1}',
                     'dic': {2},
                     'type': '{3}',
-                    }}\n'''.format(e_name, c_name, tags_dic, ctr_type))
+                    }}\n'''.format(slug_name, c_name, tags_dic, ctr_type))
     fo.close()
 
 
@@ -81,17 +83,26 @@ def gen_array_crud():
     with open('xxtmp_array_add_edit_view.py', 'w') as fo_edit:
 
         # for sheet_ranges in sheet_ranges_arr:
-        for sheet_name in sheet_arr:
-            try:
-                sheet_ranges = wb[sheet_name]
-            except:
-                return
+        # for sheet_name in sheet_arr:
+        #     try:
+        #         sheet_ranges = wb[sheet_name]
+        #     except:
+        #         return
+        for sheet_ranges in wb:
             kind_sig = str(sheet_ranges['A1'].value).strip()
             # 逐行遍历
-            for row_num in range(3, 50):
+            for row_num in range(3, 1000):
                 # 父类
-                if sheet_ranges['A{0}'.format(row_num)].value and sheet_ranges['A{0}'.format(row_num)].value != '':
-                    papa_id = sheet_ranges['A{0}'.format(row_num)].value.split(',')[0].strip().strip('t')
+                p_cell_value = sheet_ranges['A{0}'.format(row_num)].value
+                # 子类
+                c_cell_val = sheet_ranges['C{0}'.format(row_num)].value
+
+                if p_cell_value or c_cell_val:
+                    pass
+                else:
+                    break
+                if p_cell_value and p_cell_value != '':
+                    papa_id = p_cell_value.split(',')[0].strip().strip('t')
                     c_index = 1
 
                     # papa_id = papa_index
@@ -113,8 +124,6 @@ def gen_array_crud():
                     fo_edit.write('dic_{0}00 = {1}\n'.format(papa_id, u_dic['arr']))
                     fo_edit.write('kind_{0}00 = "{1}"\n'.format(papa_id, kind_sig))
 
-                # 子类
-                c_cell_val = sheet_ranges['C{0}'.format(row_num)].value
                 if c_cell_val and c_cell_val != '':
                     u_dic = {}
                     sun_id = sheet_ranges['B{0}'.format(row_num)].value.split(',')[0].strip().strip('t')
