@@ -28,7 +28,7 @@ class PostAjaxHandler(PostHandler):
             pass
         else:
             return False
-        is_deleted = self.mmap.delete(uid)
+        is_deleted = self.minfor.delete(uid)
 
         if is_deleted:
             output = {
@@ -48,7 +48,7 @@ class PostAjaxHandler(PostHandler):
         '''
         self.set_header("Content-Type", "application/json")
         output = {
-            'status': 1 if self.mmap.update_view_count_by_uid(uid) else 0,
+            'status': 1 if self.minfor.update_view_count_by_uid(uid) else 0,
         }
         # return json.dump(output, self)
         self.write(json.dumps(output))

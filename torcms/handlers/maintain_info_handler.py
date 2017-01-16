@@ -37,13 +37,10 @@ class MaintainPycateCategoryHandler(BaseHandler):
     def post(self, url_str=''):
         url_arr = self.parse_url(url_str)
 
-        if len(url_arr) == 1 and url_str.endswith('.html'):
-            self.add_post()
-
         if url_arr[0] == 'modify':
             self.update(url_arr[1])
         elif url_str == 'add':
-            self.user_add_class()
+            self.user_add_category()
         else:
             self.redirect('html/404.html')
 
@@ -69,7 +66,7 @@ class MaintainPycateCategoryHandler(BaseHandler):
         self.render('doc/maintain/pycatecategory/category_list.html',
                     kwd=kwd,
                     userinfo=self.userinfo,
-                    view=self.mclass.query_dated(10),
+                    view=self.mclass.query_old(),
                     format_date=tools.format_date,
                     unescape=tornado.escape.xhtml_unescape, )
 
@@ -174,7 +171,7 @@ class MaintainPycateCategoryHandler(BaseHandler):
                     )
 
     @tornado.web.authenticated
-    def user_add_class(self):
+    def user_add_category(self):
         if self.is_admin():
             pass
         else:

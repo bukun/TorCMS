@@ -18,7 +18,7 @@ class MapPostHandler(InfoHandler):
         self.mpost2catalog = MInfor2Catalog()
         self.mpost2label = MInfor2Label()
         self.mpost_hist = MInfoHist()
-        self.mmap = MInfor()
+        self.minfor = MInfor()
         self.musage = MUsage()
         self.mcat = MCategory()
         self.mrel = MInforRel()
@@ -81,6 +81,5 @@ class MapAdminHandler(MapPostHandler):
         post_data['ext_zoom_max'] = str(zoom_current + 3)
         post_data['ext_zoom_min'] = str(zoom_current -1)
 
-        self.mmap.update_jsonb(uid, post_data)
+        self.minfor.update_jsonb(uid, post_data)
 
-        # self.mmap.update_map_view(uid = uid, post_data= post_data)
