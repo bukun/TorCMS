@@ -14,7 +14,7 @@ cur_modues = {}
 modules = dict(core_modules, **cur_modues)
 
 SETTINGS = {
-    "template_path": os.path.join(os.path.dirname(__file__), "templates"),
+    "template_path": os.path.join(os.path.dirname(__file__), "tmplts"),
     "static_path": os.path.join(os.path.dirname(__file__), "static"),
     'debug': True,
     "cookie_secret": config.cookie_secret,

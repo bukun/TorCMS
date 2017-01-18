@@ -93,8 +93,7 @@ class PostHandler(BaseHandler):
         '''
         self.render('post_{0}/index.html'.format(self.kind),
                     userinfo=self.userinfo,
-                    kwd={'uid': '',}, )
-
+                    kwd={'uid': '',})
 
     def j_count_plus(self, uid):
         '''
@@ -108,7 +107,6 @@ class PostHandler(BaseHandler):
             'status': 1 if self.minfor.update_view_count_by_uid(uid) else 0,
         }
         self.write(json.dumps(output))
-
 
     def recent(self, with_catalog=True, with_date=True):
         '''
@@ -174,7 +172,7 @@ class PostHandler(BaseHandler):
         if self.minfor.get_by_id(uid):
             self.viewinfo(postinfo)
         elif self.userinfo:
-            self.to_add(uid = uid)
+            self.to_add(uid=uid)
         else:
             kwd = {
                 'info': '404. Page not found!',
