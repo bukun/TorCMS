@@ -74,6 +74,7 @@ database/whoosh*
 static/upload/
 static/f2elib/
 static/tass/.sass-cache/
+static/tass/sass/partial
 templates/pycate/autogen/
 templates/autogen/
 
