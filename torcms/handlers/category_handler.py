@@ -9,7 +9,7 @@ from torcms.core import tools
 from torcms.model.category_model import MCategory
 from torcms.model.post_model import MPost
 from torcms.model.post2catalog_model import MPost2Catalog
-
+from html2text import html2text
 
 class CategoryHandler(BaseHandler):
     def initialize(self):
@@ -83,6 +83,7 @@ class CategoryHandler(BaseHandler):
                     infos=self.mpost2catalog.query_pager_by_slug(cat_slug, current_page_num),
                     pager=tools.gen_pager_purecss('/category/{0}'.format(cat_slug), page_num, current_page_num),
                     userinfo=self.userinfo,
+                    html2text=html2text,
                     unescape=tornado.escape.xhtml_unescape,
                     cfg=config.cfg,
                     kwd=kwd)
