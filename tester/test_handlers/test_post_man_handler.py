@@ -1,10 +1,10 @@
 # -*- coding:utf-8 -*-
 
-from torcms.handlers.post_manager import PostManHandler
+from torcms.handlers.post_history_handler import PostHistoryHandler
 
 
 def Test():
     urls = [
-        ("/post_man/(.*)", PostManHandler, dict()),
+        ("/post_man/(.*)", PostHistoryHandler, dict()),
     ]
     assert urls

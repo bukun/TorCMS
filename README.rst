@@ -149,11 +149,17 @@ Enjoy it!
 Unit Tests
 =========================================
 
-First you should install nose with pip, the run as follow:
+First you should install nose with pip,
 
 ::
 
-    nosetests -v -d --exe
+    pip install nose
+
+then run as follow:
+
+::
+
+    nosetests -v -d --exe tester
 
 Note: I alway writing code in the folder which is mounted by Debian in VirtualBox, so ``--exe``.
 

@@ -77,10 +77,9 @@ class AdminPostHandler(PostHandler):
 
         logger.info('admin post update: {0}'.format(post_data))
 
-        ext_dic = {}
-        ext_dic['def_uid'] = post_uid
-        ext_dic['def_cat_uid'] = post_data['gcat0']
-        ext_dic['def_cat_pid'] = self.mcat.get_by_uid(post_data['gcat0']).pid
+        ext_dic = {'def_uid': post_uid,
+                   'def_cat_uid': post_data['gcat0'],
+                   'def_cat_pid': self.mcat.get_by_uid(post_data['gcat0']).pid}
 
         self.mpost.update_kind(post_uid, post_data['kcat'])
         self.mpost.update_jsonb(post_uid, ext_dic)

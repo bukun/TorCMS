@@ -23,7 +23,6 @@ class InforCategoryHandler(CategoryHandler):
 
     def initialize(self):
         super(InforCategoryHandler, self).initialize()
-        # self.kind = 'm'
         self.mequa = MInfor()
         self.mcat = MCategory()
         self.mapp2tag = MInfor2Catalog()

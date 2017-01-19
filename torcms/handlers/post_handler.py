@@ -44,15 +44,17 @@ class PostHandler(BaseHandler):
 
         if url_str == '':
             self.index()
+        elif url_str == 'recent':
+            # Deprecated
+            self.redirect('/post_list/recent')
+        elif url_str == '_refresh':
+            # Deprecated
+            self.redirect('/post_list/_refresh')
         elif len(url_arr) == 1 and url_str.endswith('.html'):
             # Deprecated
             self.view_or_add(url_str.split('.')[0])
         elif url_arr[0] in ['add_document', '_add']:
             self.to_add()
-        elif url_str == 'recent':
-            self.recent()
-        elif url_str == '_refresh':
-            self.refresh()
         elif url_arr[0] in ['modify', 'edit', '_edit']:
             self.to_edit(url_arr[1])
         elif url_arr[0] == 'delete':
@@ -63,6 +65,7 @@ class PostHandler(BaseHandler):
             self.j_count_plus(url_arr[1])
         elif len(url_arr) == 1:
             self.view_or_add(url_str)
+
         else:
             kwd = {
                 'info': '404. Page not found!',
@@ -108,28 +111,6 @@ class PostHandler(BaseHandler):
         }
         self.write(json.dumps(output))
 
-    def recent(self, with_catalog=True, with_date=True):
-        '''
-        List posts that recent edited.
-        :param with_catalog:
-        :param with_date:
-        :return:
-        '''
-        kwd = {
-            'pager': '',
-            'unescape': tornado.escape.xhtml_unescape,
-            'title': 'Recent posts.',
-            'with_catalog': with_catalog,
-            'with_date': with_date,
-        }
-        self.render('post_{0}/post_list.html'.format(self.kind),
-                    kwd=kwd,
-                    view=self.minfor.query_recent(num=20, kind=self.kind),
-                    postinfo=self.minfor.query_recent(num=20, kind=self.kind),
-                    format_date=tools.format_date,
-                    userinfo=self.userinfo,
-                    cfg=cfg, )
-
     @tornado.web.authenticated
     def __could_edit(self, postid):
         post_rec = self.minfor.get_by_uid(postid)
@@ -143,24 +124,6 @@ class PostHandler(BaseHandler):
             return True
         else:
             return False
-
-    def refresh(self):
-        '''
-        List the post of dated.
-        :return:
-        '''
-        kwd = {
-            'pager': '',
-            'title': '',
-        }
-        self.render('post_{0}/post_list.html'.format(self.kind),
-                    kwd=kwd,
-                    userinfo=self.userinfo,
-                    view=self.minfor.query_dated(10),
-                    postrecs=self.minfor.query_dated(10),
-                    format_date=tools.format_date,
-                    unescape=tornado.escape.xhtml_unescape,
-                    cfg=cfg, )
 
     def view_or_add(self, uid):
         '''

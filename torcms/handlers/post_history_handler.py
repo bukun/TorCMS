@@ -1,21 +1,30 @@
 # -*- coding:utf-8 -*-
 
+'''
+Manage the posts by Administrator.
+'''
+
 import tornado.escape
 import tornado.web
+from config import router_post
 from torcms.core.base_handler import BaseHandler
-from torcms.model.wiki_model import MWiki
-from torcms.model.wiki_hist_model import MWikiHist
+from torcms.model.post_model import MPost
+from torcms.model.post_hist_model import MPostHist
 from torcms.core.tools import diff_table
 
 
-class WikiManHandler(BaseHandler):
-    def initialize(self):
-        super(WikiManHandler, self).initialize()
-        self.mpost = MWiki()
-        self.mposthist = MWikiHist()
+class PostHistoryHandler(BaseHandler):
+    '''
+    Manage the posts by Administrator.
+    '''
 
-    def get(self, url_str=''):
-        url_arr = self.parse_url(url_str)
+    def initialize(self):
+        super(PostHistoryHandler, self).initialize()
+        self.mpost = MPost()
+        self.mposthist = MPostHist()
+
+    def get(self, *args):
+        url_arr = self.parse_url(args[0])
         if url_arr[0] == 'view':
             self.view(url_arr[1])
         elif url_arr[0] == 'edit':
@@ -32,8 +41,8 @@ class WikiManHandler(BaseHandler):
                         kwd=kwd,
                         userinfo=self.userinfo, )
 
-    def post(self, url_str=''):
-        url_arr = self.parse_url(url_str)
+    def post(self, *args):
+        url_arr = self.parse_url(args[0])
 
         if url_arr[0] == 'edit':
             self.update(url_arr[1])
@@ -46,7 +55,6 @@ class WikiManHandler(BaseHandler):
             pass
         else:
             return False
-
         post_data = self.get_post_data()
         if self.userinfo:
             post_data['user_name'] = self.userinfo.user_name
@@ -55,10 +63,7 @@ class WikiManHandler(BaseHandler):
         cur_info = self.mpost.get_by_id(uid)
         self.mposthist.insert_data(cur_info)
         self.mpost.update_cnt(uid, post_data)
-        if cur_info.kind == '1':
-            self.redirect('/wiki/{0}'.format(cur_info.title))
-        elif cur_info.kind == '2':
-            self.redirect('/page/{0}.html'.format(cur_info.uid))
+        self.redirect('/{0}/{1}'.format(router_post[cur_info.kind], uid))
 
     @tornado.web.authenticated
     def to_edit(self, postid):
@@ -67,11 +72,21 @@ class WikiManHandler(BaseHandler):
         else:
             return False
         post_rec = self.mpost.get_by_uid(postid)
-        self.render('man_wiki/wiki_man_edit.html',
+        self.render('man_post/post_man_edit.html',
                     userinfo=self.userinfo,
                     unescape=tornado.escape.xhtml_unescape,
                     postinfo=post_rec,
                     )
+
+    @tornado.web.authenticated
+    def __could_edit(self, postid):
+        post_rec = self.mpost.get_by_uid(postid)
+        if not post_rec:
+            return False
+        if self.check_post_role()['EDIT'] or post_rec.user_name == self.userinfo.user_name:
+            return True
+        else:
+            return False
 
     @tornado.web.authenticated
     def delete(self, uid):
@@ -86,9 +101,9 @@ class WikiManHandler(BaseHandler):
         else:
             return False
 
-        postinfo = self.mpost.get_by_id(histinfo.wiki_id)
+        postinfo = self.mpost.get_by_id(histinfo.post_id)
         self.mposthist.delete(uid)
-        self.redirect('/wiki_man/view/{0}'.format(postinfo.uid))
+        self.redirect('/post_man/view/{0}'.format(postinfo.uid))
 
     def view(self, uid):
         postinfo = self.mpost.get_by_id(uid)
@@ -97,10 +112,9 @@ class WikiManHandler(BaseHandler):
         else:
             return
 
-        hist_recs = self.mposthist.query_by_wikiid(uid, limit=5)
+        hist_recs = self.mposthist.query_by_postid(uid, limit=5)
         html_diff_arr = []
         for hist_rec in hist_recs:
-
             if hist_rec:
                 infobox = diff_table(hist_rec.cnt_md, postinfo.cnt_md)
             else:
@@ -108,12 +122,13 @@ class WikiManHandler(BaseHandler):
 
             html_diff_arr.append({'hist_uid': hist_rec.uid, 'html_diff': infobox})
 
-        self.render('man_wiki/wiki_man_view.html',
+        self.render('man_post/post_man_view.html',
                     userinfo=self.userinfo,
                     unescape=tornado.escape.xhtml_unescape,
-                    view=postinfo,  # Deprecated
+                    view=postinfo,
                     postinfo=postinfo,
-                    html_diff_arr=html_diff_arr
+                    html_diff_arr=html_diff_arr,
+                    router=router_post[postinfo.kind],
                     )
 
     @tornado.web.authenticated
@@ -128,19 +143,11 @@ class WikiManHandler(BaseHandler):
         else:
             return False
 
-        postinfo = self.mpost.get_by_id(histinfo.wiki_id)
+        postinfo = self.mpost.get_by_id(histinfo.post_id)
         cur_cnt = tornado.escape.xhtml_unescape(postinfo.cnt_md)
         old_cnt = tornado.escape.xhtml_unescape(histinfo.cnt_md)
 
-        self.mpost.update_cnt(histinfo.wiki_id,
-                              {'cnt_md': old_cnt, 'user_name': self.userinfo.user_name}
-                              )
+        self.mpost.update_cnt(histinfo.post_id, {'cnt_md': old_cnt, 'user_name': self.userinfo.user_name})
 
-        self.mposthist.update_cnt(histinfo.uid,
-                                  {'cnt_md': cur_cnt, 'user_name': postinfo.user_name}
-                                  )
-
-        if postinfo.kind == '1':
-            self.redirect('/wiki/{0}'.format(postinfo.title))
-        elif postinfo.kind == '2':
-            self.redirect('/page/{0}.html'.format(postinfo.uid))
+        self.mposthist.update_cnt(histinfo.uid, {'cnt_md': cur_cnt, 'user_name': postinfo.user_name})
+        self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], postinfo.uid))

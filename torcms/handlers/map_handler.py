@@ -27,7 +27,6 @@ class MapPostHandler(InfoHandler):
         else:
             self.kind = '9'
 
-
     def ext_view_kwd(self, info_rec):
         post_data = self.get_post_data()
 
@@ -66,12 +65,14 @@ class MapPostHandler(InfoHandler):
             tmpl = 'post_{0}/show_map.html'.format(self.kind)
         return tmpl
 
+
 class MapAdminHandler(MapPostHandler):
     def post(self, *args):
         url_str = args[0]
         url_arr = self.parse_url(url_str)
         if url_arr[0] == '_update_view':
             self.update_view(url_arr[1])
+
     def update_view(self, uid):
         post_data = self.get_post_data()
 
@@ -79,7 +80,6 @@ class MapAdminHandler(MapPostHandler):
         if zoom_current == 0:
             return False
         post_data['ext_zoom_max'] = str(zoom_current + 3)
-        post_data['ext_zoom_min'] = str(zoom_current -1)
+        post_data['ext_zoom_min'] = str(zoom_current - 1)
 
         self.minfor.update_jsonb(uid, post_data)
-

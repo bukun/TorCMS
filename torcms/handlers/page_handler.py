@@ -181,12 +181,6 @@ class PageHandler(BaseHandler):
         post_data['user_name'] = self.userinfo.user_name
         post_data['slug'] = slug
 
-        # if 'slug' in post_data:
-        #     pass
-        # else:
-        #     self.set_status(400)
-        #     return False
-
         if self.mpage.get_by_uid(slug):
             self.set_status(400)
             return False

@@ -26,8 +26,8 @@ class InfoListHandler(BaseHandler):
         self.minfo = MInfor()
         self.mcat = MCategory()
 
-    def get(self, url_str=''):
-        url_arr = self.parse_url(url_str)
+    def get(self, *args, **kwargs):
+        url_str = args[0]
 
         logger.info('infocat get url_str: {0}'.format(url_str))
         if len(url_str) == 4:

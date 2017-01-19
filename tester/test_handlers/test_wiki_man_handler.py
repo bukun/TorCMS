@@ -1,10 +1,10 @@
 # -*- coding:utf-8 -*-
 
-from torcms.handlers.wiki_manager import WikiManHandler
+from torcms.handlers.wiki_history_manager import WikiHistoryHandler
 
 
 def Test():
     urls = [
-        ("/wiki_man/(.*)", WikiManHandler, dict()),
+        ("/wiki_man/(.*)", WikiHistoryHandler, dict()),
     ]
     assert urls
