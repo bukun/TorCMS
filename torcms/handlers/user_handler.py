@@ -17,13 +17,16 @@ from torcms.core.tool.send_email import send_mail
 from torcms.model.user_model import MUser
 from torcms.core.tools import logger
 
+
 class SumForm(Form):
     user_name = StringField('user_name', validators=[Required()])
     user_pass = StringField('user_pass', validators=[Required()])
     user_email = StringField('user_email', validators=[Required(), wtforms.validators.Email()])
 
+
 class SumForm_info(Form):
     user_email = StringField('user_email', validators=[Required(), wtforms.validators.Email()])
+
 
 class SumForm_pass(Form):
     user_pass = StringField('user_pass', validators=[Required()])
@@ -37,8 +40,11 @@ class UserHandler(BaseHandler):
         self.tmpl_dir = 'user'
         self.tmpl_router = 'info'
 
-    def get(self, url_str):
+    def get(self, *args, **kwargs):
+
+        url_str = args[0]
         url_arr = self.parse_url(url_str)
+        # print(url_arr)
 
         if url_str == 'regist':
             if self.get_current_user():
@@ -78,6 +84,7 @@ class UserHandler(BaseHandler):
             self.delete(url_arr[1])
 
     def post(self, url_str):
+
         url_arr = self.parse_url(url_str)
 
         if url_str == 'regist':
@@ -114,7 +121,6 @@ class UserHandler(BaseHandler):
 
         post_data = self.get_post_data()
 
-
         uu = self.muser.check_user(self.user_name, post_data['rawpass'])
         if uu == 1:
             self.muser.update_pass(self.user_name, post_data['user_pass'])
@@ -131,7 +137,6 @@ class UserHandler(BaseHandler):
     def p_changeinfo(self):
 
         post_data = self.get_post_data()
-
 
         uu = self.muser.check_user(self.user_name, post_data['rawpass'])
 
@@ -161,7 +166,6 @@ class UserHandler(BaseHandler):
     def changeinfo(self):
 
         post_data = self.get_post_data()
-
 
         uu = self.muser.check_user(self.user_name, post_data['rawpass'])
 
@@ -197,7 +201,7 @@ class UserHandler(BaseHandler):
     @tornado.web.authenticated
     def changepass(self):
 
-        self.render('{1}/{0}/changepass.html'.format(self.tmpl_router,self.tmpl_dir),
+        self.render('{1}/{0}/changepass.html'.format(self.tmpl_router, self.tmpl_dir),
 
                     userinfo=self.userinfo,
 
@@ -205,18 +209,18 @@ class UserHandler(BaseHandler):
 
     @tornado.web.authenticated
     def change_info(self):
-        self.render('{1}/{0}/changeinfo.html'.format(self.tmpl_router,self.tmpl_dir),
+        self.render('{1}/{0}/changeinfo.html'.format(self.tmpl_router, self.tmpl_dir),
                     userinfo=self.userinfo,
                     )
 
     @tornado.web.authenticated
     def change_role(self, xg_username):
-        self.render('{1}/{0}/changerole.html'.format(self.tmpl_router,self.tmpl_dir),
+        self.render('{1}/{0}/changerole.html'.format(self.tmpl_router, self.tmpl_dir),
                     userinfo=self.muser.get_by_name(xg_username))
 
     @tornado.web.authenticated
     def show_info(self):
-        self.render('{1}/{0}/info.html'.format(self.tmpl_router,self.tmpl_dir),
+        self.render('{1}/{0}/info.html'.format(self.tmpl_router, self.tmpl_dir),
                     userinfo=self.userinfo,
                     )
 
@@ -225,11 +229,13 @@ class UserHandler(BaseHandler):
                     userinfo=self.userinfo, )
 
     def to_login(self):
+        next_url = self.get_argument("next", "/")
         if self.get_current_user():
-            self.redirect('/')
+            self.redirect(next_url)
         else:
             kwd = {
                 'pager': '',
+                'next_url': next_url,
             }
             self.render('user/{0}/login.html'.format(self.tmpl_router),
                         kwd=kwd,
@@ -271,7 +277,7 @@ class UserHandler(BaseHandler):
 
     def __check_valid_pass(self, post_data):
         user_create_status = {'success': False, 'code': '00'}
-        #if self.muser.check_user(self.user_name,post_data['user_pass'][0]) ==0:
+        # if self.muser.check_user(self.user_name,post_data['user_pass'][0]) ==0:
         #    user_create_status['code'] = '31'
         #    return user_create_status
 
@@ -281,7 +287,6 @@ class UserHandler(BaseHandler):
 
     def register(self):
         post_data = self.get_post_data()
-
 
         form = SumForm(self.request.arguments)
 
@@ -361,7 +366,6 @@ class UserHandler(BaseHandler):
 
             form_info = SumForm_info(self.request.arguments)
 
-
             if form_info.validate():
                 user_create_status = self.muser.update_info(self.user_name, post_data['user_email'])
                 return json.dump(user_create_status, self)
@@ -385,7 +389,6 @@ class UserHandler(BaseHandler):
                 '2' for already exists.
         '''
 
-
         user_create_status = {'success': False, 'code': '00'}
         post_data = self.get_post_data()
 
@@ -398,7 +401,6 @@ class UserHandler(BaseHandler):
                 return json.dump(user_create_status, self)
 
             form_pass = SumForm_pass(self.request.arguments)
-
 
             if form_pass.validate():
                 self.muser.update_pass(self.user_name, post_data['user_pass'])
@@ -427,6 +429,7 @@ class UserHandler(BaseHandler):
             next_url = post_data['next']
         else:
             next_url = '/'
+
         u_name = post_data['user_name']
         u_pass = post_data['user_pass']
 
@@ -437,7 +440,7 @@ class UserHandler(BaseHandler):
         if result == 1:
             self.set_secure_cookie("user", u_name)
             self.muser.update_time_login(u_name)
-            self.redirect("{0}".format(next_url))
+            self.redirect(next_url)
         elif result == 0:
             self.set_status(401)
             kwd = {
@@ -476,7 +479,7 @@ class UserHandler(BaseHandler):
             'pager': '',
 
         }
-        self.render('{1}/{0}/find_list.html'.format(self.tmpl_router,self.tmpl_dir),
+        self.render('{1}/{0}/find_list.html'.format(self.tmpl_router, self.tmpl_dir),
                     kwd=kwd,
                     view=self.muser.get_by_keyword(""),
                     cfg=config.cfg,
