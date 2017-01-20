@@ -54,14 +54,10 @@ urls = [
 
     ("/admin_post/(.*)", AdminPostHandler, dict()),
 
-    ('/post_hist/(.*)', PostHistoryHandler, dict()),
-    ('/post_man/(.*)', PostHistoryHandler, dict()),  # Deprecated
-    ('/meta_hist/(.*)', PostHistoryHandler, dict()),
-    ('/meta_man/(.*)', PostHistoryHandler, dict()),  # Deprecated
-    ('/wiki_hist/(.*)', WikiHistoryHandler, dict()),
-    ('/wiki_man/(.*)', WikiHistoryHandler, dict()),  # Deprecated
-    ('/page_hist/(.*)', WikiHistoryHandler, dict()),
-    ('/page_man/(.*)', WikiHistoryHandler, dict()),  # Deprecated
+    ('/post_man/(.*)', PostHistoryHandler, dict()),
+    ('/meta_man/(.*)', PostHistoryHandler, dict()),
+    ('/wiki_man/(.*)', WikiHistoryHandler, dict()),
+    ('/page_man/(.*)', WikiHistoryHandler, dict()),
 
     ("/label/(.*)", PostLabelHandler, dict()),
     ("/admin/(.*)", AdminHandler, dict()),
