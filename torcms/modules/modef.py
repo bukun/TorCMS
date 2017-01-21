@@ -37,6 +37,7 @@ core_modules = {'ModuleCatMenu': ModuleCatMenu,
                 'tag_pager': tag_pager,
                 'search_pager': search_pager,
                 'catalog_of': catalog_of,
+                'post_catalog_of': post_catalog_of,
                 'app_catalog_of': app_catalog_of,
                 'widget_search': widget_search,
 

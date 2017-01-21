@@ -120,6 +120,27 @@ class catalog_of(tornado.web.UIModule):
         return self.render_string('modules/post/catalog_of.html',
                                   recs=recs)
 
+class post_catalog_of(tornado.web.UIModule):
+    def render(self, uid_with_str, slug=False):
+        self.mcat = MCategory()
+
+        curinfo = self.mcat.get_by_uid(uid_with_str)
+
+        sub_cats = self.mcat.query_sub_cat(uid_with_str)
+
+        if slug:
+            return self.render_string('modules/post/post_catalog_slug.html',
+                                      pcatinfo=curinfo,
+                                      sub_cats=sub_cats,
+                                      recs=sub_cats, )
+        else:
+            return self.render_string('modules/info/catalog_of.html',
+                                      pcatinfo=curinfo,
+                                      sub_cats=sub_cats,
+                                      recs=sub_cats,
+                                      )
+
+
 
 class post_recent(tornado.web.UIModule):
     def render(self, num=10, with_catalog=True, with_date=True):
