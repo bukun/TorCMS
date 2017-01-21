@@ -81,6 +81,12 @@ class navigate_panel(tornado.web.UIModule):
                                   unescape=tornado.escape.xhtml_unescape,
                                   userinfo=userinfo,
                                   )
+class footer_panel(tornado.web.UIModule):
+    def render(self, userinfo):
+        return self.render_string('modules/widget/footer_panel.html',
+                                  unescape=tornado.escape.xhtml_unescape,
+                                  userinfo=userinfo,
+                                  )
 
 class use_f2e(tornado.web.UIModule):
     def render(self, f2ename):

@@ -73,5 +73,6 @@ core_modules = {'ModuleCatMenu': ModuleCatMenu,
                 'app_layout': app_layout,
                 'app_json': app_json,
                 'navigate_panel': navigate_panel,
+                'footer_panel': footer_panel,
 
                 }
