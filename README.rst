@@ -22,8 +22,8 @@ Others
 
 -  http://www.osgeo.cn
 -  http://drr.osgeo.cn
--  http://www.maplet.org (Merged into www.osgeo.cn)
--  http://www.yunsuan.org (Merged into www.osgeo.cn)
+-  http://www.maplet.org (Merged into http://www.osgeo.cn/map/ )
+-  http://www.yunsuan.org (Merged into http://www.osgeo.cn/app/ )
 
 
 Install

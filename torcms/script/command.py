@@ -14,6 +14,7 @@ from .script_sitemap import run_sitemap
 from .script_check_kind import run_check_kind
 from .script_crud import run_crud
 from .script_nocat import run_nocat
+from .script_code_line import run_lines
 
 
 def entry(argv):
@@ -41,6 +42,7 @@ def entry(argv):
             print('    check_kind: ')
             print('          crud: ')
             print('         nocat: ')
+            print('         lines: ')
 
             sys.exit()
         elif opt in ("-i"):
