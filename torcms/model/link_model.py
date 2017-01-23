@@ -1,9 +1,9 @@
 # -*- coding:utf-8 -*-
 from torcms.model.core_tab import g_Link
-from torcms.model.supertable_model import MSuperTable
+from torcms.model.abc_model import Mabc
 
 
-class MLink(MSuperTable):
+class MLink(Mabc):
     def __init__(self):
         self.tab = g_Link
         try:

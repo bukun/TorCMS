@@ -19,3 +19,4 @@ xxxxxx
 <p>{{ footer_text }}</p>
 {% end %}
 '''
+

@@ -3,10 +3,10 @@
 
 from torcms.core import tools
 from torcms.model.core_tab import g_PostHist
-from torcms.model.supertable_model import MSuperTable
+from torcms.model.abc_model import Mabc
 
 
-class MInfoHist(MSuperTable):
+class MInfoHist(Mabc):
     def __init__(self):
         self.tab = g_PostHist
         try:

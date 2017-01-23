@@ -25,6 +25,35 @@ datestr = now.strftime('%Y-%m-%d %H:%M:%S')
 time_limit = 7 * 60 * 60  # 每7小时
 
 
+def get_diff_str():
+    mpost = MPost()
+    mposthist = MPostHist()
+    diff_str = ''
+
+    for key in router_post.keys():
+        recent_posts = mpost.query_recent_edited(tools.timestamp() - time_limit, kind=key)
+        for recent_post in recent_posts:
+            hist_rec = mposthist.get_last(recent_post.uid)
+            if hist_rec:
+                raw_title = hist_rec.title
+                new_title = recent_post.title
+
+                infobox = diff_table(raw_title, new_title)
+                # infobox = test[start:end] + '</table>'
+                # if ('diff_add' in infobox) or ('diff_chg' in infobox) or ('diff_sub' in infobox):
+                diff_str = diff_str + '<h2 style="color:red; font-size:larger; font-weight:70;">TITLE: {0}</h2>'.format(
+                    recent_post.title) + infobox
+
+                infobox = diff_table(hist_rec.cnt_md, recent_post.cnt_md)
+
+                diff_str = diff_str + '<h3>CONTENT:{0}</h3>'.format(
+                    recent_post.title
+                ) + infobox + '</hr>'
+            else:
+                continue
+    return diff_str
+
+
 def run_edit_diff():
     email_cnt = '''<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
@@ -110,35 +139,10 @@ def run_edit_diff():
 
     email_cnt = email_cnt + '</table>'
 
-    mpost = MPost()
-    mposthist = MPostHist()
-    diff_str = ''
-    ######################################################
-
-    ######################################################
-
-    for key in router_post.keys():
-        recent_posts = mpost.query_recent_edited(tools.timestamp() - time_limit, kind=key)
-        for recent_post in recent_posts:
-            hist_rec = mposthist.get_last(recent_post.uid)
-            if hist_rec:
-
-                raw_title = hist_rec.title
-                new_title = recent_post.title
-
-                infobox = diff_table(raw_title, new_title)
-                # infobox = test[start:end] + '</table>'
-                # if ('diff_add' in infobox) or ('diff_chg' in infobox) or ('diff_sub' in infobox):
-                diff_str = diff_str + '<h2 style="color:red; font-size:larger; font-weight:70;">TITLE: {0}</h2>'.format(
-                    recent_post.title) + infobox
-
-                infobox = diff_table(hist_rec.cnt_md, recent_post.cnt_md)
-
-                diff_str = diff_str + '<h3>CONTENT</h3>'.format(
-                    recent_post.title) + infobox + '</hr>'
-            else:
-                continue
     ###########################################################
+
+    diff_str = get_diff_str()
+
     if len(diff_str) < 20000:
         email_cnt = email_cnt + diff_str
     email_cnt = email_cnt + '''</body></html>'''

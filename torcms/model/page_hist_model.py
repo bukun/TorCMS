@@ -3,10 +3,10 @@
 
 from torcms.core import tools
 from torcms.model.core_tab import g_WikiHist
-from torcms.model.supertable_model import MSuperTable
+from torcms.model.abc_model import Mabc
 
 
-class MPageHist(MSuperTable):
+class MPageHist(Mabc):
     def __init__(self):
         self.tab = g_WikiHist
 

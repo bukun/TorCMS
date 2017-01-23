@@ -6,12 +6,12 @@ import tornado.escape
 
 from torcms.core import tools
 from torcms.model.core_tab import g_Wiki
-from torcms.model.supertable_model import MSuperTable
+from torcms.model.abc_model import Mabc
 import peewee
 
 
 
-class MWiki(MSuperTable):
+class MWiki(Mabc):
     def __init__(self):
         self.tab = g_Wiki
         self.kind = '1'

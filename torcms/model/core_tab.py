@@ -11,9 +11,9 @@ class g_Tag(BaseModel):
     name = peewee.CharField(null=False, max_length=255, help_text='', )
     order = peewee.IntegerField()
     count = peewee.IntegerField(default=0)
-    kind = peewee.CharField(null=False, max_length=1, default='z',help_text='4 - f for category. g -  for tags', )
+    kind = peewee.CharField(null=False, max_length=1, default='z', help_text='4 - f for category. g -  for tags', )
     # 'xxxx' for unkonw, 'zzzz' for tag.
-    pid = peewee.CharField(null=False, max_length=4, default='xxxx', help_text='parent id' )
+    pid = peewee.CharField(null=False, max_length=4, default='xxxx', help_text='parent id')
     tmpl = peewee.IntegerField(null=False, default='9', help_text='tmplate type')
 
 
@@ -42,7 +42,7 @@ class g_Post(BaseModel):
     cnt_html = peewee.TextField()
     kind = peewee.CharField(null=False, max_length=1, default='1', help_text='Post type: 1 for doc, 2 for inor', )
     extinfo = BinaryJSONField(default={})
-    rating = peewee.FloatField(null= False, default=5)
+    rating = peewee.FloatField(null=False, default=5)
 
 
 class g_Wiki(BaseModel):
@@ -114,6 +114,7 @@ class g_Entity(BaseModel):
                             default='1',
                             help_text='1 for image', )
 
+
 class g_Post2Tag(BaseModel):
     uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='', )
     tag = peewee.ForeignKeyField(g_Tag, related_name='tag_id')
@@ -125,20 +126,12 @@ class g_Reply(BaseModel):
     uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='', )
     post_id = peewee.CharField(null=False, index=True, max_length=5, help_text='', )
     user_id = peewee.CharField(null=False, index=True, max_length=36, help_text='', )
-    # create_user_id = peewee.ForeignKeyField(g_Member, related_name='reply_member_id')
     user_name = peewee.TextField()
     timestamp = peewee.IntegerField()
     date = peewee.DateTimeField()
     cnt_md = peewee.TextField()
     cnt_html = peewee.TextField()
     vote = peewee.IntegerField()
-
-
-# class g_Post2Reply(BaseModel):
-#     uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='', )
-#     post = peewee.ForeignKeyField(g_Post, related_name='post_reply_id')
-#     reply = peewee.ForeignKeyField(g_Reply, related_name='reply_post_id')
-#     timestamp = peewee.IntegerField()
 
 
 class g_User2Reply(BaseModel):
@@ -182,12 +175,12 @@ class g_Rating(BaseModel):
 class g_Usage(BaseModel):
     uid = peewee.CharField(max_length=36, null=False, unique=True, help_text='', primary_key=True)
     post = peewee.ForeignKeyField(g_Post, related_name='info_id')
-    # post_id = peewee.CharField(null=False, index=True, max_length=5, help_text='', )
     user_id = peewee.CharField(null=False, index=True, max_length=36, help_text='', )
     count = peewee.IntegerField()
     tag_id = peewee.CharField(null=False, max_length=4, help_text='', )
-    kind = peewee.CharField(null=False, max_length=1 )
+    kind = peewee.CharField(null=False, max_length=1)
     timestamp = peewee.IntegerField()
+
 
 class g_Rel(BaseModel):
     '''

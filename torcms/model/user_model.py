@@ -3,10 +3,10 @@
 
 from torcms.core import tools
 from torcms.model.core_tab import g_Member
-from torcms.model.supertable_model import MSuperTable
+from torcms.model.abc_model import Mabc
 
 
-class MUser(MSuperTable):
+class MUser(Mabc):
     def __init__(self):
         self.tab = g_Member
         try:
@@ -18,13 +18,13 @@ class MUser(MSuperTable):
         try:
             return g_Member.get(g_Member.uid == uid)
         except:
-            return False
+            return None
 
     def get_by_name(self, uname):
         try:
             return g_Member.get(user_name=uname)
         except:
-            return False
+            return None
 
     def set_sendemail_time(self, uid):
         entry = g_Member.update(
@@ -36,7 +36,7 @@ class MUser(MSuperTable):
         try:
             return g_Member.get(user_email=useremail)
         except:
-            return False
+            return None
 
     def check_user(self, u_name, u_pass):
         tt = g_Member.select().where(g_Member.user_name == u_name).count()

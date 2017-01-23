@@ -198,7 +198,7 @@ class InfoListHandler(BaseHandler):
             condition['parentid'] = [parent_id]
             catname = self.mcat.get_by_id(sig).name
             bread_crumb_nav_str += '<li><a href="/list/{0}">{1}</a></li>'.format(sig, catname)
-            bread_title = '{1}'.format(sig, catname)
+            bread_title = '{0}'.format(catname)
 
         else:
             catinfo = _catinfo
@@ -210,8 +210,8 @@ class InfoListHandler(BaseHandler):
             bread_crumb_nav_str += '<li><a href="/list/{0}">{1}</a></li>'.format(parent_id, parent_catname)
 
             bread_crumb_nav_str += '<li><a href="/list/{0}">{1}</a></li>'.format(sig, catname)
-            bread_title += '{1} - '.format(parent_id, parent_catname)
-            bread_title += '{1}'.format(sig, catname)
+            bread_title += '{0} - '.format( parent_catname)
+            bread_title += '{0}'.format( catname)
 
         num = self.minfo.get_num_condition(condition)
 

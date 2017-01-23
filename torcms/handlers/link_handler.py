@@ -188,7 +188,7 @@ class LinkHandler(BaseHandler):
 
         self.mlink.insert_data(cur_uid, post_data)
 
-        self.redirect('/link/list'.format(cur_uid))
+        self.redirect('/link/list')
 
     @tornado.web.authenticated
     def delete(self, del_id):
@@ -206,5 +206,3 @@ class LinkHandler(BaseHandler):
                 'del_link': 0,
             }
         return json.dump(output, self)
-
-

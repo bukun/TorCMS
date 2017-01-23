@@ -2,8 +2,8 @@
 
 from whoosh.index import open_dir
 from whoosh.qparser import QueryParser
-from whoosh.query import *
-
+# from whoosh.query import *
+from whoosh.query import And, Term
 
 def singleton(cls, *args, **kwargs):
     instances = {}
@@ -19,34 +19,34 @@ def singleton(cls, *args, **kwargs):
 @singleton
 class yunsearch():
     def __init__(self):
-        self.ix = open_dir("database/whoosh")
-        self.parser = QueryParser("content", schema=self.ix.schema)
+        self.whbase = open_dir("database/whoosh")
+        self.parser = QueryParser("content", schema=self.whbase.schema)
 
     def get_all_num(self, keyword, catid=''):
-        q = self.parser.parse(keyword)
+        queryit = self.parser.parse(keyword)
         if catid == '':
             pass
         else:
-            q = And([Term("catid", catid), q])
-        return len(self.ix.searcher().search(q).docs())
+            queryit = And([Term("catid", catid), queryit])
+        return len(self.whbase.searcher().search(queryit).docs())
 
     def search(self, keyword, limit=20):
-        q = self.parser.parse(keyword)
+        queryit = self.parser.parse(keyword)
         try:
-            tt = self.ix.searcher().search(q, limit=limit)
-            return (tt)
+            queryres = self.whbase.searcher().search(queryit, limit=limit)
+            return queryres
         finally:
             pass
 
     def search_pager(self, keyword, catid='', page_index=1, doc_per_page=10):
 
-        q = self.parser.parse(keyword)
+        queryit = self.parser.parse(keyword)
         if catid == '':
             pass
         else:
-            q = And([Term("catid", catid), q])
+            queryit = And([Term("catid", catid), queryit])
         try:
-            tt = self.ix.searcher().search(q, limit=page_index * doc_per_page)
-            return (tt[(page_index - 1) * doc_per_page: page_index * doc_per_page])
+            queryres = self.whbase.searcher().search(queryit, limit=page_index * doc_per_page)
+            return queryres[(page_index - 1) * doc_per_page: page_index * doc_per_page]
         finally:
             pass

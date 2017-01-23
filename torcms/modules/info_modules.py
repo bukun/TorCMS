@@ -6,7 +6,8 @@ import torcms.model.usage_model
 import tornado.web
 from torcms.model.infor2label_model import MInfor2Label
 from torcms.model.info_model import MInfor
-from torcms.model.info_relation_model import *
+# from torcms.model.info_relation_model import *
+from torcms.model.info_relation_model import MInforRel, MRelPost2Infor, MRelInfor2Post
 from torcms.model.category_model import MCategory
 import torcms.model.infor2catalog_model
 from torcms.model.post_model import MPost
@@ -15,7 +16,13 @@ from config import router_post
 
 
 class app_catalog_of(tornado.web.UIModule):
-    def render(self, uid_with_str, slug=False):
+    def render(self, *args, **kwargs):
+        uid_with_str = args[0]
+        if 'slug' in kwargs:
+            slug = kwargs['slug']
+        else:
+            slug = False
+
         self.mcat = MCategory()
 
         curinfo = self.mcat.get_by_uid(uid_with_str)
@@ -26,13 +33,12 @@ class app_catalog_of(tornado.web.UIModule):
             return self.render_string('modules/info/catalog_slug.html',
                                       pcatinfo=curinfo,
                                       sub_cats=sub_cats,
-                                      recs=sub_cats, )
+                                      recs=sub_cats)
         else:
             return self.render_string('modules/info/catalog_of.html',
                                       pcatinfo=curinfo,
                                       sub_cats=sub_cats,
-                                      recs=sub_cats,
-                                      )
+                                      recs=sub_cats)
 
 
 class app_user_most(tornado.web.UIModule):
@@ -62,8 +68,7 @@ class app_user_recent(tornado.web.UIModule):
         }
         return self.render_string('modules/info/list_user_equation.html',
                                   recs=all_cats,
-                                  kwd=kwd,
-                                  )
+                                  kwd=kwd)
 
 
 class app_user_recent_by_cat(tornado.web.UIModule):
@@ -71,7 +76,8 @@ class app_user_recent_by_cat(tornado.web.UIModule):
         self.mcat = torcms.model.usage_model.MUsage()
         all_cats = self.mcat.query_recent_by_cat(user_name, cat_id, num)
 
-        return self.render_string('modules/info/list_user_equation_no_catalog.html', recs=all_cats)
+        return self.render_string('modules/info/list_user_equation_no_catalog.html',
+                                  recs=all_cats)
 
 
 class app_most_used(tornado.web.UIModule):
@@ -82,16 +88,17 @@ class app_most_used(tornado.web.UIModule):
             'with_tag': with_tag,
             'router': router_post[kind],
         }
-        return self.render_string('modules/info/list_equation.html', recs=all_cats,
-                                  kwd=kwd,
-                                  )
+        return self.render_string('modules/info/list_equation.html',
+                                  recs=all_cats,
+                                  kwd=kwd)
 
 
 class app_most_used_by_cat(tornado.web.UIModule):
     def render(self, num, cat_str):
         self.mcat = torcms.model.info_model.MInfor()
         all_cats = self.mcat.query_most_by_cat(num, cat_str)
-        return self.render_string('modules/info/list_equation_by_cat.html', recs=all_cats)
+        return self.render_string('modules/info/list_equation_by_cat.html',
+                                  recs=all_cats)
 
 
 class app_least_use_by_cat(tornado.web.UIModule):
@@ -111,27 +118,26 @@ class app_recent_used(tornado.web.UIModule):
         }
         return self.render_string('modules/info/list_equation.html',
                                   recs=all_cats,
-                                  kwd=kwd, )
+                                  kwd=kwd)
 
 
 class app_random_choose(tornado.web.UIModule):
     def render(self, kind, num):
         self.mcat = torcms.model.info_model.MInfor()
         all_cats = self.mcat.query_random(num=num, kind=kind)
-        return self.render_string('modules/info/list_equation.html', recs=all_cats)
+        return self.render_string('modules/info/list_equation.html',
+                                  recs=all_cats)
 
 
 class app_tags(tornado.web.UIModule):
     def render(self, signature):
-        print('-' * 10)
-        print(signature)
         self.mapp2tag = torcms.model.infor2catalog_model.MInfor2Catalog()
         tag_infos = self.mapp2tag.query_by_entity_uid(signature)
         out_str = ''
         ii = 1
         for tag_info in tag_infos:
-            tmp_str = '<a data-inline="true" href="/tag/{0}" class="tag{1}">{2}</a>'.format(tag_info.tag.slug, ii,
-                                                                                            tag_info.tag.name)
+            tmp_str = '''<a data-inline="true" href="/tag/{0}"
+             class="tag{1}">{2}</a>'''.format(tag_info.tag.slug, ii, tag_info.tag.name)
             out_str += tmp_str
             ii += 1
         # print('info category', out_str)
@@ -159,7 +165,6 @@ class app_menu(tornado.web.UIModule):
 class baidu_search(tornado.web.UIModule):
     def render(self, ):
         baidu_script = '''
-        <script type="text/javascript">(function(){document.write(unescape('%3Cdiv id="bdcs"%3E%3C/div%3E'));var bdcs = document.createElement('script');bdcs.type = 'text/javascript';bdcs.async = true;bdcs.src = 'http://znsv.baidu.com/customer_search/api/js?sid=17856875184698336445' + '&plate_url=' + encodeURIComponent(window.location.href) + '&t=' + Math.ceil(new Date()/3600000);var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(bdcs, s);})();</script>
         '''
         return self.render_string('modules/info/baidu_script.html',
                                   baidu_script=baidu_script)
@@ -200,7 +205,7 @@ class rel_app2post(tornado.web.UIModule):
         return self.render_string('modules/info/relation_app2post.html',
                                   relations=rel_recs,
                                   rand_recs=rand_recs,
-                                  kwd=kwd, )
+                                  kwd=kwd)
 
 
 class ImgSlide(tornado.web.UIModule):
@@ -268,8 +273,8 @@ class BreadcrumbPublish(tornado.web.UIModule):
         return self.render_string('modules/info/breadcrumb_publish.html', kwd=kwd)
 
 
-class InfoList:
-    def renderit(self, info=''):
+class InfoList(tornado.web.UIModule):
+    def renderit(self, info):
         zhiding_str = ''
         tuiguang_str = ''
         imgname = 'fixed/zhanwei.png'

@@ -284,13 +284,15 @@ class PostHandler(BaseHandler):
             'cats': self.mcat.query_all(),
 
         }
+        postinfo = self.minfor.get_by_id(uid)
         self.render('post_{0}/post_edit.html'.format(self.kind),
                     kwd=kwd,
                     unescape=tornado.escape.xhtml_unescape,
                     tag_infos=self.mcat.query_all(kind=self.kind),
                     app2label_info=self.mpost2label.get_by_id(uid),
                     app2tag_info=self.mpost2catalog.query_by_entity_uid(uid, self.kind),
-                    dbrec=self.minfor.get_by_id(uid),
+                    dbrec= postinfo,
+                    postinfo = postinfo,
                     userinfo=self.userinfo,
                     cfg=cfg, )
 

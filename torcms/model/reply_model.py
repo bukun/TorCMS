@@ -8,10 +8,10 @@ import tornado.escape
 from torcms.core import tools
 from torcms.model.core_tab import g_Reply
 from torcms.model.core_tab import g_User2Reply
-from torcms.model.supertable_model import MSuperTable
+from torcms.model.abc_model import Mabc
 
 
-class MReply(MSuperTable):
+class MReply(Mabc):
     def __init__(self):
         self.tab = g_Reply
         try:

@@ -1,11 +1,14 @@
 # -*- coding:utf-8 -*-
 
-import json
+'''
+Page ( with unique slug) handler.
+'''
 
+import json
 import tornado.escape
 import tornado.web
 
-import config
+from config import cfg
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
 from torcms.model.category_model import MCategory
@@ -14,6 +17,10 @@ from torcms.model.page_model import MPage
 
 
 class PageHandler(BaseHandler):
+    '''
+    Page ( with unique slug) handler.
+    '''
+
     def initialize(self):
         super(PageHandler, self).initialize()
         self.mpage = MPage()
@@ -41,7 +48,8 @@ class PageHandler(BaseHandler):
         else:
             self.render('html/404.html', userinfo=self.userinfo, kwd={})
 
-    def post(self, url_str=''):
+    def post(self, *args):
+        url_str = args[0]
         url_arr = self.parse_url(url_str)
 
         if url_arr[0] in ['_edit', 'modify', 'edit']:
@@ -53,6 +61,11 @@ class PageHandler(BaseHandler):
             self.render('html/404.html', userinfo=self.userinfo, kwd={})
 
     def view_or_add(self, slug):
+        '''
+        When access with the slug, It will add the page if there is no record in database.
+        :param slug:
+        :return:
+        '''
         rec_page = self.mpage.get_by_uid(slug)
 
         if rec_page:
@@ -76,13 +89,16 @@ class PageHandler(BaseHandler):
         }
         self.render('doc/page/page_add.html',
                     kwd=kwd,
-                    userinfo=self.userinfo, )
+                    userinfo=self.userinfo)
 
+    @tornado.web.authenticated
     def __could_edit(self, slug):
         page_rec = self.mpage.get_by_uid(slug)
         if not page_rec:
             return False
-        if self.check_post_role()['EDIT'] or page_rec.user_name == self.userinfo.user_name:
+        if self.check_post_role()['EDIT']:
+            return True
+        elif page_rec.user_name == self.userinfo.user_name:
             return True
         else:
             return False
@@ -128,9 +144,8 @@ class PageHandler(BaseHandler):
                     postinfo=self.mpage.get_by_uid(uid),
                     kwd=kwd,
                     unescape=tornado.escape.xhtml_unescape,
-                    cfg=config.cfg,
-                    userinfo=self.userinfo,
-                    )
+                    cfg=cfg,
+                    userinfo=self.userinfo)
 
     def view(self, rec):
         kwd = {
@@ -144,8 +159,7 @@ class PageHandler(BaseHandler):
                     kwd=kwd,
                     format_date=tools.format_date,
                     userinfo=self.userinfo,
-                    cfg=config.cfg
-                    )
+                    cfg=cfg)
 
     def ajax_count_plus(self, slug):
         output = {
@@ -166,8 +180,7 @@ class PageHandler(BaseHandler):
                     view_all=self.mpage.query_all(),
                     format_date=tools.format_date,
                     userinfo=self.userinfo,
-                    cfg=config.cfg
-                    )
+                    cfg=cfg)
 
     @tornado.web.authenticated
     def add_page(self, slug):

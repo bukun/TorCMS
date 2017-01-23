@@ -2,9 +2,9 @@
 
 import time
 from torcms.model.core_tab import g_Entity
-from torcms.model.supertable_model import MSuperTable
+from torcms.model.abc_model import Mabc
 
-class MEntity(MSuperTable):
+class MEntity(Mabc):
     def __init__(self):
         self.tab = g_Entity
         try:

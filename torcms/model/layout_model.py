@@ -1,39 +1,68 @@
 # -*- coding:utf-8 -*-
 
+'''
+Model for map layout.
+'''
 from torcms.core import tools
-from torcms.model.map_tab import *
+from torcms.model.map_tab import e_Layout
 
 
 class MLayout(object):
+    '''
+    Model for map layout.
+    '''
+
     def __init__(self):
+        self.tab = e_Layout
         try:
-            e_Layout.create_table()
+            self.tab.create_table()
         except:
             pass
 
     def get_by_id(self, uid):
+        '''
+        :param uid:
+        :return:
+        '''
         try:
-            return e_Layout.get(e_Layout.uid == uid)
+            return self.tab.get(self.tab.uid == uid)
         except:
             return False
 
     def delete_by_uid(self, uid):
-        q = e_Layout.delete().where(e_Layout.uid == uid)
+        '''
+        :param uid:
+        :return:
+        '''
+        qry = self.tab.delete().where(self.tab.uid == uid)
         try:
-            q.execute()
+            qry.execute()
         except:
             return False
-        
-    def query_recent(self, user_id, num=10):
-        return e_Layout.select().where(e_Layout.user == user_id).order_by(e_Layout.order).limit(num)
+
+    # def query_recent(self, user_id, num=10):
+    #     return self.tab.select().where(self.tab.user == user_id
+    # ).order_by(self.tab.order).limit(num)
 
     def query_by_app(self, app_id, user_id):
-        return e_Layout.select().where((e_Layout.post_id == app_id) & (e_Layout.user_id == user_id)).order_by(
-            e_Layout.time_update.desc())
+        '''
+        :param app_id:
+        :param user_id:
+        :return:
+        '''
+        return self.tab.select().where(
+            (self.tab.post_id == app_id) & (self.tab.user_id == user_id)
+        ).order_by(
+            self.tab.time_update.desc()
+        )
 
     def add_or_update(self, post_data):
+        '''
+        :param post_data:
+        :return:
+        '''
         print(post_data)
-        entry = e_Layout.create(
+        self.tab.create(
             uid=tools.get_uu8d(),
             title='',
             post_id=post_data['map'],
@@ -47,4 +76,3 @@ class MLayout(object):
             time_update=tools.timestamp(),
             public=1,
         )
-        print(entry)

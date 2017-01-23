@@ -2,11 +2,11 @@
 
 from torcms.core import tools
 from torcms.model.core_tab import g_WikiHist
-from torcms.model.supertable_model import MSuperTable
+from torcms.model.abc_model import Mabc
 import tornado.escape
 
 
-class MWikiHist(MSuperTable):
+class MWikiHist(Mabc):
     def __init__(self):
         self.tab = g_WikiHist
         try:

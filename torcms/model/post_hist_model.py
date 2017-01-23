@@ -3,10 +3,10 @@
 
 from torcms.core import tools
 from torcms.model.core_tab import g_PostHist
-from torcms.model.supertable_model import MSuperTable
+from torcms.model.abc_model import Mabc
 import tornado.escape
 
-class MPostHist(MSuperTable):
+class MPostHist(Mabc):
     def __init__(self):
         self.tab = g_PostHist
         try:
@@ -27,10 +27,12 @@ class MPostHist(MSuperTable):
         recs = self.tab.select().where(self.tab.post_id == postid).order_by(self.tab.time_update.desc()).limit(limit)
         return recs
 
-    def get_last(self, postid):
-        recs = self.tab.select().where(self.tab.post_id == postid).order_by(self.tab.time_update.desc())
+    def get_last(self, postid, limit = 10):
+        recs = self.tab.select().where(
+            self.tab.post_id == postid
+        ).order_by(self.tab.time_update.desc()).limit(limit)
         if recs.count() == 0:
-            return False
+            return None
         else:
             return recs.get()
 

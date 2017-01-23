@@ -43,7 +43,7 @@ class UserListHandler(BaseHandler):
             'pager': '',
             'title': '我使用最多的云算应用',
         }
-        self.render('user/info_list/user_most.html'.format(input),
+        self.render('user/info_list/user_most.html',
                     kwd=kwd,
                     user_name=self.get_current_user(),
                     userinfo=self.userinfo,
@@ -55,7 +55,7 @@ class UserListHandler(BaseHandler):
             'pager': '',
             'title': '我最近使用的云算应用'
         }
-        self.render('user/info_list/user_recent.html'.format(input),
+        self.render('user/info_list/user_recent.html',
                     kwd=kwd,
                     user_name=self.get_current_user(),
                     userinfo=self.userinfo,
@@ -71,7 +71,7 @@ class UserListHandler(BaseHandler):
         kwd = {
             'pager': '',
         }
-        self.render('user/info_list/most.html'.format(input),
+        self.render('user/info_list/most.html',
                     topmenu='',
                     userinfo=self.userinfo,
                     kwd=kwd)
@@ -82,7 +82,10 @@ class UserListHandler(BaseHandler):
             'pager': '',
             'title': '最近使用的云算应用',
         }
-        self.render('user/info_list/list.html'.format(input), kwd=kwd, rand_eqs=self.get_random(), recs=recs,
+        self.render('user/info_list/list.html',
+                    kwd=kwd,
+                    rand_eqs=self.get_random(),
+                    recs=recs,
                     userinfo=self.userinfo, )
 
     def find(self):
@@ -92,7 +95,7 @@ class UserListHandler(BaseHandler):
             'pager': '',
             'title': '查找结果',
         }
-        self.render('user/info_list/find_list.html'.format(input),
+        self.render('user/info_list/find_list.html',
                     userinfo=self.userinfo,
                     kwd=kwd,
                     recs=self.minfo.get_by_keyword(keyword))

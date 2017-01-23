@@ -2,10 +2,10 @@
 
 import config
 from torcms.model.core_tab import g_Tag
-from torcms.model.supertable_model import MSuperTable
+from torcms.model.abc_model import Mabc
 
 
-class MCategory(MSuperTable):
+class MCategory(Mabc):
     def __init__(self):
         self.tab = g_Tag
         self.kind = '1'
@@ -51,7 +51,7 @@ class MCategory(MSuperTable):
         if uu.count() > 0:
             return uu.get()
         else:
-            return False
+            return None
 
     def update_count(self, cat_id, num):
         entry = self.tab.update(
@@ -72,19 +72,20 @@ class MCategory(MSuperTable):
         ).where(self.tab.uid == uid)
         entry.execute()
 
-    def insert_data(self, uid, post_data):
-        uu = self.get_by_id(uid)
-        if uu:
-            self.update(uid, post_data)
-        else:
-            entry = self.tab.create(
-                uid=uid,
-                name=post_data['name'],
-                slug=post_data['slug'],
-                order=post_data['order'],
-                kind=post_data['kind'] if 'kind' in post_data else '1',
-                tmpl = post_data['tmpl'],
-                pid = post_data['pid'],
-                # role_mask=post_data['role_mask'] if 'role_mask' in post_data else '00100',
-            )
-            return (entry.uid)
+    # def insert_data(self, uid, post_data):
+    #
+    #     uu = self.get_by_id(uid)
+    #     if uu:
+    #         self.update(uid, post_data)
+    #     else:
+    #         entry = self.tab.create(
+    #             uid=uid,
+    #             name=post_data['name'],
+    #             slug=post_data['slug'],
+    #             order=post_data['order'],
+    #             kind=post_data['kind'] if 'kind' in post_data else '1',
+    #             tmpl = post_data['tmpl'],
+    #             pid = post_data['pid'],
+    #             # role_mask=post_data['role_mask'] if 'role_mask' in post_data else '00100',
+    #         )
+    #         return (entry.uid)

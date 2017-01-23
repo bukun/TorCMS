@@ -156,7 +156,7 @@ def gen_select_add(sig):
     dic_tmp = sig['dic']
 
     for key in dic_tmp.keys():
-        tmp_str = '''<option value="{1}">{2}</option>'''.format(sig['en'], key, dic_tmp[key])
+        tmp_str = '''<option value="{0}">{1}</option>'''.format(key, dic_tmp[key])
         html_jushi += tmp_str
 
     html_jushi += '''</select></div></div>'''

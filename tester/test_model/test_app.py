@@ -3,6 +3,7 @@
 from torcms.core import tools
 from torcms.model.info_model import MInfor
 
+
 class TestApp():
     def setup(self):
         print('setup 方法执行于本类中每条用例之前')
@@ -40,11 +41,11 @@ class TestApp():
             'user_name': 'ss',
             'extinfo': ''
         }
-        extinfo = {        }
+        extinfo = {}
 
         self.uu.add_meta(uid, post_data, extinfo)
         tt = self.uu.get_by_uid(uid)
-        assert tt == False
+        assert tt == None
 
         post_data = {
             'title': '1',

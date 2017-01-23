@@ -7,10 +7,10 @@ import tornado.escape
 import peewee
 from torcms.core import tools
 from torcms.model.core_tab import g_Rating
-from torcms.model.supertable_model import MSuperTable
+from torcms.model.abc_model import Mabc
 
 
-class MRating(MSuperTable):
+class MRating(Mabc):
     def __init__(self):
         self.tab = g_Rating
         try:

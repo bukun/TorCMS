@@ -100,7 +100,7 @@ class MaintainCategoryHandler(BaseHandler):
 
         if self.tmpl_router == "maintain_category":
             self.mclass.update(uid, post_data)
-            self.redirect('/maintain/category/list'.format(uid))
+            self.redirect('/maintain/category/list')
         else:
             if self.mclass.update(uid, post_data):
 
@@ -148,7 +148,7 @@ class MaintainCategoryHandler(BaseHandler):
         if cur_post_rec is None:
             uid = self.mclass.insert_data(id_post, post_data)
 
-        self.redirect('/maintain/category/list'.format(id_post))
+        self.redirect('/maintain/category/list')
 
     @tornado.web.authenticated
     def p_add_catalog(self):
@@ -196,7 +196,7 @@ class MaintainCategoryHandler(BaseHandler):
 
         uid = self.mclass.insert_data(cur_uid, post_data)
 
-        self.redirect('/maintain/category/list'.format(cur_uid))
+        self.redirect('/maintain/category/list')
 
     @tornado.web.authenticated
     def delete_by_uid(self, del_id):

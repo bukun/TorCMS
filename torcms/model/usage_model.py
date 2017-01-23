@@ -8,7 +8,7 @@ import time
 
 import peewee
 from torcms.model.infor2catalog_model import MInfor2Catalog
-from torcms.model.core_tab import g_Member,  g_Usage, g_Post
+from torcms.model.core_tab import g_Usage
 from torcms.core import tools
 from torcms.model.user_model import MUser
 
@@ -17,6 +17,7 @@ class MUsage(object):
     '''
     Handle the usage of the info.
     '''
+
     def __init__(self):
         self.tab = g_Usage
         try:
@@ -27,27 +28,40 @@ class MUsage(object):
         self.muser = MUser()
 
     def get_all(self):
-        return (self.tab.select().order_by('view_count'))
+        return self.tab.select().order_by('view_count')
 
     def query_random(self):
-        fn = peewee.fn
-        return self.tab.select().order_by(fn.Random()).limit(6)
+        return self.tab.select().order_by(peewee.fn.Random()).limit(6)
 
-    def query_recent(self, user_id, kind, num, ):
-        return self.tab.select().where((self.tab.user_id == user_id) & (self.tab.kind == kind )).order_by(
-            self.tab.timestamp.desc()).limit(num)
+    def query_recent(self, user_id, kind, num = 10 ):
+        return self.tab.select().where(
+            (self.tab.user_id == user_id) &
+            (self.tab.kind == kind)
+        ).order_by(
+            self.tab.timestamp.desc()
+        ).limit(num)
 
     def query_recent_by_cat(self, user_id, cat_id, num):
         return self.tab.select().where(
-            (self.tab.tag_id == cat_id) & (self.tab.user_id == user_id)).order_by(self.tab.timestamp.desc()).limit(
-            num)
+            (self.tab.tag_id == cat_id) &
+            (self.tab.user_id == user_id)
+        ).order_by(
+            self.tab.timestamp.desc()
+        ).limit(num)
 
     def query_most(self, user_id, kind, num):
-        return self.tab.select().where((self.tab.user_id == user_id) & (self.tab.kind == kind)).order_by(
-            self.tab.count.desc()).limit(num)
+        return self.tab.select().where(
+            (self.tab.user_id == user_id) &
+            (self.tab.kind == kind)
+        ).order_by(
+            self.tab.count.desc()
+        ).limit(num)
 
     def get_by_signature(self, user_id, sig):
-        return self.tab.select().where((self.tab.post_id == sig) & (self.tab.user_id == user_id))
+        return self.tab.select().where(
+            (self.tab.post == sig) &
+            (self.tab.user_id == user_id)
+        )
 
     def count_increate(self, rec, cat_id, num):
         entry = self.tab.update(
@@ -66,15 +80,15 @@ class MUsage(object):
         :return:
         '''
 
-        tt = self.get_by_signature(user_id, post_id)
-        uu = self.mapp2catalog.get_entry_catalog(post_id)
-        if uu:
+        rec = self.get_by_signature(user_id, post_id)
+        cate_rec = self.mapp2catalog.get_entry_catalog(post_id)
+        if cate_rec:
             pass
         else:
             return False
-        cat_id = uu.tag.uid
-        if tt.count() > 0:
-            rec = tt.get()
+        cat_id = cate_rec.tag.uid
+        if rec.count() > 0:
+            rec = rec.get()
             self.count_increate(rec.uid, cat_id, rec.count)
         else:
             self.tab.create(
@@ -84,7 +98,5 @@ class MUsage(object):
                 count=1,
                 tag_id=cat_id,
                 timestamp=int(time.time()),
-                kind = kind,
+                kind=kind,
             )
-
-

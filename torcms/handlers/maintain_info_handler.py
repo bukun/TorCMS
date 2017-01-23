@@ -122,7 +122,7 @@ class MaintainPycateCategoryHandler(BaseHandler):
 
         self.mclass.update(uid, post_data)
 
-        self.redirect('/maintain/pycatecategory/list'.format(uid))
+        self.redirect('/maintain/pycatecategory/list')
 
     @tornado.web.authenticated
     def to_modify(self, id_rec):
@@ -166,9 +166,7 @@ class MaintainPycateCategoryHandler(BaseHandler):
                     view=rec,
                     unescape=tornado.escape.xhtml_unescape,
                     kwd=kwd,
-                    userinfo=self.userinfo,
-
-                    )
+                    userinfo=self.userinfo)
 
     @tornado.web.authenticated
     def user_add_category(self):
@@ -176,15 +174,15 @@ class MaintainPycateCategoryHandler(BaseHandler):
             pass
         else:
             return False
-        post_data = {}
-        for key in self.request.arguments:
-            post_data[key] = self.get_arguments(key)
+        post_data = self.get_post_data()
+        # for key in self.request.arguments:
+        #     post_data[key] = self.get_arguments(key)
+        #
+        # post_data['user_name'] = self.get_current_user()
+        #
+        # self.mclass.insert_data(post_data)
 
-        post_data['user_name'] = self.get_current_user()
-
-        self.mclass.insert_data(post_data)
-
-        self.redirect('/maintain/pycatecategory/list'.format())
+        self.redirect('/maintain/pycatecategory/list')
 
     @tornado.web.authenticated
     def delete(self, del_id):

@@ -1,9 +1,9 @@
 # -*- coding:utf-8 -*-
 
 
-from torcms.model.supertable_model import MSuperTable
+from torcms.model.abc_model import Mabc
 
 def Test():
-    assert MSuperTable()
+    assert Mabc()
 
 

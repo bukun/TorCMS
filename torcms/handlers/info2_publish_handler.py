@@ -24,8 +24,8 @@ class InfoPublishHandler(BaseHandler):
             self.view_class2(url_str)
         elif len(url_str) == 5:
             self.echo_class2(url_str)
-        elif len(url_arr) == 2 and url_arr[1] == 'vip':
-            self.view_class2(url_arr[0], 1)
+        # elif len(url_arr) == 2 and url_arr[1] == 'vip':
+        #     self.view_class2(url_arr[0], 1)
 
     @tornado.web.authenticated
     def echo_class2(self, input=''):
