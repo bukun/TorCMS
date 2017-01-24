@@ -11,7 +11,7 @@ from torcms.model.infor2catalog_model import MInfor2Catalog
 from torcms.model.core_tab import g_Usage
 from torcms.core import tools
 from torcms.model.user_model import MUser
-
+from torcms.core.tools import logger
 
 class MUsage(object):
     '''
@@ -57,7 +57,7 @@ class MUsage(object):
             self.tab.count.desc()
         ).limit(num)
 
-    def get_by_signature(self, user_id, sig):
+    def query_by_signature(self, user_id, sig):
         return self.tab.select().where(
             (self.tab.post == sig) &
             (self.tab.user_id == user_id)
@@ -80,7 +80,11 @@ class MUsage(object):
         :return:
         '''
 
-        rec = self.get_by_signature(user_id, post_id)
+        rec = self.query_by_signature(user_id, post_id)
+        print('=xx' * 20)
+        for x in rec:
+            print(x.uid, x.kind)
+
         cate_rec = self.mapp2catalog.get_entry_catalog(post_id)
         if cate_rec:
             pass
@@ -88,9 +92,13 @@ class MUsage(object):
             return False
         cat_id = cate_rec.tag.uid
         if rec.count() > 0:
+            logger.info('Usage update: {uid}'.format(uid = post_id))
             rec = rec.get()
+            query = self.tab.update(kind = kind).where(self.tab.uid == rec.uid)
+            query.execute()
             self.count_increate(rec.uid, cat_id, rec.count)
         else:
+            logger.info('Usage create: {uid}'.format(uid = post_id))
             self.tab.create(
                 uid=tools.get_uuid(),
                 post=post_id,
