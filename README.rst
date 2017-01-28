@@ -7,6 +7,9 @@ Status
 .. image:: https://travis-ci.org/bukun/TorCMS.svg?branch=master
     :target: https://travis-ci.org/bukun/TorCMS
 
+.. image:: https://badge.fury.io/py/torcms.svg
+    :target: https://badge.fury.io/py/torcms
+
 Introduction
 -------------------------------------------------
 
@@ -169,6 +172,11 @@ then run as follow:
 ::
 
     nosetests -v -d --exe tester
+
+with ``coverage`` (install with:  ``pip install coverage`` ):
+
+::
+    nosetests  --exe -v -d --with-coverage tester
 
 Note: I alway writing code in the folder which is mounted by Debian in VirtualBox, so ``--exe``.
 

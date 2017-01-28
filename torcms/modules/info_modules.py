@@ -1,12 +1,14 @@
 # -*- coding:utf-8 -*-
 
-import random
+'''
+Tornado Modules for infor.
+'''
+
 import torcms.model.info_model
 import torcms.model.usage_model
 import tornado.web
 from torcms.model.infor2label_model import MInfor2Label
 from torcms.model.info_model import MInfor
-# from torcms.model.info_relation_model import *
 from torcms.model.info_relation_model import MInforRel, MRelPost2Infor, MRelInfor2Post
 from torcms.model.category_model import MCategory
 import torcms.model.infor2catalog_model
@@ -16,26 +18,11 @@ from config import router_post
 from torcms.core.tools import logger
 from torcms.core.libs.deprecated import deprecated
 
-# class deprecated(object):
-#     """Print a deprecation warning once on first use of the function.
-#
-#     >>> @deprecated()                    # doctest: +SKIP
-#     ... def f():
-#     ...     pass
-#     >>> f()                              # doctest: +SKIP
-#     f is deprecated
-#     """
-#     def __call__(self, func):
-#         self.func = func
-#         self.count = 0
-#         return self._wrapper
-#     def _wrapper(self, *args, **kwargs):
-#         self.count += 1
-#         if self.count == 1:
-#             print (self.func.__name__, 'is deprecated')
-#         return self.func(*args, **kwargs)
 
-class app_catalog_of(tornado.web.UIModule):
+class InfoCategory(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, *args, **kwargs):
         uid_with_str = args[0]
         if 'slug' in kwargs:
@@ -43,11 +30,11 @@ class app_catalog_of(tornado.web.UIModule):
         else:
             slug = False
 
-        self.mcat = MCategory()
+        mcat = MCategory()
 
-        curinfo = self.mcat.get_by_uid(uid_with_str)
+        curinfo = mcat.get_by_uid(uid_with_str)
 
-        sub_cats = self.mcat.query_sub_cat(uid_with_str)
+        sub_cats = mcat.query_sub_cat(uid_with_str)
 
         if slug:
             return self.render_string('modules/info/catalog_slug.html',
@@ -60,9 +47,9 @@ class app_catalog_of(tornado.web.UIModule):
                                       sub_cats=sub_cats,
                                       recs=sub_cats)
 
+
 @deprecated
-class app_user_most(tornado.web.UIModule):
-    # @deprecated
+class InforUserMost(tornado.web.UIModule):
     def render(self, user_name, kind, num, with_tag=False):
         self.mcat = torcms.model.usage_model.MUsage()
         all_cats = self.mcat.query_most(user_name, kind, num)
@@ -79,15 +66,12 @@ class app_user_most_by_cat(tornado.web.UIModule):
     pass
 
 
-
-
-
 @deprecated
-class app_user_recent(tornado.web.UIModule):
+class InfoUserRecent(tornado.web.UIModule):
     # @deprecated
     def render(self, user_name, kind, num, with_tag=False):
         logger.info('Infor user recent, username: {user_name}, kind: {kind}, num: {num}'.format(
-            user_name = user_name, kind = kind, num = num
+            user_name=user_name, kind=kind, num=num
         ))
 
         self.mcat = torcms.model.usage_model.MUsage()
@@ -110,12 +94,12 @@ class app_user_recent_by_cat(tornado.web.UIModule):
                                   recs=all_cats)
 
 
-class app_most_used(tornado.web.UIModule):
-    def render(self, kind, num, with_tag=False, userinfo = None):
+class InfoMostUsed(tornado.web.UIModule):
+    def render(self, kind, num, with_tag=False, userinfo=None):
         if userinfo:
-            return self.render_user(kind, num, with_tag=False, user_id = userinfo.uid)
+            return self.render_user(kind, num, with_tag=False, user_id=userinfo.uid)
         else:
-            return self.render_it(kind, num, with_tag=with_tag )
+            return self.render_it(kind, num, with_tag=with_tag)
 
     def render_it(self, kind, num, with_tag=False):
         self.mcat = torcms.model.info_model.MInfor()
@@ -128,7 +112,7 @@ class app_most_used(tornado.web.UIModule):
                                   recs=all_cats,
                                   kwd=kwd)
 
-    def render_user(self,  kind, num, with_tag=False, user_id = ''):
+    def render_user(self, kind, num, with_tag=False, user_id=''):
         self.mcat = torcms.model.usage_model.MUsage()
         all_cats = self.mcat.query_most(user_id, kind, num)
         kwd = {
@@ -138,6 +122,7 @@ class app_most_used(tornado.web.UIModule):
         return self.render_string('modules/info/list_user_equation.html',
                                   recs=all_cats,
                                   kwd=kwd)
+
 
 class app_most_used_by_cat(tornado.web.UIModule):
     def render(self, num, cat_str):
@@ -154,14 +139,15 @@ class app_least_use_by_cat(tornado.web.UIModule):
         return self.render_string('modules/info/list_equation_by_cat.html', recs=all_cats)
 
 
-class app_recent_used(tornado.web.UIModule):
-    def render(self, kind, num, with_tag=False, userinfo = None):
+class InfoRecentUsed(tornado.web.UIModule):
+    def render(self, kind, num, with_tag=False, userinfo=None):
 
         if userinfo:
-            return  self.render_user(kind, num, with_tag=with_tag, user_id = userinfo.uid)
+            return self.render_user(kind, num, with_tag=with_tag, user_id=userinfo.uid)
 
         else:
-            return  self.render_it(kind, num, with_tag=with_tag)
+            return self.render_it(kind, num, with_tag=with_tag)
+
     def render_it(self, kind, num, with_tag=False):
         self.mcat = torcms.model.info_model.MInfor()
         all_cats = self.mcat.query_recent(num, kind=kind)
@@ -173,7 +159,7 @@ class app_recent_used(tornado.web.UIModule):
                                   recs=all_cats,
                                   kwd=kwd)
 
-    def render_user(self,  kind, num, with_tag=False, user_id = ''):
+    def render_user(self, kind, num, with_tag=False, user_id=''):
         logger.info('Infor user recent, username: {user_name}, kind: {kind}, num: {num}'.format(
             user_name=user_id, kind=kind, num=num
         ))
@@ -199,8 +185,8 @@ class app_random_choose(tornado.web.UIModule):
 
 class app_tags(tornado.web.UIModule):
     def render(self, signature):
-        self.mapp2tag = torcms.model.infor2catalog_model.MInfor2Catalog()
-        tag_infos = self.mapp2tag.query_by_entity_uid(signature)
+        mapp2tag = torcms.model.infor2catalog_model.MInfor2Catalog()
+        tag_infos = mapp2tag.query_by_entity_uid(signature)
         out_str = ''
         ii = 1
         for tag_info in tag_infos:
@@ -208,22 +194,20 @@ class app_tags(tornado.web.UIModule):
              class="tag{1}">{2}</a>'''.format(tag_info.tag.slug, ii, tag_info.tag.name)
             out_str += tmp_str
             ii += 1
-        # print('info category', out_str)
         return out_str
 
 
 class label_count(tornado.web.UIModule):
     def render(self, signature):
-        self.mapp2tag = MInfor2Label()
-        tag_infos = self.mapp2tag.query_count(signature)
+        mapp2tag = MInfor2Label()
 
-        return tag_infos
+        return mapp2tag.query_count(signature)
 
 
 class app_menu(tornado.web.UIModule):
-    def render(self, kind, limit = 10):
-        self.mcat = MCategory()
-        all_cats = self.mcat.query_field_count(limit, kind=kind)
+    def render(self, kind, limit=10):
+        mcat = MCategory()
+        all_cats = mcat.query_field_count(limit, kind=kind)
         kwd = {
             'cats': all_cats,
         }

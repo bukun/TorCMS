@@ -14,20 +14,20 @@ class MInfoHist(Mabc):
         except:
             pass
 
-    def insert_data(self, raw_data):
+    def insert_data(self, post_data):
         uid = tools.get_uuid()
         g_PostHist.create(
                 uid=uid,
-            post_id = raw_data.uid,
-                title=raw_data.title,
-                keywords = raw_data.keywords,
-                user_name = raw_data.user_name,
-                logo = raw_data.logo,
-                date = raw_data.date,
-                time_update = raw_data.time_update,
-                cnt_md = raw_data.cnt_md,
-                app_id = raw_data.uid,
-                valid = raw_data.valid,
-                extinfo = raw_data.extinfo,
+            post_id = post_data.uid,
+                title=post_data.title,
+                keywords = post_data.keywords,
+                user_name = post_data.user_name,
+                logo = post_data.logo,
+                date = post_data.date,
+                time_update = post_data.time_update,
+                cnt_md = post_data.cnt_md,
+                app_id = post_data.uid,
+                valid = post_data.valid,
+                extinfo = post_data.extinfo,
             )
         return True

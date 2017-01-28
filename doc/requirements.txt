@@ -18,3 +18,4 @@ openpyxl
 nose
 requests
 pytest
+coverage

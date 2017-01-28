@@ -59,7 +59,9 @@ class previous_post_link(tornado.web.UIModule):
         if prev_record is None:
             outstr = '<a>The last post.</a>'
         else:
-            outstr = '''<a href="/post/{0}">Previous Post</a>'''.format(prev_record.uid)
+            outstr = '''<a href="/post/{0}">Previous Post</a>'''.format(
+                prev_record.uid
+            )
         return outstr
 
 
@@ -72,7 +74,9 @@ class post_most_view(tornado.web.UIModule):
             'with_catalog': with_catalog,
             'router': router_post['1'],
         }
-        return self.render_string('modules/post/post_list.html', recs=recs, kwd=kwd)
+        return self.render_string('modules/post/post_list.html',
+                                  recs=recs,
+                                  kwd=kwd)
 
 
 class post_random(tornado.web.UIModule):
@@ -85,7 +89,8 @@ class post_random(tornado.web.UIModule):
             'router': router_post['1'],
         }
         return self.render_string('modules/post/post_list.html',
-                                  recs=recs, kwd=kwd)
+                                  recs=recs,
+                                  kwd=kwd)
 
 
 class post_cat_random(tornado.web.UIModule):
@@ -98,25 +103,28 @@ class post_cat_random(tornado.web.UIModule):
             'router': router_post['1'],
         }
         return self.render_string('modules/post/post_list.html',
-                                  recs=recs, kwd=kwd)
+                                  recs=recs,
+                                  kwd=kwd)
 
 
 class post_recent_most_view(tornado.web.UIModule):
     def render(self, num, recent, with_date=True, with_catalog=True):
-        self.mpost = MPost()
-        recs = self.mpost.query_recent_most(num, recent)
+        mpost = MPost()
+        recs = mpost.query_recent_most(num, recent)
         kwd = {
             'with_date': with_date,
             'with_catalog': with_catalog,
             'router': router_post['1'],
         }
-        return self.render_string('modules/post/post_list.html', recs=recs, kwd=kwd)
+        return self.render_string('modules/post/post_list.html',
+                                  recs=recs,
+                                  kwd=kwd)
 
 
 class catalog_of(tornado.web.UIModule):
     def render(self, uid_with_str):
-        self.mcat = MCategory()
-        recs = self.mcat.query_uid_starts_with(uid_with_str)
+        mcat = MCategory()
+        recs = mcat.query_uid_starts_with(uid_with_str)
 
         return self.render_string('modules/post/catalog_of.html',
                                   recs=recs)
@@ -124,11 +132,9 @@ class catalog_of(tornado.web.UIModule):
 
 class post_catalog_of(tornado.web.UIModule):
     def render(self, uid_with_str, slug=False):
-        self.mcat = MCategory()
-
-        curinfo = self.mcat.get_by_uid(uid_with_str)
-
-        sub_cats = self.mcat.query_sub_cat(uid_with_str)
+        mcat = MCategory()
+        curinfo = mcat.get_by_uid(uid_with_str)
+        sub_cats = mcat.query_sub_cat(uid_with_str)
 
         if slug:
             return self.render_string('modules/post/post_catalog_slug.html',
@@ -237,7 +243,10 @@ class list_categories(tornado.web.UIModule):
         recs = self.mpost.query_cat_recent(cat_id, list_num)
         out_str = ''
         for rec in recs:
-            tmp_str = '''<li><a href="/{0}">{1}</a></li>'''.format(rec.title, rec.title)
+            tmp_str = '''<li><a href="/{0}">{1}</a></li>'''.format(
+                rec.title,
+                rec.title
+            )
             out_str += tmp_str
         return out_str
 
@@ -276,8 +285,10 @@ class post_tags(tornado.web.UIModule):
         out_str = ''
         ii = 1
         for tag_info in tag_infos:
-            tmp_str = '<a href="/category/{0}" class="tag{1}">{2}</a>'.format(tag_info.tag.slug, ii,
-                                                                              tag_info.tag.name)
+            tmp_str = '<a href="/category/{0}" class="tag{1}">{2}</a>'.format(
+                tag_info.tag.slug,
+                ii,
+                tag_info.tag.name)
             out_str += tmp_str
             ii += 1
         return out_str
@@ -290,8 +301,10 @@ class map_tags(tornado.web.UIModule):
         out_str = ''
         ii = 1
         for tag_info in tag_infos:
-            tmp_str = '<a href="/tag/{0}" class="tag{1}">{2}</a>'.format(tag_info.tag.slug, ii,
-                                                                         tag_info.tag.name)
+            tmp_str = '<a href="/tag/{0}" class="tag{1}">{2}</a>'.format(
+                tag_info.tag.slug,
+                ii,
+                tag_info.tag.name)
             out_str += tmp_str
             ii += 1
         return out_str
@@ -330,7 +343,7 @@ class catalog_pager(tornado.web.UIModule):
         tmp_page_num = int(num_of_cat / config.page_num)
 
         page_num = (tmp_page_num if abs(tmp_page_num - num_of_cat / config.page_num) < 0.1
-                    else  tmp_page_num + 1)
+                    else tmp_page_num + 1)
 
         kwd = {
             'page_home': False if current <= 1 else True,
@@ -415,7 +428,7 @@ class tag_pager(tornado.web.UIModule):
                                   kwd=kwd,
                                   cat_slug=tag_slug,
                                   pager_num=page_num,
-                                  page_current=current )
+                                  page_current=current)
 
 
 class search_pager(tornado.web.UIModule):
@@ -437,4 +450,4 @@ class search_pager(tornado.web.UIModule):
                                   kwd=kwd,
                                   cat_slug=tag_slug,
                                   pager_num=page_num,
-                                  page_current=current   )
+                                  page_current=current)
