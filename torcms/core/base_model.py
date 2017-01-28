@@ -14,6 +14,4 @@ class BaseModel(peewee.Model):
         '''
         meta
         '''
-        print('=x' * 20)
-        print(config.db_cfg)
         database = config.dbconnect
