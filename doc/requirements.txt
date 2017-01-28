@@ -15,3 +15,6 @@ psycopg2
 redis
 pyyaml
 openpyxl
+nose
+requests
+pytest

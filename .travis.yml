@@ -1,0 +1,20 @@
+language: python
+python:
+  - "3.4"
+  - "3.5"
+  - "3.6"
+addons:
+  postgresql: "9.4"
+# currently points to 3.7-dev# command to install dependencies
+install:
+  - pip install -r doc/requirements.txt
+# command to run tests
+before_script:
+  - psql -c 'create database travis_ci_torcms;' -U postgres
+  - psql travis_ci_torcms -c 'create extension if not exists hstore' -U postgres
+
+script:
+  - python helper.py -i init_tables
+  - python helper.py -i gen_category
+  - python helper.py -i crud
+  - nosetests  --exe -v -d tester

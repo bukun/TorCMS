@@ -1,6 +1,15 @@
 TorCMS Introduction
 ==============================
 
+Status
+------------------------
+
+.. image:: https://travis-ci.org/bukun/TorCMS.svg?branch=master
+    :target: https://travis-ci.org/bukun/TorCMS
+
+Introduction
+-------------------------------------------------
+
 Flexible, extensible web CMS framework built on Tornado and Peewee,
 compatible with Python 3.4 and 3.5. Using PostgreSQL with JSON
 extension as the database.

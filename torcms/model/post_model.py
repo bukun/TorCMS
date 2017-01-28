@@ -18,8 +18,14 @@ class MPost(Mabc):
     Model for Posts.
     '''
     def __init__(self):
-        super(MPost, self).__init__()
+        # super(MPost, self).__init__()
+        # self.tab = g_Post
+
         self.tab = g_Post
+        try:
+            g_Post.create_table()
+        except:
+            pass
 
     def update_rating(self, uid, rating):
         '''

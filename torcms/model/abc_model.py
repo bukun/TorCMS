@@ -14,6 +14,10 @@ class Mabc():
     '''
     def __init__(self):
         self.tab = g_Post
+        try:
+            self.tab.create_table()
+        except:
+            pass
 
     def get_counts(self):
         '''

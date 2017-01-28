@@ -72,20 +72,20 @@ class MCategory(Mabc):
         ).where(self.tab.uid == uid)
         entry.execute()
 
-    # def insert_data(self, uid, post_data):
-    #
-    #     uu = self.get_by_id(uid)
-    #     if uu:
-    #         self.update(uid, post_data)
-    #     else:
-    #         entry = self.tab.create(
-    #             uid=uid,
-    #             name=post_data['name'],
-    #             slug=post_data['slug'],
-    #             order=post_data['order'],
-    #             kind=post_data['kind'] if 'kind' in post_data else '1',
-    #             tmpl = post_data['tmpl'],
-    #             pid = post_data['pid'],
-    #             # role_mask=post_data['role_mask'] if 'role_mask' in post_data else '00100',
-    #         )
-    #         return (entry.uid)
+    def insert_data(self, uid, post_data):
+
+        uu = self.get_by_id(uid)
+        if uu:
+            self.update(uid, post_data)
+        else:
+            entry = self.tab.create(
+                uid=uid,
+                name=post_data['name'],
+                slug=post_data['slug'],
+                order=post_data['order'],
+                kind=post_data['kind'] if 'kind' in post_data else '1',
+                tmpl = post_data['tmpl'],
+                pid = post_data['pid'],
+                # role_mask=post_data['role_mask'] if 'role_mask' in post_data else '00100',
+            )
+            return (entry.uid)
