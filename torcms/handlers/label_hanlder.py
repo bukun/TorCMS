@@ -11,7 +11,8 @@ from torcms.model.category_model import MCategory
 import config
 
 from torcms.handlers.category_handler import CategoryHandler
-from torcms.model.infor2catalog_model import MInfor2Catalog
+# from torcms.model.infor2catalog_model import MInfor2Catalog
+from torcms.model.post2catalog_model import MPost2Catalog as MInfor2Catalog
 from config import router_post
 from torcms.core.tools import logger
 

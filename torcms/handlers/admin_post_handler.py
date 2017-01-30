@@ -5,32 +5,36 @@ import tornado.escape
 import tornado.web
 import tornado.gen
 
+# from torcms.model.infor2label_model import MPost2Label
+# from torcms.model.label_model import MPost2Label
+# from torcms.model.info_relation_model import MRelation
+# from torcms.model.evaluation_model import MEvaluation
+# from torcms.model.usage_model import MUsage
+# from torcms.model.infor2catalog_model import MInfor2Catalog
+# from torcms.model.post2catalog_model import MPost2Catalog as MInfor2Catalog
+# from torcms.model.reply_model import MReply
+# from torcms.model.info_hist_model import MInfoHist
+# from torcms.model.info_model import MInfor
+
+
 import json
-from torcms.model.infor2label_model import MInfor2Label
-from torcms.model.info_model import MInfor
-from torcms.model.info_relation_model import MInforRel
-from torcms.model.evaluation_model import MEvaluation
-from torcms.model.usage_model import MUsage
-from torcms.model.infor2catalog_model import MInfor2Catalog
-from torcms.model.reply_model import MReply
 from torcms.handlers.post_handler import PostHandler
-from torcms.model.info_hist_model import MInfoHist
 from config import router_post
 from torcms.core.tools import logger
 
 
 class AdminPostHandler(PostHandler):
-    def initialize(self, hinfo=''):
-        super(AdminPostHandler, self).initialize()
-        self.mevaluation = MEvaluation()
-        self.mpost2label = MInfor2Label()
-        self.mpost2catalog = MInfor2Catalog()
-        self.mpost = MInfor()
-        self.musage = MUsage()
-
-        self.mrel = MInforRel()
-        self.mreply = MReply()
-        self.mpost_hist = MInfoHist()
+    # def initialize(self, hinfo=''):
+    #     super(AdminPostHandler, self).initialize()
+    #     # self.mevaluation = MEvaluation()
+    #     # self.mpost2label = MPost2Label()
+    #     # self.mpost2catalog = MInfor2Catalog()
+    #     self.mpost = MInfor()
+    #     # self.musage = MUsage()
+    #
+    #     # self.mrel = MRelation()
+    #     # self.mreply = MReply()
+    #     # self.mpost_hist = MInfoHist()
 
     def get(self, url_str=''):
         if self.userinfo and self.userinfo.role[2] >= '3':

@@ -10,13 +10,16 @@ import tornado.web
 import tornado.gen
 
 from torcms.core import tools
-from torcms.model.infor2label_model import MInfor2Label
+# from torcms.model.infor2label_model import MPost2Label
+from torcms.model.label_model import MPost2Label
 from torcms.model.info_model import MInfor
-from torcms.model.info_relation_model import MInforRel
+# from torcms.model.info_relation_model import MRelation
+from torcms.model.relation_model import MRelation
 from torcms.model.evaluation_model import MEvaluation
 from torcms.model.category_model import MCategory
 from torcms.model.usage_model import MUsage
-from torcms.model.infor2catalog_model import MInfor2Catalog
+# from torcms.model.infor2catalog_model import MInfor2Catalog
+from torcms.model.post2catalog_model import MPost2Catalog as MInfor2Catalog
 from torcms.model.reply_model import MReply
 from torcms.handlers.post_handler import PostHandler
 from torcms.model.info_hist_model import MInfoHist
@@ -32,12 +35,12 @@ class InfoHandler(PostHandler):
     def initialize(self, **kwargs):
         super(InfoHandler, self).initialize()
         self.mevaluation = MEvaluation()
-        self.mpost2label = MInfor2Label()
+        self.mpost2label = MPost2Label()
         self.mpost2catalog = MInfor2Catalog()
         self.minfor = MInfor()
         self.musage = MUsage()
         self.mcat = MCategory()
-        self.mrel = MInforRel()
+        self.mrel = MRelation()
         self.mreply = MReply()
         self.mpost_hist = MInfoHist()
 

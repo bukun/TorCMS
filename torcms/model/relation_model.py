@@ -4,7 +4,8 @@ from torcms.core import tools
 from torcms.model.core_tab import g_Post
 from torcms.model.core_tab import g_Rel
 from torcms.model.core_tab import g_Post2Tag
-from torcms.model.infor2catalog_model import MInfor2Catalog
+# from torcms.model.infor2catalog_model import MInfor2Catalog
+from torcms.model.post2catalog_model import MPost2Catalog as MInfor2Catalog
 import peewee
 
 
@@ -14,6 +15,11 @@ class MRelation():
         self.tab_post = g_Post
         self.tab_post2tag = g_Post2Tag
         self.minfo2tag = MInfor2Catalog()
+
+        try:
+            g_Rel.create_table()
+        except:
+            pass
 
     def add_relation(self, app_f, app_t, weight=1):
 

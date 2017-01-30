@@ -1,21 +1,25 @@
 # -*- coding:utf-8 -*-
 
+
+# from torcms.model.info_model import MInfor
+# # from torcms.model.info_relation_model import MRelation
+# # from torcms.model.relation_model import MRelation
+# from torcms.model.usage_model import MUsage
+
 import tornado.web
-from torcms.model.info_model import MInfor
-from torcms.model.info_relation_model import MInforRel
-from torcms.model.usage_model import MUsage
+import json
+
 from torcms.core.base_handler import BaseHandler
 from torcms.model.collect_model import MCollect
 from torcms.core.tools import logger
-import json
 
 
 class CollectHandler(BaseHandler):
     def initialize(self):
         super(CollectHandler, self).initialize()
-        self.mequa = MInfor()
-        self.musage = MUsage()
-        self.mrel = MInforRel()
+        # self.mequa = MInfor()
+        # self.musage = MUsage()
+        # self.mrel = MRelation()
         self.mcollect = MCollect()
 
     def get(self, *args):
@@ -27,11 +31,11 @@ class CollectHandler(BaseHandler):
 
         if url_str == 'list':
             self.list()
-        elif len(url_arr) == 1 and (len(url_str) == 4 or len(url_str) == 5) :
+        elif len(url_arr) == 1 and (len(url_str) == 4 or len(url_str) == 5):
             if self.get_current_user():
                 self.add_or_update(url_str)
             else:
-                self.set_status('403')
+                self.set_status(403)
                 return False
 
     @tornado.web.authenticated

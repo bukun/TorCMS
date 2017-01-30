@@ -48,41 +48,44 @@ class GeoJsonHandler(BaseHandler):
             'url': self.request.uri,
             'geojson': gid,
             'tdesc': '',
-            'login': 1 if self.get_current_user() else 0,
-
+            'login': 1 if self.get_current_user() else 0
         }
 
         map_hist = []
         if self.get_secure_cookie('map_hist'):
             for xx in range(0, len(self.get_secure_cookie('map_hist').decode('utf-8')), 4):
                 map_hist.append(self.get_secure_cookie('map_hist').decode('utf-8')[xx: xx + 4])
-        self.render('infor/app/full_screen_draw.html',
-                    kwd=kwd,
-                    userinfo=self.userinfo,
-                    unescape=tornado.escape.xhtml_unescape,
-                    recent_apps=self.musage.query_recent(self.get_current_user(), 6)[1:] if self.userinfo else [],
-
-                    )
+        self.render(
+            'infor/app/full_screen_draw.html',
+            kwd=kwd,
+            userinfo=self.userinfo,
+            unescape=tornado.escape.xhtml_unescape,
+            recent_apps=self.musage.query_recent(
+                self.get_current_user(),
+                6
+            )[1:] if self.userinfo else []
+        )
 
     def index(self):
-        self.render('infor/geojson/index.html',
-                    kwd={},
-                    userinfo=self.userinfo,
-                    unescape=tornado.escape.xhtml_unescape,
-                    json_arr=self.mjson.query_recent(self.userinfo.uid, 20) if self.userinfo else [],
-
-                    )
+        self.render(
+            'infor/geojson/index.html',
+            kwd={},
+            userinfo=self.userinfo,
+            unescape=tornado.escape.xhtml_unescape,
+            json_arr=self.mjson.query_recent(self.userinfo.uid, 20) if self.userinfo else []
+        )
 
     @tornado.web.authenticated
     def list(self):
 
         kwd = {}
-        self.render('infor/geojson/gson_recent.html',
-                    kwd=kwd,
-                    userinfo=self.userinfo,
-                    unescape=tornado.escape.xhtml_unescape,
-                    json_arr=self.mjson.query_recent(self.userinfo.uid, 10),
-                    )
+        self.render(
+            'infor/geojson/gson_recent.html',
+            kwd=kwd,
+            userinfo=self.userinfo,
+            unescape=tornado.escape.xhtml_unescape,
+            json_arr=self.mjson.query_recent(self.userinfo.uid, 10)
+        )
 
     @tornado.web.authenticated
     def delete(self, uid):
@@ -117,10 +120,10 @@ class GeoJsonHandler(BaseHandler):
             if self.get_current_user():
                 self.add_data_with_map(url_arr)
             else:
-                self.set_status('403')
+                self.set_status(403)
                 return False
         else:
-            self.set_status('403')
+            self.set_status(403)
             return False
 
     @tornado.web.authenticated
@@ -149,7 +152,7 @@ class GeoJsonHandler(BaseHandler):
                         'type': "FeatureCollection"}
 
             out_dic[index] = bcbc
-            index = index + 1
+            index += 1
 
         if gson_uid == 'draw' or gson_uid == '':
             uid = tools.get_uu4d()
@@ -204,7 +207,7 @@ class GeoJsonHandler(BaseHandler):
                         'type': "FeatureCollection"}
 
             out_dic[index] = bcbc
-            index = index + 1
+            index += 1
 
         if len(url_arr[1]) == 4:
             uid = url_arr[1]

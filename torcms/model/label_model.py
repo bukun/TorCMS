@@ -96,6 +96,9 @@ class MPost2Label(Mabc):
         except:
             pass
 
+    def query_count(self, uid):
+        return self.tab.select().where(self.tab.tag == uid).count()
+
     def remove_relation(self, post_id, tag_id):
         entry = self.tab.delete().where(
             (self.tab.post == post_id) & (self.tab.tag == tag_id)

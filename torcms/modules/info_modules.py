@@ -7,9 +7,13 @@ Tornado Modules for infor.
 import torcms.model.info_model
 import torcms.model.usage_model
 import tornado.web
-from torcms.model.infor2label_model import MInfor2Label
+# from torcms.model.infor2label_model import MPost2Label
+from torcms.model.label_model import MPost2Label
 from torcms.model.info_model import MInfor
-from torcms.model.info_relation_model import MInforRel, MRelPost2Infor, MRelInfor2Post
+from torcms.model.relation_model import MRelation
+
+from torcms.model.post2catalog_model import MPost2Catalog as MInfor2Catalog
+
 from torcms.model.category_model import MCategory
 import torcms.model.infor2catalog_model
 from torcms.model.post_model import MPost
@@ -185,7 +189,7 @@ class app_random_choose(tornado.web.UIModule):
 
 class app_tags(tornado.web.UIModule):
     def render(self, signature):
-        mapp2tag = torcms.model.infor2catalog_model.MInfor2Catalog()
+        mapp2tag = MInfor2Catalog()
         tag_infos = mapp2tag.query_by_entity_uid(signature)
         out_str = ''
         ii = 1
@@ -199,7 +203,7 @@ class app_tags(tornado.web.UIModule):
 
 class label_count(tornado.web.UIModule):
     def render(self, signature):
-        mapp2tag = MInfor2Label()
+        mapp2tag = MPost2Label()
 
         return mapp2tag.query_count(signature)
 
@@ -225,7 +229,7 @@ class baidu_search(tornado.web.UIModule):
 class rel_post2app(tornado.web.UIModule):
     def render(self, uid, num, ):
         self.app = MInfor()
-        self.relation = MRelPost2Infor()
+        self.relation = MRelation()
         kwd = {
             'app_f': 'post',
             'app_t': 'info',
@@ -244,7 +248,7 @@ class rel_post2app(tornado.web.UIModule):
 class rel_app2post(tornado.web.UIModule):
     def render(self, uid, num, ):
         self.mpost = MPost()
-        self.relation = MRelInfor2Post()
+        self.relation = MRelation()
         kwd = {
             'app_f': 'info',
             'app_t': 'post',
