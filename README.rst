@@ -7,14 +7,17 @@ Status
 .. image:: https://travis-ci.org/bukun/TorCMS.svg?branch=master
     :target: https://travis-ci.org/bukun/TorCMS
 
-.. image:: https://badge.fury.io/py/torcms.svg
-    :target: https://badge.fury.io/py/torcms
+.. image:: https://img.shields.io/pypi/v/torcms.svg
+   :target: https://pypi.python.org/pypi/torcms/
+
+.. image:: https://img.shields.io/pypi/pyversions/torcms.svg
+   :target: https://pypi.python.org/pypi/torcms/
 
 Introduction
 -------------------------------------------------
 
 Flexible, extensible web CMS framework built on Tornado and Peewee,
-compatible with Python 3.4 and 3.5. Using PostgreSQL with JSON
+compatible with Python 3.4+. Using PostgreSQL with JSON
 extension as the database.
 
 pypi: The kernel of this CMS has been submit to pypi.
@@ -24,18 +27,27 @@ https://pypi.python.org/pypi/torcms . Could be installed via:
 
     pip install torcms
 
+Features
+--------------------------------------------------
+
+- Build on Tornado, only with Web features, with made it is simple to use.
+- Markdown editor, make your HTML clean and clear.
+- Carefull desinged model for conents. Post, Info, Page, Wiki as default.
+- User roles for editing.
+- Full text search with Whoosh.
+- PostgreSQL 9.4 above, with JSONB, which makes the framework extensible.
+- Access database via Peewee.
+- SASS sub-project for Style.
+- Last version of Jquery. And, Bootstrap as the default CSS framework.
+
 Application
 ------------------
 
 -  http://geodata.osgeo.cn/ (The default theme, and DEMO. )
-
-Others
-~~~~~~~~~~
-
 -  http://www.osgeo.cn
+-  http://www.maplet.org
+-  http://www.yunsuan.org
 -  http://drr.osgeo.cn
--  http://www.maplet.org (Merged into http://www.osgeo.cn/map/ )
--  http://www.yunsuan.org (Merged into http://www.osgeo.cn/app/ )
 
 
 Install
@@ -205,7 +217,7 @@ That's OK. then generate the HTML documents. Under TorCMS:
 In Chinese
 =========================
 
-本 CMS 是使用Python 3.4，Tornado Web框架， Peewee， Purecss 开发的。
+本 CMS 是使用Python 3.4，Tornado Web框架， Peewee，开发的。
 此CMS系统原本用于\ `云算笔记 <http://www.yunsuan.org>`__\ 、\ `开放地理空间实验室 <http://lab.osgeo.cn>`__\ （现合并到\ `OSGeo中国中心 <http://www.osgeo.cn>`__\ ）等网站，
 后来慢慢将 CMS 从中抽取出来。
 
@@ -219,7 +231,10 @@ Email: bukun#osgeo.cn
 应用
 ------------------------
 
+-  http://geodata.osgeo.cn/ (The default theme, and DEMO. )
 -  http://www.osgeo.cn
+-  http://www.maplet.org
+-  http://www.yunsuan.org
 -  http://drr.osgeo.cn
 
 编码规范

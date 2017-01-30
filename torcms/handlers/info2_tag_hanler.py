@@ -10,8 +10,9 @@ from torcms.model.category_model import MCategory
 from torcms.model.info_model import MInfor as MInfor
 from torcms.core.base_handler import BaseHandler
 from torcms.core.torcms_redis import redisvr
+from torcms.core.libs.deprecated import deprecated
 
-
+@deprecated
 class InfoTagHandler(BaseHandler):
     def initialize(self, hinfo=''):
         super(InfoTagHandler, self).initialize()

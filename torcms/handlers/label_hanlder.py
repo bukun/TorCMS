@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 '''
-根据Slug，依照分类的方式列出信息。
+List the infos by the slug of the catalog.
 '''
 
 from  math import ceil as math_ceil
@@ -16,13 +16,14 @@ from config import router_post
 from torcms.core.tools import logger
 
 
-class InforCategoryHandler(CategoryHandler):
+class LabelHandler(CategoryHandler):
     '''
     List the infos by the slug of the catalog.
+    via: `/label/m/1234`
     '''
 
     def initialize(self):
-        super(InforCategoryHandler, self).initialize()
+        super(LabelHandler, self).initialize()
         self.mequa = MInfor()
         self.mcat = MCategory()
         self.mapp2tag = MInfor2Catalog()

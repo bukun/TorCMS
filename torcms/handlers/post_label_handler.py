@@ -3,11 +3,13 @@
 import tornado.escape
 import tornado.web
 
+import json
 import config
 from torcms.core.base_handler import BaseHandler
 from torcms.model.label_model import MLabel
 from torcms.model.label_model import MPost2Label
 from torcms.model.post_model import MPost
+from torcms.core.torcms_redis import redisvr
 
 
 class PostLabelHandler(BaseHandler):
@@ -32,12 +34,22 @@ class PostLabelHandler(BaseHandler):
         else:
             return False
 
+    @tornado.web.authenticated
+    def remove_redis_keyword(self, kw):
+        redisvr.srem(config.redis_kw + self.userinfo.user_name, kw)
+        return json.dump({}, self)
+
     def list(self, kind, tag_slug, cur_p=''):
         '''
         根据 cat_handler.py 中的 def view_cat_new(self, cat_slug, cur_p = '')
         :param tag_slug:
         :return:
         '''
+        # 下面用来使用关键字过滤信息，如果网站信息量不是很大不要开启
+        # Todo:
+        # if self.get_current_user():
+        #     redisvr.sadd(config.redis_kw + self.userinfo.user_name, tag_slug)
+
         if cur_p == '':
             current_page_number = 1
         else:

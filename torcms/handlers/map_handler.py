@@ -1,31 +1,27 @@
-# coding:utf-8
+# -*- coding:utf-8 -*-
 
-from torcms.model.infor2label_model import MInfor2Label
+'''
+Handlers for Map application.
+'''
+
+import tornado.escape
+import tornado.web
+
+from torcms.core.base_handler import BaseHandler
+from torcms.core.tools import average_array
 from torcms.model.info_model import MInfor
-from torcms.model.info_relation_model import MInforRel
-from torcms.model.evaluation_model import MEvaluation
-from torcms.model.category_model import MCategory
-from torcms.model.usage_model import MUsage
-from torcms.model.infor2catalog_model import MInfor2Catalog
+from torcms.model.layout_model import MLayout
 from torcms.handlers.info_handler import InfoHandler
-from torcms.model.info_hist_model import MInfoHist
 
 
 class MapPostHandler(InfoHandler):
+    '''
+    For meta handler of map.
+    '''
+
     def initialize(self, **kwargs):
         super(MapPostHandler, self).initialize()
-        self.mevaluation = MEvaluation()
-        self.mpost2catalog = MInfor2Catalog()
-        self.mpost2label = MInfor2Label()
-        self.mpost_hist = MInfoHist()
-        self.minfor = MInfor()
-        self.musage = MUsage()
-        self.mcat = MCategory()
-        self.mrel = MInforRel()
-        if 'kind' in kwargs:
-            self.kind = kwargs['kind']
-        else:
-            self.kind = '9'
+        self.kind = 'm'
 
     def ext_view_kwd(self, info_rec):
         post_data = self.get_post_data()
@@ -54,8 +50,8 @@ class MapPostHandler(InfoHandler):
         self.set_secure_cookie('map_hist', (app_id + qian)[:20])
         map_hist = []
         if self.get_secure_cookie('map_hist'):
-            for xx in range(0, len(self.get_secure_cookie('map_hist').decode('utf-8')), 4):
-                map_hist.append(self.get_secure_cookie('map_hist').decode('utf-8')[xx: xx + 4])
+            for idx in range(0, len(self.get_secure_cookie('map_hist').decode('utf-8')), 4):
+                map_hist.append(self.get_secure_cookie('map_hist').decode('utf-8')[idx: idx + 4])
         return map_hist
 
     def ext_tmpl_name(self, rec):
@@ -67,6 +63,10 @@ class MapPostHandler(InfoHandler):
 
 
 class MapAdminHandler(MapPostHandler):
+    '''
+    Extra defined the class, for it could be added into InfoHandler.
+    '''
+
     def post(self, *args):
         url_str = args[0]
         url_arr = self.parse_url(url_str)
@@ -83,3 +83,121 @@ class MapAdminHandler(MapPostHandler):
         post_data['ext_zoom_min'] = str(zoom_current - 1)
 
         self.minfor.update_jsonb(uid, post_data)
+
+
+class MapLayoutHandler(BaseHandler):
+    '''
+    Layerout for map handler.
+    '''
+
+    def initialize(self):
+        super(MapLayoutHandler, self).initialize()
+        self.mequa = MInfor()
+        self.mlayout = MLayout()
+
+    def get(self, *args):
+        url_str = args[0]
+        url_arr = self.parse_url(url_str)
+        if len(url_arr) == 2:
+            if url_arr[0] == 'delete':
+                self.delete(url_arr[1])
+        else:
+            return False
+
+    def post(self, *args):
+        url_str = args[0]
+        if url_str == 'save':
+            self.save_layout()
+        else:
+            return False
+
+    @tornado.web.authenticated
+    def delete(self, uid):
+        '''
+        Delete the map layout of user.
+        :param uid:
+        :return:
+        '''
+        self.mlayout.delete_by_uid(uid)
+
+    @tornado.web.authenticated
+    def save_layout(self):
+        '''
+        Save the map layout.
+        :return:
+        '''
+        post_data = self.get_post_data()
+        if 'zoom' in post_data:
+            pass
+        else:
+            self.set_status(403)
+            return
+        post_data['user'] = self.userinfo.uid
+        self.mlayout.add_or_update(post_data)
+
+
+class MapOverlayHandler(BaseHandler):
+    '''
+    For map overlay.
+    '''
+
+    def initialize(self):
+        super(MapOverlayHandler, self).initialize()
+        self.mapplication = MInfor()
+
+    def get(self, url_str=''):
+        url_arr = self.parse_url(url_str)
+
+        if len(url_arr) > 1:
+            self.show_overlay(url_arr)
+        else:
+            kwd = {
+                'title': '',
+                'info': '',
+            }
+            self.render('html/404.html',
+                        kwd=kwd,
+                        userinfo=self.userinfo)
+
+    def show_overlay(self, app_arr):
+        '''
+        Open two maps on one screen.
+        '''
+        app_info_arr = []
+        lon_arr = []
+        lat_arr = []
+        zoom_max_arr = []
+        zoom_min_arr = []
+        zoom_current_zrr = []
+
+        for app_rr in app_arr:
+            c_ap = self.mapplication.get_by_uid(app_rr)
+            app_info_arr.append(c_ap)
+            lon_arr.append(float(c_ap.extinfo['ext_lon']))
+            lat_arr.append(float(c_ap.extinfo['ext_lat']))
+            zoom_max_arr.append(int(c_ap.extinfo['ext_zoom_max']))
+            zoom_min_arr.append(int(c_ap.extinfo['ext_zoom_min']))
+            zoom_current_zrr.append(int(c_ap.extinfo['ext_zoom_current']))
+
+        kwd = {
+            'url': 1,
+            'cookie_str': '',
+            'lon': average_array(lon_arr),
+            'lat': average_array(lat_arr),
+            'zoom_max': max(zoom_max_arr),
+            'zoom_min': min(zoom_min_arr),
+            'zoom_current': int(average_array(zoom_current_zrr))
+        }
+        if 'fullscreen' in self.request.arguments:
+            tmpl = 'post_m/overlay/overlay_full.html'
+        else:
+            tmpl = 'post_m/overlay/overlay.html'
+        self.render(
+            tmpl,
+            topmenu='',
+            kwd=kwd,
+            userinfo=self.userinfo,
+            unescape=tornado.escape.xhtml_unescape,
+            app_arr=app_info_arr,
+            app_str='/'.join(app_arr)
+        )

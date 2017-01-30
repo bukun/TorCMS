@@ -20,9 +20,9 @@ from torcms.core.tools import logger
 '''
 
 
-class InfoListHandler(BaseHandler):
+class InfoFilterHandler(BaseHandler):
     def initialize(self, hinfo=''):
-        super(InfoListHandler, self).initialize()
+        super(InfoFilterHandler, self).initialize()
         self.minfo = MInfor()
         self.mcat = MCategory()
 

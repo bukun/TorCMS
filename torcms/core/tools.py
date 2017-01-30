@@ -223,3 +223,7 @@ def gen_pager_purecss(cat_slug, page_num, current):
                 '''.format('hidden' if current >= page_num else '', cat_slug, page_num)
     pager = pager_shouye + pager_pre + pager_mid + pager_next + pager_last
     return pager
+
+
+def average_array(num_arr):
+    return sum(num_arr) / len(num_arr)

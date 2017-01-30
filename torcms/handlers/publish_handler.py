@@ -1,5 +1,9 @@
 # -*- coding:utf-8 -*-
 
+'''
+The web page for publish, with category.
+'''
+
 import tornado
 import tornado.web
 
@@ -9,9 +13,12 @@ from torcms.model.category_model import MCategory
 from config import router_post
 
 
-class InfoPublishHandler(BaseHandler):
+class PublishHandler(BaseHandler):
+    '''
+    Try to add new post, with category information.
+    '''
     def initialize(self, **kwargs):
-        super(InfoPublishHandler, self).initialize()
+        super(PublishHandler, self).initialize()
         self.minforcatalog = MCategory()
 
     def get(self, *args):
@@ -19,8 +26,10 @@ class InfoPublishHandler(BaseHandler):
         url_arr = self.parse_url(url_str)
 
         if len(url_str) == 1:
+            # like:  /publish/s or  /publish/m
             self.view_class1(url_str)
         elif len(url_str) == 4:
+            # like:  /publish/s or  /publish/m
             self.view_class2(url_str)
         elif len(url_str) == 5:
             self.echo_class2(url_str)

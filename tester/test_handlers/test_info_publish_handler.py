@@ -1,11 +1,11 @@
 # -*- coding:utf-8 -*-
 
-from torcms.handlers.info2_publish_handler import InfoPublishHandler
+from torcms.handlers.publish_handler import PublishHandler
 
 
 def Test():
     # assert InfoHandler(dict(), request="/entity/(.*)")
     urls = [
-        ("/label/(.*)", InfoPublishHandler, dict()), ]
+        ("/label/(.*)", PublishHandler, dict()), ]
     assert urls
 

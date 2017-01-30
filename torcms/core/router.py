@@ -1,13 +1,13 @@
 # -*- coding:utf-8 -*-
 
 from torcms.handlers.info_handler import InfoHandler
-from torcms.handlers.info2_list_handler import InfoListHandler
-from torcms.handlers.info2_publish_handler import InfoPublishHandler
+from torcms.handlers.info_filter_handler import InfoFilterHandler
+from torcms.handlers.publish_handler import PublishHandler
 from torcms.handlers.admin_handler import AdminHandler
 from torcms.handlers.category_handler import CategoryHandler
 from torcms.handlers.entity_handler import EntityHandler
 from torcms.handlers.index import IndexHandler
-from torcms.handlers.info_category_hanlder import InforCategoryHandler
+from torcms.handlers.label_hanlder import LabelHandler
 
 from torcms.handlers.info2_tag_hanler import InfoTagHandler
 from torcms.handlers.post_label_handler import PostLabelHandler
@@ -34,15 +34,12 @@ from torcms.handlers.wiki_history_manager import WikiHistoryHandler
 from torcms.handlers.rating_handler import RatingHandler
 
 from torcms.handlers.geojson import GeoJsonHandler
-from torcms.handlers.map_layout_handler import MapLayoutHandler
-from torcms.handlers.map_handler import MapPostHandler
-from torcms.handlers.map_overlay_handler import MapOverlayHandler
+from torcms.handlers.map_handler import MapPostHandler, MapLayoutHandler, MapOverlayHandler, MapAdminHandler
 from torcms.handlers.admin_post_handler import AdminPostHandler
-from torcms.handlers.map_handler import MapAdminHandler
 
 urls = [
     ('/overlay/(.*)', MapOverlayHandler, dict()),
-    ('/map/overlay/(.*)', MapOverlayHandler, dict()),  # Deprecated
+    ('/map/overlay/(.*)', MapOverlayHandler, dict()),  # Deprecated, repaled by `/overlay/` .
 
     ('/admin_map/(.*)', MapAdminHandler, dict()),
     ("/map/(.*)", MapPostHandler, dict(kind='m')),
@@ -88,10 +85,15 @@ urls = [
     ("/info/(.*)", InfoHandler, dict(kind='9')),
 
     ("/maintain/claslitecategory/(.*)", MaintainPycateCategoryHandler, dict()),
-    ("/list/(.*)", InfoListHandler, dict()),
-    ("/publish/(.*)", InfoPublishHandler, dict()),
 
-    ("/tag/(.*)", InforCategoryHandler, dict()),
+    ("/filter/(.*)", InfoFilterHandler, dict()),
+    ("/list/(.*)", InfoFilterHandler, dict()),  # Deprecated, replaed by `/filter` .
+
+    ("/publish/(.*)", PublishHandler, dict()),
+
+    ("/tag/(.*)", LabelHandler, dict()),
+
+    # Todo: need to be deleted. replaced by `/label/`.
     ('/info_tag/(.*)', InfoTagHandler, dict(hinfo={})),
 
     ("/collect/(.*)", CollectHandler, dict()),
