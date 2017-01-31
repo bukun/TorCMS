@@ -20,7 +20,7 @@ class MLink(Mabc):
         ).where(g_Link.uid == uid)
         entry.execute()
 
-    def insert_data(self, id_link, post_data):
+    def create_page(self, id_link, post_data):
         uu = self.get_by_id(id_link)
         if uu:
             return (False)

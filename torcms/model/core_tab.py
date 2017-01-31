@@ -46,6 +46,7 @@ class g_Post(BaseModel):
 
 
 class g_Wiki(BaseModel):
+    # slug for page, and '_12345678' for wiki.
     uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='', )
     title = peewee.CharField(null=False, unique=True, index=True, help_text='Title')
     date = peewee.DateTimeField()

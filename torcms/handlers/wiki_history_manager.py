@@ -53,7 +53,7 @@ class WikiHistoryHandler(BaseHandler):
         else:
             post_data['user_name'] = ''
         cur_info = self.mpost.get_by_id(uid)
-        self.mposthist.insert_data(cur_info)
+        self.mposthist.create_page(cur_info)
         self.mpost.update_cnt(uid, post_data)
         if cur_info.kind == '1':
             self.redirect('/wiki/{0}'.format(cur_info.title))

@@ -18,7 +18,6 @@ def run_lines():
                 for cnt in cnts:
                     cnt = cnt.rstrip()
                     if len(cnt) > 0:
-
                         fo.write("{0}: {1}\n".format(str(cnt_num).zfill(5), cnt))
                         cnt_num += 1
                 # cnt_num  = cnt_num + len(cnts)

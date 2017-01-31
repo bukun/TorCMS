@@ -13,15 +13,16 @@ from torcms.model.post_model import MPost
 from torcms.model.info_model import MInfor as MApp
 
 from torcms.model.category_model import MCategory as  MInforCatalog
-from torcms.model.infor2catalog_model import MInfor2Catalog
+from torcms.model.post2catalog_model import MPost2Catalog
+# from torcms.model.infor2catalog_model import MInfor2Catalog
 
 from torcms.model.wiki_model import MWiki
-from torcms.model.page_model import MPage
+# from torcms.model.page_model import MPage
 
 from config import router_post
 
 mappcat = MInforCatalog()
-minfo2tag = MInfor2Catalog()
+minfo2tag = MPost2Catalog()
 
 
 def do_for_app(writer, rand=True, kind='', doc_type={}):
@@ -111,7 +112,7 @@ def do_for_wiki(writer, rand=True, doc_type=''):
 
 
 def do_for_page(writer, rand=True, doc_type=''):
-    mpost = MPage()
+    mpost = MWiki()
     if rand:
         recs = mpost.query_random(50, )
     else:

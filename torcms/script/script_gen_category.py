@@ -70,7 +70,7 @@ def gen_xlsx_category():
                 'kind': kind_sig,
             }
             print(post_data)
-            mappcat.insert_data(u_uid, post_data)
+            mappcat.create_page(u_uid, post_data)
             order_index = order_index + 1
 
 def gen_category(yaml_file, sig):
@@ -95,7 +95,7 @@ def gen_category(yaml_file, sig):
                 'kind': '{0}'.format(sig),
             }
 
-            mcat.insert_data(uid, cat_dic)
+            mcat.create_page(uid, cat_dic)
         else:
             sub_arr = out_dic[key]
             pid = key[1:3]
@@ -120,7 +120,7 @@ def gen_category(yaml_file, sig):
                         'kind': '{0}'.format(sig),
                     }
 
-                    mcat.insert_data(pid + uid, cat_dic)
+                    mcat.create_page(pid + uid, cat_dic)
 
 
 def gen_yaml_category():

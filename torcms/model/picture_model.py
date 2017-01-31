@@ -24,7 +24,7 @@ class MEntity(Mabc):
         else:
             return False
 
-    def insert_data(self, signature, impath,kind = '1'):
+    def create_page(self, signature, impath, kind ='1'):
         entry = g_Entity.create(
             uid=signature,
             path=impath,

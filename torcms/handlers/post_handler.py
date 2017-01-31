@@ -190,7 +190,7 @@ class PostHandler(BaseHandler):
         if cnt_old == cnt_new:
             pass
         else:
-            self.mpost_hist.insert_data(postinfo)
+            self.mpost_hist.create_page(postinfo)
 
         logger.info('upadte: {0}'.format(uid))
         logger.info('Update post_data: {0}'.format(post_data))
@@ -388,7 +388,7 @@ class PostHandler(BaseHandler):
         if cur_post_rec:
             pass
         else:
-            if self.mpost.insert_data(uid, post_data):
+            if self.mpost.create_page(uid, post_data):
                 self.update_tag(uid)
                 self.update_category(uid)
         self.redirect('/{0}/{1}'.format(router_post[self.kind], uid))

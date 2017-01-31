@@ -3,13 +3,13 @@
 import json
 from torcms.handlers.page_handler import PageHandler
 from torcms.model.category_model import MCategory
-from torcms.model.page_model import MPage
+from torcms.model.wiki_model import MWiki
 
 
 class PageAjaxHandler(PageHandler):
     def initialize(self):
         super(PageAjaxHandler, self).initialize()
-        self.mpage = MPage()
+        self.mpage = MWiki()
         self.mcat = MCategory()
         self.cats = self.mcat.query_all()
 

@@ -10,7 +10,7 @@ import tornado.web
 from torcms.core.base_handler import BaseHandler
 from torcms.model.category_model import MCategory
 from torcms.model.link_model import MLink
-from torcms.model.page_model import MPage
+from torcms.model.wiki_model import MWiki
 from torcms.model.post_model import MPost
 from config import cfg
 
@@ -24,7 +24,7 @@ class IndexHandler(BaseHandler):
         super(IndexHandler, self).initialize()
         self.mpost = MPost()
         self.mcat = MCategory()
-        self.mpage = MPage()
+        self.mpage = MWiki()
         self.mlink = MLink()
 
     def get_current_user(self):

@@ -7,11 +7,11 @@ from torcms.model.category_model import MCategory
 
 
 from torcms.model.reply_model import MReply
-from torcms.model.page_model import MPage
+from torcms.model.wiki_model import MWiki
 from torcms.model.rating_model import MRating
 
 mreply = MReply()
-mpage = MPage()
+mpage = MWiki()
 mrating = MRating()
 
 

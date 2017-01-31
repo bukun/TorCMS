@@ -291,7 +291,7 @@ class UserHandler(BaseHandler):
         form = SumForm(self.request.arguments)
 
         if form.validate():
-            res_dic = self.muser.insert_data(post_data)
+            res_dic = self.muser.create_page(post_data)
             if res_dic['success']:
                 self.redirect('/user/login')
             else:
@@ -335,7 +335,7 @@ class UserHandler(BaseHandler):
         form = SumForm(self.request.arguments)
 
         if form.validate():
-            user_create_status = self.muser.insert_data(post_data)
+            user_create_status = self.muser.create_page(post_data)
             print('user_register_status:', user_create_status)
             return json.dump(user_create_status, self)
         else:

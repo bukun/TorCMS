@@ -72,7 +72,7 @@ class MCategory(Mabc):
         ).where(self.tab.uid == uid)
         entry.execute()
 
-    def insert_data(self, uid, post_data):
+    def create_page(self, uid, post_data):
 
         uu = self.get_by_id(uid)
         if uu:

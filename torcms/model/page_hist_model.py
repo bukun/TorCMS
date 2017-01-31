@@ -10,7 +10,7 @@ class MPageHist(Mabc):
     def __init__(self):
         self.tab = g_WikiHist
 
-    def insert_data(self, raw_data):
+    def create_page(self, raw_data):
 
         uid = tools.get_uuid()
         g_WikiHist.create(

@@ -105,8 +105,8 @@ class WikiHandler(BaseHandler):
         else:
             return False
         post_data = self.get_post_data()
-
-        post_data['user_name'] = self.get_current_user()
+        post_data['user_name'] = self.userinfo.user_name
+        # post_data['user_name'] = self.get_current_user()
 
         cnt_old = tornado.escape.xhtml_unescape(postinfo.cnt_md).strip()
         cnt_new = post_data['cnt_md'].strip()
@@ -114,7 +114,7 @@ class WikiHandler(BaseHandler):
         if cnt_old == cnt_new:
             pass
         else:
-            self.mwiki_hist.insert_data(postinfo)
+            self.mwiki_hist.create_page(postinfo)
 
         self.mwiki.update(uid, post_data)
 
@@ -193,6 +193,6 @@ class WikiHandler(BaseHandler):
         if self.mwiki.get_by_wiki(post_data['title']):
             pass
         else:
-            self.mwiki.insert_data(post_data)
+            self.mwiki.create_wiki(post_data)
 
         self.redirect('/wiki/{0}'.format(tornado.escape.url_escape(post_data['title'])))

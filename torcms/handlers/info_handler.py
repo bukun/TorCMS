@@ -518,7 +518,7 @@ class InfoHandler(PostHandler):
         if cnt_old == cnt_new:
             pass
         else:
-            self.mpost_hist.insert_data(postinfo)
+            self.mpost_hist.create_page(postinfo)
 
         self.minfor.modify_meta(uid,
                                 post_data,

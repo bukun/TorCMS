@@ -188,6 +188,7 @@ then run as follow:
 with ``coverage`` (install with:  ``pip install coverage`` ):
 
 ::
+
     nosetests  --exe -v -d --with-coverage tester
 
 Note: I alway writing code in the folder which is mounted by Debian in VirtualBox, so ``--exe``.

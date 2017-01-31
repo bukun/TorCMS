@@ -36,7 +36,7 @@ class MPostHist(Mabc):
         else:
             return recs.get()
 
-    def insert_data(self, raw_data):
+    def create_page(self, raw_data):
 
         uid = tools.get_uuid()
         g_PostHist.create(

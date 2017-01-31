@@ -13,7 +13,7 @@ from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
 from torcms.model.category_model import MCategory
 from torcms.model.page_hist_model import MPageHist
-from torcms.model.page_model import MPage
+from torcms.model.wiki_model import MWiki
 
 
 class PageHandler(BaseHandler):
@@ -23,13 +23,13 @@ class PageHandler(BaseHandler):
 
     def initialize(self):
         super(PageHandler, self).initialize()
-        self.mpage = MPage()
+        self.mpage = MWiki()
         self.mpage_hist = MPageHist()
         self.mcat = MCategory()
         self.cats = self.mcat.query_all()
         self.kind = '2'
 
-    def get(self, *args):
+    def get(self, *args, **kwargs):
 
         url_str = args[0]
         url_arr = self.parse_url(url_str)
@@ -48,15 +48,14 @@ class PageHandler(BaseHandler):
         else:
             self.render('html/404.html', userinfo=self.userinfo, kwd={})
 
-    def post(self, *args):
-        url_str = args[0]
-        url_arr = self.parse_url(url_str)
+    def post(self, *args, **kwargs):
+        url_arr = self.parse_url(args[0])
 
         if url_arr[0] in ['_edit', 'modify', 'edit']:
             self.update(url_arr[1])
         elif len(url_arr) == 1:
             # like:  /page/new_page
-            self.add_page(url_str)
+            self.add_page(url_arr[0])
         else:
             self.render('html/404.html', userinfo=self.userinfo, kwd={})
 
@@ -111,18 +110,21 @@ class PageHandler(BaseHandler):
             return False
         post_data = self.get_post_data()
 
-        if 'slug' in post_data:
-            pass
-        else:
-            self.set_status(400)
-            return False
+        post_data['user_name'] = self.userinfo.user_name
 
-        cnt_old = tornado.escape.xhtml_unescape(self.mpage.get_by_uid(slug).cnt_md).strip()
+        # if 'slug' in post_data:
+        #     pass
+        # else:
+        #     self.set_status(400)
+        #     return False
+        pageinfo = self.mpage.get_by_uid(slug)
+
+        cnt_old = tornado.escape.xhtml_unescape(pageinfo.cnt_md).strip()
         cnt_new = post_data['cnt_md'].strip()
         if cnt_old == cnt_new:
             pass
         else:
-            self.mpage_hist.insert_data(self.mpage.get_by_uid(slug))
+            self.mpage_hist.create_page(self.mpage.get_by_uid(slug))
 
         self.mpage.update(slug, post_data)
 
@@ -192,11 +194,11 @@ class PageHandler(BaseHandler):
         post_data = self.get_post_data()
 
         post_data['user_name'] = self.userinfo.user_name
-        post_data['slug'] = slug
+        # post_data['slug'] = slug
 
         if self.mpage.get_by_uid(slug):
             self.set_status(400)
             return False
         else:
-            self.mpage.insert_data(post_data)
+            self.mpage.create_page(slug, post_data)
             self.redirect('/page/{0}'.format(slug))

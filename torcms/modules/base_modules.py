@@ -12,7 +12,7 @@ from torcms.model.category_model import MCategory
 from torcms.model.info_model import MInfor as  MInfor
 from torcms.model.label_model import MPost2Label
 from torcms.model.reply_model import MReply
-from torcms.model.page_model import MPage
+from torcms.model.wiki_model import MWiki
 # from torcms.model.infor2catalog_model import MInfor2Catalog
 from torcms.model.post2catalog_model import MPost2Catalog as MInfor2Catalog
 from torcms.core.tool.whoosh_tool import yunsearch
@@ -20,7 +20,7 @@ import config
 from config import router_post
 
 mreply = MReply()
-mpage = MPage()
+mpage = MWiki()
 
 
 class show_page(tornado.web.UIModule):

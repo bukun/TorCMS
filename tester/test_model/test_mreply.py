@@ -46,7 +46,7 @@ class TestPost():
         }
 
 
-        tt=self.user.insert_data(post_data)
+        tt=self.user.create_page(post_data)
 
 
         print('=' * 20)
@@ -63,7 +63,7 @@ class TestPost():
         }
 
 
-        tt=self.user.insert_data(post_data)
+        tt=self.user.create_page(post_data)
 
 
         # u_id = self.user.get_by_name(self.username)
