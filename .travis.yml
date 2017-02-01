@@ -14,6 +14,7 @@ before_script:
   - psql travis_ci_torcms -c 'create extension if not exists hstore' -U postgres
 
 script:
+  - git clone https://github.com/bukun/torcms_modules_bootstrap.git  templates/modules
   - python helper.py -i init_tables
   - python helper.py -i gen_category
   - python helper.py -i crud
