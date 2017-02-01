@@ -85,6 +85,14 @@ And, create hstore extension in the database.
     create extension hstore;
 
 
+Get the HTML for modules
+----------------------------------
+
+::
+
+    cd TorCMS/templates
+    git clone https://github.com/bukun/torcms_modules_bootstrap.git modules
+
 For Python
 ----------
 

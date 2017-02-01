@@ -6,8 +6,9 @@ from torcms.model.json_model import MJson
 from torcms.model.layout_model import MLayout
 import config
 
+
 class app_json(tornado.web.UIModule):
-    def render(self,  app_id,user_id):
+    def render(self, app_id, user_id):
         self.mjson = MJson()
         self.mlayout = MLayout()
 
@@ -22,9 +23,10 @@ class app_json(tornado.web.UIModule):
         }
 
         return self.render_string('modules/map/map_json.html',
-                                  json_recs = json_recs,
-                                  app_id = app_id,
+                                  json_recs=json_recs,
+                                  app_id=app_id,
                                   kwd=kwd)
+
 
 class app_layout(tornado.web.UIModule):
     def render(self, app_id, user_id):
@@ -40,5 +42,5 @@ class app_layout(tornado.web.UIModule):
         }
 
         return self.render_string('modules/map/map_layout.html',
-                                  layout_recs = layout_recs,
+                                  layout_recs=layout_recs,
                                   kwd=kwd)
