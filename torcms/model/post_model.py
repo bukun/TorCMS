@@ -112,9 +112,9 @@ class MPost(Mabc):
         if cur_rec:
             self.update(uid, post_data)
         else:
-            self.create_page(uid, post_data)
+            self.create_category(uid, post_data)
 
-    def create_page(self, post_uid, post_data):
+    def create_category(self, post_uid, post_data):
         '''
         :param post_uid:
         :param post_data:

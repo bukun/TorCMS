@@ -25,7 +25,7 @@ class TestPost():
             'keywords': 'sdf',
 
         }
-        self.uu.create_page(self.uid, post_data)
+        self.uu.create_category(self.uid, post_data)
         new_count = self.uu.get_counts()
 
         tt = self.uu.get_by_uid(self.uid)
@@ -47,7 +47,7 @@ class TestPost():
             'logo': '/static/',
             'keywords': 'sdf',
         }
-        uu = self.uu.create_page(self.uid, post_data)
+        uu = self.uu.create_category(self.uid, post_data)
         assert uu == False
 
         post_data = {
@@ -58,7 +58,7 @@ class TestPost():
             'logo': '/static/',
             'keywords': 'sdf',
         }
-        uu = self.uu.create_page(self.uid, post_data)
+        uu = self.uu.create_category(self.uid, post_data)
         assert uu == False
 
         post_data = {
@@ -69,7 +69,7 @@ class TestPost():
             'logo': '/static/',
             'keywords': 'sdf',
         }
-        uu = self.uu.create_page(self.uid, post_data)
+        uu = self.uu.create_category(self.uid, post_data)
         assert uu == False
 
     def test_get_by_title(self):
@@ -83,7 +83,7 @@ class TestPost():
             'logo': '/static/',
             'keywords': 'sdf',
         }
-        uid = self.uu.create_page(self.uid, post_data)
+        uid = self.uu.create_category(self.uid, post_data)
 
         ss = self.uu.get_by_uid(uid)
         assert ss.title == post_data['title']
@@ -103,7 +103,7 @@ class TestPost():
             'logo': '/static/',
             'keywords': 'sdf',
         }
-        uid = self.uu.create_page(self.uid, post_data)
+        uid = self.uu.create_category(self.uid, post_data)
 
         ss = self.uu.get_by_uid(uid)
         assert ss.title == self.post_title
@@ -117,7 +117,7 @@ class TestPost():
             'logo': 'asqwef',
             'keywords': 'aseef',
         }
-        self.uu.create_page(uid, post_data)
+        self.uu.create_category(uid, post_data)
         new_count = self.uu.get_counts()
 
         #assert self.raw_count + 1 == new_count
@@ -199,7 +199,7 @@ class TestPost():
             'logo': '/static/',
             'keywords': 'sdf',
         }
-        self.uu.create_page(uid, post_data)
+        self.uu.create_category(uid, post_data)
 
         rec = self.uu.get_by_uid(uid)
 

@@ -30,7 +30,7 @@ def entry(argv):
             print('helper.py -i cmd')
             print('cmd list----------------------')
             print('  fetch_f2elib: ')
-            print('    migrate_db: ')
+            print('       migrate: ')
             print('     edit_diff: ')
             print('  gen_category: ')
             print('   init_tables: ')

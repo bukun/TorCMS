@@ -35,7 +35,7 @@ class MWikiHist(Mabc):
         recs = self.tab.select().where(self.tab.wiki_id == postid).order_by(self.tab.time_update.desc()).limit(limit)
         return recs
 
-    def create_page(self, raw_data):
+    def create_category(self, raw_data):
         entry = g_WikiHist.create(
             uid=tools.get_uuid(),
             title=raw_data.title,

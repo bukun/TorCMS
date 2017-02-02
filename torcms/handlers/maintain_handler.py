@@ -146,7 +146,7 @@ class MaintainCategoryHandler(BaseHandler):
         id_post = post_data['uid'][0]
         cur_post_rec = self.mclass.get_by_id(id_post)
         if cur_post_rec is None:
-            uid = self.mclass.create_page(id_post, post_data)
+            uid = self.mclass.create_category(id_post, post_data)
 
         self.redirect('/maintain/category/list')
 
@@ -167,7 +167,7 @@ class MaintainCategoryHandler(BaseHandler):
         while self.mclass.get_by_id(cur_uid):
             cur_uid = tools.get_uudd(2)
 
-        if self.mclass.create_page(post_data['uid'][0], post_data):
+        if self.mclass.create_category(post_data['uid'][0], post_data):
 
             output = {
                 'addinfo ': 1,
@@ -194,7 +194,7 @@ class MaintainCategoryHandler(BaseHandler):
         while self.mclass.get_by_id(cur_uid):
             cur_uid = tools.get_uudd(2)
 
-        uid = self.mclass.create_page(cur_uid, post_data)
+        uid = self.mclass.create_category(cur_uid, post_data)
 
         self.redirect('/maintain/category/list')
 

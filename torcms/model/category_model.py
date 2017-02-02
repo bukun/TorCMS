@@ -66,13 +66,13 @@ class MCategory(Mabc):
             slug=post_data['slug'] if 'slug' in post_data else raw_rec.slug,
             order=post_data['order'] if 'order' in post_data else raw_rec.order,
             kind=post_data['kind'] if 'kind' in post_data else raw_rec.kind,
-            tmpl=post_data['tmpl'],
+
             pid=post_data['pid'],
             # role_mask = post_data['role_mask'] if 'role_mask' in post_data else '00100',
         ).where(self.tab.uid == uid)
         entry.execute()
 
-    def create_page(self, uid, post_data):
+    def create_category(self, uid, post_data):
 
         uu = self.get_by_id(uid)
         if uu:
@@ -84,7 +84,7 @@ class MCategory(Mabc):
                 slug=post_data['slug'],
                 order=post_data['order'],
                 kind=post_data['kind'] if 'kind' in post_data else '1',
-                tmpl = post_data['tmpl'],
+                # tmpl = post_data['tmpl'],
                 pid = post_data['pid'],
                 # role_mask=post_data['role_mask'] if 'role_mask' in post_data else '00100',
             )

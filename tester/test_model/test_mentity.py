@@ -19,7 +19,7 @@ class TestEntity():
 
         }
 
-        self.uu.create_page(uid, post_data['path'])
+        self.uu.create_category(uid, post_data['path'])
         assert True
 
     def test_insert_2(self):

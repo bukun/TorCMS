@@ -72,7 +72,7 @@ class MWiki(Mabc):
 
         return self.__create_rec(uid, '1', post_data=post_data)
 
-    def create_page(self, slug, post_data):
+    def create_category(self, slug, post_data):
         logger.info('Call create Page')
         uu = self.get_by_uid(slug)
         if uu is None:
@@ -156,8 +156,16 @@ class MWiki(Mabc):
         ).where(g_Wiki.uid == slug)
         entry.execute()
 
-    def query_all(self, kind='2'):
-        return self.tab.select().where(self.tab.kind == kind)
+    def query_all(self, **kwargs):
+        if 'kind' in kwargs:
+            kind = kwargs['kind']
+        else:
+            kind = '1'
+        if 'limit' in kwargs:
+            limit = kwargs['limit']
+        else:
+            limit = 999999
+        return self.tab.select().where(self.tab.kind == kind).limit(limit)
 
     def query_random(self, num=6):
         return self.tab.select().where(

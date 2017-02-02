@@ -18,6 +18,6 @@ def run_create_admin():
     if entry:
         pass
     else:
-        muser.create_page(post_data)
+        muser.create_category(post_data)
 
 

@@ -66,7 +66,7 @@ class ReplyHandler(BaseHandler):
         post_data['user_name'] = self.userinfo.user_name
         post_data['user_id'] = self.userinfo.uid
         post_data['post_id'] = post_id
-        replyid = self.tab.create_page(post_data)
+        replyid = self.tab.create_category(post_data)
         if replyid:
             out_dic = {
                 'pinglun': post_data['cnt_reply'],
@@ -81,7 +81,7 @@ class ReplyHandler(BaseHandler):
         logger.info('zan: {0}'.format(id_reply))
         # 先在外部表中更新，然后更新内部表字段的值。
         # 有冗余，但是查看的时候避免了联合查询
-        self.mreply2user.create_page(self.userinfo.uid, id_reply)
+        self.mreply2user.create_category(self.userinfo.uid, id_reply)
         cur_count = self.mreply2user.get_voter_count(id_reply)
         if cur_count:
             self.tab.update_vote(id_reply, cur_count)

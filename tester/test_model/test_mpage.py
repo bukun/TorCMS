@@ -22,7 +22,7 @@ class TestPage():
             'view_count': 1,
 
         }
-        self.uu.create_page('sadfsadf', post_data)
+        self.uu.create_category('sadfsadf', post_data)
         new_count = self.uu.get_counts()
 
         tt = self.uu.get_by_uid(self.page_slug)
@@ -39,7 +39,7 @@ class TestPage():
             'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
             'view_count': 1,
         }
-        uu = self.uu.create_page('abcd', post_data)
+        uu = self.uu.create_category('abcd', post_data)
         assert uu == False
 
         post_data = {
@@ -48,7 +48,7 @@ class TestPage():
             'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
             'view_count': 1,
         }
-        uu = self.uu.create_page('bdef', post_data)
+        uu = self.uu.create_category('bdef', post_data)
         assert uu == False
 
         post_data = {
@@ -57,7 +57,7 @@ class TestPage():
             'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
             'view_count': 1,
         }
-        uu = self.uu.create_page('aaaa', post_data)
+        uu = self.uu.create_category('aaaa', post_data)
         assert uu == False
 
     def test_query_all(self):

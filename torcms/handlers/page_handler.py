@@ -124,7 +124,7 @@ class PageHandler(BaseHandler):
         if cnt_old == cnt_new:
             pass
         else:
-            self.mpage_hist.create_page(self.mpage.get_by_uid(slug))
+            self.mpage_hist.create_category(self.mpage.get_by_uid(slug))
 
         self.mpage.update(slug, post_data)
 
@@ -200,5 +200,5 @@ class PageHandler(BaseHandler):
             self.set_status(400)
             return False
         else:
-            self.mpage.create_page(slug, post_data)
+            self.mpage.create_category(slug, post_data)
             self.redirect('/page/{0}'.format(slug))

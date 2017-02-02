@@ -18,7 +18,7 @@ class TestUser():
             'user_email': 'name@kljhqq.com',
         }
 
-        tt = self.uu.create_page(post_data)
+        tt = self.uu.create_category(post_data)
 
         assert tt['success'] == True
 
@@ -29,7 +29,7 @@ class TestUser():
             'user_email': 'name@qkjhlq.com',
         }
 
-        tt = self.uu.create_page(post_data)
+        tt = self.uu.create_category(post_data)
         assert tt['success'] == False
 
         post_data = {
@@ -38,7 +38,7 @@ class TestUser():
             'user_email': 'name@qhjq.com',
         }
 
-        tt = self.uu.create_page(post_data)
+        tt = self.uu.create_category(post_data)
         assert tt['success'] == False
 
         post_data = {
@@ -47,7 +47,7 @@ class TestUser():
             'user_email': 'name@qjhgq.com',
         }
 
-        tt = self.uu.create_page(post_data)
+        tt = self.uu.create_category(post_data)
         assert tt['success'] == False
 
     def test_update_info(self):

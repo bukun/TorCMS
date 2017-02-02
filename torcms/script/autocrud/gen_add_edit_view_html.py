@@ -10,7 +10,6 @@ except:
     pass
 
 from .base_crud import crud_path
-
 from .tpl import tpl_add
 from .tpl import tpl_view
 from .tpl import tpl_edit

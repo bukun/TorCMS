@@ -19,7 +19,7 @@ class TestUM():
             'order': '1',
             'logo': 'asf',
         }
-        self.uu.create_page(uid, post_data)
+        self.uu.create_category(uid, post_data)
 
         new_count = self.uu.get_counts()
 
@@ -38,7 +38,7 @@ class TestUM():
             'order': '1',
             'logo': 'asf',
         }
-        self.uu.create_page(uid, post_data)
+        self.uu.create_category(uid, post_data)
         new_count = self.uu.get_counts()
 
         assert self.raw_count + 1 == new_count

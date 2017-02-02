@@ -125,7 +125,7 @@ class MUser(Mabc):
         except:
             print(post_data)
         return True
-    def create_page(self, post_data):
+    def create_category(self, post_data):
         out_dic = {'success': False, 'code': '00'}
 
         if tools.check_username_valid(post_data['user_name']):

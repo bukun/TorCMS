@@ -14,7 +14,7 @@ class MInfoHist(Mabc):
         except:
             pass
 
-    def create_page(self, post_data):
+    def create_category(self, post_data):
         uid = tools.get_uuid()
         g_PostHist.create(
                 uid=uid,

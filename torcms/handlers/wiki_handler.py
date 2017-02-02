@@ -114,7 +114,7 @@ class WikiHandler(BaseHandler):
         if cnt_old == cnt_new:
             pass
         else:
-            self.mwiki_hist.create_page(postinfo)
+            self.mwiki_hist.create_category(postinfo)
 
         self.mwiki.update(uid, post_data)
 

@@ -8,8 +8,12 @@ from torcms.handlers.post_handler import PostHandler
 
 
 class PostAjaxHandler(PostHandler):
-    def get(self, url_str=''):
-        url_arr = self.parse_url(url_str)
+    def initialize(self):
+        super(PostAjaxHandler, self).initialize()
+
+    def get(self, *args, **kwargs):
+
+        url_arr = self.parse_url(args[0])
         if url_arr[0] == 'delete':
             self.delete(url_arr[1])
         elif url_arr[0] in ['count_plus']:
@@ -28,7 +32,7 @@ class PostAjaxHandler(PostHandler):
             pass
         else:
             return False
-        is_deleted = self.minfor.delete(uid)
+        is_deleted = self.mpost.delete(uid)
 
         if is_deleted:
             output = {
@@ -48,7 +52,7 @@ class PostAjaxHandler(PostHandler):
         '''
         self.set_header("Content-Type", "application/json")
         output = {
-            'status': 1 if self.minfor.update_view_count_by_uid(uid) else 0,
+            'status': 1 if self.mpost.update_view_count_by_uid(uid) else 0,
         }
         # return json.dump(output, self)
         self.write(json.dumps(output))
