@@ -26,6 +26,14 @@ minfo2tag = MPost2Catalog()
 
 
 def do_for_app(writer, rand=True, kind='', doc_type={}):
+    '''
+    生成whoosh，根据配置文件中类别。
+    :param writer:
+    :param rand:
+    :param kind:
+    :param doc_type:
+    :return:
+    '''
     mpost = MApp()
     if rand:
         recs = mpost.query_random(50, kind=kind)
@@ -44,6 +52,12 @@ def do_for_app(writer, rand=True, kind='', doc_type={}):
 
 
 def do_for_app2(writer, rand=True):
+    '''
+    生成whoosh，根据数据库中类别。
+    :param writer:
+    :param rand:
+    :return:
+    '''
     mpost = MApp()
     if rand:
         recs = mpost.query_random(50)
@@ -129,7 +143,15 @@ def do_for_page(writer, rand=True, doc_type=''):
         )
 
 
-def gen_whoosh_database(if_rand=True, kind='1', kind_arr=[], post_type={}):
+def gen_whoosh_database(if_rand=True, kind_arr=[], post_type={}):
+    '''
+    kind_arr, define the `type` except Post, Page, Wiki
+    post_type, define the templates for different kind.
+    :param if_rand:
+    :param kind_arr:
+    :param post_type:
+    :return:
+    '''
     analyzer = ChineseAnalyzer()
     schema = Schema(title=TEXT(stored=True, analyzer=analyzer),
                     catid=TEXT(stored=True),
@@ -145,7 +167,7 @@ def gen_whoosh_database(if_rand=True, kind='1', kind_arr=[], post_type={}):
 
     writer = ix.writer()
 
-    do_for_app2(writer, rand=if_rand)
+    # do_for_app2(writer, rand=if_rand)
 
     do_for_post(writer, rand=if_rand, doc_type=post_type['1'])
     do_for_wiki(writer, rand=if_rand, doc_type=post_type['1'])
