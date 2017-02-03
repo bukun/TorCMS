@@ -1,11 +1,6 @@
 # -*- coding: utf-8
 
-from torcms.core.tool.send_email import send_mail
-
 from torcms.model.user_model import MUser
-import time
-from config_email import email_cfg
-from config import smtp_cfg, email_cfg
 
 
 def run_create_admin():

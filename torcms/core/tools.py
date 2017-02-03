@@ -227,33 +227,47 @@ def gen_pager_purecss(cat_slug, page_num, current):
 def average_array(num_arr):
     return sum(num_arr) / len(num_arr)
 
+class ConfigDefault(object):
+    smtp_cfg = {
+        'name': '地图画板',
+        'host': "",
+        'user': "",
+        'pass': "",
+        'postfix': 'yunsuan.org',
+    }
+
+    site_cfg = {
+        'site_url': 'http://127.0.0.1:8888',
+        'cookie_secret': '123456'
+    }
+
+    db_cfg = {
+        'db': 'osgeo',
+        'user': 'osgeo',
+        'pass': '131322',
+    }
 
 def get_cfg():
-    try:
-        from cfg import db_cfg
-    except:
-        db_cfg = {
-            'db': 'osgeo',
-            'user': 'osgeo',
-            'pass': '131322',
-        }
+    import cfg
 
-    try:
-        from cfg import smtp_cfg
-    except:
-        smtp_cfg = {
-            'name': '地图画板',
-            'host': "",
-            'user': "",
-            'pass': "",
-            'postfix': 'yunsuan.org',
-        }
+    cfg_var = dir(cfg)
 
-    try:
-        from cfg import site_cfg
-    except:
-        site_cfg = {
-            'site_url': 'http://127.0.0.1:8888',
-            'cookie_secret': '123456'
-        }
+
+
+    if 'db_cfg' in cfg_var:
+        db_cfg = cfg.db_cfg
+    else:
+        db_cfg = ConfigDefault.db_cfg
+
+    if 'smtp_cfg' in cfg_var:
+        smtp_cfg = cfg.smtp_cfg
+    else:
+        smtp_cfg = ConfigDefault.smtp_cfg
+
+    if 'site_cfg' in cfg_var:
+        site_cfg = cfg.site_cfg
+    else:
+        site_cfg = ConfigDefault.site_cfg
+
+
     return (db_cfg, smtp_cfg, site_cfg)
