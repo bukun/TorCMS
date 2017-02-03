@@ -58,7 +58,7 @@ class MaintainCategoryHandler(BaseHandler):
                     view=self.mclass.query_all(by_order=True),
                     format_date=tools.format_date,
                     userinfo=self.userinfo,
-                    cfg=config.cfg
+                    cfg=config.cfg_render
                     )
 
     @tornado.web.authenticated
@@ -75,7 +75,7 @@ class MaintainCategoryHandler(BaseHandler):
                     topmenu='',
                     kwd=kwd,
                     userinfo=self.userinfo,
-                    cfg=config.cfg
+                    cfg=config.cfg_render
                     )
 
     def __could_edit(self, uid):
@@ -129,7 +129,7 @@ class MaintainCategoryHandler(BaseHandler):
                     unescape=tornado.escape.xhtml_unescape,
                     dbrec=a,
                     userinfo=self.userinfo,
-                    cfg=config.cfg,
+                    cfg=config.cfg_render,
                     )
 
     @tornado.web.authenticated

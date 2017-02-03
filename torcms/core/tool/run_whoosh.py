@@ -180,6 +180,5 @@ def gen_whoosh_database(kind_arr=[], post_type={}):
 
 
 def run():
-    print('run_whoosh.')
 
     gen_whoosh_database(kind_arr=kind_arr, post_type=post_type)

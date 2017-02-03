@@ -300,7 +300,7 @@ class UserHandler(BaseHandler):
                 }
                 self.set_status(400)
                 self.render('html/404.html',
-                            cfg=config.cfg,
+                            cfg=config.cfg_render,
                             kwd=kwd,
                             userinfo=None, )
 
@@ -310,7 +310,7 @@ class UserHandler(BaseHandler):
             }
             self.set_status(400)
             self.render('html/404.html',
-                        cfg=config.cfg,
+                        cfg=config.cfg_render,
                         kwd=kwd,
                         userinfo=None, )
 
@@ -418,7 +418,7 @@ class UserHandler(BaseHandler):
             'pager': '',
         }
         self.render('user/{0}/regist.html'.format(self.tmpl_router),
-                    cfg=config.cfg,
+                    cfg=config.cfg_render,
                     userinfo=None,
                     kwd=kwd)
 
@@ -447,7 +447,7 @@ class UserHandler(BaseHandler):
                 'info': '密码验证出错，请<a href="/user/login">重新登陆</a>。'
             }
             self.render('user/relogin.html',
-                        cfg=config.cfg,
+                        cfg=config.cfg_render,
                         kwd=kwd,
                         userinfo=self.userinfo, )
         elif result == -1:
@@ -456,7 +456,7 @@ class UserHandler(BaseHandler):
                 'info': '没有这个用户'
             }
             self.render('html/404.html',
-                        cfg=config.cfg,
+                        cfg=config.cfg_render,
                         kwd=kwd,
                         userinfo=self.userinfo, )
         else:
@@ -468,7 +468,7 @@ class UserHandler(BaseHandler):
             'pager': '',
         }
         self.render('user/{0}/find.html'.format(self.tmpl_router),
-                    cfg=config.cfg,
+                    cfg=config.cfg_render,
                     kwd=kwd,
                     userinfo=self.userinfo,
                     )
@@ -482,7 +482,7 @@ class UserHandler(BaseHandler):
         self.render('{1}/{0}/find_list.html'.format(self.tmpl_router, self.tmpl_dir),
                     kwd=kwd,
                     view=self.muser.get_by_keyword(""),
-                    cfg=config.cfg,
+                    cfg=config.cfg_render,
                     userinfo=self.userinfo,
                     )
 
@@ -496,7 +496,7 @@ class UserHandler(BaseHandler):
             self.render('user/{0}/find_list.html'.format(self.tmpl_router),
                         kwd=kwd,
                         view=self.muser.get_by_keyword(keyword),
-                        cfg=config.cfg,
+                        cfg=config.cfg_render,
                         userinfo=self.userinfo,
                         )
         else:
@@ -617,7 +617,7 @@ class UserHandler(BaseHandler):
             'new_pass': new_passwd,
         }
         self.render('user/{0}/show_pass.html'.format(self.tmpl_router),
-                    cfg=config.cfg,
+                    cfg=config.cfg_render,
                     kwd=kwd,
                     userinfo=self.userinfo, )
 

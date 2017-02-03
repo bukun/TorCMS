@@ -21,7 +21,7 @@ from torcms.model.reply_model import MReply
 from torcms.handlers.post_handler import PostHandler
 from torcms.model.info_hist_model import MInfoHist
 from torcms.core.tools import logger
-from config import router_post, cfg
+from config import router_post, cfg_render
 
 from celery_server import cele_gen_whoosh
 
@@ -261,7 +261,7 @@ class InfoHandler(PostHandler):
             self.add_relation(last_app_uid, app_id)
 
     def _is_tpl2(self):
-        if 'tpl2' in cfg and self.kind in cfg['tpl2']:
+        if 'tpl2' in cfg_render and self.kind in cfg_render['tpl2']:
             return True
         return False
 

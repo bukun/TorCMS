@@ -15,7 +15,6 @@ import markdown
 from markdown.extensions.wikilinks import WikiLinkExtension
 import tornado.escape
 
-
 # Config for logging
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
@@ -227,3 +226,34 @@ def gen_pager_purecss(cat_slug, page_num, current):
 
 def average_array(num_arr):
     return sum(num_arr) / len(num_arr)
+
+
+def get_cfg():
+    try:
+        from cfg import db_cfg
+    except:
+        db_cfg = {
+            'db': 'osgeo',
+            'user': 'osgeo',
+            'pass': '131322',
+        }
+
+    try:
+        from cfg import smtp_cfg
+    except:
+        smtp_cfg = {
+            'name': '地图画板',
+            'host': "",
+            'user': "",
+            'pass': "",
+            'postfix': 'yunsuan.org',
+        }
+
+    try:
+        from cfg import site_cfg
+    except:
+        site_cfg = {
+            'site_url': 'http://127.0.0.1:8888',
+            'cookie_secret': '123456'
+        }
+    return (db_cfg, smtp_cfg, site_cfg)

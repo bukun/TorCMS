@@ -9,7 +9,7 @@ import json
 import tornado.escape
 import tornado.web
 
-from config import cfg
+from config import cfg_render
 from config import router_post
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
@@ -76,7 +76,7 @@ class PostListHandler(BaseHandler):
                     postinfo=self.minfor.query_recent(num=20, kind=self.kind),
                     format_date=tools.format_date,
                     userinfo=self.userinfo,
-                    cfg=cfg, )
+                    cfg=cfg_render, )
 
 
 
@@ -96,4 +96,4 @@ class PostListHandler(BaseHandler):
                     postrecs=self.minfor.query_dated(10),
                     format_date=tools.format_date,
                     unescape=tornado.escape.xhtml_unescape,
-                    cfg=cfg, )
+                    cfg=cfg_render, )

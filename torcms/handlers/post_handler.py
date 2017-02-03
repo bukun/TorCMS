@@ -9,7 +9,7 @@ import json
 import tornado.escape
 import tornado.web
 
-from config import cfg
+from config import cfg_render
 from config import router_post
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
@@ -161,7 +161,7 @@ class PostHandler(BaseHandler):
                     kwd=kwd,
                     tag_infos=self.mcat.query_all(),
                     userinfo=self.userinfo,
-                    cfg=cfg, )
+                    cfg=cfg_render, )
 
     @tornado.web.authenticated
     def update(self, uid):
@@ -301,7 +301,7 @@ class PostHandler(BaseHandler):
                     dbrec=postinfo,
                     postinfo=postinfo,
                     userinfo=self.userinfo,
-                    cfg=cfg, )
+                    cfg=cfg_render, )
 
     def __gen_last_current_relation(self, post_id):
         '''
@@ -364,7 +364,7 @@ class PostHandler(BaseHandler):
                     relations=rel_recs,
                     rand_recs=rand_recs,
                     replys=[],
-                    cfg=cfg, )
+                    cfg=cfg_render, )
 
     def add_relation(self, f_uid, t_uid):
         if self.mpost.get_by_id(t_uid) is False:

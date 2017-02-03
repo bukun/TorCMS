@@ -8,7 +8,7 @@ import json
 import tornado.escape
 import tornado.web
 
-from config import cfg
+from config import cfg_render
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
 from torcms.model.category_model import MCategory
@@ -146,7 +146,7 @@ class PageHandler(BaseHandler):
                     postinfo=self.mpage.get_by_uid(uid),
                     kwd=kwd,
                     unescape=tornado.escape.xhtml_unescape,
-                    cfg=cfg,
+                    cfg=cfg_render,
                     userinfo=self.userinfo)
 
     def view(self, rec):
@@ -161,7 +161,7 @@ class PageHandler(BaseHandler):
                     kwd=kwd,
                     format_date=tools.format_date,
                     userinfo=self.userinfo,
-                    cfg=cfg)
+                    cfg=cfg_render)
 
     def ajax_count_plus(self, slug):
         output = {
@@ -182,7 +182,7 @@ class PageHandler(BaseHandler):
                     view_all=self.mpage.query_all(),
                     format_date=tools.format_date,
                     userinfo=self.userinfo,
-                    cfg=cfg)
+                    cfg=cfg_render)
 
     @tornado.web.authenticated
     def add_page(self, slug):

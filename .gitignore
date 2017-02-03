@@ -63,7 +63,7 @@ target/
 .DS_Store
 xx*
 # config.py
-conf.py
+cfg.py
 *.sqlite
 *.pkl
 *.db

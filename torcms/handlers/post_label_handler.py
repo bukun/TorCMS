@@ -73,7 +73,7 @@ class PostLabelHandler(BaseHandler):
                     kwd=kwd,
                     userinfo=self.userinfo,
                     pager=self.gen_pager(kind, tag_slug, pager_num, current_page_number),
-                    cfg=config.cfg,
+                    cfg=config.cfg_render,
                     )
 
     def gen_pager(self, kind, cat_slug, page_num, current):

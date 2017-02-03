@@ -18,7 +18,7 @@ from torcms.model.core_tab import g_Rel
 from torcms.model.core_tab import g_Reply
 
 import config
-from config import cfg
+from config import cfg_render
 
 
 #
@@ -306,7 +306,7 @@ class MInfor(Mabc):
 
         # 当前分页的记录
         # Todo
-        current_list = all_list[(idx - 1) * cfg['info_per_page']: idx * cfg['info_per_page']]
+        current_list = all_list[(idx - 1) * cfg_render['info_per_page']: idx * cfg_render['info_per_page']]
         return all_list
 
     def query_pager_by_tag(self, tag, current_page_num=1, kind='2'):
@@ -385,7 +385,7 @@ class MInfor(Mabc):
         # ('get_list_fenye para:', tag_slug, idx)
 
         all_list = self.get_list(tag_slug, kind=kind)
-        current_list = all_list[(idx - 1) * cfg['info_per_page']: idx * cfg['info_per_page']]
+        current_list = all_list[(idx - 1) * cfg_render['info_per_page']: idx * cfg_render['info_per_page']]
         return current_list
 
     def get_cat_recs_count(self, catid, kind='2'):

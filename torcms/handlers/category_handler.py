@@ -85,6 +85,6 @@ class CategoryHandler(BaseHandler):
                     userinfo=self.userinfo,
                     html2text=html2text,
                     unescape=tornado.escape.xhtml_unescape,
-                    cfg=config.cfg,
+                    cfg=config.cfg_render,
                     kwd=kwd)
 

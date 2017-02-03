@@ -8,7 +8,7 @@ from torcms.model.wiki_model import MWiki
 from torcms.model.wiki_hist_model import MWikiHist
 from difflib import HtmlDiff
 from torcms.core.tool.send_email import send_mail
-from config import smtp_cfg
+from config import smtp_cfg, post_emails
 from config import site_url
 from config_email import post_emails
 import os

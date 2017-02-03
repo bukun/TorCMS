@@ -69,7 +69,7 @@ class SearchHandler(BaseHandler):
                     srecs=results,
                     pager=self.gen_pager_bootstrap_url('/search/{0}'.format(keyword), page_num, current_page_number),
                     userinfo=self.userinfo,
-                    cfg=config.cfg,
+                    cfg=config.cfg_render,
                     )
 
     def gen_pager_bootstrap_url(self, cat_slug, page_num, current):
@@ -156,6 +156,6 @@ class SearchHandler(BaseHandler):
                     srecs=results,
                     pager=self.gen_pager_bootstrap_url('/search/{0}/{1}'.format(catid, keyword), page_num, p_index),
                     userinfo=self.userinfo,
-                    cfg=config.cfg,
+                    cfg=config.cfg_render,
 
                     )

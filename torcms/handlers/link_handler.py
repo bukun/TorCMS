@@ -143,7 +143,7 @@ class LinkHandler(BaseHandler):
                     unescape=tornado.escape.xhtml_unescape,
                     kwd=kwd,
                     userinfo=self.userinfo,
-                    cfg=config.cfg,
+                    cfg=config.cfg_render,
                     )
 
     @tornado.web.authenticated

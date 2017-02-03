@@ -12,7 +12,7 @@ from torcms.model.category_model import MCategory
 from torcms.model.link_model import MLink
 from torcms.model.wiki_model import MWiki
 from torcms.model.post_model import MPost
-from config import cfg
+from config import cfg_render
 
 
 class IndexHandler(BaseHandler):
@@ -50,7 +50,7 @@ class IndexHandler(BaseHandler):
                     catalog_info=self.mcat.query_all(by_order=True),
                     link=self.mlink.query_all(),
                     unescape=tornado.escape.xhtml_unescape,
-                    cfg=cfg,
+                    cfg=cfg_render,
                     view=self.mpost.query_most_pic(20),
                     kwd=kwd, )
 

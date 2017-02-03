@@ -58,7 +58,7 @@ class EntityHandler(BaseHandler):
         }
         self.render('doc/entry/entry_list.html',
                     imgs=recs,
-                    cfg=config.cfg,
+                    cfg=config.cfg_render,
                     kwd=kwd,
                     userinfo=self.userinfo)
 
@@ -68,7 +68,7 @@ class EntityHandler(BaseHandler):
             'pager': '',
         }
         self.render('doc/entry/entry_add.html',
-                    cfg=config.cfg,
+                    cfg=config.cfg_render,
                     kwd=kwd,
                     userinfo=self.userinfo)
 
@@ -173,6 +173,6 @@ class EntityHandler(BaseHandler):
         }
         self.render('doc/entry/entry_view.html',
                     filename=outfilename,
-                    cfg=config.cfg,
+                    cfg=config.cfg_render,
                     kwd=kwd,
                     userinfo=self.userinfo, )
