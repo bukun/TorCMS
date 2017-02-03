@@ -22,7 +22,8 @@ from torcms.handlers.post_handler import PostHandler
 from torcms.model.info_hist_model import MInfoHist
 from torcms.core.tools import logger
 from config import router_post, cfg
-from torcms.core.tool import run_whoosh
+
+from celery_server import cele_gen_whoosh
 
 class InfoHandler(PostHandler):
     '''
@@ -245,8 +246,6 @@ class InfoHandler(PostHandler):
                     recent_apps=recent_apps,
                     cat_enum=self.mcat.get_qian2(ext_catid2[:2]) if ext_catid else [], )
 
-
-
     def chuli_cookie_relation(self, app_id):
         '''
         The current Info and the Info viewed last should have some relation.
@@ -260,8 +259,6 @@ class InfoHandler(PostHandler):
         self.set_secure_cookie('use_app_uid', app_id)
         if last_app_uid and self.minfor.get_by_uid(last_app_uid):
             self.add_relation(last_app_uid, app_id)
-
-
 
     def _is_tpl2(self):
         if 'tpl2' in cfg and self.kind in cfg['tpl2']:
@@ -523,7 +520,8 @@ class InfoHandler(PostHandler):
 
         logger.info('post kind:' + self.kind)
         logger.info('update jump to:', '/{0}/{1}'.format(router_post[self.kind], uid))
-        run_whoosh.run()
+        cele_gen_whoosh.delay()
+        # run_whoosh.run()
         self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], uid))
 
     @tornado.web.authenticated
@@ -578,7 +576,6 @@ class InfoHandler(PostHandler):
         self.update_category(ext_dic['def_uid'])
         self.update_tag(ext_dic['def_uid'])
 
-        run_whoosh.run()
-
+        cele_gen_whoosh.delay()
 
         self.redirect('/{0}/{1}'.format(router_post[self.kind], uid))

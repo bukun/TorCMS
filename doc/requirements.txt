@@ -19,3 +19,4 @@ nose
 requests
 pytest
 coverage
+celery
