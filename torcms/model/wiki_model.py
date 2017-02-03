@@ -72,7 +72,7 @@ class MWiki(Mabc):
 
         return self.__create_rec(uid, '1', post_data=post_data)
 
-    def create_category(self, slug, post_data):
+    def create_wiki_history(self, slug, post_data):
         logger.info('Call create Page')
         uu = self.get_by_uid(slug)
         if uu is None:

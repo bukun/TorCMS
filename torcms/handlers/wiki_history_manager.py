@@ -30,7 +30,7 @@ class WikiHistoryHandler(BaseHandler):
             }
             self.render('html/404.html',
                         kwd=kwd,
-                        userinfo=self.userinfo, )
+                        userinfo=self.userinfo)
 
     def post(self, url_str=''):
         url_arr = self.parse_url(url_str)
@@ -53,7 +53,7 @@ class WikiHistoryHandler(BaseHandler):
         else:
             post_data['user_name'] = ''
         cur_info = self.mpost.get_by_id(uid)
-        self.mposthist.create_category(cur_info)
+        self.mposthist.create_wiki_history(cur_info)
         self.mpost.update_cnt(uid, post_data)
         if cur_info.kind == '1':
             self.redirect('/wiki/{0}'.format(cur_info.title))
@@ -66,12 +66,10 @@ class WikiHistoryHandler(BaseHandler):
             pass
         else:
             return False
-        post_rec = self.mpost.get_by_uid(postid)
         self.render('man_wiki/wiki_man_edit.html',
                     userinfo=self.userinfo,
                     unescape=tornado.escape.xhtml_unescape,
-                    postinfo=post_rec,
-                    )
+                    postinfo=self.mpost.get_by_uid(postid))
 
     @tornado.web.authenticated
     def delete(self, uid):
@@ -113,8 +111,7 @@ class WikiHistoryHandler(BaseHandler):
                     unescape=tornado.escape.xhtml_unescape,
                     view=postinfo,  # Deprecated
                     postinfo=postinfo,
-                    html_diff_arr=html_diff_arr
-                    )
+                    html_diff_arr=html_diff_arr)
 
     @tornado.web.authenticated
     def restore(self, hist_uid):

@@ -34,7 +34,7 @@ class MReply2User(Mabc):
         #
         # entry.execute()
 
-    def create_category(self, user_id, reply_id):
+    def create_wiki_history(self, user_id, reply_id):
 
         record = g_User2Reply.select().where(
             (g_User2Reply.reply_id == reply_id) & (g_User2Reply.user_id == user_id))

@@ -12,7 +12,7 @@ from config import cfg
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
 from torcms.model.category_model import MCategory
-from torcms.model.page_hist_model import MPageHist
+from torcms.model.wiki_hist_model import MWikiHist
 from torcms.model.wiki_model import MWiki
 
 
@@ -24,7 +24,7 @@ class PageHandler(BaseHandler):
     def initialize(self):
         super(PageHandler, self).initialize()
         self.mpage = MWiki()
-        self.mpage_hist = MPageHist()
+        self.mpage_hist = MWikiHist()
         self.mcat = MCategory()
         self.cats = self.mcat.query_all()
         self.kind = '2'
@@ -124,7 +124,7 @@ class PageHandler(BaseHandler):
         if cnt_old == cnt_new:
             pass
         else:
-            self.mpage_hist.create_category(self.mpage.get_by_uid(slug))
+            self.mpage_hist.create_wiki_history(self.mpage.get_by_uid(slug))
 
         self.mpage.update(slug, post_data)
 
@@ -200,5 +200,5 @@ class PageHandler(BaseHandler):
             self.set_status(400)
             return False
         else:
-            self.mpage.create_category(slug, post_data)
+            self.mpage.create_wiki_history(slug, post_data)
             self.redirect('/page/{0}'.format(slug))

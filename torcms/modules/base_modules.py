@@ -1,23 +1,19 @@
 # -*- coding:utf-8 -*-
 
-from  math import ceil as math_ceil
+from math import ceil as math_ceil
 import bs4
 import tornado.escape
 import tornado.web
 from torcms.model.post_model import MPost
 from torcms.model.link_model import MLink
 from torcms.model.post2catalog_model import MPost2Catalog
-import tornado.web
 from torcms.model.category_model import MCategory
-from torcms.model.info_model import MInfor as  MInfor
+from torcms.model.info_model import MInfor
 from torcms.model.label_model import MPost2Label
 from torcms.model.reply_model import MReply
 from torcms.model.wiki_model import MWiki
-# from torcms.model.infor2catalog_model import MInfor2Catalog
-from torcms.model.post2catalog_model import MPost2Catalog as MInfor2Catalog
 from torcms.core.tool.whoosh_tool import yunsearch
 import config
-from config import router_post
 
 mreply = MReply()
 mpage = MWiki()
@@ -36,8 +32,7 @@ class show_page(tornado.web.UIModule):
                                       unescape=tornado.escape.xhtml_unescape,
                                       postinfo=page,
                                       userinfo=userinfo,
-                                      kwd=kwd,
-                                      )
+                                      kwd=kwd)
         else:
             return '<a href="/page/{0}">{0}</a>'.format(page_id)
 
@@ -73,7 +68,7 @@ class post_most_view(tornado.web.UIModule):
         kwd = {
             'with_date': with_date,
             'with_catalog': with_catalog,
-            'router': router_post['1'],
+            'router': config.router_post['1'],
         }
         return self.render_string('modules/post/post_list.html',
                                   recs=recs,
@@ -87,7 +82,7 @@ class post_random(tornado.web.UIModule):
         kwd = {
             'with_date': with_date,
             'with_catalog': with_catalog,
-            'router': router_post['1'],
+            'router': config.router_post['1'],
         }
         return self.render_string('modules/post/post_list.html',
                                   recs=recs,
@@ -101,7 +96,7 @@ class post_cat_random(tornado.web.UIModule):
         kwd = {
             'with_date': with_date,
             'with_catalog': with_catalog,
-            'router': router_post['1'],
+            'router': config.router_post['1'],
         }
         return self.render_string('modules/post/post_list.html',
                                   recs=recs,
@@ -115,7 +110,7 @@ class post_recent_most_view(tornado.web.UIModule):
         kwd = {
             'with_date': with_date,
             'with_catalog': with_catalog,
-            'router': router_post['1'],
+            'router': config.router_post['1'],
         }
         return self.render_string('modules/post/post_list.html',
                                   recs=recs,
@@ -141,12 +136,12 @@ class post_catalog_of(tornado.web.UIModule):
             return self.render_string('modules/post/post_catalog_slug.html',
                                       pcatinfo=curinfo,
                                       sub_cats=sub_cats,
-                                      recs=sub_cats, )
+                                      recs=sub_cats)
         else:
             return self.render_string('modules/info/catalog_of.html',
                                       pcatinfo=curinfo,
                                       sub_cats=sub_cats,
-                                      recs=sub_cats, )
+                                      recs=sub_cats)
 
 
 class post_recent(tornado.web.UIModule):
@@ -156,12 +151,12 @@ class post_recent(tornado.web.UIModule):
         kwd = {
             'with_date': with_date,
             'with_catalog': with_catalog,
-            'router': router_post['1'],
+            'router': config.router_post['1'],
         }
         return self.render_string('modules/post/post_list.html',
                                   recs=recs,
                                   unescape=tornado.escape.xhtml_unescape,
-                                  kwd=kwd, )
+                                  kwd=kwd)
 
 
 class link_list(tornado.web.UIModule):
@@ -169,7 +164,7 @@ class link_list(tornado.web.UIModule):
         self.mlink = MLink()
         recs = self.mlink.query_link(num)
         return self.render_string('modules/post/link_list.html',
-                                  recs=recs, )
+                                  recs=recs)
 
 
 class post_category_recent(tornado.web.UIModule):
@@ -182,16 +177,42 @@ class post_category_recent(tornado.web.UIModule):
         kwd = {
             'with_catalog': with_catalog,
             'with_date': with_date,
-            'router': router_post[catinfo.kind],
+            'router': config.router_post[catinfo.kind],
         }
         return self.render_string('modules/post/post_list.html',
                                   recs=recs,
                                   unescape=tornado.escape.xhtml_unescape,
-                                  kwd=kwd, )
+                                  kwd=kwd)
 
 
 class showout_recent(tornado.web.UIModule):
-    def render(self, cat_id, kind, num=10, with_catalog=True, with_date=True, width=160, height=120):
+    def render(self, cat_id, kind, **kwargs):
+
+        if 'num' in kwargs:
+            num = kwargs['num']
+        else:
+            num = 10
+
+        if 'width' in kwargs:
+            width = kwargs['width']
+        else:
+            width = 160
+
+        if 'height' in kwargs:
+            height = kwargs['height']
+        else:
+            height = 120
+
+        if 'with_catalog' in kwargs:
+            with_catalog = kwargs['with_catalog']
+        else:
+            with_catalog = True
+
+        if 'with_date' in kwargs:
+            with_date = kwargs['with_date']
+        else:
+            with_date = True
+
         self.mpost = MPost()
         self.mpost2cat = MPost2Catalog()
         recs = self.mpost.query_cat_recent(cat_id, num, kind)
@@ -206,7 +227,7 @@ class showout_recent(tornado.web.UIModule):
         return self.render_string('modules/post/showout_list.html',
                                   recs=recs,
                                   unescape=tornado.escape.xhtml_unescape,
-                                  kwd=kwd, )
+                                  kwd=kwd)
 
 
 class site_url(tornado.web.UIModule):
@@ -275,8 +296,8 @@ class category_menu(tornado.web.UIModule):
 
 class copyright(tornado.web.UIModule):
     def render(self):
-        out_str = '''<span>Build on <a href="https://github.com/bukun/TorCMS" target="_blank">TorCMS</a>.</span>'''
-        return (out_str)
+        return '''<span>Build on
+        <a href="https://github.com/bukun/TorCMS" target="_blank">TorCMS</a>.</span>'''
 
 
 class post_tags(tornado.web.UIModule):
@@ -381,8 +402,7 @@ class info_label_pager(tornado.web.UIModule):
                                   kwd=kwd,
                                   cat_slug=tag_slug,
                                   pager_num=page_num,
-                                  page_current=current,
-                                  )
+                                  page_current=current)
 
 
 class label_pager(tornado.web.UIModule):
@@ -410,7 +430,7 @@ class label_pager(tornado.web.UIModule):
 
 class tag_pager(tornado.web.UIModule):
     def render(self, *args, **kwargs):
-        self.mapp2tag = MInfor2Catalog()
+        self.mapp2tag = MPost2Catalog()
         self.mcat = MCategory()
         tag_slug = args[0]
         current = int(args[1])

@@ -25,7 +25,7 @@ class MReply(Mabc):
         ).where(g_Reply.uid == reply_id)
         entry.execute()
 
-    def create_category(self, post_data):
+    def create_wiki_history(self, post_data):
         uid = tools.get_uuid()
 
         g_Reply.create(

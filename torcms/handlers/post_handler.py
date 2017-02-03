@@ -20,7 +20,7 @@ from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_hist_model import MPostHist
 from torcms.model.post_model import MPost
 from torcms.model.relation_model import MRelation
-
+from torcms.core.tool import run_whoosh
 
 class PostHandler(BaseHandler):
     '''
@@ -190,13 +190,14 @@ class PostHandler(BaseHandler):
         if cnt_old == cnt_new:
             pass
         else:
-            self.mpost_hist.create_category(postinfo)
+            self.mpost_hist.create_wiki_history(postinfo)
 
         logger.info('upadte: {0}'.format(uid))
         logger.info('Update post_data: {0}'.format(post_data))
         self.mpost.update(uid, post_data, update_time=is_update_time)
         self.update_category(uid)
         self.update_tag(uid)
+        run_whoosh.run()
         self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], uid))
 
     @tornado.web.authenticated
@@ -259,8 +260,10 @@ class PostHandler(BaseHandler):
             new_tag_arr.append(post_data[key] + ' ' * (4 - len(post_data[key])))
 
         # Add the category
-        for idx, val in enumerate(new_tag_arr):
-            self.mpost2catalog.add_record(uid, val, idx)
+        for index, catid in enumerate(new_tag_arr):
+            self.mpost2catalog.add_record(uid, catid, index)
+
+            # self.mcat.update_count(catid, self.mpost2catalog.query_by_catid(catid).count())
 
         # Delete the old category if not in post requests.
         for cur_info in current_infos:
@@ -388,9 +391,10 @@ class PostHandler(BaseHandler):
         if cur_post_rec:
             pass
         else:
-            if self.mpost.create_category(uid, post_data):
+            if self.mpost.create_wiki_history(uid, post_data):
                 self.update_tag(uid)
                 self.update_category(uid)
+        run_whoosh.run()
         self.redirect('/{0}/{1}'.format(router_post[self.kind], uid))
 
     def __gen_uid(self):

@@ -129,7 +129,7 @@ class EntityHandler(BaseHandler):
         im0.thumbnail(thub_size)
         im0.save(imgpath_sm, 'JPEG')
 
-        self.mpic.create_category(signature, sig_save)
+        self.mpic.create_wiki_history(signature, sig_save)
 
         self.redirect('/entity/{0}_m.jpg'.format(sig_save))
 
@@ -161,7 +161,7 @@ class EntityHandler(BaseHandler):
         sig_save = os.path.join(signature[:2], signature)
 
 
-        self.mpic.create_category(signature, sig_save)
+        self.mpic.create_wiki_history(signature, sig_save)
 
         self.redirect('/entity/{0}{1}'.format(sig_save,  hou.lower()))
 

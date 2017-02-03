@@ -24,7 +24,7 @@ class TestCatalog():
 
         }
 
-        newid = self.uu.create_category(uid, post_data)
+        newid = self.uu.create_wiki_history(uid, post_data)
 
         tt = self.uu.get_by_slug(self.slug)
         # assert tt == newid
@@ -40,7 +40,7 @@ class TestCatalog():
             'tmpl': 0,
             'pid': '0000',
         }
-        uu = self.uu.create_category(self.uid, post_data)
+        uu = self.uu.create_wiki_history(self.uid, post_data)
         # assert uu == False
 
         post_data = {
@@ -52,7 +52,7 @@ class TestCatalog():
             'tmpl': 0,
             'pid': '0000',
         }
-        uu = self.uu.create_category(self.uid, post_data)
+        uu = self.uu.create_wiki_history(self.uid, post_data)
         # assert uu == False
 
     def test_upate(self):

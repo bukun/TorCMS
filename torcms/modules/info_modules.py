@@ -7,15 +7,13 @@ Tornado Modules for infor.
 import torcms.model.info_model
 import torcms.model.usage_model
 import tornado.web
-# from torcms.model.infor2label_model import MPost2Label
 from torcms.model.label_model import MPost2Label
 from torcms.model.info_model import MInfor
 from torcms.model.relation_model import MRelation
 
-from torcms.model.post2catalog_model import MPost2Catalog as MInfor2Catalog
+from torcms.model.post2catalog_model import MPost2Catalog
 
 from torcms.model.category_model import MCategory
-import torcms.model.infor2catalog_model
 from torcms.model.post_model import MPost
 from html2text import html2text
 from config import router_post
@@ -27,6 +25,7 @@ class InfoCategory(tornado.web.UIModule):
     '''
 
     '''
+
     def render(self, *args, **kwargs):
         uid_with_str = args[0]
         if 'slug' in kwargs:
@@ -99,9 +98,20 @@ class app_user_recent_by_cat(tornado.web.UIModule):
 
 
 class InfoMostUsed(tornado.web.UIModule):
-    def render(self, kind, num, with_tag=False, userinfo=None):
+    def render(self, kind, num, **kwargs):
+
+        if 'with_tag' in kwargs:
+            with_tag = kwargs['with_tag']
+        else:
+            with_tag = False
+
+        if 'userinfo' in kwargs:
+            userinfo = kwargs['userinfo']
+        else:
+            userinfo = None
+
         if userinfo:
-            return self.render_user(kind, num, with_tag=False, user_id=userinfo.uid)
+            return self.render_user(kind, num, with_tag=with_tag, user_id=userinfo.uid)
         else:
             return self.render_it(kind, num, with_tag=with_tag)
 
@@ -144,7 +154,17 @@ class app_least_use_by_cat(tornado.web.UIModule):
 
 
 class InfoRecentUsed(tornado.web.UIModule):
-    def render(self, kind, num, with_tag=False, userinfo=None):
+    def render(self, kind, num, **kwargs):
+
+        if 'with_tag' in kwargs:
+            with_tag = kwargs['with_tag']
+        else:
+            with_tag = False
+
+        if 'userinfo' in kwargs:
+            userinfo = kwargs['userinfo']
+        else:
+            userinfo = None
 
         if userinfo:
             return self.render_user(kind, num, with_tag=with_tag, user_id=userinfo.uid)
@@ -189,7 +209,7 @@ class app_random_choose(tornado.web.UIModule):
 
 class app_tags(tornado.web.UIModule):
     def render(self, signature):
-        mapp2tag = MInfor2Catalog()
+        mapp2tag = MPost2Catalog()
         tag_infos = mapp2tag.query_by_entity_uid(signature)
         out_str = ''
         ii = 1

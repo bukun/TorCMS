@@ -36,7 +36,7 @@ class MPostHist(Mabc):
         else:
             return recs.get()
 
-    def create_category(self, raw_data):
+    def create_wiki_history(self, raw_data):
 
         uid = tools.get_uuid()
         g_PostHist.create(

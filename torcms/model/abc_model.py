@@ -29,7 +29,7 @@ class Mabc():
     def update(self, uid, post_data, update_time=False):
         pass
 
-    def create_category(self, id_post, post_data):
+    def create_wiki_history(self, id_post, post_data):
         pass
 
     def query_old(self):

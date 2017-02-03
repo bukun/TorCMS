@@ -10,22 +10,19 @@ import tornado.web
 import tornado.gen
 
 from torcms.core import tools
-# from torcms.model.infor2label_model import MPost2Label
 from torcms.model.label_model import MPost2Label
 from torcms.model.info_model import MInfor
-# from torcms.model.info_relation_model import MRelation
 from torcms.model.relation_model import MRelation
 from torcms.model.evaluation_model import MEvaluation
 from torcms.model.category_model import MCategory
 from torcms.model.usage_model import MUsage
-# from torcms.model.infor2catalog_model import MInfor2Catalog
 from torcms.model.post2catalog_model import MPost2Catalog as MInfor2Catalog
 from torcms.model.reply_model import MReply
 from torcms.handlers.post_handler import PostHandler
 from torcms.model.info_hist_model import MInfoHist
 from torcms.core.tools import logger
 from config import router_post, cfg
-
+from torcms.core.tool import run_whoosh
 
 class InfoHandler(PostHandler):
     '''
@@ -98,20 +95,18 @@ class InfoHandler(PostHandler):
 
         elif url_arr[0] in ['_cat_add', 'cat_add']:
             self.add(catid=url_arr[1])
-        elif url_arr[0] == 'rel':
-            if self.get_current_user():
-                self.add_relation(url_arr[1])
-            else:
-                self.redirect('/user/login')
+        # elif url_arr[0] == 'rel':
+        #     if self.get_current_user():
+        #         self.add_relation(url_arr[1])
+        #     else:
+        #         self.redirect('/user/login')
 
         elif url_arr[0] in ['_edit', 'edit']:
             self.update(url_arr[1])
 
-        elif url_arr[0] == 'rel':
-            if self.get_current_user():
-                self.add_relation(url_arr[1], url_arr[2])
-            else:
-                self.redirect('/user/login')
+        elif url_arr[0] == 'rel' and len(url_arr) == 3:
+            self.add_relation(url_arr[1], url_arr[2])
+
 
         else:
             return False
@@ -518,7 +513,7 @@ class InfoHandler(PostHandler):
         if cnt_old == cnt_new:
             pass
         else:
-            self.mpost_hist.create_category(postinfo)
+            self.mpost_hist.create_wiki_history(postinfo)
 
         self.minfor.modify_meta(uid,
                                 post_data,
@@ -528,7 +523,7 @@ class InfoHandler(PostHandler):
 
         logger.info('post kind:' + self.kind)
         logger.info('update jump to:', '/{0}/{1}'.format(router_post[self.kind], uid))
-
+        run_whoosh.run()
         self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], uid))
 
     @tornado.web.authenticated
@@ -582,5 +577,8 @@ class InfoHandler(PostHandler):
                                 extinfo=ext_dic)
         self.update_category(ext_dic['def_uid'])
         self.update_tag(ext_dic['def_uid'])
+
+        run_whoosh.run()
+
 
         self.redirect('/{0}/{1}'.format(router_post[self.kind], uid))

@@ -19,10 +19,11 @@ from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.wiki_model import MWiki
 # from torcms.model.page_model import MPage
 
-from config import router_post
+from config import router_post, kind_arr, post_type
 
 mappcat = MInforCatalog()
 minfo2tag = MPost2Catalog()
+
 
 
 def do_for_app(writer, rand=True, kind='', doc_type={}):
@@ -176,3 +177,9 @@ def gen_whoosh_database(if_rand=True, kind_arr=[], post_type={}):
     for kind in kind_arr:
         do_for_app(writer, rand=if_rand, kind=kind, doc_type=post_type)
     writer.commit()
+
+def run():
+    print('run_whoosh.')
+
+    gen_whoosh_database(if_rand=True, kind_arr=kind_arr, post_type=post_type)
+    gen_whoosh_database(if_rand=False, kind_arr=kind_arr, post_type=post_type)

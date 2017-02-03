@@ -20,6 +20,12 @@ class MPost2Catalog(Mabc):
             pass
 
     def remove_relation(self, post_id, tag_id):
+        '''
+        Delete the record of post 2 tag.
+        :param post_id:
+        :param tag_id:
+        :return:
+        '''
         entry = self.tab_post2catalog.delete().where(
             (self.tab_post2catalog.post == post_id) &
             (self.tab_post2catalog.tag == tag_id)
@@ -27,6 +33,11 @@ class MPost2Catalog(Mabc):
         entry.execute()
 
     def remove_tag(self, tag_id):
+        '''
+        Delete the records of certain tag.
+        :param tag_id:
+        :return:
+        '''
         entry = self.tab_post2catalog.delete().where(
             self.tab_post2catalog.tag == tag_id
         )
@@ -42,25 +53,23 @@ class MPost2Catalog(Mabc):
             (self.tab_post2catalog.post == post_id) &
             (self.tab_post2catalog.tag == catalog_id)
         )
-        if recs.count() > 1:
+        if recs.count() == 1:
+            return recs.get()
+        elif recs.count() > 1:
+            # return the first one, and delete others.
             idx = 0
+            out_rec = None
             for rec in recs:
                 if idx == 0:
                     out_rec = rec
-                    pass
                 else:
                     entry = self.tab_post2catalog.delete().where(
                         self.tab_post2catalog.uid == rec.uid
                     )
                     entry.execute()
-                    # self.delete(rec.uid)
-                idx = idx + 1
+                idx += idx
             return out_rec.get()
-        elif recs.count() == 1:
-            return self.tab_post2catalog.get(
-                (self.tab_post2catalog.post == post_id) &
-                (self.tab_post2catalog.tag == catalog_id)
-            )
+
         else:
             return None
 
@@ -74,6 +83,13 @@ class MPost2Catalog(Mabc):
         return recs
 
     def add_record(self, post_id, catalog_id, order=0):
+        '''
+        Create the record of post 2 tag, and update the count in g_tag.
+        :param post_id:
+        :param catalog_id:
+        :param order:
+        :return:
+        '''
         rec = self.__get_by_info(post_id, catalog_id)
         if rec:
             entry = self.tab_post2catalog.update(
@@ -87,6 +103,12 @@ class MPost2Catalog(Mabc):
                 tag=catalog_id,
                 order=order,
             )
+
+        # Update the count in g_tag.
+        entry2 = self.tab_catalog.update(
+            count=self.query_by_catid(catalog_id).count()
+        ).where(self.tab_catalog.uid == catalog_id)
+        entry2.execute()
 
     def count_of_certain_category(self, cat_id):
         return self.tab_post2catalog.select().where(

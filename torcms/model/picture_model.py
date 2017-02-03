@@ -24,7 +24,7 @@ class MEntity(Mabc):
         else:
             return False
 
-    def create_category(self, signature, impath, kind ='1'):
+    def create_wiki_history(self, signature, impath, kind ='1'):
         entry = g_Entity.create(
             uid=signature,
             path=impath,

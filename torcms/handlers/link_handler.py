@@ -161,7 +161,7 @@ class LinkHandler(BaseHandler):
         while self.mlink.get_by_id(cur_uid):
             cur_uid = tools.get_uudd(2)
 
-        if self.mlink.create_category(cur_uid, post_data):
+        if self.mlink.create_wiki_history(cur_uid, post_data):
             output = {
                 'addinfo ': 1,
             }
@@ -186,7 +186,7 @@ class LinkHandler(BaseHandler):
         while self.mlink.get_by_id(cur_uid):
             cur_uid = tools.get_uudd(2)
 
-        self.mlink.create_category(cur_uid, post_data)
+        self.mlink.create_wiki_history(cur_uid, post_data)
 
         self.redirect('/link/list')
 
