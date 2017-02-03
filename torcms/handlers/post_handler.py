@@ -23,6 +23,7 @@ from torcms.model.relation_model import MRelation
 
 from celery_server import cele_gen_whoosh
 
+
 class PostHandler(BaseHandler):
     '''
     The basic HTML Page handler.
@@ -297,8 +298,8 @@ class PostHandler(BaseHandler):
                     tag_infos=self.mcat.query_all(kind=self.kind),
                     app2label_info=self.mpost2label.get_by_id(uid),
                     app2tag_info=self.mpost2catalog.query_by_entity_uid(uid, self.kind),
-                    dbrec= postinfo,
-                    postinfo = postinfo,
+                    dbrec=postinfo,
+                    postinfo=postinfo,
                     userinfo=self.userinfo,
                     cfg=cfg, )
 
@@ -317,6 +318,11 @@ class PostHandler(BaseHandler):
             self.add_relation(last_post_id, post_id)
 
     def viewinfo(self, postinfo):
+        logger.info('View infor, uid: {uid}, kind: {kind}, title: {title}'.format(
+            kind=postinfo.kind,
+            uid=postinfo.uid,
+            title=postinfo.title
+        ))
         post_id = postinfo.uid
         self.__gen_last_current_relation(post_id)
         cats = self.mpost2catalog.query_by_entity_uid(post_id)

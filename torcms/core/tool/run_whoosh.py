@@ -14,16 +14,13 @@ from torcms.model.info_model import MInfor as MApp
 
 from torcms.model.category_model import MCategory as  MInforCatalog
 from torcms.model.post2catalog_model import MPost2Catalog
-# from torcms.model.infor2catalog_model import MInfor2Catalog
 
 from torcms.model.wiki_model import MWiki
-# from torcms.model.page_model import MPage
 
 from config import router_post, kind_arr, post_type
 
 mappcat = MInforCatalog()
 minfo2tag = MPost2Catalog()
-
 
 
 def do_for_app(writer, rand=True, kind='', doc_type={}):
@@ -37,9 +34,9 @@ def do_for_app(writer, rand=True, kind='', doc_type={}):
     '''
     mpost = MApp()
     if rand:
-        recs = mpost.query_random(50, kind=kind)
+        recs = mpost.query_random(10, kind=kind)
     else:
-        recs = mpost.query_recent(50, kind=kind)
+        recs = mpost.query_recent(2, kind=kind)
 
     for rec in recs:
         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
@@ -61,9 +58,9 @@ def do_for_app2(writer, rand=True):
     '''
     mpost = MApp()
     if rand:
-        recs = mpost.query_random(50)
+        recs = mpost.query_random(10)
     else:
-        recs = mpost.query_recent(50)
+        recs = mpost.query_recent(2)
 
     for rec in recs:
         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
@@ -93,11 +90,13 @@ def do_for_app2(writer, rand=True):
 def do_for_post(writer, rand=True, doc_type=''):
     mpost = MPost()
     if rand:
-        recs = mpost.query_random(50)
+        recs = mpost.query_random(10, kind='1')
     else:
-        recs = mpost.query_recent(50)
+        recs = mpost.query_recent(2, kind='1')
 
     for rec in recs:
+        print('Do for Post:')
+        print('     id: {uid}'.format(uid=rec.uid))
         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
         writer.update_document(
             title=rec.title,
@@ -111,9 +110,9 @@ def do_for_post(writer, rand=True, doc_type=''):
 def do_for_wiki(writer, rand=True, doc_type=''):
     mpost = MWiki()
     if rand:
-        recs = mpost.query_random(50, )
+        recs = mpost.query_random(10)
     else:
-        recs = mpost.query_recent(50, )
+        recs = mpost.query_recent(2)
 
     for rec in recs:
         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
@@ -129,9 +128,9 @@ def do_for_wiki(writer, rand=True, doc_type=''):
 def do_for_page(writer, rand=True, doc_type=''):
     mpost = MWiki()
     if rand:
-        recs = mpost.query_random(50, )
+        recs = mpost.query_random(4)
     else:
-        recs = mpost.query_recent(50, )
+        recs = mpost.query_recent(1)
 
     for rec in recs:
         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
@@ -144,7 +143,7 @@ def do_for_page(writer, rand=True, doc_type=''):
         )
 
 
-def gen_whoosh_database(if_rand=True, kind_arr=[], post_type={}):
+def gen_whoosh_database(kind_arr=[], post_type={}):
     '''
     kind_arr, define the `type` except Post, Page, Wiki
     post_type, define the templates for different kind.
@@ -170,16 +169,17 @@ def gen_whoosh_database(if_rand=True, kind_arr=[], post_type={}):
 
     # do_for_app2(writer, rand=if_rand)
 
-    do_for_post(writer, rand=if_rand, doc_type=post_type['1'])
-    do_for_wiki(writer, rand=if_rand, doc_type=post_type['1'])
-    do_for_page(writer, rand=if_rand, doc_type=post_type['1'])
+    for switch in [True, False]:
+        do_for_post(writer, rand=switch, doc_type=post_type['1'])
+        do_for_wiki(writer, rand=switch, doc_type=post_type['1'])
+        do_for_page(writer, rand=switch, doc_type=post_type['1'])
 
-    for kind in kind_arr:
-        do_for_app(writer, rand=if_rand, kind=kind, doc_type=post_type)
+        for kind in kind_arr:
+            do_for_app(writer, rand=switch, kind=kind, doc_type=post_type)
     writer.commit()
+
 
 def run():
     print('run_whoosh.')
 
-    gen_whoosh_database(if_rand=True, kind_arr=kind_arr, post_type=post_type)
-    gen_whoosh_database(if_rand=False, kind_arr=kind_arr, post_type=post_type)
+    gen_whoosh_database(kind_arr=kind_arr, post_type=post_type)

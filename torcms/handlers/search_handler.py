@@ -4,11 +4,11 @@ import config
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tool.whoosh_tool import yunsearch
 
-from torcms.core import tools
+# from torcms.core import tools
 from torcms.model.category_model import MCategory
 
 from torcms.model.post_model import MPost
-
+from torcms.core.tools import logger
 
 class SearchHandler(BaseHandler):
     def initialize(self):
@@ -17,11 +17,12 @@ class SearchHandler(BaseHandler):
         self.mcat = MCategory()
         self.ysearch = yunsearch()
 
-    def get(self, url_str=''):
+    def get(self, *args, **kwargs):
+        url_str = args[0]
         url_arr = self.parse_url(url_str)
 
         if url_str == '':
-            return
+            self.index()
         elif len(url_arr) == 2:
             self.search(url_arr[0], url_arr[1])
         elif len(url_arr) == 3:
@@ -33,10 +34,17 @@ class SearchHandler(BaseHandler):
             self.render('html/404.html',
                         kwd=kwd,
                         userinfo=self.userinfo)
+    def index(self):
+        pass
 
     def post(self, url_str=''):
         catid = self.get_argument('searchcat')
         keyword = self.get_argument('keyword')
+        logger.info('Searching ... ')
+        logger.info('    catid:    {uid}'.format(uid = catid))
+        logger.info('    keyowrds: {kw}'.format(kw = keyword))
+
+
         if catid == '':
             self.redirect('/search/{0}/1'.format(keyword))
         else:
