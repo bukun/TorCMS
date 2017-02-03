@@ -242,9 +242,9 @@ class ConfigDefault(object):
     }
 
     db_cfg = {
-        'db': 'osgeo',
-        'user': 'osgeo',
-        'pass': '131322',
+        'db': 'travis_ci_torcms',
+        'user': 'postgres',
+        'pass': '',
     }
 
 def get_cfg():
