@@ -4,8 +4,11 @@ import os
 from .tpl import tpl_listinfo
 
 try:
-    from xxtmp_html_dic import *
-    from xxtmp_array_add_edit_view import *
+
+    import xxtmp_html_dic as html_vars
+    import xxtmp_array_add_edit_view as dic_vars
+
+    VAR_NAMES = dir(dic_vars)
 except:
     pass
 
@@ -14,20 +17,20 @@ from .base_crud import crud_path
 
 
 def do_for_dir(html_tpl):
-    var_names = globals().copy().keys()
+    # var_names = globals().copy().keys()
     out_dir = os.path.join(os.getcwd(), crud_path, 'infolist')
     if os.path.exists(out_dir):
         pass
     else:
         os.mkdir(out_dir)
-    for var_name in var_names:
+    for var_name in VAR_NAMES:
         if var_name.startswith('dic_'):
             outfile = os.path.join(out_dir, 'infolist' + '_' + var_name.split('_')[1] + '.html')
             html_view_str_arr = []
-            tview_var = eval(var_name)
+            tview_var = eval('dic_vars.' + var_name)
             subdir = ''
             for x in tview_var:
-                sig = eval('html_' + x)
+                sig = eval('html_vars.html_' + x)
                 if sig['type'] == 'select':
                     html_view_str_arr.append(gen_select_view(sig))
                 elif sig['type'] == 'radio':
@@ -36,12 +39,21 @@ def do_for_dir(html_tpl):
                     html_view_str_arr.append(gen_checkbox_view(sig))
 
             with open(outfile, 'w') as outfileo:
-                outfileo.write(html_tpl.replace('xxxxxx',
-                                                ''.join(html_view_str_arr)).replace('yyyyyy',
-                                                                                    var_name.split('_')[1][:2]).replace(
-                    'ssssss', subdir
-                ).replace('kkkk', eval('kind_' + var_name.split('_')[-1]))
-                               )
+                outfileo.write(
+                    html_tpl.replace(
+                        'xxxxxx',
+                        ''.join(html_view_str_arr)
+                    ).replace(
+                        'yyyyyy',
+                        var_name.split('_')[1][:2]
+                    ).replace(
+                        'ssssss',
+                        subdir
+                    ).replace(
+                        'kkkk',
+                        eval('dic_vars.kind_' + var_name.split('_')[-1])
+                    )
+                )
 
 
 def run_gen_listinfo():

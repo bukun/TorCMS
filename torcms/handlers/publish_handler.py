@@ -19,7 +19,6 @@ class PublishHandler(BaseHandler):
     '''
     def initialize(self, **kwargs):
         super(PublishHandler, self).initialize()
-        self.minforcatalog = MCategory()
 
     def get(self, *args):
         url_str = args[0]
@@ -46,9 +45,9 @@ class PublishHandler(BaseHandler):
 
     @tornado.web.authenticated
     def format_class2(self, fatherid):
-        # dbdata = self.minforcatalog.get_qian2(fatherid[:2])
-        catinfo = self.minforcatalog.get_by_uid(fatherid)
-        dbdata = self.minforcatalog.query_sub_cat(fatherid)
+        # dbdata = MCategory.get_qian2(fatherid[:2])
+        catinfo = MCategory.get_by_uid(fatherid)
+        dbdata = MCategory.query_sub_cat(fatherid)
         outstr = '<ul class="list-group">'
         for rec in dbdata:
             outstr += '''
@@ -59,7 +58,7 @@ class PublishHandler(BaseHandler):
 
     @tornado.web.authenticated
     def view_class1(self, kind_sig):
-        dbdata = self.minforcatalog.get_parent_list(kind=kind_sig)
+        dbdata = MCategory.get_parent_list(kind=kind_sig)
         class1str = ''
         for rec in dbdata:
             class1str += '''
@@ -69,7 +68,7 @@ class PublishHandler(BaseHandler):
         kwd = {
             'class1str': class1str,
             'parentid': '0',
-            'parentlist': self.minforcatalog.get_parent_list(),
+            'parentlist': MCategory.get_parent_list(),
         }
         self.render('infor/publish/publish.html',
                     userinfo=self.userinfo,
@@ -90,7 +89,7 @@ class PublishHandler(BaseHandler):
         kwd = {
             'class1str': self.format_class2(fatherid),
             'parentid': '0',
-            'parentlist': self.minforcatalog.get_parent_list(),
+            'parentlist': MCategory.get_parent_list(),
         }
         self.render('infor/publish/publish2.html',
                     userinfo=self.userinfo,

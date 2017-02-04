@@ -5,6 +5,7 @@ import tornado.escape
 import tornado.web
 import tornado.gen
 from torcms.handlers.post_handler import PostHandler
+from torcms.model.post_model import MPost
 from torcms.core.tools import logger
 from config import router_post
 
@@ -44,7 +45,7 @@ class AdminPostHandler(PostHandler):
 
     @tornado.web.authenticated
     def to_edit(self, post_uid):
-        postinfo = self.mpost.get_by_uid(post_uid, )
+        postinfo = MPost.get_by_uid(post_uid, )
         json_cnt = json.dumps(postinfo.extinfo, indent=True)
         self.render('man_post/admin_post.html',
                     postinfo=postinfo,
@@ -59,8 +60,8 @@ class AdminPostHandler(PostHandler):
 
         logger.info('admin post update: {0}'.format(post_data))
 
-        self.mpost.update_kind(post_uid, post_data['kcat'])
-        # self.mpost.update_jsonb(post_uid, ext_dic)
+        MPost.update_kind(post_uid, post_data['kcat'])
+        # MPost.update_jsonb(post_uid, ext_dic)
         self.update_category(post_uid)
 
         self.redirect('/{0}/{1}'.format(router_post[post_data['kcat']], post_uid))

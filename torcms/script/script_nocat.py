@@ -18,11 +18,10 @@ def run_nocat():
     for key in router_post.keys():
         if key == 'i':
             continue
-        post_recs = mpost.query_all(limit_num=50000, kind=key)
+        post_recs = MInfor.query_all(limit=50000, kind=key)
         for postinfo in post_recs:
             cat = mpost2tag.get_entry_catalog(postinfo.uid)
             if cat:
                 pass
             else:
-                print (postinfo.uid)
-
+                print(postinfo.uid)

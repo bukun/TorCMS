@@ -15,7 +15,6 @@ class EvaluationHandler(BaseHandler):
         # self.mequa = MInfor()
         # self.musage = MUsage()
         # self.mrel = MRelation()
-        self.mevalution = MEvaluation()
 
     def get(self, *args, **kwargs):
         url_arr = self.parse_url(args[0])
@@ -32,11 +31,11 @@ class EvaluationHandler(BaseHandler):
 
     @tornado.web.authenticated
     def add_or_update(self, app_id, value):
-        self.mevalution.add_or_update(self.userinfo.uid, app_id, value)
+        MEvaluation.add_or_update(self.userinfo.uid, app_id, value)
 
         out_dic = {
-            'eval0': self.mevalution.app_evaluation_count(app_id, 0),
-            'eval1': self.mevalution.app_evaluation_count(app_id, 1)
+            'eval0': MEvaluation.app_evaluation_count(app_id, 0),
+            'eval1': MEvaluation.app_evaluation_count(app_id, 1)
         }
 
         return json.dump(out_dic, self)

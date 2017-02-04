@@ -1,7 +1,7 @@
 # coding:utf-8
 
 import os
-import config
+from config import SITE_CFG
 from urls import urls
 import tornado.web
 
@@ -14,8 +14,8 @@ modules = dict(core_modules, **cur_modues)
 SETTINGS = {
     "template_path": os.path.join(os.path.dirname(__file__), "templates"),
     "static_path": os.path.join(os.path.dirname(__file__), "static"),
-    'debug': True,
-    "cookie_secret": config.cookie_secret,
+    'debug': SITE_CFG['DEBUG'],
+    "cookie_secret": SITE_CFG['cookie_secret'],
     "login_url": "/user/login",
     'ui_modules': modules,
 }

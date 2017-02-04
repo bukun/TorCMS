@@ -4,21 +4,20 @@ import tornado.web
 
 from torcms.model.json_model import MJson
 from torcms.model.layout_model import MLayout
-import config
+from config import SITE_CFG
 
 
-class app_json(tornado.web.UIModule):
+class MapJson(tornado.web.UIModule):
     def render(self, app_id, user_id):
-        self.mjson = MJson()
-        self.mlayout = MLayout()
+        mjson = MJson()
 
-        json_recs = self.mjson.query_by_app(app_id, user_id)
+        json_recs = mjson.query_by_app(app_id, user_id)
 
         kwd = {
             'pager': '',
             'signature': app_id,
             'tdesc': '',
-            'site_url': config.site_url,
+            'site_url': SITE_CFG['site_url'],
 
         }
 
@@ -28,16 +27,16 @@ class app_json(tornado.web.UIModule):
                                   kwd=kwd)
 
 
-class app_layout(tornado.web.UIModule):
+class MapLayout(tornado.web.UIModule):
     def render(self, app_id, user_id):
-        self.mlayout = MLayout()
+        mlayout = MLayout()
 
-        layout_recs = self.mlayout.query_by_app(app_id, user_id)
+        layout_recs = mlayout.query_by_app(app_id, user_id)
 
         kwd = {
             'pager': '',
             'tdesc': '',
-            'site_url': config.site_url,
+            'site_url': SITE_CFG['site_url'],
 
         }
 

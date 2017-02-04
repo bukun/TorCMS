@@ -22,5 +22,5 @@ class AdminHandler(BaseHandler):
         self.render('admin/admin_index.html',
                     userinfo=self.userinfo,
                     kwd={},
-                    cfg=config.cfg_render,
+                    cfg=config.CMS_CFG,
                     )

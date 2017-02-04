@@ -8,29 +8,37 @@ import tornado.escape
 from torcms.core import tools
 from torcms.model.core_tab import g_Reply
 from torcms.model.core_tab import g_User2Reply
+
 from torcms.model.abc_model import Mabc
-
-
 class MReply(Mabc):
     def __init__(self):
-        self.tab = g_Reply
         try:
             g_Reply.create_table()
         except:
             pass
 
-    def update_vote(self, reply_id, count):
+    @staticmethod
+    def get_by_uid(uid):
+        recs =g_Reply.select().where(g_Reply.uid == uid)
+        if recs.count() == 0:
+            return None
+        else:
+            return recs.get()
+
+    @staticmethod
+    def update_vote(reply_id, count):
         entry = g_Reply.update(
             vote=count
         ).where(g_Reply.uid == reply_id)
         entry.execute()
 
-    def create_wiki_history(self, post_data):
+    @staticmethod
+    def create_wiki_history(post_data):
         uid = tools.get_uuid()
 
         g_Reply.create(
             uid=uid,
-            post_id = post_data['post_id'],
+            post_id=post_data['post_id'],
             user_name=post_data['user_name'],
             user_id=post_data['user_id'],
             timestamp=tools.timestamp(),
@@ -40,9 +48,15 @@ class MReply(Mabc):
             vote=0,
         )
         return (uid)
-    def query_by_post(self, postid):
+
+    @staticmethod
+    def query_by_post(postid):
         return g_Reply.select().where(g_Reply.post_id == postid).order_by(g_Reply.timestamp.desc())
-    def get_by_zan(self, reply_id):
+
+    @staticmethod
+    def get_by_zan(reply_id):
         return g_User2Reply.select().where(g_User2Reply.reply_id == reply_id).count()
-    def query_all(self):
-        return self.tab.select().order_by(g_Reply.timestamp.desc())
+
+    @staticmethod
+    def query_all():
+        return g_Reply.select().order_by(g_Reply.timestamp.desc())

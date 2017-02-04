@@ -9,10 +9,8 @@ from torcms.model.post_model import MPost
 class RelHandler(BaseHandler):
     def initialize(self):
         super(RelHandler, self).initialize()
-        self.minfo = MInfor()
-        self.mpost = MPost()
-        self.rel_post2app = MRelation()
-        self.rel_app2post = MRelation()
+
+
 
     def get(self, url_str=''):
         if len(url_str) > 0:
@@ -25,10 +23,10 @@ class RelHandler(BaseHandler):
     def check_app(self, tt, uid):
 
         if tt == 'post':
-            if False == self.mpost.get_by_id(uid):
+            if False == MPost.get_by_uid(uid):
                 return False
         if tt == 'app':
-            if False == self.minfo.get_by_uid(uid):
+            if False == MInfor.get_by_uid(uid):
                 return False
         return True
 
@@ -48,10 +46,10 @@ class RelHandler(BaseHandler):
 
         if url_arr[0] == 'info':
             if last_post_id:
-                self.rel_post2app.add_relation(last_post_id, url_arr[1], 2)
-                self.rel_app2post.add_relation(url_arr[1], last_post_id, 1)
+                MRelation.add_relation(last_post_id, url_arr[1], 2)
+                MRelation.add_relation(url_arr[1], last_post_id, 1)
 
         if url_arr[0] == 'post':
             if last_app_id:
-                self.rel_app2post.add_relation(last_app_id, url_arr[1], 2)
-                self.rel_post2app.add_relation(url_arr[1], last_app_id, 1)
+                MRelation.add_relation(last_app_id, url_arr[1], 2)
+                MRelation.add_relation(url_arr[1], last_app_id, 1)

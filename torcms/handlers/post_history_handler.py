@@ -20,8 +20,7 @@ class PostHistoryHandler(BaseHandler):
 
     def initialize(self):
         super(PostHistoryHandler, self).initialize()
-        self.mpost = MPost()
-        self.mposthist = MPostHist()
+
 
     def get(self, *args):
         url_arr = self.parse_url(args[0])
@@ -60,9 +59,9 @@ class PostHistoryHandler(BaseHandler):
             post_data['user_name'] = self.userinfo.user_name
         else:
             post_data['user_name'] = ''
-        cur_info = self.mpost.get_by_id(uid)
-        self.mposthist.create_wiki_history(cur_info)
-        self.mpost.update_cnt(uid, post_data)
+        cur_info = MPost.get_by_uid(uid)
+        MPostHist.create_wiki_history(cur_info)
+        MPost.update_cnt(uid, post_data)
         self.redirect('/{0}/{1}'.format(router_post[cur_info.kind], uid))
 
     @tornado.web.authenticated
@@ -71,7 +70,7 @@ class PostHistoryHandler(BaseHandler):
             pass
         else:
             return False
-        post_rec = self.mpost.get_by_uid(postid)
+        post_rec = MPost.get_by_uid(postid)
         self.render('man_post/post_man_edit.html',
                     userinfo=self.userinfo,
                     unescape=tornado.escape.xhtml_unescape,
@@ -80,7 +79,7 @@ class PostHistoryHandler(BaseHandler):
 
     @tornado.web.authenticated
     def __could_edit(self, postid):
-        post_rec = self.mpost.get_by_uid(postid)
+        post_rec = MPost.get_by_uid(postid)
         if not post_rec:
             return False
         if self.check_post_role()['EDIT'] or post_rec.user_name == self.userinfo.user_name:
@@ -95,24 +94,24 @@ class PostHistoryHandler(BaseHandler):
         else:
             return False
 
-        histinfo = self.mposthist.get_by_id(uid)
+        histinfo = MPostHist.get_by_uid(uid)
         if histinfo:
             pass
         else:
             return False
 
-        postinfo = self.mpost.get_by_id(histinfo.post_id)
-        self.mposthist.delete(uid)
+        postinfo = MPost.get_by_uid(histinfo.post_id)
+        MPostHist.delete(uid)
         self.redirect('/post_man/view/{0}'.format(postinfo.uid))
 
     def view(self, uid):
-        postinfo = self.mpost.get_by_id(uid)
+        postinfo = MPost.get_by_uid(uid)
         if postinfo:
             pass
         else:
             return
 
-        hist_recs = self.mposthist.query_by_postid(uid, limit=5)
+        hist_recs = MPostHist.query_by_postid(uid, limit=5)
         html_diff_arr = []
         for hist_rec in hist_recs:
             if hist_rec:
@@ -137,17 +136,17 @@ class PostHistoryHandler(BaseHandler):
             pass
         else:
             return False
-        histinfo = self.mposthist.get_by_id(hist_uid)
+        histinfo = MPostHist.get_by_uid(hist_uid)
         if histinfo:
             pass
         else:
             return False
 
-        postinfo = self.mpost.get_by_id(histinfo.post_id)
+        postinfo = MPost.get_by_uid(histinfo.post_id)
         cur_cnt = tornado.escape.xhtml_unescape(postinfo.cnt_md)
         old_cnt = tornado.escape.xhtml_unescape(histinfo.cnt_md)
 
-        self.mpost.update_cnt(histinfo.post_id, {'cnt_md': old_cnt, 'user_name': self.userinfo.user_name})
+        MPost.update_cnt(histinfo.post_id, {'cnt_md': old_cnt, 'user_name': self.userinfo.user_name})
 
-        self.mposthist.update_cnt(histinfo.uid, {'cnt_md': cur_cnt, 'user_name': postinfo.user_name})
+        MPostHist.update_cnt(histinfo.uid, {'cnt_md': cur_cnt, 'user_name': postinfo.user_name})
         self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], postinfo.uid))

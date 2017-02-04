@@ -9,8 +9,7 @@ from torcms.model.usage_model import MUsage
 class UserListHandler(BaseHandler):
     def initialize(self):
         super(UserListHandler, self).initialize()
-        self.minfo = MInfor()
-        self.musage = MUsage()
+
 
     def get(self, url_str=''):
         if url_str == 'recent':
@@ -77,7 +76,7 @@ class UserListHandler(BaseHandler):
                     kwd=kwd)
 
     def list_recent(self):
-        recs = self.minfo.query_recent(20)
+        recs = MInfor.query_recent(20)
         kwd = {
             'pager': '',
             'title': '最近使用的云算应用',
@@ -98,7 +97,7 @@ class UserListHandler(BaseHandler):
         self.render('user/info_list/find_list.html',
                     userinfo=self.userinfo,
                     kwd=kwd,
-                    recs=self.minfo.get_by_keyword(keyword))
+                    recs=MInfor.get_by_keyword(keyword))
 
     def get_random(self):
-        return self.minfo.query_random()
+        return MInfor.query_random()

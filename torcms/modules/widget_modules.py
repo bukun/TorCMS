@@ -5,25 +5,21 @@ import tornado.web
 import tornado.web
 from torcms.model.category_model import MCategory
 
-
 from torcms.model.reply_model import MReply
 from torcms.model.wiki_model import MWiki
 from torcms.model.rating_model import MRating
-
-mreply = MReply()
-mpage = MWiki()
-mrating = MRating()
 
 
 class baidu_share(tornado.web.UIModule):
     def render(self):
         return self.render_string('modules/widget/baidu_share.html')
 
+
 class reply_panel(tornado.web.UIModule):
     def render(self, uid, userinfo):
         return self.render_string('modules/widget/reply_panel.html',
                                   uid=uid,
-                                  replys=mreply.query_by_post(uid),
+                                  replys=MReply.query_by_post(uid),
                                   userinfo=userinfo,
                                   unescape=tornado.escape.xhtml_unescape,
                                   linkify=tornado.escape.linkify,
@@ -52,18 +48,17 @@ class widget_editor(tornado.web.UIModule):
 
 class widget_search(tornado.web.UIModule):
     def render(self, ):
-        self.mcat = MCategory()
-        tag_enum = self.mcat.query_pcat(kind='2')
+        tag_enum = MCategory.query_pcat(kind='2')
         return self.render_string('modules/widget/widget_search.html',
                                   cat_enum=tag_enum,
-                                  tag_enum = tag_enum)
+                                  tag_enum=tag_enum)
 
 
 class star_rating(tornado.web.UIModule):
     def render(self, postinfo, userinfo):
         rating = False
         if userinfo:
-            rating = mrating.get_rating(postinfo.uid, userinfo.uid)
+            rating = MRating.get_rating(postinfo.uid, userinfo.uid)
         if rating:
             pass
         else:
@@ -75,18 +70,22 @@ class star_rating(tornado.web.UIModule):
                                   rating=rating,
                                   )
 
+
 class navigate_panel(tornado.web.UIModule):
     def render(self, userinfo):
         return self.render_string('modules/widget/navigate_panel.html',
                                   unescape=tornado.escape.xhtml_unescape,
                                   userinfo=userinfo,
                                   )
+
+
 class footer_panel(tornado.web.UIModule):
     def render(self, userinfo):
         return self.render_string('modules/widget/footer_panel.html',
                                   unescape=tornado.escape.xhtml_unescape,
                                   userinfo=userinfo,
                                   )
+
 
 class use_f2e(tornado.web.UIModule):
     def render(self, f2ename):

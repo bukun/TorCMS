@@ -11,8 +11,6 @@ from torcms.core.tools import logger
 class RatingHandler(BaseHandler):
     def initialize(self):
         super(RatingHandler, self).initialize()
-        self.mpost = MPost()
-        self.mrating = MRating()
 
     def post(self, url_str=''):
 
@@ -29,14 +27,14 @@ class RatingHandler(BaseHandler):
         :param postid:
         :return:
         '''
-        voted_recs = self.mrating.query_by_post(postid)
+        voted_recs = MRating.query_by_post(postid)
         if voted_recs.count() > 10:
-            rating = self.mrating.query_average_rating(postid)
+            rating = MRating.query_average_rating(postid)
         else:
             rating = 5
 
         logger.info('Get post rating: {rating}'.format(rating = rating))
-        self.mpost.update_rating(postid, rating)
+        MPost.update_rating(postid, rating)
 
     @tornado.web.authenticated
     def update_rating(self, postid):
@@ -47,9 +45,9 @@ class RatingHandler(BaseHandler):
         '''
         post_data = self.get_post_data()
         rating = float(post_data['rating'])
-        postinfo = self.mpost.get_by_uid(postid)
+        postinfo = MPost.get_by_uid(postid)
         if postinfo and self.userinfo:
-            self.mrating.update(postinfo.uid, self.userinfo.uid, rating=rating)
+            MRating.update(postinfo.uid, self.userinfo.uid, rating=rating)
             self.update_post(postid)
         else:
             return False

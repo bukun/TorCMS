@@ -10,7 +10,7 @@ from torcms.model.wiki_model import MWiki
 from torcms.model.wiki_hist_model import MWikiHist
 from torcms.core.tool.send_email import send_mail
 from torcms.core.tools import diff_table
-from config import smtp_cfg, post_emails, site_url, router_post
+from config import SMTP_CFG, post_emails, SITE_CFG, router_post
 
 now = datetime.datetime.now()
 
@@ -77,14 +77,14 @@ def run_edit_diff():
                     <tr><td>{0}</td><td>{1}</td><td class="diff_chg">Edit</td><td>{2}</td>
                     <td><a href="{3}">{3}</a></td></tr>
                     '''.format(idx, recent_post.user_name, recent_post.title,
-                               os.path.join(site_url, router_post[key], recent_post.uid))
+                               os.path.join(SITE_CFG['site_url'], router_post[key], recent_post.uid))
                 email_cnt = email_cnt + foo_str
             else:
                 foo_str = '''
                     <tr><td>{0}</td><td>{1}</td><td class="diff_add">New </td><td>{2}</td>
                     <td><a href="{3}">{3}</a></td></tr>
                     '''.format(idx, recent_post.user_name, recent_post.title,
-                               os.path.join(site_url, router_post[key], recent_post.uid))
+                               os.path.join(SITE_CFG['site_url'], router_post[key], recent_post.uid))
                 email_cnt = email_cnt + foo_str
             idx = idx + 1
 
@@ -100,14 +100,14 @@ def run_edit_diff():
                     <tr><td>{0}</td><td>{1}</td><td class="diff_chg">Edit</td><td>{2}</td>
                     <td><a href="{3}">{3}</a></td></tr>
                     '''.format(idx, recent_post.user_name, recent_post.title,
-                               os.path.join(site_url, 'wiki', recent_post.title))
+                               os.path.join(SITE_CFG['site_url'], 'wiki', recent_post.title))
             email_cnt = email_cnt + foo_str
         else:
             foo_str = '''
                     <tr><td>{0}</td><td>{1}</td><td class="diff_add">New </td><td>{2}</td>
                     <td><a href="{3}">{3}</a></td></tr>
                     '''.format(idx, recent_post.user_name, recent_post.title,
-                               os.path.join(site_url, 'wiki', recent_post.title))
+                               os.path.join(SITE_CFG['site_url'], 'wiki', recent_post.title))
             email_cnt = email_cnt + foo_str
         idx = idx + 1
 
@@ -120,14 +120,14 @@ def run_edit_diff():
                     <tr><td>{0}</td><td>{1}</td><td class="diff_chg">Edit</td><td>{2}</td>
                     <td><a href="{3}">{3}</a></td></tr>
                     '''.format(idx, recent_post.user_name, recent_post.title,
-                               os.path.join(site_url, 'page', recent_post.uid))
+                               os.path.join(SITE_CFG['site_url'], 'page', recent_post.uid))
             email_cnt = email_cnt + foo_str
         else:
             foo_str = '''
                     <tr><td>{0}</td><td>{1}</td><td class="diff_add">New </td><td>{2}</td>
                     <td><a href="{3}">{3}</a></td></tr>
                     '''.format(idx, recent_post.user_name, recent_post.title,
-                               os.path.join(site_url, 'page', recent_post.uid))
+                               os.path.join(SITE_CFG['site_url'], 'page', recent_post.uid))
             email_cnt = email_cnt + foo_str
         idx = idx + 1
 
@@ -142,4 +142,4 @@ def run_edit_diff():
     email_cnt = email_cnt + '''</body></html>'''
 
     if idx > 1:
-        send_mail(post_emails, "{0}|{1}|{2}".format(smtp_cfg['name'], '文档更新情况', datestr), email_cnt)
+        send_mail(post_emails, "{0}|{1}|{2}".format(SMTP_CFG['name'], '文档更新情况', datestr), email_cnt)

@@ -12,7 +12,6 @@ from torcms.model.link_model import MLink
 class LinkHandler(BaseHandler):
     def initialize(self):
         super(LinkHandler, self).initialize()
-        self.mlink = MLink()
 
     def get(self, url_str=''):
         url_arr = self.parse_url(url_str)
@@ -58,13 +57,10 @@ class LinkHandler(BaseHandler):
         }
         self.render('doc/link/link_list.html',
                     kwd=kwd,
-                    view=self.mlink.query_link(10),
+                    view=MLink.query_link(10),
                     format_date=tools.format_date,
                     userinfo=self.userinfo,
                     )
-
-    def get_random(self):
-        return self.mlink.query_random()
 
     def to_add_link(self, ):
         if self.check_post_role()['ADD']:
@@ -91,7 +87,7 @@ class LinkHandler(BaseHandler):
 
         post_data['user_name'] = self.get_current_user()
 
-        if self.mlink.update(uid, post_data):
+        if MLink.update(uid, post_data):
             output = {
                 'addinfo ': 1,
             }
@@ -107,7 +103,7 @@ class LinkHandler(BaseHandler):
             pass
         else:
             return False
-        a = self.mlink.get_by_id(id_rec)
+        a = MLink.get_by_uid(id_rec)
 
         kwd = {
             'pager': '',
@@ -123,7 +119,7 @@ class LinkHandler(BaseHandler):
     @tornado.web.authenticated
     def viewit(self, post_id):
 
-        rec = self.mlink.get_by_id(post_id)
+        rec = MLink.get_by_uid(post_id)
 
         if not rec:
             kwd = {
@@ -143,7 +139,7 @@ class LinkHandler(BaseHandler):
                     unescape=tornado.escape.xhtml_unescape,
                     kwd=kwd,
                     userinfo=self.userinfo,
-                    cfg=config.cfg_render,
+                    cfg=config.CMS_CFG,
                     )
 
     @tornado.web.authenticated
@@ -158,10 +154,10 @@ class LinkHandler(BaseHandler):
         post_data['user_name'] = self.get_current_user()
 
         cur_uid = tools.get_uudd(2)
-        while self.mlink.get_by_id(cur_uid):
+        while MLink.get_by_uid(cur_uid):
             cur_uid = tools.get_uudd(2)
 
-        if self.mlink.create_wiki_history(cur_uid, post_data):
+        if MLink.create_wiki_history(cur_uid, post_data):
             output = {
                 'addinfo ': 1,
             }
@@ -183,10 +179,10 @@ class LinkHandler(BaseHandler):
         post_data['user_name'] = self.get_current_user()
 
         cur_uid = tools.get_uudd(2)
-        while self.mlink.get_by_id(cur_uid):
+        while MLink.get_by_uid(cur_uid):
             cur_uid = tools.get_uudd(2)
 
-        self.mlink.create_wiki_history(cur_uid, post_data)
+        MLink.create_wiki_history(cur_uid, post_data)
 
         self.redirect('/link/list')
 
@@ -197,7 +193,7 @@ class LinkHandler(BaseHandler):
         else:
             return False
 
-        if self.mlink.delete(del_id):
+        if MLink.delete(del_id):
             output = {
                 'del_link': 1
             }

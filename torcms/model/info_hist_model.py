@@ -5,16 +5,15 @@ from torcms.core import tools
 from torcms.model.core_tab import g_PostHist
 from torcms.model.abc_model import Mabc
 
-
 class MInfoHist(Mabc):
     def __init__(self):
-        self.tab = g_PostHist
         try:
             g_PostHist.create_table()
         except:
             pass
 
-    def create_wiki_history(self, post_data):
+    @staticmethod
+    def create_wiki_history( post_data):
         uid = tools.get_uuid()
         g_PostHist.create(
                 uid=uid,

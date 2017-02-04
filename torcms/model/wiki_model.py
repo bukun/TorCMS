@@ -6,28 +6,51 @@ import tornado.escape
 
 from torcms.core import tools
 from torcms.model.core_tab import g_Wiki
-from torcms.model.abc_model import Mabc
 from torcms.core.tools import logger
+from torcms.model.abc_model import Mabc, MHelper
 import peewee
 
 
 class MWiki(Mabc):
     def __init__(self):
-        self.tab = g_Wiki
-        self.kind = '1'
+
         try:
-            self.tab.create_table()
+            g_Wiki.create_table()
         except:
             pass
 
-    def query_recent_edited(self, timstamp, kind='1'):
-        return self.tab.select().where(
-            (self.tab.kind == kind) & (self.tab.time_update > timstamp)
+    @staticmethod
+    def get_counts():
+        '''
+        The count in table.
+        :return:
+        '''
+        return g_Wiki.select().count()
+
+    @staticmethod
+    def query_recent_edited(timstamp, kind='1'):
+        return g_Wiki.select().where(
+            (g_Wiki.kind == kind) & (g_Wiki.time_update > timstamp)
         ).order_by(
-            self.tab.time_update.desc()
+            g_Wiki.time_update.desc()
         )
 
-    def update_cnt(self, uid, post_data):
+    @staticmethod
+    def delete(uid):
+        '''
+        Delete by uid
+        :param uid:
+        :return:
+        '''
+        return MHelper.delete(g_Wiki, uid)
+
+    @staticmethod
+    def get_by_uid(uid):
+        return  MHelper.get_by_uid(g_Wiki, uid)
+        # return g_Wiki.get(uid=uid)
+
+    @staticmethod
+    def update_cnt(uid, post_data):
 
         entry = g_Wiki.update(
             cnt_html=tools.markdown2html(post_data['cnt_md']),
@@ -37,24 +60,26 @@ class MWiki(Mabc):
         ).where(g_Wiki.uid == uid)
         entry.execute()
 
-    def update(self, uid, post_data):
+    @staticmethod
+    def update(uid, post_data):
         title = post_data['title'].strip()
         if len(title) < 2:
             return False
 
         cnt_html = tools.markdown2html(post_data['cnt_md'])
 
-        entry = self.tab.update(
+        entry = g_Wiki.update(
             title=title,
             date=datetime.datetime.now(),
             cnt_html=cnt_html,
             user_name=post_data['user_name'],
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md']),
             time_update=tools.timestamp()
-        ).where(self.tab.uid == uid)
+        ).where(g_Wiki.uid == uid)
         entry.execute()
 
-    def create_wiki(self, post_data):
+    @staticmethod
+    def create_wiki(post_data):
         logger.info('Call create wiki')
 
         title = post_data['title'].strip()
@@ -62,19 +87,20 @@ class MWiki(Mabc):
             logger.info(' ' * 4 + 'The title is too short.')
             return False
 
-        uu = self.get_by_wiki(title)
+        uu = MWiki.get_by_wiki(title)
         if uu:
             logger.info(' ' * 4 + 'The title already exists.')
-            self.update(uu.uid, post_data)
+            MWiki.update(uu.uid, post_data)
             return
 
         uid = '_' + tools.get_uu8d()
 
-        return self.__create_rec(uid, '1', post_data=post_data)
+        return MWiki.__create_rec(uid, '1', post_data=post_data)
 
-    def create_wiki_history(self, slug, post_data):
+    @staticmethod
+    def create_wiki_history(slug, post_data):
         logger.info('Call create Page')
-        uu = self.get_by_uid(slug)
+        uu = MWiki.get_by_uid(slug)
         if uu is None:
             pass
         else:
@@ -83,9 +109,10 @@ class MWiki(Mabc):
         title = post_data['title'].strip()
         if len(title) < 2:
             return False
-        return self.__create_rec(slug, '2', post_data=post_data)
+        return MWiki.__create_rec(slug, '2', post_data=post_data)
 
-    def __create_rec(self, *args, **kwargs):
+    @staticmethod
+    def __create_rec(*args, **kwargs):
         uid = args[0]
         kind = args[1]
         post_data = kwargs['post_data']
@@ -107,56 +134,64 @@ class MWiki(Mabc):
         except:
             return False
 
-    def query_dated(self, num=10, kind='1'):
-        return self.tab.select().where(
-            self.tab.kind == kind
+    @staticmethod
+    def query_dated(num=10, kind='1'):
+        return g_Wiki.select().where(
+            g_Wiki.kind == kind
         ).order_by(
-            self.tab.time_update.desc()
+            g_Wiki.time_update.desc()
         ).limit(num)
 
-    def query_most(self, num=8, kind='1'):
-        return self.tab.select().where(
-            self.tab.kind == kind
+    @staticmethod
+    def query_most(num=8, kind='1'):
+        return g_Wiki.select().where(
+            g_Wiki.kind == kind
         ).order_by(
-            self.tab.view_count.desc()
+            g_Wiki.view_count.desc()
         ).limit(num)
 
-    def update_view_count(self, citiao):
-        entry = self.tab.update(
-            view_count=self.tab.view_count + 1
+    @staticmethod
+    def update_view_count(citiao):
+        entry = g_Wiki.update(
+            view_count=g_Wiki.view_count + 1
         ).where(
-            self.tab.title == citiao
+            g_Wiki.title == citiao
         )
         entry.execute()
 
-    def update_view_count_by_uid(self, uid):
-        entry = self.tab.update(
-            view_count=self.tab.view_count + 1
+    @staticmethod
+    def update_view_count_by_uid(uid):
+        entry = g_Wiki.update(
+            view_count=g_Wiki.view_count + 1
         ).where(
-            self.tab.uid == uid
+            g_Wiki.uid == uid
         )
         entry.execute()
 
-    def get_by_wiki(self, citiao):
-        q_res = self.tab.select().where(self.tab.title == citiao)
+    @staticmethod
+    def get_by_wiki(citiao):
+        q_res = g_Wiki.select().where(g_Wiki.title == citiao)
         tt = q_res.count()
         if tt == 0 or tt > 1:
             return None
         else:
-            self.update_view_count(citiao)
+            MWiki.update_view_count(citiao)
             return q_res.get()
 
-    def get_by_title(self, in_title):
+    @staticmethod
+    def get_by_title(in_title):
         # Aka get_by_wiki
-        return self.get_by_wiki(in_title)
+        return MWiki.get_by_wiki(in_title)
 
-    def view_count_plus(self, slug):
+    @staticmethod
+    def view_count_plus(slug):
         entry = g_Wiki.update(
             view_count=g_Wiki.view_count + 1,
         ).where(g_Wiki.uid == slug)
         entry.execute()
 
-    def query_all(self, **kwargs):
+    @staticmethod
+    def query_all(**kwargs):
         if 'kind' in kwargs:
             kind = kwargs['kind']
         else:
@@ -165,18 +200,20 @@ class MWiki(Mabc):
             limit = kwargs['limit']
         else:
             limit = 999999
-        return self.tab.select().where(self.tab.kind == kind).limit(limit)
+        return g_Wiki.select().where(g_Wiki.kind == kind).limit(limit)
 
-    def query_random(self, num=6):
-        return self.tab.select().where(
-            self.tab.kind == self.kind
+    @staticmethod
+    def query_random(num=6, kind='1'):
+        return g_Wiki.select().where(
+            g_Wiki.kind == kind
         ).order_by(
             peewee.fn.Random()
         ).limit(num)
 
-    def query_recent(self, num=8):
-        return self.tab.select().where(
-            self.tab.kind == self.kind
+    @staticmethod
+    def query_recent(num=8, kind='1'):
+        return g_Wiki.select().where(
+            g_Wiki.kind == kind
         ).order_by(
-            self.tab.time_update
+            g_Wiki.time_update
         ).limit(num)

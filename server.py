@@ -1,11 +1,11 @@
 # coding:utf-8
 
 import sys
-import config
+from config import SITE_CFG
 import tornado.ioloop
 # import tornado.web
 
-PORT = config.PORT
+PORT = SITE_CFG['PORT']
 
 from application import app
 

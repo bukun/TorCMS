@@ -12,7 +12,7 @@ from torcms.model.category_model import MCategory
 from torcms.model.link_model import MLink
 from torcms.model.wiki_model import MWiki
 from torcms.model.post_model import MPost
-from config import cfg_render
+from config import CMS_CFG
 
 
 class IndexHandler(BaseHandler):
@@ -22,10 +22,7 @@ class IndexHandler(BaseHandler):
 
     def initialize(self):
         super(IndexHandler, self).initialize()
-        self.mpost = MPost()
-        self.mcat = MCategory()
-        self.mpage = MWiki()
-        self.mlink = MLink()
+
 
     def get_current_user(self):
         return self.get_secure_cookie("user")
@@ -47,10 +44,10 @@ class IndexHandler(BaseHandler):
         }
         self.render('index/index.html',
                     userinfo=self.userinfo,
-                    catalog_info=self.mcat.query_all(by_order=True),
-                    link=self.mlink.query_all(),
+                    catalog_info=MCategory.query_all(by_order=True),
+                    link=MLink.query_all(),
                     unescape=tornado.escape.xhtml_unescape,
-                    cfg=cfg_render,
-                    view=self.mpost.query_most_pic(20),
+                    cfg=CMS_CFG,
+                    view=MPost.query_most_pic(20),
                     kwd=kwd, )
 

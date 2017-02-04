@@ -6,17 +6,16 @@ from torcms.model.core_tab import g_User2Reply
 from torcms.model.core_tab import g_Reply
 from torcms.model.abc_model import Mabc
 
-
 class MReply2User(Mabc):
     def __init__(self):
 
-        self.tab = g_User2Reply
         try:
             g_User2Reply.create_table()
         except:
             pass
 
-    def update(self, uid, post_data, update_time=False):
+    @staticmethod
+    def update( uid, post_data, update_time=False):
         pass
         # cnt_html = tools.markdown2html(post_data['cnt_md'][0])
         #
@@ -34,7 +33,8 @@ class MReply2User(Mabc):
         #
         # entry.execute()
 
-    def create_wiki_history(self, user_id, reply_id):
+    @staticmethod
+    def create_wiki_history( user_id, reply_id):
 
         record = g_User2Reply.select().where(
             (g_User2Reply.reply_id == reply_id) & (g_User2Reply.user_id == user_id))
@@ -52,15 +52,17 @@ class MReply2User(Mabc):
                 timestamp=time.time(),
             )
 
-    def get_voter_count(self, reply_id):
+    @staticmethod
+    def get_voter_count( reply_id):
         return g_User2Reply.select().where(g_User2Reply.reply_id == reply_id).count()
 
-    def delete(self, del_id):
+    @staticmethod
+    def delete(uid):
         try:
-            del_count2 = g_User2Reply.delete().where(g_User2Reply.reply_id == del_id)
+            del_count2 = g_User2Reply.delete().where(g_User2Reply.reply_id == uid)
             del_count2.execute()
 
-            del_count = g_Reply.delete().where(g_Reply.uid == del_id)
+            del_count = g_Reply.delete().where(g_Reply.uid == uid)
             del_count.execute()
 
             return True

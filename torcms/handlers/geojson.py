@@ -12,8 +12,7 @@ from torcms.model.usage_model import MUsage
 class GeoJsonHandler(BaseHandler):
     def initialize(self):
         super(GeoJsonHandler, self).initialize()
-        self.mjson = MJson()
-        self.musage = MUsage()
+
 
     def get(self, url_str=''):
         url_arr = self.parse_url(url_str)
@@ -31,7 +30,7 @@ class GeoJsonHandler(BaseHandler):
 
         elif len(url_arr) == 2:
             if url_arr[0] == 'gson':
-                rec = self.mjson.get_by_id(url_arr[1])
+                rec = MJson.get_by_id(url_arr[1])
                 if rec:
                     return json.dump(rec.json, self)
                 else:
@@ -60,7 +59,7 @@ class GeoJsonHandler(BaseHandler):
             kwd=kwd,
             userinfo=self.userinfo,
             unescape=tornado.escape.xhtml_unescape,
-            recent_apps=self.musage.query_recent(
+            recent_apps=MUsage.query_recent(
                 self.get_current_user(),
                 6
             )[1:] if self.userinfo else []
@@ -72,7 +71,7 @@ class GeoJsonHandler(BaseHandler):
             kwd={},
             userinfo=self.userinfo,
             unescape=tornado.escape.xhtml_unescape,
-            json_arr=self.mjson.query_recent(self.userinfo.uid, 20) if self.userinfo else []
+            json_arr=MJson.query_recent(self.userinfo.uid, 20) if self.userinfo else []
         )
 
     @tornado.web.authenticated
@@ -84,19 +83,19 @@ class GeoJsonHandler(BaseHandler):
             kwd=kwd,
             userinfo=self.userinfo,
             unescape=tornado.escape.xhtml_unescape,
-            json_arr=self.mjson.query_recent(self.userinfo.uid, 10)
+            json_arr=MJson.query_recent(self.userinfo.uid, 10)
         )
 
     @tornado.web.authenticated
     def delete(self, uid):
-        self.mjson.delete_by_uid(uid)
+        MJson.delete_by_uid(uid)
 
     @tornado.web.authenticated
     def download(self, pa_str):
         uid = pa_str.split('_')[-1].split('.')[0]
 
         self.set_header('Content-Type', 'application/force-download')
-        rec = self.mjson.get_by_id(uid)
+        rec = MJson.get_by_id(uid)
 
         geojson = rec.json
 
@@ -156,7 +155,7 @@ class GeoJsonHandler(BaseHandler):
 
         if gson_uid == 'draw' or gson_uid == '':
             uid = tools.get_uu4d()
-            while self.mjson.get_by_id(uid):
+            while MJson.get_by_id(uid):
                 uid = tools.get_uu4d()
             return_dic = {'sig': uid}
 
@@ -164,7 +163,7 @@ class GeoJsonHandler(BaseHandler):
             uid = gson_uid
             return_dic = {'sig': ''}
 
-            cur_info = self.mjson.get_by_id(uid)
+            cur_info = MJson.get_by_id(uid)
 
             if cur_info.user_id == self.userinfo.uid:
                 pass
@@ -175,7 +174,7 @@ class GeoJsonHandler(BaseHandler):
             return
 
         try:
-            self.mjson.add_or_update_json(uid, self.userinfo.uid, out_dic)
+            MJson.add_or_update_json(uid, self.userinfo.uid, out_dic)
             return_dic['status'] = 1
             return json.dump(return_dic, self)
         except:
@@ -213,7 +212,7 @@ class GeoJsonHandler(BaseHandler):
             uid = url_arr[1]
             return_dic = {'sig': ''}
 
-            cur_info = self.mjson.get_by_id(uid)
+            cur_info = MJson.get_by_id(uid)
 
             if cur_info.user_id == self.userinfo.uid:
                 pass
@@ -222,10 +221,10 @@ class GeoJsonHandler(BaseHandler):
                 return json.dump(return_dic, self)
         else:
             uid = tools.get_uu4d()
-            while self.mjson.get_by_id(uid):
+            while MJson.get_by_id(uid):
                 uid = tools.get_uu4d()
             return_dic = {'sig': uid}
 
-        self.mjson.add_or_update(uid, self.userinfo.uid, url_arr[0], out_dic)
+        MJson.add_or_update(uid, self.userinfo.uid, url_arr[0], out_dic)
         return_dic['status'] = 1
         return json.dump(return_dic, self)

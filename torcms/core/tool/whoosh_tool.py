@@ -17,7 +17,7 @@ def singleton(cls, *args, **kwargs):
 
 
 @singleton
-class yunsearch():
+class YunSearch():
     def __init__(self):
         self.whbase = open_dir("database/whoosh")
         self.parser = QueryParser("content", schema=self.whbase.schema)

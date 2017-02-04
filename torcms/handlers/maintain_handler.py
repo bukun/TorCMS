@@ -12,7 +12,6 @@ from torcms.model.category_model import MCategory
 class MaintainCategoryHandler(BaseHandler):
     def initialize(self):
         super(MaintainCategoryHandler, self).initialize()
-        self.mclass = MCategory()
         self.tmpl_router = 'maintain_category'
 
     def get(self, url_str=''):
@@ -55,10 +54,10 @@ class MaintainCategoryHandler(BaseHandler):
         }
         self.render('doc/{0}/category_list.html'.format(self.tmpl_router),
                     kwd=kwd,
-                    view=self.mclass.query_all(by_order=True),
+                    view=MCategory.query_all(by_order=True),
                     format_date=tools.format_date,
                     userinfo=self.userinfo,
-                    cfg=config.cfg_render
+                    cfg=config.CMS_CFG
                     )
 
     @tornado.web.authenticated
@@ -75,11 +74,11 @@ class MaintainCategoryHandler(BaseHandler):
                     topmenu='',
                     kwd=kwd,
                     userinfo=self.userinfo,
-                    cfg=config.cfg_render
+                    cfg=config.CMS_CFG
                     )
 
     def __could_edit(self, uid):
-        raw_data = self.mclass.get_by_id(uid)
+        raw_data = MCategory.get_by_uid(uid)
         if not raw_data:
             return False
         if self.check_post_role()['EDIT'] or raw_data.id_user == self.userinfo.user_name:
@@ -99,10 +98,10 @@ class MaintainCategoryHandler(BaseHandler):
         post_data['user_name'] = self.get_current_user()
 
         if self.tmpl_router == "maintain_category":
-            self.mclass.update(uid, post_data)
+            MCategory.update(uid, post_data)
             self.redirect('/maintain/category/list')
         else:
-            if self.mclass.update(uid, post_data):
+            if MCategory.update(uid, post_data):
 
                 output = {
                     'addinfo ': 1,
@@ -119,7 +118,7 @@ class MaintainCategoryHandler(BaseHandler):
             pass
         else:
             return False
-        a = self.mclass.get_by_id(id_rec)
+        a = MCategory.get_by_uid(id_rec)
         kwd = {
             'pager': '',
 
@@ -129,7 +128,7 @@ class MaintainCategoryHandler(BaseHandler):
                     unescape=tornado.escape.xhtml_unescape,
                     dbrec=a,
                     userinfo=self.userinfo,
-                    cfg=config.cfg_render,
+                    cfg=config.CMS_CFG,
                     )
 
     @tornado.web.authenticated
@@ -144,9 +143,9 @@ class MaintainCategoryHandler(BaseHandler):
 
         post_data['user_name'] = self.get_current_user()
         id_post = post_data['uid'][0]
-        cur_post_rec = self.mclass.get_by_id(id_post)
+        cur_post_rec = MCategory.get_by_uid(id_post)
         if cur_post_rec is None:
-            uid = self.mclass.create_wiki_history(id_post, post_data)
+            uid = MCategory.create_wiki_history(id_post, post_data)
 
         self.redirect('/maintain/category/list')
 
@@ -164,10 +163,10 @@ class MaintainCategoryHandler(BaseHandler):
         post_data['user_name'] = self.get_current_user()
 
         cur_uid = tools.get_uudd(2)
-        while self.mclass.get_by_id(cur_uid):
+        while MCategory.get_by_uid(cur_uid):
             cur_uid = tools.get_uudd(2)
 
-        if self.mclass.create_wiki_history(post_data['uid'][0], post_data):
+        if MCategory.create_wiki_history(post_data['uid'][0], post_data):
 
             output = {
                 'addinfo ': 1,
@@ -191,10 +190,10 @@ class MaintainCategoryHandler(BaseHandler):
         post_data['user_name'] = self.get_current_user()
 
         cur_uid = tools.get_uudd(2)
-        while self.mclass.get_by_id(cur_uid):
+        while MCategory.get_by_uid(cur_uid):
             cur_uid = tools.get_uudd(2)
 
-        uid = self.mclass.create_wiki_history(cur_uid, post_data)
+        uid = MCategory.create_wiki_history(cur_uid, post_data)
 
         self.redirect('/maintain/category/list')
 
@@ -205,14 +204,14 @@ class MaintainCategoryHandler(BaseHandler):
         else:
             return False
         if self.tmpl_router == "maintain_category":
-            is_deleted = self.mclass.delete(del_id)
+            is_deleted = MCategory.delete(del_id)
 
             if is_deleted:
                 self.redirect('/maintain/category/list')
             else:
                 return False
         else:
-            if self.mclass.delete(del_id):
+            if MCategory.delete(del_id):
                 output = {
                     'del_category': 1
                 }
@@ -227,5 +226,5 @@ class MaintainCategoryHandler(BaseHandler):
 class MaintainCategoryAjaxHandler(MaintainCategoryHandler):
     def initialize(self):
         super(MaintainCategoryAjaxHandler, self).initialize()
-        self.mclass = MCategory()
+        MCategory = MCategory()
         self.tmpl_router = 'category_ajax'

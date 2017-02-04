@@ -26,12 +26,9 @@ class MapPostHandler(InfoHandler):
     def ext_view_kwd(self, info_rec):
         post_data = self.get_post_data()
 
-        out_dic = {
-            'marker': 1 if 'marker' in post_data else 0,
-            'geojson': post_data['gson'] if 'gson' in post_data else '',
-            'map_hist_arr': self.extra_view(info_rec.uid),
-
-        }
+        out_dic = {'marker': 1 if 'marker' in post_data else 0,
+                   'geojson': post_data['gson'] if 'gson' in post_data else '',
+                   'map_hist_arr': self.extra_view(info_rec.uid)}
         if 'zoom' in post_data:
             out_dic['vzoom'] = post_data['zoom']
         if 'lat' in post_data:
@@ -82,7 +79,7 @@ class MapAdminHandler(MapPostHandler):
         post_data['ext_zoom_max'] = str(zoom_current + 3)
         post_data['ext_zoom_min'] = str(zoom_current - 1)
 
-        self.minfor.update_jsonb(uid, post_data)
+        MInfor.update_jsonb(uid, post_data)
 
 
 class MapLayoutHandler(BaseHandler):
@@ -92,9 +89,7 @@ class MapLayoutHandler(BaseHandler):
 
     def initialize(self):
         super(MapLayoutHandler, self).initialize()
-        self.mequa = MInfor()
-        self.mlayout = MLayout()
-
+    
     def get(self, *args):
         url_str = args[0]
         url_arr = self.parse_url(url_str)
@@ -118,7 +113,7 @@ class MapLayoutHandler(BaseHandler):
         :param uid:
         :return:
         '''
-        self.mlayout.delete_by_uid(uid)
+        MLayout.delete_by_uid(uid)
 
     @tornado.web.authenticated
     def save_layout(self):
@@ -133,7 +128,7 @@ class MapLayoutHandler(BaseHandler):
             self.set_status(403)
             return
         post_data['user'] = self.userinfo.uid
-        self.mlayout.add_or_update(post_data)
+        MLayout.add_or_update(post_data)
 
 
 class MapOverlayHandler(BaseHandler):
@@ -143,7 +138,7 @@ class MapOverlayHandler(BaseHandler):
 
     def initialize(self):
         super(MapOverlayHandler, self).initialize()
-        self.mapplication = MInfor()
+
 
     def get(self, url_str=''):
         url_arr = self.parse_url(url_str)
@@ -151,10 +146,8 @@ class MapOverlayHandler(BaseHandler):
         if len(url_arr) > 1:
             self.show_overlay(url_arr)
         else:
-            kwd = {
-                'title': '',
-                'info': '',
-            }
+            kwd = {'title': '',
+                   'info': ''}
             self.render('html/404.html',
                         kwd=kwd,
                         userinfo=self.userinfo)
@@ -171,7 +164,7 @@ class MapOverlayHandler(BaseHandler):
         zoom_current_zrr = []
 
         for app_rr in app_arr:
-            c_ap = self.mapplication.get_by_uid(app_rr)
+            c_ap = MInfor.get_by_uid(app_rr)
             app_info_arr.append(c_ap)
             lon_arr.append(float(c_ap.extinfo['ext_lon']))
             lat_arr.append(float(c_ap.extinfo['ext_lat']))
@@ -179,25 +172,21 @@ class MapOverlayHandler(BaseHandler):
             zoom_min_arr.append(int(c_ap.extinfo['ext_zoom_min']))
             zoom_current_zrr.append(int(c_ap.extinfo['ext_zoom_current']))
 
-        kwd = {
-            'url': 1,
-            'cookie_str': '',
-            'lon': average_array(lon_arr),
-            'lat': average_array(lat_arr),
-            'zoom_max': max(zoom_max_arr),
-            'zoom_min': min(zoom_min_arr),
-            'zoom_current': int(average_array(zoom_current_zrr))
-        }
+        kwd = {'url': 1,
+               'cookie_str': '',
+               'lon': average_array(lon_arr),
+               'lat': average_array(lat_arr),
+               'zoom_max': max(zoom_max_arr),
+               'zoom_min': min(zoom_min_arr),
+               'zoom_current': int(average_array(zoom_current_zrr))}
         if 'fullscreen' in self.request.arguments:
             tmpl = 'post_m/overlay/overlay_full.html'
         else:
             tmpl = 'post_m/overlay/overlay.html'
-        self.render(
-            tmpl,
-            topmenu='',
-            kwd=kwd,
-            userinfo=self.userinfo,
-            unescape=tornado.escape.xhtml_unescape,
-            app_arr=app_info_arr,
-            app_str='/'.join(app_arr)
-        )
+        self.render(tmpl,
+                    topmenu='',
+                    kwd=kwd,
+                    userinfo=self.userinfo,
+                    unescape=tornado.escape.xhtml_unescape,
+                    app_arr=app_info_arr,
+                    app_str='/'.join(app_arr))

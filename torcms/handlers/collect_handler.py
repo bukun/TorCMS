@@ -17,10 +17,6 @@ from torcms.core.tools import logger
 class CollectHandler(BaseHandler):
     def initialize(self):
         super(CollectHandler, self).initialize()
-        # self.mequa = MInfor()
-        # self.musage = MUsage()
-        # self.mrel = MRelation()
-        self.mcollect = MCollect()
 
     def get(self, *args):
         url_str = args[0]
@@ -41,13 +37,13 @@ class CollectHandler(BaseHandler):
     @tornado.web.authenticated
     def add_or_update(self, app_id):
         logger.info('Collect info: user-{0}, uid-{1}'.format(self.userinfo.uid, app_id))
-        self.mcollect.add_or_update(self.userinfo.uid, app_id)
+        MCollect.add_or_update(self.userinfo.uid, app_id)
         out_dic = {'success': True}
         return json.dump(out_dic, self)
 
     @tornado.web.authenticated
     def list(self):
         self.render('user/collect/list.html',
-                    recs_collect=self.mcollect.query_recent(self.userinfo.uid, 20),
+                    recs_collect=MCollect.query_recent(self.userinfo.uid, 20),
                     userinfo=self.userinfo,
                     )

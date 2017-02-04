@@ -7,7 +7,7 @@ from torcms.handlers.admin_handler import AdminHandler
 from torcms.handlers.category_handler import CategoryHandler
 from torcms.handlers.entity_handler import EntityHandler
 from torcms.handlers.index import IndexHandler
-from torcms.handlers.label_hanlder import LabelHandler
+from torcms.handlers.tag_list_hanlder import TagListHandler
 
 from torcms.handlers.info2_tag_hanler import InfoTagHandler
 from torcms.handlers.post_label_handler import PostLabelHandler
@@ -91,7 +91,7 @@ urls = [
 
     ("/publish/(.*)", PublishHandler, dict()),
 
-    ("/tag/(.*)", LabelHandler, dict()),
+    ("/tag/(.*)", TagListHandler, dict()),
 
     # Todo: need to be deleted. replaced by `/label/`.
     ('/info_tag/(.*)', InfoTagHandler, dict(hinfo={})),

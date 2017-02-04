@@ -16,9 +16,9 @@ class TestLabel():
         post_data = {
             'name': 'titlesdf',
         }
-        newid = self.uu.create_tag(post_data['name'])
+        newid = MLabel.create_tag(post_data['name'])
 
-        tt = self.uu.get_id_by_name(post_data['name'])
+        tt = MLabel.get_id_by_name(post_data['name'])
         # assert tt.uid == suid
         self.tmpl_uid = tt
         assert tt == newid

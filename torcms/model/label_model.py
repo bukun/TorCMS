@@ -1,21 +1,21 @@
 # -*- coding:utf-8 -*-
 
-import config
+
 from torcms.core import tools
 from torcms.model.core_tab import g_Tag
 from torcms.model.core_tab import g_Post
 from torcms.model.core_tab import g_Post2Tag as g_Post2Tag
-from torcms.model.abc_model import Mabc
 from torcms.core.tools import logger
 
+from config import CMS_CFG
+from torcms.model.abc_model import Mabc, MHelper
 
 class MLabel(Mabc):
-    def __init__(self):
-        self.tab = g_Tag
 
-    def get_id_by_name(self, tag_name, kind='z'):
-        recs = self.tab.select().where(
-            (self.tab.name == tag_name) & (self.tab.kind == kind)
+    @staticmethod
+    def get_id_by_name( tag_name, kind='z'):
+        recs = g_Tag.select().where(
+            (g_Tag.name == tag_name) & (g_Tag.kind == kind)
         )
         logger.info('tag count of {0}: {1} '.format(tag_name, recs.count()))
         if recs.count() == 1:
@@ -29,33 +29,41 @@ class MLabel(Mabc):
                     pass
                 else:
                     g_Post2Tag.delete().where(g_Post2Tag.tag == rec.uid).execute()
-                    self.tab.delete().where(self.tab.uid == rec.uid).execute()
+                    g_Tag.delete().where(g_Tag.uid == rec.uid).execute()
                 idx = idx + 1
             return tx.get().uid
         else:
-            return self.create_tag(tag_name)
+            return MLabel.create_tag(tag_name)
 
-    def get_by_slug(self, tag_slug):
-        uu = self.tab.select().where(self.tab.slug == tag_slug)
+    @staticmethod
+    def delete(uid):
+        return MHelper.delete(g_Tag, uid)
+
+    @staticmethod
+    def get_by_slug( tag_slug):
+        uu = g_Tag.select().where(g_Tag.slug == tag_slug)
         if uu:
             return uu.get()
         else:
             return False
 
-    def create_tag(self, tag_name, kind='z'):
+    @staticmethod
+    def create_tag(tag_name, kind='z'):
 
-        cur_count = self.tab.select().where(
-            (self.tab.name == tag_name) &
-            (self.tab.kind == kind)
+        cur_count = g_Tag.select().where(
+            (g_Tag.name == tag_name) &
+            (g_Tag.kind == kind)
         ).count()
         if cur_count > 0:
-            return False
+            g_Tag.delete().where((g_Tag.name == tag_name) &
+            (g_Tag.kind == kind)).execute()
+            # return False
 
         uid = tools.get_uu4d_v2()
-        while self.tab.select().where(self.tab.uid == uid).count() > 0:
+        while g_Tag.select().where(g_Tag.uid == uid).count() > 0:
             uid = tools.get_uu4d_v2()
 
-        self.tab.create(
+        g_Tag.create(
             uid=uid,
             slug=uid,
             name=tag_name,
@@ -67,12 +75,13 @@ class MLabel(Mabc):
         )
         return uid
 
-    def create_tag_with_uid(self, uid, tag_name):
+    @staticmethod
+    def create_tag_with_uid( uid, tag_name):
 
-        if self.tab.select().where(self.tab.uid == uid).count():
+        if g_Tag.select().where(g_Tag.uid == uid).count():
             return False
 
-        self.tab.create(
+        g_Tag.create(
             uid=uid,
             slug=uid,
             name=tag_name,
@@ -87,26 +96,29 @@ class MLabel(Mabc):
 
 class MPost2Label(Mabc):
     def __init__(self):
-        self.tab = g_Post2Tag
-        self.tab_label = g_Tag
-        self.tab_post = g_Post
-        self.mtag = MLabel()
+        # g_Post2Tag = g_Post2Tag
+        # g_Tag = g_Tag
+        # g_Post = g_Post
+        # self.mtag = MLabel()
         try:
             g_Post2Tag.create_table()
         except:
             pass
 
-    def query_count(self, uid):
-        return self.tab.select().where(self.tab.tag == uid).count()
+    @staticmethod
+    def query_count( uid):
+        return g_Post2Tag.select().where(g_Post2Tag.tag == uid).count()
 
-    def remove_relation(self, post_id, tag_id):
-        entry = self.tab.delete().where(
-            (self.tab.post == post_id) & (self.tab.tag == tag_id)
+    @staticmethod
+    def remove_relation( post_id, tag_id):
+        entry = g_Post2Tag.delete().where(
+            (g_Post2Tag.post == post_id) & (g_Post2Tag.tag == tag_id)
         )
         entry.execute()
 
-    def generate_catalog_list(self, signature):
-        tag_infos = self.get_by_id(signature)
+    @staticmethod
+    def generate_catalog_list( signature):
+        tag_infos = MPost2Label.get_by_uid(signature)
         out_str = ''
         for tag_info in tag_infos:
             tmp_str = '<li><a href="/tag/{0}" >{1}</a></li>'.format(tag_info.tag,
@@ -114,61 +126,67 @@ class MPost2Label(Mabc):
             out_str += tmp_str
         return out_str
 
-    def get_by_id(self, idd, kind='z'):
-        return self.tab.select().join(self.tab_label).where(
-            (self.tab.post == idd) & (self.tab_label.kind == 'z')
+    @staticmethod
+    def get_by_uid(idd, kind='z'):
+        return g_Post2Tag.select().join(g_Tag).where(
+            (g_Post2Tag.post == idd) & (g_Tag.kind == 'z')
         )
 
-    def get_by_info(self, post_id, catalog_id):
-        tmp_recs = self.tab.select().join(self.tab_label).where(
-            (self.tab.post == post_id) &
-            (self.tab.tag == catalog_id) &
-            (self.tab_label.kind == 'z')
+    @staticmethod
+    def get_by_info( post_id, catalog_id):
+        tmp_recs = g_Post2Tag.select().join(g_Tag).where(
+            (g_Post2Tag.post == post_id) &
+            (g_Post2Tag.tag == catalog_id) &
+            (g_Tag.kind == 'z')
         )
 
         if tmp_recs.count() > 1:
             ''' 如果多于1个，则全部删除
             '''
             idx = 0
+            out_rec = None
             for tmp_rec in tmp_recs:
                 if idx == 0:
                     out_rec = tmp_rec
                 else:
-                    self.delete(tmp_rec.uid)
+                    entry = g_Post2Tag.delete().where(g_Post2Tag.uid == tmp_rec.uid)
+                    entry.execute()
                 idx = idx + 1
-            return out_rec.get()
+            return out_rec
 
         elif tmp_recs.count() == 1:
             return tmp_recs.get()
         else:
             return None
 
-    def add_record(self, post_id, tag_name, order=1, kind='z'):
+    @staticmethod
+    def add_record(post_id, tag_name, order=1, kind='z'):
         logger.info('Add label kind: {0}'.format(kind))
-        tag_id = self.mtag.get_id_by_name(tag_name, 'z')
-        labelinfo = self.get_by_info(post_id, tag_id)
+        tag_id = MLabel.get_id_by_name(tag_name, 'z')
+        labelinfo = MPost2Label.get_by_info(post_id, tag_id)
         if labelinfo:
-            entry = self.tab.update(
+            entry = g_Post2Tag.update(
                 order=order,
-            ).where(self.tab.uid == labelinfo.uid)
+            ).where(g_Post2Tag.uid == labelinfo.uid)
             entry.execute()
         else:
-            entry = self.tab.create(
+            entry = g_Post2Tag.create(
                 uid=tools.get_uuid(),
                 post=post_id,
                 tag=tag_id,
                 order=order,
-                kind='z',
-            )
+                kind='z')
             return entry.uid
 
-    def total_number(self, slug, kind='1'):
-        return self.tab_post.select().join(self.tab).where(
-            (self.tab.tag == slug) & (self.tab_post.kind == kind)
+    @staticmethod
+    def total_number(slug, kind='1'):
+        return g_Post.select().join(g_Post2Tag).where(
+            (g_Post2Tag.tag == slug) & (g_Post.kind == kind)
         ).count()
 
-    def query_pager_by_slug(self, slug, kind='1', current_page_num=1):
-        return self.tab_post.select().join(self.tab).where(
-            (self.tab.tag == slug) &
-            (self.tab_post.kind == kind)
-        ).paginate(current_page_num, config.page_num)
+    @staticmethod
+    def query_pager_by_slug( slug, kind='1', current_page_num=1):
+        return g_Post.select().join(g_Post2Tag).where(
+            (g_Post2Tag.tag == slug) &
+            (g_Post.kind == kind)
+        ).paginate(current_page_num, CMS_CFG['list_num'])

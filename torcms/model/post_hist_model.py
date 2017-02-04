@@ -3,40 +3,68 @@
 
 from torcms.core import tools
 from torcms.model.core_tab import g_PostHist
-from torcms.model.abc_model import Mabc
 import tornado.escape
+from torcms.model.abc_model import Mabc, MHelper
 
 class MPostHist(Mabc):
     def __init__(self):
-        self.tab = g_PostHist
         try:
             g_PostHist.create_table()
         except:
             pass
 
-    def update_cnt(self, uid, post_data):
-        entry = self.tab.update(
+    @staticmethod
+    def get_by_uid(uid):
+        '''
+        return the record by uid
+        :param uid:
+        :return:
+        '''
+        return MHelper.get_by_uid(g_PostHist, uid)
+
+
+    @staticmethod
+    def delete(uid):
+        '''
+        Delete by uid
+        :param uid:
+        :return:
+        '''
+
+        del_count = g_PostHist.delete().where(g_PostHist.uid == uid)
+        try:
+            del_count.execute()
+            return False
+        except:
+            return True
+
+    @staticmethod
+    def update_cnt(uid, post_data):
+        entry = g_PostHist.update(
             user_name=post_data['user_name'],
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md']),
             time_update=tools.timestamp(),
-        ).where(self.tab.uid == uid)
+        ).where(g_PostHist.uid == uid)
         entry.execute()
 
-
-    def query_by_postid(self, postid, limit = 5):
-        recs = self.tab.select().where(self.tab.post_id == postid).order_by(self.tab.time_update.desc()).limit(limit)
+    @staticmethod
+    def query_by_postid(postid, limit=5):
+        recs = g_PostHist.select().where(g_PostHist.post_id == postid).order_by(g_PostHist.time_update.desc()).limit(
+            limit)
         return recs
 
-    def get_last(self, postid, limit = 10):
-        recs = self.tab.select().where(
-            self.tab.post_id == postid
-        ).order_by(self.tab.time_update.desc()).limit(limit)
+    @staticmethod
+    def get_last(postid, limit=10):
+        recs = g_PostHist.select().where(
+            g_PostHist.post_id == postid
+        ).order_by(g_PostHist.time_update.desc()).limit(limit)
         if recs.count() == 0:
             return None
         else:
             return recs.get()
 
-    def create_wiki_history(self, raw_data):
+    @staticmethod
+    def create_wiki_history(raw_data):
 
         uid = tools.get_uuid()
         g_PostHist.create(

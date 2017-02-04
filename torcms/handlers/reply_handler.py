@@ -12,8 +12,6 @@ from torcms.core.tools import logger
 class ReplyHandler(BaseHandler):
     def initialize(self):
         super(ReplyHandler, self).initialize()
-        self.tab = MReply()
-        self.mreply2user = MReply2User()
 
     def get(self, url_str=''):
         url_arr = self.parse_url(url_str)
@@ -40,14 +38,14 @@ class ReplyHandler(BaseHandler):
         }
         self.render('admin/reply_ajax/reply_list.html',
                     kwd=kwd,
-                    view_all=self.tab.query_all(),
+                    view_all=MReply.query_all(),
                     userinfo=self.userinfo,
 
                     )
 
     def get_by_id(self, reply_id):
 
-        reply = self.tab.get_by_uid(reply_id)
+        reply = MReply.get_by_uid(reply_id)
         logger.info('get_reply: {0}'.format(reply_id))
 
         self.render('reply/show_reply.html',
@@ -66,7 +64,7 @@ class ReplyHandler(BaseHandler):
         post_data['user_name'] = self.userinfo.user_name
         post_data['user_id'] = self.userinfo.uid
         post_data['post_id'] = post_id
-        replyid = self.tab.create_wiki_history(post_data)
+        replyid = MReply.create_wiki_history(post_data)
         if replyid:
             out_dic = {
                 'pinglun': post_data['cnt_reply'],
@@ -81,10 +79,10 @@ class ReplyHandler(BaseHandler):
         logger.info('zan: {0}'.format(id_reply))
         # 先在外部表中更新，然后更新内部表字段的值。
         # 有冗余，但是查看的时候避免了联合查询
-        self.mreply2user.create_wiki_history(self.userinfo.uid, id_reply)
-        cur_count = self.mreply2user.get_voter_count(id_reply)
+        MReply2User.create_wiki_history(self.userinfo.uid, id_reply)
+        cur_count = MReply2User.get_voter_count(id_reply)
         if cur_count:
-            self.tab.update_vote(id_reply, cur_count)
+            MReply.update_vote(id_reply, cur_count)
             output = {
                 'text_zan': cur_count,
             }
@@ -97,7 +95,7 @@ class ReplyHandler(BaseHandler):
         return json.dump(output, self)
 
     def delete(self, del_id):
-        if self.mreply2user.delete(del_id):
+        if MReply2User.delete(del_id):
             output = {
                 'del_zan': 1
             }

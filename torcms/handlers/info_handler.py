@@ -21,7 +21,7 @@ from torcms.model.reply_model import MReply
 from torcms.handlers.post_handler import PostHandler
 from torcms.model.info_hist_model import MInfoHist
 from torcms.core.tools import logger
-from config import router_post, cfg_render
+from config import router_post, CMS_CFG
 
 from celery_server import cele_gen_whoosh
 
@@ -32,15 +32,6 @@ class InfoHandler(PostHandler):
 
     def initialize(self, **kwargs):
         super(InfoHandler, self).initialize()
-        self.mevaluation = MEvaluation()
-        self.mpost2label = MPost2Label()
-        self.mpost2catalog = MInfor2Catalog()
-        self.minfor = MInfor()
-        self.musage = MUsage()
-        self.mcat = MCategory()
-        self.mrel = MRelation()
-        self.mreply = MReply()
-        self.mpost_hist = MInfoHist()
 
         if 'kind' in kwargs:
             self.kind = kwargs['kind']
@@ -158,20 +149,20 @@ class InfoHandler(PostHandler):
                         userinfo=self.userinfo, )
             return False
 
-        cats = self.mpost2catalog.query_by_entity_uid(info_id, kind=postinfo.kind)
+        cats = MInfor2Catalog.query_by_entity_uid(info_id, kind=postinfo.kind)
         cat_uid_arr = []
         for cat_rec in cats:
             cat_uid = cat_rec.tag.uid
             cat_uid_arr.append(cat_uid)
         logger.info('info category: {0}'.format(cat_uid_arr))
 
-        rel_recs = self.mrel.get_app_relations(postinfo.uid, 8, kind=postinfo.kind)
+        rel_recs = MRelation.get_app_relations(postinfo.uid, 8, kind=postinfo.kind)
         logger.info('rel_recs count: {0}'.format(rel_recs.count()))
 
         if len(cat_uid_arr) > 0:
-            rand_recs = self.minfor.query_cat_random(cat_uid_arr[0], 4 - rel_recs.count() + 4)
+            rand_recs = MInfor.query_cat_random(cat_uid_arr[0], 4 - rel_recs.count() + 4)
         else:
-            rand_recs = self.minfor.query_random(num=4 - rel_recs.count() + 4, kind=postinfo.kind)
+            rand_recs = MInfor.query_random(num=4 - rel_recs.count() + 4, kind=postinfo.kind)
 
         self.chuli_cookie_relation(info_id)
         cookie_str = tools.get_uuid()
@@ -193,12 +184,12 @@ class InfoHandler(PostHandler):
         catinfo = None
         p_catinfo = None
 
-        post2catinfo = self.mpost2catalog.get_entry_catalog(postinfo.uid)
+        post2catinfo = MInfor2Catalog.get_entry_catalog(postinfo.uid)
         if post2catinfo:
             catid = post2catinfo.tag.uid
-            catinfo = self.mcat.get_by_uid(catid)
+            catinfo = MCategory.get_by_uid(catid)
             if catinfo:
-                p_catinfo = self.mcat.get_by_uid(catinfo.pid)
+                p_catinfo = MCategory.get_by_uid(catinfo.pid)
 
         kwd = {
             'pager': '',
@@ -207,18 +198,18 @@ class InfoHandler(PostHandler):
             'daohangstr': '',
             'signature': info_id,
             'tdesc': '',
-            'eval_0': self.mevaluation.app_evaluation_count(info_id, 0),
-            'eval_1': self.mevaluation.app_evaluation_count(info_id, 1),
+            'eval_0': MEvaluation.app_evaluation_count(info_id, 0),
+            'eval_1': MEvaluation.app_evaluation_count(info_id, 1),
             'login': 1 if self.get_current_user() else 0,
             'has_image': 0,
-            'parentlist': self.mcat.get_parent_list(),
+            'parentlist': MCategory.get_parent_list(),
             'parentname': '',
             'catname': '',
             'router': router_post[postinfo.kind]
         }
-        self.minfor.view_count_increase(info_id)
+        MInfor.view_count_increase(info_id)
         if self.get_current_user():
-            self.musage.add_or_update(self.userinfo.uid, info_id, postinfo.kind)
+            MUsage.add_or_update(self.userinfo.uid, info_id, postinfo.kind)
         self.set_cookie('user_pass', cookie_str)
         tmpl = self.ext_tmpl_name(postinfo) if self.ext_tmpl_name(postinfo) else self.get_tmpl_name(postinfo)
 
@@ -226,7 +217,7 @@ class InfoHandler(PostHandler):
         ext_catid2 = postinfo.extinfo['def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else None
 
         if self.userinfo:
-            recent_apps = self.musage.query_recent(self.userinfo.uid, postinfo.kind, 6)[1:]
+            recent_apps = MUsage.query_recent(self.userinfo.uid, postinfo.kind, 6)[1:]
         else:
             recent_apps = []
         logger.info('The Info Template: {0}'.format(tmpl))
@@ -242,9 +233,9 @@ class InfoHandler(PostHandler):
                     rand_recs=rand_recs,
                     unescape=tornado.escape.xhtml_unescape,
                     ad_switch=random.randint(1, 18),
-                    tag_info=self.mpost2label.get_by_id(info_id),
+                    tag_info=MPost2Label.get_by_uid(info_id),
                     recent_apps=recent_apps,
-                    cat_enum=self.mcat.get_qian2(ext_catid2[:2]) if ext_catid else [], )
+                    cat_enum=MCategory.get_qian2(ext_catid2[:2]) if ext_catid else [], )
 
     def chuli_cookie_relation(self, app_id):
         '''
@@ -257,11 +248,11 @@ class InfoHandler(PostHandler):
         if last_app_uid:
             last_app_uid = last_app_uid.decode('utf-8')
         self.set_secure_cookie('use_app_uid', app_id)
-        if last_app_uid and self.minfor.get_by_uid(last_app_uid):
+        if last_app_uid and MInfor.get_by_uid(last_app_uid):
             self.add_relation(last_app_uid, app_id)
 
     def _is_tpl2(self):
-        if 'tpl2' in cfg_render and self.kind in cfg_render['tpl2']:
+        if 'tpl2' in CMS_CFG and self.kind in CMS_CFG['tpl2']:
             return True
         return False
 
@@ -288,7 +279,7 @@ class InfoHandler(PostHandler):
         :param t_uid:
         :return: return True if the relation has been succesfully added.
         '''
-        if self.minfor.get_by_uid(t_uid):
+        if MInfor.get_by_uid(t_uid):
             pass
         else:
             return False
@@ -296,8 +287,8 @@ class InfoHandler(PostHandler):
             return False
 
         # 针对分类进行处理。只有落入相同分类的，才加1
-        f_cats = self.mpost2catalog.query_by_entity_uid(f_uid)
-        t_cats = self.mpost2catalog.query_by_entity_uid(t_uid)
+        f_cats = MInfor2Catalog.query_by_entity_uid(f_uid)
+        t_cats = MInfor2Catalog.query_by_entity_uid(t_uid)
         flag = False
         for f_cat in f_cats:
             for t_cat in t_cats:
@@ -308,13 +299,13 @@ class InfoHandler(PostHandler):
         else:
             return False
 
-        self.mrel.add_relation(f_uid, t_uid, 2)
-        self.mrel.add_relation(t_uid, f_uid, 1)
+        MRelation.add_relation(f_uid, t_uid, 2)
+        MRelation.add_relation(t_uid, f_uid, 1)
         return True
 
     def __gen_uid(self):
         cur_uid = self.kind + tools.get_uu4d()
-        while self.minfor.get_by_id(cur_uid):
+        while MInfor.get_by_uid(cur_uid):
             cur_uid = self.kind + tools.get_uu4d()
         return cur_uid
 
@@ -329,13 +320,13 @@ class InfoHandler(PostHandler):
             pass
         else:
             return False
-        catinfo = self.mcat.get_by_uid(catid)
+        catinfo = MCategory.get_by_uid(catid)
         kwd = {
             'uid': self.__gen_uid(),
             'userid': self.userinfo.user_name if self.userinfo else '',
             'def_cat_uid': catid,
-            'parentname': self.mcat.get_by_id(catinfo.pid).name,
-            'catname': self.mcat.get_by_id(catid).name,
+            'parentname': MCategory.get_by_uid(catinfo.pid).name,
+            'catname': MCategory.get_by_uid(catid).name,
         }
 
         self.render('autogen/add/add_{0}.html'.format(catid),
@@ -359,28 +350,28 @@ class InfoHandler(PostHandler):
             else:
                 return False
 
-            if 'uid' in kwargs and self.minfor.get_by_uid(kwargs['uid']):
+            if 'uid' in kwargs and MInfor.get_by_uid(kwargs['uid']):
                 # todo:
                 # self.redirect('/{0}/edit/{1}'.format(self.app_url_name, uid))
                 uid = kwargs['uid']
             else:
                 uid = ''
             self.render('post_{0}/add.html'.format(self.kind),
-                        tag_infos=self.mcat.query_all(by_order=True, kind=self.kind),
+                        tag_infos=MCategory.query_all(by_order=True, kind=self.kind),
                         userinfo=self.userinfo,
                         kwd={'uid': uid,})
 
     @tornado.web.authenticated
     def delete(self, *args, **kwargs):
         uid = args[0]
-        current_infor = self.minfor.get_by_uid(uid)
+        current_infor = MInfor.get_by_uid(uid)
 
         if self.check_post_role()['DELETE']:
             pass
         else:
             return False
 
-        if self.minfor.delete(uid):
+        if MInfor.delete(uid):
             self.redirect('/list/{0}'.format(current_infor.extinfo['def_cat_uid']))
         else:
             self.redirect('/{0}/{1}'.format(router_post[self.kind], uid))
@@ -392,7 +383,7 @@ class InfoHandler(PostHandler):
         else:
             return False
 
-        rec_info = self.minfor.get_by_uid(infoid)
+        rec_info = MInfor.get_by_uid(infoid)
         postinfo = rec_info
 
         if rec_info:
@@ -413,18 +404,18 @@ class InfoHandler(PostHandler):
         catinfo = None
         p_catinfo = None
 
-        post2catinfo = self.mpost2catalog.get_entry_catalog(postinfo.uid)
+        post2catinfo = MInfor2Catalog.get_entry_catalog(postinfo.uid)
         if post2catinfo:
             catid = post2catinfo.tag.uid
-            catinfo = self.mcat.get_by_uid(catid)
+            catinfo = MCategory.get_by_uid(catid)
             if catinfo:
-                p_catinfo = self.mcat.get_by_uid(catinfo.pid)
+                p_catinfo = MCategory.get_by_uid(catinfo.pid)
 
         kwd = {
             'def_cat_uid': catid,
             'parentname': '',
             'catname': '',
-            'parentlist': self.mcat.get_parent_list(),
+            'parentlist': MCategory.get_parent_list(),
             'userip': self.request.remote_ip}
 
         if self._is_tpl2():
@@ -444,11 +435,11 @@ class InfoHandler(PostHandler):
                     pcatinfo=p_catinfo,
                     userinfo=self.userinfo,
                     unescape=tornado.escape.xhtml_unescape,
-                    cat_enum=self.mcat.get_qian2(catid[:2]),
-                    tag_infos=self.mcat.query_all(by_order=True, kind=self.kind),
-                    tag_infos2=self.mcat.query_all(by_order=True, kind=self.kind),
-                    app2tag_info=self.mpost2catalog.query_by_entity_uid(infoid, kind=self.kind),
-                    app2label_info=self.mpost2label.get_by_id(infoid, kind=self.kind + '1'))
+                    cat_enum=MCategory.get_qian2(catid[:2]),
+                    tag_infos=MCategory.query_all(by_order=True, kind=self.kind),
+                    tag_infos2=MCategory.query_all(by_order=True, kind=self.kind),
+                    app2tag_info=MInfor2Catalog.query_by_entity_uid(infoid, kind=self.kind),
+                    app2label_info=MPost2Label.get_by_uid(infoid, kind=self.kind + '1'))
 
     def get_extra_data(self, **kwargs):
         '''
@@ -461,10 +452,10 @@ class InfoHandler(PostHandler):
         # 针对分类下面两种处理方式，上面是原有的，暂时保留以保持兼容
         if 'def_cat_uid' in postdata:
             ext_data['def_cat_uid'] = postdata['def_cat_uid']
-            ext_data['def_cat_pid'] = self.mcat.get_by_uid(postdata['def_cat_uid']).pid
+            ext_data['def_cat_pid'] = MCategory.get_by_uid(postdata['def_cat_uid']).pid
         if 'gcat0' in postdata:
             ext_data['def_cat_uid'] = postdata['gcat0']
-            ext_data['def_cat_pid'] = self.mcat.get_by_uid(postdata['gcat0']).pid
+            ext_data['def_cat_pid'] = MCategory.get_by_uid(postdata['gcat0']).pid
 
         ext_data['def_tag_arr'] = [x.strip() for x in postdata['tags'].strip().strip(',').split(',')]
 
@@ -479,7 +470,7 @@ class InfoHandler(PostHandler):
         else:
             return False
 
-        postinfo = self.minfor.get_by_uid(uid)
+        postinfo = MInfor.get_by_uid(uid)
         if postinfo.kind == self.kind:
             pass
         else:
@@ -510,9 +501,9 @@ class InfoHandler(PostHandler):
         if cnt_old == cnt_new:
             pass
         else:
-            self.mpost_hist.create_wiki_history(postinfo)
+            MInfoHist.create_wiki_history(postinfo)
 
-        self.minfor.modify_meta(uid,
+        MInfor.modify_meta(uid,
                                 post_data,
                                 extinfo=ext_dic)
         self.update_category(uid)
@@ -550,7 +541,7 @@ class InfoHandler(PostHandler):
         if 'catid' in kwargs:
             catid = kwargs['catid']
 
-            catinfo = self.mcat.get_by_uid(catid)
+            catinfo = MCategory.get_by_uid(catid)
             if catinfo:
                 post_data['kind'] = catinfo.kind
                 logger.info('Got category inf: {0} , kind: {1}'.format(catinfo.name, catinfo.kind))
@@ -570,7 +561,7 @@ class InfoHandler(PostHandler):
 
         ext_dic = dict(ext_dic, **self.get_extra_data(postdata=post_data))
 
-        self.minfor.modify_meta(ext_dic['def_uid'],
+        MInfor.modify_meta(ext_dic['def_uid'],
                                 post_data,
                                 extinfo=ext_dic)
         self.update_category(ext_dic['def_uid'])

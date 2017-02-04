@@ -8,7 +8,7 @@ import json
 import tornado.escape
 import tornado.web
 
-from config import cfg_render
+from config import CMS_CFG
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
 from torcms.model.category_model import MCategory
@@ -23,10 +23,6 @@ class PageHandler(BaseHandler):
 
     def initialize(self):
         super(PageHandler, self).initialize()
-        self.mpage = MWiki()
-        self.mpage_hist = MWikiHist()
-        self.mcat = MCategory()
-        self.cats = self.mcat.query_all()
         self.kind = '2'
 
     def get(self, *args, **kwargs):
@@ -65,7 +61,7 @@ class PageHandler(BaseHandler):
         :param slug:
         :return:
         '''
-        rec_page = self.mpage.get_by_uid(slug)
+        rec_page = MWiki.get_by_uid(slug)
 
         if rec_page:
             if rec_page.kind == self.kind:
@@ -82,7 +78,7 @@ class PageHandler(BaseHandler):
         else:
             return False
         kwd = {
-            'cats': self.cats,
+            'cats': MCategory.query_all(),
             'slug': citiao,
             'pager': '',
         }
@@ -92,7 +88,7 @@ class PageHandler(BaseHandler):
 
     @tornado.web.authenticated
     def __could_edit(self, slug):
-        page_rec = self.mpage.get_by_uid(slug)
+        page_rec = MWiki.get_by_uid(slug)
         if not page_rec:
             return False
         if self.check_post_role()['EDIT']:
@@ -117,16 +113,16 @@ class PageHandler(BaseHandler):
         # else:
         #     self.set_status(400)
         #     return False
-        pageinfo = self.mpage.get_by_uid(slug)
+        pageinfo = MWiki.get_by_uid(slug)
 
         cnt_old = tornado.escape.xhtml_unescape(pageinfo.cnt_md).strip()
         cnt_new = post_data['cnt_md'].strip()
         if cnt_old == cnt_new:
             pass
         else:
-            self.mpage_hist.create_wiki_history(self.mpage.get_by_uid(slug))
+            MWikiHist.create_wiki_history(MWiki.get_by_uid(slug))
 
-        self.mpage.update(slug, post_data)
+        MWiki.update(slug, post_data)
 
         self.redirect('/page/{0}.html'.format(post_data['slug']))
 
@@ -142,11 +138,11 @@ class PageHandler(BaseHandler):
 
         }
         self.render('doc/page/page_edit.html',
-                    view=self.mpage.get_by_uid(uid),  # Deprecated
-                    postinfo=self.mpage.get_by_uid(uid),
+                    view=MWiki.get_by_uid(uid),  # Deprecated
+                    postinfo=MWiki.get_by_uid(uid),
                     kwd=kwd,
                     unescape=tornado.escape.xhtml_unescape,
-                    cfg=cfg_render,
+                    cfg=CMS_CFG,
                     userinfo=self.userinfo)
 
     def view(self, rec):
@@ -161,11 +157,11 @@ class PageHandler(BaseHandler):
                     kwd=kwd,
                     format_date=tools.format_date,
                     userinfo=self.userinfo,
-                    cfg=cfg_render)
+                    cfg=CMS_CFG)
 
     def ajax_count_plus(self, slug):
         output = {
-            'status': 1 if self.mpage.view_count_plus(slug) else 0,
+            'status': 1 if MWiki.view_count_plus(slug) else 0,
         }
 
         return json.dump(output, self)
@@ -178,11 +174,11 @@ class PageHandler(BaseHandler):
         }
         self.render('doc/page/page_list.html',
                     kwd=kwd,
-                    view=self.mpage.query_recent(),
-                    view_all=self.mpage.query_all(),
+                    view=MWiki.query_recent(),
+                    view_all=MWiki.query_all(),
                     format_date=tools.format_date,
                     userinfo=self.userinfo,
-                    cfg=cfg_render)
+                    cfg=CMS_CFG)
 
     @tornado.web.authenticated
     def add_page(self, slug):
@@ -196,9 +192,9 @@ class PageHandler(BaseHandler):
         post_data['user_name'] = self.userinfo.user_name
         # post_data['slug'] = slug
 
-        if self.mpage.get_by_uid(slug):
+        if MWiki.get_by_uid(slug):
             self.set_status(400)
             return False
         else:
-            self.mpage.create_wiki_history(slug, post_data)
+            MWiki.create_wiki_history(slug, post_data)
             self.redirect('/page/{0}'.format(slug))

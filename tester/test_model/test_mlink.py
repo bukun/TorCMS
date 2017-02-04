@@ -6,9 +6,9 @@ from torcms.model.link_model import MLink
 
 class TestUM():
     def setup(self):
-        self.uu = MLink()
+
         self.id = tools.get_uu4d()
-        self.raw_count = self.uu.get_counts()
+        self.raw_count = MLink.get_counts()
         print(self.raw_count)
 
     def test_insert(self):
@@ -19,11 +19,11 @@ class TestUM():
             'order': '1',
             'logo': 'asf',
         }
-        self.uu.create_wiki_history(uid, post_data)
+        MLink.create_wiki_history(uid, post_data)
 
-        new_count = self.uu.get_counts()
+        new_count = MLink.get_counts()
 
-        tt = self.uu.get_by_uid(uid)
+        tt = MLink.get_by_uid(uid)
         assert tt.name == post_data['name']
         assert tt.link == post_data['link']
         assert tt.order == int(post_data['order'])
@@ -38,8 +38,8 @@ class TestUM():
             'order': '1',
             'logo': 'asf',
         }
-        self.uu.create_wiki_history(uid, post_data)
-        new_count = self.uu.get_counts()
+        MLink.create_wiki_history(uid, post_data)
+        new_count = MLink.get_counts()
 
         assert self.raw_count + 1 == new_count
 
@@ -51,13 +51,13 @@ class TestUM():
             'logo': 'asfa',
         }
 
-        self.uu.update(uid, post_data2)
+        MLink.update(uid, post_data2)
 
-        new_count = self.uu.get_counts()
+        new_count = MLink.get_counts()
 
         assert self.raw_count + 1 == new_count
 
-        tt = self.uu.get_by_uid(uid)
+        tt = MLink.get_by_uid(uid)
 
         assert tt.name != post_data['name']
         assert tt.link != post_data['link']
@@ -70,4 +70,4 @@ class TestUM():
         assert tt.logo == post_data2['logo']
 
     def tearDown(self):
-        self.uu.delete(self.id)
+        MLink.delete(self.id)

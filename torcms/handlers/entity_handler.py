@@ -29,7 +29,6 @@ def allowed_file_pdf(filename):
 class EntityHandler(BaseHandler):
     def initialize(self):
         super(EntityHandler, self).initialize()
-        self.mpic = MEntity()
 
     def get(self, url_str=''):
         url_arr = self.parse_url(url_str)
@@ -52,13 +51,13 @@ class EntityHandler(BaseHandler):
 
     @tornado.web.authenticated
     def list(self):
-        recs = self.mpic.getall()
+        recs = MEntity.getall()
         kwd = {
             'pager': '',
         }
         self.render('doc/entry/entry_list.html',
                     imgs=recs,
-                    cfg=config.cfg_render,
+                    cfg=config.CMS_CFG,
                     kwd=kwd,
                     userinfo=self.userinfo)
 
@@ -68,7 +67,7 @@ class EntityHandler(BaseHandler):
             'pager': '',
         }
         self.render('doc/entry/entry_add.html',
-                    cfg=config.cfg_render,
+                    cfg=config.CMS_CFG,
                     kwd=kwd,
                     userinfo=self.userinfo)
 
@@ -129,7 +128,7 @@ class EntityHandler(BaseHandler):
         im0.thumbnail(thub_size)
         im0.save(imgpath_sm, 'JPEG')
 
-        self.mpic.create_wiki_history(signature, sig_save)
+        MEntity.create_wiki_history(signature, sig_save)
 
         self.redirect('/entity/{0}_m.jpg'.format(sig_save))
 
@@ -161,7 +160,7 @@ class EntityHandler(BaseHandler):
         sig_save = os.path.join(signature[:2], signature)
 
 
-        self.mpic.create_wiki_history(signature, sig_save)
+        MEntity.create_wiki_history(signature, sig_save)
 
         self.redirect('/entity/{0}{1}'.format(sig_save,  hou.lower()))
 
@@ -173,6 +172,6 @@ class EntityHandler(BaseHandler):
         }
         self.render('doc/entry/entry_view.html',
                     filename=outfilename,
-                    cfg=config.cfg_render,
+                    cfg=config.CMS_CFG,
                     kwd=kwd,
                     userinfo=self.userinfo, )

@@ -5,6 +5,7 @@ import json
 import tornado.web
 
 from torcms.handlers.post_handler import PostHandler
+from torcms.model.post_model import MPost
 
 
 class PostAjaxHandler(PostHandler):
@@ -32,7 +33,7 @@ class PostAjaxHandler(PostHandler):
             pass
         else:
             return False
-        is_deleted = self.mpost.delete(uid)
+        is_deleted = MPost.delete(uid)
 
         if is_deleted:
             output = {
@@ -52,7 +53,7 @@ class PostAjaxHandler(PostHandler):
         '''
         self.set_header("Content-Type", "application/json")
         output = {
-            'status': 1 if self.mpost.update_view_count_by_uid(uid) else 0,
+            'status': 1 if MPost.update_view_count_by_uid(uid) else 0,
         }
         # return json.dump(output, self)
         self.write(json.dumps(output))

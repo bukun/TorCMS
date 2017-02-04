@@ -227,8 +227,9 @@ def gen_pager_purecss(cat_slug, page_num, current):
 def average_array(num_arr):
     return sum(num_arr) / len(num_arr)
 
+
 class ConfigDefault(object):
-    smtp_cfg = {
+    SMTP_CFG = {
         'name': '地图画板',
         'host': "",
         'user': "",
@@ -236,38 +237,50 @@ class ConfigDefault(object):
         'postfix': 'yunsuan.org',
     }
 
-    site_cfg = {
+    SITE_CFG = {
         'site_url': 'http://127.0.0.1:8888',
-        'cookie_secret': '123456'
+        'cookie_secret': '123456',
+        'DEBUG': False,
     }
 
-    db_cfg = {
+    DB_CFG = {
         'db': 'travis_ci_torcms',
         'user': 'postgres',
         'pass': '',
     }
+
 
 def get_cfg():
     import cfg
 
     cfg_var = dir(cfg)
 
-
-
-    if 'db_cfg' in cfg_var:
-        db_cfg = cfg.db_cfg
+    if 'DB_CFG' in cfg_var:
+        DB_CFG = cfg.DB_CFG
     else:
-        db_cfg = ConfigDefault.db_cfg
+        DB_CFG = ConfigDefault.DB_CFG
 
-    if 'smtp_cfg' in cfg_var:
-        smtp_cfg = cfg.smtp_cfg
+    if 'SMTP_CFG' in cfg_var:
+        SMTP_CFG = cfg.SMTP_CFG
     else:
-        smtp_cfg = ConfigDefault.smtp_cfg
+        SMTP_CFG = ConfigDefault.SMTP_CFG
 
-    if 'site_cfg' in cfg_var:
-        site_cfg = cfg.site_cfg
+    if 'SITE_CFG' in cfg_var:
+        SITE_CFG = cfg.SITE_CFG
     else:
-        site_cfg = ConfigDefault.site_cfg
+        SITE_CFG = ConfigDefault.SITE_CFG
 
+    site_url = SITE_CFG['site_url'].strip('/')
+    SITE_CFG['site_url'] = site_url
+    infor = site_url.split(':')
+    if len(infor) == 1:
+        SITE_CFG['PORT'] = 80
+    else:
+        SITE_CFG['PORT'] = infor[-1]
 
-    return (db_cfg, smtp_cfg, site_cfg)
+    if 'DEBUG' in SITE_CFG:
+        pass
+    else:
+        SITE_CFG['DEBUG'] = False
+
+    return (DB_CFG, SMTP_CFG, SITE_CFG)

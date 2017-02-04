@@ -9,25 +9,29 @@ from torcms.core import tools
 from torcms.model.core_tab import g_Rating
 from torcms.model.abc_model import Mabc
 
-
 class MRating(Mabc):
     def __init__(self):
-        self.tab = g_Rating
         try:
-            self.tab.create_table()
+            g_Rating.create_table()
         except:
             pass
 
-    def query_by_post(self, postid, limit=20):
-        return self.tab.select().where(self.tab.post_id == postid).limit(limit)
+    @staticmethod
+    def query_by_post(postid, limit=20):
+        return g_Rating.select().where(g_Rating.post_id == postid).limit(limit)
 
-    def query_average_rating(self, postid, limit=1000):
-        return self.tab.select(peewee.fn.Avg(self.tab.rating).over(order_by=[self.tab.timestamp.desc()])).where(
-            self.tab.post_id == postid).limit(limit).scalar()
+    @staticmethod
+    def query_average_rating(postid, limit=1000):
+        return g_Rating.select(
+            peewee.fn.Avg(g_Rating.rating).over(order_by=[g_Rating.timestamp.desc()])
+        ).where(
+            g_Rating.post_id == postid
+        ).limit(limit).scalar()
 
-    def get_rating(self, postid, userid):
+    @staticmethod
+    def get_rating(postid, userid):
         try:
-            uu = self.tab.select().where((self.tab.post_id == postid) & (self.tab.user_id == userid))
+            uu = g_Rating.select().where((g_Rating.post_id == postid) & (g_Rating.user_id == userid))
         except:
             return False
         if uu.count() > 0:
@@ -35,27 +39,30 @@ class MRating(Mabc):
         else:
             return False
 
-    def update(self, postid, userid, rating):
-        uu = self.tab.select().where((self.tab.post_id == postid) & (self.tab.user_id == userid))
+    @staticmethod
+    def update(postid, userid, rating):
+        uu = g_Rating.select().where((g_Rating.post_id == postid) & (g_Rating.user_id == userid))
         if uu.count() > 0:
-            self.__update_rating(uu.get().uid, rating)
+            MRating.__update_rating(uu.get().uid, rating)
         else:
-            self.__insert_data(postid, userid, rating)
+            MRating.__insert_data(postid, userid, rating)
 
-    def __update_rating(self, uid, rating):
+    @staticmethod
+    def __update_rating(uid, rating):
         print('update rating:', rating)
-        entry = self.tab.update(
+        entry = g_Rating.update(
             rating=rating
-        ).where(self.tab.uid == uid)
+        ).where(g_Rating.uid == uid)
         entry.execute()
 
-    def __insert_data(self, postid, userid, rating):
+    @staticmethod
+    def __insert_data(postid, userid, rating):
         uid = tools.get_uuid()
-        self.tab.create(
+        g_Rating.create(
             uid=uid,
             post_id=postid,
             user_id=userid,
             rating=rating,
             timestamp=tools.timestamp(),
         )
-        return (uid)
+        return uid

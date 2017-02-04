@@ -1,8 +1,8 @@
 # -*- coding:utf-8 -*-
 
-import config
+from config import CMS_CFG
 from torcms.core.base_handler import BaseHandler
-from torcms.core.tool.whoosh_tool import yunsearch
+from torcms.core.tool.whoosh_tool import YunSearch
 
 # from torcms.core import tools
 from torcms.model.category_model import MCategory
@@ -10,12 +10,11 @@ from torcms.model.category_model import MCategory
 from torcms.model.post_model import MPost
 from torcms.core.tools import logger
 
+
 class SearchHandler(BaseHandler):
     def initialize(self):
         super(SearchHandler, self).initialize()
-        self.mpost = MPost()
-        self.mcat = MCategory()
-        self.ysearch = yunsearch()
+        self.ysearch = YunSearch()
 
     def get(self, *args, **kwargs):
         url_str = args[0]
@@ -34,6 +33,7 @@ class SearchHandler(BaseHandler):
             self.render('html/404.html',
                         kwd=kwd,
                         userinfo=self.userinfo)
+
     def index(self):
         pass
 
@@ -41,9 +41,8 @@ class SearchHandler(BaseHandler):
         catid = self.get_argument('searchcat')
         keyword = self.get_argument('keyword')
         logger.info('Searching ... ')
-        logger.info('    catid:    {uid}'.format(uid = catid))
-        logger.info('    keyowrds: {kw}'.format(kw = keyword))
-
+        logger.info('    catid:    {uid}'.format(uid=catid))
+        logger.info('    keyowrds: {kw}'.format(kw=keyword))
 
         if catid == '':
             self.redirect('/search/{0}/1'.format(keyword))
@@ -56,21 +55,25 @@ class SearchHandler(BaseHandler):
         else:
             current_page_number = int(p_index)
         res_all = self.ysearch.get_all_num(keyword)
-        results = self.ysearch.search_pager(keyword, page_index=current_page_number, doc_per_page=config.page_num)
-        page_num = int(res_all / config.page_num)
+        results = self.ysearch.search_pager(
+            keyword,
+            page_index=current_page_number,
+            doc_per_page=CMS_CFG['list_num']
+        )
+        page_num = int(res_all / CMS_CFG['list_num'])
         kwd = {'title': '查找结果',
                'pager': '',
                'count': res_all,
                'keyword': keyword,
-               'current_page': current_page_number,
-               }
+               'current_page': current_page_number}
         self.render('doc/search/search.html',
                     kwd=kwd,
                     srecs=results,
-                    pager=self.gen_pager_bootstrap_url('/search/{0}'.format(keyword), page_num, current_page_number),
+                    pager=self.gen_pager_bootstrap_url('/search/{0}'.format(keyword),
+                                                       page_num,
+                                                       current_page_number),
                     userinfo=self.userinfo,
-                    cfg=config.cfg_render,
-                    )
+                    cfg=CMS_CFG)
 
     def gen_pager_bootstrap_url(self, cat_slug, page_num, current):
         '''
@@ -79,11 +82,9 @@ class SearchHandler(BaseHandler):
         :param current:  current page index.
         :return:
         '''
-
+        pager = ''
         if page_num == 1 or page_num == 0:
             pager = ''
-
-
         elif page_num > 1:
             pager_mid = ''
             pager_pre = ''
@@ -139,23 +140,25 @@ class SearchHandler(BaseHandler):
         else:
             pass
 
-        return (pager)
+        return pager
 
     def search_cat(self, catid, keyword, p_index=1):
         res_all = self.ysearch.get_all_num(keyword, catid=catid)
-        results = self.ysearch.search_pager(keyword, catid=catid, page_index=p_index, doc_per_page=20)
+        results = self.ysearch.search_pager(keyword,
+                                            catid=catid,
+                                            page_index=p_index,
+                                            doc_per_page=20)
         page_num = int(res_all / 20)
         kwd = {'title': '查找结果',
                'pager': '',
                'count': res_all,
                'keyword': keyword,
-               'catname': '文档' if catid == '0000' else self.mcat.get_by_uid(catid).name,
-               }
+               'catname': '文档' if catid == '0000' else MCategory.get_by_uid(catid).name}
         self.render('doc/search/search.html',
                     kwd=kwd,
                     srecs=results,
-                    pager=self.gen_pager_bootstrap_url('/search/{0}/{1}'.format(catid, keyword), page_num, p_index),
+                    pager=self.gen_pager_bootstrap_url('/search/{0}/{1}'.format(catid, keyword),
+                                                       page_num,
+                                                       p_index),
                     userinfo=self.userinfo,
-                    cfg=config.cfg_render,
-
-                    )
+                    cfg=CMS_CFG)

@@ -11,8 +11,6 @@ from torcms.core.tools import diff_table
 class WikiHistoryHandler(BaseHandler):
     def initialize(self):
         super(WikiHistoryHandler, self).initialize()
-        self.mpost = MWiki()
-        self.mposthist = MWikiHist()
 
     def get(self, url_str=''):
         url_arr = self.parse_url(url_str)
@@ -52,9 +50,9 @@ class WikiHistoryHandler(BaseHandler):
             post_data['user_name'] = self.userinfo.user_name
         else:
             post_data['user_name'] = ''
-        cur_info = self.mpost.get_by_id(uid)
-        self.mposthist.create_wiki_history(cur_info)
-        self.mpost.update_cnt(uid, post_data)
+        cur_info = MWiki.get_by_uid(uid)
+        MWikiHist.create_wiki_history(cur_info)
+        MWiki.update_cnt(uid, post_data)
         if cur_info.kind == '1':
             self.redirect('/wiki/{0}'.format(cur_info.title))
         elif cur_info.kind == '2':
@@ -69,7 +67,7 @@ class WikiHistoryHandler(BaseHandler):
         self.render('man_wiki/wiki_man_edit.html',
                     userinfo=self.userinfo,
                     unescape=tornado.escape.xhtml_unescape,
-                    postinfo=self.mpost.get_by_uid(postid))
+                    postinfo=MWiki.get_by_uid(postid))
 
     @tornado.web.authenticated
     def delete(self, uid):
@@ -78,24 +76,24 @@ class WikiHistoryHandler(BaseHandler):
         else:
             return False
 
-        histinfo = self.mposthist.get_by_id(uid)
+        histinfo = MWikiHist.get_by_uid(uid)
         if histinfo:
             pass
         else:
             return False
 
-        postinfo = self.mpost.get_by_id(histinfo.wiki_id)
-        self.mposthist.delete(uid)
+        postinfo = MWiki.get_by_uid(histinfo.wiki_id)
+        MWikiHist.delete(uid)
         self.redirect('/wiki_man/view/{0}'.format(postinfo.uid))
 
     def view(self, uid):
-        postinfo = self.mpost.get_by_id(uid)
+        postinfo = MWiki.get_by_uid(uid)
         if postinfo:
             pass
         else:
             return
 
-        hist_recs = self.mposthist.query_by_wikiid(uid, limit=5)
+        hist_recs = MWikiHist.query_by_wikiid(uid, limit=5)
         html_diff_arr = []
         for hist_rec in hist_recs:
 
@@ -119,23 +117,23 @@ class WikiHistoryHandler(BaseHandler):
             pass
         else:
             return False
-        histinfo = self.mposthist.get_by_id(hist_uid)
+        histinfo = MWikiHist.get_by_uid(hist_uid)
         if histinfo:
             pass
         else:
             return False
 
-        postinfo = self.mpost.get_by_id(histinfo.wiki_id)
+        postinfo = MWiki.get_by_uid(histinfo.wiki_id)
         cur_cnt = tornado.escape.xhtml_unescape(postinfo.cnt_md)
         old_cnt = tornado.escape.xhtml_unescape(histinfo.cnt_md)
 
-        self.mpost.update_cnt(histinfo.wiki_id,
-                              {'cnt_md': old_cnt, 'user_name': self.userinfo.user_name}
-                              )
+        MWiki.update_cnt(histinfo.wiki_id,
+                         {'cnt_md': old_cnt, 'user_name': self.userinfo.user_name}
+                         )
 
-        self.mposthist.update_cnt(histinfo.uid,
-                                  {'cnt_md': cur_cnt, 'user_name': postinfo.user_name}
-                                  )
+        MWikiHist.update_cnt(histinfo.uid,
+                             {'cnt_md': cur_cnt, 'user_name': postinfo.user_name}
+                             )
 
         if postinfo.kind == '1':
             self.redirect('/wiki/{0}'.format(postinfo.title))

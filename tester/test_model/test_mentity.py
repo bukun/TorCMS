@@ -8,7 +8,6 @@ import tornado.escape
 class TestEntity():
     def setup(self):
         print('setup 方法执行于本类中每条用例之前')
-        self.uu = MEntity()
         self.uid = tools.get_uu4d()
         self.path = 'path'
 
@@ -19,7 +18,7 @@ class TestEntity():
 
         }
 
-        self.uu.create_wiki_history(uid, post_data['path'])
+        MEntity.create_wiki_history(uid, post_data['path'])
         assert True
 
     def test_insert_2(self):
@@ -27,13 +26,13 @@ class TestEntity():
         post_data = {
             'path': '',
         }
-        uu = self.uu.get_id_by_impath(post_data['path'])
+        uu = MEntity.get_id_by_impath(post_data['path'])
         assert uu == False
 
         post_data = {
             'path': self.path,
         }
-        uu = self.uu.get_id_by_impath(post_data['path'])
+        uu = MEntity.get_id_by_impath(post_data['path'])
         assert uu == False
 
     def test_upate(self):
@@ -41,5 +40,8 @@ class TestEntity():
 
     def tearDown(self):
         print("function teardown")
-        tt = self.uu.get_id_by_impath(self.path)
-        self.uu.delete(tt)
+        tt = MEntity.get_id_by_impath(self.path)
+        if tt:
+            print('x' * 20)
+            print(tt)
+            MEntity.delete(tt)

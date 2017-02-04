@@ -12,7 +12,6 @@ from torcms.core import tools
 class MaintainPycateCategoryHandler(BaseHandler):
     def initialize(self):
         super(MaintainPycateCategoryHandler, self).initialize()
-        self.mclass = MCategory()
 
     def get(self, url_str=''):
         url_arr = self.parse_url(url_str)
@@ -21,8 +20,7 @@ class MaintainPycateCategoryHandler(BaseHandler):
             self.to_add_class()
         elif url_str == 'list':
             self.recent()
-        elif url_str == 'refresh':
-            self.refresh()
+
         elif url_arr[0] == 'modify':
             self.to_modify(url_arr[1])
         elif url_arr[0] == 'delete':
@@ -52,29 +50,13 @@ class MaintainPycateCategoryHandler(BaseHandler):
         }
         self.render('doc/maintain/pycatecategory/category_list.html',
                     kwd=kwd,
-                    view=self.mclass.query_recent(),
+                    view=MCategory.query_all(),
                     format_date=tools.format_date,
                     userinfo=self.userinfo,
                     )
 
-    def refresh(self):
-
-        kwd = {
-            'pager': '',
-            'title': '最近文档',
-        }
-        self.render('doc/maintain/pycatecategory/category_list.html',
-                    kwd=kwd,
-                    userinfo=self.userinfo,
-                    view=self.mclass.query_old(),
-                    format_date=tools.format_date,
-                    unescape=tornado.escape.xhtml_unescape, )
-
-    def get_random(self):
-        return self.mclass.query_random()
-
     def wiki(self, uid):
-        dbdate = self.mclass.get_by_id(uid)
+        dbdate = MCategory.get_by_uid(uid)
         if dbdate:
 
             self.viewit(uid)
@@ -113,20 +95,20 @@ class MaintainPycateCategoryHandler(BaseHandler):
             pass
         else:
             return False
-        raw_data = self.mclass.get_by_id(uid)
+        raw_data = MCategory.get_by_uid(uid)
 
         post_data = {}
         for key in self.request.arguments:
             post_data[key] = self.get_arguments(key)
         post_data['user_name'] = self.get_current_user()
 
-        self.mclass.update(uid, post_data)
+        MCategory.update(uid, post_data)
 
         self.redirect('/maintain/pycatecategory/list')
 
     @tornado.web.authenticated
     def to_modify(self, id_rec):
-        a = self.mclass.get_by_id(id_rec)
+        a = MCategory.get_by_uid(id_rec)
         # 用户具有管理权限，或文章是用户自己发布的。
         if self.is_admin():
             pass
@@ -147,7 +129,7 @@ class MaintainPycateCategoryHandler(BaseHandler):
     @tornado.web.authenticated
     def viewit(self, post_id):
 
-        rec = self.mclass.get_by_uid(post_id)
+        rec = MCategory.get_by_uid(post_id)
 
         if not rec:
             kwd = {
@@ -180,7 +162,7 @@ class MaintainPycateCategoryHandler(BaseHandler):
         #
         # post_data['user_name'] = self.get_current_user()
         #
-        # self.mclass.insert_data(post_data)
+        # MCategory.insert_data(post_data)
 
         self.redirect('/maintain/pycatecategory/list')
 
@@ -190,8 +172,7 @@ class MaintainPycateCategoryHandler(BaseHandler):
             pass
         else:
             return False
-        is_deleted = self.mclass.delete(del_id)
-        if is_deleted:
+        if MCategory.delete(del_id):
             self.redirect('/maintain/pycatecategory/list')
         else:
             return False

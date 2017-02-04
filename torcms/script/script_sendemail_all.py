@@ -2,7 +2,7 @@
 
 from torcms.core.tool.send_email import send_mail
 from torcms.model.user_model import MUser
-from config import smtp_cfg, email_cfg
+from config import SMTP_CFG, email_cfg
 
 
 def run_send_all():
@@ -11,7 +11,7 @@ def run_send_all():
     for user_rec in user_recs:
         email_add = user_rec.user_email
         print(email_add)
-        send_mail([email_add], "{0}|{1}".format(smtp_cfg['name'], email_cfg['title']), email_cfg['content'])
+        send_mail([email_add], "{0}|{1}".format(SMTP_CFG['name'], email_cfg['title']), email_cfg['content'])
 
 
 def run_send_nologin():
@@ -20,5 +20,5 @@ def run_send_nologin():
     for user_rec in user_recs:
         email_add = user_rec.user_email
         print(email_add)
-        send_mail([email_add], "{0}|{1}".format(smtp_cfg['name'], email_cfg['title']), email_cfg['content'])
+        send_mail([email_add], "{0}|{1}".format(SMTP_CFG['name'], email_cfg['title']), email_cfg['content'])
         muser.set_sendemail_time(user_rec.uid)

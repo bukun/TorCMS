@@ -10,24 +10,65 @@ import tornado.escape
 from torcms.core import tools
 from torcms.model.core_tab import g_Post
 from torcms.model.core_tab import g_Post2Tag
-from torcms.model.abc_model import Mabc
-
+import time
+from torcms.model.abc_model import Mabc, MHelper
 
 class MPost(Mabc):
     '''
     Model for Posts.
     '''
+
     def __init__(self):
         # super(MPost, self).__init__()
-        # self.tab = g_Post
+        # g_Post = g_Post
 
-        self.tab = g_Post
         try:
             g_Post.create_table()
         except:
             pass
 
-    def update_rating(self, uid, rating):
+    @staticmethod
+    def query_recent_most(num=8, recent=30):
+        '''
+        Query the records from database that recently updated.
+        :param num: the number that will returned.
+        :param recent: the number of days recent.
+        :return:
+        '''
+        time_that = int(time.time()) - recent * 24 * 3600
+        return g_Post.select().where(g_Post.time_update > time_that).order_by(
+            g_Post.view_count.desc()
+        ).limit(num)
+
+    @staticmethod
+    def delete(uid):
+        '''
+        Delete by uid
+        :param uid:
+        :return:
+        '''
+        return MHelper.delete(g_Post, uid)
+
+
+    @staticmethod
+    def get_by_uid(uid):
+        '''
+        return the record by uid
+        :param uid:
+        :return:
+        '''
+        return MHelper.get_by_uid(g_Post, uid)
+
+    @staticmethod
+    def get_counts():
+        '''
+        The count in table.
+        :return:
+        '''
+        return g_Post.select().count()
+
+    @staticmethod
+    def update_rating(uid, rating):
         '''
         :param uid:
         :param rating:
@@ -38,7 +79,8 @@ class MPost(Mabc):
         ).where(g_Post.uid == uid)
         entry.execute()
 
-    def update_kind(self, uid, kind):
+    @staticmethod
+    def update_kind(uid, kind):
         '''
         :param uid:
         :param kind:
@@ -49,7 +91,8 @@ class MPost(Mabc):
         ).where(g_Post.uid == uid)
         entry.execute()
 
-    def update_cnt(self, uid, post_data):
+    @staticmethod
+    def update_cnt(uid, post_data):
         '''
         :param uid:
         :param post_data:
@@ -64,7 +107,8 @@ class MPost(Mabc):
         ).where(g_Post.uid == uid)
         entry.execute()
 
-    def update(self, uid, post_data, update_time=False):
+    @staticmethod
+    def update(uid, post_data, update_time=False):
         '''
         :param uid:
         :param post_data:
@@ -85,7 +129,7 @@ class MPost(Mabc):
                 entry2.execute()
         except:
             pass
-        cur_rec = self.get_by_id(uid)
+        cur_rec = MPost.get_by_uid(uid)
 
         entry = g_Post.update(
             title=title,
@@ -101,20 +145,22 @@ class MPost(Mabc):
         ).where(g_Post.uid == uid)
         entry.execute()
 
-    def add_or_update(self, uid, post_data):
+    @staticmethod
+    def add_or_update(uid, post_data):
         '''
         :param uid:
         :param post_data:
         :return:
         '''
 
-        cur_rec = self.get_by_id(uid)
+        cur_rec = MPost.get_by_uid(uid)
         if cur_rec:
-            self.update(uid, post_data)
+            MPost.update(uid, post_data)
         else:
-            self.create_wiki_history(uid, post_data)
+            MPost.create_wiki_history(uid, post_data)
 
-    def create_wiki_history(self, post_uid, post_data):
+    @staticmethod
+    def create_wiki_history(post_uid, post_data):
         '''
         :param post_uid:
         :param post_data:
@@ -124,7 +170,7 @@ class MPost(Mabc):
         if len(title) < 2:
             return False
 
-        cur_rec = self.get_by_uid(post_uid)
+        cur_rec = MPost.get_by_uid(post_uid)
         if cur_rec:
             return False
 
@@ -148,34 +194,48 @@ class MPost(Mabc):
         )
         return entry.uid
 
-    def query_cat_random(self, cat_id, num=6):
+    @staticmethod
+    def query_cat_random(cat_id, num=6):
         '''
         :param cat_id:
         :param num:
         :return:
         '''
         if cat_id == '':
-            return self.query_random(num)
+            return g_Post.select().order_by(peewee.fn.Random()).limit(num)
+            # return self.query_random(num)
+        else:
+            return g_Post.select().join(g_Post2Tag).where(
+                g_Post2Tag.tag == cat_id
+            ).order_by(
+                peewee.fn.Random()
+            ).limit(num)
 
-        return g_Post.select().join(g_Post2Tag).where(
-            g_Post2Tag.tag == cat_id
-        ).order_by(
-            peewee.fn.Random()
-        ).limit(num)
+    @staticmethod
+    def query_random(num=6, kind='1'):
+        '''
+        Return the random records of centain kind.
+        :param num:
+        :param kind:
+        :return:
+        '''
+        return g_Post.select().where(g_Post.kind == kind).order_by(peewee.fn.Random()).limit(num)
 
-    def query_recent(self, num=8, kind='1'):
+    @staticmethod
+    def query_recent(num=8, kind='1'):
         '''
         :param num:
         :param kind:
         :return:
         '''
-        return self.tab.select().where(
-            self.tab.kind == kind
+        return g_Post.select().where(
+            g_Post.kind == kind
         ).order_by(
             g_Post.time_create.desc()
         ).limit(num)
 
-    def query_all(self, **kwargs):
+    @staticmethod
+    def query_all(**kwargs):
         '''
         :param kwargs:
         :return:
@@ -184,59 +244,64 @@ class MPost(Mabc):
             kind = kwargs['kind']
         else:
             kind = '1'
-        return self.tab.select().where(
-            self.tab.kind == kind
+        return g_Post.select().where(
+            g_Post.kind == kind
         ).order_by(
             g_Post.time_update.desc()
         )
 
     # def get_num_by_cat(self, cat_str, kind='1'):
     #     return g_Post.select().where(
-    #         (self.tab.kind == kind) &
+    #         (g_Post.kind == kind) &
     #         (g_Post.id_cats.contains(',{0},'.format(cat_str)))
     #     ).count()
 
-    def query_keywords_empty(self, kind='1'):
+    @staticmethod
+    def query_keywords_empty(kind='1'):
         '''
         :param kind:
         :return:
         '''
-        return g_Post.select().where((self.tab.kind == kind) & (g_Post.keywords == ''))
+        return g_Post.select().where((g_Post.kind == kind) & (g_Post.keywords == ''))
 
-    def query_recent_edited(self, timstamp, kind='1'):
+    @staticmethod
+    def query_recent_edited(timstamp, kind='1'):
         '''
         :param timstamp:
         :param kind:
         :return:
         '''
-        return self.tab.select().where(
-            (self.tab.kind == kind) &
+        return g_Post.select().where(
+            (g_Post.kind == kind) &
             (g_Post.time_update > timstamp)
         ).order_by(g_Post.time_update.desc())
 
-    def query_dated(self, num=8, kind='1'):
+    @staticmethod
+    def query_dated(num=8, kind='1'):
         '''
         :param num:
         :param kind:
         :return:
         '''
         return g_Post.select().where(
-            self.tab.kind == kind
+            g_Post.kind == kind
         ).order_by(
             g_Post.time_update.asc()
         ).limit(num)
 
-    def query_most_pic(self, num, kind='1'):
+    @staticmethod
+    def query_most_pic(num, kind='1'):
         '''
         :param num:
         :param kind:
         :return:
         '''
         return g_Post.select().where(
-            (self.tab.kind == kind) & (g_Post.logo != "")
+            (g_Post.kind == kind) & (g_Post.logo != "")
         ).order_by(g_Post.view_count.desc()).limit(num)
 
-    def query_cat_recent(self, cat_id, num=8, kind='1'):
+    @staticmethod
+    def query_cat_recent(cat_id, num=8, kind='1'):
         '''
         :param cat_id:
         :param num:
@@ -244,34 +309,36 @@ class MPost(Mabc):
         :return:
         '''
         return g_Post.select().join(g_Post2Tag).where(
-            (self.tab.kind == kind) &
+            (g_Post.kind == kind) &
             (g_Post2Tag.tag == cat_id)
         ).order_by(
             g_Post.time_create.desc()
         ).limit(num)
 
-    def query_most(self, num=8, kind='1'):
+    @staticmethod
+    def query_most(num=8, kind='1'):
         '''
         :param num:
         :param kind:
         :return:
         '''
         return g_Post.select().where(
-            self.tab.kind == kind
+            g_Post.kind == kind
         ).order_by(
             g_Post.view_count.desc()
         ).limit(num)
 
     # def query_cat_by_pager(self, cat_str, cureent, kind='1'):
     #     tt = g_Post.select().where(
-    #         (self.tab.kind == kind) &
+    #         (g_Post.kind == kind) &
     #         (g_Post.id_cats.contains(str(cat_str)))
     #     ).order_by(
     #         g_Post.time_create.desc()
     #     ).paginate(cureent, config.page_num)
     #     return tt
 
-    def update_view_count_by_uid(self, uid):
+    @staticmethod
+    def update_view_count_by_uid(uid):
         '''
         :param uid:
         :return:
@@ -283,7 +350,8 @@ class MPost(Mabc):
         except:
             return False
 
-    def update_keywords(self, uid, inkeywords):
+    @staticmethod
+    def update_keywords(uid, inkeywords):
         '''
         :param uid:
         :param inkeywords:
@@ -292,15 +360,16 @@ class MPost(Mabc):
         entry = g_Post.update(keywords=inkeywords).where(g_Post.uid == uid)
         entry.execute()
 
-    def get_next_record(self, in_uid, kind='1'):
+    @staticmethod
+    def get_next_record(in_uid, kind='1'):
         '''
         :param in_uid:
         :param kind:
         :return:
         '''
-        current_rec = self.get_by_id(in_uid)
+        current_rec = MPost.get_by_uid(in_uid)
         query = g_Post.select().where(
-            (self.tab.kind == kind) &
+            (g_Post.kind == kind) &
             (g_Post.time_create < current_rec.time_create)
         ).order_by(g_Post.time_create.desc())
         if query.count() == 0:
@@ -308,15 +377,16 @@ class MPost(Mabc):
         else:
             return query.get()
 
-    def get_previous_record(self, in_uid, kind='1'):
+    @staticmethod
+    def get_previous_record(in_uid, kind='1'):
         '''
         :param in_uid:
         :param kind:
         :return:
         '''
-        current_rec = self.get_by_id(in_uid)
+        current_rec = MPost.get_by_uid(in_uid)
         query = g_Post.select().where(
-            (self.tab.kind == kind) &
+            (g_Post.kind == kind) &
             (g_Post.time_create > current_rec.time_create)
         ).order_by(g_Post.time_create)
         if query.count() == 0:

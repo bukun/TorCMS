@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 import math
 
-import config
+from config import CMS_CFG
 import tornado.escape
 
 from torcms.model.info_model import MInfor as  MInfor
@@ -21,10 +21,8 @@ from torcms.core.tools import logger
 
 
 class InfoFilterHandler(BaseHandler):
-    def initialize(self, hinfo=''):
+    def initialize(self):
         super(InfoFilterHandler, self).initialize()
-        self.minfo = MInfor()
-        self.mcat = MCategory()
 
     def get(self, *args, **kwargs):
         url_str = args[0]
@@ -40,7 +38,7 @@ class InfoFilterHandler(BaseHandler):
     def gen_redis_kw(self):
         condition = {}
         if self.get_current_user():
-            redis_kw = redisvr.smembers(config.redis_kw + self.userinfo.user_name)
+            redis_kw = redisvr.smembers(CMS_CFG['redis_kw'] + self.userinfo.user_name)
         else:
             redis_kw = []
 
@@ -61,7 +59,7 @@ class InfoFilterHandler(BaseHandler):
 
         num = (len(url_arr) - 2) // 2
 
-        catinfo = self.mcat.get_by_uid(sig)
+        catinfo = MCategory.get_by_uid(sig)
 
         if catinfo.pid == '0000':
             condition['def_cat_pid'] = sig
@@ -85,10 +83,10 @@ class InfoFilterHandler(BaseHandler):
             condition[ckey] = cval
 
         if url_arr[1] == 'con':
-            infos = self.minfo.get_list_fenye(condition, fenye_num, kind=catinfo.kind)
+            infos = MInfor.get_list_fenye(condition, fenye_num, kind=catinfo.kind)
             self.echo_html_list_str(sig, infos)
         elif url_arr[1] == 'num':
-            allinfos = self.minfo.get_list(condition, kind=catinfo.kind)
+            allinfos = MInfor.get_list(condition, kind=catinfo.kind)
             self.echo_html_fenye_str(allinfos.count(), fenye_num)
 
     def echo_html_list_str(self, catid, infos):
@@ -132,9 +130,7 @@ class InfoFilterHandler(BaseHandler):
             fenye_str = '<ul class="pagination">'
 
             if fenye_num > 1:
-                pager_home = '''
-
-                  <li class="{0}" name='fenye' onclick='change(this);'
+                pager_home = '''<li class="{0}" name='fenye' onclick='change(this);'
                   value='{1}'><a>First Page</a></li>'''.format('', 1)
 
                 pager_pre = ''' <li class="{0}" name='fenye' onclick='change(this);'
@@ -156,9 +152,7 @@ class InfoFilterHandler(BaseHandler):
                 else:
                     checkstr = ''
 
-                tmp_str_df = '''
-
-                  <li class="{0}" name='fenye' onclick='change(this);'
+                tmp_str_df = '''<li class="{0}" name='fenye' onclick='change(this);'
                   value='{1}'><a>{1}</a></li>'''.format(checkstr, num)
 
                 pager_mid += tmp_str_df
@@ -189,46 +183,47 @@ class InfoFilterHandler(BaseHandler):
         bread_title = ''
         bread_crumb_nav_str = '<li>当前位置：<a href="/">信息</a></li>'
 
-        _catinfo = self.mcat.get_by_uid(catid)
+        _catinfo = MCategory.get_by_uid(catid)
         if _catinfo.pid == '0000':
             pcatinfo = _catinfo
             catinfo = None
             parent_id = catid
-            parent_catname = self.mcat.get_by_id(parent_id).name
+            parent_catname = MCategory.get_by_uid(parent_id).name
             condition['parentid'] = [parent_id]
-            catname = self.mcat.get_by_id(sig).name
+            catname = MCategory.get_by_uid(sig).name
             bread_crumb_nav_str += '<li><a href="/list/{0}">{1}</a></li>'.format(sig, catname)
             bread_title = '{0}'.format(catname)
 
         else:
             catinfo = _catinfo
-            pcatinfo = self.mcat.get_by_uid(_catinfo.pid)
+            pcatinfo = MCategory.get_by_uid(_catinfo.pid)
             condition['catid'] = [sig]
             parent_id = _catinfo.uid
-            parent_catname = self.mcat.get_by_id(parent_id).name
-            catname = self.mcat.get_by_id(sig).name
-            bread_crumb_nav_str += '<li><a href="/list/{0}">{1}</a></li>'.format(parent_id, parent_catname)
+            parent_catname = MCategory.get_by_uid(parent_id).name
+            catname = MCategory.get_by_uid(sig).name
+            bread_crumb_nav_str += '<li><a href="/list/{0}">{1}</a></li>'.format(
+                parent_id,
+                parent_catname
+            )
 
             bread_crumb_nav_str += '<li><a href="/list/{0}">{1}</a></li>'.format(sig, catname)
-            bread_title += '{0} - '.format( parent_catname)
-            bread_title += '{0}'.format( catname)
+            bread_title += '{0} - '.format(parent_catname)
+            bread_title += '{0}'.format(catname)
 
-        num = self.minfo.get_num_condition(condition)
+        num = MInfor.get_num_condition(condition)
 
-        kwd = {
-            'catid': catid,
-            'daohangstr': bread_crumb_nav_str,
-            'breadtilte': bread_title,
-            'parentid': parent_id,
-            'parentlist': self.mcat.get_parent_list(),
-            'condition': condition,
-            'catname': catname,
-            'rec_num': num,
-        }
+        kwd = {'catid': catid,
+               'daohangstr': bread_crumb_nav_str,
+               'breadtilte': bread_title,
+               'parentid': parent_id,
+               'parentlist': MCategory.get_parent_list(),
+               'condition': condition,
+               'catname': catname,
+               'rec_num': num}
 
-        # cat_rec = self.mcat.get_by_uid(catid)
+        # cat_rec = MCategory.get_by_uid(catid)
         if self.get_current_user():
-            redis_kw = redisvr.smembers(config.redis_kw + self.userinfo.user_name)
+            redis_kw = redisvr.smembers(CMS_CFG['redis_kw'] + self.userinfo.user_name)
         else:
             redis_kw = []
         kw_condition_arr = []
@@ -239,8 +234,6 @@ class InfoFilterHandler(BaseHandler):
                     kwd=kwd,
                     widget_info=kwd,
                     condition_arr=kw_condition_arr,
-                    cat_enum=self.mcat.get_qian2(parent_id[:2]),
+                    cat_enum=MCategory.get_qian2(parent_id[:2]),
                     pcatinfo=pcatinfo,
-                    catinfo=catinfo,
-
-                    )
+                    catinfo=catinfo)

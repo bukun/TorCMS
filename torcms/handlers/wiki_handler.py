@@ -12,8 +12,6 @@ from torcms.model.wiki_hist_model import MWikiHist
 class WikiHandler(BaseHandler):
     def initialize(self):
         super(WikiHandler, self).initialize()
-        self.mwiki = MWiki()
-        self.mwiki_hist = MWikiHist()
         self.kind = '1'
 
     def get(self, url_str=''):
@@ -59,7 +57,7 @@ class WikiHandler(BaseHandler):
             'title': 'Recent Pages',
         }
         self.render('doc/wiki/wiki_list.html',
-                    view=self.mwiki.query_recent(),
+                    view=MWiki.query_recent(),
                     format_date=tools.format_date,
                     kwd=kwd,
                     userinfo=self.userinfo,
@@ -76,14 +74,14 @@ class WikiHandler(BaseHandler):
             'title': '最近文档',
         }
         self.render('doc/wiki/wiki_list.html',
-                    view=self.mwiki.query_dated(16),
+                    view=MWiki.query_dated(16),
                     format_date=tools.format_date,
                     kwd=kwd,
                     userinfo=self.userinfo,
                     )
 
     def view_or_add(self, title):
-        postinfo = self.mwiki.get_by_wiki(title)
+        postinfo = MWiki.get_by_wiki(title)
         if postinfo:
             if postinfo.kind == self.kind:
                 self.view(postinfo)
@@ -99,7 +97,7 @@ class WikiHandler(BaseHandler):
         :param uid:  The ID of the wiki.
         :return:
         '''
-        postinfo = self.mwiki.get_by_id(uid)
+        postinfo = MWiki.get_by_uid(uid)
         if self.check_post_role()['EDIT'] or postinfo.user_name == self.get_current_user():
             pass
         else:
@@ -114,15 +112,15 @@ class WikiHandler(BaseHandler):
         if cnt_old == cnt_new:
             pass
         else:
-            self.mwiki_hist.create_wiki_history(postinfo)
+            MWikiHist.create_wiki_history(postinfo)
 
-        self.mwiki.update(uid, post_data)
+        MWiki.update(uid, post_data)
 
         self.redirect('/wiki/{0}'.format(tornado.escape.url_escape(post_data['title'])))
 
     @tornado.web.authenticated
     def to_edit(self, id_rec):
-        wiki_rec = self.mwiki.get_by_id(id_rec)
+        wiki_rec = MWiki.get_by_uid(id_rec)
         # 用户具有管理权限，或文章是用户自己发布的。
         if self.check_post_role()['EDIT'] or wiki_rec.user_name == self.get_current_user():
             pass
@@ -156,7 +154,7 @@ class WikiHandler(BaseHandler):
 
     def j_count_plus(self, slug):
         output = {
-            'status': 1 if self.mwiki.update_view_count(slug) else 0,
+            'status': 1 if MWiki.update_view_count(slug) else 0,
         }
 
         return json.dump(output, self)
@@ -190,9 +188,9 @@ class WikiHandler(BaseHandler):
         else:
             post_data['title'] = title
         post_data['user_name'] = self.get_current_user()
-        if self.mwiki.get_by_wiki(post_data['title']):
+        if MWiki.get_by_wiki(post_data['title']):
             pass
         else:
-            self.mwiki.create_wiki(post_data)
+            MWiki.create_wiki(post_data)
 
         self.redirect('/wiki/{0}'.format(tornado.escape.url_escape(post_data['title'])))

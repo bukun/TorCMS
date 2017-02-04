@@ -1,23 +1,20 @@
 # -*- coding:utf-8 -*-
 
+import json
 import tornado.escape
 import tornado.web
-
-import json
-import config
 from torcms.core.base_handler import BaseHandler
 from torcms.model.label_model import MLabel
 from torcms.model.label_model import MPost2Label
 from torcms.model.post_model import MPost
 from torcms.core.torcms_redis import redisvr
+from config import CMS_CFG
 
 
 class PostLabelHandler(BaseHandler):
     def initialize(self):
         super(PostLabelHandler, self).initialize()
-        self.mpost = MPost()
-        self.mtag = MLabel()
-        self.mapp2tag = MPost2Label()
+
 
     def get(self, url_str=''):
         '''
@@ -36,7 +33,7 @@ class PostLabelHandler(BaseHandler):
 
     @tornado.web.authenticated
     def remove_redis_keyword(self, kw):
-        redisvr.srem(config.redis_kw + self.userinfo.user_name, kw)
+        redisvr.srem(CMS_CFG['redis_kw'] + self.userinfo.user_name, kw)
         return json.dump({}, self)
 
     def list(self, kind, tag_slug, cur_p=''):
@@ -57,24 +54,22 @@ class PostLabelHandler(BaseHandler):
 
         current_page_number = 1 if current_page_number < 1 else current_page_number
 
-        pager_num = int(self.mapp2tag.total_number(tag_slug, kind) / config.page_num)
+        pager_num = int(MPost2Label.total_number(tag_slug, kind) / CMS_CFG['list_num'])
         tag_name = ''
-        kwd = {
-            'tag_name': tag_name,
-            'tag_slug': tag_slug,
-            'title': tag_name,
-            'current_page': current_page_number,
-
-        }
+        kwd = {'tag_name': tag_name,
+               'tag_slug': tag_slug,
+               'title': tag_name,
+               'current_page': current_page_number}
 
         self.render('post_{0}/label_list.html'.format(kind),
-                    infos=self.mapp2tag.query_pager_by_slug(tag_slug, kind=kind, current_page_num=current_page_number),
+                    infos=MPost2Label.query_pager_by_slug(tag_slug,
+                                                            kind=kind,
+                                                            current_page_num=current_page_number),
                     unescape=tornado.escape.xhtml_unescape,
                     kwd=kwd,
                     userinfo=self.userinfo,
                     pager=self.gen_pager(kind, tag_slug, pager_num, current_page_number),
-                    cfg=config.cfg_render,
-                    )
+                    cfg=CMS_CFG)
 
     def gen_pager(self, kind, cat_slug, page_num, current):
         # cat_slug 分类
@@ -112,4 +107,4 @@ class PostLabelHandler(BaseHandler):
                     </li>
                     '''.format('hidden' if current >= page_num else '', kind, cat_slug, page_num)
         pager = pager_shouye + pager_pre + pager_mid + pager_next + pager_last
-        return (pager)
+        return pager

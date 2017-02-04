@@ -4,30 +4,25 @@
 List the infos by the slug of the catalog.
 '''
 
-from  math import ceil as math_ceil
+from math import ceil as math_ceil
 import tornado.escape
 from torcms.model.info_model import MInfor
 from torcms.model.category_model import MCategory
-import config
 
 from torcms.handlers.category_handler import CategoryHandler
-# from torcms.model.infor2catalog_model import MInfor2Catalog
-from torcms.model.post2catalog_model import MPost2Catalog as MInfor2Catalog
-from config import router_post
+from torcms.model.post2catalog_model import MPost2Catalog
+from config import router_post, CMS_CFG
 from torcms.core.tools import logger
 
 
-class LabelHandler(CategoryHandler):
+class TagListHandler(CategoryHandler):
     '''
     List the infos by the slug of the catalog.
-    via: `/label/m/1234`
+    via: `/tag/cat_slug`
     '''
 
     def initialize(self):
-        super(LabelHandler, self).initialize()
-        self.mequa = MInfor()
-        self.mcat = MCategory()
-        self.mapp2tag = MInfor2Catalog()
+        super(TagListHandler, self).initialize()
 
     def get(self, url_str=''):
         logger.info('tag: {0}'.format(url_str))
@@ -55,28 +50,25 @@ class LabelHandler(CategoryHandler):
             current_page_number = 1
         else:
             current_page_number = int(cur_p)
-        taginfo = self.mcat.get_by_slug(tag_slug)
+        taginfo = MCategory.get_by_slug(tag_slug)
 
-        num_of_tag = self.mapp2tag.count_of_certain_category(taginfo.uid)
-        page_num = math_ceil(num_of_tag / config.page_num)
+        num_of_tag = MPost2Catalog.count_of_certain_category(taginfo.uid)
+        page_num = math_ceil(num_of_tag / CMS_CFG['list_num'])
         tag_name = taginfo.name
 
-        kwd = {
-            'tag_name': tag_name,
-            'tag_slug': tag_slug,
-            'title': tag_name,
-            'current_page': current_page_number,
-        }
+        kwd = {'tag_name': tag_name,
+               'tag_slug': tag_slug,
+               'title': tag_name,
+               'current_page': current_page_number}
 
         self.render('post_{0}/tag_list.html'.format(taginfo.kind),
                     taginfo=taginfo,
-                    infos=self.mapp2tag.query_pager_by_slug(tag_slug, current_page_number),
+                    infos=MPost2Catalog.query_pager_by_slug(tag_slug, current_page_number),
                     unescape=tornado.escape.xhtml_unescape,
                     kwd=kwd,
                     pager=self.gen_pager_bootstrap(tag_slug, page_num, current_page_number),
                     userinfo=self.userinfo,
-                    router=router_post[taginfo.kind],
-                    )
+                    router=router_post[taginfo.kind])
 
     def gen_pager_bootstrap(self, cat_slug, page_num, current):
         # cat_slug 分类
@@ -114,7 +106,7 @@ class LabelHandler(CategoryHandler):
                     </li>
                     '''.format('hidden' if current >= page_num else '', cat_slug, page_num)
         pager = pager_shouye + pager_pre + pager_mid + pager_next + pager_last
-        return (pager)
+        return pager
 
     def gen_pager(self, cat_slug, page_num, current):
         # cat_slug 分类
@@ -152,4 +144,4 @@ class LabelHandler(CategoryHandler):
                     </li>
                     '''.format('hidden' if current >= page_num else '', cat_slug, page_num)
         pager = pager_shouye + pager_pre + pager_mid + pager_next + pager_last
-        return (pager)
+        return pager

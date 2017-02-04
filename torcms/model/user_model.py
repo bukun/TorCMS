@@ -5,40 +5,52 @@ from torcms.core import tools
 from torcms.model.core_tab import g_Member
 from torcms.model.abc_model import Mabc
 
-
 class MUser(Mabc):
     def __init__(self):
-        self.tab = g_Member
         try:
             g_Member.create_table()
         except:
             pass
 
-    def get_by_uid(self, uid):
+    @staticmethod
+    def query_all(limit=50):
+        '''
+        Return some of the records. Not all.
+        :param limit:
+        :return:
+        '''
+        return g_Member.select().limit(limit)
+
+    @staticmethod
+    def get_by_uid(uid):
         try:
             return g_Member.get(g_Member.uid == uid)
         except:
             return None
 
-    def get_by_name(self, uname):
+    @staticmethod
+    def get_by_name(uname):
         try:
             return g_Member.get(user_name=uname)
         except:
             return None
 
-    def set_sendemail_time(self, uid):
+    @staticmethod
+    def set_sendemail_time(uid):
         entry = g_Member.update(
             time_email=tools.timestamp(),
         ).where(g_Member.uid == uid)
         entry.execute()
 
-    def get_by_email(self, useremail):
+    @staticmethod
+    def get_by_email(useremail):
         try:
             return g_Member.get(user_email=useremail)
         except:
             return None
 
-    def check_user(self, u_name, u_pass):
+    @staticmethod
+    def check_user(u_name, u_pass):
         tt = g_Member.select().where(g_Member.user_name == u_name).count()
         if tt == 0:
             return -1
@@ -47,7 +59,8 @@ class MUser(Mabc):
             return 1
         return 0
 
-    def update_pass(self, u_name, newpass):
+    @staticmethod
+    def update_pass(u_name, newpass):
 
         out_dic = {'success': False, 'code': '00'}
 
@@ -58,14 +71,15 @@ class MUser(Mabc):
 
         return out_dic
 
-
-    def query_nologin(self):
+    @staticmethod
+    def query_nologin():
         time_now = tools.timestamp()
         # num * month * hours * minite * second
-        return self.tab.select().where(((time_now - self.tab.time_login) > 3 * 30 * 24 * 60 * 60) & (
+        return g_Member.select().where(((time_now - g_Member.time_login) > 3 * 30 * 24 * 60 * 60) & (
             (time_now - g_Member.time_email) > 4 * 30 * 24 * 60 * 60))
 
-    def update_info(self, u_name, newemail):
+    @staticmethod
+    def update_info(u_name, newemail):
 
         out_dic = {'success': False, 'code': '00'}
         if tools.check_email_valid(newemail):
@@ -81,9 +95,8 @@ class MUser(Mabc):
 
         return out_dic
 
-
-
-    def update_time_reset_passwd(self, uname, timeit):
+    @staticmethod
+    def update_time_reset_passwd(uname, timeit):
         entry = g_Member.update(
             time_reset_passwd=timeit,
         ).where(g_Member.user_name == uname)
@@ -93,9 +106,10 @@ class MUser(Mabc):
         except:
             return False
 
-    def update_role(self, u_name, newprivilege):
+    @staticmethod
+    def update_role(u_name, newprivilege):
         entry = g_Member.update(
-            role =newprivilege
+            role=newprivilege
         ).where(g_Member.user_name == u_name)
         try:
             entry.execute()
@@ -103,29 +117,33 @@ class MUser(Mabc):
         except:
             return False
 
-    def update_time_login(self, u_name):
+    @staticmethod
+    def update_time_login(u_name):
         entry = g_Member.update(
             time_login=tools.timestamp()
         ).where(g_Member.user_name == u_name)
         entry.execute()
 
-    def _copy_user(self, post_data):
+    @staticmethod
+    def _copy_user(post_data):
         try:
             g_Member.create(uid=post_data['uid'],
-                        user_name=post_data['user_name'],
-                        user_pass=post_data['user_pass'],
-                        user_email=post_data['user_email'],
-                        role=post_data['role'],
-                        time_create=tools.timestamp(),
-                        time_update=tools.timestamp(),
-                        time_reset_passwd=tools.timestamp(),
-                        time_login=tools.timestamp(),
-                        time_email=tools.timestamp()
-                        )
+                            user_name=post_data['user_name'],
+                            user_pass=post_data['user_pass'],
+                            user_email=post_data['user_email'],
+                            role=post_data['role'],
+                            time_create=tools.timestamp(),
+                            time_update=tools.timestamp(),
+                            time_reset_passwd=tools.timestamp(),
+                            time_login=tools.timestamp(),
+                            time_email=tools.timestamp()
+                            )
         except:
             print(post_data)
         return True
-    def create_wiki_history(self, post_data):
+
+    @staticmethod
+    def create_wiki_history(post_data):
         out_dic = {'success': False, 'code': '00'}
 
         if tools.check_username_valid(post_data['user_name']):
@@ -160,10 +178,12 @@ class MUser(Mabc):
         out_dic['success'] = True
         return out_dic
 
-    def get_by_keyword(self, par2):
+    @staticmethod
+    def get_by_keyword(par2):
         return g_Member.select().where(g_Member.user_name.contains(par2))
 
-    def delete_by_user_name(self, user_name):
+    @staticmethod
+    def delete_by_user_name(user_name):
         try:
             del_count = g_Member.delete().where(g_Member.user_name == user_name)
             del_count.execute()
@@ -171,7 +191,8 @@ class MUser(Mabc):
         except:
             return False
 
-    def delete(self, del_id):
+    @staticmethod
+    def delete(del_id):
         try:
             del_count = g_Member.delete().where(g_Member.uid == del_id)
             del_count.execute()

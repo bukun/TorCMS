@@ -5,64 +5,63 @@ Model for map layout.
 '''
 from torcms.core import tools
 from torcms.model.map_tab import e_Layout
+from torcms.model.abc_model import Mabc
 
-
-class MLayout(object):
+class MLayout(Mabc):
     '''
     Model for map layout.
     '''
 
     def __init__(self):
-        self.tab = e_Layout
         try:
-            self.tab.create_table()
+            e_Layout.create_table()
         except:
             pass
 
-    def get_by_id(self, uid):
+    @staticmethod
+    def get_by_id(uid):
         '''
         :param uid:
         :return:
         '''
         try:
-            return self.tab.get(self.tab.uid == uid)
+            return e_Layout.get(e_Layout.uid == uid)
         except:
             return False
 
-    def delete_by_uid(self, uid):
+    @staticmethod
+    def delete_by_uid(uid):
         '''
         :param uid:
         :return:
         '''
-        qry = self.tab.delete().where(self.tab.uid == uid)
+        qry = e_Layout.delete().where(e_Layout.uid == uid)
         try:
             qry.execute()
         except:
             return False
 
-    # def query_recent(self, user_id, num=10):
-    #     return self.tab.select().where(self.tab.user == user_id
-    # ).order_by(self.tab.order).limit(num)
-
-    def query_by_app(self, app_id, user_id):
+    @staticmethod
+    def query_by_app(app_id, user_id):
         '''
         :param app_id:
         :param user_id:
         :return:
         '''
-        return self.tab.select().where(
-            (self.tab.post_id == app_id) & (self.tab.user_id == user_id)
+        return e_Layout.select().where(
+            (e_Layout.post_id == app_id) & (e_Layout.user_id == user_id)
         ).order_by(
-            self.tab.time_update.desc()
+            e_Layout.time_update.desc()
         )
 
-    def add_or_update(self, post_data):
+    @staticmethod
+    def add_or_update(post_data):
         '''
         :param post_data:
         :return:
         '''
         print(post_data)
-        self.tab.create(
+        e_Layout.create(
             uid=tools.get_uu8d(),
             title='',
             post_id=post_data['map'],

@@ -33,11 +33,10 @@ class InfoCategory(tornado.web.UIModule):
         else:
             slug = False
 
-        mcat = MCategory()
 
-        curinfo = mcat.get_by_uid(uid_with_str)
+        curinfo = MCategory.get_by_uid(uid_with_str)
 
-        sub_cats = mcat.query_sub_cat(uid_with_str)
+        sub_cats = MCategory.query_sub_cat(uid_with_str)
 
         if slug:
             return self.render_string('modules/info/catalog_slug.html',
@@ -54,8 +53,7 @@ class InfoCategory(tornado.web.UIModule):
 @deprecated
 class InforUserMost(tornado.web.UIModule):
     def render(self, user_name, kind, num, with_tag=False):
-        self.mcat = torcms.model.usage_model.MUsage()
-        all_cats = self.mcat.query_most(user_name, kind, num)
+        all_cats = torcms.model.usage_model.MUsage.query_most(user_name, kind, num)
         kwd = {
             'with_tag': with_tag,
             'router': router_post[kind],
@@ -77,8 +75,7 @@ class InfoUserRecent(tornado.web.UIModule):
             user_name=user_name, kind=kind, num=num
         ))
 
-        self.mcat = torcms.model.usage_model.MUsage()
-        all_cats = self.mcat.query_recent(user_name, kind, num)
+        all_cats = torcms.model.usage_model.MUsage.query_recent(user_name, kind, num)
         kwd = {
             'with_tag': with_tag,
             'router': router_post[kind],
@@ -89,9 +86,9 @@ class InfoUserRecent(tornado.web.UIModule):
 
 
 class app_user_recent_by_cat(tornado.web.UIModule):
+
     def render(self, user_name, cat_id, num):
-        self.mcat = torcms.model.usage_model.MUsage()
-        all_cats = self.mcat.query_recent_by_cat(user_name, cat_id, num)
+        all_cats = torcms.model.usage_model.MUsage.query_recent_by_cat(user_name, cat_id, num)
 
         return self.render_string('modules/info/list_user_equation_no_catalog.html',
                                   recs=all_cats)
@@ -116,8 +113,7 @@ class InfoMostUsed(tornado.web.UIModule):
             return self.render_it(kind, num, with_tag=with_tag)
 
     def render_it(self, kind, num, with_tag=False):
-        self.mcat = torcms.model.info_model.MInfor()
-        all_cats = self.mcat.query_most(kind, num)
+        all_cats = torcms.model.info_model.MInfor.query_most(kind, num)
         kwd = {
             'with_tag': with_tag,
             'router': router_post[kind],
@@ -127,8 +123,7 @@ class InfoMostUsed(tornado.web.UIModule):
                                   kwd=kwd)
 
     def render_user(self, kind, num, with_tag=False, user_id=''):
-        self.mcat = torcms.model.usage_model.MUsage()
-        all_cats = self.mcat.query_most(user_id, kind, num)
+        all_cats = torcms.model.usage_model.MUsage.query_most(user_id, kind, num)
         kwd = {
             'with_tag': with_tag,
             'router': router_post[kind],
@@ -140,20 +135,22 @@ class InfoMostUsed(tornado.web.UIModule):
 
 class app_most_used_by_cat(tornado.web.UIModule):
     def render(self, num, cat_str):
-        self.mcat = torcms.model.info_model.MInfor()
-        all_cats = self.mcat.query_most_by_cat(num, cat_str)
+        all_cats = torcms.model.info_model.MInfor.query_most_by_cat(num, cat_str)
         return self.render_string('modules/info/list_equation_by_cat.html',
                                   recs=all_cats)
 
 
 class app_least_use_by_cat(tornado.web.UIModule):
+
+
     def render(self, num, cat_str):
-        self.mcat = torcms.model.info_model.MInfor()
-        all_cats = self.mcat.query_least_by_cat(num, cat_str)
+        all_cats = torcms.model.info_model.MInfor.query_least_by_cat(num, cat_str)
         return self.render_string('modules/info/list_equation_by_cat.html', recs=all_cats)
 
 
 class InfoRecentUsed(tornado.web.UIModule):
+
+
     def render(self, kind, num, **kwargs):
 
         if 'with_tag' in kwargs:
@@ -173,8 +170,7 @@ class InfoRecentUsed(tornado.web.UIModule):
             return self.render_it(kind, num, with_tag=with_tag)
 
     def render_it(self, kind, num, with_tag=False):
-        self.mcat = torcms.model.info_model.MInfor()
-        all_cats = self.mcat.query_recent(num, kind=kind)
+        all_cats = torcms.model.info_model.MInfor.query_recent(num, kind=kind)
         kwd = {
             'with_tag': with_tag,
             'router': router_post[kind]
@@ -188,8 +184,7 @@ class InfoRecentUsed(tornado.web.UIModule):
             user_name=user_id, kind=kind, num=num
         ))
 
-        self.mcat = torcms.model.usage_model.MUsage()
-        all_cats = self.mcat.query_recent(user_id, kind, num)
+        all_cats = torcms.model.usage_model.MUsage.query_recent(user_id, kind, num)
         kwd = {
             'with_tag': with_tag,
             'router': router_post[kind],
@@ -201,19 +196,16 @@ class InfoRecentUsed(tornado.web.UIModule):
 
 class app_random_choose(tornado.web.UIModule):
     def render(self, kind, num):
-        self.mcat = torcms.model.info_model.MInfor()
-        all_cats = self.mcat.query_random(num=num, kind=kind)
+        all_cats = torcms.model.info_model.MInfor.query_random(num=num, kind=kind)
         return self.render_string('modules/info/list_equation.html',
                                   recs=all_cats)
 
 
 class app_tags(tornado.web.UIModule):
     def render(self, signature):
-        mapp2tag = MPost2Catalog()
-        tag_infos = mapp2tag.query_by_entity_uid(signature)
         out_str = ''
         ii = 1
-        for tag_info in tag_infos:
+        for tag_info in MPost2Catalog.query_by_entity_uid(signature):
             tmp_str = '''<a data-inline="true" href="/tag/{0}"
              class="tag{1}">{2}</a>'''.format(tag_info.tag.slug, ii, tag_info.tag.name)
             out_str += tmp_str
@@ -223,15 +215,13 @@ class app_tags(tornado.web.UIModule):
 
 class label_count(tornado.web.UIModule):
     def render(self, signature):
-        mapp2tag = MPost2Label()
 
-        return mapp2tag.query_count(signature)
+        return MPost2Label.query_count(signature)
 
 
 class app_menu(tornado.web.UIModule):
     def render(self, kind, limit=10):
-        mcat = MCategory()
-        all_cats = mcat.query_field_count(limit, kind=kind)
+        all_cats = MCategory.query_field_count(limit, kind=kind)
         kwd = {
             'cats': all_cats,
         }
@@ -248,16 +238,15 @@ class baidu_search(tornado.web.UIModule):
 
 class rel_post2app(tornado.web.UIModule):
     def render(self, uid, num, ):
-        self.app = MInfor()
-        self.relation = MRelation()
+
         kwd = {
             'app_f': 'post',
             'app_t': 'info',
             'uid': uid,
         }
-        rel_recs = self.relation.get_app_relations(uid, num, kind='2')
+        rel_recs = MRelation.get_app_relations(uid, num, kind='2')
 
-        rand_recs = self.app.query_random(num - rel_recs.count() + 2, kind='2')
+        rand_recs = MInfor.query_random(num - rel_recs.count() + 2, kind='2')
 
         return self.render_string('modules/info/relation_post2app.html',
                                   relations=rel_recs,
@@ -267,16 +256,14 @@ class rel_post2app(tornado.web.UIModule):
 
 class rel_app2post(tornado.web.UIModule):
     def render(self, uid, num, ):
-        self.mpost = MPost()
-        self.relation = MRelation()
         kwd = {
             'app_f': 'info',
             'app_t': 'post',
             'uid': uid,
         }
-        rel_recs = self.relation.get_app_relations(uid, num, kind='1')
+        rel_recs = MRelation.get_app_relations(uid, num, kind='1')
 
-        rand_recs = self.mpost.query_random(num - rel_recs.count() + 2, kind='1')
+        rand_recs = MPost.query_random(num - rel_recs.count() + 2, kind='1')
 
         return self.render_string('modules/info/relation_app2post.html',
                                   relations=rel_recs,
@@ -300,15 +287,12 @@ class VipInfo(tornado.web.UIModule):
 
 
 class BannerModule(tornado.web.UIModule):
-    def __init__(self, parentid=''):
-        self.parentid = parentid
 
-    def render(self):
-        self.mcat = MCategory()
-        parentlist = self.mcat.get_parent_list()
+    def render(self, parentid=''):
+        parentlist = MCategory.get_parent_list()
         kwd = {
             'parentlist': parentlist,
-            'parentid': self.parentid,
+            'parentid': parentid,
         }
         return self.render_string('modules/info/banner.html', kwd=kwd)
 

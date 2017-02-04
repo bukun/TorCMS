@@ -5,19 +5,18 @@
 
 import json
 import tornado.web
-import config
+from config import CMS_CFG
 from torcms.model.category_model import MCategory
 from torcms.model.info_model import MInfor as MInfor
 from torcms.core.base_handler import BaseHandler
 from torcms.core.torcms_redis import redisvr
 from torcms.core.libs.deprecated import deprecated
 
+
 @deprecated
 class InfoTagHandler(BaseHandler):
     def initialize(self, hinfo=''):
         super(InfoTagHandler, self).initialize()
-        self.minfo = MInfor()
-        self.mcat = MCategory()
         self.kind = '2'
 
     def get(self, url_str=''):
@@ -34,7 +33,7 @@ class InfoTagHandler(BaseHandler):
 
     @tornado.web.authenticated
     def remove_redis_keyword(self, kw):
-        redisvr.srem(config.redis_kw + self.userinfo.user_name, kw)
+        redisvr.srem(CMS_CFG['redis_kw'] + self.userinfo.user_name, kw)
         return json.dump({}, self)
 
     def list(self, tag_slug, cur_p=''):
@@ -56,14 +55,14 @@ class InfoTagHandler(BaseHandler):
             'current_page': current_page_num
         }
 
-        info = self.minfo.query_by_tagname(tag_slug)
+        info = MInfor.query_by_tagname(tag_slug)
 
-        page_num = int(info.count() / config.page_num) + 1
+        page_num = int(info.count() / CMS_CFG['list_num']) + 1
 
         self.render('infor/label/list.html',
                     kwd=kwd,
                     userinfo=self.userinfo,
-                    infos=self.minfo.query_pager_by_tag(tag_slug, current_page_num,self.kind),
+                    infos=MInfor.query_pager_by_tag(tag_slug, current_page_num, self.kind),
                     pager=self.gen_pager(tag_slug, page_num, current_page_num),
 
                     )

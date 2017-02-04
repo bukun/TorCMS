@@ -8,7 +8,6 @@ import tornado.escape
 class TestCatalog():
     def setup(self):
         print('setup 方法执行于本类中每条用例之前')
-        self.uu = MCategory()
         self.uid = tools.get_uu4d()
         self.slug = 'ccc'
 
@@ -21,12 +20,12 @@ class TestCatalog():
             'type': 1,
             'tmpl': 0,
             'pid': '0000',
-
+            'count': 0
         }
 
-        newid = self.uu.create_wiki_history(uid, post_data)
+        newid = MCategory.create_wiki_history(uid, post_data)
 
-        tt = self.uu.get_by_slug(self.slug)
+        tt = MCategory.get_by_slug(self.slug)
         # assert tt == newid
 
     def test_insert_2(self):
@@ -35,12 +34,12 @@ class TestCatalog():
             'name': '',
             'slug': 'asa',
             'order': '2',
-            'type':1,
+            'type': 1,
 
             'tmpl': 0,
             'pid': '0000',
         }
-        uu = self.uu.create_wiki_history(self.uid, post_data)
+        uu = MCategory.create_wiki_history(self.uid, post_data)
         # assert uu == False
 
         post_data = {
@@ -52,7 +51,7 @@ class TestCatalog():
             'tmpl': 0,
             'pid': '0000',
         }
-        uu = self.uu.create_wiki_history(self.uid, post_data)
+        uu = MCategory.create_wiki_history(self.uid, post_data)
         # assert uu == False
 
     def test_upate(self):
@@ -60,5 +59,6 @@ class TestCatalog():
 
     def tearDown(self):
         print("function teardown")
-        tt = self.uu.get_by_slug(self.slug)
-        self.uu.delete(self.uid)
+        tt = MCategory.get_by_slug(self.slug)
+        if tt:
+            MCategory.delete(tt.uid)

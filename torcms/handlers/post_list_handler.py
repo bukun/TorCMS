@@ -9,7 +9,7 @@ import json
 import tornado.escape
 import tornado.web
 
-from config import cfg_render
+from config import CMS_CFG
 from config import router_post
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
@@ -29,12 +29,6 @@ class PostListHandler(BaseHandler):
 
     def initialize(self):
         super(PostListHandler, self).initialize()
-        self.minfor = MPost()
-        self.mcat = MCategory()
-        self.mpost_hist = MPostHist()
-        self.mpost2catalog = MPost2Catalog()
-        self.mpost2label = MPost2Label()
-        self.mrel = MRelation()
         self.kind = '1'
 
     def get(self, *args):
@@ -72,11 +66,11 @@ class PostListHandler(BaseHandler):
         }
         self.render('post_{0}/post_list.html'.format(self.kind),
                     kwd=kwd,
-                    view=self.minfor.query_recent(num=20, kind=self.kind),
-                    postinfo=self.minfor.query_recent(num=20, kind=self.kind),
+                    view=MPost.query_recent(num=20, kind=self.kind),
+                    postinfo=MPost.query_recent(num=20, kind=self.kind),
                     format_date=tools.format_date,
                     userinfo=self.userinfo,
-                    cfg=cfg_render, )
+                    cfg=CMS_CFG, )
 
 
 
@@ -92,8 +86,8 @@ class PostListHandler(BaseHandler):
         self.render('post_{0}/post_list.html'.format(self.kind),
                     kwd=kwd,
                     userinfo=self.userinfo,
-                    view=self.minfor.query_dated(10),
-                    postrecs=self.minfor.query_dated(10),
+                    view=MPost.query_dated(10),
+                    postrecs=MPost.query_dated(10),
                     format_date=tools.format_date,
                     unescape=tornado.escape.xhtml_unescape,
-                    cfg=cfg_render, )
+                    cfg=CMS_CFG, )

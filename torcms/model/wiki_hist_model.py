@@ -2,20 +2,21 @@
 
 from torcms.core import tools
 from torcms.model.core_tab import g_WikiHist
-from torcms.model.abc_model import Mabc
 import tornado.escape
-
+from torcms.model.abc_model import Mabc
 
 class MWikiHist(Mabc):
     def __init__(self):
-        self.tab = g_WikiHist
         try:
             g_WikiHist.create_table()
         except:
             pass
 
-    def get_last(self, postid):
-        recs = self.tab.select().where(self.tab.wiki_id == postid).order_by(self.tab.time_update.desc())
+    @staticmethod
+    def get_last(postid):
+        recs = g_WikiHist.select().where(
+            g_WikiHist.wiki_id == postid
+        ).order_by(g_WikiHist.time_update.desc())
         if recs.count() == 0:
             print('No old file: ', postid)
             return False
@@ -23,19 +24,45 @@ class MWikiHist(Mabc):
             print('Got old file.')
             return recs.get()
 
-    def update_cnt(self, uid, post_data):
-        entry = self.tab.update(
+    @staticmethod
+    def delete( uid):
+        '''
+        Delete by uid
+        :param uid:
+        :return:
+        '''
+
+        del_count = g_WikiHist.delete().where(g_WikiHist.uid == uid)
+        try:
+            del_count.execute()
+            return True
+        except:
+            return False
+
+    @staticmethod
+    def get_by_uid(uid):
+        return g_WikiHist.get(uid=uid)
+
+    @staticmethod
+    def update_cnt(uid, post_data):
+        entry = g_WikiHist.update(
             user_name=post_data['user_name'],
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md']),
             time_update=tools.timestamp(),
-        ).where(self.tab.uid == uid)
+        ).where(g_WikiHist.uid == uid)
         entry.execute()
 
-    def query_by_wikiid(self, postid, limit = 5):
-        recs = self.tab.select().where(self.tab.wiki_id == postid).order_by(self.tab.time_update.desc()).limit(limit)
+    @staticmethod
+    def query_by_wikiid(postid, limit=5):
+        recs = g_WikiHist.select().where(
+            g_WikiHist.wiki_id == postid
+        ).order_by(
+            g_WikiHist.time_update.desc()
+        ).limit(limit)
         return recs
 
-    def create_wiki_history(self, raw_data):
+    @staticmethod
+    def create_wiki_history(raw_data):
         entry = g_WikiHist.create(
             uid=tools.get_uuid(),
             title=raw_data.title,
@@ -45,5 +72,3 @@ class MWikiHist(Mabc):
             time_update=raw_data.time_update,
         )
         return (entry.uid)
-
-

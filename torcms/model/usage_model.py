@@ -7,72 +7,77 @@ Handle the usage of the info.
 import time
 
 import peewee
-# from torcms.model.infor2catalog_model import MInfor2Catalog
 from torcms.model.post2catalog_model import MPost2Catalog as MInfor2Catalog
 from torcms.model.core_tab import g_Usage
 from torcms.core import tools
 from torcms.model.user_model import MUser
 from torcms.core.tools import logger
+from torcms.model.abc_model import Mabc
 
-class MUsage(object):
+class MUsage(Mabc):
     '''
     Handle the usage of the info.
     '''
 
     def __init__(self):
-        self.tab = g_Usage
         try:
             g_Usage.create_table()
         except:
             pass
-        self.mapp2catalog = MInfor2Catalog()
-        self.muser = MUser()
 
-    def get_all(self):
-        return self.tab.select().order_by('view_count')
+    @staticmethod
+    def get_all():
+        return g_Usage.select().order_by('view_count')
 
-    def query_random(self):
-        return self.tab.select().order_by(peewee.fn.Random()).limit(6)
+    @staticmethod
+    def query_random():
+        return g_Usage.select().order_by(peewee.fn.Random()).limit(6)
 
-    def query_recent(self, user_id, kind, num = 10 ):
-        return self.tab.select().where(
-            (self.tab.user_id == user_id) &
-            (self.tab.kind == kind)
+    @staticmethod
+    def query_recent( user_id, kind, num = 10 ):
+        return g_Usage.select().where(
+            (g_Usage.user_id == user_id) &
+            (g_Usage.kind == kind)
         ).order_by(
-            self.tab.timestamp.desc()
+            g_Usage.timestamp.desc()
         ).limit(num)
 
-    def query_recent_by_cat(self, user_id, cat_id, num):
-        return self.tab.select().where(
-            (self.tab.tag_id == cat_id) &
-            (self.tab.user_id == user_id)
+    @staticmethod
+    def query_recent_by_cat( user_id, cat_id, num):
+        return g_Usage.select().where(
+            (g_Usage.tag_id == cat_id) &
+            (g_Usage.user_id == user_id)
         ).order_by(
-            self.tab.timestamp.desc()
+            g_Usage.timestamp.desc()
         ).limit(num)
 
-    def query_most(self, user_id, kind, num):
-        return self.tab.select().where(
-            (self.tab.user_id == user_id) &
-            (self.tab.kind == kind)
+    @staticmethod
+    def query_most( user_id, kind, num):
+        return g_Usage.select().where(
+            (g_Usage.user_id == user_id) &
+            (g_Usage.kind == kind)
         ).order_by(
-            self.tab.count.desc()
+            g_Usage.count.desc()
         ).limit(num)
 
-    def query_by_signature(self, user_id, sig):
-        return self.tab.select().where(
-            (self.tab.post == sig) &
-            (self.tab.user_id == user_id)
+    @staticmethod
+    def query_by_signature( user_id, sig):
+        return g_Usage.select().where(
+            (g_Usage.post == sig) &
+            (g_Usage.user_id == user_id)
         )
 
-    def count_increate(self, rec, cat_id, num):
-        entry = self.tab.update(
+    @staticmethod
+    def count_increate( rec, cat_id, num):
+        entry = g_Usage.update(
             timestamp=int(time.time()),
             count=num + 1,
             tag_id=cat_id,
-        ).where(self.tab.uid == rec)
+        ).where(g_Usage.uid == rec)
         entry.execute()
 
-    def add_or_update(self, user_id, post_id, kind):
+    @staticmethod
+    def add_or_update(user_id, post_id, kind):
         '''
         Create the record if new, else update it.
         :param user_id:
@@ -81,12 +86,12 @@ class MUsage(object):
         :return:
         '''
 
-        rec = self.query_by_signature(user_id, post_id)
+        rec = MUsage.query_by_signature(user_id, post_id)
         print('=xx' * 20)
         for x in rec:
             print(x.uid, x.kind)
 
-        cate_rec = self.mapp2catalog.get_entry_catalog(post_id)
+        cate_rec = MInfor2Catalog.get_entry_catalog(post_id)
         if cate_rec:
             pass
         else:
@@ -95,12 +100,12 @@ class MUsage(object):
         if rec.count() > 0:
             logger.info('Usage update: {uid}'.format(uid = post_id))
             rec = rec.get()
-            query = self.tab.update(kind = kind).where(self.tab.uid == rec.uid)
+            query = g_Usage.update(kind = kind).where(g_Usage.uid == rec.uid)
             query.execute()
-            self.count_increate(rec.uid, cat_id, rec.count)
+            MUsage.count_increate(rec.uid, cat_id, rec.count)
         else:
             logger.info('Usage create: {uid}'.format(uid = post_id))
-            self.tab.create(
+            g_Usage.create(
                 uid=tools.get_uuid(),
                 post=post_id,
                 user_id=user_id,
