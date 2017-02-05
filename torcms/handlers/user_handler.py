@@ -607,7 +607,6 @@ class UserHandler(BaseHandler):
 class UserAjaxHandler(UserHandler):
     def initialize(self):
         super(UserAjaxHandler, self).initialize()
-        self.muser = MUser()
         self.user_name = self.get_current_user()
         self.tmpl_dir = 'admin'
         self.tmpl_router = 'user_ajax'

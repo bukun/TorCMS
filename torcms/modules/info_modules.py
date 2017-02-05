@@ -4,21 +4,20 @@
 Tornado Modules for infor.
 '''
 
+import tornado.web
+from html2text import html2text
+
 import torcms.model.info_model
 import torcms.model.usage_model
-import tornado.web
-from torcms.model.label_model import MPost2Label
-from torcms.model.info_model import MInfor
-from torcms.model.relation_model import MRelation
-
-from torcms.model.post2catalog_model import MPost2Catalog
-
-from torcms.model.category_model import MCategory
-from torcms.model.post_model import MPost
-from html2text import html2text
 from config import router_post
-from torcms.core.tools import logger
 from torcms.core.libs.deprecated import deprecated
+from torcms.core.tools import logger
+from torcms.model.category_model import MCategory
+from torcms.model.info_model import MInfor
+from torcms.model.label_model import MPost2Label
+from torcms.model.post2catalog_model import MPost2Catalog
+from torcms.model.post_model import MPost
+from torcms.model.relation_model import MRelation
 
 
 class InfoCategory(tornado.web.UIModule):
@@ -66,11 +65,6 @@ class InforUserMost(tornado.web.UIModule):
                                   kwd=kwd)
 
 
-class app_user_most_by_cat(tornado.web.UIModule):
-    '''
-
-    '''
-    pass
 
 
 @deprecated
@@ -94,7 +88,7 @@ class InfoUserRecent(tornado.web.UIModule):
                                   kwd=kwd)
 
 
-class app_user_recent_by_cat(tornado.web.UIModule):
+class InfoUserRecentByCategory(tornado.web.UIModule):
     '''
 
     '''
@@ -149,7 +143,7 @@ class InfoMostUsed(tornado.web.UIModule):
                                   kwd=kwd)
 
 
-class app_most_used_by_cat(tornado.web.UIModule):
+class InfoMostUsedByCategory(tornado.web.UIModule):
     '''
 
     '''
@@ -160,7 +154,7 @@ class app_most_used_by_cat(tornado.web.UIModule):
                                   recs=all_cats)
 
 
-class app_least_use_by_cat(tornado.web.UIModule):
+class InfoLeastUseByCategory(tornado.web.UIModule):
     '''
 
     '''
@@ -232,9 +226,9 @@ class InfoRecentUsed(tornado.web.UIModule):
                                   kwd=kwd)
 
 
-class app_random_choose(tornado.web.UIModule):
+class InfoRandom(tornado.web.UIModule):
     '''
-
+    return some infors, randomly.
     '''
     def render(self, kind, num):
         all_cats = torcms.model.info_model.MInfor.query_random(num=num, kind=kind)
@@ -242,14 +236,15 @@ class app_random_choose(tornado.web.UIModule):
                                   recs=all_cats)
 
 
-class app_tags(tornado.web.UIModule):
+class InfoTags(tornado.web.UIModule):
     '''
-
+    return tags of certain infor
     '''
-    def render(self, signature):
+    def render(self, *args):
+        uid = args[0]
         out_str = ''
         ii = 1
-        for tag_info in MPost2Catalog.query_by_entity_uid(signature):
+        for tag_info in MPost2Catalog.query_by_entity_uid(uid):
             tmp_str = '''<a data-inline="true" href="/tag/{0}"
              class="tag{1}">{2}</a>'''.format(tag_info.tag.slug, ii, tag_info.tag.name)
             out_str += tmp_str
@@ -257,17 +252,18 @@ class app_tags(tornado.web.UIModule):
         return out_str
 
 
-class label_count(tornado.web.UIModule):
+class LabelCount(tornado.web.UIModule):
     '''
-
+    the count of certian tag.
     '''
-    def render(self, signature):
-        return MPost2Label.query_count(signature)
+    def render(self, *args):
+        uid = args[0]
+        return MPost2Label.query_count(uid)
 
 
-class app_menu(tornado.web.UIModule):
+class InfoMenu(tornado.web.UIModule):
     '''
-
+    menu for infor.
     '''
     def render(self, kind, limit=10):
         all_cats = MCategory.query_field_count(limit, kind=kind)
@@ -277,19 +273,9 @@ class app_menu(tornado.web.UIModule):
         return self.render_string('modules/info/app_menu.html', kwd=kwd)
 
 
-class baidu_search(tornado.web.UIModule):
+class RelPost2app(tornado.web.UIModule):
     '''
-
-    '''
-    def render(self, ):
-        baidu_script = ''
-        return self.render_string('modules/info/baidu_script.html',
-                                  baidu_script=baidu_script)
-
-
-class rel_post2app(tornado.web.UIModule):
-    '''
-
+    relation, post to app.
     '''
     def render(self, uid, num, ):
         kwd = {
@@ -307,9 +293,9 @@ class rel_post2app(tornado.web.UIModule):
                                   kwd=kwd, )
 
 
-class rel_app2post(tornado.web.UIModule):
+class RelApp2post(tornado.web.UIModule):
     '''
-
+    relation, app to post.
     '''
     def render(self, uid, num, ):
         kwd = {
@@ -372,7 +358,7 @@ class BreadCrumb(tornado.web.UIModule):
         return self.render_string('modules/info/bread_crumb.html', info=info)
 
 
-class parentname(tornado.web.UIModule):
+class ParentName(tornado.web.UIModule):
     '''
 
     '''
@@ -380,7 +366,7 @@ class parentname(tornado.web.UIModule):
         return self.render_string('modules/info/parentname.html', info=info)
 
 
-class catname(tornado.web.UIModule):
+class CatName(tornado.web.UIModule):
     '''
 
     '''

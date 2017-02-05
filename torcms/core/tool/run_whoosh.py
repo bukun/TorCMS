@@ -24,11 +24,10 @@ def do_for_app(writer, rand=True, kind='', doc_type={}):
     :param doc_type:
     :return:
     '''
-    mpost = MInfor()
     if rand:
-        recs = mpost.query_random(10, kind=kind)
+        recs = MInfor.query_random(10, kind=kind)
     else:
-        recs = mpost.query_recent(2, kind=kind)
+        recs = MInfor.query_recent(2, kind=kind)
 
     for rec in recs:
         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
@@ -48,11 +47,10 @@ def do_for_app2(writer, rand=True):
     :param rand:
     :return:
     '''
-    mpost = MInfor()
     if rand:
-        recs = mpost.query_random(10)
+        recs = MInfor.query_random(10)
     else:
-        recs = mpost.query_recent(2)
+        recs = MInfor.query_recent(2)
 
     for rec in recs:
         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
@@ -80,11 +78,10 @@ def do_for_app2(writer, rand=True):
 
 
 def do_for_post(writer, rand=True, doc_type=''):
-    mpost = MPost()
     if rand:
-        recs = mpost.query_random(10, kind='1')
+        recs = MPost.query_random(10, kind='1')
     else:
-        recs = mpost.query_recent(2, kind='1')
+        recs = MPost.query_recent(2, kind='1')
 
     for rec in recs:
         print('Do for Post:')
@@ -100,11 +97,10 @@ def do_for_post(writer, rand=True, doc_type=''):
 
 
 def do_for_wiki(writer, rand=True, doc_type=''):
-    mpost = MWiki()
     if rand:
-        recs = mpost.query_random(10)
+        recs = MWiki.query_random(10)
     else:
-        recs = mpost.query_recent(2)
+        recs = MWiki.query_recent(2)
 
     for rec in recs:
         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
@@ -118,11 +114,10 @@ def do_for_wiki(writer, rand=True, doc_type=''):
 
 
 def do_for_page(writer, rand=True, doc_type=''):
-    mpost = MWiki()
     if rand:
-        recs = mpost.query_random(4)
+        recs = MWiki.query_random(4)
     else:
-        recs = mpost.query_recent(1)
+        recs = MWiki.query_recent(1)
 
     for rec in recs:
         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))

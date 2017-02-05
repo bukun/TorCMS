@@ -15,9 +15,8 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def initialize(self):
         super(BaseHandler, self).initialize()
-        self.muser = MUser()
         if self.get_current_user():
-            self.userinfo = self.muser.get_by_name(self.get_current_user())
+            self.userinfo = MUser.get_by_name(self.get_current_user())
         else:
             self.userinfo = None
 

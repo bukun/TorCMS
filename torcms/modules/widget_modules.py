@@ -11,12 +11,18 @@ from torcms.model.reply_model import MReply
 from torcms.model.rating_model import MRating
 
 
-class baidu_share(tornado.web.UIModule):
+class BaiduShare(tornado.web.UIModule):
+    '''
+    widget for baidu share.
+    '''
     def render(self):
         return self.render_string('modules/widget/baidu_share.html')
 
 
-class reply_panel(tornado.web.UIModule):
+class ReplyPanel(tornado.web.UIModule):
+    '''
+    the reply panel.
+    '''
     def render(self, *args):
         uid = args[0]
         userinfo = args[1]
@@ -30,7 +36,10 @@ class reply_panel(tornado.web.UIModule):
         )
 
 
-class userinfo_widget(tornado.web.UIModule, tornado.web.RequestHandler):
+class UserinfoWidget(tornado.web.UIModule, tornado.web.RequestHandler):
+    '''
+    userinfo widget.
+    '''
     def render(self, **kwargs):
         if 'userinfo' in kwargs:
             userinfo = kwargs['userinfo']
@@ -48,7 +57,10 @@ class userinfo_widget(tornado.web.UIModule, tornado.web.RequestHandler):
             return self.render_string('modules/widget/tologinfo.html')
 
 
-class widget_editor(tornado.web.UIModule):
+class WidgetEditor(tornado.web.UIModule):
+    '''
+    editor widget.
+    '''
     def render(self, router, uid, userinfo):
         kwd = {
             'router': router,
@@ -61,7 +73,10 @@ class widget_editor(tornado.web.UIModule):
         )
 
 
-class widget_search(tornado.web.UIModule):
+class WidgetSearch(tornado.web.UIModule):
+    '''
+    search widget.
+    '''
     def render(self):
         tag_enum = MCategory.query_pcat(kind='2')
         return self.render_string(
@@ -70,7 +85,10 @@ class widget_search(tornado.web.UIModule):
             tag_enum=tag_enum)
 
 
-class star_rating(tornado.web.UIModule):
+class StarRating(tornado.web.UIModule):
+    '''
+    For rating of posts.
+    '''
     def render(self, postinfo, userinfo):
         rating = False
         if userinfo:
@@ -88,7 +106,10 @@ class star_rating(tornado.web.UIModule):
         )
 
 
-class navigate_panel(tornado.web.UIModule):
+class NavigatePanel(tornado.web.UIModule):
+    '''
+    render navigate panel.
+    '''
     def render(self, userinfo):
         return self.render_string(
             'modules/widget/navigate_panel.html',
@@ -97,7 +118,10 @@ class navigate_panel(tornado.web.UIModule):
         )
 
 
-class footer_panel(tornado.web.UIModule):
+class FooterPanel(tornado.web.UIModule):
+    '''
+    render footer panel.
+    '''
     def render(self, userinfo):
         return self.render_string(
             'modules/widget/footer_panel.html',
@@ -106,8 +130,21 @@ class footer_panel(tornado.web.UIModule):
         )
 
 
-class use_f2e(tornado.web.UIModule):
+class UseF2E(tornado.web.UIModule):
+    '''
+    using f2e lib.
+    '''
     def render(self, f2ename):
         return self.render_string(
             'modules/usef2e/{0}.html'.format(f2ename),
         )
+
+
+class BaiduSearch(tornado.web.UIModule):
+    '''
+    widget for baidu search.
+    '''
+    def render(self, ):
+        baidu_script = ''
+        return self.render_string('modules/info/baidu_script.html',
+                                  baidu_script=baidu_script)

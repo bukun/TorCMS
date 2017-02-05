@@ -13,6 +13,8 @@ Status
 .. image:: https://img.shields.io/pypi/pyversions/torcms.svg
    :target: https://pypi.python.org/pypi/torcms/
 
+* Checking ``torcms`` with ``pylint`` using default configuration, gets score greater than 8 (``pylint torcms``).
+
 Introduction
 -------------------------------------------------
 
