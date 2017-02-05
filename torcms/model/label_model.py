@@ -96,10 +96,6 @@ class MLabel(Mabc):
 
 class MPost2Label(Mabc):
     def __init__(self):
-        # g_Post2Tag = g_Post2Tag
-        # g_Tag = g_Tag
-        # g_Post = g_Post
-        # self.mtag = MLabel()
         try:
             g_Post2Tag.create_table()
         except:

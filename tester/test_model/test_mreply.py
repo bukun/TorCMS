@@ -46,7 +46,7 @@ class TestPost():
         }
 
 
-        tt=self.user.create_wiki_history(post_data)
+        tt=self.user.create_user(post_data)
 
 
         print('=' * 20)
@@ -63,7 +63,7 @@ class TestPost():
         }
 
 
-        tt=self.user.create_wiki_history(post_data)
+        tt=self.user.create_user(post_data)
 
 
         # u_id = self.user.get_by_name(self.username)

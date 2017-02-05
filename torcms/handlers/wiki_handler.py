@@ -77,8 +77,7 @@ class WikiHandler(BaseHandler):
                     view=MWiki.query_dated(16),
                     format_date=tools.format_date,
                     kwd=kwd,
-                    userinfo=self.userinfo,
-                    )
+                    userinfo=self.userinfo)
 
     def view_or_add(self, title):
         postinfo = MWiki.get_by_wiki(title)
@@ -135,9 +134,7 @@ class WikiHandler(BaseHandler):
                     unescape=tornado.escape.xhtml_unescape,
                     dbrec=wiki_rec,  # Deprecated.
                     postinfo=wiki_rec,
-                    # cfg=cfg, # Todo: Should delete
-                    userinfo=self.userinfo,
-                    )
+                    userinfo=self.userinfo)
 
     def view(self, view):
         kwd = {
@@ -149,8 +146,7 @@ class WikiHandler(BaseHandler):
                     postinfo=view,
                     unescape=tornado.escape.xhtml_unescape,
                     kwd=kwd,
-                    userinfo=self.userinfo,
-                    )
+                    userinfo=self.userinfo)
 
     def j_count_plus(self, slug):
         output = {
@@ -171,8 +167,7 @@ class WikiHandler(BaseHandler):
 
         self.render(tmpl,
                     kwd=kwd,
-                    userinfo=self.userinfo,
-                    )
+                    userinfo=self.userinfo)
 
     @tornado.web.authenticated
     def add(self, title=''):

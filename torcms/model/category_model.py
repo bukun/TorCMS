@@ -21,11 +21,6 @@ class MCategory(Mabc):
         '''
         return MHelper.delete(g_Tag, uid)
 
-        #
-        # del_count = g_Tag.delete().where(g_Tag.uid == uid)
-        # del_count.execute()
-        # return True
-
     @staticmethod
     def get_by_uid(uid):
         return MHelper.get_by_uid(g_Tag, uid)
@@ -106,27 +101,22 @@ class MCategory(Mabc):
             slug=post_data['slug'] if 'slug' in post_data else raw_rec.slug,
             order=post_data['order'] if 'order' in post_data else raw_rec.order,
             kind=post_data['kind'] if 'kind' in post_data else raw_rec.kind,
-
             pid=post_data['pid'],
-            # role_mask = post_data['role_mask'] if 'role_mask' in post_data else '00100',
         ).where(g_Tag.uid == uid)
         entry.execute()
 
     @staticmethod
     def create_wiki_history(uid, post_data):
-        uu = MCategory.get_by_uid(uid)
-        # uu = g_Tag.get(uid = uid)
-        if uu:
+        catinfo = MCategory.get_by_uid(uid)
+        if catinfo:
             MCategory.update(uid, post_data)
         else:
-            entry = g_Tag.create(
+            g_Tag.create(
                 uid=uid,
                 name=post_data['name'],
                 slug=post_data['slug'],
                 order=post_data['order'],
                 kind=post_data['kind'] if 'kind' in post_data else '1',
-                # tmpl = post_data['tmpl'],
                 pid=post_data['pid'],
-                # role_mask=post_data['role_mask'] if 'role_mask' in post_data else '00100',
             )
         return uid

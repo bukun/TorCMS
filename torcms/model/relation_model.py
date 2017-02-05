@@ -1,12 +1,13 @@
 # -*- coding:utf-8 -*-
 
+import peewee
 from torcms.core import tools
 from torcms.model.core_tab import g_Post
 from torcms.model.core_tab import g_Rel
 from torcms.model.core_tab import g_Post2Tag
 from torcms.model.post2catalog_model import MPost2Catalog as MInfor2Catalog
-import peewee
 from torcms.model.abc_model import Mabc
+
 
 class MRelation(Mabc):
     def __init__(self):
@@ -41,7 +42,7 @@ class MRelation(Mabc):
             return False
 
     @staticmethod
-    def delete( uid):
+    def delete(uid):
         entry = g_Rel.delete().where(
             g_Rel.uid == uid
 
@@ -66,14 +67,13 @@ class MRelation(Mabc):
         entry.execute()
 
     @staticmethod
-    def get_app_relations( app_id, num=20, kind='1'):
+    def get_app_relations(app_id, num=20, kind='1'):
         '''
         The the related infors.
         '''
         info_tag = MInfor2Catalog.get_entry_catalog(app_id)
         if info_tag:
-            return g_Post2Tag.select(
-            ).join(
+            return g_Post2Tag.select().join(
                 g_Post
             ).where(
                 (g_Post2Tag.tag == info_tag.tag.uid) &
@@ -83,5 +83,5 @@ class MRelation(Mabc):
             ).limit(num)
         else:
             return g_Post2Tag.select().join(g_Post).where(
-                g_Post.kind ==
-                kind).order_by(peewee.fn.Random()).limit(num)
+                g_Post.kind == kind
+            ).order_by(peewee.fn.Random()).limit(num)

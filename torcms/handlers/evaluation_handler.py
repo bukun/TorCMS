@@ -2,19 +2,13 @@
 
 import json
 import tornado.web
-from torcms.model.info_model import MInfor
 from torcms.model.evaluation_model import MEvaluation
-from torcms.model.usage_model import MUsage
 from torcms.core.base_handler import BaseHandler
-# from torcms.model.info_relation_model import MRelation
 
 
 class EvaluationHandler(BaseHandler):
     def initialize(self):
         super(EvaluationHandler, self).initialize()
-        # self.mequa = MInfor()
-        # self.musage = MUsage()
-        # self.mrel = MRelation()
 
     def get(self, *args, **kwargs):
         url_arr = self.parse_url(args[0])

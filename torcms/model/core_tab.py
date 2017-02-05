@@ -6,12 +6,14 @@ from torcms.core.base_model import BaseModel
 
 
 class g_Tag(BaseModel):
-    uid = peewee.CharField(null=False, max_length=4, index=True, unique=True, primary_key=True, help_text='', )
+    uid = peewee.CharField(null=False, max_length=4, index=True,
+                           unique=True, primary_key=True, help_text='', )
     slug = peewee.CharField(null=False, index=True, unique=True, max_length=36, help_text='', )
     name = peewee.CharField(null=False, max_length=255, help_text='', )
     order = peewee.IntegerField()
     count = peewee.IntegerField(default=0)
-    kind = peewee.CharField(null=False, max_length=1, default='z', help_text='4 - f for category. g -  for tags', )
+    kind = peewee.CharField(null=False, max_length=1,
+                            default='z', help_text='4 - f for category. g -  for tags', )
     # 'xxxx' for unkonw, 'zzzz' for tag.
     pid = peewee.CharField(null=False, max_length=4, default='xxxx', help_text='parent id')
     tmpl = peewee.IntegerField(null=False, default='9', help_text='tmplate type')
@@ -40,14 +42,16 @@ class g_Post(BaseModel):
     valid = peewee.IntegerField(null=False, default=1, help_text='Whether the infor would show.')
     cnt_md = peewee.TextField()
     cnt_html = peewee.TextField()
-    kind = peewee.CharField(null=False, max_length=1, default='1', help_text='Post type: 1 for doc, 2 for inor', )
+    kind = peewee.CharField(null=False, max_length=1,
+                            default='1', help_text='Post type: 1 for doc, 2 for inor', )
     extinfo = BinaryJSONField(default={})
     rating = peewee.FloatField(null=False, default=5)
 
 
 class g_Wiki(BaseModel):
     # slug for page, and '_12345678' for wiki.
-    uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='', )
+    uid = peewee.CharField(null=False, index=True,
+                           unique=True, primary_key=True, max_length=36, help_text='', )
     title = peewee.CharField(null=False, unique=True, index=True, help_text='Title')
     date = peewee.DateTimeField()
     time_create = peewee.IntegerField()
@@ -56,11 +60,13 @@ class g_Wiki(BaseModel):
     view_count = peewee.IntegerField()
     cnt_md = peewee.TextField()
     cnt_html = peewee.TextField()
-    kind = peewee.CharField(null=False, max_length=1, default='1', help_text='1 for wiki, 2 for page.', )
+    kind = peewee.CharField(null=False, max_length=1,
+                            default='1', help_text='1 for wiki, 2 for page.', )
 
 
 class g_PostHist(BaseModel):
-    uid = peewee.CharField(null=False, index=True, unique=True, help_text='', primary_key=True, max_length=36)
+    uid = peewee.CharField(null=False, index=True, unique=True,
+                           help_text='', primary_key=True, max_length=36)
     title = peewee.CharField(null=False, max_length=255, help_text='', )
     post_id = peewee.CharField(null=False, max_length=5, help_text='', )
     user_name = peewee.CharField()
@@ -70,7 +76,8 @@ class g_PostHist(BaseModel):
 
 
 class g_WikiHist(BaseModel):
-    uid = peewee.CharField(null=False, index=True, unique=True, help_text='', primary_key=True, max_length=36)
+    uid = peewee.CharField(null=False, index=True, unique=True,
+                           help_text='', primary_key=True, max_length=36)
     title = peewee.CharField(null=False, max_length=255, help_text='', )
     wiki_id = peewee.CharField(null=False, max_length=36, help_text='', )
     user_name = peewee.CharField()
@@ -94,11 +101,16 @@ class g_Member(BaseModel):
     2: for management
     3:
     '''
-    uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='', )
-    user_name = peewee.CharField(null=False, index=True, unique=True, max_length=16, help_text='User Name', )
-    user_email = peewee.CharField(null=False, unique=True, max_length=255, help_text='User Email', )
-    user_pass = peewee.CharField(null=False, max_length=255, help_text='User Password')
-    role = peewee.CharField(null=False, default='1000', help_text='Member Privilege', max_length='4')
+    uid = peewee.CharField(null=False, index=True, unique=True,
+                           primary_key=True, max_length=36, help_text='', )
+    user_name = peewee.CharField(null=False, index=True,
+                                 unique=True, max_length=16, help_text='User Name', )
+    user_email = peewee.CharField(null=False, unique=True,
+                                  max_length=255, help_text='User Email', )
+    user_pass = peewee.CharField(null=False, max_length=255,
+                                 help_text='User Password')
+    role = peewee.CharField(null=False, default='1000',
+                            help_text='Member Privilege', max_length='4')
     time_reset_passwd = peewee.IntegerField(null=False, default=0)
     time_login = peewee.IntegerField(null=False, default=0)
     time_create = peewee.IntegerField(null=False, default=0)
@@ -107,8 +119,10 @@ class g_Member(BaseModel):
 
 
 class g_Entity(BaseModel):
-    uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, )
-    path = peewee.CharField(null=False, unique=True, max_length=255, help_text='', )
+    uid = peewee.CharField(null=False, index=True,
+                           unique=True, primary_key=True, max_length=36, )
+    path = peewee.CharField(null=False, unique=True,
+                            max_length=255, help_text='', )
     time_create = peewee.IntegerField()
     kind = peewee.CharField(null=False,
                             max_length=1,
@@ -117,14 +131,16 @@ class g_Entity(BaseModel):
 
 
 class g_Post2Tag(BaseModel):
-    uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='', )
+    uid = peewee.CharField(null=False, index=True, unique=True,
+                           primary_key=True, max_length=36, help_text='', )
     tag = peewee.ForeignKeyField(g_Tag, related_name='tag_id')
     post = peewee.ForeignKeyField(g_Post, related_name='post_id')
     order = peewee.IntegerField()
 
 
 class g_Reply(BaseModel):
-    uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='', )
+    uid = peewee.CharField(null=False, index=True, unique=True,
+                           primary_key=True, max_length=36, help_text='', )
     post_id = peewee.CharField(null=False, index=True, max_length=5, help_text='', )
     user_id = peewee.CharField(null=False, index=True, max_length=36, help_text='', )
     user_name = peewee.TextField()
@@ -136,7 +152,8 @@ class g_Reply(BaseModel):
 
 
 class g_User2Reply(BaseModel):
-    uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='', )
+    uid = peewee.CharField(null=False, index=True, unique=True,
+                           primary_key=True, max_length=36, help_text='', )
     reply_id = peewee.CharField(null=False, index=True, max_length=36, help_text='', )
     user_id = peewee.CharField(null=False, index=True, max_length=36, help_text='', )
     timestamp = peewee.IntegerField()

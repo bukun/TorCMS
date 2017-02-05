@@ -143,52 +143,41 @@ def markdown2html(markdown_text):
 ##  弃用的函数
 def gen_pager_bootstrap_url(cat_slug, page_num, current):
     '''
-
-    :param cat_slug: 分类
-    :param page_num: 页面总数
-    :param current: 当前页面
     :return:
     '''
     if page_num == 1:
         return ''
 
-    pager_shouye = '''
-    <li class="{0}">
+    pager_shouye = '''    <li class="{0}">
     <a href="{1}/{2}">&lt;&lt; 首页</a>
                 </li>'''.format('hidden' if current <= 1 else '', cat_slug, current)
 
-    pager_pre = '''
-                <li class="{0}">
+    pager_pre = '''                <li class="{0}">
                 <a href="{1}/{2}">&lt; 前页</a>
-                </li>
-                '''.format('hidden' if current <= 1 else '', cat_slug, current - 1)
+                </li> '''.format('hidden' if current <= 1 else '', cat_slug, current - 1)
     pager_mid = ''
     for ind in range(0, page_num):
-        tmp_mid = '''
-                <li class="{0}">
-                <a  href="{1}/{2}">{2}</a></li>
-                '''.format('active' if ind + 1 == current else '', cat_slug, ind + 1)
+        tmp_mid = '''                <li class="{0}">
+                <a  href="{1}/{2}">{2}</a></li>   '''.format('active' if ind + 1 == current else '', cat_slug, ind + 1)
         pager_mid += tmp_mid
     pager_next = '''
                 <li class=" {0}">
                 <a  href="{1}/{2}">后页 &gt;</a>
-                </li>
-                '''.format('hidden' if current >= page_num else '', cat_slug, current + 1)
+                </li>'''.format('hidden' if current >= page_num else '', cat_slug, current + 1)
     pager_last = '''
                 <li class=" {0}">
                 <a href="{1}/{2}">末页
                     &gt;&gt;</a>
-                </li>
-                '''.format('hidden' if current >= page_num else '', cat_slug, page_num)
+                </li>'''.format('hidden' if current >= page_num else '', cat_slug, page_num)
     pager = pager_shouye + pager_pre + pager_mid + pager_next + pager_last
     return pager
 
 
 ##  弃用的函数
 def gen_pager_purecss(cat_slug, page_num, current):
-    # cat_slug 分类
-    # page_num 页面总数
-    # current 当前页面
+    '''
+    :return:
+    '''
     if page_num == 1:
         return ''
 
@@ -200,8 +189,7 @@ def gen_pager_purecss(cat_slug, page_num, current):
     pager_pre = '''
                 <li class="pure-menu-item {0}">
                 <a class="pure-menu-link" href="{1}/{2}">&lt; 前页</a>
-                </li>
-                '''.format('hidden' if current <= 1 else '', cat_slug, current - 1)
+                </li> '''.format('hidden' if current <= 1 else '', cat_slug, current - 1)
     pager_mid = ''
     for ind in range(0, page_num):
         tmp_mid = '''
@@ -212,14 +200,12 @@ def gen_pager_purecss(cat_slug, page_num, current):
     pager_next = '''
                 <li class="pure-menu-item {0}">
                 <a class="pure-menu-link" href="{1}/{2}">后页 &gt;</a>
-                </li>
-                '''.format('hidden' if current >= page_num else '', cat_slug, current + 1)
+                </li> '''.format('hidden' if current >= page_num else '', cat_slug, current + 1)
     pager_last = '''
                 <li class="pure-menu-item {0}">
                 <a hclass="pure-menu-link" ref="{1}/{2}">末页
                     &gt;&gt;</a>
-                </li>
-                '''.format('hidden' if current >= page_num else '', cat_slug, page_num)
+                </li> '''.format('hidden' if current >= page_num else '', cat_slug, page_num)
     pager = pager_shouye + pager_pre + pager_mid + pager_next + pager_last
     return pager
 

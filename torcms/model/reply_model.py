@@ -2,9 +2,7 @@
 
 
 import datetime
-
 import tornado.escape
-
 from torcms.core import tools
 from torcms.model.core_tab import g_Reply
 from torcms.model.core_tab import g_User2Reply
@@ -47,11 +45,13 @@ class MReply(Mabc):
             cnt_html=tools.markdown2html(post_data['cnt_reply']),
             vote=0,
         )
-        return (uid)
+        return uid
 
     @staticmethod
     def query_by_post(postid):
-        return g_Reply.select().where(g_Reply.post_id == postid).order_by(g_Reply.timestamp.desc())
+        return g_Reply.select().where(
+            g_Reply.post_id == postid
+        ).order_by(g_Reply.timestamp.desc())
 
     @staticmethod
     def get_by_zan(reply_id):

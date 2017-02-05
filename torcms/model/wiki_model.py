@@ -1,9 +1,7 @@
 # -*- coding:utf-8 -*-
 
 import datetime
-
 import tornado.escape
-
 from torcms.core import tools
 from torcms.model.core_tab import g_Wiki
 from torcms.core.tools import logger
@@ -47,11 +45,9 @@ class MWiki(Mabc):
     @staticmethod
     def get_by_uid(uid):
         return  MHelper.get_by_uid(g_Wiki, uid)
-        # return g_Wiki.get(uid=uid)
 
     @staticmethod
     def update_cnt(uid, post_data):
-
         entry = g_Wiki.update(
             cnt_html=tools.markdown2html(post_data['cnt_md']),
             user_name=post_data['user_name'],

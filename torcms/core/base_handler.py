@@ -5,31 +5,9 @@ Basic for handler
 '''
 
 import tornado.web
-# from jinja2 import Environment, FileSystemLoader, TemplateNotFound
 from torcms.model.user_model import MUser
 
 
-# Used for jinja2
-# class TemplateRendring(object):
-#     """
-#     A simple class to hold methods for rendering templates.
-#     """
-#
-#     def render_template(self, template_name, **kwargs):
-#         template_dirs = []
-#         if self.settings.get('template_path', ''):
-#             template_dirs.append(self.settings['template_path'])
-#         env = Environment(loader=FileSystemLoader(template_dirs))
-#
-#         try:
-#             template = env.get_template(template_name)
-#         except TemplateNotFound:
-#             raise TemplateNotFound(template_name)
-#         content = template.render(kwargs)
-#         return content
-
-
-# class BaseHandler(tornado.web.RequestHandler, TemplateRendring):
 class BaseHandler(tornado.web.RequestHandler):
     '''
     The base class for handlers.
@@ -45,8 +23,7 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def get_post_data(self):
         '''
-        Get all the arguments from post request.
-        Only get the first argument by default.
+        Get all the arguments from post request. Only get the first argument by default.
         :return: post_data.
         '''
         post_data = {}

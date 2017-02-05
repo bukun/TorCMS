@@ -21,7 +21,6 @@ class PostHistoryHandler(BaseHandler):
     def initialize(self):
         super(PostHistoryHandler, self).initialize()
 
-
     def get(self, *args):
         url_arr = self.parse_url(args[0])
         if url_arr[0] == 'view':
@@ -74,8 +73,7 @@ class PostHistoryHandler(BaseHandler):
         self.render('man_post/post_man_edit.html',
                     userinfo=self.userinfo,
                     unescape=tornado.escape.xhtml_unescape,
-                    postinfo=post_rec,
-                    )
+                    postinfo=post_rec)
 
     @tornado.web.authenticated
     def __could_edit(self, postid):
@@ -127,8 +125,7 @@ class PostHistoryHandler(BaseHandler):
                     view=postinfo,
                     postinfo=postinfo,
                     html_diff_arr=html_diff_arr,
-                    router=router_post[postinfo.kind],
-                    )
+                    router=router_post[postinfo.kind])
 
     @tornado.web.authenticated
     def restore(self, hist_uid):

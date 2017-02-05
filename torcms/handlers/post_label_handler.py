@@ -4,9 +4,7 @@ import json
 import tornado.escape
 import tornado.web
 from torcms.core.base_handler import BaseHandler
-from torcms.model.label_model import MLabel
 from torcms.model.label_model import MPost2Label
-from torcms.model.post_model import MPost
 from torcms.core.torcms_redis import redisvr
 from config import CMS_CFG
 
@@ -78,33 +76,25 @@ class PostLabelHandler(BaseHandler):
         if page_num == 1:
             return ''
 
-        pager_shouye = '''
-        <li class="{0}">
+        pager_shouye = '''<li class="{0}">
         <a href="/label/{1}/{2}">&lt;&lt; 首页</a>
                     </li>'''.format('hidden' if current <= 1 else '', kind, cat_slug)
 
-        pager_pre = '''
-                    <li class="{0}">
+        pager_pre = '''<li class="{0}">
                     <a href="/label/{1}/{2}/{3}">&lt; 前页</a>
-                    </li>
-                    '''.format('hidden' if current <= 1 else '', kind, cat_slug, current - 1)
+                    </li>'''.format('hidden' if current <= 1 else '', kind, cat_slug, current - 1)
         pager_mid = ''
         for ind in range(0, page_num):
-            tmp_mid = '''
-                    <li class="{0}">
-                    <a  href="/label/{1}/{2}/{3}">{3}</a></li>
-                    '''.format('active' if ind + 1 == current else '', kind, cat_slug, ind + 1)
+            tmp_mid = '''<li class="{0}">
+                    <a  href="/label/{1}/{2}/{3}">{3}</a>
+                    </li>'''.format('active' if ind + 1 == current else '', kind, cat_slug, ind + 1)
             pager_mid += tmp_mid
-        pager_next = '''
-                    <li class=" {0}">
+        pager_next = '''<li class=" {0}">
                     <a  href="/label/{1}/{2}/{3}">后页 &gt;</a>
-                    </li>
-                    '''.format('hidden' if current >= page_num else '', kind, cat_slug, current + 1)
-        pager_last = '''
-                    <li class=" {0}">
+                    </li>'''.format('hidden' if current >= page_num else '', kind, cat_slug, current + 1)
+        pager_last = '''<li class=" {0}">
                     <a href="/label/{1}/{2}/{3}">末页
                         &gt;&gt;</a>
-                    </li>
-                    '''.format('hidden' if current >= page_num else '', kind, cat_slug, page_num)
+                    </li>'''.format('hidden' if current >= page_num else '', kind, cat_slug, page_num)
         pager = pager_shouye + pager_pre + pager_mid + pager_next + pager_last
         return pager

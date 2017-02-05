@@ -5,23 +5,14 @@ import html2text
 import tornado.escape
 
 from whoosh.index import create_in, open_dir
-# from whoosh.fields import *
 from whoosh.fields import Schema, TEXT, ID
-
 from jieba.analyse import ChineseAnalyzer
-
 from torcms.model.post_model import MPost
 from torcms.model.info_model import MInfor
-
-from torcms.model.category_model import MCategory as  MInforCatalog
+from torcms.model.category_model import MCategory
 from torcms.model.post2catalog_model import MPost2Catalog
-
 from torcms.model.wiki_model import MWiki
-
 from config import router_post, kind_arr, post_type
-
-mtag = MInforCatalog()
-mpost2tag = MPost2Catalog()
 
 
 def do_for_app(writer, rand=True, kind='', doc_type={}):
@@ -66,7 +57,7 @@ def do_for_app2(writer, rand=True):
     for rec in recs:
         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
 
-        info = mpost2tag.get_entry_catalog(rec.uid)
+        info = MPost2Catalog.get_entry_catalog(rec.uid)
         if info:
             pass
         else:
@@ -76,7 +67,7 @@ def do_for_app2(writer, rand=True):
 
         cat_name = ''
         if 'def_cat_uid' in rec.extinfo and rec.extinfo['def_cat_uid']:
-            taginfo = mtag.get_by_uid(rec.extinfo['def_cat_uid'][:2] + '00')
+            taginfo = MCategory.get_by_uid(rec.extinfo['def_cat_uid'][:2] + '00')
             if taginfo:
                 cat_name = taginfo.name
         writer.update_document(
@@ -157,7 +148,7 @@ def gen_whoosh_database(kind_arr=[], post_type={}):
     schema = Schema(title=TEXT(stored=True, analyzer=analyzer),
                     catid=TEXT(stored=True),
                     type=TEXT(stored=True),
-                    link=ID(unique=True, stored=True, ),
+                    link=ID(unique=True, stored=True),
                     content=TEXT(stored=True, analyzer=analyzer))
     whoosh_db = 'database/whoosh'
     if not os.path.exists(whoosh_db):
@@ -181,5 +172,4 @@ def gen_whoosh_database(kind_arr=[], post_type={}):
 
 
 def run():
-
     gen_whoosh_database(kind_arr=kind_arr, post_type=post_type)

@@ -20,8 +20,5 @@ class PageAjaxHandler(PageHandler):
             return '{}'
 
     def count_plus(self, slug):
-        output = {
-            'status': 1 if MWiki.view_count_plus(slug) else 0,
-        }
-
+        output = {'status': 1 if MWiki.view_count_plus(slug) else 0}
         return json.dump(output, self)

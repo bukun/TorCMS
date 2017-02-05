@@ -10,7 +10,6 @@ import peewee
 from torcms.model.post2catalog_model import MPost2Catalog as MInfor2Catalog
 from torcms.model.core_tab import g_Usage
 from torcms.core import tools
-from torcms.model.user_model import MUser
 from torcms.core.tools import logger
 from torcms.model.abc_model import Mabc
 

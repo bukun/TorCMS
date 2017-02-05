@@ -1,4 +1,7 @@
 # -*- coding:utf-8 -*-
+'''
+Admin
+'''
 import tornado.web
 import config
 from torcms.core.base_handler import BaseHandler
@@ -22,5 +25,4 @@ class AdminHandler(BaseHandler):
         self.render('admin/admin_index.html',
                     userinfo=self.userinfo,
                     kwd={},
-                    cfg=config.CMS_CFG,
-                    )
+                    cfg=config.CMS_CFG)

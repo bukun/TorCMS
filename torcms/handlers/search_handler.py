@@ -3,11 +3,7 @@
 from config import CMS_CFG
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tool.whoosh_tool import YunSearch
-
-# from torcms.core import tools
 from torcms.model.category_model import MCategory
-
-from torcms.model.post_model import MPost
 from torcms.core.tools import logger
 
 

@@ -3,15 +3,15 @@
 '''
 Model for Posts.
 '''
-
+import time
 import datetime
 import peewee
 import tornado.escape
 from torcms.core import tools
 from torcms.model.core_tab import g_Post
 from torcms.model.core_tab import g_Post2Tag
-import time
 from torcms.model.abc_model import Mabc, MHelper
+
 
 class MPost(Mabc):
     '''
@@ -19,9 +19,6 @@ class MPost(Mabc):
     '''
 
     def __init__(self):
-        # super(MPost, self).__init__()
-        # g_Post = g_Post
-
         try:
             g_Post.create_table()
         except:
@@ -48,7 +45,6 @@ class MPost(Mabc):
         :return:
         '''
         return MHelper.delete(g_Post, uid)
-
 
     @staticmethod
     def get_by_uid(uid):
@@ -250,12 +246,6 @@ class MPost(Mabc):
             g_Post.time_update.desc()
         )
 
-    # def get_num_by_cat(self, cat_str, kind='1'):
-    #     return g_Post.select().where(
-    #         (g_Post.kind == kind) &
-    #         (g_Post.id_cats.contains(',{0},'.format(cat_str)))
-    #     ).count()
-
     @staticmethod
     def query_keywords_empty(kind='1'):
         '''
@@ -327,15 +317,6 @@ class MPost(Mabc):
         ).order_by(
             g_Post.view_count.desc()
         ).limit(num)
-
-    # def query_cat_by_pager(self, cat_str, cureent, kind='1'):
-    #     tt = g_Post.select().where(
-    #         (g_Post.kind == kind) &
-    #         (g_Post.id_cats.contains(str(cat_str)))
-    #     ).order_by(
-    #         g_Post.time_create.desc()
-    #     ).paginate(cureent, config.page_num)
-    #     return tt
 
     @staticmethod
     def update_view_count_by_uid(uid):

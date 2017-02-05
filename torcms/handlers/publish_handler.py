@@ -17,6 +17,7 @@ class PublishHandler(BaseHandler):
     '''
     Try to add new post, with category information.
     '''
+
     def initialize(self, **kwargs):
         super(PublishHandler, self).initialize()
 
@@ -32,8 +33,6 @@ class PublishHandler(BaseHandler):
             self.view_class2(url_str)
         elif len(url_str) == 5:
             self.echo_class2(url_str)
-        # elif len(url_arr) == 2 and url_arr[1] == 'vip':
-        #     self.view_class2(url_arr[0], 1)
 
     @tornado.web.authenticated
     def echo_class2(self, input=''):
@@ -45,7 +44,6 @@ class PublishHandler(BaseHandler):
 
     @tornado.web.authenticated
     def format_class2(self, fatherid):
-        # dbdata = MCategory.get_qian2(fatherid[:2])
         catinfo = MCategory.get_by_uid(fatherid)
         dbdata = MCategory.query_sub_cat(fatherid)
         outstr = '<ul class="list-group">'
@@ -62,14 +60,12 @@ class PublishHandler(BaseHandler):
         class1str = ''
         for rec in dbdata:
             class1str += '''
-             <a onclick="select_sub_tag('/publish/2{0}');" class="btn btn-primary" style="display: inline-block;margin:3px;" >{1}</a>
-            '''.format(rec.uid, rec.name)
+             <a onclick="select_sub_tag('/publish/2{0}');" class="btn btn-primary" style="display: inline-block;margin:3px;" >
+             {1}</a>'''.format(rec.uid, rec.name)
 
-        kwd = {
-            'class1str': class1str,
-            'parentid': '0',
-            'parentlist': MCategory.get_parent_list(),
-        }
+        kwd = {'class1str': class1str,
+               'parentid': '0',
+               'parentlist': MCategory.get_parent_list()}
         self.render('infor/publish/publish.html',
                     userinfo=self.userinfo,
                     kwd=kwd)
@@ -86,11 +82,9 @@ class PublishHandler(BaseHandler):
         else:
             return False
 
-        kwd = {
-            'class1str': self.format_class2(fatherid),
-            'parentid': '0',
-            'parentlist': MCategory.get_parent_list(),
-        }
+        kwd = {'class1str': self.format_class2(fatherid),
+               'parentid': '0',
+               'parentlist': MCategory.get_parent_list()}
         self.render('infor/publish/publish2.html',
                     userinfo=self.userinfo,
                     kwd=kwd)

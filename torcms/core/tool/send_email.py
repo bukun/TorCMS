@@ -1,9 +1,9 @@
 # -*- coding:utf-8 -*-
 
-
 import smtplib
 from email.mime.text import MIMEText
 from config import SMTP_CFG
+
 
 def send_mail(to_list, sub, content):
     me = SMTP_CFG['name'] + "<" + SMTP_CFG['user'] + ">"

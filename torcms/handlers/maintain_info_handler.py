@@ -2,10 +2,8 @@
 
 import tornado.escape
 import tornado.web
-
 from torcms.core.base_handler import BaseHandler
 from torcms.model.category_model import MCategory
-
 from torcms.core import tools
 
 

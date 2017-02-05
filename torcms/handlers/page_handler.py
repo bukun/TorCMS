@@ -108,11 +108,6 @@ class PageHandler(BaseHandler):
 
         post_data['user_name'] = self.userinfo.user_name
 
-        # if 'slug' in post_data:
-        #     pass
-        # else:
-        #     self.set_status(400)
-        #     return False
         pageinfo = MWiki.get_by_uid(slug)
 
         cnt_old = tornado.escape.xhtml_unescape(pageinfo.cnt_md).strip()
@@ -149,7 +144,6 @@ class PageHandler(BaseHandler):
         kwd = {
             'pager': '',
         }
-        # rec.user_name = rec.user_name
         self.render('doc/page/page_view.html',
                     view=rec,  # Deprecated
                     postinfo=rec,

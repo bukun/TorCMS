@@ -46,6 +46,5 @@ class MEntity(Mabc):
 
     @staticmethod
     def delete(uid):
-
         return MHelper.delete(g_Entity, uid)
 

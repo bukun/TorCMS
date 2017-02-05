@@ -61,8 +61,3 @@ class MEvaluation(Mabc):
                 app=app_id,
                 value=value,
             )
-
-    # @staticmethod
-    # def delete_by_app_uid(uid):
-    #     entry = g_Evaluation.delete().where(g_Evaluation.post == uid)
-    #     entry.execute()

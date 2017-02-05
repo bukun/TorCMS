@@ -5,8 +5,8 @@ import peewee
 from config import CMS_CFG
 from torcms.core import tools
 from torcms.model.core_tab import g_Tag, g_Post, g_Post2Tag
-
 from torcms.model.abc_model import Mabc
+
 
 class MPost2Catalog(Mabc):
     def __init__(self):

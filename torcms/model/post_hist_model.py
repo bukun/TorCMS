@@ -1,12 +1,19 @@
 # -*- coding:utf-8 -*-
 
-
+'''
+For Post history
+'''
+import tornado.escape
 from torcms.core import tools
 from torcms.model.core_tab import g_PostHist
-import tornado.escape
 from torcms.model.abc_model import Mabc, MHelper
 
+
 class MPostHist(Mabc):
+    '''
+    For Post history
+    '''
+
     def __init__(self):
         try:
             g_PostHist.create_table()
@@ -21,7 +28,6 @@ class MPostHist(Mabc):
         :return:
         '''
         return MHelper.get_by_uid(g_PostHist, uid)
-
 
     @staticmethod
     def delete(uid):
@@ -49,8 +55,11 @@ class MPostHist(Mabc):
 
     @staticmethod
     def query_by_postid(postid, limit=5):
-        recs = g_PostHist.select().where(g_PostHist.post_id == postid).order_by(g_PostHist.time_update.desc()).limit(
-            limit)
+        recs = g_PostHist.select().where(
+            g_PostHist.post_id == postid
+        ).order_by(
+            g_PostHist.time_update.desc()
+        ).limit(limit)
         return recs
 
     @staticmethod

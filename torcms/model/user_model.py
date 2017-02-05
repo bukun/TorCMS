@@ -1,9 +1,9 @@
 # -*- coding:utf-8 -*-
 
-
 from torcms.core import tools
 from torcms.model.core_tab import g_Member
 from torcms.model.abc_model import Mabc
+
 
 class MUser(Mabc):
     def __init__(self):
@@ -125,25 +125,7 @@ class MUser(Mabc):
         entry.execute()
 
     @staticmethod
-    def _copy_user(post_data):
-        try:
-            g_Member.create(uid=post_data['uid'],
-                            user_name=post_data['user_name'],
-                            user_pass=post_data['user_pass'],
-                            user_email=post_data['user_email'],
-                            role=post_data['role'],
-                            time_create=tools.timestamp(),
-                            time_update=tools.timestamp(),
-                            time_reset_passwd=tools.timestamp(),
-                            time_login=tools.timestamp(),
-                            time_email=tools.timestamp()
-                            )
-        except:
-            print(post_data)
-        return True
-
-    @staticmethod
-    def create_wiki_history(post_data):
+    def create_user(post_data):
         out_dic = {'success': False, 'code': '00'}
 
         if tools.check_username_valid(post_data['user_name']):
@@ -172,8 +154,7 @@ class MUser(Mabc):
                         time_update=tools.timestamp(),
                         time_reset_passwd=tools.timestamp(),
                         time_login=tools.timestamp(),
-                        time_email=tools.timestamp()
-                        )
+                        time_email=tools.timestamp())
 
         out_dic['success'] = True
         return out_dic

@@ -1,28 +1,32 @@
 # -*- coding:utf-8 -*-
 
+'''
+Define the basic modules for TorCMS.
+'''
+
 from math import ceil as math_ceil
 import bs4
-import tornado.escape
 import tornado.web
+import tornado.escape
 from torcms.model.post_model import MPost
 from torcms.model.link_model import MLink
 from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.category_model import MCategory
 from torcms.model.info_model import MInfor
 from torcms.model.label_model import MPost2Label
-from torcms.model.reply_model import MReply
 from torcms.model.wiki_model import MWiki
 from torcms.core.tool.whoosh_tool import YunSearch
 from torcms.core.tools import logger
 import config
 
 
-# mreply = MReply()
-# mpage = MWiki()
-
-
 class show_page(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, *args, **kwargs):
+        '''
+        '''
         page_id = kwargs['page_id']
         userinfo = kwargs['userinfo'] if 'userinfo' in kwargs else None
         page = MWiki.get_by_uid(page_id)
@@ -40,6 +44,9 @@ class show_page(tornado.web.UIModule):
 
 
 class get_footer(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self):
         logger.info('Init footer')
         all_cats = MCategory.query_all()
@@ -51,6 +58,9 @@ class get_footer(tornado.web.UIModule):
 
 
 class previous_post_link(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, current_id):
         prev_record = MPost.get_previous_record(current_id)
         if prev_record is None:
@@ -63,6 +73,9 @@ class previous_post_link(tornado.web.UIModule):
 
 
 class post_most_view(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, num, with_date=True, with_catalog=True):
         kwd = {
             'with_date': with_date,
@@ -75,11 +88,14 @@ class post_most_view(tornado.web.UIModule):
 
 
 class post_random(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, num, with_date=True, with_catalog=True):
         kwd = {
             'with_date': with_date,
             'with_catalog': with_catalog,
-            'router': config.router_post['1'],
+            'router': config.router_post['1']
         }
         return self.render_string('modules/post/post_list.html',
                                   recs=MPost.query_random(num),
@@ -87,6 +103,9 @@ class post_random(tornado.web.UIModule):
 
 
 class post_cat_random(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, cat_id, num, with_date=True, with_catalog=True):
         kwd = {
             'with_date': with_date,
@@ -99,6 +118,9 @@ class post_cat_random(tornado.web.UIModule):
 
 
 class post_recent_most_view(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, num, recent, with_date=True, with_catalog=True):
         kwd = {
             'with_date': with_date,
@@ -111,12 +133,18 @@ class post_recent_most_view(tornado.web.UIModule):
 
 
 class catalog_of(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, uid_with_str):
         return self.render_string('modules/post/catalog_of.html',
                                   recs=MCategory.query_uid_starts_with(uid_with_str))
 
 
 class post_catalog_of(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, uid_with_str, slug=False):
         curinfo = MCategory.get_by_uid(uid_with_str)
         sub_cats = MCategory.query_sub_cat(uid_with_str)
@@ -134,6 +162,9 @@ class post_catalog_of(tornado.web.UIModule):
 
 
 class post_recent(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, num=10, with_catalog=True, with_date=True):
         kwd = {
             'with_date': with_date,
@@ -147,12 +178,18 @@ class post_recent(tornado.web.UIModule):
 
 
 class link_list(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, num=10):
         return self.render_string('modules/post/link_list.html',
                                   recs=MLink.query_link(num))
 
 
 class post_category_recent(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, cat_id, num=10, with_catalog=True, with_date=True):
         catinfo = MCategory.get_by_uid(cat_id)
         recs = MPost.query_cat_recent(cat_id, num, kind=catinfo.kind)
@@ -168,6 +205,9 @@ class post_category_recent(tornado.web.UIModule):
 
 
 class showout_recent(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, cat_id, kind, **kwargs):
 
         if 'num' in kwargs:
@@ -209,16 +249,25 @@ class showout_recent(tornado.web.UIModule):
 
 
 class site_url(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self):
         return config.SITE_CFG['site_url']
 
 
 class site_title(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self):
         return ''
 
 
 class next_post_link(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, current_id):
         next_record = MPost.get_next_record(current_id)
         if next_record is None:
@@ -229,6 +278,9 @@ class next_post_link(tornado.web.UIModule):
 
 
 class the_category(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, post_id):
         tmpl_str = '''<a href="/category/{0}">{1}</a>'''
         format_arr = [tmpl_str.format(uu.tag.slug, uu.tag.name) for uu in
@@ -237,6 +289,9 @@ class the_category(tornado.web.UIModule):
 
 
 class list_categories(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, cat_id, list_num):
         recs = MPost.query_cat_recent(cat_id, list_num)
         out_str = ''
@@ -250,18 +305,27 @@ class list_categories(tornado.web.UIModule):
 
 
 class generate_abstract(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, html_str):
         tmp_str = bs4.BeautifulSoup(tornado.escape.xhtml_unescape(html_str), "html.parser")
         return tmp_str.get_text()[:130] + '....'
 
 
 class generate_description(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, html_str):
         tmp_str = bs4.BeautifulSoup(tornado.escape.xhtml_unescape(html_str), "html.parser")
         return tmp_str.get_text()[:100]
 
 
 class category_menu(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self):
         return self.render_string('modules/post/showcat_list.html',
                                   recs=MCategory.query_all(),
@@ -269,12 +333,18 @@ class category_menu(tornado.web.UIModule):
 
 
 class copyright(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self):
         return '''<span>Build on
         <a href="https://github.com/bukun/TorCMS" target="_blank">TorCMS</a>.</span>'''
 
 
 class post_tags(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, signature):
         out_str = ''
         ii = 1
@@ -289,6 +359,9 @@ class post_tags(tornado.web.UIModule):
 
 
 class map_tags(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, signature):
         out_str = ''
         ii = 1
@@ -303,6 +376,9 @@ class map_tags(tornado.web.UIModule):
 
 
 class ModuleCatMenu(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, with_count=True):
         kwd = {
             'cats': MCategory.query_all(by_count=True),
@@ -313,11 +389,17 @@ class ModuleCatMenu(tornado.web.UIModule):
 
 
 class ToplineModule(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self):
         return self.render_string('modules/post/topline.html')
 
 
 class catalog_pager(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, *args, **kwargs):
         cat_slug = args[0]
         current = int(args[1])
@@ -347,6 +429,9 @@ class catalog_pager(tornado.web.UIModule):
 
 
 class info_label_pager(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, *args, **kwargs):
         tag_slug = args[0]
         current = int(args[1])
@@ -370,6 +455,9 @@ class info_label_pager(tornado.web.UIModule):
 
 
 class label_pager(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, kind, *args, **kwargs):
         tag_slug = args[0]
         current = int(args[1])
@@ -392,6 +480,9 @@ class label_pager(tornado.web.UIModule):
 
 
 class tag_pager(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, *args, **kwargs):
         tag_slug = args[0]
         current = int(args[1])
@@ -414,6 +505,9 @@ class tag_pager(tornado.web.UIModule):
 
 
 class search_pager(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, *args, **kwargs):
         ysearch = YunSearch()
         tag_slug = args[0]

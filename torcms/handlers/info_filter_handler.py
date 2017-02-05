@@ -1,23 +1,18 @@
 # -*- coding:utf-8 -*-
-import math
-
-from config import CMS_CFG
-import tornado.escape
-
-from torcms.model.info_model import MInfor as  MInfor
-from torcms.core.base_handler import BaseHandler
-from torcms.model.category_model import MCategory
-
-from torcms.core.torcms_redis import redisvr
-
-from html2text import html2text
-
-from torcms.core.tools import logger
-
 '''
 关键词过滤，涉及到不同分类，使用  session 来处理。
 分类下面的过滤，则使用GET的url的参数。
 '''
+
+import math
+from config import CMS_CFG
+from html2text import html2text
+import tornado.escape
+from torcms.model.info_model import MInfor as  MInfor
+from torcms.core.base_handler import BaseHandler
+from torcms.model.category_model import MCategory
+from torcms.core.torcms_redis import redisvr
+from torcms.core.tools import logger
 
 
 class InfoFilterHandler(BaseHandler):
@@ -83,10 +78,10 @@ class InfoFilterHandler(BaseHandler):
             condition[ckey] = cval
 
         if url_arr[1] == 'con':
-            infos = MInfor.get_list_fenye(condition, fenye_num, kind=catinfo.kind)
+            infos = MInfor.query_list_pager(condition, fenye_num, kind=catinfo.kind)
             self.echo_html_list_str(sig, infos)
         elif url_arr[1] == 'num':
-            allinfos = MInfor.get_list(condition, kind=catinfo.kind)
+            allinfos = MInfor.query_under_condition(condition, kind=catinfo.kind)
             self.echo_html_fenye_str(allinfos.count(), fenye_num)
 
     def echo_html_list_str(self, catid, infos):

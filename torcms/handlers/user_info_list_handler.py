@@ -3,13 +3,11 @@
 import tornado.web
 from torcms.model.info_model import MInfor
 from torcms.core.base_handler import BaseHandler
-from torcms.model.usage_model import MUsage
 
 
 class UserListHandler(BaseHandler):
     def initialize(self):
         super(UserListHandler, self).initialize()
-
 
     def get(self, url_str=''):
         if url_str == 'recent':
@@ -45,8 +43,7 @@ class UserListHandler(BaseHandler):
         self.render('user/info_list/user_most.html',
                     kwd=kwd,
                     user_name=self.get_current_user(),
-                    userinfo=self.userinfo,
-                    )
+                    userinfo=self.userinfo)
 
     @tornado.web.authenticated
     def user_recent(self):
@@ -57,19 +54,17 @@ class UserListHandler(BaseHandler):
         self.render('user/info_list/user_recent.html',
                     kwd=kwd,
                     user_name=self.get_current_user(),
-                    userinfo=self.userinfo,
-                    )
+                    userinfo=self.userinfo)
 
-    def post(self, input=''):
-        if len(input) > 0:
-            ip_arr = input.split(r'/')
-        if input == 'find':
+    def post(self, *args):
+        url_str = args[0]
+        if len(url_str) > 0:
+            ip_arr = url_str.split(r'/')
+        if url_str == 'find':
             self.find()
 
-    def to_find(self, input):
-        kwd = {
-            'pager': '',
-        }
+    def to_find(self, *args):
+        kwd = {'pager': ''}
         self.render('user/info_list/most.html',
                     topmenu='',
                     userinfo=self.userinfo,

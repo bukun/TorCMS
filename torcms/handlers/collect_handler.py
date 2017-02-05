@@ -1,11 +1,8 @@
 # -*- coding:utf-8 -*-
 
-
-# from torcms.model.info_model import MInfor
-# # from torcms.model.info_relation_model import MRelation
-# # from torcms.model.relation_model import MRelation
-# from torcms.model.usage_model import MUsage
-
+'''
+For User collection
+'''
 import tornado.web
 import json
 

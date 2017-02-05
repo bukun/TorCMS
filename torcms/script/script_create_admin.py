@@ -15,6 +15,6 @@ def run_create_admin():
     if entry:
         pass
     else:
-        muser.create_wiki_history(post_data)
+        muser.create_user(post_data)
 
 

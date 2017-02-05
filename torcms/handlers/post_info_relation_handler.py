@@ -10,8 +10,6 @@ class RelHandler(BaseHandler):
     def initialize(self):
         super(RelHandler, self).initialize()
 
-
-
     def get(self, url_str=''):
         if len(url_str) > 0:
             ip_arr = url_str.split('/')

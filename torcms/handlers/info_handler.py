@@ -16,14 +16,14 @@ from torcms.model.relation_model import MRelation
 from torcms.model.evaluation_model import MEvaluation
 from torcms.model.category_model import MCategory
 from torcms.model.usage_model import MUsage
-from torcms.model.post2catalog_model import MPost2Catalog as MInfor2Catalog
-from torcms.model.reply_model import MReply
+from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.handlers.post_handler import PostHandler
 from torcms.model.info_hist_model import MInfoHist
 from torcms.core.tools import logger
 from config import router_post, CMS_CFG
 
 from celery_server import cele_gen_whoosh
+
 
 class InfoHandler(PostHandler):
     '''
@@ -84,22 +84,12 @@ class InfoHandler(PostHandler):
                 self.add(uid=url_arr[1])
             else:
                 self.add()
-
         elif url_arr[0] in ['_cat_add', 'cat_add']:
             self.add(catid=url_arr[1])
-        # elif url_arr[0] == 'rel':
-        #     if self.get_current_user():
-        #         self.add_relation(url_arr[1])
-        #     else:
-        #         self.redirect('/user/login')
-
         elif url_arr[0] in ['_edit', 'edit']:
             self.update(url_arr[1])
-
         elif url_arr[0] == 'rel' and len(url_arr) == 3:
             self.add_relation(url_arr[1], url_arr[2])
-
-
         else:
             return False
 
@@ -149,7 +139,7 @@ class InfoHandler(PostHandler):
                         userinfo=self.userinfo, )
             return False
 
-        cats = MInfor2Catalog.query_by_entity_uid(info_id, kind=postinfo.kind)
+        cats = MPost2Catalog.query_by_entity_uid(info_id, kind=postinfo.kind)
         cat_uid_arr = []
         for cat_rec in cats:
             cat_uid = cat_rec.tag.uid
@@ -184,7 +174,7 @@ class InfoHandler(PostHandler):
         catinfo = None
         p_catinfo = None
 
-        post2catinfo = MInfor2Catalog.get_entry_catalog(postinfo.uid)
+        post2catinfo = MPost2Catalog.get_entry_catalog(postinfo.uid)
         if post2catinfo:
             catid = post2catinfo.tag.uid
             catinfo = MCategory.get_by_uid(catid)
@@ -287,8 +277,8 @@ class InfoHandler(PostHandler):
             return False
 
         # 针对分类进行处理。只有落入相同分类的，才加1
-        f_cats = MInfor2Catalog.query_by_entity_uid(f_uid)
-        t_cats = MInfor2Catalog.query_by_entity_uid(t_uid)
+        f_cats = MPost2Catalog.query_by_entity_uid(f_uid)
+        t_cats = MPost2Catalog.query_by_entity_uid(t_uid)
         flag = False
         for f_cat in f_cats:
             for t_cat in t_cats:
@@ -404,7 +394,7 @@ class InfoHandler(PostHandler):
         catinfo = None
         p_catinfo = None
 
-        post2catinfo = MInfor2Catalog.get_entry_catalog(postinfo.uid)
+        post2catinfo = MPost2Catalog.get_entry_catalog(postinfo.uid)
         if post2catinfo:
             catid = post2catinfo.tag.uid
             catinfo = MCategory.get_by_uid(catid)
@@ -438,7 +428,7 @@ class InfoHandler(PostHandler):
                     cat_enum=MCategory.get_qian2(catid[:2]),
                     tag_infos=MCategory.query_all(by_order=True, kind=self.kind),
                     tag_infos2=MCategory.query_all(by_order=True, kind=self.kind),
-                    app2tag_info=MInfor2Catalog.query_by_entity_uid(infoid, kind=self.kind),
+                    app2tag_info=MPost2Catalog.query_by_entity_uid(infoid, kind=self.kind),
                     app2label_info=MPost2Label.get_by_uid(infoid, kind=self.kind + '1'))
 
     def get_extra_data(self, **kwargs):
@@ -504,8 +494,8 @@ class InfoHandler(PostHandler):
             MInfoHist.create_wiki_history(postinfo)
 
         MInfor.modify_meta(uid,
-                                post_data,
-                                extinfo=ext_dic)
+                           post_data,
+                           extinfo=ext_dic)
         self.update_category(uid)
         self.update_tag(uid)
 
@@ -562,8 +552,8 @@ class InfoHandler(PostHandler):
         ext_dic = dict(ext_dic, **self.get_extra_data(postdata=post_data))
 
         MInfor.modify_meta(ext_dic['def_uid'],
-                                post_data,
-                                extinfo=ext_dic)
+                           post_data,
+                           extinfo=ext_dic)
         self.update_category(ext_dic['def_uid'])
         self.update_tag(ext_dic['def_uid'])
 

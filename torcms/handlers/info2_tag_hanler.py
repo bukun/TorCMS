@@ -6,8 +6,7 @@
 import json
 import tornado.web
 from config import CMS_CFG
-from torcms.model.category_model import MCategory
-from torcms.model.info_model import MInfor as MInfor
+from torcms.model.info_model import MInfor
 from torcms.core.base_handler import BaseHandler
 from torcms.core.torcms_redis import redisvr
 from torcms.core.libs.deprecated import deprecated
@@ -15,7 +14,7 @@ from torcms.core.libs.deprecated import deprecated
 
 @deprecated
 class InfoTagHandler(BaseHandler):
-    def initialize(self, hinfo=''):
+    def initialize(self):
         super(InfoTagHandler, self).initialize()
         self.kind = '2'
 
@@ -85,25 +84,22 @@ class InfoTagHandler(BaseHandler):
         pager_pre = '''
                     <li class=" previous {0}">
                     <a  href="/info_tag/{1}/{2}">&lt; 前页</a>
-                    </li>
-                    '''.format('' if current <= 1 else '', cat_slug, current - 1)
+                    </li>'''.format('' if current <= 1 else '', cat_slug, current - 1)
         pager_mid = ''
         for ind in range(0, page_num):
             tmp_mid = '''
                     <li class=" page {0}">
-                    <a  href="/info_tag/{1}/{2}">{2}</a></li>
-                    '''.format('active' if ind + 1 == current else '', cat_slug, ind + 1)
+                    <a  href="/info_tag/{1}/{2}">{2}</a>
+                    </li>'''.format('active' if ind + 1 == current else '', cat_slug, ind + 1)
             pager_mid += tmp_mid
         pager_next = '''
                     <li class=" next {0}">
                     <a  href="/info_tag/{1}/{2}">后页 &gt;</a>
-                    </li>
-                    '''.format('' if current >= page_num else '', cat_slug, current + 1)
+                    </li>'''.format('' if current >= page_num else '', cat_slug, current + 1)
         pager_last = '''
                     <li class=" last {0}">
                     <a href="/info_tag/{1}/{2}">末页
                         &gt;&gt;</a>
-                    </li>
-                    '''.format('' if current >= page_num else '', cat_slug, page_num)
+                    </li>'''.format('' if current >= page_num else '', cat_slug, page_num)
         pager = pager_shouye + pager_pre + pager_mid + pager_next + pager_last
         return (pager)

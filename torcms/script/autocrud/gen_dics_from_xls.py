@@ -48,37 +48,36 @@ def gen_html_dic():
     else:
         return False
 
-    fo = open('xxtmp_html_dic.py', 'w')
+    with open('xxtmp_html_dic.py', 'w') as fo:
+        for wk_sheet in wb:
+            for jj in class_arr:
 
-    for wk_sheet in wb:
-        for jj in class_arr:
+                row1_val = wk_sheet['{0}1'.format(jj)].value
+                row2_val = wk_sheet['{0}2'.format(jj)].value
 
-            row1_val = wk_sheet['{0}1'.format(jj)].value
-            row2_val = wk_sheet['{0}2'.format(jj)].value
+                if row1_val and row1_val != '':
 
-            if row1_val and row1_val != '':
+                    c_name, slug_name = row1_val.split(',')
 
-                c_name, slug_name = row1_val.split(',')
+                    tags1 = row2_val.split(',')
+                    tags1 = [x.strip() for x in tags1]
+                    tags_dic = {}
 
-                tags1 = row2_val.split(',')
-                tags1 = [x.strip() for x in tags1]
-                tags_dic = {}
+                    if len(tags1) == 1:
+                        tags_dic[1] = row2_val
+                        ctr_type = 'text'
+                    else:
+                        for ii in range(len(tags1)):
+                            tags_dic[ii + 1] = tags1[ii].strip()
+                        ctr_type = 'select'
 
-                if len(tags1) == 1:
-                    tags_dic[1] = row2_val
-                    ctr_type = 'text'
-                else:
-                    for ii in range(len(tags1)):
-                        tags_dic[ii + 1] = tags1[ii].strip()
-                    ctr_type = 'select'
+                    fo.write('''html_{0} = {{
+                        'en': 'tag_{0}',
+                        'zh': '{1}',
+                        'dic': {2},
+                        'type': '{3}',
+                        }}\n'''.format(slug_name, c_name, tags_dic, ctr_type))
 
-                fo.write('''html_{0} = {{
-                    'en': 'tag_{0}',
-                    'zh': '{1}',
-                    'dic': {2},
-                    'type': '{3}',
-                    }}\n'''.format(slug_name, c_name, tags_dic, ctr_type))
-    fo.close()
 
 def __get_slug(ws, clumn):
     row1_val = ws['{0}1'.format(clumn)].value

@@ -226,5 +226,4 @@ class MaintainCategoryHandler(BaseHandler):
 class MaintainCategoryAjaxHandler(MaintainCategoryHandler):
     def initialize(self):
         super(MaintainCategoryAjaxHandler, self).initialize()
-        MCategory = MCategory()
         self.tmpl_router = 'category_ajax'

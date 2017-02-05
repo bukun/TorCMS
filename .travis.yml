@@ -19,6 +19,6 @@ script:
   - celery -A celery_server worker --loglevel=info &
   - python helper.py -i init_tables
   - python helper.py -i gen_category
-  - python helper.py -i genpy
-  - python helper.py -i crud
+  - python helper.py -i crud0
+  - python helper.py -i crud1
   - nosetests  --exe -v -d tester

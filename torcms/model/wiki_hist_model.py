@@ -3,7 +3,7 @@
 from torcms.core import tools
 from torcms.model.core_tab import g_WikiHist
 import tornado.escape
-from torcms.model.abc_model import Mabc
+from torcms.model.abc_model import Mabc, MHelper
 
 class MWikiHist(Mabc):
     def __init__(self):
@@ -31,17 +31,12 @@ class MWikiHist(Mabc):
         :param uid:
         :return:
         '''
+        return MHelper.delete(g_WikiHist, uid)
 
-        del_count = g_WikiHist.delete().where(g_WikiHist.uid == uid)
-        try:
-            del_count.execute()
-            return True
-        except:
-            return False
 
     @staticmethod
     def get_by_uid(uid):
-        return g_WikiHist.get(uid=uid)
+        return MHelper.get_by_uid(g_WikiHist, uid)
 
     @staticmethod
     def update_cnt(uid, post_data):

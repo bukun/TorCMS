@@ -11,28 +11,9 @@ import peewee
 from torcms.core import tools
 from torcms.model.core_tab import g_Post
 from torcms.model.core_tab import g_Post2Tag
-from torcms.model.core_tab import g_Usage
-from torcms.model.core_tab import g_Rel
-from torcms.model.core_tab import g_Reply
 
 from config import CMS_CFG
 from torcms.model.abc_model import Mabc
-
-#
-# class MInforBase(Mabc):
-#     '''
-#     The base model of Infor.
-#     '''
-#
-#     def __init__(self):
-#         self.kind = '2'
-#         self.tab_app = g_Post
-#         g_Post2Tag = g_Post2Tag
-#         g_Rel = g_Rel
-#         g_Post2Tag = CabPost2Label
-#         g_Usage = g_Usage
-#         g_Reply = g_Reply
-
 
 
 class MInfor(Mabc):
@@ -44,8 +25,9 @@ class MInfor(Mabc):
         ).order_by(
             g_Post.time_update.desc()
         )
+
     @staticmethod
-    def query_all(limit = 10, kind = '2'):
+    def query_all(limit=10, kind='2'):
         return g_Post.select().where(
             (g_Post.kind == kind) &
             (g_Post.valid == 1)
@@ -140,22 +122,6 @@ class MInfor(Mabc):
             entry = MInfor.add_meta(uid, data_dic, extinfo)
             return entry
         return uid
-
-    # def modify_init(self, uid, data_dic):
-    #     '''
-    #     命令行更新的
-    #     :param uid:
-    #     :param data_dic:
-    #     :return:
-    #     '''
-    #     entry = g_Post.update(
-    #         time_update=int(time.time()),
-    #         date=datetime.now(),
-    #         keywords=data_dic['keywords'],
-    #         kind=data_dic['kind'],
-    #     ).where(g_Post.uid == uid)
-    #     entry.execute()
-    #     return uid
 
     @staticmethod
     def modify_init(uid, data_dic):
@@ -304,9 +270,6 @@ class MInfor(Mabc):
             g_Post.time_update.desc()
         )
 
-    # def count_of_certain_category(self, cat_id):
-    #     return g_Post.select().where(g_Post.tag == cat_id).count()
-
     @staticmethod
     def get_label_fenye(tag_slug, idx):
         all_list = MInfor.query_by_tagname(tag_slug)
@@ -352,8 +315,14 @@ class MInfor(Mabc):
         return uid
 
     @staticmethod
-    def get_list(condition, kind='2'):
-        db_data = g_Post.select().where(
+    def query_under_condition(condition, kind='2'):
+        '''
+        Get All data of certain kind according to the condition
+        :param condition:
+        :param kind:
+        :return:
+        '''
+        return g_Post.select().where(
             (g_Post.kind == kind) &
             (g_Post.valid == 1) &
             (g_Post.extinfo.contains(condition))
@@ -361,12 +330,14 @@ class MInfor(Mabc):
             g_Post.time_update.desc()
         )
 
-        return db_data
-
     @staticmethod
     def get_num_condition(con):
-
-        return MInfor.get_list(con).count()
+        '''
+        Return the number under condition.
+        :param con:
+        :return:
+        '''
+        return MInfor.query_under_condition(con).count()
 
     @staticmethod
     def addata_init(data_dic, ext_dic={}):
@@ -386,7 +357,7 @@ class MInfor(Mabc):
         else:
             time_stamp = int(time.time())
 
-            entry = g_Post.create(
+            g_Post.create(
                 uid=data_dic['sig'],
                 title=data_dic['title'],
                 create_time=time_stamp,
@@ -399,10 +370,16 @@ class MInfor(Mabc):
             )
 
     @staticmethod
-    def get_list_fenye(tag_slug, idx, kind='2'):
-        # ('get_list_fenye para:', tag_slug, idx)
+    def query_list_pager(con, idx, kind='2'):
+        '''
+        Get records of certain pager.
+        :param con:
+        :param idx:
+        :param kind:
+        :return:
+        '''
 
-        all_list = MInfor.get_list(tag_slug, kind=kind)
+        all_list = MInfor.query_under_condition(con, kind=kind)
         current_list = all_list[(idx - 1) * CMS_CFG['list_num']: idx * CMS_CFG['list_num']]
         return current_list
 

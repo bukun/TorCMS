@@ -94,7 +94,7 @@ urls = [
     ("/tag/(.*)", TagListHandler, dict()),
 
     # Todo: need to be deleted. replaced by `/label/`.
-    ('/info_tag/(.*)', InfoTagHandler, dict(hinfo={})),
+    ('/info_tag/(.*)', InfoTagHandler, dict()),
 
     ("/collect/(.*)", CollectHandler, dict()),
     ('/rel/(.*)', RelHandler, dict()),

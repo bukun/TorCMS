@@ -68,7 +68,6 @@ class MJson(Mabc):
         else:
             e_Json.create(uid=json_uid,
                           title='',
-                          # app=app_id,
                           user_id=user_id,
                           json=geojson,
                           time_create=tools.timestamp(),

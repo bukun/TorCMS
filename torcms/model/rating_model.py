@@ -1,9 +1,5 @@
 # -*- coding:utf-8 -*-
 
-
-import datetime
-
-import tornado.escape
 import peewee
 from torcms.core import tools
 from torcms.model.core_tab import g_Rating

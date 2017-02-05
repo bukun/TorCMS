@@ -33,7 +33,6 @@ class InfoCategory(tornado.web.UIModule):
         else:
             slug = False
 
-
         curinfo = MCategory.get_by_uid(uid_with_str)
 
         sub_cats = MCategory.query_sub_cat(uid_with_str)
@@ -52,6 +51,10 @@ class InfoCategory(tornado.web.UIModule):
 
 @deprecated
 class InforUserMost(tornado.web.UIModule):
+    '''
+
+    '''
+
     def render(self, user_name, kind, num, with_tag=False):
         all_cats = torcms.model.usage_model.MUsage.query_most(user_name, kind, num)
         kwd = {
@@ -64,12 +67,18 @@ class InforUserMost(tornado.web.UIModule):
 
 
 class app_user_most_by_cat(tornado.web.UIModule):
+    '''
+
+    '''
     pass
 
 
 @deprecated
 class InfoUserRecent(tornado.web.UIModule):
-    # @deprecated
+    '''
+
+    '''
+
     def render(self, user_name, kind, num, with_tag=False):
         logger.info('Infor user recent, username: {user_name}, kind: {kind}, num: {num}'.format(
             user_name=user_name, kind=kind, num=num
@@ -86,6 +95,9 @@ class InfoUserRecent(tornado.web.UIModule):
 
 
 class app_user_recent_by_cat(tornado.web.UIModule):
+    '''
+
+    '''
 
     def render(self, user_name, cat_id, num):
         all_cats = torcms.model.usage_model.MUsage.query_recent_by_cat(user_name, cat_id, num)
@@ -95,6 +107,10 @@ class app_user_recent_by_cat(tornado.web.UIModule):
 
 
 class InfoMostUsed(tornado.web.UIModule):
+    '''
+
+    '''
+
     def render(self, kind, num, **kwargs):
 
         if 'with_tag' in kwargs:
@@ -134,6 +150,10 @@ class InfoMostUsed(tornado.web.UIModule):
 
 
 class app_most_used_by_cat(tornado.web.UIModule):
+    '''
+
+    '''
+
     def render(self, num, cat_str):
         all_cats = torcms.model.info_model.MInfor.query_most_by_cat(num, cat_str)
         return self.render_string('modules/info/list_equation_by_cat.html',
@@ -141,7 +161,9 @@ class app_most_used_by_cat(tornado.web.UIModule):
 
 
 class app_least_use_by_cat(tornado.web.UIModule):
+    '''
 
+    '''
 
     def render(self, num, cat_str):
         all_cats = torcms.model.info_model.MInfor.query_least_by_cat(num, cat_str)
@@ -149,8 +171,9 @@ class app_least_use_by_cat(tornado.web.UIModule):
 
 
 class InfoRecentUsed(tornado.web.UIModule):
+    '''
 
-
+    '''
     def render(self, kind, num, **kwargs):
 
         if 'with_tag' in kwargs:
@@ -170,6 +193,13 @@ class InfoRecentUsed(tornado.web.UIModule):
             return self.render_it(kind, num, with_tag=with_tag)
 
     def render_it(self, kind, num, with_tag=False):
+        '''
+        render, no user logged in
+        :param kind:
+        :param num:
+        :param with_tag:
+        :return:
+        '''
         all_cats = torcms.model.info_model.MInfor.query_recent(num, kind=kind)
         kwd = {
             'with_tag': with_tag,
@@ -180,6 +210,14 @@ class InfoRecentUsed(tornado.web.UIModule):
                                   kwd=kwd)
 
     def render_user(self, kind, num, with_tag=False, user_id=''):
+        '''
+        render, with userinfo
+        :param kind:
+        :param num:
+        :param with_tag:
+        :param user_id:
+        :return:
+        '''
         logger.info('Infor user recent, username: {user_name}, kind: {kind}, num: {num}'.format(
             user_name=user_id, kind=kind, num=num
         ))
@@ -195,6 +233,9 @@ class InfoRecentUsed(tornado.web.UIModule):
 
 
 class app_random_choose(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, kind, num):
         all_cats = torcms.model.info_model.MInfor.query_random(num=num, kind=kind)
         return self.render_string('modules/info/list_equation.html',
@@ -202,6 +243,9 @@ class app_random_choose(tornado.web.UIModule):
 
 
 class app_tags(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, signature):
         out_str = ''
         ii = 1
@@ -214,12 +258,17 @@ class app_tags(tornado.web.UIModule):
 
 
 class label_count(tornado.web.UIModule):
-    def render(self, signature):
+    '''
 
+    '''
+    def render(self, signature):
         return MPost2Label.query_count(signature)
 
 
 class app_menu(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, kind, limit=10):
         all_cats = MCategory.query_field_count(limit, kind=kind)
         kwd = {
@@ -229,16 +278,20 @@ class app_menu(tornado.web.UIModule):
 
 
 class baidu_search(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, ):
-        baidu_script = '''
-        '''
+        baidu_script = ''
         return self.render_string('modules/info/baidu_script.html',
                                   baidu_script=baidu_script)
 
 
 class rel_post2app(tornado.web.UIModule):
-    def render(self, uid, num, ):
+    '''
 
+    '''
+    def render(self, uid, num, ):
         kwd = {
             'app_f': 'post',
             'app_t': 'info',
@@ -255,6 +308,9 @@ class rel_post2app(tornado.web.UIModule):
 
 
 class rel_app2post(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, uid, num, ):
         kwd = {
             'app_f': 'info',
@@ -272,22 +328,33 @@ class rel_app2post(tornado.web.UIModule):
 
 
 class ImgSlide(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, info):
         return self.render_string('modules/info/img_slide.html', post_info=info)
 
 
 class UserInfo(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, uinfo, uop):
         return self.render_string('modules/info/user_info.html', userinfo=uinfo, userop=uop)
 
 
 class VipInfo(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, uinfo, uvip):
         return self.render_string('modules/info/vip_info.html', userinfo=uinfo, uservip=uvip)
 
 
 class BannerModule(tornado.web.UIModule):
+    '''
 
+    '''
     def render(self, parentid=''):
         parentlist = MCategory.get_parent_list()
         kwd = {
@@ -298,21 +365,33 @@ class BannerModule(tornado.web.UIModule):
 
 
 class BreadCrumb(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, info):
         return self.render_string('modules/info/bread_crumb.html', info=info)
 
 
 class parentname(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, info):
         return self.render_string('modules/info/parentname.html', info=info)
 
 
 class catname(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, info):
         return self.render_string('modules/info/catname.html', info=info)
 
 
 class ContactInfo(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, info):
         # ip_addr = info.extinfo['userip'][0]
         # ip_arr = ip_addr.split('.')
@@ -326,6 +405,9 @@ class ContactInfo(tornado.web.UIModule):
 
 
 class BreadcrumbPublish(tornado.web.UIModule):
+    '''
+
+    '''
     def render(self, sig=0):
         kwd = {
             'sig': sig,
@@ -334,6 +416,9 @@ class BreadcrumbPublish(tornado.web.UIModule):
 
 
 class InfoList(tornado.web.UIModule):
+    '''
+
+    '''
     def renderit(self, info):
         zhiding_str = ''
         tuiguang_str = ''

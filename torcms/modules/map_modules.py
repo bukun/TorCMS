@@ -1,5 +1,9 @@
 # -*- coding:utf-8 -*-
 
+'''
+Define the map module for TorCMS.
+'''
+
 import tornado.web
 
 from torcms.model.json_model import MJson
@@ -8,7 +12,13 @@ from config import SITE_CFG
 
 
 class MapJson(tornado.web.UIModule):
-    def render(self, app_id, user_id):
+    '''
+    List the jsons records for centain Map.
+    '''
+
+    def render(self, *args, **kwargs):
+        app_id = args[0]
+        user_id = args[1]
         mjson = MJson()
 
         json_recs = mjson.query_by_app(app_id, user_id)
@@ -28,7 +38,14 @@ class MapJson(tornado.web.UIModule):
 
 
 class MapLayout(tornado.web.UIModule):
-    def render(self, app_id, user_id):
+    '''
+    List the Layout of Map.
+    '''
+
+    def render(self, *args, **kwargs):
+        app_id = args[0]
+        user_id = args[1]
+
         mlayout = MLayout()
 
         layout_recs = mlayout.query_by_app(app_id, user_id)

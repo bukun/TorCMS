@@ -6,6 +6,7 @@ from torcms.model.core_tab import g_User2Reply
 from torcms.model.core_tab import g_Reply
 from torcms.model.abc_model import Mabc
 
+
 class MReply2User(Mabc):
     def __init__(self):
 
@@ -15,34 +16,17 @@ class MReply2User(Mabc):
             pass
 
     @staticmethod
-    def update( uid, post_data, update_time=False):
+    def update(uid, post_data, update_time=False):
         pass
-        # cnt_html = tools.markdown2html(post_data['cnt_md'][0])
-        #
-        # entry = CabVoter2Reply.update(
-        #     title=post_data['title'][0],
-        #     date=datetime.datetime.now(),
-        #     cnt_html=cnt_html,
-        #     user_name=post_data['user_name'],
-        #     cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'][0]),
-        #     time_update=time.time(),
-        #     logo=post_data['logo'][0],
-        #     keywords=post_data['keywords'][0],
-        #     src_type=post_data['src_type'][0] if ('src_type' in post_data) else 0
-        # ).where(CabVoter2Reply.uid == uid)
-        #
-        # entry.execute()
 
     @staticmethod
-    def create_wiki_history( user_id, reply_id):
+    def create_wiki_history(user_id, reply_id):
 
         record = g_User2Reply.select().where(
-            (g_User2Reply.reply_id == reply_id) & (g_User2Reply.user_id == user_id))
+            (g_User2Reply.reply_id == reply_id) & (g_User2Reply.user_id == user_id)
+        )
 
-        print('reply_voter_count', user_id, record.count())
         if record.count() > 0:
-            # return g_Voter2Reply.select().where(g_Voter2Reply.reply_id == reply_id).count()
-            # return (False)
             pass
         else:
             g_User2Reply.create(
@@ -53,7 +37,7 @@ class MReply2User(Mabc):
             )
 
     @staticmethod
-    def get_voter_count( reply_id):
+    def get_voter_count(reply_id):
         return g_User2Reply.select().where(g_User2Reply.reply_id == reply_id).count()
 
     @staticmethod
@@ -69,4 +53,3 @@ class MReply2User(Mabc):
         except:
 
             return False
-

@@ -31,17 +31,13 @@ class ReplyHandler(BaseHandler):
             self.add(url_arr[1])
 
     def list(self):
-        kwd = {
-            'pager': '',
-            'unescape': tornado.escape.xhtml_unescape,
-            'title': '单页列表',
-        }
+        kwd = {'pager': '',
+               'unescape': tornado.escape.xhtml_unescape,
+               'title': '单页列表'}
         self.render('admin/reply_ajax/reply_list.html',
                     kwd=kwd,
                     view_all=MReply.query_all(),
-                    userinfo=self.userinfo,
-
-                    )
+                    userinfo=self.userinfo)
 
     def get_by_id(self, reply_id):
 
@@ -55,8 +51,7 @@ class ReplyHandler(BaseHandler):
                     vote=reply.vote,
                     uid=reply.uid,
                     userinfo=self.userinfo,
-                    unescape=tornado.escape.xhtml_unescape,
-                    )
+                    unescape=tornado.escape.xhtml_unescape)
 
     def add(self, post_id):
         post_data = self.get_post_data()
@@ -66,41 +61,35 @@ class ReplyHandler(BaseHandler):
         post_data['post_id'] = post_id
         replyid = MReply.create_wiki_history(post_data)
         if replyid:
-            out_dic = {
-                'pinglun': post_data['cnt_reply'],
-                'uid': replyid
-            }
+            out_dic = {'pinglun': post_data['cnt_reply'],
+                       'uid': replyid}
             logger.info('add reply result dic: {0}'.format(out_dic))
             return json.dump(out_dic, self)
 
     # @tornado.web.authenticated
     def zan(self, id_reply):
+        ''' 先在外部表中更新，然后更新内部表字段的值。
+          有冗余，但是查看的时候避免了联合查询
+        :param id_reply:
+        :return:
+        '''
 
         logger.info('zan: {0}'.format(id_reply))
-        # 先在外部表中更新，然后更新内部表字段的值。
-        # 有冗余，但是查看的时候避免了联合查询
+
         MReply2User.create_wiki_history(self.userinfo.uid, id_reply)
         cur_count = MReply2User.get_voter_count(id_reply)
         if cur_count:
             MReply.update_vote(id_reply, cur_count)
-            output = {
-                'text_zan': cur_count,
-            }
+            output = {'text_zan': cur_count}
         else:
-            output = {
-                'text_zan': 0,
-            }
+            output = {'text_zan': 0}
         logger.info('zan dic: {0}'.format(cur_count))
 
         return json.dump(output, self)
 
     def delete(self, del_id):
         if MReply2User.delete(del_id):
-            output = {
-                'del_zan': 1
-            }
+            output = {'del_zan': 1}
         else:
-            output = {
-                'del_zan': 0,
-            }
+            output = {'del_zan': 0}
         return json.dump(output, self)

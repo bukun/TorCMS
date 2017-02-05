@@ -16,19 +16,14 @@ class LinkHandler(BaseHandler):
     def get(self, url_str=''):
         url_arr = self.parse_url(url_str)
 
-        # if len(url_arr) == 1 and url_str.endswith('.html'):
-        #     self.wiki(url_str.split('.')[0])
         if url_str in ['add_link', '_add', 'add']:
             self.to_add_link()
         elif url_str == 'list':
             self.recent()
-        # elif url_str == 'refresh':
-        #     self.refresh()
         elif url_arr[0] in ['modify', '_edit', 'edit']:
             self.to_modify(url_arr[1])
         elif url_arr[0] in ['delete', '_delete']:
             self.delete(url_arr[1])
-
         else:
             kwd = {
                 'info': '页面未找到',
@@ -105,16 +100,11 @@ class LinkHandler(BaseHandler):
             return False
         a = MLink.get_by_uid(id_rec)
 
-        kwd = {
-            'pager': '',
-
-        }
         self.render('doc/link/link_edit.html',
-                    kwd=kwd,
+                    kwd={},
                     unescape=tornado.escape.xhtml_unescape,
                     dbrec=a,
-                    userinfo=self.userinfo,
-                    )
+                    userinfo=self.userinfo)
 
     @tornado.web.authenticated
     def viewit(self, post_id):
@@ -122,16 +112,13 @@ class LinkHandler(BaseHandler):
         rec = MLink.get_by_uid(post_id)
 
         if not rec:
-            kwd = {
-                'info': '您要找的分类不存在。',
-            }
+            kwd = {'info': '您要找的分类不存在。'}
             self.render('html/404.html', kwd=kwd)
             return False
 
         kwd = {
             'pager': '',
             'editable': self.editable(),
-
         }
 
         self.render('doc/link/link_view.html',
@@ -194,11 +181,7 @@ class LinkHandler(BaseHandler):
             return False
 
         if MLink.delete(del_id):
-            output = {
-                'del_link': 1
-            }
+            output = {'del_link': 1}
         else:
-            output = {
-                'del_link': 0,
-            }
+            output = {'del_link': 0}
         return json.dump(output, self)

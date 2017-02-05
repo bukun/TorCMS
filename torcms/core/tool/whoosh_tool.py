@@ -2,7 +2,6 @@
 
 from whoosh.index import open_dir
 from whoosh.qparser import QueryParser
-# from whoosh.query import *
 from whoosh.query import And, Term
 
 def singleton(cls, *args, **kwargs):

@@ -127,13 +127,15 @@ class WikiHistoryHandler(BaseHandler):
         cur_cnt = tornado.escape.xhtml_unescape(postinfo.cnt_md)
         old_cnt = tornado.escape.xhtml_unescape(histinfo.cnt_md)
 
-        MWiki.update_cnt(histinfo.wiki_id,
-                         {'cnt_md': old_cnt, 'user_name': self.userinfo.user_name}
-                         )
+        MWiki.update_cnt(
+            histinfo.wiki_id,
+            {'cnt_md': old_cnt, 'user_name': self.userinfo.user_name}
+        )
 
-        MWikiHist.update_cnt(histinfo.uid,
-                             {'cnt_md': cur_cnt, 'user_name': postinfo.user_name}
-                             )
+        MWikiHist.update_cnt(
+            histinfo.uid,
+            {'cnt_md': cur_cnt, 'user_name': postinfo.user_name}
+        )
 
         if postinfo.kind == '1':
             self.redirect('/wiki/{0}'.format(postinfo.title))

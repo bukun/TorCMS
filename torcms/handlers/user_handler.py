@@ -119,24 +119,25 @@ class UserHandler(BaseHandler):
 
         post_data = self.get_post_data()
 
-        uu = MUser.check_user(self.user_name, post_data['rawpass'])
-        if uu == 1:
+        usercheck = MUser.check_user(self.user_name, post_data['rawpass'])
+        if usercheck == 1:
             MUser.update_pass(self.user_name, post_data['user_pass'])
-            output = {'changepass ': uu}
+            output = {'changepass ': usercheck}
         else:
             output = {'changepass ': 0}
         return json.dump(output, self)
 
     @tornado.web.authenticated
     def p_changeinfo(self):
-
+        '''
+        Change Infor via Ajax.
+        :return:
+        '''
         post_data = self.get_post_data()
-
-        uu = MUser.check_user(self.user_name, post_data['rawpass'])
-
-        if uu == 1:
+        usercheck = MUser.check_user(self.user_name, post_data['rawpass'])
+        if usercheck == 1:
             MUser.update_info(self.user_name, post_data['user_email'])
-            output = {'changeinfo ': uu}
+            output = {'changeinfo ': usercheck}
         else:
             output = {'changeinfo ': 0}
         return json.dump(output, self)
@@ -271,7 +272,7 @@ class UserHandler(BaseHandler):
         form = SumForm(self.request.arguments)
 
         if form.validate():
-            res_dic = MUser.create_wiki_history(post_data)
+            res_dic = MUser.create_user(post_data)
             if res_dic['success']:
                 self.redirect('/user/login')
             else:
@@ -315,7 +316,7 @@ class UserHandler(BaseHandler):
         form = SumForm(self.request.arguments)
 
         if form.validate():
-            user_create_status = MUser.create_wiki_history(post_data)
+            user_create_status = MUser.create_user(post_data)
             logger.info('user_register_status: {0}'.format(user_create_status))
             return json.dump(user_create_status, self)
         else:
