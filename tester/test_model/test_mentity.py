@@ -1,8 +1,7 @@
 # -*- coding:utf-8 -*-
 
 from torcms.core import tools
-from torcms.model.picture_model import MEntity
-import tornado.escape
+from torcms.model.entity_model import MEntity
 
 
 class TestEntity():

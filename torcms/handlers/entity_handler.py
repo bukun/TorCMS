@@ -7,7 +7,7 @@ import tornado.web
 
 import config
 from torcms.core.base_handler import BaseHandler
-from torcms.model.picture_model import MEntity
+from torcms.model.entity_model import MEntity
 
 from PIL import Image
 
@@ -51,7 +51,7 @@ class EntityHandler(BaseHandler):
 
     @tornado.web.authenticated
     def list(self):
-        recs = MEntity.getall()
+        recs = MEntity.query_all(limit=16)
         kwd = {
             'pager': '',
         }
