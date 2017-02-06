@@ -13,6 +13,8 @@ import re
 from difflib import HtmlDiff
 import markdown
 from markdown.extensions.wikilinks import WikiLinkExtension
+from playhouse.postgres_ext import PostgresqlExtDatabase
+
 import tornado.escape
 
 # Config for logging
@@ -242,31 +244,39 @@ def get_cfg():
     cfg_var = dir(cfg)
 
     if 'DB_CFG' in cfg_var:
-        DB_CFG = cfg.DB_CFG
+        db_cfg = cfg.DB_CFG
     else:
-        DB_CFG = ConfigDefault.DB_CFG
+        db_cfg = ConfigDefault.DB_CFG
 
     if 'SMTP_CFG' in cfg_var:
-        SMTP_CFG = cfg.SMTP_CFG
+        smtp_cfg = cfg.SMTP_CFG
     else:
-        SMTP_CFG = ConfigDefault.SMTP_CFG
+        smtp_cfg = ConfigDefault.SMTP_CFG
 
     if 'SITE_CFG' in cfg_var:
-        SITE_CFG = cfg.SITE_CFG
+        site_cfg = cfg.SITE_CFG
     else:
-        SITE_CFG = ConfigDefault.SITE_CFG
+        site_cfg = ConfigDefault.SITE_CFG
 
-    site_url = SITE_CFG['site_url'].strip('/')
-    SITE_CFG['site_url'] = site_url
+    site_url = site_cfg['site_url'].strip('/')
+    site_cfg['site_url'] = site_url
     infor = site_url.split(':')
     if len(infor) == 1:
-        SITE_CFG['PORT'] = 80
+        site_cfg['PORT'] = 80
     else:
-        SITE_CFG['PORT'] = infor[-1]
+        site_cfg['PORT'] = infor[-1]
 
-    if 'DEBUG' in SITE_CFG:
+    if 'DEBUG' in site_cfg:
         pass
     else:
-        SITE_CFG['DEBUG'] = False
+        site_cfg['DEBUG'] = False
 
-    return (DB_CFG, SMTP_CFG, SITE_CFG)
+    DB_CON = PostgresqlExtDatabase(
+        db_cfg['db'],
+        user=db_cfg['user'],
+        password=db_cfg['pass'],
+        host='127.0.0.1',
+        autocommit=True,
+        autorollback=True)
+
+    return (DB_CON, smtp_cfg, site_cfg)

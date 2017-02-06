@@ -5,16 +5,19 @@ __author__ = 'bukun'
 from torcms.model.core_tab import *
 
 def create_table(Tab):
+    create_table(g_Usage)
+    print(' ' * 4 + Tab.__name__)
     try:
         print('Try to create table:' )
         print(' ' * 4 + Tab.__name__)
         Tab.create_table()
         print(' ' * 4 + 'Created')
     except:
+
         pass
 
 def run_init_tables():
-
+    print('--')
     create_table(g_Post)
     create_table(g_Tag)
     create_table(g_Member)

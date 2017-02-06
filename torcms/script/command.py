@@ -26,6 +26,7 @@ def entry(argv):
     :param argv:
     :return:
     '''
+    print('uu')
     command_dic = {
         'migrate': run_migrate,
         'gen_category': run_gen_category,
@@ -72,6 +73,7 @@ def entry(argv):
         elif opt == "-i":
 
             if arg in command_dic:
+                print('run')
                 command_dic[arg]()
             else:
                 print('Wrong Command.')

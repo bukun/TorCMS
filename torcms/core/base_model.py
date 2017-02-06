@@ -14,4 +14,4 @@ class BaseModel(peewee.Model):
         '''
         meta
         '''
-        database = config.dbconnect
+        database = config.DB_CON

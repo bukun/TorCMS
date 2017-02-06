@@ -168,6 +168,12 @@ The upload directory for files should be created.
 Run
 ---------
 
+First, run celery,
+
+::
+
+    celery -A celery_server worker --loglevel=info
+
 Run the web application,
 
 ::

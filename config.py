@@ -3,10 +3,9 @@
 '''
 Config for the website.
 '''
-from playhouse.postgres_ext import PostgresqlExtDatabase
 from torcms.core.tools import get_cfg
 
-DB_CFG, SMTP_CFG, SITE_CFG = get_cfg()
+DB_CON, SMTP_CFG, SITE_CFG = get_cfg()
 
 CMS_CFG = {
     'list_num': 10,
@@ -17,14 +16,6 @@ CMS_CFG = {
 router_post = {'1': 'post',
                '9': 'info',
                'm': 'map'}
-
-dbconnect = PostgresqlExtDatabase(
-    DB_CFG['db'],
-    user=DB_CFG['user'],
-    password=DB_CFG['pass'],
-    host='127.0.0.1',
-    autocommit=True,
-    autorollback=True)
 
 post_type = {
     '1': '<span style="color:green;" class="glyphicon glyphicon-list-alt">[{0}]</span>'.format('文档'),

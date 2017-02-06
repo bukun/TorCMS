@@ -5,7 +5,7 @@ import config
 
 def run_migrate():
     print('Begin migrate ...')
-    torcms_migrator = migrate.PostgresqlMigrator(config.dbconnect)
+    torcms_migrator = migrate.PostgresqlMigrator(config.DB_CON)
     float_field = migrate.FloatField(null=False, default=5)
     try:
         migrate.migrate(torcms_migrator.add_column('g_post', 'rating', float_field))
