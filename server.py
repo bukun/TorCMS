@@ -3,6 +3,7 @@
 import sys
 from config import SITE_CFG
 import tornado.ioloop
+
 # import tornado.web
 
 PORT = SITE_CFG['PORT']
@@ -16,6 +17,6 @@ if __name__ == "__main__":
         PORT = sys.argv[1]
 
     app.listen(PORT)
-    print ('Development server is running at http://127.0.0.1:{0}/'.format(PORT))
-    print ('Quit the server with CONTROL-C')
+    print('Development server is running at http://127.0.0.1:{0}/'.format(PORT))
+    print('Quit the server with CONTROL-C')
     tornado.ioloop.IOLoop.instance().start()

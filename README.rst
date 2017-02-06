@@ -19,7 +19,7 @@ Introduction
 -------------------------------------------------
 
 Flexible, extensible web CMS framework built on Tornado and Peewee,
-compatible with Python 3.4+. Using PostgreSQL with JSON
+compatible with Python 3.4 and abover. Using PostgreSQL with JSON
 extension as the database.
 
 pypi: The kernel of this CMS has been submit to pypi.
@@ -117,9 +117,33 @@ Edit the configiure.
 ::
 
     cd TorCMS/
-    copy config_demo.py config.py   
+    copy cfg_demo.py cfg.py
 
 And, edit the config.py file.
+
+::
+
+    DB_CFG = {
+        'db': 'torcms',
+        'user': 'torcms',
+        'pass': '111111',
+    }
+
+    SMTP_CFG = {
+        'name': 'TorCMS',
+        'host': "smtp.ym.163.com",
+        'user': "admin@yunsuan.org",
+        'pass': "",
+        'postfix': 'yunsuan.org',
+    }
+
+    SITE_CFG = {
+        'site_url': 'http://127.0.0.1:8888',
+        'cookie_secret': '123456',
+        'DEBUG': False
+    }
+
+The DB_CFG defines the items used for PostgreSQL.
 
 Modify the meta information of the web application.
 ---------------------------------------------------
@@ -238,12 +262,13 @@ In Chinese
 此CMS系统原本用于\ `云算笔记 <http://www.yunsuan.org>`__\ 、\ `开放地理空间实验室 <http://lab.osgeo.cn>`__\ （现合并到\ `OSGeo中国中心 <http://www.osgeo.cn>`__\ ）等网站，
 后来慢慢将 CMS 从中抽取出来。
 
-在网站设计方面，提出了文档（Post）、信息（Infor）两种对等的模型进行信息的组织。 这两种模型结构相似，分别用与网站的内容管理，以及应用管理。 其中应用管理，使用了PostgreSQL的JSON扩展，可以设计为App、分类信息、商城应用等。 这些可以在下面的应用中看一下。
+在网站设计方面，提出了文档（Post）、信息（Infor）两种对等的模型进行信息的组织。
+这两种模型结构相似，分别用与网站的内容管理，以及应用管理。
+其中应用管理，使用了PostgreSQL的JSON扩展，可以设计为App、分类信息、商城应用等。
+这些可以在下面的应用中看一下。
 
 网站的文档，除了Post之外，还有Page、Wiki，针对不同的目的作为文档使用。
 
-由于开发者并非计算机专业，对于开发的事情很多只是一知半解，如果有问题，欢迎与我进行联系。
-Email: bukun#osgeo.cn
 
 应用
 ------------------------
@@ -254,14 +279,5 @@ Email: bukun#osgeo.cn
 -  http://www.yunsuan.org
 -  http://drr.osgeo.cn
 
-编码规范
------------------------------------------
 
-对于一般
 
-Ajax请求
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-* Ajax请求，使用 ``j_foo`` 来发起请求
-* 在 Hander 中，使用 ``j_foo`` 对函数进行命名
-* 在 模板中， 使用 ``j_foo`` 对模板文件进行命名

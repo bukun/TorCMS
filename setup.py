@@ -1,12 +1,18 @@
 #!/usr/bin/env python2
 # -*- coding:utf-8 -*-
+
+'''
+For pypi
+'''
+
 from setuptools import setup, find_packages
 
 setup(
     name='torcms',
-    version='0.5.16',
+    version='0.5.17',
     keywords=('torcms', 'tornado', 'cms',),
-    description='''Flexible, extensible Web CMS framework built on Tornado, compatible with Python 3.4 above.''',
+    description='''Flexible, extensible Web CMS framework built on Tornado,
+    compatible with Python 3.4 above.''',
     long_description=''.join(open('README.rst').readlines()),
     license='MIT License',
 

@@ -1,10 +1,16 @@
 # -*- coding:utf-8 -*-
 
+'''
+For GeoJson storage.
+'''
 from torcms.core import tools
-from torcms.model.map_tab import *
+from torcms.model.map_tab import e_Json, e_Post2Json
 from torcms.model.abc_model import Mabc
 
 class MJson(Mabc):
+    '''
+    For GeoJson storage.
+    '''
     def __init__(self):
         try:
             e_Json.create_table()
@@ -45,9 +51,10 @@ class MJson(Mabc):
 
     @staticmethod
     def delete_by_uid(uid):
-        q = e_Json.delete().where(e_Json.uid == uid)
+        entry = e_Json.delete().where(e_Json.uid == uid)
         try:
-            q.execute()
+            entry.execute()
+            return True
         except:
             return False
 

@@ -262,7 +262,7 @@ def get_cfg():
     site_cfg['site_url'] = site_url
     infor = site_url.split(':')
     if len(infor) == 1:
-        site_cfg['PORT'] = 80
+        site_cfg['PORT'] = 8888
     else:
         site_cfg['PORT'] = infor[-1]
 
