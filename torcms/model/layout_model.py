@@ -60,8 +60,9 @@ class MLayout(Mabc):
         :param post_data:
         :return:
         '''
+        print('-' * 20)
         print(post_data)
-        e_Layout.create(
+        uu =         e_Layout.create(
             uid=tools.get_uu8d(),
             title='',
             post_id=post_data['map'],
@@ -75,3 +76,4 @@ class MLayout(Mabc):
             time_update=tools.timestamp(),
             public=1,
         )
+        print(uu)
