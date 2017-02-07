@@ -44,15 +44,18 @@ def gen_xlsx_category():
                 p_uid = cell_arr[1:]  # 所有以 t 开头
                 t_slug = sheet_ranges['C{0}'.format(row_num)].value.strip()
                 t_title = sheet_ranges['D{0}'.format(row_num)].value.strip()
-                u_uid = '{0}00'.format(p_uid)
+                u_uid = p_uid + (4 - len(p_uid)) * '0'
                 pp_uid = '0000'
             elif B_cell_val and B_cell_val != '':
                 cell_arr = B_cell_val
                 c_iud = cell_arr[1:]
                 t_slug = sheet_ranges['C{0}'.format(row_num)].value.strip()
                 t_title = sheet_ranges['D{0}'.format(row_num)].value.strip()
-                u_uid = '{0}{1}'.format(p_uid, c_iud)
-                pp_uid = '{0}00'.format(p_uid)
+                if len(c_iud) == 4:
+                    u_uid = c_iud
+                else:
+                    u_uid = '{0}{1}'.format(p_uid, c_iud)
+                pp_uid = p_uid + (4 - len(p_uid)) * '0'
             else:
                 continue
 
