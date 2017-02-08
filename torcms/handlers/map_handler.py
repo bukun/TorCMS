@@ -26,9 +26,11 @@ class MapPostHandler(InfoHandler):
     def ext_view_kwd(self, info_rec):
         post_data = self.get_post_data()
 
-        out_dic = {'marker': 1 if 'marker' in post_data else 0,
-                   'geojson': post_data['gson'] if 'gson' in post_data else '',
-                   'map_hist_arr': self.extra_view(info_rec.uid)}
+        out_dic = {
+            'marker': 1 if 'marker' in post_data else 0,
+            'geojson': post_data['gson'] if 'gson' in post_data else '',
+            'map_hist_arr': self.__extra_view(info_rec.uid)
+        }
         if 'zoom' in post_data:
             out_dic['vzoom'] = post_data['zoom']
         if 'lat' in post_data:
@@ -38,7 +40,7 @@ class MapPostHandler(InfoHandler):
 
         return out_dic
 
-    def extra_view(self, app_id):
+    def __extra_view(self, app_id):
         qian = self.get_secure_cookie('map_hist')
         if qian:
             qian = qian.decode('utf-8')
@@ -51,7 +53,7 @@ class MapPostHandler(InfoHandler):
                 map_hist.append(self.get_secure_cookie('map_hist').decode('utf-8')[idx: idx + 4])
         return map_hist
 
-    def ext_tmpl_name(self, rec):
+    def ext_tmpl_view(self, rec):
         if 'fullscreen' in self.request.arguments:
             tmpl = 'post_{0}/full_screen.html'.format(self.kind)
         else:
@@ -89,7 +91,7 @@ class MapLayoutHandler(BaseHandler):
 
     def initialize(self):
         super(MapLayoutHandler, self).initialize()
-    
+
     def get(self, *args):
         url_str = args[0]
         url_arr = self.parse_url(url_str)
@@ -138,7 +140,6 @@ class MapOverlayHandler(BaseHandler):
 
     def initialize(self):
         super(MapOverlayHandler, self).initialize()
-
 
     def get(self, url_str=''):
         url_arr = self.parse_url(url_str)

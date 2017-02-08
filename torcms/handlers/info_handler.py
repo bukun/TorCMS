@@ -101,13 +101,13 @@ class InfoHandler(PostHandler):
         '''
         return {}
 
-    def ext_tmpl_name(self, rec):
+    def ext_tmpl_view(self, rec):
         '''
         Used for self defined templates.
         :param rec:
         :return:
         '''
-        return None
+        return self.__get_tmpl_view(rec)
 
     def ext_post_data(self, **kwargs):
         '''
@@ -201,9 +201,10 @@ class InfoHandler(PostHandler):
         if self.get_current_user():
             MUsage.add_or_update(self.userinfo.uid, info_id, postinfo.kind)
         self.set_cookie('user_pass', cookie_str)
-        tmpl = self.ext_tmpl_name(postinfo) if self.ext_tmpl_name(postinfo) else self.get_tmpl_name(postinfo)
+        # tmpl = self.get_tmpl_name(postinfo)
 
-        logger.info('info tmpl: ' + tmpl)
+        tmpl = self.ext_tmpl_view(postinfo)
+
         ext_catid2 = postinfo.extinfo['def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else None
 
         if self.userinfo:
@@ -246,7 +247,7 @@ class InfoHandler(PostHandler):
             return True
         return False
 
-    def get_tmpl_name(self, rec):
+    def __get_tmpl_view(self, rec):
         '''
         According to the application, each info of it's classification could has different temaplate.
         :param rec: the App record.
