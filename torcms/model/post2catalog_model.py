@@ -6,6 +6,7 @@ from config import CMS_CFG
 from torcms.core import tools
 from torcms.model.core_tab import g_Tag, g_Post, g_Post2Tag
 from torcms.model.abc_model import Mabc
+from torcms.model.category_model import MCategory
 
 
 class MPost2Catalog(Mabc):
@@ -29,6 +30,7 @@ class MPost2Catalog(Mabc):
             (g_Post2Tag.tag == tag_id)
         )
         entry.execute()
+        MCategory.update_count(tag_id)
 
     @staticmethod
     def remove_tag(tag_id):
@@ -107,11 +109,8 @@ class MPost2Catalog(Mabc):
                 order=order,
             )
 
-        # Update the count in g_tag.
-        entry2 = g_Tag.update(
-            count=MPost2Catalog.query_by_catid(catalog_id).count()
-        ).where(g_Tag.uid == catalog_id)
-        entry2.execute()
+        MCategory.update_count(catalog_id)
+
 
     @staticmethod
     def count_of_certain_category(cat_id):

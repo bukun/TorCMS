@@ -2,6 +2,7 @@
 
 import config
 from torcms.model.core_tab import g_Tag
+from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.abc_model import Mabc, MHelper
 
 
@@ -87,11 +88,17 @@ class MCategory(Mabc):
             return None
 
     @staticmethod
-    def update_count(cat_id, num):
-        entry = g_Tag.update(
-            count=num,
+    def update_count(cat_id):
+        '''
+        Update the count of certain category.
+        :param cat_id:
+        :return:
+        '''
+        entry2 = g_Tag.update(
+            count=MPost2Catalog.query_by_catid(cat_id).count()
         ).where(g_Tag.uid == cat_id)
-        entry.execute()
+        entry2.execute()
+
 
     @staticmethod
     def update(uid, post_data):
