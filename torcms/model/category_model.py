@@ -1,8 +1,6 @@
 # -*- coding:utf-8 -*-
 
-import config
-from torcms.model.core_tab import g_Tag
-from torcms.model.post2catalog_model import MPost2Catalog
+from torcms.model.core_tab import g_Tag, g_Post2Tag
 from torcms.model.abc_model import Mabc, MHelper
 
 
@@ -81,6 +79,11 @@ class MCategory(Mabc):
 
     @staticmethod
     def get_by_slug(slug):
+        '''
+        return the category record .
+        :param slug:
+        :return:
+        '''
         uu = g_Tag.select().where(g_Tag.slug == slug)
         if uu.count() > 0:
             return uu.get()
@@ -95,13 +98,20 @@ class MCategory(Mabc):
         :return:
         '''
         entry2 = g_Tag.update(
-            count=MPost2Catalog.query_by_catid(cat_id).count()
+            count=g_Post2Tag.select().where(
+                g_Post2Tag.tag == cat_id
+            ).count()
         ).where(g_Tag.uid == cat_id)
         entry2.execute()
 
-
     @staticmethod
     def update(uid, post_data):
+        '''
+        Update the category.
+        :param uid:
+        :param post_data:
+        :return:
+        '''
         raw_rec = g_Tag.get(g_Tag.uid == uid)
         entry = g_Tag.update(
             name=post_data['name'] if 'name' in post_data else raw_rec.name,
