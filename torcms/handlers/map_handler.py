@@ -113,7 +113,7 @@ class MapLayoutHandler(BaseHandler):
         :param uid:
         :return:
         '''
-        MLayout.delete_by_uid(uid)
+        MLayout.delete(uid)
 
     @tornado.web.authenticated
     def save_layout(self):

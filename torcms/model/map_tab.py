@@ -1,12 +1,18 @@
 # -*- coding:utf-8 -*-
 
+'''
+Used for Map.
+'''
+
 import peewee
 from playhouse.postgres_ext import JSONField
-
 from torcms.core.base_model import BaseModel
 
 
 class e_Json(BaseModel):
+    '''
+    For GeoJson storage.
+    '''
     uid = peewee.CharField(null=False, index=True,
                            unique=True, primary_key=True, max_length=4, help_text='', )
     title = peewee.CharField(null=False, default='')
@@ -18,6 +24,9 @@ class e_Json(BaseModel):
 
 
 class e_Post2Json(BaseModel):
+    '''
+    relatio between Post2Json.
+    '''
     uid = peewee.CharField(null=False, index=True, unique=True,
                            primary_key=True, max_length=36, help_text='')
     post_id = peewee.CharField(null=False, index=True, max_length=5, help_text='', )
@@ -25,6 +34,9 @@ class e_Post2Json(BaseModel):
 
 
 class e_Layout(BaseModel):
+    '''
+    For Map layout.
+    '''
     uid = peewee.CharField(null=False, index=True, unique=True,
                            primary_key=True, max_length=8, help_text='', )
     title = peewee.CharField(null=False, default='')

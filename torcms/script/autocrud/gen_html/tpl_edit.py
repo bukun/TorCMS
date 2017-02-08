@@ -1,5 +1,7 @@
-tpl_add = '''
-{% extends "../../tmpl_kkkk/tmplyyyyyy/sssssstpl_add.html" %}
+# -*- coding:utf-8 -*-
+
+tpl_edit = '''
+{% extends "../../tmpl_kkkk/tmplyyyyyy/sssssstpl_edit.html" %}
 
 {% block topmenu %}
 {% raw topmenu %}
@@ -11,7 +13,7 @@ tpl_add = '''
 
 {% block extrainfo %}
 
-<div id="iga_add_rec_box">
+<div id="iga_edit_rec_box">
 xxxxxx
 </div>
 {% end %}
@@ -19,4 +21,3 @@ xxxxxx
 <p>{{ footer_text }}</p>
 {% end %}
 '''
-

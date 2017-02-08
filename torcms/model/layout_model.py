@@ -5,7 +5,8 @@ Model for map layout.
 '''
 from torcms.core import tools
 from torcms.model.map_tab import e_Layout
-from torcms.model.abc_model import Mabc
+from torcms.model.abc_model import Mabc, MHelper
+
 
 class MLayout(Mabc):
     '''
@@ -19,27 +20,20 @@ class MLayout(Mabc):
             pass
 
     @staticmethod
-    def get_by_id(uid):
+    def get_by_uid(uid):
         '''
         :param uid:
         :return:
         '''
-        try:
-            return e_Layout.get(e_Layout.uid == uid)
-        except:
-            return False
+        return MHelper.get_by_uid(e_Layout, uid)
 
     @staticmethod
-    def delete_by_uid(uid):
+    def delete(uid):
         '''
         :param uid:
         :return:
         '''
-        qry = e_Layout.delete().where(e_Layout.uid == uid)
-        try:
-            qry.execute()
-        except:
-            return False
+        return MHelper.delete(e_Layout, uid)
 
     @staticmethod
     def query_by_app(app_id, user_id):
@@ -60,9 +54,8 @@ class MLayout(Mabc):
         :param post_data:
         :return:
         '''
-        print('-' * 20)
-        print(post_data)
-        uu =         e_Layout.create(
+
+        e_Layout.create(
             uid=tools.get_uu8d(),
             title='',
             post_id=post_data['map'],
@@ -76,4 +69,3 @@ class MLayout(Mabc):
             time_update=tools.timestamp(),
             public=1,
         )
-        print(uu)

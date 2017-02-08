@@ -66,4 +66,4 @@ class MWikiHist(Mabc):
             cnt_md=raw_data.cnt_md,
             time_update=raw_data.time_update,
         )
-        return (entry.uid)
+        return entry.uid

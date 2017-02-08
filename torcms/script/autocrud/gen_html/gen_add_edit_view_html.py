@@ -1,26 +1,23 @@
 # -*- coding: utf-8
-
+'''
+Generate HTML for add, edit, view
+'''
 import os
 
 try:
-    # from xxtmp_array_add_edit_view import *
-    # from xxtmp_html_dic import *
-
     import xxtmp_html_dic as html_vars
     import xxtmp_array_add_edit_view as dic_vars
 
-    # var_names = dir(dic_vars)
     VAR_NAMES = dir(dic_vars)
-    # print(var_names)
 
-except:
+except ImportError:
     pass
 
-from .func_to_html_add_edit_view import *
-from .base_crud import crud_path
-from .tpl import tpl_add
-from .tpl import tpl_view
-from .tpl import tpl_edit
+from torcms.script.autocrud.gen_html.func_to_html_add_edit_view import *
+from torcms.script.autocrud.base_crud import crud_path
+from torcms.script.autocrud.gen_html.tpl import tpl_add
+from torcms.script.autocrud.gen_html.tpl import tpl_view
+from torcms.script.autocrud.gen_html.tpl import tpl_edit
 
 def gen_add_edit_view_tmpl():
     out_dir = os.path.join(os.getcwd(), crud_path)

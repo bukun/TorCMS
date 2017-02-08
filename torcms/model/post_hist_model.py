@@ -74,7 +74,6 @@ class MPostHist(Mabc):
 
     @staticmethod
     def create_wiki_history(raw_data):
-
         uid = tools.get_uuid()
         g_PostHist.create(
             uid=uid,

@@ -1,9 +1,16 @@
 # -*- coding:utf-8 -*-
+
+'''
+For friends links.
+'''
 from torcms.model.core_tab import g_Link
 from torcms.model.abc_model import Mabc, MHelper
 
 
 class MLink(Mabc):
+    '''
+    For friends links.
+    '''
     def __init__(self):
         try:
             g_Link.create_table()
@@ -42,6 +49,12 @@ class MLink(Mabc):
 
     @staticmethod
     def update(uid, post_data):
+        '''
+        Updat ethe link.
+        :param uid:
+        :param post_data:
+        :return:
+        '''
         entry = g_Link.update(
             name=post_data['name'],
             link=post_data['link'],

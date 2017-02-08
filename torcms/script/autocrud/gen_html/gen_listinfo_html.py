@@ -1,23 +1,25 @@
 # -*- coding:utf-8 -*-
 
+'''
+Generate HTML for filter, included.
+'''
+
 import os
-from .tpl import tpl_listinfo
+
+from torcms.script.autocrud.gen_html.tpl import tpl_listinfo
 
 try:
-
     import xxtmp_html_dic as html_vars
     import xxtmp_array_add_edit_view as dic_vars
-
     VAR_NAMES = dir(dic_vars)
-except:
+except ImportError:
     pass
 
-from .func_to_html_listinfo import *
-from .base_crud import crud_path
+from torcms.script.autocrud.gen_html.func_to_html_listinfo import *
+from torcms.script.autocrud.base_crud import crud_path
 
 
 def do_for_dir(html_tpl):
-    # var_names = globals().copy().keys()
     out_dir = os.path.join(os.getcwd(), crud_path, 'infolist')
     if os.path.exists(out_dir):
         pass

@@ -1,3 +1,5 @@
+# -*- coding:utf-8 -*-
+
 tpl_list = '''
 {% extends "../../tmpl_kkkk/tmplyyyyyy/sssssstpl_list.html" %}
 {% block header %}
