@@ -1,11 +1,8 @@
 # -*- coding: utf-8
+
 import torcms.script.autocrud.base_crud
 from torcms.script.autocrud.gen_dics import gen_dics_from_xls, gen_crud_from_xls
 from torcms.script.autocrud.gen_html import gen_add_edit_view_html, gen_list_select_html, gen_listinfo_html
-
-
-# from .autocrud import gen_list_select_html
-# from .autocrud import gen_listinfo_html
 
 
 def run_crud0():

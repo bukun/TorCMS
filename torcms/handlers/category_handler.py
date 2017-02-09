@@ -6,7 +6,6 @@ import tornado.web
 from torcms.core.base_handler import BaseHandler
 from torcms.core import tools
 from torcms.model.category_model import MCategory
-from torcms.model.post_model import MPost
 from torcms.model.post2catalog_model import MPost2Catalog
 from html2text import html2text
 

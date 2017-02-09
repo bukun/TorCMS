@@ -154,8 +154,8 @@ class EntityHandler(BaseHandler):
             pass
         else:
             os.makedirs(outpath)
-        with open(os.path.join(outpath, outfilename), "wb") as f:
-            f.write(img_entiry["body"])
+        with open(os.path.join(outpath, outfilename), "wb") as fout:
+            fout.write(img_entiry["body"])
 
         sig_save = os.path.join(signature[:2], signature)
 

@@ -1,18 +1,25 @@
 # -*- coding:utf-8 -*-
 
+'''
+For Post Label.
+'''
+
 import json
 import tornado.escape
 import tornado.web
 from torcms.core.base_handler import BaseHandler
+from torcms.core.libs.deprecated import deprecated
 from torcms.model.label_model import MPost2Label
 from torcms.core.torcms_redis import redisvr
 from config import CMS_CFG
 
 
-class PostLabelHandler(BaseHandler):
+class LabelHandler(BaseHandler):
+    '''
+    For Post Label. with 'kind'.
+    '''
     def initialize(self):
-        super(PostLabelHandler, self).initialize()
-
+        super(LabelHandler, self).initialize()
 
     def get(self, url_str=''):
         '''
@@ -23,7 +30,10 @@ class PostLabelHandler(BaseHandler):
         url_arr = self.parse_url(url_str)
 
         if len(url_arr) == 2:
-            self.list(url_arr[0], url_arr[1])
+            if url_arr[0] == 'remove':
+                self.remove_redis_keyword(url_arr[1])
+            else:
+                self.list(url_arr[0], url_arr[1])
         elif len(url_arr) == 3:
             self.list(url_arr[0], url_arr[1], url_arr[2])
         else:
@@ -61,8 +71,8 @@ class PostLabelHandler(BaseHandler):
 
         self.render('post_{0}/label_list.html'.format(kind),
                     infos=MPost2Label.query_pager_by_slug(tag_slug,
-                                                            kind=kind,
-                                                            current_page_num=current_page_number),
+                                                          kind=kind,
+                                                          current_page_num=current_page_number),
                     unescape=tornado.escape.xhtml_unescape,
                     kwd=kwd,
                     userinfo=self.userinfo,
@@ -95,6 +105,36 @@ class PostLabelHandler(BaseHandler):
         pager_last = '''<li class=" {0}">
                     <a href="/label/{1}/{2}/{3}">末页
                         &gt;&gt;</a>
-                    </li>'''.format('hidden' if current >= page_num else '', kind, cat_slug, page_num)
+                    </li>'''.format(
+            'hidden' if current >= page_num else '', kind, cat_slug, page_num
+        )
         pager = pager_shouye + pager_pre + pager_mid + pager_next + pager_last
         return pager
+
+
+@deprecated
+class InfoTagHandler(BaseHandler):
+    '''
+    Access label without 'kind'. so for each kind, there must be a router.
+    '''
+    def initialize(self, **kwargs):
+        super(InfoTagHandler, self).initialize()
+        if 'kind' in kwargs:
+            self.kind = kwargs['kind']
+        else:
+            self.kind = '9'
+
+    def get(self, url_str=''):
+        url_arr = self.parse_url(url_str)
+
+        if len(url_arr) == 1:
+
+            self.redirect('/label/{kind}/{slug}'.format(
+                slug=url_arr[0], kind=self.kind
+            ))
+
+        elif len(url_arr) == 2:
+
+            self.redirect('/label/{kind}/{slug}/{page}'.format(
+                slug=url_arr[0], kind=self.kind, page=url_arr[1]
+            ))

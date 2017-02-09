@@ -1,7 +1,8 @@
 # -*- coding:utf-8 -*-
 
 import tornado.web
-from torcms.model.info_model import MInfor
+
+from torcms.model.post_model import MPost
 from torcms.core.base_handler import BaseHandler
 
 
@@ -71,7 +72,7 @@ class UserListHandler(BaseHandler):
                     kwd=kwd)
 
     def list_recent(self):
-        recs = MInfor.query_recent(20)
+        recs = MPost.query_recent(20)
         kwd = {
             'pager': '',
             'title': '最近使用的云算应用',
@@ -92,7 +93,7 @@ class UserListHandler(BaseHandler):
         self.render('user/info_list/find_list.html',
                     userinfo=self.userinfo,
                     kwd=kwd,
-                    recs=MInfor.get_by_keyword(keyword))
+                    recs=MPost.get_by_keyword(keyword))
 
     def get_random(self):
-        return MInfor.query_random()
+        return MPost.query_random()

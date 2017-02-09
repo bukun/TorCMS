@@ -1,13 +1,18 @@
 # -*- coding:utf-8 -*-
 
-from torcms.core import tools
-from torcms.model.info_model import MInfor
+'''
+Testing for map app.
+'''
 
+from torcms.core import tools
+from torcms.model.post_model import MPost
 
 class TestApp():
+    '''
+    Testing for map app.
+    '''
     def setup(self):
         print('setup 方法执行于本类中每条用例之前')
-        self.uu = MInfor()
 
         self.title = '哈哈sdfsdf'
         self.uid = 'g' + tools.get_uu4d()
@@ -26,8 +31,8 @@ class TestApp():
         }
         extinfo = {}
 
-        self.uu.add_meta(uid, post_data, extinfo)
-        tt = self.uu.get_by_uid(uid)
+        MPost.add_meta(uid, post_data, extinfo)
+        tt = MPost.get_by_uid(uid)
         assert tt.uid == uid
 
     def test_insert2(self):
@@ -43,8 +48,8 @@ class TestApp():
         }
         extinfo = {}
 
-        self.uu.add_meta(uid, post_data, extinfo)
-        tt = self.uu.get_by_uid(uid)
+        MPost.add_meta(uid, post_data, extinfo)
+        tt = MPost.get_by_uid(uid)
         assert tt == None
 
         post_data = {
@@ -55,7 +60,7 @@ class TestApp():
             'user_name': 'ss',
             'extinfo': ''
         }
-        uu = self.uu.add_meta(self.uid, post_data)
+        uu = MPost.add_meta(self.uid, post_data)
         assert uu == False
 
         post_data = {
@@ -66,7 +71,7 @@ class TestApp():
             'user_name': 'ss',
             'extinfo': ''
         }
-        uu = self.uu.add_meta(self.uid, post_data)
+        uu = MPost.add_meta(self.uid, post_data)
         assert uu == False
 
     def test_upate(self):
@@ -74,6 +79,6 @@ class TestApp():
 
     def tearDown(self):
         print("function teardown")
-        tt = self.uu.get_by_uid(self.uid)
+        tt = MPost.get_by_uid(self.uid)
         if tt:
-            self.uu.delete(tt.uid)
+            MPost.delete(tt.uid)

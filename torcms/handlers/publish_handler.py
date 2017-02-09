@@ -34,12 +34,13 @@ class PublishHandler(BaseHandler):
         elif len(url_str) == 5:
             self.echo_class2(url_str)
 
+    # Todo: unused ?
     @tornado.web.authenticated
-    def echo_class2(self, input=''):
+    def echo_class2(self, catstr=''):
         '''
         弹出的二级发布菜单
         '''
-        fatherid = input[1:]
+        fatherid = catstr[1:]
         self.write(self.format_class2(fatherid))
 
     @tornado.web.authenticated
@@ -49,10 +50,11 @@ class PublishHandler(BaseHandler):
         outstr = '<ul class="list-group">'
         for rec in dbdata:
             outstr += '''
-            <a href="/{0}/_cat_add/{1}" class="btn btn-primary" style="display: inline-block;margin:3px;" >{2}</a>
+            <a href="/{0}/_cat_add/{1}" class="btn btn-primary"
+            style="display: inline-block;margin:3px;" >{2}</a>
             '''.format(router_post[catinfo.kind], rec.uid, rec.name)
         outstr += '</ul>'
-        return (outstr)
+        return outstr
 
     @tornado.web.authenticated
     def view_class1(self, kind_sig):
@@ -60,7 +62,8 @@ class PublishHandler(BaseHandler):
         class1str = ''
         for rec in dbdata:
             class1str += '''
-             <a onclick="select_sub_tag('/publish/2{0}');" class="btn btn-primary" style="display: inline-block;margin:3px;" >
+             <a onclick="select_sub_tag('/publish/2{0}');" class="btn btn-primary"
+             style="display: inline-block;margin:3px;" >
              {1}</a>'''.format(rec.uid, rec.name)
 
         kwd = {'class1str': class1str,

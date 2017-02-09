@@ -10,17 +10,19 @@ DB_CON, SMTP_CFG, SITE_CFG = get_cfg()
 CMS_CFG = {
     'list_num': 10,
     'site_type': 2,
-    'tpl2': ['9'],
     'redis_kw': 'lsadfkj'}
 
 router_post = {'1': 'post',
-               '9': 'info',
+               '9': 'info',  # Filter_View
                'm': 'map'}
 
 post_type = {
-    '1': '<span style="color:green;" class="glyphicon glyphicon-list-alt">[{0}]</span>'.format('文档'),
-    '9': '<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>'.format('信息'),
-    'm': '<span style="color:red;" class="glyphicon glyphicon-map-marker">[{0}]</span>'.format('地图'),
+    '1': '''<span style="color:green;" class="glyphicon glyphicon-list-alt">[{0}]</span>
+        '''.format('文档'),
+    '9': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>
+        '''.format('信息'),
+    'm': '''<span style="color:red;" class="glyphicon glyphicon-map-marker">[{0}]</span>
+        '''.format('地图'),
 }
 
 kind_arr = ['9', 'm']
@@ -35,7 +37,8 @@ email_cfg = {
         <p> </p>
         <div>　　根据我们的记录，您好久没有登录我们的网站了。</div>
         <div>　　如果希望回到我们网站，请打开链接<a href="http://www.yunsuan.org/user/login"> 登陆 </a>。</div>
-        <div>　　如果忘记了用户名或密码，请打开链接<a href="http://www.yunsuan.org/user/reset-password"> 密码重置 </a>，输入Email即可。</div>
+        <div>　　如果忘记了用户名或密码，请打开链接
+        <a href="http://www.yunsuan.org/user/reset-password"> 密码重置 </a>，输入Email即可。</div>
             '''
     ,
 }

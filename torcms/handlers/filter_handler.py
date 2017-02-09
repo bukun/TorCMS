@@ -8,16 +8,19 @@ import math
 from config import CMS_CFG
 from html2text import html2text
 import tornado.escape
-from torcms.model.info_model import MInfor as  MInfor
+from torcms.model.post_model import MPost
 from torcms.core.base_handler import BaseHandler
 from torcms.model.category_model import MCategory
 from torcms.core.torcms_redis import redisvr
 from torcms.core.tools import logger
 
 
-class InfoFilterHandler(BaseHandler):
+class FilterHandler(BaseHandler):
+    '''
+    List view,by category uid. The list could be filtered.
+    '''
     def initialize(self):
-        super(InfoFilterHandler, self).initialize()
+        super(FilterHandler, self).initialize()
 
     def get(self, *args, **kwargs):
         url_str = args[0]
@@ -78,10 +81,10 @@ class InfoFilterHandler(BaseHandler):
             condition[ckey] = cval
 
         if url_arr[1] == 'con':
-            infos = MInfor.query_list_pager(condition, fenye_num, kind=catinfo.kind)
+            infos = MPost.query_list_pager(condition, fenye_num, kind=catinfo.kind)
             self.echo_html_list_str(sig, infos)
         elif url_arr[1] == 'num':
-            allinfos = MInfor.query_under_condition(condition, kind=catinfo.kind)
+            allinfos = MPost.query_under_condition(condition, kind=catinfo.kind)
             self.echo_html_fenye_str(allinfos.count(), fenye_num)
 
     def echo_html_list_str(self, catid, infos):
@@ -205,7 +208,7 @@ class InfoFilterHandler(BaseHandler):
             bread_title += '{0} - '.format(parent_catname)
             bread_title += '{0}'.format(catname)
 
-        num = MInfor.get_num_condition(condition)
+        num = MPost.get_num_condition(condition)
 
         kwd = {'catid': catid,
                'daohangstr': bread_crumb_nav_str,

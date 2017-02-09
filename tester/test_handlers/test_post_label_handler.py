@@ -1,11 +1,11 @@
 # -*- coding:utf-8 -*-
 
-from torcms.handlers.post_label_handler import PostLabelHandler
+from torcms.handlers.label_handler import LabelHandler
 
 
 def Test():
     urls = [
-        ("/label/(.*)", PostLabelHandler, dict()),
+        ("/label/(.*)", LabelHandler, dict()),
     ]
 
     assert urls

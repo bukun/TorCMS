@@ -42,5 +42,4 @@ class CollectHandler(BaseHandler):
     def list(self):
         self.render('user/collect/list.html',
                     recs_collect=MCollect.query_recent(self.userinfo.uid, 20),
-                    userinfo=self.userinfo,
-                    )
+                    userinfo=self.userinfo)

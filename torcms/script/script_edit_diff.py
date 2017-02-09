@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+'''
+Check the difference of modification.
+'''
 import os
 import datetime
 

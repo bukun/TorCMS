@@ -191,6 +191,9 @@ class g_Rating(BaseModel):
 
 
 class g_Usage(BaseModel):
+    '''
+    Posts accessed by user.
+    '''
     uid = peewee.CharField(max_length=36, null=False, unique=True, help_text='', primary_key=True)
     post = peewee.ForeignKeyField(g_Post, related_name='info_id')
     user_id = peewee.CharField(null=False, index=True, max_length=36, help_text='', )

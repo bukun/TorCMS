@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
-from torcms.handlers.info_handler import InfoHandler
-from torcms.handlers.info_filter_handler import InfoFilterHandler
+# from torcms.handlers.info_handler import InfoHandler
+from torcms.handlers.filter_handler import FilterHandler
 from torcms.handlers.publish_handler import PublishHandler
 from torcms.handlers.admin_handler import AdminHandler
 from torcms.handlers.category_handler import CategoryHandler
@@ -9,8 +9,7 @@ from torcms.handlers.entity_handler import EntityHandler
 from torcms.handlers.index import IndexHandler
 from torcms.handlers.tag_list_hanlder import TagListHandler
 
-from torcms.handlers.info2_tag_hanler import InfoTagHandler
-from torcms.handlers.post_label_handler import PostLabelHandler
+from torcms.handlers.label_handler import LabelHandler, InfoTagHandler
 from torcms.handlers.post_list_handler import PostListHandler
 from torcms.handlers.link_handler import LinkHandler
 from torcms.handlers.maintain_handler import MaintainCategoryHandler, MaintainCategoryAjaxHandler
@@ -56,7 +55,7 @@ urls = [
     ('/wiki_man/(.*)', WikiHistoryHandler, dict()),
     ('/page_man/(.*)', WikiHistoryHandler, dict()),
 
-    ("/label/(.*)", PostLabelHandler, dict()),
+    ("/label/(.*)", LabelHandler, dict()),
     ("/admin/(.*)", AdminHandler, dict()),
     ("/entry/(.*)", EntityHandler, dict()),
     ("/entity/(.*)", EntityHandler, dict()),
@@ -66,7 +65,8 @@ urls = [
     ("/user/(.*)", UserHandler, dict()),
     ("/post_j/(.*)", PostAjaxHandler, dict()),
     ("/post/p/(.*)", PostAjaxHandler, dict()),  # Deprecated,
-    ("/post/(.*)", PostHandler, dict()),
+    # ("/post/(.*)", PostHandler, dict()),
+    ("/post/(.*)", PostHandler, dict(kind='1')),
     ("/post_list/(.*)", PostListHandler, dict()),
 
     ("/maintain/p/category/(.*)", MaintainCategoryAjaxHandler, dict()),
@@ -82,12 +82,12 @@ urls = [
     ("/search/(.*)", SearchHandler, dict()),
     ("/reply/(.*)", ReplyHandler, dict()),
 
-    ("/info/(.*)", InfoHandler, dict(kind='9')),
+    ("/info/(.*)", PostHandler, dict(kind='9', filter_view=True)),
 
     ("/maintain/claslitecategory/(.*)", MaintainPycateCategoryHandler, dict()),
 
-    ("/filter/(.*)", InfoFilterHandler, dict()),
-    ("/list/(.*)", InfoFilterHandler, dict()),  # Deprecated, replaed by `/filter` .
+    ("/filter/(.*)", FilterHandler, dict()),
+    ("/list/(.*)", FilterHandler, dict()),  # Deprecated, replaed by `/filter` .
 
     ("/publish/(.*)", PublishHandler, dict()),
 

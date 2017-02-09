@@ -71,7 +71,7 @@ class MCategory(Mabc):
             recs = g_Tag.select().where(g_Tag.kind == kind).order_by(g_Tag.order)
         else:
             recs = g_Tag.select().where(g_Tag.kind == kind).order_by(g_Tag.uid)
-        return (recs)
+        return recs
 
     @staticmethod
     def query_field_count(limit_num, kind='1'):

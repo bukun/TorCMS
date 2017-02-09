@@ -15,6 +15,7 @@ class BaiduShare(tornado.web.UIModule):
     '''
     widget for baidu share.
     '''
+
     def render(self):
         return self.render_string('modules/widget/baidu_share.html')
 
@@ -23,6 +24,7 @@ class ReplyPanel(tornado.web.UIModule):
     '''
     the reply panel.
     '''
+
     def render(self, *args):
         uid = args[0]
         userinfo = args[1]
@@ -40,6 +42,7 @@ class UserinfoWidget(tornado.web.UIModule, tornado.web.RequestHandler):
     '''
     userinfo widget.
     '''
+
     def render(self, **kwargs):
         if 'userinfo' in kwargs:
             userinfo = kwargs['userinfo']
@@ -61,6 +64,7 @@ class WidgetEditor(tornado.web.UIModule):
     '''
     editor widget.
     '''
+
     def render(self, router, uid, userinfo):
         kwd = {
             'router': router,
@@ -77,6 +81,7 @@ class WidgetSearch(tornado.web.UIModule):
     '''
     search widget.
     '''
+
     def render(self):
         tag_enum = MCategory.query_pcat(kind='2')
         return self.render_string(
@@ -89,6 +94,7 @@ class StarRating(tornado.web.UIModule):
     '''
     For rating of posts.
     '''
+
     def render(self, postinfo, userinfo):
         rating = False
         if userinfo:
@@ -110,6 +116,7 @@ class NavigatePanel(tornado.web.UIModule):
     '''
     render navigate panel.
     '''
+
     def render(self, userinfo):
         return self.render_string(
             'modules/widget/navigate_panel.html',
@@ -122,6 +129,7 @@ class FooterPanel(tornado.web.UIModule):
     '''
     render footer panel.
     '''
+
     def render(self, userinfo):
         return self.render_string(
             'modules/widget/footer_panel.html',
@@ -134,6 +142,7 @@ class UseF2E(tornado.web.UIModule):
     '''
     using f2e lib.
     '''
+
     def render(self, f2ename):
         return self.render_string(
             'modules/usef2e/{0}.html'.format(f2ename),
@@ -144,6 +153,7 @@ class BaiduSearch(tornado.web.UIModule):
     '''
     widget for baidu search.
     '''
+
     def render(self, ):
         baidu_script = ''
         return self.render_string('modules/info/baidu_script.html',

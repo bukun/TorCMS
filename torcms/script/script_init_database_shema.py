@@ -1,6 +1,5 @@
 # -*- coding: utf-8
 
-__author__ = 'bukun'
 
 from torcms.model.core_tab import *
 

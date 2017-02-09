@@ -7,7 +7,7 @@ from torcms.core.base_handler import BaseHandler
 from torcms.core import tools
 from torcms.model.wiki_model import MWiki
 from torcms.model.wiki_hist_model import MWikiHist
-
+from celery_server import cele_gen_whoosh
 
 class WikiHandler(BaseHandler):
     def initialize(self):
@@ -90,6 +90,7 @@ class WikiHandler(BaseHandler):
             self.to_add(title)
 
     @tornado.web.authenticated
+    @tornado.web.asynchronous
     def update(self, uid):
         '''
         Update the wiki.
@@ -115,6 +116,7 @@ class WikiHandler(BaseHandler):
 
         MWiki.update(uid, post_data)
 
+        cele_gen_whoosh.delay()
         self.redirect('/wiki/{0}'.format(tornado.escape.url_escape(post_data['title'])))
 
     @tornado.web.authenticated
@@ -170,6 +172,7 @@ class WikiHandler(BaseHandler):
                     userinfo=self.userinfo)
 
     @tornado.web.authenticated
+    @tornado.web.asynchronous
     def add(self, title=''):
         if self.userinfo.role[0] > '0':
             pass
@@ -189,3 +192,4 @@ class WikiHandler(BaseHandler):
             MWiki.create_wiki(post_data)
 
         self.redirect('/wiki/{0}'.format(tornado.escape.url_escape(post_data['title'])))
+        cele_gen_whoosh.delay()

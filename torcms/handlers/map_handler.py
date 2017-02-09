@@ -9,12 +9,13 @@ import tornado.web
 
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tools import average_array
-from torcms.model.info_model import MInfor
+# from torcms.model.info_model import MInfor
+from torcms.model.post_model import MPost
 from torcms.model.layout_model import MLayout
-from torcms.handlers.info_handler import InfoHandler
+# from torcms.handlers.info_handler import InfoHandler
+from torcms.handlers.post_handler import PostHandler
 
-
-class MapPostHandler(InfoHandler):
+class MapPostHandler(PostHandler):
     '''
     For meta handler of map.
     '''
@@ -81,7 +82,7 @@ class MapAdminHandler(MapPostHandler):
         post_data['ext_zoom_max'] = str(zoom_current + 3)
         post_data['ext_zoom_min'] = str(zoom_current - 1)
 
-        MInfor.update_jsonb(uid, post_data)
+        MPost.update_jsonb(uid, post_data)
 
 
 class MapLayoutHandler(BaseHandler):
@@ -165,7 +166,7 @@ class MapOverlayHandler(BaseHandler):
         zoom_current_zrr = []
 
         for app_rr in app_arr:
-            c_ap = MInfor.get_by_uid(app_rr)
+            c_ap = MPost.get_by_uid(app_rr)
             app_info_arr.append(c_ap)
             lon_arr.append(float(c_ap.extinfo['ext_lon']))
             lat_arr.append(float(c_ap.extinfo['ext_lat']))

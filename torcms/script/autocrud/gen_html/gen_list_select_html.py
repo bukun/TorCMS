@@ -31,7 +31,7 @@ def to_html(bl_str):
         {2}</span>'''.format('_'.join(bl_str.split('_')[1:]), key, tmp_dic[key])
         html_out += tmp_str
     html_out += '''</div></div></li>'''
-    return (html_out)
+    return html_out
 
 
 def do_for_dir(html_tpl):

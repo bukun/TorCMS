@@ -1,10 +1,11 @@
 # -*- coding: utf-8
 
+'''
+Genereting catetory from xlsx file.
+'''
 import os
 import yaml
-# import json
 
-# from torcms.model.category_model import MCategory
 from openpyxl.reader.excel import load_workbook
 from torcms.model.category_model import MCategory
 

@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 
-from torcms.model.info_model import MInfor
+# from torcms.model.info_model import MInfor
 from torcms.core.base_handler import BaseHandler
 from torcms.model.relation_model import MRelation
 from torcms.model.post_model import MPost
@@ -18,18 +18,13 @@ class RelHandler(BaseHandler):
         if len(ip_arr) == 2:
             self.add_relation(ip_arr)
 
-    def check_app(self, tt, uid):
-
-        if tt == 'post':
-            if False == MPost.get_by_uid(uid):
-                return False
-        if tt == 'app':
-            if False == MInfor.get_by_uid(uid):
-                return False
-        return True
-
     def add_relation(self, url_arr):
-        if self.check_app(url_arr[0], url_arr[1]):
+        '''
+        Add relationship.
+        :param url_arr:
+        :return:
+        '''
+        if MPost.get_by_uid(url_arr[1]):
             pass
         else:
             return False

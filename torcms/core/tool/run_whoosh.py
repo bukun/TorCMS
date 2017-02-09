@@ -8,7 +8,7 @@ from whoosh.index import create_in, open_dir
 from whoosh.fields import Schema, TEXT, ID
 from jieba.analyse import ChineseAnalyzer
 from torcms.model.post_model import MPost
-from torcms.model.info_model import MInfor
+# from torcms.model.info_model import MInfor
 from torcms.model.category_model import MCategory
 from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.wiki_model import MWiki
@@ -25,9 +25,9 @@ def do_for_app(writer, rand=True, kind='', doc_type={}):
     :return:
     '''
     if rand:
-        recs = MInfor.query_random(10, kind=kind)
+        recs = MPost.query_random(num=10, kind=kind)
     else:
-        recs = MInfor.query_recent(2, kind=kind)
+        recs = MPost.query_recent(num=2, kind=kind)
 
     for rec in recs:
         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
@@ -40,48 +40,48 @@ def do_for_app(writer, rand=True, kind='', doc_type={}):
         )
 
 
-def do_for_app2(writer, rand=True):
-    '''
-    生成whoosh，根据数据库中类别。
-    :param writer:
-    :param rand:
-    :return:
-    '''
-    if rand:
-        recs = MInfor.query_random(10)
-    else:
-        recs = MInfor.query_recent(2)
-
-    for rec in recs:
-        text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
-
-        info = MPost2Catalog.get_entry_catalog(rec.uid)
-        if info:
-            pass
-        else:
-            continue
-
-        catid = info.tag.uid[:2] + '00'
-
-        cat_name = ''
-        if 'def_cat_uid' in rec.extinfo and rec.extinfo['def_cat_uid']:
-            taginfo = MCategory.get_by_uid(rec.extinfo['def_cat_uid'][:2] + '00')
-            if taginfo:
-                cat_name = taginfo.name
-        writer.update_document(
-            title=rec.title,
-            catid=catid,
-            type='<span style="color:red;">[{0}]</span>'.format(cat_name),
-            link='/{0}/{1}'.format(router_post[rec.kind], rec.uid),
-            content=text2
-        )
+# def do_for_app2(writer, rand=True):
+#     '''
+#     生成whoosh，根据数据库中类别。
+#     :param writer:
+#     :param rand:
+#     :return:
+#     '''
+#     if rand:
+#         recs = MPost.query_random(num = 10, kind = '2')
+#     else:
+#         recs = MPost.query_recent(2)
+#
+#     for rec in recs:
+#         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
+#
+#         info = MPost2Catalog.get_entry_catalog(rec.uid)
+#         if info:
+#             pass
+#         else:
+#             continue
+#
+#         catid = info.tag.uid[:2] + '00'
+#
+#         cat_name = ''
+#         if 'def_cat_uid' in rec.extinfo and rec.extinfo['def_cat_uid']:
+#             taginfo = MCategory.get_by_uid(rec.extinfo['def_cat_uid'][:2] + '00')
+#             if taginfo:
+#                 cat_name = taginfo.name
+#         writer.update_document(
+#             title=rec.title,
+#             catid=catid,
+#             type='<span style="color:red;">[{0}]</span>'.format(cat_name),
+#             link='/{0}/{1}'.format(router_post[rec.kind], rec.uid),
+#             content=text2
+#         )
 
 
 def do_for_post(writer, rand=True, doc_type=''):
     if rand:
-        recs = MPost.query_random(10, kind='1')
+        recs = MPost.query_random(num=10, kind='1')
     else:
-        recs = MPost.query_recent(2, kind='1')
+        recs = MPost.query_recent(num=2, kind='1')
 
     for rec in recs:
         print('Do for Post:')
@@ -98,9 +98,9 @@ def do_for_post(writer, rand=True, doc_type=''):
 
 def do_for_wiki(writer, rand=True, doc_type=''):
     if rand:
-        recs = MWiki.query_random(10)
+        recs = MWiki.query_random(num=10, kind='1')
     else:
-        recs = MWiki.query_recent(2)
+        recs = MWiki.query_recent(num=2, kind='1')
 
     for rec in recs:
         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
@@ -115,9 +115,9 @@ def do_for_wiki(writer, rand=True, doc_type=''):
 
 def do_for_page(writer, rand=True, doc_type=''):
     if rand:
-        recs = MWiki.query_random(4)
+        recs = MWiki.query_random(num=4, kind='2')
     else:
-        recs = MWiki.query_recent(1)
+        recs = MWiki.query_recent(num=2, kind='2')
 
     for rec in recs:
         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))

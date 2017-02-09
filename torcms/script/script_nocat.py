@@ -1,26 +1,18 @@
 # -*- coding:utf-8 -*-
 
-from torcms.model.info_model import MInfor
-from torcms.model.post2catalog_model import MPost2Catalog
-from torcms.model.wiki_model import MWiki
-from torcms.model.label_model import MLabel
-from torcms.model.category_model import MCategory
-from config import router_post
 
-mcat = MCategory()
-mlabel = MLabel()
-mpost = MInfor()
-mpost2tag = MPost2Catalog()
-mwiki = MWiki()
+from torcms.model.post_model import MPost
+from torcms.model.post2catalog_model import MPost2Catalog
+from config import router_post
 
 
 def run_nocat():
     for key in router_post.keys():
         if key == 'i':
             continue
-        post_recs = MInfor.query_all(limit=50000, kind=key)
+        post_recs = MPost.query_all(limit=50000, kind=key)
         for postinfo in post_recs:
-            cat = mpost2tag.get_entry_catalog(postinfo.uid)
+            cat = MPost2Catalog.get_entry_catalog(postinfo.uid)
             if cat:
                 pass
             else:

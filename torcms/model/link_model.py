@@ -67,7 +67,7 @@ class MLink(Mabc):
     def create_wiki_history(id_link, post_data):
         uu = MLink.get_by_uid(id_link)
         if uu:
-            return (False)
+            return False
         g_Link.create(
             name=post_data['name'],
             link=post_data['link'],
@@ -75,7 +75,7 @@ class MLink(Mabc):
             logo=post_data['logo'] if 'logo' in post_data else '',
             uid=id_link,
         )
-        return (id_link)
+        return id_link
 
     @staticmethod
     def query_link(num):

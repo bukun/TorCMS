@@ -1,5 +1,9 @@
 # -*- coding:utf-8 -*-
 
+'''
+The router used in App.
+'''
+
 import router
 import torcms.core.router
 
