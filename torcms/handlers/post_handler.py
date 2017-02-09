@@ -125,7 +125,7 @@ class PostHandler(BaseHandler):
         The default page of POST.
         :return:
         '''
-        self.render('post_{0}/index.html'.format(self.kind),
+        self.render('post_{0}/post_index.html'.format(self.kind),
                     userinfo=self.userinfo,
                     kwd={'uid': '',})
 
@@ -215,7 +215,7 @@ class PostHandler(BaseHandler):
                 uid = kwargs['uid']
             else:
                 uid = ''
-            self.render('post_{0}/add.html'.format(self.kind),
+            self.render('post_{0}/post_add.html'.format(self.kind),
                         tag_infos=MCategory.query_all(by_order=True, kind=self.kind),
                         userinfo=self.userinfo,
                         kwd={'uid': uid,})
@@ -470,7 +470,7 @@ class PostHandler(BaseHandler):
         if self.filter_view:
             tmpl = 'autogen/edit/edit_{0}.html'.format(catid)
         else:
-            tmpl = 'post_{0}/edit.html'.format(self.kind)
+            tmpl = 'post_{0}/post_edit.html'.format(self.kind)
 
         logger.info('Meta template: {0}'.format(tmpl))
 
