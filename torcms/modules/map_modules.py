@@ -28,7 +28,6 @@ class MapJson(tornado.web.UIModule):
             'signature': app_id,
             'tdesc': '',
             'site_url': SITE_CFG['site_url'],
-
         }
 
         return self.render_string('modules/map/map_json.html',

@@ -96,6 +96,30 @@ class InfoUserRecentByCategory(tornado.web.UIModule):
                                   recs=all_cats)
 
 
+
+
+
+class InfoMostUsedByCategory(tornado.web.UIModule):
+    '''
+
+    '''
+
+    def render(self, num, cat_str):
+        all_cats = MPost.query_most_by_cat(num, cat_str)
+        return self.render_string('modules/info/list_equation_by_cat.html',
+                                  recs=all_cats)
+
+
+class InfoLeastUseByCategory(tornado.web.UIModule):
+    '''
+
+    '''
+
+    def render(self, num, cat_str):
+        all_cats = MPost.query_least_by_cat(num, cat_str)
+        return self.render_string('modules/info/list_equation_by_cat.html', recs=all_cats)
+
+
 class InfoMostUsed(tornado.web.UIModule):
     '''
 
@@ -119,7 +143,7 @@ class InfoMostUsed(tornado.web.UIModule):
             return self.render_it(kind, num, with_tag=with_tag)
 
     def render_it(self, kind, num, with_tag=False):
-        all_cats = MPost.query_most(kind, num)
+        all_cats = MPost.query_most(kind = kind, num = num)
         kwd = {
             'with_tag': with_tag,
             'router': router_post[kind],
@@ -137,28 +161,6 @@ class InfoMostUsed(tornado.web.UIModule):
         return self.render_string('modules/info/list_user_equation.html',
                                   recs=all_cats,
                                   kwd=kwd)
-
-
-class InfoMostUsedByCategory(tornado.web.UIModule):
-    '''
-
-    '''
-
-    def render(self, num, cat_str):
-        all_cats = MPost.query_most_by_cat(num, cat_str)
-        return self.render_string('modules/info/list_equation_by_cat.html',
-                                  recs=all_cats)
-
-
-class InfoLeastUseByCategory(tornado.web.UIModule):
-    '''
-
-    '''
-
-    def render(self, num, cat_str):
-        all_cats = MPost.query_least_by_cat(num, cat_str)
-        return self.render_string('modules/info/list_equation_by_cat.html', recs=all_cats)
-
 
 class InfoRecentUsed(tornado.web.UIModule):
     '''
