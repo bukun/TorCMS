@@ -75,6 +75,7 @@ class CategoryHandler(BaseHandler):
                'current_page': current_page_num}
 
         self.render('doc/catalog/list.html',
+                    catinfo = cat_rec,
                     infos=MPost2Catalog.query_pager_by_slug(cat_slug, current_page_num),
                     pager=tools.gen_pager_purecss('/category/{0}'.format(cat_slug),
                                                   page_num,
