@@ -25,6 +25,8 @@ from torcms.model.usage_model import MUsage
 from celery_server import cele_gen_whoosh
 
 
+# Todo: def_cat_uid should be deleted.
+
 class PostHandler(BaseHandler):
     '''
     The basic HTML Page handler.
@@ -360,10 +362,15 @@ class PostHandler(BaseHandler):
 
         current_infos = MPost2Catalog.query_by_entity_uid(uid)
         new_tag_arr = []
+
+        # Used to update post2category, to keep order.
         def_cate_arr = ['gcat{0}'.format(x) for x in range(10)]
-        # todo: next line should be deleted. keep here for historical reason.
+
+        # for old page.
         def_cate_arr.append('def_cat_uid')
 
+        # Used to update post extinfo.
+        cat_dic = {}
         for key in def_cate_arr:
             if key in post_data:
                 pass
@@ -378,12 +385,14 @@ class PostHandler(BaseHandler):
                 continue
 
             new_tag_arr.append(post_data[key] + ' ' * (4 - len(post_data[key])))
+            cat_dic[key] = post_data[key] + ' ' * (4 - len(post_data[key]))
 
         # Add the category
+        logger.info('Update category: {0}'.format(new_tag_arr))
+        logger.info('Update category: {0}'.format(cat_dic))
         for index, catid in enumerate(new_tag_arr):
             MPost2Catalog.add_record(uid, catid, index)
-
-            # MCategory.update_count(catid, MPost2Catalog.query_by_catid(catid).count())
+            MPost.update_jsonb(uid, cat_dic)
 
         # Delete the old category if not in post requests.
         for cur_info in current_infos:
@@ -909,10 +918,18 @@ class PostHandler(BaseHandler):
         :param rec: the App record.
         :return: the temaplte path.
         '''
-        if 'def_cat_uid' in rec.extinfo and rec.extinfo['def_cat_uid'] != '':
+
+        # post2catinfo = MPost2Catalog.query_by_post( rec.uid )
+
+        if 'gcat0' in rec.extinfo and rec.extinfo['gcat0'] != '':
+            cat_id = rec.extinfo['gcat0']
+        elif 'def_cat_uid' in rec.extinfo and rec.extinfo['def_cat_uid'] != '':
             cat_id = rec.extinfo['def_cat_uid']
         else:
-            cat_id = False
+            cat_id = None
+
+        logger.info('For templates: catid: {0},  filter_view: {1}'.format(cat_id, self.filter_view))
+
         if cat_id and self.filter_view:
             tmpl = 'autogen/view/view_{0}.html'.format(cat_id)
         else:
@@ -951,13 +968,14 @@ class PostHandler(BaseHandler):
         logger.info('Def Extra data: args - {0}'.format(postdata))
 
         ext_data = {}
-        # 针对分类下面两种处理方式，上面是原有的，暂时保留以保持兼容
-        if 'def_cat_uid' in postdata:
-            ext_data['def_cat_uid'] = postdata['def_cat_uid']
-            ext_data['def_cat_pid'] = MCategory.get_by_uid(postdata['def_cat_uid']).pid
+        # 针对分类下面两种处理方式，下面是原有的，暂时保留以保持兼容
+
         if 'gcat0' in postdata:
             ext_data['def_cat_uid'] = postdata['gcat0']
             ext_data['def_cat_pid'] = MCategory.get_by_uid(postdata['gcat0']).pid
+        elif 'def_cat_uid' in postdata:
+            ext_data['def_cat_uid'] = postdata['def_cat_uid']
+            ext_data['def_cat_pid'] = MCategory.get_by_uid(postdata['def_cat_uid']).pid
 
         ext_data['def_tag_arr'] = [x.strip() for x in postdata['tags'].strip().strip(',').split(',')]
 

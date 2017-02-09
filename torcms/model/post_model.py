@@ -104,12 +104,14 @@ class MPost(Mabc):
     @staticmethod
     def update_kind(uid, kind):
         '''
+        update the kind of post.
         :param uid:
         :param kind:
         :return:
         '''
+
         entry = g_Post.update(
-            kind=kind
+            kind=kind,
         ).where(g_Post.uid == uid)
         entry.execute()
         return True

@@ -51,6 +51,17 @@ class MPost2Catalog(Mabc):
         )
 
     @staticmethod
+    def query_by_post(postid):
+        '''
+        Query records by post.
+        :param postid:
+        :return:
+        '''
+        return g_Post2Tag.select().where(
+            g_Post2Tag.post == postid
+        ).order_by(g_Post2Tag.order)
+
+    @staticmethod
     def __get_by_info(post_id, catalog_id):
         recs = g_Post2Tag.select().where(
             (g_Post2Tag.post == post_id) &
@@ -110,7 +121,6 @@ class MPost2Catalog(Mabc):
             )
 
         MCategory.update_count(catalog_id)
-
 
     @staticmethod
     def count_of_certain_category(cat_id):
