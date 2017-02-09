@@ -17,7 +17,6 @@ from .script_sitemap import run_sitemap
 from .script_check_kind import run_check_kind
 from .script_crud import run_crud1, run_crud0
 from .script_nocat import run_nocat
-from .script_code_line import run_lines
 
 
 def entry(argv):
@@ -40,7 +39,6 @@ def entry(argv):
         'crud0': run_crud0,
         'crud1': run_crud1,
         'nocat': run_nocat,
-        'lines': run_lines
     }
     try:
         # 这里的 h 就表示该选项无参数，i:表示 i 选项后需要有参数
@@ -66,7 +64,6 @@ def entry(argv):
             print('         crud0: ')
             print('         crud1: ')
             print('         nocat: ')
-            print('         lines: ')
 
             sys.exit()
         elif opt == "-i":
