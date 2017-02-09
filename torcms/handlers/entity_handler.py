@@ -16,11 +16,12 @@ thub_size = (256, 256)
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
-ALLOWED_EXTENSIONS_PDF = set(['pdf', 'doc', 'docx', 'zip','rar'])
+ALLOWED_EXTENSIONS_PDF = set(['pdf', 'doc', 'docx', 'zip', 'rar'])
 
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 def allowed_file_pdf(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS_PDF
@@ -85,7 +86,6 @@ class EntityHandler(BaseHandler):
                 pass
         else:
             self.add_pic()
-
 
     @tornado.web.authenticated
     def add_pic(self):
@@ -159,10 +159,9 @@ class EntityHandler(BaseHandler):
 
         sig_save = os.path.join(signature[:2], signature)
 
-
         MEntity.create_wiki_history(signature, sig_save)
 
-        self.redirect('/entity/{0}{1}'.format(sig_save,  hou.lower()))
+        self.redirect('/entity/{0}{1}'.format(sig_save, hou.lower()))
 
     @tornado.web.authenticated
     def view(self, outfilename):

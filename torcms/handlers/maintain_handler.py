@@ -57,8 +57,7 @@ class MaintainCategoryHandler(BaseHandler):
                     view=MCategory.query_all(by_order=True),
                     format_date=tools.format_date,
                     userinfo=self.userinfo,
-                    cfg=config.CMS_CFG
-                    )
+                    cfg=config.CMS_CFG)
 
     @tornado.web.authenticated
     def to_add(self):
@@ -74,8 +73,7 @@ class MaintainCategoryHandler(BaseHandler):
                     topmenu='',
                     kwd=kwd,
                     userinfo=self.userinfo,
-                    cfg=config.CMS_CFG
-                    )
+                    cfg=config.CMS_CFG)
 
     def __could_edit(self, uid):
         raw_data = MCategory.get_by_uid(uid)
@@ -128,8 +126,7 @@ class MaintainCategoryHandler(BaseHandler):
                     unescape=tornado.escape.xhtml_unescape,
                     dbrec=a,
                     userinfo=self.userinfo,
-                    cfg=config.CMS_CFG,
-                    )
+                    cfg=config.CMS_CFG, )
 
     @tornado.web.authenticated
     def add_post(self):

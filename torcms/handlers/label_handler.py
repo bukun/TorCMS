@@ -18,16 +18,17 @@ class LabelHandler(BaseHandler):
     '''
     For Post Label. with 'kind'.
     '''
+
     def initialize(self):
         super(LabelHandler, self).initialize()
 
-    def get(self, url_str=''):
+    def get(self, *args):
         '''
         /label/s/view
-        :param url_str:
+        :param :
         :return:
         '''
-        url_arr = self.parse_url(url_str)
+        url_arr = self.parse_url(args[0])
 
         if len(url_arr) == 2:
             if url_arr[0] == 'remove':
@@ -40,8 +41,8 @@ class LabelHandler(BaseHandler):
             return False
 
     @tornado.web.authenticated
-    def remove_redis_keyword(self, kw):
-        redisvr.srem(CMS_CFG['redis_kw'] + self.userinfo.user_name, kw)
+    def remove_redis_keyword(self, keyword):
+        redisvr.srem(CMS_CFG['redis_kw'] + self.userinfo.user_name, keyword)
         return json.dump({}, self)
 
     def list(self, kind, tag_slug, cur_p=''):
@@ -86,26 +87,28 @@ class LabelHandler(BaseHandler):
         if page_num == 1:
             return ''
 
-        pager_shouye = '''<li class="{0}">
-        <a href="/label/{1}/{2}">&lt;&lt; 首页</a>
-                    </li>'''.format('hidden' if current <= 1 else '', kind, cat_slug)
+        pager_shouye = '''<li class="{0}">   <a href="/label/{1}/{2}">&lt;&lt; 首页</a>
+        </li>'''.format(
+            'hidden' if current <= 1 else '', kind, cat_slug
+        )
 
-        pager_pre = '''<li class="{0}">
-                    <a href="/label/{1}/{2}/{3}">&lt; 前页</a>
-                    </li>'''.format('hidden' if current <= 1 else '', kind, cat_slug, current - 1)
+        pager_pre = '''<li class="{0}"><a href="/label/{1}/{2}/{3}">&lt; 前页</a>
+        </li>'''.format(
+            'hidden' if current <= 1 else '', kind, cat_slug, current - 1
+        )
         pager_mid = ''
         for ind in range(0, page_num):
-            tmp_mid = '''<li class="{0}">
-                    <a  href="/label/{1}/{2}/{3}">{3}</a>
-                    </li>'''.format('active' if ind + 1 == current else '', kind, cat_slug, ind + 1)
+            tmp_mid = '''<li class="{0}"><a  href="/label/{1}/{2}/{3}">{3}</a>
+            </li>'''.format(
+                'active' if ind + 1 == current else '', kind, cat_slug, ind + 1
+            )
             pager_mid += tmp_mid
-        pager_next = '''<li class=" {0}">
-                    <a  href="/label/{1}/{2}/{3}">后页 &gt;</a>
-                    </li>'''.format('hidden' if current >= page_num else '', kind, cat_slug, current + 1)
-        pager_last = '''<li class=" {0}">
-                    <a href="/label/{1}/{2}/{3}">末页
-                        &gt;&gt;</a>
-                    </li>'''.format(
+        pager_next = '''<li class=" {0}"><a  href="/label/{1}/{2}/{3}">后页 &gt;</a>
+        </li>'''.format(
+            'hidden' if current >= page_num else '', kind, cat_slug, current + 1
+        )
+        pager_last = '''<li class=" {0}"><a href="/label/{1}/{2}/{3}">末页&gt;&gt;</a>
+        </li>'''.format(
             'hidden' if current >= page_num else '', kind, cat_slug, page_num
         )
         pager = pager_shouye + pager_pre + pager_mid + pager_next + pager_last
@@ -117,6 +120,7 @@ class InfoTagHandler(BaseHandler):
     '''
     Access label without 'kind'. so for each kind, there must be a router.
     '''
+
     def initialize(self, **kwargs):
         super(InfoTagHandler, self).initialize()
         if 'kind' in kwargs:
@@ -124,8 +128,8 @@ class InfoTagHandler(BaseHandler):
         else:
             self.kind = '9'
 
-    def get(self, url_str=''):
-        url_arr = self.parse_url(url_str)
+    def get(self, *args):
+        url_arr = self.parse_url(args[0])
 
         if len(url_arr) == 1:
 

@@ -8,6 +8,8 @@ from torcms.model.core_tab import g_Reply
 from torcms.model.core_tab import g_User2Reply
 
 from torcms.model.abc_model import Mabc
+
+
 class MReply(Mabc):
     def __init__(self):
         try:
@@ -17,7 +19,7 @@ class MReply(Mabc):
 
     @staticmethod
     def get_by_uid(uid):
-        recs =g_Reply.select().where(g_Reply.uid == uid)
+        recs = g_Reply.select().where(g_Reply.uid == uid)
         if recs.count() == 0:
             return None
         else:

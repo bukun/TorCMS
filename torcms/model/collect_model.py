@@ -10,15 +10,18 @@ from torcms.model.core_tab import g_Post
 from torcms.model.core_tab import g_Collect
 from torcms.model.abc_model import Mabc
 
+
 class MCollect(Mabc):
     '''
     Model for collection.
     '''
+
     def __init__(self):
         try:
             g_Collect.create_table()
         except:
             pass
+
     @staticmethod
     def query_recent(user_id, num=10):
         '''
@@ -52,7 +55,7 @@ class MCollect(Mabc):
             return None
 
     @staticmethod
-    def add_or_update( user_id, app_id):
+    def add_or_update(user_id, app_id):
         '''
         :param user_id:
         :param app_id:

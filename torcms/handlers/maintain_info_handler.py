@@ -50,8 +50,7 @@ class MaintainPycateCategoryHandler(BaseHandler):
                     kwd=kwd,
                     view=MCategory.query_all(),
                     format_date=tools.format_date,
-                    userinfo=self.userinfo,
-                    )
+                    userinfo=self.userinfo)
 
     def wiki(self, uid):
         dbdate = MCategory.get_by_uid(uid)
@@ -70,8 +69,7 @@ class MaintainPycateCategoryHandler(BaseHandler):
         self.render('doc/maintain/pycatecategory/category_add.html',
                     topmenu='',
                     kwd=kwd,
-                    userinfo=self.userinfo,
-                    )
+                    userinfo=self.userinfo)
 
     @tornado.web.authenticated
     def to_add(self, uid):
@@ -84,8 +82,7 @@ class MaintainPycateCategoryHandler(BaseHandler):
             'pager': '',
         }
         self.render('doc/maintain/pycatecategory/list.html',
-                    kwd=kwd,
-                    )
+                    kwd=kwd, )
 
     @tornado.web.authenticated
     def update(self, uid):
@@ -121,8 +118,7 @@ class MaintainPycateCategoryHandler(BaseHandler):
                     kwd=kwd,
                     unescape=tornado.escape.xhtml_unescape,
                     dbrec=a,
-                    userinfo=self.userinfo,
-                    )
+                    userinfo=self.userinfo, )
 
     @tornado.web.authenticated
     def viewit(self, post_id):
@@ -138,9 +134,7 @@ class MaintainPycateCategoryHandler(BaseHandler):
 
         kwd = {
             'pager': '',
-            'editable': self.editable(),
-
-        }
+            'editable': self.editable(),}
 
         self.render('doc/maintain/pycatecategory/category_view.html',
                     view=rec,

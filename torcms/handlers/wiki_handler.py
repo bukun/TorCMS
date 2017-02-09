@@ -9,6 +9,7 @@ from torcms.model.wiki_model import MWiki
 from torcms.model.wiki_hist_model import MWikiHist
 from celery_server import cele_gen_whoosh
 
+
 class WikiHandler(BaseHandler):
     def initialize(self):
         super(WikiHandler, self).initialize()
@@ -60,8 +61,7 @@ class WikiHandler(BaseHandler):
                     view=MWiki.query_recent(),
                     format_date=tools.format_date,
                     kwd=kwd,
-                    userinfo=self.userinfo,
-                    )
+                    userinfo=self.userinfo)
 
     def refresh(self):
         '''

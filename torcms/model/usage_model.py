@@ -13,6 +13,7 @@ from torcms.core import tools
 from torcms.core.tools import logger
 from torcms.model.abc_model import Mabc
 
+
 class MUsage(Mabc):
     '''
     Handle the usage of the info.
@@ -33,7 +34,7 @@ class MUsage(Mabc):
         return g_Usage.select().order_by(peewee.fn.Random()).limit(6)
 
     @staticmethod
-    def query_recent( user_id, kind, num = 10 ):
+    def query_recent(user_id, kind, num=10):
         return g_Usage.select().where(
             (g_Usage.user_id == user_id) &
             (g_Usage.kind == kind)
@@ -42,7 +43,7 @@ class MUsage(Mabc):
         ).limit(num)
 
     @staticmethod
-    def query_recent_by_cat( user_id, cat_id, num):
+    def query_recent_by_cat(user_id, cat_id, num):
         return g_Usage.select().where(
             (g_Usage.tag_id == cat_id) &
             (g_Usage.user_id == user_id)
@@ -51,7 +52,7 @@ class MUsage(Mabc):
         ).limit(num)
 
     @staticmethod
-    def query_most( user_id, kind, num):
+    def query_most(user_id, kind, num):
         return g_Usage.select().where(
             (g_Usage.user_id == user_id) &
             (g_Usage.kind == kind)
@@ -60,14 +61,14 @@ class MUsage(Mabc):
         ).limit(num)
 
     @staticmethod
-    def query_by_signature( user_id, sig):
+    def query_by_signature(user_id, sig):
         return g_Usage.select().where(
             (g_Usage.post == sig) &
             (g_Usage.user_id == user_id)
         )
 
     @staticmethod
-    def count_increate( rec, cat_id, num):
+    def count_increate(rec, cat_id, num):
         entry = g_Usage.update(
             timestamp=int(time.time()),
             count=num + 1,
@@ -97,13 +98,13 @@ class MUsage(Mabc):
             return False
         cat_id = cate_rec.tag.uid
         if rec.count() > 0:
-            logger.info('Usage update: {uid}'.format(uid = post_id))
+            logger.info('Usage update: {uid}'.format(uid=post_id))
             rec = rec.get()
-            query = g_Usage.update(kind = kind).where(g_Usage.uid == rec.uid)
+            query = g_Usage.update(kind=kind).where(g_Usage.uid == rec.uid)
             query.execute()
             MUsage.count_increate(rec.uid, cat_id, rec.count)
         else:
-            logger.info('Usage create: {uid}'.format(uid = post_id))
+            logger.info('Usage create: {uid}'.format(uid=post_id))
             g_Usage.create(
                 uid=tools.get_uuid(),
                 post=post_id,

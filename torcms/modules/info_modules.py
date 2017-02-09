@@ -20,7 +20,7 @@ from torcms.model.relation_model import MRelation
 
 class InfoCategory(tornado.web.UIModule):
     '''
-
+    List of category
     '''
 
     def render(self, *args, **kwargs):
@@ -49,7 +49,7 @@ class InfoCategory(tornado.web.UIModule):
 @deprecated
 class InforUserMost(tornado.web.UIModule):
     '''
-
+    User most accessed posts.
     '''
 
     def render(self, user_name, kind, num, with_tag=False):
@@ -66,14 +66,10 @@ class InforUserMost(tornado.web.UIModule):
 @deprecated
 class InfoUserRecent(tornado.web.UIModule):
     '''
-
+    User used infors recently.
     '''
 
     def render(self, user_name, kind, num, with_tag=False):
-        logger.info('Infor user recent, username: {user_name}, kind: {kind}, num: {num}'.format(
-            user_name=user_name, kind=kind, num=num
-        ))
-
         all_cats = torcms.model.usage_model.MUsage.query_recent(user_name, kind, num)
         kwd = {
             'with_tag': with_tag,
@@ -86,7 +82,7 @@ class InfoUserRecent(tornado.web.UIModule):
 
 class InfoUserRecentByCategory(tornado.web.UIModule):
     '''
-
+    User accessed posts recently by category.
     '''
 
     def render(self, user_name, cat_id, num):
@@ -96,12 +92,9 @@ class InfoUserRecentByCategory(tornado.web.UIModule):
                                   recs=all_cats)
 
 
-
-
-
 class InfoMostUsedByCategory(tornado.web.UIModule):
     '''
-
+    posts, most used of certain category.
     '''
 
     def render(self, num, cat_str):
@@ -143,7 +136,7 @@ class InfoMostUsed(tornado.web.UIModule):
             return self.render_it(kind, num, with_tag=with_tag)
 
     def render_it(self, kind, num, with_tag=False):
-        all_cats = MPost.query_most(kind = kind, num = num)
+        all_cats = MPost.query_most(kind=kind, num=num)
         kwd = {
             'with_tag': with_tag,
             'router': router_post[kind],
@@ -161,6 +154,7 @@ class InfoMostUsed(tornado.web.UIModule):
         return self.render_string('modules/info/list_user_equation.html',
                                   recs=all_cats,
                                   kwd=kwd)
+
 
 class InfoRecentUsed(tornado.web.UIModule):
     '''

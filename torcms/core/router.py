@@ -26,7 +26,7 @@ from torcms.handlers.wiki_handler import WikiHandler
 from torcms.handlers.user_info_list_handler import UserListHandler
 from torcms.handlers.collect_handler import CollectHandler
 from torcms.handlers.evaluation_handler import EvaluationHandler
-from torcms.handlers.post_info_relation_handler import RelHandler
+from torcms.handlers.relation_handler import RelHandler
 
 from torcms.handlers.post_history_handler import PostHistoryHandler
 from torcms.handlers.wiki_history_manager import WikiHistoryHandler

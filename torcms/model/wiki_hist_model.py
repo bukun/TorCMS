@@ -5,6 +5,7 @@ from torcms.model.core_tab import g_WikiHist
 import tornado.escape
 from torcms.model.abc_model import Mabc, MHelper
 
+
 class MWikiHist(Mabc):
     def __init__(self):
         try:
@@ -25,14 +26,13 @@ class MWikiHist(Mabc):
             return recs.get()
 
     @staticmethod
-    def delete( uid):
+    def delete(uid):
         '''
         Delete by uid
         :param uid:
         :return:
         '''
         return MHelper.delete(g_WikiHist, uid)
-
 
     @staticmethod
     def get_by_uid(uid):

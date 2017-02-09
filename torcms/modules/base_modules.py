@@ -100,7 +100,7 @@ class PostMostView(tornado.web.UIModule):
             'router': config.router_post['1'],
         }
         return self.render_string('modules/post/post_list.html',
-                                  recs=MPost.query_most(num),
+                                  recs=MPost.query_most(num = num, kind= '1'),
                                   kwd=kwd)
 
 

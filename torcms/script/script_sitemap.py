@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import os
-
 from torcms.model.post_model import MPost
 from torcms.model.wiki_model import MWiki
-
 from config import router_post, SITE_CFG
 
 sitemap_file = 'sitemap.txt'

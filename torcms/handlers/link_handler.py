@@ -54,8 +54,7 @@ class LinkHandler(BaseHandler):
                     kwd=kwd,
                     view=MLink.query_link(10),
                     format_date=tools.format_date,
-                    userinfo=self.userinfo,
-                    )
+                    userinfo=self.userinfo)
 
     def to_add_link(self, ):
         if self.check_post_role()['ADD']:
@@ -69,8 +68,7 @@ class LinkHandler(BaseHandler):
         self.render('doc/link/link_add.html',
                     topmenu='',
                     kwd=kwd,
-                    userinfo=self.userinfo,
-                    )
+                    userinfo=self.userinfo, )
 
     @tornado.web.authenticated
     def update(self, uid):
@@ -126,8 +124,7 @@ class LinkHandler(BaseHandler):
                     unescape=tornado.escape.xhtml_unescape,
                     kwd=kwd,
                     userinfo=self.userinfo,
-                    cfg=config.CMS_CFG,
-                    )
+                    cfg=config.CMS_CFG, )
 
     @tornado.web.authenticated
     def p_user_add_link(self):
@@ -172,7 +169,7 @@ class LinkHandler(BaseHandler):
         MLink.create_wiki_history(cur_uid, post_data)
 
         self.redirect('/link/list')
-
+ 
     @tornado.web.authenticated
     def delete(self, del_id):
         if self.check_post_role()['DELETE']:
