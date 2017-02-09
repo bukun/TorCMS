@@ -16,10 +16,10 @@ class AdminPostHandler(PostHandler):
 
     def get(self, *args, **kwargs):
         url_str = args[0]
-        if self.userinfo and self.userinfo.role[2] >= '3':
+        if self.userinfo and self.userinfo.role[1] >= '3':
             pass
         else:
-            return False
+            self.redirect('/')
         url_arr = self.parse_url(url_str)
 
         if len(url_arr) == 2:
@@ -30,10 +30,10 @@ class AdminPostHandler(PostHandler):
 
     def post(self, *args, **kwargs):
         url_str = args[0]
-        if self.userinfo and self.userinfo.role[2] >= '3':
+        if self.userinfo and self.userinfo.role[1] >= '3':
             pass
         else:
-            return False
+            self.redirect('/')
 
         url_arr = self.parse_url(url_str)
 
