@@ -22,7 +22,7 @@ class FilterHandler(BaseHandler):
     def initialize(self):
         super(FilterHandler, self).initialize()
 
-    def get(self, *args, **kwargs):
+    def get(self, *args):
         url_str = args[0]
 
         logger.info('infocat get url_str: {0}'.format(url_str))

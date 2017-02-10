@@ -12,7 +12,7 @@ def run_nocat():
             continue
         post_recs = MPost.query_all(limit=50000, kind=key)
         for postinfo in post_recs:
-            cat = MPost2Catalog.get_entry_catalog(postinfo.uid)
+            cat = MPost2Catalog.get_first_category(postinfo.uid)
             if cat:
                 pass
             else:

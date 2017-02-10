@@ -15,9 +15,9 @@ except ImportError:
 
 from torcms.script.autocrud.gen_html.func_to_html_add_edit_view import *
 from torcms.script.autocrud.base_crud import crud_path
-from torcms.script.autocrud.gen_html.tpl import tpl_add
-from torcms.script.autocrud.gen_html.tpl import tpl_view
-from torcms.script.autocrud.gen_html.tpl import tpl_edit
+from torcms.script.autocrud.gen_html.tpl import TPL_ADD
+from torcms.script.autocrud.gen_html.tpl import TPL_VIEW
+from torcms.script.autocrud.gen_html.tpl import TPL_EDIT
 
 def gen_add_edit_view_tmpl():
     out_dir = os.path.join(os.getcwd(), crud_path)
@@ -58,7 +58,7 @@ def gen_add_edit_view_tmpl():
                 add_widget_arr.append(tmpl)
             with open(add_file, 'w') as fo:
                 fo.write(
-                    tpl_add.replace(
+                    TPL_ADD.replace(
                         'xxxxxx',
                         ''.join(add_widget_arr)
                     ).replace(
@@ -90,7 +90,7 @@ def gen_add_edit_view_tmpl():
                 view_widget_arr.append(tmpl)
             with open(view_file, 'w') as fo:
                 fo.write(
-                    tpl_view.replace(
+                    TPL_VIEW.replace(
                         'xxxxxx', ''.join(view_widget_arr)
                     ).replace(
                         'yyyyyy',
@@ -122,7 +122,7 @@ def gen_add_edit_view_tmpl():
                 edit_widget_arr.append(tmpl)
             with open(edit_file, 'w') as fo:
                 fo.write(
-                    tpl_edit.replace(
+                    TPL_EDIT.replace(
                         'xxxxxx',
                         ''.join(edit_widget_arr)
                     ).replace(

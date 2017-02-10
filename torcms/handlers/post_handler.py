@@ -5,11 +5,9 @@ The basic HTML Page handler.
 '''
 
 import json
-
+import random
 import tornado.escape
 import tornado.web
-import random
-from config import router_post
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tools import logger
@@ -21,11 +19,9 @@ from torcms.model.post_model import MPost
 from torcms.model.relation_model import MRelation
 from torcms.model.evaluation_model import MEvaluation
 from torcms.model.usage_model import MUsage
-
+from config import router_post
 from celery_server import cele_gen_whoosh
 
-
-# Todo: def_cat_uid should be deleted.
 
 class PostHandler(BaseHandler):
     '''
@@ -40,48 +36,78 @@ class PostHandler(BaseHandler):
         else:
             self.kind = '1'
 
-        if 'filter_view' in kwargs:
-            self.filter_view = True
-        else:
-            self.filter_view = False
+        self.filter_view = kwargs['filter_view'] if 'filter_view' in kwargs else False
+
+    def __redirect(self, url_arr):
+        '''
+        Redirection.
+        :param url_arr:
+        :return:
+        '''
+        direct_dic = {
+            'recent': '/post_list/recent',
+            'refresh': '/post_list/_refresh',
+            '_refresh': '/post_list/_refresh',
+
+        }
+        sig = url_arr[0]
+        for sig_enum in direct_dic:
+            if sig == sig_enum:
+                self.redirect(direct_dic[sig])
+        ############################################
+        pre_dic = {
+            'cat_add': '_cat_add',
+            'add_document': '_add',
+            'add': '_add',
+            'modify': '_edit',
+            'edit': '_edit',
+            'delete': '_delete',
+            'ajax_count_plus': 'j_count_plus',
+        }
+        sig = url_arr[0]
+        for sig_enum in pre_dic:
+            if sig == sig_enum:
+                url_arr = [pre_dic[sig_enum]] + url_arr[1:]
+                url_str = '/post/' + '/'.join(url_arr)
+                self.redirect(url_str)
+        return True
 
     def get(self, *args):
 
         url_str = args[0]
         url_arr = self.parse_url(url_str)
 
+        self.__redirect(url_arr)
+
         if url_str == '':
             self.index()
-        elif url_str == 'recent':
-            # Deprecated
-            self.redirect('/post_list/recent')
-        elif url_str == '_refresh':
-            # Deprecated
-            self.redirect('/post_list/_refresh')
-        elif len(url_arr) == 1 and url_str.endswith('.html'):
-            # Deprecated
-            self.view_or_add(url_str.split('.')[0])
-        elif url_arr[0] in ['_cat_add', 'cat_add']:
-            self.to_add(catid=url_arr[1])
-        elif url_arr[0] in ['_add', 'add_document', 'add']:
-            # self.to_add()
+        # elif url_str == 'recent':
+        #     # Deprecated
+        #     self.redirect('/post_list/recent')
+        # elif url_str == '_refresh':
+        #     # Deprecated
+        #     self.redirect('/post_list/_refresh')
+
+        elif url_arr[0] == '_cat_add':
+            self.__to_add(catid=url_arr[1])
+        elif url_arr[0] == '_add':
             if len(url_arr) == 2:
-                self.to_add(uid=url_arr[1])
+                self.__to_add(uid=url_arr[1])
             else:
-                self.to_add()
-        elif url_arr[0] in ['modify', 'edit', '_edit']:
-            self.to_edit(url_arr[1])
-        elif url_arr[0] == 'delete':
+                self.__to_add()
+        elif url_arr[0] == '_edit':
+            self.__to_edit(url_arr[1])
+        elif url_arr[0] == '_delete':
             self.delete(url_arr[1])
         elif url_arr[0] == 'j_delete':
             self.j_delete(url_arr[1])
-        elif url_arr[0] in ['j_count_plus', 'ajax_count_plus', ]:
+        elif url_arr[0] == 'j_count_plus':
             self.j_count_plus(url_arr[1])
-        elif len(url_arr) == 1:
-            if len(url_str) in [4, 5]:
-                self.view_or_add(url_str)
-                # self.view_or_add(url_str)
-
+        elif len(url_arr) == 1 and url_str.endswith('.html'):
+            # Deprecated
+            self.redirect('/post/{uid}'.format(uid=url_str.split('.')[0]))
+        elif len(url_arr) == 1 and len(url_str) in [4, 5]:
+            self.view_or_add(url_str)
         else:
             kwd = {
                 'title': '',
@@ -131,18 +157,15 @@ class PostHandler(BaseHandler):
                     userinfo=self.userinfo,
                     kwd={'uid': '',})
 
-    def j_count_plus(self, uid):
+    def __gen_uid(self):
         '''
-        Ajax request, that the view count will plus 1.
-        :param uid:
-        :return:
+        Generate the ID for post.
+        :return: the new ID.
         '''
-        logger.info('Deprecated, you should use: /post_j/count_plus')
-        self.set_header("Content-Type", "application/json")
-        output = {
-            'status': 1 if MPost.update_view_count_by_uid(uid) else 0,
-        }
-        self.write(json.dumps(output))
+        cur_uid = self.kind + tools.get_uu4d()
+        while MPost.get_by_uid(cur_uid):
+            cur_uid = self.kind + tools.get_uu4d()
+        return cur_uid
 
     @tornado.web.authenticated
     def __could_edit(self, postid):
@@ -158,6 +181,55 @@ class PostHandler(BaseHandler):
         else:
             return False
 
+    def __get_tmpl_view(self, rec):
+        '''
+        According to the application, each info of it's classification could
+        has different temaplate.
+        :param rec: the App record.
+        :return: the temaplte path.
+        '''
+
+        # post2catinfo = MPost2Catalog.query_by_post( rec.uid )
+
+        if 'gcat0' in rec.extinfo and rec.extinfo['gcat0'] != '':
+            cat_id = rec.extinfo['gcat0']
+        elif 'def_cat_uid' in rec.extinfo and rec.extinfo['def_cat_uid'] != '':
+            cat_id = rec.extinfo['def_cat_uid']
+        else:
+            cat_id = None
+
+        logger.info('For templates: catid: {0},  filter_view: {1}'.format(cat_id, self.filter_view))
+
+        if cat_id and self.filter_view:
+            tmpl = 'autogen/view/view_{0}.html'.format(cat_id)
+        else:
+            tmpl = 'post_{0}/post_view.html'.format(self.kind)
+        return tmpl
+
+    @tornado.web.authenticated
+    def __to_add_with_category(self, catid):
+        '''
+        Used for info2.
+        :param catid: the uid of category
+        :return:
+        '''
+        if self.check_post_role()['ADD']:
+            pass
+        else:
+            return False
+        catinfo = MCategory.get_by_uid(catid)
+        kwd = {
+            'uid': self.__gen_uid(),
+            'userid': self.userinfo.user_name if self.userinfo else '',
+            'def_cat_uid': catid,
+            'parentname': MCategory.get_by_uid(catinfo.pid).name,
+            'catname': MCategory.get_by_uid(catid).name,
+        }
+
+        self.render('autogen/add/add_{0}.html'.format(catid),
+                    userinfo=self.userinfo,
+                    kwd=kwd)
+
     def view_or_add(self, uid):
         '''
         Try to get the post. If not, to add the wiki.
@@ -168,7 +240,7 @@ class PostHandler(BaseHandler):
         if postinfo:
             self.viewinfo(postinfo)
         elif self.userinfo:
-            self.to_add(uid=uid)
+            self.__to_add(uid=uid)
         else:
             kwd = {
                 'info': '404. Page not found!',
@@ -176,26 +248,8 @@ class PostHandler(BaseHandler):
             self.render('html/404.html', kwd=kwd,
                         userinfo=self.userinfo, )
 
-    # @tornado.web.authenticated
-    # def to_add(self, **args):
-    #     # uid = args[0]
-    #     if self.check_post_role()['ADD']:
-    #         pass
-    #     else:
-    #         return False
-    #     kwd = {
-    #         'pager': '',
-    #         'cats': MCategory.query_all(),
-    #         'uid': '',
-    #     }
-    #     self.render('post_{0}/post_add.html'.format(self.kind),
-    #                 kwd=kwd,
-    #                 tag_infos=MCategory.query_all(),
-    #                 userinfo=self.userinfo,
-    #                 cfg=CMS_CFG, )
-
     @tornado.web.authenticated
-    def to_add(self, **kwargs):
+    def __to_add(self, **kwargs):
         '''
         Used for info1.
         '''
@@ -222,110 +276,20 @@ class PostHandler(BaseHandler):
                         userinfo=self.userinfo,
                         kwd={'uid': uid,})
 
-    # In Post
-    # @tornado.web.authenticated
-    # def update(self, uid):
-    #     '''
-    #     Update the post according to the uid.
-    #     :param uid:
-    #     :return:
-    #     '''
-    #     if self.__could_edit(uid):
-    #         pass
-    #     else:
-    #         return False
-    #
-    #     postinfo = MPost.get_by_uid(uid)
-    #     if postinfo.kind == self.kind:
-    #         pass
-    #     else:
-    #         return False
-    #
-    #     post_data = self.get_post_data()
-    #
-    #     post_data['user_name'] = self.get_current_user()
-    #     post_data['kind'] = self.kind
-    #     is_update_time = True if post_data['is_update_time'][0] == '1' else False
-    #
-    #     cnt_old = tornado.escape.xhtml_unescape(postinfo.cnt_md).strip()
-    #     cnt_new = post_data['cnt_md'].strip()
-    #     if cnt_old == cnt_new:
-    #         pass
-    #     else:
-    #         MPostHist.create_wiki_history(postinfo)
-    #
-    #     logger.info('upadte: {0}'.format(uid))
-    #     logger.info('Update post_data: {0}'.format(post_data))
-    #     MPost.update(uid, post_data, update_time=is_update_time)
-    #     self.update_category(uid)
-    #     self.update_tag(uid)
-    #
-    #     cele_gen_whoosh.delay()
-    #     # run_whoosh.run()
-    #     self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], uid))
-
-    @tornado.web.authenticated
-    @tornado.web.asynchronous
-    def update(self, uid):
+    def update_tag(self, uid, **kwargs):
         '''
-        in infor.
+        Update category, and labels.
         :param uid:
+        :param kwargs:
         :return:
         '''
-        if self.check_post_role()['EDIT']:
-            pass
-        else:
-            return False
-
-        postinfo = MPost.get_by_uid(uid)
-        if postinfo.kind == self.kind:
-            pass
-        else:
-            return False
-
-        post_data = {}
-        ext_dic = {}
-        for key in self.request.arguments:
-            if key.startswith('ext_') or key.startswith('tag_'):
-                ext_dic[key] = self.get_argument(key)
-            else:
-                post_data[key] = self.get_arguments(key)[0]
-
-        post_data['user_name'] = self.userinfo.user_name
-
-        if 'valid' in post_data:
-            post_data['valid'] = int(post_data['valid'])
-        else:
-            post_data['valid'] = postinfo.valid
-
-        ext_dic['def_uid'] = str(uid)
-        logger.info(post_data)
-
-        ext_dic = dict(ext_dic, **self.get_extra_data(postdata=post_data))
-
-        cnt_old = tornado.escape.xhtml_unescape(postinfo.cnt_md).strip()
-        cnt_new = post_data['cnt_md'].strip()
-        if cnt_old == cnt_new:
-            pass
-        else:
-            MPostHist.create_wiki_history(postinfo)
-
-        MPost.modify_meta(uid,
-                          post_data,
-                          extinfo=ext_dic)
-        self.update_category(uid)
-        self.update_tag(uid)
-
-        logger.info('post kind:' + self.kind)
-        logger.info('update jump to:', '/{0}/{1}'.format(router_post[self.kind], uid))
-        cele_gen_whoosh.delay()
-        # run_whoosh.run()
-        self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], uid))
+        self.update_category(uid, **kwargs)
+        self.update_label(uid)
 
     @tornado.web.authenticated
-    def update_tag(self, signature):
+    def update_label(self, signature):
         '''
-        Update the tags when updating.
+        Update the label when updating.
         :param signature:
         :return:
         '''
@@ -336,7 +300,6 @@ class PostHandler(BaseHandler):
         else:
             return False
 
-        print('tags: {0}'.format(post_data['tags']))
         tags_arr = [x.strip() for x in post_data['tags'].split(',')]
         for tag_name in tags_arr:
             if tag_name == '':
@@ -345,24 +308,29 @@ class PostHandler(BaseHandler):
                 MPost2Label.add_record(signature, tag_name, 1)
 
         for cur_info in current_tag_infos:
-            print(cur_info.tag.name)
             if cur_info.tag.name in tags_arr:
                 pass
             else:
                 MPost2Label.remove_relation(signature, cur_info.tag)
 
     @tornado.web.authenticated
-    def update_category(self, uid):
+    def update_category(self, uid, **kwargs):
         '''
         Update the category of the post.
         :param uid:  The ID of the post. Extra info would get by requests.
         :return:
         '''
+
+        if 'catid' in kwargs and MCategory.get_by_uid(kwargs['catid']):
+            catid = kwargs['catid']
+        else:
+            catid = None
+
         post_data = self.get_post_data()
 
         current_infos = MPost2Catalog.query_by_entity_uid(uid)
-        new_tag_arr = []
 
+        new_category_arr = []
         # Used to update post2category, to keep order.
         def_cate_arr = ['gcat{0}'.format(x) for x in range(10)]
 
@@ -372,67 +340,41 @@ class PostHandler(BaseHandler):
         # Used to update post extinfo.
         cat_dic = {}
         for key in def_cate_arr:
-            if key in post_data:
+            if key not in post_data:
                 pass
-            else:
-                continue
-
             if post_data[key] == '' or post_data[key] == '0':
                 continue
-
             # 有可能选重复了。保留前面的
-            if post_data[key] in new_tag_arr:
+            if post_data[key] in new_category_arr:
                 continue
 
-            new_tag_arr.append(post_data[key] + ' ' * (4 - len(post_data[key])))
+            new_category_arr.append(post_data[key] + ' ' * (4 - len(post_data[key])))
             cat_dic[key] = post_data[key] + ' ' * (4 - len(post_data[key]))
 
+        if catid:
+            def_cat_id = catid
+        else:
+            def_cat_id = new_category_arr[0]
+        cat_dic['def_cat_uid'] = def_cat_id
+        cat_dic['def_cat_pid'] = MCategory.get_by_uid(def_cat_id).pid
+
         # Add the category
-        logger.info('Update category: {0}'.format(new_tag_arr))
+        logger.info('Update category: {0}'.format(new_category_arr))
         logger.info('Update category: {0}'.format(cat_dic))
-        for index, catid in enumerate(new_tag_arr):
+
+        MPost.update_jsonb(uid, cat_dic)
+        for index, catid in enumerate(new_category_arr):
             MPost2Catalog.add_record(uid, catid, index)
-            MPost.update_jsonb(uid, cat_dic)
 
         # Delete the old category if not in post requests.
         for cur_info in current_infos:
-            if str(cur_info.tag.uid).strip() not in new_tag_arr:
+            if str(cur_info.tag.uid).strip() not in new_category_arr:
                 MPost2Catalog.remove_relation(uid, cur_info.tag)
 
-    # in post.
-    # @tornado.web.authenticated
-    # def to_edit(self, uid):
-    #     '''
-    #     Show the HTML page for editing the post.
-    #     :param uid:
-    #     :return:
-    #     '''
-    #     if self.__could_edit(uid):
-    #         pass
-    #     else:
-    #         return False
-    #
-    #     kwd = {
-    #         'pager': '',
-    #         'cats': MCategory.query_all(),
-    #
-    #     }
-    #     postinfo = MPost.get_by_uid(uid)
-    #     self.render('post_{0}/post_edit.html'.format(self.kind),
-    #                 kwd=kwd,
-    #                 unescape=tornado.escape.xhtml_unescape,
-    #                 tag_infos=MCategory.query_all(kind=self.kind),
-    #                 app2label_info=MPost2Label.get_by_uid(uid),
-    #                 app2tag_info=MPost2Catalog.query_by_entity_uid(uid, self.kind),
-    #                 dbrec=postinfo,
-    #                 postinfo=postinfo,
-    #                 userinfo=self.userinfo,
-    #                 cfg=CMS_CFG, )
-
     @tornado.web.authenticated
-    def to_edit(self, infoid):
+    def __to_edit(self, infoid):
         '''
-        in infor
+        render the HTML page for post editing.
         :param infoid:
         :return:
         '''
@@ -462,7 +404,7 @@ class PostHandler(BaseHandler):
         catinfo = None
         p_catinfo = None
 
-        post2catinfo = MPost2Catalog.get_entry_catalog(postinfo.uid)
+        post2catinfo = MPost2Catalog.get_first_category(postinfo.uid)
         if post2catinfo:
             catid = post2catinfo.tag.uid
             catinfo = MCategory.get_by_uid(catid)
@@ -513,121 +455,34 @@ class PostHandler(BaseHandler):
         if last_post_id and MPost.get_by_uid(last_post_id):
             self.add_relation(last_post_id, post_id)
 
-    # def viewinfo(self, postinfo):
-    #     logger.info('View infor, uid: {uid}, kind: {kind}, title: {title}'.format(
-    #         kind=postinfo.kind,
-    #         uid=postinfo.uid,
-    #         title=postinfo.title
-    #     ))
-    #     post_id = postinfo.uid
-    #     self.__gen_last_current_relation(post_id)
-    #     cats = MPost2Catalog.query_by_entity_uid(post_id)
-    #     tag_info = MPost2Label.get_by_uid(post_id)
-    #     if postinfo.kind == self.kind:
-    #         pass
-    #     else:
-    #         self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], post_id), permanent=True)
-    #
-    #     if not postinfo:
-    #         kwd = {
-    #             'info': '您要查看的页面不存在。',
-    #         }
-    #         self.render('html/404.html',
-    #                     kwd=kwd,
-    #                     userinfo=self.userinfo)
-    #         return False
-    #
-    #     if cats.count() == 0:
-    #         cat_id = ''
-    #     else:
-    #         cat_id = cats.get().tag
-    #     kwd = {
-    #         'pager': '',
-    #         'editable': self.editable(),
-    #         'cat_id': cat_id
-    #     }
-    #
-    #     rel_recs = MRelation.get_app_relations(postinfo.uid, 4)
-    #     rand_recs = MPost.query_random(num=4 - rel_recs.count() + 2, kind=self.kind)
-    #
-    #     self.render('post_{0}/post_view.html'.format(self.kind),
-    #                 view=postinfo,
-    #                 postinfo=postinfo,
-    #                 unescape=tornado.escape.xhtml_unescape,
-    #                 kwd=kwd,
-    #                 userinfo=self.userinfo,
-    #                 tag_info=tag_info,
-    #                 relations=rel_recs,
-    #                 rand_recs=rand_recs,
-    #                 replys=[],
-    #                 cfg=CMS_CFG, )
-
     def viewinfo(self, postinfo):
         '''
         In infor.
         :param postinfo:
         :return:
         '''
-        info_id = postinfo.uid
-
         logger.warning('info kind:{0} '.format(postinfo.kind))
 
         # If not, there must be something wrong.
         if postinfo.kind == self.kind:
             pass
         else:
-            self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], info_id), permanent=True)
+            self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], postinfo.uid),
+                          permanent=True)
 
-        if postinfo:
-            pass
-        else:
-            kwd = {
-                'info': '您要找的信息不存在。',
-            }
-            self.render('html/404.html',
-                        kwd=kwd,
-                        userinfo=self.userinfo, )
-            return False
+        rand_recs, rel_recs = self.__fetch_additional_posts(postinfo.uid)
 
-        cats = MPost2Catalog.query_by_entity_uid(info_id, kind=postinfo.kind)
-        cat_uid_arr = []
-        for cat_rec in cats:
-            cat_uid = cat_rec.tag.uid
-            cat_uid_arr.append(cat_uid)
-        logger.info('info category: {0}'.format(cat_uid_arr))
-
-        rel_recs = MRelation.get_app_relations(postinfo.uid, 8, kind=postinfo.kind)
-        logger.info('rel_recs count: {0}'.format(rel_recs.count()))
-
-        if len(cat_uid_arr) > 0:
-            rand_recs = MPost.query_cat_random(cat_uid_arr[0], 4 - rel_recs.count() + 4)
-        else:
-            rand_recs = MPost.query_random(num=4 - rel_recs.count() + 4, kind=postinfo.kind)
-
-        self.chuli_cookie_relation(info_id)
+        self.__chuli_cookie_relation(postinfo.uid)
         cookie_str = tools.get_uuid()
 
-        if 'def_cat_uid' in postinfo.extinfo:
-            ext_catid = postinfo.extinfo['def_cat_uid']
-            if ext_catid:
-                pass
-            else:
-                ext_catid = ''
-        else:
-            ext_catid = ''
-
-        if len(ext_catid) == 4:
-            pass
-        else:
-            ext_catid = ''
+        ext_catid = postinfo.extinfo['def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else ''
 
         catinfo = None
         p_catinfo = None
 
-        post2catinfo = MPost2Catalog.get_entry_catalog(postinfo.uid)
+        post2catinfo = MPost2Catalog.get_first_category(postinfo.uid)
         if post2catinfo:
-            catid = post2catinfo.tag.uid
-            catinfo = MCategory.get_by_uid(catid)
+            catinfo = MCategory.get_by_uid(post2catinfo.tag.uid)
             if catinfo:
                 p_catinfo = MCategory.get_by_uid(catinfo.pid)
 
@@ -636,10 +491,10 @@ class PostHandler(BaseHandler):
             'url': self.request.uri,
             'cookie_str': cookie_str,
             'daohangstr': '',
-            'signature': info_id,
+            'signature': postinfo.uid,
             'tdesc': '',
-            'eval_0': MEvaluation.app_evaluation_count(info_id, 0),
-            'eval_1': MEvaluation.app_evaluation_count(info_id, 1),
+            'eval_0': MEvaluation.app_evaluation_count(postinfo.uid, 0),
+            'eval_1': MEvaluation.app_evaluation_count(postinfo.uid, 1),
             'login': 1 if self.get_current_user() else 0,
             'has_image': 0,
             'parentlist': MCategory.get_parent_list(),
@@ -647,20 +502,19 @@ class PostHandler(BaseHandler):
             'catname': '',
             'router': router_post[postinfo.kind]
         }
-        MPost.view_count_increase(info_id)
+        MPost.view_count_increase(postinfo.uid)
         if self.get_current_user():
-            MUsage.add_or_update(self.userinfo.uid, info_id, postinfo.kind)
+            MUsage.add_or_update(self.userinfo.uid, postinfo.uid, postinfo.kind)
         self.set_cookie('user_pass', cookie_str)
-        # tmpl = self.get_tmpl_name(postinfo)
 
         tmpl = self.ext_tmpl_view(postinfo)
 
         ext_catid2 = postinfo.extinfo['def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else None
 
-        if self.userinfo:
-            recent_apps = MUsage.query_recent(self.userinfo.uid, postinfo.kind, 6)[1:]
-        else:
-            recent_apps = []
+        # if self.userinfo:
+        #     recent_apps = MUsage.query_recent(self.userinfo.uid, postinfo.kind, 6)[1:]
+        # else:
+        #     recent_apps = []
         logger.info('The Info Template: {0}'.format(tmpl))
         self.render(tmpl,
                     kwd=dict(kwd, **self.ext_view_kwd(postinfo)),
@@ -674,19 +528,29 @@ class PostHandler(BaseHandler):
                     rand_recs=rand_recs,
                     unescape=tornado.escape.xhtml_unescape,
                     ad_switch=random.randint(1, 18),
-                    tag_info=MPost2Label.get_by_uid(info_id),
-                    recent_apps=recent_apps,
+                    tag_info=MPost2Label.get_by_uid(postinfo.uid),
+                    recent_apps=[],  # Deprecated, with module.
                     cat_enum=MCategory.get_qian2(ext_catid2[:2]) if ext_catid else [], )
 
-    # def add_relation(self, f_uid, t_uid):
-    #     if MPost.get_by_uid(t_uid) is False:
-    #         return False
-    #     if f_uid == t_uid:  # relate to itself.
-    #         return False
-    #
-    #     MRelation.add_relation(f_uid, t_uid, 2)
-    #     MRelation.add_relation(t_uid, f_uid, 1)
-    #     return True
+    def __fetch_additional_posts(self, uid):
+        '''
+        fetch the rel_recs, and random recs when view the post.
+        :param postinfo:
+        :return:
+        '''
+        cats = MPost2Catalog.query_by_entity_uid(uid, kind=self.kind)
+        cat_uid_arr = []
+        for cat_rec in cats:
+            cat_uid = cat_rec.tag.uid
+            cat_uid_arr.append(cat_uid)
+        logger.info('info category: {0}'.format(cat_uid_arr))
+        rel_recs = MRelation.get_app_relations(uid, 8, kind=self.kind)
+        logger.info('rel_recs count: {0}'.format(rel_recs.count()))
+        if len(cat_uid_arr) > 0:
+            rand_recs = MPost.query_cat_random(cat_uid_arr[0], 4 - rel_recs.count() + 4)
+        else:
+            rand_recs = MPost.query_random(num=4 - rel_recs.count() + 4, kind=self.kind)
+        return rand_recs, rel_recs
 
     def add_relation(self, f_uid, t_uid):
         '''
@@ -717,38 +581,28 @@ class PostHandler(BaseHandler):
         MRelation.add_relation(t_uid, f_uid, 1)
         return True
 
-    # In Post.
-    # @tornado.web.authenticated
-    # @tornado.web.asynchronous
-    # def add(self, **kwargs):
-    #
-    #     if 'uid' in kwargs:
-    #         uid = kwargs['uid']
-    #     else:
-    #         uid = self.__gen_uid()
-    #     if self.check_post_role()['ADD']:
-    #         pass
-    #     else:
-    #         return False
-    #     post_data = self.get_post_data()
-    #     if 'title' in post_data:
-    #         pass
-    #     else:
-    #         self.set_status(400)
-    #         return False
-    #
-    #     post_data['user_name'] = self.userinfo.user_name
-    #     post_data['kind'] = self.kind
-    #     cur_post_rec = MPost.get_by_uid(uid)
-    #     if cur_post_rec:
-    #         pass
-    #     else:
-    #         if MPost.create_wiki_history(uid, post_data):
-    #             self.update_tag(uid)
-    #             self.update_category(uid)
-    #     # run_whoosh.run()
-    #     cele_gen_whoosh.delay()
-    #     self.redirect('/{0}/{1}'.format(router_post[self.kind], uid))
+    def fetch_post_data(self):
+        '''
+        fetch post accessed data. post_data, and ext_dic.
+        :return:
+        '''
+        post_data = {}
+        ext_dic = {}
+        for key in self.request.arguments:
+            if key.startswith('ext_') or key.startswith('tag_'):
+                ext_dic[key] = self.get_argument(key)
+            else:
+                post_data[key] = self.get_arguments(key)[0]
+
+        post_data['user_name'] = self.userinfo.user_name
+        post_data['kind'] = self.kind
+
+        # append external infor.
+        ext_dic['def_tag_arr'] = [x.strip() for x
+                                  in post_data['tags'].strip().strip(',').split(',')]
+        ext_dic = dict(ext_dic, **self.ext_post_data(postdata=post_data))
+
+        return (post_data, ext_dic)
 
     @tornado.web.authenticated
     @tornado.web.asynchronous
@@ -768,30 +622,7 @@ class PostHandler(BaseHandler):
         else:
             return False
 
-        ext_dic = {}
-        post_data = {}
-        for key in self.request.arguments:
-            if key.startswith('ext_') or key.startswith('tag_'):
-                ext_dic[key] = self.get_argument(key)
-            else:
-                post_data[key] = self.get_arguments(key)[0]
-        post_data['user_name'] = self.userinfo.user_name
-
-        post_data['kind'] = self.kind
-
-        if 'catid' in kwargs:
-            catid = kwargs['catid']
-
-            catinfo = MCategory.get_by_uid(catid)
-            if catinfo:
-                post_data['kind'] = catinfo.kind
-                logger.info('Got category inf: {0} , kind: {1}'.format(catinfo.name, catinfo.kind))
-            else:
-                logger.info('Could not find the category: {0}'.format(catid))
-        else:
-            catid = ''
-
-        logger.info('info adding: ', 'catid: ', catid, 'infoid:', uid)
+        post_data, ext_dic = self.fetch_post_data()
 
         if 'valid' in post_data:
             post_data['valid'] = int(post_data['valid'])
@@ -800,37 +631,67 @@ class PostHandler(BaseHandler):
 
         ext_dic['def_uid'] = uid
 
-        ext_dic = dict(ext_dic, **self.get_extra_data(postdata=post_data))
-
         MPost.modify_meta(ext_dic['def_uid'],
                           post_data,
                           extinfo=ext_dic)
-        self.update_category(ext_dic['def_uid'])
-        self.update_tag(ext_dic['def_uid'])
+        self.update_tag(ext_dic['def_uid'], **kwargs)
 
         cele_gen_whoosh.delay()
-
         self.redirect('/{0}/{1}'.format(router_post[self.kind], uid))
 
-    # def __gen_uid(self):
-    #
-    #     new_uid = tools.get_uu5d()
-    #     while MPost.get_by_uid(new_uid):
-    #         new_uid = tools.get_uu5d()
-    #     return new_uid
+    @tornado.web.authenticated
+    @tornado.web.asynchronous
+    def update(self, uid):
+        '''
+        in infor.
+        :param uid:
+        :return:
+        '''
+        if self.check_post_role()['EDIT']:
+            pass
+        else:
+            return False
 
-    def __gen_uid(self):
-        '''
-        Generate the ID for post.
-        :return: the new ID.
-        '''
-        cur_uid = self.kind + tools.get_uu4d()
-        while MPost.get_by_uid(cur_uid):
-            cur_uid = self.kind + tools.get_uu4d()
-        return cur_uid
+        postinfo = MPost.get_by_uid(uid)
+        if postinfo.kind == self.kind:
+            pass
+        else:
+            return False
+
+        post_data, ext_dic = self.fetch_post_data()
+
+        if 'valid' in post_data:
+            post_data['valid'] = int(post_data['valid'])
+        else:
+            post_data['valid'] = postinfo.valid
+
+        ext_dic['def_uid'] = str(uid)
+
+        cnt_old = tornado.escape.xhtml_unescape(postinfo.cnt_md).strip()
+        cnt_new = post_data['cnt_md'].strip()
+        if cnt_old == cnt_new:
+            pass
+        else:
+            MPostHist.create_wiki_history(postinfo)
+
+        MPost.modify_meta(uid,
+                          post_data,
+                          extinfo=ext_dic)
+
+        self.update_tag(uid)
+
+        logger.info('post kind:' + self.kind)
+        cele_gen_whoosh.delay()
+        self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], uid))
 
     @tornado.web.authenticated
     def delete(self, *args, **kwargs):
+        '''
+        delete the post.
+        :param args:
+        :param kwargs:
+        :return:
+        '''
         uid = args[0]
         current_infor = MPost.get_by_uid(uid)
 
@@ -869,31 +730,20 @@ class PostHandler(BaseHandler):
             }
         return json.dump(output, self)
 
-    def ext_view_kwd(self, info_rec):
+    def j_count_plus(self, uid):
         '''
-        The additional information.
-        :param info_rec:
-        :return: directory.
-        '''
-        return {}
-
-    def ext_tmpl_view(self, rec):
-        '''
-        Used for self defined templates.
-        :param rec:
+        Ajax request, that the view count will plus 1.
+        :param uid:
         :return:
         '''
-        return self.__get_tmpl_view(rec)
+        logger.info('Deprecated, you should use: /post_j/count_plus')
+        self.set_header("Content-Type", "application/json")
+        output = {
+            'status': 1 if MPost.update_view_count_by_uid(uid) else 0,
+        }
+        self.write(json.dumps(output))
 
-    def ext_post_data(self, **kwargs):
-        '''
-        The additional information.
-        :param post_data:
-        :return: directory.
-        '''
-        return {}
-
-    def chuli_cookie_relation(self, app_id):
+    def __chuli_cookie_relation(self, app_id):
         '''
         The current Info and the Info viewed last should have some relation.
         And the last viewed Info could be found from cookie.
@@ -907,78 +757,26 @@ class PostHandler(BaseHandler):
         if last_app_uid and MPost.get_by_uid(last_app_uid):
             self.add_relation(last_app_uid, app_id)
 
-    # def _is_tpl2(self):
-    #     if 'tpl2' in CMS_CFG and self.kind in CMS_CFG['tpl2']:
-    #         return True
-    #     return False
-
-    def __get_tmpl_view(self, rec):
+    def ext_view_kwd(self, info_rec):
         '''
-        According to the application, each info of it's classification could has different temaplate.
-        :param rec: the App record.
-        :return: the temaplte path.
+        The additional information. for View.
+        :param info_rec:
+        :return: directory.
         '''
+        return {}
 
-        # post2catinfo = MPost2Catalog.query_by_post( rec.uid )
-
-        if 'gcat0' in rec.extinfo and rec.extinfo['gcat0'] != '':
-            cat_id = rec.extinfo['gcat0']
-        elif 'def_cat_uid' in rec.extinfo and rec.extinfo['def_cat_uid'] != '':
-            cat_id = rec.extinfo['def_cat_uid']
-        else:
-            cat_id = None
-
-        logger.info('For templates: catid: {0},  filter_view: {1}'.format(cat_id, self.filter_view))
-
-        if cat_id and self.filter_view:
-            tmpl = 'autogen/view/view_{0}.html'.format(cat_id)
-        else:
-            tmpl = 'post_{0}/post_view.html'.format(self.kind)
-        return tmpl
-
-    @tornado.web.authenticated
-    def __to_add_with_category(self, catid):
+    def ext_tmpl_view(self, rec):
         '''
-        Used for info2.
-        :param catid: the uid of category
+        Used for self defined templates. for View.
+        :param rec:
         :return:
         '''
-        if self.check_post_role()['ADD']:
-            pass
-        else:
-            return False
-        catinfo = MCategory.get_by_uid(catid)
-        kwd = {
-            'uid': self.__gen_uid(),
-            'userid': self.userinfo.user_name if self.userinfo else '',
-            'def_cat_uid': catid,
-            'parentname': MCategory.get_by_uid(catinfo.pid).name,
-            'catname': MCategory.get_by_uid(catid).name,
-        }
+        return self.__get_tmpl_view(rec)
 
-        self.render('autogen/add/add_{0}.html'.format(catid),
-                    userinfo=self.userinfo,
-                    kwd=kwd)
-
-    def get_extra_data(self, **kwargs):
+    def ext_post_data(self, **kwargs):
         '''
-        得到预定义的额外信息
+        The additional information.  for add(), or update().
+        :param post_data:
+        :return: directory.
         '''
-        postdata = kwargs['postdata']
-        logger.info('Def Extra data: args - {0}'.format(postdata))
-
-        ext_data = {}
-        # 针对分类下面两种处理方式，下面是原有的，暂时保留以保持兼容
-
-        if 'gcat0' in postdata:
-            ext_data['def_cat_uid'] = postdata['gcat0']
-            ext_data['def_cat_pid'] = MCategory.get_by_uid(postdata['gcat0']).pid
-        elif 'def_cat_uid' in postdata:
-            ext_data['def_cat_uid'] = postdata['def_cat_uid']
-            ext_data['def_cat_pid'] = MCategory.get_by_uid(postdata['def_cat_uid']).pid
-
-        ext_data['def_tag_arr'] = [x.strip() for x in postdata['tags'].strip().strip(',').split(',')]
-
-        ext_data = dict(ext_data, **self.ext_post_data(postdata=postdata))
-
-        return ext_data
+        return {}

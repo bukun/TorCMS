@@ -161,9 +161,9 @@ class MPost2Catalog(Mabc):
         return MPost2Catalog.query_by_entity_uid(idd)
 
     @staticmethod
-    def get_entry_catalog(app_uid):
+    def get_first_category(app_uid):
         '''
-        Get the first, uniqe category of post.
+        Get the first, as the uniqe category of post.
         :param app_uid:
         :return:
         '''

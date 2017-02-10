@@ -24,7 +24,7 @@ class AdminPostHandler(PostHandler):
 
         if len(url_arr) == 2:
             if url_arr[0] in ['_edit']:
-                self.to_edit(url_arr[1])
+                self.__to_edit(url_arr[1])
         else:
             return False
 
@@ -44,7 +44,7 @@ class AdminPostHandler(PostHandler):
             return False
 
     @tornado.web.authenticated
-    def to_edit(self, post_uid):
+    def __to_edit(self, post_uid):
         postinfo = MPost.get_by_uid(post_uid, )
         json_cnt = json.dumps(postinfo.extinfo, indent=True)
         self.render('man_post/admin_post.html',

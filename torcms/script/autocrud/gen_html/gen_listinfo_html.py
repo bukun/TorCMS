@@ -6,7 +6,7 @@ Generate HTML for filter, included.
 
 import os
 
-from torcms.script.autocrud.gen_html.tpl import tpl_listinfo
+from torcms.script.autocrud.gen_html.tpl import TPL_LISTINFO
 
 try:
     import xxtmp_html_dic as html_vars
@@ -59,5 +59,5 @@ def do_for_dir(html_tpl):
 
 
 def run_gen_listinfo():
-    str_html_tpl = tpl_listinfo
+    str_html_tpl = TPL_LISTINFO
     do_for_dir(str_html_tpl)

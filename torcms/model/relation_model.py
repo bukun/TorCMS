@@ -71,7 +71,7 @@ class MRelation(Mabc):
         '''
         The the related infors.
         '''
-        info_tag = MInfor2Catalog.get_entry_catalog(app_id)
+        info_tag = MInfor2Catalog.get_first_category(app_id)
         if info_tag:
             return g_Post2Tag.select().join(
                 g_Post

@@ -14,7 +14,7 @@ try:
 except ImportError:
     pass
 from torcms.script.autocrud.base_crud import crud_path
-from torcms.script.autocrud.gen_html.tpl import tpl_list
+from torcms.script.autocrud.gen_html.tpl import TPL_LIST
 
 
 def to_html(bl_str):
@@ -70,4 +70,4 @@ def do_for_dir(html_tpl):
 
 
 def do_list():
-    do_for_dir(tpl_list)
+    do_for_dir(TPL_LIST)

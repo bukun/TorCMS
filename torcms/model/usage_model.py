@@ -91,7 +91,7 @@ class MUsage(Mabc):
         for x in rec:
             print(x.uid, x.kind)
 
-        cate_rec = MInfor2Catalog.get_entry_catalog(post_id)
+        cate_rec = MInfor2Catalog.get_first_category(post_id)
         if cate_rec:
             pass
         else:

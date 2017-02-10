@@ -67,7 +67,7 @@ class PostListHandler(BaseHandler):
         self.render('post_{0}/post_list.html'.format(self.kind),
                     kwd=kwd,
                     view=MPost.query_recent(num=20, kind=self.kind),
-                    postinfo=MPost.query_recent(num=20, kind=self.kind),
+                    postrecs=MPost.query_recent(num=20, kind=self.kind),
                     format_date=tools.format_date,
                     userinfo=self.userinfo,
                     cfg=CMS_CFG, )
