@@ -54,10 +54,13 @@ class MCategory(Mabc):
         return g_Tag.select().where(g_Tag.pid == pid).order_by(g_Tag.order)
 
     @staticmethod
-    def query_pcat(kind='1'):
-        return g_Tag.select().where(
-            (g_Tag.kind == kind) & (g_Tag.uid.endswith('00'))
-        ).order_by(g_Tag.order)
+    def query_pcat(**kwargs):
+
+        return g_Tag.select().where(g_Tag.pid == '0000').order_by(g_Tag.order)
+
+        # return g_Tag.select().where(
+        #     (g_Tag.kind == kind) & (g_Tag.uid.endswith('00'))
+        # ).order_by(g_Tag.order)
 
     @staticmethod
     def query_uid_starts_with(qian2):

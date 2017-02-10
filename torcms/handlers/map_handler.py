@@ -9,10 +9,8 @@ import tornado.web
 
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tools import average_array
-# from torcms.model.info_model import MInfor
 from torcms.model.post_model import MPost
 from torcms.model.layout_model import MLayout
-# from torcms.handlers.info_handler import InfoHandler
 from torcms.handlers.post_handler import PostHandler
 
 class MapPostHandler(PostHandler):

@@ -1,16 +1,20 @@
 # -*- coding:utf-8 -*-
 
+'''
+Model for user.
+'''
+
 from torcms.core import tools
 from torcms.model.core_tab import g_Member
 from torcms.model.abc_model import Mabc
 
 
 class MUser(Mabc):
+    '''
+    Model for user.
+    '''
     def __init__(self):
-        try:
-            g_Member.create_table()
-        except:
-            pass
+        super(MUser, self).__init__()
 
     @staticmethod
     def query_all(limit=50):

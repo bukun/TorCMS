@@ -79,15 +79,14 @@ class WidgetEditor(tornado.web.UIModule):
 
 class WidgetSearch(tornado.web.UIModule):
     '''
-    search widget.
+    search widget. Simple searching. searching for all.
     '''
 
     def render(self):
-        tag_enum = MCategory.query_pcat(kind='2')
+        # tag_enum = MCategory.query_pcat()
         return self.render_string(
             'modules/widget/widget_search.html',
-            cat_enum=tag_enum,
-            tag_enum=tag_enum)
+        )
 
 
 class StarRating(tornado.web.UIModule):

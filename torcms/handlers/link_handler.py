@@ -1,15 +1,23 @@
 # -*- coding:utf-8 -*-
 
+'''
+
+'''
+
 import json
 import tornado.escape
 import tornado.web
-import config
 from torcms.core.base_handler import BaseHandler
 from torcms.core import tools
 from torcms.model.link_model import MLink
+from config import CMS_CFG
 
 
 class LinkHandler(BaseHandler):
+    '''
+
+    '''
+
     def initialize(self):
         super(LinkHandler, self).initialize()
 
@@ -124,7 +132,7 @@ class LinkHandler(BaseHandler):
                     unescape=tornado.escape.xhtml_unescape,
                     kwd=kwd,
                     userinfo=self.userinfo,
-                    cfg=config.CMS_CFG, )
+                    cfg=CMS_CFG, )
 
     @tornado.web.authenticated
     def p_user_add_link(self):
@@ -169,7 +177,7 @@ class LinkHandler(BaseHandler):
         MLink.create_wiki_history(cur_uid, post_data)
 
         self.redirect('/link/list')
- 
+
     @tornado.web.authenticated
     def delete(self, del_id):
         if self.check_post_role()['DELETE']:

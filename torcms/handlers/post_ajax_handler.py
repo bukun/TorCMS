@@ -1,9 +1,7 @@
 # -*- coding:utf-8 -*-
 
 import json
-
 import tornado.web
-
 from torcms.handlers.post_handler import PostHandler
 from torcms.model.post_model import MPost
 

@@ -31,7 +31,10 @@ class SearchHandler(BaseHandler):
                         userinfo=self.userinfo)
 
     def index(self):
-        pass
+        tag_enum = MCategory.query_pcat()
+        self.render('index/search.html', userinfo=self.userinfo,
+                    cat_enum=tag_enum,
+                    tag_enum=tag_enum)
 
     def post(self, url_str=''):
         catid = self.get_argument('searchcat')

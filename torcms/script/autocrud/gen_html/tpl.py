@@ -94,4 +94,3 @@ TPL_VIEW = '''{% extends "../../tmpl_kkkk/tmplyyyyyy/sssssstpl_view.html" %}
     {% block footer %}
     <p>{{ footer_text }}</p>
     {% end %}'''
-

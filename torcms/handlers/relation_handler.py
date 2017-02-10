@@ -1,6 +1,9 @@
 # -*- coding:utf-8 -*-
 
-# from torcms.model.info_model import MInfor
+'''
+Relationship between Posts.
+'''
+
 from torcms.core.base_handler import BaseHandler
 from torcms.model.relation_model import MRelation
 from torcms.model.post_model import MPost

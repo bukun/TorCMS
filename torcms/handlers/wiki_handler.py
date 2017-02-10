@@ -104,7 +104,6 @@ class WikiHandler(BaseHandler):
             return False
         post_data = self.get_post_data()
         post_data['user_name'] = self.userinfo.user_name
-        # post_data['user_name'] = self.get_current_user()
 
         cnt_old = tornado.escape.xhtml_unescape(postinfo.cnt_md).strip()
         cnt_new = post_data['cnt_md'].strip()

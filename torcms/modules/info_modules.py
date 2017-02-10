@@ -325,7 +325,7 @@ class ImgSlide(tornado.web.UIModule):
 
 class UserInfo(tornado.web.UIModule):
     '''
-
+    Display userinfo.
     '''
 
     def render(self, uinfo, uop):
