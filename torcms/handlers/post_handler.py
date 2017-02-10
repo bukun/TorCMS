@@ -76,8 +76,8 @@ class PostHandler(BaseHandler):
 
         url_str = args[0]
         url_arr = self.parse_url(url_str)
-
-        self.__redirect(url_arr)
+        if len(url_arr) > 0:
+            self.__redirect(url_arr)
 
         if url_str == '':
             self.index()
