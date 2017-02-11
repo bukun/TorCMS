@@ -341,7 +341,7 @@ class PostHandler(BaseHandler):
         cat_dic = {}
         for key in def_cate_arr:
             if key not in post_data:
-                pass
+                continue
             if post_data[key] == '' or post_data[key] == '0':
                 continue
             # 有可能选重复了。保留前面的
