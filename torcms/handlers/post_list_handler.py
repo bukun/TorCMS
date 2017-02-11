@@ -76,15 +76,20 @@ class PostListHandler(BaseHandler):
         post_recs = MPost.query_random(limit=1000)
         outrecs = []
         errrecs = []
+        idx = 0
         for postinfo in post_recs:
+            if idx > 16:
+                break
             cat = MPost2Catalog.get_first_category(postinfo.uid)
             if cat:
                 if 'def_cat_uid' in postinfo.extinfo and postinfo.extinfo['def_cat_uid'] == cat.tag_id:
                     pass
                 else:
                     errrecs.append(postinfo)
+                    idx +=1
             else:
                 outrecs.append(postinfo)
+                idx += 1
         self.render('list/errcat.html',
                     kwd={},
                     norecs=outrecs,
