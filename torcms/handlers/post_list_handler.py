@@ -41,16 +41,14 @@ class PostListHandler(BaseHandler):
         elif url_str == '_refresh':
             self.refresh()
 
-        elif url_str == 'nocat':
-            self.nocat()
+        elif url_str == 'errcat':
+            self.errcat()
         else:
             kwd = {
                 'info': '404. Page not found!',
             }
             self.render('html/404.html', kwd=kwd,
                         userinfo=self.userinfo, )
-
-
 
     def recent(self, with_catalog=True, with_date=True):
         '''
@@ -74,20 +72,24 @@ class PostListHandler(BaseHandler):
                     userinfo=self.userinfo,
                     cfg=CMS_CFG, )
 
-    def nocat(self):
-        post_recs = MPost.query_random(limit = 1000)
+    def errcat(self):
+        post_recs = MPost.query_random(limit=1000)
         outrecs = []
+        errrecs = []
         for postinfo in post_recs:
             cat = MPost2Catalog.get_first_category(postinfo.uid)
             if cat:
-                pass
+                if 'def_cat_uid' in postinfo.extinfo and postinfo.extinfo['def_cat_uid'] == cat.tag_id:
+                    pass
+                else:
+                    errrecs.append(postinfo)
             else:
                 outrecs.append(postinfo)
-        self.render('list/nocat.html',
-                    kwd = {},
-                    postrecs = outrecs,
-                    userinfo = self.userinfo)
-                # print(postinfo.uid)
+        self.render('list/errcat.html',
+                    kwd={},
+                    norecs=outrecs,
+                    errrecs=errrecs,
+                    userinfo=self.userinfo)
 
     def refresh(self):
         '''

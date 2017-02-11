@@ -292,21 +292,17 @@ class MPost(Mabc):
             kind = None
 
         if kind:
-
             return g_Post.select().where(
                 (g_Post.kind == kind) &
                 (g_Post.valid == 1)
             ).order_by(
                 peewee.fn.Random()
             ).limit(limit)
-
         else:
-
-            return g_Post.select().where(
-                g_Post.valid == 1
-            ).order_by(
+            return g_Post.select().order_by(
                 peewee.fn.Random()
             ).limit(limit)
+
     @staticmethod
     def query_recent(num=8, kind='1'):
         '''
