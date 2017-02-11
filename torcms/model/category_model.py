@@ -126,7 +126,7 @@ class MCategory(Mabc):
         entry.execute()
 
     @staticmethod
-    def create_wiki_history(uid, post_data):
+    def add_or_update(uid, post_data):
         catinfo = MCategory.get_by_uid(uid)
         if catinfo:
             MCategory.update(uid, post_data)

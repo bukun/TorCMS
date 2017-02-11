@@ -279,23 +279,34 @@ class MPost(Mabc):
         :return:
         '''
 
-        if 'num' in kwargs:
-            num = kwargs['num']
+        if 'limit' in kwargs:
+            limit = kwargs['limit']
+        elif 'num' in kwargs:
+            limit = kwargs['num']
         else:
-            num = 10
+            limit = 10
 
         if 'kind' in kwargs:
             kind = kwargs['kind']
         else:
-            raise KeyError
+            kind = None
 
-        return g_Post.select().where(
-            (g_Post.kind == kind) &
-            (g_Post.valid == 1)
-        ).order_by(
-            peewee.fn.Random()
-        ).limit(num)
+        if kind:
 
+            return g_Post.select().where(
+                (g_Post.kind == kind) &
+                (g_Post.valid == 1)
+            ).order_by(
+                peewee.fn.Random()
+            ).limit(limit)
+
+        else:
+
+            return g_Post.select().where(
+                g_Post.valid == 1
+            ).order_by(
+                peewee.fn.Random()
+            ).limit(limit)
     @staticmethod
     def query_recent(num=8, kind='1'):
         '''

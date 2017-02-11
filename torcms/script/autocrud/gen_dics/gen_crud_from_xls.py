@@ -64,8 +64,10 @@ def gen_array_crud():
                 if B_cell_val and B_cell_val != '':
 
                     sun_id = B_cell_val.strip()[1:]
-
-                    app_uid = '{0}{1}'.format(papa_id, sun_id)
+                    if len(sun_id) == 4:
+                        app_uid = sun_id
+                    else:
+                        app_uid = '{0}{1}'.format(papa_id, sun_id)
 
                     u_dic = []
 

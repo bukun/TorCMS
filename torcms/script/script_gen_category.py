@@ -24,8 +24,7 @@ def gen_xlsx_category():
     order_index = 1
 
     for sheet_ranges in wb:
-        print(dir(sheet_ranges))
-        print(sheet_ranges.title)
+        print('-' * 80)
         kind_sig = str(sheet_ranges['A1'].value).strip()
 
         for row_num in range(3, 10000):
@@ -69,7 +68,7 @@ def gen_xlsx_category():
                 'kind': kind_sig,
             }
             print(post_data)
-            mappcat.create_wiki_history(u_uid, post_data)
+            mappcat.add_or_update(u_uid, post_data)
             order_index += 1
 
 
@@ -95,7 +94,7 @@ def gen_category(yaml_file, sig):
                 'kind': '{0}'.format(sig),
             }
 
-            mcat.create_wiki_history(uid, cat_dic)
+            mcat.add_or_update(uid, cat_dic)
         else:
             sub_arr = out_dic[key]
             pid = key[1:3]
@@ -120,7 +119,7 @@ def gen_category(yaml_file, sig):
                         'kind': '{0}'.format(sig),
                     }
 
-                    mcat.create_wiki_history(pid + uid, cat_dic)
+                    mcat.add_or_update(pid + uid, cat_dic)
 
 
 def gen_yaml_category():

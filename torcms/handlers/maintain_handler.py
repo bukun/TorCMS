@@ -142,7 +142,7 @@ class MaintainCategoryHandler(BaseHandler):
         id_post = post_data['uid'][0]
         cur_post_rec = MCategory.get_by_uid(id_post)
         if cur_post_rec is None:
-            uid = MCategory.create_wiki_history(id_post, post_data)
+            uid = MCategory.add_or_update(id_post, post_data)
 
         self.redirect('/maintain/category/list')
 
@@ -163,7 +163,7 @@ class MaintainCategoryHandler(BaseHandler):
         while MCategory.get_by_uid(cur_uid):
             cur_uid = tools.get_uudd(2)
 
-        if MCategory.create_wiki_history(post_data['uid'][0], post_data):
+        if MCategory.add_or_update(post_data['uid'][0], post_data):
 
             output = {
                 'addinfo ': 1,
@@ -190,7 +190,7 @@ class MaintainCategoryHandler(BaseHandler):
         while MCategory.get_by_uid(cur_uid):
             cur_uid = tools.get_uudd(2)
 
-        uid = MCategory.create_wiki_history(cur_uid, post_data)
+        uid = MCategory.add_or_update(cur_uid, post_data)
 
         self.redirect('/maintain/category/list')
 

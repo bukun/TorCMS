@@ -23,7 +23,7 @@ class TestCatalog():
             'count': 0
         }
 
-        newid = MCategory.create_wiki_history(uid, post_data)
+        newid = MCategory.add_or_update(uid, post_data)
 
         tt = MCategory.get_by_slug(self.slug)
         # assert tt == newid
@@ -32,14 +32,14 @@ class TestCatalog():
         '''Wiki insert: Test invalid title'''
         post_data = {
             'name': '',
-            'slug': 'asa',
+            'slug': 'asvaa',
             'order': '2',
             'type': 1,
 
             'tmpl': 0,
             'pid': '0000',
         }
-        uu = MCategory.create_wiki_history(self.uid, post_data)
+        uu = MCategory.add_or_update(self.uid, post_data)
         # assert uu == False
 
         post_data = {
@@ -51,7 +51,7 @@ class TestCatalog():
             'tmpl': 0,
             'pid': '0000',
         }
-        uu = MCategory.create_wiki_history(self.uid, post_data)
+        uu = MCategory.add_or_update(self.uid, post_data)
         # assert uu == False
 
     def test_upate(self):

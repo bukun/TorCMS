@@ -41,6 +41,8 @@ class PostListHandler(BaseHandler):
         elif url_str == '_refresh':
             self.refresh()
 
+        elif url_str == 'nocat':
+            self.nocat()
         else:
             kwd = {
                 'info': '404. Page not found!',
@@ -72,7 +74,20 @@ class PostListHandler(BaseHandler):
                     userinfo=self.userinfo,
                     cfg=CMS_CFG, )
 
-
+    def nocat(self):
+        post_recs = MPost.query_random(limit = 1000)
+        outrecs = []
+        for postinfo in post_recs:
+            cat = MPost2Catalog.get_first_category(postinfo.uid)
+            if cat:
+                pass
+            else:
+                outrecs.append(postinfo)
+        self.render('list/nocat.html',
+                    kwd = {},
+                    postrecs = outrecs,
+                    userinfo = self.userinfo)
+                # print(postinfo.uid)
 
     def refresh(self):
         '''

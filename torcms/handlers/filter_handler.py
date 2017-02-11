@@ -182,6 +182,7 @@ class FilterHandler(BaseHandler):
         bread_crumb_nav_str = '<li>当前位置：<a href="/">信息</a></li>'
 
         _catinfo = MCategory.get_by_uid(catid)
+        logger.info('Infocat input: {0}'.format(_catinfo))
         if _catinfo.pid == '0000':
             pcatinfo = _catinfo
             catinfo = None
