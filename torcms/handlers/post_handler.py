@@ -6,8 +6,11 @@ The basic HTML Page handler.
 
 import json
 import random
+from concurrent.futures import ThreadPoolExecutor
 import tornado.escape
 import tornado.web
+import tornado.ioloop
+# import tornado.gen
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tools import logger
@@ -20,13 +23,17 @@ from torcms.model.relation_model import MRelation
 from torcms.model.evaluation_model import MEvaluation
 from torcms.model.usage_model import MUsage
 from config import router_post
-from celery_server import cele_gen_whoosh
+
+# from celery_server import cele_gen_whoosh
+
+
 
 
 class PostHandler(BaseHandler):
     '''
     The basic HTML Page handler.
     '''
+    executor = ThreadPoolExecutor(2)
 
     def initialize(self, **kwargs):
         super(PostHandler, self).initialize()
@@ -118,6 +125,7 @@ class PostHandler(BaseHandler):
                         userinfo=self.userinfo, )
 
     def post(self, *args):
+
         url_str = args[0]
         logger.info('Post url: {0}'.format(url_str))
 
@@ -276,6 +284,7 @@ class PostHandler(BaseHandler):
                         userinfo=self.userinfo,
                         kwd={'uid': uid,})
 
+
     def update_tag(self, uid, **kwargs):
         '''
         Update category, and labels.
@@ -353,10 +362,14 @@ class PostHandler(BaseHandler):
 
         if catid:
             def_cat_id = catid
-        else:
+        elif len(new_category_arr) > 0:
             def_cat_id = new_category_arr[0]
-        cat_dic['def_cat_uid'] = def_cat_id
-        cat_dic['def_cat_pid'] = MCategory.get_by_uid(def_cat_id).pid
+        else:
+            def_cat_id = None
+
+        if def_cat_id:
+            cat_dic['def_cat_uid'] = def_cat_id
+            cat_dic['def_cat_pid'] = MCategory.get_by_uid(def_cat_id).pid
 
         # Add the category
         logger.info('Update category: {0}'.format(new_category_arr))
@@ -598,14 +611,17 @@ class PostHandler(BaseHandler):
         post_data['kind'] = self.kind
 
         # append external infor.
-        ext_dic['def_tag_arr'] = [x.strip() for x
-                                  in post_data['tags'].strip().strip(',').split(',')]
+
+        if 'tags' in post_data:
+            ext_dic['def_tag_arr'] = [x.strip() for x
+                                      in post_data['tags'].strip().strip(',').split(',')]
         ext_dic = dict(ext_dic, **self.ext_post_data(postdata=post_data))
 
         return (post_data, ext_dic)
 
     @tornado.web.authenticated
     @tornado.web.asynchronous
+    # @tornado.gen.coroutine
     def add(self, **kwargs):
         '''
         in infor.
@@ -636,7 +652,8 @@ class PostHandler(BaseHandler):
                           extinfo=ext_dic)
         self.update_tag(ext_dic['def_uid'], **kwargs)
 
-        cele_gen_whoosh.delay()
+        # cele_gen_whoosh.delay()
+        tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
         self.redirect('/{0}/{1}'.format(router_post[self.kind], uid))
 
     @tornado.web.authenticated
@@ -681,7 +698,8 @@ class PostHandler(BaseHandler):
         self.update_tag(uid)
 
         logger.info('post kind:' + self.kind)
-        cele_gen_whoosh.delay()
+        # cele_gen_whoosh.delay()
+        tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
         self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], uid))
 
     @tornado.web.authenticated

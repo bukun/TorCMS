@@ -4,8 +4,14 @@
 Basic for handler
 '''
 
+from tornado.concurrent import run_on_executor
+
 import tornado.web
+
 from torcms.model.user_model import MUser
+from torcms.core.tool import run_whoosh
+
+from config import kind_arr, post_type
 
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -74,3 +80,11 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def data_received(self, chunk):
         return False
+
+    @run_on_executor
+    def cele_gen_whoosh(self):
+        '''
+        Generat whoosh database.
+        :return:
+        '''
+        run_whoosh.gen_whoosh_database(kind_arr=kind_arr, post_type=post_type)

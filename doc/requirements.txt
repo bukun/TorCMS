@@ -19,4 +19,4 @@ nose
 requests
 pytest
 coverage
-celery
+# celery

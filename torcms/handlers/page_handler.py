@@ -5,21 +5,25 @@ Page ( with unique slug) handler.
 '''
 
 import json
+from concurrent.futures import ThreadPoolExecutor
 import tornado.escape
 import tornado.web
+import tornado.ioloop
 
-from config import CMS_CFG
-from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
 from torcms.model.category_model import MCategory
 from torcms.model.wiki_hist_model import MWikiHist
 from torcms.model.wiki_model import MWiki
+from torcms.core import tools
+
+from config import  CMS_CFG
 
 
 class PageHandler(BaseHandler):
     '''
     Page ( with unique slug) handler.
     '''
+    executor = ThreadPoolExecutor(2)
 
     def initialize(self):
         super(PageHandler, self).initialize()
@@ -118,6 +122,7 @@ class PageHandler(BaseHandler):
             MWikiHist.create_wiki_history(MWiki.get_by_uid(slug))
 
         MWiki.update(slug, post_data)
+        tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
 
         self.redirect('/page/{0}.html'.format(post_data['slug']))
 
@@ -191,4 +196,9 @@ class PageHandler(BaseHandler):
             return False
         else:
             MWiki.create_wiki_history(slug, post_data)
+
+            tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
+
             self.redirect('/page/{0}'.format(slug))
+
+

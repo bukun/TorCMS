@@ -192,17 +192,12 @@ The upload directory for files should be created.
 Run
 ---------
 
-First, run celery,
-
-::
-
-    celery -A celery_server worker --loglevel=info
 
 Run the web application,
 
 ::
 
-    python server.py
+    python server.py 8088
 
 Open web brower and navigate to http://127.0.0.1:8088 .
 

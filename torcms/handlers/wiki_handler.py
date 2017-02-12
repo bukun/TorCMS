@@ -1,21 +1,33 @@
 # -*- coding:utf-8 -*-
 
+'''
+Handler for wiki, and page.
+'''
+
 import json
+from concurrent.futures import ThreadPoolExecutor
 import tornado.escape
 import tornado.web
+import tornado.ioloop
+
 from torcms.core.base_handler import BaseHandler
 from torcms.core import tools
 from torcms.model.wiki_model import MWiki
 from torcms.model.wiki_hist_model import MWikiHist
-from celery_server import cele_gen_whoosh
 
+
+
+# from celery_server import cele_gen_whoosh
 
 class WikiHandler(BaseHandler):
+    executor = ThreadPoolExecutor(2)
+
     def initialize(self):
         super(WikiHandler, self).initialize()
         self.kind = '1'
 
-    def get(self, url_str=''):
+    def get(self, *args):
+        url_str = args[0]
         url_arr = self.parse_url(url_str)
         if url_str == 'recent':
             self.recent()
@@ -33,7 +45,8 @@ class WikiHandler(BaseHandler):
             }
             self.render('html/404.html', kwd=kwd)
 
-    def post(self, url_str=''):
+    def post(self, *args):
+        url_str = args[0]
         url_arr = self.parse_url(url_str)
         if url_arr[0] in ['_edit', 'edit']:
             self.update(url_arr[1])
@@ -115,8 +128,11 @@ class WikiHandler(BaseHandler):
 
         MWiki.update(uid, post_data)
 
-        cele_gen_whoosh.delay()
+        # cele_gen_whoosh.delay()
+        tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
+
         self.redirect('/wiki/{0}'.format(tornado.escape.url_escape(post_data['title'])))
+
 
     @tornado.web.authenticated
     def to_edit(self, id_rec):
@@ -190,5 +206,7 @@ class WikiHandler(BaseHandler):
         else:
             MWiki.create_wiki(post_data)
 
+        tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
+        # cele_gen_whoosh.delay()
+
         self.redirect('/wiki/{0}'.format(tornado.escape.url_escape(post_data['title'])))
-        cele_gen_whoosh.delay()

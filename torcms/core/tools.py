@@ -17,6 +17,34 @@ from playhouse.postgres_ext import PostgresqlExtDatabase
 
 import tornado.escape
 
+
+class Storage(dict):
+    """
+    from web.py
+    对字典进行扩展，使其支持通过 dict.a形式访问以代替dict['a']
+    """
+
+    def __getattr__(self, key):
+        try:
+            return self[key]
+        except KeyError:
+            raise AttributeError
+
+    def __setattr__(self, key, value):
+        self[key] = value
+
+    def __delattr__(self, key):
+        try:
+            del self[key]
+        except KeyError:
+            raise AttributeError
+
+    def __repr__(self):
+        return '<Storage ' + dict.__repr__(self) + '>'
+
+
+storage = Storage
+
 # Config for logging
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
@@ -247,6 +275,8 @@ def get_cfg():
         db_cfg = cfg.DB_CFG
     else:
         db_cfg = ConfigDefault.DB_CFG
+    if 'user' not in db_cfg:
+        db_cfg['user'] = db_cfg['db']
 
     if 'SMTP_CFG' in cfg_var:
         smtp_cfg = cfg.SMTP_CFG

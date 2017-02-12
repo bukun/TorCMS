@@ -9,12 +9,12 @@ DB_CON, SMTP_CFG, SITE_CFG = get_cfg()
 
 CMS_CFG = {
     'list_num': 10,
-    'site_type': 2,
     'redis_kw': 'lsadfkj'}
 
 router_post = {'1': 'post',
                '9': 'info',  # Filter_View
                'm': 'map'}
+
 
 post_type = {
     '1': '''<span style="color:green;" class="glyphicon glyphicon-list-alt">[{0}]</span>
