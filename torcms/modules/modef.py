@@ -43,7 +43,7 @@ core_modules = {
     'show_page': base_modules.ShowPage,
     'Topline': base_modules.ToplineModule,
 
-    # 'copyright': copyright,
+    'torcms_copyright': base_modules.CopyRight,
 
     # widget
     'reply_panel': widget_modules.ReplyPanel,
