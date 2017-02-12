@@ -483,7 +483,7 @@ class PostHandler(BaseHandler):
             self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], postinfo.uid),
                           permanent=True)
 
-        rand_recs, rel_recs = self.__fetch_additional_posts(postinfo.uid)
+        rand_recs, rel_recs = self.fetch_additional_posts(postinfo.uid)
 
         self.__chuli_cookie_relation(postinfo.uid)
         cookie_str = tools.get_uuid()
@@ -545,7 +545,7 @@ class PostHandler(BaseHandler):
                     recent_apps=[],  # Deprecated, with module.
                     cat_enum=MCategory.get_qian2(ext_catid2[:2]) if ext_catid else [], )
 
-    def __fetch_additional_posts(self, uid):
+    def fetch_additional_posts(self, uid):
         '''
         fetch the rel_recs, and random recs when view the post.
         :param postinfo:
