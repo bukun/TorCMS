@@ -37,8 +37,11 @@ class SearchHandler(BaseHandler):
                     tag_enum=tag_enum)
 
     def post(self, url_str=''):
-        catid = self.get_argument('searchcat').strip()
-        keyword = self.get_argument('keyword')
+        post_data = self.get_post_data()
+
+        catid = post_data['searchcat'] if 'searchcat' in post_data else ''
+
+        keyword = post_data('keyword')
         logger.info('Searching ... ')
         logger.info('    catid:    {uid}'.format(uid=catid))
         logger.info('    keyowrds: {kw}'.format(kw=keyword))
