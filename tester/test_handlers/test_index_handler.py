@@ -12,5 +12,4 @@ class TestSomeHandler(AsyncHTTPSTestCase):
 
     def test_index(self):
         response = self.fetch('/')
-        # response = self.http_client.fetch('/post/_add')
         self.assertEqual(response.code, 200)

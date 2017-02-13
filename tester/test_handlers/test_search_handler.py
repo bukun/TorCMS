@@ -1,10 +1,19 @@
 # -*- coding:utf-8 -*-
 
-from torcms.handlers.search_handler import SearchHandler
+'''
+Test user handler
+'''
+
+from tornado.testing import AsyncHTTPSTestCase, gen_test
+
+from application import app
 
 
-def Test():
-    urls = [
-        ("/label/(.*)", SearchHandler, dict()),
-    ]
-    assert urls
+class TestSearchHandler(AsyncHTTPSTestCase):
+    def get_app(self):
+        return app
+
+    def test_to_add(self):
+        response = self.fetch('/search/')
+        self.assertEqual(response.code, 200)
+

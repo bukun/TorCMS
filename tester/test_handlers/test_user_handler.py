@@ -1,12 +1,19 @@
 # -*- coding:utf-8 -*-
 
-from torcms.handlers.user_handler import UserHandler, UserAjaxHandler
+'''
+Test user handler
+'''
+
+from tornado.testing import AsyncHTTPSTestCase, gen_test
+
+from application import app
 
 
-def Test():
-    # assert InfoHandler(dict(), request="/entity/(.*)")
-    urls = [
-        ("/label/(.*)", UserHandler, dict()),
-        ("/labelvv/(.*)", UserAjaxHandler, dict()),
-    ]
-    assert urls
+class TestUserHandler(AsyncHTTPSTestCase):
+    def get_app(self):
+        return app
+
+    def test_to_add(self):
+        response = self.fetch('/user/login')
+        self.assertEqual(response.code, 200)
+
