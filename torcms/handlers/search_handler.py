@@ -142,10 +142,13 @@ class SearchHandler(BaseHandler):
         return pager
 
     def search_cat(self, catid, keyword, p_index=1):
+        catid = 'sid' + catid
         logger.info('-' * 20)
         logger.info('search cat')
         logger.info('catid: {0}'.format(catid))
         logger.info('keyword: {0}'.format(keyword))
+
+        # catid = ''
 
         res_all = self.ysearch.get_all_num(keyword, catid=catid)
         logger.info('all num: {0}'.format(res_all))
