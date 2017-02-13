@@ -30,6 +30,7 @@ class YunSearch():
             pass
         else:
             queryit = And([Term("catid", catid), queryit])
+
         return len(self.whbase.searcher().search(queryit).docs())
 
     def search(self, keyword, limit=20):

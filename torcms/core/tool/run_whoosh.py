@@ -32,7 +32,7 @@ def do_for_app(writer, rand=True, kind='', doc_type={}):
     for rec in recs:
         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
         writer.update_document(
-            catid='00000',
+            catid=kind,
             title=rec.title,
             type=doc_type[rec.kind],
             link='/{0}/{1}'.format(router_post[rec.kind], rec.uid),
@@ -89,7 +89,7 @@ def do_for_post(writer, rand=True, doc_type=''):
         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
         writer.update_document(
             title=rec.title,
-            catid='0000',
+            catid='1',
             type=doc_type,
             link='/post/{0}'.format(rec.uid),
             content=text2
@@ -106,7 +106,7 @@ def do_for_wiki(writer, rand=True, doc_type=''):
         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
         writer.update_document(
             title=rec.title,
-            catid='0000',
+            catid='1',
             type=doc_type,
             link='/wiki/{0}'.format(rec.title),
             content=text2
@@ -123,7 +123,7 @@ def do_for_page(writer, rand=True, doc_type=''):
         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
         writer.update_document(
             title=rec.title,
-            catid='0000',
+            catid='1',
             type=doc_type,
             link='/page/{0}'.format(rec.uid),
             content=text2

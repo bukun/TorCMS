@@ -37,7 +37,7 @@ class SearchHandler(BaseHandler):
                     tag_enum=tag_enum)
 
     def post(self, url_str=''):
-        catid = self.get_argument('searchcat')
+        catid = self.get_argument('searchcat').strip()
         keyword = self.get_argument('keyword')
         logger.info('Searching ... ')
         logger.info('    catid:    {uid}'.format(uid=catid))
@@ -142,7 +142,13 @@ class SearchHandler(BaseHandler):
         return pager
 
     def search_cat(self, catid, keyword, p_index=1):
+        logger.info('-' * 20)
+        logger.info('search cat')
+        logger.info('catid: {0}'.format(catid))
+        logger.info('keyword: {0}'.format(keyword))
+
         res_all = self.ysearch.get_all_num(keyword, catid=catid)
+        logger.info('all num: {0}'.format(res_all))
         results = self.ysearch.search_pager(keyword,
                                             catid=catid,
                                             page_index=p_index,
@@ -152,7 +158,8 @@ class SearchHandler(BaseHandler):
                'pager': '',
                'count': res_all,
                'keyword': keyword,
-               'catname': '文档' if catid == '0000' else MCategory.get_by_uid(catid).name}
+               # 'catname': '文档' if catid == '0000' else MCategory.get_by_uid(catid).name
+               }
         self.render('doc/search/search.html',
                     kwd=kwd,
                     srecs=results,
