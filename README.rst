@@ -5,13 +5,13 @@ Status
 ------------------------
 
 .. image:: https://travis-ci.org/bukun/TorCMS.svg?branch=master
-    :target: https://travis-ci.org/bukun/TorCMS
+:target: https://travis-ci.org/bukun/TorCMS
 
 .. image:: https://img.shields.io/pypi/v/torcms.svg
-   :target: https://pypi.python.org/pypi/torcms/
+:target: https://pypi.python.org/pypi/torcms/
 
 .. image:: https://img.shields.io/pypi/pyversions/torcms.svg
-   :target: https://pypi.python.org/pypi/torcms/
+:target: https://pypi.python.org/pypi/torcms/
 
 * Checking ``torcms`` with ``pylint`` using default configuration, gets score greater than 8 (``pylint torcms``).
 
@@ -87,14 +87,6 @@ And, create hstore extension in the database.
     create extension hstore;
 
 
-Get the HTML for modules
-----------------------------------
-
-::
-
-    cd TorCMS/templates
-    git clone https://github.com/bukun/torcms_modules_bootstrap.git modules
-
 For Python
 ----------
 
@@ -104,19 +96,26 @@ Install libs for Python 3.4 or 3.5,
 
 ::
 
-    cd TorCMS/doc
-    pip install -r requirements.txt    
+    cd TorCMS
+    pip install -r doc/requirements.txt
 
 How to Run
 =========================
 
+Get the HTML for modules
+----------------------------------
+
+::
+
+    # cd TorCMS
+    git clone https://github.com/bukun/torcms_modules_bootstrap.git templates/modules
 
 Edit the configiure.
 --------------------
 
 ::
 
-    cd TorCMS/
+    # cd TorCMS/
     copy cfg_demo.py cfg.py
 
 And, edit the config.py file.
@@ -172,7 +171,9 @@ Initialing the metadata in database
 ::
 
     python helper.py -i gen_category
-    python helper.py -i crud
+    python helper.py -i crud0
+    python helper.py -i crud1
+
 
 And, the whoosh database should be initialized first.
 -----------------------------------------------------
