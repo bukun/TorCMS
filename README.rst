@@ -111,7 +111,7 @@ Get the HTML for modules
     git clone https://github.com/bukun/torcms_modules_bootstrap.git templates/modules
 
 Edit the configiure.
---------------------
+-----------------------
 
 ::
 
@@ -180,15 +180,9 @@ And, the whoosh database should be initialized first.
 
 ::
 
-    cd TorCMS
-    python script_run_whoosh.py
+    # cd TorCMS
+    python script_whoosh.py
 
-The upload directory for files should be created.
--------------------------------------------------
-
-::
-
-    mkdir static/upload
 
 Run
 ---------
