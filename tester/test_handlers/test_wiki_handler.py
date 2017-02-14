@@ -18,7 +18,7 @@ class TestWikiHandler(AsyncHTTPSTestCase):
     def test_to_add(self):
         response = self.fetch('/wiki/ToAdd')
         # Not log in.
-        self.assertEqual(response.code, 500)
+        self.assertEqual(response.code, 200)
 
     def test_index(self):
         response = self.fetch('/post/')
