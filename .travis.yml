@@ -20,4 +20,5 @@ script:
   - python helper.py -i gen_category
   - python helper.py -i crud0
   - python helper.py -i crud1
+  - python script_whoosh.py
   - nosetests  --exe -v -d tester
