@@ -16,7 +16,7 @@ class AdminHandler(BaseHandler):
         if url_str == '':
             self.index()
         else:
-            self.render('html/404.html',
+            self.render('misc/html/404.html',
                         kwd={},
                         userinfo=self.userinfo)
 

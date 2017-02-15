@@ -10,9 +10,9 @@ from torcms.core.tools import logger
 from config import router_post
 
 
-class AdminPostHandler(PostHandler):
+class PostCategoryHandler(PostHandler):
     def initialize(self):
-        super(AdminPostHandler, self).initialize()
+        super(PostCategoryHandler, self).initialize()
 
     def get(self, *args, **kwargs):
         url_str = args[0]
@@ -47,7 +47,7 @@ class AdminPostHandler(PostHandler):
     def __to_edit(self, post_uid):
         postinfo = MPost.get_by_uid(post_uid, )
         json_cnt = json.dumps(postinfo.extinfo, indent=True)
-        self.render('man_post/admin_post.html',
+        self.render('man_info/post_category.html',
                     postinfo=postinfo,
                     sig_dic=router_post,
                     userinfo=self.userinfo,
