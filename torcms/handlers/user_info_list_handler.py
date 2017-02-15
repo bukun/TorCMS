@@ -23,7 +23,7 @@ class UserListHandler(BaseHandler):
             kwd = {
                 'info': '404. Page not found!',
             }
-            self.render('html/404.html',
+            self.render('misc/html/404.html',
                         kwd=kwd,
                         userinfo=self.userinfo, )
 
@@ -37,6 +37,10 @@ class UserListHandler(BaseHandler):
 
     @tornado.web.authenticated
     def user_most(self):
+        '''
+        User most used.
+        :return:
+        '''
         kwd = {
             'pager': '',
             'title': '我使用最多的云算应用',

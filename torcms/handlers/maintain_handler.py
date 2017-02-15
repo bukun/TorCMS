@@ -30,7 +30,7 @@ class MaintainCategoryHandler(BaseHandler):
             kwd = {
                 'info': '页面未找到',
             }
-            self.render('html/404.html', kwd=kwd, userinfo=self.userinfo, )
+            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo, )
 
     def post(self, url_str=''):
 

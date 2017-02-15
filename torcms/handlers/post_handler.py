@@ -253,7 +253,7 @@ class PostHandler(BaseHandler):
             kwd = {
                 'info': '404. Page not found!',
             }
-            self.render('html/404.html', kwd=kwd,
+            self.render('misc/html/404.html', kwd=kwd,
                         userinfo=self.userinfo, )
 
     @tornado.web.authenticated

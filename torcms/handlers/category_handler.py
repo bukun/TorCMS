@@ -29,7 +29,7 @@ class CategoryHandler(BaseHandler):
             else:
                 self.list_catalog(url_arr[0], url_arr[1])
         else:
-            self.render('html/404.html')
+            self.render('misc/html/404.html')
 
     def ajax_subcat_arr(self, pid):
         '''
@@ -74,7 +74,7 @@ class CategoryHandler(BaseHandler):
                'title': cat_name,
                'current_page': current_page_num}
 
-        self.render('doc/catalog/list.html',
+        self.render('list/category_list.html',
                     catinfo = cat_rec,
                     infos=MPost2Catalog.query_pager_by_slug(cat_slug, current_page_num),
                     pager=tools.gen_pager_purecss('/category/{0}'.format(cat_slug),

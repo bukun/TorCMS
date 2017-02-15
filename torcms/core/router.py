@@ -20,7 +20,7 @@ from torcms.handlers.post_handler import PostHandler
 from torcms.handlers.post_ajax_handler import PostAjaxHandler
 from torcms.handlers.reply_handler import ReplyHandler
 from torcms.handlers.search_handler import SearchHandler
-from torcms.handlers.user_handler import UserHandler, UserAjaxHandler
+from torcms.handlers.user_handler import UserHandler, UserPartialHandler
 from torcms.handlers.wiki_handler import WikiHandler
 
 from torcms.handlers.user_info_list_handler import UserListHandler
@@ -60,10 +60,12 @@ urls = [
     ("/entry/(.*)", EntityHandler, dict()),
     ("/entity/(.*)", EntityHandler, dict()),
     ("/category/(.*)", CategoryHandler, dict()),
-    ("/user/p/(.*)", UserAjaxHandler, dict()),  # Deprecated
-    ("/user_j/(.*)", UserAjaxHandler, dict()),
+    ("/user/p/(.*)", UserPartialHandler, dict()),  # Deprecated
+    ("/user_p/(.*)", UserPartialHandler, dict()),  # Deprecated
+    ("/user_j/(.*)", UserPartialHandler, dict()),
     ("/user/(.*)", UserHandler, dict()),
     ("/post_j/(.*)", PostAjaxHandler, dict()),
+    ("/post_p/(.*)", PostAjaxHandler, dict()),
     ("/post/p/(.*)", PostAjaxHandler, dict()),  # Deprecated,
     # ("/post/(.*)", PostHandler, dict()),
     ("/post/(.*)", PostHandler, dict(kind='1')),

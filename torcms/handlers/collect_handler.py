@@ -40,6 +40,6 @@ class CollectHandler(BaseHandler):
 
     @tornado.web.authenticated
     def list(self):
-        self.render('user/collect/list.html',
+        self.render('misc/collect/list.html',
                     recs_collect=MCollect.query_recent(self.userinfo.uid, 20),
                     userinfo=self.userinfo)

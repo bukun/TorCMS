@@ -26,7 +26,7 @@ class WikiHistoryHandler(BaseHandler):
             kwd = {
                 'info': '页面未找到',
             }
-            self.render('html/404.html',
+            self.render('misc/html/404.html',
                         kwd=kwd,
                         userinfo=self.userinfo)
 
@@ -36,7 +36,7 @@ class WikiHistoryHandler(BaseHandler):
         if url_arr[0] == 'edit':
             self.update(url_arr[1])
         else:
-            self.redirect('html/404.html')
+            self.redirect('misc/html/404.html')
 
     @tornado.web.authenticated
     def update(self, uid):
@@ -64,7 +64,7 @@ class WikiHistoryHandler(BaseHandler):
             pass
         else:
             return False
-        self.render('man_wiki/wiki_man_edit.html',
+        self.render('man_info/wiki_man_edit.html',
                     userinfo=self.userinfo,
                     unescape=tornado.escape.xhtml_unescape,
                     postinfo=MWiki.get_by_uid(postid))
@@ -104,7 +104,7 @@ class WikiHistoryHandler(BaseHandler):
 
             html_diff_arr.append({'hist_uid': hist_rec.uid, 'html_diff': infobox})
 
-        self.render('man_wiki/wiki_man_view.html',
+        self.render('man_info/wiki_man_view.html',
                     userinfo=self.userinfo,
                     unescape=tornado.escape.xhtml_unescape,
                     view=postinfo,  # Deprecated

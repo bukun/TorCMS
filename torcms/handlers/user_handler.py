@@ -35,9 +35,6 @@ class SumForm_pass(Form):
 class UserHandler(BaseHandler):
     def initialize(self):
         super(UserHandler, self).initialize()
-        self.user_name = self.get_current_user()
-        self.tmpl_dir = 'user'
-        self.tmpl_router = 'info'
 
     def get(self, *args, **kwargs):
 
@@ -70,10 +67,10 @@ class UserHandler(BaseHandler):
         elif url_arr[0] == 'changerole':
             self.change_role(url_arr[1])
         elif url_str == 'find':
-            if self.tmpl_router == "user":
-                self.to_find()
-            else:
-                self.p_to_find()
+            # if self.tmpl_router == "user":
+            self.to_find()
+            # else:
+            #     self.p_to_find()
 
         elif url_arr[0] == 'find':
 
@@ -119,9 +116,9 @@ class UserHandler(BaseHandler):
 
         post_data = self.get_post_data()
 
-        usercheck = MUser.check_user(self.user_name, post_data['rawpass'])
+        usercheck = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
         if usercheck == 1:
-            MUser.update_pass(self.user_name, post_data['user_pass'])
+            MUser.update_pass(self.userinfo.uid, post_data['user_pass'])
             output = {'changepass ': usercheck}
         else:
             output = {'changepass ': 0}
@@ -134,9 +131,9 @@ class UserHandler(BaseHandler):
         :return:
         '''
         post_data = self.get_post_data()
-        usercheck = MUser.check_user(self.user_name, post_data['rawpass'])
+        usercheck = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
         if usercheck == 1:
-            MUser.update_info(self.user_name, post_data['user_email'])
+            MUser.update_info(self.userinfo.uid, post_data['user_email'])
             output = {'changeinfo ': usercheck}
         else:
             output = {'changeinfo ': 0}
@@ -146,9 +143,9 @@ class UserHandler(BaseHandler):
     def changepassword(self):
         post_data = self.get_post_data()
 
-        uu = MUser.check_user(self.user_name, post_data['rawpass'])
+        uu = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
         if uu == 1:
-            MUser.update_pass(self.user_name, post_data['user_pass'])
+            MUser.update_pass(self.userinfo.uid, post_data['user_pass'])
             self.redirect('/user/info')
         else:
             return False
@@ -158,10 +155,10 @@ class UserHandler(BaseHandler):
 
         post_data = self.get_post_data()
 
-        uu = MUser.check_user(self.user_name, post_data['rawpass'])
+        uu = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
 
         if uu == 1:
-            MUser.update_info(self.user_name, post_data['user_email'])
+            MUser.update_info(self.userinfo.uid, post_data['user_email'])
             self.redirect(('/user/info'))
         else:
             return False
@@ -170,15 +167,15 @@ class UserHandler(BaseHandler):
     def changerole(self, xg_username):
         post_data = self.get_post_data()
 
-        if self.tmpl_router == "user":
-            MUser.update_role(xg_username, post_data['role'])
-            self.redirect(('/user/info'))
-        else:
-            if MUser.update_role(xg_username, post_data['role']):
-                output = {'del_category ': 1}
-            else:
-                output = {'del_category ': 0}
-            return json.dump(output, self)
+        # if self.tmpl_router == "user":
+        MUser.update_role(xg_username, post_data['role'])
+        self.redirect('/user/info')
+        # else:
+        #     if MUser.update_role(xg_username, post_data['role']):
+        #         output = {'del_category ': 1}
+        #     else:
+        #         output = {'del_category ': 0}
+        #     return json.dump(output, self)
 
     @tornado.web.authenticated
     def logout(self):
@@ -188,26 +185,26 @@ class UserHandler(BaseHandler):
     @tornado.web.authenticated
     def changepass(self):
 
-        self.render('{1}/{0}/changepass.html'.format(self.tmpl_router, self.tmpl_dir),
+        self.render(self.wrap_tmpl('user/{sig}user_changepass.html'),
                     userinfo=self.userinfo)
 
     @tornado.web.authenticated
     def change_info(self):
-        self.render('{1}/{0}/changeinfo.html'.format(self.tmpl_router, self.tmpl_dir),
+        self.render(self.wrap_tmpl('user/{sig}user_changeinfo.html'),
                     userinfo=self.userinfo)
 
     @tornado.web.authenticated
     def change_role(self, xg_username):
-        self.render('{1}/{0}/changerole.html'.format(self.tmpl_router, self.tmpl_dir),
+        self.render('user/user_changerole.html',
                     userinfo=MUser.get_by_name(xg_username))
 
     @tornado.web.authenticated
     def show_info(self):
-        self.render('{1}/{0}/info.html'.format(self.tmpl_router, self.tmpl_dir),
+        self.render(self.wrap_tmpl('user/{sig}user_info.html'),
                     userinfo=self.userinfo)
 
     def to_reset_password(self):
-        self.render('user/{0}/reset_password.html'.format(self.tmpl_router),
+        self.render('user/user_reset_password.html',
                     userinfo=self.userinfo, )
 
     def to_login(self):
@@ -219,7 +216,7 @@ class UserHandler(BaseHandler):
                 'pager': '',
                 'next_url': next_url,
             }
-            self.render('user/{0}/login.html'.format(self.tmpl_router),
+            self.render('user/user_login.html',
                         kwd=kwd,
                         userinfo=None)
 
@@ -258,7 +255,6 @@ class UserHandler(BaseHandler):
 
     def __check_valid_pass(self, post_data):
         user_create_status = {'success': False, 'code': '00'}
-        # if MUser.check_user(self.user_name,post_data['user_pass'][0]) ==0:
         #    user_create_status['code'] = '31'
         #    return user_create_status
 
@@ -280,7 +276,7 @@ class UserHandler(BaseHandler):
                     'info': '注册不成功',
                 }
                 self.set_status(400)
-                self.render('html/404.html',
+                self.render('misc/html/404.html',
                             cfg=config.CMS_CFG,
                             kwd=kwd,
                             userinfo=None)
@@ -290,7 +286,7 @@ class UserHandler(BaseHandler):
                 'info': '注册不成功',
             }
             self.set_status(400)
-            self.render('html/404.html',
+            self.render('misc/html/404.html',
                         cfg=config.CMS_CFG,
                         kwd=kwd,
                         userinfo=None)
@@ -337,7 +333,7 @@ class UserHandler(BaseHandler):
         user_create_status = {'success': False, 'code': '00'}
         post_data = self.get_post_data()
 
-        uu = MUser.check_user(self.user_name, post_data['rawpass'])
+        uu = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
 
         if uu == 1:
 
@@ -348,7 +344,7 @@ class UserHandler(BaseHandler):
             form_info = SumForm_info(self.request.arguments)
 
             if form_info.validate():
-                user_create_status = MUser.update_info(self.user_name, post_data['user_email'])
+                user_create_status = MUser.update_info(self.userinfo.uid, post_data['user_email'])
                 return json.dump(user_create_status, self)
             else:
                 return json.dump(user_create_status, self)
@@ -373,7 +369,7 @@ class UserHandler(BaseHandler):
         user_create_status = {'success': False, 'code': '00'}
         post_data = self.get_post_data()
 
-        uu = MUser.check_user(self.user_name, post_data['rawpass'])
+        uu = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
 
         if uu == 1:
 
@@ -384,7 +380,7 @@ class UserHandler(BaseHandler):
             form_pass = SumForm_pass(self.request.arguments)
 
             if form_pass.validate():
-                MUser.update_pass(self.user_name, post_data['user_pass'])
+                MUser.update_pass(self.userinfo.uid, post_data['user_pass'])
                 return json.dump(user_create_status, self)
             else:
                 return json.dump(user_create_status, self)
@@ -398,7 +394,7 @@ class UserHandler(BaseHandler):
         kwd = {
             'pager': '',
         }
-        self.render('user/{0}/regist.html'.format(self.tmpl_router),
+        self.render('user/user_regist.html',
                     cfg=config.CMS_CFG,
                     userinfo=None,
                     kwd=kwd)
@@ -417,7 +413,7 @@ class UserHandler(BaseHandler):
         kwd = {
             'pager': '',
         }
-        result = MUser.check_user(u_name, u_pass)
+        result = MUser.check_user_by_name(u_name, u_pass)
         if result == 1:
             self.set_secure_cookie("user", u_name)
             MUser.update_time_login(u_name)
@@ -427,7 +423,7 @@ class UserHandler(BaseHandler):
             kwd = {
                 'info': '密码验证出错，请<a href="/user/login">重新登陆</a>。'
             }
-            self.render('user/relogin.html',
+            self.render('user/user_relogin.html',
                         cfg=config.CMS_CFG,
                         kwd=kwd,
                         userinfo=self.userinfo)
@@ -436,7 +432,7 @@ class UserHandler(BaseHandler):
             kwd = {
                 'info': '没有这个用户'
             }
-            self.render('html/404.html',
+            self.render('misc/html/404.html',
                         cfg=config.CMS_CFG,
                         kwd=kwd,
                         userinfo=self.userinfo)
@@ -448,7 +444,7 @@ class UserHandler(BaseHandler):
         kwd = {
             'pager': '',
         }
-        self.render('user/{0}/find.html'.format(self.tmpl_router),
+        self.render('user/user_find.html',
                     cfg=config.CMS_CFG,
                     kwd=kwd,
                     userinfo=self.userinfo)
@@ -459,7 +455,7 @@ class UserHandler(BaseHandler):
             'pager': '',
 
         }
-        self.render('{1}/{0}/find_list.html'.format(self.tmpl_router, self.tmpl_dir),
+        self.render('user/user_find_list.html',
                     kwd=kwd,
                     view=MUser.get_by_keyword(""),
                     cfg=config.CMS_CFG,
@@ -471,51 +467,63 @@ class UserHandler(BaseHandler):
             'unescape': tornado.escape.xhtml_unescape,
             'title': '查找结果',
         }
-        if self.tmpl_router == "user":
-            self.render('user/{0}/find_list.html'.format(self.tmpl_router),
-                        kwd=kwd,
-                        view=MUser.get_by_keyword(keyword),
-                        cfg=config.CMS_CFG,
-                        userinfo=self.userinfo)
-        else:
-            result = MUser.get_by_keyword(keyword)
-            if result:
-                output = {
-                    'find': result
-                }
-            else:
-                output = {
-                    'find': 0,
-                }
-
-            return json.dump(output, self)
+        # if self.tmpl_router == "user":
+        self.render('user/user_find_list.html',
+                    kwd=kwd,
+                    view=MUser.get_by_keyword(keyword),
+                    cfg=config.CMS_CFG,
+                    userinfo=self.userinfo)
+        # else:
+        #     result = MUser.get_by_keyword(keyword)
+        #     if result:
+        #         output = {
+        #             'find': result
+        #         }
+        #     else:
+        #         output = {
+        #             'find': 0,
+        #         }
+        #
+        #     return json.dump(output, self)
 
     def delete(self, del_id):
+        '''
+        delete user.
+        :param del_id:
+        :return:
+        '''
+        # if self.tmpl_router == "user":
 
-        if self.tmpl_router == "user":
-
-            is_deleted = MUser.delete(del_id)
-            if is_deleted:
-                self.redirect('/user/find')
-            else:
-                return False
+        is_deleted = MUser.delete(del_id)
+        if is_deleted:
+            self.redirect('/user/find')
         else:
-            if MUser.delete(del_id):
-                output = {
-                    'del_category': 1
-                }
-            else:
-                output = {
-                    'del_category': 0,
-                }
-
-            return json.dump(output, self)
+            return False
+            # else:
+            #     if MUser.delete(del_id):
+            #         output = {
+            #             'del_category': 1
+            #         }
+            #     else:
+            #         output = {
+            #             'del_category': 0,
+            #         }
+            #
+            #     return json.dump(output, self)
 
     def post_find(self):
+        '''
+        Do find user.
+        :return:
+        '''
         keyword = self.get_argument('keyword')
         self.find(keyword)
 
     def reset_password(self):
+        '''
+        Do reset password
+        :return:
+        '''
         post_data = self.get_post_data()
 
         if 'email' in post_data:
@@ -526,7 +534,7 @@ class UserHandler(BaseHandler):
                 kwd = {
                     'info': '两次重置密码时间应该大于1分钟',
                 }
-                self.render('html/404.html', kwd=kwd, userinfo=self.userinfo)
+                self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
                 return False
 
             if userinfo:
@@ -563,6 +571,10 @@ class UserHandler(BaseHandler):
             return False
 
     def gen_passwd(self):
+        '''
+        reseting password
+        :return:
+        '''
         post_data = self.get_post_data()
 
         userinfo = MUser.get_by_name(post_data['u'])
@@ -576,7 +588,7 @@ class UserHandler(BaseHandler):
                 'info': '密码重置已超时！',
             }
             self.set_status(400)
-            self.render('html/404.html',
+            self.render('misc/html/404.html',
                         kwd=kwd,
                         userinfo=self.userinfo)
 
@@ -588,7 +600,7 @@ class UserHandler(BaseHandler):
                 'info': '密码重置验证出错！',
             }
             self.set_status(400)
-            self.render('html/404.html',
+            self.render('misc/html/404.html',
                         kwd=kwd,
                         userinfo=self.userinfo, )
 
@@ -598,15 +610,17 @@ class UserHandler(BaseHandler):
             'user_name': userinfo.user_name,
             'new_pass': new_passwd,
         }
-        self.render('user/{0}/show_pass.html'.format(self.tmpl_router),
+        self.render('user/user_show_pass.html',
                     cfg=config.CMS_CFG,
                     kwd=kwd,
                     userinfo=self.userinfo, )
 
 
-class UserAjaxHandler(UserHandler):
+class UserPartialHandler(UserHandler):
+    '''
+    Partially render for user handler.
+    '''
+
     def initialize(self):
-        super(UserAjaxHandler, self).initialize()
-        self.user_name = self.get_current_user()
-        self.tmpl_dir = 'admin'
-        self.tmpl_router = 'user_ajax'
+        super(UserPartialHandler, self).initialize()
+        self.is_p = True

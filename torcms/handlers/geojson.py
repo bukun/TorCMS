@@ -67,7 +67,7 @@ class GeoJsonHandler(BaseHandler):
 
     def index(self):
         self.render(
-            'infor/geojson/index.html',
+            'geoinfo/geojson/index.html',
             kwd={},
             userinfo=self.userinfo,
             unescape=tornado.escape.xhtml_unescape,
@@ -79,7 +79,7 @@ class GeoJsonHandler(BaseHandler):
 
         kwd = {}
         self.render(
-            'infor/geojson/gson_recent.html',
+            'geoinfo/geojson/gson_recent.html',
             kwd=kwd,
             userinfo=self.userinfo,
             unescape=tornado.escape.xhtml_unescape,

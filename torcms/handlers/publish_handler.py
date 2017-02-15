@@ -69,7 +69,7 @@ class PublishHandler(BaseHandler):
         kwd = {'class1str': class1str,
                'parentid': '0',
                'parentlist': MCategory.get_parent_list()}
-        self.render('infor/publish/publish.html',
+        self.render('misc/publish/publish.html',
                     userinfo=self.userinfo,
                     kwd=kwd)
 
@@ -88,6 +88,6 @@ class PublishHandler(BaseHandler):
         kwd = {'class1str': self.format_class2(fatherid),
                'parentid': '0',
                'parentlist': MCategory.get_parent_list()}
-        self.render('infor/publish/publish2.html',
+        self.render('misc/publish/publish2.html',
                     userinfo=self.userinfo,
                     kwd=kwd)

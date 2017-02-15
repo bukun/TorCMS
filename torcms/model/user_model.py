@@ -54,21 +54,31 @@ class MUser(Mabc):
             return None
 
     @staticmethod
-    def check_user(u_name, u_pass):
-        tt = g_Member.select().where(g_Member.user_name == u_name).count()
+    def check_user(user_id, u_pass):
+        tt = g_Member.select().where(g_Member.uid == user_id).count()
         if tt == 0:
             return -1
-        a = g_Member.get(user_name=u_name)
+        a = g_Member.get(uid=user_id)
         if a.user_pass == tools.md5(u_pass):
             return 1
         return 0
 
     @staticmethod
-    def update_pass(u_name, newpass):
+    def check_user_by_name(user_id, u_pass):
+        tt = g_Member.select().where(g_Member.user_name == user_id).count()
+        if tt == 0:
+            return -1
+        a = g_Member.get(user_name=user_id)
+        if a.user_pass == tools.md5(u_pass):
+            return 1
+        return 0
+
+    @staticmethod
+    def update_pass(user_id, newpass):
 
         out_dic = {'success': False, 'code': '00'}
 
-        entry = g_Member.update(user_pass=tools.md5(newpass)).where(g_Member.user_name == u_name)
+        entry = g_Member.update(user_pass=tools.md5(newpass)).where(g_Member.uid == user_id)
         entry.execute()
 
         out_dic['success'] = True
@@ -83,7 +93,7 @@ class MUser(Mabc):
             (time_now - g_Member.time_email) > 4 * 30 * 24 * 60 * 60))
 
     @staticmethod
-    def update_info(u_name, newemail):
+    def update_info(user_id, newemail):
 
         out_dic = {'success': False, 'code': '00'}
         if tools.check_email_valid(newemail):
@@ -92,7 +102,7 @@ class MUser(Mabc):
             out_dic['code'] = '21'
             return out_dic
 
-        entry = g_Member.update(user_email=newemail).where(g_Member.user_name == u_name)
+        entry = g_Member.update(user_email=newemail).where(g_Member.uid == user_id)
         entry.execute()
 
         out_dic['success'] = True

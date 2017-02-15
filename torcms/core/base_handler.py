@@ -25,6 +25,8 @@ class BaseHandler(tornado.web.RequestHandler):
             self.userinfo = MUser.get_by_name(self.get_current_user())
         else:
             self.userinfo = None
+        self.is_p = False  # True, if partially rendered.
+        self.is_j = False  # True, if json would be returned.
 
     def get_post_data(self):
         '''
@@ -88,3 +90,14 @@ class BaseHandler(tornado.web.RequestHandler):
         :return:
         '''
         run_whoosh.gen_whoosh_database(kind_arr=kind_arr, post_type=post_type)
+
+    def wrap_tmpl(self, tmpl):
+        '''
+        return the warpped template path.
+        :param tmpl:
+        :return:
+        '''
+        if self.is_p:
+            return 'admin/' + tmpl.format(sig='p')
+        else:
+            return tmpl

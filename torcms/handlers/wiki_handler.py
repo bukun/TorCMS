@@ -43,7 +43,7 @@ class WikiHandler(BaseHandler):
             kwd = {
                 'info': '404 Page not found!',
             }
-            self.render('html/404.html', kwd=kwd)
+            self.render('misc/html/404.html', kwd=kwd)
 
     def post(self, *args):
         url_str = args[0]
@@ -58,7 +58,7 @@ class WikiHandler(BaseHandler):
             kwd = {
                 'info': '404 Page not found!',
             }
-            self.render('html/404.html', kwd=kwd)
+            self.render('misc/html/404.html', kwd=kwd)
 
     def recent(self):
         '''
@@ -70,7 +70,7 @@ class WikiHandler(BaseHandler):
             'unescape': tornado.escape.xhtml_unescape,
             'title': 'Recent Pages',
         }
-        self.render('doc/wiki/wiki_list.html',
+        self.render('wiki_page/wiki_list.html',
                     view=MWiki.query_recent(),
                     format_date=tools.format_date,
                     kwd=kwd,
@@ -86,7 +86,7 @@ class WikiHandler(BaseHandler):
             'unescape': tornado.escape.xhtml_unescape,
             'title': '最近文档',
         }
-        self.render('doc/wiki/wiki_list.html',
+        self.render('wiki_page/wiki_list.html',
                     view=MWiki.query_dated(16),
                     format_date=tools.format_date,
                     kwd=kwd,
@@ -146,7 +146,7 @@ class WikiHandler(BaseHandler):
         kwd = {
             'pager': '',
         }
-        self.render('doc/wiki/wiki_edit.html',
+        self.render('wiki_page/wiki_edit.html',
                     kwd=kwd,
                     unescape=tornado.escape.xhtml_unescape,
                     dbrec=wiki_rec,  # Deprecated.
@@ -158,7 +158,7 @@ class WikiHandler(BaseHandler):
             'pager': '',
             'editable': self.editable(),
         }
-        self.render('doc/wiki/wiki_view.html',
+        self.render('wiki_page/wiki_view.html',
                     view=view,  # Deprecated
                     postinfo=view,
                     unescape=tornado.escape.xhtml_unescape,
@@ -178,9 +178,9 @@ class WikiHandler(BaseHandler):
             'pager': '',
         }
         if self.userinfo and self.userinfo.role[0] > '0':
-            tmpl = 'doc/wiki/wiki_add.html'
+            tmpl = 'wiki_page/wiki_add.html'
         else:
-            tmpl = 'doc/wiki/wiki_login.html'
+            tmpl = 'wiki_page/wiki_login.html'
 
         self.render(tmpl,
                     kwd=kwd,

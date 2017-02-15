@@ -32,7 +32,7 @@ class SearchHandler(BaseHandler):
 
     def index(self):
         tag_enum = MCategory.query_pcat()
-        self.render('index/search.html', userinfo=self.userinfo,
+        self.render('misc/search/search_index.html', userinfo=self.userinfo,
                     cat_enum=tag_enum,
                     tag_enum=tag_enum)
 
@@ -69,7 +69,7 @@ class SearchHandler(BaseHandler):
                'count': res_all,
                'keyword': keyword,
                'current_page': current_page_number}
-        self.render('doc/search/search.html',
+        self.render('misc/search/search_list.html',
                     kwd=kwd,
                     srecs=results,
                     pager=self.gen_pager_bootstrap_url('/search/{0}'.format(keyword),
@@ -167,7 +167,7 @@ class SearchHandler(BaseHandler):
                'keyword': keyword,
                # 'catname': '文档' if catid == '0000' else MCategory.get_by_uid(catid).name
                }
-        self.render('doc/search/search.html',
+        self.render('misc/search/search_list',
                     kwd=kwd,
                     srecs=results,
                     pager=self.gen_pager_bootstrap_url('/search/{0}/{1}'.format(catid, keyword),

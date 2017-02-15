@@ -48,7 +48,7 @@ class EntityHandler(BaseHandler):
         if url_str == 'add_img' or url_str == 'add' or url_str == '':
             self.add_entity()
         else:
-            self.render('html/404.html', kwd={}, userinfo=self.userinfo)
+            self.render('misc/html/404.html', kwd={}, userinfo=self.userinfo)
 
     @tornado.web.authenticated
     def list(self):
@@ -56,7 +56,7 @@ class EntityHandler(BaseHandler):
         kwd = {
             'pager': '',
         }
-        self.render('doc/entry/entry_list.html',
+        self.render('misc/entity/entity_list.html',
                     imgs=recs,
                     cfg=config.CMS_CFG,
                     kwd=kwd,
@@ -67,7 +67,7 @@ class EntityHandler(BaseHandler):
         kwd = {
             'pager': '',
         }
-        self.render('doc/entry/entry_add.html',
+        self.render('misc/entity/entity_add.html',
                     cfg=config.CMS_CFG,
                     kwd=kwd,
                     userinfo=self.userinfo)
@@ -169,7 +169,7 @@ class EntityHandler(BaseHandler):
             'pager': '',
 
         }
-        self.render('doc/entry/entry_view.html',
+        self.render('misc/entity/entity_view.html',
                     filename=outfilename,
                     cfg=config.CMS_CFG,
                     kwd=kwd,

@@ -31,7 +31,7 @@ class FilterHandler(BaseHandler):
         elif len(url_str) > 4:
             self.echo_html(url_str)
         else:
-            self.render('html/404.html', kwd={})
+            self.render('misc/html/404.html', kwd={})
 
     def gen_redis_kw(self):
         condition = {}

@@ -70,7 +70,7 @@ class PostHistoryHandler(BaseHandler):
         else:
             return False
         post_rec = MPost.get_by_uid(postid)
-        self.render('man_post/post_man_edit.html',
+        self.render('man_info/post_man_edit.html',
                     userinfo=self.userinfo,
                     unescape=tornado.escape.xhtml_unescape,
                     postinfo=post_rec)
@@ -119,7 +119,7 @@ class PostHistoryHandler(BaseHandler):
 
             html_diff_arr.append({'hist_uid': hist_rec.uid, 'html_diff': infobox})
 
-        self.render('man_post/post_man_view.html',
+        self.render('man_info/post_man_view.html',
                     userinfo=self.userinfo,
                     unescape=tornado.escape.xhtml_unescape,
                     view=postinfo,

@@ -28,7 +28,7 @@ class MaintainPycateCategoryHandler(BaseHandler):
             kwd = {
                 'info': '页面未找到',
             }
-            self.render('html/404.html', kwd=kwd)
+            self.render('misc/html/404.html', kwd=kwd)
 
     def post(self, url_str=''):
         url_arr = self.parse_url(url_str)

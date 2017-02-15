@@ -57,7 +57,7 @@ class PageHandler(BaseHandler):
             # like:  /page/new_page
             self.add_page(url_arr[0])
         else:
-            self.render('html/404.html', userinfo=self.userinfo, kwd={})
+            self.render('misc/html/404.html', userinfo=self.userinfo, kwd={})
 
     def view_or_add(self, slug):
         '''
@@ -86,7 +86,7 @@ class PageHandler(BaseHandler):
             'slug': citiao,
             'pager': '',
         }
-        self.render('doc/page/page_add.html',
+        self.render('wiki_page/page_add.html',
                     kwd=kwd,
                     userinfo=self.userinfo)
 
@@ -137,7 +137,7 @@ class PageHandler(BaseHandler):
             'pager': '',
 
         }
-        self.render('doc/page/page_edit.html',
+        self.render('wiki_page/page_edit.html',
                     view=MWiki.get_by_uid(uid),  # Deprecated
                     postinfo=MWiki.get_by_uid(uid),
                     kwd=kwd,
@@ -149,7 +149,7 @@ class PageHandler(BaseHandler):
         kwd = {
             'pager': '',
         }
-        self.render('doc/page/page_view.html',
+        self.render('wiki_page/page_view.html',
                     view=rec,  # Deprecated
                     postinfo=rec,
                     unescape=tornado.escape.xhtml_unescape,
@@ -171,7 +171,7 @@ class PageHandler(BaseHandler):
             'unescape': tornado.escape.xhtml_unescape,
             'title': '单页列表',
         }
-        self.render('doc/page/page_list.html',
+        self.render('wiki_page/page_list.html',
                     kwd=kwd,
                     view=MWiki.query_recent(),
                     view_all=MWiki.query_all(),

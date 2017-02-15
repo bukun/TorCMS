@@ -50,7 +50,7 @@ class LinkHandler(BaseHandler):
         elif url_arr[0] in ['add_link', '_add', 'add']:
             self.p_user_add_link()
         else:
-            self.redirect('html/404.html')
+            self.redirect('misc/html/404.html')
 
     def recent(self):
         kwd = {
@@ -58,7 +58,7 @@ class LinkHandler(BaseHandler):
             'unescape': tornado.escape.xhtml_unescape,
             'title': '最近文档',
         }
-        self.render('doc/link/link_list.html',
+        self.render('misc/link/link_list.html',
                     kwd=kwd,
                     view=MLink.query_link(10),
                     format_date=tools.format_date,
@@ -73,7 +73,7 @@ class LinkHandler(BaseHandler):
             'pager': '',
             'uid': '',
         }
-        self.render('doc/link/link_add.html',
+        self.render('misc/link/link_add.html',
                     topmenu='',
                     kwd=kwd,
                     userinfo=self.userinfo, )
@@ -106,7 +106,7 @@ class LinkHandler(BaseHandler):
             return False
         a = MLink.get_by_uid(id_rec)
 
-        self.render('doc/link/link_edit.html',
+        self.render('misc/link/link_edit.html',
                     kwd={},
                     unescape=tornado.escape.xhtml_unescape,
                     dbrec=a,
@@ -127,7 +127,7 @@ class LinkHandler(BaseHandler):
             'editable': self.editable(),
         }
 
-        self.render('doc/link/link_view.html',
+        self.render('misc/link/link_view.html',
                     view=rec,
                     unescape=tornado.escape.xhtml_unescape,
                     kwd=kwd,

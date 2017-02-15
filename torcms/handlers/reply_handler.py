@@ -15,9 +15,9 @@ class ReplyHandler(BaseHandler):
 
     def get(self, url_str=''):
         url_arr = self.parse_url(url_str)
-        if url_arr[0] == 'get':
-            self.get_by_id(url_arr[1])
-        elif url_arr[0] == 'list':
+        # if url_arr[0] == 'get':
+        #     self.get_by_id(url_arr[1])
+        if url_arr[0] == 'list':
             self.list()
         elif url_arr[0] == 'delete':
             self.delete(url_arr[1])
@@ -39,19 +39,19 @@ class ReplyHandler(BaseHandler):
                     view_all=MReply.query_all(),
                     userinfo=self.userinfo)
 
-    def get_by_id(self, reply_id):
-
-        reply = MReply.get_by_uid(reply_id)
-        logger.info('get_reply: {0}'.format(reply_id))
-
-        self.render('reply/show_reply.html',
-                    reply=reply,
-                    username=reply.user_name,
-                    date=reply.date,
-                    vote=reply.vote,
-                    uid=reply.uid,
-                    userinfo=self.userinfo,
-                    unescape=tornado.escape.xhtml_unescape)
+    # def get_by_id(self, reply_id):
+    #
+    #     reply = MReply.get_by_uid(reply_id)
+    #     logger.info('get_reply: {0}'.format(reply_id))
+    #
+    #     self.render('misc/reply/show_reply.html',
+    #                 reply=reply,
+    #                 username=reply.user_name,
+    #                 date=reply.date,
+    #                 vote=reply.vote,
+    #                 uid=reply.uid,
+    #                 userinfo=self.userinfo,
+    #                 unescape=tornado.escape.xhtml_unescape)
 
     def add(self, post_id):
         post_data = self.get_post_data()
