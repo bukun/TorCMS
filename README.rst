@@ -5,13 +5,13 @@ Status
 ------------------------
 
 .. image:: https://travis-ci.org/bukun/TorCMS.svg?branch=master
-:target: https://travis-ci.org/bukun/TorCMS
+    :target: https://travis-ci.org/bukun/TorCMS
 
 .. image:: https://img.shields.io/pypi/v/torcms.svg
-:target: https://pypi.python.org/pypi/torcms/
+    :target: https://pypi.python.org/pypi/torcms/
 
 .. image:: https://img.shields.io/pypi/pyversions/torcms.svg
-:target: https://pypi.python.org/pypi/torcms/
+    :target: https://pypi.python.org/pypi/torcms/
 
 * Checking ``torcms`` with ``pylint`` using default configuration, gets score greater than 8 (``pylint torcms``).
 
