@@ -7,7 +7,7 @@ from torcms.handlers.admin_handler import AdminHandler
 from torcms.handlers.category_handler import CategoryHandler
 from torcms.handlers.entity_handler import EntityHandler
 from torcms.handlers.index import IndexHandler
-from torcms.handlers.tag_list_hanlder import TagListHandler
+# from torcms.handlers.tag_list_hanlder import TagListHandler
 
 from torcms.handlers.label_handler import LabelHandler, InfoTagHandler
 from torcms.handlers.post_list_handler import PostListHandler
@@ -56,11 +56,14 @@ urls = [
     ('/wiki_man/(.*)', WikiHistoryHandler, dict()),
     ('/page_man/(.*)', WikiHistoryHandler, dict()),
 
-    ("/label/(.*)", LabelHandler, dict()),
     ("/admin/(.*)", AdminHandler, dict()),
     ("/entry/(.*)", EntityHandler, dict()),
     ("/entity/(.*)", EntityHandler, dict()),
+
+    ("/label/(.*)", LabelHandler, dict()),
     ("/category/(.*)", CategoryHandler, dict()),
+    ("/tag/(.*)", CategoryHandler, dict()), # Deprecated, replaed by `/category` .
+
     ("/user/p/(.*)", UserPartialHandler, dict()),  # Deprecated
     ("/user_p/(.*)", UserPartialHandler, dict()),  # Deprecated
     ("/user_j/(.*)", UserPartialHandler, dict()),
@@ -94,7 +97,6 @@ urls = [
 
     ("/publish/(.*)", PublishHandler, dict()),
 
-    ("/tag/(.*)", TagListHandler, dict()),
 
     # Todo: need to be deleted. replaced by `/label/`.
     ('/info_tag/(.*)', InfoTagHandler, dict()),
