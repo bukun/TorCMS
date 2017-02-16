@@ -4,12 +4,12 @@
 from torcms.handlers.filter_handler import FilterHandler
 from torcms.handlers.publish_handler import PublishHandler
 from torcms.handlers.admin_handler import AdminHandler
-from torcms.handlers.category_handler import CategoryHandler
+from torcms.handlers.category_handler import CategoryHandler, TagListHandler
 from torcms.handlers.entity_handler import EntityHandler
 from torcms.handlers.index import IndexHandler
 # from torcms.handlers.tag_list_hanlder import TagListHandler
 
-from torcms.handlers.label_handler import LabelHandler, InfoTagHandler, TagListHandler
+from torcms.handlers.label_handler import LabelHandler, InfoTagHandler
 from torcms.handlers.post_list_handler import PostListHandler
 from torcms.handlers.link_handler import LinkHandler
 from torcms.handlers.maintain_handler import MaintainCategoryHandler, MaintainCategoryAjaxHandler
