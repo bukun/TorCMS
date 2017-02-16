@@ -9,7 +9,7 @@ from torcms.handlers.entity_handler import EntityHandler
 from torcms.handlers.index import IndexHandler
 # from torcms.handlers.tag_list_hanlder import TagListHandler
 
-from torcms.handlers.label_handler import LabelHandler, InfoTagHandler
+from torcms.handlers.label_handler import LabelHandler, InfoTagHandler, TagListHandler
 from torcms.handlers.post_list_handler import PostListHandler
 from torcms.handlers.link_handler import LinkHandler
 from torcms.handlers.maintain_handler import MaintainCategoryHandler, MaintainCategoryAjaxHandler
@@ -62,7 +62,7 @@ urls = [
 
     ("/label/(.*)", LabelHandler, dict()),
     ("/category/(.*)", CategoryHandler, dict()),
-    ("/tag/(.*)", CategoryHandler, dict()), # Deprecated, replaed by `/category` .
+    ("/tag/(.*)", TagListHandler, dict()), # Deprecated, replaed by `/category` .
 
     ("/user/p/(.*)", UserPartialHandler, dict()),  # Deprecated
     ("/user_p/(.*)", UserPartialHandler, dict()),  # Deprecated
