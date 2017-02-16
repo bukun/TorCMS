@@ -70,7 +70,7 @@ class LabelHandler(BaseHandler):
                'title': tag_name,
                'current_page': current_page_number}
 
-        self.render('post_{0}/label_list.html'.format(kind),
+        self.render('list/label_{kind}.html'.format(kind = kind),
                     infos=MPost2Label.query_pager_by_slug(tag_slug,
                                                           kind=kind,
                                                           current_page_num=current_page_number),
