@@ -7,13 +7,8 @@ from torcms.core import tools
 from torcms.model.core_tab import g_Evaluation
 from torcms.model.abc_model import Mabc
 
-class MEvaluation(Mabc):
-    def __init__(self):
-        try:
-            g_Evaluation.create_table()
-        except:
-            pass
 
+class MEvaluation(Mabc):
     @staticmethod
     def app_evaluation_count(app_id, value=1):
         '''

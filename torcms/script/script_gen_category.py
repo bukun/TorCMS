@@ -13,10 +13,8 @@ from torcms.model.category_model import MCategory
 def gen_xlsx_category():
     xlsx_file = './database/meta/info_tags.xlsx'
     if os.path.exists(xlsx_file):
-        print('Got it')
         pass
     else:
-        print('The xlsx file does not exists.')
         return
     wb = load_workbook(filename=xlsx_file)
     mappcat = MCategory()
@@ -24,7 +22,6 @@ def gen_xlsx_category():
     order_index = 1
 
     for sheet_ranges in wb:
-        print('-' * 80)
         kind_sig = str(sheet_ranges['A1'].value).strip()
 
         for row_num in range(3, 10000):
@@ -67,7 +64,6 @@ def gen_xlsx_category():
                 'pid': pp_uid,
                 'kind': kind_sig,
             }
-            print(post_data)
             mappcat.add_or_update(u_uid, post_data)
             order_index += 1
 
@@ -130,6 +126,5 @@ def gen_yaml_category():
 
 
 def run_gen_category():
-    print('run gen category')
     gen_yaml_category()
     gen_xlsx_category()

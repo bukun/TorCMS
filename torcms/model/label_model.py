@@ -19,6 +19,9 @@ class MLabel(Mabc):
     For Label
     '''
 
+    def __init__(self):
+        super(MLabel, self).__init__()
+
     @staticmethod
     def get_id_by_name(tag_name, kind='z'):
         recs = g_Tag.select().where(
@@ -109,10 +112,7 @@ class MPost2Label(Mabc):
     '''
 
     def __init__(self):
-        try:
-            g_Post2Tag.create_table()
-        except:
-            pass
+        super(MPost2Label, self).__init__()
 
     @staticmethod
     def query_count(uid):

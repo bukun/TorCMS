@@ -1,16 +1,22 @@
 # -*- coding:utf-8 -*-
 
+'''
+Rating for post.
+'''
+
 import peewee
 from torcms.core import tools
 from torcms.model.core_tab import g_Rating
 from torcms.model.abc_model import Mabc
 
+
 class MRating(Mabc):
+    '''
+    Rating for post.
+    '''
+
     def __init__(self):
-        try:
-            g_Rating.create_table()
-        except:
-            pass
+        super(MRating, self).__init__()
 
     @staticmethod
     def query_by_post(postid, limit=20):

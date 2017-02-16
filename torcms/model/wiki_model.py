@@ -12,10 +12,7 @@ import peewee
 class MWiki(Mabc):
     def __init__(self):
 
-        try:
-            g_Wiki.create_table()
-        except:
-            pass
+        super(MWiki, self).__init__()
 
     @staticmethod
     def get_counts():

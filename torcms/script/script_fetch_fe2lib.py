@@ -19,7 +19,7 @@ else:
 def fetch_file(url, filename):
     outfile = os.path.join(den_dir, filename)
     if os.path.exists(outfile):
-        print('Exists: ', outfile)
+        # print('Exists: ', outfile)
         return True
     print('fetch ...')
     print(' ' * 4 + url)

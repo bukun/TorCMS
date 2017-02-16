@@ -16,7 +16,7 @@ else:
     sys.exit(0)
 
 
-def write_filter_dic(fo, wk_sheet, column):
+def write_filter_dic(wk_sheet, column):
     '''
     write filter dic for certain column
     :param fo:
@@ -42,12 +42,23 @@ def write_filter_dic(fo, wk_sheet, column):
                 tags_dic[index + 1] = tag_val.strip()
             ctr_type = 'select'
 
-        fo.write('''html_{0} = {{
-                        'en': 'tag_{0}',
-                        'zh': '{1}',
-                        'dic': {2},
-                        'type': '{3}',
-                        }}\n'''.format(slug_name, c_name, tags_dic, ctr_type))
+        # fo.write('''html_{0} = {{
+        #                 'en': 'tag_{0}',
+        #                 'zh': '{1}',
+        #                 'dic': {2},
+        #                 'type': '{3}',
+        #                 }}\n'''.format(slug_name, c_name, tags_dic, ctr_type))
+
+        outkey = 'html_{0}'.format(slug_name)
+        outval = {
+            'en': 'tag_{0}'.format(slug_name),
+            'zh': c_name,
+            'dic': tags_dic,
+            'type': ctr_type,
+        }
+        return (outkey, outval)
+    else:
+        return (None, None)
 
 
 def gen_html_dic():
@@ -61,7 +72,11 @@ def gen_html_dic():
     else:
         return False
 
-    with open('xxtmp_html_dic.py', 'w') as fo:
-        for wk_sheet in wb:
-            for column in FILTER_COLUMNS:
-                write_filter_dic(fo, wk_sheet, column)
+    html_dics = {}
+    # with open('xxtmp_html_dic.py', 'w') as fo:
+    for wk_sheet in wb:
+        for column in FILTER_COLUMNS:
+            kkey, kval = write_filter_dic(wk_sheet, column)
+            if kkey:
+                html_dics[kkey] = kval
+    return html_dics

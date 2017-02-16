@@ -145,43 +145,28 @@ And, edit the config.py file.
 The DB_CFG defines the items used for PostgreSQL.
 
 Modify the meta information of the web application.
----------------------------------------------------
+---------------------------------------------------------
 
 Modify the file in TorCMS/database/meta.
 
 -  doc\_catalog.yaml , which define the catalog of post.
 -  info\_tags.xlsx , which define the catalog of info.
 
-Fetch the F2E libraries.
----------------------------------
-::
 
-    python helper.py -i fetch_f2elib
 
-Initialize the PostgreSQL schema
+Initialization
 --------------------------------
 
 ::
 
-    python helper.py -i init_tables
+    python helper.py -i init
 
-Initialing the metadata in database
------------------------------------
+it will
 
-::
-
-    python helper.py -i gen_category
-    python helper.py -i crud0
-    python helper.py -i crud1
-
-
-And, the whoosh database should be initialized first.
------------------------------------------------------
-
-::
-
-    # cd TorCMS
-    python script_whoosh.py
+- fetch the F2E libraries.
+- initialize the PostgreSQL schema.
+- initialize the metadata in database.
+- the whoosh database would be initialized.
 
 
 Run

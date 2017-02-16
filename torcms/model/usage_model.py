@@ -20,10 +20,7 @@ class MUsage(Mabc):
     '''
 
     def __init__(self):
-        try:
-            g_Usage.create_table()
-        except:
-            pass
+        super(MUsage, self).__init__()
 
     @staticmethod
     def get_all():

@@ -118,7 +118,7 @@ class LabelHandler(BaseHandler):
 @deprecated
 class InfoTagHandler(BaseHandler):
     '''
-    Access label without 'kind'. so for each kind, there must be a router.
+    Access label without 'kind'. redirect to /label/
     '''
 
     def initialize(self, **kwargs):

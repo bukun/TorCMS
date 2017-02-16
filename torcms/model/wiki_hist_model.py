@@ -8,10 +8,7 @@ from torcms.model.abc_model import Mabc, MHelper
 
 class MWikiHist(Mabc):
     def __init__(self):
-        try:
-            g_WikiHist.create_table()
-        except:
-            pass
+        super(MWikiHist, self).__init__()
 
     @staticmethod
     def get_last(postid):

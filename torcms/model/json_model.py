@@ -11,15 +11,7 @@ class MJson(Mabc):
     '''
     For GeoJson storage.
     '''
-    def __init__(self):
-        try:
-            e_Json.create_table()
-        except:
-            pass
-        try:
-            e_Post2Json.create_table()
-        except:
-            pass
+
 
     @staticmethod
     def get_by_id(uid):

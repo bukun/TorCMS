@@ -52,8 +52,7 @@ class MapLayout(tornado.web.UIModule):
         kwd = {
             'pager': '',
             'tdesc': '',
-            'site_url': SITE_CFG['site_url'],
-
+            'site_url': SITE_CFG['site_url']
         }
 
         return self.render_string('modules/map/map_layout.html',

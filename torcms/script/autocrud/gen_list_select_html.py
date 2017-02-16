@@ -6,19 +6,27 @@ Generate HTML for filter.
 
 import os
 
-try:
-    import xxtmp_html_dic as html_vars
-    import xxtmp_array_add_edit_view as dic_vars
-
-    VAR_NAMES = dir(dic_vars)
-except ImportError:
-    pass
+# try:
+#     import xxtmp_html_dic as html_vars
+#     import xxtmp_array_add_edit_view as dic_vars
+#
+#     VAR_NAMES = dir(dic_vars)
+# except ImportError:
+#     pass
 from torcms.script.autocrud.base_crud import crud_path
-from torcms.script.autocrud.gen_html.tpl import TPL_LIST
+from torcms.script.autocrud.tpl import TPL_LIST
+
+from torcms.script.autocrud.fetch_html_dic import gen_html_dic
+from torcms.script.autocrud.fetch_switch_dic import gen_array_crud
+
+html_dics = gen_html_dic()
+switch_dics, kind_dics = gen_array_crud()
+
 
 
 def to_html(bl_str):
-    bianliang = eval('html_vars.' + bl_str)
+    bianliang = html_dics[bl_str]
+    # bianliang = eval('html_vars.' + bl_str)
     html_out = '''<li class="list-group-item">
     <div class="row"><div class="col-sm-3">{0}</div><div class="col-sm-9">
      <span class="label label-default"  name='{1}' onclick='change(this);' value=''>全部</span>
@@ -40,15 +48,18 @@ def do_for_dir(html_tpl):
         pass
     else:
         os.mkdir(out_dir)
-    for var_name in VAR_NAMES:
+    # for var_name in VAR_NAMES:
+    for var_name, bl_val in switch_dics.items():
         if var_name.startswith('dic_'):
             # 此处简化一下，不考虑子类的问题。
             subdir = ''
             outfile = os.path.join(out_dir, 'list' + '_' + var_name.split('_')[1] + '.html')
             html_view_str_arr = []
-            tview_var = eval('dic_vars.' + var_name)
+            # tview_var = eval('dic_vars.' + var_name)
+            tview_var = bl_val
             for x in tview_var:
-                sig = eval('html_vars.html_' + x)
+                # sig = eval('html_vars.html_' + x)
+                sig = html_dics['html_' + x]
                 if sig['type'] == 'select':
                     html_view_str_arr.append(to_html('html_' + x))
 
@@ -65,7 +76,9 @@ def do_for_dir(html_tpl):
                     subdir
                 ).replace(
                     'kkkk',
-                    eval('dic_vars.kind_' + var_name.split('_')[-1]))
+                    kind_dics['kind_' + var_name.split('_')[-1]]
+                )
+                    # eval('dic_vars.kind_' + var_name.split('_')[-1]))
                 )
 
 

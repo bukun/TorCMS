@@ -4,24 +4,31 @@ Generate HTML for add, edit, view
 '''
 import os
 
-try:
-    import xxtmp_html_dic as html_vars
-    import xxtmp_array_add_edit_view as dic_vars
+# try:
+#     import xxtmp_html_dic as html_vars
+#     import xxtmp_array_add_edit_view as dic_vars
+#
+#     VAR_NAMES = dir(dic_vars)
+#
+# except ImportError:
+#     pass
 
-    VAR_NAMES = dir(dic_vars)
-
-except ImportError:
-    pass
-
-from torcms.script.autocrud.gen_html.func_to_html_add_edit_view import *
+from torcms.script.autocrud.func_to_html_add_edit_view import *
 from torcms.script.autocrud.base_crud import crud_path
-from torcms.script.autocrud.gen_html.tpl import TPL_ADD
-from torcms.script.autocrud.gen_html.tpl import TPL_VIEW
-from torcms.script.autocrud.gen_html.tpl import TPL_EDIT
+from torcms.script.autocrud.tpl import TPL_ADD
+from torcms.script.autocrud.tpl import TPL_VIEW
+from torcms.script.autocrud.tpl import TPL_EDIT
+
+from torcms.script.autocrud.fetch_html_dic import gen_html_dic
+from torcms.script.autocrud.fetch_switch_dic import gen_array_crud
+
+html_dics = gen_html_dic()
+switch_dics, kind_dics = gen_array_crud()
+
 
 def gen_add_edit_view_tmpl():
     out_dir = os.path.join(os.getcwd(), crud_path)
-    for bianliang in VAR_NAMES:
+    for bianliang, bl_val in switch_dics.items():
         if bianliang.startswith('dic_') and (not bianliang.endswith('00')):
             # 根据父类，决定是否有子类。
             # 这里使用固定的值，类别id以"a"开头。
@@ -41,10 +48,12 @@ def gen_add_edit_view_tmpl():
                 view_file = os.path.join(out_dir, 'view', 'view_' + filesig + '.html')
 
             add_widget_arr = []
-            var_dic = eval('dic_vars.' + bianliang)
+            # var_dic = eval('dic_vars.' + bianliang)
+            var_dic = bl_val
             for sig in var_dic:
                 html_sig = '_'.join(['html', sig])
-                var_html = eval('html_vars.' + html_sig)
+                # var_html = eval('html_vars.' + html_sig)
+                var_html = html_dics[html_sig]
                 if var_html['type'] == 'text':
                     tmpl = (gen_input_add(var_html))
                 if var_html['type'] == 'select':
@@ -68,15 +77,17 @@ def gen_add_edit_view_tmpl():
                         'ssssss', subdir
                     ).replace(
                         'kkkk',
-                        eval('dic_vars.kind_' + bianliang.split('_')[-1])
+                        kind_dics['kind_' + bianliang.split('_')[-1]]
+                        # eval('dic_vars.kind_' + bianliang.split('_')[-1])
                     )
                 )
 
             view_widget_arr = []
-            var_dic = eval('dic_vars.' + bianliang)
+            # var_dic = eval('dic_vars.' + bianliang)
             for sig in var_dic:
                 html_sig = '_'.join(['html', sig])
-                var_html = eval('html_vars.' + html_sig)
+                # var_html = eval('html_vars.' + html_sig)
+                var_html = html_dics[html_sig]
                 if var_html['type'] == 'text':
                     tmpl = (gen_input_view(var_html))
                 if var_html['type'] == 'select':
@@ -100,15 +111,17 @@ def gen_add_edit_view_tmpl():
                         subdir
                     ).replace(
                         'kkkk',
-                        eval('dic_vars.kind_' + bianliang.split('_')[-1])
+                        kind_dics['kind_' + bianliang.split('_')[-1]]
+                        # eval('dic_vars.kind_' + bianliang.split('_')[-1])
                     )
                 )
 
             edit_widget_arr = []
-            var_dic = eval('dic_vars.' + bianliang)
+            # var_dic = eval('dic_vars.' + bianliang)
             for sig in var_dic:
                 html_sig = '_'.join(['html', sig])
-                var_html = eval('html_vars.' + html_sig)
+                # var_html = eval('html_vars.' + html_sig)
+                var_html = html_dics[html_sig]
                 if var_html['type'] == 'text':
                     tmpl = (gen_input_edit(var_html))
                 if var_html['type'] == 'select':
@@ -133,5 +146,6 @@ def gen_add_edit_view_tmpl():
                         subdir
                     ).replace(
                         'kkkk',
-                        eval('dic_vars.kind_' + bianliang.split('_')[-1]))
+                        kind_dics['kind_' + bianliang.split('_')[-1]])
+                    # eval('dic_vars.kind_' + bianliang.split('_')[-1]))
                 )

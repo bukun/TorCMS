@@ -11,11 +11,9 @@ class MLink(Mabc):
     '''
     For friends links.
     '''
+
     def __init__(self):
-        try:
-            g_Link.create_table()
-        except:
-            pass
+        super(MLink, self).__init__()
 
     @staticmethod
     def get_counts():

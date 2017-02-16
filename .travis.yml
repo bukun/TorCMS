@@ -16,9 +16,5 @@ before_script:
 
 script:
   - git clone https://github.com/bukun/torcms_modules_bootstrap.git  templates/modules
-  - python helper.py -i init_tables
-  - python helper.py -i gen_category
-  - python helper.py -i crud0
-  - python helper.py -i crud1
-  - python script_whoosh.py
+  - python helper.py -i init
   - nosetests  --exe -v -d tester

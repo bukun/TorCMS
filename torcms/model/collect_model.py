@@ -15,11 +15,6 @@ class MCollect(Mabc):
     '''
     Model for collection.
     '''
-    def __init__(self):
-        try:
-            g_Collect.create_table()
-        except:
-            pass
 
     @staticmethod
     def query_recent(user_id, num=10):

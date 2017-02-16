@@ -12,10 +12,7 @@ from torcms.model.category_model import MCategory
 class MPost2Catalog(Mabc):
     def __init__(self):
 
-        try:
-            g_Post2Tag.create_table()
-        except:
-            pass
+        super(MPost2Catalog, self).__init__()
 
     @staticmethod
     def remove_relation(post_id, tag_id):

@@ -84,8 +84,6 @@ def do_for_post(writer, rand=True, doc_type=''):
         recs = MPost.query_recent(num=2, kind='1')
 
     for rec in recs:
-        print('Do for Post:')
-        print('     id: {uid}'.format(uid=rec.uid))
         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
         writer.update_document(
             title=rec.title,

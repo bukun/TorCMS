@@ -20,10 +20,7 @@ class MPost(Mabc):
     '''
 
     def __init__(self):
-        try:
-            g_Post.create_table()
-        except:
-            pass
+        super(MPost, self).__init__()
 
     @staticmethod
     def query_recent_most(num=8, recent=30):

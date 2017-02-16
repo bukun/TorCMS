@@ -9,11 +9,7 @@ from torcms.model.abc_model import Mabc
 
 class MReply2User(Mabc):
     def __init__(self):
-
-        try:
-            g_User2Reply.create_table()
-        except:
-            pass
+        super(MReply2User, self).__init__()
 
     @staticmethod
     def update(uid, post_data, update_time=False):

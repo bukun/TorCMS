@@ -1,5 +1,8 @@
 # -*- coding:utf-8 -*-
 
+'''
+Administrator, to change the category of the post.
+'''
 import json
 import tornado.escape
 import tornado.web
@@ -11,10 +14,14 @@ from config import router_post
 
 
 class PostCategoryHandler(PostHandler):
+    '''
+    Administrator, to change the category of the post.
+    '''
+
     def initialize(self):
         super(PostCategoryHandler, self).initialize()
 
-    def get(self, *args, **kwargs):
+    def get(self, *args):
         url_str = args[0]
         if self.userinfo and self.userinfo.role[1] >= '3':
             pass
@@ -28,7 +35,7 @@ class PostCategoryHandler(PostHandler):
         else:
             return False
 
-    def post(self, *args, **kwargs):
+    def post(self, *args):
         url_str = args[0]
         if self.userinfo and self.userinfo.role[1] >= '3':
             pass
@@ -45,6 +52,11 @@ class PostCategoryHandler(PostHandler):
 
     @tornado.web.authenticated
     def __to_edit(self, post_uid):
+        '''
+        Show the page for changing the category.
+        :param post_uid:
+        :return:
+        '''
         postinfo = MPost.get_by_uid(post_uid, )
         json_cnt = json.dumps(postinfo.extinfo, indent=True)
         self.render('man_info/post_category.html',

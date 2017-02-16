@@ -15,12 +15,6 @@ class MEntity(Mabc):
     For file entities. Just like pdf, zipfile, docx, etc.
     '''
 
-    def __init__(self):
-        try:
-            g_Entity.create_table()
-        except:
-            pass
-
     @staticmethod
     def query_all(limit=20):
         return g_Entity.select().limit(limit)

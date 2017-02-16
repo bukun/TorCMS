@@ -6,17 +6,22 @@ Generate HTML for filter, included.
 
 import os
 
-from torcms.script.autocrud.gen_html.tpl import TPL_LISTINFO
+from torcms.script.autocrud.tpl import TPL_LISTINFO
+# try:
+#     import xxtmp_html_dic as html_vars
+#     import xxtmp_array_add_edit_view as dic_vars
+#     VAR_NAMES = dir(dic_vars)
+# except ImportError:
+#     pass
 
-try:
-    import xxtmp_html_dic as html_vars
-    import xxtmp_array_add_edit_view as dic_vars
-    VAR_NAMES = dir(dic_vars)
-except ImportError:
-    pass
-
-from torcms.script.autocrud.gen_html.func_to_html_listinfo import *
+from torcms.script.autocrud.func_to_html_listinfo import *
 from torcms.script.autocrud.base_crud import crud_path
+
+from torcms.script.autocrud.fetch_html_dic import gen_html_dic
+from torcms.script.autocrud.fetch_switch_dic import gen_array_crud
+
+html_dics = gen_html_dic()
+switch_dics, kind_dics = gen_array_crud()
 
 
 def do_for_dir(html_tpl):
@@ -25,14 +30,18 @@ def do_for_dir(html_tpl):
         pass
     else:
         os.mkdir(out_dir)
-    for var_name in VAR_NAMES:
+    # for var_name in VAR_NAMES:
+    for var_name, bl_val in switch_dics.items():
         if var_name.startswith('dic_'):
             outfile = os.path.join(out_dir, 'infolist' + '_' + var_name.split('_')[1] + '.html')
             html_view_str_arr = []
-            tview_var = eval('dic_vars.' + var_name)
+            # tview_var = eval('dic_vars.' + var_name)
+            tview_var = bl_val
             subdir = ''
             for x in tview_var:
-                sig = eval('html_vars.html_' + x)
+                # sig = eval('html_vars.html_' + x)
+
+                sig = html_dics['html_' + x]
                 if sig['type'] == 'select':
                     html_view_str_arr.append(gen_select_view(sig))
                 elif sig['type'] == 'radio':
@@ -53,7 +62,8 @@ def do_for_dir(html_tpl):
                         subdir
                     ).replace(
                         'kkkk',
-                        eval('dic_vars.kind_' + var_name.split('_')[-1])
+                        kind_dics['kind_' + var_name.split('_')[-1]]
+                        # eval('dic_vars.kind_' + var_name.split('_')[-1])
                     )
                 )
 

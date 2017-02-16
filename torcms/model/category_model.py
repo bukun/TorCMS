@@ -1,15 +1,17 @@
 # -*- coding:utf-8 -*-
 
+'''
+Model for category
+'''
+
 from torcms.model.core_tab import g_Tag, g_Post2Tag
 from torcms.model.abc_model import Mabc, MHelper
 
 
 class MCategory(Mabc):
-    def __init__(self):
-        try:
-            g_Tag.create_table()
-        except:
-            pass
+    '''
+    Model for category
+    '''
 
     @staticmethod
     def delete(uid):

@@ -12,10 +12,7 @@ from torcms.model.abc_model import Mabc
 
 class MReply(Mabc):
     def __init__(self):
-        try:
-            g_Reply.create_table()
-        except:
-            pass
+        super(MReply, self).__init__()
 
     @staticmethod
     def get_by_uid(uid):

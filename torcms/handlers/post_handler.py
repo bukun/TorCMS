@@ -10,7 +10,6 @@ from concurrent.futures import ThreadPoolExecutor
 import tornado.escape
 import tornado.web
 import tornado.ioloop
-# import tornado.gen
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tools import logger
@@ -23,10 +22,6 @@ from torcms.model.relation_model import MRelation
 from torcms.model.evaluation_model import MEvaluation
 from torcms.model.usage_model import MUsage
 from config import router_post
-
-# from celery_server import cele_gen_whoosh
-
-
 
 
 class PostHandler(BaseHandler):
@@ -88,13 +83,6 @@ class PostHandler(BaseHandler):
 
         if url_str == '':
             self.index()
-        # elif url_str == 'recent':
-        #     # Deprecated
-        #     self.redirect('/post_list/recent')
-        # elif url_str == '_refresh':
-        #     # Deprecated
-        #     self.redirect('/post_list/_refresh')
-
         elif url_arr[0] == '_cat_add':
             self.__to_add(catid=url_arr[1])
         elif url_arr[0] == '_add':
@@ -283,7 +271,6 @@ class PostHandler(BaseHandler):
                         tag_infos=MCategory.query_all(by_order=True, kind=self.kind),
                         userinfo=self.userinfo,
                         kwd={'uid': uid,})
-
 
     def update_tag(self, uid, **kwargs):
         '''
