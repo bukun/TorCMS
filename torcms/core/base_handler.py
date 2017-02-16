@@ -100,4 +100,4 @@ class BaseHandler(tornado.web.RequestHandler):
         if self.is_p:
             return 'admin/' + tmpl.format(sig='p')
         else:
-            return tmpl
+            return tmpl.format(sig = '')
