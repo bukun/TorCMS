@@ -1,4 +1,9 @@
 # -*- coding:utf-8 -*-
+
+'''
+Category access.
+'''
+
 import json
 import tornado.escape
 import tornado.web
@@ -13,15 +18,20 @@ from config import CMS_CFG, router_post
 
 
 class CategoryHandler(BaseHandler):
+    '''
+    Category access.
+    '''
     def initialize(self):
         super(CategoryHandler, self).initialize()
 
-    def get(self, url_str=''):
+    def get(self, *args):
+        url_str = args[0]
         url_arr = self.parse_url(url_str)
 
         if len(url_arr) == 1:
             self.list_catalog(url_str)
         elif len(url_arr) == 2:
+
             if url_arr[0] == 'j_subcat':
                 self.ajax_subcat_arr(url_arr[1])
             elif url_arr[0] == 'j_kindcat':
@@ -88,29 +98,10 @@ class CategoryHandler(BaseHandler):
                     router=router_post[cat_rec.kind])
 
 
-
 class TagListHandler(BaseHandler):
     '''
     List the infos by the slug of the catalog.
     via: `/tag/cat_slug`
     '''
-
-    # def initialize(self):
-    #     super(TagListHandler, self).initialize()
-
     def get(self, *args):
         self.redirect('/category/{0}'.format(args[0]))
-        # logger.info('tag: {0}'.format(url_str))
-        # if len(url_str.strip()) == 0:
-        #     return False
-        #
-        # url_arr = self.parse_url(url_str)
-        #
-        # if len(url_arr) == 1:
-        #     self.list(url_str)
-        # elif len(url_arr) == 2:
-        #     if url_arr[0] == 'j_subcat':
-        #         self.ajax_subcat_arr(url_arr[1])
-        #
-        #     else:
-        #         self.list(url_arr[0], url_arr[1])

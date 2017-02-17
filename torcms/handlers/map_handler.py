@@ -22,13 +22,13 @@ class MapPostHandler(PostHandler):
         super(MapPostHandler, self).initialize()
         self.kind = 'm'
 
-    def ext_view_kwd(self, info_rec):
+    def ext_view_kwd(self, postinfo):
         post_data = self.get_post_data()
 
         out_dic = {
             'marker': 1 if 'marker' in post_data else 0,
             'geojson': post_data['gson'] if 'gson' in post_data else '',
-            'map_hist_arr': self.__extra_view(info_rec.uid)
+            'map_hist_arr': self.__extra_view(postinfo.uid)
         }
         if 'zoom' in post_data:
             out_dic['vzoom'] = post_data['zoom']

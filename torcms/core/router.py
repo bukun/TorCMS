@@ -31,7 +31,6 @@ from torcms.handlers.rating_handler import RatingHandler
 
 from torcms.handlers.geojson import GeoJsonHandler
 from torcms.handlers.map_handler import MapPostHandler, MapLayoutHandler, MapOverlayHandler, MapAdminHandler
-from torcms.handlers.post_category_handler import PostCategoryHandler
 
 urls = [
     ('/overlay/(.*)', MapOverlayHandler, dict()),
@@ -45,8 +44,6 @@ urls = [
 
     ('/_rating/(.*)', RatingHandler, dict()),
 
-    ("/admin_post/(.*)", PostCategoryHandler, dict()),  # Deprecated
-    ("/post_category/(.*)", PostCategoryHandler, dict()),
 
     ('/post_man/(.*)', PostHistoryHandler, dict()),
     ('/meta_man/(.*)', PostHistoryHandler, dict()),

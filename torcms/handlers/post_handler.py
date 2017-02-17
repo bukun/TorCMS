@@ -90,6 +90,8 @@ class PostHandler(BaseHandler):
                 self.__to_add(uid=url_arr[1])
             else:
                 self.__to_add()
+        elif url_arr[0] == '_edit_kind':
+            self.__to_edit_kind(url_arr[1])
         elif url_arr[0] == '_edit':
             self.__to_edit(url_arr[1])
         elif url_arr[0] == '_delete':
@@ -126,6 +128,8 @@ class PostHandler(BaseHandler):
                 self.add(uid=url_arr[1])
             else:
                 self.add()
+        elif url_arr[0] == '_edit_kind':
+            self.__change_kind(url_arr[1])
         elif url_arr[0] in ['_cat_add', 'cat_add']:
             self.add(catid=url_arr[1])
         elif len(url_arr) == 1:
@@ -317,10 +321,8 @@ class PostHandler(BaseHandler):
         :return:
         '''
 
-        if 'catid' in kwargs and MCategory.get_by_uid(kwargs['catid']):
-            catid = kwargs['catid']
-        else:
-            catid = None
+        catid = kwargs['catid'] if ('catid' in kwargs
+                                    and MCategory.get_by_uid(kwargs['catid'])) else None
 
         post_data = self.get_post_data()
 
@@ -762,10 +764,10 @@ class PostHandler(BaseHandler):
         if last_app_uid and MPost.get_by_uid(last_app_uid):
             self.add_relation(last_app_uid, app_id)
 
-    def ext_view_kwd(self, info_rec):
+    def ext_view_kwd(self, postinfo):
         '''
         The additional information. for View.
-        :param info_rec:
+        :param postinfo:
         :return: directory.
         '''
         return {}
@@ -785,3 +787,42 @@ class PostHandler(BaseHandler):
         :return: directory.
         '''
         return {}
+
+    @tornado.web.authenticated
+    def __to_edit_kind(self, post_uid):
+        '''
+        Show the page for changing the category.
+        :param post_uid:
+        :return:
+        '''
+        if self.userinfo and self.userinfo.role[1] >= '3':
+            pass
+        else:
+            self.redirect('/')
+        postinfo = MPost.get_by_uid(post_uid, )
+        json_cnt = json.dumps(postinfo.extinfo, indent=True)
+        self.render('man_info/post_kind.html',
+                    postinfo=postinfo,
+                    sig_dic=router_post,
+                    userinfo=self.userinfo,
+                    unescape=tornado.escape.xhtml_unescape,
+                    json_cnt=json_cnt)
+
+    @tornado.web.authenticated
+    def __change_kind(self, post_uid):
+        '''
+        To modify the category of the post, and kind.
+        :param post_uid:
+        :return:
+        '''
+        if self.userinfo and self.userinfo.role[1] >= '3':
+            pass
+        else:
+            return False
+        post_data = self.get_post_data()
+
+        logger.info('admin post update: {0}'.format(post_data))
+
+        MPost.update_kind(post_uid, post_data['kcat'])
+        self.update_category(post_uid)
+        self.redirect('/{0}/{1}'.format(router_post[post_data['kcat']], post_uid))
