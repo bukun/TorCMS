@@ -9,10 +9,12 @@ from setuptools import setup, find_packages
 
 setup(
     name='torcms',
-    version='0.5.18',
+    version='0.5.19',
     keywords=('torcms', 'tornado', 'cms',),
     description='''Flexible, extensible Web CMS framework built on Tornado,
-    compatible with Python 3.4 above.''',
+    compatible with Python 3.4 and above.
+    Integrated with basic GIS(Geographic information system) function,
+    including map showing, map overlaying, GIS data editing. ''',
     long_description=''.join(open('README.rst').readlines()),
     license='MIT License',
 

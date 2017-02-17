@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+'''
+Generating sitemap.
+'''
 import os
 from torcms.model.post_model import MPost
 from torcms.model.wiki_model import MWiki

@@ -1,6 +1,7 @@
 # -*- coding: utf-8
 '''
 Generate the dic of Python from xlsx file.
+Only using the first and the second row of the XLSX file.
 '''
 
 import os
@@ -18,7 +19,7 @@ else:
 
 def write_filter_dic(wk_sheet, column):
     '''
-    write filter dic for certain column
+    return filter dic for certain column
     :param fo:
     :param wk_sheet:
     :param column:
@@ -26,28 +27,23 @@ def write_filter_dic(wk_sheet, column):
     '''
     row1_val = wk_sheet['{0}1'.format(column)].value
     row2_val = wk_sheet['{0}2'.format(column)].value
-    if row1_val and row1_val != '':
+    if row1_val and row1_val.strip() != '':
+        row2_val = row2_val.strip()
+        c_name, slug_name = row1_val.strip().split(',')
 
-        c_name, slug_name = row1_val.split(',')
-
-        tags1 = row2_val.split(',')
-        tags1 = [x.strip() for x in tags1]
+        tags1 = [x.strip() for x in row2_val.split(',')]
         tags_dic = {}
 
+        #  if only one tag,
         if len(tags1) == 1:
+            ctr_type = 'text'  # HTML text input control.
             tags_dic[1] = row2_val
-            ctr_type = 'text'
-        else:
-            for index, tag_val in enumerate(tags1):
-                tags_dic[index + 1] = tag_val.strip()
-            ctr_type = 'select'
 
-        # fo.write('''html_{0} = {{
-        #                 'en': 'tag_{0}',
-        #                 'zh': '{1}',
-        #                 'dic': {2},
-        #                 'type': '{3}',
-        #                 }}\n'''.format(slug_name, c_name, tags_dic, ctr_type))
+        else:
+            ctr_type = 'select'  # HTML selectiom control.
+            for index, tag_val in enumerate(tags1):
+                # the index of tags_dic starts from 1.
+                tags_dic[index + 1] = tag_val.strip()
 
         outkey = 'html_{0}'.format(slug_name)
         outval = {
@@ -73,7 +69,6 @@ def gen_html_dic():
         return False
 
     html_dics = {}
-    # with open('xxtmp_html_dic.py', 'w') as fo:
     for wk_sheet in wb:
         for column in FILTER_COLUMNS:
             kkey, kval = write_filter_dic(wk_sheet, column)

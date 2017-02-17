@@ -12,8 +12,8 @@ def gen_input_add(sig):
     :param sig:
     :return:
     '''
-    html_fangjia = '''
-<div class="form-group">
+    return '''
+    <div class="form-group">
     <label class="col-sm-2 control-label" for="{sig_en}">
     <span><a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
     </a>{sig_zh}</span>
@@ -25,7 +25,6 @@ def gen_input_add(sig):
      {sig_dic}
     </div>
     '''.format(sig_en=sig['en'], sig_zh=sig['zh'], sig_dic=sig['dic'][1])
-    return html_fangjia
 
 
 def gen_input_edit(sig):
@@ -34,7 +33,7 @@ def gen_input_edit(sig):
     :param sig:
     :return:
     '''
-    edit_fangjia = '''
+    return '''
     <div class="form-group">
     <label  class="col-sm-2 control-label"  for="{sig_en}">
     <span><a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a> {sig_zh}</span>
@@ -45,37 +44,56 @@ def gen_input_edit(sig):
     type="text"  class="input_text"> </div>
      <div class="col-sm-1">{sig_dic}</div>
     '''.format(sig_en=sig['en'], sig_zh=sig['zh'], sig_dic=sig['dic'][1])
-    return edit_fangjia
 
 
 def gen_input_view(sig):
-    out_str = '''
+    '''
+    Viewing the HTML text.
+    :param sig:
+    :return:
+    '''
+    return '''
     <div class="col-sm-4"><span class="des">{1}</span></div>
     <div class="col-sm-8">
     <span class="val">{{{{ post_info.extinfo['{0}'] if  '{0}' in post_info.extinfo else 0 }}}}
      {2}</span></div>
     '''.format(sig['en'], sig['zh'], sig['dic'][1])
-    return out_str
 
 
 def gen_radio_add(sig):
-    html_zuoxiang = '''
-    <label for="{0}"><span>
-    <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a> {1}</span>
-    '''.format(sig['en'], sig['zh'])
+    '''
+    Adding for HTML radio control.
+    :param sig:
+    :return:
+    '''
+    # html_zuoxiang = '''
+    # <label for="{0}"><span>
+    # <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a> {1}</span>
+    # '''.format(sig['en'], sig['zh'])
 
+    # each item for radio.
+    radio_control_str = ''
     dic_tmp = sig['dic']
-    for key in dic_tmp.keys():
+    for key, val in dic_tmp.items():
         tmp_str = '''
         <input id="{0}" name="{0}" type="radio" class="input_text" value="{1}">{2}
-       '''.format(sig['en'], key, dic_tmp[key])
-        html_zuoxiang += tmp_str
+       '''.format(sig['en'], key, val)
+        radio_control_str += tmp_str
 
-    html_zuoxiang += '''</label>'''
-    return html_zuoxiang
+    # html_zuoxiang += '''</label>'''
+
+    return '''<label for="{sig_en}"><span>
+    <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a>{sig_zh}</span>
+    {radio_str}</label>'''.format(sig_en=sig['en'],
+                                  sig_zh=sig['zh'], radio_str=radio_control_str)
 
 
 def gen_radio_edit(sig):
+    '''
+    editing for HTML radio control.
+    :param sig:
+    :return:
+    '''
     edit_zuoxiang = '''7
     <label  for="{0}"><span>
     <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a>{1}</span>
@@ -135,9 +153,7 @@ def gen_checkbox_add(sig):
 
 
 def gen_checkbox_edit(sig):
-    edit_wuneisheshi = '''
-
-     <label  for="{0}"><span>
+    edit_wuneisheshi = '''<label for="{0}"><span>
      <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a> {1}</span>
      '''.format(sig['en'], sig['zh'])
 
@@ -188,21 +204,20 @@ def gen_select_add(sig):
         }
     :return:
     '''
-    html_jushi = '''<div class="form-group">
-    <label for="{0}" class="col-sm-2 control-label"><span>
+
+    option_str = ''
+
+    for key, val in sig['dic'].items():
+        tmp_str = '''<option value="{0}">{1}</option>'''.format(key, val)
+        option_str += tmp_str
+
+    return '''<div class="form-group">
+    <label for="{sig_en}" class="col-sm-2 control-label"><span>
     <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a>
-    {1}</span></label>
-    <div class="col-sm-10"><select id="{0}" name="{0}" class="form-control">
-    '''.format(sig['en'], sig['zh'])
-
-    dic_tmp = sig['dic']
-
-    for key in dic_tmp.keys():
-        tmp_str = '''<option value="{0}">{1}</option>'''.format(key, dic_tmp[key])
-        html_jushi += tmp_str
-
-    html_jushi += '''</select></div></div>'''
-    return html_jushi
+    {sig_zh}</span></label>
+    <div class="col-sm-10"><select id="{sig_en}" name="{sig_en}" class="form-control">
+    {option_str}</select></div></div>
+    '''.format(sig_en=sig['en'], sig_zh=sig['zh'], option_str=option_str)
 
 
 def gen_select_edit(sig):
@@ -211,44 +226,38 @@ def gen_select_edit(sig):
     :param sig:
     :return:
     '''
-    edit_jushi = '''
-    <div class="form-group">
-     <label  for="{0}"  class="col-sm-2 control-label">
-     <span class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
-     </span> {1}</label>
-    <div class="col-sm-10">
-    <select id="{0}" name="{0}" class="form-control">
-    '''.format(sig['en'], sig['zh'])
 
-    dic_tmp = sig['dic']
-    for key in dic_tmp.keys():
+    option_str = ''
+    for key, val in sig['dic'].items():
         tmp_str = '''        
         <option value="{1}"
         {{% if  '{0}' in post_info.extinfo and post_info.extinfo["{0}"] == "{1}" %}}
         selected = "selected"
         {{% end %}}
         >{2}</option>
-        '''.format(sig['en'], key, dic_tmp[key])
-        edit_jushi += tmp_str
+        '''.format(sig['en'], key, val)
+        option_str += tmp_str
 
-    edit_jushi += '''</select></div></div>'''
-    return edit_jushi
+    return '''<div class="form-group">
+    <label  for="{sig_en}"  class="col-sm-2 control-label">
+    <span class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
+    </span> {sig_zh}</label><div class="col-sm-10">
+    <select id="{sig_en}" name="{sig_en}" class="form-control">
+    {option_str}
+    </select></div></div>
+    '''.format(sig_en=sig['en'], sig_zh=sig['zh'], option_str=option_str)
 
 
 def gen_select_view(sig):
     '''
-    For HTML view.
+    HTML view, for selection.
     :param sig:
     :return:
     '''
-    view_jushi = '''
-    <div class="row">
-    <div class="col-sm-4"><span class="des"><strong>{sig_zh}</strong></span></div>
-    <div class="col-sm-8">
-    '''.format(sig_zh=sig['zh'])
 
+    option_str = ''
     dic_tmp = sig['dic']
-    for key in dic_tmp.keys():
+    for key, val in dic_tmp.items():
         tmp_str = '''
          {{% if '{sig_en}' in post_info.extinfo %}}
           {{% set tmp_var = post_info.extinfo["{sig_en}"] %}}
@@ -256,11 +265,16 @@ def gen_select_view(sig):
           {sig_dic}
           {{% end %}}
           {{% end %}}
-         '''.format(sig_en=sig['en'], sig_key=key, sig_dic=dic_tmp[key])
-        view_jushi += tmp_str
+         '''.format(sig_en=sig['en'], sig_key=key, sig_dic=val)
+        option_str += tmp_str
 
-    view_jushi += '''</div></div>'''
-    return view_jushi
+    return '''
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>{sig_zh}</strong></span></div>
+    <div class="col-sm-8">
+    {option_str}
+    </div></div>
+    '''.format(sig_zh=sig['zh'], option_str=option_str)
 
 
 def gen_file_add(sig):

@@ -13,14 +13,19 @@ Status
 .. image:: https://img.shields.io/pypi/pyversions/torcms.svg
     :target: https://pypi.python.org/pypi/torcms/
 
-* Checking ``torcms`` with ``pylint`` using default configuration, gets score greater than 8 (``pylint torcms``).
+* Checking ``torcms`` with ``pylint`` using default configuration, gets score greater than 8.5 (``pylint torcms``).
 
 Introduction
 -------------------------------------------------
 
 Flexible, extensible web CMS framework built on Tornado and Peewee,
-compatible with Python 3.4 and abover. Using PostgreSQL with JSON
+compatible with Python 3.4 and above. Using PostgreSQL with JSON
 extension as the database.
+
+The CMS was desinged as the container for GIS showing as the very beginning.
+It has the basic map showing, map overlaying, GIS data editing funtion now.
+And, the CMS could used to publish different kind the information,
+such as basic HTML page, JavaScript app, maps, multimedias.
 
 pypi: The kernel of this CMS has been submit to pypi.
 https://pypi.python.org/pypi/torcms . Could be installed via:
@@ -153,7 +158,6 @@ Modify the file in TorCMS/database/meta.
 -  info\_tags.xlsx , which define the catalog of info.
 
 
-
 Initialization
 --------------------------------
 
@@ -217,7 +221,7 @@ under TorCMS
 
     sphinx-apidoc -F -o api_doc torcms
 
-Editing  ``conf.py``. Add the following line after ``import os``.
+Editing  ``api_doc/conf.py``. Add the following line after ``import os``.
 
 ::
 

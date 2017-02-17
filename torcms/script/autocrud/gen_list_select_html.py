@@ -5,14 +5,6 @@ Generate HTML for filter.
 '''
 
 import os
-
-# try:
-#     import xxtmp_html_dic as html_vars
-#     import xxtmp_array_add_edit_view as dic_vars
-#
-#     VAR_NAMES = dir(dic_vars)
-# except ImportError:
-#     pass
 from torcms.script.autocrud.base_crud import crud_path
 from torcms.script.autocrud.tpl import TPL_LIST
 
@@ -23,8 +15,12 @@ html_dics = gen_html_dic()
 switch_dics, kind_dics = gen_array_crud()
 
 
-
 def to_html(bl_str):
+    '''
+    Convert to html.
+    :param bl_str:
+    :return:
+    '''
     bianliang = html_dics[bl_str]
     # bianliang = eval('html_vars.' + bl_str)
     html_out = '''<li class="list-group-item">
@@ -43,6 +39,11 @@ def to_html(bl_str):
 
 
 def do_for_dir(html_tpl):
+    '''
+    doing for directory.
+    :param html_tpl:
+    :return:
+    '''
     out_dir = os.path.join(os.getcwd(), crud_path, 'list')
     if os.path.exists(out_dir):
         pass

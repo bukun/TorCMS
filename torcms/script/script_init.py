@@ -46,7 +46,10 @@ def init_tables():
     create_table(e_Post2Json)
 
 def run_init():
-
+    '''
+    running init.
+    :return:
+    '''
     run_fetch_f2elib()
     init_tables()
     run_gen_category()

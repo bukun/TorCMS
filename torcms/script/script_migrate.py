@@ -4,6 +4,10 @@ from playhouse import migrate
 import config
 
 def run_migrate():
+    '''
+    running some migration.
+    :return:
+    '''
     print('Begin migrate ...')
     torcms_migrator = migrate.PostgresqlMigrator(config.DB_CON)
     float_field = migrate.FloatField(null=False, default=5)

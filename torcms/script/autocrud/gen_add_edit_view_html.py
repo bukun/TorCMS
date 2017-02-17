@@ -1,17 +1,9 @@
-# -*- coding: utf-8
+# -*- coding: utf-8 -*-
 '''
 Generate HTML for add, edit, view
 '''
-import os
 
-# try:
-#     import xxtmp_html_dic as html_vars
-#     import xxtmp_array_add_edit_view as dic_vars
-#
-#     VAR_NAMES = dir(dic_vars)
-#
-# except ImportError:
-#     pass
+import os
 
 from torcms.script.autocrud.func_to_html_add_edit_view import *
 from torcms.script.autocrud.base_crud import crud_path

@@ -1,20 +1,23 @@
 # -*- coding: utf-8
 
+'''
+creating the default administrator.
+'''
+
 from torcms.model.user_model import MUser
 
 
 def run_create_admin():
+    '''
+    creating the default administrator.
+    '''
     post_data = {
         'user_name': 'giser',
         'user_email': 'giser@osgeo.cn',
         'user_pass': '131322',
-        'role': '3330',
+        'role': '3300',
     }
-    muser = MUser()
-    entry = muser.get_by_name(post_data['user_name'])
-    if entry:
-        pass
+    if MUser.get_by_name(post_data['user_name']):
+        print('User {user_name} already exists.'.format(user_name='giser'))
     else:
-        muser.create_user(post_data)
-
-
+        MUser.create_user(post_data)

@@ -25,6 +25,11 @@ switch_dics, kind_dics = gen_array_crud()
 
 
 def do_for_dir(html_tpl):
+    '''
+    doing for directory.
+    :param html_tpl:
+    :return:
+    '''
     out_dir = os.path.join(os.getcwd(), crud_path, 'infolist')
     if os.path.exists(out_dir):
         pass

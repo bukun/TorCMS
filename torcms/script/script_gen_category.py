@@ -1,7 +1,7 @@
 # -*- coding: utf-8
 
 '''
-Genereting catetory from xlsx file.
+Genereting catetory.
 '''
 import os
 import yaml
@@ -11,6 +11,9 @@ from torcms.model.category_model import MCategory
 
 
 def gen_xlsx_category():
+    '''
+    Genereting catetory from xlsx file.
+    '''
     xlsx_file = './database/meta/info_tags.xlsx'
     if os.path.exists(xlsx_file):
         pass
@@ -69,6 +72,9 @@ def gen_xlsx_category():
 
 
 def gen_category(yaml_file, sig):
+    '''
+    Genereting catetory from YAML file.
+    '''
     mcat = MCategory()
     f = open(yaml_file)
     out_dic = yaml.load(f)
@@ -119,6 +125,10 @@ def gen_category(yaml_file, sig):
 
 
 def gen_yaml_category():
+    '''
+    find YAML
+    :return:
+    '''
     for wroot, wdirs, wfiles in os.walk('./database/meta'):
         for wfile in wfiles:
             if wfile.endswith('.yaml'):
@@ -126,5 +136,9 @@ def gen_yaml_category():
 
 
 def run_gen_category():
+    '''
+    to run
+    :return:
+    '''
     gen_yaml_category()
     gen_xlsx_category()
