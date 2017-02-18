@@ -115,7 +115,6 @@ class LabelHandler(BaseHandler):
         return pager
 
 
-@deprecated
 class InfoTagHandler(BaseHandler):
     '''
     Access label without 'kind'. redirect to /label/

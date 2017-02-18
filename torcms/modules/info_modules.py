@@ -9,7 +9,7 @@ from html2text import html2text
 
 import torcms.model.usage_model
 from config import router_post
-from torcms.core.libs.deprecation import deprecated
+# from torcms.core.libs.deprecation import deprecated
 from torcms.core.tools import logger
 from torcms.model.category_model import MCategory
 from torcms.model.label_model import MPost2Label
@@ -46,7 +46,6 @@ class InfoCategory(tornado.web.UIModule):
                                       recs=sub_cats)
 
 
-@deprecated(details='Should not used any more.')
 class InforUserMost(tornado.web.UIModule):
     '''
     User most accessed posts.
@@ -63,7 +62,6 @@ class InforUserMost(tornado.web.UIModule):
                                   kwd=kwd)
 
 
-@deprecated(details='Should not used any more.')
 class InfoUserRecent(tornado.web.UIModule):
     '''
     User used infors recently.
@@ -154,7 +152,6 @@ class InfoMostUsed(tornado.web.UIModule):
         return self.render_string('modules/info/list_user_equation.html',
                                   recs=all_cats,
                                   kwd=kwd)
-
 
 class InfoRecentUsed(tornado.web.UIModule):
     '''
