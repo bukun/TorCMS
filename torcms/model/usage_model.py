@@ -84,10 +84,6 @@ class MUsage(Mabc):
         '''
 
         rec = MUsage.query_by_signature(user_id, post_id)
-        print('=xx' * 20)
-        for x in rec:
-            print(x.uid, x.kind)
-
         cate_rec = MInfor2Catalog.get_first_category(post_id)
         if cate_rec:
             pass

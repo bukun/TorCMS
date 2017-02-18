@@ -51,7 +51,6 @@ class MRating(Mabc):
 
     @staticmethod
     def __update_rating(uid, rating):
-        print('update rating:', rating)
         entry = g_Rating.update(
             rating=rating
         ).where(g_Rating.uid == uid)

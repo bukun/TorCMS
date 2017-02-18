@@ -27,5 +27,4 @@ class MHelper():
             entry.execute()
             return True
         except:
-            print('Not deleted')
             return False

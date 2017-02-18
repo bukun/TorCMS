@@ -128,7 +128,7 @@ class EntityHandler(BaseHandler):
         im0.thumbnail(thub_size)
         im0.save(imgpath_sm, 'JPEG')
 
-        MEntity.create_wiki_history(signature, sig_save)
+        MEntity.create_entity(signature, sig_save)
 
         self.redirect('/entity/{0}_m.jpg'.format(sig_save))
 
@@ -159,7 +159,7 @@ class EntityHandler(BaseHandler):
 
         sig_save = os.path.join(signature[:2], signature)
 
-        MEntity.create_wiki_history(signature, sig_save)
+        MEntity.create_entity(signature, sig_save)
 
         self.redirect('/entity/{0}{1}'.format(sig_save, hou.lower()))
 

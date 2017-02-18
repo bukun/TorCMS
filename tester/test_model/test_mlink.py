@@ -19,7 +19,7 @@ class TestUM():
             'order': '1',
             'logo': 'asf',
         }
-        MLink.create_wiki_history(uid, post_data)
+        MLink.create_link(uid, post_data)
 
         new_count = MLink.get_counts()
 
@@ -38,7 +38,7 @@ class TestUM():
             'order': '1',
             'logo': 'asf',
         }
-        MLink.create_wiki_history(uid, post_data)
+        MLink.create_link(uid, post_data)
         new_count = MLink.get_counts()
 
         assert self.raw_count + 1 == new_count

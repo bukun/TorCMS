@@ -17,7 +17,7 @@ class TestEntity():
 
         }
 
-        MEntity.create_wiki_history(uid, post_data['path'])
+        MEntity.create_entity(uid, post_data['path'])
         assert True
 
     def test_insert_2(self):

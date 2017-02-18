@@ -40,20 +40,17 @@ class MapPostHandler(PostHandler):
         return out_dic
 
     def __extra_view(self, app_id):
-        print('==')
         qian = self.get_secure_cookie('map_hist')
 
         if qian:
             qian = qian.decode('utf-8')
         else:
             qian = ''
-        print(qian)
         self.set_secure_cookie('map_hist', (app_id + qian)[:20])
         map_hist = []
         if self.get_secure_cookie('map_hist'):
             for idx in range(0, len(self.get_secure_cookie('map_hist').decode('utf-8')), 4):
                 map_hist.append(self.get_secure_cookie('map_hist').decode('utf-8')[idx: idx + 4])
-        print(map_hist)
         return map_hist
 
     def ext_tmpl_view(self, rec):

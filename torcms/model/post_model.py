@@ -187,10 +187,10 @@ class MPost(Mabc):
         if cur_rec:
             MPost.update(uid, post_data)
         else:
-            MPost.create_wiki_history(uid, post_data)
+            MPost.create_post(uid, post_data)
 
     @staticmethod
-    def create_wiki_history(post_uid, post_data):
+    def create_post(post_uid, post_data):
         '''
         :param post_uid:
         :param post_data:

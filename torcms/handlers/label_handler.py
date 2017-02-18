@@ -8,7 +8,7 @@ import json
 import tornado.escape
 import tornado.web
 from torcms.core.base_handler import BaseHandler
-from torcms.core.libs.deprecated import deprecated
+from torcms.core.libs.deprecation import deprecated
 from torcms.model.label_model import MPost2Label
 from torcms.core.torcms_redis import redisvr
 from config import CMS_CFG

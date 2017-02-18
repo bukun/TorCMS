@@ -13,6 +13,7 @@ import tornado.ioloop
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tools import logger
+from torcms.core.libs.deprecation import deprecated
 from torcms.model.category_model import MCategory
 from torcms.model.label_model import MPost2Label
 from torcms.model.post2catalog_model import MPost2Catalog
@@ -678,7 +679,7 @@ class PostHandler(BaseHandler):
         if cnt_old == cnt_new:
             pass
         else:
-            MPostHist.create_wiki_history(postinfo)
+            MPostHist.create_post_history(postinfo)
 
         MPost.modify_meta(uid,
                           post_data,
@@ -712,6 +713,7 @@ class PostHandler(BaseHandler):
         else:
             self.redirect('/{0}/{1}'.format(router_post[self.kind], uid))
 
+    @deprecated(details='you should use: /post_j/delete')
     @tornado.web.authenticated
     def j_delete(self, uid):
         '''
@@ -719,7 +721,6 @@ class PostHandler(BaseHandler):
         :param uid:
         :return:
         '''
-        logger.info('Deprecated, you should use: /post_j/delete')
 
         if self.check_post_role()['DELETE']:
             pass
@@ -737,13 +738,13 @@ class PostHandler(BaseHandler):
             }
         return json.dump(output, self)
 
+    @deprecated(deprecated_in='0.5', removed_in='0.6', details='you should use: /post_j/count_plus')
     def j_count_plus(self, uid):
         '''
         Ajax request, that the view count will plus 1.
         :param uid:
         :return:
         '''
-        logger.info('Deprecated, you should use: /post_j/count_plus')
         self.set_header("Content-Type", "application/json")
         output = {
             'status': 1 if MPost.update_view_count_by_uid(uid) else 0,

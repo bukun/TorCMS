@@ -16,10 +16,8 @@ class MWikiHist(Mabc):
             g_WikiHist.wiki_id == postid
         ).order_by(g_WikiHist.time_update.desc())
         if recs.count() == 0:
-            print('No old file: ', postid)
             return False
         else:
-            print('Got old file.')
             return recs.get()
 
     @staticmethod

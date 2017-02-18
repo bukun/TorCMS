@@ -237,7 +237,6 @@ class UserHandler(BaseHandler):
             return user_create_status
 
         user_create_status['success'] = True
-        print(user_create_status)
         return user_create_status
 
     def __check_valid_info(self, post_data):
@@ -308,7 +307,6 @@ class UserHandler(BaseHandler):
         if not user_create_status['success']:
             return json.dump(user_create_status, self)
 
-        print('user_register_status:', user_create_status)
         form = SumForm(self.request.arguments)
 
         if form.validate():

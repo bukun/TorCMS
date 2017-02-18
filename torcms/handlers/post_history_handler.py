@@ -59,7 +59,7 @@ class PostHistoryHandler(BaseHandler):
         else:
             post_data['user_name'] = ''
         cur_info = MPost.get_by_uid(uid)
-        MPostHist.create_wiki_history(cur_info)
+        MPostHist.create_post_history(cur_info)
         MPost.update_cnt(uid, post_data)
         self.redirect('/{0}/{1}'.format(router_post[cur_info.kind], uid))
 

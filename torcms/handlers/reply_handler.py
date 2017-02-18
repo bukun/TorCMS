@@ -76,7 +76,7 @@ class ReplyHandler(BaseHandler):
 
         logger.info('zan: {0}'.format(id_reply))
 
-        MReply2User.create_wiki_history(self.userinfo.uid, id_reply)
+        MReply2User.create_reply(self.userinfo.uid, id_reply)
         cur_count = MReply2User.get_voter_count(id_reply)
         if cur_count:
             MReply.update_vote(id_reply, cur_count)

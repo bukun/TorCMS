@@ -25,13 +25,11 @@ class YunSearch():
         self.parser = QueryParser("content", schema=self.whbase.schema)
 
     def get_all_num(self, keyword, catid=''):
-        print('--{0}=='.format(catid))
         queryit = self.parser.parse(keyword)
         if catid == '':
             pass
         else:
             queryit = And([Term("catid", catid), queryit])
-        print(queryit)
 
         return len(self.whbase.searcher().search(queryit).docs())
 

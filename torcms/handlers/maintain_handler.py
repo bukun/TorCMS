@@ -14,7 +14,9 @@ class MaintainCategoryHandler(BaseHandler):
         super(MaintainCategoryHandler, self).initialize()
         self.tmpl_router = 'maintain_category'
 
-    def get(self, url_str=''):
+    def get(self, *args):
+        url_str = args[0]
+
         url_arr = self.parse_url(url_str)
 
         if url_str == 'add':
@@ -32,10 +34,9 @@ class MaintainCategoryHandler(BaseHandler):
             }
             self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo, )
 
-    def post(self, url_str=''):
-
+    def post(self, *args):
+        url_str = args[0]
         url_arr = self.parse_url(url_str)
-        print(url_str)
         if url_arr[0] == 'modify':
             self.update(url_arr[1])
         elif url_str == 'add':

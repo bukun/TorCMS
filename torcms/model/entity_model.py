@@ -34,7 +34,14 @@ class MEntity(Mabc):
             return False
 
     @staticmethod
-    def create_wiki_history(signature, impath, kind='1'):
+    def create_entity(signature, impath, kind='1'):
+        '''
+        create entity record in the database.
+        :param signature:
+        :param impath:
+        :param kind:
+        :return:
+        '''
         if len(impath) == 0:
             return False
 

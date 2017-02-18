@@ -48,7 +48,7 @@ class MLink(Mabc):
     @staticmethod
     def update(uid, post_data):
         '''
-        Updat ethe link.
+        Updat the link.
         :param uid:
         :param post_data:
         :return:
@@ -62,17 +62,20 @@ class MLink(Mabc):
         entry.execute()
 
     @staticmethod
-    def create_wiki_history(id_link, post_data):
-        uu = MLink.get_by_uid(id_link)
-        if uu:
+    def create_link(id_link, post_data):
+        '''
+        Add record in link.
+        :param id_link:
+        :param post_data:
+        :return:
+        '''
+        if MLink.get_by_uid(id_link):
             return False
-        g_Link.create(
-            name=post_data['name'],
-            link=post_data['link'],
-            order=post_data['order'],
-            logo=post_data['logo'] if 'logo' in post_data else '',
-            uid=id_link,
-        )
+        g_Link.create(name=post_data['name'],
+                      link=post_data['link'],
+                      order=post_data['order'],
+                      logo=post_data['logo'] if 'logo' in post_data else '',
+                      uid=id_link)
         return id_link
 
     @staticmethod
