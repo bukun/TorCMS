@@ -59,7 +59,7 @@ class ReplyHandler(BaseHandler):
         post_data['user_name'] = self.userinfo.user_name
         post_data['user_id'] = self.userinfo.uid
         post_data['post_id'] = post_id
-        replyid = MReply.create_wiki_history(post_data)
+        replyid = MReply.create_reply(post_data)
         if replyid:
             out_dic = {'pinglun': post_data['cnt_reply'],
                        'uid': replyid}

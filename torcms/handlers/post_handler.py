@@ -513,10 +513,10 @@ class PostHandler(BaseHandler):
 
         ext_catid2 = postinfo.extinfo['def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else None
 
-        # if self.userinfo:
-        #     recent_apps = MUsage.query_recent(self.userinfo.uid, postinfo.kind, 6)[1:]
-        # else:
-        #     recent_apps = []
+        if self.userinfo:
+            recent_apps = MUsage.query_recent(self.userinfo.uid, postinfo.kind, 6)[1:]
+        else:
+            recent_apps = []
         logger.info('The Info Template: {0}'.format(tmpl))
         self.render(tmpl,
                     kwd=dict(kwd, **self.ext_view_kwd(postinfo)),
@@ -531,7 +531,7 @@ class PostHandler(BaseHandler):
                     unescape=tornado.escape.xhtml_unescape,
                     ad_switch=random.randint(1, 18),
                     tag_info=MPost2Label.get_by_uid(postinfo.uid),
-                    recent_apps=[],  # Deprecated, with module.
+                    recent_apps=recent_apps,
                     cat_enum=MCategory.get_qian2(ext_catid2[:2]) if ext_catid else [], )
 
     def fetch_additional_posts(self, uid):

@@ -16,7 +16,7 @@ from torcms.model.wiki_hist_model import MWikiHist
 from torcms.model.wiki_model import MWiki
 from torcms.core import tools
 
-from config import  CMS_CFG
+from config import CMS_CFG
 
 
 class PageHandler(BaseHandler):
@@ -29,7 +29,7 @@ class PageHandler(BaseHandler):
         super(PageHandler, self).initialize()
         self.kind = '2'
 
-    def get(self, *args, **kwargs):
+    def get(self, *args):
 
         url_str = args[0]
         url_arr = self.parse_url(url_str)
@@ -48,7 +48,7 @@ class PageHandler(BaseHandler):
         else:
             self.render('html/404.html', userinfo=self.userinfo, kwd={})
 
-    def post(self, *args, **kwargs):
+    def post(self, *args):
         url_arr = self.parse_url(args[0])
 
         if url_arr[0] in ['_edit', 'modify', 'edit']:
@@ -77,6 +77,11 @@ class PageHandler(BaseHandler):
 
     @tornado.web.authenticated
     def to_add(self, citiao):
+        '''
+        To Add page.
+        :param citiao:
+        :return:
+        '''
         if self.check_post_role()['ADD']:
             pass
         else:
@@ -92,6 +97,11 @@ class PageHandler(BaseHandler):
 
     @tornado.web.authenticated
     def __could_edit(self, slug):
+        '''
+        Test if the user could edit the page.
+        :param slug:
+        :return:
+        '''
         page_rec = MWiki.get_by_uid(slug)
         if not page_rec:
             return False
@@ -104,6 +114,11 @@ class PageHandler(BaseHandler):
 
     @tornado.web.authenticated
     def update(self, slug):
+        '''
+        Update the page.
+        :param slug:
+        :return:
+        '''
         if self.__could_edit(slug):
             pass
         else:
@@ -128,6 +143,11 @@ class PageHandler(BaseHandler):
 
     @tornado.web.authenticated
     def to_modify(self, uid):
+        '''
+        Try to modify the page.
+        :param uid:
+        :return:
+        '''
         if self.__could_edit(uid):
             pass
         else:
@@ -146,6 +166,11 @@ class PageHandler(BaseHandler):
                     userinfo=self.userinfo)
 
     def view(self, rec):
+        '''
+        View the page.
+        :param rec:
+        :return:
+        '''
         kwd = {
             'pager': '',
         }
@@ -166,6 +191,10 @@ class PageHandler(BaseHandler):
         return json.dump(output, self)
 
     def list(self):
+        '''
+        View the list of the pages.
+        :return:
+        '''
         kwd = {
             'pager': '',
             'unescape': tornado.escape.xhtml_unescape,
@@ -181,6 +210,11 @@ class PageHandler(BaseHandler):
 
     @tornado.web.authenticated
     def add_page(self, slug):
+        '''
+        Add new page.
+        :param slug:
+        :return:
+        '''
         if self.check_post_role()['ADD']:
             pass
         else:
@@ -189,16 +223,11 @@ class PageHandler(BaseHandler):
         post_data = self.get_post_data()
 
         post_data['user_name'] = self.userinfo.user_name
-        # post_data['slug'] = slug
 
         if MWiki.get_by_uid(slug):
             self.set_status(400)
             return False
         else:
-            MWiki.create_wiki_history(slug, post_data)
-
+            MWiki.create_page(slug, post_data)
             tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
-
             self.redirect('/page/{0}'.format(slug))
-
-

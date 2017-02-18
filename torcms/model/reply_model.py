@@ -1,5 +1,8 @@
 # -*- coding:utf-8 -*-
 
+'''
+Data model for reply.
+'''
 
 import datetime
 import tornado.escape
@@ -30,9 +33,13 @@ class MReply(Mabc):
         entry.execute()
 
     @staticmethod
-    def create_wiki_history(post_data):
+    def create_reply(post_data):
+        '''
+        Create the reply.
+        :param post_data:
+        :return:
+        '''
         uid = tools.get_uuid()
-
         g_Reply.create(
             uid=uid,
             post_id=post_data['post_id'],
@@ -48,6 +55,11 @@ class MReply(Mabc):
 
     @staticmethod
     def query_by_post(postid):
+        '''
+        Get reply list of certain post.
+        :param postid:
+        :return:
+        '''
         return g_Reply.select().where(
             g_Reply.post_id == postid
         ).order_by(g_Reply.timestamp.desc())

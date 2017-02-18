@@ -13,13 +13,15 @@ class RelHandler(BaseHandler):
     def initialize(self):
         super(RelHandler, self).initialize()
 
-    def get(self, url_str=''):
-        if len(url_str) > 0:
-            ip_arr = url_str.split('/')
+    def get(self, *args):
+        url_str =  args[0]
+
+        url_arr = self.parse_url(url_str)
+
+        if len(url_arr) == 2:
+            self.add_relation(url_arr)
         else:
             return False
-        if len(ip_arr) == 2:
-            self.add_relation(ip_arr)
 
     def add_relation(self, url_arr):
         '''

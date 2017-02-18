@@ -113,6 +113,10 @@ def format_date(indate):
 
 
 def get_uuid():
+    '''
+    Using python uuid
+    :return:
+    '''
     return str(uuid.uuid1())
 
 

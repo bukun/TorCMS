@@ -41,7 +41,7 @@ class MWiki(Mabc):
 
     @staticmethod
     def get_by_uid(uid):
-        return  MHelper.get_by_uid(g_Wiki, uid)
+        return MHelper.get_by_uid(g_Wiki, uid)
 
     @staticmethod
     def update_cnt(uid, post_data):
@@ -91,12 +91,15 @@ class MWiki(Mabc):
         return MWiki.__create_rec(uid, '1', post_data=post_data)
 
     @staticmethod
-    def create_wiki_history(slug, post_data):
+    def create_page(slug, post_data):
+        '''
+        The page would be created with slug.
+        :param slug:
+        :param post_data:
+        :return:
+        '''
         logger.info('Call create Page')
-        uu = MWiki.get_by_uid(slug)
-        if uu is None:
-            pass
-        else:
+        if MWiki.get_by_uid(slug):
             return False
 
         title = post_data['title'].strip()
