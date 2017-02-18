@@ -9,7 +9,7 @@ from html2text import html2text
 
 import torcms.model.usage_model
 from config import router_post
-# from torcms.core.libs.deprecation import deprecated
+from torcms.core.libs.deprecation import deprecated
 from torcms.core.tools import logger
 from torcms.model.category_model import MCategory
 from torcms.model.label_model import MPost2Label
@@ -67,6 +67,7 @@ class InfoUserRecent(tornado.web.UIModule):
     User used infors recently.
     '''
 
+    @deprecated(details='should not used any more.')
     def render(self, user_name, kind, num, with_tag=False):
         all_cats = torcms.model.usage_model.MUsage.query_recent(user_name, kind, num)
         kwd = {
@@ -83,6 +84,7 @@ class InfoUserRecentByCategory(tornado.web.UIModule):
     User accessed posts recently by category.
     '''
 
+    @deprecated(details='should not used any more.')
     def render(self, user_name, cat_id, num):
         all_cats = torcms.model.usage_model.MUsage.query_recent_by_cat(user_name, cat_id, num)
 
@@ -95,6 +97,7 @@ class InfoMostUsedByCategory(tornado.web.UIModule):
     posts, most used of certain category.
     '''
 
+    @deprecated(details='should not used any more.')
     def render(self, num, cat_str):
         all_cats = MPost.query_most_by_cat(num, cat_str)
         return self.render_string('modules/info/list_equation_by_cat.html',
@@ -106,6 +109,7 @@ class InfoLeastUseByCategory(tornado.web.UIModule):
 
     '''
 
+    @deprecated(details='should not used any more.')
     def render(self, num, cat_str):
         all_cats = MPost.query_least_by_cat(num, cat_str)
         return self.render_string('modules/info/list_equation_by_cat.html', recs=all_cats)
@@ -113,7 +117,7 @@ class InfoLeastUseByCategory(tornado.web.UIModule):
 
 class InfoMostUsed(tornado.web.UIModule):
     '''
-
+    posts that most used.
     '''
 
     def render(self, kind, num, **kwargs):
@@ -153,9 +157,10 @@ class InfoMostUsed(tornado.web.UIModule):
                                   recs=all_cats,
                                   kwd=kwd)
 
+
 class InfoRecentUsed(tornado.web.UIModule):
     '''
-
+    posts that recently used.
     '''
 
     def render(self, kind, num, **kwargs):
