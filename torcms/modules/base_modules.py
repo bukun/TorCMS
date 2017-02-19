@@ -132,7 +132,7 @@ class PostCatRandom(tornado.web.UIModule):
             'router': config.router_post['1'],
         }
         return self.render_string('modules/post/post_list.html',
-                                  recs=MPost.query_cat_random(cat_id, num),
+                                  recs=MPost.query_cat_random(cat_id, limit = num),
                                   kwd=kwd)
 
 

@@ -224,8 +224,8 @@ class MPost(Mabc):
         :param num:
         :return:
         '''
-        if 'num' in kwargs:
-            num = kwargs['num']
+        if 'limit' in kwargs:
+            num = kwargs['limit']
         else:
             num = 8
         if catid == '':

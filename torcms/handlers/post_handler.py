@@ -550,7 +550,7 @@ class PostHandler(BaseHandler):
         rel_recs = MRelation.get_app_relations(uid, 8, kind=self.kind)
         logger.info('rel_recs count: {0}'.format(rel_recs.count()))
         if len(cat_uid_arr) > 0:
-            rand_recs = MPost.query_cat_random(cat_uid_arr[0], 4 - rel_recs.count() + 4)
+            rand_recs = MPost.query_cat_random(cat_uid_arr[0], limit = 4 - rel_recs.count() + 4)
         else:
             rand_recs = MPost.query_random(num=4 - rel_recs.count() + 4, kind=self.kind)
         return rand_recs, rel_recs
