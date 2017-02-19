@@ -104,7 +104,7 @@ def get_ol3():
     fetch_file(ol3_js, 'ol3/ol.js')
 
 
-def run_fetch_f2elib():
+def run_f2elib():
     get_jqueryui()
     get_codemirror()
     get_js_valid()

@@ -13,6 +13,11 @@ from .script_edit_diff import run_edit_diff
 from .script_create_admin import run_create_admin
 from .script_sitemap import run_sitemap
 from .script_check_kind import run_check_kind
+from .script_fetch_fe2lib import run_f2elib
+from .script_init_tabels import run_init_tables
+from .script_gen_category import run_gen_category
+from .script_crud import run_auto
+from .script_whoosh import run_whoosh
 
 
 def entry(argv):
@@ -30,6 +35,12 @@ def entry(argv):
         'create_admin': run_create_admin,
         'sitemap': run_sitemap,
         'check_kind': run_check_kind,
+
+        'f2elib': run_f2elib,
+        'init_tables': run_init_tables,
+        'gen_category': run_gen_category,
+        'auto': run_auto,
+        'whoosh': run_whoosh,
     }
     try:
         # 这里的 h 就表示该选项无参数，i:表示 i 选项后需要有参数
