@@ -11,7 +11,7 @@ class AdminHandler(BaseHandler):
     def initialize(self):
         super(AdminHandler, self).initialize()
 
-    def get(self, *args, **kwargs):
+    def get(self, *args):
         url_str = args[0]
         if url_str == '':
             self.index()
@@ -25,4 +25,5 @@ class AdminHandler(BaseHandler):
         self.render('admin/admin_index.html',
                     userinfo=self.userinfo,
                     kwd={},
-                    cfg=config.CMS_CFG)
+                    cfg=config.CMS_CFG,
+                    router_post=config.router_post)

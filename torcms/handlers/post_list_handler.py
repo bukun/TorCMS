@@ -38,6 +38,8 @@ class PostListHandler(BaseHandler):
 
         if url_str == 'recent':
             self.recent()
+        elif url_arr[0] == 'p_recent':
+            self.p_recent(url_arr[1])
         elif url_str == '_refresh':
             self.refresh()
 
@@ -72,7 +74,32 @@ class PostListHandler(BaseHandler):
                     userinfo=self.userinfo,
                     cfg=CMS_CFG, )
 
+    def p_recent(self, kind, with_catalog=True, with_date=True):
+        '''
+        List posts that recent edited, partially.
+        :param with_catalog:
+        :param with_date:
+        :return:
+        '''
+        kwd = {
+            'pager': '',
+            'unescape': tornado.escape.xhtml_unescape,
+            'title': 'Recent posts.',
+            'with_catalog': with_catalog,
+            'with_date': with_date,
+        }
+        self.render('admin/post_p/post_p_list.html',
+                    kwd=kwd,
+                    postrecs=MPost.query_recent(num=20, kind=kind),
+                    format_date=tools.format_date,
+                    userinfo=self.userinfo,
+                    cfg=CMS_CFG, )
+
     def errcat(self):
+        '''
+        List the posts to be modified.
+        :return:
+        '''
         post_recs = MPost.query_random(limit=1000)
         outrecs = []
         errrecs = []
@@ -86,7 +113,7 @@ class PostListHandler(BaseHandler):
                     pass
                 else:
                     errrecs.append(postinfo)
-                    idx +=1
+                    idx += 1
             else:
                 outrecs.append(postinfo)
                 idx += 1

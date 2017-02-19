@@ -6,9 +6,9 @@ Define the widget modules for TorCMS.
 
 import tornado.escape
 import tornado.web
-from torcms.model.category_model import MCategory
 from torcms.model.reply_model import MReply
 from torcms.model.rating_model import MRating
+from torcms.core.libs.deprecation import deprecated
 
 
 class BaiduShare(tornado.web.UIModule):
@@ -115,7 +115,7 @@ class NavigatePanel(tornado.web.UIModule):
     '''
     render navigate panel.
     '''
-
+    @deprecated(details='Should not used any more.')
     def render(self, userinfo):
         return self.render_string(
             'modules/widget/navigate_panel.html',
@@ -128,7 +128,7 @@ class FooterPanel(tornado.web.UIModule):
     '''
     render footer panel.
     '''
-
+    @deprecated(details='Should not used any more.')
     def render(self, userinfo):
         return self.render_string(
             'modules/widget/footer_panel.html',

@@ -87,7 +87,7 @@ class MPost(Mabc):
         return g_Post.select().count()
 
     @staticmethod
-    def update_rating(uid, rating):
+    def __update_rating(uid, rating):
         '''
         :param uid:
         :param rating:
@@ -99,7 +99,7 @@ class MPost(Mabc):
         entry.execute()
 
     @staticmethod
-    def update_kind(uid, kind):
+    def __update_kind(uid, kind):
         '''
         update the kind of post.
         :param uid:
@@ -112,14 +112,6 @@ class MPost(Mabc):
         ).where(g_Post.uid == uid)
         entry.execute()
         return True
-
-    # @staticmethod
-    # def update_kind(uid, kind):
-    #     entry = g_Post.update(
-    #         kind=kind,
-    #     ).where(g_Post.uid == uid)
-    #     entry.execute()
-    #     return True
 
     @staticmethod
     def update_cnt(uid, post_data):
@@ -224,48 +216,28 @@ class MPost(Mabc):
         )
         return entry.uid
 
-    # @staticmethod
-    # def query_cat_random(cat_id, num=6):
-    #
-    #     if cat_id == '':
-    #         return g_Post.select().order_by(peewee.fn.Random()).limit(num)
-    #         # return self.query_random(num)
-    #     else:
-    #         return g_Post.select().join(g_Post2Tag).where(
-    #             g_Post2Tag.tag == cat_id
-    #         ).order_by(
-    #             peewee.fn.Random()
-    #         ).limit(num)
-
     @staticmethod
-    def query_cat_random(catid, num=8, kind='1'):
+    def query_cat_random(catid, **kwargs):
         '''
         Get random lists of certain category.
         :param cat_id:
         :param num:
         :return:
         '''
+        if 'num' in kwargs:
+            num = kwargs['num']
+        else:
+            num = 8
         if catid == '':
             return g_Post.select().order_by(peewee.fn.Random()).limit(num)
 
         else:
             return g_Post.select().join(g_Post2Tag).where(
-                # (g_Post.kind == kind) &
                 (g_Post.valid == 1) &
                 (g_Post2Tag.tag == catid)
             ).order_by(
                 peewee.fn.Random()
             ).limit(num)
-
-    # @staticmethod
-    # def query_random(num=6, kind='1'):
-    #     '''
-    #     Return the random records of centain kind.
-    #     :param num:
-    #     :param kind:
-    #     :return:
-    #     '''
-    #     return g_Post.select().where(g_Post.kind == kind).order_by(peewee.fn.Random()).limit(num)
 
     @staticmethod
     def query_random(**kwargs):
@@ -313,32 +285,6 @@ class MPost(Mabc):
         ).order_by(
             g_Post.time_update.desc()
         ).limit(num)
-
-    # @staticmethod
-    # def query_recent(num=8, kind='2'):
-    #     return g_Post.select().where(
-    #         (g_Post.kind == kind) &
-    #         (g_Post.valid == 1)
-    #     ).order_by(
-    #         g_Post.time_update.desc()
-    #     ).limit(num)
-
-    # @staticmethod
-    # def query_all(**kwargs):
-    #     '''
-    #     :param kwargs:
-    #     :return:
-    #     '''
-    #     if 'kind' in kwargs:
-    #         kind = kwargs['kind']
-    #     else:
-    #         kind = '1'
-    #     return g_Post.select().where(
-    #         g_Post.kind == kind
-    #     ).order_by(
-    #         g_Post.time_update.desc()
-    #     )
-
 
     @staticmethod
     def query_all(**kwargs):
@@ -441,12 +387,25 @@ class MPost(Mabc):
             g_Post.view_count.desc()
         ).limit(num)
 
-    # @staticmethod
-    # def query_most(kind='2', num=8, ):
-
+    @staticmethod
+    def update_misc(uid, **kwargs):
+        '''
+        update rating, kind, or count
+        :param uid:
+        :param kwargs:
+        :return:
+        '''
+        if 'rating' in kwargs:
+            MPost.__update_rating(uid, kwargs['rating'])
+        elif 'kind' in kwargs:
+            MPost.__update_kind(uid, kwargs['kind'])
+        elif 'keywords' in kwargs:
+            MPost.__update_keywords(uid, kwargs['keywords'])
+        elif 'count' in kwargs:
+            MPost.__update_view_count(uid)
 
     @staticmethod
-    def update_view_count_by_uid(uid):
+    def __update_view_count(uid):
         '''
         :param uid:
         :return:
@@ -459,7 +418,7 @@ class MPost(Mabc):
             return False
 
     @staticmethod
-    def update_keywords(uid, inkeywords):
+    def __update_keywords(uid, inkeywords):
         '''
         :param uid:
         :param inkeywords:
@@ -501,9 +460,6 @@ class MPost(Mabc):
             return None
         else:
             return query.get()
-
-
-            ######################################
 
     @staticmethod
     def get_all(kind='2'):
@@ -590,29 +546,6 @@ class MPost(Mabc):
             return g_Post.get(uid=sig).view_count
         except:
             return False
-
-    @staticmethod
-    def view_count_increase(uid):
-        infor = MPost.get_by_uid(uid)
-        entry = g_Post.update(
-            view_count=infor.view_count + 1,
-        ).where(g_Post.uid == uid)
-        entry.execute()
-
-    @staticmethod
-    def get_run_count(sig):
-        try:
-            return g_Post.get(uid=sig).run_count
-        except:
-            return False
-
-    @staticmethod
-    def run_count_increase(uid):
-
-        entry = g_Post.update(
-            run_count=MPost.get_run_count(uid) + 1,
-        ).where(g_Post.uid == uid)
-        entry.execute()
 
     @staticmethod
     def query_most_by_cat(num=8, catid=None, kind='2'):
@@ -779,17 +712,3 @@ class MPost(Mabc):
         all_list = MPost.query_under_condition(con, kind=kind)
         current_list = all_list[(idx - 1) * CMS_CFG['list_num']: idx * CMS_CFG['list_num']]
         return current_list
-
-    @staticmethod
-    def get_cat_recs_count(catid, kind='2'):
-        '''
-        获取某一分类下的数目
-        '''
-        condition = {'catid': [catid]}
-
-        db_data = g_Post.select().where(
-            (g_Post.kind == kind) &
-            (g_Post.valid == 1) &
-            (g_Post.extinfo.contains(condition))
-        )
-        return db_data.count()

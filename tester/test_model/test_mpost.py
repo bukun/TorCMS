@@ -30,7 +30,6 @@ class TestPost():
 
         tt = self.uu.get_by_uid(self.uid)
 
-
         assert tt.title == post_data['title']
         assert tt.cnt_md == tornado.escape.xhtml_unescape(post_data['cnt_md'])
         assert tt.cnt_html == tools.markdown2html(post_data['cnt_md'])
@@ -88,8 +87,6 @@ class TestPost():
         ss = self.uu.get_by_uid(uid)
         assert ss.title == post_data['title']
 
-
-
     def test_get_by_title2(self):
 
         '''Test Wiki title with SPACE'''
@@ -120,7 +117,7 @@ class TestPost():
         self.uu.create_post(uid, post_data)
         new_count = self.uu.get_counts()
 
-        #assert self.raw_count + 1 == new_count
+        # assert self.raw_count + 1 == new_count
 
         post_data2 = {
 
@@ -135,21 +132,22 @@ class TestPost():
 
         new_count = self.uu.get_counts()
 
-        #assert self.raw_count + 1 == new_count
+        # assert self.raw_count + 1 == new_count
 
         tt = self.uu.get_by_uid(uid)
 
-        #assert tt.title != post_data['title'][0]
-        #assert tt.cnt_md != post_data['cnt_md'][0]
-        #assert tt.user_name != int(post_data['user_name'][0])
-        #assert tt.logo != post_data['logo'][0]
-        #assert tt.keywords != post_data['keywords'][0]
-#
-        #assert tt.title == post_data['title'][0]
-        #assert tt.cnt_md == post_data['cnt_md'][0]
-        #assert tt.user_name == int(post_data['user_name'][0])
-        #assert tt.logo == post_data['logo'][0]
-        #assert tt.keywords == post_data['keywords'][0]
+        # assert tt.title != post_data['title'][0]
+        # assert tt.cnt_md != post_data['cnt_md'][0]
+        # assert tt.user_name != int(post_data['user_name'][0])
+        # assert tt.logo != post_data['logo'][0]
+        # assert tt.keywords != post_data['keywords'][0]
+
+    #
+    # assert tt.title == post_data['title'][0]
+    # assert tt.cnt_md == post_data['cnt_md'][0]
+    # assert tt.user_name == int(post_data['user_name'][0])
+    # assert tt.logo == post_data['logo'][0]
+    # assert tt.keywords == post_data['keywords'][0]
 
     def test_query_cat_random(self):
         self.uu.query_cat_random('')
@@ -175,17 +173,16 @@ class TestPost():
         self.uu.query_most_pic(3)
         assert True
 
-
-
     def test_query_cat_recent(self):
-        self.uu.query_cat_recent(3,3)
+        self.uu.query_cat_recent(3, 3)
         assert True
+
     def test_query_most(self):
         self.uu.query_most()
         assert True
 
     def test_update_keywords(self):
-        self.uu.update_keywords(self.uid,'adf')
+        self.uu.update_misc(self.uid, keywords='adf')
         assert True
 
     def test_update_view_count_by_uid(self):
@@ -203,11 +200,10 @@ class TestPost():
 
         rec = self.uu.get_by_uid(uid)
 
-
         viewcount0 = rec.view_count
         assert viewcount0 == 1
         for x in range(100):
-            self.uu.update_view_count_by_uid(rec.uid)
+            self.uu.update_misc(rec.uid, count=True)
 
         viewcount1 = self.uu.get_by_uid(uid).view_count
 

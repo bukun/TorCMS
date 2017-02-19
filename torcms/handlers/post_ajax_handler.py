@@ -12,7 +12,7 @@ class PostAjaxHandler(PostHandler):
     def initialize(self):
         super(PostAjaxHandler, self).initialize()
 
-    def get(self, *args, **kwargs):
+    def get(self, *args):
 
         url_arr = self.parse_url(args[0])
         if url_arr[0] == 'delete':
@@ -21,11 +21,10 @@ class PostAjaxHandler(PostHandler):
             self.count_plus(url_arr[1])
 
     @tornado.web.authenticated
-    def delete(self, *args, **kwargs):
+    def delete(self, *args):
         '''
         Delete the post via Ajax request.
         :param args:
-        :param kwargs:
         :return:
         '''
         uid = args[0]
@@ -53,7 +52,7 @@ class PostAjaxHandler(PostHandler):
         '''
         self.set_header("Content-Type", "application/json")
         output = {
-            'status': 1 if MPost.update_view_count_by_uid(uid) else 0,
+            'status': 1  # if MPost.__update_view_count_by_uid(uid) else 0,
         }
         # return json.dump(output, self)
         self.write(json.dumps(output))

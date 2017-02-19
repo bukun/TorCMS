@@ -505,7 +505,7 @@ class PostHandler(BaseHandler):
             'catname': '',
             'router': router_post[postinfo.kind]
         }
-        MPost.view_count_increase(postinfo.uid)
+        MPost.update_misc(postinfo.uid, count= True)
         if self.get_current_user():
             MUsage.add_or_update(self.userinfo.uid, postinfo.uid, postinfo.kind)
         self.set_cookie('user_pass', cookie_str)
@@ -747,7 +747,7 @@ class PostHandler(BaseHandler):
         '''
         self.set_header("Content-Type", "application/json")
         output = {
-            'status': 1 if MPost.update_view_count_by_uid(uid) else 0,
+            'status': 1 # if MPost.__update_view_count_by_uid(uid) else 0,
         }
         self.write(json.dumps(output))
 
@@ -824,6 +824,6 @@ class PostHandler(BaseHandler):
 
         logger.info('admin post update: {0}'.format(post_data))
 
-        MPost.update_kind(post_uid, post_data['kcat'])
+        MPost.update_misc(post_uid, kind = post_data['kcat'])
         self.update_category(post_uid)
         self.redirect('/{0}/{1}'.format(router_post[post_data['kcat']], post_uid))

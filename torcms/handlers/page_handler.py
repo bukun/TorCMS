@@ -46,7 +46,7 @@ class PageHandler(BaseHandler):
         elif len(url_arr) == 1:
             self.view_or_add(url_str)
         else:
-            self.render('html/404.html', userinfo=self.userinfo, kwd={})
+            self.render('misc/html/404.html', userinfo=self.userinfo, kwd={})
 
     def post(self, *args):
         url_arr = self.parse_url(args[0])

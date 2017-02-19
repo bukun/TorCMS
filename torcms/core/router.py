@@ -76,6 +76,7 @@ urls = [
     ("/link/(.*)", LinkHandler, dict()),
 
     ("/page/p/(.*)", PageAjaxHandler, dict()),  # Deprecated
+    ("/page_p/(.*)", PageAjaxHandler, dict()),  # Deprecated
     ("/page_j/(.*)", PageAjaxHandler, dict()),
     ("/page/(.*)", PageHandler, dict()),
     ("/wiki/(.*)", WikiHandler, dict()),

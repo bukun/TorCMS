@@ -14,8 +14,25 @@ from difflib import HtmlDiff
 import markdown
 from markdown.extensions.wikilinks import WikiLinkExtension
 from playhouse.postgres_ext import PostgresqlExtDatabase
-
 import tornado.escape
+from torcms.core.libs.deprecation import deprecated
+
+# Config for logging
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+                    datefmt='%m-%d %H:%M',
+                    filename='xx_torcms.log',
+                    filemode='w')
+# 定义一个Handler打印INFO及以上级别的日志到sys.stderr
+stream_handler = logging.StreamHandler()
+stream_handler.setLevel(logging.INFO)
+# 设置日志打印格式
+logger_formatter = logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s')
+stream_handler.setFormatter(logger_formatter)
+# 将定义好的console日志handler添加到root logger
+logging.getLogger('').addHandler(stream_handler)
+
+logger = logging
 
 
 class Storage(dict):
@@ -45,25 +62,14 @@ class Storage(dict):
 
 storage = Storage
 
-# Config for logging
-logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
-                    datefmt='%m-%d %H:%M',
-                    filename='xx_torcms.log',
-                    filemode='w')
-# 定义一个Handler打印INFO及以上级别的日志到sys.stderr
-stream_handler = logging.StreamHandler()
-stream_handler.setLevel(logging.INFO)
-# 设置日志打印格式
-logger_formatter = logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s')
-stream_handler.setFormatter(logger_formatter)
-# 将定义好的console日志handler添加到root logger
-logging.getLogger('').addHandler(stream_handler)
-
-logger = logging
-
 
 def diff_table(rawinfo, newinfo):
+    '''
+    Generate the difference as the table format.
+    :param rawinfo:
+    :param newinfo:
+    :return:
+    '''
     return HtmlDiff.make_table(HtmlDiff(), rawinfo.split('\n'), newinfo.split('\n'),
                                context=True,
                                numlines=1)
@@ -174,7 +180,7 @@ def markdown2html(markdown_text):
     return tornado.escape.xhtml_escape(html)
 
 
-##  弃用的函数
+@deprecated(details='using `tag_pager` as the replacement.')
 def gen_pager_bootstrap_url(cat_slug, page_num, current):
     '''
     :return:
@@ -182,7 +188,7 @@ def gen_pager_bootstrap_url(cat_slug, page_num, current):
     if page_num == 1:
         return ''
 
-    pager_shouye = '''    <li class="{0}">
+    pager_shouye = '''<li class="{0}">
     <a href="{1}/{2}">&lt;&lt; 首页</a>
                 </li>'''.format('hidden' if current <= 1 else '', cat_slug, current)
 
@@ -207,7 +213,7 @@ def gen_pager_bootstrap_url(cat_slug, page_num, current):
     return pager
 
 
-##  弃用的函数
+@deprecated(details='using `tag_pager` as the replacement.')
 def gen_pager_purecss(cat_slug, page_num, current):
     '''
     :return:
