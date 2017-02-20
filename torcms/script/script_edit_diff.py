@@ -22,7 +22,7 @@ datestr = now.strftime('%Y-%m-%d %H:%M:%S')
 time_limit = 7 * 60 * 60  # 每7小时
 
 
-def get_diff_str():
+def get_diff_str(*args):
     mpost = MPost()
     mposthist = MPostHist()
     diff_str = ''
@@ -51,7 +51,7 @@ def get_diff_str():
     return diff_str
 
 
-def run_edit_diff():
+def run_edit_diff(*args):
     email_cnt = '''<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
     <style type="text/css">

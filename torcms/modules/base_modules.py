@@ -419,7 +419,7 @@ class ToplineModule(tornado.web.UIModule):
     '''
 
     def render(self):
-        return self.render_string('modules/post/topline.html')
+        return self.render_string('modules/widget/topline.html')
 
 
 class CategoryPager(tornado.web.UIModule):

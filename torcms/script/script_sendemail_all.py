@@ -8,7 +8,7 @@ from torcms.model.user_model import MUser
 from config import SMTP_CFG, email_cfg
 
 
-def run_send_all():
+def run_send_all(*args):
     '''
     Send email to all user.
     :return:
@@ -19,7 +19,7 @@ def run_send_all():
         send_mail([email_add], "{0}|{1}".format(SMTP_CFG['name'], email_cfg['title']), email_cfg['content'])
 
 
-def run_send_nologin():
+def run_send_nologin(*args):
     '''
     Send email to who not logged in recently.
     :return:

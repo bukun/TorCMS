@@ -17,7 +17,7 @@ def create_table(Tab):
         pass
 
 
-def run_init_tables():
+def run_init_tables(*args):
     print('--')
 
     create_table(g_Post)

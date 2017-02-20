@@ -18,6 +18,7 @@ from .script_init_tabels import run_init_tables
 from .script_gen_category import run_gen_category
 from .script_crud import run_auto
 from .script_whoosh import run_whoosh
+from .tmplchecker import  run_checkit
 
 
 def entry(argv):
@@ -41,6 +42,7 @@ def entry(argv):
         'gen_category': run_gen_category,
         'auto': run_auto,
         'whoosh': run_whoosh,
+        'check': run_checkit,
     }
     try:
         # 这里的 h 就表示该选项无参数，i:表示 i 选项后需要有参数
@@ -48,7 +50,6 @@ def entry(argv):
     except getopt.GetoptError:
         print('Error: helper.py -i cmd')
         sys.exit(2)
-
     for opt, arg in opts:
         if opt == "-h":
             print('helper.py -i cmd')
@@ -67,7 +68,7 @@ def entry(argv):
         elif opt == "-i":
 
             if arg in command_dic:
-                command_dic[arg]()
+                command_dic[arg](args)
                 print('QED!')
             else:
                 print('Wrong Command.')

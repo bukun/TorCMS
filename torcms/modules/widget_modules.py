@@ -44,20 +44,16 @@ class UserinfoWidget(tornado.web.UIModule, tornado.web.RequestHandler):
     '''
 
     def render(self, **kwargs):
-        if 'userinfo' in kwargs:
-            userinfo = kwargs['userinfo']
-            return self.render_string(
-                'modules/widget/loginfo.html',
-                username=userinfo.user_name
-            )
-        elif self.get_secure_cookie("user"):
-            # Todo: should not used any more.
-            return self.render_string(
-                'modules/widget/loginfo.html',
-                username=self.get_secure_cookie("user")
-            )
+        if 'userinfo' in kwargs and kwargs['userinfo']:
+            is_logged = True
         else:
-            return self.render_string('modules/widget/tologinfo.html')
+            is_logged = False
+
+        return self.render_string(
+            'modules/widget/loginfo.html',
+            userinfo=kwargs['userinfo'],
+            is_logged = is_logged,
+        )
 
 
 class WidgetEditor(tornado.web.UIModule):
@@ -115,6 +111,7 @@ class NavigatePanel(tornado.web.UIModule):
     '''
     render navigate panel.
     '''
+
     @deprecated(details='Should not used any more.')
     def render(self, userinfo):
         return self.render_string(
@@ -128,6 +125,7 @@ class FooterPanel(tornado.web.UIModule):
     '''
     render footer panel.
     '''
+
     @deprecated(details='Should not used any more.')
     def render(self, userinfo):
         return self.render_string(

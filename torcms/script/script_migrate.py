@@ -3,7 +3,7 @@
 from playhouse import migrate
 import config
 
-def run_migrate():
+def run_migrate(*args):
     '''
     running some migration.
     :return:

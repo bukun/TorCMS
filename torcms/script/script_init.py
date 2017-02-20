@@ -14,7 +14,7 @@ from .script_fetch_fe2lib import run_f2elib
 from .script_whoosh import run_whoosh
 
 
-def run_init():
+def run_init(*args):
     '''
     running init.
     :return:

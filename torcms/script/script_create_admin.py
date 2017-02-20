@@ -7,7 +7,7 @@ creating the default administrator.
 from torcms.model.user_model import MUser
 
 
-def run_create_admin():
+def run_create_admin(*args):
     '''
     creating the default administrator.
     '''

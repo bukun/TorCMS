@@ -44,7 +44,7 @@ def gen_wiki_map():
             fo.write('{url}\n'.format(url=url))
 
 
-def run_sitemap():
+def run_sitemap(*args):
     if os.path.exists(sitemap_file):
         os.remove(sitemap_file)
 

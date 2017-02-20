@@ -54,6 +54,7 @@ core_modules = {
     'use_f2e': widget_modules.UseF2E,
     'navigate_panel': widget_modules.NavigatePanel,
     'footer_panel': widget_modules.FooterPanel,
+    'loginfo': widget_modules.UserinfoWidget,
 
     # Map
     'app_layout': map_modules.MapLayout,
