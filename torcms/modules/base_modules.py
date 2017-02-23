@@ -66,12 +66,14 @@ class PreviousPostLink(tornado.web.UIModule):
     def render(self, current_id):
         prev_record = MPost.get_previous_record(current_id)
         if prev_record is None:
-            outstr = '<a>The last post.</a>'
+            return self.render_string('modules/post/last_page.html' )
         else:
-            outstr = '''<a href="/post/{0}">Previous Post</a>'''.format(
-                prev_record.uid
-            )
-        return outstr
+            kwd = {
+                'uid': prev_record.uid,
+            }
+            return self.render_string('modules/post/pre_page.html',kwd=kwd)
+
+
 
 
 class NextPostLink(tornado.web.UIModule):
@@ -82,10 +84,13 @@ class NextPostLink(tornado.web.UIModule):
     def render(self, current_id):
         next_record = MPost.get_next_record(current_id)
         if next_record is None:
-            outstr = '<a>The newest post.</a>'
+
+            return self.render_string('modules/post/newest_page.html')
         else:
-            outstr = '''<a href="/post/{0}">Next Post</a>'''.format(next_record.uid)
-        return outstr
+            kwd = {
+                'uid': next_record.uid,
+            }
+            return self.render_string('modules/post/next_page.html', kwd=kwd)
 
 
 class PostMostView(tornado.web.UIModule):
