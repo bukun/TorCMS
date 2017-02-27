@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.12: http://docutils.sourceforge.net/" />
+<title></title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7614 2013-02-21 15:55:51Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document">
+
+
+<div class="section" id="torcms-introduction">
+<h1>TorCMS Introduction</h1>
+<div class="section" id="status">
+<h2>Status</h2>
+<a class="reference external image-reference" href="https://travis-ci.org/bukun/TorCMS"><img alt="https://travis-ci.org/bukun/TorCMS.svg?branch=master" src="https://travis-ci.org/bukun/TorCMS.svg?branch=master" /></a>
+<a class="reference external image-reference" href="https://pypi.python.org/pypi/torcms/"><object data="https://img.shields.io/pypi/v/torcms.svg" type="image/svg+xml">https://img.shields.io/pypi/v/torcms.svg</object></a>
+<a class="reference external image-reference" href="https://pypi.python.org/pypi/torcms/"><object data="https://img.shields.io/pypi/pyversions/torcms.svg" type="image/svg+xml">https://img.shields.io/pypi/pyversions/torcms.svg</object></a>
+<ul class="simple">
+<li>Checking <tt class="docutils literal">torcms</tt> with <tt class="docutils literal">pylint</tt> using default configuration, gets score greater than 8.5 (<tt class="docutils literal">pylint torcms</tt>).</li>
+</ul>
+</div>
+<div class="section" id="introduction">
+<h2>Introduction</h2>
+<p>Flexible, extensible web CMS framework built on Tornado and Peewee,
+compatible with Python 3.4 and above. Using PostgreSQL with JSON
+extension as the database.</p>
+<p>The CMS was desinged as the container for GIS showing as the very beginning.
+It has the basic map showing, map overlaying, GIS data editing funtion now.
+And, the CMS could used to publish different kind the information,
+such as basic HTML page, JavaScript app, maps, multimedias.</p>
+<p>pypi: The kernel of this CMS has been submit to pypi.
+<a class="reference external" href="https://pypi.python.org/pypi/torcms">https://pypi.python.org/pypi/torcms</a> . Could be installed via:</p>
+<pre class="literal-block">
+pip install torcms
+</pre>
+</div>
+<div class="section" id="features">
+<h2>Features</h2>
+<ul class="simple">
+<li>Build on Tornado, only with Web features, with made it is simple to use.</li>
+<li>Markdown editor, make your HTML clean and clear.</li>
+<li>Carefull desinged model for conents. Post, Info, Page, Wiki as default.</li>
+<li>User roles for editing.</li>
+<li>Full text search with Whoosh.</li>
+<li>PostgreSQL 9.4 above, with JSONB, which makes the framework extensible.</li>
+<li>Access database via Peewee.</li>
+<li>SASS sub-project for Style.</li>
+<li>Last version of Jquery. And, Bootstrap as the default CSS framework.</li>
+</ul>
+</div>
+<div class="section" id="application">
+<h2>Application</h2>
+<ul class="simple">
+<li><a class="reference external" href="http://geodata.osgeo.cn/">http://geodata.osgeo.cn/</a> (The default theme, and DEMO. )</li>
+<li><a class="reference external" href="http://www.osgeo.cn">http://www.osgeo.cn</a></li>
+<li><a class="reference external" href="http://www.maplet.org">http://www.maplet.org</a></li>
+<li><a class="reference external" href="http://www.yunsuan.org">http://www.yunsuan.org</a></li>
+<li><a class="reference external" href="http://drr.osgeo.cn">http://drr.osgeo.cn</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="install">
+<h1>Install</h1>
+<div class="section" id="pull-the-codes">
+<h2>Pull the codes.</h2>
+<pre class="literal-block">
+git clone https://github.com/bukun/TorCMS.git
+</pre>
+</div>
+<div class="section" id="under-debian">
+<h2>Under Debian</h2>
+<pre class="literal-block">
+aptitude install postgresql-server-dev-all
+aptitude install postgresql-contrib
+aptitude install redis-server
+</pre>
+</div>
+<div class="section" id="create-the-database">
+<h2>Create the Database</h2>
+<p>Create the database, and user in PostgreSQL.
+The information should be used in the config.py file.
+And, create hstore extension in the database.</p>
+<pre class="literal-block">
+CREATE USER torcms WITH PASSWORD '131322';
+CREATE DATABASE torcms OWNER torcms;
+GRANT ALL PRIVILEGES ON DATABASE torcms to torcms;
+\c torcms
+create extension hstore;
+</pre>
+</div>
+<div class="section" id="for-python">
+<h2>For Python</h2>
+<p>You should be under Python 3.4 or Python 3.5.</p>
+<p>Install libs for Python 3.4 or 3.5,</p>
+<pre class="literal-block">
+cd TorCMS
+pip install -r doc/requirements.txt
+</pre>
+</div>
+</div>
+<div class="section" id="how-to-run">
+<h1>How to Run</h1>
+<div class="section" id="get-the-html-for-modules">
+<h2>Get the HTML for modules</h2>
+<pre class="literal-block">
+# cd TorCMS
+git clone https://github.com/bukun/torcms_modules_bootstrap.git templates/modules
+</pre>
+</div>
+<div class="section" id="edit-the-configiure">
+<h2>Edit the configiure.</h2>
+<pre class="literal-block">
+# cd TorCMS/
+copy cfg_demo.py cfg.py
+</pre>
+<p>And, edit the config.py file.</p>
+<pre class="literal-block">
+DB_CFG = {
+    'db': 'torcms',
+    'user': 'torcms',
+    'pass': '111111',
+}
+
+SMTP_CFG = {
+    'name': 'TorCMS',
+    'host': &quot;smtp.ym.163.com&quot;,
+    'user': &quot;admin&#64;yunsuan.org&quot;,
+    'pass': &quot;&quot;,
+    'postfix': 'yunsuan.org',
+}
+
+SITE_CFG = {
+    'site_url': 'http://127.0.0.1:8888',
+    'cookie_secret': '123456',
+    'DEBUG': False
+}
+</pre>
+<p>The DB_CFG defines the items used for PostgreSQL.</p>
+</div>
+<div class="section" id="modify-the-meta-information-of-the-web-application">
+<h2>Modify the meta information of the web application.</h2>
+<p>Modify the file in TorCMS/database/meta.</p>
+<ul class="simple">
+<li>doc_catalog.yaml , which define the catalog of post.</li>
+<li>info_tags.xlsx , which define the catalog of info.</li>
+</ul>
+</div>
+<div class="section" id="initialization">
+<h2>Initialization</h2>
+<pre class="literal-block">
+python helper.py -i init
+</pre>
+<p>it will</p>
+<ul class="simple">
+<li>fetch the F2E libraries.</li>
+<li>initialize the PostgreSQL schema.</li>
+<li>initialize the metadata in database.</li>
+<li>the whoosh database would be initialized.</li>
+</ul>
+</div>
+<div class="section" id="run">
+<h2>Run</h2>
+<p>Run the web application,</p>
+<pre class="literal-block">
+python server.py 8088
+</pre>
+<p>Open web brower and navigate to <a class="reference external" href="http://127.0.0.1:8088">http://127.0.0.1:8088</a> .</p>
+<p>The port should as be defined in config.py .</p>
+<p>Enjoy it!</p>
+</div>
+</div>
+<div class="section" id="helper-script">
+<h1>Helper Script</h1>
+<p>There are some helper scripts used in the programe.</p>
+<p>Run the following command to list the different scripts:</p>
+<pre class="literal-block">
+python helper.py -h
+</pre>
+<p>Run the scripts with the <tt class="docutils literal"><span class="pre">-i</span></tt> switcher, we have used <tt class="docutils literal">init</tt> to do something for initialization.</p>
+<ul class="simple">
+<li><tt class="docutils literal">migrate</tt> : for database schema change.</li>
+<li><tt class="docutils literal">edit_diff</tt> : send email for modification of the posts and pages.</li>
+<li><tt class="docutils literal">sitemap</tt> : would generate the sitemap for posts and pages.</li>
+<li><tt class="docutils literal">check_kind</tt> : to check if the kind of post is right.</li>
+<li><tt class="docutils literal">check</tt> : generate the picture for the relationship of templates. For example:</li>
+</ul>
+<pre class="literal-block">
+python helper.py -i check templates/theme
+</pre>
+<p>would generate the following picture:</p>
+<img alt="doc/img/tmplrel.png" src="doc/img/tmplrel.png" style="width: 100%;" />
+</div>
+<div class="section" id="unit-tests">
+<h1>Unit Tests</h1>
+<p>First you should install nose with pip,</p>
+<pre class="literal-block">
+pip install nose
+</pre>
+<p>then run as follow:</p>
+<pre class="literal-block">
+nosetests -v -d --exe tester
+</pre>
+<p>with <tt class="docutils literal">coverage</tt> (install with:  <tt class="docutils literal">pip install coverage</tt> ):</p>
+<pre class="literal-block">
+nosetests  --exe -v -d --with-coverage tester
+</pre>
+<p>Note: I alway writing code in the folder which is mounted by Debian in VirtualBox, so <tt class="docutils literal"><span class="pre">--exe</span></tt>.</p>
+</div>
+<div class="section" id="build-the-api-documents">
+<h1>Build the API documents</h1>
+<p>under TorCMS</p>
+<pre class="literal-block">
+sphinx-apidoc -F -o api_doc torcms
+</pre>
+<p>Editing  <tt class="docutils literal">api_doc/conf.py</tt>. Add the following line after <tt class="docutils literal">import os</tt>.</p>
+<pre class="literal-block">
+sys.path.insert(0, os.path.abspath('../'))
+</pre>
+<p>That's OK. then generate the HTML documents. Under TorCMS:</p>
+<pre class="literal-block">
+sphinx-build -b html api_doc api_html
+</pre>
+</div>
+<div class="section" id="in-chinese">
+<h1>In Chinese</h1>
+<p>本 CMS 是使用Python 3.4，Tornado Web框架， Peewee，开发的。
+此CMS系统原本用于<a class="reference external" href="http://www.yunsuan.org">云算笔记</a>、<a class="reference external" href="http://lab.osgeo.cn">开放地理空间实验室</a>（现合并到<a class="reference external" href="http://www.osgeo.cn">OSGeo中国中心</a>）等网站，
+后来慢慢将 CMS 从中抽取出来。</p>
+<p>在网站设计方面，提出了文档（Post）、信息（Infor）两种对等的模型进行信息的组织。
+这两种模型结构相似，分别用与网站的内容管理，以及应用管理。
+其中应用管理，使用了PostgreSQL的JSON扩展，可以设计为App、分类信息、商城应用等。
+这些可以在下面的应用中看一下。</p>
+<p>网站的文档，除了Post之外，还有Page、Wiki，针对不同的目的作为文档使用。</p>
+<div class="section" id="id1">
+<h2>应用</h2>
+<ul class="simple">
+<li><a class="reference external" href="http://geodata.osgeo.cn/">http://geodata.osgeo.cn/</a> (The default theme, and DEMO. )</li>
+<li><a class="reference external" href="http://www.osgeo.cn">http://www.osgeo.cn</a></li>
+<li><a class="reference external" href="http://www.maplet.org">http://www.maplet.org</a></li>
+<li><a class="reference external" href="http://www.yunsuan.org">http://www.yunsuan.org</a></li>
+<li><a class="reference external" href="http://drr.osgeo.cn">http://drr.osgeo.cn</a></li>
+</ul>
+</div>
+</div>
+</div>
+</body>
+</html>

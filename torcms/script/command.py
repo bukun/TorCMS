@@ -18,7 +18,7 @@ from .script_init_tabels import run_init_tables
 from .script_gen_category import run_gen_category
 from .script_crud import run_auto
 from .script_whoosh import run_whoosh
-from .tmplchecker import  run_checkit
+from .tmplchecker import run_checkit
 
 
 def entry(argv):
@@ -63,6 +63,7 @@ def entry(argv):
             print('  create_admin: ')
             print('       sitemap: ')
             print('    check_kind: ')
+            print('         check: ')
 
             sys.exit()
         elif opt == "-i":

@@ -189,6 +189,34 @@ The port should as be defined in config.py .
 
 Enjoy it!
 
+Helper Script
+=========================================
+There are some helper scripts used in the programe.
+
+Run the following command to list the different scripts:
+
+::
+
+    python helper.py -h
+
+
+Run the scripts with the ``-i`` switcher, we have used ``init`` to do something for initialization.
+
+- ``migrate`` : for database schema change.
+- ``edit_diff`` : send email for modification of the posts and pages.
+- ``sitemap`` : would generate the sitemap for posts and pages.
+- ``check_kind`` : to check if the kind of post is right.
+- ``check`` : generate the picture for the relationship of templates. For example:
+
+::
+
+    python helper.py -i check templates/theme
+
+would generate the following picture:
+
+.. image:: doc/img/tmplrel.png
+    :width: 100%
+
 Unit Tests
 =========================================
 

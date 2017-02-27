@@ -6,13 +6,14 @@
 import os
 import sys
 
-from graphviz import Digraph, Graph
+try:
+    from graphviz import Digraph, Graph
 
-g = Graph(format='png')
-
-dot = Digraph()
-
-dot.format = 'png'
+    g = Graph(format='png')
+    dot = Digraph()
+    dot.format = 'png'
+except:
+    pass
 
 rels_uniq_arr = []
 
