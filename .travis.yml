@@ -7,7 +7,7 @@ addons:
   postgresql: "9.4"
 # currently points to 3.7-dev# command to install dependencies
 install:
-  - pip install -r doc/requirements_travis.txt
+  - pip install -r doc/requirements_dev.txt
 # command to run tests
 before_script:
   - psql -c 'create database travis_ci_torcms;' -U postgres
