@@ -273,18 +273,26 @@ class MPost(Mabc):
             ).limit(limit)
 
     @staticmethod
-    def query_recent(num=8, kind='1'):
+    def query_recent(num=8, **kwargs):
         '''
         :param num:
         :param kind:
         :return:
         '''
-        return g_Post.select().where(
-            (g_Post.kind == kind) &
-            (g_Post.valid == 1)
-        ).order_by(
-            g_Post.time_update.desc()
-        ).limit(num)
+        if 'kind' in kwargs:
+            kind = kwargs['kind']
+            return g_Post.select().where(
+                (g_Post.kind == kind) &
+                (g_Post.valid == 1)
+            ).order_by(
+                g_Post.time_update.desc()
+            ).limit(num)
+        else:
+            return g_Post.select().where(
+                g_Post.valid == 1
+            ).order_by(
+                g_Post.time_update.desc()
+            ).limit(num)
 
     @staticmethod
     def query_all(**kwargs):

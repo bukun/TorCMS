@@ -29,7 +29,6 @@ class PostListHandler(BaseHandler):
 
     def initialize(self):
         super(PostListHandler, self).initialize()
-        self.kind = '1'
 
     def get(self, *args):
 
@@ -49,7 +48,7 @@ class PostListHandler(BaseHandler):
             kwd = {
                 'info': '404. Page not found!',
             }
-            self.render('html/404.html', kwd=kwd,
+            self.render('static/html/404.html', kwd=kwd,
                         userinfo=self.userinfo, )
 
     def recent(self, with_catalog=True, with_date=True):
@@ -66,10 +65,10 @@ class PostListHandler(BaseHandler):
             'with_catalog': with_catalog,
             'with_date': with_date,
         }
-        self.render('post_{0}/post_list.html'.format(self.kind),
+        self.render('list/post_list.html',
                     kwd=kwd,
-                    view=MPost.query_recent(num=20, kind=self.kind),
-                    postrecs=MPost.query_recent(num=20, kind=self.kind),
+                    view=MPost.query_recent(num=20),
+                    postrecs=MPost.query_recent(num=2),
                     format_date=tools.format_date,
                     userinfo=self.userinfo,
                     cfg=CMS_CFG, )
@@ -90,7 +89,7 @@ class PostListHandler(BaseHandler):
         }
         self.render('admin/post_p/post_p_list.html',
                     kwd=kwd,
-                    postrecs=MPost.query_recent(num=20, kind=kind),
+                    postrecs=MPost.query_recent(num=20),
                     format_date=tools.format_date,
                     userinfo=self.userinfo,
                     cfg=CMS_CFG, )
@@ -132,7 +131,7 @@ class PostListHandler(BaseHandler):
             'pager': '',
             'title': '',
         }
-        self.render('post_{0}/post_list.html'.format(self.kind),
+        self.render('post_{0}/post_list.html',
                     kwd=kwd,
                     userinfo=self.userinfo,
                     view=MPost.query_dated(10),
