@@ -82,6 +82,7 @@ class CategoryHandler(BaseHandler):
                'cat_slug': cat_slug,
                'unescape': tornado.escape.xhtml_unescape,
                'title': cat_name,
+               'router': router_post[cat_rec.kind],
                'current_page': current_page_num}
 
         self.render('list/category_list.html',
