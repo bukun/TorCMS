@@ -13,7 +13,6 @@ class GeoJsonHandler(BaseHandler):
     def initialize(self):
         super(GeoJsonHandler, self).initialize()
 
-
     def get(self, url_str=''):
         url_arr = self.parse_url(url_str)
 
@@ -54,15 +53,20 @@ class GeoJsonHandler(BaseHandler):
         if self.get_secure_cookie('map_hist'):
             for xx in range(0, len(self.get_secure_cookie('map_hist').decode('utf-8')), 4):
                 map_hist.append(self.get_secure_cookie('map_hist').decode('utf-8')[xx: xx + 4])
+        recent_apps = MUsage.query_recent(self.get_current_user(),
+                                          'm',
+                                          6)[1:] if self.userinfo else []
+        print('=' * 20)
+        for x in recent_apps:
+            print(x.uid)
         self.render(
-            'infor/app/full_screen_draw.html',
+            'post_m/full_screen_draw.html',
             kwd=kwd,
             userinfo=self.userinfo,
             unescape=tornado.escape.xhtml_unescape,
-            recent_apps=MUsage.query_recent(
-                self.get_current_user(),
-                6
-            )[1:] if self.userinfo else []
+            recent_apps=MUsage.query_recent(self.userinfo.uid,
+                                            'm',
+                                            6)[1:] if self.userinfo else []
         )
 
     def index(self):
