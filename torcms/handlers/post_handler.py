@@ -156,7 +156,7 @@ class PostHandler(BaseHandler):
         '''
         self.render('post_{0}/post_index.html'.format(self.kind),
                     userinfo=self.userinfo,
-                    kwd={'uid': '',})
+                    kwd={'uid': '', })
 
     def __gen_uid(self):
         '''
@@ -275,9 +275,9 @@ class PostHandler(BaseHandler):
             self.render('post_{0}/post_add.html'.format(self.kind),
                         tag_infos=MCategory.query_all(by_order=True, kind=self.kind),
                         userinfo=self.userinfo,
-                        kwd={'uid': uid,})
+                        kwd={'uid': uid, })
 
-    def update_tag(self, uid, **kwargs):
+    def update_tag(self, uid='', **kwargs):
         '''
         Update category, and labels.
         :param uid:
@@ -505,7 +505,7 @@ class PostHandler(BaseHandler):
             'catname': '',
             'router': router_post[postinfo.kind]
         }
-        MPost.update_misc(postinfo.uid, count= True)
+        MPost.update_misc(postinfo.uid, count=True)
         if self.get_current_user():
             MUsage.add_or_update(self.userinfo.uid, postinfo.uid, postinfo.kind)
         self.set_cookie('user_pass', cookie_str)
@@ -550,7 +550,7 @@ class PostHandler(BaseHandler):
         rel_recs = MRelation.get_app_relations(uid, 8, kind=self.kind)
         logger.info('rel_recs count: {0}'.format(rel_recs.count()))
         if len(cat_uid_arr) > 0:
-            rand_recs = MPost.query_cat_random(cat_uid_arr[0], limit = 4 - rel_recs.count() + 4)
+            rand_recs = MPost.query_cat_random(cat_uid_arr[0], limit=4 - rel_recs.count() + 4)
         else:
             rand_recs = MPost.query_random(num=4 - rel_recs.count() + 4, kind=self.kind)
         return rand_recs, rel_recs
@@ -640,7 +640,8 @@ class PostHandler(BaseHandler):
         MPost.modify_meta(ext_dic['def_uid'],
                           post_data,
                           extinfo=ext_dic)
-        self.update_tag(ext_dic['def_uid'], **kwargs)
+        kwargs.pop('uid', None)  # delete `uid` if exists in kwargs
+        self.update_tag(uid=ext_dic['def_uid'], **kwargs)
 
         # cele_gen_whoosh.delay()
         tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
@@ -685,7 +686,7 @@ class PostHandler(BaseHandler):
                           post_data,
                           extinfo=ext_dic)
 
-        self.update_tag(uid)
+        self.update_tag(uid=uid)
 
         logger.info('post kind:' + self.kind)
         # cele_gen_whoosh.delay()
@@ -747,7 +748,7 @@ class PostHandler(BaseHandler):
         '''
         self.set_header("Content-Type", "application/json")
         output = {
-            'status': 1 # if MPost.__update_view_count_by_uid(uid) else 0,
+            'status': 1  # if MPost.__update_view_count_by_uid(uid) else 0,
         }
         self.write(json.dumps(output))
 
@@ -824,6 +825,6 @@ class PostHandler(BaseHandler):
 
         logger.info('admin post update: {0}'.format(post_data))
 
-        MPost.update_misc(post_uid, kind = post_data['kcat'])
+        MPost.update_misc(post_uid, kind=post_data['kcat'])
         self.update_category(post_uid)
         self.redirect('/{0}/{1}'.format(router_post[post_data['kcat']], post_uid))

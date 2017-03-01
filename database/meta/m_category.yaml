@@ -1,0 +1,217 @@
+
+zm100:
+   slug: mgeneral
+   name: 普通地图
+   order: 1
+zm1:
+  - z03:
+      slug: mchina
+      name: 全国地图
+      order: 2
+  - z05:
+      slug: mprovince
+      name: 分省地图
+      order: 3
+
+zm300:
+   slug: gmnature
+   name: 自然地理地图
+   order: 1
+zm3:
+  - z01:
+      slug: mdizhi
+      name: 地质地图
+      order: 2
+  - z03:
+      slug: mdxdm
+      name: 地形地貌图
+      order: 3
+  - z05:
+      slug: mqihou
+      name: 气候地图
+      order: 4
+  - z07:
+      slug: mshuiwen
+      name: 水文海洋图
+      order: 6
+  - z09:
+      slug: mturang
+      name: 土壤地图
+      order: 7
+  - z11:
+      slug: mdongzhiwu
+      name: 植被动物地图
+      order: 8
+
+zm500:
+   slug: mrenwen
+   name: 人文社科地图
+   order: 1
+zm5:
+  - z01:
+      slug: mrenkou
+      name: 人口地图
+      order: 2
+  - z03:
+      slug: mzhengqu
+      name: 政区地图
+      order: 3
+  - z05:
+      slug: mindustry
+      name: 工业地图
+      order: 4
+  - z06:
+      slug: mnongye
+      name: 农业地图
+      order: 5
+  - z07:
+      slug: mjtys
+      name: 交通运输地图
+      order: 6
+  - z09:
+      slug: mcjmy
+      name: 财经贸易地图
+      order: 7
+  - z11:
+      slug: mwenhua
+      name: 文化地图
+      order: 8
+
+zm700:
+   slug: msthj
+   name: 生态环境地图
+   order: 1
+zm7:
+  - z01:
+      slug: mshengtai
+      name: 生态地图
+      order: 2
+  - z03:
+      slug: mhuanjing
+      name: 环境地图
+      order: 3
+  - z05:
+      slug: mzaihai
+      name: 自然灾害地图
+      order: 4
+  - z07:
+      slug: mjibing
+      name: 疾病与医疗地图
+      order: 5
+
+zm900:
+   slug: mzgls
+   name: 中国历史地图
+   order: 1
+zm9:
+  - z01:
+      slug: mxqls
+      name: 先秦历史地图
+      order: 2
+  - z03:
+      slug: mqhls
+      name: 秦汉历史地图
+      order: 3
+  - z05:
+      slug: msjnbls
+      name: 三国两晋南北朝
+      order: 4
+  - z07:
+      slug: mstwls
+      name: 隋唐五代时期
+      order: 5
+  - z09:
+      slug: mslxj
+      name: 宋辽西夏金
+      order: 6
+  - z11:
+      slug: myuan
+      name: 元朝历史地图
+      order: 7
+  - z13:
+      slug: mming
+      name: 明朝历史地图
+      order: 8
+  - z15:
+      slug: mqing
+      name: 清朝历史地图
+      order: 9
+  - z17:
+      slug: mjxdls
+      name: 近现代地图
+      order: 10
+
+zma00:
+   slug: mfenguo
+   name: 国外地图
+   order: 1
+zma:
+  - z01:
+      slug: myazhou
+      name: 亚洲分国地图
+      order: 2
+  - z03:
+      slug: mouzhou
+      name: 欧洲分国地图
+      order: 3
+  - z05:
+      slug: mmeizhou
+      name: 美洲分国地图
+      order: 4
+  - z07:
+      slug: mfeizhou_dayang
+      name: 非洲与大洋洲分国地图
+      order: 5
+
+zmb00:
+   slug: msjls
+   name: 世界历史地图
+   order: 1
+zmb:
+  - z01:
+      slug: mfzls
+      name: 亚洲历史地图
+      order: 2
+  - z03:
+      slug: mozls
+      name: 欧洲历史地图
+      order: 3
+  - z05:
+      slug: mmzls
+      name: 美洲历史地图
+      order: 4
+  - z07:
+      slug: mfzdls
+      name: 非洲与大洋洲历史地图
+      order: 5
+
+zme00:
+   slug: mraster
+   name: 栅格数据
+   order: 1
+zme:
+  - z01:
+      slug: mrfanyan
+      name: 反演数据
+      order: 2
+  - z02:
+      slug: mrpub
+      name: 专题栅格数据
+      order: 3
+
+
+
+zmf00:
+   slug: mvector
+   name: 矢量数据
+   order: 1
+zmf:
+  - z01:
+      slug: mvbasic
+      name: 基础地理数据
+      order: 2
+  - z03:
+      slug: mvtheme
+      name: 专题数据
+      order: 3
+
