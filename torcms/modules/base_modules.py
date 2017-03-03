@@ -43,6 +43,29 @@ class ShowPage(tornado.web.UIModule):
             return '<a href="/page/{0}">{0}</a>'.format(page_id)
 
 
+class PostLabels(tornado.web.UIModule):
+    '''
+    Show the labels of the post.
+    '''
+
+    def render(self, postinfo=None):
+        if postinfo:
+            tag_info = MPost2Label.get_by_uid(postinfo.uid)
+            idx = 1
+            outstr = '<span class="post_cat">'
+            for x in tag_info:
+                outstr += '''<a href = "/label/{kind}/{tag_uid}"
+                    class ="app_label tag{index}" > {tag_name} </a>
+                    '''.format(tag_uid=x.tag.uid,
+                               kind=postinfo.kind,
+                               tag_name=x.tag.name,
+                               index=idx)
+                idx += 1
+            return outstr + '</span>'
+        else:
+            return ''
+
+
 class GetFooter(tornado.web.UIModule):
     '''
     Render footer.
@@ -66,14 +89,12 @@ class PreviousPostLink(tornado.web.UIModule):
     def render(self, current_id):
         prev_record = MPost.get_previous_record(current_id)
         if prev_record is None:
-            return self.render_string('modules/post/last_page.html' )
+            return self.render_string('modules/post/last_page.html')
         else:
             kwd = {
                 'uid': prev_record.uid,
             }
-            return self.render_string('modules/post/pre_page.html',kwd=kwd)
-
-
+            return self.render_string('modules/post/pre_page.html', kwd=kwd)
 
 
 class NextPostLink(tornado.web.UIModule):
@@ -137,7 +158,7 @@ class PostCatRandom(tornado.web.UIModule):
             'router': config.router_post['1'],
         }
         return self.render_string('modules/post/post_list.html',
-                                  recs=MPost.query_cat_random(cat_id, limit = num),
+                                  recs=MPost.query_cat_random(cat_id, limit=num),
                                   kwd=kwd)
 
 

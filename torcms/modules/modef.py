@@ -19,6 +19,7 @@ core_modules = {
     'post_most_view': base_modules.PostMostView,
     'post_random': base_modules.PostRandom,
     'post_recent': base_modules.PostRecent,
+    'post_labels': base_modules.PostLabels,
     'link_list': base_modules.LinkList,
     'post_recent_most_view': base_modules.PostRecentMostView,
     'post_cat_random': base_modules.PostCatRandom,
