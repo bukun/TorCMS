@@ -63,7 +63,7 @@ urls = [
     ("/user_j/(.*)", UserPartialHandler, dict()),
     ("/user/(.*)", UserHandler, dict()),
     ("/post_j/(.*)", PostAjaxHandler, dict()),
-    ("/post_p/(.*)", PostAjaxHandler, dict()),
+    ("/post_p/(.*)", PostAjaxHandler, dict()),  # Deprecated,
     ("/post/p/(.*)", PostAjaxHandler, dict()),  # Deprecated,
     # ("/post/(.*)", PostHandler, dict()),
     ("/post/(.*)", PostHandler, dict(kind='1')),

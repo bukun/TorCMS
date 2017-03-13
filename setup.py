@@ -9,7 +9,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='torcms',
-    version='0.5.22',
+    version='0.5.23',
     keywords=('torcms', 'tornado', 'cms',),
     description='''Flexible, extensible Web CMS framework built on Tornado,
     compatible with Python 3.4 and above.
