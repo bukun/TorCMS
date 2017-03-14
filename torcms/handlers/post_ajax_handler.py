@@ -4,6 +4,7 @@
 
 import json
 import tornado.web
+import tornado.escape
 from torcms.handlers.post_handler import PostHandler
 from torcms.model.post_model import MPost
 
@@ -13,12 +14,14 @@ class PostAjaxHandler(PostHandler):
         super(PostAjaxHandler, self).initialize()
 
     def get(self, *args):
-
+        url_str = args[0]
         url_arr = self.parse_url(args[0])
         if url_arr[0] == 'delete':
             self.delete(url_arr[1])
         elif url_arr[0] in ['count_plus']:
             self.count_plus(url_arr[1])
+        elif len(url_arr) == 1 and len(url_str) in [4, 5]:
+            self.view_or_add(url_str)
 
     @tornado.web.authenticated
     def delete(self, *args):
@@ -43,6 +46,16 @@ class PostAjaxHandler(PostHandler):
                 'del_info ': 0,
             }
         return json.dump(output, self)
+
+    def viewinfo(self, postinfo):
+        out_json = {
+            'uid': postinfo.uid,
+            'time_update': postinfo.time_update,
+            'title': postinfo.title,
+            'cnt_html': tornado.escape.xhtml_unescape(postinfo.cnt_html),
+
+        }
+        self.write(json.dumps(out_json))
 
     def count_plus(self, uid):
         '''
