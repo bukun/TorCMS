@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 
 import json
+import tornado.web
 from torcms.handlers.page_handler import PageHandler
 from torcms.model.wiki_model import MWiki
 import tornado.escape
@@ -11,6 +12,9 @@ class PageAjaxHandler(PageHandler):
         super(PageAjaxHandler, self).initialize()
 
     def get(self, *args):
+        print('='* 20)
+        print(args)
+        print('='* 20)
         url_str = args[0]
         url_arr = self.parse_url(url_str)
 
@@ -33,6 +37,11 @@ class PageAjaxHandler(PageHandler):
 
         }
         self.write(json.dumps(out_json))
+
+    @tornado.web.authenticated
+    def to_add(self, citiao):
+        print('xx' * 10)
+        self.write(json.dumps({'code': citiao}))
 
     def j_count_plus(self, slug):
         output = {'status': 1 if MWiki.view_count_plus(slug) else 0}
