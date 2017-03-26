@@ -510,9 +510,7 @@ class MPost(Mabc):
             entry = g_Post.update(
                 title=title,
                 user_name=data_dic['user_name'],
-                keywords=','.join(
-                    [x.strip() for x in data_dic['keywords'].strip().strip(',').split(',')]
-                ),
+                keywords='',
                 time_create=tools.timestamp(),
                 time_update=tools.timestamp(),
                 date=datetime.now(),
@@ -636,7 +634,7 @@ class MPost(Mabc):
         g_Post.create(
             uid=uid,
             title=title,
-            keywords=','.join([x.strip() for x in data_dic['keywords'].split(',')]),
+            keywords='',
             time_create=tools.timestamp(),
             time_update=tools.timestamp(),
             create_time=tools.timestamp(),
@@ -703,7 +701,7 @@ class MPost(Mabc):
                 cnt_md=data_dic['cnt_md'],
                 cnt_html=data_dic['cnt_html'],
                 date=datetime.now(),
-                keywords=data_dic['keywords'],
+                keywords='',
                 extinfo=ext_dic
             )
 
