@@ -1,9 +1,11 @@
 # -*- coding:utf-8 -*-
 
 import peewee
-from playhouse.postgres_ext import BinaryJSONField
-from torcms.core.base_model import BaseModel
 
+from torcms.core.base_model import BaseModel
+from config import DB_CFG
+if DB_CFG['kind'] == 'p':
+    from playhouse.postgres_ext import BinaryJSONField
 
 class g_Tag(BaseModel):
     uid = peewee.CharField(null=False, max_length=4, index=True,
@@ -44,7 +46,11 @@ class g_Post(BaseModel):
     cnt_html = peewee.TextField()
     kind = peewee.CharField(null=False, max_length=1,
                             default='1', help_text='Post type: 1 for doc, 2 for inor', )
-    extinfo = BinaryJSONField(default={})
+
+    if DB_CFG['kind'] == 'p':
+        extinfo = BinaryJSONField(default={})
+    else:
+        pass
     rating = peewee.FloatField(null=False, default=5)
 
 
