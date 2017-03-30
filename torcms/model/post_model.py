@@ -11,7 +11,7 @@ from torcms.core import tools
 from torcms.model.core_tab import g_Post
 from torcms.model.core_tab import g_Post2Tag
 from torcms.model.abc_model import Mabc, MHelper
-from config import CMS_CFG
+from config import CMS_CFG,DB_CFG
 
 
 class MPost(Mabc):
@@ -282,7 +282,7 @@ class MPost(Mabc):
         if 'kind' in kwargs:
             kind = kwargs['kind']
             return g_Post.select().where(
-                (g_Post.kind == kind) &
+                (g_Post.kind ==       kind) &
                 (g_Post.valid == 1)
             ).order_by(
                 g_Post.time_update.desc()
@@ -503,25 +503,50 @@ class MPost(Mabc):
 
         cur_info = MPost.get_by_uid(uid)
         if cur_info:
-            cur_extinfo = cur_info.extinfo
-            # Update the extinfo, Not replace
-            for key in extinfo:
-                cur_extinfo[key] = extinfo[key]
-            entry = g_Post.update(
-                title=title,
-                user_name=data_dic['user_name'],
-                keywords='',
-                time_create=tools.timestamp(),
-                time_update=tools.timestamp(),
-                date=datetime.now(),
-                cnt_md=data_dic['cnt_md'],
-                logo=data_dic['logo'],
-                cnt_html=tools.markdown2html(data_dic['cnt_md']),
-                extinfo=cur_extinfo,
-                valid=data_dic['valid'],
 
-            ).where(g_Post.uid == uid)
-            entry.execute()
+            ##############################
+            if DB_CFG['kind'] == 's':
+
+                entry = g_Post.update(
+                    title=title,
+                    user_name=data_dic['user_name'],
+                    keywords='',
+                    time_create=tools.timestamp(),
+                    time_update=tools.timestamp(),
+                    date=datetime.now(),
+                    cnt_md=data_dic['cnt_md'],
+                    logo=data_dic['logo'],
+                    cnt_html=tools.markdown2html(data_dic['cnt_md']),
+                    valid=data_dic['valid'],
+
+                ).where(g_Post.uid == uid)
+                entry.execute()
+
+            else:
+                cur_extinfo = cur_info.extinfo
+                # Update the extinfo, Not replace
+                for key in extinfo:
+                    cur_extinfo[key] = extinfo[key]
+
+
+                entry = g_Post.update(
+                    title=title,
+                    user_name=data_dic['user_name'],
+                    keywords='',
+                    time_create=tools.timestamp(),
+                    time_update=tools.timestamp(),
+                    date=datetime.now(),
+                    cnt_md=data_dic['cnt_md'],
+                    logo=data_dic['logo'],
+                    cnt_html=tools.markdown2html(data_dic['cnt_md']),
+                    extinfo=cur_extinfo,
+                    valid=data_dic['valid'],
+
+                ).where(g_Post.uid == uid)
+                entry.execute()
+                #########################################
+
+
         else:
 
             entry = MPost.add_meta(uid, data_dic, extinfo)
@@ -658,13 +683,13 @@ class MPost(Mabc):
         :param kind:
         :return:
         '''
-        return g_Post.select().where(
-            (g_Post.kind == kind) &
-            (g_Post.valid == 1) &
-            (g_Post.extinfo.contains(condition))
-        ).order_by(
-            g_Post.time_update.desc()
-        )
+
+        if DB_CFG['kind'] == 's':
+
+            return g_Post.select().where( (g_Post.kind == kind) & (g_Post.valid == 1)).order_by(g_Post.time_update.desc() )
+        else:
+
+            return g_Post.select().where((g_Post.kind == kind) & (g_Post.valid == 1) & (g_Post.extinfo.contains(condition))).order_by(g_Post.time_update.desc())
 
     @staticmethod
     def get_num_condition(con):

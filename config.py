@@ -8,11 +8,11 @@ import peewee
 
 DB_CON, SMTP_CFG, SITE_CFG = get_cfg()
 
-DB_CON = peewee.SqliteDatabase('./database/torcms.db')
+#DB_CON = peewee.SqliteDatabase('./database/torcms.db')
 
 DB_CFG = {
     'conn': DB_CON,
-    'kind': 's',  # 'p' for PostgresQL, 's' for SQLite.
+    'kind': 'p',  # 'p' for PostgresQL, 's' for SQLite.
 }
 
 CMS_CFG = {

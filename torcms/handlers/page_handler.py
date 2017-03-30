@@ -119,6 +119,8 @@ class PageHandler(BaseHandler):
         :param slug:
         :return:
         '''
+        print("*" * 50)
+        print(slug)
         if self.__could_edit(slug):
             pass
         else:
