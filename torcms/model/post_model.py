@@ -159,6 +159,7 @@ class MPost(Mabc):
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'].strip()),
             cnt_html=cnt_html,
             logo=post_data['logo'],
+            order=post_data['order'] if 'order' in post_data else '',
             keywords=post_data['keywords'] if 'keywords' in post_data else '',
             kind=post_data['kind'] if 'kind' in post_data else 1,
             extinfo=post_data['extinfo'] if 'extinfo' in post_data else cur_rec.extinfo,
@@ -209,6 +210,7 @@ class MPost(Mabc):
             user_name=post_data['user_name'],
             view_count=post_data['view_count'] if 'view_count' in post_data else 1,
             logo=post_data['logo'],
+            order=post_data['order'] if 'order' in post_data else '',
             keywords=post_data['keywords'] if 'keywords' in post_data else '',
             extinfo=post_data['extinfo'] if 'extinfo' in post_data else {},
             kind=post_data['kind'] if 'kind' in post_data else '1',
@@ -279,14 +281,10 @@ class MPost(Mabc):
         :param kind:
         :return:
         '''
+
         if 'kind' in kwargs:
             kind = kwargs['kind']
-            return g_Post.select().where(
-                (g_Post.kind ==       kind) &
-                (g_Post.valid == 1)
-            ).order_by(
-                g_Post.time_update.desc()
-            ).limit(num)
+            return g_Post.select().where((g_Post.kind == kind) &(g_Post.valid == 1)).order_by(g_Post.time_update.desc()).limit(num)
         else:
             return g_Post.select().where(
                 g_Post.valid == 1
@@ -516,6 +514,7 @@ class MPost(Mabc):
                     date=datetime.now(),
                     cnt_md=data_dic['cnt_md'],
                     logo=data_dic['logo'],
+                    order=data_dic['order'],
                     cnt_html=tools.markdown2html(data_dic['cnt_md']),
                     valid=data_dic['valid'],
 
@@ -538,6 +537,7 @@ class MPost(Mabc):
                     date=datetime.now(),
                     cnt_md=data_dic['cnt_md'],
                     logo=data_dic['logo'],
+                    order=data_dic['order'],
                     cnt_html=tools.markdown2html(data_dic['cnt_md']),
                     extinfo=cur_extinfo,
                     valid=data_dic['valid'],
@@ -666,6 +666,7 @@ class MPost(Mabc):
             date=datetime.now(),
             cnt_md=data_dic['cnt_md'].strip(),
             logo=data_dic['logo'].strip(),
+            order=data_dic['order'] if 'order' in data_dic else '',
             cnt_html=tools.markdown2html(data_dic['cnt_md']),
             view_count=0,
             extinfo=extinfo,

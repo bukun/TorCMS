@@ -55,7 +55,9 @@ urls = [
     ("/entity/(.*)", EntityHandler, dict()),
 
     ("/label/(.*)", LabelHandler, dict()),
+    ("/catalog/(.*)", CategoryHandler, dict(kind = 's')),
     ("/category/(.*)", CategoryHandler, dict()),
+
     ("/tag/(.*)", TagListHandler, dict()), # Deprecated, replaed by `/category` .
 
     ("/user/p/(.*)", UserPartialHandler, dict()),  # Deprecated
@@ -66,6 +68,7 @@ urls = [
     ("/post_p/(.*)", PostAjaxHandler, dict()),  # Deprecated,
     ("/post/p/(.*)", PostAjaxHandler, dict()),  # Deprecated,
     # ("/post/(.*)", PostHandler, dict()),
+
     ("/post/(.*)", PostHandler, dict(kind='1')),
     ("/post_list/(.*)", PostListHandler, dict()),
 

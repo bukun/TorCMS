@@ -126,14 +126,11 @@ class MPost2Catalog(Mabc):
         ).count()
 
     @staticmethod
-    def query_pager_by_slug(slug, current_page_num=1):
-        recs = g_Post.select().join(
-            g_Post2Tag
-        ).join(g_Tag).where(
-            g_Tag.slug == slug
-        ).order_by(
-            g_Post.time_update.desc()
-        ).paginate(current_page_num, CMS_CFG['list_num'])
+    def query_pager_by_slug(slug, current_page_num=1,kind='1'):
+        if kind == 's':
+            recs = g_Post.select().join(g_Post2Tag).join(g_Tag).where(g_Tag.slug == slug).order_by(g_Post.order.asc())
+        else:
+            recs = g_Post.select().join(g_Post2Tag).join(g_Tag).where(g_Tag.slug == slug).order_by(g_Post.time_update.desc()).paginate(current_page_num, CMS_CFG['list_num'])
         return recs
 
     @staticmethod

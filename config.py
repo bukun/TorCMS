@@ -21,7 +21,7 @@ CMS_CFG = {
 
 router_post = {'1': 'post',
                '9': 'info',  # Filter_View
-               'm': 'map'}
+               'm': 'map', }
 
 post_type = {
     '1': '''<span style="color:green;" class="glyphicon glyphicon-list-alt">[{0}]</span>

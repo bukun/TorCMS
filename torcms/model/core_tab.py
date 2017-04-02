@@ -41,6 +41,7 @@ class g_Post(BaseModel):
     time_update = peewee.IntegerField()
     view_count = peewee.IntegerField()
     logo = peewee.CharField(default='')
+    order = peewee.CharField(null=False, default='', max_length = 8)
     valid = peewee.IntegerField(null=False, default=1, help_text='Whether the infor would show.')
     cnt_md = peewee.TextField()
     cnt_html = peewee.TextField()
