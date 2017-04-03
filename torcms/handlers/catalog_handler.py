@@ -17,12 +17,12 @@ from html2text import html2text
 from config import CMS_CFG, router_post
 
 
-class CategoryHandler(BaseHandler):
+class CatalogHandler(BaseHandler):
     '''
     Category access.
     '''
     def initialize(self, **kwargs):
-        super(CategoryHandler, self).initialize()
+        super(CatalogHandler, self).initialize()
         if 'kind' in kwargs:
             self.kind = kwargs['kind']
         else:
@@ -88,15 +88,12 @@ class CategoryHandler(BaseHandler):
                'title': cat_name,
                'router': router_post[cat_rec.kind],
                'current_page': current_page_num}
-        if self.kind == 's':
 
-            tmpl = 'list/catalog_list.html'
-        else:
-            tmpl = 'list/category_list.html'
+        tmpl = 'list/catalog_list.html'
 
         self.render(tmpl,
                     catinfo=cat_rec,
-                    infos=MPost2Catalog.query_pager_by_slug(cat_slug, current_page_num),
+                    infos=MPost2Catalog.query_pager_by_slug(cat_slug, current_page_num, order = True),
                     pager=tools.gen_pager_purecss('/category/{0}'.format(cat_slug),page_num, current_page_num),
                     userinfo=self.userinfo,
                     html2text=html2text,
@@ -105,11 +102,3 @@ class CategoryHandler(BaseHandler):
                     kwd=kwd,
                     router=router_post[cat_rec.kind])
 
-
-class TagListHandler(BaseHandler):
-    '''
-    List the infos by the slug of the catalog.
-    via: `/tag/cat_slug`
-    '''
-    def get(self, *args):
-        self.redirect('/category/{0}'.format(args[0]))

@@ -193,7 +193,7 @@ class PostCategoryOf(tornado.web.UIModule):
 
     '''
 
-    def render(self, uid_with_str, slug=False):
+    def render(self, uid_with_str, slug=False, order=False):
         curinfo = MCategory.get_by_uid(uid_with_str)
         sub_cats = MCategory.query_sub_cat(uid_with_str)
 
@@ -201,12 +201,14 @@ class PostCategoryOf(tornado.web.UIModule):
             return self.render_string('modules/post/post_catalog_slug.html',
                                       pcatinfo=curinfo,
                                       sub_cats=sub_cats,
-                                      recs=sub_cats)
+                                      recs=sub_cats,
+                                      order = order,)
         else:
             return self.render_string('modules/info/catalog_of.html',
                                       pcatinfo=curinfo,
                                       sub_cats=sub_cats,
-                                      recs=sub_cats)
+                                      recs=sub_cats,
+                                  )
 
 
 class PostRecent(tornado.web.UIModule):

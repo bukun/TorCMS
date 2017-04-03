@@ -130,6 +130,14 @@ class MPost(Mabc):
         entry.execute()
 
     @staticmethod
+    def update_order(uid, order):
+
+        entry = g_Post.update(
+            order = order
+        ).where(g_Post.uid == uid)
+        entry.execute()
+
+    @staticmethod
     def update(uid, post_data, update_time=False):
         '''
         :param uid:

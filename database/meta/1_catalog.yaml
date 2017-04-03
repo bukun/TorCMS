@@ -67,7 +67,7 @@ z0500:
   slug: resource
   name: 资源
   order: 5
-z05:
+z0905:
  - z02:
     slug: data
     name: 数据

@@ -83,11 +83,7 @@ class PostHandler(BaseHandler):
             self.__redirect(url_arr)
 
         if url_str == '':
-            if self.kind == 's':
-                self.slist()
-            else:
-                self.index()
-
+            self.index()
         elif url_arr[0] == '_cat_add':
             self.__to_add(catid=url_arr[1])
         elif url_arr[0] == '_add':
@@ -154,26 +150,26 @@ class PostHandler(BaseHandler):
                         userinfo=self.userinfo, )
 
 
-    def slist(self, with_catalog=True, with_date=True):
-        '''
-        List posts that recent edited.
-        :param with_catalog:
-        :param with_date:
-        :return:
-        '''
-        kwd = {
-            'pager': '',
-            'unescape': tornado.escape.xhtml_unescape,
-            'title': 'Recent posts.',
-            'with_catalog': with_catalog,
-            'with_date': with_date,
-        }
-        self.render('post_{0}/post_index.html'.format(self.kind),
-                    kwd=kwd,
-                    view=MPost.query_recent(num=20,kind = self.kind),
-                    postrecs=MPost.query_recent(num=2),
-                    format_date=tools.format_date,
-                    userinfo=self.userinfo,  )
+    # def slist(self, with_catalog=True, with_date=True):
+    #     '''
+    #     List posts that recent edited.
+    #     :param with_catalog:
+    #     :param with_date:
+    #     :return:
+    #     '''
+    #     kwd = {
+    #         'pager': '',
+    #         'unescape': tornado.escape.xhtml_unescape,
+    #         'title': 'Recent posts.',
+    #         'with_catalog': with_catalog,
+    #         'with_date': with_date,
+    #     }
+    #     self.render('post_{0}/post_index.html'.format(self.kind),
+    #                 kwd=kwd,
+    #                 view=MPost.query_recent(num=20,kind = self.kind),
+    #                 postrecs=MPost.query_recent(num=2),
+    #                 format_date=tools.format_date,
+    #                 userinfo=self.userinfo,  )
 
     def index(self):
         '''

@@ -3,6 +3,7 @@
 from playhouse import migrate
 import config
 
+
 def run_migrate(*args):
     '''
     running some migration.
@@ -13,6 +14,13 @@ def run_migrate(*args):
     float_field = migrate.FloatField(null=False, default=5)
     try:
         migrate.migrate(torcms_migrator.add_column('g_post', 'rating', float_field))
+    except:
+        pass
+
+    order = migrate.CharField(null=False, default='', max_length=8)
+
+    try:
+        migrate.migrate(torcms_migrator.add_column('g_post', 'order', order))
     except:
         pass
 

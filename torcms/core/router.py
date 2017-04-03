@@ -4,6 +4,7 @@ from torcms.handlers.filter_handler import FilterHandler
 from torcms.handlers.publish_handler import PublishHandler
 from torcms.handlers.admin_handler import AdminHandler
 from torcms.handlers.category_handler import CategoryHandler, TagListHandler
+from torcms.handlers.catalog_handler import CatalogHandler
 from torcms.handlers.entity_handler import EntityHandler
 from torcms.handlers.index import IndexHandler
 from torcms.handlers.label_handler import LabelHandler, InfoTagHandler
@@ -14,6 +15,7 @@ from torcms.handlers.maintain_info_handler import MaintainPycateCategoryHandler
 from torcms.handlers.page_handler import PageHandler
 from torcms.handlers.page_ajax_handler import PageAjaxHandler
 from torcms.handlers.post_handler import PostHandler
+from torcms.handlers.leaf_handler import LeafHandler
 from torcms.handlers.post_ajax_handler import PostAjaxHandler
 from torcms.handlers.reply_handler import ReplyHandler
 from torcms.handlers.search_handler import SearchHandler
@@ -44,7 +46,6 @@ urls = [
 
     ('/_rating/(.*)', RatingHandler, dict()),
 
-
     ('/post_man/(.*)', PostHistoryHandler, dict()),
     ('/meta_man/(.*)', PostHistoryHandler, dict()),
     ('/wiki_man/(.*)', WikiHistoryHandler, dict()),
@@ -55,10 +56,10 @@ urls = [
     ("/entity/(.*)", EntityHandler, dict()),
 
     ("/label/(.*)", LabelHandler, dict()),
-    ("/catalog/(.*)", CategoryHandler, dict(kind = 's')),
+    ("/catalog/(.*)", CatalogHandler, dict()),
     ("/category/(.*)", CategoryHandler, dict()),
 
-    ("/tag/(.*)", TagListHandler, dict()), # Deprecated, replaed by `/category` .
+    ("/tag/(.*)", TagListHandler, dict()),  # Deprecated, replaed by `/category` .
 
     ("/user/p/(.*)", UserPartialHandler, dict()),  # Deprecated
     ("/user_p/(.*)", UserPartialHandler, dict()),  # Deprecated
@@ -70,6 +71,8 @@ urls = [
     # ("/post/(.*)", PostHandler, dict()),
 
     ("/post/(.*)", PostHandler, dict(kind='1')),
+    ("/leaf/(.*)", LeafHandler, dict(kind='1')),
+
     ("/post_list/(.*)", PostListHandler, dict()),
 
     ("/maintain/p/category/(.*)", MaintainCategoryAjaxHandler, dict()),
@@ -94,7 +97,6 @@ urls = [
     ("/list/(.*)", FilterHandler, dict()),  # Deprecated, replaed by `/filter` .
 
     ("/publish/(.*)", PublishHandler, dict()),
-
 
     # Todo: need to be deleted. replaced by `/label/`.
     ('/info_tag/(.*)', InfoTagHandler, dict()),
