@@ -44,7 +44,7 @@ def get_jquery():
 
 
 def get_leaflet():
-    leaflet_url = 'http://r.osgeo.cn/f2elib/leaflet_1.0.1.zip'
+    leaflet_url = 'http://r.osgeo.cn/f2elib/leaflet_1.0.3.zip'
     qian, hou = os.path.split(leaflet_url)
     fetch_file(leaflet_url, hou)
 
@@ -62,7 +62,7 @@ def get_js_valid():
 
 
 def get_codemirror():
-    leaflet_url = 'http://r.osgeo.cn/f2elib/codemirror_5.19.0.zip'
+    leaflet_url = 'http://r.osgeo.cn/f2elib/codemirror_5.25.0.zip'
     qian, hou = os.path.split(leaflet_url)
     fetch_file(leaflet_url, hou)
 
