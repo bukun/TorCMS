@@ -545,7 +545,7 @@ class MPost(Mabc):
                     date=datetime.now(),
                     cnt_md=data_dic['cnt_md'],
                     logo=data_dic['logo'],
-                    order=data_dic['order'],
+                    order=data_dic['order'] if 'order' in data_dic else '',
                     cnt_html=tools.markdown2html(data_dic['cnt_md']),
                     extinfo=cur_extinfo,
                     valid=data_dic['valid'],

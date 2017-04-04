@@ -60,7 +60,7 @@ class LeafHandler(PostHandler):
 
     @tornado.web.authenticated
     def update_order(self, uid, order):
-        if self.userinfo.role[1] > 0:
+        if self.userinfo.role[1] > '0':
             MPost.update_order(uid, order)
     def viewinfo(self, postinfo):
         '''
