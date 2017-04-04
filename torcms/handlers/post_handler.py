@@ -22,7 +22,7 @@ from torcms.model.post_model import MPost
 from torcms.model.relation_model import MRelation
 from torcms.model.evaluation_model import MEvaluation
 from torcms.model.usage_model import MUsage
-from config import router_post,DB_CFG
+from config import router_post, DB_CFG
 
 
 class PostHandler(BaseHandler):
@@ -57,7 +57,6 @@ class PostHandler(BaseHandler):
         for sig_enum in direct_dic:
             if sig == sig_enum:
                 self.redirect(direct_dic[sig])
-        ############################################
         pre_dic = {
             'cat_add': '_cat_add',
             'add_document': '_add',
@@ -149,28 +148,6 @@ class PostHandler(BaseHandler):
             self.render('html/404.html', kwd=kwd,
                         userinfo=self.userinfo, )
 
-
-    # def slist(self, with_catalog=True, with_date=True):
-    #     '''
-    #     List posts that recent edited.
-    #     :param with_catalog:
-    #     :param with_date:
-    #     :return:
-    #     '''
-    #     kwd = {
-    #         'pager': '',
-    #         'unescape': tornado.escape.xhtml_unescape,
-    #         'title': 'Recent posts.',
-    #         'with_catalog': with_catalog,
-    #         'with_date': with_date,
-    #     }
-    #     self.render('post_{0}/post_index.html'.format(self.kind),
-    #                 kwd=kwd,
-    #                 view=MPost.query_recent(num=20,kind = self.kind),
-    #                 postrecs=MPost.query_recent(num=2),
-    #                 format_date=tools.format_date,
-    #                 userinfo=self.userinfo,  )
-
     def index(self):
         '''
         The default page of POST.
@@ -212,29 +189,20 @@ class PostHandler(BaseHandler):
         :return: the temaplte path.
         '''
 
-        # post2catinfo = MPost2Catalog.query_by_post( rec.uid )
-        ######################################################
-        if DB_CFG['kind'] == 's':
-
-            tmpl = 'post_{0}/post_view.html'.format(self.kind)
-            return tmpl
+        if 'gcat0' in rec.extinfo and rec.extinfo['gcat0'] != '':
+            cat_id = rec.extinfo['gcat0']
+        elif 'def_cat_uid' in rec.extinfo and rec.extinfo['def_cat_uid'] != '':
+            cat_id = rec.extinfo['def_cat_uid']
         else:
+            cat_id = None
 
-            if 'gcat0' in rec.extinfo and rec.extinfo['gcat0'] != '':
-                cat_id = rec.extinfo['gcat0']
-            elif 'def_cat_uid' in rec.extinfo and rec.extinfo['def_cat_uid'] != '':
-                cat_id = rec.extinfo['def_cat_uid']
-            else:
-                cat_id = None
+        logger.info('For templates: catid: {0},  filter_view: {1}'.format(cat_id, self.filter_view))
 
-            logger.info('For templates: catid: {0},  filter_view: {1}'.format(cat_id, self.filter_view))
-
-            if cat_id and self.filter_view:
-                tmpl = 'autogen/view/view_{0}.html'.format(cat_id)
-            else:
-                tmpl = 'post_{0}/post_view.html'.format(self.kind)
-            return tmpl
-            ######################################################
+        if cat_id and self.filter_view:
+            tmpl = 'autogen/view/view_{0}.html'.format(cat_id)
+        else:
+            tmpl = 'post_{0}/post_view.html'.format(self.kind)
+        return tmpl
 
     @tornado.web.authenticated
     def __to_add_with_category(self, catid):
@@ -378,32 +346,23 @@ class PostHandler(BaseHandler):
 
             new_category_arr.append(post_data[key] + ' ' * (4 - len(post_data[key])))
             cat_dic[key] = post_data[key] + ' ' * (4 - len(post_data[key]))
-    #################################################
-        if DB_CFG['kind'] == 's':
+
+        if catid:
+            def_cat_id = catid
+        elif len(new_category_arr) > 0:
+            def_cat_id = new_category_arr[0]
+        else:
             def_cat_id = None
 
-        else:
-            if catid:
-                def_cat_id = catid
-            elif len(new_category_arr) > 0:
-                def_cat_id = new_category_arr[0]
-            else:
-                def_cat_id = None
-
-            if def_cat_id:
-                cat_dic['def_cat_uid'] = def_cat_id
-                cat_dic['def_cat_pid'] = MCategory.get_by_uid(def_cat_id).pid
-    ############################################################
+        if def_cat_id:
+            cat_dic['def_cat_uid'] = def_cat_id
+            cat_dic['def_cat_pid'] = MCategory.get_by_uid(def_cat_id).pid
 
         # Add the category
         logger.info('Update category: {0}'.format(new_category_arr))
         logger.info('Update category: {0}'.format(cat_dic))
-        ######################################################
-        if DB_CFG['kind'] == 's':
-            pass
-        else:
-            MPost.update_jsonb(uid, cat_dic)
-        ######################################################
+
+        MPost.update_jsonb(uid, cat_dic)
 
         for index, catid in enumerate(new_category_arr):
             MPost2Catalog.add_record(uid, catid, index)
@@ -434,23 +393,15 @@ class PostHandler(BaseHandler):
             self.render('html/404.html')
             return
 
-######################################################
-        if DB_CFG['kind'] == 's':
+        if 'def_cat_uid' in rec_info.extinfo:
+            catid = rec_info.extinfo['def_cat_uid']
+        else:
             catid = ''
 
+        if len(catid) == 4:
+            pass
         else:
-            if 'def_cat_uid' in rec_info.extinfo:
-                catid = rec_info.extinfo['def_cat_uid']
-            else:
-                catid = ''
-
-            if len(catid) == 4:
-                pass
-            else:
-                catid = ''
-##########################################################
-
-
+            catid = ''
 
         catinfo = None
         p_catinfo = None
@@ -521,16 +472,9 @@ class PostHandler(BaseHandler):
             self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], postinfo.uid),
                           permanent=True)
 
-        ######################################################
-        if DB_CFG['kind'] == 's':
-            cat_enum1 = []
-
-        else:
-            ext_catid = postinfo.extinfo['def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else ''
-            ext_catid2 = postinfo.extinfo['def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else None
-            cat_enum1 = MCategory.get_qian2(ext_catid2[:2]) if ext_catid else []
-
-        ######################################################
+        ext_catid = postinfo.extinfo['def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else ''
+        ext_catid2 = postinfo.extinfo['def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else None
+        cat_enum1 = MCategory.get_qian2(ext_catid2[:2]) if ext_catid else []
 
         rand_recs, rel_recs = self.fetch_additional_posts(postinfo.uid)
 
@@ -569,8 +513,6 @@ class PostHandler(BaseHandler):
 
         tmpl = self.ext_tmpl_view(postinfo)
 
-
-
         if self.userinfo:
             recent_apps = MUsage.query_recent(self.userinfo.uid, postinfo.kind, 6)[1:]
         else:
@@ -590,8 +532,8 @@ class PostHandler(BaseHandler):
                     ad_switch=random.randint(1, 18),
                     tag_info=MPost2Label.get_by_uid(postinfo.uid),
                     recent_apps=recent_apps,
-                    cat_enum= cat_enum1,
-         )
+                    cat_enum=cat_enum1,
+                    )
 
     def fetch_additional_posts(self, uid):
         '''
@@ -739,12 +681,8 @@ class PostHandler(BaseHandler):
             pass
         else:
             MPostHist.create_post_history(postinfo)
-        ####################################################################
-        if DB_CFG['kind'] == 's':
-            MPost.modify_meta(uid,post_data)
-        else:
-            MPost.modify_meta(uid,post_data,extinfo=ext_dic)
-        ###################################################################
+
+        MPost.modify_meta(uid, post_data, extinfo=ext_dic)
 
         self.update_tag(uid=uid)
 

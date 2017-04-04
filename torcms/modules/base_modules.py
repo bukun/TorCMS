@@ -325,8 +325,11 @@ class TheCategory(tornado.web.UIModule):
     return the category according to the id of post.
     '''
 
-    def render(self, post_id):
-        tmpl_str = '''<a href="/category/{0}">{1}</a>'''
+    def render(self, post_id, order = False):
+        if order:
+            tmpl_str = '''<a href="/catalog/{0}">{1}</a>'''
+        else:
+            tmpl_str = '''<a href="/category/{0}">{1}</a>'''
         format_arr = [tmpl_str.format(uu.tag.slug, uu.tag.name) for uu in
                       MPost2Catalog().query_by_entity_uid(post_id)]
         return ', '.join(format_arr)
