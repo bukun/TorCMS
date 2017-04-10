@@ -50,6 +50,7 @@ class LeafHandler(PostHandler):
             self.set_status(404)
             self.render('html/404.html', kwd=kwd,
                         userinfo=self.userinfo, )
+
     def post(self, *args):
 
         url_str = args[0]
@@ -62,6 +63,7 @@ class LeafHandler(PostHandler):
     def update_order(self, uid, order):
         if self.userinfo.role[1] > '0':
             MPost.update_order(uid, order)
+
     def viewinfo(self, postinfo):
         '''
         In infor.
@@ -100,8 +102,9 @@ class LeafHandler(PostHandler):
             catinfo = MCategory.get_by_uid(post2catinfo.tag.uid)
             if catinfo:
                 p_catinfo = MCategory.get_by_uid(catinfo.pid)
-
-                catalog_infors = MPost2Catalog.query_pager_by_slug(catinfo.slug, current_page_num=1, order=True)
+                catalog_infors = MPost2Catalog.query_pager_by_slug(catinfo.slug,
+                                                                   current_page_num=1,
+                                                                   order=True)
 
         kwd = {
             'pager': '',
@@ -136,5 +139,4 @@ class LeafHandler(PostHandler):
                     ad_switch=random.randint(1, 18),
                     tag_info=MPost2Label.get_by_uid(postinfo.uid),
                     catalog_infos=catalog_infors,
-                    cat_enum=cat_enum1,
-                    )
+                    cat_enum=cat_enum1)

@@ -32,9 +32,13 @@ class PageHandler(BaseHandler):
     def get(self, *args):
 
         url_str = args[0]
+
         url_arr = self.parse_url(url_str)
 
-        if len(url_arr) == 1 and url_str.endswith('.html'):
+        if len(url_arr) == 0:
+            self.set_status(400)
+            return
+        elif len(url_arr) == 1 and url_str.endswith('.html'):
             # Deprecated
             self.redirect(url_str.split('.')[0])
         elif url_arr[0] in ['_edit', 'modify', 'edit']:

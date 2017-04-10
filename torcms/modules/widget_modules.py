@@ -52,8 +52,7 @@ class UserinfoWidget(tornado.web.UIModule, tornado.web.RequestHandler):
         return self.render_string(
             'modules/widget/loginfo.html',
             userinfo=kwargs['userinfo'],
-            is_logged = is_logged,
-        )
+            is_logged=is_logged)
 
 
 class WidgetEditor(tornado.web.UIModule):
@@ -69,8 +68,7 @@ class WidgetEditor(tornado.web.UIModule):
         return self.render_string(
             'modules/widget/widget_editor.html',
             kwd=kwd,
-            userinfo=userinfo,
-        )
+            userinfo=userinfo)
 
 
 class WidgetSearch(tornado.web.UIModule):
@@ -80,9 +78,7 @@ class WidgetSearch(tornado.web.UIModule):
 
     def render(self):
         # tag_enum = MCategory.query_pcat()
-        return self.render_string(
-            'modules/widget/widget_search.html',
-        )
+        return self.render_string('modules/widget/widget_search.html')
 
 
 class StarRating(tornado.web.UIModule):

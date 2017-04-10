@@ -190,7 +190,7 @@ class CategoryOf(tornado.web.UIModule):
 
 class PostCategoryOf(tornado.web.UIModule):
     '''
-
+    The catalog of the post.
     '''
 
     def render(self, uid_with_str, slug=False, order=False):
@@ -202,13 +202,12 @@ class PostCategoryOf(tornado.web.UIModule):
                                       pcatinfo=curinfo,
                                       sub_cats=sub_cats,
                                       recs=sub_cats,
-                                      order = order,)
+                                      order=order)
         else:
             return self.render_string('modules/info/catalog_of.html',
                                       pcatinfo=curinfo,
                                       sub_cats=sub_cats,
-                                      recs=sub_cats,
-                                  )
+                                      recs=sub_cats)
 
 
 class PostRecent(tornado.web.UIModule):
@@ -325,7 +324,7 @@ class TheCategory(tornado.web.UIModule):
     return the category according to the id of post.
     '''
 
-    def render(self, post_id, order = False):
+    def render(self, post_id, order=False):
         if order:
             tmpl_str = '''<a href="/catalog/{0}">{1}</a>'''
         else:

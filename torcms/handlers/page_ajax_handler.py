@@ -12,9 +12,7 @@ class PageAjaxHandler(PageHandler):
         super(PageAjaxHandler, self).initialize()
 
     def get(self, *args):
-        print('='* 20)
-        print(args)
-        print('='* 20)
+
         url_str = args[0]
         url_arr = self.parse_url(url_str)
 
@@ -28,6 +26,7 @@ class PageAjaxHandler(PageHandler):
             self.view_or_add(url_str)
         else:
             return '{}'
+
     def view(self, rec):
         out_json = {
             'uid': rec.uid,
@@ -51,9 +50,10 @@ class PageAjaxHandler(PageHandler):
         pages = MWiki.query_recent(20, kind='2')
 
         self.render('admin/page_p/page_p_list.html', postrecs=pages)
+
     def p_to_add(self):
         '''
         To add the page.
         :return:
         '''
-        self.render('admin/page_p/page_p_add.html', kwd = {})
+        self.render('admin/page_p/page_p_add.html', kwd={})

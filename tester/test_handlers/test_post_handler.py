@@ -4,12 +4,14 @@
 Test Post handler
 '''
 
-from tornado.testing import AsyncHTTPSTestCase, gen_test
+from torcms.handlers.post_handler import PostHandler
 
-from application import app
+from tornado.testing import AsyncHTTPSTestCase
+from tornado.web import Application
+from application import SETTINGS, app
 
 
-class TestSomeHandler(AsyncHTTPSTestCase):
+class TestPostHandler(AsyncHTTPSTestCase):
     def get_app(self):
         return app
 

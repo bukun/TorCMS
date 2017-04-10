@@ -11,7 +11,7 @@ from torcms.core import tools
 from torcms.model.core_tab import g_Post
 from torcms.model.core_tab import g_Post2Tag
 from torcms.model.abc_model import Mabc, MHelper
-from config import CMS_CFG,DB_CFG
+from config import CMS_CFG, DB_CFG
 
 
 class MPost(Mabc):
@@ -133,7 +133,7 @@ class MPost(Mabc):
     def update_order(uid, order):
 
         entry = g_Post.update(
-            order = order
+            order=order
         ).where(g_Post.uid == uid)
         entry.execute()
 
@@ -292,7 +292,8 @@ class MPost(Mabc):
 
         if 'kind' in kwargs:
             kind = kwargs['kind']
-            return g_Post.select().where((g_Post.kind == kind) &(g_Post.valid == 1)).order_by(g_Post.time_update.desc()).limit(num)
+            return g_Post.select().where((g_Post.kind == kind) & (g_Post.valid == 1)).order_by(
+                g_Post.time_update.desc()).limit(num)
         else:
             return g_Post.select().where(
                 g_Post.valid == 1
@@ -388,12 +389,6 @@ class MPost(Mabc):
         :param kind:
         :return:
         '''
-        # return g_Post.select().where(
-        #     g_Post.kind == kind
-        # ).order_by(
-        #     g_Post.view_count.desc()
-        # ).limit(num)
-
         return g_Post.select().where(
             (g_Post.kind == kind) &
             (g_Post.valid == 1)
@@ -509,10 +504,8 @@ class MPost(Mabc):
 
         cur_info = MPost.get_by_uid(uid)
         if cur_info:
-
             ##############################
             if DB_CFG['kind'] == 's':
-
                 entry = g_Post.update(
                     title=title,
                     user_name=data_dic['user_name'],
@@ -535,7 +528,6 @@ class MPost(Mabc):
                 for key in extinfo:
                     cur_extinfo[key] = extinfo[key]
 
-
                 entry = g_Post.update(
                     title=title,
                     user_name=data_dic['user_name'],
@@ -552,13 +544,8 @@ class MPost(Mabc):
 
                 ).where(g_Post.uid == uid)
                 entry.execute()
-                #########################################
-
-
         else:
-
-            entry = MPost.add_meta(uid, data_dic, extinfo)
-            return entry
+            return MPost.add_meta(uid, data_dic, extinfo)
         return uid
 
     @staticmethod
@@ -692,13 +679,14 @@ class MPost(Mabc):
         :param kind:
         :return:
         '''
-
         if DB_CFG['kind'] == 's':
-
-            return g_Post.select().where( (g_Post.kind == kind) & (g_Post.valid == 1)).order_by(g_Post.time_update.desc() )
+            return g_Post.select().where((g_Post.kind == kind) & (g_Post.valid == 1)).order_by(
+                g_Post.time_update.desc())
         else:
 
-            return g_Post.select().where((g_Post.kind == kind) & (g_Post.valid == 1) & (g_Post.extinfo.contains(condition))).order_by(g_Post.time_update.desc())
+            return g_Post.select().where(
+                (g_Post.kind == kind) & (g_Post.valid == 1) & (g_Post.extinfo.contains(condition))
+            ).order_by(g_Post.time_update.desc())
 
     @staticmethod
     def get_num_condition(con):
@@ -750,5 +738,4 @@ class MPost(Mabc):
         '''
 
         all_list = MPost.query_under_condition(con, kind=kind)
-        current_list = all_list[(idx - 1) * CMS_CFG['list_num']: idx * CMS_CFG['list_num']]
-        return current_list
+        return all_list[(idx - 1) * CMS_CFG['list_num']: idx * CMS_CFG['list_num']]

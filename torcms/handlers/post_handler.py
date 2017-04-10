@@ -532,8 +532,7 @@ class PostHandler(BaseHandler):
                     ad_switch=random.randint(1, 18),
                     tag_info=MPost2Label.get_by_uid(postinfo.uid),
                     recent_apps=recent_apps,
-                    cat_enum=cat_enum1,
-                    )
+                    cat_enum=cat_enum1)
 
     def fetch_additional_posts(self, uid):
         '''

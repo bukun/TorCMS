@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 '''
-
+Handler for links.
 '''
 
 import json
@@ -15,7 +15,7 @@ from config import CMS_CFG
 
 class LinkHandler(BaseHandler):
     '''
-
+    Handler for links.
     '''
 
     def initialize(self):
@@ -80,6 +80,11 @@ class LinkHandler(BaseHandler):
 
     @tornado.web.authenticated
     def update(self, uid):
+        '''
+        Update the link
+        :param uid: 
+        :return: 
+        '''
         if self.userinfo.role[1] >= '3':
             pass
         else:
@@ -99,12 +104,17 @@ class LinkHandler(BaseHandler):
         return json.dump(output, self)
 
     @tornado.web.authenticated
-    def to_modify(self, id_rec):
+    def to_modify(self, uid):
+        '''
+        Try to edit the link
+        :param uid: 
+        :return: 
+        '''
         if self.userinfo.role[1] >= '3':
             pass
         else:
             return False
-        a = MLink.get_by_uid(id_rec)
+        a = MLink.get_by_uid(uid)
 
         self.render('misc/link/link_edit.html',
                     kwd={},
