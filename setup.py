@@ -7,14 +7,15 @@ For pypi
 
 from setuptools import setup, find_packages
 
+desc = ('Flexible, extensible Web CMS framework built on Tornado,'
+        'compatible with Python 3.4 and above.'
+        'Integrated with basic GIS(Geographic information system) function,'
+        'including map showing, map overlaying, GIS data editing. ')
 setup(
     name='torcms',
     version='0.5.24',
     keywords=('torcms', 'tornado', 'cms',),
-    description='''Flexible, extensible Web CMS framework built on Tornado,
-    compatible with Python 3.4 and above.
-    Integrated with basic GIS(Geographic information system) function,
-    including map showing, map overlaying, GIS data editing. ''',
+    description=desc,
     long_description=''.join(open('README.rst').readlines()),
     license='MIT License',
 
