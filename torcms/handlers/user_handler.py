@@ -592,7 +592,18 @@ class UserHandler(BaseHandler):
 
         hash_str = tools.md5(userinfo.user_name + post_data['t'] + userinfo.user_pass)
         if hash_str == post_data['p']:
-            pass
+            new_passwd = tools.get_uu8d()
+
+            MUser.update_pass(userinfo.uid, new_passwd)
+            kwd = {
+                'user_name': userinfo.user_name,
+                'new_pass': new_passwd,
+            }
+
+            self.render('user/user_show_pass.html',
+                        cfg=config.CMS_CFG,
+                        kwd=kwd,
+                        userinfo=self.userinfo )
         else:
             kwd = {
                 'info': '密码重置验证出错！',
@@ -602,16 +613,7 @@ class UserHandler(BaseHandler):
                         kwd=kwd,
                         userinfo=self.userinfo, )
 
-        new_passwd = tools.get_uu8d()
-        MUser.update_pass(userinfo.user_name, new_passwd)
-        kwd = {
-            'user_name': userinfo.user_name,
-            'new_pass': new_passwd,
-        }
-        self.render('user/user_show_pass.html',
-                    cfg=config.CMS_CFG,
-                    kwd=kwd,
-                    userinfo=self.userinfo, )
+
 
 
 class UserPartialHandler(UserHandler):

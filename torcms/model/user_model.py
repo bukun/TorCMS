@@ -77,7 +77,6 @@ class MUser(Mabc):
     def update_pass(user_id, newpass):
 
         out_dic = {'success': False, 'code': '00'}
-
         entry = g_Member.update(user_pass=tools.md5(newpass)).where(g_Member.uid == user_id)
         entry.execute()
 
@@ -111,10 +110,12 @@ class MUser(Mabc):
 
     @staticmethod
     def update_time_reset_passwd(uname, timeit):
+
         entry = g_Member.update(
             time_reset_passwd=timeit,
         ).where(g_Member.user_name == uname)
         try:
+
             entry.execute()
             return True
         except:
