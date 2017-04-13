@@ -39,7 +39,7 @@ class PageAjaxHandler(PageHandler):
 
     @tornado.web.authenticated
     def to_add(self, citiao):
-        print('xx' * 10)
+
         self.write(json.dumps({'code': citiao}))
 
     def j_count_plus(self, slug):
@@ -49,11 +49,11 @@ class PageAjaxHandler(PageHandler):
     def p_list(self):
         pages = MWiki.query_recent(20, kind='2')
 
-        self.render('admin/page_p/page_p_list.html', postrecs=pages)
+        self.render('admin/page_ajax/page_list.html', postrecs=pages)
 
     def p_to_add(self):
         '''
         To add the page.
         :return:
         '''
-        self.render('admin/page_p/page_p_add.html', kwd={})
+        self.render('admin/page_ajax/page_add.html', kwd={})

@@ -67,10 +67,8 @@ class UserHandler(BaseHandler):
         elif url_arr[0] == 'changerole':
             self.change_role(url_arr[1])
         elif url_str == 'find':
-            # if self.tmpl_router == "user":
+
             self.to_find()
-            # else:
-            #     self.p_to_find()
 
         elif url_arr[0] == 'find':
 
@@ -148,7 +146,12 @@ class UserHandler(BaseHandler):
             MUser.update_pass(self.userinfo.uid, post_data['user_pass'])
             self.redirect('/user/info')
         else:
-            return False
+            kwd = {
+                'info': '{{ _('"'asfasfsafsdfsdf'"') }}。',
+            }
+            self.render('misc/html/404.html',
+                        kwd=kwd,
+                        userinfo=self.userinfo)
 
     @tornado.web.authenticated
     def changeinfo(self):
@@ -161,7 +164,12 @@ class UserHandler(BaseHandler):
             MUser.update_info(self.userinfo.uid, post_data['user_email'])
             self.redirect(('/user/info'))
         else:
-            return False
+            kwd = {
+                'info': '密码输入错误。',
+            }
+            self.render('misc/html/404.html',
+                        kwd=kwd,
+                        userinfo=self.userinfo)
 
     @tornado.web.authenticated
     def changerole(self, xg_username):
@@ -197,6 +205,17 @@ class UserHandler(BaseHandler):
     def change_role(self, xg_username):
         self.render('user/user_changerole.html',
                     userinfo=MUser.get_by_name(xg_username))
+
+    @tornado.web.authenticated
+    def to_find(self, ):
+        kwd = {
+            'pager': '',
+        }
+        self.render(self.wrap_tmpl('user/{sig}user_find_list.html'),
+                    cfg=config.CMS_CFG,
+                    kwd=kwd,
+                    view=MUser.get_by_keyword(""),
+                    userinfo=self.userinfo )
 
     @tornado.web.authenticated
     def show_info(self):
@@ -438,14 +457,9 @@ class UserHandler(BaseHandler):
             self.set_status(305)
             self.redirect("{0}".format(next_url))
 
-    def to_find(self, ):
-        kwd = {
-            'pager': '',
-        }
-        self.render('user/user_find.html',
-                    cfg=config.CMS_CFG,
-                    kwd=kwd,
-                    userinfo=self.userinfo)
+
+
+
 
     def p_to_find(self, ):
 
@@ -465,12 +479,17 @@ class UserHandler(BaseHandler):
             'unescape': tornado.escape.xhtml_unescape,
             'title': '查找结果',
         }
-        # if self.tmpl_router == "user":
-        self.render('user/user_find_list.html',
+
+
+        self.render(self.wrap_tmpl('user/{sig}user_find_list.html'),
                     kwd=kwd,
                     view=MUser.get_by_keyword(keyword),
                     cfg=config.CMS_CFG,
                     userinfo=self.userinfo)
+
+        # if self.tmpl_router == "user":
+        #self.render('user/user_find_list.html',
+                    #)
         # else:
         #     result = MUser.get_by_keyword(keyword)
         #     if result:
@@ -490,24 +509,22 @@ class UserHandler(BaseHandler):
         :param del_id:
         :return:
         '''
-        # if self.tmpl_router == "user":
+        if self.is_p == True:
+            if MUser.delete(del_id):
+                output = {
+                    'del_category': 1
+                }
+            else:
+                output = {
+                    'del_category': 0,
+                }
 
-        is_deleted = MUser.delete(del_id)
-        if is_deleted:
-            self.redirect('/user/find')
+            return json.dump(output, self)
+
         else:
-            return False
-            # else:
-            #     if MUser.delete(del_id):
-            #         output = {
-            #             'del_category': 1
-            #         }
-            #     else:
-            #         output = {
-            #             'del_category': 0,
-            #         }
-            #
-            #     return json.dump(output, self)
+            is_deleted = MUser.delete(del_id)
+            if is_deleted:
+                self.redirect('/user/find')
 
     def post_find(self):
         '''
@@ -592,18 +609,7 @@ class UserHandler(BaseHandler):
 
         hash_str = tools.md5(userinfo.user_name + post_data['t'] + userinfo.user_pass)
         if hash_str == post_data['p']:
-            new_passwd = tools.get_uu8d()
-
-            MUser.update_pass(userinfo.uid, new_passwd)
-            kwd = {
-                'user_name': userinfo.user_name,
-                'new_pass': new_passwd,
-            }
-
-            self.render('user/user_show_pass.html',
-                        cfg=config.CMS_CFG,
-                        kwd=kwd,
-                        userinfo=self.userinfo )
+            pass
         else:
             kwd = {
                 'info': '密码重置验证出错！',
@@ -613,7 +619,21 @@ class UserHandler(BaseHandler):
                         kwd=kwd,
                         userinfo=self.userinfo, )
 
+        new_passwd = tools.get_uu8d()
 
+        print('+' * 50)
+        print(new_passwd)
+
+        print('+' * 50)
+        MUser.update_pass(userinfo.uid, new_passwd)
+        kwd = {
+            'user_name': userinfo.user_name,
+            'new_pass': new_passwd,
+        }
+        self.render('user/user_show_pass.html',
+                    cfg=config.CMS_CFG,
+                    kwd=kwd,
+                    userinfo=self.userinfo, )
 
 
 class UserPartialHandler(UserHandler):
