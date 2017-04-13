@@ -58,11 +58,21 @@ class LinkHandler(BaseHandler):
             'unescape': tornado.escape.xhtml_unescape,
             'title': '最近文档',
         }
-        self.render('misc/link/link_list.html',
-                    kwd=kwd,
-                    view=MLink.query_link(10),
-                    format_date=tools.format_date,
-                    userinfo=self.userinfo)
+
+
+        if self.is_p == True:
+
+            self.render('admin/link_ajax/link_list.html',
+                        kwd=kwd,
+                        view=MLink.query_link(10),
+                        format_date=tools.format_date,
+                        userinfo=self.userinfo)
+        else:
+            self.render('misc/link/link_list.html',
+                        kwd=kwd,
+                        view=MLink.query_link(10),
+                        format_date=tools.format_date,
+                        userinfo=self.userinfo)
 
     def to_add_link(self, ):
         if self.check_post_role()['ADD']:
@@ -93,15 +103,20 @@ class LinkHandler(BaseHandler):
 
         post_data['user_name'] = self.get_current_user()
 
-        if MLink.update(uid, post_data):
-            output = {
-                'addinfo ': 1,
-            }
+        if self.is_p == True:
+            if MLink.update(uid, post_data):
+                output = {
+                    'addinfo ': 1,
+                }
+            else:
+                output = {
+                    'addinfo ': 0,
+                }
+            return json.dump(output, self)
         else:
-            output = {
-                'addinfo ': 0,
-            }
-        return json.dump(output, self)
+            is_update = MLink.update(uid, post_data)
+            if is_update:
+                self.redirect('/link/list')
 
     @tornado.web.authenticated
     def to_modify(self, uid):
@@ -194,9 +209,22 @@ class LinkHandler(BaseHandler):
             pass
         else:
             return False
-
-        if MLink.delete(del_id):
-            output = {'del_link': 1}
+        if self.is_p == True:
+            if MLink.delete(del_id):
+                output = {'del_link': 1}
+            else:
+                output = {'del_link': 0}
+            return json.dump(output, self)
         else:
-            output = {'del_link': 0}
-        return json.dump(output, self)
+            is_deleted = MLink.delete(del_id)
+            if is_deleted:
+                self.redirect('/link/list')
+
+class LinkPartialHandler(LinkHandler):
+    '''
+    Partially render for user handler.
+    '''
+
+    def initialize(self):
+        super(LinkPartialHandler, self).initialize()
+        self.is_p = True
