@@ -7,6 +7,8 @@ import tornado.web
 import tornado.escape
 from torcms.handlers.post_handler import PostHandler
 from torcms.model.post_model import MPost
+from config import CMS_CFG
+from torcms.core import tools
 
 
 class PostAjaxHandler(PostHandler):
@@ -20,6 +22,8 @@ class PostAjaxHandler(PostHandler):
             self.delete(url_arr[1])
         elif url_arr[0] in ['count_plus']:
             self.count_plus(url_arr[1])
+        elif url_str == 'recent':
+            self.p_recent()
         elif len(url_arr) == 1 and len(url_str) in [4, 5]:
             self.view_or_add(url_str)
 
@@ -69,3 +73,23 @@ class PostAjaxHandler(PostHandler):
         }
         # return json.dump(output, self)
         self.write(json.dumps(output))
+    def p_recent(self,  with_catalog=True, with_date=True):
+        '''
+        List posts that recent edited, partially.
+        :param with_catalog:
+        :param with_date:
+        :return:
+        '''
+        kwd = {
+            'pager': '',
+            'unescape': tornado.escape.xhtml_unescape,
+            'title': 'Recent posts.',
+            'with_catalog': with_catalog,
+            'with_date': with_date,
+        }
+        self.render('admin/post_ajax/post_list.html',
+                    kwd=kwd,
+                    view=MPost.query_recent(num=20),
+                    format_date=tools.format_date,
+                    userinfo=self.userinfo,
+                    cfg=CMS_CFG, )
