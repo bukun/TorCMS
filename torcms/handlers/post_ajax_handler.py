@@ -22,8 +22,12 @@ class PostAjaxHandler(PostHandler):
             self.delete(url_arr[1])
         elif url_arr[0] in ['count_plus']:
             self.count_plus(url_arr[1])
-        elif url_str == 'recent':
-            self.p_recent()
+        elif url_arr[0] == 'recent':
+            if url_arr[1] == "1":
+                kind = 1
+            else:
+                kind = 9
+            self.p_recent(kind)
         elif len(url_arr) == 1 and len(url_str) in [4, 5]:
             self.view_or_add(url_str)
 
@@ -73,7 +77,7 @@ class PostAjaxHandler(PostHandler):
         }
         # return json.dump(output, self)
         self.write(json.dumps(output))
-    def p_recent(self,  with_catalog=True, with_date=True):
+    def p_recent(self,kind,with_catalog=True, with_date=True):
         '''
         List posts that recent edited, partially.
         :param with_catalog:
@@ -89,7 +93,7 @@ class PostAjaxHandler(PostHandler):
         }
         self.render('admin/post_ajax/post_list.html',
                     kwd=kwd,
-                    view=MPost.query_recent(num=20),
+                    view=MPost.query_recent(num=20,kind= kind),
                     format_date=tools.format_date,
                     userinfo=self.userinfo,
                     cfg=CMS_CFG, )
