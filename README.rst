@@ -13,7 +13,7 @@ Status
 .. image:: https://img.shields.io/pypi/pyversions/torcms.svg
     :target: https://pypi.python.org/pypi/torcms/
 
-* Checking ``torcms`` with ``pylint`` using default configuration, gets score greater than 8.5 (``pylint torcms``).
+* Checking ``torcms`` with ``pylint`` using default configuration, gets score greater than 8.5 (``pylint3 torcms``).
 
 Introduction
 -------------------------------------------------
@@ -32,7 +32,7 @@ https://pypi.python.org/pypi/torcms . Could be installed via:
 
 ::
 
-    pip install torcms
+    pip3 install torcms
 
 Features
 --------------------------------------------------
@@ -102,7 +102,7 @@ Install libs for Python 3.4 or 3.5,
 ::
 
     cd TorCMS
-    pip install -r doc/requirements.txt
+    pip3 install -r doc/requirements.txt
 
 How to Run
 =========================
@@ -121,7 +121,7 @@ Edit the configiure.
 ::
 
     # cd TorCMS/
-    copy cfg_demo.py cfg.py
+    cp cfg_demo.py cfg.py
 
 And, edit the config.py file.
 
@@ -163,7 +163,7 @@ Initialization
 
 ::
 
-    python helper.py -i init
+    python3 helper.py -i init
 
 it will
 
@@ -181,7 +181,7 @@ Run the web application,
 
 ::
 
-    python server.py 8088
+    python3 server.py 8088
 
 Open web brower and navigate to http://127.0.0.1:8088 .
 
@@ -197,7 +197,7 @@ Run the following command to list the different scripts:
 
 ::
 
-    python helper.py -h
+    python3 helper.py -h
 
 
 Run the scripts with the ``-i`` switcher, we have used ``init`` to do something for initialization.
@@ -210,11 +210,11 @@ Run the scripts with the ``-i`` switcher, we have used ``init`` to do something 
 
 ::
 
-    python helper.py -i check templates/theme
+    python3 helper.py -i check templates/theme
 
 would generate the following picture:
 
-.. image:: doc/img/tmplrel.png
+.. image:: https://github.com/bukun/TorCMS/blob/master/doc/img/tmplrel.png
     :width: 100%
 
 Unit Tests
@@ -224,19 +224,19 @@ First you should install nose with pip,
 
 ::
 
-    pip install nose
+    pip3 install nose
 
 then run as follow:
 
 ::
 
-    nosetests -v -d --exe tester
+    nosetests3 -v -d --exe tester
 
-with ``coverage`` (install with:  ``pip install coverage`` ):
+with ``coverage`` (install with:  ``pip3 install coverage`` ):
 
 ::
 
-    nosetests  --exe -v -d --with-coverage tester
+    nosetests3  --exe -v -d --with-coverage tester
 
 Note: I alway writing code in the folder which is mounted by Debian in VirtualBox, so ``--exe``.
 

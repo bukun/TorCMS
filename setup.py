@@ -13,7 +13,7 @@ desc = ('Flexible, extensible Web CMS framework built on Tornado,'
         'including map showing, map overlaying, GIS data editing. ')
 setup(
     name='torcms',
-    version='0.5.24',
+    version='0.5.25',
     keywords=('torcms', 'tornado', 'cms',),
     description=desc,
     long_description=''.join(open('README.rst').readlines()),

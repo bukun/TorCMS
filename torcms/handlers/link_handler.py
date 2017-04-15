@@ -59,7 +59,6 @@ class LinkHandler(BaseHandler):
             'title': '最近文档',
         }
 
-
         if self.is_p == True:
 
             self.render('admin/link_ajax/link_list.html',
@@ -114,8 +113,7 @@ class LinkHandler(BaseHandler):
                 }
             return json.dump(output, self)
         else:
-            is_update = MLink.update(uid, post_data)
-            if is_update:
+            if MLink.update(uid, post_data):
                 self.redirect('/link/list')
 
     @tornado.web.authenticated
@@ -219,6 +217,7 @@ class LinkHandler(BaseHandler):
             is_deleted = MLink.delete(del_id)
             if is_deleted:
                 self.redirect('/link/list')
+
 
 class LinkPartialHandler(LinkHandler):
     '''

@@ -59,7 +59,11 @@ class MLink(Mabc):
             order=post_data['order'],
             logo=post_data['logo'] if 'logo' in post_data else '',
         ).where(g_Link.uid == uid)
-        entry.execute()
+        try:
+            entry.execute()
+            return True
+        except:
+            return False
 
     @staticmethod
     def create_link(id_link, post_data):
