@@ -34,7 +34,7 @@ class RatingHandler(BaseHandler):
             rating = 5
 
         logger.info('Get post rating: {rating}'.format(rating=rating))
-        MPost.__update_rating(postid, rating)
+        #MPost.__update_rating(postid, rating)
         MPost.update_misc(postid, rating=rating)
 
     @tornado.web.authenticated
