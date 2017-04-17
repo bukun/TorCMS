@@ -90,6 +90,7 @@ class PostAjaxHandler(PostHandler):
             'title': 'Recent posts.',
             'with_catalog': with_catalog,
             'with_date': with_date,
+            'kind':kind
         }
         self.render('admin/post_ajax/post_list.html',
                     kwd=kwd,
