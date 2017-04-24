@@ -29,9 +29,11 @@ class ShowPage(tornado.web.UIModule):
         '''
         page_id = kwargs['page_id']
         userinfo = kwargs['userinfo'] if 'userinfo' in kwargs else None
+        count = kwargs['count'] if 'count' in kwargs else 0
         page = MWiki.get_by_uid(page_id)
         kwd = {
             'uid': page_id,
+            'count':count
         }
         if page:
             return self.render_string('modules/show_page.html',
