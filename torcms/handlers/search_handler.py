@@ -26,7 +26,7 @@ class SearchHandler(BaseHandler):
             kwd = {
                 'info': '页面未找到',
             }
-            self.render('html/404.html',
+            self.render('misc/html/404.html',
                         kwd=kwd,
                         userinfo=self.userinfo)
 

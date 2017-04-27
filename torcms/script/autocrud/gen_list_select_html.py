@@ -25,7 +25,7 @@ def to_html(bl_str):
     # bianliang = eval('html_vars.' + bl_str)
     html_out = '''<li class="list-group-item">
     <div class="row"><div class="col-sm-3">{0}</div><div class="col-sm-9">
-     <span class="label label-default"  name='{1}' onclick='change(this);' value=''>全部</span>
+     <span class="label label-default"  name='{1}' onclick='change(this);' value=''>{{{{_('All')}}}}</span>
     '''.format(bianliang['zh'], bl_str.split('_')[1])
 
     tmp_dic = bianliang['dic']
