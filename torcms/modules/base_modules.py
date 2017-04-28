@@ -309,7 +309,7 @@ class ShowoutRecent(tornado.web.UIModule):
         }
 
         return self.render_string('modules/post/showout_list.html',
-                                  recs=MPost.query_cat_recent(cat_id, num, kind),
+                                  recs=MPost.query_cat_recent(cat_id, num=num, kind=kind),
                                   unescape=tornado.escape.xhtml_unescape,
                                   kwd=kwd)
 
@@ -353,7 +353,7 @@ class ListCategories(tornado.web.UIModule):
     '''
 
     def render(self, cat_id, list_num):
-        recs = MPost.query_cat_recent(cat_id, list_num)
+        recs = MPost.query_cat_recent(cat_id, num = list_num)
         out_str = ''
         for rec in recs:
             tmp_str = '''<li><a href="/{0}">{1}</a></li>'''.format(
