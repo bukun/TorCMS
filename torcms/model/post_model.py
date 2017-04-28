@@ -368,7 +368,37 @@ class MPost(Mabc):
         ).order_by(g_Post.view_count.desc()).limit(num)
 
     @staticmethod
-    def query_cat_recent(cat_id, num=8, kind='1'):
+    def query_cat_recent(cat_id, label=None, num=8, kind='1'):
+        '''
+        :param cat_id:
+        :param num:
+        :param kind:
+        :return:
+        '''
+
+        if label:
+            return MPost.query_cat_recent_with_label(cat_id, label=label, num=num, kind=kind)
+        else:
+            return MPost.query_cat_recent_no_label(cat_id, num=num, kind=kind)
+
+    @staticmethod
+    def query_cat_recent_with_label(cat_id, label=None, num=8, kind='1'):
+        '''
+        :param cat_id:
+        :param num:
+        :param kind:
+        :return:
+        '''
+        return g_Post.select().join(g_Post2Tag).where(
+            (g_Post.kind == kind) &
+            (g_Post2Tag.tag == cat_id) &
+            (g_Post.extinfo['def_tag_arr'].contains(label))
+        ).order_by(
+            g_Post.time_create.desc()
+        ).limit(num)
+
+    @staticmethod
+    def query_cat_recent_no_label(cat_id, num=8, kind='1'):
         '''
         :param cat_id:
         :param num:
@@ -383,7 +413,36 @@ class MPost(Mabc):
         ).limit(num)
 
     @staticmethod
-    def query_total_cat_recent(cat_id_arr, num=8, kind='1'):
+    def query_total_cat_recent(cat_id_arr, label=None, num=8, kind='1'):
+        '''
+        :param cat_id_arr:   list of categories. ['0101', '0102']
+        :param num:
+        :param kind:
+        :return:
+        '''
+        if label:
+            return MPost.query_total_cat_recent_with_label(cat_id_arr, label=label, num=num, kind=kind)
+        else:
+            return MPost.query_total_cat_recent_no_label(cat_id_arr, num=num, kind=kind)
+
+    @staticmethod
+    def query_total_cat_recent_with_label(cat_id_arr, label=None, num=8, kind='1'):
+        '''
+        :param cat_id_arr:   list of categories. ['0101', '0102']
+        :param num:
+        :param kind:
+        :return:
+        '''
+        return g_Post.select().join(g_Post2Tag).where(
+            (g_Post.kind == kind) &
+            (g_Post2Tag.tag << cat_id_arr) &  # the "<<" operator signifies an "IN" query
+            (g_Post.extinfo['def_tag_arr'].contains(label))
+        ).order_by(
+            g_Post.time_create.desc()
+        ).limit(num)
+
+    @staticmethod
+    def query_total_cat_recent_no_label(cat_id_arr, num=8, kind='1'):
         '''
         :param cat_id_arr:   list of categories. ['0101', '0102']
         :param num:

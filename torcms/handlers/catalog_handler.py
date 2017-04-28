@@ -35,7 +35,6 @@ class CatalogHandler(BaseHandler):
         if len(url_arr) == 1:
             self.list_catalog(url_str)
         elif len(url_arr) == 2:
-
             if url_arr[0] == 'j_subcat':
                 self.ajax_subcat_arr(url_arr[1])
             elif url_arr[0] == 'j_kindcat':

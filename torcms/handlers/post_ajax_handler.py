@@ -77,7 +77,8 @@ class PostAjaxHandler(PostHandler):
         }
         # return json.dump(output, self)
         self.write(json.dumps(output))
-    def p_recent(self,kind,with_catalog=True, with_date=True):
+
+    def p_recent(self, kind, with_catalog=True, with_date=True):
         '''
         List posts that recent edited, partially.
         :param with_catalog:
@@ -90,11 +91,11 @@ class PostAjaxHandler(PostHandler):
             'title': 'Recent posts.',
             'with_catalog': with_catalog,
             'with_date': with_date,
-            'kind':kind
+            'kind': kind
         }
         self.render('admin/post_ajax/post_list.html',
                     kwd=kwd,
-                    view=MPost.query_recent(num=20,kind= kind),
+                    view=MPost.query_recent(num=20, kind=kind),
                     format_date=tools.format_date,
                     userinfo=self.userinfo,
                     cfg=CMS_CFG, )
