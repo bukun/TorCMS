@@ -383,6 +383,21 @@ class MPost(Mabc):
         ).limit(num)
 
     @staticmethod
+    def query_total_cat_recent(cat_id_arr, num=8, kind='1'):
+        '''
+        :param cat_id_arr:   list of categories. ['0101', '0102']
+        :param num:
+        :param kind:
+        :return:
+        '''
+        return g_Post.select().join(g_Post2Tag).where(
+            (g_Post.kind == kind) &
+            (g_Post2Tag.tag in cat_id_arr)
+        ).order_by(
+            g_Post.time_create.desc()
+        ).limit(num)
+
+    @staticmethod
     def query_most(num=8, kind='1'):
         '''
         :param num:

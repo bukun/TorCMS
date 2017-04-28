@@ -33,7 +33,7 @@ class ShowPage(tornado.web.UIModule):
         page = MWiki.get_by_uid(page_id)
         kwd = {
             'uid': page_id,
-            'count':count
+            'count': count
         }
         if page:
             return self.render_string('modules/show_page.html',
@@ -241,17 +241,27 @@ class LinkList(tornado.web.UIModule):
 
 class PostCategoryRecent(tornado.web.UIModule):
     '''
-
+    The reccent posts of certain category.
     '''
 
     def render(self, cat_id, num=10, with_catalog=True, with_date=True):
         catinfo = MCategory.get_by_uid(cat_id)
-        recs = MPost.query_cat_recent(cat_id, num, kind=catinfo.kind)
-        kwd = {
-            'with_catalog': with_catalog,
-            'with_date': with_date,
-            'router': config.router_post[catinfo.kind],
-        }
+        if catinfo.pid == '0000':
+            subcats = MCategory.query_sub_cat(cat_id)
+            sub_cat_ids = [x.uid for x in subcats]
+            recs = MPost.query_total_cat_recent(sub_cat_ids, num=num, kind=catinfo.kind)
+            kwd = {
+                'with_catalog': with_catalog,
+                'with_date': with_date,
+                'router': config.router_post[catinfo.kind],
+            }
+        else:
+            recs = MPost.query_cat_recent(cat_id, num=num, kind=catinfo.kind)
+            kwd = {
+                'with_catalog': with_catalog,
+                'with_date': with_date,
+                'router': config.router_post[catinfo.kind],
+            }
         return self.render_string('modules/post/post_list.html',
                                   recs=recs,
                                   unescape=tornado.escape.xhtml_unescape,
