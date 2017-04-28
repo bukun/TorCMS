@@ -23,7 +23,7 @@ def gen_input_add(sig):
      </div>
      <div class="col-sm-1">
      {sig_dic}
-    </div>
+    </div></div>    
     '''.format(sig_en=sig['en'], sig_zh=sig['zh'], sig_dic=sig['dic'][1])
 
 
@@ -43,6 +43,7 @@ def gen_input_edit(sig):
     value="{{{{ post_info.extinfo['{sig_en}'] if  '{sig_en}' in post_info.extinfo else 0 }}}}"
     type="text"  class="form-control"> </div>
      <div class="col-sm-1">{sig_dic}</div>
+     </div>
     '''.format(sig_en=sig['en'], sig_zh=sig['zh'], sig_dic=sig['dic'][1])
 
 
