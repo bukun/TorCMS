@@ -392,7 +392,7 @@ class MPost(Mabc):
         '''
         return g_Post.select().join(g_Post2Tag).where(
             (g_Post.kind == kind) &
-            (g_Post2Tag.tag in cat_id_arr)
+            (g_Post2Tag.tag << cat_id_arr)  # the "<<" operator signifies an "IN" query
         ).order_by(
             g_Post.time_create.desc()
         ).limit(num)
