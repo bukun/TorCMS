@@ -491,20 +491,21 @@ class MPost(Mabc):
         return uid
 
     @staticmethod
-    def modify_meta(uid, data_dic, extinfo={}):
+    def modify_meta(uid, data_dic, extinfo=None):
         '''
         手工修改的。
         :param uid:
         :param data_dic:
         :return:
         '''
+        if extinfo is None:
+            extinfo = {}
         title = data_dic['title'].strip()
         if len(title) < 2:
             return False
 
         cur_info = MPost.get_by_uid(uid)
         if cur_info:
-            ##############################
             if DB_CFG['kind'] == 's':
                 entry = g_Post.update(
                     title=title,
@@ -517,11 +518,9 @@ class MPost(Mabc):
                     logo=data_dic['logo'],
                     order=data_dic['order'],
                     cnt_html=tools.markdown2html(data_dic['cnt_md']),
-                    valid=data_dic['valid'],
-
+                    valid=data_dic['valid']
                 ).where(g_Post.uid == uid)
                 entry.execute()
-
             else:
                 cur_extinfo = cur_info.extinfo
                 # Update the extinfo, Not replace
@@ -540,8 +539,7 @@ class MPost(Mabc):
                     order=data_dic['order'] if 'order' in data_dic else '',
                     cnt_html=tools.markdown2html(data_dic['cnt_md']),
                     extinfo=cur_extinfo,
-                    valid=data_dic['valid'],
-
+                    valid=data_dic['valid']
                 ).where(g_Post.uid == uid)
                 entry.execute()
         else:
@@ -632,7 +630,7 @@ class MPost(Mabc):
 
         # 当前分页的记录
         # Todo
-        current_list = all_list[(idx - 1) * CMS_CFG['list_num']: idx * CMS_CFG['list_num']]
+        # current_list = all_list[(idx - 1) * CMS_CFG['list_num']: idx * CMS_CFG['list_num']]
         return all_list
 
     @staticmethod
@@ -645,7 +643,9 @@ class MPost(Mabc):
         return recs
 
     @staticmethod
-    def add_meta(uid, data_dic, extinfo={}):
+    def add_meta(uid, data_dic, extinfo=None):
+        if extinfo is None:
+            extinfo = {}
         if len(uid) < 4:
             return False
         title = data_dic['title'].strip()
@@ -698,7 +698,10 @@ class MPost(Mabc):
         return MPost.query_under_condition(con).count()
 
     @staticmethod
-    def addata_init(data_dic, ext_dic={}):
+    def addata_init(data_dic, ext_dic=None):
+        if ext_dic is None:
+            ext_dic = {}
+
         if len(data_dic['sig']) < 4:
             return False
         title = data_dic['title'].strip()

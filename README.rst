@@ -212,10 +212,7 @@ Run the scripts with the ``-i`` switcher, we have used ``init`` to do something 
 
     python3 helper.py -i check templates/theme
 
-would generate the following picture:
-
-.. image:: https://github.com/bukun/TorCMS/blob/master/doc/img/tmplrel.png
-    :width: 100%
+would generate the picture for the relationship of the template files.
 
 Unit Tests
 =========================================

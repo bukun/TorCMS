@@ -15,7 +15,7 @@ from torcms.model.wiki_model import MWiki
 from config import router_post, kind_arr, post_type
 
 
-def do_for_app(writer, rand=True, kind='', doc_type={}):
+def do_for_app(writer, rand=True, kind='', doc_type=None):
     '''
     生成whoosh，根据配置文件中类别。
     :param writer:
@@ -24,6 +24,8 @@ def do_for_app(writer, rand=True, kind='', doc_type={}):
     :param doc_type:
     :return:
     '''
+    if doc_type is None:
+        doc_type = {}
     if rand:
         recs = MPost.query_random(num=10, kind=kind)
     else:
@@ -128,7 +130,7 @@ def do_for_page(writer, rand=True, doc_type=''):
         )
 
 
-def gen_whoosh_database(kind_arr=[], post_type={}):
+def gen_whoosh_database(kind_arr=None, post_type=None):
     '''
     kind_arr, define the `type` except Post, Page, Wiki
     post_type, define the templates for different kind.
@@ -137,6 +139,10 @@ def gen_whoosh_database(kind_arr=[], post_type={}):
     :param post_type:
     :return:
     '''
+    if kind_arr is None:
+        kind_arr = []
+    if post_type is None:
+        post_type = {}
     analyzer = ChineseAnalyzer()
     schema = Schema(title=TEXT(stored=True, analyzer=analyzer),
                     catid=TEXT(stored=True),

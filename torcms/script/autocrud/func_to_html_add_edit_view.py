@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 '''
-For generating add, edit, view HTML file.
+The functions for generating add, edit, view HTML file.
 for each item.
 '''
 
@@ -19,7 +19,7 @@ def gen_input_add(sig):
     </a>{sig_zh}</span>
     </label>
     <div class="col-sm-9">
-    <input id='{sig_en}' name="{sig_en}" value="" type="text"  class="form-control">
+    <input id='{sig_en}' name="{sig_en}" value="" type="text" class="form-control">
      </div>
      <div class="col-sm-1">
      {sig_dic}
@@ -41,7 +41,7 @@ def gen_input_edit(sig):
     <div class="col-sm-9">
     <input id='{sig_en}' name="{sig_en}"
     value="{{{{ post_info.extinfo['{sig_en}'] if  '{sig_en}' in post_info.extinfo else 0 }}}}"
-    type="text"  class="input_text"> </div>
+    type="text"  class="form-control"> </div>
      <div class="col-sm-1">{sig_dic}</div>
     '''.format(sig_en=sig['en'], sig_zh=sig['zh'], sig_dic=sig['dic'][1])
 
@@ -76,7 +76,7 @@ def gen_radio_add(sig):
     dic_tmp = sig['dic']
     for key, val in dic_tmp.items():
         tmp_str = '''
-        <input id="{0}" name="{0}" type="radio" class="input_text" value="{1}">{2}
+        <input id="{0}" name="{0}" type="radio" class="form-control" value="{1}">{2}
        '''.format(sig['en'], key, val)
         radio_control_str += tmp_str
 
@@ -102,7 +102,7 @@ def gen_radio_edit(sig):
     dic_tmp = sig['dic']
     for key in dic_tmp.keys():
         tmp_str = '''
-        <input id="{0}" name="{0}" type="radio"  class="input_text" value="{1}"
+        <input id="{0}" name="{0}" type="radio"  class="form-control" value="{1}"
         {{% if  '{0}' in post_info.extinfo and post_info.extinfo['{0}'] == '{1}' %}}
         checked
         {{% end %}}
@@ -144,7 +144,7 @@ def gen_checkbox_add(sig):
     dic_tmp = sig['dic']
     for key in dic_tmp.keys():
         tmp_str = '''
-        <input id="{0}" name="{0}" type="checkbox" class="input_text" value="{1}">{2}
+        <input id="{0}" name="{0}" type="checkbox" class="form-control" value="{1}">{2}
         '''.format(sig['en'], key, dic_tmp[key])
         html_wuneisheshi += tmp_str
 
@@ -160,7 +160,7 @@ def gen_checkbox_edit(sig):
     dic_tmp = sig['dic']
     for key in dic_tmp.keys():
         tmp_str = '''
-         <input id="{0}" name="{0}" type="checkbox" class="input_text" value="{1}"
+         <input id="{0}" name="{0}" type="checkbox" class="form-control" value="{1}"
          {{% if "{1}" in post_info.extinfo["{0}"] %}}
          checked="checked"
          {{% end %}}
