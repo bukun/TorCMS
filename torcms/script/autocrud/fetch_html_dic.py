@@ -29,7 +29,8 @@ def write_filter_dic(wk_sheet, column):
     row2_val = wk_sheet['{0}2'.format(column)].value
     if row1_val and row1_val.strip() != '':
         row2_val = row2_val.strip()
-        c_name, slug_name = row1_val.strip().split(',')
+        # c_name, slug_name = row1_val.strip().split(',')
+        c_name, slug_name = [x.strip() for x in row1_val.strip().split(',')]
 
         tags1 = [x.strip() for x in row2_val.split(',')]
         tags_dic = {}
