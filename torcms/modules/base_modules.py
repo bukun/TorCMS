@@ -251,18 +251,16 @@ class PostCategoryRecent(tornado.web.UIModule):
             subcats = MCategory.query_sub_cat(cat_id)
             sub_cat_ids = [x.uid for x in subcats]
             recs = MPost.query_total_cat_recent(sub_cat_ids, label=label, num=num, kind=catinfo.kind)
-            kwd = {
-                'with_catalog': with_catalog,
-                'with_date': with_date,
-                'router': config.router_post[catinfo.kind],
-            }
+
         else:
             recs = MPost.query_cat_recent(cat_id, label=label, num=num, kind=catinfo.kind)
-            kwd = {
-                'with_catalog': with_catalog,
-                'with_date': with_date,
-                'router': config.router_post[catinfo.kind],
-            }
+
+        kwd = {
+            'with_catalog': with_catalog,
+            'with_category': with_catalog,
+            'with_date': with_date,
+            'router': config.router_post[catinfo.kind],
+        }
         return self.render_string('modules/post/post_list.html',
                                   recs=recs,
                                   unescape=tornado.escape.xhtml_unescape,
@@ -353,7 +351,7 @@ class ListCategories(tornado.web.UIModule):
     '''
 
     def render(self, cat_id, list_num):
-        recs = MPost.query_cat_recent(cat_id, num = list_num)
+        recs = MPost.query_cat_recent(cat_id, num=list_num)
         out_str = ''
         for rec in recs:
             tmp_str = '''<li><a href="/{0}">{1}</a></li>'''.format(
