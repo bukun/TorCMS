@@ -63,13 +63,13 @@ class LinkHandler(BaseHandler):
 
             self.render('admin/link_ajax/link_list.html',
                         kwd=kwd,
-                        view=MLink.query_link(10),
+                        view=MLink.query_link(20),
                         format_date=tools.format_date,
                         userinfo=self.userinfo)
         else:
             self.render('misc/link/link_list.html',
                         kwd=kwd,
-                        view=MLink.query_link(10),
+                        view=MLink.query_link(20),
                         format_date=tools.format_date,
                         userinfo=self.userinfo)
 
