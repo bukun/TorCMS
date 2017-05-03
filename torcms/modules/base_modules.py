@@ -409,10 +409,10 @@ class PostTags(tornado.web.UIModule):
     show tags of the post.
     '''
 
-    def render(self, uid):
+    def render(self, uid,kind):
         out_str = ''
         ii = 1
-        for tag_info in MPost2Catalog.query_by_entity_uid(uid, kind='1'):
+        for tag_info in MPost2Catalog.query_by_entity_uid(uid, kind=kind):
             tmp_str = '<a href="/category/{0}" class="tag{1}">{2}</a>'.format(
                 tag_info.tag.slug,
                 ii,
