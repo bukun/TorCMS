@@ -242,9 +242,9 @@ class MPost(Mabc):
             return g_Post.select().order_by(peewee.fn.Random()).limit(num)
 
         else:
-            return g_Post.select().join(g_Post2Tag).where(
+            return g_Post.select().join(g_Post2Tag, on=(g_Post.uid == g_Post2Tag.post_id)).where(
                 (g_Post.valid == 1) &
-                (g_Post2Tag.tag == catid)
+                (g_Post2Tag.tag_id == catid)
             ).order_by(
                 peewee.fn.Random()
             ).limit(num)
@@ -433,9 +433,9 @@ class MPost(Mabc):
         :param kind:
         :return:
         '''
-        return g_Post.select().join(g_Post2Tag).where(
+        return g_Post.select().join(g_Post2Tag, on=(g_Post.uid == g_Post2Tag.post_id)).where(
             (g_Post.kind == kind) &
-            (g_Post2Tag.tag << cat_id_arr) &  # the "<<" operator signifies an "IN" query
+            (g_Post2Tag.tag_id << cat_id_arr) &  # the "<<" operator signifies an "IN" query
             (g_Post.extinfo['def_tag_arr'].contains(label))
         ).order_by(
             g_Post.time_create.desc()

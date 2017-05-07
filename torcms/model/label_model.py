@@ -139,15 +139,15 @@ class MPost2Label(Mabc):
 
     @staticmethod
     def get_by_uid(idd, kind='z'):
-        return g_Post2Tag.select().join(g_Tag).where(
-            (g_Post2Tag.post == idd) & (g_Tag.kind == 'z')
+        return g_Post2Tag.select(g_Post2Tag, g_Tag.name.alias('tag_name')).join(g_Tag, on=(g_Post2Tag.tag_id == g_Tag.uid)).where(
+            (g_Post2Tag.post_id == idd) & (g_Tag.kind == 'z')
         )
 
     @staticmethod
     def get_by_info(post_id, catalog_id):
-        tmp_recs = g_Post2Tag.select().join(g_Tag).where(
-            (g_Post2Tag.post == post_id) &
-            (g_Post2Tag.tag == catalog_id) &
+        tmp_recs = g_Post2Tag.select().join(g_Tag, on=(g_Post2Tag.tag_id == g_Tag.uid)).where(
+            (g_Post2Tag.post_id == post_id) &
+            (g_Post2Tag.tag_id == catalog_id) &
             (g_Tag.kind == 'z')
         )
 

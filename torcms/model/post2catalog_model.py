@@ -122,15 +122,19 @@ class MPost2Catalog(Mabc):
     @staticmethod
     def count_of_certain_category(cat_id):
         return g_Post2Tag.select().where(
-            g_Post2Tag.tag == cat_id
+            g_Post2Tag.tag_id == cat_id
         ).count()
 
     @staticmethod
     def query_pager_by_slug(slug, current_page_num=1, order=False):
         if order:
-            recs = g_Post.select().join(g_Post2Tag).join(g_Tag).where(g_Tag.slug == slug).order_by(g_Post.order.asc())
+            recs = g_Post.select().join(g_Post2Tag, on=(g_Post.uid == g_Post2Tag.post_id)).join(
+                g_Tag, on=(g_Tag.uid == g_Post2Tag.tag_id)
+            ).where(g_Tag.slug == slug).order_by(g_Post.order.asc())
         else:
-            recs = g_Post.select().join(g_Post2Tag).join(g_Tag).where(
+            recs = g_Post.select().join(g_Post2Tag, on=(g_Post.uid == g_Post2Tag.post_id)).join(
+                g_Tag, on=(g_Tag.uid == g_Post2Tag.tag_id)
+            ).where(
                 g_Tag.slug == slug
             ).order_by(
                 g_Post.time_update.desc()
@@ -140,16 +144,26 @@ class MPost2Catalog(Mabc):
     @staticmethod
     def query_by_entity_uid(idd, kind=''):
         if kind == '':
-            return g_Post2Tag.select().join(g_Tag).where(
-                (g_Post2Tag.post == idd) &
+            return g_Post2Tag.select(
+                g_Post2Tag,
+                g_Tag.slug.alias('tag_slug'),
+                g_Tag.name.alias('tag_name')
+            ).join(
+                g_Tag, on=(g_Post2Tag.tag_id == g_Tag.uid)
+            ).where(
+                (g_Post2Tag.post_id == idd) &
                 (g_Tag.kind != 'z')
             ).order_by(
                 g_Post2Tag.order
             )
         else:
-            return g_Post2Tag.select().join(g_Tag).where(
+            return g_Post2Tag.select(
+                g_Post2Tag,
+                g_Tag.slug.alias('tag_slug'),
+                g_Tag.name.alias('tag_name')
+            ).join(g_Tag, on=(g_Post2Tag.tag_id == g_Tag.uid)).where(
                 (g_Tag.kind == kind) &
-                (g_Post2Tag.post == idd)
+                (g_Post2Tag.post_id == idd)
             ).order_by(
                 g_Post2Tag.order
             )
@@ -166,7 +180,7 @@ class MPost2Catalog(Mabc):
         :return:
         '''
 
-        recs = MPost2Catalog.query_by_entity_uid(app_uid)
+        recs = MPost2Catalog.query_by_entity_uid(app_uid).naive()
         if recs.count() > 0:
             return recs.get()
         else:

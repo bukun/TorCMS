@@ -86,10 +86,10 @@ class MUsage(Mabc):
         rec = MUsage.query_by_signature(user_id, post_id)
         cate_rec = MInfor2Catalog.get_first_category(post_id)
         if cate_rec:
-            pass
+            cat_id = cate_rec.tag_id
         else:
             return False
-        cat_id = cate_rec.tag.uid
+
         if rec.count() > 0:
             logger.info('Usage update: {uid}'.format(uid=post_id))
             rec = rec.get()

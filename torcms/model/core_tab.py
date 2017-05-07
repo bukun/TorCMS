@@ -4,8 +4,10 @@ import peewee
 
 from torcms.core.base_model import BaseModel
 from config import DB_CFG
+
 if DB_CFG['kind'] == 'p':
     from playhouse.postgres_ext import BinaryJSONField
+
 
 class g_Tag(BaseModel):
     uid = peewee.CharField(null=False, max_length=4, index=True,
@@ -41,7 +43,7 @@ class g_Post(BaseModel):
     time_update = peewee.IntegerField()
     view_count = peewee.IntegerField()
     logo = peewee.CharField(default='')
-    order = peewee.CharField(null=False, default='', max_length = 8)
+    order = peewee.CharField(null=False, default='', max_length=8)
     valid = peewee.IntegerField(null=False, default=1, help_text='Whether the infor would show.')
     cnt_md = peewee.TextField()
     cnt_html = peewee.TextField()
@@ -140,8 +142,10 @@ class g_Entity(BaseModel):
 class g_Post2Tag(BaseModel):
     uid = peewee.CharField(null=False, index=True, unique=True,
                            primary_key=True, max_length=36, help_text='', )
-    tag = peewee.ForeignKeyField(g_Tag, related_name='tag_id')
-    post = peewee.ForeignKeyField(g_Post, related_name='post_id')
+    # tag = peewee.ForeignKeyField(g_Tag, related_name='tag_id')
+    tag_id = peewee.CharField(null=False, max_length=4, help_text='', )
+    # post = peewee.ForeignKeyField(g_Post, related_name='post_id')
+    post_id = peewee.CharField(null=False, max_length=5, help_text='', )
     order = peewee.IntegerField()
 
 

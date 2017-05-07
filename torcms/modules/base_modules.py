@@ -340,8 +340,12 @@ class TheCategory(tornado.web.UIModule):
             tmpl_str = '''<a href="/catalog/{0}">{1}</a>'''
         else:
             tmpl_str = '''<a href="/category/{0}">{1}</a>'''
-        format_arr = [tmpl_str.format(uu.tag.slug, uu.tag.name) for uu in
-                      MPost2Catalog().query_by_entity_uid(post_id)]
+
+        # print('=' * 10)
+        # for uu in MPost2Catalog().query_by_entity_uid(post_id):
+        #     print(dir(uu.as_entity()))
+        format_arr = [tmpl_str.format(uu.tag_slug, uu.tag_name) for uu in
+                      MPost2Catalog().query_by_entity_uid(post_id).naive()]
         return ', '.join(format_arr)
 
 
@@ -412,11 +416,11 @@ class PostTags(tornado.web.UIModule):
     def render(self, uid,kind):
         out_str = ''
         ii = 1
-        for tag_info in MPost2Catalog.query_by_entity_uid(uid, kind=kind):
+        for tag_info in MPost2Catalog.query_by_entity_uid(uid, kind=kind).naive():
             tmp_str = '<a href="/category/{0}" class="tag{1}">{2}</a>'.format(
-                tag_info.tag.slug,
+                tag_info.tag_slug,
                 ii,
-                tag_info.tag.name)
+                tag_info.tag_name)
             out_str += tmp_str
             ii += 1
         return out_str

@@ -70,15 +70,19 @@ class MRelation(Mabc):
         '''
         info_tag = MInfor2Catalog.get_first_category(app_id)
         if info_tag:
-            return g_Post2Tag.select().join(
-                g_Post
+            return g_Post2Tag.select(
+                g_Post2Tag, g_Post.title.alias('post_title')
+            ).join(
+                g_Post, on=(g_Post2Tag.post_id == g_Post.uid)
             ).where(
-                (g_Post2Tag.tag == info_tag.tag.uid) &
+                (g_Post2Tag.tag_id == info_tag.tag_id) &
                 (g_Post.kind == kind)
             ).order_by(
                 peewee.fn.Random()
             ).limit(num)
         else:
-            return g_Post2Tag.select().join(g_Post).where(
+            return g_Post2Tag.select(
+                g_Post2Tag, g_Post.title.alias('post_title')
+            ).join(g_Post, on=(g_Post2Tag.post_id == g_Post.uid)).where(
                 g_Post.kind == kind
             ).order_by(peewee.fn.Random()).limit(num)

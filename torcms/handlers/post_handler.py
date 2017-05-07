@@ -486,7 +486,7 @@ class PostHandler(BaseHandler):
 
         post2catinfo = MPost2Catalog.get_first_category(postinfo.uid)
         if post2catinfo:
-            catinfo = MCategory.get_by_uid(post2catinfo.tag.uid)
+            catinfo = MCategory.get_by_uid(post2catinfo.tag_id)
             if catinfo:
                 p_catinfo = MCategory.get_by_uid(catinfo.pid)
 
@@ -530,7 +530,7 @@ class PostHandler(BaseHandler):
                     rand_recs=rand_recs,
                     unescape=tornado.escape.xhtml_unescape,
                     ad_switch=random.randint(1, 18),
-                    tag_info=MPost2Label.get_by_uid(postinfo.uid),
+                    tag_info=MPost2Label.get_by_uid(postinfo.uid).naive(),
                     recent_apps=recent_apps,
                     cat_enum=cat_enum1)
 
@@ -543,10 +543,11 @@ class PostHandler(BaseHandler):
         cats = MPost2Catalog.query_by_entity_uid(uid, kind=self.kind)
         cat_uid_arr = []
         for cat_rec in cats:
-            cat_uid = cat_rec.tag.uid
+            cat_uid = cat_rec.tag_id
             cat_uid_arr.append(cat_uid)
         logger.info('info category: {0}'.format(cat_uid_arr))
-        rel_recs = MRelation.get_app_relations(uid, 8, kind=self.kind)
+        rel_recs = MRelation.get_app_relations(uid, 8, kind=self.kind).naive()
+
         logger.info('rel_recs count: {0}'.format(rel_recs.count()))
         if len(cat_uid_arr) > 0:
             rand_recs = MPost.query_cat_random(cat_uid_arr[0], limit=4 - rel_recs.count() + 4)
@@ -572,7 +573,7 @@ class PostHandler(BaseHandler):
         flag = False
         for f_cat in f_cats:
             for t_cat in t_cats:
-                if f_cat.tag == t_cat.tag:
+                if f_cat.tag_id == t_cat.tag_id:
                     flag = True
         if flag:
             pass
