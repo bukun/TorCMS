@@ -104,7 +104,7 @@ class MCategory(Mabc):
         '''
         entry2 = g_Tag.update(
             count=g_Post2Tag.select().where(
-                g_Post2Tag.tag == cat_id
+                g_Post2Tag.tag_id == cat_id
             ).count()
         ).where(g_Tag.uid == cat_id)
         entry2.execute()

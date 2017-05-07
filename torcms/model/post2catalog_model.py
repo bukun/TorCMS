@@ -23,8 +23,8 @@ class MPost2Catalog(Mabc):
         :return:
         '''
         entry = g_Post2Tag.delete().where(
-            (g_Post2Tag.post == post_id) &
-            (g_Post2Tag.tag == tag_id)
+            (g_Post2Tag.post_id == post_id) &
+            (g_Post2Tag.tag_id == tag_id)
         )
         entry.execute()
         MCategory.update_count(tag_id)
@@ -37,14 +37,14 @@ class MPost2Catalog(Mabc):
         :return:
         '''
         entry = g_Post2Tag.delete().where(
-            g_Post2Tag.tag == tag_id
+            g_Post2Tag.tag_id == tag_id
         )
         entry.execute()
 
     @staticmethod
     def query_by_catid(catid):
         return g_Post2Tag.select().where(
-            g_Post2Tag.tag == catid
+            g_Post2Tag.tag_id == catid
         )
 
     @staticmethod
@@ -55,14 +55,14 @@ class MPost2Catalog(Mabc):
         :return:
         '''
         return g_Post2Tag.select().where(
-            g_Post2Tag.post == postid
+            g_Post2Tag.post_id == postid
         ).order_by(g_Post2Tag.order)
 
     @staticmethod
     def __get_by_info(post_id, catalog_id):
         recs = g_Post2Tag.select().where(
-            (g_Post2Tag.post == post_id) &
-            (g_Post2Tag.tag == catalog_id)
+            (g_Post2Tag.post_id == post_id) &
+            (g_Post2Tag.tag_id == catalog_id)
         )
         if recs.count() == 1:
             return recs.get()
@@ -87,10 +87,10 @@ class MPost2Catalog(Mabc):
     @staticmethod
     def query_count():
         recs = g_Post2Tag.select(
-            g_Post2Tag.tag,
-            peewee.fn.COUNT(g_Post2Tag.tag).alias('num')
+            g_Post2Tag.tag_id,
+            peewee.fn.COUNT(g_Post2Tag.tag_id).alias('num')
         ).group_by(
-            g_Post2Tag.tag
+            g_Post2Tag.tag_id
         )
         return recs
 

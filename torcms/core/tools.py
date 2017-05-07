@@ -96,7 +96,8 @@ def check_email_valid(email_str):
     >>> check_email_valid('sadfsdfa@comaldfsdaf.cosdafj')
     False
     '''
-    if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$", email_str) != None:
+    if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$",
+                email_str) != None:
         return True
 
     return False
@@ -198,7 +199,8 @@ def gen_pager_bootstrap_url(cat_slug, page_num, current):
     pager_mid = ''
     for ind in range(0, page_num):
         tmp_mid = '''                <li class="{0}">
-                <a  href="{1}/{2}">{2}</a></li>   '''.format('active' if ind + 1 == current else '', cat_slug, ind + 1)
+                <a  href="{1}/{2}">{2}</a></li>   '''.format('active' if ind + 1 == current else '',
+                                                             cat_slug, ind + 1)
         pager_mid += tmp_mid
     pager_next = '''
                 <li class=" {0}">

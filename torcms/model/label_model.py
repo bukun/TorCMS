@@ -39,7 +39,7 @@ class MLabel(Mabc):
                 if idx == 0:
                     pass
                 else:
-                    g_Post2Tag.delete().where(g_Post2Tag.tag == rec.uid).execute()
+                    g_Post2Tag.delete().where(g_Post2Tag.tag_id == rec.uid).execute()
                     g_Tag.delete().where(g_Tag.uid == rec.uid).execute()
                 idx += 1
             return rec0.uid
@@ -116,12 +116,12 @@ class MPost2Label(Mabc):
 
     @staticmethod
     def query_count(uid):
-        return g_Post2Tag.select().where(g_Post2Tag.tag == uid).count()
+        return g_Post2Tag.select().where(g_Post2Tag.tag_id == uid).count()
 
     @staticmethod
     def remove_relation(post_id, tag_id):
         entry = g_Post2Tag.delete().where(
-            (g_Post2Tag.post == post_id) & (g_Post2Tag.tag == tag_id)
+            (g_Post2Tag.post_id == post_id) & (g_Post2Tag.tag_id == tag_id)
         )
         entry.execute()
 
@@ -139,13 +139,17 @@ class MPost2Label(Mabc):
 
     @staticmethod
     def get_by_uid(idd, kind='z'):
-        return g_Post2Tag.select(g_Post2Tag, g_Tag.name.alias('tag_name')).join(g_Tag, on=(g_Post2Tag.tag_id == g_Tag.uid)).where(
+        return g_Post2Tag.select(g_Post2Tag, g_Tag.name.alias('tag_name')).join(
+            g_Tag, on=(g_Post2Tag.tag_id == g_Tag.uid)
+        ).where(
             (g_Post2Tag.post_id == idd) & (g_Tag.kind == 'z')
         )
 
     @staticmethod
     def get_by_info(post_id, catalog_id):
-        tmp_recs = g_Post2Tag.select().join(g_Tag, on=(g_Post2Tag.tag_id == g_Tag.uid)).where(
+        tmp_recs = g_Post2Tag.select().join(
+            g_Tag, on=(g_Post2Tag.tag_id == g_Tag.uid)
+        ).where(
             (g_Post2Tag.post_id == post_id) &
             (g_Post2Tag.tag_id == catalog_id) &
             (g_Tag.kind == 'z')
@@ -191,13 +195,13 @@ class MPost2Label(Mabc):
 
     @staticmethod
     def total_number(slug, kind='1'):
-        return g_Post.select().join(g_Post2Tag).where(
-            (g_Post2Tag.tag == slug) & (g_Post.kind == kind)
+        return g_Post.select().join(g_Post2Tag, on=(g_Post.uid == g_Post2Tag.post_id)).where(
+            (g_Post2Tag.tag_id == slug) & (g_Post.kind == kind)
         ).count()
 
     @staticmethod
     def query_pager_by_slug(slug, kind='1', current_page_num=1):
-        return g_Post.select().join(g_Post2Tag).where(
-            (g_Post2Tag.tag == slug) &
+        return g_Post.select().join(g_Post2Tag, on=(g_Post.uid == g_Post2Tag.post_id)).where(
+            (g_Post2Tag.tag_id == slug) &
             (g_Post.kind == kind)
         ).paginate(current_page_num, CMS_CFG['list_num'])
