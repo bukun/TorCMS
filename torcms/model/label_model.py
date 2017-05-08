@@ -139,7 +139,7 @@ class MPost2Label(Mabc):
 
     @staticmethod
     def get_by_uid(idd, kind='z'):
-        return g_Post2Tag.select(g_Post2Tag, g_Tag.name.alias('tag_name')).join(
+        return g_Post2Tag.select(g_Post2Tag, g_Tag.name.alias('tag_name'), g_Tag.uid.alias('tag_uid')).join(
             g_Tag, on=(g_Post2Tag.tag_id == g_Tag.uid)
         ).where(
             (g_Post2Tag.post_id == idd) & (g_Tag.kind == 'z')
@@ -187,8 +187,8 @@ class MPost2Label(Mabc):
         else:
             entry = g_Post2Tag.create(
                 uid=tools.get_uuid(),
-                post=post_id,
-                tag=tag_id,
+                post_id=post_id,
+                tag_id=tag_id,
                 order=order,
                 kind='z')
             return entry.uid

@@ -18,7 +18,7 @@ class MEvaluation(Mabc):
         :return:
         '''
         return g_Evaluation.select().where(
-            (g_Evaluation.post == app_id) & (g_Evaluation.value == value)
+            (g_Evaluation.post_id == app_id) & (g_Evaluation.value == value)
         ).count()
 
     @staticmethod
@@ -30,7 +30,7 @@ class MEvaluation(Mabc):
         '''
         try:
             return g_Evaluation.get(
-                (g_Evaluation.user == user_id) & (g_Evaluation.post == app_id)
+                (g_Evaluation.user_id == user_id) & (g_Evaluation.post_id == app_id)
             )
         except:
             return None
@@ -52,7 +52,7 @@ class MEvaluation(Mabc):
         else:
             g_Evaluation.create(
                 uid=tools.get_uuid(),
-                user=user_id,
-                app=app_id,
+                user_id=user_id,
+                post_id=app_id,
                 value=value,
             )

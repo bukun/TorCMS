@@ -175,8 +175,10 @@ class g_Collect(BaseModel):
     用户收藏
     '''
     uid = peewee.CharField(max_length=36, null=False, unique=True, help_text='', primary_key=True)
-    post = peewee.ForeignKeyField(g_Post, related_name='collect_info_rel')
-    user = peewee.ForeignKeyField(g_Member, related_name='collect_user_rel')
+    # post = peewee.ForeignKeyField(g_Post, related_name='collect_info_rel')
+    post_id = peewee.CharField(null=False, max_length=5, help_text='', )
+    # user = peewee.ForeignKeyField(g_Member, related_name='collect_user_rel')
+    user_id = peewee.CharField(null=False, index=True, max_length=36, help_text='', )
     timestamp = peewee.IntegerField()
 
 
@@ -185,8 +187,10 @@ class g_Evaluation(BaseModel):
     用户评价
     '''
     uid = peewee.CharField(max_length=36, null=False, unique=True, help_text='', primary_key=True)
-    post = peewee.ForeignKeyField(g_Post, related_name='evaluation_info_rel')
-    user = peewee.ForeignKeyField(g_Member, related_name='evaluation_user_rel')
+    #post = peewee.ForeignKeyField(g_Post, related_name='evaluation_info_rel')
+    #user = peewee.ForeignKeyField(g_Member, related_name='evaluation_user_rel')
+    post_id = peewee.CharField(null=False, max_length=5, help_text='', )
+    user_id = peewee.CharField(null=False, index=True, max_length=36, help_text='', )
     value = peewee.IntegerField()  # 用户评价， 1 或 0, 作为计数
 
 
@@ -206,7 +210,8 @@ class g_Usage(BaseModel):
     Posts accessed by user.
     '''
     uid = peewee.CharField(max_length=36, null=False, unique=True, help_text='', primary_key=True)
-    post = peewee.ForeignKeyField(g_Post, related_name='info_id')
+    #post = peewee.ForeignKeyField(g_Post, related_name='info_id')
+    post_id = peewee.CharField(null=False, max_length=5, help_text='', )
     user_id = peewee.CharField(null=False, index=True, max_length=36, help_text='', )
     count = peewee.IntegerField()
     tag_id = peewee.CharField(null=False, max_length=4, help_text='', )

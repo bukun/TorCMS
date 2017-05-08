@@ -3,8 +3,9 @@
 '''
 For User collection
 '''
-import tornado.web
+
 import json
+import tornado.web
 
 from torcms.core.base_handler import BaseHandler
 from torcms.model.collect_model import MCollect
@@ -41,5 +42,5 @@ class CollectHandler(BaseHandler):
     @tornado.web.authenticated
     def list(self):
         self.render('misc/collect/list.html',
-                    recs_collect=MCollect.query_recent(self.userinfo.uid, 20),
+                    recs_collect=MCollect.query_recent(self.userinfo.uid, 20).naive(),
                     userinfo=self.userinfo)

@@ -23,9 +23,15 @@ class MCollect(Mabc):
         :param num:
         :return:
         '''
-        return g_Collect.select().where(
-            g_Collect.user == user_id
-        ).join(g_Post).order_by(
+        return g_Collect.select(
+            g_Collect, g_Post.uid.alias('post_uid'),
+            g_Post.title.alias('post_title'),
+            g_Post.view_count.alias('post_view_count')
+        ).where(
+            g_Collect.user_id == user_id
+        ).join(
+            g_Post, on=(g_Collect.post_id == g_Post.uid)
+        ).order_by(
             g_Collect.timestamp.desc()
         ).limit(num)
 
@@ -42,8 +48,8 @@ class MCollect(Mabc):
         '''
         try:
             return g_Collect.get(
-                (g_Collect.user == user_id) &
-                (g_Collect.post == app_id)
+                (g_Collect.user_id == user_id) &
+                (g_Collect.post_id == app_id)
             )
         except:
             return None
@@ -67,7 +73,7 @@ class MCollect(Mabc):
         else:
             g_Collect.create(
                 uid=tools.get_uuid(),
-                user=user_id,
-                post=app_id,
+                user_id=user_id,
+                post_id=app_id,
                 timestamp=int(time.time()),
             )

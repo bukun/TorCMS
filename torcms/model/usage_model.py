@@ -60,7 +60,7 @@ class MUsage(Mabc):
     @staticmethod
     def query_by_signature(user_id, sig):
         return g_Usage.select().where(
-            (g_Usage.post == sig) &
+            (g_Usage.post_id == sig) &
             (g_Usage.user_id == user_id)
         )
 
@@ -100,7 +100,7 @@ class MUsage(Mabc):
             logger.info('Usage create: {uid}'.format(uid=post_id))
             g_Usage.create(
                 uid=tools.get_uuid(),
-                post=post_id,
+                post_id=post_id,
                 user_id=user_id,
                 count=1,
                 tag_id=cat_id,

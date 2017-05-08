@@ -55,12 +55,12 @@ class PostLabels(tornado.web.UIModule):
             tag_info = MPost2Label.get_by_uid(postinfo.uid)
             idx = 1
             outstr = '<span class="post_label">'
-            for x in tag_info:
+            for tag in tag_info:
                 outstr += '''<a href = "/label/{kind}/{tag_uid}"
                     class ="app_label tag{index}" > {tag_name} </a>
-                    '''.format(tag_uid=x.tag.uid,
+                    '''.format(tag_uid=tag.tag_uid,
                                kind=postinfo.kind,
-                               tag_name=x.tag.name,
+                               tag_name=tag.tag_name,
                                index=idx)
                 idx += 1
             return outstr + '</span>'
@@ -413,7 +413,7 @@ class PostTags(tornado.web.UIModule):
     show tags of the post.
     '''
 
-    def render(self, uid,kind):
+    def render(self, uid, kind):
         out_str = ''
         ii = 1
         for tag_info in MPost2Catalog.query_by_entity_uid(uid, kind=kind).naive():
