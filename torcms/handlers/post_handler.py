@@ -514,7 +514,7 @@ class PostHandler(BaseHandler):
         tmpl = self.ext_tmpl_view(postinfo)
 
         if self.userinfo:
-            recent_apps = MUsage.query_recent(self.userinfo.uid, postinfo.kind, 6)[1:]
+            recent_apps = MUsage.query_recent(self.userinfo.uid, postinfo.kind, 6).naive()[1:]
         else:
             recent_apps = []
         logger.info('The Info Template: {0}'.format(tmpl))

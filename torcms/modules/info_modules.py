@@ -53,7 +53,7 @@ class InforUserMost(tornado.web.UIModule):
     '''
 
     def render(self, user_name, kind, num, with_tag=False):
-        all_cats = MUsage.query_most(user_name, kind, num)
+        all_cats = MUsage.query_most(user_name, kind, num).naive()
         kwd = {
             'with_tag': with_tag,
             'router': router_post[kind],
@@ -70,7 +70,7 @@ class InfoUserRecent(tornado.web.UIModule):
 
     @deprecated(details='should not used any more.')
     def render(self, user_name, kind, num, with_tag=False):
-        all_cats = MUsage.query_recent(user_name, kind, num)
+        all_cats = MUsage.query_recent(user_name, kind, num).naive()
         kwd = {
             'with_tag': with_tag,
             'router': router_post[kind],

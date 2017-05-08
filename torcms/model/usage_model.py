@@ -8,10 +8,11 @@ import time
 
 import peewee
 from torcms.model.post2catalog_model import MPost2Catalog as MInfor2Catalog
-from torcms.model.core_tab import g_Usage
+from torcms.model.core_tab import g_Usage, g_Post
 from torcms.core import tools
 from torcms.core.tools import logger
 from torcms.model.abc_model import Mabc
+
 
 
 class MUsage(Mabc):
@@ -32,7 +33,11 @@ class MUsage(Mabc):
 
     @staticmethod
     def query_recent(user_id, kind, num=10):
-        return g_Usage.select().where(
+        return g_Usage.select(
+            g_Usage, g_Post.title.alias('post_title')
+        ).join(
+            g_Post, on=(g_Usage.post_id == g_Post.uid)
+        ).where(
             (g_Usage.user_id == user_id) &
             (g_Usage.kind == kind)
         ).order_by(
@@ -50,7 +55,11 @@ class MUsage(Mabc):
 
     @staticmethod
     def query_most(user_id, kind, num):
-        return g_Usage.select().where(
+        return g_Usage.select(
+            g_Usage, g_Post.title.alias('post_title')
+        ).join(
+            g_Post, on=(g_Usage.post_id == g_Post.uid)
+        ).where(
             (g_Usage.user_id == user_id) &
             (g_Usage.kind == kind)
         ).order_by(
