@@ -215,7 +215,7 @@ class UserHandler(BaseHandler):
                     cfg=config.CMS_CFG,
                     kwd=kwd,
                     view=MUser.get_by_keyword(""),
-                    userinfo=self.userinfo )
+                    userinfo=self.userinfo)
 
     @tornado.web.authenticated
     def show_info(self):
@@ -457,10 +457,6 @@ class UserHandler(BaseHandler):
             self.set_status(305)
             self.redirect("{0}".format(next_url))
 
-
-
-
-
     def p_to_find(self, ):
 
         kwd = {
@@ -480,7 +476,6 @@ class UserHandler(BaseHandler):
             'title': '查找结果',
         }
 
-
         self.render(self.wrap_tmpl('user/{sig}user_find_list.html'),
                     kwd=kwd,
                     view=MUser.get_by_keyword(keyword),
@@ -488,8 +483,8 @@ class UserHandler(BaseHandler):
                     userinfo=self.userinfo)
 
         # if self.tmpl_router == "user":
-        #self.render('user/user_find_list.html',
-                    #)
+        # self.render('user/user_find_list.html',
+        # )
         # else:
         #     result = MUser.get_by_keyword(keyword)
         #     if result:

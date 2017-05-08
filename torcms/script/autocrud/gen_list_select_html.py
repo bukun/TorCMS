@@ -70,8 +70,7 @@ def do_for_dir(html_tpl):
                     ''.join(html_view_str_arr)
                 ).replace(
                     'yyyyyy',
-                    var_name.split('_')[1][
-                    :2]
+                    var_name.split('_')[1][:2]
                 ).replace(
                     'ssssss',
                     subdir

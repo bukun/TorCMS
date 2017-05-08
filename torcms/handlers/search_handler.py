@@ -42,7 +42,7 @@ class SearchHandler(BaseHandler):
         catid = post_data['searchcat'] if 'searchcat' in post_data else ''
 
         keyword = post_data['keyword']
-        
+
         logger.info('Searching ... ')
         logger.info('    catid:    {uid}'.format(uid=catid))
         logger.info('    keyowrds: {kw}'.format(kw=keyword))

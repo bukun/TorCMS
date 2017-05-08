@@ -14,7 +14,7 @@ class RelHandler(BaseHandler):
         super(RelHandler, self).initialize()
 
     def get(self, *args):
-        url_str =  args[0]
+        url_str = args[0]
 
         url_arr = self.parse_url(url_str)
 

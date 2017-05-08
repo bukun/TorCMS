@@ -21,6 +21,7 @@ class CategoryHandler(BaseHandler):
     '''
     Category access.
     '''
+
     def initialize(self, **kwargs):
         super(CategoryHandler, self).initialize()
         if 'kind' in kwargs:
@@ -97,7 +98,7 @@ class CategoryHandler(BaseHandler):
         self.render(tmpl,
                     catinfo=cat_rec,
                     infos=MPost2Catalog.query_pager_by_slug(cat_slug, current_page_num),
-                    pager=tools.gen_pager_purecss('/category/{0}'.format(cat_slug),page_num, current_page_num),
+                    pager=tools.gen_pager_purecss('/category/{0}'.format(cat_slug), page_num, current_page_num),
                     userinfo=self.userinfo,
                     html2text=html2text,
                     unescape=tornado.escape.xhtml_unescape,
@@ -111,5 +112,6 @@ class TagListHandler(BaseHandler):
     List the infos by the slug of the catalog.
     via: `/tag/cat_slug`
     '''
+
     def get(self, *args):
         self.redirect('/category/{0}'.format(args[0]))
