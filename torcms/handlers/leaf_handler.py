@@ -99,7 +99,7 @@ class LeafHandler(PostHandler):
 
         catalog_infors = None
         if post2catinfo:
-            catinfo = MCategory.get_by_uid(post2catinfo.tag.uid)
+            catinfo = MCategory.get_by_uid(post2catinfo.tag_id)
             if catinfo:
                 p_catinfo = MCategory.get_by_uid(catinfo.pid)
                 catalog_infors = MPost2Catalog.query_pager_by_slug(catinfo.slug,

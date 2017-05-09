@@ -14,7 +14,7 @@ def run_check_kind(*args):
             catinfo = MCategory.get_by_uid(catid)
             recs = MPost2Catalog.query_by_catid(catid)
             for rec in recs:
-                postinfo = MPost.get_by_uid(rec.post.uid)
+                postinfo = MPost.get_by_uid(rec.post_id)
                 if postinfo.kind == catinfo.kind:
                     pass
                 else:
