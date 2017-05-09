@@ -212,7 +212,7 @@ class InfoRecentUsed(tornado.web.UIModule):
             user_name=user_id, kind=kind, num=num
         ))
 
-        all_cats = MUsage.query_recent(user_id, kind, num)
+        all_cats = MUsage.query_recent(user_id, kind, num).naive()
         kwd = {
             'with_tag': with_tag,
             'router': router_post[kind],

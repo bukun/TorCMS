@@ -34,7 +34,7 @@ class MJson(Mabc):
 
     @staticmethod
     def query_by_app(app_id, user_id):
-        return e_Json.select().join(e_Post2Json).where(
+        return e_Json.select().join(e_Post2Json,on=(e_Post2Json.json_id == e_Json.uid)).where(
             (e_Post2Json.post_id == app_id) &
             (e_Json.user_id == user_id)
         ).order_by(
