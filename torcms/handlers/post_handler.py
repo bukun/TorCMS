@@ -291,7 +291,7 @@ class PostHandler(BaseHandler):
         :param signature:
         :return:
         '''
-        current_tag_infos = MPost2Label.get_by_uid(signature, kind=self.kind)
+        current_tag_infos = MPost2Label.get_by_uid(signature, kind=self.kind).naive()
         post_data = self.get_post_data()
         if 'tags' in post_data:
             pass
@@ -306,10 +306,10 @@ class PostHandler(BaseHandler):
                 MPost2Label.add_record(signature, tag_name, 1)
 
         for cur_info in current_tag_infos:
-            if cur_info.tag.name in tags_arr:
+            if cur_info.tag_name in tags_arr:
                 pass
             else:
-                MPost2Label.remove_relation(signature, cur_info.tag)
+                MPost2Label.remove_relation(signature, cur_info.tag_id)
 
     @tornado.web.authenticated
     def update_category(self, uid, **kwargs):
@@ -369,8 +369,8 @@ class PostHandler(BaseHandler):
 
         # Delete the old category if not in post requests.
         for cur_info in current_infos:
-            if str(cur_info.tag.uid).strip() not in new_category_arr:
-                MPost2Catalog.remove_relation(uid, cur_info.tag)
+            if str(cur_info.tag_id).strip() not in new_category_arr:
+                MPost2Catalog.remove_relation(uid, cur_info.tag_id)
 
     @tornado.web.authenticated
     def __to_edit(self, infoid):
@@ -408,7 +408,7 @@ class PostHandler(BaseHandler):
 
         post2catinfo = MPost2Catalog.get_first_category(postinfo.uid)
         if post2catinfo:
-            catid = post2catinfo.tag.uid
+            catid = post2catinfo.tag_id
             catinfo = MCategory.get_by_uid(catid)
             if catinfo:
                 p_catinfo = MCategory.get_by_uid(catinfo.pid)
@@ -441,7 +441,7 @@ class PostHandler(BaseHandler):
                     tag_infos=MCategory.query_all(by_order=True, kind=self.kind),
                     tag_infos2=MCategory.query_all(by_order=True, kind=self.kind),
                     app2tag_info=MPost2Catalog.query_by_entity_uid(infoid, kind=self.kind),
-                    app2label_info=MPost2Label.get_by_uid(infoid, kind=self.kind + '1'))
+                    app2label_info=MPost2Label.get_by_uid(infoid, kind=self.kind + '1').naive())
 
     def __gen_last_current_relation(self, post_id):
         '''

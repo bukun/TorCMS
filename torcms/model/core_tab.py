@@ -225,6 +225,8 @@ class g_Rel(BaseModel):
     我们认为，相关性，并非是对称操作
     '''
     uid = peewee.CharField(max_length=36, null=False, unique=True, help_text='', primary_key=True)
-    post_f = peewee.ForeignKeyField(g_Post, related_name='rel_post_f')
-    post_t = peewee.ForeignKeyField(g_Post, related_name='rel_post_t')
+    # post_f = peewee.ForeignKeyField(g_Post, related_name='rel_post_f')
+    # post_t = peewee.ForeignKeyField(g_Post, related_name='rel_post_t')
+    post_f_id = peewee.CharField(null=False, max_length=5, help_text='', )
+    post_t_id = peewee.CharField(null=False, max_length=5, help_text='', )
     count = peewee.IntegerField()

@@ -52,13 +52,13 @@ class PostLabels(tornado.web.UIModule):
 
     def render(self, postinfo=None):
         if postinfo:
-            tag_info = MPost2Label.get_by_uid(postinfo.uid)
+            tag_info = MPost2Label.get_by_uid(postinfo.uid).naive()
             idx = 1
             outstr = '<span class="post_label">'
             for tag in tag_info:
                 outstr += '''<a href = "/label/{kind}/{tag_uid}"
                     class ="app_label tag{index}" > {tag_name} </a>
-                    '''.format(tag_uid=tag.tag_uid,
+                    '''.format(tag_uid=tag.tag_id,
                                kind=postinfo.kind,
                                tag_name=tag.tag_name,
                                index=idx)

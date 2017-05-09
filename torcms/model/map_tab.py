@@ -30,8 +30,7 @@ class e_Post2Json(BaseModel):
     uid = peewee.CharField(null=False, index=True, unique=True,
                            primary_key=True, max_length=36, help_text='')
     post_id = peewee.CharField(null=False, index=True, max_length=5, help_text='', )
-    json = peewee.ForeignKeyField(e_Json, related_name='app2json_json_rel')
-
+    json_id = peewee.CharField(null=False, index=True, max_length=4, help_text='', )
 
 class e_Layout(BaseModel):
     '''

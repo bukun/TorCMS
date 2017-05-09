@@ -112,8 +112,8 @@ class MPost2Catalog(Mabc):
         else:
             g_Post2Tag.create(
                 uid=tools.get_uuid(),
-                post=post_id,
-                tag=catalog_id,
+                post_id=post_id,
+                tag_id=catalog_id,
                 order=order,
             )
 
