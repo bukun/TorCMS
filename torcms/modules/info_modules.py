@@ -139,7 +139,7 @@ class InfoMostUsed(tornado.web.UIModule):
             return self.render_it(kind, num, with_tag=with_tag)
 
     def render_it(self, kind, num, with_tag=False):
-        all_cats = MPost.query_most(kind=kind, num=num).naiv()
+        all_cats = MPost.query_most(kind=kind, num=num).naive()
         kwd = {
             'with_tag': with_tag,
             'router': router_post[kind],
