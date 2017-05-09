@@ -440,7 +440,7 @@ class PostHandler(BaseHandler):
                     cat_enum=MCategory.get_qian2(catid[:2]),
                     tag_infos=MCategory.query_all(by_order=True, kind=self.kind),
                     tag_infos2=MCategory.query_all(by_order=True, kind=self.kind),
-                    app2tag_info=MPost2Catalog.query_by_entity_uid(infoid, kind=self.kind),
+                    app2tag_info=MPost2Catalog.query_by_entity_uid(infoid, kind=self.kind).naive(),
                     app2label_info=MPost2Label.get_by_uid(infoid, kind=self.kind + '1').naive())
 
     def __gen_last_current_relation(self, post_id):
