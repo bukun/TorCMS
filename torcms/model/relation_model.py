@@ -17,8 +17,8 @@ class MRelation(Mabc):
     def add_relation(app_f, app_t, weight=1):
 
         recs = g_Rel.select().where(
-            (g_Rel.post_f == app_f) &
-            (g_Rel.post_t == app_t)
+            (g_Rel.post_f_id == app_f) &
+            (g_Rel.post_t_id == app_t)
         )
         if recs.count() > 1:
             for record in recs:
@@ -28,8 +28,8 @@ class MRelation(Mabc):
             uid = tools.get_uuid()
             entry = g_Rel.create(
                 uid=uid,
-                post_f=app_f,
-                post_t=app_t,
+                post_f_id=app_f,
+                post_t_id=app_t,
                 count=1,
             )
             return entry.uid
@@ -50,16 +50,16 @@ class MRelation(Mabc):
     def update_relation(app_f, app_t, weight=1):
         try:
             postinfo = g_Rel.get(
-                (g_Rel.post_f == app_f) &
-                (g_Rel.post_t == app_t)
+                (g_Rel.post_f_id == app_f) &
+                (g_Rel.post_t_id == app_t)
             )
         except:
             return False
         entry = g_Rel.update(
             count=postinfo.count + weight
         ).where(
-            (g_Rel.post_f == app_f) &
-            (g_Rel.post_t == app_t)
+            (g_Rel.post_f_id == app_f) &
+            (g_Rel.post_t_id == app_t)
         )
         entry.execute()
 

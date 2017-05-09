@@ -164,9 +164,9 @@ class SearchHandler(BaseHandler):
         kwd = {'title': '查找结果',
                'pager': '',
                'count': res_all,
-               'keyword': keyword,
+               'keyword': keyword}
                # 'catname': '文档' if catid == '0000' else MCategory.get_by_uid(catid).name
-               }
+
         self.render('misc/search/search_list',
                     kwd=kwd,
                     srecs=results,
