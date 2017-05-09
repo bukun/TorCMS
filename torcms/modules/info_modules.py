@@ -87,7 +87,7 @@ class InfoUserRecentByCategory(tornado.web.UIModule):
 
     @deprecated(details='should not used any more.')
     def render(self, user_name, cat_id, num):
-        all_cats = MUsage.query_recent_by_cat(user_name, cat_id, num)
+        all_cats = MUsage.query_recent_by_cat(user_name, cat_id, num).naive()
 
         return self.render_string('modules/info/list_user_equation_no_catalog.html',
                                   recs=all_cats)
@@ -139,7 +139,7 @@ class InfoMostUsed(tornado.web.UIModule):
             return self.render_it(kind, num, with_tag=with_tag)
 
     def render_it(self, kind, num, with_tag=False):
-        all_cats = MPost.query_most(kind=kind, num=num)
+        all_cats = MPost.query_most(kind=kind, num=num).naiv()
         kwd = {
             'with_tag': with_tag,
             'router': router_post[kind],
@@ -149,7 +149,7 @@ class InfoMostUsed(tornado.web.UIModule):
                                   kwd=kwd)
 
     def render_user(self, kind, num, with_tag=False, user_id=''):
-        all_cats = MUsage.query_most(user_id, kind, num)
+        all_cats = MUsage.query_most(user_id, kind, num).naive()
         kwd = {
             'with_tag': with_tag,
             'router': router_post[kind],
@@ -285,7 +285,7 @@ class RelPost2app(tornado.web.UIModule):
             'app_t': 'info',
             'uid': uid,
         }
-        rel_recs = MRelation.get_app_relations(uid, num, kind='9')
+        rel_recs = MRelation.get_app_relations(uid, num, kind='9').naive()
 
         rand_recs = MPost.query_random(num=num - rel_recs.count() + 2, kind='9')
 
@@ -307,7 +307,7 @@ class RelApp2post(tornado.web.UIModule):
             'app_t': 'post',
             'uid': uid,
         }
-        rel_recs = MRelation.get_app_relations(uid, num, kind='1')
+        rel_recs = MRelation.get_app_relations(uid, num, kind='1').naive()
 
         rand_recs = MPost.query_random(num=num - rel_recs.count() + 2, kind='1')
 
