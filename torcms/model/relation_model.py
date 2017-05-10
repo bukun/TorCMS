@@ -71,7 +71,7 @@ class MRelation(Mabc):
         info_tag = MInfor2Catalog.get_first_category(app_id)
         if info_tag:
             return TabPost2Tag.select(
-                TabPost2Tag, TabPost.title.alias('post_title')
+                TabPost2Tag, TabPost.title.alias('post_title'), TabPost.valid.alias('post_valid')
             ).join(
                 TabPost, on=(TabPost2Tag.post_id == TabPost.uid)
             ).where(
