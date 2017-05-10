@@ -217,14 +217,14 @@ class PostRecent(tornado.web.UIModule):
     return the post of recent.
     '''
 
-    def render(self, num=10, with_catalog=True, with_date=True):
+    def render(self, num=10, kind='1', with_catalog=True, with_date=True):
         kwd = {
             'with_date': with_date,
             'with_catalog': with_catalog,
             'router': config.router_post['1'],
         }
         return self.render_string('modules/post/post_list.html',
-                                  recs=MPost.query_recent(num),
+                                  recs=MPost.query_recent(num, kind=kind),
                                   unescape=tornado.escape.xhtml_unescape,
                                   kwd=kwd)
 

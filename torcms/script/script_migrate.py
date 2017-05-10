@@ -153,14 +153,14 @@ def run_migrate(*args):
 
     float_field = migrate.FloatField(null=False, default=5)
     try:
-        migrate.migrate(torcms_migrator.add_column('g_post', 'rating', float_field))
+        migrate.migrate(torcms_migrator.add_column('tabpost', 'rating', float_field))
     except:
         pass
 
     order = migrate.CharField(null=False, default='', max_length=8)
 
     try:
-        migrate.migrate(torcms_migrator.add_column('g_post', 'order', order))
+        migrate.migrate(torcms_migrator.add_column('tabpost', 'order', order))
     except:
         pass
 
@@ -168,17 +168,17 @@ def run_migrate(*args):
     tmpl = migrate.IntegerField(null=False, default=9, help_text='tmplate type')
 
     try:
-        migrate.migrate(torcms_migrator.add_column('g_tag', 'pid', pid))
+        migrate.migrate(torcms_migrator.add_column('tabtag', 'pid', pid))
     except:
         pass
 
     try:
-        migrate.migrate(torcms_migrator.add_column('g_tag', 'tmpl', tmpl))
+        migrate.migrate(torcms_migrator.add_column('tabtag', 'tmpl', tmpl))
     except:
         pass
 
     try:
-        migrate.migrate(torcms_migrator.drop_column('g_tag', 'role_mask'))
+        migrate.migrate(torcms_migrator.drop_column('tabtag', 'role_mask'))
     except:
         pass
 
