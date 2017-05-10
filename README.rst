@@ -85,12 +85,13 @@ And, create hstore extension in the database.
 
 ::
 
-    CREATE USER torcms WITH PASSWORD '131322';
-    CREATE DATABASE torcms OWNER torcms;
-    GRANT ALL PRIVILEGES ON DATABASE torcms to torcms;
-    \c torcms
+    \set dbname torcms
+    CREATE USER :dbname WITH PASSWORD '131322' ; 
+    CREATE DATABASE :dbname OWNER :dbname ;
+    GRANT ALL PRIVILEGES ON DATABASE :dbname to :dbname ;
+    \c :dbname ;
     create extension hstore;
-
+    \q
 
 For Python
 ----------

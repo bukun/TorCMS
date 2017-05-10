@@ -9,7 +9,7 @@ if DB_CFG['kind'] == 'p':
     from playhouse.postgres_ext import BinaryJSONField
 
 
-class g_Tag(BaseModel):
+class TabTag(BaseModel):
     uid = peewee.CharField(null=False, max_length=4, index=True,
                            unique=True, primary_key=True, help_text='', )
     slug = peewee.CharField(null=False, index=True, unique=True, max_length=36, help_text='', )
@@ -23,7 +23,7 @@ class g_Tag(BaseModel):
     tmpl = peewee.IntegerField(null=False, default='9', help_text='tmplate type')
 
 
-class g_Link(BaseModel):
+class TabLink(BaseModel):
     uid = peewee.CharField(null=False, index=False, unique=True, primary_key=True, default='0000',
                            max_length=4, help_text='', )
     link = peewee.CharField(null=False, max_length=36, help_text='', )
@@ -32,7 +32,7 @@ class g_Link(BaseModel):
     order = peewee.IntegerField()
 
 
-class g_Post(BaseModel):
+class TabPost(BaseModel):
     uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, default='00000',
                            max_length=5, help_text='', )
     title = peewee.CharField(null=False, help_text='Title')
@@ -57,7 +57,7 @@ class g_Post(BaseModel):
     rating = peewee.FloatField(null=False, default=5)
 
 
-class g_Wiki(BaseModel):
+class TabWiki(BaseModel):
     # slug for page, and '_12345678' for wiki.
     uid = peewee.CharField(null=False, index=True,
                            unique=True, primary_key=True, max_length=36, help_text='', )
@@ -73,7 +73,7 @@ class g_Wiki(BaseModel):
                             default='1', help_text='1 for wiki, 2 for page.', )
 
 
-class g_PostHist(BaseModel):
+class TabPostHist(BaseModel):
     uid = peewee.CharField(null=False, index=True, unique=True,
                            help_text='', primary_key=True, max_length=36)
     title = peewee.CharField(null=False, max_length=255, help_text='', )
@@ -84,7 +84,7 @@ class g_PostHist(BaseModel):
     logo = peewee.CharField()
 
 
-class g_WikiHist(BaseModel):
+class TabWikiHist(BaseModel):
     uid = peewee.CharField(null=False, index=True, unique=True,
                            help_text='', primary_key=True, max_length=36)
     title = peewee.CharField(null=False, max_length=255, help_text='', )
@@ -94,7 +94,7 @@ class g_WikiHist(BaseModel):
     time_update = peewee.IntegerField()
 
 
-class g_Member(BaseModel):
+class TabMember(BaseModel):
     '''
     role:  the index and value should not greater than 3.
     "0123"
@@ -127,7 +127,7 @@ class g_Member(BaseModel):
     time_email = peewee.IntegerField(null=False, default=0, help_text='Time auto send email.')
 
 
-class g_Entity(BaseModel):
+class TabEntity(BaseModel):
     uid = peewee.CharField(null=False, index=True,
                            unique=True, primary_key=True, max_length=36, )
     path = peewee.CharField(null=False, unique=True,
@@ -139,7 +139,7 @@ class g_Entity(BaseModel):
                             help_text='1 for image', )
 
 
-class g_Post2Tag(BaseModel):
+class TabPost2Tag(BaseModel):
     uid = peewee.CharField(null=False, index=True, unique=True,
                            primary_key=True, max_length=36, help_text='', )
     # tag = peewee.ForeignKeyField(g_Tag, related_name='tag_id')
@@ -149,7 +149,7 @@ class g_Post2Tag(BaseModel):
     order = peewee.IntegerField()
 
 
-class g_Reply(BaseModel):
+class TabReply(BaseModel):
     uid = peewee.CharField(null=False, index=True, unique=True,
                            primary_key=True, max_length=36, help_text='', )
     post_id = peewee.CharField(null=False, index=True, max_length=5, help_text='', )
@@ -162,7 +162,7 @@ class g_Reply(BaseModel):
     vote = peewee.IntegerField()
 
 
-class g_User2Reply(BaseModel):
+class TabUser2Reply(BaseModel):
     uid = peewee.CharField(null=False, index=True, unique=True,
                            primary_key=True, max_length=36, help_text='', )
     reply_id = peewee.CharField(null=False, index=True, max_length=36, help_text='', )
@@ -170,7 +170,7 @@ class g_User2Reply(BaseModel):
     timestamp = peewee.IntegerField()
 
 
-class g_Collect(BaseModel):
+class TabCollect(BaseModel):
     '''
     用户收藏
     '''
@@ -182,7 +182,7 @@ class g_Collect(BaseModel):
     timestamp = peewee.IntegerField()
 
 
-class g_Evaluation(BaseModel):
+class TabEvaluation(BaseModel):
     '''
     用户评价
     '''
@@ -194,7 +194,7 @@ class g_Evaluation(BaseModel):
     value = peewee.IntegerField()  # 用户评价， 1 或 0, 作为计数
 
 
-class g_Rating(BaseModel):
+class TabRating(BaseModel):
     '''
     Rating for App of each user.
     '''
@@ -205,7 +205,7 @@ class g_Rating(BaseModel):
     timestamp = peewee.IntegerField(null=False)
 
 
-class g_Usage(BaseModel):
+class TabUsage(BaseModel):
     '''
     Posts accessed by user.
     '''
@@ -219,7 +219,7 @@ class g_Usage(BaseModel):
     timestamp = peewee.IntegerField()
 
 
-class g_Rel(BaseModel):
+class TabRel(BaseModel):
     '''
     相关应用
     我们认为，相关性，并非是对称操作

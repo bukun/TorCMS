@@ -8,8 +8,8 @@ from datetime import datetime
 import peewee
 import tornado.escape
 from torcms.core import tools
-from torcms.model.core_tab import g_Post
-from torcms.model.core_tab import g_Post2Tag
+from torcms.model.core_tab import TabPost
+from torcms.model.core_tab import TabPost2Tag
 from torcms.model.abc_model import Mabc, MHelper
 from config import CMS_CFG, DB_CFG
 
@@ -31,8 +31,8 @@ class MPost(Mabc):
         :return:
         '''
         time_that = int(time.time()) - recent * 24 * 3600
-        return g_Post.select().where(g_Post.time_update > time_that).order_by(
-            g_Post.view_count.desc()
+        return TabPost.select().where(TabPost.time_update > time_that).order_by(
+            TabPost.view_count.desc()
         ).limit(num)
 
     @staticmethod
@@ -42,7 +42,7 @@ class MPost(Mabc):
         :param uid:
         :return:
         '''
-        return MHelper.delete(g_Post, uid)
+        return MHelper.delete(TabPost, uid)
 
 
         # u1 = g_Post2Tag.delete().where(g_Post2Tag.post == del_id)
@@ -76,7 +76,7 @@ class MPost(Mabc):
         :param uid:
         :return:
         '''
-        return MHelper.get_by_uid(g_Post, uid)
+        return MHelper.get_by_uid(TabPost, uid)
 
     @staticmethod
     def get_counts():
@@ -84,7 +84,7 @@ class MPost(Mabc):
         The count in table.
         :return:
         '''
-        return g_Post.select().count()
+        return TabPost.select().count()
 
     @staticmethod
     def __update_rating(uid, rating):
@@ -93,9 +93,9 @@ class MPost(Mabc):
         :param rating:
         :return:
         '''
-        entry = g_Post.update(
+        entry = TabPost.update(
             rating=rating
-        ).where(g_Post.uid == uid)
+        ).where(TabPost.uid == uid)
         entry.execute()
 
     @staticmethod
@@ -107,9 +107,9 @@ class MPost(Mabc):
         :return:
         '''
 
-        entry = g_Post.update(
+        entry = TabPost.update(
             kind=kind,
-        ).where(g_Post.uid == uid)
+        ).where(TabPost.uid == uid)
         entry.execute()
         return True
 
@@ -121,20 +121,20 @@ class MPost(Mabc):
         :return:
         '''
 
-        entry = g_Post.update(
+        entry = TabPost.update(
             cnt_html=tools.markdown2html(post_data['cnt_md']),
             user_name=post_data['user_name'],
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'].strip()),
             time_update=tools.timestamp(),
-        ).where(g_Post.uid == uid)
+        ).where(TabPost.uid == uid)
         entry.execute()
 
     @staticmethod
     def update_order(uid, order):
 
-        entry = g_Post.update(
+        entry = TabPost.update(
             order=order
-        ).where(g_Post.uid == uid)
+        ).where(TabPost.uid == uid)
         entry.execute()
 
     @staticmethod
@@ -152,16 +152,16 @@ class MPost(Mabc):
         cnt_html = tools.markdown2html(post_data['cnt_md'])
         try:
             if update_time:
-                entry2 = g_Post.update(
+                entry2 = TabPost.update(
                     date=datetime.now(),
                     time_create=tools.timestamp(),
-                ).where(g_Post.uid == uid)
+                ).where(TabPost.uid == uid)
                 entry2.execute()
         except:
             pass
         cur_rec = MPost.get_by_uid(uid)
 
-        entry = g_Post.update(
+        entry = TabPost.update(
             title=title,
             user_name=post_data['user_name'],
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'].strip()),
@@ -173,7 +173,7 @@ class MPost(Mabc):
             extinfo=post_data['extinfo'] if 'extinfo' in post_data else cur_rec.extinfo,
             time_update=tools.timestamp(),
             valid=1,
-        ).where(g_Post.uid == uid)
+        ).where(TabPost.uid == uid)
         entry.execute()
 
     @staticmethod
@@ -205,7 +205,7 @@ class MPost(Mabc):
         if cur_rec:
             return False
 
-        entry = g_Post.create(
+        entry = TabPost.create(
             title=title,
             date=datetime.now(),
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'].strip()),
@@ -239,12 +239,12 @@ class MPost(Mabc):
         else:
             num = 8
         if catid == '':
-            return g_Post.select().order_by(peewee.fn.Random()).limit(num)
+            return TabPost.select().order_by(peewee.fn.Random()).limit(num)
 
         else:
-            return g_Post.select().join(g_Post2Tag, on=(g_Post.uid == g_Post2Tag.post_id)).where(
-                (g_Post.valid == 1) &
-                (g_Post2Tag.tag_id == catid)
+            return TabPost.select().join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)).where(
+                (TabPost.valid == 1) &
+                (TabPost2Tag.tag_id == catid)
             ).order_by(
                 peewee.fn.Random()
             ).limit(num)
@@ -271,14 +271,14 @@ class MPost(Mabc):
             kind = None
 
         if kind:
-            return g_Post.select().where(
-                (g_Post.kind == kind) &
-                (g_Post.valid == 1)
+            return TabPost.select().where(
+                (TabPost.kind == kind) &
+                (TabPost.valid == 1)
             ).order_by(
                 peewee.fn.Random()
             ).limit(limit)
         else:
-            return g_Post.select().order_by(
+            return TabPost.select().order_by(
                 peewee.fn.Random()
             ).limit(limit)
 
@@ -292,13 +292,13 @@ class MPost(Mabc):
 
         if 'kind' in kwargs:
             kind = kwargs['kind']
-            return g_Post.select().where((g_Post.kind == kind) & (g_Post.valid == 1)).order_by(
-                g_Post.time_update.desc()).limit(num)
+            return TabPost.select().where((TabPost.kind == kind) & (TabPost.valid == 1)).order_by(
+                TabPost.time_update.desc()).limit(num)
         else:
-            return g_Post.select().where(
-                g_Post.valid == 1
+            return TabPost.select().where(
+                TabPost.valid == 1
             ).order_by(
-                g_Post.time_update.desc()
+                TabPost.time_update.desc()
             ).limit(num)
 
     @staticmethod
@@ -316,11 +316,11 @@ class MPost(Mabc):
         else:
             limit = 10
 
-        return g_Post.select().where(
-            (g_Post.kind == kind) &
-            (g_Post.valid == 1)
+        return TabPost.select().where(
+            (TabPost.kind == kind) &
+            (TabPost.valid == 1)
         ).order_by(
-            g_Post.time_update.desc()
+            TabPost.time_update.desc()
         ).limit(limit)
 
     @staticmethod
@@ -329,7 +329,7 @@ class MPost(Mabc):
         :param kind:
         :return:
         '''
-        return g_Post.select().where((g_Post.kind == kind) & (g_Post.keywords == ''))
+        return TabPost.select().where((TabPost.kind == kind) & (TabPost.keywords == ''))
 
     @staticmethod
     def query_recent_edited(timstamp, kind='1'):
@@ -338,10 +338,10 @@ class MPost(Mabc):
         :param kind:
         :return:
         '''
-        return g_Post.select().where(
-            (g_Post.kind == kind) &
-            (g_Post.time_update > timstamp)
-        ).order_by(g_Post.time_update.desc())
+        return TabPost.select().where(
+            (TabPost.kind == kind) &
+            (TabPost.time_update > timstamp)
+        ).order_by(TabPost.time_update.desc())
 
     @staticmethod
     def query_dated(num=8, kind='1'):
@@ -350,10 +350,10 @@ class MPost(Mabc):
         :param kind:
         :return:
         '''
-        return g_Post.select().where(
-            g_Post.kind == kind
+        return TabPost.select().where(
+            TabPost.kind == kind
         ).order_by(
-            g_Post.time_update.asc()
+            TabPost.time_update.asc()
         ).limit(num)
 
     @staticmethod
@@ -363,9 +363,9 @@ class MPost(Mabc):
         :param kind:
         :return:
         '''
-        return g_Post.select().where(
-            (g_Post.kind == kind) & (g_Post.logo != "")
-        ).order_by(g_Post.view_count.desc()).limit(num)
+        return TabPost.select().where(
+            (TabPost.kind == kind) & (TabPost.logo != "")
+        ).order_by(TabPost.view_count.desc()).limit(num)
 
     @staticmethod
     def query_cat_recent(cat_id, label=None, num=8, kind='1'):
@@ -389,12 +389,12 @@ class MPost(Mabc):
         :param kind:
         :return:
         '''
-        return g_Post.select().join(g_Post2Tag, on=(g_Post.uid == g_Post2Tag.post_id)).where(
-            (g_Post.kind == kind) &
-            (g_Post2Tag.tag_id == cat_id) &
-            (g_Post.extinfo['def_tag_arr'].contains(label))
+        return TabPost.select().join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)).where(
+            (TabPost.kind == kind) &
+            (TabPost2Tag.tag_id == cat_id) &
+            (TabPost.extinfo['def_tag_arr'].contains(label))
         ).order_by(
-            g_Post.time_create.desc()
+            TabPost.time_create.desc()
         ).limit(num)
 
     @staticmethod
@@ -405,11 +405,11 @@ class MPost(Mabc):
         :param kind:
         :return:
         '''
-        return g_Post.select().join(g_Post2Tag, on=(g_Post.uid == g_Post2Tag.post_id)).where(
-            (g_Post.kind == kind) &
-            (g_Post2Tag.tag_id == cat_id)
+        return TabPost.select().join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)).where(
+            (TabPost.kind == kind) &
+            (TabPost2Tag.tag_id == cat_id)
         ).order_by(
-            g_Post.time_create.desc()
+            TabPost.time_create.desc()
         ).limit(num)
 
     @staticmethod
@@ -433,12 +433,12 @@ class MPost(Mabc):
         :param kind:
         :return:
         '''
-        return g_Post.select().join(g_Post2Tag, on=(g_Post.uid == g_Post2Tag.post_id)).where(
-            (g_Post.kind == kind) &
-            (g_Post2Tag.tag_id << cat_id_arr) &  # the "<<" operator signifies an "IN" query
-            (g_Post.extinfo['def_tag_arr'].contains(label))
+        return TabPost.select().join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)).where(
+            (TabPost.kind == kind) &
+            (TabPost2Tag.tag_id << cat_id_arr) &  # the "<<" operator signifies an "IN" query
+            (TabPost.extinfo['def_tag_arr'].contains(label))
         ).order_by(
-            g_Post.time_create.desc()
+            TabPost.time_create.desc()
         ).limit(num)
 
     @staticmethod
@@ -449,11 +449,11 @@ class MPost(Mabc):
         :param kind:
         :return:
         '''
-        return g_Post.select().join(g_Post2Tag, on=(g_Post.uid == g_Post2Tag.post_id)).where(
-            (g_Post.kind == kind) &
-            (g_Post2Tag.tag_id << cat_id_arr)  # the "<<" operator signifies an "IN" query
+        return TabPost.select().join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)).where(
+            (TabPost.kind == kind) &
+            (TabPost2Tag.tag_id << cat_id_arr)  # the "<<" operator signifies an "IN" query
         ).order_by(
-            g_Post.time_create.desc()
+            TabPost.time_create.desc()
         ).limit(num)
 
     @staticmethod
@@ -463,11 +463,11 @@ class MPost(Mabc):
         :param kind:
         :return:
         '''
-        return g_Post.select().where(
-            (g_Post.kind == kind) &
-            (g_Post.valid == 1)
+        return TabPost.select().where(
+            (TabPost.kind == kind) &
+            (TabPost.valid == 1)
         ).order_by(
-            g_Post.view_count.desc()
+            TabPost.view_count.desc()
         ).limit(num)
 
     @staticmethod
@@ -493,7 +493,7 @@ class MPost(Mabc):
         :param uid:
         :return:
         '''
-        entry = g_Post.update(view_count=g_Post.view_count + 1).where(g_Post.uid == uid)
+        entry = TabPost.update(view_count=TabPost.view_count + 1).where(TabPost.uid == uid)
         try:
             entry.execute()
             return True
@@ -507,7 +507,7 @@ class MPost(Mabc):
         :param inkeywords:
         :return:
         '''
-        entry = g_Post.update(keywords=inkeywords).where(g_Post.uid == uid)
+        entry = TabPost.update(keywords=inkeywords).where(TabPost.uid == uid)
         entry.execute()
 
     @staticmethod
@@ -518,10 +518,10 @@ class MPost(Mabc):
         :return:
         '''
         current_rec = MPost.get_by_uid(in_uid)
-        query = g_Post.select().where(
-            (g_Post.kind == kind) &
-            (g_Post.time_create < current_rec.time_create)
-        ).order_by(g_Post.time_create.desc())
+        query = TabPost.select().where(
+            (TabPost.kind == kind) &
+            (TabPost.time_create < current_rec.time_create)
+        ).order_by(TabPost.time_create.desc())
         if query.count() == 0:
             return None
         else:
@@ -535,10 +535,10 @@ class MPost(Mabc):
         :return:
         '''
         current_rec = MPost.get_by_uid(in_uid)
-        query = g_Post.select().where(
-            (g_Post.kind == kind) &
-            (g_Post.time_create > current_rec.time_create)
-        ).order_by(g_Post.time_create)
+        query = TabPost.select().where(
+            (TabPost.kind == kind) &
+            (TabPost.time_create > current_rec.time_create)
+        ).order_by(TabPost.time_create)
         if query.count() == 0:
             return None
         else:
@@ -546,11 +546,11 @@ class MPost(Mabc):
 
     @staticmethod
     def get_all(kind='2'):
-        return g_Post.select().where(
-            (g_Post.kind == kind) &
-            (g_Post.valid == 1)
+        return TabPost.select().where(
+            (TabPost.kind == kind) &
+            (TabPost.valid == 1)
         ).order_by(
-            g_Post.time_update.desc()
+            TabPost.time_update.desc()
         )
 
     @staticmethod
@@ -558,9 +558,9 @@ class MPost(Mabc):
         cur_extinfo = MPost.get_by_uid(uid).extinfo
         for key in extinfo:
             cur_extinfo[key] = extinfo[key]
-        entry = g_Post.update(
+        entry = TabPost.update(
             extinfo=cur_extinfo,
-        ).where(g_Post.uid == uid)
+        ).where(TabPost.uid == uid)
         entry.execute()
         return uid
 
@@ -581,7 +581,7 @@ class MPost(Mabc):
         cur_info = MPost.get_by_uid(uid)
         if cur_info:
             if DB_CFG['kind'] == 's':
-                entry = g_Post.update(
+                entry = TabPost.update(
                     title=title,
                     user_name=data_dic['user_name'],
                     keywords='',
@@ -593,7 +593,7 @@ class MPost(Mabc):
                     order=data_dic['order'],
                     cnt_html=tools.markdown2html(data_dic['cnt_md']),
                     valid=data_dic['valid']
-                ).where(g_Post.uid == uid)
+                ).where(TabPost.uid == uid)
                 entry.execute()
             else:
                 cur_extinfo = cur_info.extinfo
@@ -601,7 +601,7 @@ class MPost(Mabc):
                 for key in extinfo:
                     cur_extinfo[key] = extinfo[key]
 
-                entry = g_Post.update(
+                entry = TabPost.update(
                     title=title,
                     user_name=data_dic['user_name'],
                     keywords='',
@@ -614,7 +614,7 @@ class MPost(Mabc):
                     cnt_html=tools.markdown2html(data_dic['cnt_md']),
                     extinfo=cur_extinfo,
                     valid=data_dic['valid']
-                ).where(g_Post.uid == uid)
+                ).where(TabPost.uid == uid)
                 entry.execute()
         else:
             return MPost.add_meta(uid, data_dic, extinfo)
@@ -629,73 +629,73 @@ class MPost(Mabc):
         :return:
         '''
         postinfo = MPost.get_by_uid(uid)
-        entry = g_Post.update(
+        entry = TabPost.update(
             time_update=tools.timestamp(),
             date=datetime.now(),
             kind=data_dic['kind'] if 'kind' in data_dic else postinfo.kind,
             keywords=data_dic['keywords'] if 'keywords' in data_dic else postinfo.keywords,
-        ).where(g_Post.uid == uid)
+        ).where(TabPost.uid == uid)
         entry.execute()
         return uid
 
     @staticmethod
     def get_view_count(sig):
         try:
-            return g_Post.get(uid=sig).view_count
+            return TabPost.get(uid=sig).view_count
         except:
             return False
 
     @staticmethod
     def query_most_by_cat(num=8, catid=None, kind='2'):
         if catid:
-            return g_Post.select().join(g_Post2Tag, on=(g_Post.uid == g_Post2Tag.post_id)).where(
-                (g_Post.kind == kind) &
-                (g_Post.valid == 1) &
-                (g_Post2Tag.tag_id == catid)
+            return TabPost.select().join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)).where(
+                (TabPost.kind == kind) &
+                (TabPost.valid == 1) &
+                (TabPost2Tag.tag_id == catid)
             ).order_by(
-                g_Post.view_count.desc()
+                TabPost.view_count.desc()
             ).limit(num)
         else:
             return False
 
     @staticmethod
     def query_least_by_cat(num=8, cat_str=1, kind='2'):
-        return g_Post.select().join(g_Post2Tag, on=(g_Post.uid == g_Post2Tag.post_id)).where(
-            (g_Post.kind == kind) &
-            (g_Post.valid == 1) &
-            (g_Post2Tag.tag_id == cat_str)
+        return TabPost.select().join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)).where(
+            (TabPost.kind == kind) &
+            (TabPost.valid == 1) &
+            (TabPost2Tag.tag_id == cat_str)
         ).order_by(
-            g_Post.view_count
+            TabPost.view_count
         ).limit(num)
 
     @staticmethod
     def get_by_keyword(par2, kind='2'):
-        return g_Post.select().where(
-            (g_Post.kind == kind) &
-            (g_Post.valid == 1) &
-            (g_Post.title.contains(par2))
+        return TabPost.select().where(
+            (TabPost.kind == kind) &
+            (TabPost.valid == 1) &
+            (TabPost.title.contains(par2))
         ).order_by(
-            g_Post.time_update.desc()
+            TabPost.time_update.desc()
         ).limit(20)
 
     @staticmethod
     def query_extinfo_by_cat(cat_id, kind='2'):
-        return g_Post.select().where(
-            (g_Post.kind == kind) &
-            (g_Post.valid == 1) &
-            (g_Post.extinfo['def_cat_uid'] == cat_id)
+        return TabPost.select().where(
+            (TabPost.kind == kind) &
+            (TabPost.valid == 1) &
+            (TabPost.extinfo['def_cat_uid'] == cat_id)
         ).order_by(
-            g_Post.time_update.desc()
+            TabPost.time_update.desc()
         )
 
     @staticmethod
     def query_by_tagname(tag_name, kind='2'):
-        return g_Post.select().where(
-            (g_Post.kind == kind) &
-            (g_Post.valid == 1) &
-            (g_Post.extinfo['def_tag_arr'].contains(tag_name))
+        return TabPost.select().where(
+            (TabPost.kind == kind) &
+            (TabPost.valid == 1) &
+            (TabPost.extinfo['def_tag_arr'].contains(tag_name))
         ).order_by(
-            g_Post.time_update.desc()
+            TabPost.time_update.desc()
         )
 
     @staticmethod
@@ -725,7 +725,7 @@ class MPost(Mabc):
         title = data_dic['title'].strip()
         if len(title) < 2:
             return False
-        g_Post.create(
+        TabPost.create(
             uid=uid,
             title=title,
             keywords='',
@@ -754,13 +754,13 @@ class MPost(Mabc):
         :return:
         '''
         if DB_CFG['kind'] == 's':
-            return g_Post.select().where((g_Post.kind == kind) & (g_Post.valid == 1)).order_by(
-                g_Post.time_update.desc())
+            return TabPost.select().where((TabPost.kind == kind) & (TabPost.valid == 1)).order_by(
+                TabPost.time_update.desc())
         else:
 
-            return g_Post.select().where(
-                (g_Post.kind == kind) & (g_Post.valid == 1) & (g_Post.extinfo.contains(condition))
-            ).order_by(g_Post.time_update.desc())
+            return TabPost.select().where(
+                (TabPost.kind == kind) & (TabPost.valid == 1) & (TabPost.extinfo.contains(condition))
+            ).order_by(TabPost.time_update.desc())
 
     @staticmethod
     def get_num_condition(con):
@@ -792,7 +792,7 @@ class MPost(Mabc):
         else:
             time_stamp = int(time.time())
 
-            g_Post.create(
+            TabPost.create(
                 uid=data_dic['sig'],
                 title=data_dic['title'],
                 create_time=time_stamp,

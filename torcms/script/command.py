@@ -15,6 +15,7 @@ from .script_sitemap import run_sitemap
 from .script_check_kind import run_check_kind
 from .script_fetch_fe2lib import run_f2elib
 from .script_init_tabels import run_init_tables
+from .script_drop_tabels import run_drop_tables
 from .script_gen_category import run_gen_category
 from .script_crud import run_auto
 from .script_whoosh import run_whoosh
@@ -39,6 +40,7 @@ def entry(argv):
 
         'f2elib': run_f2elib,
         'init_tables': run_init_tables,
+        'drop_tables': run_drop_tables,
         'gen_category': run_gen_category,
         'auto': run_auto,
         'whoosh': run_whoosh,

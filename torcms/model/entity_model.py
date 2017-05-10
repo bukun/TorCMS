@@ -5,7 +5,7 @@ For file entities. Just like pdf, zipfile, docx, etc.
 '''
 
 import time
-from torcms.model.core_tab import g_Entity
+from torcms.model.core_tab import TabEntity
 from torcms.model.abc_model import Mabc, MHelper
 from torcms.core.tools import logger
 
@@ -17,13 +17,13 @@ class MEntity(Mabc):
 
     @staticmethod
     def query_all(limit=20):
-        return g_Entity.select().limit(limit)
+        return TabEntity.select().limit(limit)
 
     @staticmethod
     def get_id_by_impath(path):
         logger.info('Get Entiry, Path: {0}'.format(path))
 
-        uu = g_Entity.select().where(g_Entity.path == path)
+        uu = TabEntity.select().where(TabEntity.path == path)
         if uu.count() == 1:
             return uu.get().uid
         elif uu.count() > 1:
@@ -46,7 +46,7 @@ class MEntity(Mabc):
             return False
 
         try:
-            g_Entity.create(
+            TabEntity.create(
                 uid=signature,
                 path=impath,
                 time_create=time.time(),
@@ -58,4 +58,4 @@ class MEntity(Mabc):
 
     @staticmethod
     def delete(uid):
-        return MHelper.delete(g_Entity, uid)
+        return MHelper.delete(TabEntity, uid)

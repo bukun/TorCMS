@@ -4,7 +4,7 @@
 Model for Evaluation
 '''
 from torcms.core import tools
-from torcms.model.core_tab import g_Evaluation
+from torcms.model.core_tab import TabEvaluation
 from torcms.model.abc_model import Mabc
 
 
@@ -17,8 +17,8 @@ class MEvaluation(Mabc):
         :param value:
         :return:
         '''
-        return g_Evaluation.select().where(
-            (g_Evaluation.post_id == app_id) & (g_Evaluation.value == value)
+        return TabEvaluation.select().where(
+            (TabEvaluation.post_id == app_id) & (TabEvaluation.value == value)
         ).count()
 
     @staticmethod
@@ -29,8 +29,8 @@ class MEvaluation(Mabc):
         :return:
         '''
         try:
-            return g_Evaluation.get(
-                (g_Evaluation.user_id == user_id) & (g_Evaluation.post_id == app_id)
+            return TabEvaluation.get(
+                (TabEvaluation.user_id == user_id) & (TabEvaluation.post_id == app_id)
             )
         except:
             return None
@@ -45,12 +45,12 @@ class MEvaluation(Mabc):
         '''
         rec = MEvaluation.get_by_signature(user_id, app_id)
         if rec:
-            entry = g_Evaluation.update(
+            entry = TabEvaluation.update(
                 value=value,
-            ).where(g_Evaluation.uid == rec.uid)
+            ).where(TabEvaluation.uid == rec.uid)
             entry.execute()
         else:
-            g_Evaluation.create(
+            TabEvaluation.create(
                 uid=tools.get_uuid(),
                 user_id=user_id,
                 post_id=app_id,

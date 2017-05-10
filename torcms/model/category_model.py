@@ -4,7 +4,7 @@
 Model for category
 '''
 
-from torcms.model.core_tab import g_Tag, g_Post2Tag
+from torcms.model.core_tab import TabTag, TabPost2Tag
 from torcms.model.abc_model import Mabc, MHelper
 
 
@@ -20,11 +20,11 @@ class MCategory(Mabc):
         :param uid:
         :return:
         '''
-        return MHelper.delete(g_Tag, uid)
+        return MHelper.delete(TabTag, uid)
 
     @staticmethod
     def get_by_uid(uid):
-        return MHelper.get_by_uid(g_Tag, uid)
+        return MHelper.get_by_uid(TabTag, uid)
 
     # Deprived
     @staticmethod
@@ -35,30 +35,30 @@ class MCategory(Mabc):
         :param qian2: 分类id的前两位
         :return: 数组，包含了找到的分类
         '''
-        return g_Tag.select().where(
-            g_Tag.uid.startswith(qian2)
-        ).order_by(g_Tag.order)
+        return TabTag.select().where(
+            TabTag.uid.startswith(qian2)
+        ).order_by(TabTag.order)
 
     @staticmethod
     def get_parent_list(kind='1'):
-        db_data = g_Tag.select().where((g_Tag.kind == kind) & (g_Tag.uid.endswith('00'))).order_by(
-            g_Tag.uid)
+        db_data = TabTag.select().where((TabTag.kind == kind) & (TabTag.uid.endswith('00'))).order_by(
+            TabTag.uid)
         return db_data
 
     @staticmethod
     def query_kind_cat(kind_sig):
-        return g_Tag.select().where(
-            (g_Tag.kind == kind_sig) & (g_Tag.pid == '0000')
-        ).order_by(g_Tag.order)
+        return TabTag.select().where(
+            (TabTag.kind == kind_sig) & (TabTag.pid == '0000')
+        ).order_by(TabTag.order)
 
     @staticmethod
     def query_sub_cat(pid):
-        return g_Tag.select().where(g_Tag.pid == pid).order_by(g_Tag.order)
+        return TabTag.select().where(TabTag.pid == pid).order_by(TabTag.order)
 
     @staticmethod
     def query_pcat(**kwargs):
 
-        return g_Tag.select().where(g_Tag.pid == '0000').order_by(g_Tag.order)
+        return TabTag.select().where(TabTag.pid == '0000').order_by(TabTag.order)
 
         # return g_Tag.select().where(
         #     (g_Tag.kind == kind) & (g_Tag.uid.endswith('00'))
@@ -71,16 +71,16 @@ class MCategory(Mabc):
     @staticmethod
     def query_all(by_count=False, by_order=True, kind='1'):
         if by_count:
-            recs = g_Tag.select().where(g_Tag.kind == kind).order_by(g_Tag.count.desc())
+            recs = TabTag.select().where(TabTag.kind == kind).order_by(TabTag.count.desc())
         elif by_order:
-            recs = g_Tag.select().where(g_Tag.kind == kind).order_by(g_Tag.order)
+            recs = TabTag.select().where(TabTag.kind == kind).order_by(TabTag.order)
         else:
-            recs = g_Tag.select().where(g_Tag.kind == kind).order_by(g_Tag.uid)
+            recs = TabTag.select().where(TabTag.kind == kind).order_by(TabTag.uid)
         return recs
 
     @staticmethod
     def query_field_count(limit_num, kind='1'):
-        return g_Tag.select().where(g_Tag.kind == kind).order_by(g_Tag.count.desc()).limit(limit_num)
+        return TabTag.select().where(TabTag.kind == kind).order_by(TabTag.count.desc()).limit(limit_num)
 
     @staticmethod
     def get_by_slug(slug):
@@ -89,7 +89,7 @@ class MCategory(Mabc):
         :param slug:
         :return:
         '''
-        uu = g_Tag.select().where(g_Tag.slug == slug)
+        uu = TabTag.select().where(TabTag.slug == slug)
         if uu.count() > 0:
             return uu.get()
         else:
@@ -102,11 +102,11 @@ class MCategory(Mabc):
         :param cat_id:
         :return:
         '''
-        entry2 = g_Tag.update(
-            count=g_Post2Tag.select().where(
-                g_Post2Tag.tag_id == cat_id
+        entry2 = TabTag.update(
+            count=TabPost2Tag.select().where(
+                TabPost2Tag.tag_id == cat_id
             ).count()
-        ).where(g_Tag.uid == cat_id)
+        ).where(TabTag.uid == cat_id)
         entry2.execute()
 
     @staticmethod
@@ -117,14 +117,14 @@ class MCategory(Mabc):
         :param post_data:
         :return:
         '''
-        raw_rec = g_Tag.get(g_Tag.uid == uid)
-        entry = g_Tag.update(
+        raw_rec = TabTag.get(TabTag.uid == uid)
+        entry = TabTag.update(
             name=post_data['name'] if 'name' in post_data else raw_rec.name,
             slug=post_data['slug'] if 'slug' in post_data else raw_rec.slug,
             order=post_data['order'] if 'order' in post_data else raw_rec.order,
             kind=post_data['kind'] if 'kind' in post_data else raw_rec.kind,
             pid=post_data['pid'],
-        ).where(g_Tag.uid == uid)
+        ).where(TabTag.uid == uid)
         entry.execute()
 
     @staticmethod
@@ -133,7 +133,7 @@ class MCategory(Mabc):
         if catinfo:
             MCategory.update(uid, post_data)
         else:
-            g_Tag.create(
+            TabTag.create(
                 uid=uid,
                 name=post_data['name'],
                 slug=post_data['slug'],

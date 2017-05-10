@@ -3,7 +3,7 @@
 '''
 For friends links.
 '''
-from torcms.model.core_tab import g_Link
+from torcms.model.core_tab import TabLink
 from torcms.model.abc_model import Mabc, MHelper
 
 
@@ -21,7 +21,7 @@ class MLink(Mabc):
         The count in table.
         :return:
         '''
-        return g_Link.select().count()
+        return TabLink.select().count()
 
     @staticmethod
     def query_all(limit_num=50):
@@ -30,11 +30,11 @@ class MLink(Mabc):
         :param limit_num:
         :return:
         '''
-        return g_Link.select().limit(limit_num)
+        return TabLink.select().limit(limit_num)
 
     @staticmethod
     def get_by_uid(uid):
-        return MHelper.get_by_uid(g_Link, uid)
+        return MHelper.get_by_uid(TabLink, uid)
 
     @staticmethod
     def delete(uid):
@@ -43,7 +43,7 @@ class MLink(Mabc):
         :param uid:
         :return:
         '''
-        return MHelper.delete(g_Link, uid)
+        return MHelper.delete(TabLink, uid)
 
     @staticmethod
     def update(uid, post_data):
@@ -53,12 +53,12 @@ class MLink(Mabc):
         :param post_data:
         :return:
         '''
-        entry = g_Link.update(
+        entry = TabLink.update(
             name=post_data['name'],
             link=post_data['link'],
             order=post_data['order'],
             logo=post_data['logo'] if 'logo' in post_data else '',
-        ).where(g_Link.uid == uid)
+        ).where(TabLink.uid == uid)
         try:
             entry.execute()
             return True
@@ -75,13 +75,13 @@ class MLink(Mabc):
         '''
         if MLink.get_by_uid(id_link):
             return False
-        g_Link.create(name=post_data['name'],
-                      link=post_data['link'],
-                      order=post_data['order'],
-                      logo=post_data['logo'] if 'logo' in post_data else '',
-                      uid=id_link)
+        TabLink.create(name=post_data['name'],
+                       link=post_data['link'],
+                       order=post_data['order'],
+                       logo=post_data['logo'] if 'logo' in post_data else '',
+                       uid=id_link)
         return id_link
 
     @staticmethod
     def query_link(num):
-        return g_Link.select().limit(num).order_by(g_Link.order)
+        return TabLink.select().limit(num).order_by(TabLink.order)

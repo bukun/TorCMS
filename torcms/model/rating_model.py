@@ -6,7 +6,7 @@ Rating for post.
 
 import peewee
 from torcms.core import tools
-from torcms.model.core_tab import g_Rating
+from torcms.model.core_tab import TabRating
 from torcms.model.abc_model import Mabc
 
 
@@ -20,20 +20,20 @@ class MRating(Mabc):
 
     @staticmethod
     def query_by_post(postid, limit=20):
-        return g_Rating.select().where(g_Rating.post_id == postid).limit(limit)
+        return TabRating.select().where(TabRating.post_id == postid).limit(limit)
 
     @staticmethod
     def query_average_rating(postid, limit=1000):
-        return g_Rating.select(
-            peewee.fn.Avg(g_Rating.rating).over(order_by=[g_Rating.timestamp.desc()])
+        return TabRating.select(
+            peewee.fn.Avg(TabRating.rating).over(order_by=[TabRating.timestamp.desc()])
         ).where(
-            g_Rating.post_id == postid
+            TabRating.post_id == postid
         ).limit(limit).scalar()
 
     @staticmethod
     def get_rating(postid, userid):
         try:
-            uu = g_Rating.select().where((g_Rating.post_id == postid) & (g_Rating.user_id == userid))
+            uu = TabRating.select().where((TabRating.post_id == postid) & (TabRating.user_id == userid))
         except:
             return False
         if uu.count() > 0:
@@ -43,7 +43,7 @@ class MRating(Mabc):
 
     @staticmethod
     def update(postid, userid, rating):
-        uu = g_Rating.select().where((g_Rating.post_id == postid) & (g_Rating.user_id == userid))
+        uu = TabRating.select().where((TabRating.post_id == postid) & (TabRating.user_id == userid))
         if uu.count() > 0:
             MRating.__update_rating(uu.get().uid, rating)
         else:
@@ -51,15 +51,15 @@ class MRating(Mabc):
 
     @staticmethod
     def __update_rating(uid, rating):
-        entry = g_Rating.update(
+        entry = TabRating.update(
             rating=rating
-        ).where(g_Rating.uid == uid)
+        ).where(TabRating.uid == uid)
         entry.execute()
 
     @staticmethod
     def __insert_data(postid, userid, rating):
         uid = tools.get_uuid()
-        g_Rating.create(
+        TabRating.create(
             uid=uid,
             post_id=postid,
             user_id=userid,

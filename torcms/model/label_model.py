@@ -5,9 +5,9 @@ For label, and label to post
 '''
 
 from torcms.core import tools
-from torcms.model.core_tab import g_Tag
-from torcms.model.core_tab import g_Post
-from torcms.model.core_tab import g_Post2Tag as g_Post2Tag
+from torcms.model.core_tab import TabTag
+from torcms.model.core_tab import TabPost
+from torcms.model.core_tab import TabPost2Tag
 from torcms.core.tools import logger
 
 from config import CMS_CFG
@@ -24,8 +24,8 @@ class MLabel(Mabc):
 
     @staticmethod
     def get_id_by_name(tag_name, kind='z'):
-        recs = g_Tag.select().where(
-            (g_Tag.name == tag_name) & (g_Tag.kind == kind)
+        recs = TabTag.select().where(
+            (TabTag.name == tag_name) & (TabTag.kind == kind)
         )
         logger.info('tag count of {0}: {1} '.format(tag_name, recs.count()))
         if recs.count() == 1:
@@ -39,8 +39,8 @@ class MLabel(Mabc):
                 if idx == 0:
                     pass
                 else:
-                    g_Post2Tag.delete().where(g_Post2Tag.tag_id == rec.uid).execute()
-                    g_Tag.delete().where(g_Tag.uid == rec.uid).execute()
+                    TabPost2Tag.delete().where(TabPost2Tag.tag_id == rec.uid).execute()
+                    TabTag.delete().where(TabTag.uid == rec.uid).execute()
                 idx += 1
             return rec0.uid
         else:
@@ -48,11 +48,11 @@ class MLabel(Mabc):
 
     @staticmethod
     def delete(uid):
-        return MHelper.delete(g_Tag, uid)
+        return MHelper.delete(TabTag, uid)
 
     @staticmethod
     def get_by_slug(tag_slug):
-        uu = g_Tag.select().where(g_Tag.slug == tag_slug)
+        uu = TabTag.select().where(TabTag.slug == tag_slug)
         if uu:
             return uu.get()
         else:
@@ -61,21 +61,21 @@ class MLabel(Mabc):
     @staticmethod
     def create_tag(tag_name, kind='z'):
 
-        cur_count = g_Tag.select().where(
-            (g_Tag.name == tag_name) &
-            (g_Tag.kind == kind)
+        cur_count = TabTag.select().where(
+            (TabTag.name == tag_name) &
+            (TabTag.kind == kind)
         ).count()
         if cur_count > 0:
-            g_Tag.delete().where(
-                (g_Tag.name == tag_name) &
-                (g_Tag.kind == kind)
+            TabTag.delete().where(
+                (TabTag.name == tag_name) &
+                (TabTag.kind == kind)
             ).execute()
 
         uid = tools.get_uu4d_v2()
-        while g_Tag.select().where(g_Tag.uid == uid).count() > 0:
+        while TabTag.select().where(TabTag.uid == uid).count() > 0:
             uid = tools.get_uu4d_v2()
 
-        g_Tag.create(
+        TabTag.create(
             uid=uid,
             slug=uid,
             name=tag_name,
@@ -90,10 +90,10 @@ class MLabel(Mabc):
     @staticmethod
     def create_tag_with_uid(uid, tag_name):
 
-        if g_Tag.select().where(g_Tag.uid == uid).count():
+        if TabTag.select().where(TabTag.uid == uid).count():
             return False
 
-        g_Tag.create(
+        TabTag.create(
             uid=uid,
             slug=uid,
             name=tag_name,
@@ -116,12 +116,12 @@ class MPost2Label(Mabc):
 
     @staticmethod
     def query_count(uid):
-        return g_Post2Tag.select().where(g_Post2Tag.tag_id == uid).count()
+        return TabPost2Tag.select().where(TabPost2Tag.tag_id == uid).count()
 
     @staticmethod
     def remove_relation(post_id, tag_id):
-        entry = g_Post2Tag.delete().where(
-            (g_Post2Tag.post_id == post_id) & (g_Post2Tag.tag_id == tag_id)
+        entry = TabPost2Tag.delete().where(
+            (TabPost2Tag.post_id == post_id) & (TabPost2Tag.tag_id == tag_id)
         )
         entry.execute()
 
@@ -139,20 +139,20 @@ class MPost2Label(Mabc):
 
     @staticmethod
     def get_by_uid(idd, kind='z'):
-        return g_Post2Tag.select(g_Post2Tag, g_Tag.name.alias('tag_name'), g_Tag.uid.alias('tag_uid')).join(
-            g_Tag, on=(g_Post2Tag.tag_id == g_Tag.uid)
+        return TabPost2Tag.select(TabPost2Tag, TabTag.name.alias('tag_name'), TabTag.uid.alias('tag_uid')).join(
+            TabTag, on=(TabPost2Tag.tag_id == TabTag.uid)
         ).where(
-            (g_Post2Tag.post_id == idd) & (g_Tag.kind == 'z')
+            (TabPost2Tag.post_id == idd) & (TabTag.kind == 'z')
         )
 
     @staticmethod
     def get_by_info(post_id, catalog_id):
-        tmp_recs = g_Post2Tag.select().join(
-            g_Tag, on=(g_Post2Tag.tag_id == g_Tag.uid)
+        tmp_recs = TabPost2Tag.select().join(
+            TabTag, on=(TabPost2Tag.tag_id == TabTag.uid)
         ).where(
-            (g_Post2Tag.post_id == post_id) &
-            (g_Post2Tag.tag_id == catalog_id) &
-            (g_Tag.kind == 'z')
+            (TabPost2Tag.post_id == post_id) &
+            (TabPost2Tag.tag_id == catalog_id) &
+            (TabTag.kind == 'z')
         )
 
         if tmp_recs.count() > 1:
@@ -164,7 +164,7 @@ class MPost2Label(Mabc):
                 if idx == 0:
                     out_rec = tmp_rec
                 else:
-                    entry = g_Post2Tag.delete().where(g_Post2Tag.uid == tmp_rec.uid)
+                    entry = TabPost2Tag.delete().where(TabPost2Tag.uid == tmp_rec.uid)
                     entry.execute()
                 idx += 1
             return out_rec
@@ -180,12 +180,12 @@ class MPost2Label(Mabc):
         tag_id = MLabel.get_id_by_name(tag_name, 'z')
         labelinfo = MPost2Label.get_by_info(post_id, tag_id)
         if labelinfo:
-            entry = g_Post2Tag.update(
+            entry = TabPost2Tag.update(
                 order=order,
-            ).where(g_Post2Tag.uid == labelinfo.uid)
+            ).where(TabPost2Tag.uid == labelinfo.uid)
             entry.execute()
         else:
-            entry = g_Post2Tag.create(
+            entry = TabPost2Tag.create(
                 uid=tools.get_uuid(),
                 post_id=post_id,
                 tag_id=tag_id,
@@ -195,13 +195,13 @@ class MPost2Label(Mabc):
 
     @staticmethod
     def total_number(slug, kind='1'):
-        return g_Post.select().join(g_Post2Tag, on=(g_Post.uid == g_Post2Tag.post_id)).where(
-            (g_Post2Tag.tag_id == slug) & (g_Post.kind == kind)
+        return TabPost.select().join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)).where(
+            (TabPost2Tag.tag_id == slug) & (TabPost.kind == kind)
         ).count()
 
     @staticmethod
     def query_pager_by_slug(slug, kind='1', current_page_num=1):
-        return g_Post.select().join(g_Post2Tag, on=(g_Post.uid == g_Post2Tag.post_id)).where(
-            (g_Post2Tag.tag_id == slug) &
-            (g_Post.kind == kind)
+        return TabPost.select().join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)).where(
+            (TabPost2Tag.tag_id == slug) &
+            (TabPost.kind == kind)
         ).paginate(current_page_num, CMS_CFG['list_num'])

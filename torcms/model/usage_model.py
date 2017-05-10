@@ -8,7 +8,7 @@ import time
 
 import peewee
 from torcms.model.post2catalog_model import MPost2Catalog as MInfor2Catalog
-from torcms.model.core_tab import g_Usage, g_Post
+from torcms.model.core_tab import TabUsage, TabPost
 from torcms.core import tools
 from torcms.core.tools import logger
 from torcms.model.abc_model import Mabc
@@ -25,61 +25,61 @@ class MUsage(Mabc):
 
     @staticmethod
     def get_all():
-        return g_Usage.select().order_by('view_count')
+        return TabUsage.select().order_by('view_count')
 
     @staticmethod
     def query_random():
-        return g_Usage.select().order_by(peewee.fn.Random()).limit(6)
+        return TabUsage.select().order_by(peewee.fn.Random()).limit(6)
 
     @staticmethod
     def query_recent(user_id, kind, num=10):
-        return g_Usage.select(
-            g_Usage, g_Post.title.alias('post_title')
+        return TabUsage.select(
+            TabUsage, TabPost.title.alias('post_title')
         ).join(
-            g_Post, on=(g_Usage.post_id == g_Post.uid)
+            TabPost, on=(TabUsage.post_id == TabPost.uid)
         ).where(
-            (g_Usage.user_id == user_id) &
-            (g_Usage.kind == kind)
+            (TabUsage.user_id == user_id) &
+            (TabUsage.kind == kind)
         ).order_by(
-            g_Usage.timestamp.desc()
+            TabUsage.timestamp.desc()
         ).limit(num)
 
     @staticmethod
     def query_recent_by_cat(user_id, cat_id, num):
-        return g_Usage.select().where(
-            (g_Usage.tag_id == cat_id) &
-            (g_Usage.user_id == user_id)
+        return TabUsage.select().where(
+            (TabUsage.tag_id == cat_id) &
+            (TabUsage.user_id == user_id)
         ).order_by(
-            g_Usage.timestamp.desc()
+            TabUsage.timestamp.desc()
         ).limit(num)
 
     @staticmethod
     def query_most(user_id, kind, num):
-        return g_Usage.select(
-            g_Usage, g_Post.title.alias('post_title')
+        return TabUsage.select(
+            TabUsage, TabPost.title.alias('post_title')
         ).join(
-            g_Post, on=(g_Usage.post_id == g_Post.uid)
+            TabPost, on=(TabUsage.post_id == TabPost.uid)
         ).where(
-            (g_Usage.user_id == user_id) &
-            (g_Usage.kind == kind)
+            (TabUsage.user_id == user_id) &
+            (TabUsage.kind == kind)
         ).order_by(
-            g_Usage.count.desc()
+            TabUsage.count.desc()
         ).limit(num)
 
     @staticmethod
     def query_by_signature(user_id, sig):
-        return g_Usage.select().where(
-            (g_Usage.post_id == sig) &
-            (g_Usage.user_id == user_id)
+        return TabUsage.select().where(
+            (TabUsage.post_id == sig) &
+            (TabUsage.user_id == user_id)
         )
 
     @staticmethod
     def count_increate(rec, cat_id, num):
-        entry = g_Usage.update(
+        entry = TabUsage.update(
             timestamp=int(time.time()),
             count=num + 1,
             tag_id=cat_id,
-        ).where(g_Usage.uid == rec)
+        ).where(TabUsage.uid == rec)
         entry.execute()
 
     @staticmethod
@@ -102,12 +102,12 @@ class MUsage(Mabc):
         if rec.count() > 0:
             logger.info('Usage update: {uid}'.format(uid=post_id))
             rec = rec.get()
-            query = g_Usage.update(kind=kind).where(g_Usage.uid == rec.uid)
+            query = TabUsage.update(kind=kind).where(TabUsage.uid == rec.uid)
             query.execute()
             MUsage.count_increate(rec.uid, cat_id, rec.count)
         else:
             logger.info('Usage create: {uid}'.format(uid=post_id))
-            g_Usage.create(
+            TabUsage.create(
                 uid=tools.get_uuid(),
                 post_id=post_id,
                 user_id=user_id,

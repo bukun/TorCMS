@@ -9,7 +9,7 @@ from playhouse.postgres_ext import JSONField
 from torcms.core.base_model import BaseModel
 
 
-class e_Json(BaseModel):
+class MabGson(BaseModel):
     '''
     For GeoJson storage.
     '''
@@ -23,7 +23,7 @@ class e_Json(BaseModel):
     public = peewee.IntegerField(null=False, default=0)
 
 
-class e_Post2Json(BaseModel):
+class MabPost2Gson(BaseModel):
     '''
     relatio between Post2Json.
     '''
@@ -32,7 +32,7 @@ class e_Post2Json(BaseModel):
     post_id = peewee.CharField(null=False, index=True, max_length=5, help_text='', )
     json_id = peewee.CharField(null=False, index=True, max_length=4, help_text='', )
 
-class e_Layout(BaseModel):
+class MabLayout(BaseModel):
     '''
     For Map layout.
     '''

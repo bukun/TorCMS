@@ -7,8 +7,8 @@ Data model for reply.
 import datetime
 import tornado.escape
 from torcms.core import tools
-from torcms.model.core_tab import g_Reply
-from torcms.model.core_tab import g_User2Reply
+from torcms.model.core_tab import TabReply
+from torcms.model.core_tab import TabUser2Reply
 
 from torcms.model.abc_model import Mabc
 
@@ -19,7 +19,7 @@ class MReply(Mabc):
 
     @staticmethod
     def get_by_uid(uid):
-        recs = g_Reply.select().where(g_Reply.uid == uid)
+        recs = TabReply.select().where(TabReply.uid == uid)
         if recs.count() == 0:
             return None
         else:
@@ -27,9 +27,9 @@ class MReply(Mabc):
 
     @staticmethod
     def update_vote(reply_id, count):
-        entry = g_Reply.update(
+        entry = TabReply.update(
             vote=count
-        ).where(g_Reply.uid == reply_id)
+        ).where(TabReply.uid == reply_id)
         entry.execute()
 
     @staticmethod
@@ -40,7 +40,7 @@ class MReply(Mabc):
         :return:
         '''
         uid = tools.get_uuid()
-        g_Reply.create(
+        TabReply.create(
             uid=uid,
             post_id=post_data['post_id'],
             user_name=post_data['user_name'],
@@ -60,14 +60,14 @@ class MReply(Mabc):
         :param postid:
         :return:
         '''
-        return g_Reply.select().where(
-            g_Reply.post_id == postid
-        ).order_by(g_Reply.timestamp.desc())
+        return TabReply.select().where(
+            TabReply.post_id == postid
+        ).order_by(TabReply.timestamp.desc())
 
     @staticmethod
     def get_by_zan(reply_id):
-        return g_User2Reply.select().where(g_User2Reply.reply_id == reply_id).count()
+        return TabUser2Reply.select().where(TabUser2Reply.reply_id == reply_id).count()
 
     @staticmethod
     def query_all():
-        return g_Reply.select().order_by(g_Reply.timestamp.desc())
+        return TabReply.select().order_by(TabReply.timestamp.desc())

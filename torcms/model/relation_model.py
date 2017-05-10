@@ -2,9 +2,9 @@
 
 import peewee
 from torcms.core import tools
-from torcms.model.core_tab import g_Post
-from torcms.model.core_tab import g_Rel
-from torcms.model.core_tab import g_Post2Tag
+from torcms.model.core_tab import TabPost
+from torcms.model.core_tab import TabRel
+from torcms.model.core_tab import TabPost2Tag
 from torcms.model.post2catalog_model import MPost2Catalog as MInfor2Catalog
 from torcms.model.abc_model import Mabc
 
@@ -16,9 +16,9 @@ class MRelation(Mabc):
     @staticmethod
     def add_relation(app_f, app_t, weight=1):
 
-        recs = g_Rel.select().where(
-            (g_Rel.post_f_id == app_f) &
-            (g_Rel.post_t_id == app_t)
+        recs = TabRel.select().where(
+            (TabRel.post_f_id == app_f) &
+            (TabRel.post_t_id == app_t)
         )
         if recs.count() > 1:
             for record in recs:
@@ -26,7 +26,7 @@ class MRelation(Mabc):
 
         if recs.count() == 0:
             uid = tools.get_uuid()
-            entry = g_Rel.create(
+            entry = TabRel.create(
                 uid=uid,
                 post_f_id=app_f,
                 post_t_id=app_t,
@@ -40,8 +40,8 @@ class MRelation(Mabc):
 
     @staticmethod
     def delete(uid):
-        entry = g_Rel.delete().where(
-            g_Rel.uid == uid
+        entry = TabRel.delete().where(
+            TabRel.uid == uid
 
         )
         entry.execute()
@@ -49,17 +49,17 @@ class MRelation(Mabc):
     @staticmethod
     def update_relation(app_f, app_t, weight=1):
         try:
-            postinfo = g_Rel.get(
-                (g_Rel.post_f_id == app_f) &
-                (g_Rel.post_t_id == app_t)
+            postinfo = TabRel.get(
+                (TabRel.post_f_id == app_f) &
+                (TabRel.post_t_id == app_t)
             )
         except:
             return False
-        entry = g_Rel.update(
+        entry = TabRel.update(
             count=postinfo.count + weight
         ).where(
-            (g_Rel.post_f_id == app_f) &
-            (g_Rel.post_t_id == app_t)
+            (TabRel.post_f_id == app_f) &
+            (TabRel.post_t_id == app_t)
         )
         entry.execute()
 
@@ -70,19 +70,19 @@ class MRelation(Mabc):
         '''
         info_tag = MInfor2Catalog.get_first_category(app_id)
         if info_tag:
-            return g_Post2Tag.select(
-                g_Post2Tag, g_Post.title.alias('post_title')
+            return TabPost2Tag.select(
+                TabPost2Tag, TabPost.title.alias('post_title')
             ).join(
-                g_Post, on=(g_Post2Tag.post_id == g_Post.uid)
+                TabPost, on=(TabPost2Tag.post_id == TabPost.uid)
             ).where(
-                (g_Post2Tag.tag_id == info_tag.tag_id) &
-                (g_Post.kind == kind)
+                (TabPost2Tag.tag_id == info_tag.tag_id) &
+                (TabPost.kind == kind)
             ).order_by(
                 peewee.fn.Random()
             ).limit(num)
         else:
-            return g_Post2Tag.select(
-                g_Post2Tag, g_Post.title.alias('post_title')
-            ).join(g_Post, on=(g_Post2Tag.post_id == g_Post.uid)).where(
-                g_Post.kind == kind
+            return TabPost2Tag.select(
+                TabPost2Tag, TabPost.title.alias('post_title')
+            ).join(TabPost, on=(TabPost2Tag.post_id == TabPost.uid)).where(
+                TabPost.kind == kind
             ).order_by(peewee.fn.Random()).limit(num)

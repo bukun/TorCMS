@@ -6,8 +6,8 @@ Model for collection.
 import time
 
 from torcms.core import tools
-from torcms.model.core_tab import g_Post
-from torcms.model.core_tab import g_Collect
+from torcms.model.core_tab import TabPost
+from torcms.model.core_tab import TabCollect
 from torcms.model.abc_model import Mabc
 
 
@@ -23,16 +23,16 @@ class MCollect(Mabc):
         :param num:
         :return:
         '''
-        return g_Collect.select(
-            g_Collect, g_Post.uid.alias('post_uid'),
-            g_Post.title.alias('post_title'),
-            g_Post.view_count.alias('post_view_count')
+        return TabCollect.select(
+            TabCollect, TabPost.uid.alias('post_uid'),
+            TabPost.title.alias('post_title'),
+            TabPost.view_count.alias('post_view_count')
         ).where(
-            g_Collect.user_id == user_id
+            TabCollect.user_id == user_id
         ).join(
-            g_Post, on=(g_Collect.post_id == g_Post.uid)
+            TabPost, on=(TabCollect.post_id == TabPost.uid)
         ).order_by(
-            g_Collect.timestamp.desc()
+            TabCollect.timestamp.desc()
         ).limit(num)
 
     #
@@ -47,9 +47,9 @@ class MCollect(Mabc):
         :return:
         '''
         try:
-            return g_Collect.get(
-                (g_Collect.user_id == user_id) &
-                (g_Collect.post_id == app_id)
+            return TabCollect.get(
+                (TabCollect.user_id == user_id) &
+                (TabCollect.post_id == app_id)
             )
         except:
             return None
@@ -66,12 +66,12 @@ class MCollect(Mabc):
 
         if rec:
 
-            entry = g_Collect.update(
+            entry = TabCollect.update(
                 timestamp=int(time.time())
-            ).where(g_Collect.uid == rec.uid)
+            ).where(TabCollect.uid == rec.uid)
             entry.execute()
         else:
-            g_Collect.create(
+            TabCollect.create(
                 uid=tools.get_uuid(),
                 user_id=user_id,
                 post_id=app_id,
