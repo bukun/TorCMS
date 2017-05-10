@@ -153,25 +153,31 @@ class SearchHandler(BaseHandler):
         logger.info('keyword: {0}'.format(keyword))
 
         # catid = ''
+        if p_index == '' or p_index == '-1':
+            current_page_number = 1
+        else:
+            current_page_number = int(p_index)
+        res_all = self.ysearch.get_all_num(keyword)
+        results = self.ysearch.search_pager(
+            keyword,
+            page_index=current_page_number,
+            doc_per_page=CMS_CFG['list_num']
+        )
+        page_num = int(res_all / CMS_CFG['list_num'])
 
-        res_all = self.ysearch.get_all_num(keyword, catid=catid)
-        logger.info('all num: {0}'.format(res_all))
-        results = self.ysearch.search_pager(keyword,
-                                            catid=catid,
-                                            page_index=p_index,
-                                            doc_per_page=20)
-        page_num = int(res_all / 20)
         kwd = {'title': '查找结果',
                'pager': '',
                'count': res_all,
+               'current_page': current_page_number,
                'keyword': keyword}
                # 'catname': '文档' if catid == '0000' else MCategory.get_by_uid(catid).name
 
-        self.render('misc/search/search_list',
+        self.render('misc/search/search_list.html',
                     kwd=kwd,
                     srecs=results,
+
                     pager=self.gen_pager_bootstrap_url('/search/{0}/{1}'.format(catid, keyword),
                                                        page_num,
-                                                       p_index),
+                                                       current_page_number),
                     userinfo=self.userinfo,
                     cfg=CMS_CFG)
