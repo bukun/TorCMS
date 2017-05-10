@@ -11,7 +11,6 @@ from torcms.model.map_tab import MabLayout, MabGson, MabPost2Gson
 
 
 def drop_the_table(Tab):
-    Tab.drop_table()
     try:
         Tab.drop_table()
     except:
