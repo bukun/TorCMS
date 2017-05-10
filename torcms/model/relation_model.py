@@ -82,7 +82,7 @@ class MRelation(Mabc):
             ).limit(num)
         else:
             return TabPost2Tag.select(
-                TabPost2Tag, TabPost.title.alias('post_title')
+                TabPost2Tag, TabPost.title.alias('post_title'), TabPost.valid.alias('post_valid')
             ).join(TabPost, on=(TabPost2Tag.post_id == TabPost.uid)).where(
                 TabPost.kind == kind
             ).order_by(peewee.fn.Random()).limit(num)
