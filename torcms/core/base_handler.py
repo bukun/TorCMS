@@ -38,6 +38,7 @@ class BaseHandler(tornado.web.RequestHandler):
             post_data[key] = self.get_arguments(key)[0]
         return post_data
 
+    # pylint: disable=R0201
     def parse_url(self, url_str):
         '''
         split the url_str to array.
@@ -45,7 +46,7 @@ class BaseHandler(tornado.web.RequestHandler):
         :return: the array of request url.
         '''
         url_str = url_str.strip()
-        return [] if len(url_str) == 0 else url_str.split('/')
+        return url_str.split('/') if url_str else []
 
     def check_post_role(self):
         '''
@@ -97,7 +98,4 @@ class BaseHandler(tornado.web.RequestHandler):
         :param tmpl:
         :return:
         '''
-        if self.is_p:
-            return 'admin/' + tmpl.format(sig='p')
-        else:
-            return tmpl.format(sig='')
+        return 'admin/' + tmpl.format(sig='p') if self.is_p else tmpl.format(sig='')
