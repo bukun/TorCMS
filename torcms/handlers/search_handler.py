@@ -160,6 +160,7 @@ class SearchHandler(BaseHandler):
         res_all = self.ysearch.get_all_num(keyword)
         results = self.ysearch.search_pager(
             keyword,
+            catid=catid,
             page_index=current_page_number,
             doc_per_page=CMS_CFG['list_num']
         )
