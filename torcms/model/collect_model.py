@@ -55,8 +55,16 @@ class MCollect(Mabc):
         except:
             return None
     @staticmethod
-    def count_of_certain_all():
-        return TabCollect.select().count()
+    def count_of_certain_all(user_id):
+        return TabCollect.select(
+            TabCollect, TabPost.uid.alias('post_uid'),
+            TabPost.title.alias('post_title'),
+            TabPost.view_count.alias('post_view_count')
+        ).where(
+            TabCollect.user_id == user_id
+        ).join(
+            TabPost, on=(TabCollect.post_id == TabPost.uid)
+        ).count()
     @staticmethod
     def query_pager_by_all(user_id, current_page_num=1):
 

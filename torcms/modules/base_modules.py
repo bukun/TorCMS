@@ -506,12 +506,12 @@ class CollectPager(tornado.web.UIModule):
 
     def render(self, *args, **kwargs):
 
+        user_id = args[0]
         current = int(args[1])
         # cat_slug 分类
         # current 当前页面
 
-
-        num_of_cat = MCollect.count_of_certain_all()
+        num_of_cat = MCollect.count_of_certain_all(user_id)
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
