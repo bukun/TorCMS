@@ -9,6 +9,7 @@ from torcms.core import tools
 from torcms.model.core_tab import TabPost
 from torcms.model.core_tab import TabCollect
 from torcms.model.abc_model import Mabc
+from config import CMS_CFG
 
 
 class MCollect(Mabc):
@@ -53,6 +54,24 @@ class MCollect(Mabc):
             )
         except:
             return None
+    @staticmethod
+    def count_of_certain_all():
+        return TabCollect.select().count()
+    @staticmethod
+    def query_pager_by_all(user_id, current_page_num=1):
+
+        recs = TabCollect.select(
+            TabCollect, TabPost.uid.alias('post_uid'),
+            TabPost.title.alias('post_title'),
+            TabPost.view_count.alias('post_view_count')
+        ).where(
+            TabCollect.user_id == user_id
+        ).join(
+            TabPost, on=(TabCollect.post_id == TabPost.uid)
+        ).order_by(
+            TabCollect.timestamp.desc()
+        ).paginate(current_page_num, CMS_CFG['list_num'])
+        return recs
 
     @staticmethod
     def add_or_update(user_id, app_id):

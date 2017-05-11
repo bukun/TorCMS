@@ -39,6 +39,7 @@ core_modules = {
     'label_pager': base_modules.LabelPager,
     'tag_pager': base_modules.TagPager,
     'search_pager': base_modules.SearchPager,
+    'collect_pager': base_modules.CollectPager,
     'catalog_of': base_modules.CategoryOf,
     'post_catalog_of': base_modules.PostCategoryOf,
     'show_page': base_modules.ShowPage,
@@ -86,5 +87,7 @@ core_modules = {
     'app_most_used_by_cat': info_modules.InfoMostUsedByCategory,
     'app_least_used_by_cat': info_modules.InfoLeastUseByCategory,
     'app_user_recent_by_cat': info_modules.InfoUserRecentByCategory,
+
+
 
 }

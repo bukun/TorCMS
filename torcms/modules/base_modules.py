@@ -14,6 +14,7 @@ from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.category_model import MCategory
 from torcms.model.label_model import MPost2Label
 from torcms.model.wiki_model import MWiki
+from torcms.model.collect_model import MCollect
 from torcms.core.tool.whoosh_tool import YunSearch
 from torcms.core.tools import logger
 import config
@@ -496,6 +497,36 @@ class CategoryPager(tornado.web.UIModule):
         return self.render_string('modules/post/catalog_pager.html',
                                   kwd=kwd,
                                   cat_slug=cat_slug,
+                                  pager_num=page_num,
+                                  page_current=current)
+class CollectPager(tornado.web.UIModule):
+    '''
+    pager of category
+    '''
+
+    def render(self, *args, **kwargs):
+
+        current = int(args[1])
+        # cat_slug 分类
+        # current 当前页面
+
+
+        num_of_cat = MCollect.count_of_certain_all()
+
+        tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
+
+        page_num = (tmp_page_num if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
+                    else tmp_page_num + 1)
+
+        kwd = {
+            'page_home': False if current <= 1 else True,
+            'page_end': False if current >= page_num else True,
+            'page_pre': False if current <= 1 else True,
+            'page_next': False if current >= page_num else True,
+        }
+
+        return self.render_string('modules/post/collect_pager.html',
+                                  kwd=kwd,
                                   pager_num=page_num,
                                   page_current=current)
 
