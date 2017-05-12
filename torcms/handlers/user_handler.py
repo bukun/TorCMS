@@ -615,11 +615,6 @@ class UserHandler(BaseHandler):
                         userinfo=self.userinfo, )
 
         new_passwd = tools.get_uu8d()
-
-        print('+' * 50)
-        print(new_passwd)
-
-        print('+' * 50)
         MUser.update_pass(userinfo.uid, new_passwd)
         kwd = {
             'user_name': userinfo.user_name,

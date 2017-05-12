@@ -77,9 +77,7 @@ class MUser(Mabc):
     def update_pass(user_id, newpass):
 
         out_dic = {'success': False, 'code': '00'}
-        print("-" * 50)
-        print(newpass)
-        print("-" * 50)
+
         entry = TabMember.update(user_pass=tools.md5(newpass)).where(TabMember.uid == user_id)
         entry.execute()
 

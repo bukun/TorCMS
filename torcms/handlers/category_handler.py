@@ -79,7 +79,12 @@ class CategoryHandler(BaseHandler):
             current_page_num = int(cur_p)
 
         current_page_num = 1 if current_page_num < 1 else current_page_num
+
         cat_rec = MCategory.get_by_slug(cat_slug)
+        if cat_rec:
+            pass
+        else:
+            return False
         num_of_cat = MPost2Catalog.count_of_certain_category(cat_rec.uid)
         page_num = int(num_of_cat / CMS_CFG['list_num']) + 1
         cat_name = cat_rec.name
