@@ -130,7 +130,7 @@ class MPost2Catalog(Mabc):
         if order:
             recs = TabPost.select().join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)).join(
                 TabTag, on=(TabTag.uid == TabPost2Tag.tag_id)
-            ).where(TabTag.slug == slug).order_by(TabPost.order.asc())
+            ).where(TabTag.slug == slug).order_by(TabPost.order.asc()).paginate(current_page_num, CMS_CFG['list_num'])
         else:
             recs = TabPost.select().join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)).join(
                 TabTag, on=(TabTag.uid == TabPost2Tag.tag_id)

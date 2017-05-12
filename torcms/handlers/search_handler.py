@@ -157,7 +157,8 @@ class SearchHandler(BaseHandler):
             current_page_number = 1
         else:
             current_page_number = int(p_index)
-        res_all = self.ysearch.get_all_num(keyword)
+        res_all = self.ysearch.get_all_num(keyword,catid=catid)
+ 
         results = self.ysearch.search_pager(
             keyword,
             catid=catid,
