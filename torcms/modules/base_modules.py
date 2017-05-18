@@ -617,9 +617,10 @@ class SearchPager(tornado.web.UIModule):
 
     def render(self, *args):
         ysearch = YunSearch()
-        tag_slug = args[0]
-        current = int(args[1])
-        res_all = ysearch.get_all_num(tag_slug)
+        catid = args[0]
+        tag_slug = args[1]
+        current = int(args[2])
+        res_all = ysearch.get_all_num(tag_slug,catid=catid)
         page_num = int(res_all / config.CMS_CFG['list_num'])
 
         kwd = {

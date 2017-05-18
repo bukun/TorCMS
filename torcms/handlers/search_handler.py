@@ -68,6 +68,7 @@ class SearchHandler(BaseHandler):
                'pager': '',
                'count': res_all,
                'keyword': keyword,
+               'catid': '',
                'current_page': current_page_number}
         self.render('misc/search/search_list.html',
                     kwd=kwd,
@@ -158,7 +159,7 @@ class SearchHandler(BaseHandler):
         else:
             current_page_number = int(p_index)
         res_all = self.ysearch.get_all_num(keyword,catid=catid)
- 
+
         results = self.ysearch.search_pager(
             keyword,
             catid=catid,
@@ -171,6 +172,7 @@ class SearchHandler(BaseHandler):
                'pager': '',
                'count': res_all,
                'current_page': current_page_number,
+               'catid': catid,
                'keyword': keyword}
                # 'catname': '文档' if catid == '0000' else MCategory.get_by_uid(catid).name
 
