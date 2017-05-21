@@ -51,10 +51,10 @@ Application
 ------------------
 
 -  http://geodata.osgeo.cn/ (The default theme, and DEMO. )
--  http://www.osgeo.cn
+-  http://www.osgeo.cn (OSGeo China Chapter)
 -  http://www.maplet.org
 -  http://www.yunsuan.org
--  http://drr.osgeo.cn
+-  http://drr.ikcest.org (Disaster Risk Reduction Knowledge Service of UNESCO)
 
 
 Install
@@ -279,10 +279,10 @@ In Chinese
 ------------------------
 
 -  http://geodata.osgeo.cn/ (The default theme, and DEMO. )
--  http://www.osgeo.cn
--  http://www.maplet.org
--  http://www.yunsuan.org
--  http://drr.osgeo.cn
+-  http://www.osgeo.cn (OSGeo)
+-  http://www.maplet.org (地图云集网站)
+-  http://www.yunsuan.org (云算笔记网站)
+-  http://drr.ikcest.org (联合国教科文组织国际工程科技知识中心防灾减灾知识服务平台)
 
 
 

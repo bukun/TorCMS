@@ -53,20 +53,22 @@ class GeoJsonHandler(BaseHandler):
         if self.get_secure_cookie('map_hist'):
             for xx in range(0, len(self.get_secure_cookie('map_hist').decode('utf-8')), 4):
                 map_hist.append(self.get_secure_cookie('map_hist').decode('utf-8')[xx: xx + 4])
-        recent_apps = MUsage.query_recent(self.get_current_user(),
-                                          'm',
-                                          6)[1:] if self.userinfo else []
-        print('=' * 20)
-        for x in recent_apps:
-            print(x.uid)
+        recent_apps = MUsage.query_recent(
+            self.get_current_user(),
+            'm',
+            6)[1:] if self.userinfo else []
+        # print('=' * 20)
+        # for x in recent_apps:
+        #     print(x.uid)
         self.render(
             'post_m/full_screen_draw.html',
             kwd=kwd,
             userinfo=self.userinfo,
             unescape=tornado.escape.xhtml_unescape,
-            recent_apps=MUsage.query_recent(self.userinfo.uid,
-                                            'm',
-                                            6)[1:] if self.userinfo else []
+            recent_apps=MUsage.query_recent(
+                self.userinfo.uid,
+                'm',
+                6)[1:] if self.userinfo else []
         )
 
     def index(self):
@@ -96,6 +98,11 @@ class GeoJsonHandler(BaseHandler):
 
     @tornado.web.authenticated
     def download(self, pa_str):
+        '''
+        Download the GeoJson to file.
+        :param pa_str: 
+        :return: 
+        '''
         uid = pa_str.split('_')[-1].split('.')[0]
 
         self.set_header('Content-Type', 'application/force-download')
@@ -129,11 +136,31 @@ class GeoJsonHandler(BaseHandler):
             self.set_status(403)
             return False
 
-    @tornado.web.authenticated
-    def add_data(self, gson_uid):
-        post_data = self.get_post_data()
+    def parse_geojson(self, geojson_str):
+        '''
+        Parse the GeoJson from string.
+        :param geojson_str: 
+        :return: 
+        '''
+        def get_geometry(geom):
+            '''
+            Get geometry from GeoJson.
+            :param geom: 
+            :return: 
+            '''
+            bcbc = geom['geometry']
+            if 'features' in bcbc:
+                if bcbc['features'][0]['geometry']['coordinates'] in [[], [[None]]]:
+                    return
+            else:
+                if bcbc['coordinates'] in [[], [[None]]]:
+                    return
 
-        geojson_str = post_data['geojson']
+                bcbc = {'features': [{'geometry': bcbc,
+                                      "properties": {},
+                                      "type": "Feature"}],
+                        'type': "Feature"}
+            return bcbc
 
         json_obj = json.loads(geojson_str)
 
@@ -141,21 +168,25 @@ class GeoJsonHandler(BaseHandler):
         index = 0
 
         for x in json_obj['features']:
-            bcbc = x['geometry']
-            if 'features' in bcbc:
-                if bcbc['features'][0]['geometry']['coordinates'] in [[], [[None]]]:
-                    continue
-            else:
-                if bcbc['coordinates'] in [[], [[None]]]:
-                    continue
+            if x['type'] == 'Feature':
 
-                bcbc = {'features': [{'geometry': bcbc,
-                                      "properties": {},
-                                      "type": "Feature"}],
-                        'type': "FeatureCollection"}
+                out_dic[index] = get_geometry(x)
+                index += 1
+            elif x['type'] == 'FeatureCollection':
 
-            out_dic[index] = bcbc
-            index += 1
+                for y in x['features']:
+                    out_dic[index] = get_geometry(y)
+                    index += 1
+
+        return out_dic
+
+    @tornado.web.authenticated
+    def add_data(self, gson_uid):
+        post_data = self.get_post_data()
+
+        geojson_str = post_data['geojson']
+
+        out_dic = self.parse_geojson(geojson_str)
 
         if gson_uid == 'draw' or gson_uid == '':
             uid = tools.get_uu4d()
@@ -177,6 +208,10 @@ class GeoJsonHandler(BaseHandler):
         else:
             return
 
+        # MJson.add_or_update_json(uid, self.userinfo.uid, out_dic)
+        # return_dic['status'] = 1
+        # return json.dump(return_dic, self)
+
         try:
             MJson.add_or_update_json(uid, self.userinfo.uid, out_dic)
             return_dic['status'] = 1
@@ -189,28 +224,10 @@ class GeoJsonHandler(BaseHandler):
     def add_data_with_map(self, url_arr):
 
         post_data = self.get_post_data()
+
         geojson_str = post_data['geojson']
-        json_obj = json.loads(geojson_str)
 
-        out_dic = {}
-        index = 0
-
-        for x in json_obj['features']:
-            bcbc = x['geometry']
-            if 'features' in bcbc:
-                if bcbc['features'][0]['geometry']['coordinates'] in [[], [[None]]]:
-                    continue
-            else:
-                if bcbc['coordinates'] in [[], [[None]]]:
-                    continue
-
-                bcbc = {'features': [{'geometry': bcbc,
-                                      "properties": {},
-                                      "type": "Feature"}],
-                        'type': "FeatureCollection"}
-
-            out_dic[index] = bcbc
-            index += 1
+        out_dic = self.parse_geojson(geojson_str)
 
         if len(url_arr[1]) == 4:
             uid = url_arr[1]

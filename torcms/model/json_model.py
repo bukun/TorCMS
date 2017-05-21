@@ -85,4 +85,4 @@ class MJson(Mabc):
         else:
             MabPost2Gson.create(uid=tools.get_uuid(),
                                 post_id=app_id,
-                                json=json_uid)
+                                json_id=json_uid)

@@ -88,6 +88,4 @@ core_modules = {
     'app_least_used_by_cat': info_modules.InfoLeastUseByCategory,
     'app_user_recent_by_cat': info_modules.InfoUserRecentByCategory,
 
-
-
 }
