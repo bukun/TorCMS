@@ -22,6 +22,38 @@ class MapPostHandler(PostHandler):
     def initialize(self, **kwargs):
         super(MapPostHandler, self).initialize()
         self.kind = 'm'
+    def __redirect(self, url_arr):
+        '''
+        Redirection.
+        :param url_arr:
+        :return:
+        '''
+        direct_dic = {
+            'recent': '/post_list/recent',
+            'refresh': '/post_list/_refresh',
+            '_refresh': '/post_list/_refresh',
+
+        }
+        sig = url_arr[0]
+        for sig_enum in direct_dic:
+            if sig == sig_enum:
+                self.redirect(direct_dic[sig])
+        pre_dic = {
+            'cat_add': '_cat_add',
+            'add_document': '_add',
+            'add': '_add',
+            'modify': '_edit',
+            'edit': '_edit',
+            'delete': '_delete',
+            'ajax_count_plus': 'j_count_plus',
+        }
+        sig = url_arr[0]
+        for sig_enum in pre_dic:
+            if sig == sig_enum:
+                url_arr = [pre_dic[sig_enum]] + url_arr[1:]
+                url_str = '/post/' + '/'.join(url_arr)
+                self.redirect(url_str)
+        return True
 
     def get(self, *args):
 
