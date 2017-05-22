@@ -142,9 +142,7 @@ class TabEntity(BaseModel):
 class TabPost2Tag(BaseModel):
     uid = peewee.CharField(null=False, index=True, unique=True,
                            primary_key=True, max_length=36, help_text='', )
-    # tag = peewee.ForeignKeyField(g_Tag, related_name='tag_id')
     tag_id = peewee.CharField(null=False, max_length=4, help_text='', )
-    # post = peewee.ForeignKeyField(g_Post, related_name='post_id')
     post_id = peewee.CharField(null=False, max_length=5, help_text='', )
     order = peewee.IntegerField()
 
@@ -175,9 +173,7 @@ class TabCollect(BaseModel):
     用户收藏
     '''
     uid = peewee.CharField(max_length=36, null=False, unique=True, help_text='', primary_key=True)
-    # post = peewee.ForeignKeyField(g_Post, related_name='collect_info_rel')
     post_id = peewee.CharField(null=False, max_length=5, help_text='', )
-    # user = peewee.ForeignKeyField(g_Member, related_name='collect_user_rel')
     user_id = peewee.CharField(null=False, index=True, max_length=36, help_text='', )
     timestamp = peewee.IntegerField()
 
@@ -187,8 +183,6 @@ class TabEvaluation(BaseModel):
     用户评价
     '''
     uid = peewee.CharField(max_length=36, null=False, unique=True, help_text='', primary_key=True)
-    #post = peewee.ForeignKeyField(g_Post, related_name='evaluation_info_rel')
-    #user = peewee.ForeignKeyField(g_Member, related_name='evaluation_user_rel')
     post_id = peewee.CharField(null=False, max_length=5, help_text='', )
     user_id = peewee.CharField(null=False, index=True, max_length=36, help_text='', )
     value = peewee.IntegerField()  # 用户评价， 1 或 0, 作为计数
@@ -210,7 +204,6 @@ class TabUsage(BaseModel):
     Posts accessed by user.
     '''
     uid = peewee.CharField(max_length=36, null=False, unique=True, help_text='', primary_key=True)
-    #post = peewee.ForeignKeyField(g_Post, related_name='info_id')
     post_id = peewee.CharField(null=False, max_length=5, help_text='', )
     user_id = peewee.CharField(null=False, index=True, max_length=36, help_text='', )
     count = peewee.IntegerField()
@@ -225,8 +218,6 @@ class TabRel(BaseModel):
     我们认为，相关性，并非是对称操作
     '''
     uid = peewee.CharField(max_length=36, null=False, unique=True, help_text='', primary_key=True)
-    # post_f = peewee.ForeignKeyField(g_Post, related_name='rel_post_f')
-    # post_t = peewee.ForeignKeyField(g_Post, related_name='rel_post_t')
     post_f_id = peewee.CharField(null=False, max_length=5, help_text='', )
     post_t_id = peewee.CharField(null=False, max_length=5, help_text='', )
     count = peewee.IntegerField()

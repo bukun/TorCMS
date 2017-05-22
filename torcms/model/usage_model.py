@@ -24,6 +24,17 @@ class MUsage(Mabc):
         super(MUsage, self).__init__()
 
     @staticmethod
+    def query_by_post(postid):
+        '''
+        Query records by post.
+        :param postid:
+        :return:
+        '''
+        return TabUsage.select().where(
+            TabUsage.post_id == postid
+        )
+
+    @staticmethod
     def get_all():
         return TabUsage.select().order_by('view_count')
 
@@ -116,3 +127,12 @@ class MUsage(Mabc):
                 timestamp=int(time.time()),
                 kind=kind,
             )
+
+    @staticmethod
+    def update_field(uid, post_id=None):
+        if post_id:
+            entry = TabUsage.update(
+                post_id=post_id
+            ).where(TabUsage.uid == uid)
+            entry.execute()
+

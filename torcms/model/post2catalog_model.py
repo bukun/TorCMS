@@ -95,6 +95,20 @@ class MPost2Catalog(Mabc):
         return recs
 
     @staticmethod
+    def update_field(uid, post_id=None, tag_id=None):
+        if post_id:
+            entry = TabPost2Tag.update(
+                post_id=post_id
+            ).where(TabPost2Tag.uid == uid)
+            entry.execute()
+
+        if tag_id:
+            entry2 = TabPost2Tag.update(
+                tag_id=tag_id
+            ).where(TabPost2Tag.uid == uid)
+            entry2.execute()
+
+    @staticmethod
     def add_record(post_id, catalog_id, order=0):
         '''
         Create the record of post 2 tag, and update the count in g_tag.

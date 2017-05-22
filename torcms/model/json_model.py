@@ -7,6 +7,29 @@ from torcms.core import tools
 from torcms.model.map_tab import MabGson, MabPost2Gson
 from torcms.model.abc_model import Mabc
 
+class MPost2Gson(Mabc):
+
+    @staticmethod
+    def query_by_post(postid):
+        '''
+        Query records by post.
+        :param postid:
+        :return:
+        '''
+        return MabPost2Gson.select().where(
+            MabPost2Gson.post_id == postid
+        )
+
+
+    @staticmethod
+    def update_field(uid, post_id=None):
+        if post_id:
+            entry = MabPost2Gson.update(
+                post_id=post_id
+            ).where(MabPost2Gson.uid == uid)
+            entry.execute()
+
+
 class MJson(Mabc):
     '''
     For GeoJson storage.

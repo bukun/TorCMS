@@ -13,6 +13,7 @@ from torcms.model.post_model import MPost
 from torcms.model.layout_model import MLayout
 from torcms.handlers.post_handler import PostHandler
 
+
 class MapPostHandler(PostHandler):
     '''
     For meta handler of map.
@@ -21,6 +22,48 @@ class MapPostHandler(PostHandler):
     def initialize(self, **kwargs):
         super(MapPostHandler, self).initialize()
         self.kind = 'm'
+
+    def get(self, *args):
+
+        url_str = args[0]
+        url_arr = self.parse_url(url_str)
+        if len(url_arr) > 0:
+            self.__redirect(url_arr)
+
+        if url_str == '':
+            self.index()
+        elif url_arr[0] == '_cat_add':
+            self.__to_add(catid=url_arr[1])
+        elif url_arr[0] == '_add':
+            if len(url_arr) == 2:
+                self.__to_add(uid=url_arr[1])
+            else:
+                self.__to_add()
+        elif url_arr[0] == '_edit_kind':
+            self.__to_edit_kind(url_arr[1])
+        elif url_arr[0] == '_edit':
+            self.__to_edit(url_arr[1])
+        elif url_arr[0] == '_delete':
+            self.delete(url_arr[1])
+        elif url_arr[0] == 'j_delete':
+            self.j_delete(url_arr[1])
+        elif url_arr[0] == 'j_count_plus':
+            self.j_count_plus(url_arr[1])
+        elif len(url_arr) == 1 and url_str.endswith('.html'):
+            # Deprecated
+            self.redirect('/post/{uid}'.format(uid=url_str.split('.')[0]))
+        elif len(url_arr) == 1 and len(url_str) in [4]:
+            self.redirect('/map/m' + url_str)
+        elif len(url_arr) == 1 and len(url_str) in [5]:
+            self.view_or_add(url_str)
+        else:
+            kwd = {
+                'title': '',
+                'info': '404. Page not found!',
+            }
+            self.set_status(404)
+            self.render('html/404.html', kwd=kwd,
+                        userinfo=self.userinfo, )
 
     def ext_view_kwd(self, postinfo):
         post_data = self.get_post_data()

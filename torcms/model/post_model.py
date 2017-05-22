@@ -114,6 +114,15 @@ class MPost(Mabc):
         return True
 
     @staticmethod
+    def update_field(uid, post_id=None):
+        if post_id:
+            entry = TabPost.update(
+                uid=post_id
+            ).where(TabPost.uid == uid)
+            entry.execute()
+
+
+    @staticmethod
     def update_cnt(uid, post_data):
         '''
         :param uid:
