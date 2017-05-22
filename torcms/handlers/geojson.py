@@ -53,10 +53,7 @@ class GeoJsonHandler(BaseHandler):
         if self.get_secure_cookie('map_hist'):
             for xx in range(0, len(self.get_secure_cookie('map_hist').decode('utf-8')), 4):
                 map_hist.append(self.get_secure_cookie('map_hist').decode('utf-8')[xx: xx + 4])
-        recent_apps = MUsage.query_recent(
-            self.get_current_user(),
-            'm',
-            6)[1:] if self.userinfo else []
+
         # print('=' * 20)
         # for x in recent_apps:
         #     print(x.uid)
