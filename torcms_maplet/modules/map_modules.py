@@ -6,9 +6,9 @@ Define the map module for TorCMS.
 
 import tornado.web
 
-from torcms.model.json_model import MJson
-from torcms.model.layout_model import MLayout
 from config import SITE_CFG
+from torcms_maplet.model.json_model import MJson
+from torcms_maplet.model.layout_model import MLayout
 
 
 class MapJson(tornado.web.UIModule):

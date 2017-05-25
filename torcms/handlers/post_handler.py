@@ -41,7 +41,7 @@ class PostHandler(BaseHandler):
 
         self.filter_view = kwargs['filter_view'] if 'filter_view' in kwargs else False
 
-    def __redirect(self, url_arr):
+    def _redirect(self, url_arr):
         '''
         Redirection.
         :param url_arr:
@@ -79,21 +79,21 @@ class PostHandler(BaseHandler):
         url_str = args[0]
         url_arr = self.parse_url(url_str)
         if len(url_arr) > 0:
-            self.__redirect(url_arr)
+            self._redirect(url_arr)
 
         if url_str == '':
             self.index()
         elif url_arr[0] == '_cat_add':
-            self.__to_add(catid=url_arr[1])
+            self._to_add(catid=url_arr[1])
         elif url_arr[0] == '_add':
             if len(url_arr) == 2:
-                self.__to_add(uid=url_arr[1])
+                self._to_add(uid=url_arr[1])
             else:
-                self.__to_add()
+                self._to_add()
         elif url_arr[0] == '_edit_kind':
-            self.__to_edit_kind(url_arr[1])
+            self._to_edit_kind(url_arr[1])
         elif url_arr[0] == '_edit':
-            self.__to_edit(url_arr[1])
+            self._to_edit(url_arr[1])
         elif url_arr[0] == '_delete':
             self.delete(url_arr[1])
         elif url_arr[0] == 'j_delete':
@@ -129,7 +129,7 @@ class PostHandler(BaseHandler):
             else:
                 self.add()
         elif url_arr[0] == '_edit_kind':
-            self.__change_kind(url_arr[1])
+            self._change_kind(url_arr[1])
         elif url_arr[0] in ['_cat_add', 'cat_add']:
             self.add(catid=url_arr[1])
         elif len(url_arr) == 1:
@@ -157,7 +157,7 @@ class PostHandler(BaseHandler):
                     userinfo=self.userinfo,
                     kwd={'uid': '', })
 
-    def __gen_uid(self):
+    def _gen_uid(self):
         '''
         Generate the ID for post.
         :return: the new ID.
@@ -168,7 +168,7 @@ class PostHandler(BaseHandler):
         return cur_uid
 
     @tornado.web.authenticated
-    def __could_edit(self, postid):
+    def _could_edit(self, postid):
         post_rec = MPost.get_by_uid(postid)
         if post_rec:
             pass
@@ -181,7 +181,7 @@ class PostHandler(BaseHandler):
         else:
             return False
 
-    def __get_tmpl_view(self, rec):
+    def _get_tmpl_view(self, rec):
         '''
         According to the application, each info of it's classification could
         has different temaplate.
@@ -205,7 +205,7 @@ class PostHandler(BaseHandler):
         return tmpl
 
     @tornado.web.authenticated
-    def __to_add_with_category(self, catid):
+    def _to_add_with_category(self, catid):
         '''
         Used for info2.
         :param catid: the uid of category
@@ -217,7 +217,7 @@ class PostHandler(BaseHandler):
             return False
         catinfo = MCategory.get_by_uid(catid)
         kwd = {
-            'uid': self.__gen_uid(),
+            'uid': self._gen_uid(),
             'userid': self.userinfo.user_name if self.userinfo else '',
             'def_cat_uid': catid,
             'parentname': MCategory.get_by_uid(catinfo.pid).name,
@@ -238,7 +238,7 @@ class PostHandler(BaseHandler):
         if postinfo:
             self.viewinfo(postinfo)
         elif self.userinfo:
-            self.__to_add(uid=uid)
+            self._to_add(uid=uid)
         else:
             kwd = {
                 'info': '404. Page not found!',
@@ -247,14 +247,14 @@ class PostHandler(BaseHandler):
                         userinfo=self.userinfo, )
 
     @tornado.web.authenticated
-    def __to_add(self, **kwargs):
+    def _to_add(self, **kwargs):
         '''
         Used for info1.
         '''
 
         if 'catid' in kwargs:
             catid = kwargs['catid']
-            return self.__to_add_with_category(catid)
+            return self._to_add_with_category(catid)
 
         else:
 
@@ -373,7 +373,7 @@ class PostHandler(BaseHandler):
                 MPost2Catalog.remove_relation(uid, cur_info.tag_id)
 
     @tornado.web.authenticated
-    def __to_edit(self, infoid):
+    def _to_edit(self, infoid):
         '''
         render the HTML page for post editing.
         :param infoid:
@@ -443,7 +443,7 @@ class PostHandler(BaseHandler):
                     app2tag_info=MPost2Catalog.query_by_entity_uid(infoid, kind=self.kind).naive(),
                     app2label_info=MPost2Label.get_by_uid(infoid, kind=self.kind + '1').naive())
 
-    def __gen_last_current_relation(self, post_id):
+    def _gen_last_current_relation(self, post_id):
         '''
         Generate the relation for the post and last post viewed.
         :param post_id:
@@ -478,7 +478,7 @@ class PostHandler(BaseHandler):
 
         rand_recs, rel_recs = self.fetch_additional_posts(postinfo.uid)
 
-        self.__chuli_cookie_relation(postinfo.uid)
+        self._chuli_cookie_relation(postinfo.uid)
         cookie_str = tools.get_uuid()
 
         catinfo = None
@@ -621,7 +621,7 @@ class PostHandler(BaseHandler):
         if 'uid' in kwargs:
             uid = kwargs['uid']
         else:
-            uid = self.__gen_uid()
+            uid = self._gen_uid()
 
         if self.check_post_role()['ADD']:
             pass
@@ -750,7 +750,7 @@ class PostHandler(BaseHandler):
         }
         self.write(json.dumps(output))
 
-    def __chuli_cookie_relation(self, app_id):
+    def _chuli_cookie_relation(self, app_id):
         '''
         The current Info and the Info viewed last should have some relation.
         And the last viewed Info could be found from cookie.
@@ -778,7 +778,7 @@ class PostHandler(BaseHandler):
         :param rec:
         :return:
         '''
-        return self.__get_tmpl_view(rec)
+        return self._get_tmpl_view(rec)
 
     def ext_post_data(self, **kwargs):
         '''
@@ -789,7 +789,7 @@ class PostHandler(BaseHandler):
         return {}
 
     @tornado.web.authenticated
-    def __to_edit_kind(self, post_uid):
+    def _to_edit_kind(self, post_uid):
         '''
         Show the page for changing the category.
         :param post_uid:
@@ -809,7 +809,7 @@ class PostHandler(BaseHandler):
                     json_cnt=json_cnt)
 
     @tornado.web.authenticated
-    def __change_kind(self, post_uid):
+    def _change_kind(self, post_uid):
         '''
         To modify the category of the post, and kind.
         :param post_uid:

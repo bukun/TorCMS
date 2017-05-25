@@ -1,12 +1,13 @@
 # -*- coding:utf-8 -*-
 import json
 
-import tornado.web
 import tornado.escape
+import tornado.web
+
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
-from torcms.model.json_model import MJson
 from torcms.model.usage_model import MUsage
+from torcms_maplet.model.json_model import MJson
 
 
 class GeoJsonHandler(BaseHandler):

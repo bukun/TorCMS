@@ -5,9 +5,8 @@ define the Core Modules of TorCMS.
 '''
 import torcms.modules.widget_modules
 from torcms.modules import base_modules
-from torcms.modules import map_modules
-from torcms.modules import widget_modules
 from torcms.modules import info_modules
+from torcms.modules import widget_modules
 
 core_modules = {
     'ModuleCatMenu': base_modules.ModuleCatMenu,
@@ -57,10 +56,6 @@ core_modules = {
     'navigate_panel': widget_modules.NavigatePanel,
     'footer_panel': widget_modules.FooterPanel,
     'loginfo': widget_modules.UserinfoWidget,
-
-    # Map
-    'app_layout': map_modules.MapLayout,
-    'app_json': map_modules.MapJson,
 
     # Infor
     'app_catalog_of': info_modules.InfoCategory,

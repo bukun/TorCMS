@@ -1,48 +1,36 @@
 # -*- coding:utf-8 -*-
 
-from torcms.handlers.filter_handler import FilterHandler
-from torcms.handlers.publish_handler import PublishHandler
 from torcms.handlers.admin_handler import AdminHandler
-from torcms.handlers.category_handler import CategoryHandler, TagListHandler
 from torcms.handlers.catalog_handler import CatalogHandler
+from torcms.handlers.category_handler import CategoryHandler, TagListHandler
+from torcms.handlers.collect_handler import CollectHandler
 from torcms.handlers.entity_handler import EntityHandler
+from torcms.handlers.evaluation_handler import EvaluationHandler
+from torcms.handlers.filter_handler import FilterHandler
 from torcms.handlers.index import IndexHandler
 from torcms.handlers.label_handler import LabelHandler, InfoTagHandler
-from torcms.handlers.post_list_handler import PostListHandler
+from torcms.handlers.leaf_handler import LeafHandler
 from torcms.handlers.link_handler import LinkHandler, LinkPartialHandler
 from torcms.handlers.maintain_handler import MaintainCategoryHandler, MaintainCategoryAjaxHandler
 from torcms.handlers.maintain_info_handler import MaintainPycateCategoryHandler
-from torcms.handlers.page_handler import PageHandler
 from torcms.handlers.page_ajax_handler import PageAjaxHandler
-from torcms.handlers.post_handler import PostHandler
-from torcms.handlers.leaf_handler import LeafHandler
+from torcms.handlers.page_handler import PageHandler
 from torcms.handlers.post_ajax_handler import PostAjaxHandler
+from torcms.handlers.post_handler import PostHandler
+from torcms.handlers.post_history_handler import PostHistoryHandler
+from torcms.handlers.post_list_handler import PostListHandler
+from torcms.handlers.publish_handler import PublishHandler
+from torcms.handlers.rating_handler import RatingHandler
+from torcms.handlers.relation_handler import RelHandler
 from torcms.handlers.reply_handler import ReplyHandler
 from torcms.handlers.search_handler import SearchHandler
 from torcms.handlers.user_handler import UserHandler, UserPartialHandler
-from torcms.handlers.wiki_handler import WikiHandler
-
 from torcms.handlers.user_info_list_handler import UserListHandler
-from torcms.handlers.collect_handler import CollectHandler
-from torcms.handlers.evaluation_handler import EvaluationHandler
-from torcms.handlers.relation_handler import RelHandler
-
-from torcms.handlers.post_history_handler import PostHistoryHandler
+from torcms.handlers.wiki_handler import WikiHandler
 from torcms.handlers.wiki_history_manager import WikiHistoryHandler
-from torcms.handlers.rating_handler import RatingHandler
 
-from torcms.handlers.geojson import GeoJsonHandler
-from torcms.handlers.map_handler import MapPostHandler, MapLayoutHandler, MapOverlayHandler, MapAdminHandler
 
 urls = [
-    ('/overlay/(.*)', MapOverlayHandler, dict()),
-    ('/map/overlay/(.*)', MapOverlayHandler, dict()),  # Deprecated, repaled by `/overlay/` .
-
-    ('/admin_map/(.*)', MapAdminHandler, dict()),
-    ("/map/(.*)", MapPostHandler, dict(kind='m')),
-
-    ('/geojson/(.*)', GeoJsonHandler, dict()),
-    ('/layout/(.*)', MapLayoutHandler, dict()),
 
     ('/_rating/(.*)', RatingHandler, dict()),
 

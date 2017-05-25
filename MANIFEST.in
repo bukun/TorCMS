@@ -1,0 +1,7 @@
+# include_package_data=True
+# recursive-exclude tester *
+# recursive-exclude flasky *
+# recursive-exclude torcms_maplet *
+prune tester*
+prune flasky*
+# exclude_package_data=True

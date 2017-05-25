@@ -4,8 +4,9 @@
 For GeoJson storage.
 '''
 from torcms.core import tools
-from torcms.model.map_tab import MabGson, MabPost2Gson
 from torcms.model.abc_model import Mabc
+from torcms_maplet.model.map_tab import MabGson, MabPost2Gson
+
 
 class MPost2Gson(Mabc):
 

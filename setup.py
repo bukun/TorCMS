@@ -23,7 +23,10 @@ setup(
     author='bukun',
     author_email='bukun@osgeo.cn',
 
-    packages=find_packages(exclude=["tester", "torcms_tester", 'flasky']),
+    packages=find_packages(
+        # include=('torcms',),
+        exclude=("tester", "torcms_tester", 'flasky',)),
+    include_package_data = True,
 
     platforms='any',
     zip_safe=True,

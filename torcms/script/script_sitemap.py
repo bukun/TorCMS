@@ -8,14 +8,14 @@ from torcms.model.post_model import MPost
 from torcms.model.wiki_model import MWiki
 from config import router_post, SITE_CFG
 
-sitemap_file = 'sitemap.txt'
+sitemap_file = 'xx_sitemap.txt'
 
 
 def gen_post_map():
     mpost = MPost()
     with open(sitemap_file, 'a') as fo:
         for kind_key in router_post:
-            recent_posts = mpost.query_all(kind=kind_key)
+            recent_posts = mpost.query_all(kind=kind_key, limit=1000000)
             for recent_post in recent_posts:
                 url = os.path.join(SITE_CFG['site_url'],
                                    router_post[recent_post.kind],

@@ -4,8 +4,8 @@
 Model for map layout.
 '''
 from torcms.core import tools
-from torcms.model.map_tab import MabLayout
 from torcms.model.abc_model import Mabc, MHelper
+from torcms_maplet.model.map_tab import MabLayout
 
 
 class MLayout(Mabc):

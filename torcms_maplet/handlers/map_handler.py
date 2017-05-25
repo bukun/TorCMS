@@ -9,13 +9,10 @@ import tornado.web
 
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tools import average_array
-from torcms.model.post_model import MPost
-from torcms.model.layout_model import MLayout
 from torcms.handlers.post_handler import PostHandler
-from torcms.model.category_model import MCategory
-from torcms.model.label_model import MPost2Label
-from torcms.model.post2catalog_model import MPost2Catalog
-from torcms.core.tools import logger
+from torcms.model.post_model import MPost
+from torcms_maplet.model.layout_model import MLayout
+
 
 class MapPostHandler(PostHandler):
     '''
@@ -25,7 +22,8 @@ class MapPostHandler(PostHandler):
     def initialize(self, **kwargs):
         super(MapPostHandler, self).initialize()
         self.kind = 'm'
-    def __redirect(self, url_arr):
+
+    def _redirect(self, url_arr):
         '''
         Redirection.
         :param url_arr:
@@ -63,21 +61,21 @@ class MapPostHandler(PostHandler):
         url_str = args[0]
         url_arr = self.parse_url(url_str)
         if len(url_arr) > 0:
-            self.__redirect(url_arr)
+            self._redirect(url_arr)
 
         if url_str == '':
             self.index()
         elif url_arr[0] == '_cat_add':
-            self.__to_add(catid=url_arr[1])
+            self._to_add(catid=url_arr[1])
         elif url_arr[0] == '_add':
             if len(url_arr) == 2:
-                self.__to_add(uid=url_arr[1])
+                self._to_add(uid=url_arr[1])
             else:
-                self.__to_add()
+                self._to_add()
         elif url_arr[0] == '_edit_kind':
-            self.__to_edit_kind(url_arr[1])
+            self._to_edit_kind(url_arr[1])
         elif url_arr[0] == '_edit':
-            self.__to_edit(url_arr[1])
+            self._to_edit(url_arr[1])
         elif url_arr[0] == '_delete':
             self.delete(url_arr[1])
         elif url_arr[0] == 'j_delete':
@@ -99,103 +97,104 @@ class MapPostHandler(PostHandler):
             self.set_status(404)
             self.render('html/404.html', kwd=kwd,
                         userinfo=self.userinfo, )
-    @tornado.web.authenticated
-    def __to_edit(self, infoid):
-        '''
-        render the HTML page for post editing.
-        :param infoid:
-        :return:
-        '''
-        if self.check_post_role()['EDIT']:
-            pass
-        else:
-            return False
 
-        rec_info = MPost.get_by_uid(infoid)
-        postinfo = rec_info
-
-        if rec_info:
-            pass
-        else:
-            self.render('html/404.html')
-            return
-
-        if 'def_cat_uid' in rec_info.extinfo:
-            catid = rec_info.extinfo['def_cat_uid']
-        else:
-            catid = ''
-
-        if len(catid) == 4:
-            pass
-        else:
-            catid = ''
-
-        catinfo = None
-        p_catinfo = None
-
-        post2catinfo = MPost2Catalog.get_first_category(postinfo.uid)
-        if post2catinfo:
-            catid = post2catinfo.tag_id
-            catinfo = MCategory.get_by_uid(catid)
-            if catinfo:
-                p_catinfo = MCategory.get_by_uid(catinfo.pid)
-
-        kwd = {
-            'def_cat_uid': catid,
-            'parentname': '',
-            'catname': '',
-            'parentlist': MCategory.get_parent_list(),
-            'userip': self.request.remote_ip}
-
-        if self.filter_view:
-            tmpl = 'autogen/edit/edit_{0}.html'.format(catid)
-        else:
-            tmpl = 'post_{0}/post_edit.html'.format(self.kind)
-
-        logger.info('Meta template: {0}'.format(tmpl))
-
-        self.render(tmpl,
-                    kwd=kwd,
-                    calc_info=rec_info,  # Deprecated
-                    post_info=rec_info,  # Deprecated
-                    app_info=rec_info,  # Deprecated
-                    postinfo=rec_info,
-                    catinfo=catinfo,
-                    pcatinfo=p_catinfo,
-                    userinfo=self.userinfo,
-                    unescape=tornado.escape.xhtml_unescape,
-                    cat_enum=MCategory.get_qian2(catid[:2]),
-                    tag_infos=MCategory.query_all(by_order=True, kind=self.kind),
-                    tag_infos2=MCategory.query_all(by_order=True, kind=self.kind),
-                    app2tag_info=MPost2Catalog.query_by_entity_uid(infoid, kind=self.kind).naive(),
-                    app2label_info=MPost2Label.get_by_uid(infoid, kind=self.kind + '1').naive())
-    @tornado.web.authenticated
-    def __to_add(self, **kwargs):
-        '''
-        Used for info1.
-        '''
-
-        if 'catid' in kwargs:
-            catid = kwargs['catid']
-            return self.__to_add_with_category(catid)
-
-        else:
-
-            if self.check_post_role()['ADD']:
-                pass
-            else:
-                return False
-
-            if 'uid' in kwargs and MPost.get_by_uid(kwargs['uid']):
-                # todo:
-                # self.redirect('/{0}/edit/{1}'.format(self.app_url_name, uid))
-                uid = kwargs['uid']
-            else:
-                uid = ''
-            self.render('post_{0}/post_add.html'.format(self.kind),
-                        tag_infos=MCategory.query_all(by_order=True, kind=self.kind),
-                        userinfo=self.userinfo,
-                        kwd={'uid': uid, })
+    # @tornado.web.authenticated
+    # def __to_edit(self, infoid):
+    #     '''
+    #     render the HTML page for post editing.
+    #     :param infoid:
+    #     :return:
+    #     '''
+    #     if self.check_post_role()['EDIT']:
+    #         pass
+    #     else:
+    #         return False
+    #
+    #     rec_info = MPost.get_by_uid(infoid)
+    #     postinfo = rec_info
+    #
+    #     if rec_info:
+    #         pass
+    #     else:
+    #         self.render('html/404.html')
+    #         return
+    #
+    #     if 'def_cat_uid' in rec_info.extinfo:
+    #         catid = rec_info.extinfo['def_cat_uid']
+    #     else:
+    #         catid = ''
+    #
+    #     if len(catid) == 4:
+    #         pass
+    #     else:
+    #         catid = ''
+    #
+    #     catinfo = None
+    #     p_catinfo = None
+    #
+    #     post2catinfo = MPost2Catalog.get_first_category(postinfo.uid)
+    #     if post2catinfo:
+    #         catid = post2catinfo.tag_id
+    #         catinfo = MCategory.get_by_uid(catid)
+    #         if catinfo:
+    #             p_catinfo = MCategory.get_by_uid(catinfo.pid)
+    #
+    #     kwd = {
+    #         'def_cat_uid': catid,
+    #         'parentname': '',
+    #         'catname': '',
+    #         'parentlist': MCategory.get_parent_list(),
+    #         'userip': self.request.remote_ip}
+    #
+    #     if self.filter_view:
+    #         tmpl = 'autogen/edit/edit_{0}.html'.format(catid)
+    #     else:
+    #         tmpl = 'post_{0}/post_edit.html'.format(self.kind)
+    #
+    #     logger.info('Meta template: {0}'.format(tmpl))
+    #
+    #     self.render(tmpl,
+    #                 kwd=kwd,
+    #                 calc_info=rec_info,  # Deprecated
+    #                 post_info=rec_info,  # Deprecated
+    #                 app_info=rec_info,  # Deprecated
+    #                 postinfo=rec_info,
+    #                 catinfo=catinfo,
+    #                 pcatinfo=p_catinfo,
+    #                 userinfo=self.userinfo,
+    #                 unescape=tornado.escape.xhtml_unescape,
+    #                 cat_enum=MCategory.get_qian2(catid[:2]),
+    #                 tag_infos=MCategory.query_all(by_order=True, kind=self.kind),
+    #                 tag_infos2=MCategory.query_all(by_order=True, kind=self.kind),
+    #                 app2tag_info=MPost2Catalog.query_by_entity_uid(infoid, kind=self.kind).naive(),
+    #                 app2label_info=MPost2Label.get_by_uid(infoid, kind=self.kind + '1').naive())
+    # @tornado.web.authenticated
+    # def __to_add(self, **kwargs):
+    #     '''
+    #     Used for info1.
+    #     '''
+    #
+    #     if 'catid' in kwargs:
+    #         catid = kwargs['catid']
+    #         return self.__to_add_with_category(catid)
+    #
+    #     else:
+    #
+    #         if self.check_post_role()['ADD']:
+    #             pass
+    #         else:
+    #             return False
+    #
+    #         if 'uid' in kwargs and MPost.get_by_uid(kwargs['uid']):
+    #             # todo:
+    #             # self.redirect('/{0}/edit/{1}'.format(self.app_url_name, uid))
+    #             uid = kwargs['uid']
+    #         else:
+    #             uid = ''
+    #         self.render('post_{0}/post_add.html'.format(self.kind),
+    #                     tag_infos=MCategory.query_all(by_order=True, kind=self.kind),
+    #                     userinfo=self.userinfo,
+    #                     kwd={'uid': uid, })
 
     def ext_view_kwd(self, postinfo):
         post_data = self.get_post_data()
