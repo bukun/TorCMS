@@ -175,14 +175,18 @@ class InfoRecentUsed(tornado.web.UIModule):
             userinfo = kwargs['userinfo']
         else:
             userinfo = None
+        if 'glyph' in kwargs:
+            glyph = kwargs['glyph']
+        else:
+            glyph = None
 
         if userinfo:
-            return self.render_user(kind, num, with_tag=with_tag, user_id=userinfo.uid)
+            return self.render_user(kind, num, with_tag=with_tag, user_id=userinfo.uid, glyph=glyph)
 
         else:
-            return self.render_it(kind, num, with_tag=with_tag)
+            return self.render_it(kind, num, with_tag=with_tag, glyph=glyph)
 
-    def render_it(self, kind, num, with_tag=False):
+    def render_it(self, kind, num, with_tag=False, glyph=''):
         '''
         render, no user logged in
         :param kind:
@@ -193,13 +197,14 @@ class InfoRecentUsed(tornado.web.UIModule):
         all_cats = MPost.query_recent(num, kind=kind)
         kwd = {
             'with_tag': with_tag,
-            'router': router_post[kind]
+            'router': router_post[kind],
+            'glyph': glyph
         }
         return self.render_string('modules/info/list_equation.html',
                                   recs=all_cats,
                                   kwd=kwd)
 
-    def render_user(self, kind, num, with_tag=False, user_id=''):
+    def render_user(self, kind, num, with_tag=False, user_id='', glyph=''):
         '''
         render, with userinfo
         :param kind:
@@ -216,6 +221,7 @@ class InfoRecentUsed(tornado.web.UIModule):
         kwd = {
             'with_tag': with_tag,
             'router': router_post[kind],
+            'glyph': glyph
         }
         return self.render_string('modules/info/list_user_equation.html',
                                   recs=all_cats,
