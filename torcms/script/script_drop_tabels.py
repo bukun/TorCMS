@@ -7,7 +7,6 @@ initialize table.s
 from torcms.model.core_tab import TabPost, TabTag, TabMember, TabWiki, TabLink, TabEntity, \
     TabPostHist, TabWikiHist, TabCollect, TabPost2Tag, TabRel, TabEvaluation, TabUsage, TabReply, \
     TabUser2Reply, TabRating
-from torcms_maplet.model.map_tab import MabLayout, MabGson, MabPost2Gson
 
 
 def drop_the_table(Tab):
@@ -36,6 +35,3 @@ def run_drop_tables(*args):
     drop_the_table(TabReply)
     drop_the_table(TabUser2Reply)
     drop_the_table(TabRating)
-    drop_the_table(MabLayout)
-    drop_the_table(MabGson)
-    drop_the_table(MabPost2Gson)

@@ -7,7 +7,6 @@ initialize table.s
 from torcms.model.core_tab import TabPost, TabTag, TabMember, TabWiki, TabLink, TabEntity, \
     TabPostHist, TabWikiHist, TabCollect, TabPost2Tag, TabRel, TabEvaluation, TabUsage, TabReply, \
     TabUser2Reply, TabRating
-from torcms_maplet.model.map_tab import MabLayout, MabGson, MabPost2Gson
 
 
 def create_table(Tab):
@@ -36,6 +35,4 @@ def run_init_tables(*args):
     create_table(TabReply)
     create_table(TabUser2Reply)
     create_table(TabRating)
-    create_table(MabLayout)
-    create_table(MabGson)
-    create_table(MabPost2Gson)
+
