@@ -35,7 +35,7 @@ class PostHistoryHandler(BaseHandler):
             kwd = {
                 'info': '页面未找到',
             }
-            self.render('html/404.html',
+            self.render('misc/html/404.html',
                         kwd=kwd,
                         userinfo=self.userinfo, )
 
@@ -45,7 +45,7 @@ class PostHistoryHandler(BaseHandler):
         if url_arr[0] == 'edit':
             self.update(url_arr[1])
         else:
-            self.redirect('html/404.html')
+            self.redirect('misc/html/404.html')
 
     @tornado.web.authenticated
     def update(self, uid):

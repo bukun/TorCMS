@@ -147,7 +147,8 @@ class UserHandler(BaseHandler):
             self.redirect('/user/info')
         else:
             kwd = {
-                'info': '{{ _('"'asfasfsafsdfsdf'"') }}。',
+                'info': '原密码输入错误，请重新输入',
+                'link': '/user/changepass',
             }
             self.render('misc/html/404.html',
                         kwd=kwd,
@@ -166,6 +167,7 @@ class UserHandler(BaseHandler):
         else:
             kwd = {
                 'info': '密码输入错误。',
+                'link': '/user/changeinfo',
             }
             self.render('misc/html/404.html',
                         kwd=kwd,
@@ -284,7 +286,19 @@ class UserHandler(BaseHandler):
         post_data = self.get_post_data()
 
         form = SumForm(self.request.arguments)
-
+        ckemail= MUser.get_by_email(post_data['user_email'])
+        if ckemail is None:
+            pass
+        else:
+            kwd = {
+                    'info': '邮箱已经存在，请更换邮箱。',
+                    'link': '/user/regist',
+                }
+            self.set_status(400)
+            self.render('misc/html/404.html',
+                        cfg=config.CMS_CFG,
+                        kwd=kwd,
+                        userinfo=None)
         if form.validate():
             res_dic = MUser.create_user(post_data)
             if res_dic['success']:
@@ -292,6 +306,7 @@ class UserHandler(BaseHandler):
             else:
                 kwd = {
                     'info': '注册不成功',
+                    'link': '/user/regist',
                 }
                 self.set_status(400)
                 self.render('misc/html/404.html',
@@ -302,6 +317,7 @@ class UserHandler(BaseHandler):
         else:
             kwd = {
                 'info': '注册不成功',
+                'link': '/user/regist',
             }
             self.set_status(400)
             self.render('misc/html/404.html',
@@ -438,7 +454,8 @@ class UserHandler(BaseHandler):
         elif result == 0:
             self.set_status(401)
             kwd = {
-                'info': '密码验证出错，请<a href="/user/login">重新登陆</a>。'
+                'info': '密码验证出错，请重新登陆。',
+                'link': '/user/login',
             }
             self.render('user/user_relogin.html',
                         cfg=config.CMS_CFG,
@@ -447,7 +464,8 @@ class UserHandler(BaseHandler):
         elif result == -1:
             self.set_status(401)
             kwd = {
-                'info': '没有这个用户'
+                'info': '没有这个用户',
+                'link': '/user/login',
             }
             self.render('misc/html/404.html',
                         cfg=config.CMS_CFG,
@@ -543,6 +561,7 @@ class UserHandler(BaseHandler):
                 self.set_status(400)
                 kwd = {
                     'info': '两次重置密码时间应该大于1分钟',
+                    'link': '/user/reset-password',
                 }
                 self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
                 return False
@@ -596,6 +615,7 @@ class UserHandler(BaseHandler):
         else:
             kwd = {
                 'info': '密码重置已超时！',
+                'link': '/user/reset-password',
             }
             self.set_status(400)
             self.render('misc/html/404.html',
@@ -608,6 +628,7 @@ class UserHandler(BaseHandler):
         else:
             kwd = {
                 'info': '密码重置验证出错！',
+                'link': '/user/reset-password',
             }
             self.set_status(400)
             self.render('misc/html/404.html',

@@ -45,7 +45,7 @@ class MaintainCategoryHandler(BaseHandler):
 
             self.p_add_catalog()
         else:
-            self.redirect('html/404.html')
+            self.redirect('misc/html/404.html')
 
     def list_catalog(self):
         kwd = {

@@ -48,7 +48,7 @@ class PostListHandler(BaseHandler):
             kwd = {
                 'info': '404. Page not found!',
             }
-            self.render('static/html/404.html', kwd=kwd,
+            self.render('misc/html/404.html', kwd=kwd,
                         userinfo=self.userinfo, )
 
     def recent(self, with_catalog=True, with_date=True):

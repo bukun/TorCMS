@@ -28,7 +28,7 @@ class IndexHandler(BaseHandler):
         if len(args) == 0 or args[0] == 'index':
             self.index()
         else:
-            self.render('html/404.html', kwd={}, userinfo=self.userinfo)
+            self.render('misc/html/404.html', kwd={}, userinfo=self.userinfo)
 
     def index(self):
         '''

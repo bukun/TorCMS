@@ -111,7 +111,7 @@ class PostHandler(BaseHandler):
                 'info': '404. Page not found!',
             }
             self.set_status(404)
-            self.render('html/404.html', kwd=kwd,
+            self.render('misc/html/404.html', kwd=kwd,
                         userinfo=self.userinfo, )
 
     def post(self, *args):
@@ -145,7 +145,7 @@ class PostHandler(BaseHandler):
                 'info': '404. No such action!',
             }
             self.set_status(404)
-            self.render('html/404.html', kwd=kwd,
+            self.render('misc/html/404.html', kwd=kwd,
                         userinfo=self.userinfo, )
 
     def index(self):
@@ -390,7 +390,7 @@ class PostHandler(BaseHandler):
         if rec_info:
             pass
         else:
-            self.render('html/404.html')
+            self.render('misc/html/404.html')
             return
 
         if 'def_cat_uid' in rec_info.extinfo:

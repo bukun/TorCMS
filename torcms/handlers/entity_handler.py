@@ -41,7 +41,7 @@ class EntityHandler(BaseHandler):
         elif len(url_str) > 36:
             self.view(url_str)
         else:
-            self.render('html/404.html', kwd={}, userinfo=self.userinfo)
+            self.render('misc/html/404.html', kwd={}, userinfo=self.userinfo)
 
     def post(self, url_str=''):
         url_arr = self.parse_url(url_str)

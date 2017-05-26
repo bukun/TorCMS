@@ -36,7 +36,7 @@ class LinkHandler(BaseHandler):
             kwd = {
                 'info': '页面未找到',
             }
-            self.render('html/404.html', kwd=kwd,
+            self.render('misc/html/404.html', kwd=kwd,
                         userinfo=self.userinfo, )
 
     def post(self, url_str=''):
@@ -142,7 +142,7 @@ class LinkHandler(BaseHandler):
 
         if not rec:
             kwd = {'info': '您要找的分类不存在。'}
-            self.render('html/404.html', kwd=kwd)
+            self.render('misc/html/404.html', kwd=kwd)
             return False
 
         kwd = {

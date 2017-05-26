@@ -48,7 +48,7 @@ class LeafHandler(PostHandler):
                 'info': '404. Page not found!',
             }
             self.set_status(404)
-            self.render('html/404.html', kwd=kwd,
+            self.render('misc/html/404.html', kwd=kwd,
                         userinfo=self.userinfo, )
 
     def post(self, *args):

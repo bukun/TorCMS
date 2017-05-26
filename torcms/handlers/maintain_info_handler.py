@@ -38,7 +38,7 @@ class MaintainPycateCategoryHandler(BaseHandler):
         elif url_str == 'add':
             self.user_add_category()
         else:
-            self.redirect('html/404.html')
+            self.redirect('misc/html/404.html')
 
     def recent(self):
         kwd = {
@@ -129,7 +129,7 @@ class MaintainPycateCategoryHandler(BaseHandler):
             kwd = {
                 'info': '您要找的分类不存在。',
             }
-            self.render('html/404.html', kwd=kwd)
+            self.render('misc/html/404.html', kwd=kwd)
             return False
 
         kwd = {
