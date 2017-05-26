@@ -397,7 +397,7 @@ class CategoryMenu(tornado.web.UIModule):
     Menu for category lists.
     '''
 
-    def render(self, kind=1):
+    def render(self, kind='1'):
         return self.render_string('modules/post/showcat_list.html',
                                   recs=MCategory.query_all(kind=kind),
                                   unescape=tornado.escape.xhtml_unescape)
