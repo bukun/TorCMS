@@ -20,6 +20,7 @@ from .script_gen_category import run_gen_category
 from .script_crud import run_auto
 from .script_whoosh import run_whoosh
 from .tmplchecker import run_checkit
+from .script_editmap import run_editmap
 
 
 def entry(argv):
@@ -36,6 +37,7 @@ def entry(argv):
         'edit_diff': run_edit_diff,
         'create_admin': run_create_admin,
         'sitemap': run_sitemap,
+        'editmap': run_editmap,
         'check_kind': run_check_kind,
 
         'f2elib': run_f2elib,
@@ -64,6 +66,7 @@ def entry(argv):
             print('  send_nologin: ')
             print('  create_admin: ')
             print('       sitemap: ')
+            print('       editmap: ')
             print('    check_kind: ')
             print('         check: ')
 
