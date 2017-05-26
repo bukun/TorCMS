@@ -93,7 +93,8 @@ class CategoryHandler(BaseHandler):
                'unescape': tornado.escape.xhtml_unescape,
                'title': cat_name,
                'router': router_post[cat_rec.kind],
-               'current_page': current_page_num}
+               'current_page': current_page_num,
+               'kind': cat_rec.kind}
         if self.kind == 's':
 
             tmpl = 'list/catalog_list.html'

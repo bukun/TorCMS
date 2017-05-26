@@ -69,7 +69,7 @@ class MCategory(Mabc):
         return MCategory.get_qian2(qian2)
 
     @staticmethod
-    def query_all(by_count=False, by_order=True, kind='1'):
+    def query_all(kind='1',by_count=False, by_order=True):
         if by_count:
             recs = TabTag.select().where(TabTag.kind == kind).order_by(TabTag.count.desc())
         elif by_order:

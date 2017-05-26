@@ -472,6 +472,7 @@ class MPost(Mabc):
         :param kind:
         :return:
         '''
+
         return TabPost.select().where(
             (TabPost.kind == kind) &
             (TabPost.valid == 1)
