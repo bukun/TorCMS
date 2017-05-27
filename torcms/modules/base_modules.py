@@ -647,4 +647,7 @@ class AppTitle(tornado.web.UIModule):
 
     def render(self,uid):
         rec = MPost.get_by_uid(uid=uid)
-        return rec.title
+        if rec:
+            return rec.title
+        else:
+            return None
