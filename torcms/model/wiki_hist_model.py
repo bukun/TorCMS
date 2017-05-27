@@ -7,18 +7,21 @@ from torcms.model.abc_model import Mabc, MHelper
 
 
 class MWikiHist(Mabc):
-    def __init__(self):
-        super(MWikiHist, self).__init__()
+    # def __init__(self):
+    #     super(MWikiHist, self).__init__()
 
     @staticmethod
     def get_last(postid):
+        '''
+        Get the last wiki in history.
+        :param postid: 
+        :return: 
+        '''
         recs = TabWikiHist.select().where(
             TabWikiHist.wiki_id == postid
         ).order_by(TabWikiHist.time_update.desc())
-        if recs.count() == 0:
-            return False
-        else:
-            return recs.get()
+
+        return None if recs.count() == 0 else recs.get()
 
     @staticmethod
     def delete(uid):

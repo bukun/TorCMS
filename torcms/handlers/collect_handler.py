@@ -51,7 +51,7 @@ class CollectHandler(BaseHandler):
 
         current_page_num = 1 if current_page_num < 1 else current_page_num
 
-        num_of_cat = MCollect.count_of_certain_all(self.userinfo.uid)
+        num_of_cat = MCollect.count_of_user(self.userinfo.uid)
         page_num = int(num_of_cat / CMS_CFG['list_num']) + 1
 
         kwd = {

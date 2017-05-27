@@ -15,10 +15,74 @@ from torcms.core.torcms_redis import redisvr
 from torcms.core.tools import logger
 
 
+def echo_html_fenye_str(rec_num, fenye_num):
+    '''
+    生成分页的导航
+    '''
+
+    pagination_num = int(math.ceil(rec_num * 1.0 / 10))
+
+    if pagination_num == 1 or pagination_num == 0:
+        fenye_str = ''
+
+    elif pagination_num > 1:
+        pager_mid = ''
+        pager_pre = ''
+        pager_next = ''
+        pager_last = ''
+        pager_home = ''
+        fenye_str = '<ul class="pagination">'
+
+        if fenye_num > 1:
+            pager_home = '''<li class="{0}" name='fenye' onclick='change(this);'
+              value='{1}'><a>First Page</a></li>'''.format('', 1)
+
+            pager_pre = ''' <li class="{0}" name='fenye' onclick='change(this);'
+              value='{1}'><a>Previous Page</a></li>'''.format('', fenye_num - 1)
+        if fenye_num > 5:
+            cur_num = fenye_num - 4
+        else:
+            cur_num = 1
+
+        if pagination_num > 10 and cur_num < pagination_num - 10:
+            show_num = cur_num + 10
+
+        else:
+            show_num = pagination_num + 1
+
+        for num in range(cur_num, show_num):
+            if num == fenye_num:
+                checkstr = 'active'
+            else:
+                checkstr = ''
+
+            tmp_str_df = '''<li class="{0}" name='fenye' onclick='change(this);'
+              value='{1}'><a>{1}</a></li>'''.format(checkstr, num)
+
+            pager_mid += tmp_str_df
+        if fenye_num < pagination_num:
+            pager_next = '''
+
+              <li class="{0}" name='fenye' onclick='change(this);'
+              value='{1}'><a>Next Page</a></li>'''.format('', fenye_num + 1)
+            pager_last = '''
+
+              <li class="{0}" name='fenye' onclick='change(this);'
+              value='{1}'><a>End Page</a></li>'''.format('', pagination_num)
+
+        fenye_str += pager_home + pager_pre + pager_mid + pager_next + pager_last
+        fenye_str += '</ul>'
+
+    else:
+        return False
+    return fenye_str
+
+
 class FilterHandler(BaseHandler):
     '''
     List view,by category uid. The list could be filtered.
     '''
+
     def initialize(self):
         super(FilterHandler, self).initialize()
 
@@ -90,7 +154,7 @@ class FilterHandler(BaseHandler):
             self.echo_html_list_str(sig, infos)
         elif url_arr[1] == 'num':
             allinfos = MPost.query_under_condition(condition, kind=catinfo.kind)
-            self.echo_html_fenye_str(allinfos.count(), fenye_num)
+            echo_html_fenye_str(allinfos.count(), fenye_num)
 
     def echo_html_list_str(self, catid, infos):
         '''
@@ -113,68 +177,6 @@ class FilterHandler(BaseHandler):
                     unescape=tornado.escape.xhtml_unescape,
                     post_infos=infos,
                     widget_info=kwd)
-
-    def echo_html_fenye_str(self, rec_num, fenye_num):
-        '''
-        生成分页的导航
-        '''
-
-        pagination_num = int(math.ceil(rec_num * 1.0 / 10))
-
-        if pagination_num == 1 or pagination_num == 0:
-            fenye_str = ''
-
-        elif pagination_num > 1:
-            pager_mid = ''
-            pager_pre = ''
-            pager_next = ''
-            pager_last = ''
-            pager_home = ''
-            fenye_str = '<ul class="pagination">'
-
-            if fenye_num > 1:
-                pager_home = '''<li class="{0}" name='fenye' onclick='change(this);'
-                  value='{1}'><a>First Page</a></li>'''.format('', 1)
-
-                pager_pre = ''' <li class="{0}" name='fenye' onclick='change(this);'
-                  value='{1}'><a>Previous Page</a></li>'''.format('', fenye_num - 1)
-            if fenye_num > 5:
-                cur_num = fenye_num - 4
-            else:
-                cur_num = 1
-
-            if pagination_num > 10 and cur_num < pagination_num - 10:
-                show_num = cur_num + 10
-
-            else:
-                show_num = pagination_num + 1
-
-            for num in range(cur_num, show_num):
-                if num == fenye_num:
-                    checkstr = 'active'
-                else:
-                    checkstr = ''
-
-                tmp_str_df = '''<li class="{0}" name='fenye' onclick='change(this);'
-                  value='{1}'><a>{1}</a></li>'''.format(checkstr, num)
-
-                pager_mid += tmp_str_df
-            if fenye_num < pagination_num:
-                pager_next = '''
-
-                  <li class="{0}" name='fenye' onclick='change(this);'
-                  value='{1}'><a>Next Page</a></li>'''.format('', fenye_num + 1)
-                pager_last = '''
-
-                  <li class="{0}" name='fenye' onclick='change(this);'
-                  value='{1}'><a>End Page</a></li>'''.format('', pagination_num)
-
-            fenye_str += pager_home + pager_pre + pager_mid + pager_next + pager_last
-            fenye_str += '</ul>'
-
-        else:
-            return False
-        self.write(fenye_str)
 
     def list(self, catid):
         '''

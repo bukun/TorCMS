@@ -476,7 +476,6 @@ class CategoryPager(tornado.web.UIModule):
     '''
     pager of category
     '''
-
     def render(self, *args, **kwargs):
         cat_slug = args[0]
         current = int(args[1])
@@ -486,10 +485,10 @@ class CategoryPager(tornado.web.UIModule):
         cat_rec = MCategory.get_by_slug(cat_slug)
         num_of_cat = MPost2Catalog.count_of_certain_category(cat_rec.uid)
 
-        tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
+        pager_cnt = int(num_of_cat / config.CMS_CFG['list_num'])
 
-        page_num = (tmp_page_num if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
-                    else tmp_page_num + 1)
+        page_num = (pager_cnt if abs(pager_cnt - num_of_cat / config.CMS_CFG['list_num']) < 0.1
+                    else pager_cnt + 1)
 
         kwd = {
             'page_home': False if current <= 1 else True,
@@ -503,24 +502,25 @@ class CategoryPager(tornado.web.UIModule):
                                   cat_slug=cat_slug,
                                   pager_num=page_num,
                                   page_current=current)
+
+
 class CollectPager(tornado.web.UIModule):
     '''
     pager of category
     '''
 
     def render(self, *args, **kwargs):
-
         user_id = args[0]
         current = int(args[1])
         # cat_slug 分类
         # current 当前页面
 
-        num_of_cat = MCollect.count_of_certain_all(user_id)
+        the_count = MCollect.count_of_user(user_id)
 
-        tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
+        pager_count = int(the_count / config.CMS_CFG['list_num'])
 
-        page_num = (tmp_page_num if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
-                    else tmp_page_num + 1)
+        page_num = (pager_count if abs(pager_count - the_count / config.CMS_CFG['list_num']) < 0.1
+                    else pager_count + 1)
 
         kwd = {
             'page_home': False if current <= 1 else True,
@@ -624,7 +624,7 @@ class SearchPager(tornado.web.UIModule):
         catid = args[0]
         tag_slug = args[1]
         current = int(args[2])
-        res_all = ysearch.get_all_num(tag_slug,catid=catid)
+        res_all = ysearch.get_all_num(tag_slug, catid=catid)
         page_num = int(res_all / config.CMS_CFG['list_num'])
 
         kwd = {
@@ -640,14 +640,12 @@ class SearchPager(tornado.web.UIModule):
                                   pager_num=page_num,
                                   page_current=current)
 
+
 class AppTitle(tornado.web.UIModule):
     '''
     search widget. Simple searching. searching for all.
     '''
 
-    def render(self,uid):
+    def render(self, uid):
         rec = MPost.get_by_uid(uid=uid)
-        if rec:
-            return rec.title
-        else:
-            return None
+        return rec.title if rec else None

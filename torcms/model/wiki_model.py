@@ -80,10 +80,10 @@ class MWiki(Mabc):
             logger.info(' ' * 4 + 'The title is too short.')
             return False
 
-        uu = MWiki.get_by_wiki(title)
-        if uu:
+        the_wiki = MWiki.get_by_wiki(title)
+        if the_wiki:
             logger.info(' ' * 4 + 'The title already exists.')
-            MWiki.update(uu.uid, post_data)
+            MWiki.update(the_wiki.uid, post_data)
             return
 
         uid = '_' + tools.get_uu8d()

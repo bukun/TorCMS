@@ -3,7 +3,7 @@
 '''
 define the Core Modules of TorCMS.
 '''
-import torcms.modules.widget_modules
+# import torcms.modules.widget_modules
 from torcms.modules import base_modules
 from torcms.modules import info_modules
 from torcms.modules import widget_modules
@@ -78,7 +78,7 @@ core_modules = {
     'app_recent_used': info_modules.InfoRecentUsed,
     'app_most_used': info_modules.InfoMostUsed,
     'label_count': info_modules.LabelCount,
-    'baidu_search': torcms.modules.widget_modules.BaiduSearch,
+    'baidu_search': widget_modules.BaiduSearch,
     'app_most_used_by_cat': info_modules.InfoMostUsedByCategory,
     'app_least_used_by_cat': info_modules.InfoLeastUseByCategory,
     'app_user_recent_by_cat': info_modules.InfoUserRecentByCategory,

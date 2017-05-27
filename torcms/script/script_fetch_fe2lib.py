@@ -8,12 +8,12 @@ import os
 import zipfile
 import urllib.request
 
-den_dir = './static/f2elib'
+OUT_PATH = './static/f2elib'
 
-if os.path.exists(den_dir):
+if os.path.exists(OUT_PATH):
     pass
 else:
-    os.mkdir(den_dir)
+    os.mkdir(OUT_PATH)
 
 
 def fetch_file(url, filename):
@@ -23,7 +23,7 @@ def fetch_file(url, filename):
     :param filename:
     :return:
     '''
-    outfile = os.path.join(den_dir, filename)
+    outfile = os.path.join(OUT_PATH, filename)
     if os.path.exists(outfile):
         # print('Exists: ', outfile)
         return True
@@ -34,7 +34,7 @@ def fetch_file(url, filename):
     zip_file = outfile
     f = zipfile.ZipFile(zip_file, 'r')
     for zfile in f.namelist():
-        f.extract(zfile, den_dir)
+        f.extract(zfile, OUT_PATH)
 
 
 def get_jquery():
@@ -91,7 +91,7 @@ def get_ol3():
     # qian, hou = os.path.split(ol3_url)
     # fetch_file(ol3_url, hou, outdir='ol3')
 
-    tdir = os.path.join(den_dir, 'ol3')
+    tdir = os.path.join(OUT_PATH, 'ol3')
     if os.path.exists(tdir):
         pass
     else:

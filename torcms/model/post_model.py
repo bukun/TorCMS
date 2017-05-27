@@ -425,6 +425,7 @@ class MPost(Mabc):
     def query_total_cat_recent(cat_id_arr, label=None, num=8, kind='1'):
         '''
         :param cat_id_arr:   list of categories. ['0101', '0102']
+        :param label: the additional label
         :param num:
         :param kind:
         :return:

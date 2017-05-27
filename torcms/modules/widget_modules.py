@@ -44,11 +44,7 @@ class UserinfoWidget(tornado.web.UIModule, tornado.web.RequestHandler):
     '''
 
     def render(self, **kwargs):
-        if 'userinfo' in kwargs and kwargs['userinfo']:
-            is_logged = True
-        else:
-            is_logged = False
-
+        is_logged = True if ('userinfo' in kwargs and kwargs['userinfo']) else False
         return self.render_string(
             'modules/widget/loginfo.html',
             userinfo=kwargs['userinfo'],

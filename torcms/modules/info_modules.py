@@ -247,12 +247,12 @@ class InfoTags(tornado.web.UIModule):
     def render(self, *args):
         uid = args[0]
         out_str = ''
-        ii = 1
+        iii = 1
         for tag_info in MPost2Catalog.query_by_entity_uid(uid).naive():
             tmp_str = '''<a data-inline="true" href="/tag/{0}"
-             class="tag{1}">{2}</a>'''.format(tag_info.tag_slug, ii, tag_info.tag_name)
+             class="tag{1}">{2}</a>'''.format(tag_info.tag_slug, iii, tag_info.tag_name)
             out_str += tmp_str
-            ii += 1
+            iii += 1
         return out_str
 
 

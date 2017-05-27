@@ -54,8 +54,9 @@ class MCollect(Mabc):
             )
         except:
             return None
+
     @staticmethod
-    def count_of_certain_all(user_id):
+    def count_of_user(user_id):
         return TabCollect.select(
             TabCollect, TabPost.uid.alias('post_uid'),
             TabPost.title.alias('post_title'),
@@ -65,6 +66,7 @@ class MCollect(Mabc):
         ).join(
             TabPost, on=(TabCollect.post_id == TabPost.uid)
         ).count()
+
     @staticmethod
     def query_pager_by_all(user_id, current_page_num=1):
 
