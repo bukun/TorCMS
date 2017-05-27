@@ -82,5 +82,6 @@ core_modules = {
     'app_most_used_by_cat': info_modules.InfoMostUsedByCategory,
     'app_least_used_by_cat': info_modules.InfoLeastUseByCategory,
     'app_user_recent_by_cat': info_modules.InfoUserRecentByCategory,
+    'app_title': base_modules.AppTitle
 
 }

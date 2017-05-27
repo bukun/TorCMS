@@ -639,3 +639,12 @@ class SearchPager(tornado.web.UIModule):
                                   cat_slug=tag_slug,
                                   pager_num=page_num,
                                   page_current=current)
+
+class AppTitle(tornado.web.UIModule):
+    '''
+    search widget. Simple searching. searching for all.
+    '''
+
+    def render(self,uid):
+        rec = MPost.get_by_uid(uid=uid)
+        return rec.title
