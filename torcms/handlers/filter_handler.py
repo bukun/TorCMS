@@ -74,7 +74,7 @@ def echo_html_fenye_str(rec_num, fenye_num):
         fenye_str += '</ul>'
 
     else:
-        return False
+        return ''
     return fenye_str
 
 
@@ -117,6 +117,7 @@ class FilterHandler(BaseHandler):
         :param url_str:
         :return:
         '''
+
         logger.info('info echo html: {0}'.format(url_str))
 
         condition = self.gen_redis_kw()
@@ -154,7 +155,7 @@ class FilterHandler(BaseHandler):
             self.echo_html_list_str(sig, infos)
         elif url_arr[1] == 'num':
             allinfos = MPost.query_under_condition(condition, kind=catinfo.kind)
-            echo_html_fenye_str(allinfos.count(), fenye_num)
+            self.write(tornado.escape.xhtml_unescape(echo_html_fenye_str(allinfos.count(), fenye_num)))
 
     def echo_html_list_str(self, catid, infos):
         '''
