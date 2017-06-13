@@ -324,7 +324,7 @@ class PostHandler(BaseHandler):
 
         post_data = self.get_post_data()
 
-        current_infos = MPost2Catalog.query_by_entity_uid(uid)
+        current_infos = MPost2Catalog.query_by_entity_uid(uid, kind=self.kind).naive()
 
         new_category_arr = []
         # Used to update post2category, to keep order.
@@ -369,7 +369,7 @@ class PostHandler(BaseHandler):
 
         # Delete the old category if not in post requests.
         for cur_info in current_infos:
-            if str(cur_info.tag_id).strip() not in new_category_arr:
+            if cur_info.tag_id not in new_category_arr:
                 MPost2Catalog.remove_relation(uid, cur_info.tag_id)
 
     @tornado.web.authenticated
