@@ -18,7 +18,7 @@ class MCategory(Mabc):
         '''
         Delete by uid
         :param uid:
-        :return:
+        :return: 
         '''
         return MHelper.delete(TabTag, uid)
 
@@ -69,7 +69,14 @@ class MCategory(Mabc):
         return MCategory.get_qian2(qian2)
 
     @staticmethod
-    def query_all(kind='1',by_count=False, by_order=True):
+    def query_all(kind='1', by_count=False, by_order=True):
+        '''
+        Qeury all the categories, order by count or defined order.
+        :param kind: 
+        :param by_count: 
+        :param by_order: 
+        :return: the categories.
+        '''
         if by_count:
             recs = TabTag.select().where(TabTag.kind == kind).order_by(TabTag.count.desc())
         elif by_order:
@@ -80,6 +87,12 @@ class MCategory(Mabc):
 
     @staticmethod
     def query_field_count(limit_num, kind='1'):
+        '''
+        Query the posts count of certain category.
+        :param limit_num: 
+        :param kind: 
+        :return: 
+        '''
         return TabTag.select().where(TabTag.kind == kind).order_by(TabTag.count.desc()).limit(limit_num)
 
     @staticmethod
@@ -129,6 +142,12 @@ class MCategory(Mabc):
 
     @staticmethod
     def add_or_update(uid, post_data):
+        '''
+        Add or update the data by the given ID of post.
+        :param uid: 
+        :param post_data: 
+        :return: 
+        '''
         catinfo = MCategory.get_by_uid(uid)
         if catinfo:
             MCategory.update(uid, post_data)

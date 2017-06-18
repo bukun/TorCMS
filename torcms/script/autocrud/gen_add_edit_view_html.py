@@ -14,13 +14,17 @@ from torcms.script.autocrud.tpl import TPL_EDIT
 from torcms.script.autocrud.fetch_html_dic import gen_html_dic
 from torcms.script.autocrud.fetch_switch_dic import gen_array_crud
 
-html_dics = gen_html_dic()
-switch_dics, kind_dics = gen_array_crud()
+HtmlDics = gen_html_dic()
+SwitchDics, KindDics = gen_array_crud()
 
 
 def gen_add_edit_view_tmpl():
+    '''
+    Generate the templates for adding, editing, viewing.
+    :return: 
+    '''
     out_dir = os.path.join(os.getcwd(), crud_path)
-    for bianliang, bl_val in switch_dics.items():
+    for bianliang, bl_val in SwitchDics.items():
         if bianliang.startswith('dic_') and (not bianliang.endswith('00')):
             # 根据父类，决定是否有子类。
             # 这里使用固定的值，类别id以"a"开头。
@@ -45,7 +49,7 @@ def gen_add_edit_view_tmpl():
             for sig in var_dic:
                 html_sig = '_'.join(['html', sig])
                 # var_html = eval('html_vars.' + html_sig)
-                var_html = html_dics[html_sig]
+                var_html = HtmlDics[html_sig]
                 if var_html['type'] == 'text':
                     tmpl = (gen_input_add(var_html))
                 if var_html['type'] == 'select':
@@ -57,8 +61,8 @@ def gen_add_edit_view_tmpl():
                 if var_html['type'] == 'file':
                     tmpl = (gen_file_add(var_html))
                 add_widget_arr.append(tmpl)
-            with open(add_file, 'w') as fo:
-                fo.write(
+            with open(add_file, 'w') as fileout:
+                fileout.write(
                     TPL_ADD.replace(
                         'xxxxxx',
                         ''.join(add_widget_arr)
@@ -69,7 +73,7 @@ def gen_add_edit_view_tmpl():
                         'ssssss', subdir
                     ).replace(
                         'kkkk',
-                        kind_dics['kind_' + bianliang.split('_')[-1]]
+                        KindDics['kind_' + bianliang.split('_')[-1]]
                         # eval('dic_vars.kind_' + bianliang.split('_')[-1])
                     )
                 )
@@ -79,7 +83,7 @@ def gen_add_edit_view_tmpl():
             for sig in var_dic:
                 html_sig = '_'.join(['html', sig])
                 # var_html = eval('html_vars.' + html_sig)
-                var_html = html_dics[html_sig]
+                var_html = HtmlDics[html_sig]
                 if var_html['type'] == 'text':
                     tmpl = (gen_input_view(var_html))
                 if var_html['type'] == 'select':
@@ -91,8 +95,8 @@ def gen_add_edit_view_tmpl():
                 if var_html['type'] == 'file':
                     tmpl = (gen_file_view(var_html))
                 view_widget_arr.append(tmpl)
-            with open(view_file, 'w') as fo:
-                fo.write(
+            with open(view_file, 'w') as fileout:
+                fileout.write(
                     TPL_VIEW.replace(
                         'xxxxxx', ''.join(view_widget_arr)
                     ).replace(
@@ -103,7 +107,7 @@ def gen_add_edit_view_tmpl():
                         subdir
                     ).replace(
                         'kkkk',
-                        kind_dics['kind_' + bianliang.split('_')[-1]]
+                        KindDics['kind_' + bianliang.split('_')[-1]]
                         # eval('dic_vars.kind_' + bianliang.split('_')[-1])
                     )
                 )
@@ -113,7 +117,7 @@ def gen_add_edit_view_tmpl():
             for sig in var_dic:
                 html_sig = '_'.join(['html', sig])
                 # var_html = eval('html_vars.' + html_sig)
-                var_html = html_dics[html_sig]
+                var_html = HtmlDics[html_sig]
                 if var_html['type'] == 'text':
                     tmpl = (gen_input_edit(var_html))
                 if var_html['type'] == 'select':
@@ -125,8 +129,8 @@ def gen_add_edit_view_tmpl():
                 if var_html['type'] == 'file':
                     tmpl = (gen_file_edit(var_html))
                 edit_widget_arr.append(tmpl)
-            with open(edit_file, 'w') as fo:
-                fo.write(
+            with open(edit_file, 'w') as fileout2:
+                fileout2.write(
                     TPL_EDIT.replace(
                         'xxxxxx',
                         ''.join(edit_widget_arr)
@@ -138,6 +142,6 @@ def gen_add_edit_view_tmpl():
                         subdir
                     ).replace(
                         'kkkk',
-                        kind_dics['kind_' + bianliang.split('_')[-1]])
+                        KindDics['kind_' + bianliang.split('_')[-1]])
                     # eval('dic_vars.kind_' + bianliang.split('_')[-1]))
                 )

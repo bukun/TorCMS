@@ -38,54 +38,90 @@ def fetch_file(url, filename):
 
 
 def get_jquery():
+    '''
+    Get JQuery library.
+    :return: None
+    '''
     jquery_url = 'http://r.osgeo.cn/f2elib/jquery.zip'
     qian, hou = os.path.split(jquery_url)
     fetch_file(jquery_url, hou)
 
 
 def get_leaflet():
+    '''
+    Get LeafletJS library.
+    :return: None
+    '''
     leaflet_url = 'http://r.osgeo.cn/f2elib/leaflet_1.0.3.zip'
     qian, hou = os.path.split(leaflet_url)
     fetch_file(leaflet_url, hou)
 
 
 def get_bootstrap():
+    '''
+    Get BootStrop CSS library.
+    :return: None
+    '''
     leaflet_url = 'http://r.osgeo.cn/f2elib/bootstrap_3.3.7.zip'
     qian, hou = os.path.split(leaflet_url)
     fetch_file(leaflet_url, hou)
 
 
 def get_js_valid():
+    '''
+    Get JQuery-Validation library.
+    :return: None 
+    '''
     leaflet_url = 'http://r.osgeo.cn/f2elib/jquery-validation_1.15.0.zip'
     qian, hou = os.path.split(leaflet_url)
     fetch_file(leaflet_url, hou)
 
 
 def get_codemirror():
+    '''
+    Get CodeMirror JavaScript library.
+    :return: None
+    '''
     leaflet_url = 'http://r.osgeo.cn/f2elib/codemirror_5.25.0.zip'
     qian, hou = os.path.split(leaflet_url)
     fetch_file(leaflet_url, hou)
 
 
 def get_jqueryui():
+    '''
+    Get JQueryUI library.
+    :return: None
+    '''
     leaflet_url = 'http://r.osgeo.cn/f2elib/jqueryui_1.12.1.zip'
     qian, hou = os.path.split(leaflet_url)
     fetch_file(leaflet_url, hou)
 
 
 def get_rating():
+    '''
+    Get BootStrop Star Rating library.
+    :return: None
+    '''
     leaflet_url = 'http://r.osgeo.cn/f2elib/bootstrap-star-rating-master.zip'
     qian, hou = os.path.split(leaflet_url)
     fetch_file(leaflet_url, hou)
 
 
 def get_magnific():
+    '''
+    Get Magnific PopUp JavaScript library.
+    :return: None
+    '''
     leaflet_url = 'http://r.osgeo.cn/f2elib/magnific-popup_1.1.0.zip'
     qian, hou = os.path.split(leaflet_url)
     fetch_file(leaflet_url, hou)
 
 
 def get_ol3():
+    '''
+    Get OpenLayers3 JavaScript library.
+    :return: None
+    '''
     # ol3_url = 'https://github.com/openlayers/ol3/releases/download/v3.18.2/v3.18.2-dist.zip'
 
     # qian, hou = os.path.split(ol3_url)
@@ -105,6 +141,11 @@ def get_ol3():
 
 
 def run_f2elib(*args):
+    '''
+    Get All the libraries.
+    :param args: 
+    :return: None
+    '''
     get_jqueryui()
     get_codemirror()
     get_js_valid()
