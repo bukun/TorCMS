@@ -10,6 +10,7 @@ import tornado.escape
 from torcms.core import tools
 from torcms.model.core_tab import TabPost
 from torcms.model.core_tab import TabPost2Tag
+from torcms.model.core_tab import TabPostHist,TabCollect,TabRel,TabEvaluation,TabReply,TabRating,TabUsage,TabUser2Reply
 from torcms.model.abc_model import Mabc, MHelper
 from config import CMS_CFG, DB_CFG
 
@@ -42,32 +43,35 @@ class MPost(Mabc):
         :param uid:
         :return:
         '''
+
+
+
+        u1 = TabPostHist.delete().where(TabPostHist.post_id == uid)
+        u1.execute()
+        u2 = TabRel.delete().where(TabRel.post_f_id == uid or TabRel.post_t_id == uid)
+        u2.execute()
+        u3 = TabCollect.delete().where(TabCollect.post_id == uid)
+        u3.execute()
+        u4 = TabPost2Tag.delete().where(TabPost2Tag.post_id == uid)
+        u4.execute()
+        u5 = TabUsage.delete().where(TabUsage.post_id == uid)
+        u5.execute()
+
+        reply_arr = []
+        for reply in TabUser2Reply.select().where(TabUser2Reply.reply_id == uid):
+            reply_arr.append(reply.reply_id.uid)
+
+        u6 = TabUser2Reply.delete().where(TabUser2Reply.reply_id == uid)
+        u6.execute()
+
+        for replyid in reply_arr:
+            TabReply.delete().where(TabReply.uid == replyid).execute()
+
+        u7 = TabEvaluation.delete().where(TabEvaluation.post_id == uid)
+        u7.execute()
+        u8 = TabRating.delete().where(TabRating.post_id == uid)
+        u8.execute()
         return MHelper.delete(TabPost, uid)
-
-
-        # u1 = g_Post2Tag.delete().where(g_Post2Tag.post == del_id)
-        # u1.execute()
-        # u2 = g_Rel.delete().where(g_Rel.post_f == del_id)
-        # u2.execute()
-        # u3 = g_Rel.delete().where(g_Rel.post_t == del_id)
-        # u3.execute()
-        # u4 = g_Post2Tag.delete().where(g_Post2Tag.post == del_id)
-        # u4.execute()
-        # u5 = g_Usage.delete().where(g_Usage.post == del_id)
-        # u5.execute()
-        #
-        # reply_arr = []
-        # for reply in self.tab_app2reply.select().where(self.tab_app2reply.post_id == del_id):
-        #     reply_arr.append(reply.reply_id.uid)
-        #
-        # u6 = self.tab_app2reply.delete().where(self.tab_app2reply.post_id == del_id)
-        # u6.execute()
-        #
-        # for replyid in reply_arr:
-        #     g_Reply.delete().where(g_Reply.uid == replyid).execute()
-        #
-        # uu = g_Post.delete().where(g_Post.uid == del_id)
-        # uu.execute()
 
     @staticmethod
     def get_by_uid(uid):

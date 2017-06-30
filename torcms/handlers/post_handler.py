@@ -708,7 +708,20 @@ class PostHandler(BaseHandler):
             return False
 
         if MPost.delete(uid):
-            self.redirect('/list/{0}'.format(current_infor.extinfo['def_cat_uid']))
+
+            if self.kind == '9':
+                MCategory.update_count(current_infor.extinfo['def_cat_uid'])
+
+            if router_post[self.kind] == 'info':
+                url = "list"
+                id = current_infor.extinfo['def_cat_uid']
+            else:
+                url = router_post[self.kind]
+                id = "recent"
+
+
+            self.redirect('/{0}/{1}'.format(url,id))
+
         else:
             self.redirect('/{0}/{1}'.format(router_post[self.kind], uid))
 
