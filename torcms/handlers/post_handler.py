@@ -709,15 +709,17 @@ class PostHandler(BaseHandler):
 
         if MPost.delete(uid):
 
-            if router_post[self.kind] == 'info':
-                MCategory.update_count(current_infor.extinfo['def_cat_uid'])
+            tslug = MCategory.get_by_uid(current_infor.extinfo['def_cat_uid'])
+
+            MCategory.update_count(current_infor.extinfo['def_cat_uid'])
 
             if router_post[self.kind] == 'info':
-                url = "list"
+                url = "filter"
                 id = current_infor.extinfo['def_cat_uid']
+
             else:
-                url = router_post[self.kind]
-                id = "recent"
+                url = "category"
+                id = tslug.slug
 
 
             self.redirect('/{0}/{1}'.format(url,id))
