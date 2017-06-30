@@ -52,11 +52,12 @@ class InforUserMost(tornado.web.UIModule):
     User most accessed posts.
     '''
 
-    def render(self, user_name, kind, num, with_tag=False):
+    def render(self, user_name, kind, num, with_tag=False, glyph=''):
         all_cats = MUsage.query_most(user_name, kind, num).naive()
         kwd = {
             'with_tag': with_tag,
             'router': router_post[kind],
+            'glyph': glyph
         }
         return self.render_string('modules/info/list_user_equation.html',
                                   recs=all_cats,
@@ -69,11 +70,12 @@ class InfoUserRecent(tornado.web.UIModule):
     '''
 
     @deprecated(details='should not used any more.')
-    def render(self, user_name, kind, num, with_tag=False):
+    def render(self, user_name, kind, num, with_tag=False, glyph=''):
         all_cats = MUsage.query_recent(user_name, kind, num).naive()
         kwd = {
             'with_tag': with_tag,
             'router': router_post[kind],
+            'glyph': glyph
         }
         return self.render_string('modules/info/list_user_equation.html',
                                   recs=all_cats,
@@ -86,11 +88,15 @@ class InfoUserRecentByCategory(tornado.web.UIModule):
     '''
 
     @deprecated(details='should not used any more.')
-    def render(self, user_name, cat_id, num):
+    def render(self, user_name, cat_id, num, glyph=''):
         all_cats = MUsage.query_recent_by_cat(user_name, cat_id, num).naive()
+        kwd = {
 
+            'glyph': glyph
+        }
         return self.render_string('modules/info/list_user_equation_no_catalog.html',
-                                  recs=all_cats)
+                                  recs=all_cats,
+                                  kwd=kwd)
 
 
 class InfoMostUsedByCategory(tornado.web.UIModule):
@@ -99,10 +105,15 @@ class InfoMostUsedByCategory(tornado.web.UIModule):
     '''
 
     @deprecated(details='should not used any more.')
-    def render(self, num, cat_str):
+    def render(self, num, cat_str, glyph=''):
         all_cats = MPost.query_most_by_cat(num, cat_str)
+        kwd = {
+
+            'glyph': glyph
+        }
         return self.render_string('modules/info/list_equation_by_cat.html',
-                                  recs=all_cats)
+                                  recs=all_cats,
+                                  kwd=kwd)
 
 
 class InfoLeastUseByCategory(tornado.web.UIModule):
@@ -111,9 +122,13 @@ class InfoLeastUseByCategory(tornado.web.UIModule):
     '''
 
     @deprecated(details='should not used any more.')
-    def render(self, num, cat_str):
+    def render(self, num, cat_str, glyph=''):
         all_cats = MPost.query_least_by_cat(num, cat_str)
-        return self.render_string('modules/info/list_equation_by_cat.html', recs=all_cats)
+        kwd = {
+
+            'glyph': glyph
+        }
+        return self.render_string('modules/info/list_equation_by_cat.html', recs=all_cats, kwd=kwd)
 
 
 class InfoMostUsed(tornado.web.UIModule):
@@ -138,21 +153,23 @@ class InfoMostUsed(tornado.web.UIModule):
         else:
             return self.render_it(kind, num, with_tag=with_tag)
 
-    def render_it(self, kind, num, with_tag=False):
+    def render_it(self, kind, num, with_tag=False, glyph=''):
         all_cats = MPost.query_most(kind=kind, num=num).naive()
         kwd = {
             'with_tag': with_tag,
             'router': router_post[kind],
+            'glyph': glyph
         }
         return self.render_string('modules/info/list_equation.html',
                                   recs=all_cats,
                                   kwd=kwd)
 
-    def render_user(self, kind, num, with_tag=False, user_id=''):
+    def render_user(self, kind, num, with_tag=False, user_id='', glyph=''):
         all_cats = MUsage.query_most(user_id, kind, num).naive()
         kwd = {
             'with_tag': with_tag,
             'router': router_post[kind],
+            'glyph': glyph
         }
         return self.render_string('modules/info/list_user_equation.html',
                                   recs=all_cats,
@@ -233,10 +250,14 @@ class InfoRandom(tornado.web.UIModule):
     return some infors, randomly.
     '''
 
-    def render(self, kind, num):
+    def render(self, kind, num, glyph=''):
         all_cats = MPost.query_random(num=num, kind=kind)
+        kwd = {
+
+            'glyph': glyph
+        }
         return self.render_string('modules/info/list_equation.html',
-                                  recs=all_cats)
+                                  recs=all_cats, kwd=kwd)
 
 
 class InfoTags(tornado.web.UIModule):

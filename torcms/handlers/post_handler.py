@@ -709,7 +709,7 @@ class PostHandler(BaseHandler):
 
         if MPost.delete(uid):
 
-            if self.kind == '9':
+            if router_post[self.kind] == 'info':
                 MCategory.update_count(current_infor.extinfo['def_cat_uid'])
 
             if router_post[self.kind] == 'info':
