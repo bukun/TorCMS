@@ -18,7 +18,7 @@ class PostAjaxHandler(PostHandler):
     def get(self, *args):
         url_str = args[0]
         url_arr = self.parse_url(args[0])
-        if url_arr[0] == 'delete':
+        if url_arr[0] in ['_delete', 'delete']:
             self.delete(url_arr[1])
         elif url_arr[0] in ['count_plus']:
             self.count_plus(url_arr[1])

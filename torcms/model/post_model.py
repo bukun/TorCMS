@@ -10,7 +10,8 @@ import tornado.escape
 from torcms.core import tools
 from torcms.model.core_tab import TabPost
 from torcms.model.core_tab import TabPost2Tag
-from torcms.model.core_tab import TabPostHist,TabCollect,TabRel,TabEvaluation,TabReply,TabRating,TabUsage,TabUser2Reply
+from torcms.model.core_tab import TabPostHist, TabCollect, TabRel, TabEvaluation, TabReply, TabRating, TabUsage, \
+    TabUser2Reply
 from torcms.model.abc_model import Mabc, MHelper
 from config import CMS_CFG, DB_CFG
 
@@ -43,8 +44,6 @@ class MPost(Mabc):
         :param uid:
         :return:
         '''
-
-
 
         u1 = TabPostHist.delete().where(TabPostHist.post_id == uid)
         u1.execute()
@@ -124,7 +123,6 @@ class MPost(Mabc):
                 uid=post_id
             ).where(TabPost.uid == uid)
             entry.execute()
-
 
     @staticmethod
     def update_cnt(uid, post_data):

@@ -1,7 +1,9 @@
 # -*- coding:utf-8 -*-
 
 '''
+access via: /leaf/
 The basic  leaf handler.
+The list of the posts should be ordered under leaf list.
 '''
 
 import random

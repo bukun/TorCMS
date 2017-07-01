@@ -1,5 +1,9 @@
 # -*- coding:utf-8 -*-
 
+'''
+for the reclassification of the post.
+'''
+
 import json
 import tornado.escape
 import tornado.web

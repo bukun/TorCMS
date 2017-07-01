@@ -744,11 +744,11 @@ class PostHandler(BaseHandler):
 
         if is_deleted:
             output = {
-                'del_info ': 1,
+                'del_info': 1,
             }
         else:
             output = {
-                'del_info ': 0,
+                'del_info': 0,
             }
         return json.dump(output, self)
 

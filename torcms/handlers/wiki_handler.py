@@ -16,7 +16,6 @@ from torcms.model.wiki_model import MWiki
 from torcms.model.wiki_hist_model import MWikiHist
 
 
-
 # from celery_server import cele_gen_whoosh
 
 class WikiHandler(BaseHandler):
@@ -132,7 +131,6 @@ class WikiHandler(BaseHandler):
         tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
 
         self.redirect('/wiki/{0}'.format(tornado.escape.url_escape(post_data['title'])))
-
 
     @tornado.web.authenticated
     def to_edit(self, id_rec):
