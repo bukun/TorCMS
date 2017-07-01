@@ -12,8 +12,8 @@ def send_mail(to_list, sub, content):
     msg['From'] = me
     msg['To'] = ";".join(to_list)
     try:
-        s = smtplib.SMTP()
-        s.connect(SMTP_CFG['host'])
+        # Using SMTP_SSL. The alinyun ECS has masked the 25 port since 9,2016.
+        s = smtplib.SMTP_SSL(SMTP_CFG['host'], port=994)
         s.login(SMTP_CFG['user'], SMTP_CFG['pass'])
         s.sendmail(me, to_list, msg.as_string())
         s.close()
