@@ -72,14 +72,7 @@ class LeafHandler(PostHandler):
         :param postinfo:
         :return:
         '''
-        logger.warning('info kind:{0} '.format(postinfo.kind))
-
-        # If not, there must be something wrong.
-        if postinfo.kind == self.kind:
-            pass
-        else:
-            self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], postinfo.uid),
-                          permanent=True)
+        self.redirect_kind(postinfo)
 
         ######################################################
         if DB_CFG['kind'] == 's':

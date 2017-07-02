@@ -9,8 +9,8 @@ import getopt
 from .script_migrate import run_migrate
 from .script_init import run_init
 from .script_sendemail_all import run_send_all, run_send_nologin
-from .script_edit_diff import run_edit_diff
-from .script_create_admin import run_create_admin
+from .script_review import run_review
+# from .script_create_admin import run_create_admin
 from .script_sitemap import run_sitemap
 from .script_check_kind import run_check_kind
 from .script_fetch_fe2lib import run_f2elib
@@ -20,7 +20,7 @@ from .script_gen_category import run_gen_category
 from .script_crud import run_auto
 from .script_whoosh import run_whoosh
 from .tmplchecker import run_checkit
-from .script_editmap import run_editmap
+from torcms.script.script_sitemap import run_editmap
 
 
 def entry(argv):
@@ -34,8 +34,9 @@ def entry(argv):
         'init': run_init,
         'send_nologin': run_send_nologin,
         'send_all': run_send_all,
-        'edit_diff': run_edit_diff,
-        'create_admin': run_create_admin,
+        'edit_diff': run_review,  # Deprecated
+        'review': run_review,
+        # 'create_admin': run_create_admin,
         'sitemap': run_sitemap,
         'editmap': run_editmap,
         'check_kind': run_check_kind,
@@ -57,14 +58,14 @@ def entry(argv):
     for opt, arg in opts:
         if opt == "-h":
             print('helper.py -i cmd')
-            print('cmd list----------------------')
+            print('cmd list ----------------------')
             print('          init: ')
-
             print('       migrate: ')
-            print('     edit_diff: ')
+            print('        review: ')
+            print('         -------------')
             print('      send_all: ')
             print('  send_nologin: ')
-            print('  create_admin: ')
+            # print('  create_admin: ')
             print('       sitemap: ')
             print('       editmap: ')
             print('    check_kind: ')

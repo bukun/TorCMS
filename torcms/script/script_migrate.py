@@ -22,7 +22,6 @@ def run_migrate(*args):
 
 
     try:
-
         migrate.migrate(
             torcms_migrator.rename_table('g_tag', 'tabtag')
         )

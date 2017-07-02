@@ -19,7 +19,7 @@ class PostAjaxHandler(PostHandler):
         url_str = args[0]
         url_arr = self.parse_url(args[0])
         if url_arr[0] in ['_delete', 'delete']:
-            self.delete(url_arr[1])
+            self.j_delete(url_arr[1])
         elif url_arr[0] in ['count_plus']:
             self.count_plus(url_arr[1])
         elif url_arr[0] == 'recent':
@@ -31,29 +31,29 @@ class PostAjaxHandler(PostHandler):
         elif len(url_arr) == 1 and len(url_str) in [4, 5]:
             self.view_or_add(url_str)
 
-    @tornado.web.authenticated
-    def delete(self, *args):
-        '''
-        Delete the post via Ajax request.
-        :param args:
-        :return:
-        '''
-        uid = args[0]
-        if self.check_post_role()['DELETE']:
-            pass
-        else:
-            return False
-        is_deleted = MPost.delete(uid)
-
-        if is_deleted:
-            output = {
-                'del_info ': 1,
-            }
-        else:
-            output = {
-                'del_info ': 0,
-            }
-        return json.dump(output, self)
+    # @tornado.web.authenticated
+    # def delete(self, *args):
+    #     '''
+    #     Delete the post via Ajax request.
+    #     :param args:
+    #     :return:
+    #     '''
+    #     uid = args[0]
+    #     if self.check_post_role()['DELETE']:
+    #         pass
+    #     else:
+    #         return False
+    #     is_deleted = MPost.delete(uid)
+    #
+    #     if is_deleted:
+    #         output = {
+    #             'del_info ': 1,
+    #         }
+    #     else:
+    #         output = {
+    #             'del_info ': 0,
+    #         }
+    #     return json.dump(output, self)
 
     def viewinfo(self, postinfo):
         out_json = {

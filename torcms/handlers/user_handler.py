@@ -286,14 +286,14 @@ class UserHandler(BaseHandler):
         post_data = self.get_post_data()
 
         form = SumForm(self.request.arguments)
-        ckemail= MUser.get_by_email(post_data['user_email'])
+        ckemail = MUser.get_by_email(post_data['user_email'])
         if ckemail is None:
             pass
         else:
             kwd = {
-                    'info': '邮箱已经存在，请更换邮箱。',
-                    'link': '/user/regist',
-                }
+                'info': '邮箱已经存在，请更换邮箱。',
+                'link': '/user/regist',
+            }
             self.set_status(400)
             self.render('misc/html/404.html',
                         cfg=config.CMS_CFG,

@@ -65,20 +65,20 @@ def do_for_dir(html_tpl):
                     html_view_str_arr.append(to_html('html_' + x))
 
             with open(outfile, 'w') as outfileo:
-                outfileo.write(html_tpl.replace(
-                    'xxxxxx',
-                    ''.join(html_view_str_arr)
-                ).replace(
-                    'yyyyyy',
-                    var_name.split('_')[1][:2]
-                ).replace(
-                    'ssssss',
-                    subdir
-                ).replace(
-                    'kkkk',
-                    kind_dics['kind_' + var_name.split('_')[-1]]
-                )
-                    # eval('dic_vars.kind_' + var_name.split('_')[-1]))
+                outfileo.write(
+                    html_tpl.replace(
+                        'xxxxxx',
+                        ''.join(html_view_str_arr)
+                    ).replace(
+                        'yyyyyy',
+                        var_name.split('_')[1][:2]
+                    ).replace(
+                        'ssssss',
+                        subdir
+                    ).replace(
+                        'kkkk',
+                        kind_dics['kind_' + var_name.split('_')[-1]]
+                    )
                 )
 
 

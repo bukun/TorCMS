@@ -1,5 +1,9 @@
 # -*- coding:utf-8 -*-
 
+'''
+The model for wiki.
+'''
+
 import datetime
 import tornado.escape
 from torcms.core import tools
@@ -10,8 +14,11 @@ import peewee
 
 
 class MWiki(Mabc):
-    def __init__(self):
+    '''
+    Class for wiki.
+    '''
 
+    def __init__(self):
         super(MWiki, self).__init__()
 
     @staticmethod
@@ -41,6 +48,11 @@ class MWiki(Mabc):
 
     @staticmethod
     def get_by_uid(uid):
+        '''
+        Get the wiki object by the UID.
+        :param uid: 
+        :return: 
+        '''
         return MHelper.get_by_uid(TabWiki, uid)
 
     @staticmethod
@@ -73,6 +85,11 @@ class MWiki(Mabc):
 
     @staticmethod
     def create_wiki(post_data):
+        '''
+        Create the wiki.
+        :param post_data: 
+        :return: 
+        '''
         logger.info('Call create wiki')
 
         title = post_data['title'].strip()
@@ -109,6 +126,12 @@ class MWiki(Mabc):
 
     @staticmethod
     def __create_rec(*args, **kwargs):
+        '''
+        Create the record.
+        :param args: 
+        :param kwargs: 
+        :return: 
+        '''
         uid = args[0]
         kind = args[1]
         post_data = kwargs['post_data']
@@ -132,6 +155,12 @@ class MWiki(Mabc):
 
     @staticmethod
     def query_dated(num=10, kind='1'):
+        '''
+        List the wiki of dated.
+        :param num: 
+        :param kind: 
+        :return: 
+        '''
         return TabWiki.select().where(
             TabWiki.kind == kind
         ).order_by(
@@ -140,6 +169,12 @@ class MWiki(Mabc):
 
     @staticmethod
     def query_most(num=8, kind='1'):
+        '''
+        List the most viewed wiki.
+        :param num: 
+        :param kind: 
+        :return: 
+        '''
         return TabWiki.select().where(
             TabWiki.kind == kind
         ).order_by(
@@ -148,6 +183,11 @@ class MWiki(Mabc):
 
     @staticmethod
     def update_view_count(citiao):
+        '''
+        view count of the wiki, plus 1. By wiki
+        :param citiao: 
+        :return: 
+        '''
         entry = TabWiki.update(
             view_count=TabWiki.view_count + 1
         ).where(
@@ -157,6 +197,11 @@ class MWiki(Mabc):
 
     @staticmethod
     def update_view_count_by_uid(uid):
+        '''
+        update the count of wiki, by uid.
+        :param uid: 
+        :return: 
+        '''
         entry = TabWiki.update(
             view_count=TabWiki.view_count + 1
         ).where(
@@ -166,6 +211,11 @@ class MWiki(Mabc):
 
     @staticmethod
     def get_by_wiki(citiao):
+        '''
+        Get the wiki record by title.
+        :param citiao: 
+        :return: 
+        '''
         q_res = TabWiki.select().where(TabWiki.title == citiao)
         tt = q_res.count()
         if tt == 0 or tt > 1:

@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 from torcms.handlers.admin_handler import AdminHandler
-from torcms.handlers.catalog_handler import CatalogHandler
+# from torcms.handlers.catalog_handler import CatalogHandler
 from torcms.handlers.category_handler import CategoryHandler, TagListHandler
 from torcms.handlers.collect_handler import CollectHandler
 from torcms.handlers.entity_handler import EntityHandler
@@ -44,7 +44,8 @@ urls = [
     ("/entity/(.*)", EntityHandler, dict()),
 
     ("/label/(.*)", LabelHandler, dict()),
-    ("/catalog/(.*)", CatalogHandler, dict()),
+    # ("/catalog/(.*)", CatalogHandler, dict(order=True)),
+    ("/catalog/(.*)", CategoryHandler, dict(order=True)),
     ("/category/(.*)", CategoryHandler, dict()),
 
     ("/tag/(.*)", TagListHandler, dict()),  # Deprecated, replaed by `/category` .

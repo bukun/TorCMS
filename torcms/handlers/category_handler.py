@@ -20,6 +20,9 @@ from config import CMS_CFG, router_post
 class CategoryHandler(BaseHandler):
     '''
     Category access.
+    
+    If order is True,  list by order. Just like Book.
+    Else, list via the category.
     '''
 
     def initialize(self, **kwargs):
@@ -28,6 +31,10 @@ class CategoryHandler(BaseHandler):
             self.kind = kwargs['kind']
         else:
             self.kind = '1'
+        if 'order' in kwargs:
+            self.order = kwargs['order']
+        else:
+            self.order = False
 
     def get(self, *args):
         url_str = args[0]
@@ -36,7 +43,6 @@ class CategoryHandler(BaseHandler):
         if len(url_arr) == 1:
             self.list_catalog(url_str)
         elif len(url_arr) == 2:
-
             if url_arr[0] == 'j_subcat':
                 self.ajax_subcat_arr(url_arr[1])
             elif url_arr[0] == 'j_kindcat':
@@ -85,7 +91,9 @@ class CategoryHandler(BaseHandler):
             pass
         else:
             return False
+
         num_of_cat = MPost2Catalog.count_of_certain_category(cat_rec.uid)
+
         page_num = int(num_of_cat / CMS_CFG['list_num']) + 1
         cat_name = cat_rec.name
         kwd = {'cat_name': cat_name,
@@ -95,16 +103,22 @@ class CategoryHandler(BaseHandler):
                'router': router_post[cat_rec.kind],
                'current_page': current_page_num,
                'kind': cat_rec.kind}
-        if self.kind == 's':
 
+        # tmpl = 'list/catalog_list.html'
+        # Todo: review the following codes.
+        if self.kind == 's':
             tmpl = 'list/catalog_list.html'
         else:
             tmpl = 'list/category_list.html'
 
         self.render(tmpl,
                     catinfo=cat_rec,
-                    infos=MPost2Catalog.query_pager_by_slug(cat_slug, current_page_num),
-                    pager=tools.gen_pager_purecss('/category/{0}'.format(cat_slug), page_num, current_page_num),
+                    infos=MPost2Catalog.query_pager_by_slug(cat_slug,
+                                                            current_page_num,
+                                                            order=self.order),
+                    pager=tools.gen_pager_purecss('/category/{0}'.format(cat_slug),
+                                                  page_num,
+                                                  current_page_num),
                     userinfo=self.userinfo,
                     html2text=html2text,
                     unescape=tornado.escape.xhtml_unescape,

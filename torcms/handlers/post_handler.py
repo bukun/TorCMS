@@ -457,12 +457,7 @@ class PostHandler(BaseHandler):
         if last_post_id and MPost.get_by_uid(last_post_id):
             self.add_relation(last_post_id, post_id)
 
-    def viewinfo(self, postinfo):
-        '''
-        In infor.
-        :param postinfo:
-        :return:
-        '''
+    def redirect_kind(self, postinfo):
         logger.warning('info kind:{0} '.format(postinfo.kind))
 
         # If not, there must be something wrong.
@@ -471,6 +466,14 @@ class PostHandler(BaseHandler):
         else:
             self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], postinfo.uid),
                           permanent=True)
+    def viewinfo(self, postinfo):
+        '''
+        In infor.
+        :param postinfo:
+        :return:
+        '''
+        self.redirect_kind(postinfo)
+
 
         ext_catid = postinfo.extinfo['def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else ''
         ext_catid2 = postinfo.extinfo['def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else None
@@ -721,21 +724,21 @@ class PostHandler(BaseHandler):
                 url = "category"
                 id = tslug.slug
 
-
-            self.redirect('/{0}/{1}'.format(url,id))
+            self.redirect('/{0}/{1}'.format(url, id))
 
         else:
             self.redirect('/{0}/{1}'.format(router_post[self.kind], uid))
 
     @deprecated(details='you should use: /post_j/delete')
     @tornado.web.authenticated
-    def j_delete(self, uid):
+    def j_delete(self, *args):
         '''
         Delete the post, but return the JSON.
         :param uid:
         :return:
         '''
 
+        uid = args[0]
         if self.check_post_role()['DELETE']:
             pass
         else:

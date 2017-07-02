@@ -2,41 +2,15 @@
 
 import tornado.escape
 import tornado.web
-from torcms.core.base_handler import BaseHandler
+
 from torcms.model.wiki_model import MWiki
 from torcms.model.wiki_hist_model import MWikiHist
 from torcms.core.tools import diff_table
+from .post_history_handler import EditHistoryHander
 
-
-class WikiHistoryHandler(BaseHandler):
+class WikiHistoryHandler(EditHistoryHander):
     def initialize(self):
         super(WikiHistoryHandler, self).initialize()
-
-    def get(self, url_str=''):
-        url_arr = self.parse_url(url_str)
-        if url_arr[0] == 'view':
-            self.view(url_arr[1])
-        elif url_arr[0] == 'edit':
-            self.to_edit(url_arr[1])
-        elif url_arr[0] == 'restore':
-            self.restore(url_arr[1])
-        elif url_arr[0] == 'delete':
-            self.delete(url_arr[1])
-        else:
-            kwd = {
-                'info': '页面未找到',
-            }
-            self.render('misc/html/404.html',
-                        kwd=kwd,
-                        userinfo=self.userinfo)
-
-    def post(self, url_str=''):
-        url_arr = self.parse_url(url_str)
-
-        if url_arr[0] == 'edit':
-            self.update(url_arr[1])
-        else:
-            self.redirect('misc/html/404.html')
 
     @tornado.web.authenticated
     def update(self, uid):

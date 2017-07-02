@@ -27,7 +27,7 @@ def get_diff_str(*args):
     mposthist = MPostHist()
     diff_str = ''
 
-    for key in router_post.keys():
+    for key in router_post:
         recent_posts = mpost.query_recent_edited(tools.timestamp() - time_limit, kind=key)
         for recent_post in recent_posts:
             hist_rec = mposthist.get_last(recent_post.uid)
@@ -51,7 +51,12 @@ def get_diff_str(*args):
     return diff_str
 
 
-def run_edit_diff(*args):
+def run_review(*args):
+    '''
+    Get the difference of recents modification, and send the Email.
+    :param args: 
+    :return: 
+    '''
     email_cnt = '''<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
     <style type="text/css">
@@ -71,7 +76,7 @@ def run_edit_diff(*args):
     mpost = MPost()
     mposthist = MPostHist()
 
-    for key in router_post.keys():
+    for key in router_post:
         recent_posts = mpost.query_recent_edited(tools.timestamp() - time_limit, kind=key)
         for recent_post in recent_posts:
             hist_rec = mposthist.get_last(recent_post.uid)

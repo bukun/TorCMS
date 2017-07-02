@@ -36,7 +36,7 @@ class EntityHandler(BaseHandler):
 
         if url_str == 'add':
             self.to_add()
-        elif (url_str == 'list' or url_str == ''):
+        elif url_str == 'list' or url_str == '':
             self.list()
         elif len(url_str) > 36:
             self.view(url_str)

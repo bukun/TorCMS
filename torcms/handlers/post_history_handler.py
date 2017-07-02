@@ -11,15 +11,11 @@ from torcms.core.base_handler import BaseHandler
 from torcms.model.post_model import MPost
 from torcms.model.post_hist_model import MPostHist
 from torcms.core.tools import diff_table
+from abc import ABCMeta, abstractmethod
 
 
-class PostHistoryHandler(BaseHandler):
-    '''
-    Manage the posts by Administrator.
-    '''
-
-    def initialize(self):
-        super(PostHistoryHandler, self).initialize()
+class EditHistoryHander(BaseHandler):
+    __metaclass__ = ABCMeta
 
     def get(self, *args):
         url_arr = self.parse_url(args[0])
@@ -37,7 +33,7 @@ class PostHistoryHandler(BaseHandler):
             }
             self.render('misc/html/404.html',
                         kwd=kwd,
-                        userinfo=self.userinfo, )
+                        userinfo=self.userinfo)
 
     def post(self, *args):
         url_arr = self.parse_url(args[0])
@@ -46,6 +42,69 @@ class PostHistoryHandler(BaseHandler):
             self.update(url_arr[1])
         else:
             self.redirect('misc/html/404.html')
+
+    @abstractmethod
+    def update(self, uid):
+        '''
+        update by buid
+        :param uid: 
+        :return: 
+        '''
+        return
+
+    @abstractmethod
+    def to_edit(self, postid):
+        '''
+        to edit
+        :param postid: 
+        :return: 
+        '''
+        return
+
+    # @abstractmethod
+    # def __could_edit(self, postid):
+    #     '''
+    #     check if the post could edit.
+    #     :param postid:
+    #     :return:
+    #     '''
+    #     return
+
+    @abstractmethod
+    def delete(self, uid):
+        '''
+        delete the post.
+        :param uid: 
+        :return: 
+        '''
+        return
+
+    @abstractmethod
+    def view(self, uid):
+        '''
+        view the post
+        :param uid: 
+        :return: 
+        '''
+        return
+
+    @abstractmethod
+    def restore(self, hist_uid):
+        '''
+        restore the history
+        :param hist_uid: 
+        :return: 
+        '''
+        return
+
+
+class PostHistoryHandler(EditHistoryHander):
+    '''
+    Manage the posts by Administrator.
+    '''
+
+    def initialize(self):
+        super(PostHistoryHandler, self).initialize()
 
     @tornado.web.authenticated
     def update(self, uid):

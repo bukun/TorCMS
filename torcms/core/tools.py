@@ -77,6 +77,8 @@ def diff_table(rawinfo, newinfo):
 
 def check_username_valid(username):
     '''
+    Checking if the username if valid.
+    
     >>> check_username_valid('/sadf')
     False
     >>> check_username_valid('\s.adf')
@@ -89,6 +91,8 @@ def check_username_valid(username):
 
 def check_email_valid(email_str):
     '''
+    Checking if the given Email is valid.
+    
     >>> check_email_valid('')
     False
     >>> check_email_valid('s.adf')
@@ -169,6 +173,12 @@ def get_uu6d():
 
 
 def markdown2html(markdown_text):
+    '''
+    Convert markdown text to HTML. with extensions.
+    
+    :param markdown_text:   The markdown text.
+    :return:  The HTML text.
+    '''
     html = markdown.markdown(markdown_text,
                              extensions=[WikiLinkExtension(base_url='/wiki/', end_url=''),
                                          'markdown.extensions.extra',
@@ -253,10 +263,20 @@ def gen_pager_purecss(cat_slug, page_num, current):
 
 
 def average_array(num_arr):
+    '''
+    The average value of the given array.
+    
+    :param num_arr: 
+    :return: 
+    '''
     return sum(num_arr) / len(num_arr)
 
 
 class ConfigDefault(object):
+    '''
+    Class for the default configuration.
+    '''
+
     SMTP_CFG = {
         'name': '地图画板',
         'host': "",
@@ -279,6 +299,11 @@ class ConfigDefault(object):
 
 
 def get_cfg():
+    '''
+    Get the configure value.
+    :return: 
+    '''
+
     import cfg
 
     cfg_var = dir(cfg)

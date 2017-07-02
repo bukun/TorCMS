@@ -13,6 +13,7 @@ from torcms.model.collect_model import MCollect
 from torcms.core.tools import logger
 from config import CMS_CFG
 
+
 class CollectHandler(BaseHandler):
     def initialize(self):
         super(CollectHandler, self).initialize()
@@ -55,14 +56,15 @@ class CollectHandler(BaseHandler):
         page_num = int(num_of_cat / CMS_CFG['list_num']) + 1
 
         kwd = {
-               'current_page': current_page_num}
-
+            'current_page': current_page_num}
 
         self.render('misc/collect/list.html',
-                    recs_collect=MCollect.query_pager_by_all(self.userinfo.uid, current_page_num).naive(),
-                    pager=tools.gen_pager_purecss('/collect/{0}'.format(list), page_num, current_page_num),
+                    recs_collect=MCollect.query_pager_by_all(self.userinfo.uid,
+                                                             current_page_num).naive(),
+                    pager=tools.gen_pager_purecss('/collect/{0}'.format(list),
+                                                  page_num,
+                                                  current_page_num),
                     userinfo=self.userinfo,
 
                     cfg=CMS_CFG,
                     kwd=kwd)
-

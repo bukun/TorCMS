@@ -142,9 +142,15 @@ class MPost2Catalog(Mabc):
     @staticmethod
     def query_pager_by_slug(slug, current_page_num=1, order=False):
         if order:
-            recs = TabPost.select().join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)).join(
+            recs = TabPost.select().join(
+                TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)
+            ).join(
                 TabTag, on=(TabTag.uid == TabPost2Tag.tag_id)
-            ).where(TabTag.slug == slug).order_by(TabPost.order.asc()).paginate(current_page_num, CMS_CFG['list_num'])
+            ).where(
+                TabTag.slug == slug
+            ).order_by(
+                TabPost.order.asc()
+            ).paginate(current_page_num, CMS_CFG['list_num'])
         else:
             recs = TabPost.select().join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)).join(
                 TabTag, on=(TabTag.uid == TabPost2Tag.tag_id)

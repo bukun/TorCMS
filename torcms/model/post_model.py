@@ -10,7 +10,8 @@ import tornado.escape
 from torcms.core import tools
 from torcms.model.core_tab import TabPost
 from torcms.model.core_tab import TabPost2Tag
-from torcms.model.core_tab import TabPostHist, TabCollect, TabRel, TabEvaluation, TabReply, TabRating, TabUsage, \
+from torcms.model.core_tab import TabPostHist, TabCollect, TabRel, TabEvaluation, TabReply, \
+    TabRating, TabUsage, \
     TabUser2Reply
 from torcms.model.abc_model import Mabc, MHelper
 from config import CMS_CFG, DB_CFG
@@ -45,16 +46,16 @@ class MPost(Mabc):
         :return:
         '''
 
-        u1 = TabPostHist.delete().where(TabPostHist.post_id == uid)
-        u1.execute()
-        u2 = TabRel.delete().where(TabRel.post_f_id == uid or TabRel.post_t_id == uid)
-        u2.execute()
-        u3 = TabCollect.delete().where(TabCollect.post_id == uid)
-        u3.execute()
-        u4 = TabPost2Tag.delete().where(TabPost2Tag.post_id == uid)
-        u4.execute()
-        u5 = TabUsage.delete().where(TabUsage.post_id == uid)
-        u5.execute()
+        q_u1 = TabPostHist.delete().where(TabPostHist.post_id == uid)
+        q_u1.execute()
+        q_u2 = TabRel.delete().where(TabRel.post_f_id == uid or TabRel.post_t_id == uid)
+        q_u2.execute()
+        q_u3 = TabCollect.delete().where(TabCollect.post_id == uid)
+        q_u3.execute()
+        q_u4 = TabPost2Tag.delete().where(TabPost2Tag.post_id == uid)
+        q_u4.execute()
+        q_u5 = TabUsage.delete().where(TabUsage.post_id == uid)
+        q_u5.execute()
 
         reply_arr = []
         for reply in TabUser2Reply.select().where(TabUser2Reply.reply_id == uid):
@@ -250,15 +251,18 @@ class MPost(Mabc):
         else:
             num = 8
         if catid == '':
-            return TabPost.select().order_by(peewee.fn.Random()).limit(num)
-
+            rand_recs = TabPost.select().order_by(peewee.fn.Random()).limit(num)
         else:
-            return TabPost.select().join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)).where(
+            rand_recs = TabPost.select().join(
+                TabPost2Tag,
+                on=(TabPost.uid == TabPost2Tag.post_id)
+            ).where(
                 (TabPost.valid == 1) &
                 (TabPost2Tag.tag_id == catid)
             ).order_by(
                 peewee.fn.Random()
             ).limit(num)
+        return rand_recs
 
     @staticmethod
     def query_random(**kwargs):
@@ -282,16 +286,17 @@ class MPost(Mabc):
             kind = None
 
         if kind:
-            return TabPost.select().where(
+            rand_recs = TabPost.select().where(
                 (TabPost.kind == kind) &
                 (TabPost.valid == 1)
             ).order_by(
                 peewee.fn.Random()
             ).limit(limit)
         else:
-            return TabPost.select().order_by(
+            rand_recs = TabPost.select().order_by(
                 peewee.fn.Random()
             ).limit(limit)
+        return rand_recs
 
     @staticmethod
     def query_recent(num=8, **kwargs):
@@ -303,14 +308,18 @@ class MPost(Mabc):
 
         if 'kind' in kwargs:
             kind = kwargs['kind']
-            return TabPost.select().where((TabPost.kind == kind) & (TabPost.valid == 1)).order_by(
-                TabPost.time_update.desc()).limit(num)
+            recent_recs = TabPost.select().where(
+                (TabPost.kind == kind) & (TabPost.valid == 1)
+            ).order_by(
+                TabPost.time_update.desc()
+            ).limit(num)
         else:
-            return TabPost.select().where(
+            recent_recs = TabPost.select().where(
                 TabPost.valid == 1
             ).order_by(
                 TabPost.time_update.desc()
             ).limit(num)
+        return recent_recs
 
     @staticmethod
     def query_all(**kwargs):
@@ -388,9 +397,15 @@ class MPost(Mabc):
         '''
 
         if label:
-            return MPost.query_cat_recent_with_label(cat_id, label=label, num=num, kind=kind)
+            recent_recs = MPost.query_cat_recent_with_label(cat_id,
+                                                            label=label,
+                                                            num=num,
+                                                            kind=kind)
         else:
-            return MPost.query_cat_recent_no_label(cat_id, num=num, kind=kind)
+            recent_recs = MPost.query_cat_recent_no_label(cat_id,
+                                                          num=num,
+                                                          kind=kind)
+        return recent_recs
 
     @staticmethod
     def query_cat_recent_with_label(cat_id, label=None, num=8, kind='1'):
@@ -400,7 +415,10 @@ class MPost(Mabc):
         :param kind:
         :return:
         '''
-        return TabPost.select().join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)).where(
+        return TabPost.select().join(
+            TabPost2Tag,
+            on=(TabPost.uid == TabPost2Tag.post_id)
+        ).where(
             (TabPost.kind == kind) &
             (TabPost2Tag.tag_id == cat_id) &
             (TabPost.extinfo['def_tag_arr'].contains(label))
@@ -416,7 +434,10 @@ class MPost(Mabc):
         :param kind:
         :return:
         '''
-        return TabPost.select().join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)).where(
+        return TabPost.select().join(
+            TabPost2Tag,
+            on=(TabPost.uid == TabPost2Tag.post_id)
+        ).where(
             (TabPost.kind == kind) &
             (TabPost2Tag.tag_id == cat_id)
         ).order_by(
@@ -433,7 +454,12 @@ class MPost(Mabc):
         :return:
         '''
         if label:
-            return MPost.query_total_cat_recent_with_label(cat_id_arr, label=label, num=num, kind=kind)
+            return MPost.query_total_cat_recent_with_label(
+                cat_id_arr,
+                label=label,
+                num=num,
+                kind=kind
+            )
         else:
             return MPost.query_total_cat_recent_no_label(cat_id_arr, num=num, kind=kind)
 
@@ -445,7 +471,10 @@ class MPost(Mabc):
         :param kind:
         :return:
         '''
-        return TabPost.select().join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)).where(
+        return TabPost.select().join(
+            TabPost2Tag,
+            on=(TabPost.uid == TabPost2Tag.post_id)
+        ).where(
             (TabPost.kind == kind) &
             (TabPost2Tag.tag_id << cat_id_arr) &  # the "<<" operator signifies an "IN" query
             (TabPost.extinfo['def_tag_arr'].contains(label))
@@ -461,7 +490,10 @@ class MPost(Mabc):
         :param kind:
         :return:
         '''
-        return TabPost.select().join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)).where(
+        return TabPost.select().join(
+            TabPost2Tag,
+            on=(TabPost.uid == TabPost2Tag.post_id)
+        ).where(
             (TabPost.kind == kind) &
             (TabPost2Tag.tag_id << cat_id_arr)  # the "<<" operator signifies an "IN" query
         ).order_by(
@@ -661,7 +693,10 @@ class MPost(Mabc):
     @staticmethod
     def query_most_by_cat(num=8, catid=None, kind='2'):
         if catid:
-            return TabPost.select().join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)).where(
+            return TabPost.select().join(
+                TabPost2Tag,
+                on=(TabPost.uid == TabPost2Tag.post_id)
+            ).where(
                 (TabPost.kind == kind) &
                 (TabPost.valid == 1) &
                 (TabPost2Tag.tag_id == catid)
@@ -673,7 +708,10 @@ class MPost(Mabc):
 
     @staticmethod
     def query_least_by_cat(num=8, cat_str=1, kind='2'):
-        return TabPost.select().join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)).where(
+        return TabPost.select().join(
+            TabPost2Tag,
+            on=(TabPost.uid == TabPost2Tag.post_id)
+        ).where(
             (TabPost.kind == kind) &
             (TabPost.valid == 1) &
             (TabPost2Tag.tag_id == cat_str)
@@ -767,12 +805,17 @@ class MPost(Mabc):
         :return:
         '''
         if DB_CFG['kind'] == 's':
-            return TabPost.select().where((TabPost.kind == kind) & (TabPost.valid == 1)).order_by(
-                TabPost.time_update.desc())
+            return TabPost.select().where(
+                (TabPost.kind == kind) & (TabPost.valid == 1)
+            ).order_by(
+                TabPost.time_update.desc()
+            )
         else:
 
             return TabPost.select().where(
-                (TabPost.kind == kind) & (TabPost.valid == 1) & (TabPost.extinfo.contains(condition))
+                (TabPost.kind == kind) &
+                (TabPost.valid == 1) &
+                TabPost.extinfo.contains(condition)
             ).order_by(TabPost.time_update.desc())
 
     @staticmethod
