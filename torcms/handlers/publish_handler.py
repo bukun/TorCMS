@@ -80,9 +80,7 @@ class PublishHandler(BaseHandler):
         :param fatherid:
         :return:
         '''
-        print("s" * 50)
-        print(fatherid)
-        print("s" * 50)
+    
         if self.is_admin():
             pass
         else:
@@ -91,7 +89,10 @@ class PublishHandler(BaseHandler):
         kwd = {'class1str': self.format_class2(fatherid),
                'parentid': '0',
                'parentlist': MCategory.get_parent_list()}
-        self.redirect('/info/_cat_add/{0}'.format(fatherid))
-        #self.render('misc/publish/publish2.html',
-        #            userinfo=self.userinfo,
-        #            kwd=kwd)
+
+        if fatherid.endswith('00'):
+            self.render('misc/publish/publish2.html',
+                   userinfo=self.userinfo,
+                   kwd=kwd)
+        else:
+            self.redirect('/info/_cat_add/{0}'.format(fatherid))
