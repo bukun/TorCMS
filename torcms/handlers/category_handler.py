@@ -106,7 +106,8 @@ class CategoryHandler(BaseHandler):
 
         # tmpl = 'list/catalog_list.html'
         # Todo: review the following codes.
-        if self.kind == 's':
+
+        if self.order:
             tmpl = 'list/catalog_list.html'
         else:
             tmpl = 'list/category_list.html'

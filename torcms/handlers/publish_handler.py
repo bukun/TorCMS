@@ -80,7 +80,7 @@ class PublishHandler(BaseHandler):
         :param fatherid:
         :return:
         '''
-    
+
         if self.is_admin():
             pass
         else:
