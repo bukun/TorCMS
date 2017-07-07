@@ -286,7 +286,20 @@ class UserHandler(BaseHandler):
         post_data = self.get_post_data()
 
         form = SumForm(self.request.arguments)
+        ckname = MUser.get_by_name(post_data['user_name'])
         ckemail = MUser.get_by_email(post_data['user_email'])
+        if ckname is None:
+            pass
+        else:
+            kwd = {
+                'info': '用户名已存在，请更换用户名。',
+                'link': '/user/regist',
+            }
+            self.set_status(400)
+            self.render('misc/html/404.html',
+                        cfg=config.CMS_CFG,
+                        kwd=kwd,
+                        userinfo=None)
         if ckemail is None:
             pass
         else:
