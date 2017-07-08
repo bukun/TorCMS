@@ -6,14 +6,10 @@ Tempaltes for CRUD.
 
 '''
 Raw:
-../../tmpl_kkkk/tmplyyyyyy/sssssstpl_add.html
+../../tmpl_kkkk/tmplyyyyyy/tpl_add.html
 '''
 TPL_ADD = '''
-    {% extends "../../tmpl_kkkk/sssssstpl_add.html" %}
-
-    {% block topmenu %}
-    {% raw topmenu %}
-    {% end %}
+    {% extends "../../tmpl_kkkk/tpl_add.html" %}
 
     {% block header %}
     <h1>{{ header_text }}</h1>
@@ -30,11 +26,7 @@ TPL_ADD = '''
     {% end %}'''
 
 TPL_EDIT = '''
-    {% extends "../../tmpl_kkkk/sssssstpl_edit.html" %}
-
-    {% block topmenu %}
-    {% raw topmenu %}
-    {% end %}
+    {% extends "../../tmpl_kkkk/tpl_edit.html" %}
 
     {% block header %}
     <h1>{{ header_text }}</h1>
@@ -51,7 +43,7 @@ TPL_EDIT = '''
     {% end %}'''
 
 TPL_LIST = '''
-    {% extends "../../tmpl_kkkk/sssssstpl_list.html" %}
+    {% extends "../../tmpl_kkkk/tpl_list.html" %}
     {% block header %}
     {{ header_text }}
     {% end %}
@@ -74,12 +66,9 @@ TPL_LIST = '''
     <p>{{ footer_text }}</p>
     {% end %}'''
 
-TPL_LISTINFO = '''{% extends "../../tmpl_kkkk/sssssstpl_listinfo.html" %}'''
+TPL_LISTINFO = '''{% extends "../../tmpl_kkkk/tpl_listinfo.html" %}'''
 
-TPL_VIEW = '''{% extends "../../tmpl_kkkk/sssssstpl_view.html" %}
-    {% block topmenu %}
-    {% raw topmenu %}
-    {% end %}
+TPL_VIEW = '''{% extends "../../tmpl_kkkk/tpl_viewssss.html" %}
 
     {% block header %}
     <h1>{{ header_text }}</h1>

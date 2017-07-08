@@ -418,7 +418,9 @@ class PostHandler(BaseHandler):
             'parentname': '',
             'catname': '',
             'parentlist': MCategory.get_parent_list(),
-            'userip': self.request.remote_ip}
+            'userip': self.request.remote_ip,
+            'extinfo': json.dumps(postinfo.extinfo, indent=2, ensure_ascii=False),
+        }
 
         if self.filter_view:
             tmpl = 'autogen/edit/edit_{0}.html'.format(catid)
@@ -466,6 +468,7 @@ class PostHandler(BaseHandler):
         else:
             self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], postinfo.uid),
                           permanent=True)
+
     def viewinfo(self, postinfo):
         '''
         In infor.
@@ -473,7 +476,6 @@ class PostHandler(BaseHandler):
         :return:
         '''
         self.redirect_kind(postinfo)
-
 
         ext_catid = postinfo.extinfo['def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else ''
         ext_catid2 = postinfo.extinfo['def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else None
@@ -507,7 +509,8 @@ class PostHandler(BaseHandler):
             'parentlist': MCategory.get_parent_list(),
             'parentname': '',
             'catname': '',
-            'router': router_post[postinfo.kind]
+            'router': router_post[postinfo.kind],
+
         }
         MPost.update_misc(postinfo.uid, count=True)
         if self.get_current_user():
