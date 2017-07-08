@@ -15,6 +15,8 @@ HTML_DICS = gen_html_dic()
 SWITCH_DICS, KIND_DICS = gen_array_crud()
 OUT_DIR = os.path.join(os.getcwd(), crud_path)
 
+INPUT_ARR = ['digits', 'text', 'date', 'number', 'email', 'url']
+
 
 def gen_add_edit_view_tmpl():
     '''
@@ -41,7 +43,7 @@ def gen_edit_tmpl(tag_key, tag_list):
         html_sig = '_'.join(['html', sig])
         # var_html = eval('html_vars.' + html_sig)
         var_html = HTML_DICS[html_sig]
-        if var_html['type'] == 'text':
+        if var_html['type'] in INPUT_ARR:
             tmpl = func_to_html_add_edit_view.gen_input_edit(var_html)
         if var_html['type'] == 'select':
             tmpl = func_to_html_add_edit_view.gen_select_edit(var_html)
@@ -79,7 +81,7 @@ def gen_view_tmpl(tag_key, tag_list):
         html_sig = '_'.join(['html', sig])
         # var_html = eval('html_vars.' + html_sig)
         var_html = HTML_DICS[html_sig]
-        if var_html['type'] == 'text':
+        if var_html['type'] in INPUT_ARR:
             tmpl = func_to_html_add_edit_view.gen_input_view(var_html)
         if var_html['type'] == 'select':
             tmpl = func_to_html_add_edit_view.gen_select_view(var_html)
@@ -106,7 +108,6 @@ def gen_view_tmpl(tag_key, tag_list):
                 KIND_DICS['kind_' + tag_key.split('_')[-1]]
             )
         )
-    return tmpl
 
 
 def gen_add_tmpl(tag_key, tag_list):
@@ -123,7 +124,7 @@ def gen_add_tmpl(tag_key, tag_list):
         html_sig = '_'.join(['html', sig])
         # var_html = eval('html_vars.' + html_sig)
         var_html = HTML_DICS[html_sig]
-        if var_html['type'] == 'text':
+        if var_html['type'] in INPUT_ARR:
             tmpl = func_to_html_add_edit_view.gen_input_add(var_html)
         if var_html['type'] == 'select':
             tmpl = func_to_html_add_edit_view.gen_select_add(var_html)
@@ -147,7 +148,6 @@ def gen_add_tmpl(tag_key, tag_list):
                 KIND_DICS['kind_' + tag_key.split('_')[-1]]
             )
         )
-    return tmpl
 
 
 def get_view_tmpl(tag_key):

@@ -38,8 +38,13 @@ def write_filter_dic(wk_sheet, column):
 
         #  if only one tag,
         if len(tags1) == 1:
-            ctr_type = 'text'  # HTML text input control.
-            tags_dic[1] = row2_val if row2_val != '-' else ''
+            xx_1 = row2_val.split(':')  # 'text'  # HTML text input control.
+            if len(xx_1) == 2:
+                ctr_type, unit = xx_1
+            else:
+                ctr_type = xx_1[0]
+                unit = ''
+            tags_dic[1] = unit
 
         else:
             ctr_type = 'select'  # HTML selectiom control.

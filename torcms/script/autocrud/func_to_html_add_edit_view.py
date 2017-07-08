@@ -19,12 +19,12 @@ def gen_input_add(sig):
     </a>{sig_zh}</span>
     </label>
     <div class="col-sm-9">
-    <input id='{sig_en}' name="{sig_en}" value="" type="text" class="form-control">
+    <input id='{sig_en}' name="{sig_en}" value="" type="{sig_type}" class="form-control">
      </div>
      <div class="col-sm-1">
      {sig_dic}
     </div></div>    
-    '''.format(sig_en=sig['en'], sig_zh=sig['zh'], sig_dic=sig['dic'][1])
+    '''.format(sig_en=sig['en'], sig_zh=sig['zh'], sig_dic=sig['dic'][1], sig_type = sig['type'])
 
 
 def gen_input_edit(sig):
@@ -41,10 +41,10 @@ def gen_input_edit(sig):
     <div class="col-sm-9">
     <input id='{sig_en}' name="{sig_en}"
     value="{{{{ post_info.extinfo['{sig_en}'] if  '{sig_en}' in post_info.extinfo else 0 }}}}"
-    type="text"  class="form-control"> </div>
+    type="{sig_type}"  class="form-control"> </div>
      <div class="col-sm-1">{sig_dic}</div>
      </div>
-    '''.format(sig_en=sig['en'], sig_zh=sig['zh'], sig_dic=sig['dic'][1])
+    '''.format(sig_en=sig['en'], sig_zh=sig['zh'], sig_dic=sig['dic'][1],  sig_type = sig['type'])
 
 
 def gen_input_view(sig):

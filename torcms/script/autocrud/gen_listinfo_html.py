@@ -68,7 +68,6 @@ def do_for_dir(html_tpl):
                     ).replace(
                         'kkkk',
                         kind_dics['kind_' + var_name.split('_')[-1]]
-                        # eval('dic_vars.kind_' + var_name.split('_')[-1])
                     )
                 )
 
