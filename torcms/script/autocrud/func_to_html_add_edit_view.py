@@ -54,10 +54,11 @@ def gen_input_view(sig):
     :return:
     '''
     return '''
-    <div class="col-sm-4"><span class="des">{1}</span></div>
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>{1}</strong></span></div>
     <div class="col-sm-8">
-    <span class="val">{{{{ post_info.extinfo['{0}'] if  '{0}' in post_info.extinfo else 0 }}}}
-     {2}</span></div>
+    <span class="val">{{{{ post_info.extinfo['{0}'] if  '{0}' in post_info.extinfo else '' }}}}
+     {2}</span></div></div>
     '''.format(sig['en'], sig['zh'], sig['dic'][1])
 
 
