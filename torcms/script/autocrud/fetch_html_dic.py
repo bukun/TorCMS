@@ -14,6 +14,7 @@ from torcms.script.autocrud.base_crud import xlsx_file, FILTER_COLUMNS
 if os.path.exists(xlsx_file):
     wb = load_workbook(filename=xlsx_file)
 else:
+    print('There must be at least one XLSX file.')
     sys.exit(0)
 
 
@@ -31,6 +32,7 @@ def write_filter_dic(wk_sheet, column):
         row2_val = row2_val.strip()
         # c_name, slug_name = row1_val.strip().split(',')
         c_name, slug_name = [x.strip() for x in row1_val.strip().split(',')]
+        slug_name = slug_name.lower()
 
         tags1 = [x.strip() for x in row2_val.split(',')]
         tags_dic = {}

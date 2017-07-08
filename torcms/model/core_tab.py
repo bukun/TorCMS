@@ -12,6 +12,7 @@ if DB_CFG['kind'] == 'p':
 class TabTag(BaseModel):
     uid = peewee.CharField(null=False, max_length=4, index=True,
                            unique=True, primary_key=True, help_text='', )
+    # using the name `slug` as in WordPress.
     slug = peewee.CharField(null=False, index=True, unique=True, max_length=36, help_text='', )
     name = peewee.CharField(null=False, max_length=255, help_text='', )
     order = peewee.IntegerField()

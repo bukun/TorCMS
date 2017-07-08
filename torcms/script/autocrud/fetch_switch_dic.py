@@ -12,6 +12,7 @@ from torcms.script.autocrud.base_crud import xlsx_file, FILTER_COLUMNS
 if os.path.exists(xlsx_file):
     wb = load_workbook(filename=xlsx_file)
 else:
+    print('There must be at least one XLSX file.')
     sys.exit(0)
 
 
@@ -70,9 +71,7 @@ def __get_switch_arr(work_sheet, row_num):
     u_dic = []
     for ii in FILTER_COLUMNS:
         cell_val = work_sheet['{0}{1}'.format(ii, row_num)].value
-        if cell_val == 1:
-            '''
-            Appending the slug name of the switcher.
-            '''
-            u_dic.append(work_sheet['{0}1'.format(ii)].value.strip().split(',')[-1])
+        if cell_val in [1, '1']:
+            # Appending the slug name of the switcher.
+            u_dic.append(work_sheet['{0}1'.format(ii)].value.strip().split(',')[0])
     return u_dic
