@@ -5,8 +5,13 @@ crud_path = os.path.abspath('./templates/autogen')
 
 xlsx_file = './database/meta/info_tags.xlsx'
 #  The filter key stored in the colomns below.
-FILTER_COLUMNS = ['E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
-                  'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+
+
+raw_list = ['E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
+            'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+
+a_list = ["A" + x for x in raw_list + ['A', 'B', 'C', 'D']]
+FILTER_COLUMNS = raw_list + a_list
 
 
 def build_dir():

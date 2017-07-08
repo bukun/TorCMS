@@ -31,8 +31,8 @@ def write_filter_dic(wk_sheet, column):
     if row1_val and row1_val.strip() != '':
         row2_val = row2_val.strip()
         # c_name, slug_name = row1_val.strip().split(',')
-        c_name, slug_name = [x.strip() for x in row1_val.strip().split(',')]
-        slug_name = slug_name.lower()
+        slug_name, c_name = [x.strip() for x in row1_val.strip().split(',')]
+        # slug_name = slug_name.lower()
 
         tags1 = [x.strip() for x in row2_val.split(',')]
         tags_dic = {}
