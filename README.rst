@@ -256,6 +256,20 @@ That's OK. then generate the HTML documents. Under TorCMS:
 
     sphinx-build -b html api_doc api_html
 
+Publish to PyPi
+===============================================
+
+First, build the distribution.
+
+::
+
+    python setup.py sdist
+
+Then, upload to the website.
+
+::
+
+    twine upload dist/torcms-version.tar.gz
 
 In Chinese
 =========================
