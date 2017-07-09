@@ -6,10 +6,10 @@ for each item.
 '''
 
 
-def gen_input_add(sig):
+def gen_input_add(sig_dic):
     '''
     Adding for HTML Input control.
-    :param sig:
+    :param sig_dic:
     :return:
     '''
     return '''
@@ -24,13 +24,13 @@ def gen_input_add(sig):
      <div class="col-sm-1">
      {sig_dic}
     </div></div>    
-    '''.format(sig_en=sig['en'], sig_zh=sig['zh'], sig_dic=sig['dic'][1], sig_type = sig['type'])
+    '''.format(sig_en=sig_dic['en'], sig_zh=sig_dic['zh'], sig_dic=sig_dic['dic'][1], sig_type=sig_dic['type'])
 
 
-def gen_input_edit(sig):
+def gen_input_edit(sig_dic):
     '''
     Editing for HTML input control.
-    :param sig:
+    :param sig_dic:
     :return:
     '''
     return '''
@@ -44,13 +44,13 @@ def gen_input_edit(sig):
     type="{sig_type}"  class="form-control"> </div>
      <div class="col-sm-1">{sig_dic}</div>
      </div>
-    '''.format(sig_en=sig['en'], sig_zh=sig['zh'], sig_dic=sig['dic'][1],  sig_type = sig['type'])
+    '''.format(sig_en=sig_dic['en'], sig_zh=sig_dic['zh'], sig_dic=sig_dic['dic'][1], sig_type=sig_dic['type'])
 
 
-def gen_input_view(sig):
+def gen_input_view(sig_dic):
     '''
     Viewing the HTML text.
-    :param sig:
+    :param sig_dic:
     :return:
     '''
     return '''
@@ -59,13 +59,13 @@ def gen_input_view(sig):
     <div class="col-sm-8">
     <span class="val">{{{{ post_info.extinfo['{0}'] if  '{0}' in post_info.extinfo else '' }}}}
      {2}</span></div></div>
-    '''.format(sig['en'], sig['zh'], sig['dic'][1])
+    '''.format(sig_dic['en'], sig_dic['zh'], sig_dic['dic'][1])
 
 
-def gen_radio_add(sig):
+def gen_radio_add(sig_dic):
     '''
     Adding for HTML radio control.
-    :param sig:
+    :param sig_dic:
     :return:
     '''
     # html_zuoxiang = '''
@@ -75,53 +75,53 @@ def gen_radio_add(sig):
 
     # each item for radio.
     radio_control_str = ''
-    dic_tmp = sig['dic']
+    dic_tmp = sig_dic['dic']
     for key, val in dic_tmp.items():
         tmp_str = '''
         <input id="{0}" name="{0}" type="radio" class="form-control" value="{1}">{2}
-       '''.format(sig['en'], key, val)
+       '''.format(sig_dic['en'], key, val)
         radio_control_str += tmp_str
 
     # html_zuoxiang += '''</label>'''
 
     return '''<label for="{sig_en}"><span>
     <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a>{sig_zh}</span>
-    {radio_str}</label>'''.format(sig_en=sig['en'],
-                                  sig_zh=sig['zh'], radio_str=radio_control_str)
+    {radio_str}</label>'''.format(sig_en=sig_dic['en'],
+                                  sig_zh=sig_dic['zh'], radio_str=radio_control_str)
 
 
-def gen_radio_edit(sig):
+def gen_radio_edit(sig_dic):
     '''
     editing for HTML radio control.
-    :param sig:
+    :param sig_dic:
     :return:
     '''
     edit_zuoxiang = '''7
     <label  for="{0}"><span>
     <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a>{1}</span>
-    '''.format(sig['en'], sig['zh'])
+    '''.format(sig_dic['en'], sig_dic['zh'])
 
-    dic_tmp = sig['dic']
+    dic_tmp = sig_dic['dic']
     for key in dic_tmp.keys():
         tmp_str = '''
         <input id="{0}" name="{0}" type="radio"  class="form-control" value="{1}"
         {{% if  '{0}' in post_info.extinfo and post_info.extinfo['{0}'] == '{1}' %}}
         checked
         {{% end %}}
-        >{2} '''.format(sig['en'], key, dic_tmp[key])
+        >{2} '''.format(sig_dic['en'], key, dic_tmp[key])
         edit_zuoxiang += tmp_str
 
     edit_zuoxiang += '''</label>'''
     return edit_zuoxiang
 
 
-def gen_radio_view(sig):
+def gen_radio_view(sig_dic):
     view_zuoxiang = '''
     <div class="col-sm-4"><span class="des">{0}</span></div>
     <div class="col-sm-8">
-    '''.format(sig['zh'])
+    '''.format(sig_dic['zh'])
 
-    dic_tmp = sig['dic']
+    dic_tmp = sig_dic['dic']
     for key in dic_tmp.keys():
         tmp_str = '''
          <span class="input_text">
@@ -129,57 +129,57 @@ def gen_radio_view(sig):
          {2}
          {{% end %}}
          </span>
-        '''.format(sig['en'], key, dic_tmp[key])
+        '''.format(sig_dic['en'], key, dic_tmp[key])
         view_zuoxiang += tmp_str
 
     view_zuoxiang += '''</div>'''
     return view_zuoxiang
 
 
-def gen_checkbox_add(sig):
+def gen_checkbox_add(sig_dic):
     html_wuneisheshi = '''
 
     <label  for="{0}"><span>
     <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a> {1}</span>
-    '''.format(sig['en'], sig['zh'])
+    '''.format(sig_dic['en'], sig_dic['zh'])
 
-    dic_tmp = sig['dic']
+    dic_tmp = sig_dic['dic']
     for key in dic_tmp.keys():
         tmp_str = '''
         <input id="{0}" name="{0}" type="checkbox" class="form-control" value="{1}">{2}
-        '''.format(sig['en'], key, dic_tmp[key])
+        '''.format(sig_dic['en'], key, dic_tmp[key])
         html_wuneisheshi += tmp_str
 
     html_wuneisheshi += '''</label>'''
     return html_wuneisheshi
 
 
-def gen_checkbox_edit(sig):
+def gen_checkbox_edit(sig_dic):
     edit_wuneisheshi = '''<label for="{0}"><span>
      <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a> {1}</span>
-     '''.format(sig['en'], sig['zh'])
+     '''.format(sig_dic['en'], sig_dic['zh'])
 
-    dic_tmp = sig['dic']
+    dic_tmp = sig_dic['dic']
     for key in dic_tmp.keys():
         tmp_str = '''
          <input id="{0}" name="{0}" type="checkbox" class="form-control" value="{1}"
          {{% if "{1}" in post_info.extinfo["{0}"] %}}
          checked="checked"
          {{% end %}}
-         >{2} '''.format(sig['en'], key, dic_tmp[key])
+         >{2} '''.format(sig_dic['en'], key, dic_tmp[key])
         edit_wuneisheshi += tmp_str
 
     edit_wuneisheshi += '''</label>'''
     return edit_wuneisheshi
 
 
-def gen_checkbox_view(sig):
+def gen_checkbox_view(sig_dic):
     view_zuoxiang = '''
     <div class="col-sm-4"><span class="des">{0}</span></div>
     <div class="col-sm-8">
-    '''.format(sig['zh'])
+    '''.format(sig_dic['zh'])
 
-    dic_tmp = sig['dic']
+    dic_tmp = sig_dic['dic']
     for key in dic_tmp.keys():
         tmp_str = '''
          <span>
@@ -187,17 +187,17 @@ def gen_checkbox_view(sig):
          {2}
          {{% end %}}
          </span>
-         '''.format(key, sig['en'], dic_tmp[key])
+         '''.format(key, sig_dic['en'], dic_tmp[key])
         view_zuoxiang += tmp_str
 
     view_zuoxiang += '''</div>'''
     return view_zuoxiang
 
 
-def gen_select_add(sig):
+def gen_select_add(sig_dic):
     '''
     Adding for select control.
-    :param sig:
+    :param sig_dic:
         html_media_type = {
         'en': 'tag_media_type',
         'zh': 'Media_type',
@@ -209,7 +209,7 @@ def gen_select_add(sig):
 
     option_str = ''
 
-    for key, val in sig['dic'].items():
+    for key, val in sig_dic['dic'].items():
         tmp_str = '''<option value="{0}">{1}</option>'''.format(key, val)
         option_str += tmp_str
 
@@ -219,25 +219,25 @@ def gen_select_add(sig):
     {sig_zh}</span></label>
     <div class="col-sm-10"><select id="{sig_en}" name="{sig_en}" class="form-control">
     {option_str}</select></div></div>
-    '''.format(sig_en=sig['en'], sig_zh=sig['zh'], option_str=option_str)
+    '''.format(sig_en=sig_dic['en'], sig_zh=sig_dic['zh'], option_str=option_str)
 
 
-def gen_select_edit(sig):
+def gen_select_edit(sig_dic):
     '''
     Editing for select control.
-    :param sig:
+    :param sig_dic:
     :return:
     '''
 
     option_str = ''
-    for key, val in sig['dic'].items():
+    for key, val in sig_dic['dic'].items():
         tmp_str = '''        
         <option value="{1}"
         {{% if  '{0}' in post_info.extinfo and post_info.extinfo["{0}"] == "{1}" %}}
         selected = "selected"
         {{% end %}}
         >{2}</option>
-        '''.format(sig['en'], key, val)
+        '''.format(sig_dic['en'], key, val)
         option_str += tmp_str
 
     return '''<div class="form-group">
@@ -247,18 +247,18 @@ def gen_select_edit(sig):
     <select id="{sig_en}" name="{sig_en}" class="form-control">
     {option_str}
     </select></div></div>
-    '''.format(sig_en=sig['en'], sig_zh=sig['zh'], option_str=option_str)
+    '''.format(sig_en=sig_dic['en'], sig_zh=sig_dic['zh'], option_str=option_str)
 
 
-def gen_select_view(sig):
+def gen_select_view(sig_dic):
     '''
     HTML view, for selection.
-    :param sig:
+    :param sig_dic:
     :return:
     '''
 
     option_str = ''
-    dic_tmp = sig['dic']
+    dic_tmp = sig_dic['dic']
     for key, val in dic_tmp.items():
         tmp_str = '''
          {{% if '{sig_en}' in post_info.extinfo %}}
@@ -267,7 +267,7 @@ def gen_select_view(sig):
           {sig_dic}
           {{% end %}}
           {{% end %}}
-         '''.format(sig_en=sig['en'], sig_key=key, sig_dic=val)
+         '''.format(sig_en=sig_dic['en'], sig_key=key, sig_dic=val)
         option_str += tmp_str
 
     return '''
@@ -276,10 +276,10 @@ def gen_select_view(sig):
     <div class="col-sm-8">
     {option_str}
     </div></div>
-    '''.format(sig_zh=sig['zh'], option_str=option_str)
+    '''.format(sig_zh=sig_dic['zh'], option_str=option_str)
 
 
-def gen_file_add(sig):
+def gen_file_add(sig_dic):
     add_html = '''
     <div class="form-group">
     <label class="col-sm-2 control-label" for="dasf">上传图片：</label>
@@ -298,12 +298,12 @@ def gen_file_add(sig):
     return add_html
 
 
-def gen_file_view(sig):
+def gen_file_view(sig_dic):
     view_html = ''
     return view_html
 
 
-def gen_file_edit(sig):
+def gen_file_edit(sig_dic):
     view_html = '''
     <div class="form-group">
     <label for="dasf">上传图片：</label>
@@ -320,3 +320,68 @@ def gen_file_edit(sig):
     </div>
     '''
     return view_html
+
+
+def gen_input_list(sig_dic):
+    '''
+    For generating List view HTML file for INPUT.
+    for each item.
+    '''
+    out_str = '''
+    <div class="col-sm-4"><span class="des">{1}</span></div>
+    <div class="col-sm-8">
+    <span class="iga_pd_val">{{{{ post_info.extinfo['{0}'][0] }}}} {2}</span>
+    </div>
+    '''.format(sig_dic['en'], sig_dic['zh'], sig_dic['dic'][1])
+    return out_str
+
+
+def gen_radio_list(sig_dic):
+    '''
+    For generating List view HTML file for RADIO.
+    for each item.
+    '''
+    view_zuoxiang = '''<span class="iga_pd_val">'''
+
+    dic_tmp = sig_dic['dic']
+    for key in dic_tmp.keys():
+        tmp_str = '''{{% if post_info.extinfo['{0}'][0] == "{1}" %}} {2} {{% end %}}
+        '''.format(sig_dic['en'], key, dic_tmp[key])
+        view_zuoxiang += tmp_str
+
+    view_zuoxiang += '''</span>'''
+    return view_zuoxiang
+
+
+def gen_checkbox_list(sig_dic):
+    '''
+    For generating List view HTML file for CHECKBOX.
+    for each item.
+    '''
+    view_zuoxiang = '''<span class="iga_pd_val">'''
+
+    dic_tmp = sig_dic['dic']
+    for key in dic_tmp.keys():
+        tmp_str = '''{{% if "{0}" in post_info.extinfo["{1}"] %}} {2}  {{% end %}}
+        '''.format(key, sig_dic['en'], dic_tmp[key])
+        view_zuoxiang += tmp_str
+
+    view_zuoxiang += '''</span>'''
+    return view_zuoxiang
+
+
+def gen_select_list(sig_dic):
+    '''
+    For generating List view HTML file for SELECT.
+    for each item.
+    '''
+    view_jushi = '''<span class="label label-primary" style="margin-right:10px">'''
+
+    dic_tmp = sig_dic['dic']
+    for key in dic_tmp.keys():
+        tmp_str = '''{{% if '{0}' in postinfo.extinfo and post_info.extinfo["{0}"][0] == "{1}" %}}
+         {2} {{% end %}}'''.format(sig_dic['en'], key, dic_tmp[key])
+        view_jushi += tmp_str
+
+    view_jushi += '''</span>'''
+    return view_jushi

@@ -1,5 +1,8 @@
 # -*- coding:utf-8 -*-
 
+'''
+Checking the kind of post if it is valid.
+'''
 from torcms.model.post_model import MPost
 from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.category_model import MCategory
@@ -7,6 +10,11 @@ from config import router_post
 
 
 def run_check_kind(*args):
+    '''
+    Running the script.
+    :param args: 
+    :return: 
+    '''
     for kd in router_post.keys():
         for rec in MCategory.query_all(kind=kd):
             catid = rec.uid

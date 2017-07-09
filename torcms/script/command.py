@@ -17,10 +17,12 @@ from .script_fetch_fe2lib import run_f2elib
 from .script_init_tabels import run_init_tables
 from .script_drop_tabels import run_drop_tables
 from .script_gen_category import run_gen_category
-from .script_crud import run_auto
+
+from .autocrud.gen_html_file import generate_html_files as run_auto
+
 from .script_whoosh import run_whoosh
 from .tmplchecker import run_checkit
-from torcms.script.script_sitemap import run_editmap
+from .script_sitemap import run_editmap
 
 
 def entry(argv):

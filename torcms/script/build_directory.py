@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 '''
-建立
+Build the directory for Whoosh database.
+and locale.
 '''
 import os
 
-whoosh_database = 'database/whoosh'
+WHOOSH_DB_DIR = 'database/whoosh'
 
 
 def build_directory():
@@ -12,7 +13,7 @@ def build_directory():
         pass
     else:
         os.mkdir('locale')
-    if os.path.exists(whoosh_database):
+    if os.path.exists(WHOOSH_DB_DIR):
         pass
     else:
-        os.makedirs(whoosh_database)
+        os.makedirs(WHOOSH_DB_DIR)

@@ -484,7 +484,6 @@ class PostHandler(BaseHandler):
         rand_recs, rel_recs = self.fetch_additional_posts(postinfo.uid)
 
         self._chuli_cookie_relation(postinfo.uid)
-        cookie_str = tools.get_uuid()
 
         catinfo = None
         p_catinfo = None
@@ -495,27 +494,12 @@ class PostHandler(BaseHandler):
             if catinfo:
                 p_catinfo = MCategory.get_by_uid(catinfo.pid)
 
-        kwd = {
-            'pager': '',
-            'url': self.request.uri,
-            'cookie_str': cookie_str,
-            'daohangstr': '',
-            'signature': postinfo.uid,
-            'tdesc': '',
-            'eval_0': MEvaluation.app_evaluation_count(postinfo.uid, 0),
-            'eval_1': MEvaluation.app_evaluation_count(postinfo.uid, 1),
-            'login': 1 if self.get_current_user() else 0,
-            'has_image': 0,
-            'parentlist': MCategory.get_parent_list(),
-            'parentname': '',
-            'catname': '',
-            'router': router_post[postinfo.kind],
+        kwd = self._the_view_kwd(postinfo)
 
-        }
         MPost.update_misc(postinfo.uid, count=True)
         if self.get_current_user():
             MUsage.add_or_update(self.userinfo.uid, postinfo.uid, postinfo.kind)
-        self.set_cookie('user_pass', cookie_str)
+        self.set_cookie('user_pass', kwd['cookie_str'])
 
         tmpl = self.ext_tmpl_view(postinfo)
 
@@ -539,6 +523,32 @@ class PostHandler(BaseHandler):
                     tag_info=MPost2Label.get_by_uid(postinfo.uid).naive(),
                     recent_apps=recent_apps,
                     cat_enum=cat_enum1)
+
+    def _the_view_kwd(self, postinfo):
+        '''
+        Generate the kwd dict for view.
+        :param postinfo: 
+        :return: 
+        '''
+        kwd = {
+            'pager': '',
+            'url': self.request.uri,
+            'cookie_str': tools.get_uuid(),
+            'daohangstr': '',
+            'signature': postinfo.uid,
+            'tdesc': '',
+            'eval_0': MEvaluation.app_evaluation_count(postinfo.uid, 0),
+            'eval_1': MEvaluation.app_evaluation_count(postinfo.uid, 1),
+            'login': 1 if self.get_current_user() else 0,
+            'has_image': 0,
+            'parentlist': MCategory.get_parent_list(),
+            'parentname': '',
+            'catname': '',
+            'router': router_post[postinfo.kind],
+
+        }
+
+        return kwd
 
     def fetch_additional_posts(self, uid):
         '''

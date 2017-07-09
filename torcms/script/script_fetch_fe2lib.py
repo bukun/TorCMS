@@ -43,8 +43,7 @@ def get_jquery():
     :return: None
     '''
     jquery_url = 'http://r.osgeo.cn/f2elib/jquery.zip'
-    qian, hou = os.path.split(jquery_url)
-    fetch_file(jquery_url, hou)
+    fetch_file(jquery_url, os.path.split(jquery_url)[1])
 
 
 def get_leaflet():
@@ -53,8 +52,7 @@ def get_leaflet():
     :return: None
     '''
     leaflet_url = 'http://r.osgeo.cn/f2elib/leaflet_1.0.3.zip'
-    qian, hou = os.path.split(leaflet_url)
-    fetch_file(leaflet_url, hou)
+    fetch_file(leaflet_url, os.path.split(leaflet_url)[1])
 
 
 def get_bootstrap():
@@ -63,8 +61,7 @@ def get_bootstrap():
     :return: None
     '''
     leaflet_url = 'http://r.osgeo.cn/f2elib/bootstrap_3.3.7.zip'
-    qian, hou = os.path.split(leaflet_url)
-    fetch_file(leaflet_url, hou)
+    fetch_file(leaflet_url, os.path.split(leaflet_url)[1])
 
 
 def get_js_valid():
@@ -73,8 +70,7 @@ def get_js_valid():
     :return: None 
     '''
     leaflet_url = 'http://r.osgeo.cn/f2elib/jquery-validation_1.15.0.zip'
-    qian, hou = os.path.split(leaflet_url)
-    fetch_file(leaflet_url, hou)
+    fetch_file(leaflet_url, os.path.split(leaflet_url)[1])
 
 
 def get_codemirror():
@@ -83,8 +79,7 @@ def get_codemirror():
     :return: None
     '''
     leaflet_url = 'http://r.osgeo.cn/f2elib/codemirror_5.25.0.zip'
-    qian, hou = os.path.split(leaflet_url)
-    fetch_file(leaflet_url, hou)
+    fetch_file(leaflet_url, os.path.split(leaflet_url)[1])
 
 
 def get_jqueryui():
@@ -93,8 +88,7 @@ def get_jqueryui():
     :return: None
     '''
     leaflet_url = 'http://r.osgeo.cn/f2elib/jqueryui_1.12.1.zip'
-    qian, hou = os.path.split(leaflet_url)
-    fetch_file(leaflet_url, hou)
+    fetch_file(leaflet_url, os.path.split(leaflet_url)[1])
 
 
 def get_rating():
@@ -103,8 +97,7 @@ def get_rating():
     :return: None
     '''
     leaflet_url = 'http://r.osgeo.cn/f2elib/bootstrap-star-rating-master.zip'
-    qian, hou = os.path.split(leaflet_url)
-    fetch_file(leaflet_url, hou)
+    fetch_file(leaflet_url, os.path.split(leaflet_url)[1])
 
 
 def get_magnific():
@@ -113,8 +106,7 @@ def get_magnific():
     :return: None
     '''
     leaflet_url = 'http://r.osgeo.cn/f2elib/magnific-popup_1.1.0.zip'
-    qian, hou = os.path.split(leaflet_url)
-    fetch_file(leaflet_url, hou)
+    fetch_file(leaflet_url, os.path.split(leaflet_url)[1])
 
 
 def get_ol3():

@@ -101,21 +101,9 @@ class LeafHandler(PostHandler):
                                                                    current_page_num=1,
                                                                    order=True)
 
-        kwd = {
-            'pager': '',
-            'url': self.request.uri,
-            'daohangstr': '',
-            'signature': postinfo.uid,
-            'tdesc': '',
-            'eval_0': MEvaluation.app_evaluation_count(postinfo.uid, 0),
-            'eval_1': MEvaluation.app_evaluation_count(postinfo.uid, 1),
-            'login': 1 if self.get_current_user() else 0,
-            'has_image': 0,
-            'parentlist': MCategory.get_parent_list(),
-            'parentname': '',
-            'catname': '',
-            'router': router_post[postinfo.kind]
-        }
+
+        kwd = self._the_view_kwd(postinfo)
+
         MPost.update_misc(postinfo.uid, count=True)
         if self.get_current_user():
             MUsage.add_or_update(self.userinfo.uid, postinfo.uid, postinfo.kind)

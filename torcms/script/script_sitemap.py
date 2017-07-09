@@ -12,7 +12,7 @@ from config import router_post, SITE_CFG
 def gen_post_map(file_name, ext_url=''):
     '''
     Generate the urls for posts.
-    :return: 
+    :return: None
     '''
     with open(file_name, 'a') as fo:
         for kind_key in router_post:
@@ -28,7 +28,7 @@ def gen_post_map(file_name, ext_url=''):
 def gen_wiki_map(file_name, ext_url=''):
     '''
     Generate the urls for wiki.
-    :return: 
+    :return: None
     '''
 
     # wiki
@@ -56,8 +56,8 @@ def gen_wiki_map(file_name, ext_url=''):
 def run_sitemap(*args):
     '''
     Generate the sitemap file.
-    :param args: 
-    :return: 
+    :param args: args
+    :return: None
     '''
     site_map_file = 'xx_sitemap.txt'
     if os.path.exists(site_map_file):
@@ -70,8 +70,8 @@ def run_sitemap(*args):
 def run_editmap(*args):
     '''
     Generate the urls file for editing.
-    :param args: 
-    :return: 
+    :param args: args
+    :return: None
     '''
     edit_map_file = 'xx_editmap.txt'
     if os.path.exists(edit_map_file):

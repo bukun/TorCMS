@@ -92,7 +92,7 @@ class PublishHandler(BaseHandler):
 
         if fatherid.endswith('00'):
             self.render('misc/publish/publish2.html',
-                   userinfo=self.userinfo,
-                   kwd=kwd)
+                        userinfo=self.userinfo,
+                        kwd=kwd)
         else:
             self.redirect('/info/_cat_add/{0}'.format(fatherid))
