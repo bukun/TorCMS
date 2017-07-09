@@ -87,7 +87,7 @@ class StarRating(tornado.web.UIModule):
 
     def render(self, *args, **kwargs):
         postinfo = args[0]
-        userinfo = kwargs[1]
+        userinfo = args[1]
         rating = False
         if userinfo:
             rating = MRating.get_rating(postinfo.uid, userinfo.uid)
