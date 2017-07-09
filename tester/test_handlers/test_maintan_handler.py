@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 
-from torcms.handlers.maintain_handler import MaintainCategoryAjaxHandler, MaintainCategoryHandler
+from torcms.handlers.category_maintain_handler import MaintainCategoryAjaxHandler, MaintainCategoryHandler
 
 
 def Test():

@@ -8,10 +8,10 @@ import os
 import sys
 
 from openpyxl.reader.excel import load_workbook
-from .base_crud import xlsx_file, FILTER_COLUMNS
+from .base_crud import XLSX_FILE, FILTER_COLUMNS
 
-if os.path.exists(xlsx_file):
-    wb = load_workbook(filename=xlsx_file)
+if os.path.exists(XLSX_FILE):
+    wb = load_workbook(filename=XLSX_FILE)
 else:
     print('There must be at least one XLSX file.')
     sys.exit(0)

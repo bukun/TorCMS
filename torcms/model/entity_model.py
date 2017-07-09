@@ -23,11 +23,11 @@ class MEntity(Mabc):
     def get_id_by_impath(path):
         logger.info('Get Entiry, Path: {0}'.format(path))
 
-        uu = TabEntity.select().where(TabEntity.path == path)
-        if uu.count() == 1:
-            return uu.get().uid
-        elif uu.count() > 1:
-            for rec in uu:
+        entity_list = TabEntity.select().where(TabEntity.path == path)
+        if entity_list.count() == 1:
+            return entity_list.get().uid
+        elif entity_list.count() > 1:
+            for rec in entity_list:
                 MEntity.delete(rec.uid)
             return False
         else:

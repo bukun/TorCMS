@@ -150,7 +150,6 @@ class PostHandler(BaseHandler):
     def index(self):
         '''
         The default page of POST.
-        :return:
         '''
         self.render('post_{0}/post_index.html'.format(self.kind),
                     userinfo=self.userinfo,

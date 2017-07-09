@@ -87,8 +87,6 @@ class MWiki(Mabc):
     def create_wiki(post_data):
         '''
         Create the wiki.
-        :param post_data: 
-        :return: 
         '''
         logger.info('Call create wiki')
 
@@ -111,9 +109,6 @@ class MWiki(Mabc):
     def create_page(slug, post_data):
         '''
         The page would be created with slug.
-        :param slug:
-        :param post_data:
-        :return:
         '''
         logger.info('Call create Page')
         if MWiki.get_by_uid(slug):
@@ -128,9 +123,6 @@ class MWiki(Mabc):
     def __create_rec(*args, **kwargs):
         '''
         Create the record.
-        :param args: 
-        :param kwargs: 
-        :return: 
         '''
         uid = args[0]
         kind = args[1]
@@ -157,9 +149,6 @@ class MWiki(Mabc):
     def query_dated(num=10, kind='1'):
         '''
         List the wiki of dated.
-        :param num: 
-        :param kind: 
-        :return: 
         '''
         return TabWiki.select().where(
             TabWiki.kind == kind
@@ -171,9 +160,6 @@ class MWiki(Mabc):
     def query_most(num=8, kind='1'):
         '''
         List the most viewed wiki.
-        :param num: 
-        :param kind: 
-        :return: 
         '''
         return TabWiki.select().where(
             TabWiki.kind == kind
@@ -185,8 +171,6 @@ class MWiki(Mabc):
     def update_view_count(citiao):
         '''
         view count of the wiki, plus 1. By wiki
-        :param citiao: 
-        :return: 
         '''
         entry = TabWiki.update(
             view_count=TabWiki.view_count + 1
@@ -199,8 +183,6 @@ class MWiki(Mabc):
     def update_view_count_by_uid(uid):
         '''
         update the count of wiki, by uid.
-        :param uid: 
-        :return: 
         '''
         entry = TabWiki.update(
             view_count=TabWiki.view_count + 1
@@ -213,8 +195,6 @@ class MWiki(Mabc):
     def get_by_wiki(citiao):
         '''
         Get the wiki record by title.
-        :param citiao: 
-        :return: 
         '''
         q_res = TabWiki.select().where(TabWiki.title == citiao)
         tt = q_res.count()

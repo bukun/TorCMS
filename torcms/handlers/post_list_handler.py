@@ -1,30 +1,22 @@
 # -*- coding:utf-8 -*-
 
 '''
-The basic HTML Page handler.
+listing the posts, simply.
 '''
-
-import json
 
 import tornado.escape
 import tornado.web
 
 from config import CMS_CFG
-from config import router_post
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
-from torcms.core.tools import logger
-from torcms.model.category_model import MCategory
-from torcms.model.label_model import MPost2Label
 from torcms.model.post2catalog_model import MPost2Catalog
-from torcms.model.post_hist_model import MPostHist
 from torcms.model.post_model import MPost
-from torcms.model.relation_model import MRelation
 
 
 class PostListHandler(BaseHandler):
     '''
-    The basic HTML Page handler.
+    listing the posts, simply.
     '''
 
     def initialize(self):
@@ -35,10 +27,10 @@ class PostListHandler(BaseHandler):
         url_str = args[0]
         url_arr = self.parse_url(url_str)
 
-        if url_str == 'recent':
+        if url_str in ['_recent', 'recent']:
             self.recent()
-        elif url_arr[0] == 'p_recent':
-            self.p_recent(url_arr[1])
+        # elif url_arr[0] == 'p_recent':
+        #     self.p_recent(url_arr[1])
         elif url_str == '_refresh':
             self.refresh()
 
@@ -73,26 +65,26 @@ class PostListHandler(BaseHandler):
                     userinfo=self.userinfo,
                     cfg=CMS_CFG, )
 
-    def p_recent(self, kind, with_catalog=True, with_date=True):
-        '''
-        List posts that recent edited, partially.
-        :param with_catalog:
-        :param with_date:
-        :return:
-        '''
-        kwd = {
-            'pager': '',
-            'unescape': tornado.escape.xhtml_unescape,
-            'title': 'Recent posts.',
-            'with_catalog': with_catalog,
-            'with_date': with_date,
-        }
-        self.render('admin/post_p/post_p_list.html',
-                    kwd=kwd,
-                    postrecs=MPost.query_recent(num=20),
-                    format_date=tools.format_date,
-                    userinfo=self.userinfo,
-                    cfg=CMS_CFG, )
+    # def p_recent(self, kind, with_catalog=True, with_date=True):
+    #     '''
+    #     List posts that recent edited, partially.
+    #     :param with_catalog:
+    #     :param with_date:
+    #     :return:
+    #     '''
+    #     kwd = {
+    #         'pager': '',
+    #         'unescape': tornado.escape.xhtml_unescape,
+    #         'title': 'Recent posts.',
+    #         'with_catalog': with_catalog,
+    #         'with_date': with_date,
+    #     }
+    #     self.render('admin/post_p/post_p_list.html',
+    #                 kwd=kwd,
+    #                 postrecs=MPost.query_recent(num=20),
+    #                 format_date=tools.format_date,
+    #                 userinfo=self.userinfo,
+    #                 cfg=CMS_CFG, )
 
     def errcat(self):
         '''
@@ -108,7 +100,8 @@ class PostListHandler(BaseHandler):
                 break
             cat = MPost2Catalog.get_first_category(postinfo.uid)
             if cat:
-                if 'def_cat_uid' in postinfo.extinfo and postinfo.extinfo['def_cat_uid'] == cat.tag_id:
+                if 'def_cat_uid' in postinfo.extinfo and (
+                            postinfo.extinfo['def_cat_uid'] == cat.tag_id):
                     pass
                 else:
                     errrecs.append(postinfo)

@@ -8,21 +8,21 @@ import yaml
 
 from openpyxl.reader.excel import load_workbook
 from torcms.model.category_model import MCategory
-from .autocrud.base_crud import xlsx_file
+from .autocrud.base_crud import XLSX_FILE
 
 
 def gen_xlsx_category():
     '''
     Genereting catetory from xlsx file.
     '''
-    if os.path.exists(xlsx_file):
+    if os.path.exists(XLSX_FILE):
         pass
     else:
         return
     # 在分类中排序
     order_index = 1
 
-    for sheet_ranges in load_workbook(filename=xlsx_file):
+    for sheet_ranges in load_workbook(filename=XLSX_FILE):
         kind_sig = str(sheet_ranges['A1'].value).strip()
 
         for row_num in range(3, 10000):

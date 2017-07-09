@@ -10,13 +10,13 @@ import os
 
 from . import func_gen_html
 # from .func_gen_html import gen_select_list, gen_radio_list, gen_checkbox_list
-from .base_crud import crud_path
+from .base_crud import CRUD_PATH
 from .html_tpl import TPL_ADD, TPL_VIEW, TPL_EDIT, TPL_LIST, TPL_LISTINFO
 from .fetch_html_dic import gen_array_crud, gen_html_dic
 
 HTML_DICS = gen_html_dic()
 SWITCH_DICS, KIND_DICS = gen_array_crud()
-OUT_DIR = os.path.join(os.getcwd(), crud_path)
+OUT_DIR = os.path.join(os.getcwd(), CRUD_PATH)
 
 INPUT_ARR = ['digits', 'text', 'date', 'number', 'email', 'url']
 
@@ -208,7 +208,7 @@ def __gen_filter_tmpl(html_tpl):
     :param html_tpl:
     :return:
     '''
-    out_dir = os.path.join(os.getcwd(), crud_path, 'list')
+    out_dir = os.path.join(os.getcwd(), CRUD_PATH, 'list')
     if os.path.exists(out_dir):
         pass
     else:
@@ -252,7 +252,7 @@ def __gen_list_tmpl(html_tpl):
     :param html_tpl:
     :return:
     '''
-    out_dir = os.path.join(os.getcwd(), crud_path, 'infolist')
+    out_dir = os.path.join(os.getcwd(), CRUD_PATH, 'infolist')
     if os.path.exists(out_dir):
         pass
     else:

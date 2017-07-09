@@ -38,8 +38,9 @@ def get_diff_str(*args):
                 infobox = diff_table(raw_title, new_title)
                 # infobox = test[start:end] + '</table>'
                 # if ('diff_add' in infobox) or ('diff_chg' in infobox) or ('diff_sub' in infobox):
-                diff_str = diff_str + '<h2 style="color:red; font-size:larger; font-weight:70;">TITLE: {0}</h2>'.format(
-                    recent_post.title) + infobox
+                diff_str = diff_str + '''
+                <h2 style="color:red;font-size:larger;font-weight:70;">TITLE: {0}</h2>
+                '''.format(recent_post.title) + infobox
 
                 infobox = diff_table(hist_rec.cnt_md, recent_post.cnt_md)
 
@@ -85,14 +86,16 @@ def run_review(*args):
                     <tr><td>{0}</td><td>{1}</td><td class="diff_chg">Edit</td><td>{2}</td>
                     <td><a href="{3}">{3}</a></td></tr>
                     '''.format(idx, recent_post.user_name, recent_post.title,
-                               os.path.join(SITE_CFG['site_url'], router_post[key], recent_post.uid))
+                               os.path.join(SITE_CFG['site_url'], router_post[key],
+                                            recent_post.uid))
                 email_cnt = email_cnt + foo_str
             else:
                 foo_str = '''
                     <tr><td>{0}</td><td>{1}</td><td class="diff_add">New </td><td>{2}</td>
                     <td><a href="{3}">{3}</a></td></tr>
                     '''.format(idx, recent_post.user_name, recent_post.title,
-                               os.path.join(SITE_CFG['site_url'], router_post[key], recent_post.uid))
+                               os.path.join(SITE_CFG['site_url'], router_post[key],
+                                            recent_post.uid))
                 email_cnt = email_cnt + foo_str
             idx = idx + 1
 

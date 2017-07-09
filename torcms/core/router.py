@@ -11,8 +11,8 @@ from torcms.handlers.index import IndexHandler
 from torcms.handlers.label_handler import LabelHandler, InfoTagHandler
 from torcms.handlers.leaf_handler import LeafHandler
 from torcms.handlers.link_handler import LinkHandler, LinkPartialHandler
-from torcms.handlers.maintain_handler import MaintainCategoryHandler, MaintainCategoryAjaxHandler
-from torcms.handlers.maintain_info_handler import MaintainPycateCategoryHandler
+from torcms.handlers.category_maintain_handler import MaintainCategoryHandler, MaintainCategoryAjaxHandler
+# from torcms.handlers.maintain_info_handler import MaintainPycateCategoryHandler
 from torcms.handlers.page_ajax_handler import PageAjaxHandler
 from torcms.handlers.page_handler import PageHandler
 from torcms.handlers.post_ajax_handler import PostAjaxHandler
@@ -80,7 +80,7 @@ urls = [
 
     ("/info/(.*)", PostHandler, dict(kind='9', filter_view=True)),
 
-    ("/maintain/claslitecategory/(.*)", MaintainPycateCategoryHandler, dict()),
+    # ("/maintain/claslitecategory/(.*)", MaintainPycateCategoryHandler, dict()),
 
     ("/filter/(.*)", FilterHandler, dict()),
     ("/list/(.*)", FilterHandler, dict()),  # Deprecated, replaed by `/filter` .

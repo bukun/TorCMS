@@ -2,6 +2,7 @@
 
 '''
 access via: /leaf/
+            vs: /post/
 The basic  leaf handler.
 The list of the posts should be ordered under leaf list.
 '''
@@ -30,10 +31,7 @@ class LeafHandler(PostHandler):
     def initialize(self, **kwargs):
         super(LeafHandler, self).initialize()
 
-        if 'kind' in kwargs:
-            self.kind = kwargs['kind']
-        else:
-            self.kind = '1'
+        self.kind = kwargs['kind'] if 'kind' in kwargs else '1'
 
         self.filter_view = kwargs['filter_view'] if 'filter_view' in kwargs else False
 
@@ -80,7 +78,8 @@ class LeafHandler(PostHandler):
 
         else:
             ext_catid = postinfo.extinfo['def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else ''
-            ext_catid2 = postinfo.extinfo['def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else None
+            ext_catid2 = postinfo.extinfo[
+                'def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else None
             cat_enum1 = MCategory.get_qian2(ext_catid2[:2]) if ext_catid else []
 
         ######################################################
@@ -100,7 +99,6 @@ class LeafHandler(PostHandler):
                 catalog_infors = MPost2Catalog.query_pager_by_slug(catinfo.slug,
                                                                    current_page_num=1,
                                                                    order=True)
-
 
         kwd = self._the_view_kwd(postinfo)
 

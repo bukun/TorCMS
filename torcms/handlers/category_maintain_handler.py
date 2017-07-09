@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 '''
-for the reclassification of the post.
+CRUD for the category.
 '''
 
 import json
@@ -14,15 +14,17 @@ from torcms.model.category_model import MCategory
 
 
 class MaintainCategoryHandler(BaseHandler):
+    '''
+    CRUD for the category.
+    '''
+
     def initialize(self):
         super(MaintainCategoryHandler, self).initialize()
         self.tmpl_router = 'maintain_category'
 
     def get(self, *args):
         url_str = args[0]
-
         url_arr = self.parse_url(url_str)
-
         if url_str == 'add':
             self.to_add()
         elif url_str == 'list':
@@ -31,27 +33,30 @@ class MaintainCategoryHandler(BaseHandler):
             self.to_modify(url_arr[1])
         elif url_arr[0] == 'delete':
             self.delete_by_uid(url_arr[1])
-
         else:
             kwd = {
                 'info': '页面未找到',
             }
             self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo, )
 
-    def post(self, *args):
+    def post(self, *args, **kwargs):
         url_str = args[0]
         url_arr = self.parse_url(url_str)
         if url_arr[0] == 'modify':
             self.update(url_arr[1])
         elif url_str == 'add':
-            self.p_add_catalog()
+            self.p_add_category()
         elif url_arr[0] == 'add':
 
-            self.p_add_catalog()
+            self.p_add_category()
         else:
             self.redirect('misc/html/404.html')
 
     def list_catalog(self):
+        '''
+        listing the category.
+        :return: 
+        '''
         kwd = {
             'pager': '',
             'unescape': tornado.escape.xhtml_unescape,
@@ -66,6 +71,10 @@ class MaintainCategoryHandler(BaseHandler):
 
     @tornado.web.authenticated
     def to_add(self):
+        '''
+        Adding the category
+        :return: 
+        '''
         if self.check_post_role()['ADD']:
             pass
         else:
@@ -91,6 +100,9 @@ class MaintainCategoryHandler(BaseHandler):
 
     @tornado.web.authenticated
     def update(self, uid):
+        '''
+        Updating the category.
+        '''
         if self.__could_edit(uid):
             pass
         else:
@@ -117,11 +129,20 @@ class MaintainCategoryHandler(BaseHandler):
 
     @tornado.web.authenticated
     def to_modify(self, id_rec):
+        '''
+        to edit the category by ID.
+        :param id_rec:  post ID
+        '''
         if self.__could_edit(id_rec):
             pass
         else:
             return False
-        a = MCategory.get_by_uid(id_rec)
+        category_rec = MCategory.get_by_uid(id_rec)
+
+        if category_rec:
+            pass
+        else:
+            return None
         kwd = {
             'pager': '',
 
@@ -129,31 +150,33 @@ class MaintainCategoryHandler(BaseHandler):
         self.render('admin/{0}/category_edit.html'.format(self.tmpl_router),
                     kwd=kwd,
                     unescape=tornado.escape.xhtml_unescape,
-                    dbrec=a,
+                    dbrec=category_rec,
                     userinfo=self.userinfo,
-                    cfg=config.CMS_CFG, )
+                    cfg=config.CMS_CFG)
+
+    # @tornado.web.authenticated
+    # def add_post(self):
+    #     if self.check_post_role()['ADD']:
+    #         pass
+    #     else:
+    #         return False
+    #     post_data = {}
+    #     for key in self.request.arguments:
+    #         post_data[key] = self.get_arguments(key)
+    #
+    #     post_data['user_name'] = self.get_current_user()
+    #     id_post = post_data['uid'][0]
+    #     cur_post_rec = MCategory.get_by_uid(id_post)
+    #     if cur_post_rec is None:
+    #         uid = MCategory.add_or_update(id_post, post_data)
+    #
+    #     self.redirect('/maintain/category/list')
 
     @tornado.web.authenticated
-    def add_post(self):
-        if self.check_post_role()['ADD']:
-            pass
-        else:
-            return False
-        post_data = {}
-        for key in self.request.arguments:
-            post_data[key] = self.get_arguments(key)
-
-        post_data['user_name'] = self.get_current_user()
-        id_post = post_data['uid'][0]
-        cur_post_rec = MCategory.get_by_uid(id_post)
-        if cur_post_rec is None:
-            uid = MCategory.add_or_update(id_post, post_data)
-
-        self.redirect('/maintain/category/list')
-
-    @tornado.web.authenticated
-    def p_add_catalog(self):
-
+    def p_add_category(self):
+        '''
+        Adding the category
+        '''
         if self.check_post_role()['ADD']:
             pass
         else:
@@ -181,6 +204,9 @@ class MaintainCategoryHandler(BaseHandler):
 
     @tornado.web.authenticated
     def add_catalog(self):
+        '''
+        Adding the category
+        '''
         if self.check_post_role()['ADD']:
             pass
         else:
@@ -201,6 +227,9 @@ class MaintainCategoryHandler(BaseHandler):
 
     @tornado.web.authenticated
     def delete_by_uid(self, del_id):
+        '''
+        Deleting the category via ID.
+        '''
         if self.check_post_role()['DELETE']:
             pass
         else:
@@ -226,6 +255,10 @@ class MaintainCategoryHandler(BaseHandler):
 
 
 class MaintainCategoryAjaxHandler(MaintainCategoryHandler):
+    '''
+    CRUD for the category. By AJAX.
+    '''
+
     def initialize(self):
         super(MaintainCategoryAjaxHandler, self).initialize()
         self.tmpl_router = 'category_ajax'
