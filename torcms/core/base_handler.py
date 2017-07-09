@@ -19,7 +19,7 @@ class BaseHandler(tornado.web.RequestHandler):
     The base class for handlers.
     '''
 
-    def initialize(self):
+    def initialize(self, **kwargs):
         super(BaseHandler, self).initialize()
         if self.get_current_user():
             self.userinfo = MUser.get_by_name(self.get_current_user())

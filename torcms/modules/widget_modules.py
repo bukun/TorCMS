@@ -16,7 +16,7 @@ class BaiduShare(tornado.web.UIModule):
     widget for baidu share.
     '''
 
-    def render(self):
+    def render(self, *args, **kwargs):
         return self.render_string('modules/widget/baidu_share.html')
 
 
@@ -25,7 +25,7 @@ class ReplyPanel(tornado.web.UIModule):
     the reply panel.
     '''
 
-    def render(self, *args):
+    def render(self, *args, **kwargs):
         uid = args[0]
         userinfo = args[1]
         return self.render_string(
@@ -43,7 +43,7 @@ class UserinfoWidget(tornado.web.UIModule, tornado.web.RequestHandler):
     userinfo widget.
     '''
 
-    def render(self, **kwargs):
+    def render(self, *args, **kwargs):
         is_logged = True if ('userinfo' in kwargs and kwargs['userinfo']) else False
         return self.render_string(
             'modules/widget/loginfo.html',
@@ -56,7 +56,10 @@ class WidgetEditor(tornado.web.UIModule):
     editor widget.
     '''
 
-    def render(self, router, uid, userinfo):
+    def render(self, *args, **kwargs):
+        router = args[0]
+        uid = args[1]
+        userinfo = args[2]
         kwd = {
             'router': router,
             'uid': uid,
@@ -72,7 +75,7 @@ class WidgetSearch(tornado.web.UIModule):
     search widget. Simple searching. searching for all.
     '''
 
-    def render(self):
+    def render(self, *args, **kwargs):
         # tag_enum = MCategory.query_pcat()
         return self.render_string('modules/widget/widget_search.html')
 
@@ -82,7 +85,9 @@ class StarRating(tornado.web.UIModule):
     For rating of posts.
     '''
 
-    def render(self, postinfo, userinfo):
+    def render(self, *args, **kwargs):
+        postinfo = args[0]
+        userinfo = kwargs[1]
         rating = False
         if userinfo:
             rating = MRating.get_rating(postinfo.uid, userinfo.uid)
@@ -105,7 +110,8 @@ class NavigatePanel(tornado.web.UIModule):
     '''
 
     @deprecated(details='Should not used any more.')
-    def render(self, userinfo):
+    def render(self, *args, **kwargs):
+        userinfo = args[0]
         return self.render_string(
             'modules/widget/navigate_panel.html',
             unescape=tornado.escape.xhtml_unescape,
@@ -119,7 +125,8 @@ class FooterPanel(tornado.web.UIModule):
     '''
 
     @deprecated(details='Should not used any more.')
-    def render(self, userinfo):
+    def render(self, *args, **kwargs):
+        userinfo = args[0]
         return self.render_string(
             'modules/widget/footer_panel.html',
             unescape=tornado.escape.xhtml_unescape,
@@ -132,7 +139,8 @@ class UseF2E(tornado.web.UIModule):
     using f2e lib.
     '''
 
-    def render(self, f2ename):
+    def render(self, *args, **kwargs):
+        f2ename = args[0]
         return self.render_string(
             'modules/usef2e/{0}.html'.format(f2ename),
         )
@@ -143,7 +151,7 @@ class BaiduSearch(tornado.web.UIModule):
     widget for baidu search.
     '''
 
-    def render(self, ):
+    def render(self, *args, **kwargs):
         baidu_script = ''
         return self.render_string('modules/info/baidu_script.html',
                                   baidu_script=baidu_script)

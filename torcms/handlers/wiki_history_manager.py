@@ -8,8 +8,9 @@ from torcms.model.wiki_hist_model import MWikiHist
 from torcms.core.tools import diff_table
 from .post_history_handler import EditHistoryHander
 
+
 class WikiHistoryHandler(EditHistoryHander):
-    def initialize(self):
+    def initialize(self, **kwargs):
         super(WikiHistoryHandler, self).initialize()
 
     @tornado.web.authenticated

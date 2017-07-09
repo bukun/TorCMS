@@ -21,11 +21,11 @@ from torcms.model.wiki_hist_model import MWikiHist
 class WikiHandler(BaseHandler):
     executor = ThreadPoolExecutor(2)
 
-    def initialize(self):
+    def initialize(self, **kwargs):
         super(WikiHandler, self).initialize()
         self.kind = '1'
 
-    def get(self, *args):
+    def get(self, *args, **kwargs):
         url_str = args[0]
         url_arr = self.parse_url(url_str)
         if url_str == 'recent':
@@ -44,7 +44,7 @@ class WikiHandler(BaseHandler):
             }
             self.render('misc/html/404.html', kwd=kwd)
 
-    def post(self, *args):
+    def post(self, *args, **kwargs):
         url_str = args[0]
         url_arr = self.parse_url(url_str)
         if url_arr[0] in ['_edit', 'edit']:

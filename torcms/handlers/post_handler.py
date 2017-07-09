@@ -22,7 +22,7 @@ from torcms.model.post_model import MPost
 from torcms.model.relation_model import MRelation
 from torcms.model.evaluation_model import MEvaluation
 from torcms.model.usage_model import MUsage
-from config import router_post, DB_CFG
+from config import router_post
 
 
 class PostHandler(BaseHandler):
@@ -74,14 +74,13 @@ class PostHandler(BaseHandler):
                 self.redirect(url_str)
         return True
 
-    def get(self, *args):
-
+    def get(self, *args, **kwargs):
         url_str = args[0]
         url_arr = self.parse_url(url_str)
-        if len(url_arr) > 0:
+        if url_arr:
             self._redirect(url_arr)
 
-        if url_str == '':
+        if url_str == '' or url_str == 'index':
             self.index()
         elif url_arr[0] == '_cat_add':
             self._to_add(catid=url_arr[1])
@@ -95,7 +94,7 @@ class PostHandler(BaseHandler):
         elif url_arr[0] == '_edit':
             self._to_edit(url_arr[1])
         elif url_arr[0] == '_delete':
-            self.delete(url_arr[1])
+            self._delete(url_arr[1])
         elif url_arr[0] == 'j_delete':
             self.j_delete(url_arr[1])
         elif url_arr[0] == 'j_count_plus':
@@ -104,7 +103,7 @@ class PostHandler(BaseHandler):
             # Deprecated
             self.redirect('/post/{uid}'.format(uid=url_str.split('.')[0]))
         elif len(url_arr) == 1 and len(url_str) in [4, 5]:
-            self.view_or_add(url_str)
+            self._view_or_add(url_str)
         else:
             kwd = {
                 'title': '',
@@ -114,7 +113,7 @@ class PostHandler(BaseHandler):
             self.render('misc/html/404.html', kwd=kwd,
                         userinfo=self.userinfo, )
 
-    def post(self, *args):
+    def post(self, *args, **kwargs):
 
         url_str = args[0]
         logger.info('Post url: {0}'.format(url_str))
@@ -137,7 +136,7 @@ class PostHandler(BaseHandler):
             if len(url_str) in [4, 5]:
                 self.add(uid=url_str)
         elif url_arr[0] == 'rel' and len(url_arr) == 3:
-            self.add_relation(url_arr[1], url_arr[2])
+            self._add_relation(url_arr[1], url_arr[2])
         else:
 
             kwd = {
@@ -169,17 +168,24 @@ class PostHandler(BaseHandler):
 
     @tornado.web.authenticated
     def _could_edit(self, postid):
+        '''
+        checking if the user could edit the post.
+        :param postid:  the id of the post.
+        :return:  True or False
+        '''
         post_rec = MPost.get_by_uid(postid)
         if post_rec:
             pass
         else:
             return False
+        # chk_res = False
         if self.check_post_role()['EDIT']:
-            return True
+            chk_res = True
         elif post_rec.user_name == self.userinfo.user_name:
-            return True
+            chk_res = True
         else:
-            return False
+            chk_res = False
+        return chk_res
 
     def _get_tmpl_view(self, rec):
         '''
@@ -228,7 +234,7 @@ class PostHandler(BaseHandler):
                     userinfo=self.userinfo,
                     kwd=kwd)
 
-    def view_or_add(self, uid):
+    def _view_or_add(self, uid):
         '''
         Try to get the post. If not, to add the wiki.
         :param uid:
@@ -349,7 +355,7 @@ class PostHandler(BaseHandler):
 
         if catid:
             def_cat_id = catid
-        elif len(new_category_arr) > 0:
+        elif new_category_arr:
             def_cat_id = new_category_arr[0]
         else:
             def_cat_id = None
@@ -457,9 +463,14 @@ class PostHandler(BaseHandler):
         self.set_secure_cookie('last_post_uid', post_id)
 
         if last_post_id and MPost.get_by_uid(last_post_id):
-            self.add_relation(last_post_id, post_id)
+            self._add_relation(last_post_id, post_id)
 
     def redirect_kind(self, postinfo):
+        '''
+        Redirect according the kind of the post.
+        :param postinfo: the postinfo
+        :return: None
+        '''
         logger.warning('info kind:{0} '.format(postinfo.kind))
 
         # If not, there must be something wrong.
@@ -527,8 +538,8 @@ class PostHandler(BaseHandler):
     def _the_view_kwd(self, postinfo):
         '''
         Generate the kwd dict for view.
-        :param postinfo: 
-        :return: 
+        :param postinfo: the postinfo
+        :return:  dict
         '''
         kwd = {
             'pager': '',
@@ -565,17 +576,17 @@ class PostHandler(BaseHandler):
         rel_recs = MRelation.get_app_relations(uid, 8, kind=self.kind).naive()
 
         logger.info('rel_recs count: {0}'.format(rel_recs.count()))
-        if len(cat_uid_arr) > 0:
+        if cat_uid_arr:
             rand_recs = MPost.query_cat_random(cat_uid_arr[0], limit=4 - rel_recs.count() + 4)
         else:
             rand_recs = MPost.query_random(num=4 - rel_recs.count() + 4, kind=self.kind)
         return rand_recs, rel_recs
 
-    def add_relation(self, f_uid, t_uid):
+    def _add_relation(self, f_uid, t_uid):
         '''
         Add the relation. And the from and to, should have different weight.
-        :param f_uid:
-        :param t_uid:
+        :param f_uid: the uid of `from` post.
+        :param t_uid: the uid of `to` post.
         :return: return True if the relation has been succesfully added.
         '''
         if not MPost.get_by_uid(t_uid):
@@ -708,13 +719,14 @@ class PostHandler(BaseHandler):
         self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], uid))
 
     @tornado.web.authenticated
-    def delete(self, *args, **kwargs):
+    def _delete(self, *args, **kwargs):
         '''
         delete the post.
         :param args:
         :param kwargs:
         :return:
         '''
+        _ = kwargs
         uid = args[0]
         current_infor = MPost.get_by_uid(uid)
 
@@ -731,13 +743,13 @@ class PostHandler(BaseHandler):
 
             if router_post[self.kind] == 'info':
                 url = "filter"
-                id = current_infor.extinfo['def_cat_uid']
+                id_dk8 = current_infor.extinfo['def_cat_uid']
 
             else:
                 url = "category"
-                id = tslug.slug
+                id_dk8 = tslug.slug
 
-            self.redirect('/{0}/{1}'.format(url, id))
+            self.redirect('/{0}/{1}'.format(url, id_dk8))
 
         else:
             self.redirect('/{0}/{1}'.format(router_post[self.kind], uid))
@@ -775,6 +787,7 @@ class PostHandler(BaseHandler):
         :param uid:
         :return:
         '''
+        _ = uid
         self.set_header("Content-Type", "application/json")
         output = {
             'status': 1  # if MPost.__update_view_count_by_uid(uid) else 0,
@@ -793,7 +806,7 @@ class PostHandler(BaseHandler):
             last_app_uid = last_app_uid.decode('utf-8')
         self.set_secure_cookie('use_app_uid', app_id)
         if last_app_uid and MPost.get_by_uid(last_app_uid):
-            self.add_relation(last_app_uid, app_id)
+            self._add_relation(last_app_uid, app_id)
 
     def ext_view_kwd(self, postinfo):
         '''
@@ -801,6 +814,7 @@ class PostHandler(BaseHandler):
         :param postinfo:
         :return: directory.
         '''
+        _ = postinfo
         return {}
 
     def ext_tmpl_view(self, rec):
@@ -817,6 +831,7 @@ class PostHandler(BaseHandler):
         :param post_data:
         :return: directory.
         '''
+        _ = kwargs
         return {}
 
     @tornado.web.authenticated

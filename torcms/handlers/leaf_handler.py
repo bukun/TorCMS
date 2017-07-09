@@ -43,7 +43,7 @@ class LeafHandler(PostHandler):
         url_arr = self.parse_url(url_str)
 
         if len(url_arr) == 1 and len(url_str) in [4, 5]:
-            self.view_or_add(url_str)
+            self._view_or_add(url_str)
         else:
             kwd = {
                 'title': '',

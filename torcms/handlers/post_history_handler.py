@@ -16,8 +16,10 @@ from abc import ABCMeta, abstractmethod
 
 class EditHistoryHander(BaseHandler):
     __metaclass__ = ABCMeta
+    def initialize(self, **kwargs):
+        super(EditHistoryHander, self).initialize()
 
-    def get(self, *args):
+    def get(self, *args, **kwargs):
         url_arr = self.parse_url(args[0])
         if url_arr[0] == 'view':
             self.view(url_arr[1])
@@ -35,7 +37,7 @@ class EditHistoryHander(BaseHandler):
                         kwd=kwd,
                         userinfo=self.userinfo)
 
-    def post(self, *args):
+    def post(self, *args, **kwargs):
         url_arr = self.parse_url(args[0])
 
         if url_arr[0] == 'edit':

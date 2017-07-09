@@ -61,13 +61,9 @@ def echo_html_fenye_str(rec_num, fenye_num):
 
             pager_mid += tmp_str_df
         if fenye_num < pagination_num:
-            pager_next = '''
-
-              <li class="{0}" name='fenye' onclick='change(this);'
+            pager_next = '''<li class="{0}" name='fenye' onclick='change(this);'
               value='{1}'><a>Next Page</a></li>'''.format('', fenye_num + 1)
-            pager_last = '''
-
-              <li class="{0}" name='fenye' onclick='change(this);'
+            pager_last = '''<li class="{0}" name='fenye' onclick='change(this);'
               value='{1}'><a>End Page</a></li>'''.format('', pagination_num)
 
         fenye_str += pager_home + pager_pre + pager_mid + pager_next + pager_last
@@ -155,7 +151,14 @@ class FilterHandler(BaseHandler):
             self.echo_html_list_str(sig, infos)
         elif url_arr[1] == 'num':
             allinfos = MPost.query_under_condition(condition, kind=catinfo.kind)
-            self.write(tornado.escape.xhtml_unescape(echo_html_fenye_str(allinfos.count(), fenye_num)))
+            self.write(
+                tornado.escape.xhtml_unescape(
+                    echo_html_fenye_str(
+                        allinfos.count(),
+                        fenye_num
+                    )
+                )
+            )
 
     def echo_html_list_str(self, catid, infos):
         '''

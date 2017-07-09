@@ -29,7 +29,7 @@ class PostAjaxHandler(PostHandler):
                 kind = 9
             self.p_recent(kind)
         elif len(url_arr) == 1 and len(url_str) in [4, 5]:
-            self.view_or_add(url_str)
+            self._view_or_add(url_str)
 
     # @tornado.web.authenticated
     # def delete(self, *args):
