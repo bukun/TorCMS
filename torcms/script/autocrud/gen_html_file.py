@@ -21,7 +21,7 @@ OUT_DIR = os.path.join(os.getcwd(), crud_path)
 INPUT_ARR = ['digits', 'text', 'date', 'number', 'email', 'url']
 
 
-def generate_html_files():
+def generate_html_files(*args):
     '''
     Generate the templates for adding, editing, viewing.
     :return: None

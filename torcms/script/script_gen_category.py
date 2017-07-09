@@ -132,7 +132,7 @@ def gen_yaml_category():
                 gen_category(os.path.join(wroot, wfile), wfile[0])
 
 
-def run_gen_category():
+def run_gen_category(*args):
     '''
     to run
     :return:
