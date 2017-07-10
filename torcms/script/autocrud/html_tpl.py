@@ -4,10 +4,6 @@
 Tempaltes for CRUD.
 '''
 
-'''
-Raw:
-../../tmpl_kkkk/tmplyyyyyy/tpl_add.html
-'''
 TPL_ADD = '''
     {% extends "../../tmpl_kkkk/tpl_add.html" %}
 

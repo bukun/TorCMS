@@ -29,3 +29,6 @@ def build_dir():
         if os.path.exists(wpath):
             continue
         os.makedirs(wpath)
+
+
+INPUT_ARR = ['digits', 'text', 'date', 'number', 'email', 'url']

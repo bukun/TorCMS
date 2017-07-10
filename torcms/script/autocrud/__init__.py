@@ -1,2 +1,5 @@
 # -*- coding:utf-8 -*-
-__author__ = 'bk'
+
+'''
+__author__ = 'bukun@osgeo.cn'
+'''

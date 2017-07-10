@@ -8,10 +8,10 @@ import os
 import sys
 
 from openpyxl.reader.excel import load_workbook
-from .base_crud import XLSX_FILE, FILTER_COLUMNS
+from .base_crud import XLSX_FILE, FILTER_COLUMNS, INPUT_ARR
 
 if os.path.exists(XLSX_FILE):
-    wb = load_workbook(filename=XLSX_FILE)
+    WORK_BOOK = load_workbook(filename=XLSX_FILE)
 else:
     print('There must be at least one XLSX file.')
     sys.exit(0)
@@ -39,6 +39,9 @@ def __write_filter_dic(wk_sheet, column):
         #  if only one tag,
         if len(tags1) == 1:
             xx_1 = row2_val.split(':')  # 'text'  # HTML text input control.
+
+            # The default type of the input is text
+            xx_1[0] = xx_1[0].lower() if xx_1[0].lower() in INPUT_ARR else 'text'
             if len(xx_1) == 2:
                 ctr_type, unit = xx_1
             else:
@@ -70,13 +73,13 @@ def gen_html_dic():
     :return:
     '''
 
-    if wb:
+    if WORK_BOOK:
         pass
     else:
         return False
 
     html_dics = {}
-    for wk_sheet in wb:
+    for wk_sheet in WORK_BOOK:
         for column in FILTER_COLUMNS:
             kkey, kval = __write_filter_dic(wk_sheet, column)
             if kkey:
@@ -89,7 +92,7 @@ def gen_array_crud():
     Return the dictionay of the switcher form XLXS file.
     if valud of the column of the row is `1`,  it will be added to the array.
     '''
-    if wb:
+    if WORK_BOOK:
         pass
     else:
         return False
@@ -99,26 +102,26 @@ def gen_array_crud():
     switch_dics = {}
     kind_dics = {}
 
-    for work_sheet in wb:
+    for work_sheet in WORK_BOOK:
         kind_sig = str(work_sheet['A1'].value).strip()
         # the number of the categories in a website won't greater than 1000.
         for row_num in range(3, 1000):
             # 父类, column A
-            A_cell_value = work_sheet['A{0}'.format(row_num)].value
+            a_cell_value = work_sheet['A{0}'.format(row_num)].value
             # 子类, column B
-            B_cell_val = work_sheet['B{0}'.format(row_num)].value
+            b_cell_val = work_sheet['B{0}'.format(row_num)].value
 
-            if A_cell_value or B_cell_val:
+            if a_cell_value or b_cell_val:
                 pass
             else:
                 break
-            if A_cell_value and A_cell_value != '':
-                papa_id = A_cell_value.strip()[1:]
+            if a_cell_value and a_cell_value != '':
+                papa_id = a_cell_value.strip()[1:]
                 u_dic = __get_switch_arr(work_sheet, row_num)
                 switch_dics['dic_{0}00'.format(papa_id)] = u_dic
                 kind_dics['kind_{0}00'.format(papa_id)] = kind_sig
-            if B_cell_val and B_cell_val != '':
-                sun_id = B_cell_val.strip()[1:]
+            if b_cell_val and b_cell_val != '':
+                sun_id = b_cell_val.strip()[1:]
                 if len(sun_id) == 4:
                     app_uid = sun_id
                 else:
@@ -138,9 +141,9 @@ def __get_switch_arr(work_sheet, row_num):
     :return:
     '''
     u_dic = []
-    for ii in FILTER_COLUMNS:
-        cell_val = work_sheet['{0}{1}'.format(ii, row_num)].value
+    for col_idx in FILTER_COLUMNS:
+        cell_val = work_sheet['{0}{1}'.format(col_idx, row_num)].value
         if cell_val in [1, '1']:
             # Appending the slug name of the switcher.
-            u_dic.append(work_sheet['{0}1'.format(ii)].value.strip().split(',')[0])
+            u_dic.append(work_sheet['{0}1'.format(col_idx)].value.strip().split(',')[0])
     return u_dic

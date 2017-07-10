@@ -19,12 +19,16 @@ def gen_input_add(sig_dic):
     </a>{sig_zh}</span>
     </label>
     <div class="col-sm-9">
-    <input id='{sig_en}' name="{sig_en}" value="" type="{sig_type}" class="form-control">
+    <input id='{sig_en}' name="{sig_en}" value="" type="{sig_type}" 
+    class="form-control">
      </div>
      <div class="col-sm-1">
      {sig_dic}
     </div></div>    
-    '''.format(sig_en=sig_dic['en'], sig_zh=sig_dic['zh'], sig_dic=sig_dic['dic'][1], sig_type=sig_dic['type'])
+    '''.format(sig_en=sig_dic['en'],
+               sig_zh=sig_dic['zh'],
+               sig_dic=sig_dic['dic'][1],
+               sig_type=sig_dic['type'])
 
 
 def gen_input_edit(sig_dic):
@@ -36,15 +40,19 @@ def gen_input_edit(sig_dic):
     return '''
     <div class="form-group">
     <label  class="col-sm-2 control-label"  for="{sig_en}">
-    <span><a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a> {sig_zh}</span>
+    <span><a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
+    </a>{sig_zh}</span>
     </label>
     <div class="col-sm-9">
     <input id='{sig_en}' name="{sig_en}"
-    value="{{{{ post_info.extinfo['{sig_en}'] if  '{sig_en}' in post_info.extinfo else 0 }}}}"
+    value="{{{{ post_info.extinfo['{sig_en}'] if '{sig_en}' in post_info.extinfo else 0 }}}}"
     type="{sig_type}"  class="form-control"> </div>
      <div class="col-sm-1">{sig_dic}</div>
      </div>
-    '''.format(sig_en=sig_dic['en'], sig_zh=sig_dic['zh'], sig_dic=sig_dic['dic'][1], sig_type=sig_dic['type'])
+    '''.format(sig_en=sig_dic['en'],
+               sig_zh=sig_dic['zh'],
+               sig_dic=sig_dic['dic'][1],
+               sig_type=sig_dic['type'])
 
 
 def gen_input_view(sig_dic):
@@ -57,7 +65,7 @@ def gen_input_view(sig_dic):
     <div class="row">
     <div class="col-sm-4"><span class="des"><strong>{1}</strong></span></div>
     <div class="col-sm-8">
-    <span class="val">{{{{ post_info.extinfo['{0}'] if  '{0}' in post_info.extinfo else '' }}}}
+    <span class="val">{{{{ post_info.extinfo['{0}'] if '{0}' in post_info.extinfo else '' }}}}
      {2}</span></div></div>
     '''.format(sig_dic['en'], sig_dic['zh'], sig_dic['dic'][1])
 
@@ -85,9 +93,11 @@ def gen_radio_add(sig_dic):
     # html_zuoxiang += '''</label>'''
 
     return '''<label for="{sig_en}"><span>
-    <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a>{sig_zh}</span>
+    <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
+    </a>{sig_zh}</span>
     {radio_str}</label>'''.format(sig_en=sig_dic['en'],
-                                  sig_zh=sig_dic['zh'], radio_str=radio_control_str)
+                                  sig_zh=sig_dic['zh'],
+                                  radio_str=radio_control_str)
 
 
 def gen_radio_edit(sig_dic):
@@ -98,7 +108,8 @@ def gen_radio_edit(sig_dic):
     '''
     edit_zuoxiang = '''7
     <label  for="{0}"><span>
-    <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a>{1}</span>
+    <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
+    </a>{1}</span>
     '''.format(sig_dic['en'], sig_dic['zh'])
 
     dic_tmp = sig_dic['dic']
@@ -116,6 +127,9 @@ def gen_radio_edit(sig_dic):
 
 
 def gen_radio_view(sig_dic):
+    '''
+    for checkbox
+    '''
     view_zuoxiang = '''
     <div class="col-sm-4"><span class="des">{0}</span></div>
     <div class="col-sm-8">
@@ -123,13 +137,11 @@ def gen_radio_view(sig_dic):
 
     dic_tmp = sig_dic['dic']
     for key in dic_tmp.keys():
-        tmp_str = '''
-         <span class="input_text">
+        tmp_str = '''<span class="input_text">
          {{% if  '{0}' in post_info.extinfo and post_info.extinfo['{0}'] == "{1}" %}}
          {2}
          {{% end %}}
-         </span>
-        '''.format(sig_dic['en'], key, dic_tmp[key])
+         </span>'''.format(sig_dic['en'], key, dic_tmp[key])
         view_zuoxiang += tmp_str
 
     view_zuoxiang += '''</div>'''
@@ -137,11 +149,12 @@ def gen_radio_view(sig_dic):
 
 
 def gen_checkbox_add(sig_dic):
-    html_wuneisheshi = '''
-
-    <label  for="{0}"><span>
-    <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a> {1}</span>
-    '''.format(sig_dic['en'], sig_dic['zh'])
+    '''
+    for checkbox
+    '''
+    html_wuneisheshi = '''<label  for="{0}"><span>
+    <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
+    </a>{1}</span>'''.format(sig_dic['en'], sig_dic['zh'])
 
     dic_tmp = sig_dic['dic']
     for key in dic_tmp.keys():
@@ -155,8 +168,12 @@ def gen_checkbox_add(sig_dic):
 
 
 def gen_checkbox_edit(sig_dic):
+    '''
+    for checkbox
+    '''
     edit_wuneisheshi = '''<label for="{0}"><span>
-     <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a> {1}</span>
+     <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
+     </a>{1}</span>
      '''.format(sig_dic['en'], sig_dic['zh'])
 
     dic_tmp = sig_dic['dic']
@@ -174,6 +191,9 @@ def gen_checkbox_edit(sig_dic):
 
 
 def gen_checkbox_view(sig_dic):
+    '''
+    for checkbox
+    '''
     view_zuoxiang = '''
     <div class="col-sm-4"><span class="des">{0}</span></div>
     <div class="col-sm-8">
@@ -231,7 +251,7 @@ def gen_select_edit(sig_dic):
 
     option_str = ''
     for key, val in sig_dic['dic'].items():
-        tmp_str = '''        
+        tmp_str = '''
         <option value="{1}"
         {{% if  '{0}' in post_info.extinfo and post_info.extinfo["{0}"] == "{1}" %}}
         selected = "selected"
@@ -280,6 +300,10 @@ def gen_select_view(sig_dic):
 
 
 def gen_file_add(sig_dic):
+    '''
+    For adding file
+    '''
+    _ = sig_dic
     add_html = '''
     <div class="form-group">
     <label class="col-sm-2 control-label" for="dasf">上传图片：</label>
@@ -299,11 +323,19 @@ def gen_file_add(sig_dic):
 
 
 def gen_file_view(sig_dic):
+    '''
+    for file viewing.
+    '''
+    _ = sig_dic
     view_html = ''
     return view_html
 
 
 def gen_file_edit(sig_dic):
+    '''
+    for editing file.
+    '''
+    _ = sig_dic
     view_html = '''
     <div class="form-group">
     <label for="dasf">上传图片：</label>

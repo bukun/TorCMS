@@ -9,16 +9,13 @@ The last 5 types is defined as in JQuery Validation.
 import os
 
 from . import func_gen_html
-# from .func_gen_html import gen_select_list, gen_radio_list, gen_checkbox_list
-from .base_crud import CRUD_PATH
-from .html_tpl import TPL_ADD, TPL_VIEW, TPL_EDIT, TPL_LIST, TPL_LISTINFO
+from .base_crud import CRUD_PATH, INPUT_ARR
 from .fetch_html_dic import gen_array_crud, gen_html_dic
+from .html_tpl import TPL_ADD, TPL_VIEW, TPL_EDIT, TPL_LIST, TPL_LISTINFO
 
 HTML_DICS = gen_html_dic()
 SWITCH_DICS, KIND_DICS = gen_array_crud()
 OUT_DIR = os.path.join(os.getcwd(), CRUD_PATH)
-
-INPUT_ARR = ['digits', 'text', 'date', 'number', 'email', 'url']
 
 
 def generate_html_files(*args):
@@ -26,6 +23,7 @@ def generate_html_files(*args):
     Generate the templates for adding, editing, viewing.
     :return: None
     '''
+    _ = args
     for tag_key, tag_list in SWITCH_DICS.items():
         if tag_key.startswith('dic_') and (not tag_key.endswith('00')):
             __gen_add_tmpl(tag_key, tag_list)
@@ -50,16 +48,19 @@ def __gen_edit_tmpl(tag_key, tag_list):
         html_sig = '_'.join(['html', sig])
         # var_html = eval('html_vars.' + html_sig)
         var_html = HTML_DICS[html_sig]
+
         if var_html['type'] in INPUT_ARR:
             tmpl = func_gen_html.gen_input_edit(var_html)
-        if var_html['type'] == 'select':
+        elif var_html['type'] == 'select':
             tmpl = func_gen_html.gen_select_edit(var_html)
-        if var_html['type'] == 'radio':
+        elif var_html['type'] == 'radio':
             tmpl = func_gen_html.gen_radio_edit(var_html)
-        if var_html['type'] == 'checkbox':
+        elif var_html['type'] == 'checkbox':
             tmpl = func_gen_html.gen_checkbox_edit(var_html)
-        if var_html['type'] == 'file':
+        elif var_html['type'] == 'file':
             tmpl = func_gen_html.gen_file_edit(var_html)
+        else:
+            tmpl = ''
         edit_widget_arr.append(tmpl)
     with open(edit_file, 'w') as fileout2:
         fileout2.write(
@@ -71,7 +72,8 @@ def __gen_edit_tmpl(tag_key, tag_list):
                 tag_key.split('_')[1][:2]
             ).replace(
                 'kkkk',
-                KIND_DICS['kind_' + tag_key.split('_')[-1]])
+                KIND_DICS['kind_' + tag_key.split('_')[-1]]
+            )
         )
 
 
@@ -88,16 +90,19 @@ def __gen_view_tmpl(tag_key, tag_list):
         html_sig = '_'.join(['html', sig])
         # var_html = eval('html_vars.' + html_sig)
         var_html = HTML_DICS[html_sig]
+
         if var_html['type'] in INPUT_ARR:
             tmpl = func_gen_html.gen_input_view(var_html)
-        if var_html['type'] == 'select':
+        elif var_html['type'] == 'select':
             tmpl = func_gen_html.gen_select_view(var_html)
-        if var_html['type'] == 'radio':
+        elif var_html['type'] == 'radio':
             tmpl = func_gen_html.gen_radio_view(var_html)
-        if var_html['type'] == 'checkbox':
+        elif var_html['type'] == 'checkbox':
             tmpl = func_gen_html.gen_checkbox_view(var_html)
-        if var_html['type'] == 'file':
+        elif var_html['type'] == 'file':
             tmpl = func_gen_html.gen_file_view(var_html)
+        else:
+            tmpl = ''
         view_widget_arr.append(tmpl)
     the_view_sig_str = __get_view_tmpl(tag_key)
     with open(view_file, 'w') as fileout:
@@ -131,16 +136,19 @@ def __gen_add_tmpl(tag_key, tag_list):
         html_sig = '_'.join(['html', sig])
         # var_html = eval('html_vars.' + html_sig)
         var_html = HTML_DICS[html_sig]
+
         if var_html['type'] in INPUT_ARR:
             tmpl = func_gen_html.gen_input_add(var_html)
-        if var_html['type'] == 'select':
+        elif var_html['type'] == 'select':
             tmpl = func_gen_html.gen_select_add(var_html)
-        if var_html['type'] == 'radio':
+        elif var_html['type'] == 'radio':
             tmpl = func_gen_html.gen_radio_add(var_html)
-        if var_html['type'] == 'checkbox':
+        elif var_html['type'] == 'checkbox':
             tmpl = func_gen_html.gen_checkbox_add(var_html)
-        if var_html['type'] == 'file':
+        elif var_html['type'] == 'file':
             tmpl = func_gen_html.gen_file_add(var_html)
+        else:
+            tmpl = ''
         add_widget_arr.append(tmpl)
     with open(add_file, 'w') as fileout:
         fileout.write(
@@ -221,12 +229,11 @@ def __gen_filter_tmpl(html_tpl):
             outfile = os.path.join(out_dir, 'list' + '_' + var_name.split('_')[1] + '.html')
             html_view_str_arr = []
             # tview_var = eval('dic_vars.' + var_name)
-            tview_var = bl_val
-            for x in tview_var:
+            for the_val in bl_val:
                 # sig = eval('html_vars.html_' + x)
-                sig = HTML_DICS['html_' + x]
+                sig = HTML_DICS['html_' + the_val]
                 if sig['type'] == 'select':
-                    html_view_str_arr.append(__gen_select_filter('html_' + x))
+                    html_view_str_arr.append(__gen_select_filter('html_' + the_val))
 
             with open(outfile, 'w') as outfileo:
                 outfileo.write(
@@ -263,12 +270,11 @@ def __gen_list_tmpl(html_tpl):
             outfile = os.path.join(out_dir, 'infolist' + '_' + var_name.split('_')[1] + '.html')
             html_view_str_arr = []
             # tview_var = eval('dic_vars.' + var_name)
-            tview_var = bl_val
             subdir = ''
-            for x in tview_var:
+            for the_val2 in bl_val:
                 # sig = eval('html_vars.html_' + x)
 
-                sig = HTML_DICS['html_' + x]
+                sig = HTML_DICS['html_' + the_val2]
                 if sig['type'] == 'select':
                     html_view_str_arr.append(func_gen_html.gen_select_list(sig))
                 elif sig['type'] == 'radio':
