@@ -50,7 +50,7 @@ class TabPost(BaseModel):
     cnt_html = peewee.TextField()
     kind = peewee.CharField(null=False, max_length=1,
                             default='1', help_text='Post type: 1 for doc, 2 for inor', )
-    # memo = peewee.CharField(null=False, default='', max_length=255, help_text='Memo', )
+    memo = peewee.TextField(null=False, default='', help_text='Memo', )
 
     if DB_CFG['kind'] == 'p':
         extinfo = BinaryJSONField(default={})
