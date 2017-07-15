@@ -296,7 +296,7 @@ class PostHandler(BaseHandler):
         :param signature:
         :return:
         '''
-        current_tag_infos = MPost2Label.get_by_uid(signature, kind=self.kind).naive()
+        current_tag_infos = MPost2Label.get_by_uid(signature).naive()
         post_data = self.get_post_data()
         if 'tags' in post_data:
             pass
@@ -329,7 +329,7 @@ class PostHandler(BaseHandler):
 
         post_data = self.get_post_data()
 
-        current_infos = MPost2Catalog.query_by_entity_uid(uid, kind=self.kind).naive()
+        current_infos = MPost2Catalog.query_by_entity_uid(uid, kind='').naive()
 
         new_category_arr = []
         # Used to update post2category, to keep order.
@@ -371,6 +371,7 @@ class PostHandler(BaseHandler):
 
         for index, catid in enumerate(new_category_arr):
             MPost2Catalog.add_record(uid, catid, index)
+
 
         # Delete the old category if not in post requests.
         for cur_info in current_infos:
@@ -448,7 +449,7 @@ class PostHandler(BaseHandler):
                     tag_infos=MCategory.query_all(by_order=True, kind=self.kind),
                     tag_infos2=MCategory.query_all(by_order=True, kind=self.kind),
                     app2tag_info=MPost2Catalog.query_by_entity_uid(infoid, kind=self.kind).naive(),
-                    app2label_info=MPost2Label.get_by_uid(infoid, kind=self.kind + '1').naive())
+                    app2label_info=MPost2Label.get_by_uid(infoid).naive())
 
     def _gen_last_current_relation(self, post_id):
         '''
