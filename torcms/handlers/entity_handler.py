@@ -144,10 +144,10 @@ class EntityHandler(BaseHandler):
         self.redirect('/entity/{0}_m.jpg'.format(sig_save))
 
     @tornado.web.authenticated
-    def add_pdf(self):
+    def add_pdf(self, post_data):
 
         img_entiry = self.request.files['file'][0]
-
+        img_desc = post_data['desc']
         filename = img_entiry["filename"]
 
         qian, hou = os.path.splitext(filename)
@@ -170,7 +170,7 @@ class EntityHandler(BaseHandler):
 
         sig_save = os.path.join(signature[:2], signature)
 
-        MEntity.create_entity(signature, sig_save, kind=2)
+        MEntity.create_entity(signature, sig_save, img_desc, kind=2)
 
         self.redirect('/entity/{0}{1}'.format(sig_save, hou.lower()))
 
