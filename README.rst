@@ -225,7 +225,7 @@ then run as follow:
 
 ::
 
-    nosetests3 -v -d --exe tester
+    nosetests -v -d --exe tester
 
 with ``coverage`` (install with:  ``pip3 install coverage`` ):
 

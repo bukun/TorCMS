@@ -38,13 +38,14 @@ class ShowPage(tornado.web.UIModule):
             'count': count
         }
         if page:
-            return self.render_string('modules/show_page.html',
-                                      unescape=tornado.escape.xhtml_unescape,
-                                      postinfo=page,
-                                      userinfo=userinfo,
-                                      kwd=kwd)
+            out_str = self.render_string('modules/show_page.html',
+                                         unescape=tornado.escape.xhtml_unescape,
+                                         postinfo=page,
+                                         userinfo=userinfo,
+                                         kwd=kwd)
         else:
-            return '<a href="/page/{0}">{0}</a>'.format(page_id)
+            out_str = '<a href="/page/{0}">{0}</a>'.format(page_id)
+        return out_str
 
 
 class PostLabels(tornado.web.UIModule):
@@ -432,14 +433,14 @@ class PostTags(tornado.web.UIModule):
         uid = args[0]
         kind = args[1]
         out_str = ''
-        ii = 1
+        idx = 1
         for tag_info in MPost2Catalog.query_by_entity_uid(uid, kind=kind).naive():
             tmp_str = '<a href="/category/{0}" class="tag{1}">{2}</a>'.format(
                 tag_info.tag_slug,
-                ii,
+                idx,
                 tag_info.tag_name)
             out_str += tmp_str
-            ii += 1
+            idx += 1
         return out_str
 
 
@@ -451,14 +452,14 @@ class MapTags(tornado.web.UIModule):
     def render(self, *args, **kwargs):
         uid = args[0]
         out_str = ''
-        ii = 1
+        idx = 1
         for tag_info in MPost2Catalog.query_by_entity_uid(uid, kind='m').naive():
             tmp_str = '<a href="/tag/{0}" class="tag{1}">{2}</a>'.format(
                 tag_info.tag_slug,
-                ii,
+                idx,
                 tag_info.tag_name)
             out_str += tmp_str
-            ii += 1
+            idx += 1
         return out_str
 
 
@@ -680,23 +681,23 @@ class EntityList(tornado.web.UIModule):
 
         current_page_number = 1 if current_page_number < 1 else current_page_number
         kwd = {
-               'current_page': current_page_number
+            'current_page': current_page_number
         }
 
-
-        recs=MEntity.get_by_kind( kind=kind, current_page_num=current_page_number)
+        # Todo
+        recs = MEntity.get_by_kind(kind=kind, current_page_num=current_page_number)
 
         return self.render_string('modules/post/entity_list.html',
                                   kwd=kwd,
                                   rec=recs)
+
+
 class EntityPager(tornado.web.UIModule):
     '''
     Pager for search result.
     '''
 
     def render(self, *args, **kwargs):
-
-
         current = int(args[0])
 
         page_num = int(MEntity.total_number() / config.CMS_CFG['list_num'])
@@ -711,4 +712,4 @@ class EntityPager(tornado.web.UIModule):
         return self.render_string('modules/post/entity_pager.html',
                                   kwd=kwd,
                                   pager_num=page_num,
-                                  page_current=current )
+                                  page_current=current)

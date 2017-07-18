@@ -45,7 +45,7 @@ def gen_input_edit(sig_dic):
     </label>
     <div class="col-sm-9">
     <input id='{sig_en}' name="{sig_en}"
-    value="{{{{ post_info.extinfo['{sig_en}'] if '{sig_en}' in post_info.extinfo else 0 }}}}"
+    value="{{{{ post_info.extinfo['{sig_en}'] if '{sig_en}' in post_info.extinfo else '' }}}}"
     type="{sig_type}"  class="form-control"> </div>
      <div class="col-sm-1">{sig_dic}</div>
      </div>

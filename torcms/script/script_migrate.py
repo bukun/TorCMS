@@ -14,7 +14,6 @@ def run_migrate(*args):
 
     torcms_migrator = migrate.PostgresqlMigrator(config.DB_CON)
 
-
     # try:
     #     migrate.migrate(
     #         torcms_migrator.rename_table('e_layout', 'mablayout')
@@ -25,6 +24,12 @@ def run_migrate(*args):
     memo_field = migrate.TextField(null=False, default='', help_text='Memo', )
     try:
         migrate.migrate(torcms_migrator.add_column('tabpost', 'memo', memo_field))
+    except:
+        pass
+
+    desc_field = migrate.CharField(null=False, default='', max_length=255, help_text='')
+    try:
+        migrate.migrate(torcms_migrator.add_column('tabentity', 'desc', desc_field))
     except:
         pass
 

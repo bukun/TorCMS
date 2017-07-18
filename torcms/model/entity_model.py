@@ -10,13 +10,16 @@ from torcms.model.abc_model import Mabc, MHelper
 from torcms.core.tools import logger
 from config import CMS_CFG
 
+
 class MEntity(Mabc):
     '''
     For file entities. Just like pdf, zipfile, docx, etc.
     '''
+
     @staticmethod
     def get_by_uid(uid):
         return MHelper.get_by_uid(TabEntity, uid)
+
     @staticmethod
     def query_all(limit=20):
         return TabEntity.select().limit(limit)
@@ -27,34 +30,41 @@ class MEntity(Mabc):
 
     @staticmethod
     def get_id_by_impath(path):
+        '''
+        The the entity id by the path.
+        :param path: 
+        :return: 
+        '''
         logger.info('Get Entiry, Path: {0}'.format(path))
 
         entity_list = TabEntity.select().where(TabEntity.path == path)
+        out_val = False
         if entity_list.count() == 1:
-            return entity_list.get().uid
+            out_val = entity_list.get().uid
         elif entity_list.count() > 1:
             for rec in entity_list:
                 MEntity.delete(rec.uid)
-            return False
+            out_val = True
         else:
-            return False
+            pass
+        return out_val
 
     @staticmethod
-    def create_entity(signature, impath, img_desc, kind='1'):
+    def create_entity(signature, enti_path, img_desc='', kind='1'):
         '''
         create entity record in the database.
         :param signature:
-        :param impath:
+        :param enti_path:
         :param kind:
         :return:
         '''
-        if len(impath) == 0:
+        if enti_path:
             return False
 
         try:
             TabEntity.create(
                 uid=signature,
-                path=impath,
+                path=enti_path,
                 desc=img_desc,
                 time_create=time.time(),
                 kind=kind

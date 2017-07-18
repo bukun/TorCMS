@@ -6,7 +6,7 @@ from torcms.handlers.category_handler import CategoryHandler, TagListHandler
 from torcms.handlers.collect_handler import CollectHandler
 from torcms.handlers.entity_handler import EntityHandler
 from torcms.handlers.evaluation_handler import EvaluationHandler
-from torcms.handlers.filter_handler import FilterHandler
+from torcms.handlers.filter_handler import FilterHandler, ListHandler
 from torcms.handlers.index import IndexHandler
 from torcms.handlers.label_handler import LabelHandler, InfoTagHandler
 from torcms.handlers.leaf_handler import LeafHandler
@@ -83,7 +83,7 @@ urls = [
     # ("/maintain/claslitecategory/(.*)", MaintainPycateCategoryHandler, dict()),
 
     ("/filter/(.*)", FilterHandler, dict()),
-    ("/list/(.*)", FilterHandler, dict()),  # Deprecated, replaed by `/filter` .
+    ("/list/(.*)", ListHandler, dict()),  # Deprecated, replaed by `/filter` .
 
     ("/publish/(.*)", PublishHandler, dict()),
 

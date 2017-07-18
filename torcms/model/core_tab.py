@@ -76,6 +76,9 @@ class TabWiki(BaseModel):
 
 
 class TabPostHist(BaseModel):
+    '''
+    Table for post history.
+    '''
     uid = peewee.CharField(null=False, index=True, unique=True,
                            help_text='', primary_key=True, max_length=36)
     title = peewee.CharField(null=False, max_length=255, help_text='', )
@@ -87,6 +90,9 @@ class TabPostHist(BaseModel):
 
 
 class TabWikiHist(BaseModel):
+    '''
+    Table for wiki history.
+    '''
     uid = peewee.CharField(null=False, index=True, unique=True,
                            help_text='', primary_key=True, max_length=36)
     title = peewee.CharField(null=False, max_length=255, help_text='', )
@@ -130,11 +136,14 @@ class TabMember(BaseModel):
 
 
 class TabEntity(BaseModel):
+    '''
+    Table to store the entity information.
+    '''
     uid = peewee.CharField(null=False, index=True,
                            unique=True, primary_key=True, max_length=36, )
     path = peewee.CharField(null=False, unique=True,
                             max_length=255, help_text='', )
-    desc = peewee.CharField(max_length=255, help_text='', )
+    desc = peewee.CharField(null=False, default='', max_length=255, help_text='')
     time_create = peewee.IntegerField()
     kind = peewee.CharField(null=False,
                             max_length=1,
@@ -143,6 +152,9 @@ class TabEntity(BaseModel):
 
 
 class TabPost2Tag(BaseModel):
+    '''
+    Table of tag to the post.
+    '''
     uid = peewee.CharField(null=False, index=True, unique=True,
                            primary_key=True, max_length=36, help_text='', )
     tag_id = peewee.CharField(null=False, max_length=4, help_text='', )
@@ -151,6 +163,9 @@ class TabPost2Tag(BaseModel):
 
 
 class TabReply(BaseModel):
+    '''
+    Table of the reply to the post.
+    '''
     uid = peewee.CharField(null=False, index=True, unique=True,
                            primary_key=True, max_length=36, help_text='', )
     post_id = peewee.CharField(null=False, index=True, max_length=5, help_text='', )
@@ -164,6 +179,10 @@ class TabReply(BaseModel):
 
 
 class TabUser2Reply(BaseModel):
+    '''
+    Table of the reply of the user.
+    '''
+
     uid = peewee.CharField(null=False, index=True, unique=True,
                            primary_key=True, max_length=36, help_text='', )
     reply_id = peewee.CharField(null=False, index=True, max_length=36, help_text='', )
@@ -225,7 +244,11 @@ class TabRel(BaseModel):
     post_t_id = peewee.CharField(null=False, max_length=5, help_text='', )
     count = peewee.IntegerField()
 
-class TabEntityDownload(BaseModel):
+
+class TabEntity2User(BaseModel):
+    '''
+    The table for the entity to user.
+    '''
     uid = peewee.CharField(null=False, index=True,
                            unique=True, primary_key=True, max_length=36, )
     entity_id = peewee.CharField(null=False, max_length=5, help_text='', )
