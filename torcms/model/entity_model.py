@@ -14,7 +14,9 @@ class MEntity(Mabc):
     '''
     For file entities. Just like pdf, zipfile, docx, etc.
     '''
-
+    @staticmethod
+    def get_by_uid(uid):
+        return MHelper.get_by_uid(TabEntity, uid)
     @staticmethod
     def query_all(limit=20):
         return TabEntity.select().limit(limit)

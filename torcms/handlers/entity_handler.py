@@ -8,7 +8,7 @@ import tornado.web
 import config
 from torcms.core.base_handler import BaseHandler
 from torcms.model.entity_model import MEntity
-
+from torcms.core import tools
 from PIL import Image
 
 tmpl_size = (768, 768)
@@ -92,6 +92,8 @@ class EntityHandler(BaseHandler):
                 self.add_pic(post_data)
             elif post_data['kind'] == '2':
                 self.add_pdf(post_data)
+            elif post_data['kind'] == '3':
+                self.add_url(post_data)
             else:
                 pass
         else:
@@ -173,6 +175,17 @@ class EntityHandler(BaseHandler):
         MEntity.create_entity(signature, sig_save, img_desc, kind=2)
 
         self.redirect('/entity/{0}{1}'.format(sig_save, hou.lower()))
+    @tornado.web.authenticated
+    def add_url(self, post_data):
+
+        img_desc = post_data['desc']
+        img_path = post_data['file1']
+        cur_uid = tools.get_uudd(4)
+        while MEntity.get_by_uid(cur_uid):
+            cur_uid = tools.get_uudd(4)
+        MEntity.create_entity(cur_uid, img_path, img_desc, kind=3)
+
+        self.redirect('/entity/'.format(img_path))
 
     @tornado.web.authenticated
     def view(self, outfilename):
