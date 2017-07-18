@@ -17,6 +17,7 @@ from torcms.model.wiki_model import MWiki
 from torcms.model.collect_model import MCollect
 from torcms.core.tool.whoosh_tool import YunSearch
 from torcms.core.tools import logger
+from torcms.model.entity_model import MEntity
 import config
 
 
@@ -664,3 +665,14 @@ class AppTitle(tornado.web.UIModule):
         uid = args[0]
         rec = MPost.get_by_uid(uid=uid)
         return rec.title if rec else None
+
+
+class EntityList(tornado.web.UIModule):
+    '''
+    search widget. Simple searching. searching for all.
+    '''
+
+    def render(self, kind):
+        recs = MEntity.get_by_kind(kind=kind)
+        return self.render_string('modules/post/entity_list.html',
+                                  rec=recs)

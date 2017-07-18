@@ -20,6 +20,10 @@ class MEntity(Mabc):
         return TabEntity.select().limit(limit)
 
     @staticmethod
+    def get_by_kind(kind=1):
+        return TabEntity.select().where(TabEntity.kind == kind)
+
+    @staticmethod
     def get_id_by_impath(path):
         logger.info('Get Entiry, Path: {0}'.format(path))
 
@@ -34,7 +38,7 @@ class MEntity(Mabc):
             return False
 
     @staticmethod
-    def create_entity(signature, impath, kind='1'):
+    def create_entity(signature, impath, img_desc, kind='1'):
         '''
         create entity record in the database.
         :param signature:
@@ -49,6 +53,7 @@ class MEntity(Mabc):
             TabEntity.create(
                 uid=signature,
                 path=impath,
+                desc=img_desc,
                 time_create=time.time(),
                 kind=kind
             )

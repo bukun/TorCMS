@@ -45,6 +45,7 @@ core_modules = {
     'Topline': base_modules.ToplineModule,
 
     'torcms_copyright': base_modules.CopyRight,
+    'entity_list': base_modules.EntityList,
 
     # widget
     'reply_panel': widget_modules.ReplyPanel,

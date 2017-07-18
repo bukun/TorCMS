@@ -79,17 +79,18 @@ class EntityHandler(BaseHandler):
 
         if 'kind' in post_data:
             if post_data['kind'] == '1':
-                self.add_pic()
+                self.add_pic(post_data)
             elif post_data['kind'] == '2':
-                self.add_pdf()
+                self.add_pdf(post_data)
             else:
                 pass
         else:
             self.add_pic()
 
     @tornado.web.authenticated
-    def add_pic(self):
+    def add_pic(self, post_data):
         img_entiry = self.request.files['file'][0]
+        img_desc = post_data['desc']
 
         filename = img_entiry["filename"]
 
@@ -128,17 +129,17 @@ class EntityHandler(BaseHandler):
         im0.thumbnail(thub_size)
         im0.save(imgpath_sm, 'JPEG')
 
-        MEntity.create_entity(signature, sig_save)
+        MEntity.create_entity(signature, sig_save, img_desc, kind=1)
 
         self.redirect('/entity/{0}_m.jpg'.format(sig_save))
 
     @tornado.web.authenticated
-    def add_pdf(self):
+    def add_pdf(self, post_data):
 
         img_entiry = self.request.files['file'][0]
 
         filename = img_entiry["filename"]
-
+        img_desc = post_data['desc']
         qian, hou = os.path.splitext(filename)
 
         if filename and allowed_file_pdf(filename):
@@ -159,7 +160,7 @@ class EntityHandler(BaseHandler):
 
         sig_save = os.path.join(signature[:2], signature)
 
-        MEntity.create_entity(signature, sig_save)
+        MEntity.create_entity(signature, sig_save, img_desc, kind=2)
 
         self.redirect('/entity/{0}{1}'.format(sig_save, hou.lower()))
 

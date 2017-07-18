@@ -134,6 +134,7 @@ class TabEntity(BaseModel):
                            unique=True, primary_key=True, max_length=36, )
     path = peewee.CharField(null=False, unique=True,
                             max_length=255, help_text='', )
+    desc = peewee.CharField(max_length=255, help_text='', )
     time_create = peewee.IntegerField()
     kind = peewee.CharField(null=False,
                             max_length=1,
