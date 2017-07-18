@@ -16,7 +16,7 @@ thub_size = (256, 256)
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
-ALLOWED_EXTENSIONS_PDF = set(['pdf', 'doc', 'docx', 'zip', 'rar'])
+ALLOWED_EXTENSIONS_PDF = set(['pdf', 'doc', 'docx', 'zip', 'rar', 'ppt'])
 
 
 def allowed_file(filename):
