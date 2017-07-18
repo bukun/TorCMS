@@ -8,7 +8,7 @@ import time
 from torcms.model.core_tab import TabEntity
 from torcms.model.abc_model import Mabc, MHelper
 from torcms.core.tools import logger
-
+from config import CMS_CFG
 
 class MEntity(Mabc):
     '''
@@ -20,8 +20,8 @@ class MEntity(Mabc):
         return TabEntity.select().limit(limit)
 
     @staticmethod
-    def get_by_kind(kind=1):
-        return TabEntity.select().where(TabEntity.kind == kind)
+    def get_by_kind(current_page_num=1):
+        return TabEntity.select().paginate(current_page_num, CMS_CFG['list_num'])
 
     @staticmethod
     def get_id_by_impath(path):
@@ -64,3 +64,7 @@ class MEntity(Mabc):
     @staticmethod
     def delete(uid):
         return MHelper.delete(TabEntity, uid)
+
+    @staticmethod
+    def total_number():
+        return TabEntity.select().count()

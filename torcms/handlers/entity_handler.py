@@ -40,6 +40,8 @@ class EntityHandler(BaseHandler):
             self.list()
         elif len(url_str) > 36:
             self.view(url_str)
+        elif len(url_arr) == 1:
+            self.list(url_arr[0])
         else:
             self.render('misc/html/404.html', kwd={}, userinfo=self.userinfo)
 
@@ -51,11 +53,19 @@ class EntityHandler(BaseHandler):
             self.render('misc/html/404.html', kwd={}, userinfo=self.userinfo)
 
     @tornado.web.authenticated
-    def list(self):
-        recs = MEntity.query_all(limit=16)
+    def list(self, cur_p = '1'):
+
+        if cur_p == '':
+            current_page_number = 1
+        else:
+            current_page_number = int(cur_p)
+
+        current_page_number = 1 if current_page_number < 1 else current_page_number
         kwd = {
-            'pager': '',
+               'current_page': current_page_number,
+                'pager': ''
         }
+        recs = MEntity.get_by_kind( current_page_num=current_page_number)
         self.render('misc/entity/entity_list.html',
                     imgs=recs,
                     cfg=config.CMS_CFG,
@@ -134,12 +144,12 @@ class EntityHandler(BaseHandler):
         self.redirect('/entity/{0}_m.jpg'.format(sig_save))
 
     @tornado.web.authenticated
-    def add_pdf(self, post_data):
+    def add_pdf(self):
 
         img_entiry = self.request.files['file'][0]
 
         filename = img_entiry["filename"]
-        img_desc = post_data['desc']
+
         qian, hou = os.path.splitext(filename)
 
         if filename and allowed_file_pdf(filename):
@@ -160,7 +170,7 @@ class EntityHandler(BaseHandler):
 
         sig_save = os.path.join(signature[:2], signature)
 
-        MEntity.create_entity(signature, sig_save, img_desc, kind=2)
+        MEntity.create_entity(signature, sig_save, kind=2)
 
         self.redirect('/entity/{0}{1}'.format(sig_save, hou.lower()))
 

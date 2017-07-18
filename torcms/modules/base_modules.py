@@ -672,7 +672,43 @@ class EntityList(tornado.web.UIModule):
     search widget. Simple searching. searching for all.
     '''
 
-    def render(self, kind):
-        recs = MEntity.get_by_kind(kind=kind)
+    def render(self, kind, cur_p=''):
+        if cur_p == '':
+            current_page_number = 1
+        else:
+            current_page_number = int(cur_p)
+
+        current_page_number = 1 if current_page_number < 1 else current_page_number
+        kwd = {
+               'current_page': current_page_number
+        }
+
+
+        recs=MEntity.get_by_kind( kind=kind, current_page_num=current_page_number)
+
         return self.render_string('modules/post/entity_list.html',
+                                  kwd=kwd,
                                   rec=recs)
+class EntityPager(tornado.web.UIModule):
+    '''
+    Pager for search result.
+    '''
+
+    def render(self, *args, **kwargs):
+
+
+        current = int(args[0])
+
+        page_num = int(MEntity.total_number() / config.CMS_CFG['list_num'])
+
+        kwd = {
+            'page_home': False if current <= 1 else True,
+            'page_end': False if current >= page_num else True,
+            'page_pre': False if current <= 1 else True,
+            'page_next': False if current >= page_num else True,
+        }
+
+        return self.render_string('modules/post/entity_pager.html',
+                                  kwd=kwd,
+                                  pager_num=page_num,
+                                  page_current=current )
