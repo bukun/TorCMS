@@ -201,13 +201,22 @@ class EntityHandler(BaseHandler):
         while MEntity.get_by_uid(cur_uid):
             cur_uid = tools.get_uudd(4)
         MEntity.create_entity(cur_uid, img_path, img_desc, kind=3)
-        # Todo
-        self.redirect('/entity/'.format(img_path))
+        kwd = {
+            'kind': '3',
+
+        }
+        # Todo (已改好)
+        self.render('misc/entity/entity_view.html',
+                    filename=img_path,
+                    cfg=config.CMS_CFG,
+                    kwd=kwd,
+                    userinfo=self.userinfo)
 
     @tornado.web.authenticated
     def view(self, outfilename):
         kwd = {
             'pager': '',
+            'kind':''
 
         }
         self.render('misc/entity/entity_view.html',
