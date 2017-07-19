@@ -18,9 +18,9 @@ from config import CMS_CFG
 # TMPL_SIZE = (768, 768)
 # THUMBNAIL_SIZE = (256, 256)
 
-ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif']
+ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif', 'tif', 'bmp']
 
-ALLOWED_EXTENSIONS_PDF = ['pdf', 'doc', 'docx', 'zip', 'rar', 'ppt']
+ALLOWED_EXTENSIONS_PDF = ['pdf', 'doc', 'docx', 'zip', 'rar', 'ppt', '7z', 'xlsx']
 
 
 def allowed_file(filename):
@@ -153,7 +153,7 @@ class EntityHandler(BaseHandler):
         im0.save(imgpath_sm, 'JPEG')
 
         MEntity.create_entity(signature,
-                              sig_save,
+                              path_save,
                               post_data['desc'] if 'desc' in post_data else '',
                               kind=1)
 
@@ -186,7 +186,7 @@ class EntityHandler(BaseHandler):
 
         sig_save = os.path.join(signature[:2], signature)
 
-        MEntity.create_entity(signature, sig_save, img_desc, kind=2)
+        MEntity.create_entity(signature, outfilename, img_desc, kind=2)
 
         self.redirect('/entity/{0}{1}'.format(sig_save, hou.lower()))
 
