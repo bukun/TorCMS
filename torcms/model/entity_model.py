@@ -25,7 +25,11 @@ class MEntity(Mabc):
         return TabEntity.select().limit(limit)
 
     @staticmethod
-    def get_by_kind(current_page_num=1):
+    def get_by_kind(kind=1, current_page_num=1):
+        return TabEntity.select().where(TabEntity.kind == kind).paginate(current_page_num, CMS_CFG['list_num'])
+
+    @staticmethod
+    def get_all_pager(current_page_num=1):
         return TabEntity.select().paginate(current_page_num, CMS_CFG['list_num'])
 
     @staticmethod

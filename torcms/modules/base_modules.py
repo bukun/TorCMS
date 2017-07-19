@@ -684,7 +684,7 @@ class EntityList(tornado.web.UIModule):
             'current_page': current_page_number
         }
 
-        # Todo
+        # Todo （ 已经改好 ）
         recs = MEntity.get_by_kind(kind=kind, current_page_num=current_page_number)
 
         return self.render_string('modules/post/entity_list.html',

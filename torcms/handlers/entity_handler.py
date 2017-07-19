@@ -14,7 +14,7 @@ from torcms.core.base_handler import BaseHandler
 from torcms.model.entity_model import MEntity
 from torcms.core import tools
 from PIL import Image
-
+from config import CMS_CFG
 # TMPL_SIZE = (768, 768)
 # THUMBNAIL_SIZE = (256, 256)
 
@@ -63,7 +63,7 @@ class EntityHandler(BaseHandler):
             self.render('misc/html/404.html', kwd={}, userinfo=self.userinfo)
 
     @tornado.web.authenticated
-    def list(self, cur_p='1'):
+    def list(self, cur_p=''):
 
         if cur_p == '':
             current_page_number = 1
@@ -71,11 +71,11 @@ class EntityHandler(BaseHandler):
             current_page_number = int(cur_p)
 
         current_page_number = 1 if current_page_number < 1 else current_page_number
+
         kwd = {
-            'current_page': current_page_number,
-            'pager': ''
+            'current_page': current_page_number
         }
-        recs = MEntity.get_by_kind(current_page_num=current_page_number)
+        recs = MEntity.get_all_pager(current_page_num=current_page_number)
         self.render('misc/entity/entity_list.html',
                     imgs=recs,
                     cfg=config.CMS_CFG,
@@ -114,8 +114,8 @@ class EntityHandler(BaseHandler):
         '''
         Adding the picture.
         '''
-        img_entiry = self.request.files['file'][0]
-        filename = img_entiry["filename"]
+        img_entity = self.request.files['file'][0]
+        filename = img_entity["filename"]
 
         if filename and allowed_file(filename):
             pass
@@ -131,7 +131,7 @@ class EntityHandler(BaseHandler):
         else:
             os.makedirs(outpath)
         with open(os.path.join(outpath, outfilename), "wb") as fileout:
-            fileout.write(img_entiry["body"])
+            fileout.write(img_entity["body"])
         path_save = os.path.join(signature[:2], outfilename)
         sig_save = os.path.join(signature[:2], signature)
 
@@ -162,9 +162,9 @@ class EntityHandler(BaseHandler):
     @tornado.web.authenticated
     def add_pdf(self, post_data):
 
-        img_entiry = self.request.files['file'][0]
+        img_entity = self.request.files['file'][0]
         img_desc = post_data['desc']
-        filename = img_entiry["filename"]
+        filename = img_entity["filename"]
 
         # qian, hou = os.path.splitext(filename)
 
@@ -182,7 +182,7 @@ class EntityHandler(BaseHandler):
         else:
             os.makedirs(outpath)
         with open(os.path.join(outpath, outfilename), "wb") as fout:
-            fout.write(img_entiry["body"])
+            fout.write(img_entity["body"])
 
         sig_save = os.path.join(signature[:2], signature)
 
