@@ -185,8 +185,8 @@ class EntityHandler(BaseHandler):
             fout.write(img_entity["body"])
 
         sig_save = os.path.join(signature[:2], signature)
-
-        MEntity.create_entity(signature, outfilename, img_desc, kind=2)
+        path_save = os.path.join(signature[:2], outfilename)
+        MEntity.create_entity(signature, path_save, img_desc, kind=2)
 
         self.redirect('/entity/{0}{1}'.format(sig_save, hou.lower()))
 
