@@ -62,7 +62,10 @@ class MEntity(Mabc):
         :param kind:
         :return:
         '''
+
         if enti_path:
+            pass
+        else:
             return False
 
         try:
