@@ -26,10 +26,6 @@ class MEntity2User(Mabc):
         return TabEntity2User.select().limit(limit)
 
     @staticmethod
-    def get_by_kind(kind=1, current_page_num=1):
-        return TabEntity2User.select().where(TabEntity2User.kind == kind).paginate(current_page_num, CMS_CFG['list_num'])
-
-    @staticmethod
     def get_all_pager(current_page_num=1):
         return TabEntity2User.select().paginate(current_page_num, CMS_CFG['list_num'])
 
@@ -67,9 +63,7 @@ class MEntity2User(Mabc):
             )
 
 
-    @staticmethod
-    def delete(uid):
-        return MHelper.delete(TabEntity2User, uid)
+
 
     @staticmethod
     def total_number():

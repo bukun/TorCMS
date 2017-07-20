@@ -28,6 +28,7 @@ from torcms.handlers.user_handler import UserHandler, UserPartialHandler
 from torcms.handlers.user_info_list_handler import UserListHandler
 from torcms.handlers.wiki_handler import WikiHandler
 from torcms.handlers.wiki_history_manager import WikiHistoryHandler
+from torcms.handlers.entity2user_handler import Entity2UserHandler
 
 
 urls = [
@@ -42,6 +43,7 @@ urls = [
     ("/admin/(.*)", AdminHandler, dict()),
     ("/entry/(.*)", EntityHandler, dict()),
     ("/entity/(.*)", EntityHandler, dict()),
+    ("/entity_download/(.*)", Entity2UserHandler, dict()),
 
     ("/label/(.*)", LabelHandler, dict()),
     # ("/catalog/(.*)", CatalogHandler, dict(order=True)),

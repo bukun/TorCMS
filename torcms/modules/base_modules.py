@@ -18,6 +18,7 @@ from torcms.model.collect_model import MCollect
 from torcms.core.tool.whoosh_tool import YunSearch
 from torcms.core.tools import logger
 from torcms.model.entity_model import MEntity
+from torcms.model.entity2user_model import MEntity2User
 import config
 
 
@@ -717,6 +718,29 @@ class EntityPager(tornado.web.UIModule):
         }
 
         return self.render_string('modules/post/entity_pager.html',
+                                  kwd=kwd,
+                                  pager_num=page_num,
+                                  page_current=current)
+
+class Entity2UserPager(tornado.web.UIModule):
+    '''
+    Pager for search result.
+    '''
+
+    def render(self, *args, **kwargs):
+        current = int(args[0])
+
+        pager_count = int(MEntity2User.total_number() / config.CMS_CFG['list_num'])
+        page_num = (pager_count if abs(pager_count - MEntity2User.total_number() / config.CMS_CFG['list_num']) < 0.1
+                    else pager_count + 1)
+        kwd = {
+            'page_home': False if current <= 1 else True,
+            'page_end': False if current >= page_num else True,
+            'page_pre': False if current <= 1 else True,
+            'page_next': False if current >= page_num else True,
+        }
+
+        return self.render_string('modules/post/entity_download_pager.html',
                                   kwd=kwd,
                                   pager_num=page_num,
                                   page_current=current)
