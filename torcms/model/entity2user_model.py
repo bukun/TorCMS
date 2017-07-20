@@ -44,22 +44,18 @@ class MEntity2User(Mabc):
     @staticmethod
     def create_entity2user(enti_uid, user_id):
         '''
-        create entity record in the database.
-        :param signature:
-        :param enti_path:
-        :param kind:
+        create entity2user record in the database.
+        :param entity_id:
+        :param user_id:
+        :param count:
         :return:
         '''
         record = TabEntity2User.select().where(
             (TabEntity2User.entity_id == enti_uid) & (TabEntity2User.user_id == user_id)
         )
 
-
         if record.count() > 0:
             record = record.get()
-            print("*" * 50)
-            print(record.count)
-            print("*" * 50)
             MEntity2User.count_increate(record.uid, record.count)
         else:
             TabEntity2User.create(
