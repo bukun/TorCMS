@@ -251,7 +251,7 @@ class TabEntity2User(BaseModel):
     '''
     uid = peewee.CharField(null=False, index=True,
                            unique=True, primary_key=True, max_length=36, )
-    entity_id = peewee.CharField(null=False, max_length=5, help_text='', )
+    entity_id = peewee.CharField(null=False, max_length=36, help_text='', )
     user_id = peewee.CharField(null=False, index=True, max_length=36, help_text='', )
     count = peewee.IntegerField(default=0)
     timestamp = peewee.IntegerField(null=False)

@@ -12,8 +12,11 @@ import tornado.web
 import config
 from torcms.core.base_handler import BaseHandler
 from torcms.model.entity_model import MEntity
+from torcms.model.entity2user_model import MEntity2User
+from torcms.model.post_model import MPost
 from torcms.core import tools
 from PIL import Image
+import requests
 from config import CMS_CFG
 # TMPL_SIZE = (768, 768)
 # THUMBNAIL_SIZE = (256, 256)
@@ -47,6 +50,8 @@ class EntityHandler(BaseHandler):
             self.to_add()
         elif url_str == 'list' or url_str == '':
             self.list()
+        elif url_arr[0] == 'down':
+            self.down(url_arr[1])
         elif len(url_str) > 36:
             self.view(url_str)
         elif len(url_arr) == 1:
@@ -81,6 +86,23 @@ class EntityHandler(BaseHandler):
                     cfg=config.CMS_CFG,
                     kwd=kwd,
                     userinfo=self.userinfo)
+    @tornado.web.authenticated
+    def down(self, down_uid):
+        mpost=MPost.get_by_uid(down_uid)
+
+        url = str(mpost.logo)[15:]
+
+        ment_id = MEntity.get_id_by_impath(url)
+        MEntity2User.create_entity2user(ment_id, self.userinfo.uid)
+        # r = requests.get("http://10.6.2.101:8179" + url)
+        # print("*" * 50)
+        # print(r)
+        # print("*" * 50)
+        # with open("drr.pdf", "wb") as code:
+        #     code.write(r.content)
+
+
+
 
     @tornado.web.authenticated
     def to_add(self):
