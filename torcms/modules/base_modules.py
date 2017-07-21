@@ -19,6 +19,7 @@ from torcms.core.tool.whoosh_tool import YunSearch
 from torcms.core.tools import logger
 from torcms.model.entity_model import MEntity
 from torcms.model.entity2user_model import MEntity2User
+from torcms.model.user_model import MUser
 import config
 
 
@@ -591,8 +592,9 @@ class LabelPager(tornado.web.UIModule):
         current = int(args[2])
 
         pager_count = int(MPost2Label.total_number(tag_slug, kind) / config.CMS_CFG['list_num'])
-        page_num = (pager_count if abs(pager_count - MPost2Label.total_number(tag_slug, kind) / config.CMS_CFG['list_num']) < 0.1
-                    else pager_count + 1)
+        page_num = (
+        pager_count if abs(pager_count - MPost2Label.total_number(tag_slug, kind) / config.CMS_CFG['list_num']) < 0.1
+        else pager_count + 1)
         kwd = {
             'page_home': False if current <= 1 else True,
             'page_end': False if current >= page_num else True,
@@ -722,6 +724,7 @@ class EntityPager(tornado.web.UIModule):
                                   pager_num=page_num,
                                   page_current=current)
 
+
 class Entity2UserPager(tornado.web.UIModule):
     '''
     Pager for search result.
@@ -744,3 +747,27 @@ class Entity2UserPager(tornado.web.UIModule):
                                   kwd=kwd,
                                   pager_num=page_num,
                                   page_current=current)
+
+
+class Entity_path(tornado.web.UIModule):
+    '''
+    Pager for search result.
+    '''
+
+    def render(self, enti_id):
+        rec = MEntity.get_by_uid(enti_id)
+
+        return self.render_string('modules/post/entity_path.html',
+                                  rec=rec)
+
+
+class User_name(tornado.web.UIModule):
+    '''
+    Pager for search result.
+    '''
+
+    def render(self, user_id):
+        rec = MUser.get_by_uid(user_id)
+
+        return self.render_string('modules/post/user_name.html',
+                                  rec=rec)
