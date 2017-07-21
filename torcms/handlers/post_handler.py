@@ -707,7 +707,7 @@ class PostHandler(BaseHandler):
             post_data['valid'] = postinfo.valid
 
         ext_dic['def_uid'] = str(uid)
-
+        download_url = ext_dic['tag_file_download'] if 'tag_file_download' in ext_dic else ''
         cnt_old = tornado.escape.xhtml_unescape(postinfo.cnt_md).strip()
         cnt_new = post_data['cnt_md'].strip()
         if cnt_old == cnt_new:
@@ -716,7 +716,10 @@ class PostHandler(BaseHandler):
             MPostHist.create_post_history(postinfo)
 
         MPost.modify_meta(uid, post_data, extinfo=ext_dic)
-
+        if download_url:
+            MEntity.create_entity(uid, download_url, download_url, kind=3)
+        else:
+            pass
         self.update_tag(uid=uid)
 
         logger.info('post kind:' + self.kind)
