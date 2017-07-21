@@ -30,7 +30,6 @@ from torcms.handlers.wiki_handler import WikiHandler
 from torcms.handlers.wiki_history_manager import WikiHistoryHandler
 from torcms.handlers.entity2user_handler import Entity2UserHandler
 
-
 urls = [
 
     ('/_rating/(.*)', RatingHandler, dict()),

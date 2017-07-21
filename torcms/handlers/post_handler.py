@@ -22,6 +22,7 @@ from torcms.model.post_model import MPost
 from torcms.model.relation_model import MRelation
 from torcms.model.evaluation_model import MEvaluation
 from torcms.model.usage_model import MUsage
+from torcms.model.entity_model import MEntity
 from config import router_post
 
 
@@ -663,11 +664,16 @@ class PostHandler(BaseHandler):
             post_data['valid'] = 1
 
         ext_dic['def_uid'] = uid
+        download_url = ext_dic['tag_file_download'] if 'tag_file_download' in ext_dic else ''
 
         MPost.modify_meta(ext_dic['def_uid'],
                           post_data,
                           extinfo=ext_dic)
         kwargs.pop('uid', None)  # delete `uid` if exists in kwargs
+        if download_url:
+            MEntity.create_entity(uid, download_url, download_url, kind=3)
+        else:
+            pass
         self.update_tag(uid=ext_dic['def_uid'], **kwargs)
 
         # cele_gen_whoosh.delay()

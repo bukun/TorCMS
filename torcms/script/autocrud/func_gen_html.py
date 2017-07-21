@@ -12,23 +12,42 @@ def gen_input_add(sig_dic):
     :param sig_dic:
     :return:
     '''
-    return '''
+    if sig_dic['en'] == 'tag_file_download':
+        return '''
     <div class="form-group">
-    <label class="col-sm-2 control-label" for="{sig_en}">
-    <span><a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
-    </a>{sig_zh}</span>
-    </label>
-    <div class="col-sm-9">
-    <input id='{sig_en}' name="{sig_en}" value="" type="{sig_type}" 
-    class="form-control">
-     </div>
-     <div class="col-sm-1">
-     {sig_dic}
-    </div></div>    
-    '''.format(sig_en=sig_dic['en'],
-               sig_zh=sig_dic['zh'],
-               sig_dic=sig_dic['dic'][1],
-               sig_type=sig_dic['type'])
+        <label class="col-sm-2 control-label" for="{sig_en}">
+        <span><a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
+        </a>{sig_zh}</span>
+        </label>
+        <div class="col-sm-8">
+        <input id='{sig_en}' name="{sig_en}" value="" type="{sig_type}"
+        class="form-control">
+         </div>
+         <div class="col-sm-2">
+         <a href="/entry/add" target="_blank" class="btn btn-primary" role="button">Upload</a>
+        </div></div>
+        '''.format(sig_en=sig_dic['en'],
+                   sig_zh=sig_dic['zh'],
+                   sig_dic=sig_dic['dic'][1],
+                   sig_type=sig_dic['type'])
+    else:
+        return '''
+        <div class="form-group">
+        <label class="col-sm-2 control-label" for="{sig_en}">
+        <span><a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
+        </a>{sig_zh}</span>
+        </label>
+        <div class="col-sm-9">
+        <input id='{sig_en}' name="{sig_en}" value="" type="{sig_type}"
+        class="form-control">
+         </div>
+         <div class="col-sm-1">
+         {sig_dic}
+        </div></div>
+        '''.format(sig_en=sig_dic['en'],
+                   sig_zh=sig_dic['zh'],
+                   sig_dic=sig_dic['dic'][1],
+                   sig_type=sig_dic['type'])
 
 
 def gen_input_edit(sig_dic):
@@ -37,22 +56,40 @@ def gen_input_edit(sig_dic):
     :param sig_dic:
     :return:
     '''
-    return '''
+    if sig_dic['en'] == 'tag_file_download':
+        return '''
     <div class="form-group">
-    <label  class="col-sm-2 control-label"  for="{sig_en}">
-    <span><a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
-    </a>{sig_zh}</span>
-    </label>
-    <div class="col-sm-9">
-    <input id='{sig_en}' name="{sig_en}"
-    value="{{{{ post_info.extinfo['{sig_en}'] if '{sig_en}' in post_info.extinfo else '' }}}}"
-    type="{sig_type}"  class="form-control"> </div>
-     <div class="col-sm-1">{sig_dic}</div>
-     </div>
-    '''.format(sig_en=sig_dic['en'],
-               sig_zh=sig_dic['zh'],
-               sig_dic=sig_dic['dic'][1],
-               sig_type=sig_dic['type'])
+        <label  class="col-sm-2 control-label"  for="{sig_en}">
+        <span><a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
+        </a>{sig_zh}</span>
+        </label>
+        <div class="col-sm-8">
+        <input id='{sig_en}' name="{sig_en}"
+        value="{{{{ post_info.extinfo['{sig_en}'] if '{sig_en}' in post_info.extinfo else '' }}}}"
+        type="{sig_type}"  class="form-control"> </div>
+         <div class="col-sm-2"><a href="/entry/add" target="_blank" class="btn btn-primary" role="button">Upload</a></div>
+         </div>
+        '''.format(sig_en=sig_dic['en'],
+                   sig_zh=sig_dic['zh'],
+                   sig_dic=sig_dic['dic'][1],
+                   sig_type=sig_dic['type'])
+    else:
+        return '''
+        <div class="form-group">
+        <label  class="col-sm-2 control-label"  for="{sig_en}">
+        <span><a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
+        </a>{sig_zh}</span>
+        </label>
+        <div class="col-sm-9">
+        <input id='{sig_en}' name="{sig_en}"
+        value="{{{{ post_info.extinfo['{sig_en}'] if '{sig_en}' in post_info.extinfo else '' }}}}"
+        type="{sig_type}"  class="form-control"> </div>
+         <div class="col-sm-1">{sig_dic}</div>
+         </div>
+        '''.format(sig_en=sig_dic['en'],
+                   sig_zh=sig_dic['zh'],
+                   sig_dic=sig_dic['dic'][1],
+                   sig_type=sig_dic['type'])
 
 
 def gen_input_view(sig_dic):
@@ -61,7 +98,19 @@ def gen_input_view(sig_dic):
     :param sig_dic:
     :return:
     '''
-    return '''
+
+    if sig_dic['en'] == 'tag_file_download':
+        return '''
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>{1}</strong></span></div>
+    <div class="col-sm-8"><a onclick="entity_down(post_uid)">
+    <span class="val">{{{{ post_info.extinfo['{0}'] if '{0}' in post_info.extinfo else '' }}}}
+     {2}</span></a></div></div>
+
+    '''.format(sig_dic['en'], sig_dic['zh'], sig_dic['dic'][1])
+
+    else:
+        return '''
     <div class="row">
     <div class="col-sm-4"><span class="des"><strong>{1}</strong></span></div>
     <div class="col-sm-8">

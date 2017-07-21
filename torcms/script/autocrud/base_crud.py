@@ -31,4 +31,4 @@ def build_dir():
         os.makedirs(wpath)
 
 
-INPUT_ARR = ['digits', 'text', 'date', 'number', 'email', 'url']
+INPUT_ARR = ['digits', 'text', 'date', 'number', 'email', 'url', 'download']

@@ -41,7 +41,13 @@ def __write_filter_dic(wk_sheet, column):
             xx_1 = row2_val.split(':')  # 'text'  # HTML text input control.
 
             # The default type of the input is text
-            xx_1[0] = xx_1[0].lower() if xx_1[0].lower() in INPUT_ARR else 'text'
+            if xx_1[0].lower() == 'download':
+                xx_1[0] = 'url'
+            elif xx_1[0].lower() in INPUT_ARR:
+                xx_1[0] = xx_1[0].lower()
+            else:
+                xx_1[0] = 'text'
+
             if len(xx_1) == 2:
                 ctr_type, unit = xx_1
             else:

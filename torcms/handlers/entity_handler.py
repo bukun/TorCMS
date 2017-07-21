@@ -86,23 +86,17 @@ class EntityHandler(BaseHandler):
                     cfg=config.CMS_CFG,
                     kwd=kwd,
                     userinfo=self.userinfo)
+
     @tornado.web.authenticated
     def down(self, down_uid):
-        mpost=MPost.get_by_uid(down_uid)
-
-        url = str(mpost.logo)[15:]
-
-        ment_id = MEntity.get_id_by_impath(url)
-        MEntity2User.create_entity2user(ment_id, self.userinfo.uid)
-        # r = requests.get("http://10.6.2.101:8179" + url)
-        # print("*" * 50)
-        # print(r)
-        # print("*" * 50)
-        # with open("drr.pdf", "wb") as code:
-        #     code.write(r.content)
-
-
-
+        mpost = MPost.get_by_uid(down_uid)
+        down_url = mpost.extinfo['tag_file_download'] if 'tag_file_download' in mpost.extinfo else ''
+        if down_url:
+            url = mpost.extinfo['tag_file_download']
+            ment_id = MEntity.get_id_by_impath(url)
+            MEntity2User.create_entity2user(ment_id, self.userinfo.uid)
+        else:
+            return False
 
     @tornado.web.authenticated
     def to_add(self):
@@ -238,7 +232,7 @@ class EntityHandler(BaseHandler):
     def view(self, outfilename):
         kwd = {
             'pager': '',
-            'kind':''
+            'kind': ''
 
         }
         self.render('misc/entity/entity_view.html',
