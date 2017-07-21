@@ -19,13 +19,12 @@ class PostListHandler(BaseHandler):
     listing the posts, simply.
     '''
 
-    def initialize(self):
+    def initialize(self, **kwargs):
         super(PostListHandler, self).initialize()
 
-    def get(self, *args):
+    def get(self, *args, **kwargs):
 
         url_str = args[0]
-        url_arr = self.parse_url(url_str)
 
         if url_str in ['_recent', 'recent']:
             self.recent()
@@ -100,9 +99,12 @@ class PostListHandler(BaseHandler):
                 break
             cat = MPost2Catalog.get_first_category(postinfo.uid)
             if cat:
-                if 'def_cat_uid' in postinfo.extinfo and (
-                            postinfo.extinfo['def_cat_uid'] == cat.tag_id):
-                    pass
+                if 'def_cat_uid' in postinfo.extinfo:
+                    if postinfo.extinfo['def_cat_uid'] == cat.tag_id:
+                        pass
+                    else:
+                        errrecs.append(postinfo)
+                        idx += 1
                 else:
                     errrecs.append(postinfo)
                     idx += 1

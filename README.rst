@@ -231,7 +231,7 @@ with ``coverage`` (install with:  ``pip3 install coverage`` ):
 
 ::
 
-    nosetests3  --exe -v -d --with-coverage tester
+    nosetests  --exe -v -d --with-coverage tester
 
 Note: I alway writing code in the folder which is mounted by Debian in VirtualBox, so ``--exe``.
 

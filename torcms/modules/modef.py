@@ -86,7 +86,7 @@ core_modules = {
     'app_least_used_by_cat': info_modules.InfoLeastUseByCategory,
     'app_user_recent_by_cat': info_modules.InfoUserRecentByCategory,
     'app_title': base_modules.AppTitle,
-    'entity_path_by_id': base_modules.Entity_path,
+    # 'entity_path_by_id': base_modules.Entity_path,
     'user_name_by_id': base_modules.User_name
 
 }

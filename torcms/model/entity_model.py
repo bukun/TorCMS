@@ -8,6 +8,7 @@ import time
 from torcms.model.core_tab import TabEntity
 from torcms.model.abc_model import Mabc, MHelper
 from torcms.core.tools import logger
+from torcms.core.tools import get_uuid
 from config import CMS_CFG
 
 
@@ -26,7 +27,8 @@ class MEntity(Mabc):
 
     @staticmethod
     def get_by_kind(kind=1, current_page_num=1):
-        return TabEntity.select().where(TabEntity.kind == kind).paginate(current_page_num, CMS_CFG['list_num'])
+        return TabEntity.select().where(TabEntity.kind == kind).paginate(current_page_num,
+                                                                         CMS_CFG['list_num'])
 
     @staticmethod
     def get_all_pager(current_page_num=1):
@@ -42,37 +44,41 @@ class MEntity(Mabc):
         logger.info('Get Entiry, Path: {0}'.format(path))
 
         entity_list = TabEntity.select().where(TabEntity.path == path)
-        out_val = False
+        out_val = None
         if entity_list.count() == 1:
-            out_val = entity_list.get().uid
+            out_val = entity_list.get()
         elif entity_list.count() > 1:
             for rec in entity_list:
                 MEntity.delete(rec.uid)
-            out_val = True
+            out_val = None
         else:
             pass
         return out_val
 
     @staticmethod
-    def create_entity(signature, enti_path, img_desc='', kind='1'):
+    def create_entity(uid='', path='', desc='', kind='1'):
         '''
         create entity record in the database.
         :param signature:
-        :param enti_path:
+        :param path:
         :param kind:
         :return:
         '''
 
-        if enti_path:
+        if path:
             pass
         else:
             return False
 
+        if uid:
+            pass
+        else:
+            uid = get_uuid()
         try:
             TabEntity.create(
-                uid=signature,
-                path=enti_path,
-                desc=img_desc,
+                uid=uid,
+                path=path,
+                desc=desc,
                 time_create=time.time(),
                 kind=kind
             )

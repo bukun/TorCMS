@@ -100,18 +100,17 @@ def gen_input_view(sig_dic):
     '''
 
     if sig_dic['en'] == 'tag_file_download':
-        return '''
-    <div class="row">
-    <div class="col-sm-4"><span class="des"><strong>{1}</strong></span></div>
-    <div class="col-sm-8"><a onclick="entity_down(post_uid)">
-    <span class="val">{{{{ post_info.extinfo['{0}'] if '{0}' in post_info.extinfo else '' }}}}
-     {2}</span></a></div></div>
-
-    '''.format(sig_dic['en'], sig_dic['zh'], sig_dic['dic'][1])
+        return '''<div class="row">
+    <div class="col-sm-4"><span class="des"><strong>{sig_zh}</strong></span></div>
+    <div class="col-sm-8">
+    <a class="val" onclick=entity_down("{{{{post_info.uid}}}}")
+     id="file_download" style="cursor: pointer;">
+     {{{{    post_info.uid }}}}
+     {sig_unit}</a></div></div>
+    '''.format(sig_zh=sig_dic['zh'], sig_unit=sig_dic['dic'][1])
 
     else:
-        return '''
-    <div class="row">
+        return '''<div class="row">
     <div class="col-sm-4"><span class="des"><strong>{1}</strong></span></div>
     <div class="col-sm-8">
     <span class="val">{{{{ post_info.extinfo['{0}'] if '{0}' in post_info.extinfo else '' }}}}

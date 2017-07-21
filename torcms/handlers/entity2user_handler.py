@@ -16,6 +16,7 @@ from torcms.model.entity2user_model import MEntity2User
 from torcms.model.post_model import MPost
 from torcms.core import tools
 
+
 class Entity2UserHandler(BaseHandler):
     '''
     Hander for entiey, such as files or URL.
@@ -34,8 +35,6 @@ class Entity2UserHandler(BaseHandler):
         else:
             self.render('misc/html/404.html', kwd={}, userinfo=self.userinfo)
 
-
-
     @tornado.web.authenticated
     def list(self, cur_p=''):
 
@@ -49,10 +48,9 @@ class Entity2UserHandler(BaseHandler):
         kwd = {
             'current_page': current_page_number
         }
-        recs = MEntity2User.get_all_pager(current_page_num=current_page_number)
+        recs = MEntity2User.get_all_pager(current_page_num=current_page_number).naive()
         self.render('misc/entity/entity_download.html',
                     imgs=recs,
                     cfg=config.CMS_CFG,
                     kwd=kwd,
                     userinfo=self.userinfo)
-

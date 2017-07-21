@@ -373,7 +373,6 @@ class PostHandler(BaseHandler):
         for index, catid in enumerate(new_category_arr):
             MPost2Catalog.add_record(uid, catid, index)
 
-
         # Delete the old category if not in post requests.
         for cur_info in current_infos:
             if cur_info.tag_id not in new_category_arr:
@@ -664,16 +663,14 @@ class PostHandler(BaseHandler):
             post_data['valid'] = 1
 
         ext_dic['def_uid'] = uid
-        download_url = ext_dic['tag_file_download'] if 'tag_file_download' in ext_dic else ''
 
         MPost.modify_meta(ext_dic['def_uid'],
                           post_data,
                           extinfo=ext_dic)
         kwargs.pop('uid', None)  # delete `uid` if exists in kwargs
-        if download_url:
-            MEntity.create_entity(uid, download_url, download_url, kind=3)
-        else:
-            pass
+
+        self._add_download_entity(ext_dic)
+
         self.update_tag(uid=ext_dic['def_uid'], **kwargs)
 
         # cele_gen_whoosh.delay()
@@ -707,7 +704,7 @@ class PostHandler(BaseHandler):
             post_data['valid'] = postinfo.valid
 
         ext_dic['def_uid'] = str(uid)
-        download_url = ext_dic['tag_file_download'] if 'tag_file_download' in ext_dic else ''
+
         cnt_old = tornado.escape.xhtml_unescape(postinfo.cnt_md).strip()
         cnt_new = post_data['cnt_md'].strip()
         if cnt_old == cnt_new:
@@ -716,10 +713,8 @@ class PostHandler(BaseHandler):
             MPostHist.create_post_history(postinfo)
 
         MPost.modify_meta(uid, post_data, extinfo=ext_dic)
-        if download_url:
-            MEntity.create_entity(uid, download_url, download_url, kind=3)
-        else:
-            pass
+
+        self._add_download_entity(ext_dic)
         self.update_tag(uid=uid)
 
         logger.info('post kind:' + self.kind)
@@ -842,6 +837,15 @@ class PostHandler(BaseHandler):
         '''
         _ = kwargs
         return {}
+
+    def _add_download_entity(self, ext_dic):
+        download_url = ext_dic['tag_file_download'].strip().lower() if ('tag_file_download'
+                                                                        in ext_dic) else ''
+        the_entity = MEntity.get_id_by_impath(download_url)
+        if the_entity:
+            return True
+        if download_url:
+            MEntity.create_entity(path=download_url, desc=download_url, kind=3)
 
     @tornado.web.authenticated
     def _to_edit_kind(self, post_uid):

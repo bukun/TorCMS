@@ -9,7 +9,6 @@ from torcms.model.core_tab import TabEntity2User
 from torcms.model.core_tab import TabEntity
 from torcms.model.core_tab import TabMember
 from torcms.model.abc_model import Mabc, MHelper
-from torcms.core.tools import logger
 from torcms.core import tools
 from config import CMS_CFG
 
@@ -29,13 +28,16 @@ class MEntity2User(Mabc):
 
     @staticmethod
     def get_all_pager(current_page_num=1):
-        #return TabEntity2User.select().paginate(current_page_num, CMS_CFG['list_num'])
+        # return TabEntity2User.select().paginate(current_page_num, CMS_CFG['list_num'])
 
-        recs = TabEntity2User.select().join(TabEntity, on=(TabEntity2User.entity_id == TabEntity.uid)).join(
-                TabMember, on=(TabEntity2User.user_id == TabMember.uid)
-            ) .order_by(
-                TabEntity2User.timestamp.desc()
-            ).paginate(current_page_num, CMS_CFG['list_num'])
+        recs = TabEntity2User.select(
+            TabEntity2User,
+            TabEntity.path.alias('entity_path'),
+        ).join(TabEntity, on=(TabEntity2User.entity_id == TabEntity.uid)).join(
+            TabMember, on=(TabEntity2User.user_id == TabMember.uid)
+        ).order_by(
+            TabEntity2User.timestamp.desc()
+        ).paginate(current_page_num, CMS_CFG['list_num'])
         return recs
 
     @staticmethod
@@ -70,9 +72,6 @@ class MEntity2User(Mabc):
                 count=1,
                 timestamp=time.time()
             )
-
-
-
 
     @staticmethod
     def total_number():

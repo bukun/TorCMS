@@ -26,13 +26,13 @@ class TestEntity():
             'path': '',
         }
         uu = MEntity.get_id_by_impath(post_data['path'])
-        assert uu == False
+        assert uu is None
 
         post_data = {
             'path': self.path,
         }
         uu = MEntity.get_id_by_impath(post_data['path'])
-        assert uu == False
+        assert uu is None
 
     def test_upate(self):
         assert True

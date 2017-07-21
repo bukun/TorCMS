@@ -16,8 +16,7 @@ from torcms.model.entity2user_model import MEntity2User
 from torcms.model.post_model import MPost
 from torcms.core import tools
 from PIL import Image
-import requests
-from config import CMS_CFG
+
 # TMPL_SIZE = (768, 768)
 # THUMBNAIL_SIZE = (256, 256)
 
@@ -90,7 +89,8 @@ class EntityHandler(BaseHandler):
     @tornado.web.authenticated
     def down(self, down_uid):
         mpost = MPost.get_by_uid(down_uid)
-        down_url = mpost.extinfo['tag_file_download'] if 'tag_file_download' in mpost.extinfo else ''
+        down_url = mpost.extinfo[
+            'tag_file_download'] if 'tag_file_download' in mpost.extinfo else ''
         if down_url:
             url = mpost.extinfo['tag_file_download']
             ment_id = MEntity.get_id_by_impath(url)
