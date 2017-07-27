@@ -29,7 +29,13 @@ class InfoCategory(tornado.web.UIModule):
             slug = kwargs['slug']
         else:
             slug = False
-
+        if 'glyph' in kwargs:
+            glyph = kwargs['glyph']
+        else:
+            glyph = ''
+        kwd = {
+            'glyph': glyph
+        }
         curinfo = MCategory.get_by_uid(uid_with_str)
 
         sub_cats = MCategory.query_sub_cat(uid_with_str)
@@ -42,7 +48,8 @@ class InfoCategory(tornado.web.UIModule):
         return self.render_string(tmpl,
                                   pcatinfo=curinfo,
                                   sub_cats=sub_cats,
-                                  recs=sub_cats)
+                                  recs=sub_cats,
+                                  kwd=kwd)
 
 
 class InforUserMost(tornado.web.UIModule):
