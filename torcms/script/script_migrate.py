@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 
+'''
+for database schema migration.
+
+Memo for Usage:
+    migrate.migrate(torcms_migrator.rename_table('e_layout', 'mablayout'))
+    migrate.migrate(torcms_migrator.drop_column('tabtag', 'role_mask'))
+'''
 from playhouse import migrate
 from playhouse.postgres_ext import BinaryJSONField
 import config
@@ -14,13 +21,6 @@ def run_migrate(*args):
     print('Begin migrate ...')
 
     torcms_migrator = migrate.PostgresqlMigrator(config.DB_CON)
-
-    # try:
-    #     migrate.migrate(
-    #         torcms_migrator.rename_table('e_layout', 'mablayout')
-    #     )
-    # except:
-    #     pass
 
     memo_field = migrate.TextField(null=False, default='', help_text='Memo', )
     try:
@@ -39,10 +39,5 @@ def run_migrate(*args):
         migrate.migrate(torcms_migrator.add_column('tabmember', 'extinfo', extinfo_field))
     except:
         pass
-
-    # try:
-    #     migrate.migrate(torcms_migrator.drop_column('tabtag', 'role_mask'))
-    # except:
-    #     pass
 
     print('Migration finished.')

@@ -38,7 +38,6 @@ def entry(argv):
         'send_all': run_send_all,
         'edit_diff': run_review,  # Deprecated
         'review': run_review,
-        # 'create_admin': run_create_admin,
         'sitemap': run_sitemap,
         'editmap': run_editmap,
         'check_kind': run_check_kind,
@@ -66,7 +65,6 @@ def entry(argv):
             print('         -------------')
             print('      send_all: ')
             print('  send_nologin: ')
-            # print('  create_admin: ')
             print('       sitemap: ')
             print('       editmap: ')
             print('    check_kind: ')
