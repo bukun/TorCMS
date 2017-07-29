@@ -10,6 +10,7 @@ from .autocrud.gen_html_file import generate_html_files as run_auto
 from .script_fetch_fe2lib import run_f2elib
 from .script_create_admin import run_create_admin
 from .script_whoosh import run_whoosh
+from .script_migrate import run_migrate
 
 build_dir()
 
@@ -21,6 +22,7 @@ def run_init(*args):
     '''
     run_f2elib()
     run_init_tables()
+    run_migrate()
     run_gen_category()
     run_create_admin()
     run_auto()

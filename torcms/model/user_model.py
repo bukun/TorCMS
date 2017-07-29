@@ -13,6 +13,7 @@ class MUser(Mabc):
     '''
     Model for user.
     '''
+
     def __init__(self):
         super(MUser, self).__init__()
 
@@ -89,8 +90,9 @@ class MUser(Mabc):
     def query_nologin():
         time_now = tools.timestamp()
         # num * month * hours * minite * second
-        return TabMember.select().where(((time_now - TabMember.time_login) > 3 * 30 * 24 * 60 * 60) & (
-            (time_now - TabMember.time_email) > 4 * 30 * 24 * 60 * 60))
+        return TabMember.select().where(
+            ((time_now - TabMember.time_login) > 3 * 30 * 24 * 60 * 60) & (
+                (time_now - TabMember.time_email) > 4 * 30 * 24 * 60 * 60))
 
     @staticmethod
     def update_info(user_id, newemail):

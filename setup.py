@@ -24,7 +24,7 @@ setup(
     packages=find_packages(
         # include=('torcms',),
         exclude=("tester", "torcms_tester", 'flasky',)),
-    include_package_data = True,
+    include_package_data=True,
 
     platforms='any',
     zip_safe=True,

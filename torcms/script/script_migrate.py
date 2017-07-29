@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from playhouse import migrate
+from playhouse.postgres_ext import BinaryJSONField
 import config
 
 
@@ -33,9 +34,15 @@ def run_migrate(*args):
     except:
         pass
 
+    extinfo_field = BinaryJSONField(null=False, default={}, help_text='Extra data in JSON.')
+    try:
+        migrate.migrate(torcms_migrator.add_column('tabmember', 'extinfo', extinfo_field))
+    except:
+        pass
+
     # try:
     #     migrate.migrate(torcms_migrator.drop_column('tabtag', 'role_mask'))
     # except:
     #     pass
 
-    print('QED')
+    print('Migration finished.')

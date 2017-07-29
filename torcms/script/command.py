@@ -42,7 +42,6 @@ def entry(argv):
         'sitemap': run_sitemap,
         'editmap': run_editmap,
         'check_kind': run_check_kind,
-
         'f2elib': run_f2elib,
         'init_tables': run_init_tables,
         'drop_tables': run_drop_tables,

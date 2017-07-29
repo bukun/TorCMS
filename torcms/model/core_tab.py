@@ -4,9 +4,7 @@ import peewee
 
 from torcms.core.base_model import BaseModel
 from config import DB_CFG
-
-if DB_CFG['kind'] == 'p':
-    from playhouse.postgres_ext import BinaryJSONField
+from playhouse.postgres_ext import BinaryJSONField
 
 
 class TabTag(BaseModel):
@@ -50,13 +48,9 @@ class TabPost(BaseModel):
     cnt_html = peewee.TextField()
     kind = peewee.CharField(null=False, max_length=1,
                             default='1', help_text='Post type: 1 for doc, 2 for inor', )
+    rating = peewee.FloatField(null=False, default=5, help_text='Rating of the post.')
     memo = peewee.TextField(null=False, default='', help_text='Memo', )
-
-    if DB_CFG['kind'] == 'p':
-        extinfo = BinaryJSONField(default={})
-    else:
-        pass
-    rating = peewee.FloatField(null=False, default=5)
+    extinfo = BinaryJSONField(null=False, default={}, help_text='Extra data in JSON.')
 
 
 class TabWiki(BaseModel):
@@ -133,6 +127,7 @@ class TabMember(BaseModel):
     time_create = peewee.IntegerField(null=False, default=0)
     time_update = peewee.IntegerField(null=False, default=0)
     time_email = peewee.IntegerField(null=False, default=0, help_text='Time auto send email.')
+    extinfo = BinaryJSONField(null=False, default={}, help_text='Extra data in JSON.')
 
 
 class TabEntity(BaseModel):
