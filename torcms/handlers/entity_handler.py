@@ -88,6 +88,9 @@ class EntityHandler(BaseHandler):
 
     @tornado.web.authenticated
     def down(self, down_uid):
+        '''
+        Download the entity by UID.
+        '''
         mpost = MPost.get_by_uid(down_uid)
         down_url = mpost.extinfo[
             'tag_file_download'] if 'tag_file_download' in mpost.extinfo else ''
@@ -100,6 +103,9 @@ class EntityHandler(BaseHandler):
 
     @tornado.web.authenticated
     def to_add(self):
+        '''
+        To add the entity.
+        '''
         kwd = {
             'pager': '',
         }
@@ -110,7 +116,9 @@ class EntityHandler(BaseHandler):
 
     @tornado.web.authenticated
     def add_entity(self):
-
+        '''
+        Add the entity. All the information got from the post data.
+        '''
         post_data = self.get_post_data()
 
         if 'kind' in post_data:

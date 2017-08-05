@@ -242,10 +242,10 @@ class InfoRecentUsed(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-        kind  = kwargs['kind'] if 'kind' in kwargs else ''
+        kind = kwargs['kind'] if 'kind' in kwargs else ''
         num = kwargs['num'] if 'num' in kwargs else ''
 
-        if kind :
+        if kind:
             pass
         elif len(args) > 0:
             kind = args[0]
@@ -258,7 +258,6 @@ class InfoRecentUsed(tornado.web.UIModule):
             num = args[1]
         else:
             pass
-
 
         if 'with_tag' in kwargs:
             with_tag = kwargs['with_tag']
