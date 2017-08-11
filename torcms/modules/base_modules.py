@@ -261,7 +261,9 @@ class PostCategoryRecent(tornado.web.UIModule):
     The reccent posts of certain category.
     '''
 
-    def render(self, cat_id, label=None, num=10, with_catalog=True, with_date=True, glyph=''):
+    def render(self, cat_id, label=None, num=10, with_catalog=True, with_date=True, glyph='', **kwargs):
+
+        is_spa = kwargs['spa'] if 'spa' in kwargs else False
 
         catinfo = MCategory.get_by_uid(cat_id)
         if catinfo.pid == '0000':
@@ -279,6 +281,7 @@ class PostCategoryRecent(tornado.web.UIModule):
             'with_date': with_date,
             'router': config.router_post[catinfo.kind],
             'glyph': glyph,
+            'spa': is_spa
         }
         return self.render_string('modules/post/post_list.html',
                                   recs=recs,
