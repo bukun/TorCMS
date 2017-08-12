@@ -40,4 +40,11 @@ def run_migrate(*args):
     except:
         pass
 
+    par_id_field = migrate.CharField(null=False, default='', max_length=4,
+                                     help_text='父类id，对于label，top_id为""')
+    try:
+        migrate.migrate(torcms_migrator.add_column('tabpost2tag', 'par_id', par_id_field))
+    except:
+        pass
+
     print('Migration finished.')

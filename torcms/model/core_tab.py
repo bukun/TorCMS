@@ -152,6 +152,8 @@ class TabPost2Tag(BaseModel):
     '''
     uid = peewee.CharField(null=False, index=True, unique=True,
                            primary_key=True, max_length=36, help_text='', )
+    par_id = peewee.CharField(null=False, default='', max_length=4,
+                              help_text='父类id，对于label，top_id为""')
     tag_id = peewee.CharField(null=False, max_length=4, help_text='', )
     post_id = peewee.CharField(null=False, max_length=5, help_text='', )
     order = peewee.IntegerField()

@@ -30,6 +30,7 @@ class CategoryHandler(BaseHandler):
         self.order = kwargs['order'] if 'order' in kwargs else False
 
     def get(self, *args, **kwargs):
+
         url_str = args[0]
         url_arr = self.parse_url(url_str)
 
@@ -41,7 +42,7 @@ class CategoryHandler(BaseHandler):
             elif url_arr[0] == 'j_kindcat':
                 self.ajax_kindcat_arr(url_arr[1])
             else:
-                self.list_catalog(url_arr[0], url_arr[1])
+                self.list_catalog(url_arr[0], cur_p=url_arr[1])
         else:
             self.render('misc/html/404.html')
 
@@ -71,10 +72,20 @@ class CategoryHandler(BaseHandler):
             out_arr[x.uid] = x.name
         json.dump(out_arr, self)
 
-    def list_catalog(self, cat_slug, cur_p=''):
+    def list_catalog(self, cat_slug, **kwargs):
         '''
         listing the posts via category
         '''
+
+        # tt = self.request.arguments
+
+
+        post_data = self.get_post_data()
+
+        tag = post_data['tag'] if 'tag' in post_data else ''
+
+        cur_p = kwargs['cur_p'] if 'cur_p' in kwargs else ''
+
         if cur_p == '':
             current_page_num = 1
         else:
@@ -88,7 +99,7 @@ class CategoryHandler(BaseHandler):
         else:
             return False
 
-        num_of_cat = MPost2Catalog.count_of_certain_category(cat_rec.uid)
+        num_of_cat = MPost2Catalog.count_of_certain_category(cat_rec.uid, tag=tag)
 
         page_num = int(num_of_cat / CMS_CFG['list_num']) + 1
         cat_name = cat_rec.name
@@ -98,7 +109,8 @@ class CategoryHandler(BaseHandler):
                'title': cat_name,
                'router': router_post[cat_rec.kind],
                'current_page': current_page_num,
-               'kind': cat_rec.kind}
+               'kind': cat_rec.kind,
+               'tag': tag}
 
         # tmpl = 'list/catalog_list.html'
         # Todo: review the following codes.
@@ -113,7 +125,8 @@ class CategoryHandler(BaseHandler):
                     infos=MPost2Catalog.query_pager_by_slug(
                         cat_slug,
                         current_page_num,
-                        order=self.order),
+                        tag=tag,
+                        order=self.order, ),
                     pager=tools.gen_pager_purecss(
                         '/category/{0}'.format(cat_slug),
                         page_num,

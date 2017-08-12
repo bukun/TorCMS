@@ -104,7 +104,8 @@ class MPost2Catalog(Mabc):
 
         if tag_id:
             entry2 = TabPost2Tag.update(
-                tag_id=tag_id
+                par_id=tag_id[:2] + '00',
+                tag_id=tag_id,
             ).where(TabPost2Tag.uid == uid)
             entry2.execute()
 
@@ -117,15 +118,19 @@ class MPost2Catalog(Mabc):
         :param order:
         :return:
         '''
+
         rec = MPost2Catalog.__get_by_info(post_id, catalog_id)
         if rec:
             entry = TabPost2Tag.update(
                 order=order,
+                # For migration. the value should be added when created.
+                par_id=rec.tag_id[:2] + '00',
             ).where(TabPost2Tag.uid == rec.uid)
             entry.execute()
         else:
             TabPost2Tag.create(
                 uid=tools.get_uuid(),
+                par_id=catalog_id[:2] + '00',
                 post_id=post_id,
                 tag_id=catalog_id,
                 order=order,
@@ -134,31 +139,77 @@ class MPost2Catalog(Mabc):
         MCategory.update_count(catalog_id)
 
     @staticmethod
-    def count_of_certain_category(cat_id):
-        return TabPost2Tag.select().where(
-            TabPost2Tag.tag_id == cat_id
-        ).count()
+    def count_of_certain_category(cat_id, tag=''):
+
+        if cat_id.endswith('00'):
+            # The first level category, using the code bellow.
+            cat_con = TabPost2Tag.par_id == cat_id
+        else:
+            cat_con = TabPost2Tag.tag_id == cat_id
+
+        if tag:
+            condition = {
+                'def_tag_arr': [tag]
+            }
+            recs = TabPost2Tag.select().join(
+                TabPost,
+                on=(TabPost2Tag.post_id == TabPost.uid)
+            ).where(
+                cat_con & TabPost.extinfo.contains(condition)
+            )
+        else:
+            recs = TabPost2Tag.select().where(
+                cat_con
+            )
+
+        return recs.count()
 
     @staticmethod
-    def query_pager_by_slug(slug, current_page_num=1, order=False):
-        if order:
+    def query_pager_by_slug(slug, current_page_num=1, tag='', order=False):
+        cat_rec = MCategory.get_by_slug(slug)
+        if cat_rec:
+            cat_id = cat_rec.uid
+        else:
+            return None
+
+        # The flowing code is valid.
+        if cat_id.endswith('00'):
+            # The first level category, using the code bellow.
+            cat_con = TabPost2Tag.par_id == cat_id
+        else:
+            cat_con = TabPost2Tag.tag_id == cat_id
+
+        if tag:
+            condition = {
+                'def_tag_arr': [tag]
+            }
             recs = TabPost.select().join(
-                TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)
-            ).join(
-                TabTag, on=(TabTag.uid == TabPost2Tag.tag_id)
+                TabPost2Tag,
+                on=(TabPost.uid == TabPost2Tag.post_id)
             ).where(
-                TabTag.slug == slug
+                cat_con & TabPost.extinfo.contains(condition)
+            ).order_by(
+                TabPost.time_update.desc()
+            ).paginate(current_page_num, CMS_CFG['list_num'])
+        elif order:
+            recs = TabPost.select().join(
+                TabPost2Tag,
+                on=(TabPost.uid == TabPost2Tag.post_id)
+            ).where(
+                cat_con
             ).order_by(
                 TabPost.order.asc()
             ).paginate(current_page_num, CMS_CFG['list_num'])
         else:
-            recs = TabPost.select().join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)).join(
-                TabTag, on=(TabTag.uid == TabPost2Tag.tag_id)
+            recs = TabPost.select().join(
+                TabPost2Tag,
+                on=(TabPost.uid == TabPost2Tag.post_id)
             ).where(
-                TabTag.slug == slug
+                cat_con
             ).order_by(
                 TabPost.time_update.desc()
             ).paginate(current_page_num, CMS_CFG['list_num'])
+
         return recs
 
     @staticmethod

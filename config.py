@@ -16,7 +16,7 @@ DB_CFG = {
 }
 
 CMS_CFG = {
-    'list_num': 10,
+    'list_num': 3,
     'redis_kw': 'lsadfkj'}
 
 router_post = {'1': 'post',

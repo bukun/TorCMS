@@ -261,7 +261,8 @@ class PostCategoryRecent(tornado.web.UIModule):
     The reccent posts of certain category.
     '''
 
-    def render(self, cat_id, label=None, num=10, with_catalog=True, with_date=True, glyph='', **kwargs):
+    def render(self, cat_id, label=None, num=10, with_catalog=True, with_date=True, glyph='',
+               **kwargs):
 
         is_spa = kwargs['spa'] if 'spa' in kwargs else False
 
@@ -505,9 +506,10 @@ class CategoryPager(tornado.web.UIModule):
         current = int(args[1])
         # cat_slug 分类
         # current 当前页面
+        tag = kwargs['tag'] if 'tag' in kwargs else ""
 
         cat_rec = MCategory.get_by_slug(cat_slug)
-        num_of_cat = MPost2Catalog.count_of_certain_category(cat_rec.uid)
+        num_of_cat = MPost2Catalog.count_of_certain_category(cat_rec.uid, tag=tag)
 
         pager_cnt = int(num_of_cat / config.CMS_CFG['list_num'])
 
@@ -519,6 +521,7 @@ class CategoryPager(tornado.web.UIModule):
             'page_end': False if current >= page_num else True,
             'page_pre': False if current <= 1 else True,
             'page_next': False if current >= page_num else True,
+            'tag': tag,
         }
 
         return self.render_string('modules/post/catalog_pager.html',
