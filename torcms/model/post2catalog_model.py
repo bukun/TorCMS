@@ -15,6 +15,21 @@ class MPost2Catalog(Mabc):
         super(MPost2Catalog, self).__init__()
 
     @staticmethod
+    def query_all():
+        '''
+        Query all the records from TabPost2Tag.
+        '''
+        recs = TabPost2Tag.select(
+            TabPost2Tag,
+            TabTag.kind.alias('tag_kind'),
+        ).join(
+            TabTag,
+
+            on=(TabPost2Tag.tag_id == TabTag.uid)
+        )
+        return recs
+
+    @staticmethod
     def remove_relation(post_id, tag_id):
         '''
         Delete the record of post 2 tag.
@@ -95,7 +110,7 @@ class MPost2Catalog(Mabc):
         return recs
 
     @staticmethod
-    def update_field(uid, post_id=None, tag_id=None):
+    def update_field(uid, post_id=None, tag_id=None, par_id=None):
         if post_id:
             entry = TabPost2Tag.update(
                 post_id=post_id
@@ -106,6 +121,11 @@ class MPost2Catalog(Mabc):
             entry2 = TabPost2Tag.update(
                 par_id=tag_id[:2] + '00',
                 tag_id=tag_id,
+            ).where(TabPost2Tag.uid == uid)
+            entry2.execute()
+        if par_id:
+            entry2 = TabPost2Tag.update(
+                par_id=par_id
             ).where(TabPost2Tag.uid == uid)
             entry2.execute()
 

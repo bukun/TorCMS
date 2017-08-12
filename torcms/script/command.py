@@ -24,6 +24,8 @@ from .script_whoosh import run_whoosh
 from .tmplchecker import run_checkit
 from .script_sitemap import run_editmap
 
+from .script_update_post2tag import run_update_cat
+
 
 def entry(argv):
     '''
@@ -48,6 +50,7 @@ def entry(argv):
         'auto': run_auto,
         'whoosh': run_whoosh,
         'check': run_checkit,
+        'update_cat': run_update_cat,
     }
     try:
         # 这里的 h 就表示该选项无参数，i:表示 i 选项后需要有参数
