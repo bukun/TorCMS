@@ -128,14 +128,43 @@ class UserHandler(BaseHandler):
         Change Infor via Ajax.
         :return:
         '''
-        post_data = self.get_post_data()
+
+        post_data, def_dic = self.fetch_post_data()
+
         usercheck = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
         if usercheck == 1:
-            MUser.update_info(self.userinfo.uid, post_data['user_email'])
+            MUser.update_info(self.userinfo.uid, post_data['user_email'], extinfo=def_dic)
             output = {'changeinfo ': usercheck}
         else:
             output = {'changeinfo ': 0}
         return json.dump(output, self)
+    def fetch_post_data(self):
+        '''
+        fetch post accessed data. post_data, and ext_dic.
+        :return:
+        '''
+        post_data = {}
+        ext_dic = {}
+        for key in self.request.arguments:
+            if key.startswith('def_'):
+                ext_dic[key] = self.get_argument(key)
+            else:
+                post_data[key] = self.get_arguments(key)[0]
+
+        post_data['user_name'] = self.userinfo.user_name
+
+        ext_dic = dict(ext_dic, **self.ext_post_data(postdata=post_data))
+        print("*" * 50)
+        print(ext_dic)
+        return (post_data, ext_dic)
+    def ext_post_data(self, **kwargs):
+        '''
+        The additional information.  for add(), or update().
+        :param post_data:
+        :return: directory.
+        '''
+        _ = kwargs
+        return {}
 
     @tornado.web.authenticated
     def changepassword(self):
@@ -157,12 +186,11 @@ class UserHandler(BaseHandler):
     @tornado.web.authenticated
     def changeinfo(self):
 
-        post_data = self.get_post_data()
+        post_data, def_dic = self.fetch_post_data()
 
-        uu = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
-
-        if uu == 1:
-            MUser.update_info(self.userinfo.uid, post_data['user_email'])
+        usercheck = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
+        if usercheck == 1:
+            MUser.update_info(self.userinfo.uid, post_data['user_email'], extinfo=def_dic)
             self.redirect(('/user/info'))
         else:
             kwd = {
@@ -221,8 +249,9 @@ class UserHandler(BaseHandler):
 
     @tornado.web.authenticated
     def show_info(self):
+        rec = MUser.get_by_uid(self.userinfo.uid)
         self.render(self.wrap_tmpl('user/{sig}user_info.html'),
-                    userinfo=self.userinfo)
+                    userinfo=self.userinfo,extinfo = rec.extinfo)
 
     def to_reset_password(self):
         self.render('user/user_reset_password.html',

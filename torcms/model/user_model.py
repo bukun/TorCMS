@@ -95,7 +95,9 @@ class MUser(Mabc):
                 (time_now - TabMember.time_email) > 4 * 30 * 24 * 60 * 60))
 
     @staticmethod
-    def update_info(user_id, newemail):
+    def update_info(user_id, newemail, extinfo=None):
+        if extinfo is None:
+            extinfo = {}
 
         out_dic = {'success': False, 'code': '00'}
         if tools.check_email_valid(newemail):
@@ -103,8 +105,11 @@ class MUser(Mabc):
         else:
             out_dic['code'] = '21'
             return out_dic
-
-        entry = TabMember.update(user_email=newemail).where(TabMember.uid == user_id)
+        cur_info = MUser.get_by_uid(user_id)
+        cur_extinfo = cur_info.extinfo
+        for key in extinfo:
+            cur_extinfo[key] = extinfo[key]
+        entry = TabMember.update(user_email=newemail, extinfo=cur_extinfo).where(TabMember.uid == user_id)
         entry.execute()
 
         out_dic['success'] = True
