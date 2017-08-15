@@ -1,6 +1,7 @@
 # Run with the command:
 # pip install -r requirements.txt
 # pip install -r doc/requirements.txt
+wheel
 beautifulsoup4
 html2text
 jieba

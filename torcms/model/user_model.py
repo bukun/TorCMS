@@ -96,6 +96,9 @@ class MUser(Mabc):
 
     @staticmethod
     def update_info(user_id, newemail, extinfo=None):
+        '''
+        Update the user info by user_id.
+        '''
         if extinfo is None:
             extinfo = {}
 
@@ -109,7 +112,12 @@ class MUser(Mabc):
         cur_extinfo = cur_info.extinfo
         for key in extinfo:
             cur_extinfo[key] = extinfo[key]
-        entry = TabMember.update(user_email=newemail, extinfo=cur_extinfo).where(TabMember.uid == user_id)
+        entry = TabMember.update(
+            user_email=newemail,
+            extinfo=cur_extinfo
+        ).where(
+            TabMember.uid == user_id
+        )
         entry.execute()
 
         out_dic['success'] = True

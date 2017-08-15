@@ -138,6 +138,7 @@ class UserHandler(BaseHandler):
         else:
             output = {'changeinfo ': 0}
         return json.dump(output, self)
+
     def fetch_post_data(self):
         '''
         fetch post accessed data. post_data, and ext_dic.
@@ -157,6 +158,7 @@ class UserHandler(BaseHandler):
         print("*" * 50)
         print(ext_dic)
         return (post_data, ext_dic)
+
     def ext_post_data(self, **kwargs):
         '''
         The additional information.  for add(), or update().
@@ -251,7 +253,7 @@ class UserHandler(BaseHandler):
     def show_info(self):
         rec = MUser.get_by_uid(self.userinfo.uid)
         self.render(self.wrap_tmpl('user/{sig}user_info.html'),
-                    userinfo=self.userinfo,extinfo = rec.extinfo)
+                    userinfo=self.userinfo, extinfo=rec.extinfo)
 
     def to_reset_password(self):
         self.render('user/user_reset_password.html',

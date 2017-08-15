@@ -54,7 +54,9 @@ class TestUser():
         post_data = {
             'user_email': 'ssadfs@163.com'
         }
-        tt = self.uu.update_info(self.username, post_data['user_email'])
+        self.test_insert()
+        user_info = self.uu.get_by_name(self.username)
+        tt = self.uu.update_info(user_info.uid, post_data['user_email'])
         assert tt['success'] == True
 
     def test_update_pass(self):
