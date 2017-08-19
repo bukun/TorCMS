@@ -14,7 +14,7 @@ class EvaluationHandler(BaseHandler):
     For the evaluation of the posts.
     '''
 
-    def initialize(self):
+    def initialize(self, **kwargs):
         super(EvaluationHandler, self).initialize()
 
     def get(self, *args, **kwargs):

@@ -18,7 +18,7 @@ class MaintainCategoryHandler(BaseHandler):
     CRUD for the category.
     '''
 
-    def initialize(self):
+    def initialize(self, **kwargs):
         super(MaintainCategoryHandler, self).initialize()
         self.tmpl_router = 'maintain_category'
 

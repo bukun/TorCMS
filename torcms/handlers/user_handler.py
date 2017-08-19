@@ -1,5 +1,9 @@
 # -*- coding:utf-8 -*-
 
+'''
+Handler for user.
+'''
+
 import json
 
 import tornado
@@ -33,7 +37,10 @@ class SumForm_pass(Form):
 
 
 class UserHandler(BaseHandler):
-    def initialize(self):
+    '''
+    Handler for user.
+    '''
+    def initialize(self, **kwargs):
         super(UserHandler, self).initialize()
 
     def get(self, *args, **kwargs):
@@ -76,8 +83,8 @@ class UserHandler(BaseHandler):
         elif url_arr[0] == 'delete_user':
             self.delete(url_arr[1])
 
-    def post(self, url_str):
-
+    def post(self, *args, **kwargs):
+        url_str = args[0]
         url_arr = self.parse_url(url_str)
 
         if url_str == 'regist':
@@ -273,6 +280,10 @@ class UserHandler(BaseHandler):
                         userinfo=None)
 
     def __check_valid(self, post_data):
+        '''
+        To check if the user is succesfully created.
+        Return the status code dict.
+        '''
         user_create_status = {'success': False, 'code': '00'}
 
         if not tools.check_username_valid(post_data['user_name']):
@@ -308,7 +319,6 @@ class UserHandler(BaseHandler):
         user_create_status = {'success': False, 'code': '00'}
         #    user_create_status['code'] = '31'
         #    return user_create_status
-
 
         user_create_status['success'] = True
         return user_create_status

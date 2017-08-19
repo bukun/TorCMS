@@ -8,7 +8,7 @@ import tornado.escape
 
 
 class PageAjaxHandler(PageHandler):
-    def initialize(self):
+    def initialize(self, **kwargs):
         super(PageAjaxHandler, self).initialize()
 
     def get(self, *args):

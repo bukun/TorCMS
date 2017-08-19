@@ -18,7 +18,7 @@ class LinkHandler(BaseHandler):
     Handler for links.
     '''
 
-    def initialize(self):
+    def initialize(self, **kwargs):
         super(LinkHandler, self).initialize()
 
     def get(self, url_str=''):

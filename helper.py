@@ -7,5 +7,7 @@ if __name__ == '__main__':
         print('run:')
         print('    python helper.py -h ')
         print('for help')
+        print('=' * 79)
+        entry(['-i', 'init'])
     else:
         entry(sys.argv[1:])

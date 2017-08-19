@@ -10,7 +10,6 @@ from .script_migrate import run_migrate
 from .script_init import run_init
 from .script_sendemail_all import run_send_all, run_send_nologin
 from .script_review import run_review
-# from .script_create_admin import run_create_admin
 from .script_sitemap import run_sitemap
 from .script_check_kind import run_check_kind
 from .script_fetch_fe2lib import run_f2elib

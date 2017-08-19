@@ -32,25 +32,35 @@ class MRating(Mabc):
 
     @staticmethod
     def get_rating(postid, userid):
+        '''
+        Get the rating of certain post and user.
+        '''
         try:
-            uu = TabRating.select().where((TabRating.post_id == postid) & (TabRating.user_id == userid))
+            recs = TabRating.select().where((TabRating.post_id == postid) & (TabRating.user_id == userid))
         except:
             return False
-        if uu.count() > 0:
-            return uu.get().rating
+        if recs.count() > 0:
+            return recs.get().rating
         else:
             return False
 
     @staticmethod
     def update(postid, userid, rating):
-        uu = TabRating.select().where((TabRating.post_id == postid) & (TabRating.user_id == userid))
-        if uu.count() > 0:
-            MRating.__update_rating(uu.get().uid, rating)
+        '''
+        Update the rating of certain post and user.
+        The record will be created if no record exists.
+        '''
+        rating_recs = TabRating.select().where((TabRating.post_id == postid) & (TabRating.user_id == userid))
+        if rating_recs.count() > 0:
+            MRating.__update_rating(rating_recs.get().uid, rating)
         else:
             MRating.__insert_data(postid, userid, rating)
 
     @staticmethod
     def __update_rating(uid, rating):
+        '''
+        Update rating.
+        '''
         entry = TabRating.update(
             rating=rating
         ).where(TabRating.uid == uid)
@@ -58,6 +68,9 @@ class MRating(Mabc):
 
     @staticmethod
     def __insert_data(postid, userid, rating):
+        '''
+        Inert new record.
+        '''
         uid = tools.get_uuid()
         TabRating.create(
             uid=uid,

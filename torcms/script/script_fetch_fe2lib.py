@@ -51,7 +51,7 @@ def get_leaflet():
     Get LeafletJS library.
     :return: None
     '''
-    leaflet_url = 'http://r.osgeo.cn/f2elib/leaflet_1.0.3.zip'
+    leaflet_url = 'http://r.osgeo.cn/f2elib/leaflet_1.2.0.zip'
     fetch_file(leaflet_url, os.path.split(leaflet_url)[1])
 
 

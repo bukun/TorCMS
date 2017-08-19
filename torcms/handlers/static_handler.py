@@ -12,7 +12,8 @@ class StaticHandler(BaseHandler):
     def initialize(self):
         super(StaticHandler, self).initialize()
 
-    def get(self, url_str):
+    def get(self, *args, **kwargs):
+        url_str = args[0]
         kwd = {
             'pager': '',
         }

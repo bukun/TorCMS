@@ -8,7 +8,7 @@ from torcms.core.base_handler import BaseHandler
 
 
 class AdminHandler(BaseHandler):
-    def initialize(self):
+    def initialize(self, **kwargs):
         super(AdminHandler, self).initialize()
 
     def get(self, *args):

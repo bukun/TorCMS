@@ -18,7 +18,7 @@ class IndexHandler(BaseHandler):
     Index for the application.
     '''
 
-    def initialize(self):
+    def initialize(self, **kwargs):
         super(IndexHandler, self).initialize()
 
     def get_current_user(self):

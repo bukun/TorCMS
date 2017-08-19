@@ -76,7 +76,7 @@ def gen_pager_bootstrap_url(cat_slug, page_num, current):
 
 
 class SearchHandler(BaseHandler):
-    def initialize(self):
+    def initialize(self, **kwargs):
         super(SearchHandler, self).initialize()
         self.ysearch = YunSearch()
 
@@ -104,7 +104,7 @@ class SearchHandler(BaseHandler):
                     cat_enum=tag_enum,
                     tag_enum=tag_enum)
 
-    def post(self, url_str=''):
+    def post(self, *args, **kwargs):
         post_data = self.get_post_data()
 
         catid = post_data['searchcat'] if 'searchcat' in post_data else ''

@@ -19,7 +19,7 @@ class LabelHandler(BaseHandler):
     For Post Label. with 'kind'.
     '''
 
-    def initialize(self):
+    def initialize(self, **kwargs):
         super(LabelHandler, self).initialize()
 
     def get(self, *args):

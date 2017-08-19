@@ -28,6 +28,10 @@ class MUser(Mabc):
 
     @staticmethod
     def get_by_uid(uid):
+        '''
+        Get the user's info by user ID.
+        '''
+
         try:
             return TabMember.get(TabMember.uid == uid)
         except:
@@ -49,6 +53,9 @@ class MUser(Mabc):
 
     @staticmethod
     def get_by_email(useremail):
+        '''
+        Get User info by user's email.
+        '''
         try:
             return TabMember.get(user_email=useremail)
         except:
@@ -56,6 +63,12 @@ class MUser(Mabc):
 
     @staticmethod
     def check_user(user_id, u_pass):
+        '''
+        Checking the password by user's ID.
+        :param user_id: 
+        :param u_pass: 
+        :return: 
+        '''
         tt = TabMember.select().where(TabMember.uid == user_id).count()
         if tt == 0:
             return -1
@@ -65,17 +78,23 @@ class MUser(Mabc):
         return 0
 
     @staticmethod
-    def check_user_by_name(user_id, u_pass):
-        tt = TabMember.select().where(TabMember.user_name == user_id).count()
+    def check_user_by_name(user_name, u_pass):
+        '''
+        Checking the password by user's name.
+        '''
+        tt = TabMember.select().where(TabMember.user_name == user_name).count()
         if tt == 0:
             return -1
-        a = TabMember.get(user_name=user_id)
+        a = TabMember.get(user_name=user_name)
         if a.user_pass == tools.md5(u_pass):
             return 1
         return 0
 
     @staticmethod
     def update_pass(user_id, newpass):
+        '''
+        Update the password of a user.
+        '''
 
         out_dic = {'success': False, 'code': '00'}
 

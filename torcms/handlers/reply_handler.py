@@ -13,7 +13,8 @@ class ReplyHandler(BaseHandler):
     def initialize(self):
         super(ReplyHandler, self).initialize()
 
-    def get(self, url_str=''):
+    def get(self, *args, **kwargs):
+        url_str = args[0]
         url_arr = self.parse_url(url_str)
         if url_arr[0] == 'get':
             self.get_by_id(url_arr[1])
@@ -24,7 +25,8 @@ class ReplyHandler(BaseHandler):
         elif url_arr[0] == 'zan':
             self.zan(url_arr[1])
 
-    def post(self, url_str=''):
+    def post(self, *args, **kwargs):
+        url_str = args[0]
         url_arr = self.parse_url(url_str)
 
         if url_arr[0] == 'add':

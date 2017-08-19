@@ -4,11 +4,9 @@
 Config for the website.
 '''
 from torcms.core.tools import get_cfg
-import peewee
 
 DB_CON, SMTP_CFG, SITE_CFG = get_cfg()
 
-# DB_CON = peewee.SqliteDatabase('./database/torcms.db')
 
 DB_CFG = {
     'conn': DB_CON,

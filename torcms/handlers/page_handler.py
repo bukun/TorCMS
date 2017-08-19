@@ -25,7 +25,7 @@ class PageHandler(BaseHandler):
     '''
     executor = ThreadPoolExecutor(2)
 
-    def initialize(self):
+    def initialize(self, **kwargs):
         super(PageHandler, self).initialize()
         self.kind = '2'
 

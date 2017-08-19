@@ -79,7 +79,7 @@ class FilterHandler(BaseHandler):
     List view,by category uid. The list could be filtered.
     '''
 
-    def initialize(self):
+    def initialize(self, **kwargs):
         super(FilterHandler, self).initialize()
 
     def get(self, *args, **kwargs):

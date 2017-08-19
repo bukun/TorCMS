@@ -9,10 +9,12 @@ from torcms.core.tools import logger
 
 
 class RatingHandler(BaseHandler):
-    def initialize(self):
+    def initialize(self, **kwargs):
         super(RatingHandler, self).initialize()
 
-    def post(self, url_str=''):
+    def post(self, *args, **kwargs):
+
+        url_str = args[0]
 
         url_arr = self.parse_url(url_str)
         if len(url_arr) == 2 and url_arr[0] == '_update':
@@ -34,7 +36,7 @@ class RatingHandler(BaseHandler):
             rating = 5
 
         logger.info('Get post rating: {rating}'.format(rating=rating))
-        #MPost.__update_rating(postid, rating)
+        # MPost.__update_rating(postid, rating)
         MPost.update_misc(postid, rating=rating)
 
     @tornado.web.authenticated

@@ -59,10 +59,6 @@ class MEntity(Mabc):
     def create_entity(uid='', path='', desc='', kind='1'):
         '''
         create entity record in the database.
-        :param signature:
-        :param path:
-        :param kind:
-        :return:
         '''
 
         if path:

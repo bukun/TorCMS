@@ -12,7 +12,7 @@ from torcms.core import tools
 
 
 class PostAjaxHandler(PostHandler):
-    def initialize(self):
+    def initialize(self, **kwargs):
         super(PostAjaxHandler, self).initialize()
 
     def get(self, *args):
@@ -30,30 +30,6 @@ class PostAjaxHandler(PostHandler):
             self.p_recent(kind)
         elif len(url_arr) == 1 and len(url_str) in [4, 5]:
             self._view_or_add(url_str)
-
-    # @tornado.web.authenticated
-    # def delete(self, *args):
-    #     '''
-    #     Delete the post via Ajax request.
-    #     :param args:
-    #     :return:
-    #     '''
-    #     uid = args[0]
-    #     if self.check_post_role()['DELETE']:
-    #         pass
-    #     else:
-    #         return False
-    #     is_deleted = MPost.delete(uid)
-    #
-    #     if is_deleted:
-    #         output = {
-    #             'del_info ': 1,
-    #         }
-    #     else:
-    #         output = {
-    #             'del_info ': 0,
-    #         }
-    #     return json.dump(output, self)
 
     def viewinfo(self, postinfo):
         out_json = {

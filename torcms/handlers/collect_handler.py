@@ -15,7 +15,7 @@ from config import CMS_CFG
 
 
 class CollectHandler(BaseHandler):
-    def initialize(self):
+    def initialize(self, **kwargs):
         super(CollectHandler, self).initialize()
 
     def get(self, *args):
