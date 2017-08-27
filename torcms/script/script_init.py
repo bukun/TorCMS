@@ -8,8 +8,7 @@ from .autocrud.base_crud import build_dir
 from .script_gen_category import run_gen_category
 from .autocrud.gen_html_file import generate_html_files as run_auto
 from .script_fetch_fe2lib import run_f2elib
-from .script_create_admin import run_create_admin
-from .script_whoosh import run_whoosh
+from torcms.script.script_funcs import run_create_admin, run_whoosh
 from .script_migrate import run_migrate
 
 build_dir()

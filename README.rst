@@ -40,6 +40,7 @@ Features
 - User roles for editing.
 - Full text search with Whoosh.
 - PostgreSQL 9.4 above, with JSONB, which makes the framework extensible.
+- Using XLXS, could be parsed by ``openpyxl``, to define the schema of the database.
 - Access database via Peewee.
 - SASS sub-project for Style.
 - Last version of Jquery. And, Bootstrap as the default CSS framework.

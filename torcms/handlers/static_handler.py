@@ -9,6 +9,10 @@ from torcms.core.base_handler import BaseHandler
 
 
 class StaticHandler(BaseHandler):
+    '''
+    All other static pages.
+    '''
+
     def initialize(self):
         super(StaticHandler, self).initialize()
 

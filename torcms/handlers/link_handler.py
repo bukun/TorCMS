@@ -21,7 +21,8 @@ class LinkHandler(BaseHandler):
     def initialize(self, **kwargs):
         super(LinkHandler, self).initialize()
 
-    def get(self, url_str=''):
+    def get(self, *args, **kwargs):
+        url_str = args[0]
         url_arr = self.parse_url(url_str)
 
         if url_str in ['add_link', '_add', 'add']:
@@ -39,7 +40,9 @@ class LinkHandler(BaseHandler):
             self.render('misc/html/404.html', kwd=kwd,
                         userinfo=self.userinfo, )
 
-    def post(self, url_str=''):
+    def post(self, *args, **kwargs):
+        url_str = args[0]
+
         if url_str == '':
             return
         url_arr = self.parse_url(url_str)
@@ -137,6 +140,9 @@ class LinkHandler(BaseHandler):
 
     @tornado.web.authenticated
     def viewit(self, post_id):
+        '''
+        View the link.
+        '''
 
         rec = MLink.get_by_uid(post_id)
 
@@ -184,7 +190,10 @@ class LinkHandler(BaseHandler):
 
     @tornado.web.authenticated
     def user_add_link(self):
-
+        '''
+        Create link by user.
+        :return: 
+        '''
         if self.check_post_role()['ADD']:
             pass
         else:

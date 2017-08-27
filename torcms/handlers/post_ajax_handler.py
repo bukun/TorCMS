@@ -15,7 +15,7 @@ class PostAjaxHandler(PostHandler):
     def initialize(self, **kwargs):
         super(PostAjaxHandler, self).initialize()
 
-    def get(self, *args):
+    def get(self, *args, **kwargs):
         url_str = args[0]
         url_arr = self.parse_url(args[0])
         if url_arr[0] in ['_delete', 'delete']:
@@ -32,6 +32,9 @@ class PostAjaxHandler(PostHandler):
             self._view_or_add(url_str)
 
     def viewinfo(self, postinfo):
+        '''
+        View the info
+        '''
         out_json = {
             'uid': postinfo.uid,
             'time_update': postinfo.time_update,

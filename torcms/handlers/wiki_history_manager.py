@@ -1,5 +1,9 @@
 # -*- coding:utf-8 -*-
 
+'''
+History handler for wiki, and page.
+'''
+
 import tornado.escape
 import tornado.web
 
@@ -10,11 +14,18 @@ from .post_history_handler import EditHistoryHander
 
 
 class WikiHistoryHandler(EditHistoryHander):
+    '''
+    History handler for wiki, and page.
+    '''
+
     def initialize(self, **kwargs):
         super(WikiHistoryHandler, self).initialize()
 
     @tornado.web.authenticated
     def update(self, uid):
+        '''
+        Update the post via ID.
+        '''
         if self.userinfo.role[0] > '0':
             pass
         else:
@@ -35,6 +46,9 @@ class WikiHistoryHandler(EditHistoryHander):
 
     @tornado.web.authenticated
     def to_edit(self, postid):
+        '''
+        Try to edit the Post.
+        '''
         if self.userinfo.role[0] > '0':
             pass
         else:
@@ -46,6 +60,9 @@ class WikiHistoryHandler(EditHistoryHander):
 
     @tornado.web.authenticated
     def delete(self, uid):
+        '''
+        Delete the history of certain ID.
+        '''
         if self.check_post_role()['DELETE']:
             pass
         else:
@@ -62,6 +79,9 @@ class WikiHistoryHandler(EditHistoryHander):
         self.redirect('/wiki_man/view/{0}'.format(postinfo.uid))
 
     def view(self, uid):
+        '''
+        View the wiki with hisotical infos.
+        '''
         postinfo = MWiki.get_by_uid(uid)
         if postinfo:
             pass
@@ -88,6 +108,9 @@ class WikiHistoryHandler(EditHistoryHander):
 
     @tornado.web.authenticated
     def restore(self, hist_uid):
+        '''
+        Restore by ID
+        '''
         if self.check_post_role()['ADMIN']:
             pass
         else:

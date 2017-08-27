@@ -247,7 +247,7 @@ class InfoRecentUsed(tornado.web.UIModule):
 
         if kind:
             pass
-        elif len(args) > 0:
+        elif len(args):
             kind = args[0]
         else:
             pass
@@ -259,22 +259,15 @@ class InfoRecentUsed(tornado.web.UIModule):
         else:
             pass
 
-        if 'with_tag' in kwargs:
-            with_tag = kwargs['with_tag']
-        else:
-            with_tag = False
-
-        if 'userinfo' in kwargs:
-            userinfo = kwargs['userinfo']
-        else:
-            userinfo = None
-        if 'glyph' in kwargs:
-            glyph = kwargs['glyph']
-        else:
-            glyph = None
+        with_tag = kwargs['with_tag'] if 'with_tag' in kwargs else False
+        userinfo = kwargs['userinfo'] if 'userinfo' in kwargs else None
+        glyph = kwargs['glyph'] if 'glyph' in kwargs else None
 
         if userinfo:
-            html_str = self.render_user(kind, num, with_tag=with_tag, user_id=userinfo.uid,
+            html_str = self.render_user(kind,
+                                        num,
+                                        with_tag=with_tag,
+                                        user_id=userinfo.uid,
                                         glyph=glyph)
         else:
             html_str = self.render_it(kind, num, with_tag=with_tag, glyph=glyph)

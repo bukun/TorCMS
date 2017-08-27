@@ -11,7 +11,7 @@ from .script_init import run_init
 from .script_sendemail_all import run_send_all, run_send_nologin
 from .script_review import run_review
 from .script_sitemap import run_sitemap
-from .script_check_kind import run_check_kind
+from .script_funcs import run_check_kind, run_whoosh, run_update_cat
 from .script_fetch_fe2lib import run_f2elib
 from .script_init_tabels import run_init_tables
 from .script_drop_tabels import run_drop_tables
@@ -19,11 +19,8 @@ from .script_gen_category import run_gen_category
 
 from .autocrud.gen_html_file import generate_html_files as run_auto
 
-from .script_whoosh import run_whoosh
 from .tmplchecker import run_checkit
 from .script_sitemap import run_editmap
-
-from .script_update_post2tag import run_update_cat
 
 
 def entry(argv):

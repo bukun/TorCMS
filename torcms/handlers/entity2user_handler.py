@@ -37,7 +37,9 @@ class Entity2UserHandler(BaseHandler):
 
     @tornado.web.authenticated
     def list(self, cur_p=''):
-
+        '''
+        List the entities of the user.
+        '''
         if cur_p == '':
             current_page_number = 1
         else:

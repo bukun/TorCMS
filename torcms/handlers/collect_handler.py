@@ -15,10 +15,14 @@ from config import CMS_CFG
 
 
 class CollectHandler(BaseHandler):
+    '''
+    For User collection
+    '''
+
     def initialize(self, **kwargs):
         super(CollectHandler, self).initialize()
 
-    def get(self, *args):
+    def get(self, *args, **kwargs):
         url_str = args[0]
         if len(url_str) > 0:
             url_arr = self.parse_url(url_str)
@@ -38,6 +42,9 @@ class CollectHandler(BaseHandler):
 
     @tornado.web.authenticated
     def add_or_update(self, app_id):
+        '''
+        Add or update the category.
+        '''
         logger.info('Collect info: user-{0}, uid-{1}'.format(self.userinfo.uid, app_id))
         MCollect.add_or_update(self.userinfo.uid, app_id)
         out_dic = {'success': True}
@@ -45,6 +52,9 @@ class CollectHandler(BaseHandler):
 
     @tornado.web.authenticated
     def list(self, list, cur_p=''):
+        '''
+        List of the user collections.
+        '''
         if cur_p == '':
             current_page_num = 1
         else:

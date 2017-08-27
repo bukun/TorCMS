@@ -13,10 +13,9 @@ class RelHandler(BaseHandler):
     def initialize(self):
         super(RelHandler, self).initialize()
 
-    def get(self, *args):
-        url_str = args[0]
+    def get(self, *args, **kwargs):
 
-        url_arr = self.parse_url(url_str)
+        url_arr = self.parse_url(args[0])
 
         if len(url_arr) == 2:
             self.add_relation(url_arr)

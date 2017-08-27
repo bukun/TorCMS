@@ -29,7 +29,7 @@ class PageHandler(BaseHandler):
         super(PageHandler, self).initialize()
         self.kind = '2'
 
-    def get(self, *args):
+    def get(self, *args, **kwargs):
 
         url_str = args[0]
 
@@ -52,7 +52,7 @@ class PageHandler(BaseHandler):
         else:
             self.render('misc/html/404.html', userinfo=self.userinfo, kwd={})
 
-    def post(self, *args):
+    def post(self, *args, **kwargs):
         url_arr = self.parse_url(args[0])
 
         if url_arr[0] in ['_edit', 'modify', 'edit']:
@@ -190,6 +190,9 @@ class PageHandler(BaseHandler):
                     cfg=CMS_CFG)
 
     def ajax_count_plus(self, slug):
+        '''
+        post count plus one via ajax.
+        '''
         output = {
             'status': 1 if MWiki.view_count_plus(slug) else 0,
         }

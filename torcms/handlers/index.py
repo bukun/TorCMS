@@ -21,10 +21,7 @@ class IndexHandler(BaseHandler):
     def initialize(self, **kwargs):
         super(IndexHandler, self).initialize()
 
-    def get_current_user(self):
-        return self.get_secure_cookie("user")
-
-    def get(self, *args):
+    def get(self, *args, **kwargs):
         if len(args) == 0 or args[0] == 'index':
             self.index()
         else:

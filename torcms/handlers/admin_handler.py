@@ -8,10 +8,14 @@ from torcms.core.base_handler import BaseHandler
 
 
 class AdminHandler(BaseHandler):
+    '''
+    Handler for Admin.
+    '''
+
     def initialize(self, **kwargs):
         super(AdminHandler, self).initialize()
 
-    def get(self, *args):
+    def get(self, *args, **kwargs):
         url_str = args[0]
         if url_str == '':
             self.index()

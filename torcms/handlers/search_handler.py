@@ -1,5 +1,9 @@
 # -*- coding:utf-8 -*-
 
+'''
+For full text searching.
+'''
+
 from config import CMS_CFG
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tool.whoosh_tool import YunSearch
@@ -9,10 +13,7 @@ from torcms.core.tools import logger
 
 def gen_pager_bootstrap_url(cat_slug, page_num, current):
     '''
-    :param cat_slug: The category
-    :param page_num: The total number of the pages.
-    :param current:  current page index.
-    :return:
+    pager for searching results.
     '''
     pager = ''
     if page_num == 1 or page_num == 0:
@@ -51,9 +52,7 @@ def gen_pager_bootstrap_url(cat_slug, page_num, current):
             else:
                 checkstr = ''
 
-            tmp_str_df = '''
-
-                  <li class="{0}" name='fenye' onclick='change(this);'>
+            tmp_str_df = '''<li class="{0}" name='fenye' onclick='change(this);'>
                   <a href="{1}/{2}">{2}</a></li>'''.format(checkstr, cat_slug, num)
 
             pager_mid += tmp_str_df
@@ -76,6 +75,10 @@ def gen_pager_bootstrap_url(cat_slug, page_num, current):
 
 
 class SearchHandler(BaseHandler):
+    '''
+    For full text searching.
+    '''
+
     def initialize(self, **kwargs):
         super(SearchHandler, self).initialize()
         self.ysearch = YunSearch()
@@ -121,6 +124,9 @@ class SearchHandler(BaseHandler):
             self.redirect('/search/{0}/{1}/1'.format(catid, keyword))
 
     def search(self, keyword, p_index=''):
+        '''
+        perform searching.
+        '''
         if p_index == '' or p_index == '-1':
             current_page_number = 1
         else:
@@ -148,6 +154,9 @@ class SearchHandler(BaseHandler):
                     cfg=CMS_CFG)
 
     def search_cat(self, catid, keyword, p_index=1):
+        '''
+        Searching according the kind.
+        '''
         catid = 'sid' + catid
         logger.info('-' * 20)
         logger.info('search cat')
@@ -175,7 +184,6 @@ class SearchHandler(BaseHandler):
                'current_page': current_page_number,
                'catid': catid,
                'keyword': keyword}
-        # 'catname': '文档' if catid == '0000' else MCategory.get_by_uid(catid).name
 
         self.render('misc/search/search_list.html',
                     kwd=kwd,

@@ -68,7 +68,11 @@ class EntityHandler(BaseHandler):
 
     @tornado.web.authenticated
     def list(self, cur_p=''):
-
+        '''
+        Lists of the entities.
+        :param cur_p: 
+        :return: 
+        '''
         if cur_p == '':
             current_page_number = 1
         else:
@@ -185,6 +189,9 @@ class EntityHandler(BaseHandler):
 
     @tornado.web.authenticated
     def add_pdf(self, post_data):
+        '''
+        Adding the pdf file.
+        '''
 
         img_entity = self.request.files['file'][0]
         img_desc = post_data['desc']
@@ -229,7 +236,6 @@ class EntityHandler(BaseHandler):
             'kind': '3',
 
         }
-        # Todo (已改好)
         self.render('misc/entity/entity_view.html',
                     filename=img_path,
                     cfg=config.CMS_CFG,

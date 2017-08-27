@@ -19,6 +19,9 @@ from torcms.model.wiki_hist_model import MWikiHist
 # from celery_server import cele_gen_whoosh
 
 class WikiHandler(BaseHandler):
+    '''
+    Handler for wiki, and page.
+    '''
     executor = ThreadPoolExecutor(2)
 
     def initialize(self, **kwargs):

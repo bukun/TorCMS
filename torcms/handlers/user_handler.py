@@ -40,6 +40,7 @@ class UserHandler(BaseHandler):
     '''
     Handler for user.
     '''
+
     def initialize(self, **kwargs):
         super(UserHandler, self).initialize()
 
@@ -118,6 +119,9 @@ class UserHandler(BaseHandler):
 
     @tornado.web.authenticated
     def p_changepassword(self):
+        '''
+        Changing password.
+        '''
 
         post_data = self.get_post_data()
 
@@ -177,6 +181,9 @@ class UserHandler(BaseHandler):
 
     @tornado.web.authenticated
     def changepassword(self):
+        '''
+        Change password
+        '''
         post_data = self.get_post_data()
 
         uu = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
@@ -194,6 +201,9 @@ class UserHandler(BaseHandler):
 
     @tornado.web.authenticated
     def changeinfo(self):
+        '''
+        Change the user info
+        '''
 
         post_data, def_dic = self.fetch_post_data()
 
@@ -212,6 +222,9 @@ class UserHandler(BaseHandler):
 
     @tornado.web.authenticated
     def changerole(self, xg_username):
+        '''
+        Change th user rule
+        '''
         post_data = self.get_post_data()
 
         # if self.tmpl_router == "user":
@@ -226,27 +239,42 @@ class UserHandler(BaseHandler):
 
     @tornado.web.authenticated
     def logout(self):
+        '''
+        user logout.
+        '''
         self.clear_all_cookies()
         self.redirect('/')
 
     @tornado.web.authenticated
     def changepass(self):
+        '''
+        to change the password.
+        '''
 
         self.render(self.wrap_tmpl('user/{sig}user_changepass.html'),
                     userinfo=self.userinfo)
 
     @tornado.web.authenticated
     def change_info(self):
+        '''
+        to change the user info.
+        '''
         self.render(self.wrap_tmpl('user/{sig}user_changeinfo.html'),
                     userinfo=self.userinfo)
 
     @tornado.web.authenticated
     def change_role(self, xg_username):
+        '''
+        to change the user role
+        '''
         self.render('user/user_changerole.html',
                     userinfo=MUser.get_by_name(xg_username))
 
     @tornado.web.authenticated
     def to_find(self, ):
+        '''
+        to find the user
+        '''
         kwd = {
             'pager': '',
         }
@@ -258,15 +286,24 @@ class UserHandler(BaseHandler):
 
     @tornado.web.authenticated
     def show_info(self):
+        '''
+        show the user info
+        '''
         rec = MUser.get_by_uid(self.userinfo.uid)
         self.render(self.wrap_tmpl('user/{sig}user_info.html'),
                     userinfo=self.userinfo, extinfo=rec.extinfo)
 
     def to_reset_password(self):
+        '''
+        to reset the password.
+        '''
         self.render('user/user_reset_password.html',
                     userinfo=self.userinfo, )
 
     def to_login(self):
+        '''
+        to login.
+        '''
         next_url = self.get_argument("next", "/")
         if self.get_current_user():
             self.redirect(next_url)
@@ -324,6 +361,9 @@ class UserHandler(BaseHandler):
         return user_create_status
 
     def register(self):
+        '''
+        regist the user.
+        '''
         post_data = self.get_post_data()
 
         form = SumForm(self.request.arguments)
@@ -381,14 +421,14 @@ class UserHandler(BaseHandler):
 
     def json_register(self):
         '''
-                The first char of 'code' stands for the different field.
-                '1' for user_name
-                '2' for user_email
-                '3' for user_pass
-                '4' for user_role
-                The seconde char of 'code' stands for different status.
-                '1' for invalide
-                '2' for already exists.
+        The first char of 'code' stands for the different field.
+        '1' for user_name
+        '2' for user_email
+        '3' for user_pass
+        '4' for user_role
+        The seconde char of 'code' stands for different status.
+        '1' for invalide
+        '2' for already exists.
         '''
         user_create_status = {'success': False, 'code': '00'}
         post_data = self.get_post_data()
@@ -407,14 +447,14 @@ class UserHandler(BaseHandler):
 
     def json_changeinfo(self):
         '''
-                The first char of 'code' stands for the different field.
-                '1' for user_name
-                '2' for user_email
-                '3' for user_pass
-                '4' for user_role
-                The seconde char of 'code' stands for different status.
-                '1' for invalide
-                '2' for already exists.
+        The first char of 'code' stands for the different field.
+        '1' for user_name
+        '2' for user_email
+        '3' for user_pass
+        '4' for user_role
+        The seconde char of 'code' stands for different status.
+        '1' for invalide
+        '2' for already exists.
         '''
 
         user_create_status = {'success': False, 'code': '00'}
@@ -443,14 +483,14 @@ class UserHandler(BaseHandler):
 
     def json_changepass(self):
         '''
-                The first char of 'code' stands for the different field.
-                '1' for user_name
-                '2' for user_email
-                '3' for user_pass
-                '4' for user_role
-                The seconde char of 'code' stands for different status.
-                '1' for invalide
-                '2' for already exists.
+        The first char of 'code' stands for the different field.
+        '1' for user_name
+        '2' for user_email
+        '3' for user_pass
+        '4' for user_role
+        The seconde char of 'code' stands for different status.
+        '1' for invalide
+        '2' for already exists.
         '''
 
         user_create_status = {'success': False, 'code': '00'}
@@ -478,6 +518,9 @@ class UserHandler(BaseHandler):
             return False
 
     def __to_register__(self):
+        '''
+        to register.
+        '''
         kwd = {
             'pager': '',
         }
@@ -487,6 +530,9 @@ class UserHandler(BaseHandler):
                     kwd=kwd)
 
     def login(self):
+        '''
+        user login.
+        '''
         post_data = self.get_post_data()
 
         if 'next' in post_data:

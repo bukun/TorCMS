@@ -22,7 +22,7 @@ class LabelHandler(BaseHandler):
     def initialize(self, **kwargs):
         super(LabelHandler, self).initialize()
 
-    def get(self, *args):
+    def get(self, *args, **kwargs):
         '''
         /label/s/view
         :param :
@@ -42,6 +42,9 @@ class LabelHandler(BaseHandler):
 
     @tornado.web.authenticated
     def remove_redis_keyword(self, keyword):
+        '''
+        Remove the keyword for redis.
+        '''
         redisvr.srem(CMS_CFG['redis_kw'] + self.userinfo.user_name, keyword)
         return json.dump({}, self)
 
@@ -81,9 +84,11 @@ class LabelHandler(BaseHandler):
                     cfg=CMS_CFG)
 
     def gen_pager(self, kind, cat_slug, page_num, current):
-        # cat_slug 分类
-        # page_num 页面总数
-        # current 当前页面
+        '''
+        cat_slug 分类
+        page_num 页面总数
+        current 当前页面
+        '''
         if page_num == 1:
             return ''
 
@@ -127,7 +132,7 @@ class InfoTagHandler(BaseHandler):
         else:
             self.kind = '9'
 
-    def get(self, *args):
+    def get(self, *args, **kwargs):
         url_arr = self.parse_url(args[0])
 
         if len(url_arr) == 1:
@@ -141,4 +146,3 @@ class InfoTagHandler(BaseHandler):
             self.redirect('/label/{kind}/{slug}/{page}'.format(
                 slug=url_arr[0], kind=self.kind, page=url_arr[1]
             ))
-

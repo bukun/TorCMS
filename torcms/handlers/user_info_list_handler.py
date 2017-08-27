@@ -10,7 +10,8 @@ class UserListHandler(BaseHandler):
     def initialize(self):
         super(UserListHandler, self).initialize()
 
-    def get(self, url_str=''):
+    def get(self, *args, **kwargs):
+        url_str = args[0]
         if url_str == 'recent':
             self.to_find(url_str)
         if url_str == 'app':
@@ -26,6 +27,13 @@ class UserListHandler(BaseHandler):
             self.render('misc/html/404.html',
                         kwd=kwd,
                         userinfo=self.userinfo, )
+
+    def post(self, *args, **kwargs):
+        url_str = args[0]
+        if len(url_str) > 0:
+            ip_arr = url_str.split('/')
+        if url_str == 'find':
+            self.find()
 
     def list_app(self):
         kwd = {
@@ -60,13 +68,6 @@ class UserListHandler(BaseHandler):
                     kwd=kwd,
                     user_name=self.get_current_user(),
                     userinfo=self.userinfo)
-
-    def post(self, *args):
-        url_str = args[0]
-        if len(url_str) > 0:
-            ip_arr = url_str.split(r'/')
-        if url_str == 'find':
-            self.find()
 
     def to_find(self, *args):
         kwd = {'pager': ''}

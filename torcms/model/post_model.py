@@ -61,16 +61,16 @@ class MPost(Mabc):
         for reply in TabUser2Reply.select().where(TabUser2Reply.reply_id == uid):
             reply_arr.append(reply.reply_id.uid)
 
-        u6 = TabUser2Reply.delete().where(TabUser2Reply.reply_id == uid)
-        u6.execute()
+        q_u6 = TabUser2Reply.delete().where(TabUser2Reply.reply_id == uid)
+        q_u6.execute()
 
         for replyid in reply_arr:
             TabReply.delete().where(TabReply.uid == replyid).execute()
 
-        u7 = TabEvaluation.delete().where(TabEvaluation.post_id == uid)
-        u7.execute()
-        u8 = TabRating.delete().where(TabRating.post_id == uid)
-        u8.execute()
+        q_u7 = TabEvaluation.delete().where(TabEvaluation.post_id == uid)
+        q_u7.execute()
+        q_u8 = TabRating.delete().where(TabRating.post_id == uid)
+        q_u8.execute()
         return MHelper.delete(TabPost, uid)
 
     @staticmethod
@@ -143,7 +143,9 @@ class MPost(Mabc):
 
     @staticmethod
     def update_order(uid, order):
-
+        '''
+        Update the order of the posts.
+        '''
         entry = TabPost.update(
             order=order
         ).where(TabPost.uid == uid)
@@ -152,10 +154,7 @@ class MPost(Mabc):
     @staticmethod
     def update(uid, post_data, update_time=False):
         '''
-        :param uid:
-        :param post_data:
-        :param update_time:
-        :return:
+        update the infor.
         '''
 
         title = post_data['title'].strip()
@@ -270,9 +269,6 @@ class MPost(Mabc):
     def query_random(**kwargs):
         '''
         Return the random records of centain kind.
-        :param num:
-        :param kind:
-        :return:
         '''
 
         if 'limit' in kwargs:
@@ -303,9 +299,7 @@ class MPost(Mabc):
     @staticmethod
     def query_recent(num=8, **kwargs):
         '''
-        :param num:
-        :param kind:
-        :return:
+        query recent posts.
         '''
 
         if 'kind' in kwargs:
@@ -326,8 +320,7 @@ class MPost(Mabc):
     @staticmethod
     def query_all(**kwargs):
         '''
-            :param kwargs:
-            :return:
+        query all the posts.
         '''
         if 'kind' in kwargs:
             kind = kwargs['kind']

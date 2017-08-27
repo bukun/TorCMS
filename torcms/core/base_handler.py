@@ -67,6 +67,9 @@ class BaseHandler(tornado.web.RequestHandler):
         return priv_dic
 
     def get_current_user(self):
+        '''
+        the current user.
+        '''
         return self.get_secure_cookie("user")
 
     def is_admin(self):

@@ -16,6 +16,7 @@ from abc import ABCMeta, abstractmethod
 
 class EditHistoryHander(BaseHandler):
     __metaclass__ = ABCMeta
+
     def initialize(self, **kwargs):
         super(EditHistoryHander, self).initialize()
 

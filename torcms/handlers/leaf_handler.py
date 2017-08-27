@@ -35,7 +35,7 @@ class LeafHandler(PostHandler):
 
         self.filter_view = kwargs['filter_view'] if 'filter_view' in kwargs else False
 
-    def get(self, *args):
+    def get(self, *args, **kwargs):
 
         url_str = args[0]
         url_arr = self.parse_url(url_str)
@@ -51,7 +51,7 @@ class LeafHandler(PostHandler):
             self.render('misc/html/404.html', kwd=kwd,
                         userinfo=self.userinfo, )
 
-    def post(self, *args):
+    def post(self, *args, **kwargs):
 
         url_str = args[0]
         print(url_str)
@@ -61,6 +61,9 @@ class LeafHandler(PostHandler):
 
     @tornado.web.authenticated
     def update_order(self, uid, order):
+        '''
+        update the order of the posts.
+        '''
         if self.userinfo.role[1] > '0':
             MPost.update_order(uid, order)
 
@@ -72,7 +75,6 @@ class LeafHandler(PostHandler):
         '''
         self.redirect_kind(postinfo)
 
-        ######################################################
         if DB_CFG['kind'] == 's':
             cat_enum1 = []
 
@@ -81,10 +83,6 @@ class LeafHandler(PostHandler):
             ext_catid2 = postinfo.extinfo[
                 'def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else None
             cat_enum1 = MCategory.get_qian2(ext_catid2[:2]) if ext_catid else []
-
-        ######################################################
-
-
 
         catinfo = None
         p_catinfo = None

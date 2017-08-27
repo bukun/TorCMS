@@ -13,6 +13,7 @@ try:
     dot = Digraph()
     dot.format = 'png'
 except:
+    print('Count not found Graphviz.')
     pass
 
 rels_uniq_arr = []

@@ -1,14 +1,21 @@
 # -*- coding:utf-8 -*-
 
+'''
+For rating.
+'''
+
 import tornado.web
 from torcms.core.base_handler import BaseHandler
 from torcms.model.rating_model import MRating
 from torcms.model.post_model import MPost
-
 from torcms.core.tools import logger
 
 
 class RatingHandler(BaseHandler):
+    '''
+    For rating.
+    '''
+
     def initialize(self, **kwargs):
         super(RatingHandler, self).initialize()
 

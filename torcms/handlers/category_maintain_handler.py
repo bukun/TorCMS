@@ -22,7 +22,7 @@ class MaintainCategoryHandler(BaseHandler):
         super(MaintainCategoryHandler, self).initialize()
         self.tmpl_router = 'maintain_category'
 
-    def get(self, *args):
+    def get(self, *args, **kwargs):
         url_str = args[0]
         url_arr = self.parse_url(url_str)
         if url_str == 'add':
@@ -153,24 +153,6 @@ class MaintainCategoryHandler(BaseHandler):
                     dbrec=category_rec,
                     userinfo=self.userinfo,
                     cfg=config.CMS_CFG)
-
-    # @tornado.web.authenticated
-    # def add_post(self):
-    #     if self.check_post_role()['ADD']:
-    #         pass
-    #     else:
-    #         return False
-    #     post_data = {}
-    #     for key in self.request.arguments:
-    #         post_data[key] = self.get_arguments(key)
-    #
-    #     post_data['user_name'] = self.get_current_user()
-    #     id_post = post_data['uid'][0]
-    #     cur_post_rec = MCategory.get_by_uid(id_post)
-    #     if cur_post_rec is None:
-    #         uid = MCategory.add_or_update(id_post, post_data)
-    #
-    #     self.redirect('/maintain/category/list')
 
     @tornado.web.authenticated
     def p_add_category(self):
