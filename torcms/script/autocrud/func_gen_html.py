@@ -104,10 +104,19 @@ def gen_input_view(sig_dic):
     <div class="col-sm-4"><span class="des"><strong>{sig_zh}</strong></span></div>
     <div class="col-sm-8">
     <a class="val" onclick=entity_down("{{{{post_info.uid}}}}")
-     id="file_download" style="cursor: pointer;">
+     id="file_download" style="cursor: pointer; color:#069">
      {{{{    post_info.uid }}}}
      {sig_unit}</a></div></div>
     '''.format(sig_zh=sig_dic['zh'], sig_unit=sig_dic['dic'][1])
+    elif sig_dic['en'] in ['tag_access_link','tag_dmoz_url','tag_online_link','tag_event_url']:
+        return '''<div class="row">
+    <div class="col-sm-4"><span class="des"><strong>{1}</strong></span></div>
+    <div class="col-sm-8">
+    <a class="val" target="_blank" href="{{{{ post_info.extinfo['{0}'] if '{0}' in post_info.extinfo else '' }}}}
+     {2}" style="cursor: pointer; color:#069">
+     {{{{ post_info.extinfo['{0}'] if '{0}' in post_info.extinfo else '' }}}}
+     {2} </a></div></div>
+    '''.format(sig_dic['en'], sig_dic['zh'], sig_dic['dic'][1])
 
     else:
         return '''<div class="row">
