@@ -13,7 +13,6 @@ class MUser(Mabc):
     '''
     Model for user.
     '''
-
     def __init__(self):
         super(MUser, self).__init__()
 
@@ -48,6 +47,9 @@ class MUser(Mabc):
 
     @staticmethod
     def set_sendemail_time(uid):
+        '''
+        Set the time that send E-mail to user.
+        '''
         entry = TabMember.update(
             time_email=tools.timestamp(),
         ).where(TabMember.uid == uid)
@@ -67,9 +69,6 @@ class MUser(Mabc):
     def check_user(user_id, u_pass):
         '''
         Checking the password by user's ID.
-        :param user_id: 
-        :param u_pass: 
-        :return: 
         '''
         user_count = TabMember.select().where(TabMember.uid == user_id).count()
         if user_count == 0:
@@ -84,11 +83,12 @@ class MUser(Mabc):
         '''
         Checking the password by user's name.
         '''
-        tt = TabMember.select().where(TabMember.user_name == user_name).count()
-        if tt == 0:
+        the_query = TabMember.select().where(TabMember.user_name == user_name)
+        if the_query.count() == 0:
             return -1
-        a = TabMember.get(user_name=user_name)
-        if a.user_pass == tools.md5(u_pass):
+
+        the_user = the_query.get()
+        if the_user.user_pass == tools.md5(u_pass):
             return 1
         return 0
 
@@ -132,13 +132,14 @@ class MUser(Mabc):
         21: standsfor invalide E-mail.
         91: standsfor unkown reson.
         '''
+
         if extinfo is None:
             extinfo = {}
 
         out_dic = {'success': False, 'code': '00'}
-
-        out_dic['code'] = '00' if tools.check_email_valid(newemail) else '21'
-
+        if not tools.check_email_valid(newemail):
+            out_dic['code'] = '21'
+            return out_dic
         cur_info = MUser.get_by_uid(user_id)
         cur_extinfo = cur_info.extinfo
         for key in extinfo:
@@ -168,7 +169,6 @@ class MUser(Mabc):
             time_reset_passwd=the_time,
         ).where(TabMember.user_name == user_name)
         try:
-
             entry.execute()
             return True
         except:
@@ -192,8 +192,6 @@ class MUser(Mabc):
     def update_time_login(u_name):
         '''
         Update the login time for user.
-        :param u_name: 
-        :return: 
         '''
         entry = TabMember.update(
             time_login=tools.timestamp()
@@ -206,40 +204,43 @@ class MUser(Mabc):
     def create_user(post_data):
         '''
         Create the user.
-        The code used if `False`.        
+        The code used if `False`.
         11: standsfor invalid username.
         21: standsfor invalide E-mail.
         91: standsfor unkown reson.
         '''
         out_dic = {'success': False, 'code': '00'}
 
-        out_dic['code'] = '00' if tools.check_username_valid(post_data['user_name']) else '11'
-        out_dic['code'] = '00' if tools.check_email_valid(post_data['user_email']) else '21'
+        if not tools.check_username_valid(post_data['user_name']):
+            out_dic['code'] = '11'
+            return out_dic
 
-        if out_dic['code'] == '00':
-            try:
-                TabMember.create(uid=tools.get_uuid(),
-                                 user_name=post_data['user_name'],
-                                 user_pass=tools.md5(post_data['user_pass']),
-                                 user_email=post_data['user_email'],
-                                 role=post_data.get('role', '1000'),
-                                 time_create=tools.timestamp(),
-                                 time_update=tools.timestamp(),
-                                 time_reset_passwd=tools.timestamp(),
-                                 time_login=tools.timestamp(),
-                                 time_email=tools.timestamp())
+        if not tools.check_email_valid(post_data['user_email']):
+            out_dic['code'] = '21'
+            return out_dic
 
-                out_dic['success'] = True
-                out_dic['code'] = '00'
-            except:
-                out_dic['success'] = False
-                out_dic['code'] = '91'
-        else:
-            out_dic['success'] = False
+        try:
+            TabMember.create(uid=tools.get_uuid(),
+                             user_name=post_data['user_name'],
+                             user_pass=tools.md5(post_data['user_pass']),
+                             user_email=post_data['user_email'],
+                             role=post_data.get('role', '1000'),
+                             time_create=tools.timestamp(),
+                             time_update=tools.timestamp(),
+                             time_reset_passwd=tools.timestamp(),
+                             time_login=tools.timestamp(),
+                             time_email=tools.timestamp())
+
+            out_dic['success'] = True
+        except:
+            out_dic['code'] = '91'
         return out_dic
 
     @staticmethod
     def get_by_keyword(par2):
+        '''
+        Get Member by keyword
+        '''
         return TabMember.select().where(TabMember.user_name.contains(par2))
 
     @staticmethod
@@ -258,7 +259,7 @@ class MUser(Mabc):
     def delete(user_id):
         '''
         Delele the  user in the database by `user_id`.
-        :param user_id: ID of the user.  
+        :param user_id: ID of the user.
         :return: True if success else False.
         '''
         try:
