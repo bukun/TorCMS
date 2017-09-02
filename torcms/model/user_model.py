@@ -234,7 +234,8 @@ class MUser(Mabc):
             except:
                 out_dic['success'] = False
                 out_dic['code'] = '91'
-
+        else:
+            out_dic['success'] = False
         return out_dic
 
     @staticmethod
