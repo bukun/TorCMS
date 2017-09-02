@@ -102,9 +102,9 @@ class MCategory(Mabc):
         :param slug:
         :return:
         '''
-        uu = TabTag.select().where(TabTag.slug == slug)
-        if uu.count() > 0:
-            return uu.get()
+        rec = TabTag.select().where(TabTag.slug == slug)
+        if rec.count() > 0:
+            return rec.get()
         else:
             return None
 

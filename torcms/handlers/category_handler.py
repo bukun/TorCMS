@@ -55,8 +55,8 @@ class CategoryHandler(BaseHandler):
         cur_cat = MCategory.query_sub_cat(pid)
 
         out_arr = {}
-        for x in cur_cat:
-            out_arr[x.uid] = x.name
+        for rec in cur_cat:
+            out_arr[rec.uid] = rec.name
         json.dump(out_arr, self)
 
     def ajax_kindcat_arr(self, kind_sig):
@@ -82,16 +82,18 @@ class CategoryHandler(BaseHandler):
 
         post_data = self.get_post_data()
 
-        tag = post_data['tag'] if 'tag' in post_data else ''
+        tag = post_data.get('tag', '')
 
-        cur_p = kwargs['cur_p'] if 'cur_p' in kwargs else ''
+        def get_pager_idx():
+            '''
+            Get the pager index.
+            '''
+            cur_p = kwargs.get('cur_p')
+            the_num = int(cur_p) if cur_p else 1
+            the_num = 1 if the_num < 1 else the_num
+            return the_num
 
-        if cur_p == '':
-            current_page_num = 1
-        else:
-            current_page_num = int(cur_p)
-
-        current_page_num = 1 if current_page_num < 1 else current_page_num
+        current_page_num = get_pager_idx()
 
         cat_rec = MCategory.get_by_slug(cat_slug)
         if cat_rec:

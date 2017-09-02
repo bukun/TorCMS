@@ -32,8 +32,8 @@ class ShowPage(tornado.web.UIModule):
         '''
         '''
         page_id = kwargs['page_id']
-        userinfo = kwargs['userinfo'] if 'userinfo' in kwargs else None
-        count = kwargs['count'] if 'count' in kwargs else 0
+        userinfo = kwargs.get('userinfo', None)
+        count = kwargs.get('count', 0)
         page = MWiki.get_by_uid(page_id)
         kwd = {
             'uid': page_id,
@@ -56,7 +56,7 @@ class PostLabels(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-        postinfo = kwargs['postinfo'] if 'postinfo' in kwargs else None
+        postinfo = kwargs.get('postinfo', None)
         if postinfo:
             tag_info = MPost2Label.get_by_uid(postinfo.uid).naive()
             idx = 1
@@ -264,7 +264,7 @@ class PostCategoryRecent(tornado.web.UIModule):
     def render(self, cat_id, label=None, num=10, with_catalog=True, with_date=True, glyph='',
                **kwargs):
 
-        is_spa = kwargs['spa'] if 'spa' in kwargs else False
+        is_spa = kwargs.get('spa', False)
 
         catinfo = MCategory.get_by_uid(cat_id)
         if catinfo.pid == '0000':
@@ -296,31 +296,12 @@ class ShowoutRecent(tornado.web.UIModule):
     '''
 
     def render(self, cat_id, kind, **kwargs):
+        num = kwargs.get('num', 10)
 
-        if 'num' in kwargs:
-            num = kwargs['num']
-        else:
-            num = 10
-
-        if 'width' in kwargs:
-            width = kwargs['width']
-        else:
-            width = 160
-
-        if 'height' in kwargs:
-            height = kwargs['height']
-        else:
-            height = 120
-
-        if 'with_catalog' in kwargs:
-            with_catalog = kwargs['with_catalog']
-        else:
-            with_catalog = True
-
-        if 'with_date' in kwargs:
-            with_date = kwargs['with_date']
-        else:
-            with_date = True
+        width = kwargs.get('width', 160)
+        height = kwargs.get('height', 120)
+        with_catalog = kwargs.get('with_catalog', True)
+        with_date = kwargs.get('with_date', True)
 
         kwd = {
             'with_catalog': with_catalog,

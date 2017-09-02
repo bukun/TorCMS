@@ -430,7 +430,7 @@ class UserHandler(BaseHandler):
         '1' for invalide
         '2' for already exists.
         '''
-        user_create_status = {'success': False, 'code': '00'}
+        # user_create_status = {'success': False, 'code': '00'}
         post_data = self.get_post_data()
         user_create_status = self.__check_valid(post_data)
         if not user_create_status['success']:
@@ -457,7 +457,7 @@ class UserHandler(BaseHandler):
         '2' for already exists.
         '''
 
-        user_create_status = {'success': False, 'code': '00'}
+        # user_create_status = {'success': False, 'code': '00'}
         post_data = self.get_post_data()
 
         uu = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
@@ -493,12 +493,12 @@ class UserHandler(BaseHandler):
         '2' for already exists.
         '''
 
-        user_create_status = {'success': False, 'code': '00'}
+        # user_create_status = {'success': False, 'code': '00'} # Not used currently.
         post_data = self.get_post_data()
 
-        uu = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
+        check_usr_status = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
 
-        if uu == 1:
+        if check_usr_status == 1:
 
             user_create_status = self.__check_valid_pass(post_data)
             if not user_create_status['success']:
@@ -511,8 +511,6 @@ class UserHandler(BaseHandler):
                 return json.dump(user_create_status, self)
             else:
                 return json.dump(user_create_status, self)
-
-
 
         else:
             return False
@@ -543,33 +541,31 @@ class UserHandler(BaseHandler):
         u_name = post_data['user_name']
         u_pass = post_data['user_pass']
 
-        kwd = {
-            'pager': '',
-        }
         result = MUser.check_user_by_name(u_name, u_pass)
+
+        # Todo: the kwd should remove from the codes.
         if result == 1:
             self.set_secure_cookie("user", u_name)
             MUser.update_time_login(u_name)
             self.redirect(next_url)
         elif result == 0:
             self.set_status(401)
-            kwd = {
-                'info': '密码验证出错，请重新登陆。',
-                'link': '/user/login',
-            }
+
             self.render('user/user_relogin.html',
                         cfg=config.CMS_CFG,
-                        kwd=kwd,
+                        kwd={
+                            'info': '密码验证出错，请重新登陆。',
+                            'link': '/user/login',
+                        },
                         userinfo=self.userinfo)
         elif result == -1:
             self.set_status(401)
-            kwd = {
-                'info': '没有这个用户',
-                'link': '/user/login',
-            }
             self.render('misc/html/404.html',
                         cfg=config.CMS_CFG,
-                        kwd=kwd,
+                        kwd={
+                            'info': '没有这个用户',
+                            'link': '/user/login',
+                        },
                         userinfo=self.userinfo)
         else:
             self.set_status(305)
@@ -588,6 +584,9 @@ class UserHandler(BaseHandler):
                     userinfo=self.userinfo)
 
     def find(self, keyword):
+        '''
+        find by keyword.
+        '''
         kwd = {
             'pager': '',
             'unescape': tornado.escape.xhtml_unescape,
@@ -600,30 +599,12 @@ class UserHandler(BaseHandler):
                     cfg=config.CMS_CFG,
                     userinfo=self.userinfo)
 
-        # if self.tmpl_router == "user":
-        # self.render('user/user_find_list.html',
-        # )
-        # else:
-        #     result = MUser.get_by_keyword(keyword)
-        #     if result:
-        #         output = {
-        #             'find': result
-        #         }
-        #     else:
-        #         output = {
-        #             'find': 0,
-        #         }
-        #
-        #     return json.dump(output, self)
-
-    def delete(self, del_id):
+    def delete(self, user_id):
         '''
-        delete user.
-        :param del_id:
-        :return:
+        delete user by ID.
         '''
         if self.is_p == True:
-            if MUser.delete(del_id):
+            if MUser.delete(user_id):
                 output = {
                     'del_category': 1
                 }
@@ -635,7 +616,7 @@ class UserHandler(BaseHandler):
             return json.dump(output, self)
 
         else:
-            is_deleted = MUser.delete(del_id)
+            is_deleted = MUser.delete(user_id)
             if is_deleted:
                 self.redirect('/user/find')
 

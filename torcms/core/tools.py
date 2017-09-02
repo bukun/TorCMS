@@ -16,6 +16,7 @@ from markdown.extensions.wikilinks import WikiLinkExtension
 from playhouse.postgres_ext import PostgresqlExtDatabase
 import tornado.escape
 from torcms.core.libs.deprecation import deprecated
+import cfg
 
 # Config for logging
 logging.basicConfig(level=logging.DEBUG,
@@ -78,7 +79,7 @@ def diff_table(rawinfo, newinfo):
 def check_username_valid(username):
     '''
     Checking if the username if valid.
-    
+
     >>> check_username_valid('/sadf')
     False
     >>> check_username_valid('\s.adf')
@@ -92,7 +93,7 @@ def check_username_valid(username):
 def check_email_valid(email_str):
     '''
     Checking if the given Email is valid.
-    
+
     >>> check_email_valid('')
     False
     >>> check_email_valid('s.adf')
@@ -108,18 +109,30 @@ def check_email_valid(email_str):
 
 
 def md5(instr):
+    '''
+    md5
+    '''
     return hashlib.md5(instr.encode('utf-8')).hexdigest()
 
 
 def timestamp():
+    '''
+    The timestamp of integer.
+    '''
     return int(time.time())
 
 
 def format_yr(indate):
+    '''
+    date of yr
+    '''
     return indate.strftime('%m-%d')
 
 
 def format_date(indate):
+    '''
+    date of date
+    '''
     return indate.strftime('%Y-%m-%d %H:%M:%S')
 
 
@@ -132,32 +145,44 @@ def get_uuid():
 
 
 def get_uu8d():
+    '''
+    Get ID of 8 digit.
+    '''
     return str(uuid.uuid1()).split('-')[0]
 
 
+func_rand_arr = lambda arr, len: ''.join(random.sample(arr, len))
+
+
 def get_uu4d_v2():
+    '''
+    Get ID of 4 digit. version 2.
+    '''
     sel_arr = [x for x in 'ghijklmnopqrstuvwxyz']
-    rarr = random.sample(sel_arr, 4)
-    return ''.join(rarr)
+    return func_rand_arr(sel_arr, 4)
 
 
 def get_uu4d():
+    '''
+    Get ID of 4 digit.
+    '''
     sel_arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f']
-    rarr = random.sample(sel_arr, 4)
-    return ''.join(rarr)
+    # rarr = random.sample(sel_arr, 4)
+    return func_rand_arr(sel_arr, 4)
 
 
 def get_uu5d():
+    '''
+    Get ID of 5 digit.
+    '''
     sel_arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f']
-    rarr = random.sample(sel_arr, 5)
-    return ''.join(rarr)
+    # rarr = random.sample(sel_arr, 5)
+    return func_rand_arr(sel_arr, 5)
 
 
 def get_uudd(lenth):
     '''
     随机获取给定位数的整数
-    :param lenth:
-    :return:
     '''
     sel_arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
     rarr = random.sample(sel_arr, lenth)
@@ -167,24 +192,29 @@ def get_uudd(lenth):
 
 
 def get_uu6d():
+    '''
+    Get ID of 6 digit.
+    '''
     sel_arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f']
-    rarr = random.sample(sel_arr, 6)
-    return ''.join(rarr)
+    return func_rand_arr(sel_arr, 6)
 
 
 def markdown2html(markdown_text):
     '''
     Convert markdown text to HTML. with extensions.
-    
     :param markdown_text:   The markdown text.
     :return:  The HTML text.
     '''
-    html = markdown.markdown(markdown_text,
-                             extensions=[WikiLinkExtension(base_url='/wiki/', end_url=''),
-                                         'markdown.extensions.extra',
-                                         'markdown.extensions.toc',
-                                         'markdown.extensions.codehilite',
-                                         'markdown.extensions.meta', ])
+    html = markdown.markdown(
+        markdown_text,
+        extensions=[
+            WikiLinkExtension(base_url='/wiki/', end_url=''),
+            'markdown.extensions.extra',
+            'markdown.extensions.toc',
+            'markdown.extensions.codehilite',
+            'markdown.extensions.meta'
+        ]
+    )
     han_biaodians = ['。', '，', '；', '、', '！', '？']
     for han_biaodian in han_biaodians:
         html = html.replace(han_biaodian + '\n', han_biaodian)
@@ -194,33 +224,40 @@ def markdown2html(markdown_text):
 @deprecated(details='using `tag_pager` as the replacement.')
 def gen_pager_bootstrap_url(cat_slug, page_num, current):
     '''
-    :return:
+    Generate the url.
     '''
     if page_num == 1:
         return ''
 
-    pager_shouye = '''<li class="{0}">
-    <a href="{1}/{2}">&lt;&lt; 首页</a>
-                </li>'''.format('hidden' if current <= 1 else '', cat_slug, current)
+    pager_shouye = '''<li class="{0}"><a href="{1}/{2}">&lt;&lt; 首页</a></li>'''.format(
+        'hidden' if current <= 1 else '',
+        cat_slug,
+        current
+    )
 
-    pager_pre = '''                <li class="{0}">
-                <a href="{1}/{2}">&lt; 前页</a>
-                </li> '''.format('hidden' if current <= 1 else '', cat_slug, current - 1)
+    pager_pre = '''<li class="{0}"><a href="{1}/{2}">&lt; 前页</a></li>'''.format(
+        'hidden' if current <= 1 else '',
+        cat_slug,
+        current - 1
+    )
     pager_mid = ''
     for ind in range(0, page_num):
-        tmp_mid = '''                <li class="{0}">
-                <a  href="{1}/{2}">{2}</a></li>   '''.format('active' if ind + 1 == current else '',
-                                                             cat_slug, ind + 1)
+        tmp_mid = '''<li class="{0}"><a  href="{1}/{2}">{2}</a></li>'''.format(
+            'active' if ind + 1 == current else '',
+            cat_slug,
+            ind + 1
+        )
         pager_mid += tmp_mid
-    pager_next = '''
-                <li class=" {0}">
-                <a  href="{1}/{2}">后页 &gt;</a>
-                </li>'''.format('hidden' if current >= page_num else '', cat_slug, current + 1)
-    pager_last = '''
-                <li class=" {0}">
-                <a href="{1}/{2}">末页
-                    &gt;&gt;</a>
-                </li>'''.format('hidden' if current >= page_num else '', cat_slug, page_num)
+    pager_next = '''<li class=" {0}"><a  href="{1}/{2}">后页 &gt;</a></li>'''.format(
+        'hidden' if current >= page_num else '',
+        cat_slug,
+        current + 1
+    )
+    pager_last = '''<li class=" {0}"><a href="{1}/{2}">末页&gt;&gt;</a></li>'''.format(
+        'hidden' if current >= page_num else '',
+        cat_slug,
+        page_num
+    )
     pager = pager_shouye + pager_pre + pager_mid + pager_next + pager_last
     return pager
 
@@ -233,31 +270,35 @@ def gen_pager_purecss(cat_slug, page_num, current):
     if page_num == 1:
         return ''
 
-    pager_shouye = '''
-    <li class="pure-menu-item {0}">
-    <a class="pure-menu-link" href="{1}">&lt;&lt; 首页</a>
-                </li>'''.format('hidden' if current <= 1 else '', cat_slug)
+    pager_shouye = '''<li class="pure-menu-item {0}">
+    <a class="pure-menu-link" href="{1}">&lt;&lt; 首页</a></li>'''.format(
+        'hidden' if current <= 1 else '', cat_slug
+    )
 
-    pager_pre = '''
-                <li class="pure-menu-item {0}">
+    pager_pre = '''<li class="pure-menu-item {0}">
                 <a class="pure-menu-link" href="{1}/{2}">&lt; 前页</a>
-                </li> '''.format('hidden' if current <= 1 else '', cat_slug, current - 1)
+                </li>'''.format('hidden' if current <= 1 else '',
+                                cat_slug,
+                                current - 1)
     pager_mid = ''
     for ind in range(0, page_num):
-        tmp_mid = '''
-                <li class="pure-menu-item {0}">
+        tmp_mid = '''<li class="pure-menu-item {0}">
                 <a class="pure-menu-link" href="{1}/{2}">{2}</a></li>
-                '''.format('selected' if ind + 1 == current else '', cat_slug, ind + 1)
+                '''.format('selected' if ind + 1 == current else '',
+                           cat_slug,
+                           ind + 1)
         pager_mid += tmp_mid
-    pager_next = '''
-                <li class="pure-menu-item {0}">
+    pager_next = '''<li class="pure-menu-item {0}">
                 <a class="pure-menu-link" href="{1}/{2}">后页 &gt;</a>
-                </li> '''.format('hidden' if current >= page_num else '', cat_slug, current + 1)
-    pager_last = '''
-                <li class="pure-menu-item {0}">
+                </li> '''.format('hidden' if current >= page_num else '',
+                                 cat_slug,
+                                 current + 1)
+    pager_last = '''<li class="pure-menu-item {0}">
                 <a hclass="pure-menu-link" ref="{1}/{2}">末页
-                    &gt;&gt;</a>
-                </li> '''.format('hidden' if current >= page_num else '', cat_slug, page_num)
+                &gt;&gt;</a>
+                </li> '''.format('hidden' if current >= page_num else '',
+                                 cat_slug,
+                                 page_num)
     pager = pager_shouye + pager_pre + pager_mid + pager_next + pager_last
     return pager
 
@@ -265,9 +306,6 @@ def gen_pager_purecss(cat_slug, page_num, current):
 def average_array(num_arr):
     '''
     The average value of the given array.
-    
-    :param num_arr: 
-    :return: 
     '''
     return sum(num_arr) / len(num_arr)
 
@@ -276,7 +314,6 @@ class ConfigDefault(object):
     '''
     Class for the default configuration.
     '''
-
     SMTP_CFG = {
         'name': '地图画板',
         'host': "",
@@ -301,10 +338,7 @@ class ConfigDefault(object):
 def get_cfg():
     '''
     Get the configure value.
-    :return: 
     '''
-
-    import cfg
 
     cfg_var = dir(cfg)
 
@@ -338,7 +372,7 @@ def get_cfg():
     else:
         site_cfg['DEBUG'] = False
 
-    DB_CON = PostgresqlExtDatabase(
+    db_con = PostgresqlExtDatabase(
         db_cfg['db'],
         user=db_cfg['user'],
         password=db_cfg['pass'],
@@ -346,4 +380,4 @@ def get_cfg():
         autocommit=True,
         autorollback=True)
 
-    return (DB_CON, smtp_cfg, site_cfg)
+    return (db_con, smtp_cfg, site_cfg)

@@ -40,7 +40,7 @@ class PostHandler(BaseHandler):
         else:
             self.kind = '1'
 
-        self.filter_view = kwargs['filter_view'] if 'filter_view' in kwargs else False
+        self.filter_view = kwargs.get('filter_view', False)
 
     def _redirect(self, url_arr):
         '''
@@ -263,7 +263,6 @@ class PostHandler(BaseHandler):
             return self._to_add_with_category(catid)
 
         else:
-
             if self.check_post_role()['ADD']:
                 pass
             else:

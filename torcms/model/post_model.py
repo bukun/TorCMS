@@ -449,7 +449,7 @@ class MPost(Mabc):
         :return:
         '''
         if label:
-            return MPost.query_total_cat_recent_with_label(
+            return MPost.__query_with_label(
                 cat_id_arr,
                 label=label,
                 num=num,
@@ -459,7 +459,7 @@ class MPost(Mabc):
             return MPost.query_total_cat_recent_no_label(cat_id_arr, num=num, kind=kind)
 
     @staticmethod
-    def query_total_cat_recent_with_label(cat_id_arr, label=None, num=8, kind='1'):
+    def __query_with_label(cat_id_arr, label=None, num=8, kind='1'):
         '''
         :param cat_id_arr:   list of categories. ['0101', '0102']
         :param num:
@@ -498,9 +498,7 @@ class MPost(Mabc):
     @staticmethod
     def query_most(num=8, kind='1'):
         '''
-        :param num:
-        :param kind:
-        :return:
+        Query most viewed.
         '''
 
         return TabPost.select().where(
@@ -543,9 +541,7 @@ class MPost(Mabc):
     @staticmethod
     def __update_keywords(uid, inkeywords):
         '''
-        :param uid:
-        :param inkeywords:
-        :return:
+        Update with keywords.
         '''
         entry = TabPost.update(keywords=inkeywords).where(TabPost.uid == uid)
         entry.execute()
@@ -553,9 +549,7 @@ class MPost(Mabc):
     @staticmethod
     def get_next_record(in_uid, kind='1'):
         '''
-        :param in_uid:
-        :param kind:
-        :return:
+        Get next record by time_create.
         '''
         current_rec = MPost.get_by_uid(in_uid)
         query = TabPost.select().where(
@@ -570,9 +564,7 @@ class MPost(Mabc):
     @staticmethod
     def get_previous_record(in_uid, kind='1'):
         '''
-        :param in_uid:
-        :param kind:
-        :return:
+        Get previous record by time_create.
         '''
         current_rec = MPost.get_by_uid(in_uid)
         query = TabPost.select().where(
@@ -586,6 +578,9 @@ class MPost(Mabc):
 
     @staticmethod
     def get_all(kind='2'):
+        '''
+        Get All the records.
+        '''
         return TabPost.select().where(
             (TabPost.kind == kind) &
             (TabPost.valid == 1)
@@ -595,6 +590,9 @@ class MPost(Mabc):
 
     @staticmethod
     def update_jsonb(uid, extinfo):
+        '''
+        Update the json.
+        '''
         cur_extinfo = MPost.get_by_uid(uid).extinfo
         for key in extinfo:
             cur_extinfo[key] = extinfo[key]
@@ -607,10 +605,7 @@ class MPost(Mabc):
     @staticmethod
     def modify_meta(uid, data_dic, extinfo=None):
         '''
-        手工修改的。
-        :param uid:
-        :param data_dic:
-        :return:
+        update meta of the rec.
         '''
         if extinfo is None:
             extinfo = {}
@@ -665,10 +660,7 @@ class MPost(Mabc):
     @staticmethod
     def modify_init(uid, data_dic):
         '''
-        命令行更新的
-        :param uid:
-        :param data_dic:
-        :return:
+        update when init.
         '''
         postinfo = MPost.get_by_uid(uid)
         entry = TabPost.update(
@@ -682,6 +674,9 @@ class MPost(Mabc):
 
     @staticmethod
     def get_view_count(sig):
+        '''
+        get count of view.
+        '''
         try:
             return TabPost.get(uid=sig).view_count
         except:
@@ -749,7 +744,6 @@ class MPost(Mabc):
     @staticmethod
     def get_label_fenye(tag_slug, idx):
         all_list = MPost.query_by_tagname(tag_slug)
-
         # 当前分页的记录
         # Todo
         # current_list = all_list[(idx - 1) * CMS_CFG['list_num']: idx * CMS_CFG['list_num']]
@@ -863,10 +857,6 @@ class MPost(Mabc):
     def query_list_pager(con, idx, kind='2'):
         '''
         Get records of certain pager.
-        :param con:
-        :param idx:
-        :param kind:
-        :return:
         '''
 
         all_list = MPost.query_under_condition(con, kind=kind)

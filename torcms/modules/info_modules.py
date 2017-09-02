@@ -242,33 +242,36 @@ class InfoRecentUsed(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-        kind = kwargs['kind'] if 'kind' in kwargs else ''
-        num = kwargs['num'] if 'num' in kwargs else ''
 
-        if kind:
-            pass
-        elif len(args):
-            kind = args[0]
-        else:
-            pass
+        def get_para(key):
+            '''
+            Get the para
+            First from kwargs, else from args.
+            '''
+            para = kwargs.get(key, '')
+            if para:
+                pass
+            elif len(args):
+                para = args[0]
+            else:
+                pass
+            return para
 
-        if num:
-            pass
-        elif len(args) > 1:
-            num = args[1]
-        else:
-            pass
+        kind = get_para('kind')
+        num = get_para('num')
 
-        with_tag = kwargs['with_tag'] if 'with_tag' in kwargs else False
-        userinfo = kwargs['userinfo'] if 'userinfo' in kwargs else None
-        glyph = kwargs['glyph'] if 'glyph' in kwargs else None
+        with_tag = kwargs.get('with_tag', False)
+        userinfo = kwargs.get('userinfo', None)
+        glyph = kwargs.get('glyph', None)
 
         if userinfo:
-            html_str = self.render_user(kind,
-                                        num,
-                                        with_tag=with_tag,
-                                        user_id=userinfo.uid,
-                                        glyph=glyph)
+            html_str = self.render_user(
+                kind,
+                num,
+                with_tag=with_tag,
+                user_id=userinfo.uid,
+                glyph=glyph
+            )
         else:
             html_str = self.render_it(kind, num, with_tag=with_tag, glyph=glyph)
         return html_str
@@ -305,9 +308,11 @@ class InfoRecentUsed(tornado.web.UIModule):
 
         glyph = kwargs['glyph'] if 'glyph' in kwargs else  ''
 
-        logger.info('Infor user recent, username: {user_name}, kind: {kind}, num: {num}'.format(
-            user_name=user_id, kind=kind, num=num
-        ))
+        logger.info(
+            'Infor user recent, username: {user_name}, kind: {kind}, num: {num}'.format(
+                user_name=user_id, kind=kind, num=num
+            )
+        )
 
         all_cats = MUsage.query_recent(user_id, kind, num).naive()
         kwd = {
@@ -329,7 +334,7 @@ class InfoRandom(tornado.web.UIModule):
         kind = args[0]
         num = args[1]
 
-        glyph = kwargs['glyph'] if 'glyph' in kwargs else ''
+        glyph = kwargs.get('glyph', '')
 
         all_cats = MPost.query_random(num=num, kind=kind)
         kwd = {
@@ -374,7 +379,7 @@ class InfoMenu(tornado.web.UIModule):
 
     def render(self, *args, **kwargs):
         kind = args[0]
-        limit = kwargs['limit'] if 'limit' in kwargs else 10
+        limit = kwargs.get('limit', 10)
         all_cats = MCategory.query_field_count(limit, kind=kind)
         kwd = {
             'cats': all_cats,

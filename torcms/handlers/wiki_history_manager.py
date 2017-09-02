@@ -32,10 +32,7 @@ class WikiHistoryHandler(EditHistoryHander):
             return False
 
         post_data = self.get_post_data()
-        if self.userinfo:
-            post_data['user_name'] = self.userinfo.user_name
-        else:
-            post_data['user_name'] = ''
+        post_data['user_name'] = self.userinfo.user_name if self.userinfo else ''
         cur_info = MWiki.get_by_uid(uid)
         MWikiHist.create_wiki_history(cur_info)
         MWiki.update_cnt(uid, post_data)

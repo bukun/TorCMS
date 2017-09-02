@@ -31,7 +31,6 @@ class MUser(Mabc):
         '''
         Get the user's info by user ID.
         '''
-
         try:
             return TabMember.get(TabMember.uid == uid)
         except:
@@ -39,6 +38,9 @@ class MUser(Mabc):
 
     @staticmethod
     def get_by_name(uname):
+        '''
+        Get user by user_name.
+        '''
         try:
             return TabMember.get(user_name=uname)
         except:
@@ -69,11 +71,11 @@ class MUser(Mabc):
         :param u_pass: 
         :return: 
         '''
-        tt = TabMember.select().where(TabMember.uid == user_id).count()
-        if tt == 0:
+        user_count = TabMember.select().where(TabMember.uid == user_id).count()
+        if user_count == 0:
             return -1
-        a = TabMember.get(uid=user_id)
-        if a.user_pass == tools.md5(u_pass):
+        the_user = TabMember.get(uid=user_id)
+        if the_user.user_pass == tools.md5(u_pass):
             return 1
         return 0
 
@@ -107,48 +109,64 @@ class MUser(Mabc):
 
     @staticmethod
     def query_nologin():
+        '''
+        Query the users who do not login recently (90 days).
+        and not send email (120 days).
+        time_model: num * month * hours * minite * second
+        time_login: 3 * 30 * 24 * 60 * 60
+        time_email: 4 * 30 * 24 * 60 * 60
+        '''
         time_now = tools.timestamp()
-        # num * month * hours * minite * second
         return TabMember.select().where(
-            ((time_now - TabMember.time_login) > 3 * 30 * 24 * 60 * 60) & (
-                (time_now - TabMember.time_email) > 4 * 30 * 24 * 60 * 60))
+            (
+                (time_now - TabMember.time_login) > 7776000
+            ) & (
+                (time_now - TabMember.time_email) > 10368000
+            )
+        )
 
     @staticmethod
     def update_info(user_id, newemail, extinfo=None):
         '''
         Update the user info by user_id.
+        21: standsfor invalide E-mail.
+        91: standsfor unkown reson.
         '''
         if extinfo is None:
             extinfo = {}
 
         out_dic = {'success': False, 'code': '00'}
-        if tools.check_email_valid(newemail):
-            pass
-        else:
-            out_dic['code'] = '21'
-            return out_dic
+
+        out_dic['code'] = '00' if tools.check_email_valid(newemail) else '21'
+
         cur_info = MUser.get_by_uid(user_id)
         cur_extinfo = cur_info.extinfo
         for key in extinfo:
             cur_extinfo[key] = extinfo[key]
-        entry = TabMember.update(
-            user_email=newemail,
-            extinfo=cur_extinfo
-        ).where(
-            TabMember.uid == user_id
-        )
-        entry.execute()
 
-        out_dic['success'] = True
+        try:
+            entry = TabMember.update(
+                user_email=newemail,
+                extinfo=cur_extinfo
+            ).where(
+                TabMember.uid == user_id
+            )
+            entry.execute()
+
+            out_dic['success'] = True
+        except:
+            out_dic['code'] = '91'
 
         return out_dic
 
     @staticmethod
-    def update_time_reset_passwd(uname, timeit):
-
+    def update_time_reset_passwd(user_name, the_time):
+        '''
+        Update the time when user reset passwd.
+        '''
         entry = TabMember.update(
-            time_reset_passwd=timeit,
-        ).where(TabMember.user_name == uname)
+            time_reset_passwd=the_time,
+        ).where(TabMember.user_name == user_name)
         try:
 
             entry.execute()
@@ -158,6 +176,9 @@ class MUser(Mabc):
 
     @staticmethod
     def update_role(u_name, newprivilege):
+        '''
+        Update the role of the usr.
+        '''
         entry = TabMember.update(
             role=newprivilege
         ).where(TabMember.user_name == u_name)
@@ -169,44 +190,51 @@ class MUser(Mabc):
 
     @staticmethod
     def update_time_login(u_name):
+        '''
+        Update the login time for user.
+        :param u_name: 
+        :return: 
+        '''
         entry = TabMember.update(
             time_login=tools.timestamp()
-        ).where(TabMember.user_name == u_name)
+        ).where(
+            TabMember.user_name == u_name
+        )
         entry.execute()
 
     @staticmethod
     def create_user(post_data):
+        '''
+        Create the user.
+        The code used if `False`.        
+        11: standsfor invalid username.
+        21: standsfor invalide E-mail.
+        91: standsfor unkown reson.
+        '''
         out_dic = {'success': False, 'code': '00'}
 
-        if tools.check_username_valid(post_data['user_name']):
-            pass
-        else:
-            out_dic['code'] = '11'
-            return out_dic
+        out_dic['code'] = '00' if tools.check_username_valid(post_data['user_name']) else '11'
+        out_dic['code'] = '00' if tools.check_email_valid(post_data['user_email']) else '21'
 
-        if tools.check_email_valid(post_data['user_email']):
-            pass
-        else:
-            out_dic['code'] = '21'
-            return out_dic
+        if out_dic['code'] == '00':
+            try:
+                TabMember.create(uid=tools.get_uuid(),
+                                 user_name=post_data['user_name'],
+                                 user_pass=tools.md5(post_data['user_pass']),
+                                 user_email=post_data['user_email'],
+                                 role=post_data.get('role', '1000'),
+                                 time_create=tools.timestamp(),
+                                 time_update=tools.timestamp(),
+                                 time_reset_passwd=tools.timestamp(),
+                                 time_login=tools.timestamp(),
+                                 time_email=tools.timestamp())
 
-        if 'role' in post_data:
-            role = post_data['role']
-        else:
-            role = '1000'
+                out_dic['success'] = True
+                out_dic['code'] = '00'
+            except:
+                out_dic['success'] = False
+                out_dic['code'] = '91'
 
-        TabMember.create(uid=tools.get_uuid(),
-                         user_name=post_data['user_name'],
-                         user_pass=tools.md5(post_data['user_pass']),
-                         user_email=post_data['user_email'],
-                         role=role,
-                         time_create=tools.timestamp(),
-                         time_update=tools.timestamp(),
-                         time_reset_passwd=tools.timestamp(),
-                         time_login=tools.timestamp(),
-                         time_email=tools.timestamp())
-
-        out_dic['success'] = True
         return out_dic
 
     @staticmethod
@@ -215,6 +243,9 @@ class MUser(Mabc):
 
     @staticmethod
     def delete_by_user_name(user_name):
+        '''
+        Delete user in the database by `user_name`.
+        '''
         try:
             del_count = TabMember.delete().where(TabMember.user_name == user_name)
             del_count.execute()
@@ -223,9 +254,14 @@ class MUser(Mabc):
             return False
 
     @staticmethod
-    def delete(del_id):
+    def delete(user_id):
+        '''
+        Delele the  user in the database by `user_id`.
+        :param user_id: ID of the user.  
+        :return: True if success else False.
+        '''
         try:
-            del_count = TabMember.delete().where(TabMember.uid == del_id)
+            del_count = TabMember.delete().where(TabMember.uid == user_id)
             del_count.execute()
             return True
         except:

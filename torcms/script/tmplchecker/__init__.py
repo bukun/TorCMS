@@ -9,14 +9,14 @@ import sys
 try:
     from graphviz import Digraph, Graph
 
-    g = Graph(format='png')
-    dot = Digraph()
-    dot.format = 'png'
+    GRAPH_OBJ = Graph(format='png')
+    DOT_OBJ = Digraph()
+    DOT_OBJ.format = 'png'
 except:
     print('Count not found Graphviz.')
     pass
 
-rels_uniq_arr = []
+RELS_UNIQ_ARR = []
 
 
 def pack_str(instr):
@@ -74,11 +74,11 @@ def check_html(html_file, begin):
 
             tmplsig = [fff, sss]
 
-            if tmplsig in rels_uniq_arr:
+            if tmplsig in RELS_UNIQ_ARR:
                 pass
             else:
-                rels_uniq_arr.append(tmplsig)
-                dot.edge(fff, sss)
+                RELS_UNIQ_ARR.append(tmplsig)
+                DOT_OBJ.edge(fff, sss)
             if test_fig:
                 # G.add_edge(ff_tmpl[begin], html_file[begin])
                 pass
@@ -106,4 +106,4 @@ def run_checkit(srws=None):
     else:
         do_for_dir(os.path.join(inws, 'templates'), begin)
 
-    dot.render('xxtmpl', view=True)
+    DOT_OBJ.render('xxtmpl', view=True)

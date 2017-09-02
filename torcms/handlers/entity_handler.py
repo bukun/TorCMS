@@ -96,11 +96,9 @@ class EntityHandler(BaseHandler):
         Download the entity by UID.
         '''
         mpost = MPost.get_by_uid(down_uid)
-        down_url = mpost.extinfo[
-            'tag_file_download'] if 'tag_file_download' in mpost.extinfo else ''
+        down_url = mpost.extinfo.get('tag_file_download', '')
         if down_url:
-            url = mpost.extinfo['tag_file_download']
-            ment_id = MEntity.get_id_by_impath(url)
+            ment_id = MEntity.get_id_by_impath(down_url)
             MEntity2User.create_entity2user(ment_id, self.userinfo.uid)
         else:
             return False

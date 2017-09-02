@@ -55,11 +55,8 @@ class CollectHandler(BaseHandler):
         '''
         List of the user collections.
         '''
-        if cur_p == '':
-            current_page_num = 1
-        else:
-            current_page_num = int(cur_p)
 
+        current_page_num = int(cur_p) if cur_p else 1
         current_page_num = 1 if current_page_num < 1 else current_page_num
 
         num_of_cat = MCollect.count_of_user(self.userinfo.uid)
