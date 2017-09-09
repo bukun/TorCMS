@@ -139,7 +139,11 @@ class MPost2Label(Mabc):
 
     @staticmethod
     def get_by_uid(idd):
-        return TabPost2Tag.select(TabPost2Tag, TabTag.name.alias('tag_name'), TabTag.uid.alias('tag_uid')).join(
+        return TabPost2Tag.select(
+            TabPost2Tag,
+            TabTag.name.alias('tag_name'),
+            TabTag.uid.alias('tag_uid')
+        ).join(
             TabTag, on=(TabPost2Tag.tag_id == TabTag.uid)
         ).where(
             (TabPost2Tag.post_id == idd) & (TabTag.kind == 'z')

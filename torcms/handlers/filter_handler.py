@@ -101,8 +101,8 @@ class FilterHandler(BaseHandler):
             redis_kw = []
 
         kw_condition_arr = []
-        for x in redis_kw:
-            kw_condition_arr.append(x.decode('utf-8'))
+        for the_key in redis_kw:
+            kw_condition_arr.append(the_key.decode('utf-8'))
         if redis_kw:
             condition['def_tag_arr'] = kw_condition_arr
         return condition
@@ -131,9 +131,9 @@ class FilterHandler(BaseHandler):
             condition['def_cat_uid'] = sig
 
         fenye_num = 1
-        for ii in range(num):
-            ckey = url_arr[ii * 2 + 2]
-            tval = url_arr[ii * 2 + 3]
+        for idx in range(num):
+            ckey = url_arr[idx * 2 + 2]
+            tval = url_arr[idx * 2 + 3]
 
             if tval == '0':
                 continue
@@ -237,8 +237,8 @@ class FilterHandler(BaseHandler):
         else:
             redis_kw = []
         kw_condition_arr = []
-        for x in redis_kw:
-            kw_condition_arr.append(x.decode('utf-8'))
+        for the_key in redis_kw:
+            kw_condition_arr.append(the_key.decode('utf-8'))
         self.render('autogen/list/list_{0}.html'.format(catid),
                     userinfo=self.userinfo,
                     kwd=kwd,

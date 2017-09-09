@@ -530,7 +530,9 @@ class PostHandler(BaseHandler):
                     rand_recs=rand_recs,
                     unescape=tornado.escape.xhtml_unescape,
                     ad_switch=random.randint(1, 18),
-                    tag_info=MPost2Label.get_by_uid(postinfo.uid).naive(),
+                    # tag_info=MPost2Label.get_by_uid(postinfo.uid).naive(),
+                    tag_info=filter(lambda x: not x.tag_name.startswith('_'),
+                                    MPost2Label.get_by_uid(postinfo.uid).naive()),
                     recent_apps=recent_apps,
                     cat_enum=cat_enum1)
 

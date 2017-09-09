@@ -16,4 +16,3 @@ class TestSearchHandler(AsyncHTTPSTestCase):
     def test_to_add(self):
         response = self.fetch('/search/')
         self.assertEqual(response.code, 200)
-

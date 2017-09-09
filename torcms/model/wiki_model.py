@@ -197,8 +197,8 @@ class MWiki(Mabc):
         Get the wiki record by title.
         '''
         q_res = TabWiki.select().where(TabWiki.title == citiao)
-        tt = q_res.count()
-        if tt == 0 or tt > 1:
+        the_count = q_res.count()
+        if the_count == 0 or the_count > 1:
             return None
         else:
             MWiki.update_view_count(citiao)

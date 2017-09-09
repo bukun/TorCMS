@@ -130,12 +130,11 @@ class LinkHandler(BaseHandler):
             pass
         else:
             return False
-        a = MLink.get_by_uid(uid)
 
         self.render('misc/link/link_edit.html',
                     kwd={},
                     unescape=tornado.escape.xhtml_unescape,
-                    dbrec=a,
+                    dbrec=MLink.get_by_uid(uid),
                     userinfo=self.userinfo)
 
     @tornado.web.authenticated

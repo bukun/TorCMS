@@ -756,7 +756,7 @@ class Entity2UserPager(tornado.web.UIModule):
 #                                   rec=rec)
 
 
-class User_name(tornado.web.UIModule):
+class UserName(tornado.web.UIModule):
     '''
     Pager for search result.
     '''
