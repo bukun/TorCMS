@@ -58,7 +58,8 @@ class PostLabels(tornado.web.UIModule):
     def render(self, *args, **kwargs):
         postinfo = kwargs.get('postinfo', None)
         if postinfo:
-            tag_info = MPost2Label.get_by_uid(postinfo.uid).naive()
+            tag_info = filter(lambda x: not x.tag_name.startswith('_'),
+                              MPost2Label.get_by_uid(postinfo.uid).naive())
             idx = 1
             outstr = '<span class="post_label">'
             for tag in tag_info:
