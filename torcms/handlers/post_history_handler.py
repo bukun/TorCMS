@@ -187,7 +187,6 @@ class PostHistoryHandler(EditHistoryHander):
                     unescape=tornado.escape.xhtml_unescape,
                     view=postinfo,
                     postinfo=postinfo,
-                    hist_user=hist_user,
                     html_diff_arr=html_diff_arr,
                     router=router_post[postinfo.kind])
 
