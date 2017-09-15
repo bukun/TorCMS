@@ -162,6 +162,7 @@ class WikiHandler(BaseHandler):
         self.render('wiki_page/wiki_view.html',
                     view=view,  # Deprecated
                     postinfo=view,
+                    author=view.user_name,
                     unescape=tornado.escape.xhtml_unescape,
                     kwd=kwd,
                     userinfo=self.userinfo)

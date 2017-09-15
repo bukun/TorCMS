@@ -185,6 +185,7 @@ class PageHandler(BaseHandler):
                     postinfo=rec,
                     unescape=tornado.escape.xhtml_unescape,
                     kwd=kwd,
+                    author=rec.user_name,
                     format_date=tools.format_date,
                     userinfo=self.userinfo,
                     cfg=CMS_CFG)
