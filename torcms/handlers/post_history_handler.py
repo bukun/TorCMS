@@ -176,16 +176,18 @@ class PostHistoryHandler(EditHistoryHander):
         for hist_rec in hist_recs:
             if hist_rec:
                 infobox = diff_table(hist_rec.cnt_md, postinfo.cnt_md)
+                hist_user = hist_rec.user_name
             else:
                 infobox = ''
 
-            html_diff_arr.append({'hist_uid': hist_rec.uid, 'html_diff': infobox})
+            html_diff_arr.append({'hist_uid': hist_rec.uid, 'html_diff': infobox,'hist_user':hist_user})
 
         self.render('man_info/post_man_view.html',
                     userinfo=self.userinfo,
                     unescape=tornado.escape.xhtml_unescape,
                     view=postinfo,
                     postinfo=postinfo,
+                    hist_user=hist_user,
                     html_diff_arr=html_diff_arr,
                     router=router_post[postinfo.kind])
 
