@@ -524,6 +524,7 @@ class PostHandler(BaseHandler):
                     calc_info=postinfo,  # Deprecated
                     post_info=postinfo,  # Deprecated
                     userinfo=self.userinfo,
+                    author = postinfo.user_name,
                     catinfo=catinfo,
                     pcatinfo=p_catinfo,
                     relations=rel_recs,
