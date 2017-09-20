@@ -108,7 +108,7 @@ def gen_input_view(sig_dic):
      {{{{    post_info.uid }}}}
      {sig_unit}</a></div></div>
     '''.format(sig_zh=sig_dic['zh'], sig_unit=sig_dic['dic'][1])
-    elif sig_dic['en'] in ['tag_access_link','tag_dmoz_url','tag_online_link','tag_event_url','tag_expert_home']:
+    elif sig_dic['en'] in ['tag_access_link','tag_dmoz_url','tag_online_link','tag_event_url','tag_expert_home','tag_pic_url']:
         return '''<div class="row">
     <div class="col-sm-4"><span class="des"><strong>{1}</strong></span></div>
     <div class="col-sm-8">
