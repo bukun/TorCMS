@@ -75,9 +75,13 @@ class MLink(Mabc):
         '''
         if MLink.get_by_uid(id_link):
             return False
+        try:
+            the_order = int(post_data['order'])
+        except:
+            the_order = 999
         TabLink.create(name=post_data['name'],
                        link=post_data['link'],
-                       order=post_data['order'],
+                       order=the_order,
                        logo=post_data['logo'] if 'logo' in post_data else '',
                        uid=id_link)
         return id_link
