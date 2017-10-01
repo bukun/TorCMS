@@ -7,7 +7,7 @@ import tornado.web
 
 from torcms.modules.modef import core_modules
 
-cur_modues = {}
+cur_modues = {}  # type: Dict[str, object]
 
 modules = dict(core_modules, **cur_modues)
 

@@ -4,4 +4,4 @@
 Router for extor.
 '''
 
-urls = []
+urls = [] # type: List[int]

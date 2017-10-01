@@ -13,7 +13,8 @@ Status
 .. image:: https://img.shields.io/pypi/pyversions/torcms.svg
     :target: https://pypi.python.org/pypi/torcms/
 
-* Checking ``torcms`` with ``pylint`` using default configuration, gets score greater than 8.5 (``pylint3 torcms``).
+* Checking ``torcms`` with ``pylint`` using default configuration,
+    gets score greater than 9.0. (via ``pylint3 torcms``)
 
 Introduction
 -------------------------------------------------
@@ -21,8 +22,6 @@ Introduction
 Flexible, extensible web CMS framework built on Tornado and Peewee,
 compatible with Python 3.4 and above. Using PostgreSQL with JSON
 extension as the database.
-
-
 
 pypi: The kernel of this CMS has been submit to pypi.
 https://pypi.python.org/pypi/torcms . Could be installed via:
