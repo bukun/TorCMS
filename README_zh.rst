@@ -20,16 +20,9 @@ TorCMS系统是使用Python 3.4，Tornado Web框架、Peewee、Purecss 开发的
 -------------------------------------------------
 
 * 操作系统： Debian
-Debian操作系统是使计算机运行的基本程序和工具的集合，其中最主要的部分称为内核 (kernel)。内核是计算机中最重要的程序，负责一切基本的调度工作，并让您运行其他程序。
-Debian 系统目前采用 Linux 内核或者 FreeBSD 内核。 Linux 是一个最初由 Linus Torvalds 创建，目前由全球成千上万的程序师共同维护的软件。 FreeBSD 是一个包括内核和其它软件的操作系统。
 * 数据库： PostgreSQL
-PostgreSQL 是一个自由的对象-关系数据库服务器(数据库管理系统)，它在灵活的 BSD-风格许可证下发行。它提供了相对其他开放源代码数据库系统(比如 MySQL 和 Firebird)，和专有系统(比如 Oracle、Sybase、IBM 的 DB2 和 Microsoft SQL Server)之外的另一种选择。
 * 开发语言： Python
-Python是纯粹的自由软件，源代码和解释器CPython遵循 GPL(GNU General Public License)协议。
-Python的设计目标之一是让代码具备高度的可阅读性。它设计时尽量使用其它语言经常使用的标点符号和英文单字，让代码看起来整洁美观。
 * 框架： Tornado
-Tornado是python的web框架。Tornado是一种 Web 服务器软件的开源版本。Tornado 和现在的主流 Web 服务器框架（包括大多数 Python 的框架）有着明显的区别：它是非阻塞式服务器，而且速度相当快。
-得利于其 非阻塞的方式和对epoll的运用，Tornado 每秒可以处理数以千计的连接，因此 Tornado 是实时 Web 服务的一个理想框架。
 
 系统硬件配置
 -------------------------------------
@@ -54,7 +47,7 @@ Web与数据库服务器：
 ::
 
     pip install tornado
-    pip install markdown2
+    pip install markdown
     pip install wtforms
     pip install pillow
 
@@ -144,7 +137,7 @@ Python语言
     cp cfg_demo.py cfg.py
 
 
-编辑config.py文件。
+编辑 ``cfg.py`` 文件。
 
 ::
 
@@ -168,8 +161,6 @@ Python语言
         'DEBUG': False
     }
 
-( DB_CFG 定义用于PostgreSQL项目。）
-
 Web应用程序的元数据信息处理
 -------------------------------------------------
 
@@ -185,11 +176,10 @@ Web应用程序的元数据信息处理
 
 ::
 
-	python3 helper.py -i init
+    python3 helper.py -i init
 
 它将：
 
-::
 
 * 获取F2E库。
 * 初始化PostgreSQL模式。
@@ -206,14 +196,13 @@ Web应用程序的元数据信息处理
 
     python3 server.py 8088
 
-打开Web浏览器输入该地址http://127.0.0.1:8088 即可访问网站主页
-(端口在config.py 中定义)
+打开Web浏览器输入该地址http://127.0.0.1:8088 即可访问网站首页。
+(端口在 ``config.py`` 中定义)
 
 帮助脚本
 -----------------------------------
 
-程序中需要使用帮助脚本
-运行以下命令以列出不同的脚本：
+程序中需要使用帮助脚本， 运行以下命令以列出不同的脚本：
 
 ::
 
@@ -241,20 +230,20 @@ Web应用程序的元数据信息处理
 
 ::
 
-	pip3 install nose
+    pip3 install nose
 
 然后运行如下：
 
 ::
 
-	nosetests -v -d tester
+    nosetests -v -d tester
 
 
 如果要运行 coverage来查看单元测试覆盖情况，首先要安装coverage (install with: pip3 install coverage )，然后进行:
 
 ::
 
-	nosetests3  -v -d --with-coverage tester
+    nosetests3  -v -d --with-coverage tester
 
 
 API文档的建立
@@ -264,19 +253,19 @@ API文档的建立
 
 ::
 
-	sphinx-apidoc -F -o api_doc torcms
+    sphinx-apidoc -F -o api_doc torcms
 
 编辑api_doc/conf.py. 添加以下代码后 import os.
 
 ::
 
-	sys.path.insert(0, os.path.abspath('../'))
+    sys.path.insert(0, os.path.abspath('../'))
 
 完成以上步骤。然后生成HTML文档。 在TorCMS文件下：
 
 ::
 
-	sphinx-build -b html api_doc api_html
+    sphinx-build -b html api_doc api_html
 
 
 功能说明
