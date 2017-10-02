@@ -10,46 +10,11 @@ TorCMS中文说明
 中科东地石山内容管理系统（简称：TorCMS系统）安装部署说明主要用于详细描述整个系统的软硬件组成、系统架构，
 以及各组成部分的安装部署方法、配置方法等信息，通过本文档可以对整体系统进行全新部署，或者针对某个组成部分进行重新部署。
 
-TorCMS系统是使用Python 3.4，Tornado Web框架、Peewee、Purecss 开发的，基于Tornado的开源CMS系统。
+TorCMS系统是使用Python 3.4，Tornado Web框架、Peewee、BootStrap开发的，基于Tornado的开源CMS系统。
 
 此CMS系统原本用于云算笔记、开放地理空间实验室等网站，后来慢慢将 CMS 从中抽取出来。
 系统运行使用Python 3.4进行开发，经过少量修改，可以运行在 Python 2.7下面，但是发布的版本不对Python 2.7进行特别的支持。
-系统默认使用数据库为 SQLite，由于使用了 Peewee，所以可以非常轻松地切换到 MySQL与PostgreSQL。
-
-技术选型
--------------------------------------------------
-
-* 操作系统： Debian
-* 数据库： PostgreSQL
-* 开发语言： Python
-* 框架： Tornado
-
-系统硬件配置
--------------------------------------
-
-Web与数据库服务器：
-
-* CPU：2核
-* 内存：2048 MB
-* 操作系统：Debian 8 64位
-* 带宽： 1Mbps
-
-运行环境：开发部署于Debian Jessie。但是可在Debian Sqeeze，或其他GNU/Linux发行版运行。数据库使用PostgreSQL 9.5以上版本。
-开发语言：Python使用Python 3.4以上版本。
-
-系统应用服务器软件安装与配置
--------------------------------------------------------------------------
-
-系统运行使用Python 3.4进行开发，经过少量修改，可以运行在 Python 2.7下面，但是发布的版本不对Python 2.7进行特别的支持。
-系统默认使用数据库为 SQLite，由于使用了 Peewee，所以可以非常轻松地切换到 MySQL与PostgreSQL。
-另外，为了使系统正常运行，可能需要安装下面的一些模块：
-
-::
-
-    pip install tornado
-    pip install markdown
-    pip install wtforms
-    pip install pillow
+由于使用了 PostgreSQL 的 JSON 扩展功能，系统目前仅支持 PostgreSQL 。
 
 TorCMS系统的功能特征
 ----------------------------------------------
@@ -64,7 +29,7 @@ TorCMS系统的功能特征
 * PostgreSQL 9.4以上，使用JSONB以便于框架可扩展。
 * 通过Peewee访问数据库。
 * Style的SASS子项目。
-* 最新版本的Jquery 和Bootstrap 作为默认CSS框架
+* 最新版本的Jquery 和Bootstrap 作为默认JavaScript与CSS框架。
 
 程序部署安装
 ============================================
@@ -72,15 +37,6 @@ TorCMS系统的功能特征
 Python语言
 
 系统运行支持Python 3.4、Python 3.5、Python 3.6。
-
-获取代码
-------------------------------
-
-获取代码:
-
-::
-
-   git clone https://github.com/bukun/TorCMS.git
 
 在Debian下安装
 -------------------------------------
@@ -118,14 +74,22 @@ Python语言
 
 创建成功，``\q``  退出。
 
+获取代码
+------------------------------
+
+获取代码:
+
+::
+
+   git clone https://github.com/bukun/TorCMS.git
 
 获取HTML模块
 --------------------------------------
 
 ::
 
-    # cd TorCMS
-    git clone https://github.com/bukun/torcms_modules_bootstrap.git templates/modules
+    $ cd TorCMS
+    $ git clone https://github.com/bukun/torcms_modules_bootstrap.git templates/modules
 
 
 编辑configiure
@@ -133,8 +97,8 @@ Python语言
 
 ::
 
-    # cd TorCMS/
-    cp cfg_demo.py cfg.py
+    $ cd TorCMS
+    $ cp cfg_demo.py cfg.py
 
 
 编辑 ``cfg.py`` 文件。
@@ -243,7 +207,7 @@ Web应用程序的元数据信息处理
 
 ::
 
-    nosetests3  -v -d --with-coverage tester
+    nosetests3 -v -d --with-coverage tester
 
 
 API文档的建立
@@ -255,7 +219,7 @@ API文档的建立
 
     sphinx-apidoc -F -o api_doc torcms
 
-编辑api_doc/conf.py. 添加以下代码后 import os.
+编辑 ``api_doc/conf.py`` 。 添加以下代码后 ``import os`` .
 
 ::
 
