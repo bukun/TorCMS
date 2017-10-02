@@ -9,14 +9,22 @@ from torcms.model.core_tab import TabPost, TabTag, TabMember, TabWiki, TabLink, 
     TabUser2Reply, TabRating, TabEntity2User
 
 
-def create_table(Tab):
+def create_table(the_table):
+    '''
+    Create a certain table.
+    '''
     try:
-        Tab.create_table()
+        the_table.create_table()
     except:
         pass
 
 
 def run_init_tables(*args):
+    '''
+    Run to init tables.
+    :param args:
+    :return:
+    '''
     print('--')
 
     create_table(TabPost)
@@ -36,4 +44,3 @@ def run_init_tables(*args):
     create_table(TabUser2Reply)
     create_table(TabRating)
     create_table(TabEntity2User)
-

@@ -14,19 +14,20 @@ def gen_input_add(sig_dic):
     :return:
     '''
     if sig_dic['en'] == 'tag_file_download':
-        return HTML_TPL_DICT['input_add_download'].format(
+        html_str = HTML_TPL_DICT['input_add_download'].format(
             sig_en=sig_dic['en'],
             sig_zh=sig_dic['zh'],
             sig_dic=sig_dic['dic'][1],
             sig_type=sig_dic['type']
         )
     else:
-        return HTML_TPL_DICT['input_add'].format(
+        html_str = HTML_TPL_DICT['input_add'].format(
             sig_en=sig_dic['en'],
             sig_zh=sig_dic['zh'],
             sig_dic=sig_dic['dic'][1],
             sig_type=sig_dic['type']
         )
+    return html_str
 
 
 def gen_input_edit(sig_dic):
@@ -36,19 +37,20 @@ def gen_input_edit(sig_dic):
     :return:
     '''
     if sig_dic['en'] == 'tag_file_download':
-        return HTML_TPL_DICT['input_edit_download'].format(
+        html_str = HTML_TPL_DICT['input_edit_download'].format(
             sig_en=sig_dic['en'],
             sig_zh=sig_dic['zh'],
             sig_dic=sig_dic['dic'][1],
             sig_type=sig_dic['type']
         )
     else:
-        return HTML_TPL_DICT['input_edit'].format(
+        html_str = HTML_TPL_DICT['input_edit'].format(
             sig_en=sig_dic['en'],
             sig_zh=sig_dic['zh'],
             sig_dic=sig_dic['dic'][1],
             sig_type=sig_dic['type']
         )
+    return html_str
 
 
 def gen_input_view(sig_dic):
@@ -59,7 +61,7 @@ def gen_input_view(sig_dic):
     '''
 
     if sig_dic['en'] == 'tag_file_download':
-        return HTML_TPL_DICT['input_view_download'].format(
+        html_str = HTML_TPL_DICT['input_view_download'].format(
             sig_zh=sig_dic['zh'],
             sig_unit=sig_dic['dic'][1]
         )
@@ -67,18 +69,19 @@ def gen_input_view(sig_dic):
                            'tag_online_link', 'tag_event_url',
                            'tag_expert_home', 'tag_pic_url']:
         # Todo: should do nothing with dmzo, expert, etc.
-        return HTML_TPL_DICT['input_view_link'].format(
+        html_str = HTML_TPL_DICT['input_view_link'].format(
             sig_dic['en'],
             sig_dic['zh'],
             sig_dic['dic'][1]
         )
 
     else:
-        return HTML_TPL_DICT['input_view'].format(
+        html_str = HTML_TPL_DICT['input_view'].format(
             sig_dic['en'],
             sig_dic['zh'],
             sig_dic['dic'][1]
         )
+    return html_str
 
 
 def gen_radio_add(sig_dic):

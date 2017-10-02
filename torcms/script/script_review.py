@@ -15,29 +15,31 @@ from torcms.core.tool.send_email import send_mail
 from torcms.core.tools import diff_table
 from config import SMTP_CFG, post_emails, SITE_CFG, router_post
 
-now = datetime.datetime.now()
+DATE_STR = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-datestr = now.strftime('%Y-%m-%d %H:%M:%S')
-
-time_limit = 7 * 60 * 60  # 每7小时
+TIME_LIMIT = 7 * 60 * 60  # 每7小时
 
 
-def get_diff_str(*args):
-    mpost = MPost()
-    mposthist = MPostHist()
+def __get_diff_recent():
+    '''
+    Generate the difference of posts. recently.
+    '''
     diff_str = ''
 
-    for key in router_post:
-        recent_posts = mpost.query_recent_edited(tools.timestamp() - time_limit, kind=key)
+    for key in router_post.keys():
+        # print('=' * 80)
+        # print(key)
+        recent_posts = MPost.query_recent_edited(tools.timestamp() - TIME_LIMIT, kind=key)
         for recent_post in recent_posts:
-            hist_rec = mposthist.get_last(recent_post.uid)
+            # print(recent_post.uid)
+            hist_rec = MPostHist.get_last(recent_post.uid)
             if hist_rec:
+                # print(hist_rec.uid)
                 raw_title = hist_rec.title
                 new_title = recent_post.title
 
                 infobox = diff_table(raw_title, new_title)
-                # infobox = test[start:end] + '</table>'
-                # if ('diff_add' in infobox) or ('diff_chg' in infobox) or ('diff_sub' in infobox):
+
                 diff_str = diff_str + '''
                 <h2 style="color:red;font-size:larger;font-weight:70;">TITLE: {0}</h2>
                 '''.format(recent_post.title) + infobox
@@ -52,35 +54,66 @@ def get_diff_str(*args):
     return diff_str
 
 
-def run_review(*args):
+def __get_wiki_review(email_cnt, idx):
     '''
-    Get the difference of recents modification, and send the Email.
-    :param args: 
-    :return: 
+    Review for wikis.
     '''
-    email_cnt = '''<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title></title>
-    <style type="text/css">
-        table.diff {font-family:Courier; border:medium;}
-        .diff_header {background-color:#e0e0e0}
-        td.diff_header {text-align:right}
-        .diff_next {background-color:#c0c0c0}
-        .diff_add {background-color:#aaffaa}
-        .diff_chg {background-color:#ffff77}
-        .diff_sub {background-color:#ffaaaa}
-    </style></head><body>'''
+    recent_posts = MWiki.query_recent_edited(tools.timestamp() - TIME_LIMIT, kind='2')
+    for recent_post in recent_posts:
+        hist_rec = MWikiHist.get_last(recent_post.uid)
+        if hist_rec:
+            foo_str = '''
+                    <tr><td>{0}</td><td>{1}</td><td class="diff_chg">Edit</td><td>{2}</td>
+                    <td><a href="{3}">{3}</a></td></tr>
+                    '''.format(idx, recent_post.user_name, recent_post.title,
+                               os.path.join(SITE_CFG['site_url'], 'page', recent_post.uid))
+            email_cnt = email_cnt + foo_str
+        else:
+            foo_str = '''
+                    <tr><td>{0}</td><td>{1}</td><td class="diff_add">New </td><td>{2}</td>
+                    <td><a href="{3}">{3}</a></td></tr>
+                    '''.format(idx, recent_post.user_name, recent_post.title,
+                               os.path.join(SITE_CFG['site_url'], 'page', recent_post.uid))
+            email_cnt = email_cnt + foo_str
+        idx = idx + 1
+    email_cnt = email_cnt + '</table>'
+    return email_cnt, idx
 
-    idx = 1
 
-    email_cnt = email_cnt + '<table border=1>'
+def __get_page_review(email_cnt, idx):
+    '''
+    Review for pages.
+    '''
+    recent_posts = MWiki.query_recent_edited(tools.timestamp() - TIME_LIMIT)
+    for recent_post in recent_posts:
+        hist_rec = MWikiHist.get_last(recent_post.uid)
+        if hist_rec:
+            foo_str = '''
+                    <tr><td>{0}</td><td>{1}</td><td class="diff_chg">Edit</td><td>{2}</td>
+                    <td><a href="{3}">{3}</a></td></tr>
+                    '''.format(idx, recent_post.user_name, recent_post.title,
+                               os.path.join(SITE_CFG['site_url'], 'wiki', recent_post.title))
+            email_cnt = email_cnt + foo_str
+        else:
+            foo_str = '''
+                    <tr><td>{0}</td><td>{1}</td><td class="diff_add">New </td><td>{2}</td>
+                    <td><a href="{3}">{3}</a></td></tr>
+                    '''.format(idx, recent_post.user_name, recent_post.title,
+                               os.path.join(SITE_CFG['site_url'], 'wiki', recent_post.title))
+            email_cnt = email_cnt + foo_str
+        idx = idx + 1
 
-    mpost = MPost()
-    mposthist = MPostHist()
+    return email_cnt, idx
 
+
+def __get_post_review(email_cnt, idx):
+    '''
+    Review for posts.
+    '''
     for key in router_post:
-        recent_posts = mpost.query_recent_edited(tools.timestamp() - time_limit, kind=key)
+        recent_posts = MPost.query_recent_edited(tools.timestamp() - TIME_LIMIT, kind=key)
         for recent_post in recent_posts:
-            hist_rec = mposthist.get_last(recent_post.uid)
+            hist_rec = MPostHist.get_last(recent_post.uid)
             if hist_rec:
                 foo_str = '''
                     <tr><td>{0}</td><td>{1}</td><td class="diff_chg">Edit</td><td>{2}</td>
@@ -99,58 +132,41 @@ def run_review(*args):
                 email_cnt = email_cnt + foo_str
             idx = idx + 1
 
-    ## wiki
-    mpost = MWiki()
-    mposthist = MWikiHist()
+    return email_cnt, idx
 
-    recent_posts = mpost.query_recent_edited(tools.timestamp() - time_limit)
-    for recent_post in recent_posts:
-        hist_rec = mposthist.get_last(recent_post.uid)
-        if hist_rec:
-            foo_str = '''
-                    <tr><td>{0}</td><td>{1}</td><td class="diff_chg">Edit</td><td>{2}</td>
-                    <td><a href="{3}">{3}</a></td></tr>
-                    '''.format(idx, recent_post.user_name, recent_post.title,
-                               os.path.join(SITE_CFG['site_url'], 'wiki', recent_post.title))
-            email_cnt = email_cnt + foo_str
-        else:
-            foo_str = '''
-                    <tr><td>{0}</td><td>{1}</td><td class="diff_add">New </td><td>{2}</td>
-                    <td><a href="{3}">{3}</a></td></tr>
-                    '''.format(idx, recent_post.user_name, recent_post.title,
-                               os.path.join(SITE_CFG['site_url'], 'wiki', recent_post.title))
-            email_cnt = email_cnt + foo_str
-        idx = idx + 1
 
-    ## page.
-    recent_posts = mpost.query_recent_edited(tools.timestamp() - time_limit, kind='2')
-    for recent_post in recent_posts:
-        hist_rec = mposthist.get_last(recent_post.uid)
-        if hist_rec:
-            foo_str = '''
-                    <tr><td>{0}</td><td>{1}</td><td class="diff_chg">Edit</td><td>{2}</td>
-                    <td><a href="{3}">{3}</a></td></tr>
-                    '''.format(idx, recent_post.user_name, recent_post.title,
-                               os.path.join(SITE_CFG['site_url'], 'page', recent_post.uid))
-            email_cnt = email_cnt + foo_str
-        else:
-            foo_str = '''
-                    <tr><td>{0}</td><td>{1}</td><td class="diff_add">New </td><td>{2}</td>
-                    <td><a href="{3}">{3}</a></td></tr>
-                    '''.format(idx, recent_post.user_name, recent_post.title,
-                               os.path.join(SITE_CFG['site_url'], 'page', recent_post.uid))
-            email_cnt = email_cnt + foo_str
-        idx = idx + 1
+def run_review(*args):
+    '''
+    Get the difference of recents modification, and send the Email.
+    For: wiki, page, and post.
+    '''
+    email_cnt = '''<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <style type="text/css">
+        table.diff {font-family:Courier; border:medium;}
+        .diff_header {background-color:#e0e0e0}
+        td.diff_header {text-align:right}
+        .diff_next {background-color:#c0c0c0}
+        .diff_add {background-color:#aaffaa}
+        .diff_chg {background-color:#ffff77}
+        .diff_sub {background-color:#ffaaaa}
+    </style></head><body>'''
 
-    email_cnt = email_cnt + '</table>'
+    idx = 1
+
+    email_cnt = email_cnt + '<table border=1>'
+
+    email_cnt, idx = __get_post_review(email_cnt, idx)  # post
+    email_cnt, idx = __get_page_review(email_cnt, idx)  # page.
+    email_cnt, idx = __get_wiki_review(email_cnt, idx)  # wiki
 
     ###########################################################
 
-    diff_str = get_diff_str()
+    diff_str = __get_diff_recent()
 
     if len(diff_str) < 20000:
         email_cnt = email_cnt + diff_str
     email_cnt = email_cnt + '''</body></html>'''
 
     if idx > 1:
-        send_mail(post_emails, "{0}|{1}|{2}".format(SMTP_CFG['name'], '文档更新情况', datestr), email_cnt)
+        send_mail(post_emails, "{0}|{1}|{2}".format(SMTP_CFG['name'], '文档更新情况', DATE_STR), email_cnt)

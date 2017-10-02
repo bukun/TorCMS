@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
+'''
+Generate the diagram for the relation of the templates.
 # pydot > graphviz
 # graphviz
+'''
 
 import os
 import sys
@@ -20,14 +23,23 @@ RELS_UNIQ_ARR = []
 
 
 def pack_str(instr):
+    '''
+    remove space in str.
+    '''
     return ''.join(instr.strip().split(' '))
 
 
 def sim_filename(filepath):
-    return os.path.splitext(os.path.split(filepath)[1])[0]
+    '''
+    Get the name of the file.
+    '''
+    return os.path.splitext(os.path.basename(filepath))[0]
 
 
 def check_html(html_file, begin):
+    '''
+    Checking the HTML
+    '''
     # uu  = Template(open(html_file).read())
     # vv = {'static_url': str}
     # print(uu.generate(**vv))
@@ -59,11 +71,9 @@ def check_html(html_file, begin):
             continue
         vvv = pack_str(html_line).find('%block')
         if vvv > 0:
-            tt = pack_str(html_line)
-
             test_fig = False
-            for yy in open(ff_tmpl).readlines():
-                if yy.find(tt) > 0:
+            for the_line in open(ff_tmpl).readlines():
+                if the_line.find(pack_str(html_line)) > 0:
                     test_fig = True
 
             # fff = sim_filename(ff_tmpl)
@@ -89,6 +99,9 @@ def check_html(html_file, begin):
 
 
 def do_for_dir(inws, begin):
+    '''
+    do something in the directory.
+    '''
     inws = os.path.abspath(inws)
     for wroot, wdirs, wfiles in os.walk(inws):
         for wfile in wfiles:
@@ -99,6 +112,9 @@ def do_for_dir(inws, begin):
 
 
 def run_checkit(srws=None):
+    '''
+    do check it.
+    '''
     begin = len(os.path.abspath('templates')) + 1
     inws = os.path.abspath(os.getcwd())
     if srws:

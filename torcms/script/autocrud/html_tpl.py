@@ -136,7 +136,6 @@ HTML_INPUT_ADD = '''
         </div></div>
         '''
 
-
 HTML_INPUT_VIEW_DONWLOAD = '''<div class="row">
     <div class="col-sm-4"><span class="des"><strong>{sig_zh}</strong></span></div>
     <div class="col-sm-8">
