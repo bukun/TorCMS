@@ -95,4 +95,5 @@ class PublishHandler(BaseHandler):
                         userinfo=self.userinfo,
                         kwd=kwd)
         else:
-            self.redirect('/info/_cat_add/{0}'.format(fatherid))
+            catinfo = MCategory.get_by_uid(fatherid)
+            self.redirect('/{1}/_cat_add/{0}'.format(fatherid, router_post[catinfo.kind]))
