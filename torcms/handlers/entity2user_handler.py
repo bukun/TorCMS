@@ -3,18 +3,13 @@
 '''
 Hander for entiey, such as files or URL.
 '''
-import os
-import uuid
 
 import tornado.ioloop
 import tornado.web
 
 import config
 from torcms.core.base_handler import BaseHandler
-from torcms.model.entity_model import MEntity
 from torcms.model.entity2user_model import MEntity2User
-from torcms.model.post_model import MPost
-from torcms.core import tools
 
 
 class Entity2UserHandler(BaseHandler):
@@ -40,11 +35,7 @@ class Entity2UserHandler(BaseHandler):
         '''
         List the entities of the user.
         '''
-        if cur_p == '':
-            current_page_number = 1
-        else:
-            current_page_number = int(cur_p)
-
+        current_page_number = int(cur_p) if cur_p else 1
         current_page_number = 1 if current_page_number < 1 else current_page_number
 
         kwd = {

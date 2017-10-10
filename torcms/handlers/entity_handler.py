@@ -70,14 +70,9 @@ class EntityHandler(BaseHandler):
     def list(self, cur_p=''):
         '''
         Lists of the entities.
-        :param cur_p: 
-        :return: 
         '''
-        if cur_p == '':
-            current_page_number = 1
-        else:
-            current_page_number = int(cur_p)
 
+        current_page_number = int(cur_p) if cur_p else 1
         current_page_number = 1 if current_page_number < 1 else current_page_number
 
         kwd = {
@@ -95,8 +90,7 @@ class EntityHandler(BaseHandler):
         '''
         Download the entity by UID.
         '''
-        mpost = MPost.get_by_uid(down_uid)
-        down_url = mpost.extinfo.get('tag_file_download', '')
+        down_url = MPost.get_by_uid(down_uid).extinfo.get('tag_file_download', '')
         if down_url:
             ment_id = MEntity.get_id_by_impath(down_url)
             MEntity2User.create_entity2user(ment_id, self.userinfo.uid)

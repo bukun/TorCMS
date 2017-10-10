@@ -389,17 +389,16 @@ class PostHandler(BaseHandler):
         else:
             return False
 
-        rec_info = MPost.get_by_uid(infoid)
-        postinfo = rec_info
+        postinfo = MPost.get_by_uid(infoid)
 
-        if rec_info:
+        if postinfo:
             pass
         else:
             self.render('misc/html/404.html')
             return
 
-        if 'def_cat_uid' in rec_info.extinfo:
-            catid = rec_info.extinfo['def_cat_uid']
+        if 'def_cat_uid' in postinfo.extinfo:
+            catid = postinfo.extinfo['def_cat_uid']
         else:
             catid = ''
 
@@ -436,10 +435,7 @@ class PostHandler(BaseHandler):
 
         self.render(tmpl,
                     kwd=kwd,
-                    calc_info=rec_info,  # Deprecated
-                    post_info=rec_info,  # Deprecated
-                    app_info=rec_info,  # Deprecated
-                    postinfo=rec_info,
+                    postinfo=postinfo,
                     catinfo=catinfo,
                     pcatinfo=p_catinfo,
                     userinfo=self.userinfo,
@@ -521,10 +517,8 @@ class PostHandler(BaseHandler):
         self.render(tmpl,
                     kwd=dict(kwd, **self.ext_view_kwd(postinfo)),
                     postinfo=postinfo,
-                    calc_info=postinfo,  # Deprecated
-                    post_info=postinfo,  # Deprecated
                     userinfo=self.userinfo,
-                    author = postinfo.user_name,
+                    author=postinfo.user_name,  # Todo: remove the key `author`.
                     catinfo=catinfo,
                     pcatinfo=p_catinfo,
                     relations=rel_recs,

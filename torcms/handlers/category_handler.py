@@ -52,11 +52,9 @@ class CategoryHandler(BaseHandler):
         :param qian2:
         :return:
         '''
-        cur_cat = MCategory.query_sub_cat(pid)
-
         out_arr = {}
-        for rec in cur_cat:
-            out_arr[rec.uid] = rec.name
+        for catinfo in MCategory.query_sub_cat(pid):
+            out_arr[catinfo.uid] = catinfo.name
         json.dump(out_arr, self)
 
     def ajax_kindcat_arr(self, kind_sig):
@@ -65,11 +63,9 @@ class CategoryHandler(BaseHandler):
         :param qian2:
         :return:
         '''
-        cur_cat = MCategory.query_kind_cat(kind_sig)
-
         out_arr = {}
-        for x in cur_cat:
-            out_arr[x.uid] = x.name
+        for catinfo in MCategory.query_kind_cat(kind_sig):
+            out_arr[catinfo.uid] = catinfo.name
         json.dump(out_arr, self)
 
     def list_catalog(self, cat_slug, **kwargs):

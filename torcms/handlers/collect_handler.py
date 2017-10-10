@@ -24,15 +24,15 @@ class CollectHandler(BaseHandler):
 
     def get(self, *args, **kwargs):
         url_str = args[0]
-        if len(url_str) > 0:
+        if url_str:
             url_arr = self.parse_url(url_str)
         else:
             return False
 
         if url_str == 'list':
-            self.list(url_str)
+            self.show_list(url_str)
         elif len(url_arr) == 2:
-            self.list(url_arr[0], url_arr[1])
+            self.show_list(url_arr[0], url_arr[1])
         elif len(url_arr) == 1 and (len(url_str) == 4 or len(url_str) == 5):
             if self.get_current_user():
                 self.add_or_update(url_str)
@@ -51,7 +51,7 @@ class CollectHandler(BaseHandler):
         return json.dump(out_dic, self)
 
     @tornado.web.authenticated
-    def list(self, list, cur_p=''):
+    def show_list(self, the_list, cur_p=''):
         '''
         List of the user collections.
         '''
@@ -62,13 +62,12 @@ class CollectHandler(BaseHandler):
         num_of_cat = MCollect.count_of_user(self.userinfo.uid)
         page_num = int(num_of_cat / CMS_CFG['list_num']) + 1
 
-        kwd = {
-            'current_page': current_page_num}
+        kwd = {'current_page': current_page_num}
 
         self.render('misc/collect/list.html',
                     recs_collect=MCollect.query_pager_by_all(self.userinfo.uid,
                                                              current_page_num).naive(),
-                    pager=tools.gen_pager_purecss('/collect/{0}'.format(list),
+                    pager=tools.gen_pager_purecss('/collect/{0}'.format(the_list),
                                                   page_num,
                                                   current_page_num),
                     userinfo=self.userinfo,

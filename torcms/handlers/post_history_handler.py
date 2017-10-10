@@ -4,6 +4,7 @@
 Manage the posts by Administrator.
 '''
 
+from abc import ABCMeta, abstractmethod
 import tornado.escape
 import tornado.web
 from config import router_post
@@ -11,7 +12,6 @@ from torcms.core.base_handler import BaseHandler
 from torcms.model.post_model import MPost
 from torcms.model.post_hist_model import MPostHist
 from torcms.core.tools import diff_table
-from abc import ABCMeta, abstractmethod
 
 
 class EditHistoryHander(BaseHandler):
@@ -50,8 +50,6 @@ class EditHistoryHander(BaseHandler):
     def update(self, uid):
         '''
         update by buid
-        :param uid: 
-        :return: 
         '''
         return
 
@@ -59,8 +57,6 @@ class EditHistoryHander(BaseHandler):
     def to_edit(self, postid):
         '''
         to edit
-        :param postid: 
-        :return: 
         '''
         return
 
@@ -77,8 +73,6 @@ class EditHistoryHander(BaseHandler):
     def delete(self, uid):
         '''
         delete the post.
-        :param uid: 
-        :return: 
         '''
         return
 
@@ -86,8 +80,6 @@ class EditHistoryHander(BaseHandler):
     def view(self, uid):
         '''
         view the post
-        :param uid: 
-        :return: 
         '''
         return
 
@@ -95,8 +87,6 @@ class EditHistoryHander(BaseHandler):
     def restore(self, hist_uid):
         '''
         restore the history
-        :param hist_uid: 
-        :return: 
         '''
         return
 
@@ -179,8 +169,11 @@ class PostHistoryHandler(EditHistoryHander):
                 hist_user = hist_rec.user_name
             else:
                 infobox = ''
+                hist_user = ''
 
-            html_diff_arr.append({'hist_uid': hist_rec.uid, 'html_diff': infobox,'hist_user':hist_user})
+            html_diff_arr.append(
+                {'hist_uid': hist_rec.uid, 'html_diff': infobox, 'hist_user': hist_user}
+            )
 
         self.render('man_info/post_man_view.html',
                     userinfo=self.userinfo,

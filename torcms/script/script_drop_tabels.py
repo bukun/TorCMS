@@ -9,14 +9,20 @@ from torcms.model.core_tab import TabPost, TabTag, TabMember, TabWiki, TabLink, 
     TabUser2Reply, TabRating
 
 
-def drop_the_table(Tab):
+def drop_the_table(table_name):
+    '''
+    Drop a table.
+    '''
     try:
-        Tab.drop_table()
+        table_name.drop_table()
     except:
         pass
 
 
-def run_drop_tables(*args):
+def run_drop_tables(_):
+    '''
+    Running the script.
+    '''
     print('--')
 
     drop_the_table(TabPost)
