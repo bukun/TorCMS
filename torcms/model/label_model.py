@@ -5,13 +5,12 @@ For label, and label to post
 '''
 
 from torcms.core import tools
+from torcms.core.tools import logger
 from torcms.model.core_tab import TabTag
 from torcms.model.core_tab import TabPost
 from torcms.model.core_tab import TabPost2Tag
-from torcms.core.tools import logger
-
-from config import CMS_CFG
 from torcms.model.abc_model import Mabc, MHelper
+from config import CMS_CFG
 
 
 class MLabel(Mabc):
@@ -19,32 +18,35 @@ class MLabel(Mabc):
     For Label
     '''
 
-    def __init__(self):
-        super(MLabel, self).__init__()
+    # def __init__(self):
+    #     super(MLabel, self).__init__()
 
     @staticmethod
     def get_id_by_name(tag_name, kind='z'):
+        '''
+        Get ID by tag_name of the label.
+        '''
         recs = TabTag.select().where(
             (TabTag.name == tag_name) & (TabTag.kind == kind)
         )
         logger.info('tag count of {0}: {1} '.format(tag_name, recs.count()))
+        # the_id = ''
         if recs.count() == 1:
-            return recs.get().uid
+            the_id = recs.get().uid
         elif recs.count() > 1:
-            idx = 0
             rec0 = None
             for rec in recs:
-                rec0 = rec
                 # Only keep one.
-                if idx == 0:
-                    pass
-                else:
+                if rec0:
                     TabPost2Tag.delete().where(TabPost2Tag.tag_id == rec.uid).execute()
                     TabTag.delete().where(TabTag.uid == rec.uid).execute()
-                idx += 1
-            return rec0.uid
+                else:
+                    rec0 = rec
+
+            the_id = rec0.uid
         else:
-            return MLabel.create_tag(tag_name)
+            the_id = MLabel.create_tag(tag_name)
+        return the_id
 
     @staticmethod
     def delete(uid):
@@ -52,39 +54,43 @@ class MLabel(Mabc):
 
     @staticmethod
     def get_by_slug(tag_slug):
-        uu = TabTag.select().where(TabTag.slug == tag_slug)
-        if uu:
-            return uu.get()
-        else:
-            return False
+        '''
+        Get label by slug.
+        '''
+        label_recs = TabTag.select().where(TabTag.slug == tag_slug)
+        return label_recs.get() if label_recs else False
 
     @staticmethod
     def create_tag(tag_name, kind='z'):
-
-        cur_count = TabTag.select().where(
+        '''
+        Create tag record by tag_name
+        '''
+        cur_recs = TabTag.select().where(
             (TabTag.name == tag_name) &
             (TabTag.kind == kind)
-        ).count()
-        if cur_count > 0:
-            TabTag.delete().where(
-                (TabTag.name == tag_name) &
-                (TabTag.kind == kind)
-            ).execute()
-
-        uid = tools.get_uu4d_v2()
-        while TabTag.select().where(TabTag.uid == uid).count() > 0:
-            uid = tools.get_uu4d_v2()
-
-        TabTag.create(
-            uid=uid,
-            slug=uid,
-            name=tag_name,
-            order=1,
-            count=0,
-            kind='z',
-            tmpl=9,
-            pid='zzzz',
         )
+        if cur_recs.count():
+            uid = cur_recs.get().uid
+
+            # TabTag.delete().where(
+            #     (TabTag.name == tag_name) &
+            #     (TabTag.kind == kind)
+            # ).execute()
+        else:
+            uid = tools.get_uu4d_v2()  # Label with the ID of v2.
+            while TabTag.select().where(TabTag.uid == uid).count() > 0:
+                uid = tools.get_uu4d_v2()
+
+            TabTag.create(
+                uid=uid,
+                slug=uid,
+                name=tag_name,
+                order=1,
+                count=0,
+                kind='z',
+                tmpl=9,
+                pid='zzzz',
+            )
         return uid
 
     @staticmethod
@@ -120,6 +126,9 @@ class MPost2Label(Mabc):
 
     @staticmethod
     def remove_relation(post_id, tag_id):
+        '''
+        Remove the relation of post and label.
+        '''
         entry = TabPost2Tag.delete().where(
             (TabPost2Tag.post_id == post_id) & (TabPost2Tag.tag_id == tag_id)
         )
@@ -138,7 +147,10 @@ class MPost2Label(Mabc):
         return out_str
 
     @staticmethod
-    def get_by_uid(idd):
+    def get_by_uid(post_id):
+        '''
+        Get records by post id.
+        '''
         return TabPost2Tag.select(
             TabPost2Tag,
             TabTag.name.alias('tag_name'),
@@ -146,7 +158,7 @@ class MPost2Label(Mabc):
         ).join(
             TabTag, on=(TabPost2Tag.tag_id == TabTag.uid)
         ).where(
-            (TabPost2Tag.post_id == idd) & (TabTag.kind == 'z')
+            (TabPost2Tag.post_id == post_id) & (TabTag.kind == 'z')
         )
 
     @staticmethod
@@ -160,26 +172,28 @@ class MPost2Label(Mabc):
         )
 
         if tmp_recs.count() > 1:
-            ''' 如果多于1个，则全部删除
             '''
-            idx = 0
+            Remove the rests if the count greater than 1.
+            '''
             out_rec = None
             for tmp_rec in tmp_recs:
-                if idx == 0:
-                    out_rec = tmp_rec
-                else:
+                if out_rec:
                     entry = TabPost2Tag.delete().where(TabPost2Tag.uid == tmp_rec.uid)
                     entry.execute()
-                idx += 1
-            return out_rec
+                else:
+                    out_rec = tmp_rec
 
         elif tmp_recs.count() == 1:
-            return tmp_recs.get()
+            out_rec = tmp_recs.get()
         else:
-            return None
+            out_rec = None
+        return out_rec
 
     @staticmethod
     def add_record(post_id, tag_name, order=1, kind='z'):
+        '''
+        Add the record.
+        '''
         logger.info('Add label kind: {0}'.format(kind))
         tag_id = MLabel.get_id_by_name(tag_name, 'z')
         labelinfo = MPost2Label.get_by_info(post_id, tag_id)
@@ -199,13 +213,24 @@ class MPost2Label(Mabc):
 
     @staticmethod
     def total_number(slug, kind='1'):
-        return TabPost.select().join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)).where(
+        '''
+        Return the number of certian slug.
+        '''
+        return TabPost.select().join(
+            TabPost2Tag,
+            on=(TabPost.uid == TabPost2Tag.post_id)
+        ).where(
             (TabPost2Tag.tag_id == slug) & (TabPost.kind == kind)
         ).count()
 
     @staticmethod
     def query_pager_by_slug(slug, kind='1', current_page_num=1):
-        return TabPost.select().join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)).where(
+        '''
+        Query pager
+        '''
+        return TabPost.select().join(
+            TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)
+        ).where(
             (TabPost2Tag.tag_id == slug) &
             (TabPost.kind == kind)
         ).paginate(current_page_num, CMS_CFG['list_num'])

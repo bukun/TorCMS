@@ -20,6 +20,7 @@ class BaseHandler(tornado.web.RequestHandler):
     '''
 
     def initialize(self, **kwargs):
+        _ = kwargs
         super(BaseHandler, self).initialize()
         if self.get_current_user():
             self.userinfo = MUser.get_by_name(self.get_current_user())
