@@ -130,7 +130,7 @@ def gen_radio_edit(sig_dic):
     for key in dic_tmp.keys():
         tmp_str = '''
         <input id="{0}" name="{0}" type="radio"  class="form-control" value="{1}"
-        {{% if  '{0}' in post_info.extinfo and post_info.extinfo['{0}'] == '{1}' %}}
+        {{% if  '{0}' in postinfo.extinfo and postinfo.extinfo['{0}'] == '{1}' %}}
         checked
         {{% end %}}
         >{2} '''.format(sig_dic['en'], key, dic_tmp[key])
@@ -152,7 +152,7 @@ def gen_radio_view(sig_dic):
     dic_tmp = sig_dic['dic']
     for key in dic_tmp.keys():
         tmp_str = '''<span class="input_text">
-         {{% if  '{0}' in post_info.extinfo and post_info.extinfo['{0}'] == "{1}" %}}
+         {{% if  '{0}' in postinfo.extinfo and postinfo.extinfo['{0}'] == "{1}" %}}
          {2}
          {{% end %}}
          </span>'''.format(sig_dic['en'], key, dic_tmp[key])
@@ -194,7 +194,7 @@ def gen_checkbox_edit(sig_dic):
     for key in dic_tmp.keys():
         tmp_str = '''
          <input id="{0}" name="{0}" type="checkbox" class="form-control" value="{1}"
-         {{% if "{1}" in post_info.extinfo["{0}"] %}}
+         {{% if "{1}" in postinfo.extinfo["{0}"] %}}
          checked="checked"
          {{% end %}}
          >{2} '''.format(sig_dic['en'], key, dic_tmp[key])
@@ -217,7 +217,7 @@ def gen_checkbox_view(sig_dic):
     for key in dic_tmp.keys():
         tmp_str = '''
          <span>
-         {{% if "{0}" in post_info.extinfo["{1}"] %}}
+         {{% if "{0}" in postinfo.extinfo["{1}"] %}}
          {2}
          {{% end %}}
          </span>
@@ -267,7 +267,7 @@ def gen_select_edit(sig_dic):
     for key, val in sig_dic['dic'].items():
         tmp_str = '''
         <option value="{1}"
-        {{% if  '{0}' in post_info.extinfo and post_info.extinfo["{0}"] == "{1}" %}}
+        {{% if  '{0}' in postinfo.extinfo and postinfo.extinfo["{0}"] == "{1}" %}}
         selected = "selected"
         {{% end %}}
         >{2}</option>
@@ -295,8 +295,8 @@ def gen_select_view(sig_dic):
     dic_tmp = sig_dic['dic']
     for key, val in dic_tmp.items():
         tmp_str = '''
-         {{% if '{sig_en}' in post_info.extinfo %}}
-          {{% set tmp_var = post_info.extinfo["{sig_en}"] %}}
+         {{% if '{sig_en}' in postinfo.extinfo %}}
+          {{% set tmp_var = postinfo.extinfo["{sig_en}"] %}}
           {{% if tmp_var == "{sig_key}" %}}
           {sig_dic}
           {{% end %}}
@@ -376,7 +376,7 @@ def gen_input_list(sig_dic):
     out_str = '''
     <div class="col-sm-4"><span class="des">{1}</span></div>
     <div class="col-sm-8">
-    <span class="iga_pd_val">{{{{ post_info.extinfo['{0}'][0] }}}} {2}</span>
+    <span class="iga_pd_val">{{{{ postinfo.extinfo['{0}'][0] }}}} {2}</span>
     </div>
     '''.format(sig_dic['en'], sig_dic['zh'], sig_dic['dic'][1])
     return out_str
@@ -391,7 +391,7 @@ def gen_radio_list(sig_dic):
 
     dic_tmp = sig_dic['dic']
     for key in dic_tmp.keys():
-        tmp_str = '''{{% if post_info.extinfo['{0}'][0] == "{1}" %}} {2} {{% end %}}
+        tmp_str = '''{{% if postinfo.extinfo['{0}'][0] == "{1}" %}} {2} {{% end %}}
         '''.format(sig_dic['en'], key, dic_tmp[key])
         view_zuoxiang += tmp_str
 
@@ -408,7 +408,7 @@ def gen_checkbox_list(sig_dic):
 
     dic_tmp = sig_dic['dic']
     for key in dic_tmp.keys():
-        tmp_str = '''{{% if "{0}" in post_info.extinfo["{1}"] %}} {2}  {{% end %}}
+        tmp_str = '''{{% if "{0}" in postinfo.extinfo["{1}"] %}} {2}  {{% end %}}
         '''.format(key, sig_dic['en'], dic_tmp[key])
         view_zuoxiang += tmp_str
 
@@ -425,7 +425,7 @@ def gen_select_list(sig_dic):
 
     dic_tmp = sig_dic['dic']
     for key in dic_tmp.keys():
-        tmp_str = '''{{% if '{0}' in postinfo.extinfo and post_info.extinfo["{0}"][0] == "{1}" %}}
+        tmp_str = '''{{% if '{0}' in postinfo.extinfo and postinfo.extinfo["{0}"][0] == "{1}" %}}
          {2} {{% end %}}'''.format(sig_dic['en'], key, dic_tmp[key])
         view_jushi += tmp_str
 
