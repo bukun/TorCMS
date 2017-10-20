@@ -49,40 +49,26 @@ class UserHandler(BaseHandler):
         url_str = args[0]
         url_arr = self.parse_url(url_str)
 
-        if url_str == 'regist':
-            if self.get_current_user():
-                self.redirect('/')
-            else:
-                self.__to_register__()
-        elif url_str == 'login':
-            self.to_login()
-        elif url_str == 'info':
-            self.show_info()
-        elif url_str == 'logout':
-            self.logout()
-        elif url_str == 'reset-password':
-            self.to_reset_password()
-        elif url_str == 'changepass':
-            self.changepass()
+        dict_get = {
+            'regist': lambda: self.redirect('/') if self.get_current_user() else self.__to_register__,
+            'login': self.to_login,
+            'info': self.show_info,
+            'logout': self.logout,
+            'reset-password': self.to_reset_password,
+            'changepass': self.changepass,
+            'changeinfo': self.change_info,
+            'reset-passwd': self.gen_passwd,
+            'changerole': self.change_role,
+            'find': self.find,
+            'delete_user': self.delete
+        }
 
-        elif url_str == 'changeinfo':
-            self.change_info()
-        elif url_str == 'reset-passwd':
-            if self.gen_passwd():
-                pass
-            else:
-                self.redirect(config.SITE_CFG['site_url'])
-        elif url_arr[0] == 'changerole':
-            self.change_role(url_arr[1])
-        elif url_str == 'find':
-
-            self.to_find()
-
-        elif url_arr[0] == 'find':
-
-            self.find(url_arr[1])
-        elif url_arr[0] == 'delete_user':
-            self.delete(url_arr[1])
+        if len(url_arr) == 1:
+            dict_get.get(url_arr[0])()
+        elif len(url_arr) == 2:
+            dict_get.get(url_arr[0])(url_arr[1])
+        else:
+            pass
 
     def post(self, *args, **kwargs):
         url_str = args[0]
@@ -304,6 +290,7 @@ class UserHandler(BaseHandler):
         '''
         to login.
         '''
+        print('to losafd')
         next_url = self.get_argument("next", "/")
         if self.get_current_user():
             self.redirect(next_url)
@@ -583,10 +570,12 @@ class UserHandler(BaseHandler):
                     cfg=config.CMS_CFG,
                     userinfo=self.userinfo)
 
-    def find(self, keyword):
+    def find(self, keyword=None):
         '''
         find by keyword.
         '''
+        if not keyword:
+            self.to_find()
         kwd = {
             'pager': '',
             'unescape': tornado.escape.xhtml_unescape,
@@ -683,7 +672,6 @@ class UserHandler(BaseHandler):
     def gen_passwd(self):
         '''
         reseting password
-        :return:
         '''
         post_data = self.get_post_data()
 

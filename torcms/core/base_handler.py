@@ -103,3 +103,15 @@ class BaseHandler(tornado.web.RequestHandler):
         :return:
         '''
         return 'admin/' + tmpl.format(sig='p') if self.is_p else tmpl.format(sig='')
+
+    def show404(self, kwd=None):
+        if kwd:
+            pass
+        else:
+            kwd = {
+                'info': 'Invalid requests',
+            }
+        self.set_status(404)
+        self.render('misc/html/404.html',
+                    kwd=kwd,
+                    userinfo=self.userinfo)

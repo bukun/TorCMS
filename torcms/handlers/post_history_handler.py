@@ -22,21 +22,34 @@ class EditHistoryHander(BaseHandler):
 
     def get(self, *args, **kwargs):
         url_arr = self.parse_url(args[0])
-        if url_arr[0] == 'view':
-            self.view(url_arr[1])
-        elif url_arr[0] == 'edit':
-            self.to_edit(url_arr[1])
-        elif url_arr[0] == 'restore':
-            self.restore(url_arr[1])
-        elif url_arr[0] == 'delete':
-            self.delete(url_arr[1])
+
+        dict_get = {
+            'view': self.view,
+            'edit': self.to_edit,
+            'restore': self.restore,
+            'delete': self.delete,
+        }
+
+        if len(url_arr) == 2:
+            dict_get.get(url_arr[0])(url_arr[1])
         else:
-            kwd = {
-                'info': '页面未找到',
-            }
-            self.render('misc/html/404.html',
-                        kwd=kwd,
-                        userinfo=self.userinfo)
+            self.show404()
+
+            # if url_arr[0] == 'view':
+            #     self.view(url_arr[1])
+            # elif url_arr[0] == 'edit':
+            #     self.to_edit(url_arr[1])
+            # elif url_arr[0] == 'restore':
+            #     self.restore(url_arr[1])
+            # elif url_arr[0] == 'delete':
+            #     self.delete(url_arr[1])
+            # else:
+            #     kwd = {
+            #         'info': '页面未找到',
+            #     }
+            #     self.render('misc/html/404.html',
+            #                 kwd=kwd,
+            #                 userinfo=self.userinfo)
 
     def post(self, *args, **kwargs):
         url_arr = self.parse_url(args[0])
@@ -44,7 +57,7 @@ class EditHistoryHander(BaseHandler):
         if url_arr[0] == 'edit':
             self.update(url_arr[1])
         else:
-            self.redirect('misc/html/404.html')
+            self.show404()
 
     @abstractmethod
     def update(self, uid):

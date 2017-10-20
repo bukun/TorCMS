@@ -90,29 +90,35 @@ class PostHandler(BaseHandler):
                 self._to_add(uid=url_arr[1])
             else:
                 self._to_add()
-        elif url_arr[0] == '_edit_kind':
-            self._to_edit_kind(url_arr[1])
-        elif url_arr[0] == '_edit':
-            self._to_edit(url_arr[1])
-        elif url_arr[0] == '_delete':
-            self._delete(url_arr[1])
-        elif url_arr[0] == 'j_delete':
-            self.j_delete(url_arr[1])
-        elif url_arr[0] == 'j_count_plus':
-            self.j_count_plus(url_arr[1])
-        elif len(url_arr) == 1 and url_str.endswith('.html'):
-            # Deprecated
-            self.redirect('/post/{uid}'.format(uid=url_str.split('.')[0]))
-        elif len(url_arr) == 1 and len(url_str) in [4, 5]:
-            self._view_or_add(url_str)
-        else:
-            kwd = {
-                'title': '',
-                'info': '404. Page not found!',
+        elif len(url_arr) == 1:
+            if url_str.endswith('.html'):
+                # Deprecated
+                self.redirect('/post/{uid}'.format(uid=url_str.split('.')[0]))
+            elif len(url_str) in [4, 5]:
+                self._view_or_add(url_str)
+        elif len(url_arr) == 2:
+            dict_get = {
+                '_edit_kind': self._to_edit_kind,
+                '_edit': self._to_edit,
+                '_delete': self._delete,
+                'j_delete': self.j_delete,
+                'j_count_plus': self.j_count_plus,
             }
-            self.set_status(404)
-            self.render('misc/html/404.html', kwd=kwd,
-                        userinfo=self.userinfo, )
+            dict_get.get(url_arr[0])(url_arr[1])
+
+        # elif url_arr[0] == '_edit_kind':
+        #     self._to_edit_kind(url_arr[1])
+        # elif url_arr[0] == '_edit':
+        #     self._to_edit(url_arr[1])
+        # elif url_arr[0] == '_delete':
+        #     self._delete(url_arr[1])
+        # elif url_arr[0] == 'j_delete':
+        #     self.j_delete(url_arr[1])
+        # elif url_arr[0] == 'j_count_plus':
+        #     self.j_count_plus(url_arr[1])
+
+        else:
+            self.show404()
 
     def post(self, *args, **kwargs):
 
@@ -139,14 +145,7 @@ class PostHandler(BaseHandler):
         elif url_arr[0] == 'rel' and len(url_arr) == 3:
             self._add_relation(url_arr[1], url_arr[2])
         else:
-
-            kwd = {
-                'title': '',
-                'info': '404. No such action!',
-            }
-            self.set_status(404)
-            self.render('misc/html/404.html', kwd=kwd,
-                        userinfo=self.userinfo, )
+            self.show404()
 
     def index(self):
         '''
@@ -246,11 +245,7 @@ class PostHandler(BaseHandler):
         elif self.userinfo:
             self._to_add(uid=uid)
         else:
-            kwd = {
-                'info': '404. Page not found!',
-            }
-            self.render('misc/html/404.html', kwd=kwd,
-                        userinfo=self.userinfo, )
+            self.show404()
 
     @tornado.web.authenticated
     def _to_add(self, **kwargs):
@@ -394,8 +389,7 @@ class PostHandler(BaseHandler):
         if postinfo:
             pass
         else:
-            self.render('misc/html/404.html')
-            return
+            return self.show404()
 
         if 'def_cat_uid' in postinfo.extinfo:
             catid = postinfo.extinfo['def_cat_uid']
@@ -551,10 +545,8 @@ class PostHandler(BaseHandler):
             'parentlist': MCategory.get_parent_list(),
             'parentname': '',
             'catname': '',
-            'router': router_post[postinfo.kind],
-
+            'router': router_post[postinfo.kind]
         }
-
         return kwd
 
     def fetch_additional_posts(self, uid):

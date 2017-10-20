@@ -42,10 +42,7 @@ class WikiHandler(BaseHandler):
         elif len(url_arr) == 1:
             self.view_or_add(url_str)
         else:
-            kwd = {
-                'info': '404 Page not found!',
-            }
-            self.render('misc/html/404.html', kwd=kwd)
+            self.show404()
 
     def post(self, *args, **kwargs):
         url_str = args[0]
@@ -57,10 +54,7 @@ class WikiHandler(BaseHandler):
         elif len(url_arr) == 1:
             self.add(url_str)
         else:
-            kwd = {
-                'info': '404 Page not found!',
-            }
-            self.render('misc/html/404.html', kwd=kwd)
+            self.show404()
 
     def recent(self):
         '''

@@ -74,9 +74,11 @@ class LabelHandler(BaseHandler):
                'current_page': current_page_number}
 
         self.render('list/label_{kind}.html'.format(kind=kind),
-                    infos=MPost2Label.query_pager_by_slug(tag_slug,
-                                                          kind=kind,
-                                                          current_page_num=current_page_number),
+                    infos=MPost2Label.query_pager_by_slug(
+                        tag_slug,
+                        kind=kind,
+                        current_page_num=current_page_number
+                    ),
                     unescape=tornado.escape.xhtml_unescape,
                     kwd=kwd,
                     userinfo=self.userinfo,

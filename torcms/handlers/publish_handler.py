@@ -23,16 +23,24 @@ class PublishHandler(BaseHandler):
 
     def get(self, *args):
         url_str = args[0]
-        url_arr = self.parse_url(url_str)
+        # url_arr = self.parse_url(url_str)
 
-        if len(url_str) == 1:
-            # like:  /publish/s or  /publish/m
-            self.view_class1(url_str)
-        elif len(url_str) == 4:
-            # like:  /publish/s or  /publish/m
-            self.view_class2(url_str)
-        elif len(url_str) == 5:
-            self.echo_class2(url_str)
+        dict_get = {
+            1: self.view_class1,
+            4: self.view_class2,
+            5: self.echo_class2,
+        }
+
+        dict_get.get(len(url_str), lambda x: self.redirect('/'))(url_str)
+
+        # if len(url_str) == 1:
+        #     # like:  /publish/s or  /publish/m
+        #     self.view_class1(url_str)
+        # elif len(url_str) == 4:
+        #     # like:  /publish/s or  /publish/m
+        #     self.view_class2(url_str)
+        # elif len(url_str) == 5:
+        #     self.echo_class2(url_str)
 
     # Todo: unused ?
     @tornado.web.authenticated
@@ -58,6 +66,9 @@ class PublishHandler(BaseHandler):
 
     @tornado.web.authenticated
     def view_class1(self, kind_sig):
+        '''
+        Publishing from 1st range category.
+        '''
         dbdata = MCategory.get_parent_list(kind=kind_sig)
         class1str = ''
         for rec in dbdata:
@@ -76,9 +87,7 @@ class PublishHandler(BaseHandler):
     @tornado.web.authenticated
     def view_class2(self, fatherid=''):
         '''
-        从第二级分类发布
-        :param fatherid:
-        :return:
+        Publishing from 2ed range category.
         '''
 
         if self.is_admin():
