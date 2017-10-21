@@ -71,11 +71,7 @@ class CategoryHandler(BaseHandler):
         listing the posts via category
         '''
 
-        # tt = self.request.arguments
-
-
         post_data = self.get_post_data()
-
         tag = post_data.get('tag', '')
 
         def get_pager_idx():
@@ -88,11 +84,8 @@ class CategoryHandler(BaseHandler):
             return the_num
 
         current_page_num = get_pager_idx()
-
         cat_rec = MCategory.get_by_slug(cat_slug)
-        if cat_rec:
-            pass
-        else:
+        if not cat_rec:
             return False
 
         num_of_cat = MPost2Catalog.count_of_certain_category(cat_rec.uid, tag=tag)
