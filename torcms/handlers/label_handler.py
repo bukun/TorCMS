@@ -24,8 +24,6 @@ class LabelHandler(BaseHandler):
     def get(self, *args, **kwargs):
         '''
         /label/s/view
-        :param :
-        :return:
         '''
         url_arr = self.parse_url(args[0])
 
