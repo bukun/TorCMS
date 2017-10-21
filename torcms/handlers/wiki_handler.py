@@ -63,7 +63,6 @@ class WikiHandler(BaseHandler):
         '''
         kwd = {
             'pager': '',
-            'unescape': tornado.escape.xhtml_unescape,
             'title': 'Recent Pages',
         }
         self.render('wiki_page/wiki_list.html',
@@ -79,7 +78,6 @@ class WikiHandler(BaseHandler):
         '''
         kwd = {
             'pager': '',
-            'unescape': tornado.escape.xhtml_unescape,
             'title': '最近文档',
         }
         self.render('wiki_page/wiki_list.html',
@@ -143,7 +141,6 @@ class WikiHandler(BaseHandler):
         }
         self.render('wiki_page/wiki_edit.html',
                     kwd=kwd,
-                    unescape=tornado.escape.xhtml_unescape,
                     dbrec=wiki_rec,  # Deprecated.
                     postinfo=wiki_rec,
                     userinfo=self.userinfo)
@@ -157,7 +154,6 @@ class WikiHandler(BaseHandler):
                     view=view,  # Deprecated
                     postinfo=view,
                     author=view.user_name,
-                    unescape=tornado.escape.xhtml_unescape,
                     kwd=kwd,
                     userinfo=self.userinfo)
 

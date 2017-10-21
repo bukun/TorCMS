@@ -56,9 +56,11 @@ class LinkHandler(BaseHandler):
             self.redirect('misc/html/404.html')
 
     def recent(self):
+        '''
+        Recent links.
+        '''
         kwd = {
             'pager': '',
-            'unescape': tornado.escape.xhtml_unescape,
             'title': '最近文档',
         }
 
@@ -77,6 +79,9 @@ class LinkHandler(BaseHandler):
                         userinfo=self.userinfo)
 
     def to_add_link(self, ):
+        '''
+        To add link
+        '''
         if self.check_post_role()['ADD']:
             pass
         else:
@@ -133,7 +138,6 @@ class LinkHandler(BaseHandler):
 
         self.render('misc/link/link_edit.html',
                     kwd={},
-                    unescape=tornado.escape.xhtml_unescape,
                     dbrec=MLink.get_by_uid(uid),
                     userinfo=self.userinfo)
 
@@ -157,14 +161,15 @@ class LinkHandler(BaseHandler):
 
         self.render('misc/link/link_view.html',
                     view=rec,
-                    unescape=tornado.escape.xhtml_unescape,
                     kwd=kwd,
                     userinfo=self.userinfo,
                     cfg=CMS_CFG, )
 
     @tornado.web.authenticated
     def p_user_add_link(self):
-
+        '''
+        user add link.
+        '''
         if self.check_post_role()['ADD']:
             pass
         else:
@@ -211,6 +216,9 @@ class LinkHandler(BaseHandler):
 
     @tornado.web.authenticated
     def delete(self, del_id):
+        '''
+        Delete a link by id.
+        '''
         if self.check_post_role()['DELETE']:
             pass
         else:

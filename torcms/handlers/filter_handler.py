@@ -26,11 +26,8 @@ def echo_html_fenye_str(rec_num, fenye_num):
         fenye_str = ''
 
     elif pagination_num > 1:
-        pager_mid = ''
-        pager_pre = ''
-        pager_next = ''
-        pager_last = ''
-        pager_home = ''
+        pager_mid, pager_pre, pager_next, pager_last, pager_home = '', '', '', '', ''
+
         fenye_str = '<ul class="pagination">'
 
         if fenye_num > 1:
@@ -178,7 +175,6 @@ class FilterHandler(BaseHandler):
                     userinfo=self.userinfo,
                     kwd=kwd,
                     html2text=html2text,
-                    unescape=tornado.escape.xhtml_unescape,
                     post_infos=infos,
                     widget_info=kwd)
 

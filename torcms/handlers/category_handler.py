@@ -5,8 +5,6 @@ Accessing via category.
 '''
 
 import json
-import tornado.escape
-import tornado.web
 
 from torcms.core.base_handler import BaseHandler
 from torcms.core import tools
@@ -103,7 +101,6 @@ class CategoryHandler(BaseHandler):
         cat_name = cat_rec.name
         kwd = {'cat_name': cat_name,
                'cat_slug': cat_slug,
-               'unescape': tornado.escape.xhtml_unescape,
                'title': cat_name,
                'router': router_post[cat_rec.kind],
                'current_page': current_page_num,
@@ -131,7 +128,6 @@ class CategoryHandler(BaseHandler):
                         current_page_num),
                     userinfo=self.userinfo,
                     html2text=html2text,
-                    unescape=tornado.escape.xhtml_unescape,
                     cfg=CMS_CFG,
                     kwd=kwd,
                     router=router_post[cat_rec.kind])

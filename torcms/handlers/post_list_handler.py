@@ -4,8 +4,7 @@
 listing the posts, simply.
 '''
 
-import tornado.escape
-import tornado.web
+
 
 from config import CMS_CFG
 from torcms.core import tools
@@ -67,7 +66,6 @@ class PostListHandler(BaseHandler):
         '''
         kwd = {
             'pager': '',
-            'unescape': tornado.escape.xhtml_unescape,
             'title': 'Recent posts.',
             'with_catalog': with_catalog,
             'with_date': with_date,
@@ -127,5 +125,4 @@ class PostListHandler(BaseHandler):
                     view=MPost.query_dated(10),
                     postrecs=MPost.query_dated(10),
                     format_date=tools.format_date,
-                    unescape=tornado.escape.xhtml_unescape,
                     cfg=CMS_CFG, )

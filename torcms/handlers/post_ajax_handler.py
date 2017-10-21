@@ -1,6 +1,8 @@
 # -*- coding:utf-8 -*-
 
-
+'''
+Handler of Posts via Ajax.
+'''
 
 import json
 import tornado.web
@@ -12,6 +14,9 @@ from torcms.core import tools
 
 
 class PostAjaxHandler(PostHandler):
+    '''
+    Handler of Posts via Ajax.
+    '''
     def initialize(self, **kwargs):
         super(PostAjaxHandler, self).initialize()
 
@@ -66,7 +71,6 @@ class PostAjaxHandler(PostHandler):
         '''
         kwd = {
             'pager': '',
-            'unescape': tornado.escape.xhtml_unescape,
             'title': 'Recent posts.',
             'with_catalog': with_catalog,
             'with_date': with_date,

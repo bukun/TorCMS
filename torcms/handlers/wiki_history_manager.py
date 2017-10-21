@@ -52,7 +52,6 @@ class WikiHistoryHandler(EditHistoryHander):
             return False
         self.render('man_info/wiki_man_edit.html',
                     userinfo=self.userinfo,
-                    unescape=tornado.escape.xhtml_unescape,
                     postinfo=MWiki.get_by_uid(postid))
 
     @tornado.web.authenticated
@@ -99,7 +98,6 @@ class WikiHistoryHandler(EditHistoryHander):
 
         self.render('man_info/wiki_man_view.html',
                     userinfo=self.userinfo,
-                    unescape=tornado.escape.xhtml_unescape,
                     view=postinfo,  # Deprecated
                     postinfo=postinfo,
                     html_diff_arr=html_diff_arr)

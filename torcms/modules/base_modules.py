@@ -41,7 +41,7 @@ class ShowPage(tornado.web.UIModule):
         }
         if page:
             out_str = self.render_string('modules/show_page.html',
-                                         unescape=tornado.escape.xhtml_unescape,
+
                                          postinfo=page,
                                          userinfo=userinfo,
                                          kwd=kwd)
@@ -242,7 +242,7 @@ class PostRecent(tornado.web.UIModule):
         }
         return self.render_string('modules/post/post_list.html',
                                   recs=MPost.query_recent(num, kind=kind),
-                                  unescape=tornado.escape.xhtml_unescape,
+
                                   kwd=kwd)
 
 
@@ -287,7 +287,7 @@ class PostCategoryRecent(tornado.web.UIModule):
         }
         return self.render_string('modules/post/post_list.html',
                                   recs=recs,
-                                  unescape=tornado.escape.xhtml_unescape,
+
                                   kwd=kwd)
 
 
@@ -313,7 +313,6 @@ class ShowoutRecent(tornado.web.UIModule):
 
         return self.render_string('modules/post/showout_list.html',
                                   recs=MPost.query_cat_recent(cat_id, num=num, kind=kind),
-                                  unescape=tornado.escape.xhtml_unescape,
                                   kwd=kwd)
 
 
@@ -402,8 +401,7 @@ class CategoryMenu(tornado.web.UIModule):
     def render(self, *args, **kwargs):
         kind = kwargs['kind'] if 'kind' in kwargs else '1'
         return self.render_string('modules/post/showcat_list.html',
-                                  recs=MCategory.query_all(kind=kind),
-                                  unescape=tornado.escape.xhtml_unescape)
+                                  recs=MCategory.query_all(kind=kind))
 
 
 class CopyRight(tornado.web.UIModule):

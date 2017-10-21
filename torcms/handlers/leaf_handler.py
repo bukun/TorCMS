@@ -17,10 +17,9 @@ from torcms.model.category_model import MCategory
 from torcms.model.label_model import MPost2Label
 from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
-from torcms.model.evaluation_model import MEvaluation
 from torcms.model.usage_model import MUsage
 from .post_handler import PostHandler
-from config import router_post, DB_CFG
+from config import DB_CFG
 
 
 class LeafHandler(PostHandler):
@@ -114,7 +113,6 @@ class LeafHandler(PostHandler):
                     userinfo=self.userinfo,
                     catinfo=catinfo,
                     pcatinfo=p_catinfo,
-                    unescape=tornado.escape.xhtml_unescape,
                     ad_switch=random.randint(1, 18),
                     tag_info=MPost2Label.get_by_uid(postinfo.uid),
                     catalog_infos=catalog_infors,

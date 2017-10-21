@@ -2,10 +2,6 @@
 '''
 Index for the application.
 '''
-
-import tornado.escape
-import tornado.web
-
 from torcms.core.base_handler import BaseHandler
 from torcms.model.category_model import MCategory
 from torcms.model.link_model import MLink
@@ -35,7 +31,6 @@ class IndexHandler(BaseHandler):
                     userinfo=self.userinfo,
                     catalog_info=MCategory.query_all(by_order=True),
                     link=MLink.query_all(),
-                    unescape=tornado.escape.xhtml_unescape,
                     cfg=CMS_CFG,
                     view=MPost.query_most_pic(20),
                     kwd={}, )

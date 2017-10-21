@@ -1,8 +1,11 @@
 # -*- coding:utf-8 -*-
 
+'''
+Handler for reply.
+'''
+
 import json
-import tornado.escape
-import tornado.web
+
 from torcms.core.base_handler import BaseHandler
 from torcms.model.reply_model import MReply
 from torcms.model.reply2user_model import MReply2User
@@ -10,6 +13,10 @@ from torcms.core.tools import logger
 
 
 class ReplyHandler(BaseHandler):
+    '''
+    Handler for reply.
+    '''
+
     def initialize(self):
         super(ReplyHandler, self).initialize()
 
@@ -33,8 +40,10 @@ class ReplyHandler(BaseHandler):
             self.add(url_arr[1])
 
     def list(self):
+        '''
+        List the replies.
+        '''
         kwd = {'pager': '',
-               'unescape': tornado.escape.xhtml_unescape,
                'title': '单页列表'}
         self.render('admin/reply_ajax/reply_list.html',
                     kwd=kwd,
@@ -42,7 +51,9 @@ class ReplyHandler(BaseHandler):
                     userinfo=self.userinfo)
 
     def get_by_id(self, reply_id):
-
+        '''
+        Get the reply by id.
+        '''
         reply = MReply.get_by_uid(reply_id)
         logger.info('get_reply: {0}'.format(reply_id))
 
@@ -52,10 +63,12 @@ class ReplyHandler(BaseHandler):
                     date=reply.date,
                     vote=reply.vote,
                     uid=reply.uid,
-                    userinfo=self.userinfo,
-                    unescape=tornado.escape.xhtml_unescape)
+                    userinfo=self.userinfo)
 
     def add(self, post_id):
+        '''
+        Adding reply to a post.
+        '''
         post_data = self.get_post_data()
 
         post_data['user_name'] = self.userinfo.user_name
@@ -90,6 +103,9 @@ class ReplyHandler(BaseHandler):
         return json.dump(output, self)
 
     def delete(self, del_id):
+        '''
+        Delete the id
+        '''
         if MReply2User.delete(del_id):
             output = {'del_zan': 1}
         else:

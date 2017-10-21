@@ -137,7 +137,6 @@ class PostHistoryHandler(EditHistoryHander):
         post_rec = MPost.get_by_uid(postid)
         self.render('man_info/post_man_edit.html',
                     userinfo=self.userinfo,
-                    unescape=tornado.escape.xhtml_unescape,
                     postinfo=post_rec)
 
     @tornado.web.authenticated
@@ -190,7 +189,6 @@ class PostHistoryHandler(EditHistoryHander):
 
         self.render('man_info/post_man_view.html',
                     userinfo=self.userinfo,
-                    unescape=tornado.escape.xhtml_unescape,
                     view=postinfo,
                     postinfo=postinfo,
                     html_diff_arr=html_diff_arr,

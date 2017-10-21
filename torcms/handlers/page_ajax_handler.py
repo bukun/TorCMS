@@ -1,4 +1,7 @@
 # -*- coding:utf-8 -*-
+'''
+Handler of Pages via Ajax.
+'''
 
 import json
 import tornado.web
@@ -8,6 +11,10 @@ import tornado.escape
 
 
 class PageAjaxHandler(PageHandler):
+    '''
+    Handler of Pages via Ajax.
+    '''
+
     def initialize(self, **kwargs):
         super(PageAjaxHandler, self).initialize()
 
@@ -28,6 +35,9 @@ class PageAjaxHandler(PageHandler):
             return '{}'
 
     def view(self, rec):
+        '''
+        view the post.
+        '''
         out_json = {
             'uid': rec.uid,
             'time_update': rec.time_update,
@@ -39,7 +49,6 @@ class PageAjaxHandler(PageHandler):
 
     @tornado.web.authenticated
     def to_add(self, citiao):
-
         self.write(json.dumps({'code': citiao}))
 
     def j_count_plus(self, slug):
@@ -47,9 +56,10 @@ class PageAjaxHandler(PageHandler):
         return json.dump(output, self)
 
     def p_list(self):
-        pages = MWiki.query_recent(20, kind='2')
-
-        self.render('admin/page_ajax/page_list.html', postrecs=pages)
+        '''
+        List the post .
+        '''
+        self.render('admin/page_ajax/page_list.html', postrecs=MWiki.query_recent(20, kind='2'))
 
     def p_to_add(self):
         '''

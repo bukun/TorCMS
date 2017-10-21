@@ -8,7 +8,6 @@ import json
 import tornado.escape
 import tornado.web
 from torcms.core.base_handler import BaseHandler
-from torcms.core.libs.deprecation import deprecated
 from torcms.model.label_model import MPost2Label
 from torcms.core.torcms_redis import redisvr
 from config import CMS_CFG
@@ -79,7 +78,6 @@ class LabelHandler(BaseHandler):
                         kind=kind,
                         current_page_num=current_page_number
                     ),
-                    unescape=tornado.escape.xhtml_unescape,
                     kwd=kwd,
                     userinfo=self.userinfo,
                     pager=self.gen_pager(kind, tag_slug, pager_num, current_page_number),

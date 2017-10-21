@@ -19,11 +19,7 @@ def gen_pager_bootstrap_url(cat_slug, page_num, current):
     if page_num == 1 or page_num == 0:
         pager = ''
     elif page_num > 1:
-        pager_mid = ''
-        pager_pre = ''
-        pager_next = ''
-        pager_last = ''
-        pager_home = ''
+        pager_mid, pager_pre, pager_next, pager_last, pager_home = '', '', '', '', ''
 
         pager = '<ul class="pagination">'
 

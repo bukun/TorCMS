@@ -123,8 +123,7 @@ class PageHandler(BaseHandler):
         :param slug:
         :return:
         '''
-        print("*" * 50)
-        print(slug)
+
         if self.__could_edit(slug):
             pass
         else:
@@ -167,7 +166,6 @@ class PageHandler(BaseHandler):
                     view=MWiki.get_by_uid(uid),  # Deprecated
                     postinfo=MWiki.get_by_uid(uid),
                     kwd=kwd,
-                    unescape=tornado.escape.xhtml_unescape,
                     cfg=CMS_CFG,
                     userinfo=self.userinfo)
 
@@ -183,7 +181,6 @@ class PageHandler(BaseHandler):
         self.render('wiki_page/page_view.html',
                     view=rec,  # Deprecated
                     postinfo=rec,
-                    unescape=tornado.escape.xhtml_unescape,
                     kwd=kwd,
                     author=rec.user_name,
                     format_date=tools.format_date,
@@ -207,7 +204,6 @@ class PageHandler(BaseHandler):
         '''
         kwd = {
             'pager': '',
-            'unescape': tornado.escape.xhtml_unescape,
             'title': '单页列表',
         }
         self.render('wiki_page/page_list.html',

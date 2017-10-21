@@ -433,7 +433,6 @@ class PostHandler(BaseHandler):
                     catinfo=catinfo,
                     pcatinfo=p_catinfo,
                     userinfo=self.userinfo,
-                    unescape=tornado.escape.xhtml_unescape,
                     cat_enum=MCategory.get_qian2(catid[:2]),
                     tag_infos=MCategory.query_all(by_order=True, kind=self.kind),
                     tag_infos2=MCategory.query_all(by_order=True, kind=self.kind),
@@ -517,7 +516,6 @@ class PostHandler(BaseHandler):
                     pcatinfo=p_catinfo,
                     relations=rel_recs,
                     rand_recs=rand_recs,
-                    unescape=tornado.escape.xhtml_unescape,
                     ad_switch=random.randint(1, 18),
                     # tag_info=MPost2Label.get_by_uid(postinfo.uid).naive(),
                     tag_info=filter(lambda x: not x.tag_name.startswith('_'),
@@ -852,7 +850,6 @@ class PostHandler(BaseHandler):
                     postinfo=postinfo,
                     sig_dic=router_post,
                     userinfo=self.userinfo,
-                    unescape=tornado.escape.xhtml_unescape,
                     json_cnt=json_cnt)
 
     @tornado.web.authenticated

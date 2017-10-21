@@ -59,7 +59,6 @@ class MaintainCategoryHandler(BaseHandler):
         '''
         kwd = {
             'pager': '',
-            'unescape': tornado.escape.xhtml_unescape,
             'title': '最近文档',
         }
         self.render('admin/{0}/category_list.html'.format(self.tmpl_router),
@@ -149,7 +148,6 @@ class MaintainCategoryHandler(BaseHandler):
         }
         self.render('admin/{0}/category_edit.html'.format(self.tmpl_router),
                     kwd=kwd,
-                    unescape=tornado.escape.xhtml_unescape,
                     dbrec=category_rec,
                     userinfo=self.userinfo,
                     cfg=config.CMS_CFG)

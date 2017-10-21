@@ -578,7 +578,6 @@ class UserHandler(BaseHandler):
             self.to_find()
         kwd = {
             'pager': '',
-            'unescape': tornado.escape.xhtml_unescape,
             'title': '查找结果',
         }
 

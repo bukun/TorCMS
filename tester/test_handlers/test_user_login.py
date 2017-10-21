@@ -1,15 +1,14 @@
 # -*- coding:utf-8 -*-
 
+'''
+Test user login.
+'''
 
-from torcms.handlers.post_handler import PostHandler
 
-# from tornado.testing import AsyncHTTPSTestCase
 from tornado.testing import AsyncHTTPTestCase
-from tornado.web import Application
-from application import SETTINGS, app
+from application import  APP
 from http import cookies
-import urllib
-import tornado.escape
+
 
 TEST_URL = '/resource'
 LOGIN_URL = '/login'
@@ -17,9 +16,15 @@ LOGOUT_URL = '/logout'
 
 
 class LoginTest(AsyncHTTPTestCase):
+    '''
+    Test user login.
+    '''
     def __init__(self, *rest):
         self.cookies = cookies.SimpleCookie()
         AsyncHTTPTestCase.__init__(self, *rest)
 
     def get_app(self):
-        return app
+        '''
+        Test
+        '''
+        return APP

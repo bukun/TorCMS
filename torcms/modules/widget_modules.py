@@ -33,7 +33,7 @@ class ReplyPanel(tornado.web.UIModule):
             uid=uid,
             replys=MReply.query_by_post(uid),
             userinfo=userinfo,
-            unescape=tornado.escape.xhtml_unescape,
+
             linkify=tornado.escape.linkify
         )
 
@@ -97,7 +97,7 @@ class StarRating(tornado.web.UIModule):
             rating = postinfo.rating
         return self.render_string(
             'modules/widget/star_rating.html',
-            unescape=tornado.escape.xhtml_unescape,
+
             postinfo=postinfo,
             userinfo=userinfo,
             rating=rating,
@@ -114,7 +114,7 @@ class NavigatePanel(tornado.web.UIModule):
         userinfo = args[0]
         return self.render_string(
             'modules/widget/navigate_panel.html',
-            unescape=tornado.escape.xhtml_unescape,
+
             userinfo=userinfo,
         )
 
@@ -129,7 +129,6 @@ class FooterPanel(tornado.web.UIModule):
         userinfo = args[0]
         return self.render_string(
             'modules/widget/footer_panel.html',
-            unescape=tornado.escape.xhtml_unescape,
             userinfo=userinfo,
         )
 
