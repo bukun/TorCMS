@@ -138,7 +138,7 @@ class LinkHandler(BaseHandler):
 
         self.render('misc/link/link_edit.html',
                     kwd={},
-                    dbrec=MLink.get_by_uid(uid),
+                    postinfo=MLink.get_by_uid(uid),
                     userinfo=self.userinfo)
 
     @tornado.web.authenticated

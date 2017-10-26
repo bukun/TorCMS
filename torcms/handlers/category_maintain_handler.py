@@ -148,7 +148,7 @@ class MaintainCategoryHandler(BaseHandler):
         }
         self.render('admin/{0}/category_edit.html'.format(self.tmpl_router),
                     kwd=kwd,
-                    dbrec=category_rec,
+                    postinfo=category_rec,
                     userinfo=self.userinfo,
                     cfg=config.CMS_CFG)
 
