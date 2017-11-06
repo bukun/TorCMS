@@ -60,9 +60,14 @@ class WidgetEditor(tornado.web.UIModule):
         router = args[0]
         uid = args[1]
         userinfo = args[2]
+        if 'catid' in kwargs:
+            catid = kwargs['catid']
+        else:
+            catid = ''
         kwd = {
             'router': router,
             'uid': uid,
+            'catid':catid
         }
         return self.render_string(
             'modules/widget/widget_editor.html',
