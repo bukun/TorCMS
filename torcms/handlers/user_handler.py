@@ -50,6 +50,7 @@ class UserHandler(BaseHandler):
         url_arr = self.parse_url(url_str)
 
         dict_get = {
+            # Todo lambda 注册不跳转到注册页面 没反应
             'regist': lambda: self.redirect('/') if self.get_current_user() else self.__to_register__,
             'login': self.to_login,
             'info': self.show_info,
