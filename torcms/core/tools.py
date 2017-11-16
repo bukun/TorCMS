@@ -18,6 +18,12 @@ import tornado.escape
 from torcms.core.libs.deprecation import deprecated
 import cfg
 
+try:
+    from jieba.analyse import ChineseAnalyzer
+except:
+    ChineseAnalyzer = None
+    from whoosh.analysis import StemmingAnalyzer
+
 # Config for logging
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
@@ -337,6 +343,29 @@ class ConfigDefault(object):
         'user': 'postgres',
         'pass': '',
     }
+
+
+def get_analyzer():
+    '''
+    Get the analyzer for whoosh of difference language. Currrent only for zh and en.
+    '''
+    alyzer = {
+        'zh': ChineseAnalyzer,
+        'en': StemmingAnalyzer,
+    }
+    cfg_var = dir(cfg)
+    if 'SITE_CFG' in cfg_var:
+        site_cfg = cfg.SITE_CFG
+    else:
+        site_cfg = ConfigDefault.SITE_CFG
+
+    if 'LANG' in site_cfg:
+        site_cfg['LANG'] = site_cfg['LANG']
+    else:
+        site_cfg['LANG'] = 'zh'
+    print('l' * 20 + ': lang')
+    print(site_cfg['LANG'])
+    return alyzer[site_cfg['LANG']]
 
 
 def get_cfg():

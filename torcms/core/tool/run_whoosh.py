@@ -6,12 +6,13 @@ import tornado.escape
 
 from whoosh.index import create_in, open_dir
 from whoosh.fields import Schema, TEXT, ID
-from jieba.analyse import ChineseAnalyzer
+
 from torcms.model.post_model import MPost
 # from torcms.model.info_model import MInfor
 from torcms.model.category_model import MCategory
 from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.wiki_model import MWiki
+from torcms.core.tools import get_analyzer
 from config import router_post, kind_arr, post_type
 
 
@@ -143,7 +144,8 @@ def gen_whoosh_database(kind_arr=None, post_type=None):
         kind_arr = []
     if post_type is None:
         post_type = {}
-    analyzer = ChineseAnalyzer()
+    # analyzer = ChineseAnalyzer()
+    analyzer = get_analyzer()
     schema = Schema(title=TEXT(stored=True, analyzer=analyzer),
                     catid=TEXT(stored=True),
                     type=TEXT(stored=True),
