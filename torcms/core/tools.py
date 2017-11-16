@@ -22,7 +22,7 @@ try:
     from jieba.analyse import ChineseAnalyzer
 except:
     ChineseAnalyzer = None
-    from whoosh.analysis import StemmingAnalyzer
+from whoosh.analysis import StemmingAnalyzer
 
 # Config for logging
 logging.basicConfig(level=logging.DEBUG,
@@ -363,6 +363,10 @@ def get_analyzer():
         site_cfg['LANG'] = site_cfg['LANG']
     else:
         site_cfg['LANG'] = 'zh'
+    if site_cfg['LANG'] == 'zh' and ChineseAnalyzer:
+        pass
+    else:
+        site_cfg['LANG'] = 'en'
     print('l' * 20 + ': lang')
     print(site_cfg['LANG'])
     return alyzer[site_cfg['LANG']]
