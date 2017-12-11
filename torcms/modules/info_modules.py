@@ -388,7 +388,7 @@ class InfoMenu(tornado.web.UIModule):
         return self.render_string('modules/info/app_menu.html', kwd=kwd)
 
 
-# Todo: kind error.
+# Todo:  To test the class.
 class RelPost2app(tornado.web.UIModule):
     '''
     relation, post to app.
@@ -396,15 +396,17 @@ class RelPost2app(tornado.web.UIModule):
 
     def render(self, *args, **kwargs):
         uid = args[0]
-        num = args[1]
+        num = args[1] if len(args) > 1 else 6
+        kind = kwargs['kind'] if 'kind' in kwargs else '1'
+        num = kwargs['num'] if 'num' in kwargs else num
         kwd = {
             'app_f': 'post',
             'app_t': 'info',
             'uid': uid,
         }
-        rel_recs = MRelation.get_app_relations(uid, num, kind='m').naive()
+        rel_recs = MRelation.get_app_relations(uid, num, kind=kind).naive()
 
-        rand_recs = MPost.query_random(num=num - rel_recs.count() + 2, kind='m')
+        rand_recs = MPost.query_random(num=num - rel_recs.count() + 2, kind=kind)
 
         return self.render_string('modules/info/relation_post2app.html',
                                   relations=rel_recs,
@@ -412,7 +414,7 @@ class RelPost2app(tornado.web.UIModule):
                                   kwd=kwd, )
 
 
-# Todo: kind error.
+# Todo: To test the class.
 class RelApp2post(tornado.web.UIModule):
     '''
     relation, app to post.
@@ -420,15 +422,18 @@ class RelApp2post(tornado.web.UIModule):
 
     def render(self, *args, **kwargs):
         uid = args[0]
-        num = args[1]
+        num = args[1] if len(args) > 1 else 6
+        num = kwargs['num'] if 'num' in kwargs else num
+        kind = kwargs['kind'] if 'kind' in kwargs else '1'
+
         kwd = {
             'app_f': 'info',
             'app_t': 'post',
             'uid': uid,
         }
-        rel_recs = MRelation.get_app_relations(uid, num, kind='1').naive()
+        rel_recs = MRelation.get_app_relations(uid, num, kind=kind).naive()
 
-        rand_recs = MPost.query_random(num=num - rel_recs.count() + 2, kind='1')
+        rand_recs = MPost.query_random(num=num - rel_recs.count() + 2, kind=kind)
 
         return self.render_string('modules/info/relation_app2post.html',
                                   relations=rel_recs,

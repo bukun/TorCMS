@@ -4,8 +4,6 @@
 listing the posts, simply.
 '''
 
-
-
 from config import CMS_CFG
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
@@ -40,22 +38,6 @@ class PostListHandler(BaseHandler):
                         userinfo=self.userinfo, )
 
         dict_get.get(url_str, fun404)()
-
-        # if url_str in ['_recent', 'recent']:
-        #     self.recent()
-        # # elif url_arr[0] == 'p_recent':
-        # #     self.p_recent(url_arr[1])
-        # elif url_str == '_refresh':
-        #     self.refresh()
-        #
-        # elif url_str == 'errcat':
-        #     self.errcat()
-        # else:
-        #     kwd = {
-        #         'info': '404. Page not found!',
-        #     }
-        #     self.render('misc/html/404.html', kwd=kwd,
-        #                 userinfo=self.userinfo, )
 
     def recent(self, with_catalog=True, with_date=True):
         '''
@@ -125,4 +107,4 @@ class PostListHandler(BaseHandler):
                     view=MPost.query_dated(10),
                     postrecs=MPost.query_dated(10),
                     format_date=tools.format_date,
-                    cfg=CMS_CFG, )
+                    cfg=CMS_CFG)
