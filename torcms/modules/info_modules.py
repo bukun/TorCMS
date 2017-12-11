@@ -137,7 +137,6 @@ class InfoMostUsedByCategory(tornado.web.UIModule):
 
         all_cats = MPost.query_most_by_cat(num, cat_str)
         kwd = {
-
             'glyph': glyph
         }
         return self.render_string('modules/info/list_equation_by_cat.html',
@@ -170,12 +169,11 @@ class InfoMostUsed(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-        kind = args[0]
-        num = args[1]
+        kind = kwargs.get('kind', args[0] if len(args) > 0 else '1')
+        num = kwargs.get('num', args[1] if len(args) > 1 else 6)
 
-        with_tag = kwargs['with_tag'] if 'with_tag' in kwargs else False
-
-        userinfo = kwargs['userinfo'] if 'userinfo' in kwargs else None
+        with_tag = kwargs.get('with_tag', False)
+        userinfo = kwargs.get('userinfo', None)
         glyph = kwargs.get('glyph', None)
 
         if userinfo:
@@ -244,22 +242,8 @@ class InfoRecentUsed(tornado.web.UIModule):
 
     def render(self, *args, **kwargs):
 
-        def get_para(key):
-            '''
-            Get the para
-            First from kwargs, else from args.
-            '''
-            para = kwargs.get(key, '')
-            if para:
-                pass
-            elif len(args):
-                para = args[0]
-            else:
-                pass
-            return para
-
-        kind = get_para('kind')
-        num = get_para('num')
+        kind = kwargs.get('kind', args[0] if len(args) > 0 else '1')
+        num = kwargs.get('num', args[1] if len(args) > 1 else 6)
 
         with_tag = kwargs.get('with_tag', False)
         userinfo = kwargs.get('userinfo', None)
