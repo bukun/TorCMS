@@ -176,11 +176,12 @@ class InfoMostUsed(tornado.web.UIModule):
         with_tag = kwargs['with_tag'] if 'with_tag' in kwargs else False
 
         userinfo = kwargs['userinfo'] if 'userinfo' in kwargs else None
+        glyph = kwargs.get('glyph', None)
 
         if userinfo:
-            html_str = self.render_user(kind, num, with_tag=with_tag, user_id=userinfo.uid)
+            html_str = self.render_user(kind, num, with_tag=with_tag, user_id=userinfo.uid, glyph=glyph)
         else:
-            html_str = self.render_it(kind, num, with_tag=with_tag)
+            html_str = self.render_it(kind, num, with_tag=with_tag, glyph=glyph)
         return html_str
 
     def render_it(self, *args, **kwargs):
