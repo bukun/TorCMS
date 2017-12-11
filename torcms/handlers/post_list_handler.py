@@ -119,7 +119,7 @@ class PostListHandler(BaseHandler):
             'pager': '',
             'title': '',
         }
-        self.render('post_{0}/post_list.html',
+        self.render('list/post_list.html',
                     kwd=kwd,
                     userinfo=self.userinfo,
                     view=MPost.query_dated(10),
