@@ -18,8 +18,8 @@ class MWiki(Mabc):
     Class for wiki.
     '''
 
-    def __init__(self):
-        super(MWiki, self).__init__()
+    # def __init__(self):
+    #     super(MWiki, self).__init__()
 
     @staticmethod
     def get_counts():

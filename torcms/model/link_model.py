@@ -12,8 +12,8 @@ class MLink(Mabc):
     For friends links.
     '''
 
-    def __init__(self):
-        super(MLink, self).__init__()
+    # def __init__(self):
+    #     super(MLink, self).__init__()
 
     @staticmethod
     def get_counts():
@@ -34,6 +34,9 @@ class MLink(Mabc):
 
     @staticmethod
     def get_by_uid(uid):
+        '''
+        Get a link by ID.
+        '''
         return MHelper.get_by_uid(TabLink, uid)
 
     @staticmethod

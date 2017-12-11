@@ -14,14 +14,13 @@ from torcms.core.tools import logger
 from torcms.model.abc_model import Mabc
 
 
-
 class MUsage(Mabc):
     '''
     Handle the usage of the info.
     '''
 
-    def __init__(self):
-        super(MUsage, self).__init__()
+    # def __init__(self):
+    #     super(MUsage, self).__init__()
 
     @staticmethod
     def query_by_post(postid):
@@ -97,10 +96,6 @@ class MUsage(Mabc):
     def add_or_update(user_id, post_id, kind):
         '''
         Create the record if new, else update it.
-        :param user_id:
-        :param post_id:
-        :param kind:
-        :return:
         '''
 
         rec = MUsage.query_by_signature(user_id, post_id)
@@ -135,4 +130,3 @@ class MUsage(Mabc):
                 post_id=post_id
             ).where(TabUsage.uid == uid)
             entry.execute()
-

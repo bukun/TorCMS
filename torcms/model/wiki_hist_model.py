@@ -27,8 +27,6 @@ class MWikiHist(Mabc):
     def delete(uid):
         '''
         Delete by uid
-        :param uid:
-        :return:
         '''
         return MHelper.delete(TabWikiHist, uid)
 

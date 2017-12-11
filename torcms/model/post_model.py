@@ -22,8 +22,9 @@ class MPost(Mabc):
     Model for Posts.
     '''
 
-    def __init__(self):
-        super(MPost, self).__init__()
+    #
+    # def __init__(self):
+    #     super(MPost, self).__init__()
 
     @staticmethod
     def query_recent_most(num=8, recent=30):
@@ -31,10 +32,11 @@ class MPost(Mabc):
         Query the records from database that recently updated.
         :param num: the number that will returned.
         :param recent: the number of days recent.
-        :return:
         '''
         time_that = int(time.time()) - recent * 24 * 3600
-        return TabPost.select().where(TabPost.time_update > time_that).order_by(
+        return TabPost.select().where(
+            TabPost.time_update > time_that
+        ).order_by(
             TabPost.view_count.desc()
         ).limit(num)
 
@@ -137,7 +139,7 @@ class MPost(Mabc):
             cnt_html=tools.markdown2html(post_data['cnt_md']),
             user_name=post_data['user_name'],
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'].strip()),
-            time_update=tools.timestamp(),
+            time_update=tools.timestamp()
         ).where(TabPost.uid == uid)
         entry.execute()
 
@@ -165,7 +167,7 @@ class MPost(Mabc):
             if update_time:
                 entry2 = TabPost.update(
                     date=datetime.now(),
-                    time_create=tools.timestamp(),
+                    time_create=tools.timestamp()
                 ).where(TabPost.uid == uid)
                 entry2.execute()
         except:
@@ -184,7 +186,7 @@ class MPost(Mabc):
             kind=post_data['kind'] if 'kind' in post_data else 1,
             extinfo=post_data['extinfo'] if 'extinfo' in post_data else cur_rec.extinfo,
             time_update=tools.timestamp(),
-            valid=1,
+            valid=1
         ).where(TabPost.uid == uid)
         entry.execute()
 
@@ -223,10 +225,12 @@ class MPost(Mabc):
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'].strip()),
             cnt_html=tools.markdown2html(post_data['cnt_md']),
             uid=post_uid,
-            time_create=(post_data['time_create'] if 'time_create' in post_data
-                         else tools.timestamp()),
-            time_update=(post_data['time_update'] if 'time_update' in post_data
-                         else tools.timestamp()),
+            time_create=(
+                post_data['time_create'] if 'time_create' in post_data else tools.timestamp()
+            ),
+            time_update=(
+                post_data['time_update'] if 'time_update' in post_data else tools.timestamp()
+            ),
             user_name=post_data['user_name'],
             view_count=post_data['view_count'] if 'view_count' in post_data else 1,
             logo=post_data['logo'],
@@ -235,7 +239,7 @@ class MPost(Mabc):
             keywords=post_data['keywords'] if 'keywords' in post_data else '',
             extinfo=post_data['extinfo'] if 'extinfo' in post_data else {},
             kind=post_data['kind'] if 'kind' in post_data else '1',
-            valid=1,
+            valid=1
         )
         return entry.uid
 
@@ -392,14 +396,18 @@ class MPost(Mabc):
         '''
 
         if label:
-            recent_recs = MPost.query_cat_recent_with_label(cat_id,
-                                                            label=label,
-                                                            num=num,
-                                                            kind=kind)
+            recent_recs = MPost.query_cat_recent_with_label(
+                cat_id,
+                label=label,
+                num=num,
+                kind=kind
+            )
         else:
-            recent_recs = MPost.query_cat_recent_no_label(cat_id,
-                                                          num=num,
-                                                          kind=kind)
+            recent_recs = MPost.query_cat_recent_no_label(
+                cat_id,
+                num=num,
+                kind=kind
+            )
         return recent_recs
 
     @staticmethod
@@ -444,9 +452,6 @@ class MPost(Mabc):
         '''
         :param cat_id_arr:   list of categories. ['0101', '0102']
         :param label: the additional label
-        :param num:
-        :param kind:
-        :return:
         '''
         if label:
             return MPost.__query_with_label(
@@ -455,16 +460,12 @@ class MPost(Mabc):
                 num=num,
                 kind=kind
             )
-        else:
-            return MPost.query_total_cat_recent_no_label(cat_id_arr, num=num, kind=kind)
+        return MPost.query_total_cat_recent_no_label(cat_id_arr, num=num, kind=kind)
 
     @staticmethod
     def __query_with_label(cat_id_arr, label=None, num=8, kind='1'):
         '''
         :param cat_id_arr:   list of categories. ['0101', '0102']
-        :param num:
-        :param kind:
-        :return:
         '''
         return TabPost.select().join(
             TabPost2Tag,
@@ -481,9 +482,6 @@ class MPost(Mabc):
     def query_total_cat_recent_no_label(cat_id_arr, num=8, kind='1'):
         '''
         :param cat_id_arr:   list of categories. ['0101', '0102']
-        :param num:
-        :param kind:
-        :return:
         '''
         return TabPost.select().join(
             TabPost2Tag,
@@ -500,7 +498,6 @@ class MPost(Mabc):
         '''
         Query most viewed.
         '''
-
         return TabPost.select().where(
             (TabPost.kind == kind) &
             (TabPost.valid == 1)
@@ -528,8 +525,6 @@ class MPost(Mabc):
     @staticmethod
     def __update_view_count(uid):
         '''
-        :param uid:
-        :return:
         '''
         entry = TabPost.update(view_count=TabPost.view_count + 1).where(TabPost.uid == uid)
         try:
@@ -552,14 +547,13 @@ class MPost(Mabc):
         Get next record by time_create.
         '''
         current_rec = MPost.get_by_uid(in_uid)
-        query = TabPost.select().where(
+        recs = TabPost.select().where(
             (TabPost.kind == kind) &
             (TabPost.time_create < current_rec.time_create)
         ).order_by(TabPost.time_create.desc())
-        if query.count() == 0:
-            return None
-        else:
-            return query.get()
+        if recs.count():
+            return recs.get()
+        return None
 
     @staticmethod
     def get_previous_record(in_uid, kind='1'):
@@ -567,14 +561,13 @@ class MPost(Mabc):
         Get previous record by time_create.
         '''
         current_rec = MPost.get_by_uid(in_uid)
-        query = TabPost.select().where(
+        recs = TabPost.select().where(
             (TabPost.kind == kind) &
             (TabPost.time_create > current_rec.time_create)
         ).order_by(TabPost.time_create)
-        if query.count() == 0:
-            return None
-        else:
-            return query.get()
+        if recs.count():
+            return recs.get()
+        return None
 
     @staticmethod
     def get_all(kind='2'):
@@ -695,8 +688,7 @@ class MPost(Mabc):
             ).order_by(
                 TabPost.view_count.desc()
             ).limit(num)
-        else:
-            return False
+        return False
 
     @staticmethod
     def query_least_by_cat(num=8, cat_str=1, kind='2'):
@@ -742,7 +734,7 @@ class MPost(Mabc):
         )
 
     @staticmethod
-    def get_label_fenye(tag_slug, idx):
+    def get_label_fenye(tag_slug, _idx):
         all_list = MPost.query_by_tagname(tag_slug)
         # 当前分页的记录
         # Todo
@@ -792,9 +784,6 @@ class MPost(Mabc):
     def query_under_condition(condition, kind='2'):
         '''
         Get All data of certain kind according to the condition
-        :param condition:
-        :param kind:
-        :return:
         '''
         if DB_CFG['kind'] == 's':
             return TabPost.select().where(
@@ -802,20 +791,17 @@ class MPost(Mabc):
             ).order_by(
                 TabPost.time_update.desc()
             )
-        else:
 
-            return TabPost.select().where(
-                (TabPost.kind == kind) &
-                (TabPost.valid == 1) &
-                TabPost.extinfo.contains(condition)
-            ).order_by(TabPost.time_update.desc())
+        return TabPost.select().where(
+            (TabPost.kind == kind) &
+            (TabPost.valid == 1) &
+            TabPost.extinfo.contains(condition)
+        ).order_by(TabPost.time_update.desc())
 
     @staticmethod
     def get_num_condition(con):
         '''
         Return the number under condition.
-        :param con:
-        :return:
         '''
         return MPost.query_under_condition(con).count()
 

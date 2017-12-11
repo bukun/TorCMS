@@ -8,8 +8,8 @@ from torcms.model.abc_model import Mabc
 
 
 class MReply2User(Mabc):
-    def __init__(self):
-        super(MReply2User, self).__init__()
+    # def __init__(self):
+    #     super(MReply2User, self).__init__()
 
     @staticmethod
     def update(uid, post_data, update_time=False):

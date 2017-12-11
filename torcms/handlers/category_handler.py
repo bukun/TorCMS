@@ -47,8 +47,6 @@ class CategoryHandler(BaseHandler):
     def ajax_subcat_arr(self, pid):
         '''
         Get the sub category.
-        :param qian2:
-        :return:
         '''
         out_arr = {}
         for catinfo in MCategory.query_sub_cat(pid):
@@ -58,8 +56,6 @@ class CategoryHandler(BaseHandler):
     def ajax_kindcat_arr(self, kind_sig):
         '''
         Get the sub category.
-        :param qian2:
-        :return:
         '''
         out_arr = {}
         for catinfo in MCategory.query_kind_cat(kind_sig):

@@ -19,7 +19,7 @@ class MaintainCategoryHandler(BaseHandler):
     '''
 
     def initialize(self, **kwargs):
-        super(MaintainCategoryHandler, self).initialize()
+        super(MaintainCategoryHandler, self).initialize(kwargs)
         self.tmpl_router = 'maintain_category'
 
     def get(self, *args, **kwargs):
@@ -55,7 +55,6 @@ class MaintainCategoryHandler(BaseHandler):
     def list_catalog(self):
         '''
         listing the category.
-        :return: 
         '''
         kwd = {
             'pager': '',
@@ -72,7 +71,6 @@ class MaintainCategoryHandler(BaseHandler):
     def to_add(self):
         '''
         Adding the category
-        :return: 
         '''
         if self.check_post_role()['ADD']:
             pass
@@ -94,8 +92,8 @@ class MaintainCategoryHandler(BaseHandler):
             return False
         if self.check_post_role()['EDIT'] or raw_data.id_user == self.userinfo.user_name:
             return True
-        else:
-            return False
+
+        return False
 
     @tornado.web.authenticated
     def update(self, uid):
@@ -201,7 +199,7 @@ class MaintainCategoryHandler(BaseHandler):
         while MCategory.get_by_uid(cur_uid):
             cur_uid = tools.get_uudd(2)
 
-        uid = MCategory.add_or_update(cur_uid, post_data)
+        MCategory.add_or_update(cur_uid, post_data)
 
         self.redirect('/maintain/category/list')
 
@@ -239,6 +237,6 @@ class MaintainCategoryAjaxHandler(MaintainCategoryHandler):
     CRUD for the category. By AJAX.
     '''
 
-    def initialize(self):
-        super(MaintainCategoryAjaxHandler, self).initialize()
+    def initialize(self, **kwargs):
+        super(MaintainCategoryAjaxHandler, self).initialize(kwargs)
         self.tmpl_router = 'category_ajax'

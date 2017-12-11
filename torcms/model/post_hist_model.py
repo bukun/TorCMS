@@ -14,8 +14,8 @@ class MPostHist(Mabc):
     For Post history
     '''
 
-    def __init__(self):
-        super(MPostHist, self).__init__()
+    # def __init__(self):
+    #     super(MPostHist, self).__init__()
 
     @staticmethod
     def get_by_uid(uid):
@@ -52,6 +52,9 @@ class MPostHist(Mabc):
 
     @staticmethod
     def query_by_postid(postid, limit=5):
+        '''
+        Query history of certian records.
+        '''
         recs = TabPostHist.select().where(
             TabPostHist.post_id == postid
         ).order_by(
@@ -61,13 +64,15 @@ class MPostHist(Mabc):
 
     @staticmethod
     def get_last(postid, limit=10):
+        '''
+        Get the last one of the records.
+        '''
         recs = TabPostHist.select().where(
             TabPostHist.post_id == postid
         ).order_by(TabPostHist.time_update.desc()).limit(limit)
-        if recs.count() == 0:
-            return None
-        else:
+        if recs.count():
             return recs.get()
+        return None
 
     @staticmethod
     def create_post_history(raw_data):

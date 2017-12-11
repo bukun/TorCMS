@@ -10,8 +10,8 @@ from torcms.model.abc_model import Mabc
 
 
 class MRelation(Mabc):
-    def __init__(self):
-        super(MRelation, self).__init__()
+    # def __init__(self):
+    #     super(MRelation, self).__init__()
 
     @staticmethod
     def add_relation(app_f, app_t, weight=1):

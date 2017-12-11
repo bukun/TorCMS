@@ -14,16 +14,15 @@ from torcms.model.abc_model import Mabc
 
 
 class MReply(Mabc):
-    def __init__(self):
-        super(MReply, self).__init__()
+    # def __init__(self):
+    #     super(MReply, self).__init__()
 
     @staticmethod
     def get_by_uid(uid):
         recs = TabReply.select().where(TabReply.uid == uid)
-        if recs.count() == 0:
-            return None
-        else:
+        if recs.count():
             return recs.get()
+        return None
 
     @staticmethod
     def update_vote(reply_id, count):

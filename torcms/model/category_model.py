@@ -17,8 +17,6 @@ class MCategory(Mabc):
     def delete(uid):
         '''
         Delete by uid
-        :param uid:
-        :return: 
         '''
         return MHelper.delete(TabTag, uid)
 
@@ -41,9 +39,11 @@ class MCategory(Mabc):
 
     @staticmethod
     def get_parent_list(kind='1'):
-        db_data = TabTag.select().where((TabTag.kind == kind) & (TabTag.uid.endswith('00'))).order_by(
-            TabTag.uid)
-        return db_data
+        return TabTag.select().where(
+            (TabTag.kind == kind) & (TabTag.uid.endswith('00'))
+        ).order_by(
+            TabTag.uid
+        )
 
     @staticmethod
     def query_kind_cat(kind_sig):
@@ -57,12 +57,8 @@ class MCategory(Mabc):
 
     @staticmethod
     def query_pcat(**kwargs):
-
+        _ = kwargs
         return TabTag.select().where(TabTag.pid == '0000').order_by(TabTag.order)
-
-        # return g_Tag.select().where(
-        #     (g_Tag.kind == kind) & (g_Tag.uid.endswith('00'))
-        # ).order_by(g_Tag.order)
 
     @staticmethod
     def query_uid_starts_with(qian2):
@@ -72,10 +68,6 @@ class MCategory(Mabc):
     def query_all(kind='1', by_count=False, by_order=True):
         '''
         Qeury all the categories, order by count or defined order.
-        :param kind: 
-        :param by_count: 
-        :param by_order: 
-        :return: the categories.
         '''
         if by_count:
             recs = TabTag.select().where(TabTag.kind == kind).order_by(TabTag.count.desc())
@@ -89,31 +81,27 @@ class MCategory(Mabc):
     def query_field_count(limit_num, kind='1'):
         '''
         Query the posts count of certain category.
-        :param limit_num: 
-        :param kind: 
-        :return: 
         '''
-        return TabTag.select().where(TabTag.kind == kind).order_by(TabTag.count.desc()).limit(limit_num)
+        return TabTag.select().where(
+            TabTag.kind == kind
+        ).order_by(
+            TabTag.count.desc()
+        ).limit(limit_num)
 
     @staticmethod
     def get_by_slug(slug):
         '''
         return the category record .
-        :param slug:
-        :return:
         '''
         rec = TabTag.select().where(TabTag.slug == slug)
         if rec.count() > 0:
             return rec.get()
-        else:
-            return None
+        return None
 
     @staticmethod
     def update_count(cat_id):
         '''
         Update the count of certain category.
-        :param cat_id:
-        :return:
         '''
         entry2 = TabTag.update(
             count=TabPost2Tag.select().where(
@@ -126,9 +114,6 @@ class MCategory(Mabc):
     def update(uid, post_data):
         '''
         Update the category.
-        :param uid:
-        :param post_data:
-        :return:
         '''
         raw_rec = TabTag.get(TabTag.uid == uid)
         entry = TabTag.update(
@@ -144,9 +129,6 @@ class MCategory(Mabc):
     def add_or_update(uid, post_data):
         '''
         Add or update the data by the given ID of post.
-        :param uid: 
-        :param post_data: 
-        :return: 
         '''
         catinfo = MCategory.get_by_uid(uid)
         if catinfo:

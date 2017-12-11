@@ -13,8 +13,9 @@ class MUser(Mabc):
     '''
     Model for user.
     '''
-    def __init__(self):
-        super(MUser, self).__init__()
+
+    # def __init__(self):
+    #     super(MUser, self).__init__()
 
     @staticmethod
     def query_all(limit=50):
@@ -225,7 +226,7 @@ class MUser(Mabc):
                              user_pass=tools.md5(post_data['user_pass']),
                              user_email=post_data['user_email'],
                              # role=post_data.get('role', '1000'),
-                             role='1000', # ‘1000' as default role.
+                             role='1000',  # ‘1000' as default role.
                              time_create=tools.timestamp(),
                              time_update=tools.timestamp(),
                              time_reset_passwd=tools.timestamp(),

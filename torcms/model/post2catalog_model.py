@@ -1,7 +1,10 @@
 # -*- coding:utf-8 -*-
 
-import peewee
+'''
+Database Model for post to catalog.
+'''
 
+import peewee
 from config import CMS_CFG
 from torcms.core import tools
 from torcms.model.core_tab import TabTag, TabPost, TabPost2Tag
@@ -10,9 +13,12 @@ from torcms.model.category_model import MCategory
 
 
 class MPost2Catalog(Mabc):
-    def __init__(self):
+    '''
+    Database Model for post to catalog.
+    '''
 
-        super(MPost2Catalog, self).__init__()
+    # def __init__(self):
+    #     super(MPost2Catalog, self).__init__()
 
     @staticmethod
     def query_all():
@@ -58,6 +64,9 @@ class MPost2Catalog(Mabc):
 
     @staticmethod
     def query_by_catid(catid):
+        '''
+        Query the records by ID of catalog.
+        '''
         return TabPost2Tag.select().where(
             TabPost2Tag.tag_id == catid
         )
@@ -75,32 +84,35 @@ class MPost2Catalog(Mabc):
 
     @staticmethod
     def __get_by_info(post_id, catalog_id):
+        '''
+        Geo the record by post and catalog.
+        '''
         recs = TabPost2Tag.select().where(
             (TabPost2Tag.post_id == post_id) &
             (TabPost2Tag.tag_id == catalog_id)
         )
+
         if recs.count() == 1:
             return recs.get()
         elif recs.count() > 1:
             # return the first one, and delete others.
-            idx = 0
             out_rec = None
             for rec in recs:
-                if idx == 0:
-                    out_rec = rec
-                else:
+                if out_rec:
                     entry = TabPost2Tag.delete().where(
                         TabPost2Tag.uid == rec.uid
                     )
                     entry.execute()
-                idx += idx
-            return out_rec.get()
-
-        else:
-            return None
+                else:
+                    out_rec = rec
+            return out_rec
+        return None
 
     @staticmethod
     def query_count():
+        '''
+        The count of post2tag.
+        '''
         recs = TabPost2Tag.select(
             TabPost2Tag.tag_id,
             peewee.fn.COUNT(TabPost2Tag.tag_id).alias('num')
@@ -111,6 +123,9 @@ class MPost2Catalog(Mabc):
 
     @staticmethod
     def update_field(uid, post_id=None, tag_id=None, par_id=None):
+        '''
+        Update the field of post2tag.
+        '''
         if post_id:
             entry = TabPost2Tag.update(
                 post_id=post_id
@@ -160,6 +175,9 @@ class MPost2Catalog(Mabc):
 
     @staticmethod
     def count_of_certain_category(cat_id, tag=''):
+        '''
+        Get the count of certain category.
+        '''
 
         if cat_id.endswith('00'):
             # The first level category, using the code bellow.
@@ -186,6 +204,9 @@ class MPost2Catalog(Mabc):
 
     @staticmethod
     def query_pager_by_slug(slug, current_page_num=1, tag='', order=False):
+        '''
+        Query pager via category slug.
+        '''
         cat_rec = MCategory.get_by_slug(slug)
         if cat_rec:
             cat_id = cat_rec.uid
@@ -234,6 +255,10 @@ class MPost2Catalog(Mabc):
 
     @staticmethod
     def query_by_entity_uid(idd, kind=''):
+        '''
+        Query post2tag by certain post.
+        '''
+
         if kind == '':
             return TabPost2Tag.select(
                 TabPost2Tag,
@@ -247,20 +272,22 @@ class MPost2Catalog(Mabc):
             ).order_by(
                 TabPost2Tag.order
             )
-        else:
-            return TabPost2Tag.select(
-                TabPost2Tag,
-                TabTag.slug.alias('tag_slug'),
-                TabTag.name.alias('tag_name')
-            ).join(TabTag, on=(TabPost2Tag.tag_id == TabTag.uid)).where(
-                (TabTag.kind == kind) &
-                (TabPost2Tag.post_id == idd)
-            ).order_by(
-                TabPost2Tag.order
-            )
+        return TabPost2Tag.select(
+            TabPost2Tag,
+            TabTag.slug.alias('tag_slug'),
+            TabTag.name.alias('tag_name')
+        ).join(TabTag, on=(TabPost2Tag.tag_id == TabTag.uid)).where(
+            (TabTag.kind == kind) &
+            (TabPost2Tag.post_id == idd)
+        ).order_by(
+            TabPost2Tag.order
+        )
 
     @staticmethod
     def query_by_id(idd):
+        '''
+        Alias of `query_by_entity_uid`.
+        '''
         return MPost2Catalog.query_by_entity_uid(idd)
 
     @staticmethod
@@ -273,5 +300,5 @@ class MPost2Catalog(Mabc):
         recs = MPost2Catalog.query_by_entity_uid(app_uid).naive()
         if recs.count() > 0:
             return recs.get()
-        else:
-            return None
+
+        return None
