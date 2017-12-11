@@ -402,9 +402,9 @@ class RelPost2app(tornado.web.UIModule):
             'app_t': 'info',
             'uid': uid,
         }
-        rel_recs = MRelation.get_app_relations(uid, num, kind='9').naive()
+        rel_recs = MRelation.get_app_relations(uid, num, kind='m').naive()
 
-        rand_recs = MPost.query_random(num=num - rel_recs.count() + 2, kind='9')
+        rand_recs = MPost.query_random(num=num - rel_recs.count() + 2, kind='m')
 
         return self.render_string('modules/info/relation_post2app.html',
                                   relations=rel_recs,
