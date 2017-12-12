@@ -87,6 +87,7 @@ core_modules = {
     'app_user_recent_by_cat': info_modules.InfoUserRecentByCategory,
     'app_title': base_modules.AppTitle,
     # 'entity_path_by_id': base_modules.Entity_path,
-    'user_name_by_id': base_modules.UserName
+    'user_name_by_id': base_modules.UserName,
+    'reply_post_by_id': base_modules.ReplyPostById
 
 }

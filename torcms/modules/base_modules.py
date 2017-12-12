@@ -765,3 +765,12 @@ class UserName(tornado.web.UIModule):
 
         return self.render_string('modules/post/user_name.html',
                                   rec=rec)
+class ReplyPostById(tornado.web.UIModule):
+    '''
+    Pager for search result.
+    '''
+
+    def render(self, post_id):
+        rec = MPost.get_by_uid(post_id)
+
+        return rec.title
