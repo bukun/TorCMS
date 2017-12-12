@@ -28,11 +28,9 @@ class PostAjaxHandler(PostHandler):
         elif url_arr[0] in ['count_plus']:
             self.count_plus(url_arr[1])
         elif url_arr[0] == 'recent':
-            if url_arr[1] == "1":
-                kind = 1
-            else:
-                kind = 9
-            self.p_recent(kind)
+            if url_arr[1]:
+                kind = url_arr[1]
+                self.p_recent(kind)
         elif len(url_arr) == 1 and len(url_str) in [4, 5]:
             self._view_or_add(url_str)
 

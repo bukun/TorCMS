@@ -22,6 +22,8 @@ from torcms.model.entity2user_model import MEntity2User
 from torcms.model.user_model import MUser
 from torcms.model.reply_model import MReply
 from torcms.model.reply2user_model import MReply2User
+
+
 import config
 
 
@@ -767,16 +769,30 @@ class UserName(tornado.web.UIModule):
 
         return self.render_string('modules/post/user_name.html',
                                   rec=rec)
+
+
 class ReplyPostById(tornado.web.UIModule):
     '''
     Pager for search result.
     '''
 
-    def render(self, post_id,reply_uid):
+    def render(self, post_id, reply_uid):
 
         try:
             rec = MPost.get_by_uid(post_id)
             return rec.title
         except:
-            #todo:进入评论列表页面后显示None，再刷新才会删除不存在post的评论
+            # todo:进入评论列表页面后显示None，再刷新才会删除不存在post的评论
             MReply2User.delete(reply_uid)
+
+
+class MapSlugById(tornado.web.UIModule):
+    '''
+    Pager for search result.
+    '''
+
+    def render(self, map_id):
+        rec = MPost2Catalog.query_by_post(map_id)
+        for x in rec:
+            result = MCategory.get_by_uid(x.tag_id)
+            return result.slug
