@@ -24,15 +24,29 @@ class InfoCategory(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
+        '''
+        fun(uid_with_str)
+        fun(uid_with_str, slug = val1, glyph = val2)
+        '''
+
+        # kind = kwargs.get('kind', args[0] if len(args) > 0 else '1')
+
+
         uid_with_str = args[0]
-        if 'slug' in kwargs:
-            slug = kwargs['slug']
-        else:
-            slug = False
-        if 'glyph' in kwargs:
-            glyph = kwargs['glyph']
-        else:
-            glyph = ''
+
+        # if 'slug' in kwargs:
+        #     slug = kwargs['slug']
+        # else:
+        #     slug = False
+        slug = kwargs.get('slug',  False)
+
+        # if 'glyph' in kwargs:
+        #     glyph = kwargs['glyph']
+        # else:
+        #     glyph = ''
+        glyph = kwargs.get('glyph', '')
+
+
         kwd = {
             'glyph': glyph
         }
@@ -58,9 +72,24 @@ class InforUserMost(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-        user_name = args[0]
-        kind = args[1]
-        num = args[2]
+        '''
+        fun(user_name, kind)
+        fun(user_name, kind, num)
+        fun(user_name, kind, num, with_tag = val1, glyph = val2)
+        fun(user_name = vala, kind = valb, num = valc, with_tag = val1, glyph = val2)
+        '''
+
+        # kind = kwargs.get('kind', args[0] if len(args) > 0 else '1')
+
+
+
+        # user_name = args[0]
+        # kind = args[1]
+        # num = args[2]
+
+        user_name = kwargs.get('user_name', args[0])
+        kind = kwargs.get('kind', args[1])
+        num = kwargs.get('num', args[2] if len(args) > 2 else 6)
 
         with_tag = kwargs['with_tag'] if 'with_tag' in kwargs else False
         glyph = kwargs['glyph'] if 'glyph' in kwargs else ''
