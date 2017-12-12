@@ -20,6 +20,8 @@ from torcms.core.tools import logger
 from torcms.model.entity_model import MEntity
 from torcms.model.entity2user_model import MEntity2User
 from torcms.model.user_model import MUser
+from torcms.model.reply_model import MReply
+from torcms.model.reply2user_model import MReply2User
 import config
 
 
@@ -770,7 +772,11 @@ class ReplyPostById(tornado.web.UIModule):
     Pager for search result.
     '''
 
-    def render(self, post_id):
-        rec = MPost.get_by_uid(post_id)
+    def render(self, post_id,reply_uid):
 
-        return rec.title
+        try:
+            rec = MPost.get_by_uid(post_id)
+            return rec.title
+        except:
+            #todo:进入评论列表页面后显示None，再刷新才会删除不存在post的评论
+            MReply2User.delete(reply_uid)

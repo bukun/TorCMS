@@ -70,3 +70,7 @@ class MReply(Mabc):
     @staticmethod
     def query_all():
         return TabReply.select().order_by(TabReply.timestamp.desc())
+
+    @staticmethod
+    def delete(del_id):
+        return TabReply.delete().where(TabReply.post_id == del_id)
