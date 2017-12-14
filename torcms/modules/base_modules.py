@@ -788,7 +788,7 @@ class ReplyPostById(tornado.web.UIModule):
 
 class MapSlugById(tornado.web.UIModule):
     '''
-    Pager for search result.
+    # /admin/管理地图列表页所需链接slug
     '''
 
     def render(self, map_id):
