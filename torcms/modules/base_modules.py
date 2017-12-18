@@ -785,13 +785,24 @@ class ReplyPostById(tornado.web.UIModule):
 
 
 # Todo: Should to be reviewed.
-class MapSlugById(tornado.web.UIModule):
+class CategoryBySlug(tornado.web.UIModule):
     '''
-    # /admin/管理地图列表页所需链接slug
+    catalog 列表页 面包屑导航
     '''
 
-    def render(self, map_id):
-        rec = MPost2Catalog.query_by_post(map_id)
-        for x in rec:
-            result = MCategory.get_by_uid(x.tag_id)
-            return result.slug
+    def render(self, slug):
+        rec = MCategory.get_by_slug(slug)
+
+        par = MCategory.get_by_uid(rec.pid)
+        if rec.uid.endswith('00'):
+            tmp_str = '<li class="active">{0}</li>'.format(
+                rec.name
+            )
+
+        else:
+            tmp_str = '<li><a href="/catalog/{0}">{1}</a></li><li class="active">{2}</li>'.format(
+                par.slug,
+                par.name,
+                rec.name
+            )
+        return tmp_str
