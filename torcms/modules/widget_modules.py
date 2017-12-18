@@ -44,6 +44,7 @@ class UserinfoWidget(tornado.web.UIModule, tornado.web.RequestHandler):
     '''
 
     def render(self, *args, **kwargs):
+        # is_logged = kwargs.get('userinfo', False)
         is_logged = True if ('userinfo' in kwargs and kwargs['userinfo']) else False
         return self.render_string(
             'modules/widget/loginfo.html',
@@ -67,7 +68,7 @@ class WidgetEditor(tornado.web.UIModule):
         kwd = {
             'router': router,
             'uid': uid,
-            'catid':catid
+            'catid': catid
         }
         return self.render_string(
             'modules/widget/widget_editor.html',
@@ -146,7 +147,7 @@ class UseF2E(tornado.web.UIModule):
     def render(self, *args, **kwargs):
         f2ename = args[0]
         return self.render_string(
-            'modules/usef2e/{0}.html'.format(f2ename),
+            'modules/usef2e/{0}.html'.format(f2ename)
         )
 
 

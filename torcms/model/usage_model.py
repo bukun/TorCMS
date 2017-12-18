@@ -38,8 +38,8 @@ class MUsage(Mabc):
         return TabUsage.select().order_by('view_count')
 
     @staticmethod
-    def query_random():
-        return TabUsage.select().order_by(peewee.fn.Random()).limit(6)
+    def query_random(limit=6):
+        return TabUsage.select().order_by(peewee.fn.Random()).limit(limit)
 
     @staticmethod
     def query_recent(user_id, kind, num=10):

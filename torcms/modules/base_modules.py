@@ -23,7 +23,6 @@ from torcms.model.user_model import MUser
 from torcms.model.reply_model import MReply
 from torcms.model.reply2user_model import MReply2User
 
-
 import config
 
 
@@ -777,7 +776,6 @@ class ReplyPostById(tornado.web.UIModule):
     '''
 
     def render(self, post_id, reply_uid):
-
         try:
             rec = MPost.get_by_uid(post_id)
             return rec.title
@@ -786,6 +784,7 @@ class ReplyPostById(tornado.web.UIModule):
             MReply2User.delete(reply_uid)
 
 
+# Todo: Should to be reviewed.
 class MapSlugById(tornado.web.UIModule):
     '''
     # /admin/管理地图列表页所需链接slug

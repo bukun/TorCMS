@@ -98,9 +98,7 @@ class LinkHandler(BaseHandler):
     @tornado.web.authenticated
     def update(self, uid):
         '''
-        Update the link
-        :param uid: 
-        :return: 
+        Update the link.
         '''
         if self.userinfo.role[1] >= '3':
             pass
@@ -127,9 +125,7 @@ class LinkHandler(BaseHandler):
     @tornado.web.authenticated
     def to_modify(self, uid):
         '''
-        Try to edit the link
-        :param uid: 
-        :return: 
+        Try to edit the link.
         '''
         if self.userinfo.role[1] >= '3':
             pass

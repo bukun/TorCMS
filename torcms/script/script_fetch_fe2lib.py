@@ -19,9 +19,6 @@ else:
 def fetch_file(url, filename):
     '''
     Feting the file.
-    :param url:
-    :param filename:
-    :return:
     '''
     outfile = os.path.join(OUT_PATH, filename)
     if os.path.exists(outfile):
