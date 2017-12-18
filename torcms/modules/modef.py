@@ -89,7 +89,7 @@ core_modules = {
     # 'entity_path_by_id': base_modules.Entity_path,
     'user_name_by_id': base_modules.UserName,
     'reply_post_by_id': base_modules.ReplyPostById,
-    'map_slug_by_id': base_modules.MapSlugById
+    'category_by_slug': base_modules.CategoryBySlug
 
 
 }
