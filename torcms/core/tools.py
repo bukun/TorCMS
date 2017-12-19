@@ -367,8 +367,7 @@ def get_analyzer():
         pass
     else:
         site_cfg['LANG'] = 'en'
-    print('l' * 20 + ': lang')
-    print(site_cfg['LANG'])
+    # print(site_cfg['LANG'])
     return alyzer[site_cfg['LANG']]
 
 

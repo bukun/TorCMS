@@ -8,10 +8,15 @@ import os
 
 CRUD_PATH = os.path.abspath('./templates/autogen')
 
+META_DIR = './database/meta'
+
 XLSX_FILE = './database/meta/info_tags.xlsx'
-#  The filter key stored in the colomns below.
 
+for wfile in os.listdir(META_DIR):
+    if wfile.lower().endswith('.xlsx'):
+        XLSX_FILE = os.path.join(META_DIR, wfile)
 
+# The filter key stored in the colomns below.
 RAW_LIST = ['E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
             'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
