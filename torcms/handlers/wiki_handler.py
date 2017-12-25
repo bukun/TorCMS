@@ -12,6 +12,7 @@ import tornado.ioloop
 
 from torcms.core.base_handler import BaseHandler
 from torcms.core import tools
+from torcms.core import privilige
 from torcms.model.wiki_model import MWiki
 from torcms.model.wiki_hist_model import MWikiHist
 
@@ -145,7 +146,11 @@ class WikiHandler(BaseHandler):
                     postinfo=wiki_rec,
                     userinfo=self.userinfo)
 
+    @privilige.auth_view
     def view(self, view):
+        '''
+        View the wiki.
+        '''
         kwd = {
             'pager': '',
             'editable': self.editable(),
@@ -179,12 +184,12 @@ class WikiHandler(BaseHandler):
                     userinfo=self.userinfo)
 
     @tornado.web.authenticated
+    @privilige.auth_add
     @tornado.web.asynchronous
     def add(self, title=''):
-        if self.userinfo.role[0] > '0':
-            pass
-        else:
-            return False
+        '''
+        Add wiki
+        '''
 
         post_data = self.get_post_data()
 

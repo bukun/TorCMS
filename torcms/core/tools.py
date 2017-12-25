@@ -344,6 +344,14 @@ class ConfigDefault(object):
         'pass': '',
     }
 
+    ROLE_CFG = {
+        'view': '',
+        'add': '1000',
+        'edit': '2000',
+        'delete': '3000',
+        'admin': '0300',
+    }
+
 
 def get_analyzer():
     '''
@@ -395,6 +403,19 @@ def get_cfg():
     else:
         site_cfg = ConfigDefault.SITE_CFG
 
+    if 'ROLE_CFG' in cfg_var:
+        role_cfg = cfg.ROLE_CFG
+    else:
+        role_cfg = ConfigDefault.ROLE_CFG
+
+    role_cfg['view'] = role_cfg.get('view', '')
+    role_cfg['add'] = role_cfg.get('add', '1000')
+    role_cfg['edit'] = role_cfg.get('edit', '2000')
+    role_cfg['delete'] = role_cfg.get('delete', '3000')
+    role_cfg['admin'] = role_cfg.get('admin', '0300')
+
+    ###################################################################
+
     site_url = site_cfg['site_url'].strip('/')
     site_cfg['site_url'] = site_url
     infor = site_url.split(':')
@@ -416,4 +437,4 @@ def get_cfg():
         autocommit=True,
         autorollback=True)
 
-    return (db_con, smtp_cfg, site_cfg)
+    return (db_con, smtp_cfg, site_cfg, role_cfg)

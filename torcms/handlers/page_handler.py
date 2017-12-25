@@ -15,6 +15,7 @@ from torcms.model.category_model import MCategory
 from torcms.model.wiki_hist_model import MWikiHist
 from torcms.model.wiki_model import MWiki
 from torcms.core import tools
+from torcms.core import privilige
 
 from config import CMS_CFG
 
@@ -80,16 +81,14 @@ class PageHandler(BaseHandler):
             self.to_add(slug)
 
     @tornado.web.authenticated
+    @privilige.auth_add
     def to_add(self, citiao):
         '''
         To Add page.
         :param citiao:
         :return:
         '''
-        if self.check_post_role()['ADD']:
-            pass
-        else:
-            return False
+
         kwd = {
             'cats': MCategory.query_all(),
             'slug': citiao,
@@ -117,6 +116,7 @@ class PageHandler(BaseHandler):
             return False
 
     @tornado.web.authenticated
+    @privilige.auth_edit
     def update(self, slug):
         '''
         Update the page.
@@ -124,10 +124,6 @@ class PageHandler(BaseHandler):
         :return:
         '''
 
-        if self.__could_edit(slug):
-            pass
-        else:
-            return False
         post_data = self.get_post_data()
 
         post_data['user_name'] = self.userinfo.user_name
@@ -147,16 +143,14 @@ class PageHandler(BaseHandler):
         self.redirect('/page/{0}.html'.format(post_data['slug']))
 
     @tornado.web.authenticated
+    @privilige.auth_edit
     def to_modify(self, uid):
         '''
         Try to modify the page.
         :param uid:
         :return:
         '''
-        if self.__could_edit(uid):
-            pass
-        else:
-            return False
+
 
         kwd = {
             'pager': '',
@@ -169,6 +163,7 @@ class PageHandler(BaseHandler):
                     cfg=CMS_CFG,
                     userinfo=self.userinfo)
 
+    @privilige.auth_view
     def view(self, rec):
         '''
         View the page.
@@ -215,16 +210,12 @@ class PageHandler(BaseHandler):
                     cfg=CMS_CFG)
 
     @tornado.web.authenticated
+    @privilige.auth_add
     def add_page(self, slug):
         '''
         Add new page.
-        :param slug:
-        :return:
         '''
-        if self.check_post_role()['ADD']:
-            pass
-        else:
-            return False
+
 
         post_data = self.get_post_data()
 

@@ -12,6 +12,7 @@ import tornado.web
 import tornado.ioloop
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
+from torcms.core import privilige
 from torcms.core.tools import logger
 from torcms.core.libs.deprecation import deprecated
 from torcms.model.category_model import MCategory
@@ -165,26 +166,26 @@ class PostHandler(BaseHandler):
             cur_uid = self.kind + tools.get_uu4d()
         return cur_uid
 
-    @tornado.web.authenticated
-    def _could_edit(self, postid):
-        '''
-        checking if the user could edit the post.
-        :param postid:  the id of the post.
-        :return:  True or False
-        '''
-        post_rec = MPost.get_by_uid(postid)
-        if post_rec:
-            pass
-        else:
-            return False
-        # chk_res = False
-        if self.check_post_role()['EDIT']:
-            chk_res = True
-        elif post_rec.user_name == self.userinfo.user_name:
-            chk_res = True
-        else:
-            chk_res = False
-        return chk_res
+    # @tornado.web.authenticated
+    # def _could_edit(self, postid):
+    #     '''
+    #     checking if the user could edit the post.
+    #     :param postid:  the id of the post.
+    #     :return:  True or False
+    #     '''
+    #     post_rec = MPost.get_by_uid(postid)
+    #     if post_rec:
+    #         pass
+    #     else:
+    #         return False
+    #     # chk_res = False
+    #     if self.check_post_role()['EDIT']:
+    #         chk_res = True
+    #     elif post_rec.user_name == self.userinfo.user_name:
+    #         chk_res = True
+    #     else:
+    #         chk_res = False
+    #     return chk_res
 
     def _get_tmpl_view(self, rec):
         '''
@@ -210,16 +211,14 @@ class PostHandler(BaseHandler):
         return tmpl
 
     @tornado.web.authenticated
+    @privilige.auth_add
     def _to_add_with_category(self, catid):
         '''
         Used for info2.
         :param catid: the uid of category
         :return:
         '''
-        if self.check_post_role()['ADD']:
-            pass
-        else:
-            return False
+
         catinfo = MCategory.get_by_uid(catid)
         kwd = {
             'uid': self._gen_uid(),
@@ -248,6 +247,7 @@ class PostHandler(BaseHandler):
             self.show404()
 
     @tornado.web.authenticated
+    @privilige.auth_add
     def _to_add(self, **kwargs):
         '''
         Used for info1.
@@ -258,10 +258,6 @@ class PostHandler(BaseHandler):
             return self._to_add_with_category(catid)
 
         else:
-            if self.check_post_role()['ADD']:
-                pass
-            else:
-                return False
 
             if 'uid' in kwargs and MPost.get_by_uid(kwargs['uid']):
                 # todo:
@@ -373,16 +369,13 @@ class PostHandler(BaseHandler):
                 MPost2Catalog.remove_relation(uid, cur_info.tag_id)
 
     @tornado.web.authenticated
+    @privilige.auth_edit
     def _to_edit(self, infoid):
         '''
         render the HTML page for post editing.
         :param infoid:
         :return:
         '''
-        if self.check_post_role()['EDIT']:
-            pass
-        else:
-            return False
 
         postinfo = MPost.get_by_uid(infoid)
 
@@ -468,6 +461,7 @@ class PostHandler(BaseHandler):
             self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], postinfo.uid),
                           permanent=True)
 
+    @privilige.auth_view
     def viewinfo(self, postinfo):
         '''
         In infor.
@@ -623,6 +617,7 @@ class PostHandler(BaseHandler):
         return (post_data, ext_dic)
 
     @tornado.web.authenticated
+    @privilige.auth_add
     @tornado.web.asynchronous
     # @tornado.gen.coroutine
     def add(self, **kwargs):
@@ -635,11 +630,6 @@ class PostHandler(BaseHandler):
             uid = kwargs['uid']
         else:
             uid = self._gen_uid()
-
-        if self.check_post_role()['ADD']:
-            pass
-        else:
-            return False
 
         post_data, ext_dic = self.fetch_post_data()
 
@@ -664,6 +654,7 @@ class PostHandler(BaseHandler):
         self.redirect('/{0}/{1}'.format(router_post[self.kind], uid))
 
     @tornado.web.authenticated
+    @privilige.auth_edit
     @tornado.web.asynchronous
     def update(self, uid):
         '''
@@ -671,10 +662,6 @@ class PostHandler(BaseHandler):
         :param uid:
         :return:
         '''
-        if self.check_post_role()['EDIT']:
-            pass
-        else:
-            return False
 
         postinfo = MPost.get_by_uid(uid)
         if postinfo.kind == self.kind:
@@ -709,6 +696,7 @@ class PostHandler(BaseHandler):
         self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], uid))
 
     @tornado.web.authenticated
+    @privilige.auth_delete
     def _delete(self, *args, **kwargs):
         '''
         delete the post.
@@ -719,11 +707,6 @@ class PostHandler(BaseHandler):
         _ = kwargs
         uid = args[0]
         current_infor = MPost.get_by_uid(uid)
-
-        if self.check_post_role()['DELETE']:
-            pass
-        else:
-            return False
 
         if MPost.delete(uid):
 
@@ -746,6 +729,7 @@ class PostHandler(BaseHandler):
 
     @deprecated(details='you should use: /post_j/delete')
     @tornado.web.authenticated
+    @privilige.auth_delete
     def j_delete(self, *args):
         '''
         Delete the post, but return the JSON.
@@ -754,10 +738,6 @@ class PostHandler(BaseHandler):
         '''
 
         uid = args[0]
-        if self.check_post_role()['DELETE']:
-            pass
-        else:
-            return False
 
         current_infor = MPost.get_by_uid(uid)
         tslug = MCategory.get_by_uid(current_infor.extinfo['def_cat_uid'])
@@ -769,7 +749,7 @@ class PostHandler(BaseHandler):
                 'del_info': 1,
                 'cat_slug': tslug.slug,
                 'cat_id': tslug.uid,
-                'kind':current_infor.kind
+                'kind': current_infor.kind
 
             }
         else:
@@ -861,16 +841,14 @@ class PostHandler(BaseHandler):
                     json_cnt=json_cnt)
 
     @tornado.web.authenticated
+    @privilige.auth_edit
     def _change_kind(self, post_uid):
         '''
         To modify the category of the post, and kind.
         :param post_uid:
         :return:
         '''
-        if self.userinfo and self.userinfo.role[1] >= '3':
-            pass
-        else:
-            return False
+
         post_data = self.get_post_data()
 
         logger.info('admin post update: {0}'.format(post_data))
