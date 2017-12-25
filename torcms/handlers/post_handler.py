@@ -12,7 +12,7 @@ import tornado.web
 import tornado.ioloop
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
-from torcms.core import privilige
+from torcms.core import privilege
 from torcms.core.tools import logger
 from torcms.core.libs.deprecation import deprecated
 from torcms.model.category_model import MCategory
@@ -211,7 +211,7 @@ class PostHandler(BaseHandler):
         return tmpl
 
     @tornado.web.authenticated
-    @privilige.auth_add
+    @privilege.auth_add
     def _to_add_with_category(self, catid):
         '''
         Used for info2.
@@ -247,7 +247,7 @@ class PostHandler(BaseHandler):
             self.show404()
 
     @tornado.web.authenticated
-    @privilige.auth_add
+    @privilege.auth_add
     def _to_add(self, **kwargs):
         '''
         Used for info1.
@@ -369,7 +369,7 @@ class PostHandler(BaseHandler):
                 MPost2Catalog.remove_relation(uid, cur_info.tag_id)
 
     @tornado.web.authenticated
-    @privilige.auth_edit
+    @privilege.auth_edit
     def _to_edit(self, infoid):
         '''
         render the HTML page for post editing.
@@ -461,7 +461,7 @@ class PostHandler(BaseHandler):
             self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], postinfo.uid),
                           permanent=True)
 
-    @privilige.auth_view
+    @privilege.auth_view
     def viewinfo(self, postinfo):
         '''
         In infor.
@@ -617,7 +617,7 @@ class PostHandler(BaseHandler):
         return (post_data, ext_dic)
 
     @tornado.web.authenticated
-    @privilige.auth_add
+    @privilege.auth_add
     @tornado.web.asynchronous
     # @tornado.gen.coroutine
     def add(self, **kwargs):
@@ -654,7 +654,7 @@ class PostHandler(BaseHandler):
         self.redirect('/{0}/{1}'.format(router_post[self.kind], uid))
 
     @tornado.web.authenticated
-    @privilige.auth_edit
+    @privilege.auth_edit
     @tornado.web.asynchronous
     def update(self, uid):
         '''
@@ -696,7 +696,7 @@ class PostHandler(BaseHandler):
         self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], uid))
 
     @tornado.web.authenticated
-    @privilige.auth_delete
+    @privilege.auth_delete
     def _delete(self, *args, **kwargs):
         '''
         delete the post.
@@ -729,7 +729,7 @@ class PostHandler(BaseHandler):
 
     @deprecated(details='you should use: /post_j/delete')
     @tornado.web.authenticated
-    @privilige.auth_delete
+    @privilege.auth_delete
     def j_delete(self, *args):
         '''
         Delete the post, but return the JSON.
@@ -841,7 +841,7 @@ class PostHandler(BaseHandler):
                     json_cnt=json_cnt)
 
     @tornado.web.authenticated
-    @privilige.auth_edit
+    @privilege.auth_edit
     def _change_kind(self, post_uid):
         '''
         To modify the category of the post, and kind.

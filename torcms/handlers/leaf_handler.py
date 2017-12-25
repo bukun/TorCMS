@@ -13,6 +13,7 @@ import tornado.web
 import tornado.ioloop
 
 from torcms.core.tools import logger
+from torcms.core import privilege
 from torcms.model.category_model import MCategory
 from torcms.model.label_model import MPost2Label
 from torcms.model.post2catalog_model import MPost2Catalog
@@ -59,13 +60,14 @@ class LeafHandler(PostHandler):
             self.update_order(url_arr[1], url_arr[2])
 
     @tornado.web.authenticated
+    @privilege.auth_edit
     def update_order(self, uid, order):
         '''
         update the order of the posts.
         '''
-        if self.userinfo.role[1] > '0':
-            MPost.update_order(uid, order)
+        MPost.update_order(uid, order)
 
+    @privilege.auth_view
     def viewinfo(self, postinfo):
         '''
         In infor.

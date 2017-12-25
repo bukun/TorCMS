@@ -15,7 +15,7 @@ from torcms.model.category_model import MCategory
 from torcms.model.wiki_hist_model import MWikiHist
 from torcms.model.wiki_model import MWiki
 from torcms.core import tools
-from torcms.core import privilige
+from torcms.core import privilege
 
 from config import CMS_CFG
 
@@ -81,7 +81,7 @@ class PageHandler(BaseHandler):
             self.to_add(slug)
 
     @tornado.web.authenticated
-    @privilige.auth_add
+    @privilege.auth_add
     def to_add(self, citiao):
         '''
         To Add page.
@@ -116,7 +116,7 @@ class PageHandler(BaseHandler):
             return False
 
     @tornado.web.authenticated
-    @privilige.auth_edit
+    @privilege.auth_edit
     def update(self, slug):
         '''
         Update the page.
@@ -143,7 +143,7 @@ class PageHandler(BaseHandler):
         self.redirect('/page/{0}.html'.format(post_data['slug']))
 
     @tornado.web.authenticated
-    @privilige.auth_edit
+    @privilege.auth_edit
     def to_modify(self, uid):
         '''
         Try to modify the page.
@@ -163,7 +163,7 @@ class PageHandler(BaseHandler):
                     cfg=CMS_CFG,
                     userinfo=self.userinfo)
 
-    @privilige.auth_view
+    @privilege.auth_view
     def view(self, rec):
         '''
         View the page.
@@ -210,7 +210,7 @@ class PageHandler(BaseHandler):
                     cfg=CMS_CFG)
 
     @tornado.web.authenticated
-    @privilige.auth_add
+    @privilege.auth_add
     def add_page(self, slug):
         '''
         Add new page.
