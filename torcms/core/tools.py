@@ -362,19 +362,16 @@ def get_analyzer():
         'en': StemmingAnalyzer,
     }
     cfg_var = dir(cfg)
-    if 'SITE_CFG' in cfg_var:
-        site_cfg = cfg.SITE_CFG
-    else:
-        site_cfg = ConfigDefault.SITE_CFG
 
-    if 'LANG' in site_cfg:
-        site_cfg['LANG'] = site_cfg['LANG']
-    else:
-        site_cfg['LANG'] = 'zh'
+    site_cfg = cfg.SITE_CFG if 'SITE_CFG' in cfg_var else ConfigDefault.SITE_CFG
+
+    site_cfg['LANG'] = site_cfg.get('LANG', 'zh')
+
     if site_cfg['LANG'] == 'zh' and ChineseAnalyzer:
         pass
     else:
         site_cfg['LANG'] = 'en'
+
     # print(site_cfg['LANG'])
     return alyzer[site_cfg['LANG']]
 
@@ -390,6 +387,7 @@ def get_cfg():
         db_cfg = cfg.DB_CFG
     else:
         db_cfg = ConfigDefault.DB_CFG
+
     if 'user' not in db_cfg:
         db_cfg['user'] = db_cfg['db']
 

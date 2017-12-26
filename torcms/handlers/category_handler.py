@@ -24,8 +24,8 @@ class CategoryHandler(BaseHandler):
 
     def initialize(self, **kwargs):
         super(CategoryHandler, self).initialize()
-        self.kind = kwargs['kind'] if 'kind' in kwargs else '1'
-        self.order = kwargs['order'] if 'order' in kwargs else False
+        self.kind = kwargs.get('kind', '1')
+        self.order = kwargs.get('order', False)
 
     def get(self, *args, **kwargs):
 

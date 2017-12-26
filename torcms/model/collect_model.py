@@ -20,9 +20,7 @@ class MCollect(Mabc):
     @staticmethod
     def query_recent(user_id, num=10):
         '''
-        :param user_id:
-        :param num:
-        :return:
+        Collection of recent.
         '''
         return TabCollect.select(
             TabCollect, TabPost.uid.alias('post_uid'),
@@ -43,9 +41,7 @@ class MCollect(Mabc):
     @staticmethod
     def get_by_signature(user_id, app_id):
         '''
-        :param user_id:
-        :param app_id:
-        :return:
+        Get the collection.
         '''
         try:
             return TabCollect.get(
@@ -57,6 +53,9 @@ class MCollect(Mabc):
 
     @staticmethod
     def count_of_user(user_id):
+        '''
+        Get the cound of views.
+        '''
         return TabCollect.select(
             TabCollect, TabPost.uid.alias('post_uid'),
             TabPost.title.alias('post_title'),
@@ -86,15 +85,12 @@ class MCollect(Mabc):
     @staticmethod
     def add_or_update(user_id, app_id):
         '''
-        :param user_id:
-        :param app_id:
-        :return:
+        Add the collection or update.
         '''
 
         rec = MCollect.get_by_signature(user_id, app_id)
 
         if rec:
-
             entry = TabCollect.update(
                 timestamp=int(time.time())
             ).where(TabCollect.uid == rec.uid)
