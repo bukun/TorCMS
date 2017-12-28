@@ -60,7 +60,6 @@ class WikiHandler(BaseHandler):
     def recent(self):
         '''
         List recent wiki.
-        :return:
         '''
         kwd = {
             'pager': '',
@@ -75,7 +74,6 @@ class WikiHandler(BaseHandler):
     def refresh(self):
         '''
         List the wikis of dated.
-        :return:
         '''
         kwd = {
             'pager': '',
@@ -88,6 +86,10 @@ class WikiHandler(BaseHandler):
                     userinfo=self.userinfo)
 
     def view_or_add(self, title):
+        '''
+        To judge if there is a post of the title.
+        Then, to show, or to add.
+        '''
         postinfo = MWiki.get_by_wiki(title)
         if postinfo:
             if postinfo.kind == self.kind:
@@ -102,8 +104,6 @@ class WikiHandler(BaseHandler):
     def update(self, uid):
         '''
         Update the wiki.
-        :param uid:  The ID of the wiki.
-        :return:
         '''
         postinfo = MWiki.get_by_uid(uid)
         if self.check_post_role()['EDIT'] or postinfo.user_name == self.get_current_user():

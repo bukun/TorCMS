@@ -7,15 +7,10 @@ from torcms.model.abc_model import Mabc, MHelper
 
 
 class MWikiHist(Mabc):
-    # def __init__(self):
-    #     super(MWikiHist, self).__init__()
-
     @staticmethod
     def get_last(postid):
         '''
         Get the last wiki in history.
-        :param postid: 
-        :return: 
         '''
         recs = TabWikiHist.select().where(
             TabWikiHist.wiki_id == postid

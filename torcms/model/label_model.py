@@ -18,9 +18,6 @@ class MLabel(Mabc):
     For Label
     '''
 
-    # def __init__(self):
-    #     super(MLabel, self).__init__()
-
     @staticmethod
     def get_id_by_name(tag_name, kind='z'):
         '''

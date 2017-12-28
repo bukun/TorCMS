@@ -27,19 +27,24 @@ class MEntity(Mabc):
 
     @staticmethod
     def get_by_kind(kind=1, current_page_num=1):
-        return TabEntity.select().where(TabEntity.kind == kind).paginate(current_page_num,
-                                                                         CMS_CFG['list_num'])
+        return TabEntity.select().where(
+            TabEntity.kind == kind
+        ).paginate(
+            current_page_num,
+            CMS_CFG['list_num']
+        )
 
     @staticmethod
     def get_all_pager(current_page_num=1):
-        return TabEntity.select().paginate(current_page_num, CMS_CFG['list_num'])
+        return TabEntity.select().paginate(
+            current_page_num,
+            CMS_CFG['list_num']
+        )
 
     @staticmethod
     def get_id_by_impath(path):
         '''
         The the entity id by the path.
-        :param path: 
-        :return: 
         '''
         logger.info('Get Entiry, Path: {0}'.format(path))
 

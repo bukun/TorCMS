@@ -52,10 +52,6 @@ class MEntity2User(Mabc):
     def create_entity2user(enti_uid, user_id):
         '''
         create entity2user record in the database.
-        :param entity_id:
-        :param user_id:
-        :param count:
-        :return:
         '''
         record = TabEntity2User.select().where(
             (TabEntity2User.entity_id == enti_uid) & (TabEntity2User.user_id == user_id)

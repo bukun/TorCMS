@@ -35,8 +35,6 @@ class MReply(Mabc):
     def create_reply(post_data):
         '''
         Create the reply.
-        :param post_data:
-        :return:
         '''
         uid = tools.get_uuid()
         TabReply.create(
@@ -48,7 +46,7 @@ class MReply(Mabc):
             date=datetime.datetime.now(),
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_reply']),
             cnt_html=tools.markdown2html(post_data['cnt_reply']),
-            vote=0,
+            vote=0
         )
         return uid
 
@@ -56,8 +54,6 @@ class MReply(Mabc):
     def query_by_post(postid):
         '''
         Get reply list of certain post.
-        :param postid:
-        :return:
         '''
         return TabReply.select().where(
             TabReply.post_id == postid

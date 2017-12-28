@@ -18,14 +18,10 @@ class MWiki(Mabc):
     Class for wiki.
     '''
 
-    # def __init__(self):
-    #     super(MWiki, self).__init__()
-
     @staticmethod
     def get_counts():
         '''
         The count in table.
-        :return:
         '''
         return TabWiki.select().count()
 
@@ -41,8 +37,6 @@ class MWiki(Mabc):
     def delete(uid):
         '''
         Delete by uid
-        :param uid:
-        :return:
         '''
         return MHelper.delete(TabWiki, uid)
 

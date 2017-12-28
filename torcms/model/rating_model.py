@@ -36,7 +36,9 @@ class MRating(Mabc):
         Get the rating of certain post and user.
         '''
         try:
-            recs = TabRating.select().where((TabRating.post_id == postid) & (TabRating.user_id == userid))
+            recs = TabRating.select().where(
+                (TabRating.post_id == postid) & (TabRating.user_id == userid)
+            )
         except:
             return False
         if recs.count() > 0:
@@ -50,7 +52,9 @@ class MRating(Mabc):
         Update the rating of certain post and user.
         The record will be created if no record exists.
         '''
-        rating_recs = TabRating.select().where((TabRating.post_id == postid) & (TabRating.user_id == userid))
+        rating_recs = TabRating.select().where(
+            (TabRating.post_id == postid) & (TabRating.user_id == userid)
+        )
         if rating_recs.count() > 0:
             MRating.__update_rating(rating_recs.get().uid, rating)
         else:

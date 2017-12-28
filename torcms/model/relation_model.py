@@ -15,10 +15,12 @@ class MRelation(Mabc):
 
     @staticmethod
     def add_relation(app_f, app_t, weight=1):
-
+        '''
+        Adding relation between two posts.
+        :return:
+        '''
         recs = TabRel.select().where(
-            (TabRel.post_f_id == app_f) &
-            (TabRel.post_t_id == app_t)
+            (TabRel.post_f_id == app_f) & (TabRel.post_t_id == app_t)
         )
         if recs.count() > 1:
             for record in recs:
@@ -42,7 +44,6 @@ class MRelation(Mabc):
     def delete(uid):
         entry = TabRel.delete().where(
             TabRel.uid == uid
-
         )
         entry.execute()
 
@@ -50,16 +51,14 @@ class MRelation(Mabc):
     def update_relation(app_f, app_t, weight=1):
         try:
             postinfo = TabRel.get(
-                (TabRel.post_f_id == app_f) &
-                (TabRel.post_t_id == app_t)
+                (TabRel.post_f_id == app_f) & (TabRel.post_t_id == app_t)
             )
         except:
             return False
         entry = TabRel.update(
             count=postinfo.count + weight
         ).where(
-            (TabRel.post_f_id == app_f) &
-            (TabRel.post_t_id == app_t)
+            (TabRel.post_f_id == app_f) & (TabRel.post_t_id == app_t)
         )
         entry.execute()
 
@@ -71,7 +70,9 @@ class MRelation(Mabc):
         info_tag = MInfor2Catalog.get_first_category(app_id)
         if info_tag:
             return TabPost2Tag.select(
-                TabPost2Tag, TabPost.title.alias('post_title'), TabPost.valid.alias('post_valid')
+                TabPost2Tag,
+                TabPost.title.alias('post_title'),
+                TabPost.valid.alias('post_valid')
             ).join(
                 TabPost, on=(TabPost2Tag.post_id == TabPost.uid)
             ).where(
@@ -80,9 +81,12 @@ class MRelation(Mabc):
             ).order_by(
                 peewee.fn.Random()
             ).limit(num)
-        else:
-            return TabPost2Tag.select(
-                TabPost2Tag, TabPost.title.alias('post_title'), TabPost.valid.alias('post_valid')
-            ).join(TabPost, on=(TabPost2Tag.post_id == TabPost.uid)).where(
-                TabPost.kind == kind
-            ).order_by(peewee.fn.Random()).limit(num)
+        return TabPost2Tag.select(
+            TabPost2Tag,
+            TabPost.title.alias('post_title'),
+            TabPost.valid.alias('post_valid')
+        ).join(
+            TabPost, on=(TabPost2Tag.post_id == TabPost.uid)
+        ).where(
+            TabPost.kind == kind
+        ).order_by(peewee.fn.Random()).limit(num)

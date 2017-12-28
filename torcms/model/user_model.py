@@ -14,15 +14,10 @@ class MUser(Mabc):
     Model for user.
     '''
 
-    # def __init__(self):
-    #     super(MUser, self).__init__()
-
     @staticmethod
     def query_all(limit=50):
         '''
         Return some of the records. Not all.
-        :param limit:
-        :return:
         '''
         return TabMember.select().limit(limit)
 
@@ -261,8 +256,6 @@ class MUser(Mabc):
     def delete(user_id):
         '''
         Delele the  user in the database by `user_id`.
-        :param user_id: ID of the user.
-        :return: True if success else False.
         '''
         try:
             del_count = TabMember.delete().where(TabMember.uid == user_id)
