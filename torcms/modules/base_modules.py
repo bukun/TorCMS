@@ -5,25 +5,25 @@ Define the basic modules for TorCMS.
 '''
 
 from math import ceil as math_ceil
+
 import bs4
-import tornado.web
 import tornado.escape
-from torcms.model.post_model import MPost
-from torcms.model.link_model import MLink
-from torcms.model.post2catalog_model import MPost2Catalog
-from torcms.model.category_model import MCategory
-from torcms.model.label_model import MPost2Label
-from torcms.model.wiki_model import MWiki
-from torcms.model.collect_model import MCollect
-from torcms.core.tool.whoosh_tool import YunSearch
-from torcms.core.tools import logger
-from torcms.model.entity_model import MEntity
-from torcms.model.entity2user_model import MEntity2User
-from torcms.model.user_model import MUser
-from torcms.model.reply_model import MReply
-from torcms.model.reply2user_model import MReply2User
+import tornado.web
 
 import config
+from torcms.core.tool.whoosh_tool import YunSearch
+from torcms.core.tools import logger
+from torcms.model.category_model import MCategory
+from torcms.model.collect_model import MCollect
+from torcms.model.entity2user_model import MEntity2User
+from torcms.model.entity_model import MEntity
+from torcms.model.label_model import MPost2Label
+from torcms.model.link_model import MLink
+from torcms.model.post2catalog_model import MPost2Catalog
+from torcms.model.post_model import MPost
+from torcms.model.reply2user_model import MReply2User
+from torcms.model.user_model import MUser
+from torcms.model.wiki_model import MWiki
 
 
 class ShowPage(tornado.web.UIModule):
@@ -394,17 +394,6 @@ class GenerateDescription(tornado.web.UIModule):
         html_str = args[0]
         tmp_str = bs4.BeautifulSoup(tornado.escape.xhtml_unescape(html_str), "html.parser")
         return tmp_str.get_text()[:100]
-
-
-class CategoryMenu(tornado.web.UIModule):
-    '''
-    Menu for category lists.
-    '''
-
-    def render(self, *args, **kwargs):
-        kind = kwargs['kind'] if 'kind' in kwargs else '1'
-        return self.render_string('modules/post/showcat_list.html',
-                                  recs=MCategory.query_all(kind=kind))
 
 
 class CopyRight(tornado.web.UIModule):

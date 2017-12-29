@@ -151,7 +151,6 @@ class PageHandler(BaseHandler):
         :return:
         '''
 
-
         kwd = {
             'pager': '',
 
@@ -215,7 +214,6 @@ class PageHandler(BaseHandler):
         '''
         Add new page.
         '''
-
 
         post_data = self.get_post_data()
 

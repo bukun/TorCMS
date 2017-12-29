@@ -28,9 +28,9 @@ from torcms.handlers.user_info_list_handler import UserListHandler
 from torcms.handlers.wiki_handler import WikiHandler
 from torcms.handlers.wiki_history_manager import WikiHistoryHandler
 from torcms.handlers.entity2user_handler import Entity2UserHandler
+from torcms.handlers.catalog_hander import CatalogHandler
 
 urls = [
-
     ('/_rating/(.*)', RatingHandler, dict()),
 
     ('/post_man/(.*)', PostHistoryHandler, dict()),
@@ -45,7 +45,7 @@ urls = [
 
     ("/label/(.*)", LabelHandler, dict()),
     # ("/catalog/(.*)", CatalogHandler, dict(order=True)),
-    ("/catalog/(.*)", CategoryHandler, dict(order=True)),
+    ("/catalog/(.*)", CatalogHandler, dict()),
     ("/category/(.*)", CategoryHandler, dict()),
 
     ("/tag/(.*)", TagListHandler, dict()),  # Deprecated, replaed by `/category` .

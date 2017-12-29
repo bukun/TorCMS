@@ -3,10 +3,11 @@
 '''
 define the Core Modules of TorCMS.
 '''
-# import torcms.modules.widget_modules
 from torcms.modules import base_modules
 from torcms.modules import info_modules
 from torcms.modules import widget_modules
+from torcms.modules import catalog_modules
+from torcms.modules import category_modules
 
 core_modules = {
     'ModuleCatMenu': base_modules.ModuleCatMenu,
@@ -25,7 +26,7 @@ core_modules = {
     'post_cat_recent': base_modules.PostCategoryRecent,
     'showout_recent': base_modules.ShowoutRecent,
     'generate_abstract': base_modules.GenerateAbstract,
-    'category_menu': base_modules.CategoryMenu,
+    'category_menu': category_modules.CategoryMenu,
     'site_url': base_modules.SiteUrl,
     'site_title': base_modules.SiteTitle,
     'generate_description': base_modules.GenerateDescription,
@@ -89,7 +90,11 @@ core_modules = {
     # 'entity_path_by_id': base_modules.Entity_path,
     'user_name_by_id': base_modules.UserName,
     'reply_post_by_id': base_modules.ReplyPostById,
-    'category_by_slug': base_modules.CategoryBySlug
+    'category_by_slug': base_modules.CategoryBySlug,
 
+    # # 'ext_category_menu': catalog_modules.CatalogMenu,
+    'catalog_menu': catalog_modules.CatalogMenu,
+    # # 'ext_category_list': catalog_modules.CatalogList,
+    'catalog_list': catalog_modules.CatalogList,
 
 }
