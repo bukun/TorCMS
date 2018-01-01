@@ -23,3 +23,9 @@ SITE_CFG = {
     'cookie_secret': '123456',
     'DEBUG': False
 }
+
+ROLE_CFG = {
+    'add': '1000',
+    'edit': '2000',
+    'delete': '3000',
+}

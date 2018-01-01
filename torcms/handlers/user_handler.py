@@ -42,7 +42,7 @@ class UserHandler(BaseHandler):
     '''
 
     def initialize(self, **kwargs):
-        super(UserHandler, self).initialize()
+        super(UserHandler, self).initialize(kwargs)
 
     def get(self, *args, **kwargs):
 
@@ -50,7 +50,9 @@ class UserHandler(BaseHandler):
         url_arr = self.parse_url(url_str)
 
         dict_get = {
-            'regist': (lambda: self.redirect('/user/info')) if self.get_current_user() else self.__to_register__,
+            'regist': (
+                lambda: self.redirect('/user/info')
+            ) if self.get_current_user() else self.__to_register__,
             'login': self.to_login,
             'info': self.show_info,
             'logout': self.logout,
@@ -720,6 +722,6 @@ class UserPartialHandler(UserHandler):
     Partially render for user handler.
     '''
 
-    def initialize(self):
-        super(UserPartialHandler, self).initialize()
+    def initialize(self, **kwargs):
+        super(UserPartialHandler, self).initialize(kwargs)
         self.is_p = True

@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 '''
-Accessing via category. 
+Accessing via category.
 '''
 
 import json
