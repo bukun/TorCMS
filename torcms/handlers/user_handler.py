@@ -28,11 +28,11 @@ class SumForm(Form):
     user_email = StringField('user_email', validators=[Required(), wtforms.validators.Email()])
 
 
-class SumForm_info(Form):
+class SumFormInfo(Form):
     user_email = StringField('user_email', validators=[Required(), wtforms.validators.Email()])
 
 
-class SumForm_pass(Form):
+class SumFormPass(Form):
     user_pass = StringField('user_pass', validators=[Required()])
 
 
@@ -42,7 +42,7 @@ class UserHandler(BaseHandler):
     '''
 
     def initialize(self, **kwargs):
-        super(UserHandler, self).initialize(kwargs)
+        super(UserHandler, self).initialize()
 
     def get(self, *args, **kwargs):
 
@@ -53,16 +53,16 @@ class UserHandler(BaseHandler):
             'regist': (
                 lambda: self.redirect('/user/info')
             ) if self.get_current_user() else self.__to_register__,
-            'login': self.to_login,
-            'info': self.show_info,
-            'logout': self.logout,
-            'reset-password': self.to_reset_password,
-            'changepass': self.changepass,
-            'changeinfo': self.change_info,
+            'login': self.__to_login__,
+            'info': self.__to_show_info__,
+            'logout': self.__logout__,
+            'reset-password': self.__to_reset_password__,
+            'changepass': self.__change_pass__,
+            'changeinfo': self.__to_change_info__,
             'reset-passwd': self.gen_passwd,
-            'changerole': self.change_role,
+            'changerole': self.__to_change_role__,
             'find': self.find,
-            'delete_user': self.delete
+            'delete_user': self.__delete_user__,
         }
 
         if len(url_arr) == 1:
@@ -77,7 +77,7 @@ class UserHandler(BaseHandler):
         url_arr = self.parse_url(url_str)
 
         if url_str == 'regist':
-            self.register()
+            self.__register__()
         elif url_str == 'j_regist':
             self.json_register()
         elif url_str == 'j_changeinfo':
@@ -89,11 +89,11 @@ class UserHandler(BaseHandler):
         elif url_str == 'login':
             self.login()
         elif url_str == 'changepass':
-            self.changepassword()
+            self.__change_password__()
         elif url_arr[0] == 'changepass':
             self.p_changepassword()
         elif url_str == 'changeinfo':
-            self.changeinfo()
+            self.__change_info__()
         elif url_arr[0] == 'changeinfo':
             self.p_changeinfo()
         elif url_str == 'find':
@@ -103,7 +103,7 @@ class UserHandler(BaseHandler):
         elif url_str == 'reset-password':
             self.reset_password()
         elif url_arr[0] == 'changerole':
-            self.changerole(url_arr[1])
+            self.__change_role__(url_arr[1])
 
     @tornado.web.authenticated
     def p_changepassword(self):
@@ -168,14 +168,14 @@ class UserHandler(BaseHandler):
         return {}
 
     @tornado.web.authenticated
-    def changepassword(self):
+    def __change_password__(self):
         '''
         Change password
         '''
         post_data = self.get_post_data()
 
-        uu = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
-        if uu == 1:
+        usercheck_num = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
+        if usercheck_num == 1:
             MUser.update_pass(self.userinfo.uid, post_data['user_pass'])
             self.redirect('/user/info')
         else:
@@ -188,15 +188,15 @@ class UserHandler(BaseHandler):
                         userinfo=self.userinfo)
 
     @tornado.web.authenticated
-    def changeinfo(self):
+    def __change_info__(self):
         '''
         Change the user info
         '''
 
         post_data, def_dic = self.fetch_post_data()
 
-        usercheck = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
-        if usercheck == 1:
+        usercheck_num = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
+        if usercheck_num == 1:
             MUser.update_info(self.userinfo.uid, post_data['user_email'], extinfo=def_dic)
             self.redirect(('/user/info'))
         else:
@@ -209,7 +209,7 @@ class UserHandler(BaseHandler):
                         userinfo=self.userinfo)
 
     @tornado.web.authenticated
-    def changerole(self, xg_username):
+    def __change_role__(self, xg_username):
         '''
         Change th user rule
         '''
@@ -226,7 +226,7 @@ class UserHandler(BaseHandler):
         #     return json.dump(output, self)
 
     @tornado.web.authenticated
-    def logout(self):
+    def __logout__(self):
         '''
         user logout.
         '''
@@ -234,7 +234,7 @@ class UserHandler(BaseHandler):
         self.redirect('/')
 
     @tornado.web.authenticated
-    def changepass(self):
+    def __change_pass__(self):
         '''
         to change the password.
         '''
@@ -243,7 +243,7 @@ class UserHandler(BaseHandler):
                     userinfo=self.userinfo)
 
     @tornado.web.authenticated
-    def change_info(self):
+    def __to_change_info__(self):
         '''
         to change the user info.
         '''
@@ -251,7 +251,7 @@ class UserHandler(BaseHandler):
                     userinfo=self.userinfo)
 
     @tornado.web.authenticated
-    def change_role(self, xg_username):
+    def __to_change_role__(self, xg_username):
         '''
         to change the user role
         '''
@@ -259,7 +259,7 @@ class UserHandler(BaseHandler):
                     userinfo=MUser.get_by_name(xg_username))
 
     @tornado.web.authenticated
-    def to_find(self, ):
+    def __to_find__(self, ):
         '''
         to find the user
         '''
@@ -273,7 +273,7 @@ class UserHandler(BaseHandler):
                     userinfo=self.userinfo)
 
     @tornado.web.authenticated
-    def show_info(self):
+    def __to_show_info__(self):
         '''
         show the user info
         '''
@@ -281,14 +281,14 @@ class UserHandler(BaseHandler):
         self.render(self.wrap_tmpl('user/{sig}user_info.html'),
                     userinfo=self.userinfo, extinfo=rec.extinfo)
 
-    def to_reset_password(self):
+    def __to_reset_password__(self):
         '''
         to reset the password.
         '''
         self.render('user/user_reset_password.html',
                     userinfo=self.userinfo, )
 
-    def to_login(self):
+    def __to_login__(self):
         '''
         to login.
         '''
@@ -342,6 +342,9 @@ class UserHandler(BaseHandler):
         return user_create_status
 
     def __check_valid_pass(self, post_data):
+        # ToDo: todo.
+        '''
+        '''
         user_create_status = {'success': False, 'code': '00'}
         #    user_create_status['code'] = '31'
         #    return user_create_status
@@ -349,7 +352,7 @@ class UserHandler(BaseHandler):
         user_create_status['success'] = True
         return user_create_status
 
-    def register(self):
+    def __register__(self):
         '''
         regist the user.
         '''
@@ -431,8 +434,7 @@ class UserHandler(BaseHandler):
             user_create_status = MUser.create_user(post_data)
             logger.info('user_register_status: {0}'.format(user_create_status))
             return json.dump(user_create_status, self)
-        else:
-            return json.dump(user_create_status, self)
+        return json.dump(user_create_status, self)
 
     def json_changeinfo(self):
         '''
@@ -449,26 +451,21 @@ class UserHandler(BaseHandler):
         # user_create_status = {'success': False, 'code': '00'}
         post_data = self.get_post_data()
 
-        uu = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
+        is_user_passed = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
 
-        if uu == 1:
+        if is_user_passed == 1:
 
             user_create_status = self.__check_valid_info(post_data)
             if not user_create_status['success']:
                 return json.dump(user_create_status, self)
 
-            form_info = SumForm_info(self.request.arguments)
+            form_info = SumFormInfo(self.request.arguments)
 
             if form_info.validate():
                 user_create_status = MUser.update_info(self.userinfo.uid, post_data['user_email'])
                 return json.dump(user_create_status, self)
-            else:
-                return json.dump(user_create_status, self)
-
-
-
-        else:
-            return False
+            return json.dump(user_create_status, self)
+        return False
 
     def json_changepass(self):
         '''
@@ -493,16 +490,15 @@ class UserHandler(BaseHandler):
             if not user_create_status['success']:
                 return json.dump(user_create_status, self)
 
-            form_pass = SumForm_pass(self.request.arguments)
+            form_pass = SumFormPass(self.request.arguments)
 
             if form_pass.validate():
                 MUser.update_pass(self.userinfo.uid, post_data['user_pass'])
                 return json.dump(user_create_status, self)
-            else:
-                return json.dump(user_create_status, self)
 
-        else:
-            return False
+            return json.dump(user_create_status, self)
+
+        return False
 
     def __to_register__(self):
         '''
@@ -577,7 +573,7 @@ class UserHandler(BaseHandler):
         find by keyword.
         '''
         if not keyword:
-            self.to_find()
+            self.__to_find__()
         kwd = {
             'pager': '',
             'title': '查找结果',
@@ -589,11 +585,11 @@ class UserHandler(BaseHandler):
                     cfg=config.CMS_CFG,
                     userinfo=self.userinfo)
 
-    def delete(self, user_id):
+    def __delete_user__(self, user_id):
         '''
         delete user by ID.
         '''
-        if self.is_p == True:
+        if self.is_p:
             if MUser.delete(user_id):
                 output = {
                     'del_category': 1
@@ -660,15 +656,13 @@ class UserHandler(BaseHandler):
                     self.set_status(200)
                     logger.info('password has been reset.')
                     return True
-                else:
-                    self.set_status(400)
-                    return False
-            else:
+
                 self.set_status(400)
                 return False
-        else:
             self.set_status(400)
             return False
+        self.set_status(400)
+        return False
 
     def gen_passwd(self):
         '''
@@ -723,5 +717,5 @@ class UserPartialHandler(UserHandler):
     '''
 
     def initialize(self, **kwargs):
-        super(UserPartialHandler, self).initialize(kwargs)
+        super(UserPartialHandler, self).initialize()
         self.is_p = True
