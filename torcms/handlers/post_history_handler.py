@@ -15,6 +15,10 @@ from torcms.core.tools import diff_table
 
 
 class EditHistoryHander(BaseHandler):
+    '''
+    Manage the posts by Administrator.
+    '''
+
     __metaclass__ = ABCMeta
 
     def initialize(self, **kwargs):

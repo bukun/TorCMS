@@ -33,8 +33,6 @@ class RatingHandler(BaseHandler):
     def update_post(self, postid):
         '''
         The rating of Post should be updaed if the count is greater than 10
-        :param postid:
-        :return:
         '''
         voted_recs = MRating.query_by_post(postid)
         if voted_recs.count() > 10:
@@ -50,8 +48,6 @@ class RatingHandler(BaseHandler):
     def update_rating(self, postid):
         '''
         only the used who logged in would voting.
-        :param postid:
-        :return:
         '''
         post_data = self.get_post_data()
         rating = float(post_data['rating'])

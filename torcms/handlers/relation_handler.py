@@ -25,8 +25,6 @@ class RelHandler(BaseHandler):
     def add_relation(self, url_arr):
         '''
         Add relationship.
-        :param url_arr:
-        :return:
         '''
         if MPost.get_by_uid(url_arr[1]):
             pass

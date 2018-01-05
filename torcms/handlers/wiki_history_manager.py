@@ -93,8 +93,11 @@ class WikiHistoryHandler(EditHistoryHander):
                 hist_user = hist_rec.user_name
             else:
                 infobox = ''
+                hist_user = ''
 
-            html_diff_arr.append({'hist_uid': hist_rec.uid, 'html_diff': infobox, 'hist_user':hist_user})
+            html_diff_arr.append(
+                {'hist_uid': hist_rec.uid, 'html_diff': infobox, 'hist_user': hist_user}
+            )
 
         self.render('man_info/wiki_man_view.html',
                     userinfo=self.userinfo,

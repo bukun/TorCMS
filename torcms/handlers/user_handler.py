@@ -11,7 +11,7 @@ import tornado.escape
 import tornado.web
 import wtforms.validators
 from wtforms.fields import StringField
-from wtforms.validators import Required
+from wtforms.validators import DataRequired
 from wtforms_tornado import Form
 
 import config
@@ -23,17 +23,26 @@ from torcms.core.tools import logger
 
 
 class SumForm(Form):
-    user_name = StringField('user_name', validators=[Required()])
-    user_pass = StringField('user_pass', validators=[Required()])
-    user_email = StringField('user_email', validators=[Required(), wtforms.validators.Email()])
+    '''
+    WTForm for user.
+    '''
+    user_name = StringField('user_name', validators=[DataRequired()])
+    user_pass = StringField('user_pass', validators=[DataRequired()])
+    user_email = StringField('user_email', validators=[DataRequired(), wtforms.validators.Email()])
 
 
 class SumFormInfo(Form):
-    user_email = StringField('user_email', validators=[Required(), wtforms.validators.Email()])
+    '''
+    WTForm for user.
+    '''
+    user_email = StringField('user_email', validators=[DataRequired(), wtforms.validators.Email()])
 
 
 class SumFormPass(Form):
-    user_pass = StringField('user_pass', validators=[Required()])
+    '''
+    WTForm for user password.
+    '''
+    user_pass = StringField('user_pass', validators=[DataRequired()])
 
 
 class UserHandler(BaseHandler):
@@ -76,15 +85,14 @@ class UserHandler(BaseHandler):
         url_str = args[0]
         url_arr = self.parse_url(url_str)
 
+        # ToDo: change to dict.
         if url_str == 'regist':
             self.__register__()
         elif url_str == 'j_regist':
             self.json_register()
         elif url_str == 'j_changeinfo':
-
             self.json_changeinfo()
         elif url_str == 'j_changepass':
-
             self.json_changepass()
         elif url_str == 'login':
             self.login()
@@ -341,7 +349,7 @@ class UserHandler(BaseHandler):
         user_create_status['success'] = True
         return user_create_status
 
-    def __check_valid_pass(self, post_data):
+    def __check_valid_pass(self, _):
         # ToDo: todo.
         '''
         '''
@@ -557,7 +565,9 @@ class UserHandler(BaseHandler):
             self.redirect("{0}".format(next_url))
 
     def p_to_find(self, ):
-
+        '''
+        To find, pager.
+        '''
         kwd = {
             'pager': '',
 
