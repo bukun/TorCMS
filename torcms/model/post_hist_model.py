@@ -83,7 +83,7 @@ class MPostHist(Mabc):
             post_id=raw_data.uid,
             user_name=raw_data.user_name,
             cnt_md=raw_data.cnt_md,
-            time_update=raw_data.time_update,
+            time_update=tools.timestamp(),
             logo=raw_data.logo,
         )
 

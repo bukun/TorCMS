@@ -183,12 +183,14 @@ class PostHistoryHandler(EditHistoryHander):
             if hist_rec:
                 infobox = diff_table(hist_rec.cnt_md, postinfo.cnt_md)
                 hist_user = hist_rec.user_name
+                hist_time = hist_rec.time_update
             else:
                 infobox = ''
                 hist_user = ''
+                hist_time = ''
 
             html_diff_arr.append(
-                {'hist_uid': hist_rec.uid, 'html_diff': infobox, 'hist_user': hist_user}
+                {'hist_uid': hist_rec.uid, 'html_diff': infobox, 'hist_user': hist_user, 'hist_time': hist_time}
             )
 
         self.render('man_info/post_man_view.html',
