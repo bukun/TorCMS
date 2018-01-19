@@ -92,7 +92,7 @@ class FilterHandler(BaseHandler):
 
     def gen_redis_kw(self):
         condition = {}
-        if self.get_current_user():
+        if self.get_current_user() and self.userinfo:
             redis_kw = redisvr.smembers(CMS_CFG['redis_kw'] + self.userinfo.user_name)
         else:
             redis_kw = []
@@ -228,7 +228,7 @@ class FilterHandler(BaseHandler):
                'rec_num': num}
 
         # cat_rec = MCategory.get_by_uid(catid)
-        if self.get_current_user():
+        if self.get_current_user() and self.userinfo:
             redis_kw = redisvr.smembers(CMS_CFG['redis_kw'] + self.userinfo.user_name)
         else:
             redis_kw = []

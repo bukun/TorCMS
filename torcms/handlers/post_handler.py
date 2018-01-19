@@ -490,7 +490,7 @@ class PostHandler(BaseHandler):
         kwd = self._the_view_kwd(postinfo)
 
         MPost.update_misc(postinfo.uid, count=True)
-        if self.get_current_user():
+        if self.get_current_user() and self.userinfo:
             MUsage.add_or_update(self.userinfo.uid, postinfo.uid, postinfo.kind)
         self.set_cookie('user_pass', kwd['cookie_str'])
 
