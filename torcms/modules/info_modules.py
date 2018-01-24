@@ -239,7 +239,7 @@ class InfoMostUsed(tornado.web.UIModule):
 
     def render(self, *args, **kwargs):
 
-        kind = kwargs.get('kind', args[0] if len(args) > 0 else '1')
+        kind = kwargs.get('kind', args[0] if args else '1')
         num = kwargs.get('num', args[1] if len(args) > 1 else 6)
 
         with_tag = kwargs.get('with_tag', False)
@@ -247,7 +247,11 @@ class InfoMostUsed(tornado.web.UIModule):
         glyph = kwargs.get('glyph', '')
 
         if userinfo:
-            html_str = self.render_user(kind, num, with_tag=with_tag, user_id=userinfo.uid, glyph=glyph)
+            html_str = self.render_user(kind,
+                                        num,
+                                        with_tag=with_tag,
+                                        user_id=userinfo.uid,
+                                        glyph=glyph)
         else:
             html_str = self.render_it(kind, num, with_tag=with_tag, glyph=glyph)
         return html_str
@@ -324,7 +328,7 @@ class InfoRecentUsed(tornado.web.UIModule):
 
     def render(self, *args, **kwargs):
 
-        kind = kwargs.get('kind', args[0] if len(args) > 0 else '1')
+        kind = kwargs.get('kind', args[0] if args else '1')
         num = kwargs.get('num', args[1] if len(args) > 1 else 6)
 
         with_tag = kwargs.get('with_tag', False)
@@ -346,10 +350,6 @@ class InfoRecentUsed(tornado.web.UIModule):
     def render_it(self, kind, num, with_tag=False, glyph=''):
         '''
         render, no user logged in
-        :param kind:
-        :param num:
-        :param with_tag:
-        :return:
         '''
         all_cats = MPost.query_recent(num, kind=kind)
         kwd = {

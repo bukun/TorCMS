@@ -30,9 +30,7 @@ class LeafHandler(PostHandler):
 
     def initialize(self, **kwargs):
         super(LeafHandler, self).initialize()
-
         self.kind = kwargs['kind'] if 'kind' in kwargs else '1'
-
         self.filter_view = kwargs['filter_view'] if 'filter_view' in kwargs else False
 
     def get(self, *args, **kwargs):
@@ -71,8 +69,6 @@ class LeafHandler(PostHandler):
     def viewinfo(self, postinfo):
         '''
         In infor.
-        :param postinfo:
-        :return:
         '''
         self.redirect_kind(postinfo)
 

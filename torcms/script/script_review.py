@@ -26,15 +26,11 @@ def __get_diff_recent():
     '''
     diff_str = ''
 
-    for key in router_post.keys():
-        # print('=' * 80)
-        # print(key)
+    for key in router_post:
         recent_posts = MPost.query_recent_edited(tools.timestamp() - TIME_LIMIT, kind=key)
         for recent_post in recent_posts:
-            # print(recent_post.uid)
             hist_rec = MPostHist.get_last(recent_post.uid)
             if hist_rec:
-                # print(hist_rec.uid)
                 raw_title = hist_rec.title
                 new_title = recent_post.title
 

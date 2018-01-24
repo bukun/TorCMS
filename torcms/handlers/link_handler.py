@@ -32,7 +32,7 @@ class LinkHandler(BaseHandler):
         elif url_arr[0] in ['modify', '_edit', 'edit']:
             self.to_modify(url_arr[1])
         elif url_arr[0] in ['delete', '_delete']:
-            self.delete(url_arr[1])
+            self.delete_by_id(url_arr[1])
         else:
             kwd = {
                 'info': '页面未找到',
@@ -64,8 +64,7 @@ class LinkHandler(BaseHandler):
             'title': '最近文档',
         }
 
-        if self.is_p == True:
-
+        if self.is_p:
             self.render('admin/link_ajax/link_list.html',
                         kwd=kwd,
                         view=MLink.query_link(20),
@@ -108,7 +107,7 @@ class LinkHandler(BaseHandler):
 
         post_data['user_name'] = self.get_current_user()
 
-        if self.is_p == True:
+        if self.is_p:
             if MLink.update(uid, post_data):
                 output = {
                     'addinfo ': 1,
@@ -211,7 +210,7 @@ class LinkHandler(BaseHandler):
         self.redirect('/link/list')
 
     @tornado.web.authenticated
-    def delete(self, del_id):
+    def delete_by_id(self, del_id):
         '''
         Delete a link by id.
         '''
@@ -219,7 +218,7 @@ class LinkHandler(BaseHandler):
             pass
         else:
             return False
-        if self.is_p == True:
+        if self.is_p:
             if MLink.delete(del_id):
                 output = {'del_link': 1}
             else:
@@ -236,6 +235,6 @@ class LinkPartialHandler(LinkHandler):
     Partially render for user handler.
     '''
 
-    def initialize(self):
+    def initialize(self, **kwargs):
         super(LinkPartialHandler, self).initialize()
         self.is_p = True

@@ -13,7 +13,7 @@ Status
 .. image:: https://img.shields.io/pypi/pyversions/torcms.svg
     :target: https://pypi.python.org/pypi/torcms/
 
-* Checking ``torcms`` with ``pylint`` using default configuration, gets score greater than 9.0.
+* Checking ``torcms`` with ``pylint`` using default configuration (Under Debian Stretch), gets score greater than 9.4.
 
 Introduction
 -------------------------------------------------

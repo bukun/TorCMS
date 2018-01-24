@@ -5,9 +5,9 @@ Handler of Pages via Ajax.
 
 import json
 import tornado.web
+import tornado.escape
 from torcms.handlers.page_handler import PageHandler
 from torcms.model.wiki_model import MWiki
-import tornado.escape
 
 
 class PageAjaxHandler(PageHandler):
@@ -18,8 +18,7 @@ class PageAjaxHandler(PageHandler):
     def initialize(self, **kwargs):
         super(PageAjaxHandler, self).initialize()
 
-    def get(self, *args):
-
+    def get(self, *args, **kwargs):
         url_str = args[0]
         url_arr = self.parse_url(url_str)
 
@@ -52,6 +51,9 @@ class PageAjaxHandler(PageHandler):
         self.write(json.dumps({'code': citiao}))
 
     def j_count_plus(self, slug):
+        '''
+        plus count via ajax.
+        '''
         output = {'status': 1 if MWiki.view_count_plus(slug) else 0}
         return json.dump(output, self)
 
@@ -64,6 +66,5 @@ class PageAjaxHandler(PageHandler):
     def p_to_add(self):
         '''
         To add the page.
-        :return:
         '''
         self.render('admin/page_ajax/page_add.html', kwd={})

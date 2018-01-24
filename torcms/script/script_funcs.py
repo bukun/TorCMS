@@ -21,7 +21,7 @@ WHOOSH_DB_DIR = 'database/whoosh'
 
 def build_directory():
     '''
-    Build the directory for Whoosh database, and locale.    
+    Build the directory for Whoosh database, and locale.
     '''
     if os.path.exists('locale'):
         pass
@@ -33,27 +33,23 @@ def build_directory():
         os.makedirs(WHOOSH_DB_DIR)
 
 
-def run_check_kind(*args):
+def run_check_kind(_):
     '''
     Running the script.
-    :param args: 
-    :return: 
     '''
-    for kd in router_post.keys():
-        for rec in MCategory.query_all(kind=kd):
-            catid = rec.uid
-
+    for kindv in router_post:
+        for rec_cat in MCategory.query_all(kind=kindv):
+            catid = rec_cat.uid
             catinfo = MCategory.get_by_uid(catid)
-            recs = MPost2Catalog.query_by_catid(catid)
-            for rec in recs:
-                postinfo = MPost.get_by_uid(rec.post_id)
+            for rec_post2tag in MPost2Catalog.query_by_catid(catid):
+                postinfo = MPost.get_by_uid(rec_post2tag.post_id)
                 if postinfo.kind == catinfo.kind:
                     pass
                 else:
                     print(postinfo.uid)
 
 
-def run_create_admin(*args):
+def run_create_admin(_):
     '''
     creating the default administrator.
     '''
@@ -69,14 +65,17 @@ def run_create_admin(*args):
         MUser.create_user(post_data)
 
 
-def run_whoosh(*args):
+def run_whoosh(_):
     '''
     running whoosh
     '''
     running_whoosh.gen_whoosh_database(kind_arr=kind_arr, post_type=post_type)
 
 
-def run_update_cat(*args):
+def run_update_cat(_):
+    '''
+    Update the catagery.
+    '''
     recs = MPost2Catalog.query_all().naive()
     for rec in recs:
         if rec.tag_kind != 'z':

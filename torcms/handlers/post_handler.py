@@ -46,8 +46,6 @@ class PostHandler(BaseHandler):
     def _redirect(self, url_arr):
         '''
         Redirection.
-        :param url_arr:
-        :return:
         '''
         direct_dic = {
             'recent': '/post_list/recent',
@@ -216,7 +214,6 @@ class PostHandler(BaseHandler):
         '''
         Used for info2.
         :param catid: the uid of category
-        :return:
         '''
 
         catinfo = MCategory.get_by_uid(catid)
@@ -235,8 +232,6 @@ class PostHandler(BaseHandler):
     def _view_or_add(self, uid):
         '''
         Try to get the post. If not, to add the wiki.
-        :param uid:
-        :return:
         '''
         postinfo = MPost.get_by_uid(uid)
         if postinfo:
@@ -273,9 +268,6 @@ class PostHandler(BaseHandler):
     def update_tag(self, uid='', **kwargs):
         '''
         Update category, and labels.
-        :param uid:
-        :param kwargs:
-        :return:
         '''
         self.update_category(uid, **kwargs)
         self.update_label(uid)
@@ -284,8 +276,6 @@ class PostHandler(BaseHandler):
     def update_label(self, signature):
         '''
         Update the label when updating.
-        :param signature:
-        :return:
         '''
         current_tag_infos = MPost2Label.get_by_uid(signature).naive()
         post_data = self.get_post_data()
@@ -312,7 +302,6 @@ class PostHandler(BaseHandler):
         '''
         Update the category of the post.
         :param uid:  The ID of the post. Extra info would get by requests.
-        :return:
         '''
 
         catid = kwargs['catid'] if ('catid' in kwargs
@@ -373,8 +362,6 @@ class PostHandler(BaseHandler):
     def _to_edit(self, infoid):
         '''
         render the HTML page for post editing.
-        :param infoid:
-        :return:
         '''
 
         postinfo = MPost.get_by_uid(infoid)
@@ -435,8 +422,6 @@ class PostHandler(BaseHandler):
     def _gen_last_current_relation(self, post_id):
         '''
         Generate the relation for the post and last post viewed.
-        :param post_id:
-        :return:
         '''
         last_post_id = self.get_secure_cookie('last_post_uid')
         if last_post_id:
@@ -465,8 +450,6 @@ class PostHandler(BaseHandler):
     def viewinfo(self, postinfo):
         '''
         In infor.
-        :param postinfo:
-        :return:
         '''
         self.redirect_kind(postinfo)
 
@@ -511,7 +494,6 @@ class PostHandler(BaseHandler):
                     relations=rel_recs,
                     rand_recs=rand_recs,
                     ad_switch=random.randint(1, 18),
-                    # tag_info=MPost2Label.get_by_uid(postinfo.uid).naive(),
                     tag_info=filter(lambda x: not x.tag_name.startswith('_'),
                                     MPost2Label.get_by_uid(postinfo.uid).naive()),
                     recent_apps=recent_apps,
@@ -544,8 +526,6 @@ class PostHandler(BaseHandler):
     def fetch_additional_posts(self, uid):
         '''
         fetch the rel_recs, and random recs when view the post.
-        :param postinfo:
-        :return:
         '''
         cats = MPost2Catalog.query_by_entity_uid(uid, kind=self.kind)
         cat_uid_arr = []
@@ -594,7 +574,6 @@ class PostHandler(BaseHandler):
     def fetch_post_data(self):
         '''
         fetch post accessed data. post_data, and ext_dic.
-        :return:
         '''
         post_data = {}
         ext_dic = {}
@@ -623,8 +602,6 @@ class PostHandler(BaseHandler):
     def add(self, **kwargs):
         '''
         in infor.
-        :param kwargs:
-        :return:
         '''
         if 'uid' in kwargs:
             uid = kwargs['uid']
@@ -659,8 +636,6 @@ class PostHandler(BaseHandler):
     def update(self, uid):
         '''
         in infor.
-        :param uid:
-        :return:
         '''
 
         postinfo = MPost.get_by_uid(uid)
@@ -700,9 +675,6 @@ class PostHandler(BaseHandler):
     def _delete(self, *args, **kwargs):
         '''
         delete the post.
-        :param args:
-        :param kwargs:
-        :return:
         '''
         _ = kwargs
         uid = args[0]
@@ -733,8 +705,6 @@ class PostHandler(BaseHandler):
     def j_delete(self, *args):
         '''
         Delete the post, but return the JSON.
-        :param uid:
-        :return:
         '''
 
         uid = args[0]
@@ -762,8 +732,6 @@ class PostHandler(BaseHandler):
     def j_count_plus(self, uid):
         '''
         Ajax request, that the view count will plus 1.
-        :param uid:
-        :return:
         '''
         _ = uid
         self.set_header("Content-Type", "application/json")
@@ -776,8 +744,6 @@ class PostHandler(BaseHandler):
         '''
         The current Info and the Info viewed last should have some relation.
         And the last viewed Info could be found from cookie.
-        :param app_id: the current app
-        :return: None
         '''
         last_app_uid = self.get_secure_cookie('use_app_uid')
         if last_app_uid:
@@ -789,8 +755,6 @@ class PostHandler(BaseHandler):
     def ext_view_kwd(self, postinfo):
         '''
         The additional information. for View.
-        :param postinfo:
-        :return: directory.
         '''
         _ = postinfo
         return {}
@@ -798,16 +762,12 @@ class PostHandler(BaseHandler):
     def ext_tmpl_view(self, rec):
         '''
         Used for self defined templates. for View.
-        :param rec:
-        :return:
         '''
         return self._get_tmpl_view(rec)
 
     def ext_post_data(self, **kwargs):
         '''
         The additional information.  for add(), or update().
-        :param post_data:
-        :return: directory.
         '''
         _ = kwargs
         return {}
@@ -825,8 +785,6 @@ class PostHandler(BaseHandler):
     def _to_edit_kind(self, post_uid):
         '''
         Show the page for changing the category.
-        :param post_uid:
-        :return:
         '''
         if self.userinfo and self.userinfo.role[1] >= '3':
             pass
@@ -845,8 +803,6 @@ class PostHandler(BaseHandler):
     def _change_kind(self, post_uid):
         '''
         To modify the category of the post, and kind.
-        :param post_uid:
-        :return:
         '''
 
         post_data = self.get_post_data()

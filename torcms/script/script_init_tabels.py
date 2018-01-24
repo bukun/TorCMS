@@ -19,11 +19,9 @@ def create_table(the_table):
         pass
 
 
-def run_init_tables(*args):
+def run_init_tables(_):
     '''
     Run to init tables.
-    :param args:
-    :return:
     '''
     print('--')
 

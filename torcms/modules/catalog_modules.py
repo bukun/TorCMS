@@ -16,7 +16,7 @@ class CatalogMenu(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-        kind = kwargs['kind'] if 'kind' in kwargs else '1'
+        # kind = kwargs['kind'] if 'kind' in kwargs else '1'
         catid = kwargs['catid'] if 'catid' in kwargs else ''
         recs = MCatalog.query_all()
 

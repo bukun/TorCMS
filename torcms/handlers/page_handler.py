@@ -67,8 +67,6 @@ class PageHandler(BaseHandler):
     def view_or_add(self, slug):
         '''
         When access with the slug, It will add the page if there is no record in database.
-        :param slug:
-        :return:
         '''
         rec_page = MWiki.get_by_uid(slug)
 
@@ -85,8 +83,6 @@ class PageHandler(BaseHandler):
     def to_add(self, citiao):
         '''
         To Add page.
-        :param citiao:
-        :return:
         '''
 
         kwd = {
@@ -102,8 +98,6 @@ class PageHandler(BaseHandler):
     def __could_edit(self, slug):
         '''
         Test if the user could edit the page.
-        :param slug:
-        :return:
         '''
         page_rec = MWiki.get_by_uid(slug)
         if not page_rec:
@@ -120,8 +114,6 @@ class PageHandler(BaseHandler):
     def update(self, slug):
         '''
         Update the page.
-        :param slug:
-        :return:
         '''
 
         post_data = self.get_post_data()
@@ -147,8 +139,6 @@ class PageHandler(BaseHandler):
     def to_modify(self, uid):
         '''
         Try to modify the page.
-        :param uid:
-        :return:
         '''
 
         kwd = {
@@ -166,8 +156,6 @@ class PageHandler(BaseHandler):
     def view(self, rec):
         '''
         View the page.
-        :param rec:
-        :return:
         '''
         kwd = {
             'pager': '',
@@ -194,7 +182,6 @@ class PageHandler(BaseHandler):
     def list(self):
         '''
         View the list of the pages.
-        :return:
         '''
         kwd = {
             'pager': '',

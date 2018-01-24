@@ -29,15 +29,14 @@ def fetch_file(url, filename):
 
     urllib.request.urlretrieve(url, outfile)
     zip_file = outfile
-    f = zipfile.ZipFile(zip_file, 'r')
-    for zfile in f.namelist():
-        f.extract(zfile, OUT_PATH)
+    zfile_enum = zipfile.ZipFile(zip_file, 'r')
+    for zfile in zfile_enum.namelist():
+        zfile_enum.extract(zfile, OUT_PATH)
 
 
 def get_jquery():
     '''
     Get JQuery library.
-    :return: None
     '''
     jquery_url = 'http://r.osgeo.cn/f2elib/jquery.zip'
     fetch_file(jquery_url, os.path.split(jquery_url)[1])
@@ -46,7 +45,6 @@ def get_jquery():
 def get_leaflet():
     '''
     Get LeafletJS library.
-    :return: None
     '''
     leaflet_url = 'http://r.osgeo.cn/f2elib/leaflet_1.2.0.zip'
     fetch_file(leaflet_url, os.path.split(leaflet_url)[1])
@@ -55,7 +53,6 @@ def get_leaflet():
 def get_bootstrap():
     '''
     Get BootStrop CSS library.
-    :return: None
     '''
     leaflet_url = 'http://r.osgeo.cn/f2elib/bootstrap_3.3.7.zip'
     fetch_file(leaflet_url, os.path.split(leaflet_url)[1])
@@ -64,7 +61,6 @@ def get_bootstrap():
 def get_js_valid():
     '''
     Get JQuery-Validation library.
-    :return: None 
     '''
     leaflet_url = 'http://r.osgeo.cn/f2elib/jquery-validation_1.15.0.zip'
     fetch_file(leaflet_url, os.path.split(leaflet_url)[1])
@@ -73,7 +69,6 @@ def get_js_valid():
 def get_codemirror():
     '''
     Get CodeMirror JavaScript library.
-    :return: None
     '''
     leaflet_url = 'http://r.osgeo.cn/f2elib/codemirror_5.25.0.zip'
     fetch_file(leaflet_url, os.path.split(leaflet_url)[1])
@@ -82,7 +77,6 @@ def get_codemirror():
 def get_jqueryui():
     '''
     Get JQueryUI library.
-    :return: None
     '''
     leaflet_url = 'http://r.osgeo.cn/f2elib/jqueryui_1.12.1.zip'
     fetch_file(leaflet_url, os.path.split(leaflet_url)[1])
@@ -91,7 +85,6 @@ def get_jqueryui():
 def get_rating():
     '''
     Get BootStrop Star Rating library.
-    :return: None
     '''
     leaflet_url = 'http://r.osgeo.cn/f2elib/bootstrap-star-rating-master.zip'
     fetch_file(leaflet_url, os.path.split(leaflet_url)[1])
@@ -100,7 +93,6 @@ def get_rating():
 def get_magnific():
     '''
     Get Magnific PopUp JavaScript library.
-    :return: None
     '''
     leaflet_url = 'http://r.osgeo.cn/f2elib/magnific-popup_1.1.0.zip'
     fetch_file(leaflet_url, os.path.split(leaflet_url)[1])
@@ -112,7 +104,6 @@ def get_ol3():
     :return: None
     '''
     # ol3_url = 'https://github.com/openlayers/ol3/releases/download/v3.18.2/v3.18.2-dist.zip'
-
     # qian, hou = os.path.split(ol3_url)
     # fetch_file(ol3_url, hou, outdir='ol3')
 
@@ -129,7 +120,7 @@ def get_ol3():
     fetch_file(ol3_js, 'ol3/ol.js')
 
 
-def run_f2elib(*args):
+def run_f2elib(_):
     '''
     Get All the libraries.
     :param args: 

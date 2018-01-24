@@ -48,8 +48,6 @@ class LabelHandler(BaseHandler):
     def list(self, kind, tag_slug, cur_p=''):
         '''
         根据 cat_handler.py 中的 def view_cat_new(self, cat_slug, cur_p = '')
-        :param tag_slug:
-        :return:
         '''
         # 下面用来使用关键字过滤信息，如果网站信息量不是很大不要开启
         # Todo:

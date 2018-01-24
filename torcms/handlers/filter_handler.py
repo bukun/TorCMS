@@ -107,8 +107,6 @@ class FilterHandler(BaseHandler):
     def echo_html(self, url_str):
         '''
         Show the HTML
-        :param url_str:
-        :return:
         '''
 
         logger.info('info echo html: {0}'.format(url_str))
