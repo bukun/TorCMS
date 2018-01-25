@@ -104,18 +104,6 @@ class PostHandler(BaseHandler):
                 'j_count_plus': self.j_count_plus,
             }
             dict_get.get(url_arr[0])(url_arr[1])
-
-        # elif url_arr[0] == '_edit_kind':
-        #     self._to_edit_kind(url_arr[1])
-        # elif url_arr[0] == '_edit':
-        #     self._to_edit(url_arr[1])
-        # elif url_arr[0] == '_delete':
-        #     self._delete(url_arr[1])
-        # elif url_arr[0] == 'j_delete':
-        #     self.j_delete(url_arr[1])
-        # elif url_arr[0] == 'j_count_plus':
-        #     self.j_count_plus(url_arr[1])
-
         else:
             self.show404()
 
@@ -128,7 +116,7 @@ class PostHandler(BaseHandler):
 
         if url_arr[0] in ['_edit', 'edit', 'modify']:
             self.update(url_arr[1])
-        elif url_arr[0] in ['_add', 'add', 'add_document', ]:
+        elif url_arr[0] in ['_add', 'add', 'add_document']:
             if len(url_arr) == 2:
                 self.add(uid=url_arr[1])
             else:
@@ -163,27 +151,6 @@ class PostHandler(BaseHandler):
         while MPost.get_by_uid(cur_uid):
             cur_uid = self.kind + tools.get_uu4d()
         return cur_uid
-
-    # @tornado.web.authenticated
-    # def _could_edit(self, postid):
-    #     '''
-    #     checking if the user could edit the post.
-    #     :param postid:  the id of the post.
-    #     :return:  True or False
-    #     '''
-    #     post_rec = MPost.get_by_uid(postid)
-    #     if post_rec:
-    #         pass
-    #     else:
-    #         return False
-    #     # chk_res = False
-    #     if self.check_post_role()['EDIT']:
-    #         chk_res = True
-    #     elif post_rec.user_name == self.userinfo.user_name:
-    #         chk_res = True
-    #     else:
-    #         chk_res = False
-    #     return chk_res
 
     def _get_tmpl_view(self, rec):
         '''

@@ -205,6 +205,9 @@ class MWiki(Mabc):
 
     @staticmethod
     def view_count_plus(slug):
+        '''
+        View count plus one.
+        '''
         entry = TabWiki.update(
             view_count=TabWiki.view_count + 1,
         ).where(TabWiki.uid == slug)
@@ -212,18 +215,19 @@ class MWiki(Mabc):
 
     @staticmethod
     def query_all(**kwargs):
-        if 'kind' in kwargs:
-            kind = kwargs['kind']
-        else:
-            kind = '1'
-        if 'limit' in kwargs:
-            limit = kwargs['limit']
-        else:
-            limit = 999999
+        '''
+        Qeury recent wiki.
+        '''
+        kind = kwargs.get('kind', '1')
+        limit = kwargs.get('limit', 50)
+
         return TabWiki.select().where(TabWiki.kind == kind).limit(limit)
 
     @staticmethod
     def query_random(num=6, kind='1'):
+        '''
+        Query wikis randomly.
+        '''
         return TabWiki.select().where(
             TabWiki.kind == kind
         ).order_by(

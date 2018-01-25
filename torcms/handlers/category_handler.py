@@ -9,6 +9,7 @@ import json
 from torcms.core.base_handler import BaseHandler
 from torcms.core import tools
 from torcms.model.category_model import MCategory
+from torcms.model.catalog_model import MCatalog
 from torcms.model.post2catalog_model import MPost2Catalog
 from html2text import html2text
 
@@ -25,7 +26,8 @@ class CategoryHandler(BaseHandler):
     def initialize(self, **kwargs):
         super(CategoryHandler, self).initialize()
         self.kind = kwargs.get('kind', '1')
-        self.order = kwargs.get('order', False)
+        # self.order = kwargs.get('order', False)
+        self.order = True
 
     def get(self, *args, **kwargs):
 
@@ -99,18 +101,23 @@ class CategoryHandler(BaseHandler):
         # tmpl = 'list/catalog_list.html'
         # Todo: review the following codes.
 
+        # if self.order:
+        #     tmpl = 'list/catalog_list.html'
+        # else:
         if self.order:
-            tmpl = 'list/catalog_list.html'
-        else:
             tmpl = 'list/category_list.html'
+            infos = MPost2Catalog.query_pager_by_slug(
+                cat_slug,
+                current_page_num,
+                # order=self.order),
+                tag=tag)
+        else:
+            tmpl = 'list/catalog_list.html'
+            infos = MCatalog.query_by_slug(cat_slug)
 
         self.render(tmpl,
                     catinfo=cat_rec,
-                    infos=MPost2Catalog.query_pager_by_slug(
-                        cat_slug,
-                        current_page_num,
-                        tag=tag,
-                        order=self.order, ),
+                    infos=infos,
                     pager=tools.gen_pager_purecss(
                         '/category/{0}'.format(cat_slug),
                         page_num,

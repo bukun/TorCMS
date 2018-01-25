@@ -22,10 +22,6 @@ class MPost(Mabc):
     Model for Posts.
     '''
 
-    #
-    # def __init__(self):
-    #     super(MPost, self).__init__()
-
     @staticmethod
     def query_recent_most(num=8, recent=30):
         '''
@@ -282,10 +278,7 @@ class MPost(Mabc):
         else:
             limit = 10
 
-        if 'kind' in kwargs:
-            kind = kwargs['kind']
-        else:
-            kind = None
+        kind = kwargs.get('kind', None)
 
         if kind:
             rand_recs = TabPost.select().where(
@@ -326,14 +319,9 @@ class MPost(Mabc):
         '''
         query all the posts.
         '''
-        if 'kind' in kwargs:
-            kind = kwargs['kind']
-        else:
-            kind = '1'
-        if 'limit' in kwargs:
-            limit = kwargs['limit']
-        else:
-            limit = 10
+
+        kind = kwargs.get('kind', '1')
+        limit = kwargs.get('limit', 10)
 
         return TabPost.select().where(
             (TabPost.kind == kind) &
@@ -345,29 +333,26 @@ class MPost(Mabc):
     @staticmethod
     def query_keywords_empty(kind='1'):
         '''
-        :param kind:
-        :return:
+        Query keywords, empty.
         '''
         return TabPost.select().where((TabPost.kind == kind) & (TabPost.keywords == ''))
 
     @staticmethod
     def query_recent_edited(timstamp, kind='1'):
         '''
-        :param timstamp:
-        :param kind:
-        :return:
+        Query posts recently update.
         '''
         return TabPost.select().where(
             (TabPost.kind == kind) &
             (TabPost.time_update > timstamp)
-        ).order_by(TabPost.time_update.desc())
+        ).order_by(
+            TabPost.time_update.desc()
+        )
 
     @staticmethod
     def query_dated(num=8, kind='1'):
         '''
-        :param num:
-        :param kind:
-        :return:
+        Query posts, outdate.
         '''
         return TabPost.select().where(
             TabPost.kind == kind
@@ -378,9 +363,7 @@ class MPost(Mabc):
     @staticmethod
     def query_most_pic(num, kind='1'):
         '''
-        :param num:
-        :param kind:
-        :return:
+        Query most pics.
         '''
         return TabPost.select().where(
             (TabPost.kind == kind) & (TabPost.logo != "")
@@ -389,10 +372,7 @@ class MPost(Mabc):
     @staticmethod
     def query_cat_recent(cat_id, label=None, num=8, kind='1'):
         '''
-        :param cat_id:
-        :param num:
-        :param kind:
-        :return:
+        Query recent posts of catalog.
         '''
 
         if label:
@@ -413,10 +393,7 @@ class MPost(Mabc):
     @staticmethod
     def query_cat_recent_with_label(cat_id, label=None, num=8, kind='1'):
         '''
-        :param cat_id:
-        :param num:
-        :param kind:
-        :return:
+        query_cat_recent_with_label
         '''
         return TabPost.select().join(
             TabPost2Tag,
@@ -432,10 +409,7 @@ class MPost(Mabc):
     @staticmethod
     def query_cat_recent_no_label(cat_id, num=8, kind='1'):
         '''
-        :param cat_id:
-        :param num:
-        :param kind:
-        :return:
+        query_cat_recent_no_label
         '''
         return TabPost.select().join(
             TabPost2Tag,

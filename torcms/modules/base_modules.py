@@ -74,8 +74,7 @@ class PostLabels(tornado.web.UIModule):
                                index=idx)
                 idx += 1
             return outstr + '</span>'
-        else:
-            return ''
+        return ''
 
 
 class GetFooter(tornado.web.UIModule):
@@ -101,13 +100,12 @@ class PreviousPostLink(tornado.web.UIModule):
     def render(self, *args, **kwargs):
         current_id = args[0]
         prev_record = MPost.get_previous_record(current_id)
-        if prev_record is None:
-            return self.render_string('modules/post/last_page.html')
-        else:
+        if prev_record:
             kwd = {
                 'uid': prev_record.uid,
             }
             return self.render_string('modules/post/pre_page.html', kwd=kwd)
+        return self.render_string('modules/post/last_page.html')
 
 
 class NextPostLink(tornado.web.UIModule):
@@ -118,14 +116,12 @@ class NextPostLink(tornado.web.UIModule):
     def render(self, *args, **kwargs):
         current_id = args[0]
         next_record = MPost.get_next_record(current_id)
-        if next_record is None:
-
-            return self.render_string('modules/post/newest_page.html')
-        else:
+        if next_record:
             kwd = {
                 'uid': next_record.uid,
             }
             return self.render_string('modules/post/next_page.html', kwd=kwd)
+        return self.render_string('modules/post/newest_page.html')
 
 
 class PostMostView(tornado.web.UIModule):
@@ -752,7 +748,8 @@ class UserName(tornado.web.UIModule):
     Pager for search result.
     '''
 
-    def render(self, user_id):
+    def render(self, *args, **kwargs):
+        user_id = args[0]
         rec = MUser.get_by_uid(user_id)
 
         return self.render_string('modules/post/user_name.html',
@@ -779,7 +776,8 @@ class CategoryBySlug(tornado.web.UIModule):
     catalog 列表页 面包屑导航
     '''
 
-    def render(self, slug):
+    def render(self, *args, **kwargs):
+        slug = args[0]
         rec = MCategory.get_by_slug(slug)
 
         par = MCategory.get_by_uid(rec.pid)

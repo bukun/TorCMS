@@ -35,6 +35,7 @@ class Entity2UserHandler(BaseHandler):
         '''
         List the entities of the user.
         '''
+        # ToDo: 代码与 entity_handler 中 list 方法有重复
         current_page_number = int(cur_p) if cur_p else 1
         current_page_number = 1 if current_page_number < 1 else current_page_number
 

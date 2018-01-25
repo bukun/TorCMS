@@ -71,7 +71,6 @@ class EntityHandler(BaseHandler):
         '''
         Lists of the entities.
         '''
-
         current_page_number = int(cur_p) if cur_p else 1
         current_page_number = 1 if current_page_number < 1 else current_page_number
 

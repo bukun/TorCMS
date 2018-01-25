@@ -42,9 +42,6 @@ class PostListHandler(BaseHandler):
     def recent(self, with_catalog=True, with_date=True):
         '''
         List posts that recent edited.
-        :param with_catalog:
-        :param with_date:
-        :return:
         '''
         kwd = {
             'pager': '',
@@ -63,7 +60,6 @@ class PostListHandler(BaseHandler):
     def errcat(self):
         '''
         List the posts to be modified.
-        :return:
         '''
         post_recs = MPost.query_random(limit=1000)
         outrecs = []
@@ -95,7 +91,6 @@ class PostListHandler(BaseHandler):
     def refresh(self):
         '''
         List the post of dated.
-        :return:
         '''
         kwd = {
             'pager': '',

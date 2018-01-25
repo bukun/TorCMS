@@ -63,9 +63,6 @@ class PostAjaxHandler(PostHandler):
     def p_recent(self, kind, with_catalog=True, with_date=True):
         '''
         List posts that recent edited, partially.
-        :param with_catalog:
-        :param with_date:
-        :return:
         '''
         kwd = {
             'pager': '',
