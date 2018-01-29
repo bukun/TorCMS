@@ -184,13 +184,24 @@ class PostHistoryHandler(EditHistoryHander):
                 infobox = diff_table(hist_rec.cnt_md, postinfo.cnt_md)
                 hist_user = hist_rec.user_name
                 hist_time = hist_rec.time_update
+
+                hist_words_num = len((hist_rec.cnt_md).strip())
+                post_words_num = len((postinfo.cnt_md).strip())
+                up_words_num = post_words_num - hist_words_num
+
             else:
                 infobox = ''
                 hist_user = ''
                 hist_time = ''
+                up_words_num = ''
 
             html_diff_arr.append(
-                {'hist_uid': hist_rec.uid, 'html_diff': infobox, 'hist_user': hist_user, 'hist_time': hist_time}
+                {'hist_uid': hist_rec.uid,
+                 'html_diff': infobox,
+                 'hist_user': hist_user,
+                 'hist_time': hist_time,
+                 'up_words_num': up_words_num
+                 }
             )
 
         self.render('man_info/post_man_view.html',
