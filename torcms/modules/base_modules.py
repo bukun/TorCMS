@@ -793,3 +793,15 @@ class CategoryBySlug(tornado.web.UIModule):
                 rec.name
             )
         return tmp_str
+
+
+class Collect(tornado.web.UIModule):
+    '''
+添加收藏模块
+    '''
+
+    def render(self, *args, **kwargs):
+        user_id = args[0]
+        post_id = args[1]
+        user_collect = MCollect.get_by_signature(user_id, post_id)
+        return self.render_string('modules/widget/collect.html', user_collect=user_collect)

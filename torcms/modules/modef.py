@@ -44,6 +44,7 @@ core_modules = {
     'post_catalog_of': base_modules.PostCategoryOf,
     'show_page': base_modules.ShowPage,
     'Topline': base_modules.ToplineModule,
+    'collect': base_modules.Collect,
 
     'torcms_copyright': base_modules.CopyRight,
     'entity_list': base_modules.EntityList,
