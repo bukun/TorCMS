@@ -191,7 +191,7 @@ class MPost2Catalog(Mabc):
             }
             recs = TabPost2Tag.select().join(
                 TabPost,
-                on=(TabPost2Tag.post_id == TabPost.uid)
+                on=((TabPost2Tag.post_id == TabPost.uid) & (TabPost.valid == 1))
             ).where(
                 cat_con & TabPost.extinfo.contains(condition)
             )
@@ -226,7 +226,7 @@ class MPost2Catalog(Mabc):
             }
             recs = TabPost.select().join(
                 TabPost2Tag,
-                on=(TabPost.uid == TabPost2Tag.post_id)
+                on=((TabPost.uid == TabPost2Tag.post_id) & (TabPost.valid == 1))
             ).where(
                 cat_con & TabPost.extinfo.contains(condition)
             ).order_by(
@@ -235,7 +235,7 @@ class MPost2Catalog(Mabc):
         elif order:
             recs = TabPost.select().join(
                 TabPost2Tag,
-                on=(TabPost.uid == TabPost2Tag.post_id)
+                on=((TabPost.uid == TabPost2Tag.post_id) & (TabPost.valid == 1))
             ).where(
                 cat_con
             ).order_by(
@@ -244,7 +244,7 @@ class MPost2Catalog(Mabc):
         else:
             recs = TabPost.select().join(
                 TabPost2Tag,
-                on=(TabPost.uid == TabPost2Tag.post_id)
+                on=((TabPost.uid == TabPost2Tag.post_id) & (TabPost.valid == 1))
             ).where(
                 cat_con
             ).order_by(
