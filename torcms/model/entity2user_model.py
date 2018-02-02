@@ -28,7 +28,6 @@ class MEntity2User(Mabc):
 
     @staticmethod
     def get_all_pager(current_page_num=1):
-        # return TabEntity2User.select().paginate(current_page_num, CMS_CFG['list_num'])
 
         recs = TabEntity2User.select(
             TabEntity2User,
@@ -36,6 +35,19 @@ class MEntity2User(Mabc):
         ).join(TabEntity, on=(TabEntity2User.entity_id == TabEntity.uid)).join(
             TabMember, on=(TabEntity2User.user_id == TabMember.uid)
         ).order_by(
+            TabEntity2User.timestamp.desc()
+        ).paginate(current_page_num, CMS_CFG['list_num'])
+        return recs
+
+    @staticmethod
+    def get_all_pager_by_username(userid, current_page_num=1):
+
+        recs = TabEntity2User.select(
+            TabEntity2User,
+            TabEntity.path.alias('entity_path'),
+        ).join(TabEntity, on=(TabEntity2User.entity_id == TabEntity.uid)).join(
+            TabMember, on=(TabEntity2User.user_id == TabMember.uid)
+        ).where(TabEntity2User.user_id == userid).order_by(
             TabEntity2User.timestamp.desc()
         ).paginate(current_page_num, CMS_CFG['list_num'])
         return recs
