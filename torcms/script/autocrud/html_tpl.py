@@ -139,9 +139,9 @@ HTML_INPUT_ADD = '''
 HTML_INPUT_VIEW_DONWLOAD = '''<div class="row">
     <div class="col-sm-4"><span class="des"><strong>{sig_zh}</strong></span></div>
     <div class="col-sm-8">
-    <a class="val" onclick=entity_down("{{{{postinfo.uid}}}}")
-     id="file_download" style="cursor: pointer; color:#069">
-     {{{{    postinfo.uid }}}}
+    <a class="val btn-xs btn btn-primary" onclick=entity_down("{{{{postinfo.uid}}}}")
+     id="file_download" style="cursor: pointer; color:#fff">
+     Download
      {sig_unit}</a></div></div>
     '''
 
