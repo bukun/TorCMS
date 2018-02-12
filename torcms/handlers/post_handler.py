@@ -244,7 +244,7 @@ class PostHandler(BaseHandler):
         '''
         Update the label when updating.
         '''
-        current_tag_infos = MPost2Label.get_by_uid(signature).naive()
+        current_tag_infos = MPost2Label.get_by_uid(signature).objects()
         post_data = self.get_post_data()
         if 'tags' in post_data:
             pass
@@ -276,7 +276,7 @@ class PostHandler(BaseHandler):
 
         post_data = self.get_post_data()
 
-        current_infos = MPost2Catalog.query_by_entity_uid(uid, kind='').naive()
+        current_infos = MPost2Catalog.query_by_entity_uid(uid, kind='').objects()
 
         new_category_arr = []
         # Used to update post2category, to keep order.
@@ -383,8 +383,8 @@ class PostHandler(BaseHandler):
                     cat_enum=MCategory.get_qian2(catid[:2]),
                     tag_infos=MCategory.query_all(by_order=True, kind=self.kind),
                     tag_infos2=MCategory.query_all(by_order=True, kind=self.kind),
-                    app2tag_info=MPost2Catalog.query_by_entity_uid(infoid, kind=self.kind).naive(),
-                    app2label_info=MPost2Label.get_by_uid(infoid).naive())
+                    app2tag_info=MPost2Catalog.query_by_entity_uid(infoid, kind=self.kind).objects(),
+                    app2label_info=MPost2Label.get_by_uid(infoid).objects())
 
     def _gen_last_current_relation(self, post_id):
         '''
@@ -447,7 +447,7 @@ class PostHandler(BaseHandler):
         tmpl = self.ext_tmpl_view(postinfo)
 
         if self.userinfo:
-            recent_apps = MUsage.query_recent(self.userinfo.uid, postinfo.kind, 6).naive()[1:]
+            recent_apps = MUsage.query_recent(self.userinfo.uid, postinfo.kind, 6).objects()[1:]
         else:
             recent_apps = []
         logger.info('The Info Template: {0}'.format(tmpl))
@@ -462,7 +462,7 @@ class PostHandler(BaseHandler):
                     rand_recs=rand_recs,
                     ad_switch=random.randint(1, 18),
                     tag_info=filter(lambda x: not x.tag_name.startswith('_'),
-                                    MPost2Label.get_by_uid(postinfo.uid).naive()),
+                                    MPost2Label.get_by_uid(postinfo.uid).objects()),
                     recent_apps=recent_apps,
                     cat_enum=cat_enum1)
 
@@ -500,7 +500,7 @@ class PostHandler(BaseHandler):
             cat_uid = cat_rec.tag_id
             cat_uid_arr.append(cat_uid)
         logger.info('info category: {0}'.format(cat_uid_arr))
-        rel_recs = MRelation.get_app_relations(uid, 8, kind=self.kind).naive()
+        rel_recs = MRelation.get_app_relations(uid, 8, kind=self.kind).objects()
 
         logger.info('rel_recs count: {0}'.format(rel_recs.count()))
         if cat_uid_arr:

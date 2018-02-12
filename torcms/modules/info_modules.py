@@ -89,7 +89,7 @@ class InforUserMost(tornado.web.UIModule):
         with_tag = kwargs.get('with_tag', False)
         glyph = kwargs.get('glyph', '')
 
-        all_cats = MUsage.query_most(user_name, kind, num).naive()
+        all_cats = MUsage.query_most(user_name, kind, num).objects()
         kwd = {
             'with_tag': with_tag,
             'router': router_post[kind],
@@ -126,7 +126,7 @@ class InfoUserRecent(tornado.web.UIModule):
         with_tag = kwargs.get('with_tag', False)
         glyph = kwargs.get('glyph', '')
 
-        all_cats = MUsage.query_recent(user_name, kind, num).naive()
+        all_cats = MUsage.query_recent(user_name, kind, num).objects()
         kwd = {
             'with_tag': with_tag,
             'router': router_post[kind],
@@ -160,7 +160,7 @@ class InfoUserRecentByCategory(tornado.web.UIModule):
         num = kwargs.get('num', args[2] if len(args) > 2 else 6)
         glyph = kwargs.get('glyph', '')
 
-        all_cats = MUsage.query_recent_by_cat(user_name, cat_id, num).naive()
+        all_cats = MUsage.query_recent_by_cat(user_name, cat_id, num).objects()
         kwd = {
 
             'glyph': glyph
@@ -276,7 +276,7 @@ class InfoMostUsed(tornado.web.UIModule):
         with_tag = kwargs.get('with_tag', False)
         glyph = kwargs.get('glyph', '')
 
-        all_cats = MPost.query_most(kind=kind, num=num).naive()
+        all_cats = MPost.query_most(kind=kind, num=num).objects()
         kwd = {
             'with_tag': with_tag,
             'router': router_post[kind],
@@ -310,7 +310,7 @@ class InfoMostUsed(tornado.web.UIModule):
         user_id = kwargs.get('user_id', '')
         glyph = kwargs.get('glyph', '')
 
-        all_cats = MUsage.query_most(user_id, kind, num).naive()
+        all_cats = MUsage.query_most(user_id, kind, num).objects()
         kwd = {
             'with_tag': with_tag,
             'router': router_post[kind],
@@ -391,7 +391,7 @@ class InfoRecentUsed(tornado.web.UIModule):
             )
         )
 
-        all_cats = MUsage.query_recent(user_id, kind, num).naive()
+        all_cats = MUsage.query_recent(user_id, kind, num).objects()
         kwd = {
             'with_tag': with_tag,
             'router': router_post[kind],
@@ -439,7 +439,7 @@ class InfoTags(tornado.web.UIModule):
 
         out_str = ''
         iii = 1
-        for tag_info in MPost2Catalog.query_by_entity_uid(uid).naive():
+        for tag_info in MPost2Catalog.query_by_entity_uid(uid).objects():
             tmp_str = '''<a data-inline="true" href="/tag/{0}"
              class="tag{1}">{2}</a>'''.format(tag_info.tag_slug, iii, tag_info.tag_name)
             out_str += tmp_str
@@ -503,7 +503,7 @@ class RelPost2app(tornado.web.UIModule):
             'app_t': 'info',
             'uid': uid,
         }
-        rel_recs = MRelation.get_app_relations(uid, num, kind=kind).naive()
+        rel_recs = MRelation.get_app_relations(uid, num, kind=kind).objects()
 
         rand_recs = MPost.query_random(num=num - rel_recs.count() + 2, kind=kind)
 
@@ -537,7 +537,7 @@ class RelApp2post(tornado.web.UIModule):
             'app_t': 'post',
             'uid': uid,
         }
-        rel_recs = MRelation.get_app_relations(uid, num, kind=kind).naive()
+        rel_recs = MRelation.get_app_relations(uid, num, kind=kind).objects()
 
         rand_recs = MPost.query_random(num=num - rel_recs.count() + 2, kind=kind)
 

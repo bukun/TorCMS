@@ -69,7 +69,8 @@ class PostAjaxHandler(PostHandler):
             'title': 'Recent posts.',
             'with_catalog': with_catalog,
             'with_date': with_date,
-            'kind': kind
+            'kind': kind,
+            'post_count': MPost.get_counts(),
         }
         self.render('admin/post_ajax/post_list.html',
                     kwd=kwd,

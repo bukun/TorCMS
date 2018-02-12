@@ -75,8 +75,6 @@ class MPost(Mabc):
     def get_by_uid(uid):
         '''
         return the record by uid
-        :param uid:
-        :return:
         '''
         return MHelper.get_by_uid(TabPost, uid)
 
@@ -84,16 +82,13 @@ class MPost(Mabc):
     def get_counts():
         '''
         The count in table.
-        :return:
         '''
         return TabPost.select().count()
 
     @staticmethod
     def __update_rating(uid, rating):
         '''
-        :param uid:
-        :param rating:
-        :return:
+        Update the rating for post.
         '''
         entry = TabPost.update(
             rating=rating
@@ -104,9 +99,6 @@ class MPost(Mabc):
     def __update_kind(uid, kind):
         '''
         update the kind of post.
-        :param uid:
-        :param kind:
-        :return:
         '''
 
         entry = TabPost.update(
@@ -126,9 +118,7 @@ class MPost(Mabc):
     @staticmethod
     def update_cnt(uid, post_data):
         '''
-        :param uid:
-        :param post_data:
-        :return:
+        update content.
         '''
 
         entry = TabPost.update(
@@ -189,11 +179,8 @@ class MPost(Mabc):
     @staticmethod
     def add_or_update(uid, post_data):
         '''
-        :param uid:
-        :param post_data:
-        :return:
+        Add or update the post.
         '''
-
         cur_rec = MPost.get_by_uid(uid)
         if cur_rec:
             MPost.update(uid, post_data)
@@ -203,9 +190,7 @@ class MPost(Mabc):
     @staticmethod
     def create_post(post_uid, post_data):
         '''
-        :param post_uid:
-        :param post_data:
-        :return:
+        create the post.
         '''
         title = post_data['title'].strip()
         if len(title) < 2:
@@ -243,14 +228,8 @@ class MPost(Mabc):
     def query_cat_random(catid, **kwargs):
         '''
         Get random lists of certain category.
-        :param cat_id:
-        :param num:
-        :return:
         '''
-        if 'limit' in kwargs:
-            num = kwargs['limit']
-        else:
-            num = 8
+        num = kwargs.get('limit', 8)
         if catid == '':
             rand_recs = TabPost.select().order_by(peewee.fn.Random()).limit(num)
         else:
@@ -258,8 +237,7 @@ class MPost(Mabc):
                 TabPost2Tag,
                 on=(TabPost.uid == TabPost2Tag.post_id)
             ).where(
-                (TabPost.valid == 1) &
-                (TabPost2Tag.tag_id == catid)
+                (TabPost.valid == 1) & (TabPost2Tag.tag_id == catid)
             ).order_by(
                 peewee.fn.Random()
             ).limit(num)

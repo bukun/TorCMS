@@ -200,8 +200,7 @@ class PostHistoryHandler(EditHistoryHander):
                  'html_diff': infobox,
                  'hist_user': hist_user,
                  'hist_time': hist_time,
-                 'up_words_num': up_words_num
-                 }
+                 'up_words_num': up_words_num}
             )
 
         self.render('man_info/post_man_view.html',

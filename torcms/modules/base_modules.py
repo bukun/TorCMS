@@ -62,7 +62,7 @@ class PostLabels(tornado.web.UIModule):
         postinfo = kwargs.get('postinfo', None)
         if postinfo:
             tag_info = filter(lambda x: not x.tag_name.startswith('_'),
-                              MPost2Label.get_by_uid(postinfo.uid).naive())
+                              MPost2Label.get_by_uid(postinfo.uid).objects())
             idx = 1
             outstr = '<span class="post_label">'
             for tag in tag_info:
@@ -348,7 +348,7 @@ class TheCategory(tornado.web.UIModule):
         # for uu in MPost2Catalog().query_by_entity_uid(post_id):
         #     print(dir(uu.as_entity()))
         format_arr = [tmpl_str.format(uu.tag_slug, uu.tag_name) for uu in
-                      MPost2Catalog().query_by_entity_uid(post_id).naive()]
+                      MPost2Catalog().query_by_entity_uid(post_id).objects()]
         return ', '.join(format_arr)
 
 
@@ -412,7 +412,7 @@ class PostTags(tornado.web.UIModule):
         kind = args[1]
         out_str = ''
         idx = 1
-        for tag_info in MPost2Catalog.query_by_entity_uid(uid, kind=kind).naive():
+        for tag_info in MPost2Catalog.query_by_entity_uid(uid, kind=kind).objects():
             tmp_str = '<a href="/category/{0}" class="tag{1}">{2}</a>'.format(
                 tag_info.tag_slug,
                 idx,
@@ -431,7 +431,7 @@ class MapTags(tornado.web.UIModule):
         uid = args[0]
         out_str = ''
         idx = 1
-        for tag_info in MPost2Catalog.query_by_entity_uid(uid, kind='m').naive():
+        for tag_info in MPost2Catalog.query_by_entity_uid(uid, kind='m').objects():
             tmp_str = '<a href="/tag/{0}" class="tag{1}">{2}</a>'.format(
                 tag_info.tag_slug,
                 idx,

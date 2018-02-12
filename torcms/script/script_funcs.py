@@ -49,7 +49,7 @@ def run_check_kind(_):
                     print(postinfo.uid)
 
 
-def run_create_admin(_):
+def run_create_admin(*args):
     '''
     creating the default administrator.
     '''
@@ -65,7 +65,7 @@ def run_create_admin(_):
         MUser.create_user(post_data)
 
 
-def run_whoosh(_):
+def run_whoosh(*args):
     '''
     running whoosh
     '''
@@ -76,7 +76,7 @@ def run_update_cat(_):
     '''
     Update the catagery.
     '''
-    recs = MPost2Catalog.query_all().naive()
+    recs = MPost2Catalog.query_all().objects()
     for rec in recs:
         if rec.tag_kind != 'z':
             print('-' * 40)

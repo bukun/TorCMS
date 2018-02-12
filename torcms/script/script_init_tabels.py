@@ -19,7 +19,7 @@ def create_table(the_table):
         pass
 
 
-def run_init_tables(_):
+def run_init_tables(*args):
     '''
     Run to init tables.
     '''

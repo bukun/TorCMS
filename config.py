@@ -9,7 +9,7 @@ DB_CON, SMTP_CFG, SITE_CFG, ROLE_CFG = get_cfg()
 
 DB_CFG = {
     'conn': DB_CON,
-    'kind': 'p',  # Todo: Do not use any more.
+    # 'kind': 'p',  # Todo: Do not use any more.
 }
 
 CMS_CFG = {

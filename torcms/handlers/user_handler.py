@@ -287,7 +287,8 @@ class UserHandler(BaseHandler):
         '''
         rec = MUser.get_by_uid(self.userinfo.uid)
         self.render(self.wrap_tmpl('user/{sig}user_info.html'),
-                    userinfo=self.userinfo, extinfo=rec.extinfo)
+                    userinfo=self.userinfo,
+                    extinfo=rec.extinfo)
 
     def __to_reset_password__(self):
         '''

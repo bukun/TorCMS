@@ -120,7 +120,7 @@ def get_ol3():
     fetch_file(ol3_js, 'ol3/ol.js')
 
 
-def run_f2elib(_):
+def run_f2elib(*args):
     '''
     Get All the libraries.
     :param args: 

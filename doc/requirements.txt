@@ -6,13 +6,15 @@ beautifulsoup4
 html2text
 jieba
 markdown
-peewee
+peewee >= 3.0.16
 Pillow
 tornado
 Whoosh
 WTForms
 wtforms-tornado
-psycopg2
+# psycopg2
+# http://initd.org/psycopg/docs/install.html#binary-install-from-pypi
+psycopg2-binary
 redis
 pyyaml
 openpyxl

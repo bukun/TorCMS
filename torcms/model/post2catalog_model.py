@@ -297,7 +297,7 @@ class MPost2Catalog(Mabc):
         :param app_uid:
         :return:
         '''
-        recs = MPost2Catalog.query_by_entity_uid(app_uid).naive()
+        recs = MPost2Catalog.query_by_entity_uid(app_uid).objects()
         if recs.count() > 0:
             return recs.get()
 
