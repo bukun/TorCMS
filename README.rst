@@ -63,14 +63,21 @@ Pull the codes.
 
     git clone https://github.com/bukun/TorCMS.git
 
+Requirement for the System
+---------------------------------------------
+
 Under Debian
-------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
-    aptitude install postgresql-server-dev-all
-    aptitude install postgresql-contrib
-    aptitude install redis-server
+    apt install -y postgresql-server-dev-all postgresql-contrib redis-server
+    
+Under Ubuntu
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+::
+
+    sudo apt install -y postgresql-server-dev-all postgresql-contrib redis-server
 
 Create the Database
 ---------------------------
