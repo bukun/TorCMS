@@ -60,7 +60,7 @@ urls = [
     # ("/post/(.*)", PostHandler, dict()),
 
     ("/post/(.*)", PostHandler, dict(kind='1')),
-    ("/leaf/(.*)", LeafHandler, dict(kind='1')),
+    ("/leaf/(.*)", LeafHandler, dict(kind='6')),
 
     ("/post_list/(.*)", PostListHandler, dict()),
 
