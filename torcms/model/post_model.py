@@ -369,6 +369,23 @@ class MPost(Mabc):
         return recent_recs
 
     @staticmethod
+    def query_by_tag(cat_id, kind='1'):
+        '''
+        Query recent posts of catalog.
+        '''
+
+
+        return TabPost.select().join(
+            TabPost2Tag,
+            on=(TabPost.uid == TabPost2Tag.post_id)
+        ).where(
+            (TabPost.kind == kind) &
+            (TabPost2Tag.tag_id == cat_id)
+        ).order_by(
+            TabPost.time_create.desc()
+        )
+
+    @staticmethod
     def query_cat_recent_with_label(cat_id, label=None, num=8, kind='1'):
         '''
         query_cat_recent_with_label

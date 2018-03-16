@@ -52,12 +52,24 @@ class ShowPage(tornado.web.UIModule):
             out_str = '<a href="/page/{0}">{0}</a>'.format(page_id)
         return out_str
 
+class PostListOfTag(tornado.web.UIModule):
+    def render(self, *args, **kwargs):
+        tagid = args[0]
+        posts  = MPost.query_by_tag(tagid, kind='5')
+        outstr = ''
+        for postinfo in posts:
+            tmpl = '<li><div><a href="/course/{uid}">{title}</a></div></li>'.format(title = postinfo.title,
+                                                                                    uid = postinfo.uid)
+            outstr = outstr + tmpl
+        return outstr
+
+
+
 
 class PostLabels(tornado.web.UIModule):
     '''
     Show the labels of the post.
     '''
-
     def render(self, *args, **kwargs):
         postinfo = kwargs.get('postinfo', None)
         if postinfo:

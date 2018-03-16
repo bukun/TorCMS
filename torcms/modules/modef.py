@@ -97,5 +97,6 @@ core_modules = {
     'catalog_menu': catalog_modules.CatalogMenu,
     # # 'ext_category_list': catalog_modules.CatalogList,
     'catalog_list': catalog_modules.CatalogList,
+    'postlistoftag': base_modules.PostListOfTag,
 
 }
