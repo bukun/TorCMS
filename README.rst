@@ -32,7 +32,7 @@ https://pypi.python.org/pypi/torcms . Could be installed via:
 Features
 --------------------------------------------------
 
-- Build on Tornado, only with Web features, with made it is simple to use.
+- Build on Tornado, only with Web features, which made it is simple to use.
 - Markdown editor, make your HTML clean and clear.
 - Carefull desinged model for conents. Post, Info, Page, Wiki as default.
 - User roles for editing.
