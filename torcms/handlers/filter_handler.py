@@ -5,7 +5,6 @@
 '''
 
 import math
-from config import CMS_CFG
 from html2text import html2text
 import tornado.escape
 from torcms.model.post_model import MPost
@@ -13,7 +12,7 @@ from torcms.core.base_handler import BaseHandler
 from torcms.model.category_model import MCategory
 from torcms.core.torcms_redis import redisvr
 from torcms.core.tools import logger
-
+from config import CMS_CFG
 
 def echo_html_fenye_str(rec_num, fenye_num):
     '''

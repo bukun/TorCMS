@@ -15,14 +15,15 @@ import markdown
 from markdown.extensions.wikilinks import WikiLinkExtension
 from playhouse.postgres_ext import PostgresqlExtDatabase
 import tornado.escape
-from torcms.core.libs.deprecation import deprecated
-import cfg
 
 try:
     from jieba.analyse import ChineseAnalyzer
 except:
     ChineseAnalyzer = None
 from whoosh.analysis import StemmingAnalyzer
+
+from torcms.core.libs.deprecation import deprecated
+import cfg
 
 # Config for logging
 logging.basicConfig(level=logging.DEBUG,
@@ -325,7 +326,7 @@ class ConfigDefault(object):
     Class for the default configuration.
     '''
     SMTP_CFG = {
-        'name': '地图画板',
+        'name': 'TorCMS',
         'host': "",
         'user': "",
         'pass': "",

@@ -5,13 +5,13 @@ Accessing via category.
 '''
 
 import json
+from html2text import html2text
 
 from torcms.core.base_handler import BaseHandler
 from torcms.core import tools
 from torcms.model.category_model import MCategory
 from torcms.model.catalog_model import MCatalog
 from torcms.model.post2catalog_model import MPost2Catalog
-from html2text import html2text
 
 from config import CMS_CFG, router_post
 
@@ -22,7 +22,6 @@ class CategoryHandler(BaseHandler):
     If order is True,  list by order. Just like Book.
     Else, list via the category.
     '''
-
     def initialize(self, **kwargs):
         super(CategoryHandler, self).initialize()
         self.kind = kwargs.get('kind', '1')
