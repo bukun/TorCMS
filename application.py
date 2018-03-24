@@ -8,9 +8,15 @@ import os
 from config import SITE_CFG
 from urls import urls
 import tornado.web
-
+from torcms.modules.modef import core_modules as modules
 from torcms.modules.modef import core_modules
 import torcms.core.uifunction as uifuncs
+
+
+from extor.modules.extends import index_post
+# 定义模板
+modules['Indexpost'] = index_post
+
 
 CUR_MODUES = {}  # type: Dict[str, object]
 
