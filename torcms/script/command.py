@@ -12,7 +12,7 @@ from .script_sendemail_all import run_send_all, run_send_nologin
 from .script_review import run_review
 from .script_sitemap import run_sitemap
 from .script_funcs import run_check_kind, run_whoosh, run_update_cat
-from .script_fetch_fe2lib import run_f2elib
+# from .script_fetch_fe2lib import run_f2elib
 from .script_init_tabels import run_init_tables
 from .script_drop_tabels import run_drop_tables
 from .script_gen_category import run_gen_category
@@ -39,7 +39,7 @@ def entry(argv):
         'sitemap': run_sitemap,
         'editmap': run_editmap,
         'check_kind': run_check_kind,
-        'f2elib': run_f2elib,
+        # 'f2elib': run_f2elib,
         'init_tables': run_init_tables,
         'drop_tables': run_drop_tables,
         'gen_category': run_gen_category,

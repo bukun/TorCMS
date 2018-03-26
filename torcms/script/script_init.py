@@ -19,7 +19,7 @@ def run_init(*args):
     running init.
     :return:
     '''
-    run_f2elib()
+    # run_f2elib()
     run_init_tables()
     run_migrate()
     run_gen_category()
