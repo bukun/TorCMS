@@ -36,9 +36,10 @@ class PageHandler(BaseHandler):
 
         url_arr = self.parse_url(url_str)
 
-        # if len(url_arr) == 0:
-        #     self.set_status(400)
-        #     return
+        if len(url_arr) == 0:
+            # self.list()
+            self.set_status(400)
+            return
         if len(url_arr) == 1 and url_str.endswith('.html'):
             # Deprecated
             self.redirect(url_str.split('.')[0])

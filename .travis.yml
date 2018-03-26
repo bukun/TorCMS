@@ -15,9 +15,7 @@ before_script:
   - touch cfg.py create file
 
 script:
-  - git clone https://github.com/bukun/torcms_modules_bootstrap.git  templates/modules
-  - python helper.py -i init_tables
-  - python helper.py -i gen_category
-  - python helper.py -i auto
-  - python helper.py -i whoosh
+  - git clone https://github.com/bukun/torcms_modules_bootstrap.git templates/modules
+  - git clone https://github.com/bukun/torcms_f2elib.git static/f2elib
+  - python helper.py -i init
   - nosetests  --exe -v -d tester
