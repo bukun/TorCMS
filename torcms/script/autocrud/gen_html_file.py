@@ -103,6 +103,10 @@ def __gen_view_tmpl(tag_key, tag_list):
             tmpl = func_gen_html.gen_file_view(var_html)
         else:
             tmpl = ''
+
+        # The admin information should be hidden for user.
+        if sig.startswith('_'):
+            tmpl = '''{% if userinfo and userinfo.role[1] > '0' %}''' + tmpl + '''{% end %}'''
         view_widget_arr.append(tmpl)
     the_view_sig_str = __get_view_tmpl(tag_key)
     with open(view_file, 'w') as fileout:

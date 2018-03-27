@@ -290,7 +290,6 @@ def gen_select_view(sig_dic):
     :param sig_dic:
     :return:
     '''
-
     option_str = ''
     dic_tmp = sig_dic['dic']
     for key, val in dic_tmp.items():
