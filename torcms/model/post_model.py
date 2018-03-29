@@ -172,7 +172,7 @@ class MPost(Mabc):
             kind=post_data['kind'] if 'kind' in post_data else 1,
             extinfo=post_data['extinfo'] if 'extinfo' in post_data else cur_rec.extinfo,
             time_update=tools.timestamp(),
-            valid=1
+            valid=post_data.get('valid', 1)
         ).where(TabPost.uid == uid)
         entry.execute()
 
@@ -220,7 +220,7 @@ class MPost(Mabc):
             keywords=post_data['keywords'] if 'keywords' in post_data else '',
             extinfo=post_data['extinfo'] if 'extinfo' in post_data else {},
             kind=post_data['kind'] if 'kind' in post_data else '1',
-            valid=1
+            valid=post_data.get('valid', 1)
         )
         return entry.uid
 

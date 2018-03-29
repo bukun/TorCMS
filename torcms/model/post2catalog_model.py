@@ -148,10 +148,6 @@ class MPost2Catalog(Mabc):
     def add_record(post_id, catalog_id, order=0):
         '''
         Create the record of post 2 tag, and update the count in g_tag.
-        :param post_id:
-        :param catalog_id:
-        :param order:
-        :return:
         '''
 
         rec = MPost2Catalog.__get_by_info(post_id, catalog_id)

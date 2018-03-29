@@ -139,10 +139,15 @@ HTML_INPUT_ADD = '''
 HTML_INPUT_VIEW_DONWLOAD = '''<div class="row">
     <div class="col-sm-4"><span class="des"><strong>{sig_zh}</strong></span></div>
     <div class="col-sm-8">
-    <a class="val btn-xs btn btn-primary" onclick=entity_down("{{{{postinfo.uid}}}}")
+    {{% if postinfo.extinfo.get('tag_file_download') %}}
+    <a class="val btn-xs btn btn-primary" onclick="entity_down('{{{{postinfo.uid}}}}')"
      id="file_download" style="cursor: pointer; color:#fff">
-     Download
-     {sig_unit}</a></div></div>
+     <span class="glyphicon glyphicon-download-alt"> Download</span>
+     {sig_unit}</a>
+     {{% else %}}
+     <span class="glyphicon glyphicon-ban-circle" style="color:red"> Unavailable</span>
+    {{% end %}}
+     </div></div>
     '''
 
 HTML_INPUT_VIEW_LINK = '''<div class="row">

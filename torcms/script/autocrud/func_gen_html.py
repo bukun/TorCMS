@@ -56,10 +56,7 @@ def gen_input_edit(sig_dic):
 def gen_input_view(sig_dic):
     '''
     Viewing the HTML text.
-    :param sig_dic:
-    :return:
     '''
-
     if sig_dic['en'] == 'tag_file_download':
         html_str = HTML_TPL_DICT['input_view_download'].format(
             sig_zh=sig_dic['zh'],

@@ -16,14 +16,15 @@ from markdown.extensions.wikilinks import WikiLinkExtension
 from playhouse.postgres_ext import PostgresqlExtDatabase
 import tornado.escape
 
-try:
-    from jieba.analyse import ChineseAnalyzer
-except:
-    ChineseAnalyzer = None
-from whoosh.analysis import StemmingAnalyzer
+# try:
+#     from jieba.analyse import ChineseAnalyzer
+# except:
+#     ChineseAnalyzer = None
+# from whoosh.analysis import StemmingAnalyzer
 
 from torcms.core.libs.deprecation import deprecated
 import cfg
+# import config
 
 # Config for logging
 logging.basicConfig(level=logging.DEBUG,
@@ -354,28 +355,33 @@ class ConfigDefault(object):
     }
 
 
-def get_analyzer():
-    '''
-    Get the analyzer for whoosh of difference language. Currrent only for zh and en.
-    '''
-    alyzer = {
-        'zh': ChineseAnalyzer,
-        'en': StemmingAnalyzer,
-    }
-    cfg_var = dir(cfg)
-
-    site_cfg = cfg.SITE_CFG if 'SITE_CFG' in cfg_var else ConfigDefault.SITE_CFG
-
-    site_cfg['LANG'] = site_cfg.get('LANG', 'zh')
-
-    if site_cfg['LANG'] == 'zh' and ChineseAnalyzer:
-        pass
-    else:
-        site_cfg['LANG'] = 'en'
-
-    # print(site_cfg['LANG'])
-    return alyzer[site_cfg['LANG']]
-
+# def get_analyzer():
+#     '''
+#     Get the analyzer for whoosh of difference language. Currrent only for zh and en.
+#     '''
+#     alyzer = {
+#         'zh': ChineseAnalyzer,
+#         'en': StemmingAnalyzer,
+#     }
+#
+#     # cfg_var = dir(cfg)
+#     # site_cfg = cfg.SITE_CFG if 'SITE_CFG' in cfg_var else ConfigDefault.SITE_CFG
+#
+#     site_cfg = config.SITE_CFG
+#
+#     site_cfg['LANG'] = site_cfg.get('LANG', 'zh')
+#
+#     if site_cfg['LANG'] == 'zh' and ChineseAnalyzer:
+#         pass
+#     else:
+#         site_cfg['LANG'] = 'en'
+#
+#    print('x' * 20)
+#    print(site_cfg)
+#
+#    # print(site_cfg['LANG'])
+#    # return alyzer[site_cfg['LANG']]
+#    return StemmingAnalyzer
 
 def get_cfg():
     '''

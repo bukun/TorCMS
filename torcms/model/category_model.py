@@ -102,6 +102,7 @@ class MCategory(Mabc):
         '''
         Update the count of certain category.
         '''
+        # Todo: the record not valid should not be counted.
         entry2 = TabTag.update(
             count=TabPost2Tag.select().where(
                 TabPost2Tag.tag_id == cat_id
