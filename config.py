@@ -18,18 +18,21 @@ CMS_CFG = {
 
 router_post = {'1': 'post',
                '9': 'info',  # Filter_View
-               'm': 'map', }
+               'm': 'map',
+               's':'special',}
 
 post_type = {
     '1': '''<span style="color:green;" class="glyphicon glyphicon-list-alt">[{0}]</span>
         '''.format('文档'),
     '9': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>
         '''.format('信息'),
+    's': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>
+        '''.format('信息'),
     'm': '''<span style="color:red;" class="glyphicon glyphicon-map-marker">[{0}]</span>
         '''.format('地图'),
 }
 
-kind_arr = ['9', 'm']
+kind_arr = ['9', 'm','k']
 post_emails = ['bukun@osgeo.cn', '118171@qq.com']
 email_cfg = {
     'title': '好久没登录了',
