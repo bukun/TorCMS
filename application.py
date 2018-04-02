@@ -13,9 +13,10 @@ from torcms.modules.modef import core_modules
 import torcms.core.uifunction as uifuncs
 
 
-from extor.modules.extends import index_post
+from extor.modules.extends import index_post,Catalog
 # 定义模板
 modules['Indexpost'] = index_post
+modules['catalog'] = Catalog
 
 
 CUR_MODUES = {}  # type: Dict[str, object]
