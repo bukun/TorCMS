@@ -52,6 +52,9 @@ coverage.xml
 # Django stuff:
 *.log
 
+# Excel temp file:
+~$*.xlsx
+
 # Sphinx documentation
 docs/_build/
 
