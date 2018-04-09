@@ -13,6 +13,8 @@ META_DIR = './database/meta'
 XLSX_FILE = './database/meta/info_tags.xlsx'
 
 for wfile in os.listdir(META_DIR):
+    if wfile.startswith('~'):
+        continue
     if wfile.lower().endswith('.xlsx'):
         XLSX_FILE = os.path.join(META_DIR, wfile)
 
