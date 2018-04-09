@@ -206,12 +206,8 @@ class MPost(Mabc):
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'].strip()),
             cnt_html=tools.markdown2html(post_data['cnt_md']),
             uid=post_uid,
-            time_create=(
-                post_data['time_create'] if 'time_create' in post_data else tools.timestamp()
-            ),
-            time_update=(
-                post_data['time_update'] if 'time_update' in post_data else tools.timestamp()
-            ),
+            time_create=post_data.get('time_create', tools.timestamp()),
+            time_update=post_data.get('time_update', tools.timestamp()),
             user_name=post_data['user_name'],
             view_count=post_data['view_count'] if 'view_count' in post_data else 1,
             logo=post_data['logo'],
