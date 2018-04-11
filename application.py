@@ -13,11 +13,12 @@ from torcms.modules.modef import core_modules
 import torcms.core.uifunction as uifuncs
 
 
-from extor.modules.extends import index_post,Catalog,Postrecent
+from extor.modules.extends import index_post,Catalog,Postrecent,Indexsearch
 # 定义模板
 modules['Indexpost'] = index_post
 modules['catalog'] = Catalog
 modules['postrecent'] = Postrecent
+modules['indexsearch'] = Indexsearch
 
 
 CUR_MODUES = {}  # type: Dict[str, object]
