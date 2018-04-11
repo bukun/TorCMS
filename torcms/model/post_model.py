@@ -272,20 +272,34 @@ class MPost(Mabc):
         '''
         query recent posts.
         '''
-
-        if 'kind' in kwargs:
-            kind = kwargs['kind']
-            recent_recs = TabPost.select().where(
-                (TabPost.kind == kind) & (TabPost.valid == 1)
-            ).order_by(
-                TabPost.time_update.desc()
-            ).limit(num)
+        order_by_create = kwargs.get('order_by_create', False)
+        kind = kwargs.get('kind', None)
+        if order_by_create:
+            if kind:
+                recent_recs = TabPost.select().where(
+                    (TabPost.kind == kind) & (TabPost.valid == 1)
+                ).order_by(
+                    TabPost.time_create.desc()
+                ).limit(num)
+            else:
+                recent_recs = TabPost.select().where(
+                    TabPost.valid == 1
+                ).order_by(
+                    TabPost.time_create.desc()
+                ).limit(num)
         else:
-            recent_recs = TabPost.select().where(
-                TabPost.valid == 1
-            ).order_by(
-                TabPost.time_update.desc()
-            ).limit(num)
+            if kind:
+                recent_recs = TabPost.select().where(
+                    (TabPost.kind == kind) & (TabPost.valid == 1)
+                ).order_by(
+                    TabPost.time_update.desc()
+                ).limit(num)
+            else:
+                recent_recs = TabPost.select().where(
+                    TabPost.valid == 1
+                ).order_by(
+                    TabPost.time_update.desc()
+                ).limit(num)
         return recent_recs
 
     @staticmethod
