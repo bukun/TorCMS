@@ -1,0 +1,62 @@
+{% extends "../../theme/bage.html" %}
+{% block mainbody %}
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li>Current location：<a href="/">{{ _('Home') }}</a></li>
+        <li class="active">{{ _('Edit Link') }}</li>
+    </ul>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading"><b> {{ _('Edit Link') }} </b></div>
+    <div class="panel-body">
+        <form action="" method="post" class="form-horizontal" id="form_post">
+            <input type="hidden" id="uid" name="uid" value="{{ postinfo.uid }}">
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="name">Title</label>
+
+                <div class="col-sm-10">
+                    <input id="name" type="text" name="name" class="form-control" value="{{ postinfo.name }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="link">Link Url</label>
+
+                <div class="col-sm-10">
+                    <input id="link" name="link" type="text" class="form-control" value="{{ postinfo.link }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="link">Picture</label>
+
+                <div class="col-sm-10">
+                    <input id="logo" name="logo" type="text" class="form-control" value="{{ postinfo.logo }}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+
+                <div class="col-sm-10">
+                    <label id="up"><a href="/entry/add" target="_blank" class="btn btn-primary">Upload Picture</a></label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="order">Order</label>
+
+                <div class="col-sm-10">
+                    <input id="order" name="order" type="text" class="form-control" value="{{ postinfo.order }}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="sub1"></label>
+
+                <div class="col-sm-10">
+                    <input id="sub1" class="btn btn-primary" type="submit" value="Submit">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% end %}
+
+

@@ -1,0 +1,66 @@
+
+
+.light .paradigm-bg{
+	background-color:#fff;
+	padding:9px;
+	border:1px solid #e5e5e5;
+}
+
+
+
+
+
+/*************************************************
+	-	THE PRELOADER OF THE BANNER 	-
+*************************************************/
+.paradigm-preloader{
+	background:url(../images/preloader.gif) no-repeat;
+	width:24px;
+	height:24px;
+	position:absolute;
+	left:49%;
+	top:49%;
+	z-index:9999;
+}
+
+
+
+/**************************************************
+	-	THE BASIC SETTINGS FOR THUMBNAILS	-
+***************************************************/
+
+/*****	-	LIGHT	-	*******/
+.light .paradigm_thumb_container{
+	background:url(../images/shadow_thumb_repeater.png) repeat-X;
+	background-color:#e5e5e5;
+}
+
+.light .paradigm_thumb_container_bg{
+	background:url(../images/shadow_thumb_repeater.png) repeat-X;
+	background-color: #ffffff;
+}
+
+.light .paradigm_thumb_container #thumbmask{
+	background:url(../images/shadow_thumb_repeater.png) repeat-X;
+	background-color:#fff;
+}
+
+
+
+.paradigm-repeatshadow{
+	background:url(../images/shadow_thumb_repeater.png);
+	width:60px;
+	height:50px;
+	position:absolute;
+}
+
+
+
+.thumbbuttons .thumbs{
+	float:left;
+}
+
+.thumbbuttons .rightarrow:hover, .thumbbuttons .leftarrow:hover, .thumbbuttons .minithumb:hover, .thumbbuttons .thumbs .selected{
+	background-position:top left;
+}
+

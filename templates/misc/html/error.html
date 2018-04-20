@@ -1,0 +1,27 @@
+{% extends "../../theme/bage.html" %}
+{% block typebody %}
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li><a href="/">{{ _('Home') }}</a></li>
+        <li class="active">404 {{ _('Page not found') }}</li>
+    </ul>
+</div>
+<div class="panel panel-black">
+    <div class="panel-heading"><b>404 {{ _('Page not found') }}</b></div>
+    <div class="panel-body">
+        <p>{{ _('Sorry, for unknown reasons, the page you are looking for is not found.') }}</p>
+        <hr/>
+        <h2>{{ _('Detailed information') }}</h2>
+        <br>
+        {% if kwd is not None %}
+        {% if 'info' in kwd %}
+        <p> {{ kwd['info'] }}</p>
+        {% end %}
+        {% if 'link' in kwd %}
+        <p><a href="{{ kwd['link'] }}" class="btn btn-info btn-xs">Return to the previous step.</a></p>
+        {% end %}
+        {% end %}
+    </div>
+</div>
+{% end %}
+

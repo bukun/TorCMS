@@ -1,0 +1,32 @@
+{% extends "bage.html" %}
+{% block typebody %}
+{% module use_f2e('codemirror') %}
+<div class="row">
+    <div class="col-sm-9">
+        {% block content %}
+        {% end %}
+    </div>
+    <div class="col-sm-3">
+        <div class="sidebar">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Most attention
+                </div>
+                <ul class="list-group" id="mostall">
+                    {% for info in catalog_infos %}
+                    <li class="list-group-item"><a href="/leaf/{{ info.uid }}">{{ info.title }}</a></li>
+                    {% end %}
+                </ul>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"> Classified catalogue</h3>
+            </div>
+            <ul class="list-group list-font">
+                {% module category_menu() %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% end %}

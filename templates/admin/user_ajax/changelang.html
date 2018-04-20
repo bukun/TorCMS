@@ -1,0 +1,50 @@
+<script>
+    function change_lang() {
+        var lang = $("#lang").val();
+        $.post("/user/p/changelang", {lang: lang}, function (result) {
+        });
+        $("#changelang").html("设置成功");
+    }
+</script>
+<div class="row" id="changelang">
+    <div class="col-md-10">
+        <div class="panel panel-default">
+            <div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span> 设置语言</div>
+            <div class="panel-body">
+                <form class="form-horizontal" id="change_lang">
+                    <input type="hidden" name="user_name" id="user_name" class="form-control"
+                           value="{{userinfo.user_name}}">
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">当前语言</label>
+
+                            <div class="col-md-9">
+                                {% if user_info.lang == "1" %} 简体中文 {% else %} 美式英文 {% end %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="lang">选择语言</label>
+
+                            <div class="col-md-3">
+                                <select id="lang" name="lang" class="form-control">
+                                    <option value="1">简体中文</option>
+                                    <option value="2">美式英文</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"></label>
+
+                            <div class="col-md-9">
+                                <button onclick="change_lang();" class="btn btn-default btn-md ">修改</button>
+
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+

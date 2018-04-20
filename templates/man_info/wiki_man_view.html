@@ -1,0 +1,67 @@
+{% extends "../theme/bage.html" %}
+{% block headinfo %}
+<style type="text/css">
+        table.diff {font-family:Courier; border:medium;width:99%;}
+        .diff_header {background-color:#e0e0e0}
+        td.diff_header {text-align:right}
+        .diff_next {background-color:#c0c0c0}
+        .diff_add {background-color:#aaffaa}
+        .diff_chg {background-color:#ffff77}
+        .diff_sub {background-color:#ffaaaa}
+    </style>
+{% end %}
+{% block typebody %}
+<ol class="breadcrumb">
+    <li>Current location: <a href="{% module site_url() %}">Home</a></li>
+    <li>{% module the_category(view.uid) %}</li>
+    <li class="active">{{ view.title }}</li>
+</ol>
+<div class="panel panel-black">
+    <div class="panel-heading">
+        <h2>{{ view.title }}</h2>
+        <span>{{ str(view.date)[:10] }}</span>
+        <span>Author: <a href="http://www.osgeo.cn/">OSGeo中国中心</a></span>
+        <span>Browse: {{ view.view_count }} 次</span>
+        {% if userinfo and userinfo.role[2] >= '1' %}
+        {% if postinfo.kind == '1' %}
+        <span class="cmts"><a href="/wiki/edit/{{ view.uid }}" class="btn btn-xs btn-primary">Edit</a></span>
+        <span class="cmts"><a href="/wiki/{{ view.title }}" class="btn btn-xs btn-primary">View</a></span>
+        {% else %}
+        <span class="cmts"><a href="/page/edit/{{ view.uid }}" class="btn btn-xs btn-primary">Edit</a></span>
+        <span class="cmts"><a href="/page/{{ view.title }}" class="btn btn-xs btn-primary">View</a></span>
+        {% end %}
+        {% end %}
+    </div>
+    <div class="panel-body">
+        <div class="entry">
+            <div class="entrycontent">
+                {% for diff_dic in html_diff_arr %}
+                {% if userinfo and userinfo.role[2] >= '1' %}
+                <div class="bg-info">
+                    <a href="/wiki_man/restore/{{ diff_dic['hist_uid'] }}"
+                       class="btn btn-sm btn-danger">Restore</a>
+                    <a href="/wiki_man/delete/{{ diff_dic['hist_uid'] }}"
+                       class="btn btn-sm btn-danger">Delete</a>
+                </div>
+                {% end %}
+                {% raw (diff_dic['html_diff']) %}
+                <p></p>
+                {% end %}
+            </div>
+        </div>
+        <div class="postmeta">
+            <div class="wpyouvote"></div>
+            <div class="clear"></div>
+            <br>
+            <strong>Article link:</strong>
+            <a href="{% module site_url() %}/wiki/{{view.title}}" class="underline"> {{ view.title }}</a>
+            <br/>
+            <strong>Copyright:</strong> Non special statement are original articles, reproduced please indicate the
+            source：
+            <a href="http://osgeo.cn" class="underline">OSGeo中国中心</a><br>
+        </div>
+    </div>
+</div>
+{% end %}
+
+

@@ -1,0 +1,74 @@
+{% extends "../../theme/bage.html" %}
+{% block mainbody %}
+<script type="text/javascript">
+    $().ready(function () {
+        $("#form_add").validate(
+                {
+                    rules: {
+                        name: {
+                            required: true,
+                            rangelength: [2, 16]
+                        },
+
+                        link: {
+                            required: true,
+                            rangelength: [2, 100]
+                        },
+
+                        order: {
+                            required: true,
+                            number: true
+                        }
+
+                    },
+                    messages: {
+                        name: {
+                            required: "<span class='red'>请输入名称</span>",
+                            rangelength: "<span class='red'>分类名最少2位，最长16位</span>"
+                        },
+
+                        link: {
+                            required: "<span class='red'>请输入链接地址</span>",
+                            rangelength: "<span class='red'>链接地址最少2位，最长100位</span>"
+                        },
+                        order: {
+                            required: "<span class='red'>请输入排序</span>",
+                            number: "<span class='red'>排序必须为数字</span>"
+                        }
+                    }
+                }
+        );
+    });
+</script>
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li>Current location：<a href="/">{{ _('Home') }}</a></li>
+        <li class="active">{{ _('Manage Link') }}</li>
+    </ul>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading"><b> {{ _('Link List') }} </b></div>
+    <div class="panel-body">
+        <table id="contact_form" class="table table-bordered">
+            <tr>
+                <td>{{ _('Link Name') }}</td>
+                <td>{{ _('Address') }}</td>
+                <td>{{ _('Reorder') }}</td>
+                <td>{{ _('Operate') }}</td>
+
+            </tr>
+            {% for x in view %}
+            <tr>
+                <td>{{ x.name }}</td>
+                <td>{{ x.link }}</td>
+                <td>{{ x.order }}</td>
+                <td>
+                    <a href="/link/modify/{{x.uid}}" class="btn btn-primary btn-sm">{{ _('Update') }}</a>
+                    <a href="/link/delete/{{x.uid}}" class="btn btn-danger btn-sm">{{ _('Delete') }}</a>
+                </td>
+            </tr>
+            {% end %}
+        </table>
+    </div>
+</div>
+{% end %}

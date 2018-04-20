@@ -1,0 +1,47 @@
+{% extends "../../theme/bage.html" %}
+{% block typebody %}
+<div class="panel panel-primary">
+    <div class="panel-heading">文档列表</div>
+    <div class="panel-body">
+        <form class="navbar-form " role="form" method="post" id="find_calc" action="/search/">
+            <input type="hidden" id="searchcat" name="searchcat" value="">
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="input-group">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle"
+                                    data-toggle="dropdown" id="widget_search_label">
+                                All
+                            </button>
+                            <ul class="dropdown-menu pull-right">
+
+                                <li>
+                                    <a onclick="$('#widget_search_label').text('全部');$('#searchcat').val('');">All</a>
+                                </li>
+                                <li>
+                                    <a onclick="$('#widget_search_label').text('文档');$('#searchcat').val('1');">Document</a>
+                                </li>
+                                <li>
+                                    <a onclick="$('#widget_search_label').text('信息');$('#searchcat').val('9');">Info</a>
+                                </li>
+                                <li>
+                                    <a onclick="$('#widget_search_label').text('地图');$('#searchcat').val('m');">Map</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <input id="keyword" name="keyword" type="text" class="form-control"
+                               placeholder="Input key words">
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <button type="submit" id="search_app_submit" name="search_app_submit"
+                            class="btn btn-default">
+                        Search
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% end %}

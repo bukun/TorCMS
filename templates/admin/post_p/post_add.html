@@ -1,0 +1,148 @@
+<script>
+    function add_info() {
+
+        var title = $("#title").val();
+        var keywords = $("#keywords").val();
+        var tags = $("#tags").val();
+        var src_type = $("#src_type").val();
+        var id_spec = $("#id_spec").val();
+        var logo = $("#logo").val();
+        var cnt_md = $("#cnt_md").val();
+        var tag1 = $("#tag1").val();
+        var tag2 = $("#tag2").val();
+        var tag3 = $("#tag3").val();
+        var tag4 = $("#tag4").val();
+        var tag5 = $("#tag5").val();
+
+
+        $.post("/post/p/add_document", {
+            title: title, keywords: keywords, tags: tags,
+            src_type: src_type, id_spec: id_spec, logo: logo, cnt_md: cnt_md,
+            tag1: tag1, tag2: tag2, tag3: tag3, tag4: tag4, tag5: tag5
+
+        }, function (result) {
+
+        });
+        $("#addinfo").html("添加成功");
+    }
+
+
+</script>
+
+<div class="row">
+    <div class="col-md-10">
+        <div class="panel panel-default">
+            <div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span> 添加信息</div>
+
+            <div class="panel-body">
+
+                <div class="content" id="addinfo">
+
+                    <form class="form-horizontal" id="form_add">
+
+                        <fieldset>
+                            <div class="col-sm-12">
+                                <div class="col-sm-7">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" for="title">标题</label>
+
+                                        <div class="col-md-9">
+                                            <input class="form-control" id="title" type="text" name="title">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" for="keywords">关键词</label>
+
+                                        <div class="col-md-9">
+                                            <input class="form-control" id="keywords" name="keywords" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" for="tags">标签</label>
+
+                                        <div class="col-md-9">
+                                            <input class="form-control" id="tags" name="tags" type="text"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" for="src_type">文档类型</label>
+
+                                        <div class="col-md-9">
+                                            <select id="src_type" name="src_type" class="form-control">
+                                                <option value="0" selected>MarkDown</option>
+                                                <option value="1">RestructedText</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" for="logo">特色图片</label>
+
+                                        <div class="col-md-9">
+                                            <input class="form-control" id="logo" name="logo" type="text">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" for="up"></label>
+
+                                        <div class="col-md-9">
+                                            <label id="up"><a href="/entry/add" target="_blank">上传图片</a></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-5">
+                                    {% for ii in range(1,6) %}
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" for="tag{{ii}}">分类{{ii}}</label>
+
+                                        <div class="col-md-9">
+                                            <select name="tag{{ii}}" id="tag{{ii}}" class="form-control">
+                                                <option value="">请选择</option>
+                                                {% for taginfo in tag_infos %}
+                                                <option value="{{ taginfo.uid }}">{{ taginfo.slug }}
+                                                </option>
+                                                {% end %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    {% end %}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="cnt_md">内容 (下面输入内容，使用MarkDown语法)</label>
+
+                                <div class="col-md-9">
+                                    <textarea rows=13 id="cnt_md" name="cnt_md" cols="80"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label"></label>
+
+                                <div class="col-md-9">
+                                    <button onclick="add_info()" class="btn btn-default btn-md">添加</button>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+
+
+

@@ -1,0 +1,150 @@
+{% extends "../theme/tmpldoc.html" %}
+{% block content %}
+<ol class="breadcrumb">
+    <li>Current location: <a href="/">Home</a></li>
+    <li>Modify the document</li>
+</ol>
+<div class="panel panel-black">
+    <div class="panel-heading">
+        {{ postinfo.title }}-Modify the document
+    </div>
+    <div class="panel-body">
+        <form method="post" class="form-horizontal" role="form" id="form_post">
+            <fieldset>
+                <input type="hidden" id="id_post" name="id_post" value="{{ postinfo.uid }}"/>
+
+                <div class="form-group">
+                    <label for="title" class="col-sm-2 control-label">Title</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="title" name="title" value="{{ postinfo.title }}"
+                               class="form-control"/>
+                    </div>
+                </div>
+
+
+  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="tags">{{ _('Label') }}</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" id="tags" name="tags" type="text"
+                               value="{% for x in app2label_info %}
+                                    {{ x.tag_name }},
+                                    {% end  %}">
+                    </div>
+                </div>
+
+                    <div class="form-group">
+                    <label class="col-sm-2 control-label" for="order">Order</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" id="order" name="order" type="text"
+                               value="{{ postinfo.order if postinfo.order else '' }}">
+                    </div>
+                </div>
+                {% for ii in range(0,5) %}
+                <div class="form-group">
+                    {% if ii == 0 %}
+                    <label for="pcat0" class="col-sm-2 control-label">Category</label>
+                    {% else %}
+                    <label class="col-sm-2 control-label"></label>
+                    {% end %}
+                    <div class="col-sm-3">
+                        <select name="pcat{{ii}}" id="pcat{{ii}}" class="form-control"
+                                onchange="g_load_postcat({{ii}})">
+                            <option value="">Please select</option>
+                            {% for taginfo in tag_infos %}
+                            {% if taginfo.uid.endswith('00') %}
+                            <option value="{{ taginfo.uid }}"
+                                    {% for tt in app2tag_info %}
+                                    {% if tt.order== ii and tt.tag_id.startswith(taginfo.uid[:2]) %}
+                                    selected
+                                    {% end %}
+                                    {% end %}>{{ taginfo.name }}
+                            </option>
+                            {% else %}
+                            {% end %}
+                            {% end %}
+                        </select>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <select name="gcat{{ii}}" id="gcat{{ii}}" class="form-control">
+                            <option value="0">Please select</option>
+                            {# 设置父类ID，用在下面子类是否显示看 #}
+                            {% set pcatid = 'xx' %}
+                            {% for taginfo in tag_infos %}
+                            {% for tt in app2tag_info %}
+                            {% if tt.order== ii and tt.tag_id== taginfo.uid %}
+                            {% set pcatid = tt.tag_id[:2] %}
+                            {% end %}
+                            {% end %}
+                            {% end %}
+
+                            {% for taginfo in tag_infos %}
+                            {% if taginfo.uid.startswith(pcatid) %}
+                            {% if not taginfo.uid.endswith('00') %}
+                            <option value="{{ taginfo.uid }}"
+                                    {% for tt in app2tag_info %}
+                                    {% if tt.order== ii and tt.tag_id== taginfo.uid %}
+                                    selected
+                                    {% end %}
+                                    {% end %}>{{ taginfo.name }}
+                            </option>
+                            {% else %}
+                            {% end %}
+                            {% end %}
+                            {% end %}
+
+                        </select>
+                    </div>
+
+                </div>
+                {% end %}
+
+                <div class="form-group">
+                    <label for="logo" class="col-sm-2 control-label">Picture</label>
+
+                    <div class="col-sm-10">
+                        <input id="logo" name="logo" type="text" value="{{ postinfo.logo }}"
+                               class="form-control"/>
+                    </div>
+                </div>
+
+                 <div class="form-group">
+                    <label class="col-sm-2 control-label" for="up"></label>
+
+                    <div class="col-sm-10">
+                        <label id="up"><a href="/entry/add" class="btn btn-primary" target="_blank">Upload picture</a></label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="cnt_md" class="col-sm-2 control-label">Content</label>
+
+                    <div class="col-sm-10">
+                        <textarea rows=26 id="cnt_md" name="cnt_md" class="form-control">
+                            {% raw unescape(postinfo.cnt_md) %}
+                        </textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="is_update_time" class="col-sm-2 control-label">Update edit time</label>
+
+                    <div class="col-sm-10">
+                        <input id="is_update_time" type="radio" name="is_update_time" value="1">To update
+                        <input id="is_update_time" type="radio" name="is_update_time" value="0" checked>Not updated
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="sub1" class="col-sm-2 control-label"></label>
+
+                    <div class="col-sm-10">
+                        <input id="sub1" type="submit" class="btn btn-primary" value="Sumbit"/>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+{% end %}
+
+

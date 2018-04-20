@@ -1,0 +1,26 @@
+{% extends "../theme/tmpldoc.html" %}
+{% block content %}
+<ol class="breadcrumb">
+    <li>当前位置: <a href="{% module site_url() %}">首页</a></li>
+    <li><a href="/post/recent"> 文档列表</a></li>
+</ol>
+<div class="panel panel-black">
+    <div class="panel-heading">文档列表</div>
+    <ul class="list-group">
+        {% for postinfo in postrecs %}
+        <li class="list-group-item">
+            <a href="/post/{{postinfo.uid}}" title="{{postinfo.title}}">
+                {{ postinfo.title }}
+            </a>
+            <span>{{ datetime.datetime.fromtimestamp(postinfo.time_update).strftime('%Y-%m-%d %H:%M:%S') }}</span>
+        </li>
+        {% end %}
+    </ul>
+    <div class="clear"></div>
+    <div>
+        <ul class="pagination">
+            {% raw kwd['pager'] %}
+        </ul>
+    </div>
+</div>
+{% end %}

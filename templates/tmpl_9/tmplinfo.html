@@ -1,0 +1,58 @@
+{% extends "../theme/bage.html" %}
+{% block headinfo %}
+{% module use_f2e('codemirror') %}
+<script type="text/javascript">
+    jQuery.validator.addMethod("isMobile", function (value, element) {
+        var length = value.length;
+        var mobile = /^(((13[0-9]{1})|(15[0-9]{1}))+\d{8})$/;
+        return this.optional(element) || (length == 11 && mobile.test(value));
+    }, "请正确填写您的手机号码");
+
+    jQuery.validator.addMethod("isphone", function (value, element) {
+        var length = value.length;
+        var phone = /(^(\d{3,4}-)?\d{6,8}$)|(^(\d{3,4}-)?\d{6,8}(-\d{1,5})?$)|(\d{11})/;
+        return this.optional(element) || (phone.test(value));
+    }, "请填写正确的电话号码");
+
+    $().ready(function () {
+        $("#form_add_info").validate(
+                {
+
+                    errorPlacement: function (error, element) { //指定错误信息位置
+                        if (element.is(':radio') || element.is(':checkbox')) { //如果是radio或checkbox
+                            var eid = element.attr('name'); //获取元素的name属性
+                            error.appendTo(element.parent()); //将错误信息添加当前元素的父结点后面
+                        } else {
+                            error.insertAfter(element);
+                        }
+                    }
+                }
+        );
+    });
+
+    // 提交预约刷新的动作
+    function chuli_kw() {
+        $.ajaxSetup({cache: false});
+        // 预约刷新
+        // 模拟Form提交
+        var myVAriable = $("#keywords")[0].value;
+        // alert(myVAriable);
+        var stringArray = myVAriable.split(",");
+        var out_str = '<span class="btn btn-warning btn-xs">';
+        out_str += stringArray.join('</span> <span class="btn btn-warning btn-xs">');
+        out_str += '</span';
+        // alert(out_str);
+        // $('#kwlist').html('');
+        $('#kwlist').html(out_str);
+
+    }
+
+</script>
+{% end %}
+{% block typebody %}
+{% end %}
+
+
+
+
+

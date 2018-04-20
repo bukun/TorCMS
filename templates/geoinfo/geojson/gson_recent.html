@@ -1,0 +1,19 @@
+{% extends "../../theme/bage.html" %}
+{% block head %}
+<title>地图画板 Maplet 用户使用最多</title>
+<meta name="description" content="地图画板 Maplet">
+<meta name="keywords" content="地图画板 Maplet">
+{% end %}
+{% block typebody %}
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        我最近的数据
+    </div>
+    <ul class="list-group">
+        {% for gson in json_arr %}
+        <li class="list-group-item"><a href="/geojson/{{gson.uid}}">{{gson.uid}}</a></li>
+        {% end %}
+    </ul>
+</div>
+{% end %}
+

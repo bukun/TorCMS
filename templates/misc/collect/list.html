@@ -1,0 +1,47 @@
+{% extends "../../theme/bage.html" %}
+{% block typebody %}
+<ol class="breadcrumb">
+    <li>Current location: <a href="/">Home</a></li>
+    <li><a href="/user/info">User</a></li>
+    <li><a href="/collect/list"> My collection</a></li>
+</ol>
+<div class="panel panel-black">
+    <div class="panel-heading">
+        My collection
+    </div>
+    <ul class="list-group">
+        {% for rec in recs_collect %}
+        <li class="list-group-item">
+            <a href="/info/{{ rec.post_uid }}">
+                {{ rec.post_title }}
+            </a>
+            <span class="post_cat">{% module app_tags(rec.post_uid) %}</span>
+            {% if 1== 2 %}
+                  <span style="font-size: small; color: #5e5e5e">
+                        ({{ rec.post_view_count }})
+                  </span>
+            {% end %}
+        </li>
+        {% end %}
+    </ul>
+</div>
+<div class="col-sm-12">
+    <div class="row">
+        {% module collect_pager( userinfo.uid, kwd['current_page'] ) %}
+    </div>
+</div>
+{% end %}
+{% block right %}
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            Application classification
+        </h3>
+    </div>
+    <div class="panel-body">
+        <ul class="list-group">
+            {% module app_menu(40) %}
+        </ul>
+    </div>
+</div>
+{% end %}

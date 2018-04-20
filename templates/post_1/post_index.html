@@ -1,0 +1,61 @@
+{% extends "../theme/bage.html" %}
+{% block typebody %}
+<div class="row">
+    <div class="col-sm-9">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="panel panel-black">
+                    {% module post_catalog_of('0100',slug=True, order=True) %}
+                </div>
+                <div class="panel panel-black">
+                    {% module post_catalog_of('0300',slug=True) %}
+                </div>
+                <div class="panel panel-black">
+                    {% module post_catalog_of('0800',slug=True ) %}
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="panel panel-black">
+                    {% module post_catalog_of('0200',slug=True) %}
+                </div>
+                <div class="panel panel-black">
+                    {% module post_catalog_of('0500',slug=True) %}
+
+                </div>
+
+            </div>
+            <div class="col-sm-4">
+                <div class="panel panel-black">
+                    {% module post_catalog_of('0400',slug=True ) %}
+                </div>
+                <div class="panel panel-black">
+                    {% module post_catalog_of('0600',slug=True ) %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="panel panel-black">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Most concern
+                </h3>
+            </div>
+            <ul class="list-group" id="mostall">
+                {% module post_most_view(5, with_date = False, with_catalog= False) %}
+            </ul>
+        </div>
+        <div class="panel panel-black">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Recent articles
+                </h3>
+            </div>
+            <ul class="list-group">
+                {% module post_recent(5, with_date = False, with_catalog= False) %}
+            </ul>
+        </div>
+    </div>
+</div>
+<br>
+{% end %}

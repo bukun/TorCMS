@@ -1,0 +1,99 @@
+{% extends "../theme/tmpldoc.html" %}
+{% block content %}
+<ol class="breadcrumb">
+    <li>Current location: <a href="/">Home</a></li>
+    <li>Add document</li>
+</ol>
+<div class="panel panel-black">
+    <div class="panel-heading">
+        Add document
+    </div>
+    <div class="panel-body">
+        <form action="" method="post" class="form-horizontal" role="form" id="form_post">
+            <input type=hidden name=uid value="{{ kwd['uid'] }}">
+            <fieldset>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="title">Title</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" type="text" id="title" name="title">
+                    </div>
+                </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="tags">{{ _('Label') }}</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" id="tags" name="tags" type="text"
+                               value="">
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="order">Order</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" id="order" name="order" type="text" value="">
+                    </div>
+                </div>
+
+                {% for ii in range(0,5) %}
+                <div class="form-group">
+                    {% if ii == 0 %}
+                    <label for="pcat0" class="col-sm-2 control-label">Category</label>
+                    {% else %}
+                    <label for="pcatx" class="col-sm-2 control-label"></label>
+                    {% end %}
+                    <div class="col-sm-3">
+                        <select name="pcat{{ii}}" id="pcat{{ii}}" class="form-control"
+                                onchange="g_load_postcat({{ii}})">
+                            <option value="">Please select</option>
+                            {% for taginfo in tag_infos %}
+                            {% if taginfo.uid.endswith('00') %}
+                            <option value="{{ taginfo.uid }}">{{ taginfo.name }}
+                            </option>
+                            {% else %}
+                            {% end %}
+                            {% end %}
+                        </select>
+                    </div>
+                    <div class="col-sm-4">
+                        <select name="gcat{{ii}}" id="gcat{{ii}}" class="form-control">
+                        </select>
+                    </div>
+                </div>
+                {% end %}
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="logo">Picture</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" id="logo" name="logo" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="up"></label>
+
+                    <div class="col-sm-10">
+                        <label id="up"><a href="/entry/add" class="btn btn-primary" target="_blank">Upload picture</a></label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="cnt_md">Content </label>
+
+                    <div class="col-sm-10">
+                        <textarea rows=26 id="cnt_md" name="cnt_md" cols="80" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="sub1"></label>
+
+                    <div class="col-sm-10">
+                        <input id="sub1" type="submit" class="btn btn-primary" value="Submit"/>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+{% end %}

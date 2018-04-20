@@ -1,0 +1,82 @@
+{% extends "../../theme/bage.html" %}
+{% block head %}
+<title>地图画板，GIS在线编辑,WebGIS编辑,在线地图数据编辑</title>
+<meta name="keywords"
+      content="地图画板,地图编辑,GIS在线编辑,WebGIS编辑,在线地图,GeoJSON编辑,GeoJSON验证">
+<meta name="description"
+      content="地图画板,以云GIS技术为基础,实现了地图在线浏览、叠加操作。">
+{% end %}
+{% block typebody %}
+<div class="container marketing" style="margin-top: 60px;">
+    <div class="row-fluid home-tab-fluid">
+        <div class="container">
+            <div class="row-fluid tabbedmain hidden-phone" id="tabselector">
+                <ul class="nav nav-tabs nav-justified">
+                    <li class="span4 active main-selector main-tabs">
+                        <a href="#tab1" data-toggle="tab" class="home-tab-a">
+						<span class="tabfix">
+                            <h4>
+                                <img id="ietabs" src="{{ static_url('tass/images/icon1.png') }}">
+                                地图画板，GeoJSON在线编辑器
+                            </h4>
+							<p>基于GeoJson的在线绘图工具<span
+                                    class="label label-danger">自由下载与上传！</span></p>
+						</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="tab-content" id="#indexcontent">
+        <div class="tab-pane active fade in" id="tab1">
+            <div class="row-fluid">
+                <div class="container">
+                    <br>
+
+                    <div class="row featurette" style="background-color:#F7F7F7">
+                        <div class="col-sm-4">
+                            <br>
+
+                            <p class="lead">
+                                <a href="/geojson/draw" class="btn btn-lg btn-primary"
+                                   style="margin-top: 50px;margin-left:100px;" target="_blank">创建地图</a>
+                            </p>
+                        </div>
+                        <div class="col-sm-8">
+                            {% if userinfo %}
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    我最近的数据
+                                </div>
+                                <ul class="list-group">
+                                    {% for gson in json_arr %}
+                                    <li class="list-group-item"><a href="/geojson/{{gson.uid}}">{{gson.uid}}</a></li>
+                                    {% end %}
+                                </ul>
+                            </div>
+                            {% else %}
+                            <br>
+
+                            <p class="lead">
+                                地图画板，是一个多技术手段综合支撑下的地图集信息系统（Atlas Information System,
+                                AIS），是传统专题地图集的在线版本，通过数据可视化和数据空间化等技术手段，
+                                设计建立一个集数据、软件于一体的Web专题地图集系统，
+                                也可通俗理解为是适合各类用户使用的地理信息云计算工具，能够在线查看、编辑传统图集所反映的各种信息。<br>
+
+                            </p>
+                            {% end %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% end %}
+{% block link_list %}
+<div class="col-sm-12">
+    友情链接：{% module link_list(12 ) %}
+</div>
+<br><br>
+{% end %}

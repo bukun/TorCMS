@@ -1,0 +1,171 @@
+{% extends "../theme/bage.html" %}
+{% block typebody %}
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li>Current location: <a href="/">{{ _('Home') }}</a></li>
+        <li class="active">{{ _('Modify personal information') }}</li>
+    </ul>
+</div>
+<div class="panel panel-black">
+    <div class="panel-heading"><b> {{ _('Modify personal information') }} </b></div>
+    <div class="panel-body">
+        <form class="form-horizontal" action="/user/changeinfo" method="post" id="form_changeinfo">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="rawpass">{{ _('Original Password') }}</label>
+
+                <div class="col-sm-10">
+                    <input type="password" name="rawpass" id="rawpass" class="form-control"
+                           placeholder="Please enter the original password"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="user_email">{{ _('Email') }}</label>
+
+                <div class="col-sm-10">
+                    <input type="text" name="user_email" id="user_email" class="form-control"
+                           value="{{userinfo.user_email}}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="def_truename">{{ _('True Name') }}</label>
+
+                <div class="col-sm-10">
+                    <input type="text" name="def_truename" id="def_truename" class="form-control"
+                           placeholder="Please enter a new True Name."/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="def_gender">{{ _('Gender') }}</label>
+
+                <div class="col-sm-10">
+                    <select id="def_gender" name="def_gender" class="form-control">
+                                <option value="Male">
+                                    Male
+                                </option>
+                                <option value="Female">
+                                    Female
+                                </option>
+                            </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="def_birthday">{{ _('Birthday') }}</label>
+
+                <div class="col-sm-10">
+                    <input type="date" name="def_birthday" id="def_birthday" class="form-control"
+                           placeholder="Please enter a new Birthday."/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="def_mobile">{{ _('Mobile') }}</label>
+
+                <div class="col-sm-10">
+                    <input type="text" name="def_mobile" id="def_mobile" class="form-control"
+                           placeholder="Please enter a new Mobile."/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="def_location">{{ _('Location') }}</label>
+
+                <div class="col-sm-10">
+                    <input type="text" name="def_location" id="def_location" class="form-control"
+                           placeholder="Please enter a new Location."/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="def_profile">{{ _('Profile') }}</label>
+
+                <div class="col-sm-10">
+                    <input type="text" name="def_profile" id="def_profile" class="form-control"
+                           placeholder="Please enter a new Profile."/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="def_postalcode">{{ _('Postalcode') }}</label>
+
+                <div class="col-sm-10">
+                    <input type="text" name="def_postalcode" id="def_postalcode" class="form-control"
+                           placeholder="Please enter a new Postalcode."/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="def_certificatetype">{{ _('Certificatetype') }}</label>
+
+                <div class="col-sm-10">
+                    <input type="text" name="def_certificatetype" id="def_certificatetype" class="form-control"
+                           placeholder="Please enter a new Certificatetype."/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="def_certificate">{{ _('Certificate Number') }}</label>
+
+                <div class="col-sm-10">
+                    <input type="text" name="def_certificate" id="def_certificate" class="form-control"
+                           placeholder="Please enter a new Certificate Number."/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="def_company">{{ _('Company') }}</label>
+
+                <div class="col-sm-10">
+                    <input type="text" name="def_company" id="def_company" class="form-control"
+                           placeholder="Please enter a new Company."/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="def_interest">{{ _('Interest') }}</label>
+
+                <div class="col-sm-10">
+                    <input type="text" name="def_interest" id="def_interest" class="form-control"
+                           placeholder="Please enter a new Interest."/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="def_high">{{ _('High') }}</label>
+
+                <div class="col-sm-10">
+                    <input type="text" name="def_high" id="def_high" class="form-control"
+                           placeholder="Please enter a new High."/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="def_weight">{{ _('Weight') }}</label>
+
+                <div class="col-sm-10">
+                    <input type="text" name="def_weight" id="def_weight" class="form-control"
+                           placeholder="Please enter a new Weight."/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="def_bloodtype">{{ _('Bloodtype') }}</label>
+
+                <div class="col-sm-10">
+                   <select id="def_bloodtype" name="def_bloodtype" class="form-control">
+                                <option value="A" >
+                                    A
+                                </option>
+                                <option value="B" >
+                                    B
+                                </option>
+                        <option value="AB" >
+                                    AB
+                                </option>
+                        <option value="O" >
+                                    O
+                                </option>
+                            </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">{{ _('Submit') }}</button>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% end %}
+

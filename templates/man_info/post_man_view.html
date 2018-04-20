@@ -1,0 +1,65 @@
+{% extends "../theme/bage.html" %}
+{% block headinfo %}
+<style type="text/css">
+        table.diff {font-family:Courier; border:medium;width:99%;}
+        .diff_header {background-color:#e0e0e0}
+        td.diff_header {text-align:right}
+        .diff_next {background-color:#c0c0c0}
+        .diff_add {background-color:#aaffaa}
+        .diff_chg {background-color:#ffff77}
+        .diff_sub {background-color:#ffaaaa}
+    </style>
+{% end %}
+
+{% block typebody %}
+<ol class="breadcrumb">
+    <li>Current location: <a href="{% module site_url() %}">Home</a></li>
+    <li>{% module the_category(view.uid) %}</li>
+    <li class="active">{{ view.title }}</li>
+</ol>
+<div class="panel panel-black">
+    <div class="panel-heading">
+        <h2>{{ view.title }}</h2>
+        <span>{{ str(view.date)[:10] }}</span>
+        <span>Author: <a href="http://www.osgeo.cn/">OSGeo中国中心</a></span>
+        <span>Browse: {{ view.view_count }} 次</span>
+        {% if postinfo.kind == '1' %}
+        {% module widget_editor('post', postinfo.uid, userinfo) %}
+        <span class="cmts"><a href="/post/{{postinfo.uid}}" class="btn btn-xs btn-primary"> View</a></span>
+        {% elif postinfo.kind in ['2','9'] %}
+        {% module widget_editor('info', postinfo.uid, userinfo) %}
+        <span class="cmts"><a href="/{{ router }}/{{postinfo.uid}}" class="btn btn-xs btn-primary">View</a></span>
+        {% elif postinfo.kind == 'm' %}
+        {% module widget_editor('map', postinfo.uid, userinfo) %}
+        <span class="cmts"><a href="/{{ router }}/{{postinfo.uid}}" class="btn btn-xs btn-primary">View</a></span>
+        {% elif postinfo.kind == 's' %}
+        {% module widget_editor('app', postinfo.uid, userinfo) %}
+        <span class="cmts"><a href="/{{ router }}/{{postinfo.uid}}" class="btn btn-xs btn-primary">View</a></span>
+        {% elif postinfo.kind == 'w' %}
+        {% module widget_editor('wetland', postinfo.uid, userinfo) %}
+        <span class="cmts"><a href="/{{ router }}/{{postinfo.uid}}" class="btn btn-xs btn-primary">View</a></span>
+        {% else %}
+        {% module widget_editor('meta', postinfo.uid, userinfo) %}
+        <span class="cmts"><a href="/{{ router }}/{{postinfo.uid}}" class="btn btn-xs btn-primary">View</a></span>
+        {% end %}
+    </div>
+    <div class="panel-body">
+        <div class="entry">
+            <div class="entrycontent">
+                {% for diff_dic in html_diff_arr %}
+                {% if userinfo and userinfo.role[2] >= '1' %}
+                <div class="bg-info"><a href="/post_man/restore/{{ diff_dic['hist_uid'] }}"
+                                        class="btn btn-xs btn-warning">Restore</a>
+                    <a href="/post_man/delete/{{ diff_dic['hist_uid'] }}" class="btn btn-xs btn-danger">Delete</a>
+                </div>
+                {% end %}
+                {% raw (diff_dic['html_diff']) %}
+                <p></p>
+                {% end %}
+            </div>
+        </div>
+    </div>
+</div>
+{% end %}
+
+

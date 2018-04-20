@@ -1,0 +1,32 @@
+{% extends "../../theme/bage.html" %}
+{% block typebody %}
+<div class="container">
+    <div style="padding-top:80px;"></div>
+    <div class="content">
+        <form action="" method="post" class="pure-form pure-form-stacked" id="form_post">
+            <fieldset>
+                <input type="hidden" id="uid" name="uid" value="{{ postinfo.uid }}">
+
+                <div class="pure-control-group">
+                    <label for="name">分类名</label>
+                    <input id="name" type="text" name="name" value="{{ postinfo.name }}">
+                </div>
+                <div class="pure-control-group">
+                    <label for="slug">slug</label>
+                    <input id="slug" name="slug" type="text" value="{{ postinfo.slug }}">
+                </div>
+                <div class="pure-control-group">
+                    <label for="order">排序</label>
+                    <input id="order" name="order" type="text" value="{{ postinfo.order }}">
+                </div>
+                <div class="pure-control-group">
+                    <label for="sub1"></label>
+                    <input id="sub1" type="submit" value="更新数据" class="pure-button pure-button-primary">
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+{% end %}
+
+

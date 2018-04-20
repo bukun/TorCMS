@@ -1,0 +1,78 @@
+{% extends "../theme/tmpldoc.html" %}
+{% block head %}
+<link rel="stylesheet" href="{{  static_url('f2elib/jqueryui_1.12.1/jquery-ui.min.css') }}">
+<script src="{{ static_url('f2elib/jqueryui_1.12.1/jquery-ui.min.js') }}"></script>
+
+<script>
+    $(function () {
+        $("#sortable").sortable({
+            cursor: "move",
+            items: "li",
+            opacity: 0.6,
+            revert: true,
+            update: function (event, ui) {
+                uu = ($('#sortable').sortable("toArray"));
+                $.each(uu, function (index, value) {
+                    $.ajax({
+                        type: "POST",
+                        url: '/leaf/update_order/' + value + '/' + (100000 + index) + '/',
+                    });
+
+                });
+
+            }
+        });
+    });
+
+    $(document).ready(function () {
+
+        $('#update').click(function () {
+            uu = ($('#sortable').sortable("toArray"));
+
+            $.each(uu, function (index, value) {
+
+                $.ajax({
+                    type: "POST",
+                    url: '/leaf/update_order/' + value + '/' + (100000 + index) + '/',
+                });
+
+            });
+
+        });
+
+    });
+
+
+</script>
+
+{% end %}
+{% block content %}
+<ol class="breadcrumb">
+    <li>Current location: <a href="{% module site_url() %}">Home</a></li>
+    <li class="active">{{ kwd['cat_name'] }}</li>
+</ol>
+<div class="panel panel-black">
+    <div class="panel-heading">{{ kwd['cat_name'] }}</div>
+    <ul class="list-group" id="sortable">
+        {% set uu = 1 %}
+        {% for x in infos %}
+        <li class="list-group-item ui-state-default" id={{ x.uid }}>
+            {% if userinfo and userinfo.role[1] < '0' %}
+            <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+            {% end %}
+            {{ uu }}
+            <a href="/leaf/{{x.uid}}" title="{{x.title}}">
+                {{ x.title}}
+            </a>
+        </li>
+        {% set uu = uu + 1 %}
+        {% end %}
+    </ul>
+</div>
+<!--<a id="update">Update</a>-->
+<!--<div class="row">-->
+<!--<div class="col-sm-12">-->
+<!--{% module catalog_pager( kwd['cat_slug'], kwd['current_page'] ) %}-->
+<!--</div>-->
+<!--</div>-->
+{% end %}

@@ -1,0 +1,36 @@
+{% extends "../../theme/tmpldoc.html" %}
+{% block content %}
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li>Current location: <a href="/">{{ _('Home') }}</a></li>
+        <li class="active">{{ _('Search Result') }}</li>
+    </ul>
+</div>
+<div class="panel panel-black">
+     <div class="panel-heading"><b> {{ _('Search results') }} </b></div>
+    <div class="panel-body">
+        <div class="alert alert-info">{% if 'catname' in kwd %} In the "{{ kwd['catname'] }}" ，{% end %}
+            Total keywords found for "{{ kwd['keyword'] }}" {{ kwd['count'] }} results ! {% if kwd['count'] == 0 %}
+            Please change your keywords{% if 'catname' in kwd %}，Or in a wider range of search{% end %} . {% end %}
+        </div>
+        {% for x in srecs %}
+        <div class="bor_bottom">
+            <p class="listinfo_title"><b>{% raw x['type'] %}</b>
+                <a href="{% raw x['link'] %}" title="{{x['title']}}">
+                    {{x['title']}}
+                </a>
+            </p>
+
+            <p class="listinfo_content">
+                {% raw str((x.highlights('content')))[:400] %}
+            </p>
+        </div>
+        {% end %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        {% module search_pager(kwd['catid'],kwd['keyword'], kwd['current_page'] ) %}
+    </div>
+</div>
+{% end %}

@@ -1,0 +1,23 @@
+<div class="panel-heading">
+    <a href="/filter/{{ pcatinfo.uid }}" class="flbt">
+        {% if 'glyph' in kwd and kwd['glyph'] != '' %}
+        <span class="{{ kwd['glyph'] }}"></span>
+        {% else %}
+        {% end %}
+        {{ pcatinfo.name }}
+    </a>
+     <span class="headspan"><a style="color: #2795db;font-size: 12px" href="/filter/{{ pcatinfo.uid }}">More</a></span>
+</div>
+<ul class="list-group">
+    {% for rec in recs %}
+    <li style="border-bottom: 1px dashed #ddd;line-height: 20px;padding: 10px">
+        <img src="{{ static_url('tass/images/a_bg.gif') }}" class="img-thumbnail">&nbsp&nbsp
+        <a href="/filter/{{ rec.uid }}"> {{ rec.name }}
+            <span style="font-size:0.8em;background-color:#00adef;color:#fff;padding:1px;">
+                ({{ rec.count }})
+            </span>
+        </a>
+    </li>
+    {% end %}
+</ul>
+

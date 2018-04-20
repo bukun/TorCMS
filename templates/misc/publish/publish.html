@@ -1,0 +1,38 @@
+{% extends "../../tmpl_9/tmplinfo.html" %}
+{% block headinfo %}
+
+<script type="text/javascript">
+    function select(html2) {
+        $('#showCnt').load(html2);
+    }
+</script>
+
+{% end %}
+{% block typebody %}
+<div class="panel panel-black">
+    <div class="panel-heading">
+        {% module BreadcrumbPublish(1,sig=1) %}
+    </div>
+</div>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h2>{{ _('Select categories') }}</h2>
+    </div>
+    <div class="panel-body">
+        <ul class="list-group">
+            {% raw kwd['class1str'] %}
+        </ul>
+    </div>
+    <div class="panel-heading">
+        {{ _('Two level classification') }}
+    </div>
+    <div class="panel-body">
+        <span id='showCnt'></span>
+    </div>
+    <div class="panel-footer">
+        {{ _('Note: the above is a class classification, the following is the two class classification') }}
+    </div>
+</div>
+{% end %}
+{% block footinfo %}
+{% end %}

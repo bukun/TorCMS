@@ -1,0 +1,91 @@
+{% extends "../../theme/bage_add_edit.html" %}
+{% block zhuti %}
+<script type="text/javascript">
+    $().ready(function () {
+        $("#form_add").validate(
+                {
+                    rules: {
+                        name: {
+                            required: true,
+                            rangelength: [2, 16]
+                        },
+                        slug: {
+                            required: true,
+                            rangelength: [2, 16]
+                        },
+                        order: {
+                            required: true,
+                            number: true
+                        }
+                    },
+                    messages: {
+                        name: {
+                            required: "<span class='red'>请输入分类名</span>",
+                            rangelength: "<span class='red'>分类名最少2位，最长16位</span>"
+                        },
+                        slug: {
+                            required: "<span class='red'>请输入slug</span>",
+                            rangelength: "<span class='red'>slug最少2位，最长16位</span>"
+                        },
+                        order: {
+                            required: "<span class='red'>请输入排序</span>",
+                            number: "<span class='red'>排序必须为数字</span>"
+                        }
+                    }
+                }
+        );
+    });
+</script>
+
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li><a href="/">{{ _('Home') }}</a></li>
+        <li class="active">{{ _('Manage Categories') }}</li>
+    </ul>
+</div>
+
+
+<div class="container">
+    <div id="contact_form" class="form">
+        <h3> {{ _('Add Category') }} </h3>
+
+        <form action="/maintain/category/add" method="post">
+            <ul class="span12">
+                <li class="span3">{{ _('Category Name') }}</li>
+                <li class="span3">{{ _('Slug') }}</li>
+                <li class="span3">{{ _('Reorder') }}</li>
+                <li class="span3">{{ _('Operate') }}</li>
+
+            </ul>
+            <ul class="span12">
+                <li class="span3"><input id="name" type="text" name="name"></li>
+                <li class="span3"><input id="slug" name="slug" type="text"></li>
+                <li class="span3"><input id="order" name="order" type="text"/></li>
+                <li class="span3"><input id="sub1" class="btns" type="submit" value="{{ _('Add') }}"></li>
+            </ul>
+        </form>
+        <h3>{{ _('Category List') }}</h3>
+        <ul class="span12">
+            <li class="span1">{{ _('uid') }}</li>
+            <li class="span3">{{ _('Category Name') }}</li>
+            <li class="span2">{{ _('slug') }}</li>
+            <li class="span2">{{ _('Reorder') }}</li>
+            <li class="span4">{{ _('Operate') }}</li>
+        </ul>
+
+        {% for x in view %}
+        <ul class="span12">
+            <form method="post" action="/maintain/category/modify/{{x.uid}}" id="form_post">
+                <li class="span1">{{ x.uid }}</li>
+                <li class="span3"><input id="name" type="text" name="name" value="{{ x.name }}"></li>
+                <li class="span2"><input id="slug" type="text" name="slug" value="{{ x.slug }}"></li>
+                <li class="span2"><input id="order" type="text" name="order" value="{{ x.order }}"></li>
+                <li class="span4"><input id="sub1" type="submit" value="{{ _('Upload') }}" class="btns">
+                    <a href="/maintain/category/delete/{{x.uid}}" class="btns">{{ _('Delete') }}</a>
+                </li>
+            </form>
+        </ul>
+        {% end %}
+    </div>
+</div>
+{% end %}

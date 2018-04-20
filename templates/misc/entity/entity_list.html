@@ -1,0 +1,88 @@
+{% extends "../../theme/bage.html" %}
+{% block typebody %}
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li>Current location：<a href="/">{{ _('Home') }}</a></li>
+        <li class="active">{{ _('Entity List') }}</li>
+        {% if userinfo and( userinfo.role[1] >= '2') %}
+        <li><a href="/entry/add" class="btn btn-primary btn-xs">{{ _('Upload Files') }}</a></li>
+        {% end %}
+    </ul>
+</div>
+<div class="panel panel-black">
+    <div class="panel-heading"><b>{{ _('Entity List') }}</b></div>
+    <div class="panel-body">
+        <table class="table table-bordered">
+            <tr>
+                <td>Serial number</td>
+                <td>Url</td>
+                <td>Desc</td>
+                <td>Img</td>
+            </tr>
+            {% set ii = 1 %}
+            {% for x in imgs %}
+            <tr>
+                <td>{{ ii }}</td>
+                {% if x.kind == '1' %}
+
+                {% if len(x.path) == 39 %}
+                <td>
+                    <a href="{% module site_url() %}{{ static_url('upload/') }}{{ x.path }}_m.jpg"
+                       target="_blank">
+                        {% module site_url() %}{{ static_url('upload/') }}{{ x.path}}_m.jpg
+                    </a>
+                </td>
+                <td>
+                    <b>图片说明：</b>{{ x.desc }}
+                </td>
+                <td>
+                    <a href="{{ static_url('upload/') }}{{ x.path }}_m.jpg" target="_blank">
+                        <img src="{{ static_url('upload/') }}{{ x.path }}_m.jpg" style="width: 150px"/>
+                    </a>
+                </td>
+                {% else %}
+                <td>
+                    <a href="{% module site_url() %}{{ static_url('upload/') }}{{ x.path }}"
+                       target="_blank">
+                        {% module site_url() %}{{ static_url('upload/') }}{{ x.path }}
+                    </a>
+                </td>
+                <td>
+                    <b>图片说明：</b>{{ x.desc }}
+                </td>
+                <td>
+                    <a href="{{ static_url('upload/') }}{{ x.path }}" target="_blank">
+                        <img src="{{ static_url('upload/') }}{{ x.path }}" style="width: 150px"/>
+                    </a>
+                </td>
+                {% end %}
+
+                {% else %}
+
+                {% if x.kind == '3'%}
+                <td><a href="{{ x.path}}" target="_blank">{{ x.path }}</a></td>
+                {% else %}
+                <td>
+                    <a href="{% module site_url() %}{{ static_url('upload/') }}{{ x.path }}"
+                       target="_blank">
+                        {% module site_url() %}{{ static_url('upload/') }}{{ x.path }}</a>
+                </td>
+                {% end %}
+                <td>
+                    <b>说明：</b>{{ x.desc }}
+                </td>
+                <td>
+                </td>
+                {% end %}
+            </tr>
+            {% set ii = ii +1 %}
+            {% end %}
+        </table>
+        {% module entity_pager( kwd['current_page'] ) %}
+        <br>
+    </div>
+</div>
+
+
+{% end %}
+

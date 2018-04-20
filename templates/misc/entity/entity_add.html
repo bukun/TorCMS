@@ -1,0 +1,78 @@
+{% extends "../../theme/bage.html" %}
+{% block typebody %}
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li>Current location：<a href="/">{{ _('Home') }}</a></li>
+        <li class="active">{{ _('Add Picture') }}</li>
+    </ul>
+</div>
+<div class="panel panel-black">
+    <div class="panel-heading"><b>{{ _('Add Picture') }} </b></div>
+    <div class="panel-body">
+        <form action="" enctype="multipart/form-data" method="post" class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">{{ _('Type') }}</label>
+
+                <div class="col-sm-4">
+                    <select name="kind" class="form-control" id="kind">
+                        <option value="1" onclick="hiddenXX()">{{ _('Picture') }}</option>
+                        <option value="2" onclick="hiddenXX()">PDF,zip,doc,rar,ppt,7z,xlsx</option>
+                        <option value="3" onclick="hiddenXX()">Url</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+
+                <div class="col-sm-4">
+                    <input name="file" type="file" id="entityfile">
+                </div>
+            </div>
+            <div class="form-group" id="entitytext" hidden>
+                <label class="col-sm-2 control-label">Url</label>
+
+                <div class="col-sm-4">
+                    <input name="file1" type="text" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="desc">Describe</label>
+
+                <div class="col-sm-4">
+                    <textarea name="desc" type="text" id="desc" class="form-control" rows="8"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+
+                <div class="col-sm-4">
+                    <input type="submit" value="{{ _('Submit') }}" class="btn btn-primary">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    function hiddenXX() {
+        var objS = document.getElementById("kind");
+        var value = objS.options[objS.selectedIndex].value;
+
+        if (value == 1)
+        {
+            $("#entityfile").show();
+            $("#entitytext").hide();
+        }
+        else if (value == 3)
+        {
+            $("#entityfile").hide();
+            $("#entitytext").show();
+        }
+        else {
+            $("#entityfile").show();
+            $("#entitytext").hide();
+        }
+    }
+</script>
+
+{% end %}
+

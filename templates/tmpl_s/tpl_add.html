@@ -1,0 +1,99 @@
+{% extends "tmplinfo.html" %}
+{% block typebody %}
+<ol class="breadcrumb">
+     <li>Current location：<a href="/">Home</a></li>
+
+    <li class="active"> Publish Info</li>
+</ol>
+<div class="panel panel-black" id="guarantee">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-sm-3">Publish Info</div>
+            <div class="col-sm-9"> {% module BreadcrumbPublish(2) %}</div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal" role="form" id="form_add_info" name="form_add_info" method="post"
+              enctype="multipart/form-data">
+            <input type='hidden' name="uid" value="{% raw kwd['uid'] %}">
+            <input type='hidden' name="def_cat_uid" value="{% raw kwd['def_cat_uid'] %}">
+            <input name="action" value="dopost" type="hidden">
+            <input name="ismember" value="0" type="hidden">
+            <input name="id" value="" type="hidden">
+            <input name="mixcode" value="4c9734774f6b40682d35c0ccee0b0845" type="hidden">
+            <div class="form-group">
+                <label class="col-sm-2 control-label "></label>
+                <div class="col-sm-10">
+                    <b>{{ _('Basic data information') }}  : {{ kwd['parentname'] }} > {{ kwd['catname'] }}</b>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label ">
+                    <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a>
+                   Title：
+                </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="title" id="title" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label ">
+                    <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a> Label ： </label>
+                <div class="col-sm-10">
+                    <input id="tags" name="tags" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a> Picture : </label>
+                <div class="col-sm-10">
+                    <input type="text" id="logo" name="logo" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"> </label>
+                <div class="col-sm-10">
+                    <a href="/entry/add" target="_blank" class="btn btn-primary" role="button">Upload a picture </a>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;" for="ext_pdf"></a> PDF
+                </label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="ext_pdf" name="ext_pdf">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"> </label>
+
+                <div class="col-sm-10">
+                    <a href="/entry/add" target="_blank" class="btn btn-primary" role="button">Upload a PDF </a>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label ">
+                    <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a>
+                    Content（Markdown）
+                </label>
+
+                <div class="col-sm-10">
+                    <textarea class="form-control" rows=26 id="cnt_md" name="cnt_md"></textarea>
+                </div>
+            </div>
+            <hr/>
+            {% block extrainfo %}{% end %}
+            <hr/>
+            <div class="form-group">
+                <label class="col-sm-2 control-label "> </label>
+
+                <div class="col-sm-10">
+                    <input type="submit" name="post_submit" value="Submit" id="Button1"
+                           class="btn btn-primary" role="button"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% end %}

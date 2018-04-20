@@ -1,0 +1,10 @@
+{% extends "../../theme/bage.html" %}
+{% block typebody %}
+<div class="panel-heading">
+    <h1 class="title">{{ view.name }}</h1>
+    {% if userinfo is not None and userinfo.role[2] == '1' %}
+    <a href="/post/modify/{{ view.uid }}">修改</a>
+    {% end %}
+</div>
+{% end %}
+

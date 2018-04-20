@@ -1,0 +1,21 @@
+{% extends "../theme/bage.html" %}
+{% block typebody %}
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li>Current location: <a href="/">{{ _('Home') }}</a></li>
+        <li class="active">{{ _('Password Error') }}</li>
+    </ul>
+</div>
+<div class="panel panel-black">
+    <div class="panel-heading"><b> {{ _('Password Error') }} </b></div>
+    <div class="panel-body">
+        <div class="alert alert-danger">Password authentication error!</div>
+        <Br>
+
+        <div style="text-align: center;">
+            <a href="/user/login" class="btn btn-warning " style="text-align: center;">Reenter</a>
+        </div>
+    </div>
+</div>
+{% end %}
+

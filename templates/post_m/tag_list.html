@@ -1,0 +1,67 @@
+{% extends "../theme/base_view.html" %}
+{% block head %}
+<title>Online maps are listed by classification</title>
+<meta name="keywords" content="{{ taginfo.name }}Maps, online maps, historical maps, classified maps,">
+<meta name="description" content="{{ taginfo.name }}Maps, online maps, historical maps, and online maps by classification">
+{% end %}
+{% block zhuti %}
+<!--
+<div class="panel panel-info">
+    <div class="panel-heading">
+        所在位置： <a href="/">地图</a> > 地图 > {{ taginfo.name }}
+
+    </div>
+</div>z
+-->
+<div class="panel panel-black">
+    <div class="panel-heading">
+        {{ taginfo.name }}
+    </div>
+    <ul class="list-group">
+        {% for rec in infos %}
+        <li class="list-group-item">
+            <a href="/{{router}}/{{ rec.uid }}"><span class="glyphicon glyphicon-map-marker"></span>
+                {{ rec.title }}
+            </a>
+            <span class="app_tag">{% module map_catalogs(rec.uid ) %}</span>
+        </li>
+        {% end %}
+    </ul>
+    <div class="panel-footer">
+        <div class="widget_baidu_share">{% module baidu_share() %}</div>
+        <ul class="pagination">
+            {% raw pager %}
+        </ul>
+    </div>
+</div>
+{% end %}
+{% block right %}
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            Recently used
+        </h3>
+    </div>
+    <ul class="list-group">
+        {% if userinfo is None %}
+        {% module app_recent_used(taginfo.kind, 10) %}
+        {% else %}
+        {% module app_user_recent(userinfo.uid, taginfo.kind , 6) %}
+        {% end %}
+    </ul>
+</div>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            Use most
+        </h3>
+    </div>
+    <ul class="list-group">
+        {% if userinfo is None %}
+        {% module app_most_used(taginfo.kind, 10) %}
+        {% else %}
+        {% module app_user_most(userinfo.uid, taginfo.kind ,6) %}
+        {% end %}
+    </ul>
+</div>
+{% end %}

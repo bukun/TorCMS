@@ -1,0 +1,29 @@
+{% extends "../../theme/bage.html" %}
+{% block typebody %}
+<div class="container">
+    <div style="padding-top:80px;"></div>
+<div class="header">
+    <h1>添加分类</h1>
+</div>
+<div class="content">
+    <form action="" method="post" class="pure-form pure-form-stacked" id="form_add">
+        <div class="pure-control-group">
+            <label for="name">分类名</label>
+            <input id="name" type="text" name="name">
+        </div>
+        <div class="pure-control-group">
+            <label for="slug">slug</label>
+            <input id="slug" name="slug" type="text">
+        </div>
+        <div class="pure-control-group">
+            <label for="order">排序</label>
+            <input id="order" name="order" type="text"/>
+        </div>
+        <div class="pure-control-group">
+            <label for="sub1"></label>
+            <input id="sub1" class="pure-button pure-button-primary" type="submit" value="添加">
+        </div>
+    </form>
+</div>
+</div>
+{% end %}

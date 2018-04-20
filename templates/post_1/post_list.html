@@ -1,0 +1,26 @@
+{% extends "../theme/tmpldoc.html" %}
+{% block content %}
+<ol class="breadcrumb">
+    <li>Current location: <a href="{% module site_url() %}">Home</a> </li>
+    <li><a href="/post/recent"> Document list</a></li>
+</ol>
+<div class="panel panel-black">
+    <div class="panel-heading">Document list</div>
+    <ul class="list-group">
+        {% for x in view %}
+        <li class="list-group-item">
+            <a href="/post/{{x.uid}}" title="{{x.title}}">
+                {{ x.title }}
+            </a>
+            <span>{{ datetime.datetime.fromtimestamp(x.time_update).strftime('%Y-%m-%d %H:%M:%S')  }}</span>
+        </li>
+        {% end %}
+    </ul>
+    <div class="clear"></div>
+    <div>
+        <ul class="pagination">
+            {% raw kwd['pager'] %}
+        </ul>
+    </div>
+</div>
+{% end %}

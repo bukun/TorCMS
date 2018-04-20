@@ -1,0 +1,76 @@
+{#
+这个没用到，应该是单独画图用。
+#}
+{% extends "../theme/map_calcubic_full.html" %}
+{% block head %}
+<title>Map drawing board, drawing geographic data on line</title>
+<meta name="keywords" content="Online maps, map sketchboards">
+<script src="{{ static_url('jslib/dist/leaflet.draw.js') }}"></script>
+<link rel="stylesheet" href="{{ static_url('jslib/Leaflet.draw/dist/leaflet.draw.css') }}" />
+<style type="text/css">
+    body {
+        padding: 0;
+        margin: 0;
+    }
+    html, body, #map {
+        height: 100%;
+        width: 100%;
+    }
+</style>
+<script>
+
+    window.ondragstart = function() { return false; }
+var vlon = 105;
+var vlat = 38;
+var vzoom_current = 5;
+var vzoom_max = 12;
+var vzoom_min = 3;
+var geojsonid = "{{ kwd['geojson'] }}";
+    var login = {{ kwd['login'] }};
+</script>
+
+{% block headinfo %}
+{% end %}
+{% end %}
+{% block zhuti %}
+<span id="pycode"></span>
+<div classs="btn btn-primary" id="export">sadfs</div>
+<div id="map" class="map" tabindex="0"></div>
+<div class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
+    <div>
+        <ul class="nav navbar-nav">
+            <li><a class="navbar-brand" href="/geojson/"><span class="glyphicon glyphicon-globe"></span> 地图画板</a></li>
+
+            <li></li>
+            {% if kwd['geojson'] != '' %}
+            <li><a href="/geojson/download/maplet_geojson_{{ kwd['geojson'] }}.json">Download data</a></li>
+            {% end %}
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li>{% if kwd['login'] != 1 %}<a style="color:#ff0">Save data after logging in！</a>{% end %}</li>
+            <li><a id="infor"></a></li>
+            <li>
+                <form class="navbar-form navbar-left">
+                    <div class="form-group">
+                        <select id="maplet_id" name="maplet_id" class="form-control">
+                            {% for recent in recent_apps %}
+                            <option value="{{recent.post_id}}">{{recent.post_id}} |
+                                {{recent.post_title}}
+                            </option>
+                            {% end %}
+                        </select>
+                        <input type='button' value=' Add Maplet' id='btn_add_maplet' class="btn btn-primary btn-inverse">
+
+                        <input type="text" class="form-control" placeholder="Paste GeoJson Data" id="hdata">
+                        <input type='button' value=' Add GeoJson' id='load_geojson' class="btn btn-primary btn-inverse">
+                    </div>
+
+                </form>
+            </li>
+        </ul>
+    </div>
+</div>
+<script src="{{ static_url('jslib/maplet/fullscreend.js') }}"></script>
+{% end %}
+
+

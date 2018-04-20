@@ -1,0 +1,49 @@
+
+.iga_lb_box {
+    /* position: relative; */
+    width: 300px;
+    margin: 10px auto;
+    paddin: 5px auto;
+
+}
+.iga_lb_box img{
+
+}
+
+.iga_lb_cont {
+    height: 200px;
+    overflow: hidden;
+    /* border: 1px solid #ffff00; */
+    margin-bottom: 10px;
+}
+
+.iga_lb_item {
+    /* background: rgba(0, 0, 0, 0.1); */
+    margin-left:10px;
+    margin-right:10px;
+    color: #fff;
+    font-size: 20px;
+    position: relative;
+    left: 0;
+    bottom: 0;
+    text-align: left;
+    line-height: 80px;
+    height: 80px;
+
+}
+
+/*
+.iga_lb_item a {
+    margin-right: 10px;
+    cursor: pointer;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+}
+
+a.iga_lb_seld {
+    color: #06C;
+}
+*/
+
+a.iga_lb_hide {
+    display: none;
+}

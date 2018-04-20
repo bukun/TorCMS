@@ -1,0 +1,27 @@
+{% extends "../../tmpl_9/tmplinfo.html" %}
+{% block headinfo %}
+<script type="text/javascript">
+    function select(html2) {
+        $('#showCnt').load(html2);
+    }
+</script>
+{% end %}
+{% block typebody %}
+<div class="mtop">
+    <ul class="breadcrumb">
+        {% module BreadcrumbPublish(1,sig=1) %}
+    </ul>
+</div>
+<div class="panel panel-black">
+    <div class="panel-heading">
+        <b>{{ _('Presentation') }}</b><em></em>
+    </div>
+    <div class="panel-body">
+        <h2>{{ _('Two level classification') }}</h2>
+        <bR>
+        {% raw kwd['class1str'] %}
+    </div>
+</div>
+{% end %}
+{% block footinfo %}
+{% end %}

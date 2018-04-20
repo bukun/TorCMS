@@ -1,0 +1,47 @@
+{% extends "../theme/bage.html" %}
+{% block typebody %}
+{% module use_f2e('codemirror') %}
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li>Current location: <a href="/">{{ _('Home') }}</a></li>
+        <li class="active">{{ _('Modify') }} - {{ view.title }}</li>
+    </ul>
+</div>
+<div class="panel panel-black">
+    <div class="panel-heading"><b> {{ view.title }} </b></div>
+    <div class="panel-body">
+        <form action="" method="post" class="form-horizontal" role="form">
+            <fieldset>
+                <input type="hidden" id="slug" name="slug" value="{{ view.uid }}"/>
+
+                <div class="form-group">
+                    <label for="title" class="col-sm-2 control-label">{{ _('Title') }}</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="title" name="title" value="{{ view.title }}"
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="cnt_md" class="col-sm-2 control-label">{{ _('Content') }}</label>
+
+                    <div class="col-sm-10">
+                        <textarea rows=16 id="cnt_md" name="cnt_md" class="form-control">
+                            {% raw unescape(view.cnt_md) %}
+                        </textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="sub1" class="col-sm-2 control-label"></label>
+
+                    <div class="col-sm-10">
+                        <input id="sub1" type="submit" value="{{ _('Submit') }}" class="btn btn-primary"/>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+{% end %}
+
+

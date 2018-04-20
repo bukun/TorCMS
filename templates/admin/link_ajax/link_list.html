@@ -1,0 +1,181 @@
+<script type="text/javascript">
+    $().ready(function () {
+        $("#form_add").validate(
+                {
+                    rules: {
+                        name: {
+                            required: true,
+                            rangelength: [2, 16]
+                        },
+                        link: {
+                            required: true,
+                            rangelength: [2, 100]
+                        },
+                        order: {
+                            required: true,
+                            number: true
+                        }
+
+                    },
+                    messages: {
+                        name: {
+                            required: "<span class='red'>请输入名称</span>",
+                            rangelength: "<span class='red'>名称最少2位，最长16位</span>"
+                        },
+                        link: {
+                            required: "<span class='red'>请输入链接地址</span>",
+                            rangelength: "<span class='red'>链接地址最少2位，最长100位</span>"
+                        },
+                        order: {
+                            required: "<span class='red'>请输入排序</span>",
+                            number: "<span class='red'>排序必须为数字</span>"
+                        }
+                    }
+                }
+        );
+    });
+</script>
+
+<script>
+    function add_info() {
+        var name = $("#name").val();
+        var link = $("#link").val();
+        var order = $("#order").val();
+        var logo = $("#logo").val();
+        $.post("/link/p/add_link", {name: name, link: link, order: order, logo: logo}, function (result) {
+        });
+        $("#addinfo").html("添加成功");
+    }
+
+
+    function link_del(reply_id, id_num) {
+
+        id_num = id_num.toString();
+        var AjaxUrl = "/link/p/delete/" + reply_id;
+        $.getJSON(AjaxUrl, function (Json) {
+            $("#del_link_" + id_num).html('');
+        });
+
+    }
+    function update_link(update_id, id_num) {
+        id_num = id_num.toString();
+
+        var name1 = $("#name_" + id_num).val();
+        var link1 = $("#link_" + id_num).val();
+        var order1 = $("#order_" + id_num).val();
+        var logo1 = $("#logo_" + id_num).val();
+        $.post("/link/p/modify/" + update_id, {
+            name: name1,
+            link: link1,
+            order: order1,
+            logo: logo1
+        }, function (result) {
+            alert("更新成功");
+            $("#del_link").html('');
+
+        });
+
+    }
+</script>
+
+
+<div class="row">
+    <div class="col-md-10">
+        <div class="panel panel-default">
+            <div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span> 链接列表</div>
+            <div class="panel-body" id="addinfo">
+                <form class="form-horizontal" id="form_add">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>名称</th>
+                            <th>链接地址</th>
+                            <th>图片</th>
+                            <th>排序</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tr>
+                            <td>
+                                <input id="name" type="text" name="name" class="form-control">
+                            </td>
+                            <td>
+                                <input id="link" name="link" type="text" class="form-control">
+                            </td>
+                            <td>
+                                <input id="logo" name="logo" type="text" class="form-control"/>
+                                <label id="up"><a href="/entry/add" target="_blank">上传图片</a></label>
+                            </td>
+                            <td>
+                                <input id="order" name="order" type="text" class="form-control">
+                            </td>
+                            <td>
+                                <button onclick="add_info();" class="btn btn-primary btn-md">添加</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+
+
+                <Br>
+                {% set ii = 0 %}
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>UID</th>
+                        <th>名称</th>
+                        <th>链接地址</th>
+                        <th>图片</th>
+                        <th>排序</th>
+                        <th colspan="2">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for x in view %}
+                    <tr id="del_link_{{ ii }}">
+                        <form method="post" action="/link/modify/{{x.uid}}" class="form-horizontal" id="form_post">
+
+                            <td>
+                                {{ x.uid }}
+                            </td>
+                            <td>
+                                <input id="name_{{ ii }}" type="text" name="name" value="{{ x.name }}"
+                                       class="form-control">
+                            </td>
+                            <td>
+                                <input id="link_{{ ii }}" type="text" name="link" value="{{ x.link }}"
+                                       class="form-control">
+                            </td>
+                            <td>
+                                <input id="logo_{{ ii }}" name="logo" value="{{ x.logo }}" type="text"
+                                       class="form-control"/>
+                                <label id="up"><a href="/entry/add" target="_blank">上传图片</a></label>
+                            </td>
+                            <td>
+                                <input id="order_{{ ii }}" type="text" name="order" value="{{ x.order }}"
+                                       class="form-control">
+                            </td>
+                            <td>
+                                <a onclick="update_link('{{ x.uid }}', {{ ii }} );">
+                                    <span class="glyphicon glyphicon-pencil"></span> 更新
+                                </a>
+                            </td>
+                            <td>
+                                <a class="trash" onclick="link_del('{{ x.uid }}', {{ ii }} );">
+                                    <span class="glyphicon glyphicon-trash"></span> 删除
+                                </a>
+                            </td>
+                        </form>
+                    </tr>
+                    {% set ii = ii + 1 %}
+                    {% end %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

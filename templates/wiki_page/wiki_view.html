@@ -1,0 +1,39 @@
+{% extends "../theme/bage.html" %}
+{% block head %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.get('/wiki/ajax_count_plus/{{view.uid}}');
+    });
+</script>
+{% end %}
+{% block headinfo %}
+{% end %}
+{% block typebody %}
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li>Current location: <a href="/">{{ _('Home') }}</a></li>
+        <li><a href="/wiki/recent">Wiki</a></li>
+        <li class="active">{{ postinfo.title }}</li>
+    </ul>
+</div>
+<div class="panel panel-black">
+    <div class="panel-heading"><b> {{ postinfo.title }} </b></div>
+    <div class="panel-body">
+        {{ datetime.datetime.fromtimestamp(postinfo.time_update).strftime('%Y-%m-%d') }}
+        <span class="split">|</span>
+        {{ _('author') }} : {{ _('admin') }}
+        <span class="cmts"><a href="/wiki/_edit/{{ postinfo.uid  }}" class="btn btn-xs btn-warning">
+            <span class="glyphicon glyphicon-pencil"></span>
+            {{ _('Edit') }}</a></span>
+        <span class="cmts">
+            <a href="/wiki_man/view/{{ postinfo.uid  }}" class="btn btn-xs btn-danger"> {{ _('Review') }}</a>
+        </span>
+
+        <div id="wiki_cnt" class="listinfo_content">
+            {% raw unescape(postinfo.cnt_html ) %}
+        </div>
+    </div>
+</div>
+{% end %}
+
+

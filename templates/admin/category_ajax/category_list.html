@@ -1,0 +1,156 @@
+<script type="text/javascript">
+    $().ready(function () {
+        $("#form_add").validate(
+                {
+                    rules: {
+                        slug: {
+                            required: true,
+                            rangelength: [2, 16]
+                        },
+                        order: {
+                            required: true,
+                            number: true
+                        }
+                    },
+                    messages: {
+                        slug: {
+                            required: "<span class='red'>请输入slug</span>",
+                            rangelength: "<span class='red'>slug最少2位，最长16位</span>"
+                        },
+                        order: {
+                            required: "<span class='red'>请输入排序</span>",
+                            number: "<span class='red'>排序必须为数字</span>"
+                        }
+                    }
+                }
+        );
+    });
+</script>
+<script>
+    function add_info() {
+        var slug = $("#slug").val();
+        var name = $("#name").val();
+        var order = $("#order").val();
+        var uid = $("#uid").val();
+        $.post("/maintain/p/category/add", {uid: uid, slug: slug, order: order, name: name}, function (result) {
+        });
+        $("#addinfo").html("添加成功");
+    }
+
+    function category_del(reply_id, id_num) {
+        id_num = id_num.toString();
+        var AjaxUrl = "/maintain/p/category/delete/" + reply_id;
+        $.getJSON(AjaxUrl, function (Json) {
+            $("#del_category_" + id_num).html('');
+        });
+    }
+    function update_category(update_id, id_num) {
+        id_num = id_num.toString();
+        var slug1 = $("#slug_" + id_num).val();
+        var name1 = $("#name_" + id_num).val();
+        var order1 = $("#order_" + id_num).val();
+        $.post("/maintain/p/category/modify/" + update_id, {
+            name: name1,
+            slug: slug1,
+            order: order1
+        }, function (result) {
+            alert("更新成功");
+            $("#del_category").html('');
+
+        });
+    }
+</script>
+
+
+<div class="row">
+    <div class="col-md-10">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-envelope"></span> 分类列表
+            </div>
+            <div class="panel-body" id="addinfo">
+                <form class="form-horizontal" id="form_add">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>UID</th>
+                            <th>分类名</th>
+                            <th>Slug</th>
+                            <th>排序</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tr>
+                            <td>
+                                <input id="uid" name="uid" type="text" class="form-control">
+                            </td>
+                            <td>
+                                <input id="name" name="name" type="text" class="form-control">
+                            </td>
+                            <td>
+                                <input id="slug" name="slug" type="text" class="form-control">
+                            </td>
+                            <td>
+                                <input id="order" name="order" type="text" class="form-control">
+                            </td>
+                            <td>
+                                <button onclick="add_info();" class="btn btn-primary btn-md">添加</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+
+
+                <Br>
+                {% set ii = 0 %}
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <td>uid</td>
+                        <td>分类名</td>
+                        <td>Slug</td>
+                        <td>排序</td>
+                        <td colspan="2">操作</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for x in view %}
+                    <tr id="del_category_{{ ii }}">
+                        <form class="form-horizontal" id="form_post">
+                            <td>
+                                {{ x.uid }}
+                            </td>
+                            <td>
+                                <input id="name_{{ ii }}" name="name" type="text" class="form-control"
+                                       value="{{ x.name }}">
+                            </td>
+                            <td>
+                                <input id="slug_{{ ii }}" type="text" name="slug" value="{{ x.slug }}"
+                                       class="form-control">
+                            </td>
+                            <td>
+                                <input id="order_{{ ii }}" type="text" name="order" value="{{ x.order }}"
+                                       class="form-control">
+                            </td>
+                            <td>
+                                <a onclick="update_category('{{ x.uid }}', {{ ii }} );">
+                                    <span class="glyphicon glyphicon-pencil"></span> 更新
+                                </a>
+                            </td>
+                            <td>
+                                <a class="trash" onclick="category_del('{{ x.uid }}', {{ ii }} );">
+                                    <span class="glyphicon glyphicon-trash"></span> 删除
+                                </a>
+                            </td>
+                        </form>
+                    </tr>
+                    {% set ii = ii + 1 %}
+                    {% end %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,73 @@
+<script>
+     function rel_del(reply_id, id_num) {
+
+        id_num = id_num.toString();
+        var AjaxUrl = "/reply/delete/" + reply_id;
+        $.getJSON(AjaxUrl, function (Json) {
+            $("#del_info_" + id_num).html('');
+        });
+
+    }
+</script>
+<div class="row">
+    <div class="col-md-10">
+        <div class="panel panel-default">
+            <div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span> 评论列表</div>
+            <div class="panel-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+
+                        <th>文章标题</th>
+                        <th>评论内容</th>
+                        <th>时间</th>
+                        <th>操作</th>
+
+                    </tr>
+                    </thead>
+
+                    {% set ii = 0 %}
+
+
+                    {% for x in view_all %}
+
+                    <tr id="del_info_{{ ii }}">
+                        <td style="width: 35%">
+                            <a href="/post/{{ x.post_id }}" target="_blank">
+                                {% module reply_post_by_id(x.post_id,x.uid) %}
+                            </a>
+                        </td>
+                        <td style="width: 35%">
+                        <textarea class="form-control">
+                            {{x.cnt_md}}
+                        </textarea>
+
+                        </td>
+
+                        <td>
+                            <em class="date">{{ str(x.date)[:-15]}}</em>
+                        </td>
+                        <td>
+                            <a href="/post/{{ x.post_id }}" class="trash" target="_blank">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                查看
+                            </a>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <a   onclick="rel_del('{{ x.uid }}', {{ ii }} );" class="trash" target="_blank">
+                                <span class="glyphicon glyphicon-trash"></span>
+                                删除
+                            </a>
+                        </td>
+                    </tr>
+                    {% set ii = ii + 1 %}
+                    {% end %}
+
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>

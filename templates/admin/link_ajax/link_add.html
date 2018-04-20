@@ -1,0 +1,26 @@
+{% extends "../../theme/bage.html" %}
+{% block mainbody %}
+<div class="header">
+    <h1>添加友情链接</h1>
+</div>
+<div class="content">
+    <form action="" method="post" class="pure-form pure-form-stacked" id="form_add">
+        <div class="pure-control-group">
+            <label for="name">名称</label>
+            <input id="name" type="text" name="name">
+        </div>
+        <div class="pure-control-group">
+            <label for="link">链接地址</label>
+            <input id="link" name="link" type="text">
+        </div>
+        <div class="pure-control-group">
+            <label for="order">排序</label>
+            <input id="order" name="order" type="text"/>
+        </div>
+        <div class="pure-control-group">
+            <label for="sub1"></label>
+            <input id="sub1" class="pure-button pure-button-primary" type="submit" value="添加">
+        </div>
+    </form>
+</div>
+{% end %}

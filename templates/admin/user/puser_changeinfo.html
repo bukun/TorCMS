@@ -1,0 +1,50 @@
+<script>
+    function change_info() {
+        var rawpass = $("#rawpass").val();
+        var user_email = $("#user_email").val();
+        $.post("/user/p/changeinfo", {rawpass: rawpass, user_email: user_email}, function (result) {
+        });
+        $("#changeinfo").html("修改成功");
+    }
+</script>
+<div class="row" id="changeinfo">
+    <div class="col-md-10">
+        <div class="panel panel-default">
+            <div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span> 修改个人信息</div>
+            <div class="panel-body">
+                <form class="form-horizontal" id="form_changeinfo">
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="rawpass">密码</label>
+
+                            <div class="col-md-9">
+                                <input type="password" name="rawpass" id="rawpass" class="form-control"
+                                       placeholder="请输入密码"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="user_email">电子邮箱</label>
+
+                            <div class="col-md-9">
+                                <input type="text" name="user_email" id="user_email" class="form-control"
+                                       placeholder="请输入新的电子邮箱"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"></label>
+
+                            <div class="col-md-9">
+                                <button onclick="change_info();" class="btn btn-default btn-md ">修改</button>
+
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

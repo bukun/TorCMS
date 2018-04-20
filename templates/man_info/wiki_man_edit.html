@@ -1,0 +1,86 @@
+{% extends "../theme/bage.html" %}
+{% block headinfo %}
+<style type="text/css">
+        table.diff {font-family:Courier; border:medium;width:99%;}
+        .diff_header {background-color:#e0e0e0}
+        td.diff_header {text-align:right}
+        .diff_next {background-color:#c0c0c0}
+        .diff_add {background-color:#aaffaa}
+        .diff_chg {background-color:#ffff77}
+        .diff_sub {background-color:#ffaaaa}
+    </style>
+<script type="text/javascript" src="{{ static_url('jslib/gscript.js') }}"></script>
+<script src="{{ static_url('f2elib/codemirror_5.19.0/lib/codemirror.js') }}"></script>
+<script src="{{ static_url('f2elib/codemirror_5.19.0/addon/edit/continuelist.js') }}"></script>
+<script src="{{ static_url('f2elib/codemirror_5.19.0/mode/markdown/markdown.js') }}"></script>
+<link rel="stylesheet" href="{{ static_url('f2elib/codemirror_5.19.0/lib/codemirror.css') }}">
+<script type="text/javascript">
+    $(document).ready(function () {
+        var editor = CodeMirror.fromTextArea(document.getElementById("cnt_md"), {
+            lineWrapping: true,
+            mode: 'markdown',
+            lineNumbers: true,
+            theme: "default",
+            extraKeys: {"Enter": "newlineAndIndentContinueMarkdownList"}
+        });
+    });
+</script>
+
+<style type="text/css">
+    .CodeMirror {
+        border-top: 1px solid #666;
+        border-bottom: 1px solid #666;
+    }
+    .cm-s-default .cm-trailing-space-a:before,
+    .cm-s-default .cm-trailing-space-b:before {
+        position: absolute;
+        content: "\00B7";
+        color: #777;
+    }
+    .cm-s-default .cm-trailing-space-new-line:before {
+        position: absolute;
+        content: "\21B5";
+        color: #777;
+    }
+</style>
+{% end %}
+{% block typebody %}
+<ol class="breadcrumb">
+    <li>Current location: <a href="{% module site_url() %}">Home</a></li>
+    <li>{% module the_category(postinfo.uid) %}</li>
+    <li class="active">{{ postinfo.title }}</li>
+</ol>
+<div class="panel panel-black">
+    <div class="panel-heading">
+        <h2>{{ postinfo.title }}</h2>
+        <span>{{ str(postinfo.date)[:10] }}</span>
+        <span>Author: <a href="http://www.osgeo.cn/">OSGeo中国中心</a></span>
+        <span>Browse: {{ postinfo.view_count }} 次</span>
+        <span class="cmts"><a class="btn btn-xm btn-primary" href="/wiki/{{ postinfo.title }}">View</a></span>
+    </div>
+    <div class="panel-body">
+        <form method="post" class="form-horizontal" role="form" id="form_post">
+            <fieldset>
+                <div class="form-group">
+                    <label for="cnt_md" class="col-sm-1 control-label">内容</label>
+
+                    <div class="col-sm-10">
+                        <textarea rows=26 id="cnt_md" name="cnt_md" class="form-control">
+                            {% raw unescape(postinfo.cnt_md) %}
+                        </textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="sub1" class="col-sm-2 control-label"></label>
+
+                    <div class="col-sm-10">
+                        <input id="sub1" type="submit" class="btn btn-primary" value="更新数据"/>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+{% end %}
+
+

@@ -1,0 +1,31 @@
+{% extends "../theme/bage.html" %}
+{% block typebody %}
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li>Current location: <a href="/">{{ _('Home') }}</a></li>
+        <li class="active">{{ _('Modify user permissions') }}</li>
+    </ul>
+</div>
+<div class="panel panel-black">
+    <div class="panel-heading"><b> {{ _('Modify user permissions') }} </b></div>
+    <div class="panel-body">
+        <form method="post" action="/user/changerole/{{ userinfo.user_name}}"
+              id="form_changeinfo" class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="role">{{ _('permissions') }}</label>
+
+                <div class="col-sm-10">
+                    <input type="text" name="role" id="role" class="form-control"
+                           placeholder="Please enter administrative permission, case 0000"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+                <input id="sub1" type="submit" class="btn btn-primary" value="{{ _('update') }}"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% end %}
+

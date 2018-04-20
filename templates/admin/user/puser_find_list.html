@@ -1,0 +1,55 @@
+<script>
+    function category_del(reply_id, id_num) {
+        id_num = id_num.toString();
+        var AjaxUrl = "/user/p/delete_user/" + reply_id;
+        $.getJSON(AjaxUrl, function (Json) {
+            $("#del_category_" + id_num).html('');
+        });
+        alert("删除成功");
+        $("#del_category_" + id_num).html('');
+    }
+    function update_category(update_id, id_num) {
+        id_num = id_num.toString();
+        var role = $("#role" + id_num).val();
+        $.post("/user/p/changerole/" + update_id, {role: role}, function (result) {
+            alert("更新成功");
+            $("#del_category").html('');
+
+        });
+    }
+
+</script>
+<div class="row">
+    <div class="col-md-10">
+        <div class="panel panel-default">
+            <div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span> 用户列表</div>
+            <div class="panel-body">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>用户名</th>
+                        <th>当前权限</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% set ii = 0 %}
+                    {% for x in view %}
+                    <tr id="del_category_{{ ii }}">
+                        <td>{{x.user_name}}</td>
+                        <td><input value="{{ x.role }}" type="text" id="role{{ ii }}"
+                                   name="role" class="form-control"></td>
+                        <td><a onclick="update_category('{{x.user_name}}', {{ ii }} );"><span
+                                class="glyphicon glyphicon-pencil"></span> 修改</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <a class="trash" onclick="category_del('{{ x.uid }}', {{ ii }} );"><span
+                                    class="glyphicon glyphicon-trash"></span> 删除</a></td>
+                    </tr>
+                    {% set ii = ii + 1 %}
+                    {% end %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

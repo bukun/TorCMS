@@ -1,0 +1,108 @@
+<script type="text/javascript">
+    $().ready(function () {
+        $("#form_changepass").validate(
+                {
+                    rules: {
+                        user_name: {
+                            required: true
+
+                        },
+                        user_pass: {
+                            required: true,
+                            rangelength: [6, 20]
+                        },
+                        user_pass2: {
+                            required: true,
+                            equalTo: "#user_pass"
+                        }
+
+                    },
+                    messages: {
+
+
+                        user_pass: {
+                            required: "<span class='red'>请输入密码</span>",
+                            rangelength: "<span class='red'>密码最少为6位，最长为20位</span>"
+                        },
+                        user_pass2: {
+                            required: "<span class='red'>请输入密码确认密码</span>",
+                            equalTo: "<span class='red'>两次输入密码不一致</span>"
+                        }
+
+                    }
+                }
+        );
+    });
+</script>
+<script>
+    function change_pass() {
+
+        var newPassword = $("#password").val();
+        var newPassword1 = $("#password1").val();
+
+        $.post("/user/p/changepass", {newPassword: newPassword,newPassword1:newPassword1}, function (result) {
+
+        });
+        $("#changepass").html("修改成功");
+    }
+</script>
+
+
+<div class="row" id="changepass">
+    <div class="col-md-10">
+        <div class="panel panel-default">
+            <div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span> 修改密码</div>
+            <div class="panel-body">
+                <form class="form-horizontal" id="form_changepass">
+
+                    <fieldset>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="user_name">用户名</label>
+
+                            <div class="col-md-9">
+                                <input type="text" name="user_name" id="user_name" class="form-control"
+                                       value="{{userinfo.user_name}}"
+                                       readonly/>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="password">新密码</label>
+
+                            <div class="col-md-9">
+                                <input type="password" name="newPassword" id="password" class="form-control"
+                                       placeholder="请输入新密码"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="password1">确认密码</label>
+
+                            <div class="col-md-9">
+                                <input type="password" name="newPassword1" id="password1" class="form-control"
+                                       placeholder="请输入确认密码"/>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"></label>
+
+                            <div class="col-md-9">
+                                <button onclick="change_pass();" class="btn btn-default btn-sm ">修改</button>
+                                <a href="/user/logout" class="btn btn-default btn-sm">注销</a>
+
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+
+
+</div>
+
+

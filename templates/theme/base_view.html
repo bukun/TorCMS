@@ -1,0 +1,14 @@
+{% extends "../theme/bage.html" %}
+{% block typebody %}
+<div class="container">
+    <div style="padding-top: 80px"></div>
+    <div class="row">
+        <div class="col-md-9">
+            {% block zhuti %}{% end %}
+        </div>
+        <div class="col-md-3">
+            {% block right %} {% end %}
+        </div>
+    </div>
+</div>
+{% end %}

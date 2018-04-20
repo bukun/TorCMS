@@ -1,0 +1,40 @@
+{% extends "../theme/bage.html" %}
+{% block headbase %}
+
+{% end %}
+{% block typebody %}
+<ol class="breadcrumb">
+   <li>Current location：<a href="/">Home</a></li>
+    <li class="active"><a href="/special/">Special Database</a></li>
+</ol>
+ <div class="row">
+        <div class="col-sm-9">
+
+        <div class="panel panel-black">
+{% module app_catalog_of('4500') %}
+        </div>
+        </div>
+   <div class="col-sm-3">
+            <div class="panel panel-black">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                       Most concern
+                    </h3>
+                </div>
+                <ul class="list-group" id="mostall">
+                    {% module post_most_view(5, with_date = False, with_catalog= False,kind='s') %}
+                </ul>
+            </div>
+            <div class="panel panel-black">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                         Recent articles
+                    </h3>
+                </div>
+                <ul class="list-group">
+                    {% module post_recent(5, with_date = False, with_catalog= False,kind='s') %}
+                </ul>
+            </div>
+        </div>
+ </div>
+{% end %}

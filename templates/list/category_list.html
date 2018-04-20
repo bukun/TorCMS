@@ -1,0 +1,46 @@
+{% extends "../theme/tmpldoc.html" %}
+{% block head %}
+<title>OSGeo中国中心 | 开放地理空间实验室</title>
+<meta name="keywords" content="GIS,地理信息系统,开源GIS,OSGeo,OpenLayers,MapServer,GDAL,GIS教程,WebGIS">
+<meta name="description" content="OSGeo中国中心实验室，关注开源GIS，开放数据">
+{% end %}
+{% block content %}
+<ol class="breadcrumb">
+    <li>Current location：<a href="{% module site_url() %}">Home</a></li>
+    <li><a href="/post/">Document</a></li>
+    <li class="active">{{ kwd['cat_name'] }}</li>
+</ol>
+<div class="panel panel-black">
+    <div class="panel-heading">{{ kwd['cat_name'] }}</div>
+    <div class="panel-body">
+        {% for x in infos %}
+        <div class="row">
+
+            {% if x.logo != "" %}
+            <div class="col-sm-4">
+                <img src="{{ x.logo }}" class="img-thumbnail"/>
+            </div>
+            <div class="col-sm-8">
+                <div class="col-sm-12">
+                    <div class="listinfo_title"><a href="/post/{{ x.uid }}"> {{ x.title }} </a></div>
+                    <div class="listinfo_content padt10">{% module generate_abstract(x.cnt_html)[:215] %}...</div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-sm-12">
+                <div class="listinfo_title"><a href="/post/{{ x.uid }}"> {{ x.title }} </a></div>
+                <div class="listinfo_content padt10">{% module generate_abstract(x.cnt_html)[:215] %}...</div>
+            </div>
+
+            {% end %}
+        </div>
+ <div class="bor"></div>
+        {% end %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        {% module catalog_pager( kwd['cat_slug'], kwd['current_page'] , tag = kwd['tag']) %}
+    </div>
+</div>
+{% end %}

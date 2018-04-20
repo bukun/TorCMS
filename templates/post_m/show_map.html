@@ -1,0 +1,228 @@
+{% extends "../theme/base_view.html" %}
+{% block head %}
+<title>{{ postinfo.title }}|Online map | historical map</title>
+<meta name="keywords" content="{{ postinfo.keywords }}An online map, a historical map">
+<meta name="description" content="{% module generate_description(postinfo.cnt_html) %}">
+<link rel="stylesheet" href="{{ static_url('f2elib/bootstrap-star-rating-master/css/star-rating.css')}}" type="text/css"
+      media="all">
+<script type="text/javascript" src="{{ static_url('f2elib/bootstrap-star-rating-master/js/star-rating.js') }}"></script>
+
+<!--<script>-->
+<!--$.get('/rel/map/{{ postinfo.uid }}');-->
+<!--</script>-->
+{% block headinfo %}
+{% end %}
+{% end %}
+{% block zhuti %}
+{#
+<div class="alert alert-info">Suggestion: <a href= "/user/login" > after landing </a>, it will list the information that users use App recently!</div>
+#}
+
+<div class="panel panel-black">
+    {% if userinfo %}
+    {% else %}
+    <div class="alert alert-warning">
+        <a class="close" data-dismiss="alert" href="#" aria-hidden="true"> &times; </a>
+        Based on WebGIS technology, maps can be viewed online, magnified, narrowed, and can also be superimposed on different maps.
+    </div>
+    {% end %}
+    <div class="panel-heading">
+        <H1>{{ postinfo.title }}</H1>
+
+        <div class="container" style="width: auto;">
+            <div class="row">
+                <div class="col-md-12" style="text-align: left">
+                    <b>Category:</b> <span class="app_tag">{% module map_catalogs(postinfo.uid ) %}</span>
+                    <span>Release date:</span>
+                    <span class="">{{ str(postinfo.date)[:10] }}</span>
+                    <a class="btn btn-info btn-xs"
+                       href="/map/{{postinfo.uid}}?fullscreen=1&gson={{ kwd['geojson'] }}" target="_blank">
+                        <span class="glyphicon glyphicon-fullscreen"></span>
+                        Full screen
+                    </a>
+                    <button id="act_collect" class="btn btn-info btn-xs">
+                        <span class="glyphicon glyphicon-heart-empty"></span>
+                        <span id="text_collect">Collect</span>
+                    </button>
+                    {% module widget_editor('map', postinfo.uid, userinfo) %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div id="map" class="mapdiv" tabindex="0" data-map='{"i": "{{ postinfo.uid[1:] }}",
+        "x":{{ kwd['vlon'] if 'vlon' in kwd else postinfo.extinfo['ext_lon'] }},
+        "y": {{ kwd['vlat'] if 'vlat' in kwd else postinfo.extinfo['ext_lat'] }},
+        "v": {{ kwd['vzoom'] if 'vzoom' in kwd else postinfo.extinfo['ext_zoom_current'] }},
+        "m": {{ postinfo.extinfo['ext_zoom_max'] }},
+        "n" : {{ postinfo.extinfo['ext_zoom_min'] }},
+        "k": {{ kwd['marker']}},
+        "g": "{{ kwd['geojson'] }}",
+        "login": {{ kwd['login'] }}
+        }'>
+    </div>
+</div>
+<div class="panel-body">
+    <ul class="list-group">
+        <li class="list-group-item">
+            <a id="save_view" class="btn btn-xs btn-primary">
+                <span class="glyphicon glyphicon-save">Save view</span></a>
+            <a id="current_view_url" href="{% module site_url() %}{{ kwd['url'] }}">{% module site_url() %}
+                {{ kwd['url'] }}
+            </a>
+        </li>
+    </ul>
+    <ul class="list-group">
+        <li class="list-group-item"><h4 class="list-group-item-heading">User view link</h4></li>
+        {% if userinfo %}
+        {% module app_layout(postinfo.uid, userinfo.uid) %}
+        {% end %}
+        <li class="list-group-item">
+            <h4 class="list-group-item-heading" style="display: inline-block;">User map data </h4> <span
+                class="text-info bg-info"> Data editing can be carried out after full screen</span></li>
+        {% if userinfo %}
+        {% module app_json(postinfo.uid, userinfo.uid) %}
+        {% end %}
+    </ul>
+</div>
+<div class="panel-heading">
+    <h4 class="panel-title">Map description
+    </h4>
+</div>
+<div class="panel-body">
+    <div id="wiki_cnt">
+        {% raw unescape(postinfo.cnt_html) %}
+    </div>
+</div>
+<div class="panel-body">
+    <p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
+    {% module reply_panel(postinfo.uid, userinfo) %}
+</div>
+<div class="panel-footer">
+    <div class="row">
+        <div class="col-md-6">
+            <span>Label:</span>
+                <span class="post_cat">
+                    {% set iii = 1 %}
+                    {% for x in tag_info %}
+                    <a href="/label/{{postinfo.kind}}/{{ x.tag_id }}" class="app_label tag{{ iii }}">
+                        {{ x.tag_name }}
+                    </a>
+                    {% set iii = iii + 1 %}
+                    {% end %}
+                </span>
+        </div>
+        <div class="col-md-6"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-6" id="bwlj">
+            Map link： <a href="{% module site_url() %}/map/{{ postinfo.uid }}">{{ postinfo.title }}</a>
+        </div>
+        <div class="col-md-6 ">
+            {% if 1 == 2 %}
+            <div class="widget_baidu_share"> {% module baidu_share() %}</div>
+            {% end %}
+        </div>
+    </div>
+</div>
+</div>
+{% end %}
+{% block right %}
+<div class="panel panel-primary">
+    <div class="panel-heading">Map evaluation</div>
+    <div class="panel-body" style="font-size: x-small">
+        {% module star_rating(postinfo, userinfo) %}
+    </div>
+    <div class="panel-heading">Map reference</div>
+    <div class="panel-body codehilite hll c" style="font-size: small; line-height: 1.1em;">
+        <span id="mapref" class="codehilite hll c"></span>
+    </div>
+</div>
+<div class="panel panel-primary">
+    <div class="panel-heading">Map superposition</div>
+    <div class="panel-body">
+        {% if userinfo %}
+        <form action="javascript:;" class="form-horizontal" role="form">
+            <fieldset>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <select id="over_map_1" name="over_map_1" class="form-control">
+                            {% for recent in recent_apps %}
+                            <option value="{{recent.post_id}}">{{recent.post_id}} |
+                                {{recent.post_title}}
+                            </option>
+                            {% end %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <select id="over_map_2" name="over_map_2" class="form-control">
+                            <option value=""></option>
+                            {% for recent in recent_apps %}
+                            <option value="{{recent.post_id}}">{{recent.post_id}} |
+                                {{recent.post_title}}
+                            </option>
+                            {% end %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-1 col-sm-3">
+                        <button id="btn_overlay" name="btn_overlay" class="btn btn-info btn-sm">叠加</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        {% else %}
+        <div><a class="btn btn-sm btn-warning" href="/user/login">After logging in to </a>, the online superposition operation can be performed.</div>
+        {% end %}
+    </div>
+</div>
+<div class="panel panel-primary">
+    <div class="panel-heading"><h3 class="panel-title">Related map</h3></div>
+    <ul class="list-group" style="overflow: hidden;">
+        {% for x in relations %}
+        <li class="list-group-item" style="overflow: hidden;">
+            <a href="/map/{{ x.post_id }}">
+                <span class="glyphicon glyphicon-map-marker"></span>{{ x.post_title }}
+                {% if x.post_id[0] == 'v' %}<span class="badge" style="color:yellow">v</span>{% end %}
+            </a>
+        </li>
+        {% end %}
+        {% for x in rand_recs %}
+        <li class="list-group-item" style="overflow: hidden;">
+            <a href="/map/{{ x.uid }}">
+                <span class="glyphicon glyphicon-map-marker"></span>{{ x.title }}
+                {% if x.uid[0] == 'v' %}<span class="badge" style="color:yellow">v</span>{% end %}
+            </a>
+        </li>
+        {% end %}
+    </ul>
+</div>
+<div class="panel panel-primary">
+    <div class="panel-heading"><h3 class="panel-title"> Recent map </h3></div>
+    <ul class="list-group">
+        {% if userinfo is None %}
+        {% module app_recent_used(postinfo.kind, 5) %}
+        {% else %}
+        {% module app_user_recent(userinfo.uid, postinfo.kind, 5) %}
+        {% end %}
+    </ul>
+</div>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            Most of the maps
+        </h3>
+    </div>
+    <ul class="list-group">
+        {% if userinfo is None %}
+        {% module app_most_used(postinfo.kind, 5) %}
+        {% else %}
+        {% module app_user_most(userinfo.uid, postinfo.kind, 5) %}
+        {% end %}
+    </ul>
+</div>
+<script src="{{ static_url('jslib/maplet/mapshowm.js') }}"></script>
+{% end %}

@@ -1,0 +1,69 @@
+{% extends "../../theme/bage.html" %}
+{% block typebody %}
+<ol class="breadcrumb">
+    <li>Current location: <a href="/">Home</a></li>
+    <li><a href="/user/info"> User</a></li>
+    <li>Most use</li>
+</ol>
+<div class="panel panel-black">
+    <div class="panel-heading">
+        Most use
+    </div>
+    <div class="panel-body">
+        <div class=" marketing">
+            <div class="row-fluid home-tab-fluid">
+                <div class="row-fluid tabbedmain hidden-phone" id="tabselector">
+                    <ul class="nav nav-tabs nav-justified">
+                        <li class="span3 active main-selector main-tabs">
+                            <a href="#tab1" data-toggle="tab" class="home-tab-a">
+                                <span class="tabfix">
+                                    <h4>Information</h4>
+                                </span>
+                            </a>
+                        </li>
+                        <li class="span3 main-selector main-tabs">
+                            <a href="#tab2" data-toggle="tab" class="home-tab-a">
+                                <span class="tabfix">
+                                    <h4>Document</h4>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="tab-content" id="#indexcontent">
+                <div class="tab-pane active fade in" id="tab1">
+                    <div class="row-fluid">
+                        <br>
+                        <ul class="list-group">
+                            {% module app_user_most(userinfo.uid,'9',20,with_tag=True,glyph="glyphicon glyphicon-th-list") %}
+                        </ul>
+                        <br>
+
+                    </div>
+                </div>
+                <div class="tab-pane fade in" id="tab2">
+                    <div class="row-fluid">
+                        <br>
+                        <ul class="list-group">
+                            {% module app_user_most(userinfo.uid,'1',20,with_tag=True) %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer">
+        <div class="row">
+            <div class="col-md-6">
+                Article link： <a href="/user_list/user_most" style="color:#069">Most use</a>
+            </div>
+            <div class="col-md-6">
+                <div class="widget_baidu_share">{% module baidu_share() %}</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% end %}
+
+

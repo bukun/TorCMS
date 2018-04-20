@@ -1,0 +1,12 @@
+{% set ii = 0 %}
+<div id="del_category_{{ ii }}">
+    <form class="pure-form pure-form-aligned">
+        用户名：{{x.user_name}}&nbsp;&nbsp;&nbsp;&nbsp;
+        当前权限：<input value="{{ x.role }}" type="text" id="role{{ ii }}" name="role">
+        <a class="pure-button pure-button-primary" onclick="update_category('{{x.user_name}}', {{ ii }} );"
+           style="margin-left: 100px">修改权限</a>
+        <a class="pure-button pure-button-primary" onclick="category_del('{{ x.uid }}', {{ ii }} );">删除</a>
+    </form>
+    <p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
+</div>
+{% set ii = ii + 1 %}

@@ -1,0 +1,31 @@
+{% extends "../theme/tmpldoc.html" %}
+{% block content %}
+<ol class="breadcrumb">
+    <li>当前位置: <a href="/">首页</a></li>
+    <li><a href="/post/recent"> 文档列表</a></li>
+</ol>
+<div class="panel panel-primary">
+    <div class="panel-heading">无分类</div>
+    <ul class="list-group">
+        {% for postinfo in norecs %}
+        <li class="list-group-item">
+            <a href="/admin_post/_edit/{{postinfo.uid}}" title="{{postinfo.title}}">
+                {{ postinfo.title }}
+            </a>
+            <em class="date fr padr10">{{ str(postinfo.date)[:10] }}</em>
+        </li>
+        {% end %}
+    </ul>
+    <div class="panel-heading">分类有问题</div>
+    <ul class="list-group">
+        {% for postinfo in errrecs %}
+        <li class="list-group-item">
+            <a href="/admin_post/_edit/{{postinfo.uid}}" title="{{postinfo.title}}">
+                {{ postinfo.title }}
+            </a>
+            <em class="date fr padr10">{{ str(postinfo.date)[:10] }}</em>
+        </li>
+        {% end %}
+    </ul>
+</div>
+{% end %}

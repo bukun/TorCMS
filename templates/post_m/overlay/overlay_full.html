@@ -1,0 +1,23 @@
+{% extends "../../theme/map_calcubic_full.html" %}
+{% block head %}
+<style>
+    html, body, #map {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+<SCRIPT>
+    var vlon = {{ kwd['lon']}};
+    var vlat = {{ kwd['lat']}};
+    var vzoom_current = {{ kwd['zoom_current'] }};
+    var vzoom_max = {{ kwd['zoom_max']}};
+    var vzoom_min = {{ kwd['zoom_min']}};
+
+</script>
+{% end %}
+{% block zhuti %}
+<span id="pycode"></span>
+<input id="app_ctrl" value="{{ app_str }}" style="display: none;">
+<div id="map" class="map" tabindex="0"></div>
+<script src="{{ static_url('jslib/maplet/overlaym.js') }}"></script>
+{% end %}

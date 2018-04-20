@@ -1,0 +1,207 @@
+<script>
+    function change_info() {
+
+        var user_name = $("#name").val();
+        var user_email = $("#user_email").val();
+        var user_trueName = $("#def_trueName").val();
+        var user_gender = $("#def_gender").val();
+        var user_birthDay = $("#def_birthDay").val();
+        var user_nickName = $("#def_nickName").val();
+        var user_mobile = $("#def_mobile").val();
+        var user_location = $("#def_location").val();
+        var user_profile = $("#def_profile").val();
+        var user_postalCode = $("#def_postalCode").val();
+        var user_certificateType = $("#def_certificateType").val();
+        var user_certificateNum = $("#def_certificateNum").val();
+        var user_company = $("#def_company").val();
+        var user_interest = $("#def_interest").val();
+        var user_high = $("#def_high").val();
+        var user_weight = $("#def_weight").val();
+        var user_bloodType = $("#def_bloodType").val();
+        $.post("/user/p/changeinfo", {
+            name: user_name,
+            user_email: user_email,
+            def_trueName: user_trueName,
+            def_gender: user_gender,
+            def_birthDay: user_birthDay,
+            def_nickName: user_nickName,
+            def_mobile: user_mobile,
+            def_location: user_location,
+            def_profile: user_profile,
+            def_postalCode: user_postalCode,
+            def_certificateType: user_certificateType,
+            def_certificateNum: user_certificateNum,
+            def_company: user_company,
+            def_interest: user_interest,
+            def_high: user_high,
+            def_weight: user_weight,
+            def_bloodType: user_bloodType
+        }, function (result) {
+        });
+        $("#changeinfo").html("修改成功");
+    }
+</script>
+<div class="row" id="changeinfo">
+    <div class="col-md-10">
+        <div class="panel panel-default">
+            <div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span> 修改个人信息</div>
+            <div class="panel-body">
+                <form class="form-horizontal" id="form_changeinfo">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="name">{{ _('User Name') }}</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" name="name" id="name" class="form-control"
+                                   value="{{ user['u_userName'] }}" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="user_email">{{ _('Email') }}</label>
+
+                        <div class="col-sm-10">
+                            <input type="email" name="user_email" id="user_email" class="form-control"
+                                   value="{{ user['u_email'] }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{ _('True Name') }}</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="def_trueName" id="def_trueName"
+                                   value="{{ user['u_trueName'] }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{ _('Gender') }}</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="def_gender" id="def_gender"
+                                   value="{{ user['u_gender'] }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{ _('Birthday') }}</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="def_birthDay" id="def_birthDay"
+                                   value="{{ user['u_birthDay'] }}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{ _('Nickname') }}</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="def_nickName" id="def_nickName"
+                                   value="{{ user['u_nickName'] }}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{ _('Mobile') }}</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="def_mobile" id="def_mobile"
+                                   value="{{ user['u_mobile'] }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{ _('Location') }}</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="def_location" id="def_location"
+                                   value="{{ user['u_location'] }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{ _('Profile') }}</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="def_profile" id="def_profile"
+                                   value="{{ user['u_profile'] }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{ _('Postalcode') }}</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="def_postalCode" id="def_postalCode"
+                                   value="{{ user['u_postalCode'] }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{ _('Certificatetype') }}</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="def_certificateType" id="def_certificateType"
+                                   value="{{ user['u_certificateType'] }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{ _('Certificate Number') }}</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="def_certificateNum" id="def_certificateNum"
+                                   value="{{ user['u_certificateNum'] }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{ _('Company') }}</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="def_company" id="def_company"
+                                   value="{{ user['u_company'] }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{ _('Interest') }}</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="def_interest" id="def_interest"
+                                   value="{{ user['u_interest'] }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{ _('High') }}</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="def_high" id="def_high"
+                                   value="{{ user['u_high'] }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{ _('Weight') }}</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="def_weight" id="def_weight"
+                                   value="{{ user['u_weight'] }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{ _('Bloodtype') }}</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="def_bloodType" id="def_bloodType"
+                                   value="{{ user['u_bloodType'] }}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label"></label>
+
+                        <div class="col-md-9">
+                            <button onclick="change_info();" class="btn btn-default btn-md ">修改</button>
+
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

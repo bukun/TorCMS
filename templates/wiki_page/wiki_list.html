@@ -1,0 +1,24 @@
+{% extends "../theme/bage.html" %}
+{% block typebody %}
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li>Current location: <a href="/">{{ _('Home') }}</a></li>
+        <li class="active">Wiki {{ _('List') }}</li>
+    </ul>
+</div>
+<div class="panel panel-black">
+    <div class="panel-heading"><b>Wiki {{ _('List') }} </b></div>
+    <div class="panel-body">
+        <ul class="list-group">
+            {% for x in view %}
+            <li class="list-group-item">
+                <a href="/wiki/{{x.title}}" title="{{x.title}}">
+                    {{ x.title }}
+                </a>
+                <span>{{ datetime.datetime.fromtimestamp(postinfo.time_update).strftime('%Y-%m-%d')  }}</span>
+            </li>
+            {% end %}
+        </ul>
+    </div>
+</div>
+{% end %}

@@ -1,0 +1,52 @@
+
+
+
+/* line 18, ../sass/inc/_tags.sass */
+.equation_catalog, .post_catalog {
+  font-size: 0.8em;
+  margin: 0px;
+  padding: 0px;
+  display: inline;
+}
+/* line 25, ../sass/inc/_tags.sass */
+.equation_catalog a, .post_catalog a {
+  color: white;
+  text-decoration: none;
+  margin: 0px 3px 0px 3px;
+  padding: 0px 3px 0px 3px;
+}
+/* line 24, ../../../../../../../var/lib/gems/1.9.1/gems/compass-0.12.7/frameworks/compass/stylesheets/compass/typography/links/_link-colors.scss */
+.equation_catalog a:hover, .post_catalog a:hover {
+  color: #eeeeee;
+}
+/* line 4, ../../../../../../../var/lib/gems/1.9.1/gems/compass-0.12.7/frameworks/compass/stylesheets/compass/typography/links/_hover-link.scss */
+.equation_catalog a:hover, .post_catalog a:hover {
+  text-decoration: underline;
+}
+/* line 33, ../sass/inc/_tags.sass */
+.equation_catalog a.tag1, .post_catalog a.tag1 {
+  background-color: #88b9b9;
+}
+/* line 35, ../sass/inc/_tags.sass */
+.equation_catalog a.tag2, .post_catalog a.tag2 {
+  font-style: normal;
+  background-color: #de958f;
+}
+/* line 38, ../sass/inc/_tags.sass */
+.equation_catalog a.tag3, .post_catalog a.tag3 {
+  background-color: #a9c365;
+}
+/* line 40, ../sass/inc/_tags.sass */
+.equation_catalog a.tag4, .post_catalog a.tag4 {
+  background-color: #99b3dd;
+}
+
+/* line 43, ../sass/inc/_tags.sass */
+.post_catalog {
+  font-size: 0.9em;
+}
+/* line 46, ../sass/inc/_tags.sass */
+/*.post_catalog a {
+  border: 1px solid #ffff80;
+}
+*/

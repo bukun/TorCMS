@@ -1,0 +1,152 @@
+{% extends "./tmplinfo.html" %}
+{% block head %}
+<script>
+    $().ready(function () {
+        $("#form_add_info").validate(
+                {
+                    submitHandler: function (form) {
+//                        alert("提交事件!");
+                        form.submit();
+                    }
+                }
+        );
+    });
+</script>
+{% end %}
+{% block typebody %}
+<ol class="breadcrumb">
+   <li>Current location：<a href="/">Home</a></li>
+
+
+    <li class="active"> Modify  </li>
+</ol>
+<div class="panel panel-black">
+    <div class="panel-heading">
+
+         Modify  -  {{postinfo.title}}
+
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal" role="form" id="form_add_info" name="form_add_info" method="post"
+              enctype="multipart/form-data" action="/info/edit/{{ postinfo.uid }}">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="title" class="col-sm-2 control-label">
+                    <span class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></span>
+                    Title：
+                </label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="title" id="title"
+                           value="{{ postinfo.title }}" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="def_cat_uid">
+                    <span class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></span>
+                    Category：
+                </label>
+
+                <div class="col-sm-10">
+                    <select class="form-control" name="def_cat_uid" id="def_cat_uid">
+                        {% for taginfo in cat_enum %}
+                        {% if not taginfo.uid.endswith('00') %}
+                        <option value="{{ taginfo.uid }}" {% if taginfo.uid== postinfo.extinfo['def_cat_uid'] %}
+                        selected="selected"
+                        {% end %} >{{taginfo.uid[:2]}}_{{ taginfo.name }}</option>
+                        {% end %}
+                        {% end %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    <span for="tags">Label</span> </label>
+
+                <div class="col-sm-10">
+                    <input type="text" id="tags" name="tags" value="{% for x in app2label_info %}
+                {{ x.tag_name }},
+                {% end %}" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="order">Order</label>
+
+                <div class="col-sm-10">
+                    <input class="form-control" id="order" name="order" type="text"
+                           value="{{ postinfo.order if postinfo.order else '' }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;" for="ext_logo"></a> Picture
+                </label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="logo" name="logo"
+                           value="{{ postinfo.logo }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"> </label>
+
+                <div class="col-sm-10">
+                    <a href="/entry/add" target="_blank" class="btn btn-primary" role="button">Upload a picture</a>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;" for="ext_pdf"></a> PDF
+                </label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="ext_pdf" name="ext_pdf"
+                           value="{{ postinfo.extinfo['ext_pdf'] if 'ext_pdf' in postinfo.extinfo else ''}}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"> </label>
+
+                <div class="col-sm-10">
+                    <a href="/entry/add" target="_blank" class="btn btn-primary" role="button">Upload a PDF</a>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a>
+                    Content(Markdown)
+                </label>
+
+                <div class="col-sm-10">
+                    <textarea class="form-control" rows=26 id="cnt_md" name="cnt_md">
+                        {{ postinfo.cnt_md }}
+                    </textarea>
+                </div>
+            </div>
+            <hr/>
+            {% block extrainfo %}{% end %}
+            <hr/>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"> </label>
+
+                <div class="col-sm-10">
+                    <input type="submit" name="post_submit" value="Submit" id="Button1"
+                           class="btn btn-primary" role="button"/>
+                </div>
+            </div>
+            <hr/>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a>
+                    JSON ：
+                </label>
+
+                <div class="col-sm-10">
+                    <textarea class="form-control" rows=26 id="json" name="json" readonly="readonly">
+                        {{ kwd['extinfo'] }}
+                    </textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% end %}

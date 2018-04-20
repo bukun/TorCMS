@@ -1,0 +1,35 @@
+{% extends "../../theme/bage.html" %}
+{% block typebody %}
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li><a href="/">{{ _('Home') }}</a></li>
+        <li class="active">{{ _('Entity Download List') }}</li>
+    </ul>
+</div>
+<div class="panel panel-black">
+    <div class="panel-heading"><b>{{ _('Entity Download List') }}</b></div>
+    <div class="panel-body">
+        <table class="table table-bordered">
+            <tr>
+                <td>Serial number</td>
+                <td>Entity</td>
+                <td>User</td>
+                <td>Count</td>
+            </tr>
+            {% set ii = 1 %}
+            {% for x in imgs %}
+            <tr>
+                <td>{{ ii }}</td>
+                <td>{{ x.entity_path }}</td>
+                <td>{{ userinfo.user_name }}</td>
+                <td>{{ x.count }}</td>
+            </tr>
+            {% set ii = ii +1 %}
+            {% end %}
+        </table>
+        {% module entity_download( kwd['current_page'] ) %}
+        <br>
+    </div>
+</div>
+{% end %}
+
