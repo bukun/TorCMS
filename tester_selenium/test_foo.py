@@ -102,7 +102,7 @@ def test_login():
     driver.find_element_by_id('user_pass').clear()
     driver.find_element_by_id('user_pass').send_keys('131322')
     driver.find_element_by_xpath('//button[@class="btn btn-primary"]').click()
-    sleep(5)
+    sleep(2)
 
 
 def test_logina():
@@ -693,23 +693,10 @@ def test_nextpagea():
 
 
 
-def test_rating():
-    '''
-    测试信息页评分
-    :return:
-    '''
-    test_login()
-    driver.get('{0}/info/9705c'.format(site_url))
-    # driver.find_element_by_id('input-rating-infor').send_keys('4.3')
-    se =  driver.find_element_by_id('input-rating-infor')
-    se.find_element_by_xpath("//option[@value='3']").click()
-
-    sleep(3)
-
 
 
 if __name__ == '__main__':
-     test_main_page()
+      test_main_page()
     # test_mainsearch()
     # test_regist()
     #  test_regista()
@@ -756,4 +743,4 @@ if __name__ == '__main__':
     # test_pldeletea()
     # test_nextpage()
     # test_nextpagea()
-    # test_rating()
+
