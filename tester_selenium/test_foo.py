@@ -5,16 +5,26 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 from time import sleep
 from cfg import SITE_CFG
-from login import Login
 
 
-# driver = webdriver.Firefox()
-# driver = webdriver.Firefox()
+
 driver = webdriver.Firefox()
 site_url = SITE_CFG['site_url']
 
 
-# 测试主页面查找按钮
+class Login():
+    '''另外帐号登陆'''
+    def login(self,driver):
+        driver.get('{0}/user/login'.format(site_url))
+        driver.find_element_by_id('user_name').clear()
+        driver.find_element_by_id('user_name').send_keys('gislite')
+        driver.find_element_by_id('user_pass').clear()
+        driver.find_element_by_id('user_pass').send_keys('131322')
+        driver.find_element_by_xpath('//button[@class="btn btn-primary"]').click()
+        sleep(5)
+
+
+
 
 def test_main_page():
     '''
@@ -33,7 +43,7 @@ def test_main_page():
 
 
 
-# 注册用户
+
 
 
 def test_regist():
@@ -79,7 +89,7 @@ def test_registb():
     sleep(4)
 
 
-# 用户登陆
+
 
 def test_login():
     '''
@@ -123,7 +133,7 @@ def test_loginb():
     sleep(5)
 
 
-# 退出登陆
+
 
 
 def test_logout():
@@ -134,7 +144,7 @@ def test_logout():
     driver.get('{0}/user/logout'.format(site_url))
 
 
-# 修改密码
+
 def test_userinfo():
     '''
         用户中心
@@ -188,7 +198,7 @@ def test_changepassb():
     sleep(5)
 
 
-# 修改个人信息
+
 def test_userinfoa():
     '''
         用户中心
@@ -227,7 +237,7 @@ def test_changeinfo():
     driver.find_element_by_xpath('//button[@class="btn btn-primary"]').click()
 
 
-# 退出登陆-按钮
+
 def test_userinfod():
     '''
         用户中心
@@ -240,7 +250,7 @@ def test_userinfod():
     sleep(5)
 
 
-# 添加文档
+
 def test_userinfob():
     '''
         用户中心
@@ -252,7 +262,7 @@ def test_userinfob():
     sleep(5)
 
 
-# 个人信息
+
 def test_userinfoc():
     '''
        用户中心
@@ -265,7 +275,7 @@ def test_userinfoc():
     sleep(5)
 
 
-# 发布按钮
+
 def test_publish():
     '''
       用户中心
@@ -278,7 +288,6 @@ def test_publish():
     sleep(5)
 
 
-# 添加文档
 def test_post():
     '''
       添加文档
@@ -301,7 +310,7 @@ def test_post():
     sleep(5)
 
 
-# view页面各按钮
+
 def test_postview():
     '''
        查看文档
@@ -313,7 +322,6 @@ def test_postview():
     sleep(5)
 
 
-# 修改文档
 def test_post_edit():
     '''
        Review 后修改文档
@@ -340,7 +348,7 @@ def test_post_edit():
     sleep(5)
 
 
-# 修改文档分类
+
 def test_post_reclass():
     '''
         修改文档大分类
@@ -356,7 +364,7 @@ def test_post_reclass():
     driver.find_element_by_id('sub1').click()
 
 
-# 查看文档按钮。
+
 def test_post_view():
     '''
         Review 后，查看文档按钮。
@@ -367,7 +375,7 @@ def test_post_view():
     sleep(5)
 
 
-# 收藏
+
 def test_post_collect():
     '''
        收藏文档
@@ -379,7 +387,7 @@ def test_post_collect():
     sleep(5)
 
 
-# 添加page
+
 def test_page():
     '''
       添加page页面
@@ -405,7 +413,7 @@ def test_page_edit():
     sleep(5)
 
 
-# 添加info
+
 
 def test_info():
     '''
@@ -445,7 +453,7 @@ def test_info():
     sleep(5)
 
 
-# 修改信息
+
 def test_info_edit():
     '''
         整体测试修改信息。
@@ -542,7 +550,7 @@ def test_infoe():
     sleep(5)
 
 
-# post_man页
+
 
 def test_post_man():
     '''
@@ -590,7 +598,7 @@ def test_postlia():
     sleep(4)
 
 
-# user_list
+
 
 def test_user_recent():
     test_login()
@@ -600,7 +608,7 @@ def test_user_recent():
     sleep(4)
 
 
-# 评论
+
 
 def test_comment():
     '''
@@ -655,7 +663,7 @@ def test_pldeletea():
     sleep(2)
 
 
-# 翻页
+
 def test_nextpage():
     '''
     测试翻页功能
@@ -684,7 +692,7 @@ def test_nextpagea():
     sleep(2)
 
 
-#评分
+
 def test_rating():
     '''
     测试信息页评分
@@ -701,7 +709,7 @@ def test_rating():
 
 
 if __name__ == '__main__':
-    # test_main_page()
+     test_main_page()
     # test_mainsearch()
     # test_regist()
     #  test_regista()
@@ -724,7 +732,7 @@ if __name__ == '__main__':
     # test_post_collect()
     # test_postview()
     # test_post_reclass()
-      test_post_edit()
+    #  test_post_edit()
     # test_post_view()
 
     # test_page()
