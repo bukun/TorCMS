@@ -494,7 +494,7 @@ class CategoryPager(tornado.web.UIModule):
         pager_cnt = int(num_of_cat / config.CMS_CFG['list_num'])
 
         page_num = (pager_cnt if abs(pager_cnt - num_of_cat / config.CMS_CFG['list_num']) < 0.1
-        else pager_cnt + 1)
+                    else pager_cnt + 1)
 
         kwd = {
             'page_home': False if current <= 1 else True,
@@ -527,7 +527,7 @@ class CollectPager(tornado.web.UIModule):
         pager_count = int(the_count / config.CMS_CFG['list_num'])
 
         page_num = (pager_count if abs(pager_count - the_count / config.CMS_CFG['list_num']) < 0.1
-        else pager_count + 1)
+                    else pager_count + 1)
 
         kwd = {
             'page_home': False if current <= 1 else True,
@@ -613,7 +613,7 @@ class TagPager(tornado.web.UIModule):
         num_of_tag = MPost2Catalog.count_of_certain_category(taginfo.uid)
         pager_count = int(math_ceil(num_of_tag / config.CMS_CFG['list_num']))
         page_num = (pager_count if abs(pager_count - num_of_tag / config.CMS_CFG['list_num']) < 0.1
-        else pager_count + 1)
+                    else pager_count + 1)
 
         kwd = {
             'page_home': False if current <= 1 else True,
@@ -642,7 +642,7 @@ class SearchPager(tornado.web.UIModule):
         res_all = ysearch.get_all_num(tag_slug, catid=catid)
         pager_count = int(res_all / config.CMS_CFG['list_num'])
         page_num = (pager_count if abs(pager_count - res_all / config.CMS_CFG['list_num']) < 0.1
-        else pager_count + 1)
+                    else pager_count + 1)
         kwd = {
             'page_home': False if current <= 1 else True,
             'page_end': False if current >= page_num else True,
@@ -699,8 +699,6 @@ class EntityPager(tornado.web.UIModule):
 
     def render(self, *args, **kwargs):
         current = int(args[0])
-        user_id = args[1]
-
 
         pager_count = int(MEntity.total_number() / config.CMS_CFG['list_num'])
         page_num = (
@@ -717,7 +715,6 @@ class EntityPager(tornado.web.UIModule):
         return self.render_string('modules/post/entity_pager.html',
                                   kwd=kwd,
                                   pager_num=page_num,
-                                  user_id = user_id,
                                   page_current=current)
 
 
@@ -732,7 +729,7 @@ class Entity2UserPager(tornado.web.UIModule):
         pager_count = int(MEntity2User.total_number() / config.CMS_CFG['list_num'])
         page_num = (pager_count if abs(
             pager_count - MEntity2User.total_number() / config.CMS_CFG['list_num']) < 0.1
-        else pager_count + 1)
+                    else pager_count + 1)
         kwd = {
             'page_home': False if current <= 1 else True,
             'page_end': False if current >= page_num else True,
