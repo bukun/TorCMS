@@ -725,6 +725,8 @@ class Entity2UserPager(tornado.web.UIModule):
 
     def render(self, *args, **kwargs):
         current = int(args[0])
+        user_id = kwargs.get('userid', None)
+
 
         pager_count = int(MEntity2User.total_number() / config.CMS_CFG['list_num'])
         page_num = (pager_count if abs(
@@ -739,6 +741,7 @@ class Entity2UserPager(tornado.web.UIModule):
 
         return self.render_string('modules/post/entity_download_pager.html',
                                   kwd=kwd,
+                                  user_id=user_id,
                                   pager_num=page_num,
                                   page_current=current)
 
