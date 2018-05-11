@@ -653,6 +653,7 @@ class SearchPager(tornado.web.UIModule):
         return self.render_string('modules/post/search_pager.html',
                                   kwd=kwd,
                                   cat_slug=tag_slug,
+                                  catid=catid,
                                   pager_num=page_num,
                                   page_current=current)
 
