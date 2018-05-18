@@ -20,7 +20,7 @@ Introduction
 
 Flexible, extensible web CMS framework built on Tornado and Peewee,
 compatible with Python 3.4 and above. Using PostgreSQL with JSON
-extension as the database.
+extension as the database(postgresql-server >9.4).
 
 pypi: The kernel of this CMS has been submit to pypi.
 https://pypi.python.org/pypi/torcms . Could be installed via:
