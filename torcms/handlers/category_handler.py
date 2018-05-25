@@ -18,7 +18,7 @@ from config import CMS_CFG, router_post
 
 class CategoryHandler(BaseHandler):
     '''
-    Category access.    
+    Category access.
     If order is True,  list by order. Just like Book.
     Else, list via the category.
     '''
@@ -40,10 +40,21 @@ class CategoryHandler(BaseHandler):
                 self.ajax_subcat_arr(url_arr[1])
             elif url_arr[0] == 'j_kindcat':
                 self.ajax_kindcat_arr(url_arr[1])
+            elif url_arr[0] == 'j_list_catalog':
+                self.ajax_list_catalog(url_arr[1])
             else:
                 self.list_catalog(url_arr[0], cur_p=url_arr[1])
         else:
             self.render('misc/html/404.html')
+
+    def ajax_list_catalog(self, catid):
+        '''
+        Get posts of certain catid. In Json.
+        '''
+        out_arr = {}
+        for catinfo in MPost2Catalog.query_postinfo_by_cat(catid):
+            out_arr[catinfo.uid] = catinfo.title
+        json.dump(out_arr, self)
 
     def ajax_subcat_arr(self, pid):
         '''

@@ -72,6 +72,18 @@ class MPost2Catalog(Mabc):
         )
 
     @staticmethod
+    def query_postinfo_by_cat(catid):
+
+        cat_con = TabPost2Tag.tag_id == catid
+        recs = TabPost.select().join(
+            TabPost2Tag,
+            on=((TabPost.uid == TabPost2Tag.post_id) & (TabPost.valid == 1))
+        ).where(
+            cat_con
+        )
+        return recs
+
+    @staticmethod
     def query_by_post(postid):
         '''
         Query records by post.
