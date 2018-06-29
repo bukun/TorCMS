@@ -35,12 +35,7 @@ class PostHandler(BaseHandler):
 
     def initialize(self, **kwargs):
         super(PostHandler, self).initialize()
-
-        if 'kind' in kwargs:
-            self.kind = kwargs['kind']
-        else:
-            self.kind = '1'
-
+        self.kind = kwargs.get('kind', '1')
         self.filter_view = kwargs.get('filter_view', False)
 
     def _redirect(self, url_arr):
@@ -111,7 +106,6 @@ class PostHandler(BaseHandler):
 
         url_str = args[0]
         logger.info('Post url: {0}'.format(url_str))
-
         url_arr = self.parse_url(url_str)
 
         if url_arr[0] in ['_edit', 'edit', 'modify']:
@@ -271,8 +265,9 @@ class PostHandler(BaseHandler):
         :param uid:  The ID of the post. Extra info would get by requests.
         '''
 
-        catid = kwargs['catid'] if ('catid' in kwargs
-                                    and MCategory.get_by_uid(kwargs['catid'])) else None
+        catid = kwargs['catid'] if (
+                'catid' in kwargs and MCategory.get_by_uid(kwargs['catid'])
+        ) else None
 
         post_data = self.get_post_data()
 

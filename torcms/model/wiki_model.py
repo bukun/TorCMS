@@ -6,11 +6,11 @@ The model for wiki.
 
 import datetime
 import tornado.escape
+import peewee
 from torcms.core import tools
 from torcms.model.core_tab import TabWiki
 from torcms.core.tools import logger
 from torcms.model.abc_model import Mabc, MHelper
-import peewee
 
 
 class MWiki(Mabc):

@@ -1,7 +1,7 @@
 {% extends "../theme/tmpldoc.html" %}
 {% block content %}
 <ol class="breadcrumb">
-    <li>Current location: <a href="{% module site_url() %}">Home</a> </li>
+    <li>Current location: <a href="{% module site_url() %}">Home</a></li>
     <li><a href="/post/recent"> Document list</a></li>
 </ol>
 <div class="panel panel-black">
@@ -9,10 +9,10 @@
     <ul class="list-group">
         {% for x in view %}
         <li class="list-group-item">
-            <a href="/post/{{x.uid}}" title="{{x.title}}">
+            <a href="/post/{{ x.uid }}" title="{{ x.title }}">
                 {{ x.title }}
             </a>
-            <span>{{ datetime.datetime.fromtimestamp(x.time_update).strftime('%Y-%m-%d %H:%M:%S')  }}</span>
+            <span>{{ datetime.datetime.fromtimestamp(x.time_update).strftime('%Y-%m-%d %H:%M:%S') }}</span>
         </li>
         {% end %}
     </ul>

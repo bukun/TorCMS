@@ -30,7 +30,6 @@ class MPost2Catalog(Mabc):
             TabTag.kind.alias('tag_kind'),
         ).join(
             TabTag,
-
             on=(TabPost2Tag.tag_id == TabTag.uid)
         )
         return recs

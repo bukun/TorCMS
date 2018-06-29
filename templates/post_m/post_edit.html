@@ -85,8 +85,8 @@
                         <label class="col-sm-2 control-label"></label>
                         {% end %}
                         <div class="col-sm-3">
-                            <select name="pcat{{ii}}" id="pcat{{ii}}" class="form-control"
-                                    onchange="g_load_infocat({{ii}})">
+                            <select name="pcat{{ ii }}" id="pcat{{ ii }}" class="form-control"
+                                    onchange="g_load_infocat({{ ii }})">
                                 <option value="">Please Select</option>
                                 {% for taginfo in tag_infos %}
                                 {% if taginfo.uid.endswith('00') %}
