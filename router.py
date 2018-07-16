@@ -10,6 +10,6 @@ import tornado.web
 
 
 urls = [
-    ("/subsite/(.*)", tornado.web.StaticFileHandler, {"path": '/home/bk/coding/ResForm/template/static_pages'}),
+    # ("/subsite/(.*)", tornado.web.StaticFileHandler, {"path": '/home/bk/coding/ResForm/template/static_pages'}),
     ('/special/(.*)', PostHandler, dict(kind='s', filter_view=True)),
 ] # type: List[int]
