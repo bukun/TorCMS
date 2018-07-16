@@ -59,6 +59,7 @@ class CategoryHandler(BaseHandler):
     def ajax_subcat_arr(self, pid):
         '''
         Get the sub category.
+        ToDo: The menu should display by order. Error fond in DRR.
         '''
         out_arr = {}
         for catinfo in MCategory.query_sub_cat(pid):
