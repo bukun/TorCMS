@@ -45,6 +45,7 @@ core_modules = {
     'show_page': base_modules.ShowPage,
     'Topline': base_modules.ToplineModule,
     'collect': base_modules.Collect,
+    'user_collect': base_modules.UserCollect,
 
     'torcms_copyright': base_modules.CopyRight,
     'entity_list': base_modules.EntityList,

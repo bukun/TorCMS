@@ -72,6 +72,7 @@ class MCollect(Mabc):
         recs = TabCollect.select(
             TabCollect, TabPost.uid.alias('post_uid'),
             TabPost.title.alias('post_title'),
+            TabPost.kind.alias('post_kind'),
             TabPost.view_count.alias('post_view_count')
         ).where(
             TabCollect.user_id == user_id
@@ -102,3 +103,20 @@ class MCollect(Mabc):
                 post_id=app_id,
                 timestamp=int(time.time()),
             )
+    @staticmethod
+    def query_pager_by_userid(user_id,kind, num=10):
+
+        recs = TabCollect.select(
+            TabCollect, TabPost.uid.alias('post_uid'),
+            TabPost.title.alias('post_title'),
+            TabPost.kind.alias('post_kind'),
+            TabPost.view_count.alias('post_view_count')
+        ).where(
+            (TabCollect.user_id == user_id)&
+            (TabPost.kind == kind)
+        ).join(
+            TabPost, on=(TabCollect.post_id == TabPost.uid)
+        ).order_by(
+            TabCollect.timestamp.desc()
+        ).limit(num)
+        return recs

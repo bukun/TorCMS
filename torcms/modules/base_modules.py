@@ -821,3 +821,29 @@ class Collect(tornado.web.UIModule):
         post_id = args[1]
         user_collect = MCollect.get_by_signature(user_id, post_id)
         return self.render_string('modules/widget/collect.html', user_collect=user_collect)
+
+
+
+class UserCollect(tornado.web.UIModule):
+    '''
+    用户收藏列表
+    '''
+
+
+    def render(self, *args, **kwargs):
+
+
+        user_id = kwargs.get('user_id', args[0])
+        kind = kwargs.get('kind', args[1])
+        num = kwargs.get('num', args[2] if len(args) > 2 else 6)
+        with_tag = kwargs.get('with_tag', False)
+        glyph = kwargs.get('glyph', '')
+
+        all_cats = MCollect.query_pager_by_userid(user_id, kind, num).objects()
+        kwd = {
+            'with_tag': with_tag,
+            'glyph': glyph
+        }
+        return self.render_string('modules/widget/user_collect.html',
+                                  recs=all_cats,
+                                  kwd=kwd)
