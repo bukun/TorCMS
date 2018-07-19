@@ -63,10 +63,9 @@ class Entity2UserHandler(BaseHandler):
         kwd = {
             'current_page': current_page_number
         }
-        print("-" * 50)
-        print(userid)
-        print("-" * 50)
+
         recs = MEntity2User.get_all_pager_by_username(userid, current_page_num=current_page_number).objects()
+
 
         self.render('misc/entity/entity_user_download.html',
                     imgs=recs,

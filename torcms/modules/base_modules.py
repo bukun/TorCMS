@@ -729,9 +729,9 @@ class Entity2UserPager(tornado.web.UIModule):
         user_id = kwargs.get('userid', None)
 
 
-        pager_count = int(MEntity2User.total_number() / config.CMS_CFG['list_num'])
+        pager_count = int(MEntity2User.total_number(user_id) / config.CMS_CFG['list_num'])
         page_num = (pager_count if abs(
-            pager_count - MEntity2User.total_number() / config.CMS_CFG['list_num']) < 0.1
+            pager_count - MEntity2User.total_number(user_id) / config.CMS_CFG['list_num']) < 0.1
                     else pager_count + 1)
         kwd = {
             'page_home': False if current <= 1 else True,
