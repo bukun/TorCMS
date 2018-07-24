@@ -99,5 +99,6 @@ core_modules = {
     # # 'ext_category_list': catalog_modules.CatalogList,
     'catalog_list': catalog_modules.CatalogList,
     'postlistoftag': base_modules.PostListOfTag,
+    'post_page':base_modules.Post_page
 
 }

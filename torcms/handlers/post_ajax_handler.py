@@ -27,10 +27,14 @@ class PostAjaxHandler(PostHandler):
             self.j_delete(url_arr[1])
         elif url_arr[0] in ['count_plus']:
             self.count_plus(url_arr[1])
-        elif url_arr[0] == 'recent':
-            if url_arr[1]:
-                kind = url_arr[1]
-                self.p_recent(kind)
+
+        if len(url_arr) == 2:
+            if url_arr[0] == 'recent':
+                self.p_recent(url_arr[1])
+
+        elif len(url_arr) == 3:
+            self.p_recent(url_arr[1], url_arr[2])
+
         elif len(url_arr) == 1 and len(url_str) in [4, 5]:
             self._view_or_add(url_str)
 
@@ -60,21 +64,36 @@ class PostAjaxHandler(PostHandler):
         # return json.dump(output, self)
         self.write(json.dumps(output))
 
-    def p_recent(self, kind, with_catalog=True, with_date=True):
+    def p_recent(self, kind, cur_p='', with_catalog=True, with_date=True):
         '''
         List posts that recent edited, partially.
         '''
+
+
+        if cur_p == '':
+            current_page_number = 1
+        else:
+            current_page_number = int(cur_p)
+
+        current_page_number = 1 if current_page_number < 1 else current_page_number
+
+        pager_num = int(MPost.total_number(kind) / CMS_CFG['list_num'])
         kwd = {
             'pager': '',
             'title': 'Recent posts.',
             'with_catalog': with_catalog,
             'with_date': with_date,
             'kind': kind,
+            'current_page': current_page_number,
             'post_count': MPost.get_counts(),
         }
         self.render('admin/post_ajax/post_list.html',
                     kwd=kwd,
                     view=MPost.query_recent(num=20, kind=kind),
+                    infos=MPost.query_pager_by_slug(
+                        kind=kind,
+                        current_page_num=current_page_number
+                    ),
                     format_date=tools.format_date,
                     userinfo=self.userinfo,
                     cfg=CMS_CFG, )

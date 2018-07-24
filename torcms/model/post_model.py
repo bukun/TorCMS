@@ -384,7 +384,6 @@ class MPost(Mabc):
         Query recent posts of catalog.
         '''
 
-
         return TabPost.select().join(
             TabPost2Tag,
             on=(TabPost.uid == TabPost2Tag.post_id)
@@ -824,3 +823,27 @@ class MPost(Mabc):
 
         all_list = MPost.query_under_condition(con, kind=kind)
         return all_list[(idx - 1) * CMS_CFG['list_num']: idx * CMS_CFG['list_num']]
+
+    @staticmethod
+    def count_of_certain_kind(kind):
+        '''
+        Get the count of certain kind.
+        '''
+
+        recs = TabPost.select().where(TabPost.kind == kind)
+
+        return recs.count()
+
+    @staticmethod
+    def total_number(kind):
+        '''
+        Return the number of certian slug.
+        '''
+        return TabPost.select().where(TabPost.kind == kind).count()
+
+    @staticmethod
+    def query_pager_by_slug(kind, current_page_num=1):
+        '''
+        Query pager
+        '''
+        return TabPost.select().where(TabPost.kind == kind).paginate(current_page_num, CMS_CFG['list_num'])

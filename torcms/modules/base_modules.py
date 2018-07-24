@@ -847,3 +847,35 @@ class UserCollect(tornado.web.UIModule):
         return self.render_string('modules/widget/user_collect.html',
                                   recs=all_cats,
                                   kwd=kwd)
+
+class Post_page(tornado.web.UIModule):
+    '''
+    pager of kind
+    '''
+
+    def render(self, *args, **kwargs):
+        kind = args[0]
+        current = int(args[1])
+        # kind
+        # current 当前页面
+
+
+        num_of_cat = MPost.count_of_certain_kind(kind)
+
+        tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
+
+        page_num = (tmp_page_num if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
+                    else tmp_page_num + 1)
+
+        kwd = {
+            'page_home': False if current <= 1 else True,
+            'page_end': False if current >= page_num else True,
+            'page_pre': False if current <= 1 else True,
+            'page_next': False if current >= page_num else True,
+        }
+
+        return self.render_string('modules/post/post_pager.html',
+                                  kwd=kwd,
+                                  pager_num=page_num,
+                                  kind=kind,
+                                  page_current=current)
