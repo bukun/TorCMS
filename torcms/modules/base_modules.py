@@ -848,7 +848,7 @@ class UserCollect(tornado.web.UIModule):
                                   recs=all_cats,
                                   kwd=kwd)
 
-class Post_page(tornado.web.UIModule):
+class Admin_Post_pager(tornado.web.UIModule):
     '''
     pager of kind
     '''
@@ -874,7 +874,38 @@ class Post_page(tornado.web.UIModule):
             'page_next': False if current >= page_num else True,
         }
 
-        return self.render_string('modules/post/post_pager.html',
+        return self.render_string('modules/admin/post_pager.html',
+                                  kwd=kwd,
+                                  pager_num=page_num,
+                                  kind=kind,
+                                  page_current=current)
+class Admin_Page_pager(tornado.web.UIModule):
+    '''
+    pager of kind
+    '''
+
+    def render(self, *args, **kwargs):
+        kind = args[0]
+        current = int(args[1])
+        # kind
+        # current 当前页面
+
+
+        num_of_cat = MWiki.count_of_certain_kind(kind)
+
+        tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
+
+        page_num = (tmp_page_num if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
+                    else tmp_page_num + 1)
+
+        kwd = {
+            'page_home': False if current <= 1 else True,
+            'page_end': False if current >= page_num else True,
+            'page_pre': False if current <= 1 else True,
+            'page_next': False if current >= page_num else True,
+        }
+
+        return self.render_string('modules/admin/page_pager.html',
                                   kwd=kwd,
                                   pager_num=page_num,
                                   kind=kind,

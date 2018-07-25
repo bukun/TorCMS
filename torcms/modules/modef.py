@@ -99,6 +99,7 @@ core_modules = {
     # # 'ext_category_list': catalog_modules.CatalogList,
     'catalog_list': catalog_modules.CatalogList,
     'postlistoftag': base_modules.PostListOfTag,
-    'post_page':base_modules.Post_page
+    'admin_post_pager':base_modules.Admin_Post_pager,
+    'admin_page_pager':base_modules.Admin_Page_pager
 
 }
