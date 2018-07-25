@@ -685,7 +685,6 @@ class EntityList(tornado.web.UIModule):
             'current_page': current_page_number
         }
 
-        # Todo （ 已经改好 ）
         recs = MEntity.get_by_kind(kind=kind, current_page_num=current_page_number)
 
         return self.render_string('modules/post/entity_list.html',
@@ -728,10 +727,36 @@ class Entity2UserPager(tornado.web.UIModule):
         current = int(args[0])
         user_id = kwargs.get('userid', None)
 
-
-        pager_count = int(MEntity2User.total_number(user_id) / config.CMS_CFG['list_num'])
+        pager_count = int(MEntity2User.total_number_by_user(user_id) / config.CMS_CFG['list_num'])
         page_num = (pager_count if abs(
-            pager_count - MEntity2User.total_number(user_id) / config.CMS_CFG['list_num']) < 0.1
+            pager_count - MEntity2User.total_number_by_user(user_id) / config.CMS_CFG['list_num']) < 0.1
+                    else pager_count + 1)
+        kwd = {
+            'page_home': False if current <= 1 else True,
+            'page_end': False if current >= page_num else True,
+            'page_pre': False if current <= 1 else True,
+            'page_next': False if current >= page_num else True,
+        }
+
+        return self.render_string('modules/post/entity_user_download_pager.html',
+                                  kwd=kwd,
+                                  user_id=user_id,
+                                  pager_num=page_num,
+                                  page_current=current)
+
+
+class Entity2Pager(tornado.web.UIModule):
+    '''
+    Pager for search result.
+    '''
+
+    def render(self, *args, **kwargs):
+        current = int(args[0])
+        user_id = kwargs.get('userid', None)
+
+        pager_count = int(MEntity2User.total_number() / config.CMS_CFG['list_num'])
+        page_num = (pager_count if abs(
+            pager_count - MEntity2User.total_number() / config.CMS_CFG['list_num']) < 0.1
                     else pager_count + 1)
         kwd = {
             'page_home': False if current <= 1 else True,
@@ -823,16 +848,12 @@ class Collect(tornado.web.UIModule):
         return self.render_string('modules/widget/collect.html', user_collect=user_collect)
 
 
-
 class UserCollect(tornado.web.UIModule):
     '''
     用户收藏列表
     '''
 
-
     def render(self, *args, **kwargs):
-
-
         user_id = kwargs.get('user_id', args[0])
         kind = kwargs.get('kind', args[1])
         num = kwargs.get('num', args[2] if len(args) > 2 else 6)
@@ -847,6 +868,7 @@ class UserCollect(tornado.web.UIModule):
         return self.render_string('modules/widget/user_collect.html',
                                   recs=all_cats,
                                   kwd=kwd)
+
 
 class Admin_Post_pager(tornado.web.UIModule):
     '''
@@ -879,6 +901,8 @@ class Admin_Post_pager(tornado.web.UIModule):
                                   pager_num=page_num,
                                   kind=kind,
                                   page_current=current)
+
+
 class Admin_Page_pager(tornado.web.UIModule):
     '''
     pager of kind

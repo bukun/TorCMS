@@ -50,7 +50,8 @@ core_modules = {
     'torcms_copyright': base_modules.CopyRight,
     'entity_list': base_modules.EntityList,
     'entity_pager': base_modules.EntityPager,
-    'entity_download': base_modules.Entity2UserPager,
+    'entity_download_user': base_modules.Entity2UserPager,
+    'entity_download_list': base_modules.Entity2Pager,
 
     # widget
     'reply_panel': widget_modules.ReplyPanel,
