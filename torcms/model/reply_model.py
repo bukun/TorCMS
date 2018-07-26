@@ -9,7 +9,7 @@ import tornado.escape
 from torcms.core import tools
 from torcms.model.core_tab import TabReply
 from torcms.model.core_tab import TabUser2Reply
-
+from config import CMS_CFG
 from torcms.model.abc_model import Mabc
 
 
@@ -70,3 +70,26 @@ class MReply(Mabc):
     @staticmethod
     def delete(del_id):
         return TabReply.delete().where(TabReply.post_id == del_id)
+
+    @staticmethod
+    def count_of_certain():
+        '''
+        Get the count of certain kind.
+        '''
+
+        recs = TabReply.select()
+
+        return recs.count()
+
+    @staticmethod
+    def total_number():
+        '''
+        Return the number.
+        '''
+        return TabReply.select().count()
+    @staticmethod
+    def query_pager(current_page_num=1):
+        '''
+        Query pager
+        '''
+        return TabReply.select().paginate(current_page_num, CMS_CFG['list_num'])

@@ -13,6 +13,7 @@ from torcms.core.tools import logger
 from torcms.model.abc_model import Mabc, MHelper
 from config import CMS_CFG
 
+
 class MWiki(Mabc):
     '''
     Class for wiki.
@@ -248,12 +249,14 @@ class MWiki(Mabc):
         Return the number of certian slug.
         '''
         return TabWiki.select().where(TabWiki.kind == kind).count()
+
     @staticmethod
     def query_pager_by_kind(kind, current_page_num=1):
         '''
         Query pager
         '''
         return TabWiki.select().where(TabWiki.kind == kind).paginate(current_page_num, CMS_CFG['list_num'])
+
     @staticmethod
     def count_of_certain_kind(kind):
         '''

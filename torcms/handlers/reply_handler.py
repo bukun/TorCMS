@@ -10,6 +10,7 @@ from torcms.core.base_handler import BaseHandler
 from torcms.model.reply_model import MReply
 from torcms.model.reply2user_model import MReply2User
 from torcms.core.tools import logger
+from config import CMS_CFG
 
 
 class ReplyHandler(BaseHandler):
@@ -31,6 +32,9 @@ class ReplyHandler(BaseHandler):
             self.delete(url_arr[1])
         elif url_arr[0] == 'zan':
             self.zan(url_arr[1])
+        if len(url_arr) == 2:
+            if url_arr[0] == 'list':
+                self.list(url_arr[1])
 
     def post(self, *args, **kwargs):
         url_str = args[0]
@@ -39,15 +43,28 @@ class ReplyHandler(BaseHandler):
         if url_arr[0] == 'add':
             self.add(url_arr[1])
 
-    def list(self):
+    def list(self, cur_p=''):
         '''
         List the replies.
         '''
+        if cur_p == '':
+            current_page_number = 1
+        else:
+            current_page_number = int(cur_p)
+
+        current_page_number = 1 if current_page_number < 1 else current_page_number
+
+        pager_num = int(MReply.total_number() / CMS_CFG['list_num'])
+
         kwd = {'pager': '',
+               'current_page': current_page_number,
                'title': '单页列表'}
         self.render('admin/reply_ajax/reply_list.html',
                     kwd=kwd,
                     view_all=MReply.query_all(),
+                    infos=MReply.query_pager(
+                        current_page_num=current_page_number
+                    ),
                     userinfo=self.userinfo)
 
     def get_by_id(self, reply_id):
