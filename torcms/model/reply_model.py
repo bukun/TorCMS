@@ -87,6 +87,7 @@ class MReply(Mabc):
         Return the number.
         '''
         return TabReply.select().count()
+
     @staticmethod
     def query_pager(current_page_num=1):
         '''

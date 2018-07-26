@@ -32,7 +32,7 @@ class Entity2UserHandler(BaseHandler):
         else:
             self.render('misc/html/404.html', kwd={}, userinfo=self.userinfo)
 
-    @tornado.web.authenticated
+    # @tornado.web.authenticated
     def all_list(self, cur_p=''):
         '''
         List the entities of the user.

@@ -27,14 +27,11 @@ class ReplyHandler(BaseHandler):
         if url_arr[0] == 'get':
             self.get_by_id(url_arr[1])
         if url_arr[0] == 'list':
-            self.list()
+            self.list(url_arr[1])
         elif url_arr[0] == 'delete':
             self.delete(url_arr[1])
         elif url_arr[0] == 'zan':
             self.zan(url_arr[1])
-        if len(url_arr) == 2:
-            if url_arr[0] == 'list':
-                self.list(url_arr[1])
 
     def post(self, *args, **kwargs):
         url_str = args[0]
@@ -62,10 +59,9 @@ class ReplyHandler(BaseHandler):
         self.render('admin/reply_ajax/reply_list.html',
                     kwd=kwd,
                     view_all=MReply.query_all(),
-                    infos=MReply.query_pager(
-                        current_page_num=current_page_number
-                    ),
-                    userinfo=self.userinfo)
+                    infos=MReply.query_pager(current_page_num=current_page_number),
+                    userinfo=self.userinfo
+                    )
 
     def get_by_id(self, reply_id):
         '''
