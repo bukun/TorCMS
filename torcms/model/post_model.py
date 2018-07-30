@@ -307,7 +307,6 @@ class MPost(Mabc):
         '''
         query all the posts.
         '''
-
         kind = kwargs.get('kind', '1')
         limit = kwargs.get('limit', 10)
 

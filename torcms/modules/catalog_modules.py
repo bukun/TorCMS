@@ -4,7 +4,6 @@
 For catalog modules.
 '''
 
-import tornado.escape
 import tornado.web
 from torcms.model.catalog_model import MCatalog
 from torcms.model.category_model import MCategory
@@ -29,7 +28,6 @@ class CatalogList(tornado.web.UIModule):
     '''
     catalog lists.
     '''
-
     def render(self, *args, **kwargs):
         catid = kwargs['catid'] if 'catid' in kwargs else ''
         cat_id = catid[:2]

@@ -17,6 +17,7 @@ class PostAjaxHandler(PostHandler):
     '''
     Handler of Posts via Ajax.
     '''
+
     def initialize(self, **kwargs):
         super(PostAjaxHandler, self).initialize()
 
@@ -54,12 +55,12 @@ class PostAjaxHandler(PostHandler):
     def count_plus(self, uid):
         '''
         Ajax request, that the view count will plus 1.
-        :param uid:
-        :return:
         '''
         self.set_header("Content-Type", "application/json")
         output = {
-            'status': 1  # if MPost.__update_view_count_by_uid(uid) else 0,
+            # ToDo: Test the following codes.
+            # MPost.__update_view_count_by_uid(uid) else 0,
+            'status': 1 if MPost.update_misc(uid, count=1) else 0
         }
         # return json.dump(output, self)
         self.write(json.dumps(output))
@@ -68,8 +69,6 @@ class PostAjaxHandler(PostHandler):
         '''
         List posts that recent edited, partially.
         '''
-
-
         if cur_p == '':
             current_page_number = 1
         else:

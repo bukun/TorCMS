@@ -882,7 +882,6 @@ class Admin_Post_pager(tornado.web.UIModule):
         # kind
         # current 当前页面
 
-
         num_of_cat = MPost.count_of_certain_kind(kind)
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
@@ -915,7 +914,6 @@ class Admin_Page_pager(tornado.web.UIModule):
         # kind
         # current 当前页面
 
-
         num_of_cat = MWiki.count_of_certain_kind(kind)
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
@@ -946,7 +944,6 @@ class Admin_reply_pager(tornado.web.UIModule):
         current = int(args[0])
         # kind
         # current 当前页面
-
 
         num_of_cat = MReply.count_of_certain()
 

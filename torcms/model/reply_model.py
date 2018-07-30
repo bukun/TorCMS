@@ -9,8 +9,8 @@ import tornado.escape
 from torcms.core import tools
 from torcms.model.core_tab import TabReply
 from torcms.model.core_tab import TabUser2Reply
-from config import CMS_CFG
 from torcms.model.abc_model import Mabc
+from config import CMS_CFG
 
 
 class MReply(Mabc):

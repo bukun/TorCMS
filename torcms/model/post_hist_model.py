@@ -21,8 +21,6 @@ class MPostHist(Mabc):
     def get_by_uid(uid):
         '''
         return the record by uid
-        :param uid:
-        :return:
         '''
         return MHelper.get_by_uid(TabPostHist, uid)
 
@@ -30,8 +28,6 @@ class MPostHist(Mabc):
     def delete(uid):
         '''
         Delete by uid
-        :param uid:
-        :return:
         '''
 
         del_count = TabPostHist.delete().where(TabPostHist.uid == uid)
@@ -43,6 +39,9 @@ class MPostHist(Mabc):
 
     @staticmethod
     def update_cnt(uid, post_data):
+        '''
+        Update the content by ID.
+        '''
         entry = TabPostHist.update(
             user_name=post_data['user_name'],
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md']),
@@ -76,6 +75,9 @@ class MPostHist(Mabc):
 
     @staticmethod
     def create_post_history(raw_data):
+        '''
+        Create the history of certain post.
+        '''
         uid = tools.get_uuid()
         TabPostHist.create(
             uid=uid,
@@ -86,5 +88,4 @@ class MPostHist(Mabc):
             time_update=tools.timestamp(),
             logo=raw_data.logo,
         )
-
         return True

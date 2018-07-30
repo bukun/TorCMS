@@ -114,11 +114,8 @@ class MUser(Mabc):
         '''
         time_now = tools.timestamp()
         return TabMember.select().where(
-            (
-                    (time_now - TabMember.time_login) > 7776000
-            ) & (
-                    (time_now - TabMember.time_email) > 10368000
-            )
+            ((time_now - TabMember.time_login) > 7776000)
+            & ((time_now - TabMember.time_email) > 10368000)
         )
 
     @staticmethod

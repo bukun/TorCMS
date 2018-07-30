@@ -10,6 +10,7 @@ from torcms.handlers.page_handler import PageHandler
 from torcms.model.wiki_model import MWiki
 from config import CMS_CFG
 
+
 class PageAjaxHandler(PageHandler):
     '''
     Handler of Pages via Ajax.
@@ -64,7 +65,7 @@ class PageAjaxHandler(PageHandler):
         output = {'status': 1 if MWiki.view_count_plus(slug) else 0}
         return json.dump(output, self)
 
-    def p_list(self,kind, cur_p='',):
+    def p_list(self, kind, cur_p='', ):
         '''
         List the post .
         '''
@@ -98,4 +99,3 @@ class PageAjaxHandler(PageHandler):
         To add the page.
         '''
         self.render('admin/page_ajax/page_add.html', kwd={})
-
