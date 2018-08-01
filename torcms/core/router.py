@@ -43,10 +43,20 @@ urls = [
     ("/entity/(.*)", EntityHandler, dict()),
     ("/entity_download/(.*)", Entity2UserHandler, dict()),
 
-    ("/label/(.*)", LabelHandler, dict()),
-    # ("/catalog/(.*)", CatalogHandler, dict(order=True)),
+    # For listing items.
     ("/catalog/(.*)", CatalogHandler, dict()),
+    ("/post/(.*)", PostHandler, dict(kind='1')),
+
+    # For listing ordered items.
     ("/category/(.*)", CategoryHandler, dict()),
+    ("/leaf/(.*)", LeafHandler, dict(kind='6')),
+
+    # For filter listing.
+    ("/filter/(.*)", FilterHandler, dict()),
+    ("/list/(.*)", ListHandler, dict()),  # Deprecated, replaed by `/filter` .
+    ("/info/(.*)", PostHandler, dict(kind='9', filter_view=True)),
+
+    ("/label/(.*)", LabelHandler, dict()),
 
     ("/tag/(.*)", TagListHandler, dict()),  # Deprecated, replaed by `/category` .
 
@@ -58,9 +68,6 @@ urls = [
     ("/post_p/(.*)", PostAjaxHandler, dict()),  # Deprecated,
     ("/post/p/(.*)", PostAjaxHandler, dict()),  # Deprecated,
     # ("/post/(.*)", PostHandler, dict()),
-
-    ("/post/(.*)", PostHandler, dict(kind='1')),
-    ("/leaf/(.*)", LeafHandler, dict(kind='6')),
 
     ("/post_list/(.*)", PostListHandler, dict()),
 
@@ -78,12 +85,7 @@ urls = [
     ("/search/(.*)", SearchHandler, dict()),
     ("/reply/(.*)", ReplyHandler, dict()),
 
-    ("/info/(.*)", PostHandler, dict(kind='9', filter_view=True)),
-
     # ("/maintain/claslitecategory/(.*)", MaintainPycateCategoryHandler, dict()),
-
-    ("/filter/(.*)", FilterHandler, dict()),
-    ("/list/(.*)", ListHandler, dict()),  # Deprecated, replaed by `/filter` .
 
     ("/publish/(.*)", PublishHandler, dict()),
 

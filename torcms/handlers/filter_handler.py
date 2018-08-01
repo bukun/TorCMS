@@ -108,6 +108,7 @@ class FilterHandler(BaseHandler):
         Show the HTML
         '''
 
+
         logger.info('info echo html: {0}'.format(url_str))
 
         condition = self.gen_redis_kw()

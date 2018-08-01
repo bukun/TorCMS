@@ -20,8 +20,9 @@ class CategoryHandler(BaseHandler):
     '''
     Category access.
     If order is True,  list by order. Just like Book.
-    Else, list via the category.
+    Else, list via the `category`.
     '''
+
     def initialize(self, **kwargs):
         super(CategoryHandler, self).initialize()
         self.kind = kwargs.get('kind', '1')
@@ -29,7 +30,6 @@ class CategoryHandler(BaseHandler):
         self.order = True
 
     def get(self, *args, **kwargs):
-
         url_str = args[0]
         url_arr = self.parse_url(url_str)
 
@@ -79,7 +79,6 @@ class CategoryHandler(BaseHandler):
         '''
         listing the posts via category
         '''
-
         post_data = self.get_post_data()
         tag = post_data.get('tag', '')
 

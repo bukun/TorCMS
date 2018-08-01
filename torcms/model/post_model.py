@@ -41,7 +41,6 @@ class MPost(Mabc):
         '''
         Delete by uid
         :param uid:
-        :return:
         '''
 
         q_u1 = TabPostHist.delete().where(TabPostHist.post_id == uid)
@@ -819,7 +818,6 @@ class MPost(Mabc):
         '''
         Get records of certain pager.
         '''
-
         all_list = MPost.query_under_condition(con, kind=kind)
         return all_list[(idx - 1) * CMS_CFG['list_num']: idx * CMS_CFG['list_num']]
 
