@@ -1,4 +1,7 @@
-import os
+# -*- coding:utf-8 -*-
+'''
+Export posts.
+'''
 
 from torcms.model.post_model import MPost
 import yaml

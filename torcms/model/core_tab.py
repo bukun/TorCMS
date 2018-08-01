@@ -1,10 +1,12 @@
 # -*- coding:utf-8 -*-
+'''
+Define the schema of Tables in TorCMS.
+'''
 
 import peewee
 
-from torcms.core.base_model import BaseModel
-from config import DB_CFG
 from playhouse.postgres_ext import BinaryJSONField
+from torcms.core.base_model import BaseModel
 
 
 class TabTag(BaseModel):
