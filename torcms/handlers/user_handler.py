@@ -133,7 +133,6 @@ class UserHandler(BaseHandler):
     def p_changeinfo(self):
         '''
         Change Infor via Ajax.
-        :return:
         '''
 
         post_data, def_dic = self.fetch_post_data()
@@ -149,7 +148,6 @@ class UserHandler(BaseHandler):
     def fetch_post_data(self):
         '''
         fetch post accessed data. post_data, and ext_dic.
-        :return:
         '''
         post_data = {}
         ext_dic = {}
@@ -162,8 +160,7 @@ class UserHandler(BaseHandler):
         post_data['user_name'] = self.userinfo.user_name
 
         ext_dic = dict(ext_dic, **self.ext_post_data(postdata=post_data))
-        print("*" * 50)
-        print(ext_dic)
+
         return (post_data, ext_dic)
 
     def ext_post_data(self, **kwargs):

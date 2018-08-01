@@ -34,7 +34,6 @@ def entry(argv):
         'init': run_init,
         'send_nologin': run_send_nologin,
         'send_all': run_send_all,
-        'edit_diff': run_review,  # Deprecated
         'review': run_review,
         'sitemap': run_sitemap,
         'editmap': run_editmap,
@@ -45,7 +44,7 @@ def entry(argv):
         'gen_category': run_gen_category,
         'auto': run_auto,
         'whoosh': run_whoosh,
-        'check': run_checkit,
+        'html': run_checkit,
         'update_cat': run_update_cat,
     }
     try:

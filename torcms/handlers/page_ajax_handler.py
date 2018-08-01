@@ -87,12 +87,9 @@ class PageAjaxHandler(PageHandler):
         }
 
         self.render('admin/page_ajax/page_list.html',
-                    postrecs=MWiki.query_pager_by_kind(
-                        kind=kind,
-                        current_page_num=current_page_number
-                    ),
-                    kwd=kwd
-                    )
+                    postrecs=MWiki.query_pager_by_kind(kind=kind,
+                                                       current_page_num=current_page_number),
+                    kwd=kwd)
 
     def p_to_add(self):
         '''

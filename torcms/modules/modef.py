@@ -60,8 +60,6 @@ core_modules = {
     'widget_editor': widget_modules.WidgetEditor,
     'star_rating': widget_modules.StarRating,
     'use_f2e': widget_modules.UseF2E,
-    'navigate_panel': widget_modules.NavigatePanel,
-    'footer_panel': widget_modules.FooterPanel,
     'loginfo': widget_modules.UserinfoWidget,
 
     # Infor
@@ -80,15 +78,12 @@ core_modules = {
     'app_random_choose': info_modules.InfoRandom,
     'app_tags': info_modules.InfoTags,
     'app_menu': info_modules.InfoMenu,
-    'app_user_recent': info_modules.InfoUserRecent,
     'app_user_most': info_modules.InforUserMost,
     'app_recent_used': info_modules.InfoRecentUsed,
     'app_most_used': info_modules.InfoMostUsed,
     'label_count': info_modules.LabelCount,
     'baidu_search': widget_modules.BaiduSearch,
-    'app_most_used_by_cat': info_modules.InfoMostUsedByCategory,
-    'app_least_used_by_cat': info_modules.InfoLeastUseByCategory,
-    'app_user_recent_by_cat': info_modules.InfoUserRecentByCategory,
+
     'app_title': base_modules.AppTitle,
     # 'entity_path_by_id': base_modules.Entity_path,
     'user_name_by_id': base_modules.UserName,
@@ -100,8 +95,8 @@ core_modules = {
     # # 'ext_category_list': catalog_modules.CatalogList,
     'catalog_list': catalog_modules.CatalogList,
     'postlistoftag': base_modules.PostListOfTag,
-    'admin_post_pager':base_modules.Admin_Post_pager,
-    'admin_page_pager':base_modules.Admin_Page_pager,
-    'admin_reply_pager':base_modules.Admin_reply_pager
+    'admin_post_pager': base_modules.Admin_Post_pager,
+    'admin_page_pager': base_modules.Admin_Page_pager,
+    'admin_reply_pager': base_modules.Admin_reply_pager
 
 }

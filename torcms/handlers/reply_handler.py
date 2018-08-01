@@ -96,10 +96,9 @@ class ReplyHandler(BaseHandler):
 
     # @tornado.web.authenticated
     def zan(self, id_reply):
-        ''' 先在外部表中更新，然后更新内部表字段的值。
-          有冗余，但是查看的时候避免了联合查询
-        :param id_reply:
-        :return:
+        '''
+        先在外部表中更新，然后更新内部表字段的值。
+        有冗余，但是查看的时候避免了联合查询
         '''
 
         logger.info('zan: {0}'.format(id_reply))

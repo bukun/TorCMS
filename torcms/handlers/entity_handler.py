@@ -90,7 +90,7 @@ class EntityHandler(BaseHandler):
         Download the entity by UID.
         '''
         down_url = MPost.get_by_uid(down_uid).extinfo.get('tag_file_download', '')
-        print('='* 40)
+        print('=' * 40)
         print(down_url)
         if down_url:
             ment_id = MEntity.get_id_by_impath(down_url)
@@ -191,8 +191,6 @@ class EntityHandler(BaseHandler):
         img_entity = self.request.files['file'][0]
         img_desc = post_data['desc']
         filename = img_entity["filename"]
-
-        # qian, hou = os.path.splitext(filename)
 
         if filename and allowed_file_pdf(filename):
             pass

@@ -32,7 +32,6 @@ class BaseHandler(tornado.web.RequestHandler):
     def get_post_data(self):
         '''
         Get all the arguments from post request. Only get the first argument by default.
-        :return: post_data.
         '''
         post_data = {}
         for key in self.request.arguments:
@@ -52,8 +51,6 @@ class BaseHandler(tornado.web.RequestHandler):
     def check_post_role(self):
         '''
         check the user role for docs.
-        :param userinfo:
-        :return:
         '''
         priv_dic = {'ADD': False, 'EDIT': False, 'DELETE': False, 'ADMIN': False}
         if self.userinfo:
@@ -75,13 +72,13 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def is_admin(self):
         '''
-        :return:
+        if is admin
         '''
         return True if self.check_post_role()['ADMIN'] else False
 
     def editable(self):
         '''
-        :return:
+        if is editable
         '''
         return True if self.check_post_role()['EDIT'] else False
 
@@ -92,7 +89,6 @@ class BaseHandler(tornado.web.RequestHandler):
     def cele_gen_whoosh(self):
         '''
         Generat whoosh database.
-        :return:
         '''
         run_whoosh.gen_whoosh_database(kind_arr=kind_arr, post_type=post_type)
 
@@ -100,7 +96,6 @@ class BaseHandler(tornado.web.RequestHandler):
         '''
         return the warpped template path.
         :param tmpl:
-        :return:
         '''
         return 'admin/' + tmpl.format(sig='p') if self.is_p else tmpl.format(sig='')
 

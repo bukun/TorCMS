@@ -15,7 +15,6 @@ import config
 def run_migrate(*args):
     '''
     running some migration.
-    :return:
     '''
 
     print('Begin migrate ...')

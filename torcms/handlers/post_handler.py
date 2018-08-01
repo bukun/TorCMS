@@ -14,7 +14,6 @@ from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
 from torcms.core import privilege
 from torcms.core.tools import logger
-from torcms.core.libs.deprecation import deprecated
 from torcms.model.category_model import MCategory
 from torcms.model.label_model import MPost2Label
 from torcms.model.post2catalog_model import MPost2Catalog
@@ -84,19 +83,13 @@ class PostHandler(BaseHandler):
                 self._to_add(uid=url_arr[1])
             else:
                 self._to_add()
-        elif len(url_arr) == 1:
-            if url_str.endswith('.html'):
-                # Deprecated
-                self.redirect('/post/{uid}'.format(uid=url_str.split('.')[0]))
-            elif len(url_str) in [4, 5]:
-                self._view_or_add(url_str)
+        elif len(url_arr) == 1 and len(url_str) in [4, 5]:
+            self._view_or_add(url_str)
         elif len(url_arr) == 2:
             dict_get = {
                 '_edit_kind': self._to_edit_kind,
                 '_edit': self._to_edit,
                 '_delete': self._delete,
-                'j_delete': self.j_delete,
-                'j_count_plus': self.j_count_plus,
             }
             dict_get.get(url_arr[0])(url_arr[1])
         else:
@@ -265,9 +258,7 @@ class PostHandler(BaseHandler):
         :param uid:  The ID of the post. Extra info would get by requests.
         '''
 
-        catid = kwargs['catid'] if (
-                'catid' in kwargs and MCategory.get_by_uid(kwargs['catid'])
-        ) else None
+        catid = kwargs['catid'] if MCategory.get_by_uid(kwargs.get('catid')) else None
 
         post_data = self.get_post_data()
 
@@ -369,17 +360,19 @@ class PostHandler(BaseHandler):
 
         logger.info('Meta template: {0}'.format(tmpl))
 
-        self.render(tmpl,
-                    kwd=kwd,
-                    postinfo=postinfo,
-                    catinfo=catinfo,
-                    pcatinfo=p_catinfo,
-                    userinfo=self.userinfo,
-                    cat_enum=MCategory.get_qian2(catid[:2]),
-                    tag_infos=MCategory.query_all(by_order=True, kind=self.kind),
-                    tag_infos2=MCategory.query_all(by_order=True, kind=self.kind),
-                    app2tag_info=MPost2Catalog.query_by_entity_uid(infoid, kind=self.kind).objects(),
-                    app2label_info=MPost2Label.get_by_uid(infoid).objects())
+        self.render(
+            tmpl,
+            kwd=kwd,
+            postinfo=postinfo,
+            catinfo=catinfo,
+            pcatinfo=p_catinfo,
+            userinfo=self.userinfo,
+            cat_enum=MCategory.get_qian2(catid[:2]),
+            tag_infos=MCategory.query_all(by_order=True, kind=self.kind),
+            tag_infos2=MCategory.query_all(by_order=True, kind=self.kind),
+            app2tag_info=MPost2Catalog.query_by_entity_uid(infoid, kind=self.kind).objects(),
+            app2label_info=MPost2Label.get_by_uid(infoid).objects()
+        )
 
     def _gen_last_current_relation(self, post_id):
         '''
@@ -661,47 +654,6 @@ class PostHandler(BaseHandler):
 
         else:
             self.redirect('/{0}/{1}'.format(router_post[self.kind], uid))
-
-    @deprecated(details='you should use: /post_j/delete')
-    @tornado.web.authenticated
-    @privilege.auth_delete
-    def j_delete(self, *args):
-        '''
-        Delete the post, but return the JSON.
-        '''
-
-        uid = args[0]
-
-        current_infor = MPost.get_by_uid(uid)
-        tslug = MCategory.get_by_uid(current_infor.extinfo['def_cat_uid'])
-        is_deleted = MPost.delete(uid)
-        MCategory.update_count(current_infor.extinfo['def_cat_uid'])
-
-        if is_deleted:
-            output = {
-                'del_info': 1,
-                'cat_slug': tslug.slug,
-                'cat_id': tslug.uid,
-                'kind': current_infor.kind
-
-            }
-        else:
-            output = {
-                'del_info': 0,
-            }
-        return json.dump(output, self)
-
-    @deprecated(deprecated_in='0.5', removed_in='0.6', details='you should use: /post_j/count_plus')
-    def j_count_plus(self, uid):
-        '''
-        Ajax request, that the view count will plus 1.
-        '''
-        _ = uid
-        self.set_header("Content-Type", "application/json")
-        output = {
-            'status': 1  # if MPost.__update_view_count_by_uid(uid) else 0,
-        }
-        self.write(json.dumps(output))
 
     def _chuli_cookie_relation(self, app_id):
         '''

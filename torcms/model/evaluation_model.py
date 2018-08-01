@@ -9,13 +9,14 @@ from torcms.model.abc_model import Mabc
 
 
 class MEvaluation(Mabc):
+    '''
+    Model for Evaluation
+    '''
+
     @staticmethod
     def app_evaluation_count(app_id, value=1):
         '''
         Get the Evalution sum.
-        :param app_id:
-        :param value:
-        :return:
         '''
         return TabEvaluation.select().where(
             (TabEvaluation.post_id == app_id) & (TabEvaluation.value == value)
@@ -24,9 +25,7 @@ class MEvaluation(Mabc):
     @staticmethod
     def get_by_signature(user_id, app_id):
         '''
-        :param user_id:
-        :param app_id:
-        :return:
+        get by user ID, and app ID.
         '''
         try:
             return TabEvaluation.get(
@@ -38,10 +37,7 @@ class MEvaluation(Mabc):
     @staticmethod
     def add_or_update(user_id, app_id, value):
         '''
-        :param user_id:
-        :param app_id:
-        :param value:
-        :return:
+        Editing evaluation.
         '''
         rec = MEvaluation.get_by_signature(user_id, app_id)
         if rec:

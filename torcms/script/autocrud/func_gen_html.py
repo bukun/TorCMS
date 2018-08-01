@@ -10,8 +10,6 @@ from .html_tpl import HTML_TPL_DICT
 def gen_input_add(sig_dic):
     '''
     Adding for HTML Input control.
-    :param sig_dic:
-    :return:
     '''
     if sig_dic['en'] == 'tag_file_download':
         html_str = HTML_TPL_DICT['input_add_download'].format(
@@ -33,8 +31,6 @@ def gen_input_add(sig_dic):
 def gen_input_edit(sig_dic):
     '''
     Editing for HTML input control.
-    :param sig_dic:
-    :return:
     '''
     if sig_dic['en'] == 'tag_file_download':
         html_str = HTML_TPL_DICT['input_edit_download'].format(
@@ -84,8 +80,6 @@ def gen_input_view(sig_dic):
 def gen_radio_add(sig_dic):
     '''
     Adding for HTML radio control.
-    :param sig_dic:
-    :return:
     '''
     # html_zuoxiang = '''
     # <label for="{0}"><span>
@@ -114,8 +108,6 @@ def gen_radio_add(sig_dic):
 def gen_radio_edit(sig_dic):
     '''
     editing for HTML radio control.
-    :param sig_dic:
-    :return:
     '''
     edit_zuoxiang = '''7
     <label  for="{0}"><span>
@@ -235,7 +227,6 @@ def gen_select_add(sig_dic):
         'dic': {1: 'Document', 2: 'Data', 3: 'Program'},
         'type': 'select',
         }
-    :return:
     '''
 
     option_str = ''
@@ -256,8 +247,6 @@ def gen_select_add(sig_dic):
 def gen_select_edit(sig_dic):
     '''
     Editing for select control.
-    :param sig_dic:
-    :return:
     '''
 
     option_str = ''
@@ -284,8 +273,6 @@ def gen_select_edit(sig_dic):
 def gen_select_view(sig_dic):
     '''
     HTML view, for selection.
-    :param sig_dic:
-    :return:
     '''
     option_str = ''
     dic_tmp = sig_dic['dic']

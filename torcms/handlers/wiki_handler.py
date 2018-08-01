@@ -142,7 +142,6 @@ class WikiHandler(BaseHandler):
         }
         self.render('wiki_page/wiki_edit.html',
                     kwd=kwd,
-                    dbrec=wiki_rec,  # Deprecated.
                     postinfo=wiki_rec,
                     userinfo=self.userinfo)
 
@@ -156,9 +155,7 @@ class WikiHandler(BaseHandler):
             'editable': self.editable(),
         }
         self.render('wiki_page/wiki_view.html',
-                    view=view,  # Deprecated
                     postinfo=view,
-                    author=view.user_name,
                     kwd=kwd,
                     userinfo=self.userinfo)
 

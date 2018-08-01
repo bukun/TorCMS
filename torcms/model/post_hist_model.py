@@ -14,9 +14,6 @@ class MPostHist(Mabc):
     For Post history
     '''
 
-    # def __init__(self):
-    #     super(MPostHist, self).__init__()
-
     @staticmethod
     def get_by_uid(uid):
         '''

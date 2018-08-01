@@ -8,7 +8,6 @@ import tornado.web
 from html2text import html2text
 
 from config import router_post
-from torcms.core.libs.deprecation import deprecated
 from torcms.core.tools import logger
 from torcms.model.category_model import MCategory
 from torcms.model.label_model import MPost2Label
@@ -31,16 +30,8 @@ class InfoCategory(tornado.web.UIModule):
 
         uid_with_str = args[0]
 
-        # if 'slug' in kwargs:
-        #     slug = kwargs['slug']
-        # else:
-        #     slug = False
         slug = kwargs.get('slug', False)
 
-        # if 'glyph' in kwargs:
-        #     glyph = kwargs['glyph']
-        # else:
-        #     glyph = ''
         glyph = kwargs.get('glyph', '')
 
         kwd = {
@@ -74,15 +65,6 @@ class InforUserMost(tornado.web.UIModule):
         fun(user_name, kind, num, with_tag = val1, glyph = val2)
         fun(user_name = vala, kind = valb, num = valc, with_tag = val1, glyph = val2)
         '''
-
-        # kind = kwargs.get('kind', args[0] if len(args) > 0 else '1')
-
-        # user_name = args[0]
-        # kind = args[1]
-        # num = args[2]
-        # with_tag = kwargs['with_tag'] if 'with_tag' in kwargs else False
-        # glyph = kwargs['glyph'] if 'glyph' in kwargs else ''
-
         user_name = kwargs.get('user_name', args[0])
         kind = kwargs.get('kind', args[1])
         num = kwargs.get('num', args[2] if len(args) > 2 else 6)
@@ -98,138 +80,6 @@ class InforUserMost(tornado.web.UIModule):
         return self.render_string('modules/info/list_user_equation.html',
                                   recs=all_cats,
                                   kwd=kwd)
-
-
-class InfoUserRecent(tornado.web.UIModule):
-    '''
-    User used infors recently.
-    '''
-
-    @deprecated(details='should not used any more.')
-    def render(self, *args, **kwargs):
-        '''
-        fun(user_name, kind)
-        fun(user_name, kind, num)
-        fun(user_name, kind, num, with_tag = val1, glyph = val2)
-        fun(user_name = vala, kind = valb, num = valc, with_tag = val1, glyph = val2)
-        '''
-
-        # user_name = args[0]
-        # kind = args[1]
-        # num = args[2]
-        # with_tag = kwargs['with_tag'] if 'with_tag' in kwargs else False
-        # glyph = kwargs['glyph'] if 'glyph' in kwargs else ''
-
-        user_name = kwargs.get('user_name', args[0])
-        kind = kwargs.get('kind', args[1])
-        num = kwargs.get('num', args[2] if len(args) > 2 else 6)
-        with_tag = kwargs.get('with_tag', False)
-        glyph = kwargs.get('glyph', '')
-
-        all_cats = MUsage.query_recent(user_name, kind, num).objects()
-        kwd = {
-            'with_tag': with_tag,
-            'router': router_post[kind],
-            'glyph': glyph
-        }
-        return self.render_string('modules/info/list_user_equation.html',
-                                  recs=all_cats,
-                                  kwd=kwd)
-
-
-class InfoUserRecentByCategory(tornado.web.UIModule):
-    '''
-    User accessed posts recently by category.
-    '''
-
-    @deprecated(details='should not used any more.')
-    def render(self, *args, **kwargs):
-        '''
-        fun(user_name, catid)
-        fun(user_name, catid, num)
-        fun(user_name, catid, num, glyph = val1)
-        '''
-
-        # user_name = args[0]
-        # cat_id = args[1]
-        # num = args[2]
-        # glyph = kwargs['glyph'] if 'glyph' in kwargs else ''
-
-        user_name = kwargs.get('user_name', args[0])
-        cat_id = kwargs.get('cat_id', args[1])
-        num = kwargs.get('num', args[2] if len(args) > 2 else 6)
-        glyph = kwargs.get('glyph', '')
-
-        all_cats = MUsage.query_recent_by_cat(user_name, cat_id, num).objects()
-        kwd = {
-
-            'glyph': glyph
-        }
-        return self.render_string('modules/info/list_user_equation_no_catalog.html',
-                                  recs=all_cats,
-                                  kwd=kwd)
-
-
-class InfoMostUsedByCategory(tornado.web.UIModule):
-    '''
-    posts, most used of certain category.
-    '''
-
-    @deprecated(details='should not used any more.')
-    def render(self, *args, **kwargs):
-        '''
-        fun(num, cat_str)
-        fun(num, cat_str, glyph = val1)
-
-        下面查询语句 query_most_by_cat 中有kind这一参数，所以又加了一种情况：
-        fun(num, cat_str, glyph = val1, kind = val2)
-        '''
-
-        # num = args[0]
-        # cat_str = args[1]
-        # glyph = kwargs['glyph'] if 'glyph' in kwargs else ''
-
-        num = kwargs.get('num', args[0])
-        cat_str = kwargs.get('cat_str', args[1])
-        glyph = kwargs.get('glyph', '')
-        kind = kwargs.get('kind', '')
-
-        # all_cats = MPost.query_most_by_cat(num, cat_str)
-        all_cats = MPost.query_most_by_cat(num, cat_str, kind)
-        kwd = {
-            'glyph': glyph
-        }
-        return self.render_string('modules/info/list_equation_by_cat.html',
-                                  recs=all_cats,
-                                  kwd=kwd)
-
-
-class InfoLeastUseByCategory(tornado.web.UIModule):
-    '''
-    Deprecated
-    '''
-
-    @deprecated(details='should not used any more.')
-    def render(self, *args, **kwargs):
-        '''
-        fun(num, cat_str)
-        fun(num, cat_str, glyph = val1)
-        '''
-
-        # num = args[0]
-        # cat_str = args[1]
-        # glyph = kwargs['glyph'] if 'glyph' in kwargs else ''
-
-        num = kwargs.get('num', args[0])
-        cat_str = kwargs.get('cat_str', args[1])
-        glyph = kwargs.get('glyph', '')
-
-        all_cats = MPost.query_least_by_cat(num, cat_str)
-        kwd = {
-
-            'glyph': glyph
-        }
-        return self.render_string('modules/info/list_equation_by_cat.html', recs=all_cats, kwd=kwd)
 
 
 class InfoMostUsed(tornado.web.UIModule):
@@ -263,14 +113,6 @@ class InfoMostUsed(tornado.web.UIModule):
         fun(kind, num, with_tag = val1)
         fun(kind, num, with_tag = val1, glyph = val2)
         '''
-
-        # kind = args[0]
-        # num = args[1]
-        #
-        # with_tag = kwargs['with_tag'] if 'with_tag' in kwargs else False
-        #
-        # glyph = kwargs['glyph'] if 'glyph' in kwargs else  ''
-
         kind = kwargs.get('kind', args[0])
         num = kwargs.get('num', args[1] if len(args) > 1 else 6)
         with_tag = kwargs.get('with_tag', False)
@@ -294,16 +136,6 @@ class InfoMostUsed(tornado.web.UIModule):
         fun(kind, num, with_tag = val1, user_id = val2)
         fun(kind, num, with_tag = val1, user_id = val2, glyph = val3)
         '''
-
-        # kind = args[0]
-        # num = args[1]
-        #
-        # with_tag = kwargs['with_tag'] if 'with_tag' in kwargs else False
-        #
-        # user_id = kwargs['user_id'] if 'user_id' in kwargs else ''
-        #
-        # glyph = kwargs['glyph'] if 'glyph' in kwargs else  ''
-
         kind = kwargs.get('kind', args[0])
         num = kwargs.get('num', args[1] if len(args) > 1 else 6)
         with_tag = kwargs.get('with_tag', False)
@@ -370,15 +202,6 @@ class InfoRecentUsed(tornado.web.UIModule):
         fun(kind, num, with_tag = val1, user_id = val2, glyph = val3)
         '''
 
-        # kind = args[0]
-        # num = args[1]
-        #
-        # with_tag = kwargs['with_tag'] if 'with_tag' in kwargs else False
-        #
-        # user_id = kwargs['user_id'] if 'user_id' in kwargs else ''
-        #
-        # glyph = kwargs['glyph'] if 'glyph' in kwargs else  ''
-
         kind = kwargs.get('kind', args[0])
         num = kwargs.get('num', args[1] if len(args) > 1 else 6)
         with_tag = kwargs.get('with_tag', False)
@@ -410,9 +233,6 @@ class InfoRandom(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-        # kind = args[0]
-        # num = args[1]
-
         kind = kwargs.get('kind', args[0])
         num = kwargs.get('num', args[1] if len(args) > 1 else 6)
         glyph = kwargs.get('glyph', '')
@@ -433,8 +253,6 @@ class InfoTags(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-        # uid = args[0]
-
         uid = kwargs.get('uid', args[0])
 
         out_str = ''
@@ -468,8 +286,6 @@ class InfoMenu(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-        # kind = args[0]
-
         kind = kwargs.get('kind', args[0])
         limit = kwargs.get('limit', 10)
         all_cats = MCategory.query_field_count(limit, kind=kind)
@@ -489,11 +305,6 @@ class RelPost2app(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-        # uid = args[0]
-        # num = args[1] if len(args) > 1 else 6
-        # kind = kwargs['kind'] if 'kind' in kwargs else '1'
-        # num = kwargs['num'] if 'num' in kwargs else num
-
         uid = kwargs.get('uid', args[0])
         num = kwargs.get('num', args[1] if len(args) > 1 else 6)
         kind = kwargs.get('kind', '1')
@@ -523,11 +334,6 @@ class RelApp2post(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-        # uid = args[0]
-        # num = args[1] if len(args) > 1 else 6
-        # num = kwargs['num'] if 'num' in kwargs else num
-        # kind = kwargs['kind'] if 'kind' in kwargs else '1'
-
         uid = kwargs.get('uid', args[0])
         num = kwargs.get('num', args[1] if len(args) > 1 else 6)
         kind = kwargs.get('kind', '1')
@@ -554,8 +360,6 @@ class ImgSlide(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-        # info = args[0]
-
         info = kwargs.get('info', args[0])
         return self.render_string('modules/info/img_slide.html', post_info=info)
 
@@ -567,9 +371,6 @@ class UserInfo(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-        # uinfo = args[0]
-        # uop = args[1]
-
         uinfo = kwargs.get('uinfo', args[0])
         uop = kwargs.get('uop', args[1])
         return self.render_string('modules/info/user_info.html', userinfo=uinfo, userop=uop)
@@ -582,9 +383,6 @@ class VipInfo(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-        # uinfo = args[0]
-        # uvip = args[1]
-
         uinfo = kwargs.get('uinfo', args[0])
         uvip = kwargs.get('uvip', args[1])
         return self.render_string('modules/info/vip_info.html', userinfo=uinfo, uservip=uvip)
@@ -597,8 +395,6 @@ class BannerModule(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-        # parentid = kwargs['parentid'] if 'parentid' in kwargs else ''
-
         parentid = kwargs.get('parentid', '')
         parentlist = MCategory.get_parent_list()
         kwd = {
@@ -615,8 +411,6 @@ class BreadCrumb(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-        # info = args[0]
-
         info = kwargs.get('info', args[0])
         return self.render_string('modules/info/bread_crumb.html', info=info)
 
@@ -628,8 +422,6 @@ class ParentName(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-        # info = args[0]
-
         info = kwargs.get('info', args[0])
         return self.render_string('modules/info/parentname.html', info=info)
 
@@ -641,8 +433,6 @@ class CatName(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-        # info = args[0]
-
         info = kwargs.get('info', args[0])
         return self.render_string('modules/info/catname.html', info=info)
 
@@ -670,8 +460,6 @@ class BreadcrumbPublish(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-        # sig = kwargs['sig'] if 'sig' in kwargs else  0
-
         sig = kwargs.get('sig', 0)
         kwd = {
             'sig': sig,

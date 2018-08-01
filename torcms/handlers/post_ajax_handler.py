@@ -8,9 +8,11 @@ import json
 import tornado.web
 import tornado.escape
 from torcms.handlers.post_handler import PostHandler
+from torcms.model.category_model import MCategory
 from torcms.model.post_model import MPost
 from config import CMS_CFG
 from torcms.core import tools
+from torcms.core import privilege
 
 
 class PostAjaxHandler(PostHandler):
@@ -96,3 +98,31 @@ class PostAjaxHandler(PostHandler):
                     format_date=tools.format_date,
                     userinfo=self.userinfo,
                     cfg=CMS_CFG, )
+
+    @tornado.web.authenticated
+    @privilege.auth_delete
+    def j_delete(self, *args):
+        '''
+        Delete the post, but return the JSON.
+        '''
+
+        uid = args[0]
+
+        current_infor = MPost.get_by_uid(uid)
+        tslug = MCategory.get_by_uid(current_infor.extinfo['def_cat_uid'])
+        is_deleted = MPost.delete(uid)
+        MCategory.update_count(current_infor.extinfo['def_cat_uid'])
+
+        if is_deleted:
+            output = {
+                'del_info': 1,
+                'cat_slug': tslug.slug,
+                'cat_id': tslug.uid,
+                'kind': current_infor.kind
+
+            }
+        else:
+            output = {
+                'del_info': 0,
+            }
+        return json.dump(output, self)

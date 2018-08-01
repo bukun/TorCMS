@@ -12,17 +12,19 @@ from torcms.core.tools import get_uuid
 from config import CMS_CFG
 
 
-class MEntity(Mabc):
+class MEntity():
     '''
     For file entities. Just like pdf, zipfile, docx, etc.
     '''
-
     @staticmethod
     def get_by_uid(uid):
         return MHelper.get_by_uid(TabEntity, uid)
 
     @staticmethod
     def query_all(limit=20):
+        '''
+        Return the entities list.
+        '''
         return TabEntity.select().limit(limit)
 
     @staticmethod

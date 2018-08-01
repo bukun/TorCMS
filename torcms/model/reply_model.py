@@ -14,8 +14,6 @@ from config import CMS_CFG
 
 
 class MReply(Mabc):
-    # def __init__(self):
-    #     super(MReply, self).__init__()
 
     @staticmethod
     def get_by_uid(uid):

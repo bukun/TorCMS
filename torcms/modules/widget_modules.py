@@ -8,7 +8,6 @@ import tornado.escape
 import tornado.web
 from torcms.model.reply_model import MReply
 from torcms.model.rating_model import MRating
-from torcms.core.libs.deprecation import deprecated
 
 
 class BaiduShare(tornado.web.UIModule):
@@ -107,35 +106,6 @@ class StarRating(tornado.web.UIModule):
             postinfo=postinfo,
             userinfo=userinfo,
             rating=rating,
-        )
-
-
-class NavigatePanel(tornado.web.UIModule):
-    '''
-    render navigate panel.
-    '''
-
-    @deprecated(details='Should not used any more.')
-    def render(self, *args, **kwargs):
-        userinfo = args[0]
-        return self.render_string(
-            'modules/widget/navigate_panel.html',
-
-            userinfo=userinfo,
-        )
-
-
-class FooterPanel(tornado.web.UIModule):
-    '''
-    render footer panel.
-    '''
-
-    @deprecated(details='Should not used any more.')
-    def render(self, *args, **kwargs):
-        userinfo = args[0]
-        return self.render_string(
-            'modules/widget/footer_panel.html',
-            userinfo=userinfo,
         )
 
 

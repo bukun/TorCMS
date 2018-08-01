@@ -45,8 +45,6 @@ class MWiki(Mabc):
     def get_by_uid(uid):
         '''
         Get the wiki object by the UID.
-        :param uid: 
-        :return: 
         '''
         return MHelper.get_by_uid(TabWiki, uid)
 
@@ -201,7 +199,9 @@ class MWiki(Mabc):
 
     @staticmethod
     def get_by_title(in_title):
-        # Aka get_by_wiki
+        '''
+        Aka get_by_wiki
+        '''
         return MWiki.get_by_wiki(in_title)
 
     @staticmethod

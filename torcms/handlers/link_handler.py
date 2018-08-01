@@ -191,7 +191,6 @@ class LinkHandler(BaseHandler):
     def user_add_link(self):
         '''
         Create link by user.
-        :return: 
         '''
         if self.check_post_role()['ADD']:
             pass

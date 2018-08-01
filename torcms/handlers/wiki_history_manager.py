@@ -112,7 +112,6 @@ class WikiHistoryHandler(EditHistoryHander):
 
         self.render('man_info/wiki_man_view.html',
                     userinfo=self.userinfo,
-                    view=postinfo,  # Deprecated
                     postinfo=postinfo,
                     html_diff_arr=html_diff_arr)
 

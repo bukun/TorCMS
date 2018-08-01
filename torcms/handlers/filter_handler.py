@@ -14,6 +14,7 @@ from torcms.core.torcms_redis import redisvr
 from torcms.core.tools import logger
 from config import CMS_CFG
 
+
 def echo_html_fenye_str(rec_num, fenye_num):
     '''
     生成分页的导航
@@ -107,7 +108,6 @@ class FilterHandler(BaseHandler):
         '''
         Show the HTML
         '''
-
 
         logger.info('info echo html: {0}'.format(url_str))
 

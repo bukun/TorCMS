@@ -3,7 +3,7 @@
 '''
 Generate the diagram for the relation of the templates.
 # pydot > graphviz
-# graphviz
+pip install graphviz
 '''
 
 import os
@@ -40,12 +40,7 @@ def check_html(html_file, begin):
     '''
     Checking the HTML
     '''
-    # uu  = Template(open(html_file).read())
-    # vv = {'static_url': str}
-    # print(uu.generate(**vv))
     sig = False
-    # print('-' * 10)
-    # print(html_file)
     for html_line in open(html_file).readlines():
 
         # uu = x.find('{% extends')
@@ -59,8 +54,11 @@ def check_html(html_file, begin):
                 # print(os.path.abspath(ff_tmpl))
                 pass
             else:
-                print(html_file)
-                print(ff_tmpl)
+                print('=' *10 + 'ERROR' + '=' *10)
+                print('The file:')
+                print(' ' * 4 + html_file)
+                print('needs:')
+                print(' ' * 4 +ff_tmpl)
                 print('Error, tmpl not find.')
                 # continue
                 sys.exit(1)

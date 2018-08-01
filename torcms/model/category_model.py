@@ -22,7 +22,9 @@ class MCategory(Mabc):
 
     @staticmethod
     def get_by_uid(uid):
-        return MHelper.get_by_uid(TabTag, uid)
+        if uid:
+            return MHelper.get_by_uid(TabTag, uid)
+        return False
 
     # Deprived
     @staticmethod

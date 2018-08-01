@@ -53,44 +53,29 @@ urls = [
 
     # For filter listing.
     ("/filter/(.*)", FilterHandler, dict()),
-    ("/list/(.*)", ListHandler, dict()),  # Deprecated, replaed by `/filter` .
     ("/info/(.*)", PostHandler, dict(kind='9', filter_view=True)),
 
     ("/label/(.*)", LabelHandler, dict()),
 
-    ("/tag/(.*)", TagListHandler, dict()),  # Deprecated, replaed by `/category` .
-
-    ("/user/p/(.*)", UserPartialHandler, dict()),  # Deprecated
-    ("/user_p/(.*)", UserPartialHandler, dict()),  # Deprecated
-    ("/user_j/(.*)", UserPartialHandler, dict()),
     ("/user/(.*)", UserHandler, dict()),
+    ("/user_j/(.*)", UserPartialHandler, dict()),
+
     ("/post_j/(.*)", PostAjaxHandler, dict()),
-    ("/post_p/(.*)", PostAjaxHandler, dict()),  # Deprecated,
-    ("/post/p/(.*)", PostAjaxHandler, dict()),  # Deprecated,
-    # ("/post/(.*)", PostHandler, dict()),
 
     ("/post_list/(.*)", PostListHandler, dict()),
 
     ("/maintain/p/category/(.*)", MaintainCategoryAjaxHandler, dict()),
     ("/maintain/category/(.*)", MaintainCategoryHandler, dict()),
-    ("/link/p/(.*)", LinkPartialHandler, dict()),  # deprecated
     ("/link_j/(.*)", LinkHandler, dict()),
     ("/link/(.*)", LinkHandler, dict()),
 
-    ("/page/p/(.*)", PageAjaxHandler, dict()),  # Deprecated
-    ("/page_p/(.*)", PageAjaxHandler, dict()),  # Deprecated
     ("/page_j/(.*)", PageAjaxHandler, dict()),
     ("/page/(.*)", PageHandler, dict()),
     ("/wiki/(.*)", WikiHandler, dict()),
     ("/search/(.*)", SearchHandler, dict()),
     ("/reply/(.*)", ReplyHandler, dict()),
 
-    # ("/maintain/claslitecategory/(.*)", MaintainPycateCategoryHandler, dict()),
-
     ("/publish/(.*)", PublishHandler, dict()),
-
-    # Todo: need to be deleted. replaced by `/label/`.
-    ('/info_tag/(.*)', InfoTagHandler, dict()),
 
     ("/collect/(.*)", CollectHandler, dict()),
     ('/rel/(.*)', RelHandler, dict()),

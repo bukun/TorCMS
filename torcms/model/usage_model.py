@@ -19,15 +19,11 @@ class MUsage(Mabc):
     Handle the usage of the info.
     '''
 
-    # def __init__(self):
-    #     super(MUsage, self).__init__()
 
     @staticmethod
     def query_by_post(postid):
         '''
         Query records by post.
-        :param postid:
-        :return:
         '''
         return TabUsage.select().where(
             TabUsage.post_id == postid

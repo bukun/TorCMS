@@ -194,8 +194,6 @@ def __get_view_tmpl(tag_key):
 def __gen_select_filter(bl_str):
     '''
     Convert to html.
-    :param bl_str:
-    :return:
     '''
     bianliang = HTML_DICS[bl_str]
     # bianliang = eval('html_vars.' + bl_str)
@@ -217,8 +215,6 @@ def __gen_select_filter(bl_str):
 def __gen_filter_tmpl(html_tpl):
     '''
     doing for directory.
-    :param html_tpl:
-    :return:
     '''
     out_dir = os.path.join(os.getcwd(), CRUD_PATH, 'list')
     if os.path.exists(out_dir):
@@ -260,8 +256,6 @@ def __gen_filter_tmpl(html_tpl):
 def __gen_list_tmpl(html_tpl):
     '''
     doing for directory.
-    :param html_tpl:
-    :return:
     '''
     out_dir = os.path.join(os.getcwd(), CRUD_PATH, 'infolist')
     if os.path.exists(out_dir):

@@ -15,9 +15,6 @@ class MRating(Mabc):
     Rating for post.
     '''
 
-    # def __init__(self):
-    #     super(MRating, self).__init__()
-
     @staticmethod
     def query_by_post(postid, limit=20):
         return TabRating.select().where(TabRating.post_id == postid).limit(limit)

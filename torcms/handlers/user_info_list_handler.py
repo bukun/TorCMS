@@ -27,21 +27,9 @@ class UserListHandler(BaseHandler):
         }
         dict_get.get(url_str, self.show404)()
 
-        # if url_str == 'recent':
-        #     self.to_find()
-        # if url_str == 'app':
-        #     self.list_app()
-        # elif url_str == 'user_recent':
-        #     self.user_recent()
-        # elif url_str == 'user_most':
-        #     self.user_most()
-        # else:
-        #     self.show404()
-
     def post(self, *args, **kwargs):
         url_str = args[0]
-        # if len(url_str) > 0:
-        #     ip_arr = url_str.split('/')
+
         if url_str == 'find':
             self.find()
 

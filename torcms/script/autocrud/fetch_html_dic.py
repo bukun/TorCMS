@@ -20,10 +20,6 @@ else:
 def __write_filter_dic(wk_sheet, column):
     '''
     return filter dic for certain column
-    :param fo:
-    :param wk_sheet:
-    :param column:
-    :return:
     '''
     row1_val = wk_sheet['{0}1'.format(column)].value
     row2_val = wk_sheet['{0}2'.format(column)].value
@@ -39,12 +35,6 @@ def __write_filter_dic(wk_sheet, column):
         #  if only one tag,
         if len(tags1) == 1:
             xx_1 = row2_val.split(':')  # 'text'  # HTML text input control.
-
-            # The default type of the input is text
-            # if xx_1[0].lower() == 'download':
-            #     xx_1[0] = 'url'
-            # elif xx_1[0].lower() in INPUT_ARR:
-
 
             if xx_1[0].lower() in INPUT_ARR:
                 xx_1[0] = xx_1[0].lower()
@@ -79,7 +69,6 @@ def __write_filter_dic(wk_sheet, column):
 def gen_html_dic():
     '''
     生成 Filter .
-    :return:
     '''
 
     if WORK_BOOK:
@@ -145,9 +134,6 @@ def gen_array_crud():
 def __get_switch_arr(work_sheet, row_num):
     '''
     if valud of the column of the row is `1`,  it will be added to the array.
-    :param work_sheet:
-    :param row_num:
-    :return:
     '''
     u_dic = []
     for col_idx in FILTER_COLUMNS:

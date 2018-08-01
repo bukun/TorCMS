@@ -17,9 +17,6 @@ class MPost2Catalog(Mabc):
     Database Model for post to catalog.
     '''
 
-    # def __init__(self):
-    #     super(MPost2Catalog, self).__init__()
-
     @staticmethod
     def query_all():
         '''
@@ -38,9 +35,6 @@ class MPost2Catalog(Mabc):
     def remove_relation(post_id, tag_id):
         '''
         Delete the record of post 2 tag.
-        :param post_id:
-        :param tag_id:
-        :return:
         '''
         entry = TabPost2Tag.delete().where(
             (TabPost2Tag.post_id == post_id) &
@@ -53,8 +47,6 @@ class MPost2Catalog(Mabc):
     def remove_tag(tag_id):
         '''
         Delete the records of certain tag.
-        :param tag_id:
-        :return:
         '''
         entry = TabPost2Tag.delete().where(
             TabPost2Tag.tag_id == tag_id
@@ -86,8 +78,6 @@ class MPost2Catalog(Mabc):
     def query_by_post(postid):
         '''
         Query records by post.
-        :param postid:
-        :return:
         '''
         return TabPost2Tag.select().where(
             TabPost2Tag.post_id == postid
@@ -301,8 +291,6 @@ class MPost2Catalog(Mabc):
     def get_first_category(app_uid):
         '''
         Get the first, as the uniqe category of post.
-        :param app_uid:
-        :return:
         '''
         recs = MPost2Catalog.query_by_entity_uid(app_uid).objects()
         if recs.count() > 0:

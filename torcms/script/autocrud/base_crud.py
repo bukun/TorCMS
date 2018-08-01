@@ -31,7 +31,6 @@ FILTER_COLUMNS = RAW_LIST + ["A" + x for x in ['A', 'B', 'C', 'D'] + RAW_LIST] +
 def build_dir():
     '''
     Build the directory used for templates.
-    :return:
     '''
     tag_arr = ['add', 'edit', 'view', 'list', 'infolist']
     path_arr = [os.path.join(CRUD_PATH, x) for x in tag_arr]

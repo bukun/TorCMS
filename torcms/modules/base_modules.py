@@ -218,6 +218,7 @@ class PostCategoryOf(tornado.web.UIModule):
     '''
     The catalog of the post.
     '''
+
     def render(self, uid_with_str, slug=False, order=False, with_title=True, glyph=''):
         curinfo = MCategory.get_by_uid(uid_with_str)
         sub_cats = MCategory.query_sub_cat(uid_with_str)
@@ -357,9 +358,6 @@ class TheCategory(tornado.web.UIModule):
         else:
             tmpl_str = '''<a href="/category/{0}">{1}</a>'''
 
-        # print('=' * 10)
-        # for uu in MPost2Catalog().query_by_entity_uid(post_id):
-        #     print(dir(uu.as_entity()))
         format_arr = [tmpl_str.format(uu.tag_slug, uu.tag_name) for uu in
                       MPost2Catalog().query_by_entity_uid(post_id).objects()]
         return ', '.join(format_arr)

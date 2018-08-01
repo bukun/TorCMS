@@ -40,7 +40,6 @@ class MPost(Mabc):
     def delete(uid):
         '''
         Delete by uid
-        :param uid:
         '''
 
         q_u1 = TabPostHist.delete().where(TabPostHist.post_id == uid)
@@ -485,9 +484,6 @@ class MPost(Mabc):
     def update_misc(uid, **kwargs):
         '''
         update rating, kind, or count
-        :param uid:
-        :param kwargs:
-        :return:
         '''
         if 'rating' in kwargs:
             MPost.__update_rating(uid, kwargs['rating'])

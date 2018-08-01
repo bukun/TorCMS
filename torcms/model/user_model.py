@@ -217,7 +217,6 @@ class MUser(Mabc):
                              user_name=post_data['user_name'],
                              user_pass=tools.md5(post_data['user_pass']),
                              user_email=post_data['user_email'],
-                             # role=post_data.get('role', '1000'),
                              role='1000',  # ‘1000' as default role.
                              time_create=tools.timestamp(),
                              time_update=tools.timestamp(),

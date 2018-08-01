@@ -40,10 +40,8 @@ class PageHandler(BaseHandler):
             # self.list()
             self.set_status(400)
             return
-        if len(url_arr) == 1 and url_str.endswith('.html'):
-            # Deprecated
-            self.redirect(url_str.split('.')[0])
-        elif url_arr[0] in ['_edit', 'modify', 'edit']:
+
+        if url_arr[0] in ['_edit', 'modify', 'edit']:
             self.to_modify(url_arr[1])
         elif url_str == 'list':
             self.list()
@@ -147,7 +145,6 @@ class PageHandler(BaseHandler):
 
         }
         self.render('wiki_page/page_edit.html',
-                    view=MWiki.get_by_uid(uid),  # Deprecated
                     postinfo=MWiki.get_by_uid(uid),
                     kwd=kwd,
                     cfg=CMS_CFG,
@@ -162,7 +159,6 @@ class PageHandler(BaseHandler):
             'pager': '',
         }
         self.render('wiki_page/page_view.html',
-                    view=rec,  # Deprecated
                     postinfo=rec,
                     kwd=kwd,
                     author=rec.user_name,

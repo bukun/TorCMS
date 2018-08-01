@@ -11,7 +11,6 @@ from config import SMTP_CFG, email_cfg
 def run_send_all(*args):
     '''
     Send email to all user.
-    :return:
     '''
     for user_rec in MUser.query_all():
         email_add = user_rec.user_email
@@ -23,7 +22,6 @@ def run_send_all(*args):
 def run_send_nologin(*args):
     '''
     Send email to who not logged in recently.
-    :return:
     '''
     for user_rec in MUser.query_nologin():
         email_add = user_rec.user_email

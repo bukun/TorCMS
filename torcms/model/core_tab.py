@@ -12,7 +12,7 @@ from torcms.core.base_model import BaseModel
 class TabTag(BaseModel):
     uid = peewee.CharField(null=False, max_length=4, index=True,
                            unique=True, primary_key=True, help_text='', )
-    # using the name `slug` as in WordPress.
+
     slug = peewee.CharField(null=False, index=True, unique=True, max_length=36, help_text='', )
     name = peewee.CharField(null=False, max_length=255, help_text='', )
     order = peewee.IntegerField()
@@ -236,7 +236,7 @@ class TabUsage(BaseModel):
 class TabRel(BaseModel):
     '''
     相关应用
-    我们认为，相关性，并非是对称操作
+    相关性，并非是对称操作
     '''
     uid = peewee.CharField(max_length=36, null=False, unique=True, help_text='', primary_key=True)
     post_f_id = peewee.CharField(null=False, max_length=5, help_text='', )

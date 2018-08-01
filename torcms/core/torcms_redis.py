@@ -1,5 +1,7 @@
 # -*- coding:utf-8 -*-
-
+'''
+Using Redis in TorCMS.
+'''
 import redis
 
 redisvr = redis.Redis(host='localhost',

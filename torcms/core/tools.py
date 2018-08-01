@@ -233,51 +233,11 @@ def markdown2html(markdown_text):
     return tornado.escape.xhtml_escape(html)
 
 
-@deprecated(details='using `tag_pager` as the replacement.')
-def gen_pager_bootstrap_url(cat_slug, page_num, current):
-    '''
-    Generate the url.
-    '''
-    if page_num == 1:
-        return ''
-
-    pager_shouye = '''<li class="{0}"><a href="{1}/{2}">&lt;&lt; 首页</a></li>'''.format(
-        'hidden' if current <= 1 else '',
-        cat_slug,
-        current
-    )
-
-    pager_pre = '''<li class="{0}"><a href="{1}/{2}">&lt; 前页</a></li>'''.format(
-        'hidden' if current <= 1 else '',
-        cat_slug,
-        current - 1
-    )
-    pager_mid = ''
-    for ind in range(0, page_num):
-        tmp_mid = '''<li class="{0}"><a  href="{1}/{2}">{2}</a></li>'''.format(
-            'active' if ind + 1 == current else '',
-            cat_slug,
-            ind + 1
-        )
-        pager_mid += tmp_mid
-    pager_next = '''<li class=" {0}"><a  href="{1}/{2}">后页 &gt;</a></li>'''.format(
-        'hidden' if current >= page_num else '',
-        cat_slug,
-        current + 1
-    )
-    pager_last = '''<li class=" {0}"><a href="{1}/{2}">末页&gt;&gt;</a></li>'''.format(
-        'hidden' if current >= page_num else '',
-        cat_slug,
-        page_num
-    )
-    pager = pager_shouye + pager_pre + pager_mid + pager_next + pager_last
-    return pager
-
 
 @deprecated(details='using `tag_pager` as the replacement.')
 def gen_pager_purecss(cat_slug, page_num, current):
     '''
-    :return:
+    Generate pager of purecss.
     '''
     if page_num == 1:
         return ''

@@ -26,7 +26,6 @@ class CategoryHandler(BaseHandler):
     def initialize(self, **kwargs):
         super(CategoryHandler, self).initialize()
         self.kind = kwargs.get('kind', '1')
-        # self.order = kwargs.get('order', False)
         self.order = True
 
     def get(self, *args, **kwargs):
@@ -119,12 +118,12 @@ class CategoryHandler(BaseHandler):
             infos = MPost2Catalog.query_pager_by_slug(
                 cat_slug,
                 current_page_num,
-                # order=self.order),
                 tag=tag)
         else:
             tmpl = 'list/catalog_list.html'
             infos = MCatalog.query_by_slug(cat_slug)
 
+        # ToDo: `gen_pager_purecss` should not use any more.
         self.render(tmpl,
                     catinfo=cat_rec,
                     infos=infos,
