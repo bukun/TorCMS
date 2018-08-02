@@ -1,11 +1,11 @@
 # -*- coding:utf-8 -*-
 
 from torcms.handlers.admin_handler import AdminHandler
-from torcms.handlers.category_handler import CategoryHandler, TagListHandler
+from torcms.handlers.list_handler import ListHandler, TagListHandler
 from torcms.handlers.collect_handler import CollectHandler
 from torcms.handlers.entity_handler import EntityHandler
 from torcms.handlers.evaluation_handler import EvaluationHandler
-from torcms.handlers.filter_handler import FilterHandler, ListHandler
+from torcms.handlers.filter_handler import FilterHandler
 from torcms.handlers.index import IndexHandler
 from torcms.handlers.label_handler import LabelHandler, InfoTagHandler
 from torcms.handlers.leaf_handler import LeafHandler
@@ -44,11 +44,11 @@ urls = [
     ("/entity_download/(.*)", Entity2UserHandler, dict()),
 
     # For listing items.
-    ("/catalog/(.*)", CatalogHandler, dict()),
+    ("/list/(.*)", ListHandler, dict()), # use to be category
     ("/post/(.*)", PostHandler, dict(kind='1')),
 
     # For listing ordered items.
-    ("/category/(.*)", CategoryHandler, dict()),
+    ("/catalog/(.*)", CatalogHandler, dict()),
     ("/leaf/(.*)", LeafHandler, dict(kind='6')),
 
     # For filter listing.

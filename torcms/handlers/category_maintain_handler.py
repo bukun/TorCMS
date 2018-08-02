@@ -5,7 +5,6 @@ CRUD for the category.
 '''
 
 import json
-import tornado.escape
 import tornado.web
 import config
 from torcms.core.base_handler import BaseHandler

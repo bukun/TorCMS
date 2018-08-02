@@ -16,7 +16,7 @@ from torcms.model.post2catalog_model import MPost2Catalog
 from config import CMS_CFG, router_post
 
 
-class CategoryHandler(BaseHandler):
+class ListHandler(BaseHandler):
     '''
     Category access.
     If order is True,  list by order. Just like Book.
@@ -24,9 +24,9 @@ class CategoryHandler(BaseHandler):
     '''
 
     def initialize(self, **kwargs):
-        super(CategoryHandler, self).initialize()
+        super(ListHandler, self).initialize()
         self.kind = kwargs.get('kind', '1')
-        self.order = True
+        self.order = False
 
     def get(self, *args, **kwargs):
         url_str = args[0]

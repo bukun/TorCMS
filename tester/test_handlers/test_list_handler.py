@@ -3,7 +3,7 @@
 '''
 Test
 '''
-from torcms.handlers.category_handler import CategoryHandler, MCategory
+from torcms.handlers.list_handler import ListHandler, MCategory
 
 
 def Test():
@@ -11,7 +11,7 @@ def Test():
     Test
     '''
     urls = [
-        ("/label/(.*)", CategoryHandler, dict()),
+        ("/label/(.*)", ListHandler, dict()),
         ("/label/(.*)", MCategory, dict()),
     ]
 
