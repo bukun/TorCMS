@@ -172,7 +172,6 @@ Initialization
 
 it will
 
-- fetch the F2E libraries.
 - initialize the PostgreSQL schema.
 - initialize the metadata in database.
 - the whoosh database would be initialized.
