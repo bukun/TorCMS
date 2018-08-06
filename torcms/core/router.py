@@ -66,7 +66,7 @@ urls = [
 
     ("/maintain/p/category/(.*)", MaintainCategoryAjaxHandler, dict()),
     ("/maintain/category/(.*)", MaintainCategoryHandler, dict()),
-    ("/link_j/(.*)", LinkHandler, dict()),
+    ("/link_j/(.*)", LinkPartialHandler, dict()),
     ("/link/(.*)", LinkHandler, dict()),
 
     ("/page_j/(.*)", PageAjaxHandler, dict()),
