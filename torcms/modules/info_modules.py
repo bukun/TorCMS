@@ -258,7 +258,7 @@ class InfoTags(tornado.web.UIModule):
         out_str = ''
         iii = 1
         for tag_info in MPost2Catalog.query_by_entity_uid(uid).objects():
-            tmp_str = '''<a data-inline="true" href="/tag/{0}"
+            tmp_str = '''<a data-inline="true" href="/list/{0}"
              class="tag{1}">{2}</a>'''.format(tag_info.tag_slug, iii, tag_info.tag_name)
             out_str += tmp_str
             iii += 1

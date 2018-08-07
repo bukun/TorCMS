@@ -45,7 +45,7 @@ function g_load_postcat(ii) {
 }
 function g_load_infocat(ii) {
     0 == $("#pcat" + ii.toString()).val() ? $("#gcat" + ii.toString()).empty() : $.ajax({
-            url: "/tag/j_subcat/" + $("#pcat" + ii.toString()).val(),
+            url: "/list/j_subcat/" + $("#pcat" + ii.toString()).val(),
             type: "GET",
             data: {},
             timeout: 1e3,

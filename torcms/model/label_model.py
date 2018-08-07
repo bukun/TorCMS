@@ -136,7 +136,7 @@ class MPost2Label(Mabc):
         tag_infos = MPost2Label.get_by_uid(signature)
         out_str = ''
         for tag_info in tag_infos:
-            tmp_str = '<li><a href="/tag/{0}" >{1}</a></li>'.format(
+            tmp_str = '<li><a href="/list/{0}" >{1}</a></li>'.format(
                 tag_info.tag,
                 tag_info.catalog_name
             )
