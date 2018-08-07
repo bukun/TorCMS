@@ -356,7 +356,7 @@ class TheCategory(tornado.web.UIModule):
         if order:
             tmpl_str = '''<a href="/catalog/{0}">{1}</a>'''
         else:
-            tmpl_str = '''<a href="/category/{0}">{1}</a>'''
+            tmpl_str = '''<a href="/list/{0}">{1}</a>'''
 
         format_arr = [tmpl_str.format(uu.tag_slug, uu.tag_name) for uu in
                       MPost2Catalog().query_by_entity_uid(post_id).objects()]
@@ -424,7 +424,7 @@ class PostTags(tornado.web.UIModule):
         out_str = ''
         idx = 1
         for tag_info in MPost2Catalog.query_by_entity_uid(uid, kind=kind).objects():
-            tmp_str = '<a href="/category/{0}" class="tag{1}">{2}</a>'.format(
+            tmp_str = '<a href="/list/{0}" class="tag{1}">{2}</a>'.format(
                 tag_info.tag_slug,
                 idx,
                 tag_info.tag_name)
@@ -443,7 +443,7 @@ class MapTags(tornado.web.UIModule):
         out_str = ''
         idx = 1
         for tag_info in MPost2Catalog.query_by_entity_uid(uid, kind='m').objects():
-            tmp_str = '<a href="/tag/{0}" class="tag{1}">{2}</a>'.format(
+            tmp_str = '<a href="/list/{0}" class="tag{1}">{2}</a>'.format(
                 tag_info.tag_slug,
                 idx,
                 tag_info.tag_name)

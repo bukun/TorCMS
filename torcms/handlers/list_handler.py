@@ -128,7 +128,7 @@ class ListHandler(BaseHandler):
                     catinfo=cat_rec,
                     infos=infos,
                     pager=tools.gen_pager_purecss(
-                        '/category/{0}'.format(cat_slug),
+                        '/list/{0}'.format(cat_slug),
                         page_num,
                         current_page_num),
                     userinfo=self.userinfo,
@@ -145,4 +145,4 @@ class TagListHandler(BaseHandler):
     '''
 
     def get(self, *args, **kwargs):
-        self.redirect('/category/{0}'.format(args[0]))
+        self.redirect('/list/{0}'.format(args[0]))

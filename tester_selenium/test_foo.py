@@ -681,7 +681,7 @@ def test_nextpagea():
     :return:
     '''
     test_login()
-    driver.get('{0}/category/develop'.format(site_url))
+    driver.get('{0}/list/develop'.format(site_url))
     driver.find_element_by_link_text('Next page').click()
     sleep(2)
     driver.find_element_by_link_text('Previous page').click()
