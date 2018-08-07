@@ -16,7 +16,7 @@ function js_update_pass() {
 }
 function g_load_kindcat() {
     $.ajax({
-        url: "/category/j_kindcat/" + $("#kcat").val(), type: "GET", data: {}, timeout: 1e3, error: function () {
+        url: "/list/j_kindcat/" + $("#kcat").val(), type: "GET", data: {}, timeout: 1e3, error: function () {
             alert("重新加载")
         }, success: function (result) {
             var data = eval("(" + result + ")");
@@ -28,7 +28,7 @@ function g_load_kindcat() {
 }
 function g_load_postcat(ii) {
     0 == $("#pcat" + ii.toString()).val() ? $("#gcat" + ii.toString()).empty() : $.ajax({
-            url: "/category/j_subcat/" + $("#pcat" + ii.toString()).val(),
+            url: "/list/j_subcat/" + $("#pcat" + ii.toString()).val(),
             type: "GET",
             data: {},
             timeout: 1e3,

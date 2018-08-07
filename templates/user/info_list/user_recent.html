@@ -36,7 +36,7 @@
                     <div class="row-fluid">
                         <br>
                         <ul class="list-group">
-                            {% module app_user_recent(userinfo.uid,'9',20,with_tag=True,glyph="glyphicon glyphicon-th-list") %}
+                            {% module app_recent_used(userinfo=userinfo,kind = '9',num = 20,with_tag=True,glyph="glyphicon glyphicon-th-list") %}
                         </ul>
                         <br>
                     </div>
@@ -45,7 +45,7 @@
                     <div class="row-fluid">
                         <br>
                         <ul class="list-group">
-                            {% module app_user_recent(userinfo.uid,'1',20,with_tag=True) %}
+                            {% module app_recent_used(userinfo = userinfo,kind = '1',num = 20,with_tag=True) %}
                         </ul>
                     </div>
                 </div>

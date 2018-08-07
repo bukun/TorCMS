@@ -121,7 +121,7 @@
             <ul class="list-group">
                 {% for taginfo in cat_enum %}
                 {% if not taginfo.uid.endswith('00') %}
-                <li class="list-group-item"><a href="/list/{{ taginfo.uid }}">{{ taginfo.name }}</a></li>
+                <li class="list-group-item"><a href="/filter/{{ taginfo.uid }}">{{ taginfo.name }}</a></li>
                 {% end %}
                 {% end %}
             </ul>

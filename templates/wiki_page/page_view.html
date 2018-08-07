@@ -3,23 +3,23 @@
 <div class="mtop">
     <ul class="breadcrumb">
         <li>Current location: <a href="/">{{ _('Home') }}</a></li>
-        <li class="active">{{ view.title }}</li>
+        <li class="active">{{ postinfo.title }}</li>
     </ul>
 </div>
 <div class="panel panel-black">
-    <div class="panel-heading"><b> {{ view.title }} </b></div>
+    <div class="panel-heading"><b> {{ postinfo.title }} </b></div>
     <div class="panel-body"><p>
         <!--{{ datetime.datetime.fromtimestamp(postinfo.time_update).strftime('%Y-%m-%d') }}-->
         <!--<span class="split">|</span>-->
         <!--{{ _('author') }} : {{ _('admin') }}-->
         {% if userinfo and userinfo.role[1] >= '2' %}
         <!--<span class="split">|</span>-->
-        <a href="/page/edit/{{ view.uid }}" class="btn btn-warning btn-xs">{{ _('Edit') }}</a>
-        <span class="cmts"><a href="/wiki_man/view/{{ postinfo.uid  }}"
-                              class="btn btn-xs btn-danger"> {{ _('Review') }}</a></span>
+        <a href="/page/edit/{{ postinfo.uid }}" class="btn btn-warning btn-xs">{{ _('Edit') }}</a>
+        <span class="cmts"><a href="/wiki_man/postinfo/{{ postinfo.uid  }}"
+                              class="btn btn-xs btn-danger"> {{ _('Repostinfo') }}</a></span>
         {% end %}</p>
         <div id="wiki_cnt" class="listinfo_content">
-            {% raw unescape(view.cnt_html) %}
+            {% raw unescape(postinfo.cnt_html) %}
         </div>
     </div>
 </div>
