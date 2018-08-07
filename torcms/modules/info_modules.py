@@ -32,6 +32,8 @@ class InfoCategory(tornado.web.UIModule):
 
         slug = kwargs.get('slug', False)
 
+        with_title = kwargs.get('with_title', False)
+
         glyph = kwargs.get('glyph', '')
 
         kwd = {
@@ -50,6 +52,7 @@ class InfoCategory(tornado.web.UIModule):
                                   pcatinfo=curinfo,
                                   sub_cats=sub_cats,
                                   recs=sub_cats,
+                                  with_title = with_title,
                                   kwd=kwd)
 
 

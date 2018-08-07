@@ -206,7 +206,7 @@
         {% if userinfo is None %}
         {% module app_recent_used(postinfo.kind, 5) %}
         {% else %}
-        {% module app_user_recent(userinfo.uid, postinfo.kind, 5) %}
+        {% module app_recent_used(userinfo = userinfo, kind = postinfo.kind, num = 5) %}
         {% end %}
     </ul>
 </div>

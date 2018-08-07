@@ -75,7 +75,7 @@ Then use it.
                     {% if userinfo is None %}
                     {% module app_recent_used('m', 10) %}
                     {% else %}
-                    {% module app_user_recent(userinfo.uid, 'm', 6) %}
+                    {% module app_recent_used(userinfo = userinfo,kind = 'm',num = 6) %}
                     {% end %}
                 </ul>
             </div>

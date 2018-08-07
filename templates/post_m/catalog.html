@@ -31,7 +31,7 @@
         {% if userinfo is None %}
         {% module app_recent_used(10) %}
         {% else %}
-        {% module app_user_recent(userinfo.uid,6) %}
+        {% module app_recent_used(userinfo = userinfo,num = 6) %}
         {% end %}
     </ul>
 </div>
