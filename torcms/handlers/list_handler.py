@@ -114,13 +114,13 @@ class ListHandler(BaseHandler):
         #     tmpl = 'list/catalog_list.html'
         # else:
         if self.order:
-            tmpl = 'list/category_list.html'
+            tmpl = 'list/catalog_list.html'
             infos = MPost2Catalog.query_pager_by_slug(
                 cat_slug,
                 current_page_num,
                 tag=tag)
         else:
-            tmpl = 'list/catalog_list.html'
+            tmpl = 'list/category_list.html'
             infos = MCatalog.query_by_slug(cat_slug)
 
         # ToDo: `gen_pager_purecss` should not use any more.
