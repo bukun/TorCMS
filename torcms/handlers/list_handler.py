@@ -121,7 +121,11 @@ class ListHandler(BaseHandler):
                 tag=tag)
         else:
             tmpl = 'list/category_list.html'
-            infos = MCatalog.query_by_slug(cat_slug)
+            # infos = MCatalog.query_by_slug(cat_slug)
+            infos = MPost2Catalog.query_pager_by_slug(
+                cat_slug,
+                current_page_num,
+                tag=tag)
 
         # ToDo: `gen_pager_purecss` should not use any more.
         self.render(tmpl,
