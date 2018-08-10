@@ -52,7 +52,7 @@
     <h1 class="title">{{ view.title }}</h1>
 
     <p class="info">
-        {{ str(view.date).split('.')[0] }}
+        {{ datetime.datetime.fromtimestamp(view.time_create).strftime('%Y-%m-%d')  }}
         <span class="split">|</span>
         发布者: <a href="http://yunsuan.org">云算笔记</a>
         <span class="split">|</span>

@@ -1,0 +1,58 @@
+<script type="text/javascript">
+    $().ready(function () {
+        $("#form_login").validate(
+                {
+                    rules: {
+                        user_name: {
+                            required: true
+                        },
+                        user_pass: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        user_name: {
+                            required: "<span class='red'>请输入用户名</span>"
+                        },
+
+                        user_pass: {
+                            required: "<span class='red'>请输入密码</span>"
+                        }
+                    }
+                }
+        );
+    });
+</script>
+
+
+<div class="main">
+    <div class="title">
+        <span>用户登录</span>
+    </div>
+    <div class="content">
+        <form id="form_login" action="/user/login" method="post" class="pure-form pure-form-aligned">
+            <fieldset>
+                <div class="pure-control-group">
+                    <label for="user_name">用户名: </label>
+                    <input type="text" name="user_name" id="user_name" class="form-control"
+                           placeholder="请输入你的用户名"/>
+                </div>
+                <div class="pure-control-group">
+                    <label for="user_pass">密码: </label>
+                    <input type="password" name="user_pass" id="user_pass" class="form-control"
+                           placeholder="请输入你的密码">
+                </div>
+                <div class="pure-control-group">
+                    <label></label>
+                    <button type="submit" class="pure-button pure-button-primary">登陆</button>
+                </div>
+            </fieldset>
+        </form>
+        <div class="panel_footer">
+            <div class="alert alert-info">非本站用户？ 请 <a href="/user/regist"
+                                                      class="pure-button pure-button-active">进行注册</a> 。
+            </div>
+            <div class="alert alert-warning">忘记密码，尝试<a href="/user/reset-password">密码重置</a></div>
+        </div>
+    </div>
+</div>

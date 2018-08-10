@@ -34,7 +34,7 @@
                     </thead>
                     <tbody>
                     {% set ii = 0 %}
-                    {% for x in view %}
+                    {% for x in infos %}
                     <tr id="del_category_{{ ii }}">
                         <td>{{x.user_name}}</td>
                         <td><input value="{{ x.role }}" type="text" id="role{{ ii }}"
@@ -50,6 +50,8 @@
                 </table>
             </div>
         </div>
+
+        {% module admin_user_pager(kwd['current_page']) %}
     </div>
 </div>
 

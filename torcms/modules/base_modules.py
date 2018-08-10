@@ -961,3 +961,31 @@ class Admin_reply_pager(tornado.web.UIModule):
                                   kwd=kwd,
                                   pager_num=page_num,
                                   page_current=current)
+class Admin_user_pager(tornado.web.UIModule):
+    '''
+    pager of kind
+    '''
+
+    def render(self, *args, **kwargs):
+        current = int(args[0])
+        # kind
+        # current 当前页面
+
+        num_of_cat = MUser.count_of_certain()
+
+        tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
+
+        page_num = (tmp_page_num if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
+                    else tmp_page_num + 1)
+
+        kwd = {
+            'page_home': False if current <= 1 else True,
+            'page_end': False if current >= page_num else True,
+            'page_pre': False if current <= 1 else True,
+            'page_next': False if current >= page_num else True,
+        }
+
+        return self.render_string('modules/admin/user_pager.html',
+                                  kwd=kwd,
+                                  pager_num=page_num,
+                                  page_current=current)

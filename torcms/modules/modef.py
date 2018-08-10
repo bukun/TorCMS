@@ -97,6 +97,7 @@ core_modules = {
     'postlistoftag': base_modules.PostListOfTag,
     'admin_post_pager': base_modules.Admin_Post_pager,
     'admin_page_pager': base_modules.Admin_Page_pager,
-    'admin_reply_pager': base_modules.Admin_reply_pager
+    'admin_reply_pager': base_modules.Admin_reply_pager,
+    'admin_user_pager': base_modules.Admin_user_pager
 
 }

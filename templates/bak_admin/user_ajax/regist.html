@@ -1,0 +1,76 @@
+<script type="text/javascript">
+    $().ready(function () {
+        $("#form_regist").validate(
+                {
+                    rules: {
+                        user_name: {
+                            required: true,
+                            rangelength: [5, 16]
+                        },
+                        user_pass: {
+                            required: true,
+                            rangelength: [6, 20]
+                        },
+                        user_pass2: {
+                            required: true,
+                            equalTo: "#user_pass"
+                        },
+                        user_email: {
+                            required: true,
+                            email: true
+                        }
+                    },
+                    messages: {
+                        user_name: {
+                            required: "<span class='red'>请输入用户名</span>",
+                            rangelength: "<span class='red'>用户名最少为5位，最长为16位</span>"
+                        },
+
+                        user_pass: {
+                            required: "<span class='red'>请输入密码</span>",
+                            rangelength: "<span class='red'>密码最少为6位，最长为20位</span>"
+                        },
+                        user_pass2: {
+                            required: "<span class='red'>请输入密码</span>",
+                            equalTo: "<span class='red'>两次输入密码不一致</span>"
+                        },
+                        user_email: {
+                            required: "<span class='red'>请输入正确电子邮箱</span>",
+                            email: "<span class='red'>请输入正确的电子邮箱</span>"
+                        }
+                    }
+                }
+        );
+    });
+</script>
+
+<div class="main">
+    <div class="title">
+        <span>用户注册</span>
+    </div>
+    <div class="content">
+        <form id="form_regist" action="/user/regist" method="post" class="pure-form pure-form-aligned">
+            <fieldset>
+                <div class="pure-control-group">
+                    <label for="user_name">用户名： </label>
+                    <input id='user_name' type="text" name="user_name"></div>
+                <div class="pure-control-group">
+                    <label for="user_pass">密码：</label>
+                    <input id="user_pass" type="password" name="user_pass">
+                </div>
+                <div class="pure-control-group">
+                    <label for="user_pass2">确认密码：</label>
+                    <input id="user_pass2" type="password" name="user_pass2">
+                </div>
+                <div class="pure-control-group">
+                    <label for="user_email">电子邮箱：</label>
+                    <input id="user_email" type="text" name="user_email">
+                </div>
+                <div class="pure-control-group">
+                    <label for="sub1"></label>
+                    <button id="sub1" type="submit" class="pure-button pure-button-primary">提交</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="col-md-10">
+        <div class="panel panel-default">
+            <div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span> 修改用户权限</div>
+            <div class="panel-body">
+                <form class="form-horizontal" action="/user/changerole/{{ userinfo.user_name}}" method="post"
+                      id="form_changeinfo">
+
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="role">用户权限</label>
+
+                            <div class="col-md-9">
+                                <input type="text" name="role" id="role" class="form-control"
+                                       placeholder="请输入管理权限，例10000"/>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"></label>
+
+                            <div class="col-md-9">
+                                <button type="submit" class="btn btn-default btn-md ">修改</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

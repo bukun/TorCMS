@@ -1,0 +1,151 @@
+{% extends "../../theme/bage_add_edit.html" %}
+{% block head %}
+<title>{{ view.title }}</title>
+<meta name="description" content="{% module generate_description(view.cnt_html) %}">
+<meta name="keywords" content="{{ view.keywords }}">
+<script>
+    function reply_zan(sig, reply_id, id_num) {
+        id_num = id_num.toString();
+        zans = $('#text_zan').val();
+        var AjaxUrl = "/" + sig + "/toreply/zan/" + reply_id;
+        $.getJSON(AjaxUrl, function (Json) {
+            if (Json.text_zan == 0) {
+                // window.location.href = '/user/login';
+            }
+            else {
+                $("#text_zan_" + id_num).html(Json.text_zan);
+            }
+        });
+    }
+
+    function reply_del(sig, reply_id, id_num) {
+        id_num = id_num.toString();
+        var AjaxUrl = "/" + sig + "/toreply/delete_reply/" + reply_id;
+        $.getJSON(AjaxUrl, function (Json) {
+            $("#del_zan_" + id_num).html('');
+        });
+
+    }
+
+
+    function reply_it(sig, view_id) {
+        var txt = $("#cnt_md").val();
+        if (txt.length < 30) {
+            return;
+        }
+        $.post("/" + sig + "/toreply/add/" + view_id, {cnt_md: txt}, function (result) {
+            var msg_json = $.parseJSON(result);
+            $("#pinglun").load('/reply/get/' + msg_json.pinglun);
+        });
+        $('#cnt_md').val('');
+        $('#cnt_md').attr("disabled", true);
+        $('#btn_submit_reply').attr('disabled', true);
+    }
+
+</script>
+
+{% end %}
+
+{% block zhuti %}
+
+<div class="panel-heading">
+    <h1 class="title">{{ view.title }}</h1>
+
+    <p class="info">
+        {{ str(view.date).split('.')[0] }}
+        <span class="split">|</span>
+        发布者: <a href="http://yunsuan.org">云算笔记</a>
+        <span class="split">|</span>
+        查看:
+        <em id="_viewnum">{{ view.view_count }}</em>
+    </p>
+
+    <p><span class="post_cat">{% module post_catalogs(view.uid,'1') %}</span></p>
+    <br>
+
+</div>
+<div class="panel-body">
+    <div id="wiki_cnt">
+        {% raw unescape(view.cnt_html) %}
+    </div>
+    <div class="panel-footer">
+        <div class="row">
+            <div class="col-md-6">
+                <span>{{ _('label') }}:</span>
+                <span class="post_label">
+                    {% set iii = 1 %}
+                    {% for x in tag_info %}
+                    <a href="/label/{{ x.tag_id }}" class="tag{{ iii }}">{{ x.tag_name }}</a>
+                    {% set iii = iii + 1 %}
+                    {% end %}
+                </span>
+            </div>
+            <div class="col-md-6"></div>
+        </div>
+    </div>
+    <div style="font-size: 13px; margin: 10px 10px 20px 10px; border: 1px dashed #ddd; padding: 10px">
+        <div class="content find_equation">
+            <h3>相关文档</h3>
+            <ul>
+                {% for s in relations %}
+                <li class="list-group-item">
+                    <a href="/post/{{ s.app_t.uid }}.html">
+                        {{ s.app_t.title }}
+                    </a>
+                </li>
+                {% end %}
+            </ul>
+        </div>
+    </div>
+    <div class="sxan" style="float: left">{% module previous_post_link(view.uid) %}</div>
+    <div class="sxan" style="float: right">{% module next_post_link(view.uid) %}</div>
+    <Br>
+
+    <p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
+    {% set ii = 0 %}
+    <form id="reply_form" method="post" class="pure-form pure-form-aligned">
+        <div class="pure-control-group">
+            我来评论（至少50个字符|支持MarkDown语法）
+        </div>
+        <div class="pure-control-group">
+            <textarea cols="80" rows="5" name="cnt_md" id="cnt_md"></textarea>
+        </div>
+        <div class="pure-control-group">
+            <a id="btn_submit_reply" onclick="reply_it('post', '{{view.uid}}');"
+               class="pure-button pure-button-primary">提交</a>
+        </div>
+    </form>
+    <div id="pinglun"></div>
+    往期评论
+    <p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
+    {% for reply in replys %}
+    <div id="del_zan_{{ ii }}" style="font-size: 14px;">
+        <p>{{ reply.reply_id.user_name }}</p>
+
+        <p>{% raw unescape(reply.reply_id.cnt_html) %}</p>
+
+        <p>编辑于{{ str(reply.reply_id.date).split('.')[0] }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;共
+            <span id="text_zan_{{ ii }}">{{ reply.reply_id.vote }}</span>
+            个人赞同 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            {% if (userinfo is None) or ( (userinfo is not None ) and ( userinfo.uid != reply.reply_id )) %}
+            <a class="pure-button pure-button-primary"
+               style="padding:3px 8px; margin-right: 5px"
+               onclick="reply_zan('post','{{ reply.reply_id.uid }}', {{ ii }} );">
+                赞
+            </a>
+            {% end %}
+            {% if userinfo is not None and ( userinfo.uid == reply.reply_id.uid or userinfo.role[4] == '1') %}
+            <a class="pure-button pure-button-primary" style="padding:3px 8px;"
+               onclick="reply_del('post','{{ reply.reply_id.uid }}', {{ ii }} );">
+                删除
+            </a>
+            {% end %}
+        </p>
+
+        <p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
+    </div>
+    {% set ii = ii + 1 %}
+    {% end %}
+</div>
+{% end %}
+

@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="col-md-10">
+        <div class="panel panel-default">
+            <div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span> 单页列表</div>
+            <div class="panel-body">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>标题</th>
+                        <th>时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    {% set ii = 0 %}
+                    {% for x in postrecs %}
+                    <tr id="del_info_{{ ii }}">
+                        <td>
+                            <a href="/page/{{ x.uid }}.html" title="{{x.title}}">{{x.title}}</a>
+                        </td>
+                        <td>
+                            <em class="date">{{ str(x.date)[:-15]}}</em>
+                        </td>
+                        <td>
+                            <a href="/page/modify/{{ x.uid }}">
+                                <span class="glyphicon glyphicon-pencil"></span> 修改
+                            </a>
+                        </td>
+                    </tr>
+                    {% set ii = ii + 1 %}
+                    {% end %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

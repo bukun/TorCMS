@@ -861,3 +861,7 @@ h1.page-header {
 .fixed-table-pagination .pagination-detail {
 	margin-top: 20px;
 }
+
+#user_navigation .nav li:hover{
+	cursor: pointer;
+}

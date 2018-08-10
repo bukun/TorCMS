@@ -8,10 +8,11 @@
         });
     }
 </script>
+
 <div class="row">
     <div class="col-md-10">
         <div class="panel panel-default">
-            <div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span> 信息列表  ( {{ kwd['post_count'] }})</div>
+            <div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span> 信息列表</div>
             <div class="panel-body">
                 <table class="table table-striped">
                     <thead>
@@ -19,40 +20,65 @@
                         <th>标题</th>
                         <th>分类</th>
                         <th>时间</th>
+                        <th>作者</th>
                         <th colspan="2">操作</th>
                     </tr>
                     </thead>
                     {% set ii = 0 %}
-                    {% for x in view %}
+                    {% for x in infos %}
                     <tr id="del_info_{{ ii }}">
-                        {% if kwd['kind'] == 1 %}
-                        <td width="50%"><a href="/post/{{ x.uid }}" title="{{x.title}}">{{x.title}}</a></td>
-                        <td width="30%">
+                        {% if kwd['kind'] == '1' %}
+                        <td width="50%"><a href="/post/{{ x.uid }}" title="{{x.title}}" target="_blank">{{x.title}}</a></td>
+                        <td width="25%">
                             {% if kwd['with_catalog'] %}
                             <span class="post_cat">{% module post_catalogs(x.uid,'1') %}</span>
                             {% end %}
                         </td>
+                        {% elif kwd['kind'] == 'm' %}
+                        <td width="50%"><a href="/map/{{ x.uid }}" title="{{x.title}}" target="_blank">{{x.title}}</a></td>
+                        <td width="25%">
+                            {% if kwd['with_catalog'] %}
+                            <span class="post_cat">{% module post_catalogs(x.uid,'m') %}</span>
+                            {% end %}
+                        </td>
+                        {% elif kwd['kind'] == 'k' %}
+                        <td width="50%"><a href="/knowledge/{{ x.uid }}" title="{{x.title}}" target="_blank">{{x.title}}</a></td>
+                        <td width="25%">
+                            {% if kwd['with_catalog'] %}
+                            <span class="post_cat">{% module post_catalogs(x.uid,'k') %}</span>
+                            {% end %}
+                        </td>
+
                         {% else %}
-                        <td width="50%"><a href="/info/{{ x.uid }}" title="{{x.title}}">{{x.title}}</a></td>
-                        <td width="30%">
+                        <td width="50%"><a href="/info/{{ x.uid }}" title="{{x.title}}" target="_blank">{{x.title}}</a></td>
+                        <td width="25%">
                             {% if kwd['with_catalog'] %}
                             <span class="post_cat">{% module post_catalogs(x.uid,'9') %}</span>
                             {% end %}
                         </td>
                         {% end %}
 
-                        <td width="10%">
+                        <td width="8%">
                             {% if kwd['with_date'] %}
                             <em class="date">
                                 {{ datetime.datetime.fromtimestamp(x.time_update).strftime('%Y-%m-%d') }}
                             </em>
                             {% end %}
                         </td>
+                        <td width="7%">
+                             {{x.user_name}}
+
+                        </td>
                         <td width="5%">
-                            {% if kwd['kind'] == 1 %}
-                            <a href="/post/_edit/{{ x.uid }}"><span class="glyphicon glyphicon-pencil"></span> 修改</a>
+                            {% if kwd['kind'] == '1' %}
+                            <a href="/post/_edit/{{ x.uid }}" target="_blank"><span class="glyphicon glyphicon-pencil"></span> 修改</a>
+
+                            {% elif kwd['kind'] == 'm'%}
+                            <a href="/map/_edit/{{ x.uid }}" target="_blank"><span class="glyphicon glyphicon-pencil"></span> 修改</a>
+                            {% elif kwd['kind'] == 'k'%}
+                            <a href="/knowledge/_edit/{{ x.uid }}" target="_blank"><span class="glyphicon glyphicon-pencil"></span> 修改</a>
                             {% else %}
-                            <a href="/info/_edit/{{ x.uid }}"><span class="glyphicon glyphicon-pencil"></span> 修改</a>
+                            <a href="/info/_edit/{{ x.uid }}" target="_blank"><span class="glyphicon glyphicon-pencil"></span> 修改</a>
                             {% end %}
                         </td>
                         <td width="5%">
@@ -64,6 +90,12 @@
                     {% set ii = ii + 1 %}
                     {% end %}
                 </table>
+            </div>
+
+             <div class="col-sm-12">
+
+                 {% module admin_post_pager(kwd['kind'],kwd['current_page'] ) %}
+
             </div>
         </div>
     </div>

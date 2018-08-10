@@ -1,0 +1,102 @@
+<script>
+    function update_info(update_id) {
+        var title = $("#title").val();
+        var keywords = $("#keywords").val();
+        var tags = $("#tags").val();
+        var src_type = $("#src_type").val();
+        var id_spec = $("#id_spec").val();
+        var logo = $("#logo").val();
+        var cnt_md = $("#cnt_md").val();
+        var tag1 = $("#tag1").val();
+        var tag2 = $("#tag2").val();
+        var tag3 = $("#tag3").val();
+        var tag4 = $("#tag4").val();
+        var tag5 = $("#tag5").val();
+        var is_update_time = $("#is_update_time").val();
+        $.post("/post/p/_edit/" + update_id, {
+            title: title, keywords: keywords, tags: tags,
+            src_type: src_type, id_spec: id_spec, logo: logo, cnt_md: cnt_md,
+            tag1: tag1, tag2: tag2, tag3: tag3, tag4: tag4, tag5: tag5, is_update_time: is_update_time
+        }, function (result) {
+            $("#addinfo").html("更新成功");
+        });
+    }
+
+
+</script>
+<div class="main">
+    <div class="title">
+        <span>更新文档{{ postinfo.post_id }}</span>
+    </div>
+    <div class="content" id="addinfo">
+        <form action="" method="post" class="pure-form pure-form-stacked" id="form_post">
+            <fieldset>
+                <input type="hidden" id="uid" name="uid" value="{{ postinfo.post_id }}"/>
+
+                <div class="pure-g">
+                    <div class="pure-u-3-5">
+                        <div class="pure-control-group">
+                            <label for="title">标题</label>
+                            <input type="text" id="title" name="title" value="{{ postinfo.title }}" size=58/>
+                        </div>
+                        <div class="pure-control-group">
+                            <label for="tags">标签</label>
+                            <input id="tags" name="tags" type="text" value="{% for x in app2label_info %}
+                            {{ x.tag_name}},
+                            {% end  %}">
+                        </div>
+                        <div class="pure-control-group">
+                            <label for="src_type">文档类型</label>
+                            <select id="src_type" name="src_type">
+                                <option value="0" {% if postinfo.src_type== 0 %} selected {% end %}>MarkDown</option>
+                                <option value="1" {% if postinfo.src_type== 1 %} selected {% end %}>RestructedText</option>
+                            </select>
+                        </div>
+                        <div class="pure-control-group">
+                            <label for="logo">特色图片</label>
+                            <input id="logo" name="logo" type="text" value="{{ postinfo.logo }}"/>
+                        </div>
+                        <div class="pure-control-group">
+                            <label for="up"></label>
+                            <span id="up"><a href="/entry/add" target="_blank">上传图片</a></span>
+                        </div>
+                    </div>
+                    <div class="pure-u-2-5">
+                        {% for ii in range(1,6) %}
+                        <div class="pure-control-group">
+                            <label for="tag{{ii}}">分类{{ii}}</label>
+                            <select name="tag{{ii}}" id="tag{{ii}}">
+                                <option value="">请选择</option>
+                                {% for taginfo in tag_infos %}
+                                <option value="{{ taginfo.uid }}"
+                                        {% for tt in app2tag_info %}
+                                        {% if tt.order== ii and tt.catalog.uid== taginfo.uid %}
+                                        selected
+                                        {% end %}
+                                        {% end %}
+                                        >{{ taginfo.name }}
+                                </option>
+                                {% end %}
+                            </select>
+                        </div>
+                        {% end %}
+                    </div>
+                </div>
+                <div class="pure-control-group">
+                    <label for="cnt_md">内容<br/>(MarkDown语法)</label>
+                    <textarea rows=26 id="cnt_md" name="cnt_md" cols="100">
+                        {% raw unescape(postinfo.cnt_md) %}
+                    </textarea>
+                </div>
+                <div class="pure-control-group">
+                    <label></label>
+                    <input onclick="update_info('{{ postinfo.post_id }}')" value="更新数据"
+                           class="pure-button pure-button-primary">
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+</div>
+
+

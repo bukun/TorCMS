@@ -20,7 +20,7 @@ from torcms.core.base_handler import BaseHandler
 from torcms.core.tool.send_email import send_mail
 from torcms.model.user_model import MUser
 from torcms.core.tools import logger
-
+from config import  CMS_CFG
 
 class SumForm(Form):
     '''
@@ -78,6 +78,8 @@ class UserHandler(BaseHandler):
             dict_get.get(url_arr[0])()
         elif len(url_arr) == 2:
             dict_get.get(url_arr[0])(url_arr[1])
+        elif len(url_arr) == 3:
+            self.__to_find__(url_arr[2])
         else:
             pass
 
@@ -264,15 +266,26 @@ class UserHandler(BaseHandler):
                     userinfo=MUser.get_by_name(xg_username))
 
     @tornado.web.authenticated
-    def __to_find__(self, ):
+    def __to_find__(self,cur_p='' ):
         '''
         to find the user
         '''
+        if cur_p == '':
+            current_page_number = 1
+        else:
+            current_page_number = int(cur_p)
+
+        current_page_number = 1 if current_page_number < 1 else current_page_number
+
+        pager_num = int(MUser.total_number() / CMS_CFG['list_num'])
+
         kwd = {
             'pager': '',
+            'current_page': current_page_number
         }
         self.render(self.wrap_tmpl('user/{sig}user_find_list.html'),
                     cfg=config.CMS_CFG,
+                    infos=MUser.query_pager_by_slug(current_page_num=current_page_number),
                     kwd=kwd,
                     view=MUser.get_by_keyword(""),
                     userinfo=self.userinfo)
@@ -576,18 +589,22 @@ class UserHandler(BaseHandler):
                     cfg=config.CMS_CFG,
                     userinfo=self.userinfo)
 
-    def find(self, keyword=None):
+    def find(self, keyword=None, cur_p=''):
         '''
         find by keyword.
         '''
         if not keyword:
-            self.__to_find__()
+            self.__to_find__(cur_p)
+
+
         kwd = {
             'pager': '',
             'title': '查找结果',
+
         }
 
         self.render(self.wrap_tmpl('user/{sig}user_find_list.html'),
+
                     kwd=kwd,
                     view=MUser.get_by_keyword(keyword),
                     cfg=config.CMS_CFG,

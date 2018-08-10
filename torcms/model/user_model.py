@@ -7,6 +7,7 @@ Model for user.
 from torcms.core import tools
 from torcms.model.core_tab import TabMember
 from torcms.model.abc_model import Mabc
+from config import CMS_CFG
 
 
 class MUser(Mabc):
@@ -259,3 +260,23 @@ class MUser(Mabc):
             return True
         except:
             return False
+
+    @staticmethod
+    def total_number():
+        '''
+        Return the number of certian slug.
+        '''
+        return TabMember.select().count()
+
+    @staticmethod
+    def query_pager_by_slug(current_page_num=1):
+        '''
+        Query pager
+        '''
+        return TabMember.select().paginate(current_page_num, CMS_CFG['list_num'])
+
+    @staticmethod
+    def count_of_certain():
+        recs = TabMember.select()
+
+        return recs.count()
