@@ -22,13 +22,13 @@ TorCMS系统的功能特征
 功能特征如下：
 
 * TorCMS基于Tornado Web框架，该语言简洁清晰。
-* 该语言使用Markdown编辑器，便于打造干净清晰的HTML代码
+* 该语言使用Markdown编辑器，便于打造干净清晰的HTML代码。
 * 精心设计默认模板，如Post, Info, Page, Wiki等。
-* 编辑用户角色
-* 全文检索
+* 用户权限管理。
+* 全文检索。
 * PostgreSQL 9.4以上，使用JSONB以便于框架可扩展。
 * 通过Peewee访问数据库。
-* Style的SASS子项目。
+* 样式使用SASS子项目进行管理。
 * 最新版本的Jquery 和Bootstrap 作为默认JavaScript与CSS框架。
 
 基本设计思路
@@ -138,10 +138,10 @@ Python语言
 Web应用程序的元数据信息处理
 -------------------------------------------------
 
-修改TorCMS/database/meta中的文件
+修改 ``TorCMS/database/meta`` 中的文件
 
-* doc_catalog.yaml , （定义post目录 ）
-* info_tags.xlsx , （定义info目录）
+* ``doc_catalog.yaml`` , （定义post 分类，非必需文件，可在 XLSX 中定义 ）
+* ``info_tags.xlsx`` , （定义info 分类）
 
 初始化
 -------------------------------------------------
@@ -169,7 +169,7 @@ Web应用程序的元数据信息处理
 
     python3 server.py 8088
 
-打开Web浏览器输入该地址http://127.0.0.1:8088 即可访问网站首页。
+打开Web浏览器输入该地址 http://127.0.0.1:8088 即可访问网站首页。
 (端口在 ``config.py`` 中定义)
 
 帮助脚本
@@ -182,13 +182,13 @@ Web应用程序的元数据信息处理
     python3 helper.py -h
 
 
-运行python3 helper.py -i切换脚本，我们使用的init做一些初始化。
+运行 ``python3 helper.py -i`` 切换脚本，我们使用的init做一些初始化。
 
-* migrate : 用于数据库模式更改。
-* edit_diff : 发送电子邮件针对于修改的post和page页面.
-* sitemap : 为post和page页面生成站点地图.
-* check_kind : 检查信息的类型是否正确.
-* check : 生成模板关系的图片。 例如：
+* ``migrate`` : 用于数据库模式更改。
+* ``edit_diff`` : 发送电子邮件针对于修改的post和page页面.
+* ``sitemap`` : 为post和page页面生成站点地图.
+* ``check_kind`` : 检查信息的类型是否正确.
+* ``check`` : 生成模板关系的图片。 例如：
 
 ::
 
@@ -198,8 +198,8 @@ Web应用程序的元数据信息处理
 单元测试
 ==================================
 
-首先应该用pip安装nose
-注解：nose继承自unittest，且比unittest更容易使用。
+首先应该用pip安装nose。
+注意：nose继承自unittest，且比unittest更容易使用。
 
 ::
 

@@ -52,7 +52,7 @@ class InfoCategory(tornado.web.UIModule):
                                   pcatinfo=curinfo,
                                   sub_cats=sub_cats,
                                   recs=sub_cats,
-                                  with_title = with_title,
+                                  with_title=with_title,
                                   kwd=kwd)
 
 

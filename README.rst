@@ -47,6 +47,7 @@ Application
 ------------------
 
 -  http://drr.ikcest.org (Disaster Risk Reduction Knowledge Service of UNESCO)
+-  http://eng.wdc.cn (World data center for Renewable Resources and Environment)
 -  http://www.wds-china.org/ (ICSU-WDS, World Data System China)
 -  http://www.osgeo.cn (OSGeo China Chapter)
 -  http://www.maphub.cn
@@ -66,18 +67,13 @@ Pull the codes.
 Requirement for the System
 ---------------------------------------------
 
-Under Debian
+Under Debian/Ubuntu
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
-    apt install -y postgresql-server-dev-all postgresql-contrib redis-server
-    
-Under Ubuntu
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-::
+    # apt install -y postgresql-server-dev-all postgresql-contrib redis-server
 
-    sudo apt install -y postgresql-server-dev-all postgresql-contrib redis-server
 
 Create the Database
 ---------------------------
@@ -116,19 +112,19 @@ Get the HTML for modules
 
 ::
 
-    # cd TorCMS
-    git clone https://github.com/bukun/torcms_f2elib.git static/f2elib
-    git clone https://github.com/bukun/torcms_modules_bootstrap.git templates/modules
+    $ cd TorCMS
+    $ git clone https://github.com/bukun/torcms_f2elib.git static/f2elib
+    $ git clone https://github.com/bukun/torcms_modules_bootstrap.git templates/modules
 
 Edit the configiure.
 -----------------------
 
 ::
 
-    # cd TorCMS/
-    cp cfg_demo.py cfg.py
+    $ cd TorCMS/
+    $ cp cfg_demo.py cfg.py
 
-And, edit the config.py file.
+And, edit the ``cfg.py`` file.
 
 ::
 
@@ -152,15 +148,15 @@ And, edit the config.py file.
         'DEBUG': False
     }
 
-The DB_CFG defines the items used for PostgreSQL.
+The ``DB_CFG`` defines the items used for PostgreSQL.
 
 Modify the meta information of the web application.
 ---------------------------------------------------------
 
-Modify the file in TorCMS/database/meta.
+Modify the file in ``TorCMS/database/meta``.
 
--  doc\_catalog.yaml , which define the catalog of post.
--  info\_tags.xlsx , which define the catalog of info.
+-  ``doc_catalog.yaml`` , which define the catalog of post.
+-  ``info_tags.xlsx`` , which define the catalog of info.
 
 
 Initialization
@@ -295,10 +291,11 @@ In Chinese
 应用
 ------------------------
 
--  http://www.osgeo.cn (OSGeo)
+-  http://www.osgeo.cn (OSGeo中国中心)
 -  http://www.maphub.cn (地图云集网站)
 -  http://www.yunsuan.org (云算笔记网站)
 -  http://www.wds-china.org (世界数据系统中国)
+-  http://eng.wdc.cn/ (可再生资源与环境世界数据中心)
 -  http://drr.ikcest.org (联合国教科文组织国际工程科技知识中心防灾减灾知识服务平台)
 
 

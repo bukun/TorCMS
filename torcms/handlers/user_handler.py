@@ -20,7 +20,8 @@ from torcms.core.base_handler import BaseHandler
 from torcms.core.tool.send_email import send_mail
 from torcms.model.user_model import MUser
 from torcms.core.tools import logger
-from config import  CMS_CFG
+from config import CMS_CFG
+
 
 class SumForm(Form):
     '''
@@ -168,7 +169,7 @@ class UserHandler(BaseHandler):
     def ext_post_data(self, **kwargs):
         '''
         The additional information.  for add(), or update().
-        :param post_data:
+        :param post_data.
         :return: directory.
         '''
         _ = kwargs
@@ -266,7 +267,7 @@ class UserHandler(BaseHandler):
                     userinfo=MUser.get_by_name(xg_username))
 
     @tornado.web.authenticated
-    def __to_find__(self,cur_p='' ):
+    def __to_find__(self, cur_p=''):
         '''
         to find the user
         '''
@@ -595,7 +596,6 @@ class UserHandler(BaseHandler):
         '''
         if not keyword:
             self.__to_find__(cur_p)
-
 
         kwd = {
             'pager': '',
