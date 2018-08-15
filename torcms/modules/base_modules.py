@@ -112,10 +112,13 @@ class PreviousPostLink(tornado.web.UIModule):
 
     def render(self, *args, **kwargs):
         current_id = args[0]
-        prev_record = MPost.get_previous_record(current_id)
+        kind = kwargs.get("kind",'1')
+        prev_record = MPost.get_previous_record(current_id,kind= kind)
         if prev_record:
             kwd = {
                 'uid': prev_record.uid,
+                'router': config.router_post[kind],
+
             }
             return self.render_string('modules/post/pre_page.html', kwd=kwd)
         return self.render_string('modules/post/last_page.html')
@@ -128,10 +131,12 @@ class NextPostLink(tornado.web.UIModule):
 
     def render(self, *args, **kwargs):
         current_id = args[0]
-        next_record = MPost.get_next_record(current_id)
+        kind = kwargs.get("kind",'1')
+        next_record = MPost.get_next_record(current_id,kind=kind)
         if next_record:
             kwd = {
                 'uid': next_record.uid,
+                'router': config.router_post[kind],
             }
             return self.render_string('modules/post/next_page.html', kwd=kwd)
         return self.render_string('modules/post/newest_page.html')

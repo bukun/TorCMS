@@ -14,7 +14,7 @@ from torcms.model.entity2user_model import MEntity2User
 
 class Entity2UserHandler(BaseHandler):
     '''
-    Hander for entiey, such as files or URL.
+    Hander for entity, such as files or URL.
     '''
 
     def initialize(self, **kwargs):

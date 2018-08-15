@@ -32,6 +32,7 @@ class MEntity2User(Mabc):
         recs = TabEntity2User.select(
             TabEntity2User,
             TabEntity.path.alias('entity_path'),
+            TabEntity.kind.alias('entity_kind')
         ).join(TabEntity, on=(TabEntity2User.entity_id == TabEntity.uid)).join(
             TabMember, on=(TabEntity2User.user_id == TabMember.uid)
         ).order_by(
