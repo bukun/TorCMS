@@ -237,7 +237,7 @@ class MPost2Catalog(Mabc):
                 cat_con
             ).order_by(
                 TabPost.order.asc()
-            ).paginate(current_page_num, CMS_CFG['list_num'])
+            )
         else:
             recs = TabPost.select().join(
                 TabPost2Tag,
