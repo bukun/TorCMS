@@ -26,7 +26,7 @@ class ListHandler(BaseHandler):
     def initialize(self, **kwargs):
         super(ListHandler, self).initialize()
         self.kind = kwargs.get('kind', '1')
-        self.order = False
+        self.order = kwargs.get('order', False)
 
     def get(self, *args, **kwargs):
         url_str = args[0]
@@ -107,25 +107,21 @@ class ListHandler(BaseHandler):
                'kind': cat_rec.kind,
                'tag': tag}
 
-        # tmpl = 'list/catalog_list.html'
+
         # Todo: review the following codes.
 
-        # if self.order:
-        #     tmpl = 'list/catalog_list.html'
-        # else:
+
         if self.order:
             tmpl = 'list/catalog_list.html'
-            infos = MPost2Catalog.query_pager_by_slug(
-                cat_slug,
-                current_page_num,
-                tag=tag)
         else:
             tmpl = 'list/category_list.html'
-            # infos = MCatalog.query_by_slug(cat_slug)
-            infos = MPost2Catalog.query_pager_by_slug(
-                cat_slug,
-                current_page_num,
-                tag=tag)
+
+        infos = MPost2Catalog.query_pager_by_slug(
+            cat_slug,
+            current_page_num,
+            tag=tag,
+            order=self.order
+        )
 
         # ToDo: `gen_pager_purecss` should not use any more.
         self.render(tmpl,
