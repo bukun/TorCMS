@@ -355,7 +355,7 @@ class MPost(Mabc):
         ).order_by(TabPost.view_count.desc()).limit(num)
 
     @staticmethod
-    def query_cat_recent(cat_id, label=None, num=8, kind='1'):
+    def query_cat_recent(cat_id, label=None, num=8, kind='1', order=False):
         '''
         Query recent posts of catalog.
         '''
@@ -365,13 +365,15 @@ class MPost(Mabc):
                 cat_id,
                 label=label,
                 num=num,
-                kind=kind
+                kind=kind,
+                order=order
             )
         else:
             recent_recs = MPost.query_cat_recent_no_label(
                 cat_id,
                 num=num,
-                kind=kind
+                kind=kind,
+                order=order
             )
         return recent_recs
 
@@ -392,10 +394,15 @@ class MPost(Mabc):
         )
 
     @staticmethod
-    def query_cat_recent_with_label(cat_id, label=None, num=8, kind='1'):
+    def query_cat_recent_with_label(cat_id, label=None, num=8, kind='1', order=False):
         '''
         query_cat_recent_with_label
         '''
+        if order:
+            sort_criteria = TabPost.order.asc()
+        else:
+            sort_criteria = TabPost.time_create.desc()
+
         return TabPost.select().join(
             TabPost2Tag,
             on=(TabPost.uid == TabPost2Tag.post_id)
@@ -404,14 +411,19 @@ class MPost(Mabc):
             (TabPost2Tag.tag_id == cat_id) &
             (TabPost.extinfo['def_tag_arr'].contains(label))
         ).order_by(
-            TabPost.time_create.desc()
+            sort_criteria
         ).limit(num)
 
     @staticmethod
-    def query_cat_recent_no_label(cat_id, num=8, kind='1'):
+    def query_cat_recent_no_label(cat_id, num=8, kind='1', order=False):
         '''
         query_cat_recent_no_label
         '''
+        if order:
+            sort_criteria = TabPost.order.asc()
+        else:
+            sort_criteria = TabPost.time_create.desc()
+
         return TabPost.select().join(
             TabPost2Tag,
             on=(TabPost.uid == TabPost2Tag.post_id)
@@ -419,7 +431,7 @@ class MPost(Mabc):
             (TabPost.kind == kind) &
             (TabPost2Tag.tag_id == cat_id)
         ).order_by(
-            TabPost.time_create.desc()
+            sort_criteria
         ).limit(num)
 
     @staticmethod

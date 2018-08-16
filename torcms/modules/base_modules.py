@@ -112,8 +112,8 @@ class PreviousPostLink(tornado.web.UIModule):
 
     def render(self, *args, **kwargs):
         current_id = args[0]
-        kind = kwargs.get("kind",'1')
-        prev_record = MPost.get_previous_record(current_id,kind= kind)
+        kind = kwargs.get("kind", '1')
+        prev_record = MPost.get_previous_record(current_id, kind=kind)
         if prev_record:
             kwd = {
                 'uid': prev_record.uid,
@@ -131,8 +131,8 @@ class NextPostLink(tornado.web.UIModule):
 
     def render(self, *args, **kwargs):
         current_id = args[0]
-        kind = kwargs.get("kind",'1')
-        next_record = MPost.get_next_record(current_id,kind=kind)
+        kind = kwargs.get("kind", '1')
+        next_record = MPost.get_next_record(current_id, kind=kind)
         if next_record:
             kwd = {
                 'uid': next_record.uid,
@@ -280,10 +280,17 @@ class PostCategoryRecent(tornado.web.UIModule):
     The reccent posts of certain category.
     '''
 
-    def render(self, cat_id, label=None, num=10, with_catalog=True, with_date=True, glyph='',
-               **kwargs):
+    def render(self, *args, **kwargs):
+
+        cat_id = args[0]
+        label = kwargs.get('label', None)
+        num = kwargs.get('num', 10)
+        with_catalog = kwargs.get('with_catalog', True)
+        with_date = kwargs.get('with_date', True)
+        glyph = kwargs.get('glyph', '')
 
         is_spa = kwargs.get('spa', False)
+        order = kwargs.get('order', False)
 
         catinfo = MCategory.get_by_uid(cat_id)
         if catinfo.pid == '0000':
@@ -293,7 +300,7 @@ class PostCategoryRecent(tornado.web.UIModule):
                                                 kind=catinfo.kind)
 
         else:
-            recs = MPost.query_cat_recent(cat_id, label=label, num=num, kind=catinfo.kind)
+            recs = MPost.query_cat_recent(cat_id, label=label, num=num, kind=catinfo.kind, order=order)
 
         kwd = {
             'with_catalog': with_catalog,
@@ -301,11 +308,12 @@ class PostCategoryRecent(tornado.web.UIModule):
             'with_date': with_date,
             'router': config.router_post[catinfo.kind],
             'glyph': glyph,
-            'spa': is_spa
+            'spa': is_spa,
+            'order': order,
+            'kind':catinfo.kind
         }
         return self.render_string('modules/post/post_list.html',
                                   recs=recs,
-
                                   kwd=kwd)
 
 
@@ -966,6 +974,8 @@ class Admin_reply_pager(tornado.web.UIModule):
                                   kwd=kwd,
                                   pager_num=page_num,
                                   page_current=current)
+
+
 class Admin_user_pager(tornado.web.UIModule):
     '''
     pager of kind

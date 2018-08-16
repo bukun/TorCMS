@@ -85,14 +85,13 @@ core_modules = {
     'baidu_search': widget_modules.BaiduSearch,
 
     'app_title': base_modules.AppTitle,
-    # 'entity_path_by_id': base_modules.Entity_path,
+
     'user_name_by_id': base_modules.UserName,
     'reply_post_by_id': base_modules.ReplyPostById,
     'category_by_slug': base_modules.CategoryBySlug,
 
-    # # 'ext_category_menu': catalog_modules.CatalogMenu,
     'catalog_menu': catalog_modules.CatalogMenu,
-    # # 'ext_category_list': catalog_modules.CatalogList,
+
     'catalog_list': catalog_modules.CatalogList,
     'postlistoftag': base_modules.PostListOfTag,
     'admin_post_pager': base_modules.Admin_Post_pager,
