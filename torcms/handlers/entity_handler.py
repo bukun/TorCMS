@@ -178,7 +178,7 @@ class EntityHandler(BaseHandler):
         MEntity.create_entity(signature,
                               path_save,
                               post_data['desc'] if 'desc' in post_data else '',
-                              kind=1)
+                              kind=post_data['kind'] if 'kind' in post_data else '1')
 
         self.redirect('/entity/{0}_m.jpg'.format(sig_save))
 
@@ -210,7 +210,7 @@ class EntityHandler(BaseHandler):
 
         sig_save = os.path.join(signature[:2], signature)
         path_save = os.path.join(signature[:2], outfilename)
-        MEntity.create_entity(signature, path_save, img_desc, kind=2)
+        MEntity.create_entity(signature, path_save, img_desc, kind=post_data['kind'] if 'kind' in post_data else '2')
 
         self.redirect('/entity/{0}{1}'.format(sig_save, hou.lower()))
 
@@ -224,9 +224,9 @@ class EntityHandler(BaseHandler):
         cur_uid = tools.get_uudd(4)
         while MEntity.get_by_uid(cur_uid):
             cur_uid = tools.get_uudd(4)
-        MEntity.create_entity(cur_uid, img_path, img_desc, kind=3)
+        MEntity.create_entity(cur_uid, img_path, img_desc, kind=post_data['kind'] if 'kind' in post_data else '3')
         kwd = {
-            'kind': '3',
+            'kind': post_data['kind'] if 'kind' in post_data else '3',
 
         }
         self.render('misc/entity/entity_view.html',

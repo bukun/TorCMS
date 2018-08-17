@@ -240,7 +240,7 @@ class MWiki(Mabc):
         return TabWiki.select().where(
             TabWiki.kind == kind
         ).order_by(
-            TabWiki.time_update
+            TabWiki.time_update.desc()
         ).limit(num)
 
     @staticmethod

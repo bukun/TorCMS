@@ -32,7 +32,8 @@ class WikiHandler(BaseHandler):
     def get(self, *args, **kwargs):
         url_str = args[0]
         url_arr = self.parse_url(url_str)
-        if url_str == 'recent':
+
+        if url_str == '' or url_str == 'recent':
             self.recent()
         elif url_arr[0] in ['ajax_count_plus', 'j_count_plus']:
             self.j_count_plus(url_arr[1])
