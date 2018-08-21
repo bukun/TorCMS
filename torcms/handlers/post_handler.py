@@ -694,7 +694,7 @@ class PostHandler(BaseHandler):
         if the_entity:
             return True
         if download_url:
-            MEntity.create_entity(path=download_url, desc=download_url, kind=3)
+            MEntity.create_entity(path=download_url, desc=download_url, kind=4)
 
     @tornado.web.authenticated
     def _to_edit_kind(self, post_uid):
