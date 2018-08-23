@@ -48,8 +48,8 @@ class MEntity2User(Mabc):
             TabEntity.path.alias('entity_path'),
         ).join(TabEntity, on=(TabEntity2User.entity_id == TabEntity.uid)).join(
             TabMember, on=(TabEntity2User.user_id == TabMember.uid)
-        ).where(TabEntity2User.user_id == userid).order_by(
-            TabEntity2User.timestamp.desc()
+        ).where(TabEntity2User.user_id == userid).distinct(TabEntity2User.entity_id).order_by(
+            TabEntity2User.entity_id
         ).paginate(current_page_num, CMS_CFG['list_num'])
         return recs
 
@@ -88,4 +88,4 @@ class MEntity2User(Mabc):
 
     @staticmethod
     def total_number_by_user(userid):
-        return TabEntity2User.select().where(TabEntity2User.user_id == userid).count()
+        return TabEntity2User.select().where(TabEntity2User.user_id == userid).distinct(TabEntity2User.entity_id).count()
