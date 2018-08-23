@@ -84,7 +84,7 @@ class MEntity2User(Mabc):
 
     @staticmethod
     def total_number():
-        return TabEntity2User.select().count()
+        return TabEntity2User.select().distinct(TabEntity2User.entity_id).count()
 
     @staticmethod
     def total_number_by_user(userid):
