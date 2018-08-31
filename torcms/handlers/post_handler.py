@@ -3,7 +3,8 @@
 '''
 The basic HTML Page handler.
 '''
-
+import os
+import uuid
 import json
 import random
 from concurrent.futures import ThreadPoolExecutor
@@ -24,6 +25,7 @@ from torcms.model.evaluation_model import MEvaluation
 from torcms.model.usage_model import MUsage
 from torcms.model.entity_model import MEntity
 from config import router_post
+from torcms.handlers.entity_handler import EntityHandler
 
 
 class PostHandler(BaseHandler):
@@ -36,6 +38,7 @@ class PostHandler(BaseHandler):
         super(PostHandler, self).initialize()
         self.kind = kwargs.get('kind', '1')
         self.filter_view = kwargs.get('filter_view', False)
+        self.entity = EntityHandler
 
     def _redirect(self, url_arr):
         '''
@@ -571,6 +574,9 @@ class PostHandler(BaseHandler):
         else:
             post_data['valid'] = 1
 
+        # if 'logo' in post_data:
+        #     self.add_entity(post_data['logo'])
+
         ext_dic['def_uid'] = uid
 
         MPost.modify_meta(ext_dic['def_uid'],
@@ -585,6 +591,38 @@ class PostHandler(BaseHandler):
         # cele_gen_whoosh.delay()
         tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
         self.redirect('/{0}/{1}'.format(router_post[self.kind], uid))
+
+
+
+
+
+    @tornado.web.authenticated
+    def add_entity(self,entity_title):
+        '''
+        Adding the picture.
+        '''
+
+        _, hou = os.path.splitext(entity_title)
+        signature = str(uuid.uuid1())
+        outfilename = '{0}'.format(entity_title)
+        outpath = 'static/upload/{0}'.format(hou[1:])
+
+        print("*" * 50)
+        print(outfilename)
+        print(outpath)
+        print("*" * 50)
+
+        if os.path.exists(outpath):
+            pass
+        else:
+            os.makedirs(outpath)
+        with open(os.path.join(outpath, outfilename), "wb") as fout:
+            fout.write(outpath)
+
+        MEntity.create_entity(signature, outpath, entity_title, kind='9')
+
+
+
 
     @tornado.web.authenticated
     @privilege.auth_edit

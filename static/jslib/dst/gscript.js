@@ -216,3 +216,14 @@ $("#form_reset").validate({
         }), L.geoJson(gson_arr).addTo(map)
     }), map.on("zoomend", onZoomend), map.on("moveend", onZoomend), map.on("click", onMapClick), baseMaps = {osm: osm}, overlayMaps = {"专题地图": nexrad}, L.control.layers(baseMaps, overlayMaps).addTo(map)
 });
+
+                            $(function () {
+                                $('#logo').fileupload({
+                                    dataType: 'json',
+                                    done: function (e, data) {
+                                        $.each(data.result.files, function (index, file) {
+                                            $('<p/>').text(file.name).appendTo(document.body);
+                                        });
+                                    }
+                                });
+                            });

@@ -68,14 +68,23 @@
                     <label class="col-sm-2 control-label" for="logo">Picture</label>
 
                     <div class="col-sm-10">
-                        <input class="form-control" id="logo" name="logo" type="text">
+
+
+
+                        <input id="logo" type="file" name="logo">
+
+
+
+
+                        <!--<input class="form-control" id="logo" name="logo" type="text">-->
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="up"></label>
 
+
                     <div class="col-sm-10">
-                        <label id="up"><a href="/entry/add" class="btn btn-primary" target="_blank">Upload picture</a></label>
+                        <label id="up"><a href="/entry/add" onclick="entry_add();" class="btn btn-primary" target="_blank">Upload picture</a></label>
                     </div>
                 </div>
                 <div class="form-group">

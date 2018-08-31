@@ -3,7 +3,7 @@
 '''
 Handler of Posts via Ajax.
 '''
-
+import config
 import json
 import tornado.web
 import tornado.escape
@@ -87,6 +87,7 @@ class PostAjaxHandler(PostHandler):
             'kind': kind,
             'current_page': current_page_number,
             'post_count': MPost.get_counts(),
+            'router': config.router_post[kind],
         }
         self.render('admin/post_ajax/post_list.html',
                     kwd=kwd,
