@@ -604,11 +604,11 @@ class PostHandler(BaseHandler):
 
         _, hou = os.path.splitext(entity_title)
         signature = str(uuid.uuid1())
-        outfilename = '{0}'.format(entity_title)
+
         outpath = 'static/upload/{0}'.format(hou[1:])
 
         print("*" * 50)
-        print(outfilename)
+        print(entity_title)
         print(outpath)
         print("*" * 50)
 
@@ -616,8 +616,8 @@ class PostHandler(BaseHandler):
             pass
         else:
             os.makedirs(outpath)
-        with open(os.path.join(outpath, outfilename), "wb") as fout:
-            fout.write(outpath)
+        with open(os.path.join(outpath, entity_title), "wb") as fout:
+            fout.write(entity_title)
 
         MEntity.create_entity(signature, outpath, entity_title, kind='9')
 
