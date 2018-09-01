@@ -574,9 +574,6 @@ class PostHandler(BaseHandler):
         else:
             post_data['valid'] = 1
 
-        # if 'logo' in post_data:
-        #     self.add_entity(post_data['logo'])
-
         ext_dic['def_uid'] = uid
 
         MPost.modify_meta(ext_dic['def_uid'],
@@ -592,38 +589,6 @@ class PostHandler(BaseHandler):
         tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
         self.redirect('/{0}/{1}'.format(router_post[self.kind], uid))
 
-
-
-
-
-    @tornado.web.authenticated
-    def add_entity(self,entity_title):
-        '''
-        Adding the picture.
-        '''
-
-        _, hou = os.path.splitext(entity_title)
-        signature = str(uuid.uuid1())
-
-        outpath = 'static/upload/{0}'.format(hou[1:])
-
-        print("*" * 50)
-        print(entity_title)
-        print(outpath)
-        print("*" * 50)
-
-        if os.path.exists(outpath):
-            pass
-        else:
-            os.makedirs(outpath)
-        with open(os.path.join(outpath, entity_title), "wb") as fout:
-            fout.write(entity_title)
-
-        MEntity.create_entity(signature, outpath, entity_title, kind='9')
-
-
-
-
     @tornado.web.authenticated
     @privilege.auth_edit
     @tornado.web.asynchronous
@@ -631,7 +596,6 @@ class PostHandler(BaseHandler):
         '''
         in infor.
         '''
-
         postinfo = MPost.get_by_uid(uid)
         if postinfo.kind == self.kind:
             pass
