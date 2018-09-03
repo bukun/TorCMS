@@ -131,7 +131,7 @@ class PageHandler(BaseHandler):
         MWiki.update(slug, post_data)
         tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
 
-        self.redirect('/page/{0}.html'.format(post_data['slug']))
+        self.redirect('/page/{0}'.format(post_data['slug']))
 
     @tornado.web.authenticated
     @privilege.auth_edit
