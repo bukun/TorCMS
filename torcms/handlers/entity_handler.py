@@ -5,7 +5,7 @@ Hander for entiey, such as files or URL.
 '''
 import os
 import uuid
-
+import json
 import tornado.ioloop
 import tornado.web
 
@@ -175,12 +175,17 @@ class EntityHandler(BaseHandler):
         im0.thumbnail(thub_size)
         im0.save(imgpath_sm, 'JPEG')
 
-        MEntity.create_entity(signature,
-                              path_save,
-                              post_data['desc'] if 'desc' in post_data else '',
-                              kind=post_data['kind'] if 'kind' in post_data else '1')
+        create_pic = MEntity.create_entity(signature,
+                                           path_save,
+                                           post_data['desc'] if 'desc' in post_data else '',
+                                           kind=post_data['kind'] if 'kind' in post_data else '1')
 
-        self.redirect('/entity/{0}_m.jpg'.format(sig_save))
+        # self.redirect('/entity/{0}_m.jpg'.format(sig_save))
+        if create_pic:
+            output = {'path_save': path_save}
+        else:
+            output = {'path_save': ''}
+        return json.dump(output, self)
 
     @tornado.web.authenticated
     def add_pdf(self, post_data):
@@ -210,9 +215,15 @@ class EntityHandler(BaseHandler):
 
         sig_save = os.path.join(signature[:2], signature)
         path_save = os.path.join(signature[:2], outfilename)
-        MEntity.create_entity(signature, path_save, img_desc, kind=post_data['kind'] if 'kind' in post_data else '2')
+        create_pdf = MEntity.create_entity(signature, path_save, img_desc,
+                                           kind=post_data['kind'] if 'kind' in post_data else '2')
 
-        self.redirect('/entity/{0}{1}'.format(sig_save, hou.lower()))
+        # self.redirect('/entity/{0}{1}'.format(sig_save, hou.lower()))
+        if create_pdf:
+            output = {'path_save': path_save}
+        else:
+            output = {'path_save': ''}
+        return json.dump(output, self)
 
     @tornado.web.authenticated
     def add_url(self, post_data):

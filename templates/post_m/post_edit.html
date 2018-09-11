@@ -77,6 +77,7 @@
                                    value="{{postinfo.extinfo['ext_zoom_current'] }}">
                         </div>
                     </div>
+
                     {% for ii in range(0,5) %}
                     <div class="form-group">
                         {% if ii == 0 %}
@@ -133,33 +134,19 @@
                         </div>
                     </div>
                     {% end %}
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="valid">Is available</label>
 
-                        <div class="col-sm-10">
-                            <select name="valid" id="valid" class="form-control">
-                                <option value="1">Yes</option>
-                                <option value="0">No</option>
-                            </select>
-                        </div>
-                    </div>
                     <div class="form-group">
-                        <label for="keywords" class="col-sm-2 control-label">Picture</label>
+                    <label for="logo" class="col-sm-2 control-label">Picture</label>
 
-                        <div class="col-sm-10">
-                            <input type="text" id="logo" name="logo" value="{{ postinfo.logo }}"
-                                   class="form-control">
-                        </div>
+                    <div class="col-sm-10">
+                        <input id="logo" name="logo" type="text" value="{{ postinfo.logo }}"  class="form-control" readonly />
+                        <br>
+                        <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Upload picture</a>
                     </div>
-                    <div class="form-group">
-                        <label for="up" class="col-sm-2 control-label"></label>
+                </div>
 
-                        <div class="col-sm-10">
-                    <span id="up">
-                        <a href="/entry/add" target="_blank" class="btn btn-primary">Upload Picture</a>
-                    </span>
-                        </div>
-                    </div>
+
+
                     <div class="form-group">
                         <label for="cnt_md" class="col-sm-2 control-label">Content</label>
 
@@ -167,6 +154,16 @@
                             <textarea rows=16 id="cnt_md" name="cnt_md" class="form-control">
                                 {% raw unescape(postinfo.cnt_md) %}
                             </textarea>
+                        </div>
+                    </div>
+                     <div class="form-group">
+                        <label class="col-sm-2 control-label" for="valid">Is available</label>
+
+                        <div class="col-sm-10">
+                            <select name="valid" id="valid" class="form-control">
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -178,6 +175,7 @@
                     </div>
                 </fieldset>
             </form>
+             {% module upload_entity() %}
         </div>
     </div>
 </div>

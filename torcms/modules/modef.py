@@ -47,6 +47,7 @@ core_modules = {
     'collect': base_modules.Collect,
     'user_collect': base_modules.UserCollect,
 
+
     'torcms_copyright': base_modules.CopyRight,
     'entity_list': base_modules.EntityList,
     'entity_pager': base_modules.EntityPager,
@@ -61,6 +62,7 @@ core_modules = {
     'star_rating': widget_modules.StarRating,
     'use_f2e': widget_modules.UseF2E,
     'loginfo': widget_modules.UserinfoWidget,
+    'upload_entity': widget_modules.Upload_entity,
 
     # Infor
     'app_catalog_of': info_modules.InfoCategory,

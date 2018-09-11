@@ -1,7 +1,7 @@
 {% extends "tmplinfo.html" %}
 {% block typebody %}
 <ol class="breadcrumb">
-     <li>Current location：<a href="/">Home</a></li>
+    <li>Current location：<a href="/">Home</a></li>
 
     <li class="active"> Publish Info</li>
 </ol>
@@ -21,17 +21,20 @@
             <input name="ismember" value="0" type="hidden">
             <input name="id" value="" type="hidden">
             <input name="mixcode" value="4c9734774f6b40682d35c0ccee0b0845" type="hidden">
+
             <div class="form-group">
                 <label class="col-sm-2 control-label "></label>
+
                 <div class="col-sm-10">
-                    <b>{{ _('Basic data information') }}  : {{ kwd['parentname'] }} > {{ kwd['catname'] }}</b>
+                    <b>{{ _('Basic data information') }} : {{ kwd['parentname'] }} > {{ kwd['catname'] }}</b>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label ">
                     <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a>
-                   Title：
+                    Title：
                 </label>
+
                 <div class="col-sm-10">
                     <input type="text" class="form-control" name="title" id="title" required>
                 </div>
@@ -39,39 +42,29 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label ">
                     <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a> Label ： </label>
+
                 <div class="col-sm-10">
                     <input id="tags" name="tags" class="form-control">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">
-                    <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a> Picture : </label>
-                <div class="col-sm-10">
-                    <input type="text" id="logo" name="logo" class="form-control">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label"> </label>
-                <div class="col-sm-10">
-                    <a href="/entry/add" target="_blank" class="btn btn-primary" role="button">Upload a picture </a>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">
-                    <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;" for="ext_pdf"></a> PDF
-                </label>
+                <label class="col-sm-2 control-label" for="logo">Picture</label>
 
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="ext_pdf" name="ext_pdf">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label"> </label>
 
-                <div class="col-sm-10">
-                    <a href="/entry/add" target="_blank" class="btn btn-primary" role="button">Upload a PDF </a>
+
+                    <input type="text" id="logo" name="logo" class="form-control" readonly/>
+
+                    <br>
+
+                    <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
+                        Upload picture
+                    </a>
+
+
                 </div>
             </div>
+
             <div class="form-group">
                 <label class="col-sm-2 control-label ">
                     <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a>
@@ -94,6 +87,7 @@
                 </div>
             </div>
         </form>
+        {% module upload_entity() %}
     </div>
 </div>
 {% end %}

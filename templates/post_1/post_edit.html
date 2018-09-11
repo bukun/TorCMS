@@ -41,6 +41,8 @@
                                value="{{ postinfo.order if postinfo.order else '' }}">
                     </div>
                 </div>
+
+
                 {% for ii in range(0,5) %}
                 <div class="form-group">
                     {% if ii == 0 %}
@@ -105,17 +107,12 @@
                     <label for="logo" class="col-sm-2 control-label">Picture</label>
 
                     <div class="col-sm-10">
-                        <input id="logo" name="logo" type="file" value="{{ postinfo.logo }}" />
+                        <input id="logo" name="logo" type="text" value="{{ postinfo.logo }}"  class="form-control" readonly />
+                        <br>
+                        <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Upload picture</a>
                     </div>
                 </div>
 
-                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="up"></label>
-
-                    <div class="col-sm-10">
-                        <label id="up"><a href="/entry/add" class="btn btn-primary" target="_blank">Upload picture</a></label>
-                    </div>
-                </div>
                 <div class="form-group">
                     <label for="cnt_md" class="col-sm-2 control-label">Content</label>
 
@@ -142,6 +139,7 @@
                 </div>
             </fieldset>
         </form>
+         {% module upload_entity() %}
     </div>
 </div>
 {% end %}

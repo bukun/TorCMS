@@ -1,27 +1,30 @@
 {% extends "tmplinfo.html" %}
 {% block typebody %}
 <ol class="breadcrumb">
-   <li>Current location：<a href="/">Home</a></li>
+    <li>Current location：<a href="/">Home</a></li>
 
 
-    <li class="active"> Modify  </li>
+    <li class="active"> Modify</li>
 </ol>
 <div class="panel panel-black" id="guarantee">
     <div class="panel-heading">
-         Modify-{{ postinfo.title }}
+        Modify-{{ postinfo.title }}
     </div>
     <div class="panel-body">
         <form class="form-horizontal" role="form" id="form_add_info" name="form_add_info" method="post"
               enctype="multipart/form-data">
             <div class="form-group">
                 <label class="col-sm-2 control-label "></label>
-                <div class="col-sm-10"><b> {{ _('Basic data information') }} : {{ kwd['parentname'] }} > {{ kwd['catname'] }}</b></div>
+
+                <div class="col-sm-10"><b> {{ _('Basic data information') }} : {{ kwd['parentname'] }} > {{
+                    kwd['catname'] }}</b></div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label ">
                     <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a>
-                   Title：
+                    Title：
                 </label>
+
                 <div class="col-sm-10">
                     <input type="text" class="form-control" name="title" id="title"
                            value="{{ postinfo.title }}">
@@ -32,11 +35,13 @@
                     <span class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></span>
                     Catagory：
                 </label>
+
                 <div class="col-sm-10">
                     <select class="form-control" name="def_cat_uid" id="def_cat_uid">
                         {% for taginfo in cat_enum %}
                         {% if not taginfo.uid.endswith('00') %}
-                        <option value="{{ taginfo.uid }}" {% if taginfo.uid== postinfo.extinfo['def_cat_uid'] %}
+                        <option value="{{ taginfo.uid }}" {% if taginfo.uid== postinfo.extinfo[
+                        'def_cat_uid'] %}
                         selected="selected"
                         {% end %} >{{taginfo.uid[:2]}}_{{ taginfo.name }}</option>
                         {% end %}
@@ -47,8 +52,9 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label ">
                     <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a>
-                   Label ：
+                    Label ：
                 </label>
+
                 <div class="col-sm-10">
                     <input type="text" id="tags" name="tags" value="{% for x in app2label_info %}
                 {{ x.tag_name}},
@@ -56,32 +62,12 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">  Picture :</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="logo" name="logo"
-                           value="{{ postinfo.logo }}">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label"> </label>
-                <div class="col-sm-10">
-                    <a href="/entry/add" target="_blank" class="btn btn-primary" role="button">Upload a picture</a>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">
-                    <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;" for="ext_pdf"></a> PDF
-                </label>
+                <label for="logo" class="col-sm-2 control-label">Picture</label>
 
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="ext_pdf" name="ext_pdf"
-                           value="{{ postinfo.extinfo['ext_pdf'] if 'ext_pdf' in postinfo.extinfo else ''}}">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label"> </label>
-                <div class="col-sm-10">
-                    <a href="/entry/add" target="_blank" class="btn btn-primary" role="button">Upload a PDF</a>
+                    <input id="logo" name="logo" type="text" value="{{ postinfo.logo }}" class="form-control" readonly/>
+                    <br>
+                    <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Upload picture</a>
                 </div>
             </div>
             <div class="form-group">
@@ -89,6 +75,7 @@
                     <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a>
                     Content（Markdown） ：
                 </label>
+
                 <div class="col-sm-10">
                     <textarea class="form-control" rows=26 id="cnt_md" name="cnt_md">
                         {{ postinfo.cnt_md }}
@@ -107,6 +94,7 @@
                 </div>
             </div>
         </form>
+        {% module upload_entity() %}
     </div>
 </div>
 {% end %}
