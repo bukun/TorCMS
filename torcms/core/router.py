@@ -3,7 +3,7 @@
 from torcms.handlers.admin_handler import AdminHandler
 from torcms.handlers.list_handler import ListHandler, TagListHandler
 from torcms.handlers.collect_handler import CollectHandler
-from torcms.handlers.entity_handler import EntityHandler
+from torcms.handlers.entity_handler import EntityHandler,EntityAjaxHandler
 from torcms.handlers.evaluation_handler import EvaluationHandler
 from torcms.handlers.filter_handler import FilterHandler
 from torcms.handlers.index import IndexHandler
@@ -41,6 +41,7 @@ urls = [
     ("/admin/(.*)", AdminHandler, dict()),
     ("/entry/(.*)", EntityHandler, dict()),
     ("/entity/(.*)", EntityHandler, dict()),
+    ("/entity_j/(.*)", EntityAjaxHandler, dict()),
     ("/entity_download/(.*)", Entity2UserHandler, dict()),
 
     # For listing items.

@@ -40,6 +40,7 @@ class EntityHandler(BaseHandler):
 
     def initialize(self, **kwargs):
         super(EntityHandler, self).initialize()
+        self.entity_ajax = False
 
     def get(self, *args, **kwargs):
         url_str = args[0]
@@ -179,13 +180,14 @@ class EntityHandler(BaseHandler):
                                            path_save,
                                            post_data['desc'] if 'desc' in post_data else '',
                                            kind=post_data['kind'] if 'kind' in post_data else '1')
-
-        # self.redirect('/entity/{0}_m.jpg'.format(sig_save))
-        if create_pic:
-            output = {'path_save': path_save}
+        if self.entity_ajax == False:
+            self.redirect('/entity/{0}_m.jpg'.format(sig_save))
         else:
-            output = {'path_save': ''}
-        return json.dump(output, self)
+            if create_pic:
+                output = {'path_save': path_save}
+            else:
+                output = {'path_save': ''}
+            return json.dump(output, self)
 
     @tornado.web.authenticated
     def add_pdf(self, post_data):
@@ -217,13 +219,14 @@ class EntityHandler(BaseHandler):
         path_save = os.path.join(signature[:2], outfilename)
         create_pdf = MEntity.create_entity(signature, path_save, img_desc,
                                            kind=post_data['kind'] if 'kind' in post_data else '2')
-
-        # self.redirect('/entity/{0}{1}'.format(sig_save, hou.lower()))
-        if create_pdf:
-            output = {'path_save': path_save}
+        if self.entity_ajax == False:
+            self.redirect('/entity/{0}{1}'.format(sig_save, hou.lower()))
         else:
-            output = {'path_save': ''}
-        return json.dump(output, self)
+            if create_pdf:
+                output = {'path_save': path_save}
+            else:
+                output = {'path_save': ''}
+            return json.dump(output, self)
 
     @tornado.web.authenticated
     def add_url(self, post_data):
@@ -258,3 +261,13 @@ class EntityHandler(BaseHandler):
                     cfg=config.CMS_CFG,
                     kwd=kwd,
                     userinfo=self.userinfo, )
+
+
+class EntityAjaxHandler(EntityHandler):
+    '''
+    Hander for entiey, such as files or URL.
+    '''
+
+    def initialize(self, **kwargs):
+        super(EntityAjaxHandler, self).initialize()
+        self.entity_ajax = True
