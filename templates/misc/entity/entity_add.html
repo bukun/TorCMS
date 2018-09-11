@@ -21,11 +21,18 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="entitypic">
                 <label class="col-sm-2 control-label"></label>
 
                 <div class="col-sm-4">
-                    <input name="file" type="file" id="entityfile">
+                    <input name="file" type="file" accept=".jpg,.jpeg,.gif,.png,.tif,.bmp">
+                </div>
+            </div>
+            <div class="form-group" id="entityfile" hidden>
+                <label class="col-sm-2 control-label"></label>
+
+                <div class="col-sm-4">
+                    <input name="file" type="file" accept=".pdf,.doc,.docx,.zip,.rar,.ppt,.7z,.xlsx">
                 </div>
             </div>
             <div class="form-group" id="entitytext" hidden>
@@ -57,19 +64,20 @@
         var objS = document.getElementById("kind");
         var value = objS.options[objS.selectedIndex].value;
 
-        if (value == 1)
-        {
-            $("#entityfile").show();
+        if (value == 1) {
+            $("#entitypic").show();
+            $("#entityfile").hide();
             $("#entitytext").hide();
         }
-        else if (value == 3)
-        {
-            $("#entityfile").hide();
-            $("#entitytext").show();
+        else if (value == 2) {
+            $("#entityfile").show();
+            $("#entitypic").hide();
+            $("#entitytext").hide();
         }
         else {
-            $("#entityfile").show();
-            $("#entitytext").hide();
+            $("#entitytext").show();
+            $("#entityfile").hide();
+            $("#entitypic").hide();
         }
     }
 </script>
