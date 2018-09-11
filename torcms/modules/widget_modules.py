@@ -131,9 +131,15 @@ class BaiduSearch(tornado.web.UIModule):
         return self.render_string('modules/info/baidu_script.html',
                                   baidu_script=baidu_script)
 
-class Upload_entity(tornado.web.UIModule):
+class Upload_pic(tornado.web.UIModule):
 
 
     def render(self, *args, **kwargs):
-        kind = kwargs.get('kind', '1')
-        return self.render_string('modules/widget/upload_entity_{0}.html'.format(kind))
+        return self.render_string('modules/widget/upload_entity_pic.html')
+
+class Upload_file(tornado.web.UIModule):
+
+
+    def render(self, *args, **kwargs):
+        return self.render_string('modules/widget/upload_entity_file.html')
+

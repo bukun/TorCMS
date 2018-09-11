@@ -86,23 +86,19 @@
                     <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Upload picture</a>
                 </div>
             </div>
-            <!--<div class="form-group">-->
-            <!--<label class="col-sm-2 control-label">-->
-            <!--<a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;" for="ext_pdf"></a> PDF-->
-            <!--</label>-->
+            <div class="form-group">
+                <label for="logo" class="col-sm-2 control-label">PDF</label>
 
-            <!--<div class="col-sm-10">-->
-            <!--<input type="text" class="form-control" id="ext_pdf" name="ext_pdf"-->
-            <!--value="{{ postinfo.extinfo['ext_pdf'] if 'ext_pdf' in postinfo.extinfo else ''}}">-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--<div class="form-group">-->
-            <!--<label class="col-sm-2 control-label"> </label>-->
+                <div class="col-sm-10">
+                    <input id="ext_file" name="ext_file" type="text" value="{{ postinfo.extinfo['ext_file'] if 'ext_file' in postinfo.extinfo else ''}}"
+                           class="form-control" readonly/>
+                    <br>
+                    <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal_file">Upload PDF</a>
+                </div>
+            </div>
 
-            <!--<div class="col-sm-10">-->
-            <!--<a href="/entry/add" target="_blank" class="btn btn-primary" role="button">Upload a PDF</a>-->
-            <!--</div>-->
-            <!--</div>-->
+
+
             <div class="form-group">
                 <label class="col-sm-2 control-label">
                     <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a>
@@ -140,7 +136,8 @@
                 </div>
             </div>
         </form>
-        {% module upload_entity(kind = 1) %}
+        {% module upload_pic() %}
+        {% module upload_file() %}
     </div>
 </div>
 {% end %}

@@ -62,7 +62,8 @@ core_modules = {
     'star_rating': widget_modules.StarRating,
     'use_f2e': widget_modules.UseF2E,
     'loginfo': widget_modules.UserinfoWidget,
-    'upload_entity': widget_modules.Upload_entity,
+    'upload_pic': widget_modules.Upload_pic,
+    'upload_file': widget_modules.Upload_file,
 
     # Infor
     'app_catalog_of': info_modules.InfoCategory,
