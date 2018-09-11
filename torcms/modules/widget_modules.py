@@ -135,4 +135,5 @@ class Upload_entity(tornado.web.UIModule):
 
 
     def render(self, *args, **kwargs):
-        return self.render_string('modules/widget/upload_entity.html')
+        kind = kwargs.get('kind', '1')
+        return self.render_string('modules/widget/upload_entity_{0}.html'.format(kind))
