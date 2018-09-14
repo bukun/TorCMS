@@ -255,7 +255,7 @@ class MWiki(Mabc):
         '''
         Query pager
         '''
-        return TabWiki.select().where(TabWiki.kind == kind).paginate(current_page_num, CMS_CFG['list_num'])
+        return TabWiki.select().where(TabWiki.kind == kind).order_by(TabWiki.time_create.desc()).paginate(current_page_num, CMS_CFG['list_num'])
 
     @staticmethod
     def count_of_certain_kind(kind):

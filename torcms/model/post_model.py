@@ -851,4 +851,4 @@ class MPost(Mabc):
         '''
         Query pager
         '''
-        return TabPost.select().where(TabPost.kind == kind).paginate(current_page_num, CMS_CFG['list_num'])
+        return TabPost.select().where(TabPost.kind == kind).order_by(TabPost.time_create.desc()).paginate(current_page_num, CMS_CFG['list_num'])
