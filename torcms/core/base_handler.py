@@ -20,6 +20,11 @@ class BaseHandler(tornado.web.RequestHandler):
     '''
 
     def initialize(self, **kwargs):
+
+        # self.set_cookie('b_locale', 'zh_CN')
+        # self.set_cookie('b_locale', 'en')
+
+
         _ = kwargs
         super(BaseHandler, self).initialize()
         if self.get_current_user():
@@ -69,6 +74,54 @@ class BaseHandler(tornado.web.RequestHandler):
         the current user.
         '''
         return self.get_secure_cookie("user")
+        # user_id = self.get_secure_cookie("user")
+        # if not user_id: return None
+        #     return self.backend.get_user_by_id(user_id)
+
+    def get_user_locale(self):
+        '''
+        Override the function, to control the UI language.
+        '''
+        # self.clear_cookie('tor_locale')
+        # self.set_secure_cookie('tor_locale', 'zh_CN')
+        # self.set_secure_cookie('tor_locale', 'en_US')
+
+        # locale_id = self.get_secure_cookie('tor_locale')
+
+        # self.set_cookie('ulocale', 'zh_CN')
+        locale_id = self.get_cookie('ulocale')
+        print('x' * 100)
+        print(locale_id)
+
+        if locale_id:
+            return tornado.locale.get(locale_id)
+            # return tornado.locale.get(locale_id.decode('utf-8'))
+        else:
+            # return None
+            return tornado.locale.get('en_US')
+
+    def get_browser_locale(self):
+        '''
+        Override the function, to control the UI language.
+        '''
+        # ToDo:
+
+        # self.set_secure_cookie('b_locale', 'en_US')
+
+        # self.set_cookie('blocale', 'zh_CN')
+        self.set_cookie('blocale', 'zh_CN')
+
+        locale_id = self.get_cookie('blocale')
+        print('y' * 40)
+        print(locale_id)
+        return tornado.locale.get('zh_CN')
+        # if locale_id:
+        #     return tornado.locale.get(locale_id)
+        #
+        #     # return tornado.locale.get(locale_id.decode('utf-8'))
+        # else:
+        #     # return None
+        #     return tornado.locale.get('en_US')
 
     def is_admin(self):
         '''

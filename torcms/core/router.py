@@ -29,6 +29,7 @@ from torcms.handlers.wiki_handler import WikiHandler
 from torcms.handlers.wiki_history_manager import WikiHistoryHandler
 from torcms.handlers.entity2user_handler import Entity2UserHandler
 from torcms.handlers.catalog_hander import CatalogHandler
+from torcms.handlers.sys_handler import SysHandler
 
 urls = [
     ('/_rating/(.*)', RatingHandler, dict()),
@@ -85,6 +86,7 @@ urls = [
     ("/user_list/(.*)", UserListHandler, dict()),
 
     ("/evaluate/(.*)", EvaluationHandler, dict()),
+    ("/sys/(.*)", SysHandler, dict()),
     ("/", IndexHandler, dict()),
 
 ]
