@@ -1,5 +1,5 @@
 
-
+import json
 from torcms.core.base_handler import BaseHandler
 
 class SysHandler(BaseHandler):
@@ -32,9 +32,11 @@ class SysHandler(BaseHandler):
             print("*" * 50)
             self.set_cookie('ulocale', 'zh_CN')
             self.set_cookie('blocale', 'zh_CN')
+
          else:
             print("*" * 50)
             print("en_us")
             print("*" * 50)
             self.set_cookie('ulocale', 'en_US')
             self.set_cookie('blocale', 'en_US')
+
