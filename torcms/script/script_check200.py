@@ -42,6 +42,7 @@ def run_check200(_):
             if uu.status_code == 200:
                 pass
             else:
+                print(the_url0)
                 tstr = tstr + DT_STR.format(title=the_url0, uid=uu.status_code, edit_link=the_url)
 
     timeit = timestamp()

@@ -47,6 +47,7 @@ urls = [
 
     # For listing items.
 
+    # ToDo: To check.
     ("/catalog/(.*)", ListHandler, dict(order=True)),
     ("/list/(.*)", ListHandler, dict()), # use to be category
     ("/post/(.*)", PostHandler, dict(kind='1')),
