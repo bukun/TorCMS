@@ -15,7 +15,7 @@ HTML_TMPL = '''
 '''
 
 DT_STR = '''<dt>{title}</dt><dd>{uid}</dd>
-<dd><a href="{edit_link}">{edit_link}</a></dd>'''
+<dd><a href="{edit_link}" target="_blank">{edit_link}</a></dd>'''
 
 
 def run_check200(_):
