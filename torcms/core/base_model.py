@@ -3,13 +3,15 @@
 '''
 create a base model class that our application's models will extend. From django
 '''
-import config
 import peewee
+import config
+
 
 class BaseModel(peewee.Model):
     '''
     base model
     '''
+
     class Meta:
         '''
         meta

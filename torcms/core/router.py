@@ -3,7 +3,7 @@
 from torcms.handlers.admin_handler import AdminHandler
 from torcms.handlers.list_handler import ListHandler, TagListHandler
 from torcms.handlers.collect_handler import CollectHandler
-from torcms.handlers.entity_handler import EntityHandler,EntityAjaxHandler
+from torcms.handlers.entity_handler import EntityHandler, EntityAjaxHandler
 from torcms.handlers.evaluation_handler import EvaluationHandler
 from torcms.handlers.filter_handler import FilterHandler
 from torcms.handlers.index import IndexHandler
@@ -48,8 +48,7 @@ urls = [
     # For listing items.
 
     # ToDo: To check.
-    ("/catalog/(.*)", ListHandler, dict(order=True)),
-    ("/list/(.*)", ListHandler, dict()), # use to be category
+    ("/list/(.*)", ListHandler, dict()),  # use to be category
     ("/post/(.*)", PostHandler, dict(kind='1')),
 
     # For listing ordered items.
@@ -88,6 +87,5 @@ urls = [
 
     ("/evaluate/(.*)", EvaluationHandler, dict()),
     ("/sys/(.*)", SysHandler, dict()),
-    ("/", IndexHandler, dict()),
-
+    ("/", IndexHandler, dict())
 ]
