@@ -19,7 +19,7 @@ CMS_CFG = {
 router_post = {'1': 'post',
                '9': 'info',  # Filter_View
                'm': 'map',
-               's':'special',}
+               's': 'special', }
 
 post_type = {
     '1': '''<span style="color:green;" class="glyphicon glyphicon-list-alt">[{0}]</span>
@@ -32,7 +32,7 @@ post_type = {
         '''.format('Map'),
 }
 
-kind_arr = ['9', 'm','s']
+kind_arr = ['9', 'm', 's']
 post_emails = ['bukun@osgeo.cn', '118171@qq.com']
 email_cfg = {
     'title': '好久没登录了',
