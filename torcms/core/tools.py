@@ -13,7 +13,8 @@ import re
 import markdown
 import tornado.escape
 from difflib import HtmlDiff
-from css_html_js_minify import html_minify
+# from css_html_js_minify import html_minify
+from htmlmin import minify
 from markdown.extensions.wikilinks import WikiLinkExtension
 from playhouse.postgres_ext import PostgresqlExtDatabase
 
@@ -49,9 +50,11 @@ logger = logging
 def html_min(func):
     '''
     used as decorator to minify HTML string.
+    Unused.
     '''
     def wrapper(*args):
-        return html_minify(func(*args))
+        # return html_minify(func(*args))
+        return minify(func(*args))
     return wrapper
 
 

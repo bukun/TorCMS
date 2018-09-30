@@ -7,7 +7,8 @@ The last 5 types is defined as in JQuery Validation.
 '''
 
 import os
-from css_html_js_minify import html_minify
+# from css_html_js_minify import minify
+from htmlmin import minify
 from . import func_gen_html
 from .base_crud import CRUD_PATH, INPUT_ARR
 from .fetch_html_dic import gen_array_crud, gen_html_dic
@@ -107,7 +108,7 @@ def __write_edit_tmpl(tag_key, tag_list):
             tmpl = ''
         edit_widget_arr.append(tmpl)
     with open(edit_file, 'w') as fileout2:
-        outstr = html_minify(
+        outstr = minify(
             TPL_EDIT.replace(
                 'xxxxxx',
                 ''.join(edit_widget_arr)
@@ -155,7 +156,7 @@ def __write_view_tmpl(tag_key, tag_list):
         view_widget_arr.append(tmpl)
     the_view_sig_str = __get_view_tmpl(tag_key)
     with open(view_file, 'w') as fileout:
-        outstr = html_minify(
+        outstr = minify(
             TPL_VIEW.replace(
                 'xxxxxx', ''.join(view_widget_arr)
             ).replace(
@@ -201,7 +202,7 @@ def __write_add_tmpl(tag_key, tag_list):
             tmpl = ''
         add_widget_arr.append(tmpl)
     with open(add_file, 'w') as fileout:
-        outstr = html_minify(
+        outstr = minify(
             TPL_ADD.replace(
                 'xxxxxx',
                 ''.join(add_widget_arr)
@@ -240,7 +241,7 @@ def __write_filter_tmpl(html_tpl):
                     html_view_str_arr.append(__gen_select_filter('html_' + the_val))
 
             with open(outfile, 'w') as outfileo:
-                outstr = html_minify(
+                outstr = minify(
                     html_tpl.replace(
                         'xxxxxx',
                         ''.join(html_view_str_arr)
@@ -286,7 +287,7 @@ def __write_list_tmpl(html_tpl):
                     html_view_str_arr.append(func_gen_html.gen_checkbox_list(sig))
 
             with open(outfile, 'w') as outfileo:
-                outstr = html_minify(
+                outstr = minify(
                     html_tpl.replace(
                         'xxxxxx',
                         ''.join(html_view_str_arr)
