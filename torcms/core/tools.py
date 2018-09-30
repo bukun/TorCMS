@@ -10,11 +10,12 @@ import logging
 import time
 import hashlib
 import re
-from difflib import HtmlDiff
 import markdown
+import tornado.escape
+from difflib import HtmlDiff
+from css_html_js_minify import html_minify
 from markdown.extensions.wikilinks import WikiLinkExtension
 from playhouse.postgres_ext import PostgresqlExtDatabase
-import tornado.escape
 
 # try:
 #     from jieba.analyse import ChineseAnalyzer
@@ -24,6 +25,7 @@ import tornado.escape
 
 from torcms.core.libs.deprecation import deprecated
 import cfg
+
 # import config
 
 # Config for logging
@@ -42,6 +44,15 @@ stream_handler.setFormatter(logger_formatter)
 logging.getLogger('').addHandler(stream_handler)
 
 logger = logging
+
+
+def html_min(func):
+    '''
+    used as decorator to minify HTML string.
+    '''
+    def wrapper(*args):
+        return html_minify(func(*args))
+    return wrapper
 
 
 class Storage(dict):
@@ -231,7 +242,6 @@ def markdown2html(markdown_text):
     for han_biaodian in han_biaodians:
         html = html.replace(han_biaodian + '\n', han_biaodian)
     return tornado.escape.xhtml_escape(html)
-
 
 
 @deprecated(details='using `tag_pager` as the replacement.')

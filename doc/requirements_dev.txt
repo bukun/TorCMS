@@ -24,4 +24,5 @@ pytest
 coverage
 graphviz
 pylint
+css_html_js_minify
 # celery

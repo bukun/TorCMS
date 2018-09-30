@@ -61,7 +61,6 @@ def gen_input_view(sig_dic):
     elif sig_dic['en'] in ['tag_access_link', 'tag_dmoz_url',
                            'tag_online_link', 'tag_event_url',
                            'tag_expert_home', 'tag_pic_url']:
-        # Todo: should do nothing with dmzo, expert, etc.
         html_str = HTML_TPL_DICT['input_view_link'].format(
             sig_dic['en'],
             sig_dic['zh'],
@@ -100,9 +99,12 @@ def gen_radio_add(sig_dic):
     return '''<label for="{sig_en}"><span>
     <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
     </a>{sig_zh}</span>
-    {radio_str}</label>'''.format(sig_en=sig_dic['en'],
-                                  sig_zh=sig_dic['zh'],
-                                  radio_str=radio_control_str)
+    {radio_str}</label>
+    '''.format(
+        sig_en=sig_dic['en'],
+        sig_zh=sig_dic['zh'],
+        radio_str=radio_control_str
+    )
 
 
 def gen_radio_edit(sig_dic):
@@ -122,7 +124,8 @@ def gen_radio_edit(sig_dic):
         {{% if  '{0}' in postinfo.extinfo and postinfo.extinfo['{0}'] == '{1}' %}}
         checked
         {{% end %}}
-        >{2} '''.format(sig_dic['en'], key, dic_tmp[key])
+        >{2}
+        '''.format(sig_dic['en'], key, dic_tmp[key])
         edit_zuoxiang += tmp_str
 
     edit_zuoxiang += '''</label>'''

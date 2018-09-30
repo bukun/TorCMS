@@ -7,7 +7,7 @@ The last 5 types is defined as in JQuery Validation.
 '''
 
 import os
-
+from css_html_js_minify import html_minify
 from . import func_gen_html
 from .base_crud import CRUD_PATH, INPUT_ARR
 from .fetch_html_dic import gen_array_crud, gen_html_dic
@@ -18,6 +18,51 @@ SWITCH_DICS, KIND_DICS = gen_array_crud()
 OUT_DIR = os.path.join(os.getcwd(), CRUD_PATH)
 
 
+def __get_view_tmpl(tag_key):
+    '''
+    根据分类uid的4位编码来找模板。如果4位的存在，则使用4位的；不然找其父类；再不然则使用通用模板
+    只有View需要，edit, list使用通用模板
+    :return String.
+    '''
+    the_view_file_4 = './templates/tmpl_{0}/tpl_view_{1}.html'.format(
+        KIND_DICS['kind_' + tag_key.split('_')[-1]],
+        tag_key.split('_')[1]
+    )
+    the_view_file_2 = './templates/tmpl_{0}/tpl_view_{1}.html'.format(
+        KIND_DICS['kind_' + tag_key.split('_')[-1]],
+        tag_key.split('_')[1][:2]
+    )
+    if os.path.exists(the_view_file_4):
+        the_view_sig_str = '_{0}'.format(tag_key.split('_')[1])
+    elif os.path.exists(the_view_file_2):
+        the_view_sig_str = '_{0}'.format(tag_key.split('_')[1][:2])
+    else:
+        the_view_sig_str = ''
+    return the_view_sig_str
+
+
+def __gen_select_filter(bl_str):
+    '''
+    Convert to html.
+    :return String.
+    '''
+    bianliang = HTML_DICS[bl_str]
+    # bianliang = eval('html_vars.' + bl_str)
+    html_out = '''<li class="list-group-item">
+    <div class="row"><div class="col-sm-3">{0}</div><div class="col-sm-9">
+     <span class="label label-default"  name='{1}' onclick='change(this);' value=''>{{{{_('All')}}}}</span>
+    '''.format(bianliang['zh'], '_'.join(bl_str.split('_')[1:]))
+
+    tmp_dic = bianliang['dic']
+    for key in tmp_dic.keys():
+        tmp_str = '''
+        <span  class="label label-default" name='{0}' onclick='change(this);' value='{1}'>
+        {2}</span>'''.format('_'.join(bl_str.split('_')[1:]), key, tmp_dic[key])
+        html_out += tmp_str
+    html_out += '''</div></div></li>'''
+    return html_out
+
+
 def generate_html_files(*args):
     '''
     Generate the templates for adding, editing, viewing.
@@ -26,16 +71,15 @@ def generate_html_files(*args):
     _ = args
     for tag_key, tag_list in SWITCH_DICS.items():
         if tag_key.startswith('dic_') and (not tag_key.endswith('00')):
-            __gen_add_tmpl(tag_key, tag_list)
-            __gen_view_tmpl(tag_key, tag_list)
-            __gen_edit_tmpl(tag_key, tag_list)
+            __write_add_tmpl(tag_key, tag_list)
+            __write_view_tmpl(tag_key, tag_list)
+            __write_edit_tmpl(tag_key, tag_list)
 
-    __gen_filter_tmpl(TPL_LIST)
+    __write_filter_tmpl(TPL_LIST)
+    __write_list_tmpl(TPL_LISTINFO)
 
-    __gen_list_tmpl(TPL_LISTINFO)
 
-
-def __gen_edit_tmpl(tag_key, tag_list):
+def __write_edit_tmpl(tag_key, tag_list):
     '''
     Generate the HTML file for editing.
     :param tag_key: key of the tags.
@@ -63,7 +107,7 @@ def __gen_edit_tmpl(tag_key, tag_list):
             tmpl = ''
         edit_widget_arr.append(tmpl)
     with open(edit_file, 'w') as fileout2:
-        fileout2.write(
+        outstr = html_minify(
             TPL_EDIT.replace(
                 'xxxxxx',
                 ''.join(edit_widget_arr)
@@ -75,9 +119,10 @@ def __gen_edit_tmpl(tag_key, tag_list):
                 KIND_DICS['kind_' + tag_key.split('_')[-1]]
             )
         )
+        fileout2.write(outstr)
 
 
-def __gen_view_tmpl(tag_key, tag_list):
+def __write_view_tmpl(tag_key, tag_list):
     '''
     Generate the HTML file for viewing.
     :param tag_key: key of the tags.
@@ -110,7 +155,7 @@ def __gen_view_tmpl(tag_key, tag_list):
         view_widget_arr.append(tmpl)
     the_view_sig_str = __get_view_tmpl(tag_key)
     with open(view_file, 'w') as fileout:
-        fileout.write(
+        outstr = html_minify(
             TPL_VIEW.replace(
                 'xxxxxx', ''.join(view_widget_arr)
             ).replace(
@@ -124,9 +169,10 @@ def __gen_view_tmpl(tag_key, tag_list):
                 KIND_DICS['kind_' + tag_key.split('_')[-1]]
             )
         )
+        fileout.write(outstr)
 
 
-def __gen_add_tmpl(tag_key, tag_list):
+def __write_add_tmpl(tag_key, tag_list):
     '''
     Generate the HTML file for adding.
     :param tag_key: key of the tags.
@@ -155,7 +201,7 @@ def __gen_add_tmpl(tag_key, tag_list):
             tmpl = ''
         add_widget_arr.append(tmpl)
     with open(add_file, 'w') as fileout:
-        fileout.write(
+        outstr = html_minify(
             TPL_ADD.replace(
                 'xxxxxx',
                 ''.join(add_widget_arr)
@@ -167,52 +213,10 @@ def __gen_add_tmpl(tag_key, tag_list):
                 KIND_DICS['kind_' + tag_key.split('_')[-1]]
             )
         )
+        fileout.write(outstr)
 
 
-def __get_view_tmpl(tag_key):
-    '''
-    根据分类uid的4位编码来找模板。如果4位的存在，则使用4位的；不然找其父类；再不然则使用通用模板
-    只有View需要，edit, list使用通用模板
-    '''
-    the_view_file_4 = './templates/tmpl_{0}/tpl_view_{1}.html'.format(
-        KIND_DICS['kind_' + tag_key.split('_')[-1]],
-        tag_key.split('_')[1]
-    )
-    the_view_file_2 = './templates/tmpl_{0}/tpl_view_{1}.html'.format(
-        KIND_DICS['kind_' + tag_key.split('_')[-1]],
-        tag_key.split('_')[1][:2]
-    )
-    if os.path.exists(the_view_file_4):
-        the_view_sig_str = '_{0}'.format(tag_key.split('_')[1])
-    elif os.path.exists(the_view_file_2):
-        the_view_sig_str = '_{0}'.format(tag_key.split('_')[1][:2])
-    else:
-        the_view_sig_str = ''
-    return the_view_sig_str
-
-
-def __gen_select_filter(bl_str):
-    '''
-    Convert to html.
-    '''
-    bianliang = HTML_DICS[bl_str]
-    # bianliang = eval('html_vars.' + bl_str)
-    html_out = '''<li class="list-group-item">
-    <div class="row"><div class="col-sm-3">{0}</div><div class="col-sm-9">
-     <span class="label label-default"  name='{1}' onclick='change(this);' value=''>{{{{_('All')}}}}</span>
-    '''.format(bianliang['zh'], '_'.join(bl_str.split('_')[1:]))
-
-    tmp_dic = bianliang['dic']
-    for key in tmp_dic.keys():
-        tmp_str = '''
-        <span  class="label label-default" name='{0}' onclick='change(this);' value='{1}'>
-        {2}</span>'''.format('_'.join(bl_str.split('_')[1:]), key, tmp_dic[key])
-        html_out += tmp_str
-    html_out += '''</div></div></li>'''
-    return html_out
-
-
-def __gen_filter_tmpl(html_tpl):
+def __write_filter_tmpl(html_tpl):
     '''
     doing for directory.
     '''
@@ -236,7 +240,7 @@ def __gen_filter_tmpl(html_tpl):
                     html_view_str_arr.append(__gen_select_filter('html_' + the_val))
 
             with open(outfile, 'w') as outfileo:
-                outfileo.write(
+                outstr = html_minify(
                     html_tpl.replace(
                         'xxxxxx',
                         ''.join(html_view_str_arr)
@@ -251,9 +255,10 @@ def __gen_filter_tmpl(html_tpl):
                         KIND_DICS['kind_' + var_name.split('_')[-1]]
                     )
                 )
+                outfileo.write(outstr)
 
 
-def __gen_list_tmpl(html_tpl):
+def __write_list_tmpl(html_tpl):
     '''
     doing for directory.
     '''
@@ -281,7 +286,7 @@ def __gen_list_tmpl(html_tpl):
                     html_view_str_arr.append(func_gen_html.gen_checkbox_list(sig))
 
             with open(outfile, 'w') as outfileo:
-                outfileo.write(
+                outstr = html_minify(
                     html_tpl.replace(
                         'xxxxxx',
                         ''.join(html_view_str_arr)
@@ -296,3 +301,4 @@ def __gen_list_tmpl(html_tpl):
                         KIND_DICS['kind_' + var_name.split('_')[-1]]
                     )
                 )
+                outfileo.write(outstr)

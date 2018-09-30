@@ -6,7 +6,6 @@ Hander for entiey, such as files or URL.
 import os
 import uuid
 import json
-import tornado.ioloop
 import tornado.web
 
 import config
