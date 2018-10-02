@@ -1,29 +1,7 @@
 # Run with the command:
-# pip install -r requirements.txt
-# pip install -r doc/requirements.txt
+# pip install -r doc/requirements_dev.txt
 wheel
-beautifulsoup4
-html2text
-jieba
-markdown
-peewee >= 3.0.16
-Pillow
-tornado
-Whoosh
-WTForms
-wtforms-tornado
-# psycopg2
-# http://initd.org/psycopg/docs/install.html#binary-install-from-pypi
-psycopg2-binary
-redis
-pyyaml
-openpyxl
-nose
-requests
-pytest
-coverage
+torcms
+##################################
 graphviz
 pylint
-# css_html_js_minify # replaced with htmlmin since it needs Python 3.6 above.
-htmlmin
-# celery

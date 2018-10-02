@@ -30,7 +30,7 @@ setup(
     zip_safe=True,
     install_requires=['beautifulsoup4', 'jieba', 'markdown', 'peewee', 'Pillow',
                       'tornado', 'Whoosh', 'WTForms', 'wtforms-tornado',
-                      'psycopg2-binary', 'html2text', 'redis', 'pyyaml'],
+                      'psycopg2-binary', 'html2text', 'redis', 'pyyaml','htmlmin'],
 
     classifiers=[
         # How mature is this project? Common values are
