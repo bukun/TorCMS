@@ -9,13 +9,21 @@ from torcms.model.post_model import MPost
 # from torcms.model.wiki_model import MWiki
 import config
 
-HTML_TMPL = '''
-<!doctype html><html><head><title></title></head><body>
-<dl>{cnt}</dl></body></html>
+HTML_TMPL = '''<!doctype html><html><head><title></title></head>
+<body>
+<dl class="table">{cnt}</dl>
+</body></html>
 '''
 
-DT_STR = '''<dt>{title}</dt><dd>{uid}</dd>
-<dd><a href="{edit_link}" target="_blank">{edit_link}</a></dd>'''
+DT_STR = '''<dt>{idx} : {url0} </dt>
+<dd>{code}</dd>
+<dd>
+<a href="{edit_link}" target="_blank">
+{edit_link}
+</a>
+</dd>
+<hr />
+'''
 
 
 def run_check200(_):
@@ -24,7 +32,7 @@ def run_check200(_):
     '''
 
     tstr = ''
-
+    idx = 1
     for kind in config.router_post.keys():
         posts = MPost.query_all(kind=kind, limit=20000)
         for post in posts:
@@ -43,7 +51,8 @@ def run_check200(_):
                 pass
             else:
                 print(the_url0)
-                tstr = tstr + DT_STR.format(title=the_url0, uid=req.status_code, edit_link=the_url)
+                tstr = tstr + DT_STR.format(idx=str(idx).zfill(2), url0=the_url0, code=req.status_code, edit_link=the_url)
+                idx = idx + 1
 
     time_local = time.localtime(timestamp())
     with open('xx200_{d}.html'.format(d=str(time.strftime("%Y_%m_%d", time_local))), 'w') as fileo:
