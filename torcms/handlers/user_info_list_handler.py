@@ -23,7 +23,7 @@ class UserListHandler(BaseHandler):
             'recent': self.to_find,
             'app': self.list_app,
             'user_recent': self.user_recent,
-            'user_most': self.user_most,
+            'user_most': self.user_most
         }
         dict_get.get(url_str, self.show404)()
 
@@ -39,10 +39,10 @@ class UserListHandler(BaseHandler):
         '''
         kwd = {
             'pager': '',
-            'title': '',
+            'title': ''
         }
         self.render('user/info_list/list_app.html', kwd=kwd,
-                    userinfo=self.userinfo, )
+                    userinfo=self.userinfo)
 
     @tornado.web.authenticated
     def user_most(self):
@@ -96,7 +96,7 @@ class UserListHandler(BaseHandler):
                     kwd=kwd,
                     rand_eqs=MPost.query_random(),
                     recs=recs,
-                    userinfo=self.userinfo, )
+                    userinfo=self.userinfo)
 
     def find(self):
         '''
@@ -106,7 +106,7 @@ class UserListHandler(BaseHandler):
 
         kwd = {
             'pager': '',
-            'title': '查找结果',
+            'title': 'Searching Result',
         }
         self.render('user/info_list/find_list.html',
                     userinfo=self.userinfo,

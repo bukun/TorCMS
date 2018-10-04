@@ -41,7 +41,7 @@ class PageHandler(BaseHandler):
             self.set_status(400)
             return
 
-        if url_arr[0] in ['_edit', 'modify', 'edit']:
+        if url_arr[0] in ['_edit']:
             self.to_modify(url_arr[1])
         elif url_str == 'list':
             self.list()
@@ -55,7 +55,7 @@ class PageHandler(BaseHandler):
     def post(self, *args, **kwargs):
         url_arr = self.parse_url(args[0])
 
-        if url_arr[0] in ['_edit', 'modify', 'edit']:
+        if url_arr[0] in ['_edit']:
             self.update(url_arr[1])
         elif len(url_arr) == 1:
             # like:  /page/new_page

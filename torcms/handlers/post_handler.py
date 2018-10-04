@@ -40,42 +40,42 @@ class PostHandler(BaseHandler):
         self.filter_view = kwargs.get('filter_view', False)
         self.entity = EntityHandler
 
-    def _redirect(self, url_arr):
-        '''
-        Redirection.
-        '''
-        direct_dic = {
-            'recent': '/post_list/recent',
-            'refresh': '/post_list/_refresh',
-            '_refresh': '/post_list/_refresh',
-
-        }
-        sig = url_arr[0]
-        for sig_enum in direct_dic:
-            if sig == sig_enum:
-                self.redirect(direct_dic[sig])
-        pre_dic = {
-            'cat_add': '_cat_add',
-            'add_document': '_add',
-            'add': '_add',
-            'modify': '_edit',
-            'edit': '_edit',
-            'delete': '_delete',
-            'ajax_count_plus': 'j_count_plus',
-        }
-        sig = url_arr[0]
-        for sig_enum in pre_dic:
-            if sig == sig_enum:
-                url_arr = [pre_dic[sig_enum]] + url_arr[1:]
-                url_str = '/post/' + '/'.join(url_arr)
-                self.redirect(url_str)
-        return True
+    # def _redirect(self, url_arr):
+    #     '''
+    #     Redirection.
+    #     '''
+    #     direct_dic = {
+    #         'recent': '/post_list/recent',
+    #         'refresh': '/post_list/_refresh',
+    #         '_refresh': '/post_list/_refresh',
+    #
+    #     }
+    #     sig = url_arr[0]
+    #     for sig_enum in direct_dic:
+    #         if sig == sig_enum:
+    #             self.redirect(direct_dic[sig])
+    #     pre_dic = {
+    #         'cat_add': '_cat_add',
+    #         'add_document': '_add',
+    #         'add': '_add',
+    #         'modify': '_edit',
+    #         'edit': '_edit',
+    #         'delete': '_delete',
+    #         'ajax_count_plus': 'j_count_plus',
+    #     }
+    #     sig = url_arr[0]
+    #     for sig_enum in pre_dic:
+    #         if sig == sig_enum:
+    #             url_arr = [pre_dic[sig_enum]] + url_arr[1:]
+    #             url_str = '/post/' + '/'.join(url_arr)
+    #             self.redirect(url_str)
+    #     return True
 
     def get(self, *args, **kwargs):
         url_str = args[0]
         url_arr = self.parse_url(url_str)
-        if url_arr:
-            self._redirect(url_arr)
+        # if url_arr:
+        #     self._redirect(url_arr)
 
         if url_str == '' or url_str == 'index':
             self.index()
@@ -104,16 +104,16 @@ class PostHandler(BaseHandler):
         logger.info('Post url: {0}'.format(url_str))
         url_arr = self.parse_url(url_str)
 
-        if url_arr[0] in ['_edit', 'edit', 'modify']:
+        if url_arr[0] in ['_edit']:
             self.update(url_arr[1])
-        elif url_arr[0] in ['_add', 'add', 'add_document']:
+        elif url_arr[0] in ['_add']:
             if len(url_arr) == 2:
                 self.add(uid=url_arr[1])
             else:
                 self.add()
         elif url_arr[0] == '_edit_kind':
             self._change_kind(url_arr[1])
-        elif url_arr[0] in ['_cat_add', 'cat_add']:
+        elif url_arr[0] in ['_cat_add']:
             self.add(catid=url_arr[1])
         elif len(url_arr) == 1:
             # Todo: should not exists.
@@ -261,56 +261,60 @@ class PostHandler(BaseHandler):
         :param uid:  The ID of the post. Extra info would get by requests.
         '''
 
-        catid = kwargs['catid'] if MCategory.get_by_uid(kwargs.get('catid')) else None
+        # deprecated
+        # catid = kwargs['catid'] if MCategory.get_by_uid(kwargs.get('catid')) else None
 
         post_data = self.get_post_data()
+        if 'gcat0' in post_data:
+            pass
+        else:
+            return False
 
-        current_infos = MPost2Catalog.query_by_entity_uid(uid, kind='').objects()
-
-        new_category_arr = []
-        # Used to update post2category, to keep order.
-        def_cate_arr = ['gcat{0}'.format(x) for x in range(10)]
-
-        # for old page.
-        def_cate_arr.append('def_cat_uid')
-
+        # Used to update MPost2Category, to keep order.
+        the_cats_arr = []
         # Used to update post extinfo.
-        cat_dic = {}
+        the_cats_dict = {}
+
+        # for old page. deprecated
+        # def_cate_arr.append('def_cat_uid')
+
+        def_cate_arr = ['gcat{0}'.format(x) for x in range(10)]
         for key in def_cate_arr:
             if key not in post_data:
                 continue
             if post_data[key] == '' or post_data[key] == '0':
                 continue
             # 有可能选重复了。保留前面的
-            if post_data[key] in new_category_arr:
+            if post_data[key] in the_cats_arr:
                 continue
 
-            new_category_arr.append(post_data[key] + ' ' * (4 - len(post_data[key])))
-            cat_dic[key] = post_data[key] + ' ' * (4 - len(post_data[key]))
+            the_cats_arr.append(post_data[key] + ' ' * (4 - len(post_data[key])))
+            the_cats_dict[key] = post_data[key] + ' ' * (4 - len(post_data[key]))
 
-        if catid:
-            def_cat_id = catid
-        elif new_category_arr:
-            def_cat_id = new_category_arr[0]
+        # if catid:
+        #     def_cat_id = catid
+        if the_cats_arr:
+            def_cat_id = the_cats_arr[0]
         else:
             def_cat_id = None
 
         if def_cat_id:
-            cat_dic['def_cat_uid'] = def_cat_id
-            cat_dic['def_cat_pid'] = MCategory.get_by_uid(def_cat_id).pid
+            the_cats_dict['def_cat_uid'] = def_cat_id
+            the_cats_dict['def_cat_pid'] = MCategory.get_by_uid(def_cat_id).pid
 
         # Add the category
-        logger.info('Update category: {0}'.format(new_category_arr))
-        logger.info('Update category: {0}'.format(cat_dic))
+        logger.info('Update category: {0}'.format(the_cats_arr))
+        logger.info('Update category: {0}'.format(the_cats_dict))
 
-        MPost.update_jsonb(uid, cat_dic)
+        MPost.update_jsonb(uid, the_cats_dict)
 
-        for index, catid in enumerate(new_category_arr):
-            MPost2Catalog.add_record(uid, catid, index)
+        for index, idx_catid in enumerate(the_cats_arr):
+            MPost2Catalog.add_record(uid, idx_catid, index)
 
         # Delete the old category if not in post requests.
+        current_infos = MPost2Catalog.query_by_entity_uid(uid, kind='').objects()
         for cur_info in current_infos:
-            if cur_info.tag_id not in new_category_arr:
+            if cur_info.tag_id not in the_cats_arr:
                 MPost2Catalog.remove_relation(uid, cur_info.tag_id)
 
     @tornado.web.authenticated
@@ -568,6 +572,10 @@ class PostHandler(BaseHandler):
             uid = self._gen_uid()
 
         post_data, ext_dic = self.fetch_post_data()
+        if 'gcat0' in post_data:
+            pass
+        else:
+            return False
 
         if 'valid' in post_data:
             post_data['valid'] = int(post_data['valid'])
@@ -603,6 +611,10 @@ class PostHandler(BaseHandler):
             return False
 
         post_data, ext_dic = self.fetch_post_data()
+        if 'gcat0' in post_data:
+            pass
+        else:
+            return False
 
         if 'valid' in post_data:
             post_data['valid'] = int(post_data['valid'])
