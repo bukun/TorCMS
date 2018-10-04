@@ -89,3 +89,5 @@ api_html
 torcms_tester
 flasky/static
 templates/modules
+
+static/dataset_list

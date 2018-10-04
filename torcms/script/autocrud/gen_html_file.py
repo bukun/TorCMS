@@ -7,9 +7,9 @@ The last 5 types is defined as in JQuery Validation.
 '''
 
 import os
-# from css_html_js_minify import minify
+
 from htmlmin import minify
-from . import func_gen_html
+# from . import func_gen_html
 from .base_crud import CRUD_PATH, INPUT_ARR
 from .fetch_html_dic import gen_array_crud, gen_html_dic
 from .html_tpl import TPL_ADD, TPL_VIEW, TPL_EDIT, TPL_LIST, TPL_LISTINFO
@@ -18,6 +18,12 @@ HTML_DICS = gen_html_dic()
 SWITCH_DICS, KIND_DICS = gen_array_crud()
 OUT_DIR = os.path.join(os.getcwd(), CRUD_PATH)
 
+def minify(the_str):
+    '''
+    Redefine the function for it is htmlmin.
+    For it not work fine for Tornado template.
+    '''
+    return the_str
 
 def __get_view_tmpl(tag_key):
     '''

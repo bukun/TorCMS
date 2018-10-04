@@ -3,8 +3,7 @@
 '''
 The basic HTML Page handler.
 '''
-import os
-import uuid
+
 import json
 import random
 from concurrent.futures import ThreadPoolExecutor
@@ -28,6 +27,92 @@ from config import router_post
 from torcms.handlers.entity_handler import EntityHandler
 
 
+def update_category(uid, post_data):
+    '''
+    Update the category of the post.
+    :param uid:  The ID of the post. Extra info would get by requests.
+    '''
+
+    # deprecated
+    # catid = kwargs['catid'] if MCategory.get_by_uid(kwargs.get('catid')) else None
+    # post_data = self.get_post_data()
+    if 'gcat0' in post_data:
+        pass
+    else:
+        return False
+
+    # Used to update MPost2Category, to keep order.
+    the_cats_arr = []
+    # Used to update post extinfo.
+    the_cats_dict = {}
+
+    # for old page. deprecated
+    # def_cate_arr.append('def_cat_uid')
+
+    def_cate_arr = ['gcat{0}'.format(x) for x in range(10)]
+    for key in def_cate_arr:
+        if key not in post_data:
+            continue
+        if post_data[key] == '' or post_data[key] == '0':
+            continue
+        # 有可能选重复了。保留前面的
+        if post_data[key] in the_cats_arr:
+            continue
+
+        the_cats_arr.append(post_data[key] + ' ' * (4 - len(post_data[key])))
+        the_cats_dict[key] = post_data[key] + ' ' * (4 - len(post_data[key]))
+
+    # if catid:
+    #     def_cat_id = catid
+    if the_cats_arr:
+        def_cat_id = the_cats_arr[0]
+    else:
+        def_cat_id = None
+
+    if def_cat_id:
+        the_cats_dict['def_cat_uid'] = def_cat_id
+        the_cats_dict['def_cat_pid'] = MCategory.get_by_uid(def_cat_id).pid
+
+    # Add the category
+    logger.info('Update category: {0}'.format(the_cats_arr))
+    logger.info('Update category: {0}'.format(the_cats_dict))
+
+    MPost.update_jsonb(uid, the_cats_dict)
+
+    for index, idx_catid in enumerate(the_cats_arr):
+        MPost2Catalog.add_record(uid, idx_catid, index)
+
+    # Delete the old category if not in post requests.
+    current_infos = MPost2Catalog.query_by_entity_uid(uid, kind='').objects()
+    for cur_info in current_infos:
+        if cur_info.tag_id not in the_cats_arr:
+            MPost2Catalog.remove_relation(uid, cur_info.tag_id)
+
+
+def update_label(signature, post_data):
+    '''
+    Update the label when updating.
+    '''
+    current_tag_infos = MPost2Label.get_by_uid(signature).objects()
+    if 'tags' in post_data:
+        pass
+    else:
+        return False
+
+    tags_arr = [x.strip() for x in post_data['tags'].split(',')]
+    for tag_name in tags_arr:
+        if tag_name == '':
+            pass
+        else:
+            MPost2Label.add_record(signature, tag_name, 1)
+
+    for cur_info in current_tag_infos:
+        if cur_info.tag_name in tags_arr:
+            pass
+        else:
+            MPost2Label.remove_relation(signature, cur_info.tag_id)
+
+
 class PostHandler(BaseHandler):
     '''
     The basic HTML Page handler.
@@ -39,37 +124,6 @@ class PostHandler(BaseHandler):
         self.kind = kwargs.get('kind', '1')
         self.filter_view = kwargs.get('filter_view', False)
         self.entity = EntityHandler
-
-    # def _redirect(self, url_arr):
-    #     '''
-    #     Redirection.
-    #     '''
-    #     direct_dic = {
-    #         'recent': '/post_list/recent',
-    #         'refresh': '/post_list/_refresh',
-    #         '_refresh': '/post_list/_refresh',
-    #
-    #     }
-    #     sig = url_arr[0]
-    #     for sig_enum in direct_dic:
-    #         if sig == sig_enum:
-    #             self.redirect(direct_dic[sig])
-    #     pre_dic = {
-    #         'cat_add': '_cat_add',
-    #         'add_document': '_add',
-    #         'add': '_add',
-    #         'modify': '_edit',
-    #         'edit': '_edit',
-    #         'delete': '_delete',
-    #         'ajax_count_plus': 'j_count_plus',
-    #     }
-    #     sig = url_arr[0]
-    #     for sig_enum in pre_dic:
-    #         if sig == sig_enum:
-    #             url_arr = [pre_dic[sig_enum]] + url_arr[1:]
-    #             url_str = '/post/' + '/'.join(url_arr)
-    #             self.redirect(url_str)
-    #     return True
 
     def get(self, *args, **kwargs):
         url_str = args[0]
@@ -221,101 +275,6 @@ class PostHandler(BaseHandler):
                         tag_infos=MCategory.query_all(by_order=True, kind=self.kind),
                         userinfo=self.userinfo,
                         kwd={'uid': uid, })
-
-    def update_tag(self, uid='', **kwargs):
-        '''
-        Update category, and labels.
-        '''
-        self.update_category(uid, **kwargs)
-        self.update_label(uid)
-
-    @tornado.web.authenticated
-    def update_label(self, signature):
-        '''
-        Update the label when updating.
-        '''
-        current_tag_infos = MPost2Label.get_by_uid(signature).objects()
-        post_data = self.get_post_data()
-        if 'tags' in post_data:
-            pass
-        else:
-            return False
-
-        tags_arr = [x.strip() for x in post_data['tags'].split(',')]
-        for tag_name in tags_arr:
-            if tag_name == '':
-                pass
-            else:
-                MPost2Label.add_record(signature, tag_name, 1)
-
-        for cur_info in current_tag_infos:
-            if cur_info.tag_name in tags_arr:
-                pass
-            else:
-                MPost2Label.remove_relation(signature, cur_info.tag_id)
-
-    @tornado.web.authenticated
-    def update_category(self, uid, **kwargs):
-        '''
-        Update the category of the post.
-        :param uid:  The ID of the post. Extra info would get by requests.
-        '''
-
-        # deprecated
-        # catid = kwargs['catid'] if MCategory.get_by_uid(kwargs.get('catid')) else None
-
-        post_data = self.get_post_data()
-        if 'gcat0' in post_data:
-            pass
-        else:
-            return False
-
-        # Used to update MPost2Category, to keep order.
-        the_cats_arr = []
-        # Used to update post extinfo.
-        the_cats_dict = {}
-
-        # for old page. deprecated
-        # def_cate_arr.append('def_cat_uid')
-
-        def_cate_arr = ['gcat{0}'.format(x) for x in range(10)]
-        for key in def_cate_arr:
-            if key not in post_data:
-                continue
-            if post_data[key] == '' or post_data[key] == '0':
-                continue
-            # 有可能选重复了。保留前面的
-            if post_data[key] in the_cats_arr:
-                continue
-
-            the_cats_arr.append(post_data[key] + ' ' * (4 - len(post_data[key])))
-            the_cats_dict[key] = post_data[key] + ' ' * (4 - len(post_data[key]))
-
-        # if catid:
-        #     def_cat_id = catid
-        if the_cats_arr:
-            def_cat_id = the_cats_arr[0]
-        else:
-            def_cat_id = None
-
-        if def_cat_id:
-            the_cats_dict['def_cat_uid'] = def_cat_id
-            the_cats_dict['def_cat_pid'] = MCategory.get_by_uid(def_cat_id).pid
-
-        # Add the category
-        logger.info('Update category: {0}'.format(the_cats_arr))
-        logger.info('Update category: {0}'.format(the_cats_dict))
-
-        MPost.update_jsonb(uid, the_cats_dict)
-
-        for index, idx_catid in enumerate(the_cats_arr):
-            MPost2Catalog.add_record(uid, idx_catid, index)
-
-        # Delete the old category if not in post requests.
-        current_infos = MPost2Catalog.query_by_entity_uid(uid, kind='').objects()
-        for cur_info in current_infos:
-            if cur_info.tag_id not in the_cats_arr:
-                MPost2Catalog.remove_relation(uid, cur_info.tag_id)
 
     @tornado.web.authenticated
     @privilege.auth_edit
@@ -591,7 +550,11 @@ class PostHandler(BaseHandler):
 
         self._add_download_entity(ext_dic)
 
-        self.update_tag(uid=ext_dic['def_uid'], **kwargs)
+        # self.update_tag(uid=ext_dic['def_uid'], **kwargs)
+
+        update_category(ext_dic['def_uid'], post_data)
+        update_label(ext_dic['def_uid'], post_data)
+        # self.update_label(uid)
 
         # cele_gen_whoosh.delay()
         tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
@@ -633,7 +596,11 @@ class PostHandler(BaseHandler):
         MPost.modify_meta(uid, post_data, extinfo=ext_dic)
 
         self._add_download_entity(ext_dic)
-        self.update_tag(uid=uid)
+        # self.update_tag(uid=uid)
+
+        update_category(uid, post_data)
+        update_label(uid, post_data)
+        # self.update_label(uid)
 
         logger.info('post kind:' + self.kind)
         # cele_gen_whoosh.delay()
@@ -739,5 +706,7 @@ class PostHandler(BaseHandler):
         logger.info('admin post update: {0}'.format(post_data))
 
         MPost.update_misc(post_uid, kind=post_data['kcat'])
-        self.update_category(post_uid)
+        # self.update_category(post_uid)
+
+        update_category(post_uid, post_data)
         self.redirect('/{0}/{1}'.format(router_post[post_data['kcat']], post_uid))

@@ -24,10 +24,8 @@ def gen_pager_bootstrap_url(cat_slug, page_num, current):
         pager = '<ul class="pagination">'
 
         if current > 1:
-            pager_home = '''
-
-                  <li class="{0}" name='fenye' onclick='change(this);'
-                  ><a href="{1}/{2}">首页</a></li>'''.format('', cat_slug, 1)
+            pager_home = '''<li class="{0}" name='fenye' onclick='change(this);'>
+                <a href="{1}/{2}">首页</a></li>'''.format('', cat_slug, 1)
 
             pager_pre = ''' <li class="{0}" name='fenye' onclick='change(this);'>
                 <a href="{1}/{2}">上一页</a></li>'''.format('', cat_slug, current - 1)
@@ -99,7 +97,8 @@ class SearchHandler(BaseHandler):
 
     def index(self):
         tag_enum = MCategory.query_pcat()
-        self.render('misc/search/search_index.html', userinfo=self.userinfo,
+        self.render('misc/search/search_index.html',
+                    userinfo=self.userinfo,
                     cat_enum=tag_enum,
                     tag_enum=tag_enum)
 
@@ -143,9 +142,11 @@ class SearchHandler(BaseHandler):
         self.render('misc/search/search_list.html',
                     kwd=kwd,
                     srecs=results,
-                    pager=gen_pager_bootstrap_url('/search/{0}'.format(keyword),
-                                                  page_num,
-                                                  current_page_number),
+                    pager=gen_pager_bootstrap_url(
+                        '/search/{0}'.format(keyword),
+                        page_num,
+                        current_page_number
+                    ),
                     userinfo=self.userinfo,
                     cfg=CMS_CFG)
 

@@ -123,8 +123,7 @@ def gen_category(yaml_file, sig):
 
 def gen_yaml_category():
     '''
-    find YAML
-    :return:
+    find YAML.
     '''
     for wroot, _, wfiles in os.walk('./database/meta'):
         for wfile in wfiles:
@@ -135,7 +134,6 @@ def gen_yaml_category():
 def run_gen_category(*args):
     '''
     to run
-    :return:
     '''
     gen_yaml_category()
     gen_xlsx_category()

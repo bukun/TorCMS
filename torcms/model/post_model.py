@@ -592,6 +592,7 @@ class MPost(Mabc):
 
         cur_info = MPost.get_by_uid(uid)
         if cur_info:
+            # ToDo: should not do this. Not for 's'
             if DB_CFG['kind'] == 's':
                 entry = TabPost.update(
                     title=title,
