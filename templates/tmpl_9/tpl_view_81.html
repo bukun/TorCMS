@@ -8,9 +8,9 @@
     <div class="col-sm-9">
         <ol class="breadcrumb" style="display: block;overflow: hidden; text-overflow:ellipsis; white-space: nowrap;line-height: 38px">
             <li>Current location：<a href="/">Home</a></li>
-            <li><a href="/list/{{pcatinfo.uid}}">{{pcatinfo.name}}</a></li>
+            <li><a href="/filter/{{pcatinfo.uid}}">{{pcatinfo.name}}</a></li>
             {% if catinfo %}
-            <li><a href="/list/{{catinfo.uid}}">{{catinfo.name}}</a></li>
+            <li><a href="/filter/{{catinfo.uid}}">{{catinfo.name}}</a></li>
             {% end %}
             {% if postinfo %}
             <li><a href="/info/{{ postinfo.uid }}" > {{ postinfo.title }}</a></li>

@@ -701,7 +701,7 @@ class MPost(Mabc):
         return TabPost.select().where(
             (TabPost.kind == kind) &
             (TabPost.valid == 1) &
-            (TabPost.extinfo['def_cat_uid'] == cat_id)
+            (TabPost.extinfo['gcat0'] == cat_id)
         ).order_by(
             TabPost.time_update.desc()
         )

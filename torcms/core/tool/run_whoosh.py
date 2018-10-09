@@ -63,8 +63,8 @@ def do_for_app(writer, rand=True, kind='', doc_type=None):
 #         catid = info.tag.uid[:2] + '00'
 #
 #         cat_name = ''
-#         if 'def_cat_uid' in rec.extinfo and rec.extinfo['def_cat_uid']:
-#             taginfo = MCategory.get_by_uid(rec.extinfo['def_cat_uid'][:2] + '00')
+#         if 'gcat0' in rec.extinfo and rec.extinfo['gcat0']:
+#             taginfo = MCategory.get_by_uid(rec.extinfo['gcat0'][:2] + '00')
 #             if taginfo:
 #                 cat_name = taginfo.name
 #         writer.update_document(

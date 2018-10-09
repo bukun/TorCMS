@@ -65,9 +65,9 @@
     <div class="col-sm-8">
         <ol class="breadcrumb">
             <li>Current location：<a href="/">Home</a></li>
-            <li><a href="/list/{{pcatinfo.uid}}">{{pcatinfo.name}}</a></li>
+            <li><a href="/filter/{{pcatinfo.uid}}">{{pcatinfo.name}}</a></li>
             {% if catinfo %}
-            <li><a href="/list/{{catinfo.uid}}">{{catinfo.name}}</a></li>
+            <li><a href="/filter/{{catinfo.uid}}">{{catinfo.name}}</a></li>
             {% end %}
             {% if userinfo and( userinfo.role[2] >= '2') %}
             <li><a href="/publish/{{ widget_info['parentid'] }}" class="btn btn-primary btn-sm">Published

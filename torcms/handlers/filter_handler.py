@@ -123,7 +123,7 @@ class FilterHandler(BaseHandler):
         if catinfo.pid == '0000':
             condition['def_cat_pid'] = sig
         else:
-            condition['def_cat_uid'] = sig
+            condition['gcat0'] = sig
 
         fenye_num = 1
         for idx in range(num):
@@ -201,7 +201,7 @@ class FilterHandler(BaseHandler):
         else:
             catinfo = _catinfo
             pcatinfo = MCategory.get_by_uid(_catinfo.pid)
-            condition['catid'] = [sig]
+            condition['gcat0'] = [sig]
             parent_id = _catinfo.uid
             parent_catname = MCategory.get_by_uid(parent_id).name
             catname = MCategory.get_by_uid(sig).name

@@ -50,7 +50,6 @@ def get_meta(catid, sig):
                         pp_data['title'] = meta_dic['title']
                         pp_data['cnt_md'] = meta_dic['anytext']
                         pp_data['user_name'] = 'admin'
-                        pp_data['def_cat_uid'] = catid
                         pp_data['gcat0'] = catid
                         pp_data['def_cat_pid'] = catid[:2] + '00'
                         pp_data['extinfo'] = {}

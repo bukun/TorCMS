@@ -26,13 +26,13 @@ def run_export():
             print(x['uid'])
             MPost.create_post(x['uid'], x)
 
-            x['extinfo']['def_cat_uid'] = x['extinfo'].get('def_cat_uid', '2103')
+            x['extinfo']['gcat0'] = x['extinfo'].get('gcat0', '2103')
 
-            print(x['extinfo']['def_cat_uid'])
+            print(x['extinfo']['gcat0'])
 
-            if x['extinfo']['def_cat_uid'] in ['me01', 'me02', 'mf01', 'mf03']:
+            if x['extinfo']['gcat0'] in ['me01', 'me02', 'mf01', 'mf03']:
                 # pass
-                MPost2Catalog.add_record(x['uid'], x['extinfo']['def_cat_uid'])
+                MPost2Catalog.add_record(x['uid'], x['extinfo']['gcat0'])
             else:
                 # pass
                 MPost2Catalog.add_record(x['uid'], '2103')

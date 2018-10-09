@@ -70,8 +70,8 @@ def update_category(uid, post_data):
         def_cat_id = None
 
     if def_cat_id:
-        the_cats_dict['def_cat_uid'] = def_cat_id
-        the_cats_dict['def_cat_pid'] = MCategory.get_by_uid(def_cat_id).pid
+        the_cats_dict['gcat0'] = def_cat_id
+        the_cats_dict['gcat0'] = MCategory.get_by_uid(def_cat_id).pid
 
     # Add the category
     logger.info('Update category: {0}'.format(the_cats_arr))
@@ -231,7 +231,7 @@ class PostHandler(BaseHandler):
         kwd = {
             'uid': self._gen_uid(),
             'userid': self.userinfo.user_name if self.userinfo else '',
-            'def_cat_uid': catid,
+            'gcat0': catid,
             'parentname': MCategory.get_by_uid(catinfo.pid).name,
             'catname': MCategory.get_by_uid(catid).name,
         }
@@ -264,7 +264,6 @@ class PostHandler(BaseHandler):
             return self._to_add_with_category(catid)
 
         else:
-
             if 'uid' in kwargs and MPost.get_by_uid(kwargs['uid']):
                 # todo:
                 # self.redirect('/{0}/edit/{1}'.format(self.app_url_name, uid))
@@ -290,8 +289,8 @@ class PostHandler(BaseHandler):
         else:
             return self.show404()
 
-        if 'def_cat_uid' in postinfo.extinfo:
-            catid = postinfo.extinfo['def_cat_uid']
+        if 'gcat0' in postinfo.extinfo:
+            catid = postinfo.extinfo['gcat0']
         else:
             catid = ''
 
@@ -311,7 +310,7 @@ class PostHandler(BaseHandler):
                 p_catinfo = MCategory.get_by_uid(catinfo.pid)
 
         kwd = {
-            'def_cat_uid': catid,
+            'gcat0': catid,
             'parentname': '',
             'catname': '',
             'parentlist': MCategory.get_parent_list(),
@@ -374,8 +373,8 @@ class PostHandler(BaseHandler):
         '''
         self.redirect_kind(postinfo)
 
-        ext_catid = postinfo.extinfo['def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else ''
-        ext_catid2 = postinfo.extinfo['def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else None
+        ext_catid = postinfo.extinfo['gcat0'] if 'gcat0' in postinfo.extinfo else ''
+        ext_catid2 = postinfo.extinfo['gcat0'] if 'gcat0' in postinfo.extinfo else None
         cat_enum1 = MCategory.get_qian2(ext_catid2[:2]) if ext_catid else []
 
         rand_recs, rel_recs = self.fetch_additional_posts(postinfo.uid)
@@ -619,16 +618,16 @@ class PostHandler(BaseHandler):
 
         if MPost.delete(uid):
 
-            tslug = MCategory.get_by_uid(current_infor.extinfo['def_cat_uid'])
+            tslug = MCategory.get_by_uid(current_infor.extinfo['gcat0'])
 
-            MCategory.update_count(current_infor.extinfo['def_cat_uid'])
+            MCategory.update_count(current_infor.extinfo['gcat0'])
 
             if router_post[self.kind] == 'info':
                 url = "filter"
-                id_dk8 = current_infor.extinfo['def_cat_uid']
+                id_dk8 = current_infor.extinfo['gcat0']
 
             else:
-                url = "category"
+                url = "list"
                 id_dk8 = tslug.slug
 
             self.redirect('/{0}/{1}'.format(url, id_dk8))

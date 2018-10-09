@@ -9,7 +9,7 @@ The last 5 types is defined as in JQuery Validation.
 import os
 
 from htmlmin import minify
-# from . import func_gen_html
+from . import func_gen_html
 from .base_crud import CRUD_PATH, INPUT_ARR
 from .fetch_html_dic import gen_array_crud, gen_html_dic
 from .html_tpl import TPL_ADD, TPL_VIEW, TPL_EDIT, TPL_LIST, TPL_LISTINFO
@@ -79,8 +79,10 @@ def generate_html_files(*args):
     for tag_key, tag_list in SWITCH_DICS.items():
         if tag_key.startswith('dic_') and (not tag_key.endswith('00')):
             __write_add_tmpl(tag_key, tag_list)
-            __write_view_tmpl(tag_key, tag_list)
+
             __write_edit_tmpl(tag_key, tag_list)
+        else:
+            __write_view_tmpl(tag_key, tag_list)
 
     __write_filter_tmpl(TPL_LIST)
     __write_list_tmpl(TPL_LISTINFO)

@@ -1,5 +1,6 @@
 {% set ii = 1 %}
 {% for postinfo in post_infos %}
+{{postinfo.extinfo['gcat0']}}
 <li class="list-group-item list-group-hover" {% if ii % 2 !=0 %} style="background-color: #eee;" {% end %}>
     {% set ii = ii + 1 %}
     <div class="row">

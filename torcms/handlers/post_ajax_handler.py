@@ -110,9 +110,9 @@ class PostAjaxHandler(PostHandler):
         uid = args[0]
 
         current_infor = MPost.get_by_uid(uid)
-        tslug = MCategory.get_by_uid(current_infor.extinfo['def_cat_uid'])
+        tslug = MCategory.get_by_uid(current_infor.extinfo['gcat0'])
         is_deleted = MPost.delete(uid)
-        MCategory.update_count(current_infor.extinfo['def_cat_uid'])
+        MCategory.update_count(current_infor.extinfo['gcat0'])
 
         if is_deleted:
             output = {
