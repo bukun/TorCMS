@@ -71,7 +71,7 @@ def update_category(uid, post_data):
 
     if def_cat_id:
         the_cats_dict['gcat0'] = def_cat_id
-        the_cats_dict['gcat0'] = MCategory.get_by_uid(def_cat_id).pid
+        the_cats_dict['def_cat_pid'] = MCategory.get_by_uid(def_cat_id).pid
 
     # Add the category
     logger.info('Update category: {0}'.format(the_cats_arr))
@@ -541,6 +541,8 @@ class PostHandler(BaseHandler):
             post_data['valid'] = 1
 
         ext_dic['def_uid'] = uid
+        ext_dic['gcat0'] = post_data['gcat0']
+
 
         MPost.modify_meta(ext_dic['def_uid'],
                           post_data,

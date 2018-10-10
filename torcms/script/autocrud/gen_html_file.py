@@ -79,9 +79,7 @@ def generate_html_files(*args):
     for tag_key, tag_list in SWITCH_DICS.items():
         if tag_key.startswith('dic_') and (not tag_key.endswith('00')):
             __write_add_tmpl(tag_key, tag_list)
-
             __write_edit_tmpl(tag_key, tag_list)
-        else:
             __write_view_tmpl(tag_key, tag_list)
 
     __write_filter_tmpl(TPL_LIST)
