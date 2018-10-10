@@ -1,4 +1,3 @@
-# -*- coding:utf-8 -*-
 '''
 关键词过滤，涉及到不同分类，使用  session 来处理。
 分类下面的过滤，则使用GET的url的参数。
@@ -123,7 +122,7 @@ class FilterHandler(BaseHandler):
         if catinfo.pid == '0000':
             condition['def_cat_pid'] = sig
         else:
-            condition['gcat0'] = sig
+            condition['def_cat_uid'] = sig
 
         fenye_num = 1
         for idx in range(num):
@@ -201,7 +200,7 @@ class FilterHandler(BaseHandler):
         else:
             catinfo = _catinfo
             pcatinfo = MCategory.get_by_uid(_catinfo.pid)
-            condition['gcat0'] = [sig]
+            condition['def_cat_uid'] = [sig]
             parent_id = _catinfo.uid
             parent_catname = MCategory.get_by_uid(parent_id).name
             catname = MCategory.get_by_uid(sig).name

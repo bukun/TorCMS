@@ -1,5 +1,3 @@
-# -*- coding:utf-8 -*-
-
 '''
 listing the posts, simply.
 '''
@@ -70,8 +68,8 @@ class PostListHandler(BaseHandler):
                 break
             cat = MPost2Catalog.get_first_category(postinfo.uid)
             if cat:
-                if 'gcat0' in postinfo.extinfo:
-                    if postinfo.extinfo['gcat0'] == cat.tag_id:
+                if 'def_cat_uid' in postinfo.extinfo:
+                    if postinfo.extinfo['def_cat_uid'] == cat.tag_id:
                         pass
                     else:
                         errrecs.append(postinfo)

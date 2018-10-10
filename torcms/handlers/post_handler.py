@@ -71,6 +71,7 @@ def update_category(uid, post_data):
 
     if def_cat_id:
         the_cats_dict['gcat0'] = def_cat_id
+        the_cats_dict['def_cat_uid'] = def_cat_id
         the_cats_dict['def_cat_pid'] = MCategory.get_by_uid(def_cat_id).pid
 
     # Add the category
@@ -204,10 +205,10 @@ class PostHandler(BaseHandler):
         :return: the temaplte path.
         '''
 
-        if 'gcat0' in rec.extinfo and rec.extinfo['gcat0'] != '':
-            cat_id = rec.extinfo['gcat0']
-        elif 'def_cat_uid' in rec.extinfo and rec.extinfo['def_cat_uid'] != '':
+        if 'def_cat_uid' in rec.extinfo and rec.extinfo['def_cat_uid'] != '':
             cat_id = rec.extinfo['def_cat_uid']
+        elif 'gcat0' in rec.extinfo and rec.extinfo['gcat0'] != '':
+            cat_id = rec.extinfo['gcat0']
         else:
             cat_id = None
 
@@ -289,7 +290,9 @@ class PostHandler(BaseHandler):
         else:
             return self.show404()
 
-        if 'gcat0' in postinfo.extinfo:
+        if 'def_cat_uid' in postinfo.extinfo:
+            catid = postinfo.extinfo['def_cat_uid']
+        elif 'gcat0' in postinfo.extinfo:
             catid = postinfo.extinfo['gcat0']
         else:
             catid = ''
@@ -373,9 +376,13 @@ class PostHandler(BaseHandler):
         '''
         self.redirect_kind(postinfo)
 
-        ext_catid = postinfo.extinfo['gcat0'] if 'gcat0' in postinfo.extinfo else ''
-        ext_catid2 = postinfo.extinfo['gcat0'] if 'gcat0' in postinfo.extinfo else None
-        cat_enum1 = MCategory.get_qian2(ext_catid2[:2]) if ext_catid else []
+        # ToDo: 原为下面代码。
+        # ext_catid = postinfo.extinfo['def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else ''
+        # ext_catid2 = postinfo.extinfo['def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else None
+
+        ext_catid = postinfo.extinfo['def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else ''
+
+        cat_enum1 = MCategory.get_qian2(ext_catid[:2]) if ext_catid else []
 
         rand_recs, rel_recs = self.fetch_additional_posts(postinfo.uid)
 
@@ -542,7 +549,7 @@ class PostHandler(BaseHandler):
 
         ext_dic['def_uid'] = uid
         ext_dic['gcat0'] = post_data['gcat0']
-
+        ext_dic['def_cat_uid'] = post_data['gcat0']
 
         MPost.modify_meta(ext_dic['def_uid'],
                           post_data,
@@ -620,13 +627,13 @@ class PostHandler(BaseHandler):
 
         if MPost.delete(uid):
 
-            tslug = MCategory.get_by_uid(current_infor.extinfo['gcat0'])
+            tslug = MCategory.get_by_uid(current_infor.extinfo['def_cat_uid'])
 
-            MCategory.update_count(current_infor.extinfo['gcat0'])
+            MCategory.update_count(current_infor.extinfo['def_cat_uid'])
 
             if router_post[self.kind] == 'info':
                 url = "filter"
-                id_dk8 = current_infor.extinfo['gcat0']
+                id_dk8 = current_infor.extinfo['def_cat_uid']
 
             else:
                 url = "list"

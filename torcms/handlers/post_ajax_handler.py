@@ -1,5 +1,3 @@
-# -*- coding:utf-8 -*-
-
 '''
 Handler of Posts via Ajax.
 '''
@@ -110,9 +108,9 @@ class PostAjaxHandler(PostHandler):
         uid = args[0]
 
         current_infor = MPost.get_by_uid(uid)
-        tslug = MCategory.get_by_uid(current_infor.extinfo['gcat0'])
+        tslug = MCategory.get_by_uid(current_infor.extinfo['def_cat_uid'])
         is_deleted = MPost.delete(uid)
-        MCategory.update_count(current_infor.extinfo['gcat0'])
+        MCategory.update_count(current_infor.extinfo['def_cat_uid'])
 
         if is_deleted:
             output = {
