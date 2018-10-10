@@ -86,6 +86,9 @@ class FilterHandler(BaseHandler):
         if len(url_str) == 4:
             self.list(url_str)
         elif len(url_str) > 4:
+            print("1" * 50)
+            print("在这 > 4")
+            print("1" * 50)
             self.echo_html(url_str)
         else:
             self.render('misc/html/404.html', kwd={})
@@ -121,7 +124,7 @@ class FilterHandler(BaseHandler):
         catinfo = MCategory.get_by_uid(sig)
 
         if catinfo.pid == '0000':
-            condition['def_cat_pid'] = sig
+            condition['gcat0'] = sig
         else:
             condition['gcat0'] = sig
 
