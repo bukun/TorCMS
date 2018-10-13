@@ -246,7 +246,7 @@ under TorCMS
 
     sphinx-apidoc -F -o api_doc torcms
 
-Editing  ``api_doc/conf.py``. Add the following line after ``import os``.
+Editing  ``api_doc/conf.py``. Add the following line after ``import sys``.
 
 ::
 

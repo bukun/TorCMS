@@ -2,6 +2,7 @@
 # pip install -r doc/requirements_dev.txt
 wheel
 torcms
+sphinx
 ##################################
 graphviz
 pylint
