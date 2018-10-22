@@ -156,7 +156,7 @@ class UserHandler(BaseHandler):
         post_data = {}
         ext_dic = {}
         for key in self.request.arguments:
-            if key.startswith('def_'):
+            if key.startswith('ext_'):
                 ext_dic[key] = self.get_argument(key)
             else:
                 post_data[key] = self.get_arguments(key)[0]
