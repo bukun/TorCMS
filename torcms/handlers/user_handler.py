@@ -148,6 +148,23 @@ class UserHandler(BaseHandler):
             output = {'changeinfo ': 0}
         return json.dump(output, self)
 
+    def fetch_user_data(self):
+        '''
+        fetch post accessed data. post_data, and ext_dic.
+        :return:
+        '''
+        post_data = {}
+        ext_dic = {}
+        for key in self.request.arguments:
+            if key.startswith('def_'):
+                ext_dic[key] = self.get_argument(key)
+            else:
+                post_data[key] = self.get_arguments(key)[0]
+
+        ext_dic = dict(ext_dic, **self.ext_post_data(postdata=post_data))
+
+        return (post_data, ext_dic)
+
     def fetch_post_data(self):
         '''
         fetch post accessed data. post_data, and ext_dic.
@@ -376,7 +393,7 @@ class UserHandler(BaseHandler):
         '''
         regist the user.
         '''
-        post_data = self.get_post_data()
+        post_data, ext_dic = self.fetch_user_data()
 
         form = SumForm(self.request.arguments)
         ckname = MUser.get_by_name(post_data['user_name'])
@@ -406,7 +423,7 @@ class UserHandler(BaseHandler):
                         kwd=kwd,
                         userinfo=None)
         if form.validate():
-            res_dic = MUser.create_user(post_data)
+            res_dic = MUser.create_user(post_data, extinfo=ext_dic)
             if res_dic['success']:
                 self.redirect('/user/login')
             else:
@@ -443,7 +460,7 @@ class UserHandler(BaseHandler):
         '2' for already exists.
         '''
         # user_create_status = {'success': False, 'code': '00'}
-        post_data = self.get_post_data()
+        post_data, ext_dic = self.fetch_user_data()
         user_create_status = self.__check_valid(post_data)
         if not user_create_status['success']:
             return json.dump(user_create_status, self)
@@ -451,7 +468,7 @@ class UserHandler(BaseHandler):
         form = SumForm(self.request.arguments)
 
         if form.validate():
-            user_create_status = MUser.create_user(post_data)
+            user_create_status = MUser.create_user(post_data, extinfo=ext_dic)
             logger.info('user_register_status: {0}'.format(user_create_status))
             return json.dump(user_create_status, self)
         return json.dump(user_create_status, self)
