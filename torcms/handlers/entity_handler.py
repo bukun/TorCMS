@@ -183,7 +183,7 @@ class EntityHandler(BaseHandler):
             self.redirect('/entity/{0}_m.jpg'.format(sig_save))
         else:
             if create_pic:
-                output = {'path_save': imgpath_sm}
+                output = {'path_save': imgpath}
             else:
                 output = {'path_save': ''}
             return json.dump(output, self)
