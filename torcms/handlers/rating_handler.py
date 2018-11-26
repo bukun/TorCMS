@@ -14,6 +14,8 @@ from torcms.core.tools import logger
 class RatingHandler(BaseHandler):
     '''
     For rating.
+
+    评分处理
     '''
 
     def initialize(self, **kwargs):
@@ -33,6 +35,8 @@ class RatingHandler(BaseHandler):
     def update_post(self, postid):
         '''
         The rating of Post should be updaed if the count is greater than 10
+
+
         '''
         voted_recs = MRating.query_by_post(postid)
         if voted_recs.count() > 10:

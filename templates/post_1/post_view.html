@@ -16,26 +16,26 @@
 <div class="panel panel-black">
     <div class="panel-heading">
         <h3 class="listinfo_title" style="line-height: 35px">{{ postinfo.title }}</h3>
-         <span class="split">  {{ _('Author') }} : {{ postinfo.user_name }} </span>&nbsp;
-	 <span>{{ datetime.datetime.fromtimestamp(postinfo.time_create).strftime('%Y-%m-%d %H:%M:%S')}}</span>
+        <span class="split">  {{ _('Author') }} : {{ postinfo.user_name }} </span>&nbsp;
+        <span>{{ datetime.datetime.fromtimestamp(postinfo.time_create).strftime('%Y-%m-%d %H:%M:%S')}}</span>
         <span>Browse: {{ postinfo.view_count }} </span>
-         {% if userinfo %}
-                                {% module collect(userinfo.uid, postinfo.uid) %}
-                                {% end %}
+        {% if userinfo %}
+        {% module collect(userinfo.uid, postinfo.uid) %}
+        {% end %}
         {% module widget_editor('post', postinfo.uid, userinfo) %}
     </div>
     <div class="panel-body">
         <div class="entry">
-             <div class="bor_bottom">
-            <b>{{ _('Category') }} :</b> <span class="post_cat">{% module post_catalogs(postinfo.uid,'1') %}</span>
-        </div>
+            <div class="bor_bottom">
+                <b>{{ _('Category') }} :</b> <span class="post_cat">{% module post_catalogs(postinfo.uid,'1') %}</span>
+            </div>
             <p class="summary"><strong>Abstract</strong>: {% module generate_abstract(postinfo.cnt_html) %} </p>
 
             <div class="entrycontent">
                 {% raw unescape(postinfo.cnt_html) %}
             </div>
-             <div class="bor_bottom">
-            <b>{{ _('Label') }} :</b>
+            <div class="bor_bottom">
+                <b>{{ _('Label') }} :</b>
         <span class="post_label">
             {% set iii = 1 %}
             {% for x in tag_info %}
@@ -43,10 +43,10 @@
             {% set iii = iii + 1 %}
             {% end %}
         </span>
-        </div>
+            </div>
             <div class="listinfo_content">
-            {% module reply_panel(postinfo.uid, userinfo) %}
-        </div>
+                {% module reply_panel(postinfo.uid, userinfo) %}
+            </div>
         </div>
 
         <div class="postmeta">

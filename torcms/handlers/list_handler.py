@@ -21,6 +21,10 @@ class ListHandler(BaseHandler):
     Category access.
     If order is True,  list by order. Just like Book.
     Else, list via the `category`.
+
+
+    分类访问
+    如果order = True,列表可以进行排序操作。
     '''
 
     def initialize(self, **kwargs):
@@ -49,6 +53,8 @@ class ListHandler(BaseHandler):
     def ajax_list_catalog(self, catid):
         '''
         Get posts of certain catid. In Json.
+
+        根据分类ID（catid）获取 该分类下 post 的相关信息，返回Json格式
         '''
         out_arr = {}
         for catinfo in MPost2Catalog.query_postinfo_by_cat(catid):
@@ -59,6 +65,8 @@ class ListHandler(BaseHandler):
         '''
         Get the sub category.
         ToDo: The menu should display by order. Error fond in DRR.
+
+        根据父类ID（pid）获取子类，返回Json格式
         '''
         out_arr = {}
         for catinfo in MCategory.query_sub_cat(pid):
@@ -68,6 +76,8 @@ class ListHandler(BaseHandler):
     def ajax_kindcat_arr(self, kind_sig):
         '''
         Get the sub category.
+
+        根据kind值（kind_sig）获取相应分类，返回Json格式
         '''
         out_arr = {}
         for catinfo in MCategory.query_kind_cat(kind_sig):
@@ -77,6 +87,8 @@ class ListHandler(BaseHandler):
     def list_catalog(self, cat_slug, **kwargs):
         '''
         listing the posts via category
+
+        根据分类（cat_slug）显示分类列表
         '''
         post_data = self.get_post_data()
         tag = post_data.get('tag', '')

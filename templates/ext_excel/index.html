@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>World Data System Asia-Ocaeania Conference</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Yun Suan Note">
+    <meta name="Copyright" content="yunsuan.org CopyRight">
+    <link rel="icon" href="/favicon.ico" mce_href="/favicon.ico" type="image/x-icon">
+    {% module use_f2e('f2elib') %}
+    {% module use_f2e('codemirror') %}
+
+</head>
+<body>
+<table class="table table-bordered">
+    {% for rec in recs %}
+    <tr>
+        {% for x in rec%}
+
+        <td>{{x}}</td>
+
+        {% end %}
+    </tr>
+    {% end %}
+</table>
+</body>
+</html>
