@@ -1,27 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>World Data System Asia-Ocaeania Conference</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="Yun Suan Note">
-    <meta name="Copyright" content="yunsuan.org CopyRight">
-    <link rel="icon" href="/favicon.ico" mce_href="/favicon.ico" type="image/x-icon">
-    {% module use_f2e('f2elib') %}
-    {% module use_f2e('codemirror') %}
+{% extends "../tmpl_9/tmplinfo.html" %}
+{% block headinfo %}
 
-</head>
-<body>
-<table class="table table-bordered">
-    {% for rec in recs %}
-    <tr>
-        {% for x in rec%}
+{% end %}
+{% block typebody %}
+<div class="row">
+    <div class="col-sm-12">
+        <ol class="breadcrumb">
+            <li>Current location：<a href="/">Home</a></li>
+            <li><a href="/ext_excel/index">ext</a></li>
 
-        <td>{{x}}</td>
+        </ol>
 
-        {% end %}
-    </tr>
-    {% end %}
-</table>
-</body>
-</html>
+        <table class="table table-bordered">
+            {% for rec in recs %}
+
+
+            <tr>
+                {% for x in rec%}
+
+                <td>{{x}}</td>
+
+                {% end %}
+            </tr>
+            {% end %}
+        </table>
+
+        <div class="clear"></div>
+        <div class="iga_pagination">
+            <span id="resultFenye"></span>
+        </div>
+        <div class="clear"></div>
+        <div class="row">
+            <div class="col-sm-12">
+                {% module baidu_share() %}
+            </div>
+        </div>
+        <br>
+    </div>
+
+</div>
+{% end %}

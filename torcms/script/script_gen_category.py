@@ -32,6 +32,7 @@ def gen_xlsx_category():
             b_cell_val = sheet_ranges['B{0}'.format(row_num)].value
             c_cell_val = sheet_ranges['C{0}'.format(row_num)].value
 
+
             if a_cell_val or b_cell_val or c_cell_val:
                 pass
             else:
