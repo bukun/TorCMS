@@ -315,6 +315,7 @@ class UserHandler(BaseHandler):
         '''
         print('to losafd')
         next_url = self.get_argument("next", "/")
+
         if self.get_current_user():
             self.redirect(next_url)
         else:
@@ -543,7 +544,7 @@ class UserHandler(BaseHandler):
             next_url = post_data['next']
         else:
             next_url = '/'
- 
+
         u_name = post_data['user_name']
         u_pass = post_data['user_pass']
 

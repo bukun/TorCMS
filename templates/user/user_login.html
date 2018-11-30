@@ -45,7 +45,7 @@
     <div class="panel-heading"><b> {{ _('User Login') }} </b></div>
     <div class="panel-body">
         <form id="form_login" action="/user/login" method="post" class="form-horizontal" role="form">
-            <input type="hidden" name="next" id="next" class="form-control" />
+            <input type="hidden" name="next" id="next" class="form-control" value="" />
             <div class="form-group">
                 <label for="user_name" class="col-sm-2 control-label">{{ _('User name') }}: </label>
 
@@ -85,7 +85,17 @@
     </div>
 </div>
 <script type="text/javascript">
-document.getElementById('next').value = document.referrer;
+var kwd_next = "{{kwd['next_url']}}";
+
+ if (kwd_next == '/'){
+
+     document.getElementById('next').value = document.referrer;
+ }
+ else{
+    document.getElementById('next').value = kwd_next;
+ }
+
+
 </script>
 {% end %}
 
