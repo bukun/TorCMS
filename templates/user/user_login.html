@@ -23,12 +23,18 @@
                     }
                 }
         );
-    });
+
+    })
+
+
+
 
 
 }
 
 </script>
+
+
 <div class="mtop">
     <ul class="breadcrumb">
         <li>Current location: <a href="/">{{ _('Home') }}</a></li>
@@ -39,12 +45,16 @@
     <div class="panel-heading"><b> {{ _('User Login') }} </b></div>
     <div class="panel-body">
         <form id="form_login" action="/user/login" method="post" class="form-horizontal" role="form">
+            <input type="hidden" name="next" id="next" class="form-control" />
             <div class="form-group">
                 <label for="user_name" class="col-sm-2 control-label">{{ _('User name') }}: </label>
 
                 <div class="col-sm-10">
+
+
                     <input type="text" name="user_name" id="user_name" class="form-control"
                            placeholder="Please enter your user name"/>
+
                 </div>
             </div>
             <div class="form-group">
@@ -74,5 +84,8 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+document.getElementById('next').value = document.referrer;
+</script>
 {% end %}
 

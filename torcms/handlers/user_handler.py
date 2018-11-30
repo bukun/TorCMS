@@ -543,7 +543,7 @@ class UserHandler(BaseHandler):
             next_url = post_data['next']
         else:
             next_url = '/'
-
+ 
         u_name = post_data['user_name']
         u_pass = post_data['user_pass']
 
