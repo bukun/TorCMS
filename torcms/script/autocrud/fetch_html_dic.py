@@ -82,6 +82,7 @@ def gen_html_dic():
             kkey, kval = __write_filter_dic(wk_sheet, column)
             if kkey:
                 html_dics[kkey] = kval
+
     return html_dics
 
 
@@ -135,6 +136,7 @@ def __get_switch_arr(work_sheet, row_num):
     '''
     if valud of the column of the row is `1`,  it will be added to the array.
     '''
+
     u_dic = []
     for col_idx in FILTER_COLUMNS:
         cell_val = work_sheet['{0}{1}'.format(col_idx, row_num)].value

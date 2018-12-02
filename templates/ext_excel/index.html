@@ -3,26 +3,19 @@
 
 {% end %}
 {% block typebody %}
+
+
 <div class="row">
     <div class="col-sm-12">
         <ol class="breadcrumb">
             <li>Current location：<a href="/">Home</a></li>
             <li><a href="/ext_excel/index">ext</a></li>
+
         </ol>
-
-        <table class="table table-bordered">
-            {% for rec in recs %}
-
-            <tr>
-                {% for x in rec%}
-
-                <td>{{x}}</td>
-
-                {% end %}
-            </tr>
+        <ul class="list-group">
+            {% block infolist %}
             {% end %}
-        </table>
-
+        </ul>
         <div class="clear"></div>
         <div class="iga_pagination">
             <span id="resultFenye"></span>
@@ -37,4 +30,6 @@
     </div>
 
 </div>
+
+
 {% end %}

@@ -1,0 +1,166 @@
+{% extends "../../ext_excel/tpl_view.html" %}
+    {% block header %}
+    <h1>{{ header_text }}</h1>
+    {% end %}
+
+    {% block extrainfo %}
+
+    <div id="iga_view_rec_box">
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>ID</strong></span></div>
+    <div class="col-sm-8">
+    <span class="val">{{ postinfo.extinfo['id'] if 'id' in postinfo.extinfo else '' }}
+     </span></div></div>
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>馆代码</strong></span></div>
+    <div class="col-sm-8">
+    <span class="val">{{ postinfo.extinfo['gdm'] if 'gdm' in postinfo.extinfo else '' }}
+     </span></div></div>
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>台纸号</strong></span></div>
+    <div class="col-sm-8">
+    <span class="val">{{ postinfo.extinfo['tzh'] if 'tzh' in postinfo.extinfo else '' }}
+     </span></div></div>
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>条形码</strong></span></div>
+    <div class="col-sm-8">
+    <span class="val">{{ postinfo.extinfo['txm'] if 'txm' in postinfo.extinfo else '' }}
+     </span></div></div>
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>模式</strong></span></div>
+    <div class="col-sm-8">
+    <span class="val">{{ postinfo.extinfo['mode'] if 'mode' in postinfo.extinfo else '' }}
+     </span></div></div>
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>库存状态</strong></span></div>
+    <div class="col-sm-8">
+    <span class="val">{{ postinfo.extinfo['kc'] if 'kc' in postinfo.extinfo else '' }}
+     </span></div></div>
+    
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>标本状态</strong></span></div>
+    <div class="col-sm-8">
+    
+         {% if 'zt' in postinfo.extinfo %}
+          {% set tmp_var = postinfo.extinfo["zt"] %}
+          {% if tmp_var == "1" %}
+          有花无果
+          {% end %}
+          {% end %}
+         
+         {% if 'zt' in postinfo.extinfo %}
+          {% set tmp_var = postinfo.extinfo["zt"] %}
+          {% if tmp_var == "2" %}
+          无花有果
+          {% end %}
+          {% end %}
+         
+    </div></div>
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>采集人</strong></span></div>
+    <div class="col-sm-8">
+    <span class="val">{{ postinfo.extinfo['cjr'] if 'cjr' in postinfo.extinfo else '' }}
+     </span></div></div>
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>采集号</strong></span></div>
+    <div class="col-sm-8">
+    <span class="val">{{ postinfo.extinfo['cjh'] if 'cjh' in postinfo.extinfo else '' }}
+     </span></div></div>
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>采集日期</strong></span></div>
+    <div class="col-sm-8">
+    <span class="val">{{ postinfo.extinfo['cjrq'] if 'cjrq' in postinfo.extinfo else '' }}
+     </span></div></div>
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>国家</strong></span></div>
+    <div class="col-sm-8">
+    <span class="val">{{ postinfo.extinfo['guo'] if 'guo' in postinfo.extinfo else '' }}
+     </span></div></div>
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>省</strong></span></div>
+    <div class="col-sm-8">
+    <span class="val">{{ postinfo.extinfo['sheng'] if 'sheng' in postinfo.extinfo else '' }}
+     </span></div></div>
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>县（市）</strong></span></div>
+    <div class="col-sm-8">
+    <span class="val">{{ postinfo.extinfo['xian'] if 'xian' in postinfo.extinfo else '' }}
+     </span></div></div>
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>地名</strong></span></div>
+    <div class="col-sm-8">
+    <span class="val">{{ postinfo.extinfo['dm'] if 'dm' in postinfo.extinfo else '' }}
+     </span></div></div>
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>生境</strong></span></div>
+    <div class="col-sm-8">
+    <span class="val">{{ postinfo.extinfo['sj'] if 'sj' in postinfo.extinfo else '' }}
+     </span></div></div>
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>海拔/m</strong></span></div>
+    <div class="col-sm-8">
+    <span class="val">{{ postinfo.extinfo['hb'] if 'hb' in postinfo.extinfo else '' }}
+     </span></div></div>
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>经度</strong></span></div>
+    <div class="col-sm-8">
+    <span class="val">{{ postinfo.extinfo['lon'] if 'lon' in postinfo.extinfo else '' }}
+     </span></div></div>
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>纬度</strong></span></div>
+    <div class="col-sm-8">
+    <span class="val">{{ postinfo.extinfo['lat'] if 'lat' in postinfo.extinfo else '' }}
+     </span></div></div>
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>鉴定人</strong></span></div>
+    <div class="col-sm-8">
+    <span class="val">{{ postinfo.extinfo['jdr'] if 'jdr' in postinfo.extinfo else '' }}
+     </span></div></div>
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>鉴定时间</strong></span></div>
+    <div class="col-sm-8">
+    <span class="val">{{ postinfo.extinfo['jdsj'] if 'jdsj' in postinfo.extinfo else '' }}
+     </span></div></div>
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>科拉丁名</strong></span></div>
+    <div class="col-sm-8">
+    <span class="val">{{ postinfo.extinfo['kldm'] if 'kldm' in postinfo.extinfo else '' }}
+     </span></div></div>
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>属拉丁名</strong></span></div>
+    <div class="col-sm-8">
+    <span class="val">{{ postinfo.extinfo['sldm'] if 'sldm' in postinfo.extinfo else '' }}
+     </span></div></div>
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>种加词</strong></span></div>
+    <div class="col-sm-8">
+    <span class="val">{{ postinfo.extinfo['zjc'] if 'zjc' in postinfo.extinfo else '' }}
+     </span></div></div>
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>命名人</strong></span></div>
+    <div class="col-sm-8">
+    <span class="val">{{ postinfo.extinfo['mmr'] if 'mmr' in postinfo.extinfo else '' }}
+     </span></div></div>
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>种下等级</strong></span></div>
+    <div class="col-sm-8">
+    <span class="val">{{ postinfo.extinfo['zxdj'] if 'zxdj' in postinfo.extinfo else '' }}
+     </span></div></div>
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>命名人</strong></span></div>
+    <div class="col-sm-8">
+    <span class="val">{{ postinfo.extinfo['mmr2'] if 'mmr2' in postinfo.extinfo else '' }}
+     </span></div></div>
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>中文名</strong></span></div>
+    <div class="col-sm-8">
+    <span class="val">{{ postinfo.extinfo['zwm'] if 'zwm' in postinfo.extinfo else '' }}
+     </span></div></div>
+    
+    </div>
+
+    {% end %}
+
+    {% block footer %}
+    <p>{{ footer_text }}</p>
+    {% end %}

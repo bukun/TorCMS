@@ -1,0 +1,135 @@
+{% extends "./tmplinfo.html" %}
+{% block typebody %}
+
+<div class="row">
+        <div class="col-sm-12">
+             <ol class="breadcrumb" style="display: block;overflow: hidden; text-overflow:ellipsis; white-space: nowrap;line-height: 38px">
+           <li>Current location：<a href="/">Home</a></li>
+            <li><a href="/ext_excel/index">ext</a></li>
+        </ol>
+            <div class="panel panel-black">
+                <div class="panel-heading listinfo_title"> {{ postinfo.title }}
+
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        {% if postinfo.logo != ''%}
+                        <div class="col-sm-12 bor_bottom ">
+                            <div class="col-sm-6 ">
+                                <img src="{{ postinfo.logo }}" class="img-thumbnail">
+                            </div>
+                            <div class="col-sm-6">
+
+                    {% if userinfo %}
+                                {% module collect(userinfo.uid, postinfo.uid) %}
+                                {% end %}
+                    {% module widget_editor('info', postinfo.uid, userinfo) %}
+                                <br>
+                            <br>
+                                <p><strong>Tag:</strong><span class="post_label">
+                        {% set iii = 1 %}
+                    {% for x in tag_info %}
+                    <a href="/label/{{postinfo.kind}}/{{ x.tag_uid }}" class="tag{{ iii }}">{{ x.tag_name }}</a>
+                    {% set iii = iii + 1 %}
+                    {% end %} </span></p>
+                                 <span class="split">  {{ _('Author') }} : {{ postinfo.user_name }} </span>&nbsp;
+                     <span>{{ str(postinfo.date)[:10] }}</span>
+                   <span>Browse: {{ postinfo.view_count }} </span>
+                                <p><strong>Release time：</strong> {{ str(postinfo.date)[:10] }}</p>
+                                <p><strong>Browsing times：</strong> {% raw postinfo.view_count %}</p>
+
+                             {% if 'tag__file_download' in postinfo.extinfo and postinfo.extinfo['tag__file_download'] != '' %}
+                               <p style="float:right;">
+                                   <a class="btn btn-danger btn-sm"
+                                href="{{postinfo.extinfo['tag__file_download'] if 'tag__file_download' in postinfo.extinfo else ''}}" target="_blank">
+                                       <span class="glyphicon glyphicon-download-alt"> </span>
+                                   Download Dataset</a></p>
+                                {% else %}
+                                {% end %}
+
+                                {% if 'ext_pdf' in postinfo.extinfo and postinfo.extinfo['ext_pdf'] != '' %}
+                                <p>    <a class="btn btn-info btn-sm"
+                                href="{{postinfo.extinfo['ext_pdf'] if 'ext_pdf' in postinfo.extinfo else ''}}" target="_blank">
+                                   <span class="glyphicon glyphicon-new-window"> </span>
+                                    View Document</a></p>
+                                 {% else %}
+                                {% end %}
+                            </div>
+
+                        </div>
+                        <div class="col-sm-12 bor_bottom">
+                            <p>
+                                {% block extrainfo %} {% end %}</p></div>
+                        {% else %}
+                        <div class="col-sm-12 bor_bottom">
+                            {% if userinfo %}
+                                {% module collect(userinfo.uid, postinfo.uid) %}
+                                {% end %}
+                    {% module widget_editor('info', postinfo.uid, userinfo) %}
+                            <br>
+                            <br>
+                            <p><strong>Tag:</strong><span class="post_label">
+                              {% set iii = 1 %}
+                    {% for x in tag_info %}
+                    <a href="/label/{{postinfo.kind}}/{{ x.tag_uid }}" class="tag{{ iii }}">{{ x.tag_name }}</a>
+                    {% set iii = iii + 1 %}
+                    {% end %}
+                </span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <strong>Release time：</strong>
+                                {{ str(postinfo.date)[:10] }} &nbsp;&nbsp;&nbsp;&nbsp;<strong>Browsing times：</strong>
+                                {% raw postinfo.view_count %}&nbsp;&nbsp;&nbsp;&nbsp; </p>
+                            {% if 'tag__file_download' in postinfo.extinfo and postinfo.extinfo['tag__file_download'] != '' %}
+                               <p style="float:right;">
+                                   <a class="btn btn-danger btn-sm"
+                                href="{{postinfo.extinfo['tag__file_download'] if 'tag__file_download' in postinfo.extinfo else ''}}" target="_blank">
+                                       <span class="glyphicon glyphicon-download-alt"> </span>
+                                   Download Dataset</a></p>
+                                {% else %}
+                                {% end %}
+
+                                {% if 'ext_pdf' in postinfo.extinfo and postinfo.extinfo['ext_pdf'] != '' %}
+                                <p>    <a class="btn btn-info btn-sm"
+                                href="{{postinfo.extinfo['ext_pdf'] if 'ext_pdf' in postinfo.extinfo else ''}}" target="_blank">
+                                   <span class="glyphicon glyphicon-new-window"> </span>
+                                    View Document</a></p>
+                                 {% else %}
+                                {% end %}
+                           <p>
+                                {% block extrainfo %} {% end %}</p>
+                        </div>
+
+                        {% end %}
+                        <div class="col-sm-12">
+                            <div class="entry">
+                                <div class="listinfo_content">
+                                    {% raw unescape(postinfo.cnt_html) %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-md-9" style="display: block;overflow: hidden; text-overflow:ellipsis; white-space: nowrap;">
+                                Article link：
+                                <a href="/info/{{ postinfo.uid }}"
+                                   style=" color: #003366;">
+                                    {{ postinfo.title }}
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="widget_baidu_share"> {% module baidu_share() %}</div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+    </div>
+
+{% end %}
+
+
+
