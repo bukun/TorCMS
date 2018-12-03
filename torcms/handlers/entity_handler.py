@@ -14,6 +14,7 @@ from torcms.model.entity_model import MEntity
 from torcms.model.entity2user_model import MEntity2User
 from torcms.model.post_model import MPost
 from torcms.core import tools
+from torcms.model.log_model import MLog
 from PIL import Image
 
 # TMPL_SIZE = (768, 768)
@@ -89,13 +90,17 @@ class EntityHandler(BaseHandler):
         '''
         Download the entity by UID.
         '''
-        down_url = MPost.get_by_uid(down_uid).extinfo.get('tag_file_download', '')
+        down_url = MPost.get_by_uid(down_uid).extinfo.get('tag__file_download', '')
         print('=' * 40)
         print(down_url)
+        str_down_url = str(down_url)[15:]
+
+
         if down_url:
-            ment_id = MEntity.get_id_by_impath(down_url)
+            ment_id = MEntity.get_id_by_impath(str_down_url)
             if ment_id:
                 MEntity2User.create_entity2user(ment_id, self.userinfo.uid)
+                MLog.insert_data(self.userinfo.uid, ment_id, 'download')
             return True
         else:
             return False

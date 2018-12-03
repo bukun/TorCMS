@@ -25,6 +25,7 @@ from torcms.model.usage_model import MUsage
 from torcms.model.entity_model import MEntity
 from config import router_post
 from torcms.handlers.entity_handler import EntityHandler
+from torcms.model.log_model import MLog
 
 
 def update_category(uid, post_data):
@@ -402,6 +403,8 @@ class PostHandler(BaseHandler):
         MPost.update_misc(postinfo.uid, count=True)
         if self.get_current_user() and self.userinfo:
             MUsage.add_or_update(self.userinfo.uid, postinfo.uid, postinfo.kind)
+            MLog.insert_data(self.userinfo.uid, postinfo.uid, 'post')
+
         self.set_cookie('user_pass', kwd['cookie_str'])
 
         tmpl = self.ext_tmpl_view(postinfo)

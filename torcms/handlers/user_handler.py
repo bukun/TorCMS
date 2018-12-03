@@ -20,6 +20,7 @@ from torcms.core.base_handler import BaseHandler
 from torcms.core.tool.send_email import send_mail
 from torcms.model.user_model import MUser
 from torcms.core.tools import logger
+from torcms.model.log_model import MLog
 from config import CMS_CFG
 
 
@@ -298,6 +299,10 @@ class UserHandler(BaseHandler):
         show the user info
         '''
         rec = MUser.get_by_uid(self.userinfo.uid)
+
+
+        MLog.insert_data(self.userinfo.uid, 'userinfo', 'userinfo')
+
         self.render(self.wrap_tmpl('user/{sig}user_info.html'),
                     userinfo=self.userinfo,
                     extinfo=rec.extinfo)

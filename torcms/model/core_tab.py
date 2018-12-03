@@ -254,3 +254,15 @@ class TabEntity2User(BaseModel):
     user_id = peewee.CharField(null=False, index=True, max_length=36, help_text='', )
     count = peewee.IntegerField(default=0)
     timestamp = peewee.IntegerField(null=False)
+
+
+class TabLog(BaseModel):
+    '''
+    用户访问行为记录
+    '''
+    uid = peewee.CharField(null=False, index=True,
+                           unique=True, primary_key=True, max_length=36, )
+    post_id = peewee.CharField(null=False, max_length=36, help_text='', )
+    user_id = peewee.CharField(null=False, index=True, max_length=36, help_text='', )
+    time_create = peewee.IntegerField(null=False, default=0)
+    kind = peewee.CharField(null=False)

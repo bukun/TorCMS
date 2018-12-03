@@ -50,7 +50,7 @@
                                 {% if 'tag__file_download' in postinfo.extinfo and postinfo.extinfo['tag__file_download'] != '' %}
                                <p style="float:right;">
                                    <a class="btn btn-danger btn-sm"
-                                href="{{postinfo.extinfo['tag__file_download'] if 'tag__file_download' in postinfo.extinfo else ''}}" target="_blank">
+                                onclick="entity_down('{{postinfo.uid}}')" target="_blank">
                                        <span class="glyphicon glyphicon-download-alt"> </span>
                                    Download Dataset</a></p>
                                 {% else %}
@@ -92,7 +92,7 @@
                               {% if 'tag__file_download' in postinfo.extinfo and postinfo.extinfo['tag__file_download'] != '' %}
                                <p style="float:right;">
                                    <a class="btn btn-danger btn-sm"
-                                href="{{postinfo.extinfo['tag__file_download'] if 'tag__file_download' in postinfo.extinfo else ''}}" target="_blank">
+                                 onclick="entity_down('{{postinfo.uid}}')"  target="_blank">
                                        <span class="glyphicon glyphicon-download-alt"> </span>
                                    Download Dataset</a></p>
                                 {% else %}
@@ -191,7 +191,7 @@
                 alert("Reload")
             },
             success: function (result) {
-                window.open("{{postinfo.extinfo['tag_file_download'] if 'tag_file_download' in postinfo.extinfo else ''}}");
+                window.open("{{postinfo.extinfo['tag__file_download'] if 'tag__file_download' in postinfo.extinfo else ''}}");
             }
         })
     }
