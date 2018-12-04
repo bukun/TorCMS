@@ -40,6 +40,7 @@ core_modules = {
     'tag_pager': base_modules.TagPager,
     'search_pager': base_modules.SearchPager,
     'collect_pager': base_modules.CollectPager,
+    'log_pager': base_modules.LogPager,
     'catalog_of': base_modules.CategoryOf,
     'post_catalog_of': base_modules.PostCategoryOf,
     'show_page': base_modules.ShowPage,
@@ -100,6 +101,7 @@ core_modules = {
     'admin_post_pager': base_modules.Admin_Post_pager,
     'admin_page_pager': base_modules.Admin_Page_pager,
     'admin_reply_pager': base_modules.Admin_reply_pager,
-    'admin_user_pager': base_modules.Admin_user_pager
+    'admin_user_pager': base_modules.Admin_user_pager,
+    'admin_log_pager': base_modules.Admin_log_pager
 
 }

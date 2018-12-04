@@ -1,0 +1,32 @@
+<div class="row">
+    <div class="col-md-10">
+        <div class="panel panel-default">
+            <div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span> 日志列表</div>
+            <div class="panel-body">
+                {% module user_name_by_id(kwd['user_id']) %}
+                <hr>
+                <table class="table table-bordered">
+                    <tr>
+                        <td>{{ _('Post ID') }}</td>
+                        <td>{{ _('User ID') }}</td>
+                        <td>{{ _('Kind') }}</td>
+                        <td>{{ _('Time Create') }}</td>
+
+
+                    </tr>
+                    {% for x in infos %}
+                    <tr>
+                        <td>{{ x.post_id }}</td>
+                        <td>{% module user_name_by_id(x.user_id) %}</td>
+                        <td>{{ x.kind }}</td>
+                        <td> {{ datetime.datetime.fromtimestamp(x.time_create).strftime('%Y-%m-%d %H:%M:%S')}}</td>
+                    </tr>
+                    {% end %}
+                </table>
+
+                {% module admin_log_pager(kwd['user_id'],kwd['current_page'] ) %}
+            </div>
+
+        </div>
+    </div>
+</div>

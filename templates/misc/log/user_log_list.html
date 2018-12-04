@@ -1,0 +1,38 @@
+{% extends "../../theme/bage.html" %}
+{% block typebody %}
+
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li>Current location：<a href="/">{{ _('Home') }}</a></li>
+        <li class="active">{{ _('Manage Log') }}</li>
+    </ul>
+</div>
+<div class="panel panel-primary">
+    <div class="panel-heading"><b> {{ _('Log List') }} </b></div>
+    <div class="panel-body">
+
+        {% module user_name_by_id(kwd['user_id']) %}
+        <hr>
+        <table class="table table-bordered">
+            <tr>
+                <td>{{ _('Post ID') }}</td>
+                <td>{{ _('User ID') }}</td>
+                <td>{{ _('Kind') }}</td>
+                <td>{{ _('Time Create') }}</td>
+
+
+            </tr>
+            {% for x in infos %}
+            <tr>
+                <td>{{ x.post_id }}</td>
+                <td>{% module user_name_by_id(x.user_id) %}</td>
+                <td>{{ x.kind }}</td>
+                <td> {{ datetime.datetime.fromtimestamp(x.time_create).strftime('%Y-%m-%d %H:%M:%S')}}</td>
+            </tr>
+            {% end %}
+        </table>
+
+        {% module log_pager(kwd['user_id'],kwd['current_page'] ) %}
+    </div>
+</div>
+{% end %}

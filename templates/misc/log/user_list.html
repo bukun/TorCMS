@@ -1,0 +1,27 @@
+{% extends "../../theme/bage.html" %}
+{% block typebody %}
+
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li>Current location：<a href="/">{{ _('Home') }}</a></li>
+        <li class="active">{{ _('Manage Log') }}</li>
+    </ul>
+</div>
+<div class="panel panel-primary">
+    <div class="panel-heading"><b> {{ _('Log user list') }} </b></div>
+    <div class="panel-body">
+
+        <ul>
+
+            {% for uu in user_list %}
+            <li style="float: left;margin: 15px; list-style-type: disc">
+                <a href="/log/{{uu.user_id}}/">{% module user_name_by_id(uu.user_id) %}</a>
+            </li>
+            {% end %}
+
+        </ul>
+
+
+    </div>
+</div>
+{% end %}

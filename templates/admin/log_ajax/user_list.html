@@ -1,0 +1,28 @@
+<script type="text/javascript">
+    function js_show_page(url_str) {
+        $('#showCnt').load(url_str);
+    }
+    jQuery().ready(function () {
+        $("#user_navigation").accordion();
+        js_show_page('/user_j/info');
+    });
+</script>
+<div class="row">
+    <div class="col-md-10">
+        <div class="panel panel-default">
+            <div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span> 日志列表</div>
+            <div class="panel-body">
+                <ul>
+
+                    {% for uu in user_list %}
+                    <li style="float: left;margin: 15px">
+                        <a onclick="js_show_page('/log_j/{{uu.user_id}}/')">{% module user_name_by_id(uu.user_id) %}</a>
+                    </li>
+                    {% end %}
+
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>

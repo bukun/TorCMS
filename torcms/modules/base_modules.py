@@ -25,6 +25,7 @@ from torcms.model.reply2user_model import MReply2User
 from torcms.model.user_model import MUser
 from torcms.model.wiki_model import MWiki
 from torcms.model.reply_model import MReply
+from torcms.model.log_model import MLog
 
 
 class ShowPage(tornado.web.UIModule):
@@ -554,6 +555,7 @@ class CollectPager(tornado.web.UIModule):
                                   page_current=current)
 
 
+
 class InfoLabelPager(tornado.web.UIModule):
     '''
     Pager for info label.
@@ -1002,5 +1004,67 @@ class Admin_user_pager(tornado.web.UIModule):
 
         return self.render_string('modules/admin/user_pager.html',
                                   kwd=kwd,
+                                  pager_num=page_num,
+                                  page_current=current)
+class Admin_log_pager(tornado.web.UIModule):
+    '''
+    pager of log
+    '''
+
+    def render(self, *args, **kwargs):
+        user_id = args[0]
+        current = int(args[1])
+        # kind
+        # current 当前页面
+
+        num_of_cat = MLog.count_of_certain(user_id)
+
+        tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
+
+        page_num = (tmp_page_num if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
+                    else tmp_page_num + 1)
+
+        kwd = {
+            'page_home': False if current <= 1 else True,
+            'page_end': False if current >= page_num else True,
+            'page_pre': False if current <= 1 else True,
+            'page_next': False if current >= page_num else True,
+        }
+
+        return self.render_string('modules/admin/log_admin_pager.html',
+                                  kwd=kwd,
+                                  user_id=user_id,
+                                  pager_num=page_num,
+                                  page_current=current)
+
+class LogPager(tornado.web.UIModule):
+    '''
+    pager of log
+    '''
+
+    def render(self, *args, **kwargs):
+
+        user_id = args[0]
+        current = int(args[1])
+
+
+        the_count = MLog.count_of_certain(user_id)
+
+        pager_count = int(the_count / config.CMS_CFG['list_num'])
+
+        page_num = (pager_count if abs(pager_count - the_count / config.CMS_CFG['list_num']) < 0.1
+                    else pager_count + 1)
+
+        kwd = {
+
+            'page_home': False if current <= 1 else True,
+            'page_end': False if current >= page_num else True,
+            'page_pre': False if current <= 1 else True,
+            'page_next': False if current >= page_num else True,
+        }
+
+        return self.render_string('modules/admin/log_pager.html',
+                                  kwd=kwd,
+                                  user_id=user_id,
                                   pager_num=page_num,
                                   page_current=current)
