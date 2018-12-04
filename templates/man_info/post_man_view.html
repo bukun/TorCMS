@@ -14,15 +14,15 @@
 {% block typebody %}
 <ol class="breadcrumb">
     <li>Current location: <a href="{% module site_url() %}">Home</a></li>
-    <li>{% module the_category(view.uid) %}</li>
-    <li class="active">{{ view.title }}</li>
+    <li>{% module the_category(postinfo.uid) %}</li>
+    <li class="active">{{ postinfo.title }}</li>
 </ol>
 <div class="panel panel-black">
     <div class="panel-heading">
-        <h2>{{ view.title }}</h2>
-        <span>{{ str(view.date)[:10] }}</span>
+        <h2>{{ postinfo.title }}</h2>
+        <span>{{ str(postinfo.date)[:10] }}</span>
         <span>Author: <a href="http://www.osgeo.cn/">OSGeo中国中心</a></span>
-        <span>Browse: {{ view.view_count }} 次</span>
+        <span>Browse: {{ postinfo.view_count }} 次</span>
         {% if postinfo.kind == '1' %}
         {% module widget_editor('post', postinfo.uid, userinfo) %}
         <span class="cmts"><a href="/post/{{postinfo.uid}}" class="btn btn-xs btn-primary"> View</a></span>

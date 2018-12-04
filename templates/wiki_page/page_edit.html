@@ -4,21 +4,21 @@
 <div class="mtop">
     <ul class="breadcrumb">
         <li>Current location: <a href="/">{{ _('Home') }}</a></li>
-        <li class="active">{{ _('Modify') }} - {{ view.title }}</li>
+        <li class="active">{{ _('Modify') }} - {{ postinfo.title }}</li>
     </ul>
 </div>
 <div class="panel panel-black">
-    <div class="panel-heading"><b> {{ view.title }} </b></div>
+    <div class="panel-heading"><b> {{ postinfo.title }} </b></div>
     <div class="panel-body">
         <form action="" method="post" class="form-horizontal" role="form">
             <fieldset>
-                <input type="hidden" id="slug" name="slug" value="{{ view.uid }}"/>
+                <input type="hidden" id="slug" name="slug" value="{{ postinfo.uid }}"/>
 
                 <div class="form-group">
                     <label for="title" class="col-sm-2 control-label">{{ _('Title') }}</label>
 
                     <div class="col-sm-10">
-                        <input type="text" id="title" name="title" value="{{ view.title }}"
+                        <input type="text" id="title" name="title" value="{{ postinfo.title }}"
                                class="form-control">
                     </div>
                 </div>
@@ -27,7 +27,7 @@
 
                     <div class="col-sm-10">
                         <textarea rows=16 id="cnt_md" name="cnt_md" class="form-control">
-                            {% raw unescape(view.cnt_md) %}
+                            {% raw unescape(postinfo.cnt_md) %}
                         </textarea>
                     </div>
                 </div>

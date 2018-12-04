@@ -13,22 +13,22 @@
 {% block typebody %}
 <ol class="breadcrumb">
     <li>Current location: <a href="{% module site_url() %}">Home</a></li>
-    <li>{% module the_category(view.uid) %}</li>
-    <li class="active">{{ view.title }}</li>
+    <li>{% module the_category(postinfo.uid) %}</li>
+    <li class="active">{{ postinfo.title }}</li>
 </ol>
 <div class="panel panel-black">
     <div class="panel-heading">
-        <h2>{{ view.title }}</h2>
-        <span>{{ str(view.date)[:10] }}</span>
+        <h2>{{ postinfo.title }}</h2>
+        <span>{{ str(postinfo.date)[:10] }}</span>
         <span>Author: <a href="http://www.osgeo.cn/">OSGeo中国中心</a></span>
-        <span>Browse: {{ view.view_count }} 次</span>
+        <span>Browse: {{ postinfo.view_count }} 次</span>
         {% if userinfo and userinfo.role[2] >= '1' %}
         {% if postinfo.kind == '1' %}
-        <span class="cmts"><a href="/wiki/edit/{{ view.uid }}" class="btn btn-xs btn-primary">Edit</a></span>
-        <span class="cmts"><a href="/wiki/{{ view.title }}" class="btn btn-xs btn-primary">View</a></span>
+        <span class="cmts"><a href="/wiki/_edit/{{ postinfo.uid }}" class="btn btn-xs btn-primary">Edit</a></span>
+        <span class="cmts"><a href="/wiki/{{ postinfo.title }}" class="btn btn-xs btn-primary">View</a></span>
         {% else %}
-        <span class="cmts"><a href="/page/edit/{{ view.uid }}" class="btn btn-xs btn-primary">Edit</a></span>
-        <span class="cmts"><a href="/page/{{ view.title }}" class="btn btn-xs btn-primary">View</a></span>
+        <span class="cmts"><a href="/page/_edit/{{ postinfo.uid }}" class="btn btn-xs btn-primary">Edit</a></span>
+        <span class="cmts"><a href="/page/{{ postinfo.title }}" class="btn btn-xs btn-primary">View</a></span>
         {% end %}
         {% end %}
     </div>
@@ -54,7 +54,7 @@
             <div class="clear"></div>
             <br>
             <strong>Article link:</strong>
-            <a href="{% module site_url() %}/wiki/{{view.title}}" class="underline"> {{ view.title }}</a>
+            <a href="{% module site_url() %}/wiki/{{postinfo.title}}" class="underline"> {{ postinfo.title }}</a>
             <br/>
             <strong>Copyright:</strong> Non special statement are original articles, reproduced please indicate the
             source：
