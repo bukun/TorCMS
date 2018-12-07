@@ -46,7 +46,6 @@ class ShowPage(tornado.web.UIModule):
         }
         if page:
             out_str = self.render_string('modules/show_page.html',
-
                                          postinfo=page,
                                          userinfo=userinfo,
                                          kwd=kwd)
@@ -311,7 +310,7 @@ class PostCategoryRecent(tornado.web.UIModule):
             'glyph': glyph,
             'spa': is_spa,
             'order': order,
-            'kind':catinfo.kind
+            'kind': catinfo.kind
         }
         return self.render_string('modules/post/post_list.html',
                                   recs=recs,
@@ -553,7 +552,6 @@ class CollectPager(tornado.web.UIModule):
                                   kwd=kwd,
                                   pager_num=page_num,
                                   page_current=current)
-
 
 
 class InfoLabelPager(tornado.web.UIModule):
@@ -1006,6 +1004,8 @@ class Admin_user_pager(tornado.web.UIModule):
                                   kwd=kwd,
                                   pager_num=page_num,
                                   page_current=current)
+
+
 class Admin_log_pager(tornado.web.UIModule):
     '''
     pager of log
@@ -1037,16 +1037,15 @@ class Admin_log_pager(tornado.web.UIModule):
                                   pager_num=page_num,
                                   page_current=current)
 
+
 class LogPager(tornado.web.UIModule):
     '''
     pager of log
     '''
 
     def render(self, *args, **kwargs):
-
         user_id = args[0]
         current = int(args[1])
-
 
         the_count = MLog.count_of_certain(user_id)
 
