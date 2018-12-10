@@ -14,13 +14,17 @@
             <div class="panel-body">
 
                 <table class="table table-hover">
-                    {% for x in postinfo %}
 
-                    {% for y in x%}
+
+                    {% for x in result %}
+
+                    {% for y in x %}
+
                     <tr>
                         <td>
                             {{y}}
                         </td>
+                        <td>{{x[y]}}</td>
                     </tr>
                     {% end %}
                     {% end %}

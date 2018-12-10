@@ -11,24 +11,42 @@
         </ol>
 
         <table class="table table-hover">
-            {% for all in postinfo %}
+
+            {% set s = 1 %}
+            {% for all in result %}
+            {% if s == 1%}
             <tr>
 
 
-                <td><a href="/ext_excel/{{all[0]}}"> {{all[0]}}</a></td>
-                <td>{{all[1]}}</td>
-                <td>{{all[2]}}</td>
-                <td>{{all[3]}}</td>
-                <td>{{all[4]}}</td>
-                <td>{{all[5]}}</td>
-                <td>{{all[6]}}</td>
-                <!--{% for x in all %}-->
+                {%set ii = 1%}
+                {% for x in all %}
+                {% if ii < 6 %}
+                <td>
 
-                <!--<td>-->
-                <!--{{ x }}-->
-                <!--</td>-->
-                <!--{% end %}-->
+                    {{ x }}
+
+                </td>
+                {% set ii = ii + 1 %}
+                {% end %}
+                {% end %}
             </tr>
+            {% end %}
+            <tr>
+
+
+                {%set ii = 1%}
+                {% for x in all %}
+                {% if ii < 6 %}
+                <td>
+                    <a href="/ext_excel/{{all['id']}}">
+                        {{ all[x] }}
+                    </a>
+                </td>
+                {% set ii = ii + 1 %}
+                {% end %}
+                {% end %}
+            </tr>
+            {% set s = s + 1 %}
             {% end %}
 
         </table>
