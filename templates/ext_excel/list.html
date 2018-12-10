@@ -1,0 +1,47 @@
+{% extends "../theme/bage.html" %}
+{% block headinfo %}
+
+{% end %}
+{% block typebody %}
+<div class="row">
+    <div class="col-sm-12">
+        <ol class="breadcrumb">
+            <li>Current location：<a href="/">Home</a></li>
+            <li><a href="/ext_excel/index">ext</a></li>
+        </ol>
+
+        <table class="table table-hover">
+            {% for all in postinfo %}
+            <tr>
+
+
+                <td><a href="/ext_excel/{{all[0]}}"> {{all[0]}}</a></td>
+                <td>{{all[1]}}</td>
+                <td>{{all[2]}}</td>
+                <td>{{all[3]}}</td>
+                <td>{{all[4]}}</td>
+                <td>{{all[5]}}</td>
+                <td>{{all[6]}}</td>
+                <!--{% for x in all %}-->
+
+                <!--<td>-->
+                <!--{{ x }}-->
+                <!--</td>-->
+                <!--{% end %}-->
+            </tr>
+            {% end %}
+
+        </table>
+
+
+        <div class="clear"></div>
+        <div class="row">
+            <div class="col-sm-12">
+                {% module baidu_share() %}
+            </div>
+        </div>
+        <br>
+    </div>
+
+</div>
+{% end %}

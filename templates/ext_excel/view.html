@@ -1,0 +1,39 @@
+{% extends "../theme/bage.html" %}
+{% block typebody %}
+
+<div class="row">
+    <div class="col-sm-12">
+        <ol class="breadcrumb">
+            <li>Current location：<a href="/">Home</a></li>
+            <li><a href="/ext_excel/list">ext</a></li>
+        </ol>
+        <div class="panel panel-black">
+            <div class="panel-heading listinfo_title">
+                {{kwd['uid']}}
+            </div>
+            <div class="panel-body">
+
+                <table class="table table-hover">
+                    {% for x in postinfo %}
+
+                    {% for y in x%}
+                    <tr>
+                        <td>
+                            {{y}}
+                        </td>
+                    </tr>
+                    {% end %}
+                    {% end %}
+                </table>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+
+{% end %}
+
+
+
