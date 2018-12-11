@@ -19,6 +19,7 @@
                 <td>{{ _('User ID') }}</td>
                 <td>{{ _('Kind') }}</td>
                 <td>{{ _('Time Create') }}</td>
+                <td>{{ _('Retention Time') }}</td>
 
 
             </tr>
@@ -28,6 +29,7 @@
                 <td>{% module user_name_by_id(x.user_id) %}</td>
                 <td>{{ x.kind }}</td>
                 <td> {{ datetime.datetime.fromtimestamp(x.time_create).strftime('%Y-%m-%d %H:%M:%S')}}</td>
+                <td>{% module time_on_page(x.uid,x.user_id,x.time_create) %}</td>
             </tr>
             {% end %}
         </table>

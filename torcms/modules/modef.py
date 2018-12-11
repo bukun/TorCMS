@@ -48,7 +48,6 @@ core_modules = {
     'collect': base_modules.Collect,
     'user_collect': base_modules.UserCollect,
 
-
     'torcms_copyright': base_modules.CopyRight,
     'entity_list': base_modules.EntityList,
     'entity_pager': base_modules.EntityPager,
@@ -102,6 +101,7 @@ core_modules = {
     'admin_page_pager': base_modules.Admin_Page_pager,
     'admin_reply_pager': base_modules.Admin_reply_pager,
     'admin_user_pager': base_modules.Admin_user_pager,
-    'admin_log_pager': base_modules.Admin_log_pager
+    'admin_log_pager': base_modules.Admin_log_pager,
+    'time_on_page': base_modules.Time_on_page
 
 }

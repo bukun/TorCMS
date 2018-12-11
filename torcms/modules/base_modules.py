@@ -9,7 +9,7 @@ from math import ceil as math_ceil
 import bs4
 import tornado.escape
 import tornado.web
-
+import datetime
 import config
 from torcms.core.tool.whoosh_tool import YunSearch
 from torcms.core.tools import logger
@@ -1067,3 +1067,34 @@ class LogPager(tornado.web.UIModule):
                                   user_id=user_id,
                                   pager_num=page_num,
                                   page_current=current)
+
+
+class Time_on_page(tornado.web.UIModule):
+    '''
+    Logging residence time
+    '''
+
+    def render(self, *args, **kwargs):
+        uid = args[0]
+        user_id = args[1]
+        current_time_create = args[2]
+        rec = MLog.get_retention_time_by_id(uid, user_id)
+
+        if rec:
+            current_create_time = datetime.datetime.fromtimestamp(current_time_create).strftime('%Y-%m-%d %H:%M:%S')
+            next_create_time = datetime.datetime.fromtimestamp(rec.time_create).strftime('%Y-%m-%d %H:%M:%S')
+
+            d1 = datetime.datetime.strptime(current_create_time, '%Y-%m-%d %H:%M:%S')
+            d2 = datetime.datetime.strptime(next_create_time, '%Y-%m-%d %H:%M:%S')
+            tp = d2 - d1
+
+            kwd = {
+                'uid': rec.uid,
+                'tp': tp,
+                'd1': d1,
+                'd2': d2,
+
+            }
+            return self.render_string('modules/post/log_time.html', kwd=kwd,
+                                      rec=rec)
+        return self.render_string('modules/post/newest_page.html')

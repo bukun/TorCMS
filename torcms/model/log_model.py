@@ -7,8 +7,8 @@ Rating for post.
 import peewee
 from torcms.core import tools
 from torcms.model.core_tab import TabLog
-from torcms.model.abc_model import Mabc
 from config import CMS_CFG, DB_CFG
+from torcms.model.abc_model import Mabc, MHelper
 
 
 class MLog(Mabc):
@@ -32,7 +32,7 @@ class MLog(Mabc):
         return uid
 
     @staticmethod
-    def query_pager_by_user(userid,current_page_num=1):
+    def query_pager_by_user(userid, current_page_num=1):
         '''
         Query pager
         '''
@@ -41,6 +41,7 @@ class MLog(Mabc):
         ).paginate(
             current_page_num, CMS_CFG['list_num']
         )
+
     @staticmethod
     def query_all_user(current_page_num=1):
         '''
@@ -51,6 +52,7 @@ class MLog(Mabc):
         ).paginate(
             current_page_num, CMS_CFG['list_num']
         )
+
     @staticmethod
     def total_number():
         '''
@@ -63,3 +65,21 @@ class MLog(Mabc):
         recs = TabLog.select().where(TabLog.user_id == user_id)
 
         return recs.count()
+
+    @staticmethod
+    def get_by_uid(uid):
+        '''
+        return the record by uid
+        '''
+        return MHelper.get_by_uid(TabLog, uid)
+
+    @staticmethod
+    def get_retention_time_by_id(uid, user_id):
+        current_rec = MLog.get_by_uid(uid)
+        recs = TabLog.select().where(
+            (TabLog.user_id == user_id) &
+            (TabLog.time_create > current_rec.time_create)
+        ).order_by(TabLog.time_create)
+        if recs.count():
+            return recs.get()
+        return None
