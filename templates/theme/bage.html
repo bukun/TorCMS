@@ -45,7 +45,7 @@
 
         localStorage.setItem("jsArr", tjArr1);
 
-//        alert(tjArr1);
+//         alert(tjArr1);
     };
     // 用户继续访问根据上面提供的key值补充数据
     window.onbeforeunload = function () {
@@ -55,8 +55,21 @@
             tjArrRd[tjI].time = tjSecond;
             tjArrRd[tjI].timeIn = Date.parse(new Date()) - (tjSecond * 1000);
             tjArrRd[tjI].timeOut = Date.parse(new Date());
+            alert('sqqqqq');
+            $.post("/log/_add", {
+                url: tjArrRd[tjI].url,
+                refer: tjArrRd[tjI].refer,
+                user_id: tjArrRd[tjI].user_id,
+                uid: tjArrRd[tjI].tjRd,
+                timeon: tjArrRd[tjI].time,
+                timein: tjArrRd[tjI].timeIn,
+                timeOut: tjArrRd[tjI].timeOut
+
+            }, function (result) {
+            });
             var tjArr1 = JSON.stringify(tjArrRd);
             localStorage.setItem("jsArr", tjArr1);
+
 
         }
     };

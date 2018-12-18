@@ -16,7 +16,6 @@ from torcms.model.wiki_hist_model import MWikiHist
 from torcms.model.wiki_model import MWiki
 from torcms.core import tools
 from torcms.core import privilege
-from torcms.model.log_model import MLog
 from config import CMS_CFG
 
 
@@ -158,8 +157,6 @@ class PageHandler(BaseHandler):
         kwd = {
             'pager': '',
         }
-        if self.userinfo:
-            MLog.insert_data(self.userinfo.uid, rec.uid, 'page')
 
         self.render('wiki_page/page_view.html',
                     postinfo=rec,

@@ -4,6 +4,7 @@ from whoosh.index import open_dir
 from whoosh.qparser import QueryParser
 from whoosh.query import And, Term
 
+
 def singleton(cls, *args, **kwargs):
     instances = {}
 
@@ -20,6 +21,7 @@ class YunSearch():
     '''
     For searching in whoosh database.
     '''
+
     def __init__(self):
         self.whbase = open_dir("database/whoosh")
         self.parser = QueryParser("content", schema=self.whbase.schema)

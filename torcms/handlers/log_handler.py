@@ -37,6 +37,36 @@ class LogHandler(BaseHandler):
         else:
             self.render('misc/html/404.html', userinfo=self.userinfo, kwd={})
 
+    def post(self, *args, **kwargs):
+
+        url_str = args[0]
+
+        url_arr = self.parse_url(url_str)
+
+        if url_arr[0] in ['_add']:
+            if len(url_arr) == 2:
+                self.add(uid=url_arr[1])
+            else:
+                self.add()
+
+        else:
+            self.show404()
+
+    def add(self, **kwargs):
+        '''
+        in infor.
+        '''
+
+        post_data = {}
+
+        for key in self.request.arguments:
+            post_data[key] = self.get_arguments(key)[0]
+
+        MLog.add(post_data)
+        kwargs.pop('uid', None)  # delete `uid` if exists in kwargs
+
+        self.redirect('/log/')
+
     def list(self, cur_p=''):
         '''
         View the list of the Log.
@@ -59,14 +89,12 @@ class LogHandler(BaseHandler):
         if self.is_p:
             self.render('admin/log_ajax/user_list.html',
                         kwd=kwd,
-
                         user_list=MLog.query_all_user(),
                         format_date=tools.format_date,
                         userinfo=self.userinfo)
         else:
             self.render('misc/log/user_list.html',
                         kwd=kwd,
-
                         user_list=MLog.query_all_user(),
                         format_date=tools.format_date,
                         userinfo=self.userinfo)
@@ -94,16 +122,20 @@ class LogHandler(BaseHandler):
         if self.is_p:
             self.render('admin/log_ajax/user_log_list.html',
                         kwd=kwd,
-                        infos=MLog.query_pager_by_user(userid,
-                                                       current_page_num=current_page_number),
+                        infos=MLog.query_pager_by_user(
+                            userid,
+                            current_page_num=current_page_number
+                        ),
 
                         format_date=tools.format_date,
                         userinfo=self.userinfo)
         else:
             self.render('misc/log/user_log_list.html',
                         kwd=kwd,
-                        infos=MLog.query_pager_by_user(userid,
-                                                       current_page_num=current_page_number),
+                        infos=MLog.query_pager_by_user(
+                            userid,
+                            current_page_num=current_page_number
+                        ),
 
                         format_date=tools.format_date,
                         userinfo=self.userinfo)

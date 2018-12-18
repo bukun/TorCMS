@@ -262,7 +262,10 @@ class TabLog(BaseModel):
     '''
     uid = peewee.CharField(null=False, index=True,
                            unique=True, primary_key=True, max_length=36, )
-    post_id = peewee.CharField(null=False, max_length=36, help_text='', )
+    current_url = peewee.CharField(null=False, help_text='', )
+    refer_url = peewee.CharField(null=False, help_text='', )
     user_id = peewee.CharField(null=False, index=True, max_length=36, help_text='', )
-    time_create = peewee.IntegerField(null=False, default=0)
-    kind = peewee.CharField(null=False)
+    time_create = peewee.BigIntegerField()
+    time_out = peewee.BigIntegerField()
+    time = peewee.BigIntegerField()
+

@@ -19,7 +19,7 @@ class MLog(Mabc):
     @staticmethod
     def insert_data(userid, postid, kind):
         '''
-        Inert new record.
+        Insert new record.
         '''
         uid = tools.get_uuid()
         TabLog.create(
@@ -29,6 +29,25 @@ class MLog(Mabc):
             kind=kind,
             time_create=tools.timestamp()
         )
+        return uid
+
+    @staticmethod
+    def add(data_dic):
+        '''
+        Insert new record.
+        '''
+
+        uid = data_dic['uid']
+        TabLog.create(
+            uid=uid,
+            current_url=data_dic['url'],
+            refer_url=data_dic['refer'],
+            user_id=data_dic['user_id'],
+            time_create=data_dic['timein'],
+            time_out=data_dic['timeOut'],
+            time=data_dic['timeon']
+        )
+
         return uid
 
     @staticmethod

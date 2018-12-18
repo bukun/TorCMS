@@ -260,7 +260,9 @@ class MPost(Mabc):
                 peewee.fn.Random()
             ).limit(limit)
         else:
-            rand_recs = TabPost.select().order_by(
+            rand_recs = TabPost.select().where(
+                TabPost.valid == 1
+            ).order_by(
                 peewee.fn.Random()
             ).limit(limit)
         return rand_recs

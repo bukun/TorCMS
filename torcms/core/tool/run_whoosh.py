@@ -128,6 +128,7 @@ def do_for_page(writer, rand=True, doc_type=''):
             content=text2
         )
 
+
 def gen_whoosh_database(kind_arr, post_type):
     '''
     kind_arr, define the `type` except Post, Page, Wiki

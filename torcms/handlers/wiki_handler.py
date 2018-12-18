@@ -15,7 +15,6 @@ from torcms.core import tools
 from torcms.core import privilege
 from torcms.model.wiki_model import MWiki
 from torcms.model.wiki_hist_model import MWikiHist
-from torcms.model.log_model import MLog
 
 
 # from celery_server import cele_gen_whoosh
@@ -156,8 +155,7 @@ class WikiHandler(BaseHandler):
             'pager': '',
             'editable': self.editable(),
         }
-        if self.userinfo:
-            MLog.insert_data(self.userinfo.uid, view.uid, 'wiki')
+
         self.render('wiki_page/wiki_view.html',
                     postinfo=view,
                     kwd=kwd,
