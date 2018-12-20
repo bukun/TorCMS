@@ -55,3 +55,4 @@ class YunSearch():
             return queryres[(page_index - 1) * doc_per_page: page_index * doc_per_page]
         finally:
             pass
+

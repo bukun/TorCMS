@@ -25,7 +25,6 @@ from torcms.model.usage_model import MUsage
 from torcms.model.entity_model import MEntity
 from config import router_post
 from torcms.handlers.entity_handler import EntityHandler
-from torcms.core.tool.whoosh_tool import YunSearch
 
 
 def update_category(uid, post_data):
