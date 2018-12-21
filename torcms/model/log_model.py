@@ -62,13 +62,20 @@ class MLog(Mabc):
         )
 
     @staticmethod
-    def query_all_user(current_page_num=1):
+    def query_all_user():
         '''
         Query pager
         '''
-        return TabLog.select().distinct(TabLog.user_id).order_by(
+        return TabLog.select().where(TabLog.user_id != 'None').distinct(TabLog.user_id).order_by(
             TabLog.user_id
-        ).paginate(
+        )
+
+    @staticmethod
+    def query_all(current_page_num=1):
+        '''
+        Query pager
+        '''
+        return TabLog.select().where(TabLog.user_id == 'None').order_by(TabLog.time_out.desc()).paginate(
             current_page_num, CMS_CFG['list_num']
         )
 

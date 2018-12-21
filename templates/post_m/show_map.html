@@ -40,10 +40,9 @@
                         <span class="glyphicon glyphicon-fullscreen"></span>
                         Full screen
                     </a>
-                    <button id="act_collect" class="btn btn-info btn-xs">
-                        <span class="glyphicon glyphicon-heart-empty"></span>
-                        <span id="text_collect">Collect</span>
-                    </button>
+                    {% if userinfo %}
+                                {% module collect(userinfo.uid, postinfo.uid) %}
+                                {% end %}
                     {% module widget_editor('map', postinfo.uid, userinfo) %}
                 </div>
             </div>

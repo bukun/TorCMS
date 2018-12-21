@@ -7,21 +7,53 @@
         <li class="active">{{ _('Manage Log') }}</li>
     </ul>
 </div>
+
+
 <div class="panel panel-primary">
-    <div class="panel-heading"><b> {{ _('Log user list') }} </b></div>
+    <div class="panel-heading"><b> 登陆访问用户列表 </b></div>
     <div class="panel-body">
-
         <ul>
-
             {% for uu in user_list %}
             <li style="float: left;margin: 15px; list-style-type: disc">
                 <a href="/log/{{uu.user_id}}/">{% module user_name_by_id(uu.user_id) %}</a>
             </li>
             {% end %}
-
         </ul>
-
 
     </div>
 </div>
+
+
+{% set ii = 1 %}
+<div class="panel panel-primary">
+    <div class="panel-heading"><b> 未登录用户访问记录(近期) </b></div>
+    <div class="panel-body">
+        <table class="table table-bordered">
+            <tr>
+                <td>序号</td>
+                <td>当前URL</td>
+                <td>上一URL</td>
+                <td>停留时间</td>
+                <td>开始时间</td>
+                <td>结束时间</td>
+            </tr>
+            {% for x in no_user_list %}
+            <tr>
+                <td>{{ ii }}</td>
+                <td>{{ x.current_url }}</td>
+                <td>{{ x.refer_url }}</td>
+                <td>{{ x.time }}</td>
+                <td>{{ x.time_create }}</td>
+                <td>{{ x.time_out }}</td>
+
+            </tr>
+            {% set ii = ii + 1 %}
+            {% end %}
+
+        </table>
+
+    </div>
+</div>
+
+
 {% end %}

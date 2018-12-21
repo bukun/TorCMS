@@ -15,7 +15,7 @@
                 <ul>
 
                     {% for uu in user_list %}
-                    <li style="float: left;margin: 15px">
+                    <li style="float: left;margin: 15px;">
                         <a onclick="js_show_page('/log_j/{{uu.user_id}}/')">{% module user_name_by_id(uu.user_id) %}</a>
                     </li>
                     {% end %}

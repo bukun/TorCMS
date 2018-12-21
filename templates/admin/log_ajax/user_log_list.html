@@ -3,27 +3,33 @@
         <div class="panel panel-default">
             <div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span> 日志列表</div>
             <div class="panel-body">
-                {% module user_name_by_id(kwd['user_id']) %}
+                <h3>用户：{% module user_name_by_id(kwd['user_id']) %}</h3>
                 <hr>
                 <table class="table table-bordered">
                     <tr>
-                        <td>{{ _('Post ID') }}</td>
-                        <td>{{ _('User ID') }}</td>
-                        <td>{{ _('Kind') }}</td>
-                        <td>{{ _('Time Create') }}</td>
+                        <td>序号</td>
+                        <td>当前URL</td>
+                        <td>上一URL</td>
+                        <td>停留时间</td>
+                        <td>开始时间</td>
+                        <td>结束时间</td>
 
 
                     </tr>
+
+                    {% set ii = 1 %}
                     {% for x in infos %}
                     <tr>
-                        <td>{{ x.post_id }}</td>
-                        <td>{% module user_name_by_id(x.user_id) %}</td>
-                        <td>{{ x.kind }}</td>
-                        <td> {{ datetime.datetime.fromtimestamp(x.time_create).strftime('%Y-%m-%d %H:%M:%S')}}</td>
+                        <td>{{ ii }}</td>
+                        <td>{{ x.current_url }}</td>
+                        <td>{{ x.refer_url }}</td>
+                        <td> {{ x.time }}</td>
+                        <td> {{ x.time_create }}</td>
+                        <td>{{ x.time_out }}</td>
                     </tr>
+                    {% set ii = ii + 1%}
                     {% end %}
                 </table>
-
                 {% module admin_log_pager(kwd['user_id'],kwd['current_page'] ) %}
             </div>
 
