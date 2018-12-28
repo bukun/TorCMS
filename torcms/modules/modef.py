@@ -41,6 +41,7 @@ core_modules = {
     'search_pager': base_modules.SearchPager,
     'collect_pager': base_modules.CollectPager,
     'log_pager': base_modules.LogPager,
+    'log_pageview_pager': base_modules.LogPageviewPager,
     'catalog_of': base_modules.CategoryOf,
     'post_catalog_of': base_modules.PostCategoryOf,
     'show_page': base_modules.ShowPage,
@@ -102,6 +103,10 @@ core_modules = {
     'admin_reply_pager': base_modules.Admin_reply_pager,
     'admin_user_pager': base_modules.Admin_user_pager,
     'admin_log_pager': base_modules.Admin_log_pager,
-    'time_on_page': base_modules.Time_on_page
+
+
+
+
+    'pageview_count':base_modules.LogPageviewCount
 
 }

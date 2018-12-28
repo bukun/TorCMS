@@ -28,6 +28,7 @@
     }, 1000);
     // 随机数
     tjRandom = (new Date()).valueOf();
+
     // 用户第一次访问页面记录部分数据
     window.onload = function () {
 
@@ -49,13 +50,14 @@
     };
     // 用户继续访问根据上面提供的key值补充数据
     window.onbeforeunload = function () {
+
         var tjArrRd = eval('(' + localStorage.getItem("jsArr") + ')');
         var tjI = tjArrRd.length - 1;
         if (tjArrRd[tjI].tjRd == tjRandom) {
             tjArrRd[tjI].time = tjSecond;
             tjArrRd[tjI].timeIn = Date.parse(new Date()) - (tjSecond * 1000);
             tjArrRd[tjI].timeOut = Date.parse(new Date());
-            alert('sqqqqq');
+
             $.post("/log/_add", {
                 url: tjArrRd[tjI].url,
                 refer: tjArrRd[tjI].refer,

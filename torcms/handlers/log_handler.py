@@ -31,9 +31,15 @@ class LogHandler(BaseHandler):
         if url_str == '':
             self.list()
         elif len(url_arr) == 1:
-            self.list(url_arr[0])
+            if url_arr[0] == 'pageview':
+                self.pageview()
+            else:
+                self.list(url_arr[0])
         elif len(url_arr) == 2:
-            self.user_log_list(url_arr[0], url_arr[1])
+            if url_arr[0] == 'pageview':
+                self.pageview(url_arr[1])
+            else:
+                self.user_log_list(url_arr[0], url_arr[1])
         else:
             self.render('misc/html/404.html', userinfo=self.userinfo, kwd={})
 
@@ -128,7 +134,6 @@ class LogHandler(BaseHandler):
                             userid,
                             current_page_num=current_page_number
                         ),
-
                         format_date=tools.format_date,
                         userinfo=self.userinfo)
         else:
@@ -141,6 +146,40 @@ class LogHandler(BaseHandler):
 
                         format_date=tools.format_date,
                         userinfo=self.userinfo)
+
+    def pageview(self, cur_p=''):
+        '''
+        View the list of the Log.
+        '''
+
+        if cur_p == '':
+            current_page_number = 1
+        else:
+            current_page_number = int(cur_p)
+
+        current_page_number = 1 if current_page_number < 1 else current_page_number
+
+        pager_num = int(MLog.total_number() / CMS_CFG['list_num'])
+
+        kwd = {
+            'pager': '',
+            'title': '',
+            'current_page': current_page_number,
+        }
+        arr_num = []
+        postinfo = MLog.query_all_current_url()
+
+        for i in postinfo:
+            postnum = MLog.count_of_current_url(i.current_url)
+            arr_num.append(postnum)
+
+        self.render('misc/log/pageview.html',
+                    kwd=kwd,
+                    infos=MLog.query_all_pageview(current_page_num=current_page_number),
+                    postinfo=postinfo,
+                    arr_num=arr_num,
+                    format_date=tools.format_date,
+                    userinfo=self.userinfo)
 
 
 class LogPartialHandler(LogHandler):

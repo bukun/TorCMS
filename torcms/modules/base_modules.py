@@ -1067,34 +1067,45 @@ class LogPager(tornado.web.UIModule):
                                   user_id=user_id,
                                   pager_num=page_num,
                                   page_current=current)
-
-
-class Time_on_page(tornado.web.UIModule):
+class LogPageviewPager(tornado.web.UIModule):
     '''
-    Logging residence time
+    pager of log
     '''
 
     def render(self, *args, **kwargs):
-        uid = args[0]
-        user_id = args[1]
-        current_time_create = args[2]
-        rec = MLog.get_retention_time_by_id(uid, user_id)
 
-        if rec:
-            current_create_time = datetime.datetime.fromtimestamp(current_time_create).strftime('%Y-%m-%d %H:%M:%S')
-            next_create_time = datetime.datetime.fromtimestamp(rec.time_create).strftime('%Y-%m-%d %H:%M:%S')
+        current = int(args[0])
 
-            d1 = datetime.datetime.strptime(current_create_time, '%Y-%m-%d %H:%M:%S')
-            d2 = datetime.datetime.strptime(next_create_time, '%Y-%m-%d %H:%M:%S')
-            tp = d2 - d1
+        the_count = MLog.count_of_certain_pageview()
 
-            kwd = {
-                'uid': rec.uid,
-                'tp': tp,
-                'd1': d1,
-                'd2': d2,
+        pager_count = int(the_count / config.CMS_CFG['list_num'])
 
-            }
-            return self.render_string('modules/post/log_time.html', kwd=kwd,
-                                      rec=rec)
-        return self.render_string('modules/post/newest_page.html')
+        page_num = (pager_count if abs(pager_count - the_count / config.CMS_CFG['list_num']) < 0.1
+                    else pager_count + 1)
+
+        kwd = {
+
+            'page_home': False if current <= 1 else True,
+            'page_end': False if current >= page_num else True,
+            'page_pre': False if current <= 1 else True,
+            'page_next': False if current >= page_num else True,
+        }
+
+        return self.render_string('modules/admin/log_pageview_pager.html',
+                                  kwd=kwd,
+
+                                  pager_num=page_num,
+                                  page_current=current)
+
+
+
+
+class LogPageviewCount(tornado.web.UIModule):
+
+    def render(self, *args, **kwargs):
+        current_url = args[0]
+
+        count = MLog.get_pageview_count(current_url)
+
+
+        return count

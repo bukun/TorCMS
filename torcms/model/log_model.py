@@ -64,7 +64,7 @@ class MLog(Mabc):
     @staticmethod
     def query_all_user():
         '''
-        Query pager
+        查询所有登录用户的访问记录
         '''
         return TabLog.select().where(TabLog.user_id != 'None').distinct(TabLog.user_id).order_by(
             TabLog.user_id
@@ -73,22 +73,52 @@ class MLog(Mabc):
     @staticmethod
     def query_all(current_page_num=1):
         '''
-        Query pager
+        查询所有未登录用户的访问记录
         '''
         return TabLog.select().where(TabLog.user_id == 'None').order_by(TabLog.time_out.desc()).paginate(
             current_page_num, CMS_CFG['list_num']
         )
 
     @staticmethod
+    def query_all_pageview(current_page_num=1):
+        '''
+        查询所有页面（current_url），分页
+        '''
+        return TabLog.select().distinct(TabLog.current_url).order_by(TabLog.current_url).paginate(
+            current_page_num, CMS_CFG['list_num']
+        )
+
+    @staticmethod
+    def query_all_current_url():
+        '''
+        查询所有页面（current_url）
+        '''
+        return TabLog.select().distinct(TabLog.current_url).order_by(TabLog.current_url)
+
+    @staticmethod
+    def count_of_current_url(current_url):
+        '''
+        长询制订页面（current_url）的访问量
+        '''
+        res = TabLog.select().where(TabLog.current_url == current_url)
+        return res.count()
+
+    @staticmethod
     def total_number():
         '''
-        Return the number of certian slug.
+        Return the number of Tablog.
         '''
         return TabLog.select().count()
 
     @staticmethod
     def count_of_certain(user_id):
         recs = TabLog.select().where(TabLog.user_id == user_id)
+
+        return recs.count()
+
+    @staticmethod
+    def count_of_certain_pageview():
+        recs = TabLog.select().distinct(TabLog.current_url).order_by(TabLog.current_url)
 
         return recs.count()
 
@@ -109,3 +139,9 @@ class MLog(Mabc):
         if recs.count():
             return recs.get()
         return None
+
+    @staticmethod
+    def get_pageview_count(current_url):
+        recs = TabLog.select().where(TabLog.current_url == current_url)
+
+        return recs.count()

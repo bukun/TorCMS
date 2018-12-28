@@ -1,0 +1,192 @@
+{% extends "../../theme/bage.html" %}
+{% block typebody %}
+
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li>Current location：<a href="/">{{ _('Home') }}</a></li>
+        <li>{{ _('Manage Log') }}</li>
+        <li class="active">页面访问量</li>
+    </ul>
+</div>
+<div class="panel panel-primary">
+    <div class="panel-heading"><b> 页面访问量 </b></div>
+    <div class="panel-body">
+
+
+        <div class=" marketing">
+            <div class="row-fluid home-tab-fluid">
+                <div class="row-fluid tabbedmain hidden-phone" id="tabselector">
+                    <ul class="nav nav-tabs nav-justified">
+                        <li class="span3 active main-selector main-tabs">
+                            <a href="#tab1" data-toggle="tab" class="home-tab-a">
+                                <span class="tabfix">
+                                    <h4>柱状图统计</h4>
+                                </span>
+                            </a>
+                        </li>
+                        <li class="span3 main-selector main-tabs">
+                            <a href="#tab2" data-toggle="tab" class="home-tab-a">
+                                <span class="tabfix">
+                                    <h4>列表统计</h4>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="tab-content" id="#indexcontent">
+                <div class="tab-pane active fade in" id="tab1">
+                    <div class="row-fluid">
+                        <br>
+
+                        <div class="col-sm-12"><h3>页面访问量统计柱状图</h3></div>
+                        <div id="zzt">
+                            <style>
+
+                                .axis path,
+                                .axis line {
+                                    fill: none;
+                                    stroke: black;
+                                    shape-rendering: crispEdges;
+                                }
+
+                                .axis text {
+                                    font-family: sans-serif;
+                                    font-size: 11px;
+                                }
+
+                            </style>
+
+                            <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+                            <script>
+
+                                var width = 1200;
+                                var height = 600;
+                                var dataset = {{arr_num}};
+
+                                var svg = d3.select("#zzt").append("svg")
+                                        .attr("width", width)
+                                        .attr("height", height);
+
+                                var xAxisScale = d3.scale.ordinal()
+                                        .domain(d3.range(dataset.length))
+                                        .rangeRoundBands([0, 1100]);
+
+                                var yAxisScale = d3.scale.linear()
+                                        .domain([0, d3.max(dataset)])
+                                        .range([500, 0]);
+
+                                var xAxis = d3.svg.axis()
+                                        .scale(xAxisScale)
+                                        .orient("bottom");
+
+                                var yAxis = d3.svg.axis()
+                                        .scale(yAxisScale)
+                                        .orient("left");
+
+                                var xScale = d3.scale.ordinal()
+                                        .domain(d3.range(dataset.length))
+                                        .rangeRoundBands([0, 1100], 0.05);
+
+                                var yScale = d3.scale.linear()
+                                        .domain([0, d3.max(dataset)])
+                                        .range([0, 500]);
+
+                                svg.selectAll("rect")
+                                        .data(dataset)
+                                        .enter()
+                                        .append("rect")
+                                        .attr("x", function (d, i) {
+                                            return 30 + xScale(i);
+                                        })
+                                        .attr("y", function (d, i) {
+                                            return 50 + 500 - yScale(d);
+                                        })
+                                        .attr("width", function (d, i) {
+                                            return xScale.rangeBand();
+                                        })
+                                        .attr("height", yScale)
+                                        .attr("fill", "steelblue");
+
+                                svg.selectAll("text")
+                                        .data(dataset)
+                                        .enter().append("text")
+                                        .attr("x", function (d, i) {
+                                            return 20 + xScale(i);
+                                        })
+                                        .attr("y", function (d, i) {
+                                            return 30 + 500 - yScale(d);
+                                        })
+                                        .attr("dx", function (d, i) {
+                                            return xScale.rangeBand() / 3;
+                                        })
+                                        .attr("dy", 15)
+                                        .attr("text-anchor", "begin")
+                                        .attr("font-size", 14)
+                                        .attr("fill", "red")
+                                        .text(function (d, i) {
+                                            return d;
+                                        });
+
+                                svg.append("g")
+                                        .attr("class", "axis")
+                                        .attr("transform", "translate(30,550)")
+                                        .call(xAxis);
+
+                                svg.append("g")
+                                        .attr("class", "axis")
+                                        .attr("transform", "translate(30,50)")
+                                        .call(yAxis);
+
+
+                            </script>
+
+                            <div class="col-sm-12" style="font-size: 14px">
+                                <b style="color: red">注：x轴坐标对应分类依次为</b><br>
+
+                                <div class="col-sm-12">
+                                    {% set ii = 0 %}
+                                    {% for i in postinfo %}
+                                    <div class="col-sm-6"><b style="padding-right: 15px;"> <span style="color: #f00;"> [ {{ii}} ] : </span>
+                                        {{i.current_url}}</b></div>
+                                    {% set ii = ii + 1 %}
+                                    {% end %}
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <br>
+                    </div>
+                </div>
+                <div class="tab-pane fade in" id="tab2">
+                    <div class="row-fluid">
+                        <br>
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>序号</td>
+                                <td>当前URL</td>
+                                <td>访问次数</td>
+                            </tr>
+
+                            {% set ii = 1 %}
+                            {% for x in infos %}
+                            <tr>
+                                <td>{{ ii }}</td>
+                                <td>{{ x.current_url }}</td>
+                                <td>{% module pageview_count(x.current_url) %}</td>
+
+                            </tr>
+                            {% set ii = ii + 1%}
+                            {% end %}
+                        </table>
+                        {% module log_pageview_pager(kwd['current_page'] ) %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+{% end %}
