@@ -43,8 +43,9 @@
                 <td>{{ x.current_url }}</td>
                 <td>{{ x.refer_url }}</td>
                 <td>{{ x.time }}</td>
-                <td>{{ x.time_create }}</td>
-                <td>{{ x.time_out }}</td>
+                <td> {{ datetime.datetime.fromtimestamp(x.time_create / 1000).strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td> {{ datetime.datetime.fromtimestamp(x.time_out / 1000).strftime('%Y-%m-%d %H:%M:%S') }}</td>
+
 
             </tr>
             {% set ii = ii + 1 %}
