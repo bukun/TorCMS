@@ -32,8 +32,10 @@ class LogHandler(BaseHandler):
             self.list()
         elif len(url_arr) == 1:
             if url_arr[0] == 'pageview':
+                # 访问量
                 self.pageview()
             else:
+                # 留存时间
                 self.list(url_arr[0])
         elif len(url_arr) == 2:
             if url_arr[0] == 'pageview':

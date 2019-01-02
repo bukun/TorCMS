@@ -16,20 +16,6 @@ class MLog(Mabc):
     用户日志
     '''
 
-    @staticmethod
-    def insert_data(userid, postid, kind):
-        '''
-        Insert new record.
-        '''
-        uid = tools.get_uuid()
-        TabLog.create(
-            uid=uid,
-            post_id=postid,
-            user_id=userid,
-            kind=kind,
-            time_create=tools.timestamp()
-        )
-        return uid
 
     @staticmethod
     def add(data_dic):

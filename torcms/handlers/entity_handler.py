@@ -100,7 +100,6 @@ class EntityHandler(BaseHandler):
             ment_id = MEntity.get_id_by_impath(str_down_url)
             if ment_id:
                 MEntity2User.create_entity2user(ment_id, self.userinfo.uid)
-                MLog.insert_data(self.userinfo.uid, ment_id, 'download')
             return True
         else:
             return False
