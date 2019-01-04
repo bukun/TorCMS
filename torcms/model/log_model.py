@@ -115,16 +115,6 @@ class MLog(Mabc):
         '''
         return MHelper.get_by_uid(TabLog, uid)
 
-    @staticmethod
-    def get_retention_time_by_id(uid, user_id):
-        current_rec = MLog.get_by_uid(uid)
-        recs = TabLog.select().where(
-            (TabLog.user_id == user_id) &
-            (TabLog.time_create > current_rec.time_create)
-        ).order_by(TabLog.time_create)
-        if recs.count():
-            return recs.get()
-        return None
 
     @staticmethod
     def get_pageview_count(current_url):
