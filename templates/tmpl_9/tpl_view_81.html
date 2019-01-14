@@ -1,5 +1,11 @@
 {% extends "./tmplinfo.html" %}
+{% block headinfo %}
+<link rel="stylesheet" href="{{ static_url('f2elib/bootstrap-star-rating-master/css/star-rating.css')}}" type="text/css"
+      media="all">
+<script type="text/javascript" src="{{ static_url('f2elib/bootstrap-star-rating-master/js/star-rating.js') }}"></script>
+{% end %}
 {% block typebody %}
+
 <script>
     var post_uid = "{{ postinfo.uid }}";
     var login = {{kwd['login']}};

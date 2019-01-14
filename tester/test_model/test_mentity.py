@@ -37,6 +37,30 @@ class TestEntity():
     def test_upate(self):
         assert True
 
+    def test_query_all(self):
+        MEntity.query_all()
+        assert True
+
+    def test_get_by_kind(self):
+        MEntity.get_by_kind('2')
+        assert True
+
+    def test_get_all_pager(self):
+        MEntity.get_all_pager()
+        assert True
+
+    def test_get_id_by_impath(self):
+        MEntity.get_id_by_impath(self.path)
+        assert True
+
+    def test_total_number(self):
+        MEntity.total_number()
+        assert True
+
+    def test_delete(self):
+        MEntity.delete(self.uid)
+        assert True
+
     def tearDown(self):
         print("function teardown")
         tt = MEntity.get_id_by_impath(self.path)

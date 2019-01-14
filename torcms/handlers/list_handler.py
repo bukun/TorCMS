@@ -59,6 +59,7 @@ class ListHandler(BaseHandler):
         out_arr = {}
         for catinfo in MPost2Catalog.query_postinfo_by_cat(catid):
             out_arr[catinfo.uid] = catinfo.title
+
         json.dump(out_arr, self)
 
     def ajax_subcat_arr(self, pid):

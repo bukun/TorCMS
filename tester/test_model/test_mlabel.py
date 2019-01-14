@@ -26,7 +26,7 @@ class TestLabel():
     def test_insert_2(self):
         '''Wiki insert: Test invalid title'''
         post_data = {
-            'name': 'title',
+            'name': self.name,
         }
         uu = self.uu.create_tag(post_data['name'])
         # assert uu == False
@@ -39,7 +39,8 @@ class TestLabel():
 
 
 
-    def test_upate(self):
+    def test_get_id_by_name(self):
+        MLabel.get_id_by_name(self.name)
         assert True
 
     def tearDown(self):

@@ -55,6 +55,64 @@ class TestCatalog():
         # assert uu == False
 
     def test_upate(self):
+        post_data = {
+            'name': 'aaaa_update',
+            'slug': '111asvaa',
+            'order': '1',
+            'type': 1,
+
+            'tmpl': 0,
+            'pid': '0000',
+        }
+        uu = MCategory.update(self.uid, post_data)
+        assert uu == True
+
+    def test_update_count(self):
+        MCategory.update_count('0000')
+        assert True
+
+    def test_get_by_slug(self):
+        MCategory.get_by_slug(self.slug)
+        assert True
+
+    def test_query_field_count(self):
+        MCategory.query_field_count(8)
+        assert True
+
+    def test_query_all(self):
+        MCategory.query_all()
+        assert True
+
+    def test_query_uid_starts_with(self):
+        MCategory.query_uid_starts_with('01')
+        assert True
+
+    def test_query_pcat(self):
+        MCategory.query_pcat()
+        assert True
+
+    def test_query_sub_cat(self):
+        MCategory.query_sub_cat('0100')
+        assert True
+
+    def test_query_kind_cat(self):
+        MCategory.query_kind_cat('9')
+        assert True
+
+    def test_get_parent_list(self):
+        MCategory.get_parent_list()
+        assert True
+
+    def test_get_qian2(self):
+        MCategory.get_qian2('01')
+        assert True
+
+    def test_get_by_uid(self):
+        MCategory.get_by_uid(self.uid)
+        assert True
+
+    def test_delete(self):
+        MCategory.delete(self.uid)
         assert True
 
     def tearDown(self):
