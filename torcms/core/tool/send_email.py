@@ -9,7 +9,7 @@ from email.mime.text import MIMEText
 from config import SMTP_CFG
 
 
-def send_mail(to_list, sub, content):
+def send_mail(to_list, sub, content, cc=None):
     '''
     Sending email via Python.
     '''
@@ -18,6 +18,8 @@ def send_mail(to_list, sub, content):
     msg['Subject'] = sub
     msg['From'] = sender
     msg['To'] = ";".join(to_list)
+    if cc:
+        msg['cc'] = ';'.join(cc)
     try:
         # Using SMTP_SSL. The alinyun ECS has masked the 25 port since 9,2016.
         smtper = smtplib.SMTP_SSL(SMTP_CFG['host'], port=994)

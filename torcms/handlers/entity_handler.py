@@ -14,7 +14,7 @@ from torcms.model.entity_model import MEntity
 from torcms.model.entity2user_model import MEntity2User
 from torcms.model.post_model import MPost
 from torcms.core import tools
-from torcms.model.log_model import MLog
+
 from PIL import Image
 
 # TMPL_SIZE = (768, 768)
