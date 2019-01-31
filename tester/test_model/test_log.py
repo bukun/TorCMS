@@ -1,10 +1,10 @@
 # -*- coding:utf-8 -*-
-import unittest
+
 from torcms.core import tools
 from torcms.model.log_model import MLog
 
 
-class TestMLog(unittest.TestCase):
+class TestMLog():
     def setup(self):
         print('setup 方法执行于本类中每条用例之前')
         self.uid = tools.get_uu4d()
@@ -52,5 +52,4 @@ class TestMLog(unittest.TestCase):
         assert True
 
 
-if __name__ == '__main__':
-    unittest.main()
+

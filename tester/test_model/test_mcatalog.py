@@ -54,19 +54,6 @@ class TestCatalog():
         uu = MCategory.add_or_update(self.uid, post_data)
         # assert uu == False
 
-    def test_upate(self):
-        post_data = {
-            'name': 'aaaa_update',
-            'slug': '111asvaa',
-            'order': '1',
-            'type': 1,
-
-            'tmpl': 0,
-            'pid': '0000',
-        }
-        uu = MCategory.update(self.uid, post_data)
-        assert uu == True
-
     def test_update_count(self):
         MCategory.update_count('0000')
         assert True
