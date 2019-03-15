@@ -89,4 +89,10 @@ class MEntity2User(Mabc):
 
     @staticmethod
     def total_number_by_user(userid):
-        return TabEntity2User.select().where(TabEntity2User.user_id == userid).distinct(TabEntity2User.entity_id).count()
+        return TabEntity2User.select().where(TabEntity2User.user_id == userid).distinct(
+            TabEntity2User.entity_id).count()
+
+    @staticmethod
+    def delete_by_uid(entity_uid):
+        delete = TabEntity2User.delete().where(TabEntity2User.entity_id == entity_uid)
+        delete.execute()

@@ -194,6 +194,7 @@ class MPost(Mabc):
         if len(title) < 2:
             return False
 
+
         cur_rec = MPost.get_by_uid(post_uid)
         if cur_rec:
             return False

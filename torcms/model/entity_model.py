@@ -16,6 +16,7 @@ class MEntity():
     '''
     For file entities. Just like pdf, zipfile, docx, etc.
     '''
+
     @staticmethod
     def get_by_uid(uid):
         return MHelper.get_by_uid(TabEntity, uid)
@@ -96,3 +97,11 @@ class MEntity():
     @staticmethod
     def total_number():
         return TabEntity.select().count()
+
+    @staticmethod
+    def delete_by_path(path, kind='f'):
+        delete = TabEntity.delete().where(
+            (TabEntity.path == path) & (TabEntity.kind == kind)
+        )
+
+        delete.execute()
