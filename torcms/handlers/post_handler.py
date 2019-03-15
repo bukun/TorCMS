@@ -576,6 +576,7 @@ class PostHandler(BaseHandler):
         '''
         in infor.
         '''
+
         postinfo = MPost.get_by_uid(uid)
         if postinfo.kind == self.kind:
             pass
