@@ -8,7 +8,7 @@ jieba
 markdown
 peewee >= 3.0.16
 Pillow
-tornado
+tornado < 6
 Whoosh
 WTForms
 wtforms-tornado
