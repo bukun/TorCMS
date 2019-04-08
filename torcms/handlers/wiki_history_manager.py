@@ -11,6 +11,7 @@ from torcms.model.wiki_model import MWiki
 from torcms.model.wiki_hist_model import MWikiHist
 from torcms.core.tools import diff_table
 from .post_history_handler import EditHistoryHander
+from config import router_post
 
 
 class WikiHistoryHandler(EditHistoryHander):
@@ -112,6 +113,7 @@ class WikiHistoryHandler(EditHistoryHander):
 
         self.render('man_info/wiki_man_view.html',
                     userinfo=self.userinfo,
+                    router=router_post[postinfo.kind],
                     postinfo=postinfo,
                     html_diff_arr=html_diff_arr)
 
