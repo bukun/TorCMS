@@ -20,7 +20,7 @@
     <div class="panel-heading">
         <h2>{{ postinfo.title }}</h2>
         <span>{{ str(postinfo.date)[:10] }}</span>
-        <span>Author: <a href="http://www.osgeo.cn/">OSGeo中国中心</a></span>
+
         <span>Browse: {{ postinfo.view_count }} 次</span>
         {% if userinfo and userinfo.role[2] >= '1' %}
         {% if postinfo.kind == '1' %}
@@ -54,11 +54,13 @@
             <div class="clear"></div>
             <br>
             <strong>Article link:</strong>
-            <a href="{% module site_url() %}/wiki/{{postinfo.title}}" class="underline"> {{ postinfo.title }}</a>
+            {% if postinfo.kind == '1' %}
+            <a href="/wiki/{{postinfo.title}}" class="underline"> {{ postinfo.title }}</a>
+            {% else %}
+            <a href="/page/{{postinfo.title}}" class="underline"> {{ postinfo.title }}</a>
+            {% end %}
             <br/>
-            <strong>Copyright:</strong> Non special statement are original articles, reproduced please indicate the
-            source：
-            <a href="http://osgeo.cn" class="underline">OSGeo中国中心</a><br>
+
         </div>
     </div>
 </div>

@@ -2,20 +2,21 @@
 {% block typebody %}
  <ol class="breadcrumb">
             <li>Current location：<a href="/">Home</a></li>
-            <li>Lookup results</li>
+            <li>{{ kwd['tag_name'] }}</li>
         </ol>
 <div class="panel panel-black">
     <div class="panel-heading">
-        <h3>Lookup results</h3>
+        <h3>{{ kwd['tag_name'] }}</h3>
     </div>
     <ul class="list-group">
         {% for rec in infos %}
-        <li class="list-group-item"><a href="/post/{{ rec.uid }}">{{ rec.title }}</a></li>
+        <li class="list-group-item"><a href="/{{kwd['router']}}/{{ rec.uid }}">{{ rec.title }}</a></li>
         {% end %}
     </ul>
     <div class="panel-footer">
         <ul class="pagination">
-            {% raw pager %}
+
+            {% module label_pager(kwd['kind'], kwd['tag_slug'], kwd['current_page'] ) %}
         </ul>
     </div>
 </div>
