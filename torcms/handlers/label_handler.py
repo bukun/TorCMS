@@ -9,8 +9,10 @@ import tornado.escape
 import tornado.web
 from torcms.core.base_handler import BaseHandler
 from torcms.model.label_model import MPost2Label
+from torcms.model.label_model import MLabel
 from torcms.core.torcms_redis import redisvr
 from config import CMS_CFG
+from config import router_post
 
 
 class LabelHandler(BaseHandler):
@@ -62,13 +64,16 @@ class LabelHandler(BaseHandler):
         current_page_number = 1 if current_page_number < 1 else current_page_number
 
         pager_num = int(MPost2Label.total_number(tag_slug, kind) / CMS_CFG['list_num'])
-        tag_name = ''
-        kwd = {'tag_name': tag_name,
+        tag_name = MLabel.get_by_slug(tag_slug)
+        kwd = {'tag_name': tag_name.name,
                'tag_slug': tag_slug,
-               'title': tag_name,
-               'current_page': current_page_number}
+               'title': tag_name.name,
+               'current_page': current_page_number,
+               'router': router_post[kind],
+               'kind': kind
+               }
 
-        self.render('list/label_{kind}.html'.format(kind=kind),
+        self.render('list/label.html',
                     infos=MPost2Label.query_pager_by_slug(
                         tag_slug,
                         kind=kind,
