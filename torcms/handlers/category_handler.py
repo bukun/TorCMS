@@ -12,25 +12,30 @@ from torcms.core import tools
 from torcms.model.category_model import MCategory
 
 
-class MaintainCategoryHandler(BaseHandler):
+class CategoryHandler(BaseHandler):
     '''
-    CRUD for the category.
+    Handler for links.
     '''
 
     def initialize(self, **kwargs):
-        super(MaintainCategoryHandler, self).initialize(kwargs)
-        self.tmpl_router = 'maintain_category'
+        super(CategoryHandler, self).initialize()
+        self.tmpl_router = 'category'
 
     def get(self, *args, **kwargs):
         url_str = args[0]
         url_arr = self.parse_url(url_str)
-        if url_str == 'add':
+        if url_str == '_add':
             self.to_add()
-        elif url_str == 'list':
+
+        if len(url_arr) == 2:
+            if url_arr[1] == 'list':
+                self.list_catalog(url_arr[0])
+
+        elif url_str == 'list' or url_str == '':
             self.list_catalog()
-        elif url_arr[0] == 'modify':
+        elif url_arr[0] == '_edit':
             self.to_modify(url_arr[1])
-        elif url_arr[0] == 'delete':
+        elif url_arr[0] == '_delete':
             self.delete_by_uid(url_arr[1])
         else:
             kwd = {
@@ -51,7 +56,7 @@ class MaintainCategoryHandler(BaseHandler):
         else:
             self.redirect('misc/html/404.html')
 
-    def list_catalog(self):
+    def list_catalog(self, kind):
         '''
         listing the category.
         '''
@@ -61,7 +66,7 @@ class MaintainCategoryHandler(BaseHandler):
         }
         self.render('admin/{0}/category_list.html'.format(self.tmpl_router),
                     kwd=kwd,
-                    view=MCategory.query_all(by_order=True),
+                    view=MCategory.query_all(kind, by_order=True),
                     format_date=tools.format_date,
                     userinfo=self.userinfo,
                     cfg=config.CMS_CFG)
@@ -108,9 +113,9 @@ class MaintainCategoryHandler(BaseHandler):
             post_data[key] = self.get_arguments(key)
         post_data['user_name'] = self.get_current_user()
 
-        if self.tmpl_router == "maintain_category":
+        if self.tmpl_router == "mcategory":
             MCategory.update(uid, post_data)
-            self.redirect('/maintain/category/list')
+            self.redirect('/category/list')
         else:
             if MCategory.update(uid, post_data):
 
@@ -200,7 +205,7 @@ class MaintainCategoryHandler(BaseHandler):
 
         MCategory.add_or_update(cur_uid, post_data)
 
-        self.redirect('/maintain/category/list')
+        self.redirect('/category/list')
 
     @tornado.web.authenticated
     def delete_by_uid(self, del_id):
@@ -211,11 +216,11 @@ class MaintainCategoryHandler(BaseHandler):
             pass
         else:
             return False
-        if self.tmpl_router == "maintain_category":
+        if self.tmpl_router == "category":
             is_deleted = MCategory.delete(del_id)
 
             if is_deleted:
-                self.redirect('/maintain/category/list')
+                self.redirect('/category/list')
             else:
                 return False
         else:
@@ -231,11 +236,11 @@ class MaintainCategoryHandler(BaseHandler):
             return json.dump(output, self)
 
 
-class MaintainCategoryAjaxHandler(MaintainCategoryHandler):
+class CategoryAjaxHandler(CategoryHandler):
     '''
-    CRUD for the category. By AJAX.
+    Partially render for user handler.
     '''
 
     def initialize(self, **kwargs):
-        super(MaintainCategoryAjaxHandler, self).initialize(kwargs)
+        super(CategoryAjaxHandler, self).initialize()
         self.tmpl_router = 'category_ajax'
