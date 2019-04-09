@@ -33,19 +33,23 @@
             <li><a onclick="js_show_page('/user/logout')"><span class="glyphicon glyphicon-log-out"></span>注销</a></li>
             -->
             <li role="presentation" class="divider"></li>
-            <!--<li class="parent">-->
-                <!--<a href="#">-->
-                    <!--<span class="glyphicon glyphicon-list"></span>-->
-                    <!--<span data-toggle="collapse" href="#sub-item-1" class="icon">分类管理<em-->
-                            <!--class="glyphicon glyphicon-s glyphicon-plus pull-right"></em></span>-->
-                <!--</a>-->
-                <!--<ul class="children collapse" id="sub-item-1">-->
-                    <!--<li>-->
-                        <!--<a onclick="js_show_page('/maintain/p/category/list')"><span-->
-                                <!--class="glyphicon glyphicon-share-alt"></span>所有分类</a>-->
-                    <!--</li>-->
-                <!--</ul>-->
-            <!--</li>-->
+            <li class="parent">
+                <a href="#">
+                    <span class="glyphicon glyphicon-list"></span>
+                    <span data-toggle="collapse" href="#sub-item-1" class="icon">分类管理<em
+                            class="glyphicon glyphicon-s glyphicon-plus pull-right"></em></span>
+                </a>
+                <ul class="children collapse" id="sub-item-1">
+                    {% for kind in router_post %}
+
+                    <li>
+                        <a onclick="js_show_page('/category_j/{{kind}}/list')"><span
+                                class="glyphicon glyphicon-share-alt"></span>{{router_post[kind]}}</a>
+                    </li>
+                    {% end %}
+
+                </ul>
+            </li>
             <li class="parent">
                 <a href="#">
                     <span class="glyphicon glyphicon-list"></span>

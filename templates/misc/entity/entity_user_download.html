@@ -1,0 +1,99 @@
+{% extends "../../theme/bage.html" %}
+{% block typebody %}
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li><a href="/">{{ _('Home') }}</a></li>
+        <li class="active">{{ _('My Download List') }}</li>
+    </ul>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading"><b>{{ _('My Download List') }}</b></div>
+    <div class="panel-body">
+        <table class="table table-striped">
+            <tr>
+                <th>{{ _('Serial number') }}</th>
+                <th>{{ _('Entity') }}</th>
+                <th>{{ _('User') }}</th>
+
+
+            </tr>
+            {% set ii = 1 %}
+            {% for x in imgs %}
+            <tr>
+                <td>{{ ii }}</td>
+                <td>
+
+                    {% if x.entity_kind == '4' %}
+                    <a href="{% module site_url() %}{{ static_url('upload') }}{{x.entity_path}}" target="_blank">
+                        {% elif x.entity_kind == '3' %}
+                        <a href="{{x.entity_path}}" target="_blank">
+                        {% else %}
+                    <a href="{% module site_url() %}{{ static_url('upload/') }}{{x.entity_path}}" target="_blank">
+                        {% end %}
+
+
+                     <span id="entry_img_{{ii}}" style="display: none; float: left;padding-right: 10px"
+                              class="glyphicon glyphicon-picture"></span>
+                        <span id="entry_file_{{ii}}" style="display: none; float: left;padding-right: 10px"
+                              class="glyphicon glyphicon-file"></span>
+                        <span id="entry_url_{{ii}}" style="display: none; float: left;padding-right: 10px"
+                              class="glyphicon glyphicon-link"></span>
+                    {{ x.entity_path }}  <span style="color: #f00">({{x.count}})</span>
+                </a></td>
+                <td>{{ userinfo.user_name }}  ({% module extuser_country_by_id(x.user_id) %})</td>
+
+
+            </tr>
+             <script>
+                function IsInArray(arr, val) {
+
+                    var testStr = ',' + arr.join(",") + ",";
+
+                    return testStr.indexOf("," + val + ",") != -1;
+
+                }
+            </script>
+            <script>
+
+                var str = "{{x.entity_path}}";
+
+                var entry_img = document.getElementById('entry_img_{{ii}}');
+                var entry_file = document.getElementById('entry_file_{{ii}}');
+                var entry_url = document.getElementById('entry_url_{{ii}}');
+
+                var pos = str.lastIndexOf(".");
+                var lastname = str.substring(pos, str.length);
+
+                var img_arr = (['.png', '.jpg', '.jpeg', '.gif', '.tif', '.bmp']);
+                var file_arr = (['.pdf', '.doc', '.docx', '.zip', '.rar', '.ppt', '.7z', '.xlsx']);
+
+                var img_is = IsInArray(img_arr, lastname);
+                var file_is = IsInArray(file_arr, lastname);
+
+                if (img_is == true) {
+                    entry_img.style.display = 'block';
+                    entry_file.style.display = 'none';
+                    entry_url.style.display = 'none';
+                }
+                else if (file_is == true) {
+                    entry_img.style.display = 'none';
+                    entry_file.style.display = 'block';
+                    entry_url.style.display = 'none';
+                }
+                else {
+                    entry_img.style.display = 'none';
+                    entry_file.style.display = 'none';
+                    entry_url.style.display = 'block';
+                }
+
+            </script>
+            {% set ii = ii +1 %}
+            {% end %}
+        </table>
+
+    </div>
+</div>
+{% module entity_download_user( kwd['current_page'],userid = userinfo.uid ) %}
+<br>
+{% end %}
+
