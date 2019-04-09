@@ -1,10 +1,10 @@
 # # -*- coding:utf-8 -*-
 #
-# from torcms.handlers.tag_list_hanlder import TagListHandler
-#
-# def Test():
-#     urls = [
-#         ("/label/(.*)", TagListHandler, dict()),
-#     ]
-#
-#     assert urls
+from torcms.handlers.label_handler import LabelHandler
+
+def Test():
+    urls = [
+        ("/label/(.*)", LabelHandler, dict()),
+    ]
+
+    assert urls
