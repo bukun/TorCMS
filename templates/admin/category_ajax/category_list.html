@@ -1,4 +1,3 @@
-
 <div class="row">
     <div class="col-md-10">
         <div class="panel panel-default">
@@ -8,49 +7,77 @@
             <div class="panel-body" id="addinfo">
 
 
+                <Br>
 
-                {% set ii = 0 %}
-                <table class="table table-striped">
+                <table class="table table-bordered">
                     <thead>
                     <tr>
+                        <td><b style="color: #FF0000">{{ kwd['kind'] }}</b></td>
+
                         <td>UID</td>
-                        <td>分类名</td>
                         <td>Slug</td>
-                        <td>PID</td>
-                        <td>排序</td>
+                        <td>Title</td>
+                        <td>Order</td>
 
                     </tr>
                     </thead>
                     <tbody>
+
+                    <tr>
+                        <td colspan="5"></td>
+                    </tr>
                     {% for x in view %}
 
 
-                    <form class="form-horizontal" id="form_post">
-                        <tr id="del_category_{{ ii }}" {% if x.pid == '0000' %} style="background-color: #E1E1E1" {% end %}>
+                    {% if x.pid == '0000' %}
+
+                    <tr style="background-color: #E1E1E1">
+                        <td>
+                            <b>{{ str(x.uid)[:2] }}</b>
+                        </td>
+
                         <td>
                             {{ x.uid }}
                         </td>
                         <td>
-                            <input id="name_{{ ii }}" name="name" type="text" class="form-control"
-                                   value="{{ x.name }}">
+                            {{ x.slug }}
                         </td>
                         <td>
-                            <input id="slug_{{ ii }}" type="text" name="slug" value="{{ x.slug }}"
-                                   class="form-control">
-                        </td>
-                        <td>
-                            <input id="pid_{{ ii }}" type="text" name="slug" value="{{ x.pid }}"
-                                   class="form-control">
-                        </td>
-                        <td>
-                            <input id="order_{{ ii }}" type="text" name="order" value="{{ x.order }}"
-                                   class="form-control">
+                            {{ x.name }}
                         </td>
 
-                        </tr>
-                    </form>
 
-                    {% set ii = ii + 1 %}
+                        <td>
+                            {{ x.order }}
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+                    <tr>
+                        <td>
+
+                        </td>
+
+                        <td>
+                            {{ x.uid }}
+                        </td>
+                        <td>
+                            {{ x.slug }}
+                        </td>
+                        <td>
+                            {{ x.name }}
+                        </td>
+
+
+                        <td>
+                            {{ x.order }}
+                        </td>
+
+                    </tr>
+                    {% end %}
+
+
                     {% end %}
                     </tbody>
                 </table>

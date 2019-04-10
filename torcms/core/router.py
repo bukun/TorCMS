@@ -10,7 +10,7 @@ from torcms.handlers.index import IndexHandler
 from torcms.handlers.label_handler import LabelHandler, InfoTagHandler
 from torcms.handlers.leaf_handler import LeafHandler
 from torcms.handlers.link_handler import LinkHandler, LinkPartialHandler
-from torcms.handlers.category_handler import CategoryAjaxHandler
+from torcms.handlers.category_handler import CategoryHandler, CategoryAjaxHandler
 
 from torcms.handlers.page_ajax_handler import PageAjaxHandler
 from torcms.handlers.page_handler import PageHandler
@@ -70,6 +70,7 @@ urls = [
     ("/post_list/(.*)", PostListHandler, dict()),
 
     ("/category_j/(.*)", CategoryAjaxHandler, dict()),
+
     ("/link_j/(.*)", LinkPartialHandler, dict()),
     ("/link/(.*)", LinkHandler, dict()),
 
