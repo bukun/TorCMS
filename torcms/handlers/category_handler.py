@@ -42,7 +42,8 @@ class CategoryAjaxHandler(BaseHandler):
         kwd = {
             'pager': '',
             'title': '最近文档',
-            'kind': kind
+            'kind': kind,
+            'router': config.router_post[kind]
         }
         self.render('admin/{0}/category_list.html'.format(self.tmpl_router),
                     kwd=kwd,
