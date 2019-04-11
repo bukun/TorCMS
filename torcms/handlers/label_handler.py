@@ -7,6 +7,7 @@ For Post Label.
 import json
 import tornado.escape
 import tornado.web
+import os
 from torcms.core.base_handler import BaseHandler
 from torcms.model.label_model import MPost2Label
 from torcms.model.label_model import MLabel
@@ -64,16 +65,28 @@ class LabelHandler(BaseHandler):
         current_page_number = 1 if current_page_number < 1 else current_page_number
 
         pager_num = int(MPost2Label.total_number(tag_slug, kind) / CMS_CFG['list_num'])
-        tag_name = MLabel.get_by_slug(tag_slug)
-        kwd = {'tag_name': tag_name.name,
+        tag_info = MLabel.get_by_slug(tag_slug)
+        if tag_info:
+            tag_name = tag_info.name
+        else:
+            tag_name = 'Label search results'
+        kwd = {'tag_name': tag_name,
                'tag_slug': tag_slug,
-               'title': tag_name.name,
+               'title': tag_name,
                'current_page': current_page_number,
                'router': router_post[kind],
                'kind': kind
                }
 
-        self.render('list/label.html',
+        the_list_file = './templates/list/label_{kind}.html'.format(kind=kind)
+
+        if os.path.exists(the_list_file):
+            tmpl = 'list/label_{kind}.html'.format(kind=kind)
+
+        else:
+            tmpl = 'list/label.html'
+
+        self.render(tmpl,
                     infos=MPost2Label.query_pager_by_slug(
                         tag_slug,
                         kind=kind,
