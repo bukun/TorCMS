@@ -13,16 +13,14 @@ from torcms.model.abc_model import Mabc, MHelper
 
 class MLog(Mabc):
     '''
-    用户日志
+    Log for user action.
     '''
-
 
     @staticmethod
     def add(data_dic):
         '''
         Insert new record.
         '''
-
         uid = data_dic['uid']
         TabLog.create(
             uid=uid,
@@ -51,6 +49,7 @@ class MLog(Mabc):
     def query_all_user():
         '''
         查询所有登录用户的访问记录
+        ToDo:  ``None`` ?
         '''
         return TabLog.select().where(TabLog.user_id != 'None').distinct(TabLog.user_id).order_by(
             TabLog.user_id
@@ -60,6 +59,7 @@ class MLog(Mabc):
     def query_all(current_page_num=1):
         '''
         查询所有未登录用户的访问记录
+        ToDo:  ``None`` ?
         '''
         return TabLog.select().where(TabLog.user_id == 'None').order_by(TabLog.time_out.desc()).paginate(
             current_page_num, CMS_CFG['list_num']
@@ -114,7 +114,6 @@ class MLog(Mabc):
         return the record by uid
         '''
         return MHelper.get_by_uid(TabLog, uid)
-
 
     @staticmethod
     def get_pageview_count(current_url):

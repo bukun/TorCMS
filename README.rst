@@ -13,7 +13,7 @@ Status
 .. image:: https://img.shields.io/pypi/pyversions/torcms.svg
     :target: https://pypi.python.org/pypi/torcms/
 
-* Checking ``torcms`` with ``pylint`` using default configuration (Under Debian Stretch), gets score greater than 8.4.
+* Checking ``torcms`` with ``pylint`` using default configuration (Under Debian Stretch), gets score greater than 9.0 .
 
 Introduction
 -------------------------------------------------
@@ -297,6 +297,3 @@ In Chinese
 -  http://www.wds-china.org (世界数据系统中国)
 -  http://eng.wdc.cn/ (可再生资源与环境世界数据中心)
 -  http://drr.ikcest.org (联合国教科文组织国际工程科技知识中心防灾减灾知识服务平台)
-
-
-

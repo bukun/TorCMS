@@ -145,7 +145,6 @@ class LogHandler(BaseHandler):
                             userid,
                             current_page_num=current_page_number
                         ),
-
                         format_date=tools.format_date,
                         userinfo=self.userinfo)
 

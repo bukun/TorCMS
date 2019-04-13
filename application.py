@@ -12,7 +12,6 @@ from torcms.modules.modef import core_modules as modules
 from torcms.modules.modef import core_modules
 import torcms.core.uifunction as uifuncs
 
-
 # from extor.modules.extends import index_post,Catalog,Postrecent,Indexsearch
 # 定义模板
 # modules['Indexpost'] = index_post
