@@ -400,8 +400,9 @@ class GenerateAbstract(tornado.web.UIModule):
 
     def render(self, *args, **kwargs):
         html_str = args[0]
+        count = kwargs.get('count', 130)
         tmp_str = bs4.BeautifulSoup(tornado.escape.xhtml_unescape(html_str), "html.parser")
-        return tmp_str.get_text()[:130] + '....'
+        return tmp_str.get_text()[:count] + '....'
 
 
 # Todo: should be deleted.
