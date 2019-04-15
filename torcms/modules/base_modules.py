@@ -256,7 +256,7 @@ class PostRecent(tornado.web.UIModule):
         kwd = {
             'with_date': with_date,
             'with_catalog': with_catalog,
-            'router': config.router_post['1'],
+            'router': config.router_post[kind],
             'kind': kind,
             'glyph':glyph
         }
