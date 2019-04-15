@@ -297,10 +297,12 @@ class UserHandler(BaseHandler):
         show the user info
         '''
         rec = MUser.get_by_uid(self.userinfo.uid)
+        kwd = {}
 
         self.render(self.wrap_tmpl('user/{sig}user_info.html'),
                     userinfo=self.userinfo,
-                    extinfo=rec.extinfo)
+                    extinfo=rec.extinfo,
+                    kwd = kwd)
 
     def __to_reset_password__(self):
         '''
