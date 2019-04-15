@@ -322,6 +322,7 @@ class UserHandler(BaseHandler):
             kwd = {
                 'pager': '',
                 'next_url': next_url,
+                'ad': False,
             }
             self.render('user/user_login.html',
                         kwd=kwd,
