@@ -1,13 +1,18 @@
-<div id="del_zan_0" style="font-size: 14px;">
-    <p>{{ username }}</p>
-
-    <p>{% raw unescape(reply.cnt_html) %}</p>
-
-    <p>编辑于{{ str(date).split('.')[0] }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;共
-        <span id="text_zan_0">{{ vote }}</span>
-        个人赞同
+ <div id="del_zan_0" style="font-size: 14px;">
+    <p style="color: #f00;"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp; <strong>{{ username }}</strong>
     </p>
 
-    <p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
+    <p id="wiki_cnt" class="listinfo_content">{% raw unescape(reply.cnt_html) %}</p>
+    <br>
+
+    <p class="font13"><span class="glyphicon glyphicon-hand-right"></span>&nbsp;&nbsp;<b>{{ _('Editor in') }}</b>
+        &nbsp;&nbsp;{{ str(date).split('.')[0] }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        <span class="glyphicon glyphicon-thumbs-up"></span>
+
+        <span id="text_zan_0"><strong>{{ vote }}</strong></span>
+    </p>
+
+    <p class="bor_bottom">&nbsp;</p>
 </div>
 
