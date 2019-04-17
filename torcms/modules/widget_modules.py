@@ -27,10 +27,12 @@ class ReplyPanel(tornado.web.UIModule):
     def render(self, *args, **kwargs):
         uid = args[0]
         userinfo = args[1]
+        replys = MReply.query_by_post(uid)
         return self.render_string(
             'modules/widget/reply_panel.html',
             uid=uid,
-            replys=MReply.query_by_post(uid),
+            replys=replys,
+            replys_count=replys.count(),
             userinfo=userinfo,
 
             linkify=tornado.escape.linkify
