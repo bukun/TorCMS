@@ -52,14 +52,15 @@ class ReplyHandler(BaseHandler):
         current_page_number = 1 if current_page_number < 1 else current_page_number
 
         pager_num = int(MReply.total_number() / CMS_CFG['list_num'])
-
+        infos =MReply.query_pager(current_page_num=current_page_number)
         kwd = {'pager': '',
                'current_page': current_page_number,
                'title': '单页列表'}
         self.render('admin/reply_ajax/reply_list.html',
                     kwd=kwd,
                     view_all=MReply.query_all(),
-                    infos=MReply.query_pager(current_page_num=current_page_number),
+                    infos=infos,
+                    infos_count=infos.count(),
                     userinfo=self.userinfo
                     )
 
