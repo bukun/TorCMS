@@ -139,9 +139,11 @@ class PostHistoryHandler(EditHistoryHander):
         else:
             return False
         post_rec = MPost.get_by_uid(postid)
+        kwd = {}
         self.render('man_info/post_man_edit.html',
                     userinfo=self.userinfo,
-                    postinfo=post_rec)
+                    postinfo=post_rec,
+                    kwd=kwd)
 
     @tornado.web.authenticated
     def __could_edit(self, postid):
@@ -168,6 +170,7 @@ class PostHistoryHandler(EditHistoryHander):
 
         postinfo = MPost.get_by_uid(histinfo.post_id)
         MPostHist.delete(uid)
+
         self.redirect('/post_man/view/{0}'.format(postinfo.uid))
 
     def view(self, uid):
@@ -202,13 +205,15 @@ class PostHistoryHandler(EditHistoryHander):
                  'hist_time': hist_time,
                  'up_words_num': up_words_num}
             )
+        kwd = {}
 
         self.render('man_info/post_man_view.html',
                     userinfo=self.userinfo,
                     view=postinfo,
                     postinfo=postinfo,
                     html_diff_arr=html_diff_arr,
-                    router=router_post[postinfo.kind])
+                    router=router_post[postinfo.kind],
+                    kwd=kwd)
 
     @tornado.web.authenticated
     def restore(self, hist_uid):

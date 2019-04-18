@@ -48,7 +48,11 @@ class ListHandler(BaseHandler):
             else:
                 self.list_catalog(url_arr[0], cur_p=url_arr[1])
         else:
-            self.render('misc/html/404.html')
+            kwd = {
+                'title': '',
+                'info': '404. Page not found!',
+            }
+            self.render('misc/html/404.html', kwd=kwd)
 
     def ajax_list_catalog(self, catid):
         '''

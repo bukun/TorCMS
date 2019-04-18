@@ -698,11 +698,13 @@ class PostHandler(BaseHandler):
             self.redirect('/')
         postinfo = MPost.get_by_uid(post_uid, )
         json_cnt = json.dumps(postinfo.extinfo, indent=True)
+        kwd = {}
         self.render('man_info/post_kind.html',
                     postinfo=postinfo,
                     sig_dic=router_post,
                     userinfo=self.userinfo,
-                    json_cnt=json_cnt)
+                    json_cnt=json_cnt,
+                    kwd=kwd)
 
     @tornado.web.authenticated
     @privilege.auth_edit

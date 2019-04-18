@@ -100,7 +100,8 @@ class SearchHandler(BaseHandler):
         self.render('misc/search/search_index.html',
                     userinfo=self.userinfo,
                     cat_enum=tag_enum,
-                    tag_enum=tag_enum)
+                    tag_enum=tag_enum,
+                    kwd={})
 
     def post(self, *args, **kwargs):
         post_data = self.get_post_data()

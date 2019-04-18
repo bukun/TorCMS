@@ -248,7 +248,7 @@ class UserHandler(BaseHandler):
         '''
 
         self.render(self.wrap_tmpl('user/{sig}user_changepass.html'),
-                    userinfo=self.userinfo)
+                    userinfo=self.userinfo, kwd={})
 
     @tornado.web.authenticated
     def __to_change_info__(self):
@@ -256,7 +256,7 @@ class UserHandler(BaseHandler):
         to change the user info.
         '''
         self.render(self.wrap_tmpl('user/{sig}user_changeinfo.html'),
-                    userinfo=self.userinfo)
+                    userinfo=self.userinfo, kwd={})
 
     @tornado.web.authenticated
     def __to_change_role__(self, xg_username):
@@ -264,7 +264,7 @@ class UserHandler(BaseHandler):
         to change the user role
         '''
         self.render('user/user_changerole.html',
-                    userinfo=MUser.get_by_name(xg_username))
+                    userinfo=MUser.get_by_name(xg_username), kwd={})
 
     @tornado.web.authenticated
     def __to_find__(self, cur_p=''):
@@ -302,14 +302,14 @@ class UserHandler(BaseHandler):
         self.render(self.wrap_tmpl('user/{sig}user_info.html'),
                     userinfo=self.userinfo,
                     extinfo=rec.extinfo,
-                    kwd = kwd)
+                    kwd=kwd)
 
     def __to_reset_password__(self):
         '''
         to reset the password.
         '''
         self.render('user/user_reset_password.html',
-                    userinfo=self.userinfo, )
+                    userinfo=self.userinfo, kwd={})
 
     def __to_login__(self):
         '''

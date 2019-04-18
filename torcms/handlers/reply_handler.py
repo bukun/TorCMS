@@ -76,7 +76,8 @@ class ReplyHandler(BaseHandler):
                     date=reply.date,
                     vote=reply.vote,
                     uid=reply.uid,
-                    userinfo=self.userinfo)
+                    userinfo=self.userinfo,
+                    kwd={})
 
     def add(self, post_id):
         '''

@@ -51,9 +51,11 @@ class WikiHistoryHandler(EditHistoryHander):
             pass
         else:
             return False
+        kwd = {}
         self.render('man_info/wiki_man_edit.html',
                     userinfo=self.userinfo,
-                    postinfo=MWiki.get_by_uid(postid))
+                    postinfo=MWiki.get_by_uid(postid),
+                    kwd=kwd)
 
     @tornado.web.authenticated
     def delete(self, uid):
@@ -110,12 +112,13 @@ class WikiHistoryHandler(EditHistoryHander):
                  'hist_time': hist_time,
                  'up_words_num': up_words_num}
             )
-
+        kwd = {}
         self.render('man_info/wiki_man_view.html',
                     userinfo=self.userinfo,
                     router=router_post[postinfo.kind],
                     postinfo=postinfo,
-                    html_diff_arr=html_diff_arr)
+                    html_diff_arr=html_diff_arr,
+                    kwd=kwd)
 
     @tornado.web.authenticated
     def restore(self, hist_uid):
