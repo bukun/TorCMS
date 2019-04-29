@@ -3,7 +3,7 @@
 '''
 Define the widget modules for TorCMS.
 '''
-
+import config
 import tornado.escape
 import tornado.web
 from torcms.model.reply_model import MReply
@@ -160,12 +160,15 @@ class Navigation_menu(tornado.web.UIModule):
         kind = args[0]
 
         title = kwargs.get('title', '')
+        filter_view = kwargs.get('filter_view', False)
+        curinfo = MCategory.query_kind_cat(kind)
 
         kwd = {
-            'title': title
+            'title': title,
+            'router': config.router_post[kind],
+            'kind': kind,
+            'filter_view': filter_view
         }
-
-        curinfo = MCategory.query_kind_cat(kind)
 
         return self.render_string('modules/widget/nav_menu.html',
                                   pcatinfo=curinfo,
