@@ -8,6 +8,7 @@ import tornado.escape
 import tornado.web
 from torcms.model.reply_model import MReply
 from torcms.model.rating_model import MRating
+from torcms.model.category_model import MCategory
 
 
 class BaiduShare(tornado.web.UIModule):
@@ -131,17 +132,41 @@ class BaiduSearch(tornado.web.UIModule):
         return self.render_string('modules/info/baidu_script.html',
                                   baidu_script=baidu_script)
 
+
 class UploadPicture(tornado.web.UIModule):
     '''
     Upload picture
     '''
+
     def render(self, *args, **kwargs):
         return self.render_string('modules/widget/upload_entity_pic.html')
+
 
 class UploadFile(tornado.web.UIModule):
     '''
     Upload file
     '''
+
     def render(self, *args, **kwargs):
         return self.render_string('modules/widget/upload_entity_file.html')
 
+
+class Navigation_menu(tornado.web.UIModule):
+    '''
+    Web site secondary navigation
+    '''
+
+    def render(self, *args, **kwargs):
+        kind = args[0]
+
+        title = kwargs.get('title', '')
+
+        kwd = {
+            'title': title
+        }
+
+        curinfo = MCategory.query_kind_cat(kind)
+
+        return self.render_string('modules/widget/nav_menu.html',
+                                  pcatinfo=curinfo,
+                                  kwd=kwd)

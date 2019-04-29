@@ -65,6 +65,7 @@ core_modules = {
     'loginfo': widget_modules.UserinfoWidget,
     'upload_pic': widget_modules.UploadPicture,
     'upload_file': widget_modules.UploadFile,
+    'nav_menu': widget_modules.Navigation_menu,
 
     # Infor
     'app_catalog_of': info_modules.InfoCategory,
@@ -104,9 +105,6 @@ core_modules = {
     'admin_user_pager': base_modules.Admin_user_pager,
     'admin_log_pager': base_modules.Admin_log_pager,
 
-
-
-
-    'pageview_count':base_modules.LogPageviewCount
+    'pageview_count': base_modules.LogPageviewCount
 
 }
