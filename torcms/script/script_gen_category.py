@@ -22,6 +22,8 @@ def gen_xlsx_category():
     # 在分类中排序
     order_index = 1
 
+    all_cate_arr = []
+
     for sheet_ranges in load_workbook(filename=XLSX_FILE):
         kind_sig = str(sheet_ranges['A1'].value).strip()
 
@@ -66,9 +68,10 @@ def gen_xlsx_category():
                 'pid': pp_uid,
                 'kind': kind_sig,
             }
+            all_cate_arr.append(post_data)
             MCategory.add_or_update(u_uid, post_data)
             order_index += 1
-
+    return all_cate_arr
 
 def gen_category(yaml_file, sig):
     '''
