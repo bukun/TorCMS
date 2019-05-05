@@ -107,7 +107,7 @@ core_modules = {
     'catalog_menu': catalog_modules.CatalogMenu,
 
     'catalog_list': catalog_modules.CatalogList,
-    'secondary_category_Menu': category_modules.SecondaryCategoryMenu,
+    'secondary_category_menu': category_modules.SecondaryCategoryMenu,
     'secondary_category_list': category_modules.SecondaryCategoryList,
 
 }
