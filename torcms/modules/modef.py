@@ -26,7 +26,7 @@ core_modules = {
     'post_cat_recent': base_modules.PostCategoryRecent,
     'showout_recent': base_modules.ShowoutRecent,
     'generate_abstract': base_modules.GenerateAbstract,
-    'category_menu': category_modules.CategoryMenu,
+
     'site_url': base_modules.SiteUrl,
     'site_title': base_modules.SiteTitle,
     'generate_description': base_modules.GenerateDescription,
@@ -54,6 +54,19 @@ core_modules = {
     'entity_pager': base_modules.EntityPager,
     'entity_download_user': base_modules.Entity2UserPager,
     'entity_download_list': base_modules.Entity2Pager,
+    'app_title': base_modules.AppTitle,
+
+    'user_name_by_id': base_modules.UserName,
+    'reply_post_by_id': base_modules.ReplyPostById,
+    'category_by_slug': base_modules.CategoryBySlug,
+    'postlistoftag': base_modules.PostListOfTag,
+    'admin_post_pager': base_modules.Admin_Post_pager,
+    'admin_page_pager': base_modules.Admin_Page_pager,
+    'admin_reply_pager': base_modules.Admin_reply_pager,
+    'admin_user_pager': base_modules.Admin_user_pager,
+    'admin_log_pager': base_modules.Admin_log_pager,
+
+    'pageview_count': base_modules.LogPageviewCount,
 
     # widget
     'reply_panel': widget_modules.ReplyPanel,
@@ -66,6 +79,7 @@ core_modules = {
     'upload_pic': widget_modules.UploadPicture,
     'upload_file': widget_modules.UploadFile,
     'nav_menu': widget_modules.Navigation_menu,
+    'baidu_search': widget_modules.BaiduSearch,
 
     # Infor
     'app_catalog_of': info_modules.InfoCategory,
@@ -87,24 +101,13 @@ core_modules = {
     'app_recent_used': info_modules.InfoRecentUsed,
     'app_most_used': info_modules.InfoMostUsed,
     'label_count': info_modules.LabelCount,
-    'baidu_search': widget_modules.BaiduSearch,
 
-    'app_title': base_modules.AppTitle,
-
-    'user_name_by_id': base_modules.UserName,
-    'reply_post_by_id': base_modules.ReplyPostById,
-    'category_by_slug': base_modules.CategoryBySlug,
-
+    # Category
+    'category_menu': category_modules.CategoryMenu,
     'catalog_menu': catalog_modules.CatalogMenu,
 
     'catalog_list': catalog_modules.CatalogList,
-    'postlistoftag': base_modules.PostListOfTag,
-    'admin_post_pager': base_modules.Admin_Post_pager,
-    'admin_page_pager': base_modules.Admin_Page_pager,
-    'admin_reply_pager': base_modules.Admin_reply_pager,
-    'admin_user_pager': base_modules.Admin_user_pager,
-    'admin_log_pager': base_modules.Admin_log_pager,
-
-    'pageview_count': base_modules.LogPageviewCount
+    'secondary_category_Menu': category_modules.SecondaryCategoryMenu,
+    'secondary_category_list': category_modules.SecondaryCategoryList,
 
 }

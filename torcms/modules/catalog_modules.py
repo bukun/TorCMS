@@ -28,6 +28,7 @@ class CatalogList(tornado.web.UIModule):
     '''
     catalog lists.
     '''
+
     def render(self, *args, **kwargs):
         catid = kwargs['catid'] if 'catid' in kwargs else ''
         cat_id = catid[:2]
@@ -36,3 +37,5 @@ class CatalogList(tornado.web.UIModule):
         return self.render_string('modules/catalog/catalog_menu.html',
                                   recs=recs,
                                   catid=catid)
+
+
