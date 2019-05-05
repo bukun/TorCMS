@@ -161,13 +161,15 @@ class Navigation_menu(tornado.web.UIModule):
 
         title = kwargs.get('title', '')
         filter_view = kwargs.get('filter_view', False)
+        slug = kwargs.get('slug', False)
         curinfo = MCategory.query_kind_cat(kind)
 
         kwd = {
             'title': title,
             'router': config.router_post[kind],
             'kind': kind,
-            'filter_view': filter_view
+            'filter_view': filter_view,
+            'slug': slug
         }
 
         return self.render_string('modules/widget/nav_menu.html',
