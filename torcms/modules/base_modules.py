@@ -357,7 +357,7 @@ class SiteTitle(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-        return ''
+        return config.SITE_CFG['site_title']
 
 
 class TheCategory(tornado.web.UIModule):
