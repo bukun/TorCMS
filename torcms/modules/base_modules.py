@@ -357,7 +357,10 @@ class SiteTitle(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-        return config.SITE_CFG['site_title']
+        if 'site_title' in config.SITE_CFG:
+            return config.SITE_CFG['site_title']
+        else:
+            return ''
 
 
 class TheCategory(tornado.web.UIModule):
@@ -1068,13 +1071,14 @@ class LogPager(tornado.web.UIModule):
                                   user_id=user_id,
                                   pager_num=page_num,
                                   page_current=current)
+
+
 class LogPageviewPager(tornado.web.UIModule):
     '''
     pager of log
     '''
 
     def render(self, *args, **kwargs):
-
         current = int(args[0])
 
         the_count = MLog.count_of_certain_pageview()
@@ -1099,14 +1103,10 @@ class LogPageviewPager(tornado.web.UIModule):
                                   page_current=current)
 
 
-
-
 class LogPageviewCount(tornado.web.UIModule):
-
     def render(self, *args, **kwargs):
         current_url = args[0]
 
         count = MLog.get_pageview_count(current_url)
-
 
         return count
