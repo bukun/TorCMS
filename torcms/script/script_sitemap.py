@@ -31,23 +31,25 @@ def gen_wiki_map(file_name, ext_url=''):
     :return: None
     '''
 
-    # wiki
-    wiki_recs = MWiki.query_all(limit=10000, kind='1')
+    # for wiki
+    wiki_recs = MWiki.query_all(limit=100000, kind='1')
 
     with open(file_name, 'a') as fileout:
         for rec in wiki_recs:
             url = os.path.join(SITE_CFG['site_url'],
-                               'wiki' + '/_edit' if ext_url else '',
+                               'wiki' ,
+                               '/_edit' if ext_url else '',
                                rec.title)
             fileout.write('{url}\n'.format(url=url))
 
-    ## page.
-    page_recs = MWiki.query_all(limit=10000, kind='2')
+    # for page.
+    page_recs = MWiki.query_all(limit=100000, kind='2')
 
     with open(file_name, 'a') as fileout:
         for rec in page_recs:
             url = os.path.join(SITE_CFG['site_url'],
-                               'page' + '/_edit' if ext_url else '',
+                               'page' ,
+                               '/_edit' if ext_url else '',
                                rec.uid)
 
             fileout.write('{url}\n'.format(url=url))
@@ -56,8 +58,6 @@ def gen_wiki_map(file_name, ext_url=''):
 def run_sitemap(_):
     '''
     Generate the sitemap file.
-    :param args: args
-    :return: None
     '''
     site_map_file = 'xx_sitemap.txt'
     if os.path.exists(site_map_file):
@@ -70,8 +70,6 @@ def run_sitemap(_):
 def run_editmap(_):
     '''
     Generate the urls file for editing.
-    :param args: args
-    :return: None
     '''
     edit_map_file = 'xx_editmap.txt'
     if os.path.exists(edit_map_file):
