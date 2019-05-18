@@ -2,6 +2,7 @@
 
 '''
 The model for wiki.
+``kind == '1'``
 '''
 
 import datetime
@@ -189,7 +190,7 @@ class MWiki(Mabc):
         '''
         Get the wiki record by title.
         '''
-        q_res = TabWiki.select().where(TabWiki.title == citiao)
+        q_res = TabWiki.select().where( (TabWiki.title == citiao) & (TabWiki.kind == '1'))
         the_count = q_res.count()
         if the_count == 0 or the_count > 1:
             return None
