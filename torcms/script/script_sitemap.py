@@ -31,25 +31,23 @@ def gen_wiki_map(file_name, ext_url=''):
     :return: None
     '''
 
-    # for wiki
-    wiki_recs = MWiki.query_all(limit=100000, kind='1')
+    # for wiki.
+    wiki_recs = MWiki.query_all(limit=10000, kind='1')
 
     with open(file_name, 'a') as fileout:
         for rec in wiki_recs:
             url = os.path.join(SITE_CFG['site_url'],
-                               'wiki' ,
-                               '/_edit' if ext_url else '',
+                               'wiki' + ('/_edit' if ext_url else ''),
                                rec.title)
             fileout.write('{url}\n'.format(url=url))
 
     # for page.
-    page_recs = MWiki.query_all(limit=100000, kind='2')
+    page_recs = MWiki.query_all(limit=10000, kind='2')
 
     with open(file_name, 'a') as fileout:
         for rec in page_recs:
             url = os.path.join(SITE_CFG['site_url'],
-                               'page' ,
-                               '/_edit' if ext_url else '',
+                               'page' + ('/_edit' if ext_url else ''),
                                rec.uid)
 
             fileout.write('{url}\n'.format(url=url))
