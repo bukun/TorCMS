@@ -13,6 +13,7 @@
             Total keywords found for "{{ kwd['keyword'] }}" {{ kwd['count'] }} results ! {% if kwd['count'] == 0 %}
             Please change your keywords{% if 'catname' in kwd %}，Or in a wider range of search{% end %} . {% end %}
         </div>
+
         {% for x in srecs %}
         <div class="bor_bottom">
             <p class="listinfo_title"><b>{% raw x['type'] %}</b>

@@ -84,9 +84,9 @@ class SearchHandler(BaseHandler):
         if url_str == '':
             self.index()
         elif len(url_arr) == 2:
-            self.search(url_arr[0], url_arr[1])
+            self.search_cat(url_arr[0], url_arr[1])
         elif len(url_arr) == 3:
-            self.search_cat(url_arr[0], url_arr[1], int(url_arr[2]))
+            self.search_cat(url_arr[1], int(url_arr[2]), url_arr[0])
         else:
             kwd = {
                 'info': '页面未找到',
@@ -119,43 +119,12 @@ class SearchHandler(BaseHandler):
         else:
             self.redirect('/search/{0}/{1}/1'.format(catid, keyword))
 
-    def search(self, keyword, p_index=''):
-        '''
-        perform searching.
-        '''
-        if p_index == '' or p_index == '-1':
-            current_page_number = 1
-        else:
-            current_page_number = int(p_index)
-        res_all = self.ysearch.get_all_num(keyword)
-        results = self.ysearch.search_pager(
-            keyword,
-            page_index=current_page_number,
-            doc_per_page=CMS_CFG['list_num']
-        )
-        page_num = int(res_all / CMS_CFG['list_num'])
-        kwd = {'title': '查找结果',
-               'pager': '',
-               'count': res_all,
-               'keyword': keyword,
-               'catid': '',
-               'current_page': current_page_number}
-        self.render('misc/search/search_list.html',
-                    kwd=kwd,
-                    srecs=results,
-                    pager=gen_pager_bootstrap_url(
-                        '/search/{0}'.format(keyword),
-                        page_num,
-                        current_page_number
-                    ),
-                    userinfo=self.userinfo,
-                    cfg=CMS_CFG)
-
-    def search_cat(self, catid, keyword, p_index=1):
+    def search_cat(self, keyword, p_index=1, catid=''):
         '''
         Searching according the kind.
         '''
-        catid = 'sid' + catid
+        if catid:
+            catid = 'sid' + catid
         logger.info('-' * 20)
         logger.info('search cat')
         logger.info('catid: {0}'.format(catid))
