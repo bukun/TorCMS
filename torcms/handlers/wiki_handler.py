@@ -8,6 +8,7 @@ import json
 from concurrent.futures import ThreadPoolExecutor
 import tornado.escape
 import tornado.web
+import tornado.gen
 import tornado.ioloop
 
 from torcms.core.base_handler import BaseHandler
@@ -100,8 +101,9 @@ class WikiHandler(BaseHandler):
         else:
             self.to_add(title)
 
+    # @tornado.web.asynchronous
     @tornado.web.authenticated
-    @tornado.web.asynchronous
+    @tornado.gen.coroutine
     def update(self, uid):
         '''
         Update the wiki.
@@ -182,9 +184,10 @@ class WikiHandler(BaseHandler):
                     kwd=kwd,
                     userinfo=self.userinfo)
 
+    # @tornado.web.asynchronous
     @tornado.web.authenticated
     @privilege.auth_add
-    @tornado.web.asynchronous
+    @tornado.gen.coroutine
     def add(self, title=''):
         '''
         Add wiki

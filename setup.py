@@ -29,7 +29,7 @@ setup(
     platforms='any',
     zip_safe=True,
     install_requires=['beautifulsoup4', 'jieba', 'markdown', 'peewee', 'Pillow',
-                      'tornado<6', 'Whoosh', 'WTForms', 'wtforms-tornado',
+                      'tornado', 'Whoosh', 'WTForms', 'wtforms-tornado',
                       'psycopg2-binary', 'html2text', 'redis', 'pyyaml','htmlmin'],
 
     classifiers=[

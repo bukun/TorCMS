@@ -9,6 +9,7 @@ import random
 from concurrent.futures import ThreadPoolExecutor
 import tornado.escape
 import tornado.web
+import tornado.gen
 import tornado.ioloop
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
@@ -526,8 +527,8 @@ class PostHandler(BaseHandler):
 
     @tornado.web.authenticated
     @privilege.auth_add
-    @tornado.web.asynchronous
-    # @tornado.gen.coroutine
+    # @tornado.web.asynchronous
+    @tornado.gen.coroutine
     def add(self, **kwargs):
         '''
         in infor.
@@ -569,9 +570,10 @@ class PostHandler(BaseHandler):
         tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
         self.redirect('/{0}/{1}'.format(router_post[self.kind], uid))
 
+    # @tornado.web.asynchronous
     @tornado.web.authenticated
     @privilege.auth_edit
-    @tornado.web.asynchronous
+    @tornado.gen.coroutine
     def update(self, uid):
         '''
         in infor.

@@ -55,6 +55,7 @@ class YunSearch():
         try:
             queryres = self.whbase.searcher().search(queryit, limit=page_index * doc_per_page)
 
+            # ToDo:
             deduped_queryres = list(dedupe(queryres, key=lambda s: s['content']))
 
             return deduped_queryres[(page_index - 1) * doc_per_page: page_index * doc_per_page]

@@ -116,6 +116,13 @@ Get the HTML for modules
     $ git clone https://github.com/bukun/torcms_f2elib.git static/f2elib
     $ git clone https://github.com/bukun/torcms_modules_bootstrap.git templates/modules
 
+
+or
+
+::
+
+    $ git clone https://git.dev.tencent.com/osgeo/torcms_f2elib.git static/f2elib
+
 Edit the configiure.
 -----------------------
 

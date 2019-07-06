@@ -52,11 +52,9 @@ def gen_pager_bootstrap_url(cat_slug, page_num, current):
             pager_mid += tmp_str_df
         if current < page_num:
             pager_next = '''
-
                   <li class="{0}" name='fenye' onclick='change(this);'
                   ><a href="{1}/{2}">下一页</a></li>'''.format('', cat_slug, current + 1)
             pager_last = '''
-
                   <li class="{0}" name='fenye' onclick='change(this);'
                  ><a href="{1}/{2}">末页</a></li>'''.format('', cat_slug, page_num)
 
@@ -89,7 +87,7 @@ class SearchHandler(BaseHandler):
             self.search_cat(url_arr[1], int(url_arr[2]), url_arr[0])
         else:
             kwd = {
-                'info': '页面未找到',
+                'info': 'The Page not Found.',
             }
             self.render('misc/html/404.html',
                         kwd=kwd,
@@ -145,13 +143,14 @@ class SearchHandler(BaseHandler):
         )
         page_num = int(res_all / CMS_CFG['list_num'])
 
-        kwd = {'title': '查找结果',
+        kwd = {'title': 'Search Result:',
                'pager': '',
                'count': res_all,
                'current_page': current_page_number,
                'catid': catid,
                'keyword': keyword}
 
+        # ToDo:
         self.render('misc/search/search_list.html',
                     kwd=kwd,
                     srecs=results,
