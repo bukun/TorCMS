@@ -205,7 +205,12 @@ class MUser(Mabc):
         '''
         out_dic = {'success': False, 'code': '00'}
 
-        if not tools.check_username_valid(post_data['user_name']):
+        if post_data['user_name'].startswith('_'):
+            '''
+            the user_name startwith with ``_``, ONLY used for inner, not for login.            
+            '''
+            pass
+        elif not tools.check_username_valid(post_data['user_name']):
             out_dic['code'] = '11'
             return out_dic
 
