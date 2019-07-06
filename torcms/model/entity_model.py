@@ -96,10 +96,16 @@ class MEntity():
 
     @staticmethod
     def total_number():
-        return TabEntity.select().count()
+        '''
+        Total number.
+        '''
+        # adding ``None`` to hide ``No value for argument 'database' in method call``
+        return TabEntity.select().count(None)
 
     @staticmethod
     def delete_by_path(path, kind='f'):
+        '''
+        '''
         delete = TabEntity.delete().where(
             (TabEntity.path == path) & (TabEntity.kind == kind)
         )

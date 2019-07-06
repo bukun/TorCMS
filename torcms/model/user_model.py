@@ -271,7 +271,8 @@ class MUser(Mabc):
         '''
         Return the number of certian slug.
         '''
-        return TabMember.select().count()
+        # adding ``None`` to hide ``No value for argument 'database' in method call``
+        return TabMember.select().count(None)
 
     @staticmethod
     def query_pager_by_slug(current_page_num=1):
@@ -282,6 +283,7 @@ class MUser(Mabc):
 
     @staticmethod
     def count_of_certain():
-        recs = TabMember.select()
-
-        return recs.count()
+        '''
+        '''
+        # adding ``None`` to hide ``No value for argument 'database' in method call``
+        return TabMember.select().count(None)

@@ -74,17 +74,16 @@ class MReply(Mabc):
         '''
         Get the count of certain kind.
         '''
-
-        recs = TabReply.select()
-
-        return recs.count()
+        # adding ``None`` to hide ``No value for argument 'database' in method call``
+        return TabReply.select().count(None)
 
     @staticmethod
     def total_number():
         '''
         Return the number.
         '''
-        return TabReply.select().count()
+        # adding ``None`` to hide ``No value for argument 'database' in method call``
+        return TabReply.select().count(None)
 
     @staticmethod
     def query_pager(current_page_num=1):

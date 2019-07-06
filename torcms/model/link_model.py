@@ -17,7 +17,8 @@ class MLink(Mabc):
         '''
         The count in table.
         '''
-        return TabLink.select().count()
+        # adding ``None`` to hide ``No value for argument 'database' in method call``
+        return TabLink.select().count(None)
 
     @staticmethod
     def query_all(limit_num=50):

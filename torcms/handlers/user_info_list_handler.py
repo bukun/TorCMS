@@ -102,7 +102,12 @@ class UserListHandler(BaseHandler):
         '''
         find the infors.
         '''
-        keyword = self.get_argument('keyword').strip()
+        keyword = self.get_argument('keyword', default='').strip()
+
+        if keyword:
+            pass
+        else:
+            return False
 
         kwd = {
             'pager': '',

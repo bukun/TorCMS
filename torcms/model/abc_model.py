@@ -6,7 +6,6 @@ The Base of Model
 
 Mabc = object
 
-
 class MHelper():
     '''
     Common used function for most Model. Using Model as the first parameter.

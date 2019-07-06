@@ -11,7 +11,7 @@ from config import CMS_CFG, DB_CFG
 from torcms.model.abc_model import Mabc, MHelper
 
 
-class MLog(Mabc):
+class MLog():
     '''
     Log for user action.
     '''
@@ -94,7 +94,8 @@ class MLog(Mabc):
         '''
         Return the number of Tablog.
         '''
-        return TabLog.select().count()
+        # adding ``None`` to hide ``No value for argument 'database' in method call``
+        return TabLog.select().count(None)
 
     @staticmethod
     def count_of_certain(user_id):

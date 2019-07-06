@@ -509,7 +509,7 @@ class PostHandler(BaseHandler):
         ext_dic = {}
         for key in self.request.arguments:
             if key.startswith('ext_') or key.startswith('tag_'):
-                ext_dic[key] = self.get_argument(key)
+                ext_dic[key] = self.get_argument(key, default='')
             else:
                 post_data[key] = self.get_arguments(key)[0]
 

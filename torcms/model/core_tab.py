@@ -268,4 +268,3 @@ class TabLog(BaseModel):
     time_create = peewee.BigIntegerField()
     time_out = peewee.BigIntegerField()
     time = peewee.BigIntegerField()
-

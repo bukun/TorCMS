@@ -81,7 +81,8 @@ class MPost(Mabc):
         '''
         The count in table.
         '''
-        return TabPost.select().count()
+        # adding ``None`` to hide ``No value for argument 'database' in method call``
+        return TabPost.select().count(None)
 
     @staticmethod
     def __update_rating(uid, rating):
@@ -193,7 +194,6 @@ class MPost(Mabc):
         title = post_data['title'].strip()
         if len(title) < 2:
             return False
-
 
         cur_rec = MPost.get_by_uid(post_uid)
         if cur_rec:

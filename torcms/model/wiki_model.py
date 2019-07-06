@@ -25,7 +25,8 @@ class MWiki(Mabc):
         '''
         The count in table.
         '''
-        return TabWiki.select().count()
+        # adding ``None`` to hide ``No value for argument 'database' in method call``
+        return TabWiki.select().count(None)
 
     @staticmethod
     def query_recent_edited(timstamp, kind='1'):
@@ -190,7 +191,7 @@ class MWiki(Mabc):
         '''
         Get the wiki record by title.
         '''
-        q_res = TabWiki.select().where( (TabWiki.title == citiao) & (TabWiki.kind == '1'))
+        q_res = TabWiki.select().where((TabWiki.title == citiao) & (TabWiki.kind == '1'))
         the_count = q_res.count()
         if the_count == 0 or the_count > 1:
             return None
@@ -256,7 +257,13 @@ class MWiki(Mabc):
         '''
         Query pager
         '''
-        return TabWiki.select().where(TabWiki.kind == kind).order_by(TabWiki.time_create.desc()).paginate(current_page_num, CMS_CFG['list_num'])
+        return TabWiki.select().where(
+            TabWiki.kind == kind
+        ).order_by(
+            TabWiki.time_create.desc()
+        ).paginate(
+            current_page_num, CMS_CFG['list_num']
+        )
 
     @staticmethod
     def count_of_certain_kind(kind):

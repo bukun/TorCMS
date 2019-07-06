@@ -27,9 +27,11 @@ class SumForm(Form):
     '''
     WTForm for user.
     '''
-    user_name = StringField('user_name', validators=[DataRequired()])
-    user_pass = StringField('user_pass', validators=[DataRequired()])
-    user_email = StringField('user_email', validators=[DataRequired(), wtforms.validators.Email()])
+    user_name = StringField('user_name', validators=[DataRequired()], default='')
+    user_pass = StringField('user_pass', validators=[DataRequired()], default='')
+    user_email = StringField('user_email',
+                             validators=[DataRequired(), wtforms.validators.Email()],
+                             default='')
 
 
 class SumFormInfo(Form):
@@ -156,7 +158,7 @@ class UserHandler(BaseHandler):
         ext_dic = {}
         for key in self.request.arguments:
             if key.startswith('def_'):
-                ext_dic[key] = self.get_argument(key)
+                ext_dic[key] = self.get_argument(key, default='')
             else:
                 post_data[key] = self.get_arguments(key)[0]
 
@@ -641,7 +643,7 @@ class UserHandler(BaseHandler):
         Do find user.
         :return:
         '''
-        keyword = self.get_argument('keyword')
+        keyword = self.get_argument('keyword', default='')
         self.find(keyword)
 
     def reset_password(self):
