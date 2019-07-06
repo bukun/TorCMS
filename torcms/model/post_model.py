@@ -738,6 +738,9 @@ class MPost(Mabc):
 
     @staticmethod
     def add_meta(uid, data_dic, extinfo=None):
+        '''
+        adding meta for post.
+        '''
 
         if extinfo is None:
             extinfo = {}

@@ -11,8 +11,8 @@ desc = ('Flexible, extensible Web CMS framework built on Tornado,'
         'compatible with Python 3.4 and above.')
 setup(
     name='torcms',
-    version='0.7.4',
-    keywords=('torcms', 'tornado', 'cms',),
+    version='0.7.5',
+    keywords=('torcms', 'tornado', 'cms'),
     description=desc,
     long_description=''.join(open('README.rst').readlines()),
     license='MIT License',

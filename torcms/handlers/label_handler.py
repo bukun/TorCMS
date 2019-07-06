@@ -139,6 +139,10 @@ class InfoTagHandler(BaseHandler):
     Access label without 'kind'. redirect to /label/
     '''
 
+    def __init__(self):
+        super(InfoTagHandler, self).__init__()
+        self.kind = '9'
+
     def initialize(self, **kwargs):
         super(InfoTagHandler, self).initialize()
         if 'kind' in kwargs:
