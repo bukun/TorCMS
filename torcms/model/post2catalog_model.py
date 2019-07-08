@@ -25,6 +25,17 @@ class MPost2Catalog(Mabc):
         recs = TabPost2Tag.select()
         return recs
 
+    @staticmethod
+    def del_by_uid(uid):
+        '''
+        Just Query all the records from TabPost2Tag.
+        '''
+        entry = TabPost2Tag.delete().where(TabPost2Tag.uid == uid)
+        try:
+            entry.execute()
+            return True
+        except:
+            return False
 
     @staticmethod
     def query_all():
