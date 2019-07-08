@@ -18,6 +18,15 @@ class MPost2Catalog(Mabc):
     '''
 
     @staticmethod
+    def just_query_all():
+        '''
+        Just Query all the records from TabPost2Tag.
+        '''
+        recs = TabPost2Tag.select()
+        return recs
+
+
+    @staticmethod
     def query_all():
         '''
         Query all the records from TabPost2Tag.
