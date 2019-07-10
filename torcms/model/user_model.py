@@ -90,6 +90,21 @@ class MUser(Mabc):
         return 0
 
     @staticmethod
+    def check_user_by_email(user_email, u_pass):
+        '''
+        Checking the password by user's email.
+        '''
+
+        the_query = TabMember.select().where(TabMember.user_email == user_email)
+        if the_query.count() == 0:
+            return -1
+
+        the_user = the_query.get()
+        if the_user.user_pass == tools.md5(u_pass):
+            return 1
+        return 0
+
+    @staticmethod
     def update_pass(user_id, newpass):
         '''
         Update the password of a user.

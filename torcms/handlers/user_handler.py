@@ -5,7 +5,7 @@ Handler for user.
 '''
 
 import json
-
+import re
 import tornado
 import tornado.escape
 import tornado.web
@@ -553,7 +553,18 @@ class UserHandler(BaseHandler):
         u_name = post_data['user_name']
         u_pass = post_data['user_pass']
 
-        result = MUser.check_user_by_name(u_name, u_pass)
+        check_email = re.compile(r'^\w+@(\w+\.)+(com|cn|net)$')
+
+        if check_email.search(u_name):
+
+            result = MUser.check_user_by_email(u_name, u_pass)
+            if result == 1:
+                u_name = MUser.get_by_email(u_name).user_name
+        else:
+            result = MUser.check_user_by_name(u_name, u_pass)
+
+
+
 
         # Todo: the kwd should remove from the codes.
         if result == 1:
