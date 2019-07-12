@@ -39,6 +39,7 @@ def do_for_app(writer, rand=True, kind='', doc_type=None):
             link='/{0}/{1}'.format(router_post[rec.kind], rec.uid),
             content=text2
         )
+        writer.commit()
 
 
 # def do_for_app2(writer, rand=True):
@@ -93,6 +94,7 @@ def do_for_post(writer, rand=True, doc_type=''):
             link='/post/{0}'.format(rec.uid),
             content=text2,
         )
+        writer.commit()
 
 
 def do_for_wiki(writer, rand=True, doc_type=''):
@@ -110,6 +112,7 @@ def do_for_wiki(writer, rand=True, doc_type=''):
             link='/wiki/{0}'.format(rec.title),
             content=text2
         )
+        writer.commit()
 
 
 def do_for_page(writer, rand=True, doc_type=''):
@@ -127,6 +130,7 @@ def do_for_page(writer, rand=True, doc_type=''):
             link='/page/{0}'.format(rec.uid),
             content=text2
         )
+        writer.commit()
 
 
 def gen_whoosh_database(kind_arr, post_type):
@@ -164,7 +168,7 @@ def gen_whoosh_database(kind_arr, post_type):
         do_for_page(writer, rand=switch, doc_type=post_type['1'])
         for kind in kind_arr:
             do_for_app(writer, rand=switch, kind=kind, doc_type=post_type)
-    writer.commit()
+    # writer.commit()
 
 
 def run():

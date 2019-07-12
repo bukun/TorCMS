@@ -28,14 +28,14 @@ class YunSearch():
 
     def get_all_num(self, keyword, catid=''):
         queryit = self.parser.parse(keyword)
-
         if catid == '':
             pass
         else:
             queryit = And([Term("catid", catid), queryit])
-        results = self.whbase.searcher().search(queryit)
 
+        results = self.whbase.searcher().search(queryit)
         return len(results)
+        # return len(self.whbase.searcher().search(queryit).docs())
 
     def search(self, keyword, limit=20):
         queryit = self.parser.parse(keyword)
@@ -54,7 +54,6 @@ class YunSearch():
             queryit = And([Term("catid", catid), queryit])
         try:
             queryres = self.whbase.searcher().search(queryit, limit=page_index * doc_per_page)
-
             return queryres[(page_index - 1) * doc_per_page: page_index * doc_per_page]
         finally:
             pass
