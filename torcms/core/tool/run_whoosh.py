@@ -18,11 +18,35 @@ try:
 except:
     ChineseAnalyzer = None
 
+SITE_CFG['LANG'] = SITE_CFG.get('LANG', 'zh')
 
-def do_for_app(writer, rand=True, kind='', doc_type=None):
+# Using jieba lib for Chinese.
+if SITE_CFG['LANG'] == 'zh' and ChineseAnalyzer:
+    TOR_SCHEMA = Schema(title=TEXT(stored=True, analyzer=ChineseAnalyzer()),
+                        catid=TEXT(stored=True),
+                        type=TEXT(stored=True),
+                        link=ID(unique=True, stored=True),
+                        content=TEXT(stored=True, analyzer=ChineseAnalyzer()))
+else:
+    TOR_SCHEMA = Schema(title=TEXT(stored=True, analyzer=StemmingAnalyzer()),
+                        catid=TEXT(stored=True),
+                        type=TEXT(stored=True),
+                        link=ID(unique=True, stored=True),
+                        content=TEXT(stored=True, analyzer=StemmingAnalyzer()))
+
+WHOOSH_BASE = 'database/whoosh'
+if os.path.exists(WHOOSH_BASE):
+    TOR_IDX = open_dir(WHOOSH_BASE)
+else:
+    os.makedirs(WHOOSH_BASE)
+    TOR_IDX = create_in(WHOOSH_BASE, TOR_SCHEMA)
+
+
+def do_for_app(rand=True, kind='', doc_type=None):
     '''
     生成whoosh，根据配置文件中类别。
     '''
+
     if doc_type is None:
         doc_type = {}
     if rand:
@@ -32,6 +56,7 @@ def do_for_app(writer, rand=True, kind='', doc_type=None):
 
     for rec in recs:
         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
+        writer = TOR_IDX.writer()
         writer.update_document(
             catid='sid' + kind,
             title=rec.title,
@@ -79,7 +104,7 @@ def do_for_app(writer, rand=True, kind='', doc_type=None):
 #         )
 
 
-def do_for_post(writer, rand=True, doc_type=''):
+def do_for_post(rand=True, doc_type=''):
     if rand:
         recs = MPost.query_random(num=10, kind='1')
     else:
@@ -87,6 +112,7 @@ def do_for_post(writer, rand=True, doc_type=''):
 
     for rec in recs:
         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
+        writer = TOR_IDX.writer()
         writer.update_document(
             title=rec.title,
             catid='sid1',
@@ -97,7 +123,7 @@ def do_for_post(writer, rand=True, doc_type=''):
         writer.commit()
 
 
-def do_for_wiki(writer, rand=True, doc_type=''):
+def do_for_wiki(rand=True, doc_type=''):
     if rand:
         recs = MWiki.query_random(num=10, kind='1')
     else:
@@ -105,6 +131,8 @@ def do_for_wiki(writer, rand=True, doc_type=''):
 
     for rec in recs:
         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
+
+        writer = TOR_IDX.writer()
         writer.update_document(
             title=rec.title,
             catid='sid1',
@@ -115,7 +143,7 @@ def do_for_wiki(writer, rand=True, doc_type=''):
         writer.commit()
 
 
-def do_for_page(writer, rand=True, doc_type=''):
+def do_for_page(rand=True, doc_type=''):
     if rand:
         recs = MWiki.query_random(num=4, kind='2')
     else:
@@ -123,6 +151,7 @@ def do_for_page(writer, rand=True, doc_type=''):
 
     for rec in recs:
         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
+        writer = TOR_IDX.writer()
         writer.update_document(
             title=rec.title,
             catid='sid1',
@@ -138,36 +167,12 @@ def gen_whoosh_database(kind_arr, post_type):
     kind_arr, define the `type` except Post, Page, Wiki
     post_type, define the templates for different kind.
     '''
-    SITE_CFG['LANG'] = SITE_CFG.get('LANG', 'zh')
-
-    # Using jieba lib for Chinese.
-    if SITE_CFG['LANG'] == 'zh' and ChineseAnalyzer:
-        schema = Schema(title=TEXT(stored=True, analyzer=ChineseAnalyzer()),
-                        catid=TEXT(stored=True),
-                        type=TEXT(stored=True),
-                        link=ID(unique=True, stored=True),
-                        content=TEXT(stored=True, analyzer=ChineseAnalyzer()))
-    else:
-        schema = Schema(title=TEXT(stored=True, analyzer=StemmingAnalyzer()),
-                        catid=TEXT(stored=True),
-                        type=TEXT(stored=True),
-                        link=ID(unique=True, stored=True),
-                        content=TEXT(stored=True, analyzer=StemmingAnalyzer()))
-
-    whoosh_db = 'database/whoosh'
-    if os.path.exists(whoosh_db):
-        create_idx = open_dir(whoosh_db)
-    else:
-        os.makedirs(whoosh_db)
-        create_idx = create_in(whoosh_db, schema)
-    writer = create_idx.writer()
-
     for switch in [True, False]:
-        do_for_post(writer, rand=switch, doc_type=post_type['1'])
-        do_for_wiki(writer, rand=switch, doc_type=post_type['1'])
-        do_for_page(writer, rand=switch, doc_type=post_type['1'])
+        do_for_post(rand=switch, doc_type=post_type['1'])
+        do_for_wiki(rand=switch, doc_type=post_type['1'])
+        do_for_page(rand=switch, doc_type=post_type['1'])
         for kind in kind_arr:
-            do_for_app(writer, rand=switch, kind=kind, doc_type=post_type)
+            do_for_app(rand=switch, kind=kind, doc_type=post_type)
     # writer.commit()
 
 
