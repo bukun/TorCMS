@@ -8,8 +8,9 @@ class TestMLog():
     def setup(self):
         print('setup 方法执行于本类中每条用例之前')
         self.uid = tools.get_uu4d()
+        self.userid = '11111'
 
-    def test_insert(self):
+    def test_add(self):
         post_data = {
             'uid': self.uid,
             'url': 'http://',
@@ -21,6 +22,10 @@ class TestMLog():
         }
 
         MLog.add(post_data)
+        assert True
+
+    def test_query_pager_by_user(self):
+        MLog.query_pager_by_user(self.userid)
         assert True
 
     def test_query_all_user(self):
@@ -48,8 +53,18 @@ class TestMLog():
         assert True
 
     def test_count_of_certain(self):
-        MLog.count_of_certain('None')
+        MLog.count_of_certain(self.userid)
         assert True
 
+    def test_count_of_certain_pageview(self):
+        MLog.count_of_certain_pageview()
+        assert True
 
+    def test_get_by_uid(self):
+        MLog.get_by_uid(self.uid)
+        assert True
 
+    def test_get_pageview_count(self):
+        current_url = '/'
+        MLog.get_pageview_count(current_url)
+        assert True
