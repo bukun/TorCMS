@@ -6,12 +6,11 @@ from torcms.model.link_model import MLink
 
 class TestUM():
     def setup(self):
-
         self.id = tools.get_uu4d()
         self.raw_count = MLink.get_counts()
         print(self.raw_count)
 
-    def test_insert(self):
+    def test_create_link(self):
         uid = self.id
         post_data = {
             'name': 'asdf',
@@ -69,5 +68,20 @@ class TestUM():
         assert tt.order == int(post_data2['order'])
         assert tt.logo == post_data2['logo']
 
+    def test_query_all(self):
+        MLink.query_all()
+        assert True
+
+    def test_get_by_uid(self):
+        MLink.get_by_uid(self.id)
+        assert True
+
+    def test_query_link(self):
+        MLink.query_link(8)
+        assert True
+
     def tearDown(self):
-        MLink.delete(self.id)
+        print("function teardown")
+        tt = MLink.get_by_uid(self.id)
+        if tt:
+            MLink.delete(tt)

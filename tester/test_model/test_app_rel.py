@@ -32,3 +32,7 @@ class TestMRelation():
 
         MRelation.delete(app_id)
         assert True
+
+    def tearDown(self):
+
+        MRelation.delete(self.app_id)

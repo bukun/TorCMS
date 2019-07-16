@@ -11,6 +11,7 @@ class TestPage():
         self.uu = MWiki()
         self.raw_count = self.uu.get_counts()
         self.page_slug = 'aaa'
+        self.uid = tools.get_uuid()
 
     def test_insert(self):
         raw_count = self.uu.get_counts()
@@ -68,7 +69,27 @@ class TestPage():
         self.uu.get_by_uid('aa')
         assert True
 
-    def test_upate(self):
+    def test_update_cnt(self):
+        post_data = {
+            'user_name': 'name',
+            'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
+
+        }
+        self.uu.update_cnt(self.uid, post_data)
+        assert True
+
+    def test_update(self):
+        post_data = {
+            'title': 'title',
+            'user_name': 'Tome',
+            'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
+        }
+        self.uu.update(self.uid, post_data)
+        assert True
+
+    def test_query_recent_edited(self):
+        timstamp = tools.timestamp()
+        self.uu.query_recent_edited(timstamp)
         assert True
 
     def tearDown(self):

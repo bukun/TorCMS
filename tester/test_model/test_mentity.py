@@ -10,7 +10,7 @@ class TestEntity():
         self.uid = tools.get_uu4d()
         self.path = 'path'
 
-    def test_insert(self):
+    def test_create_entity(self):
         uid = self.uid
         post_data = {
             'path': self.path,
@@ -20,7 +20,7 @@ class TestEntity():
         MEntity.create_entity(uid, post_data['path'])
         assert True
 
-    def test_insert_2(self):
+    def test_create_entity_2(self):
         '''Wiki insert: Test invalid title'''
         post_data = {
             'path': '',
@@ -34,7 +34,8 @@ class TestEntity():
         uu = MEntity.get_id_by_impath(post_data['path'])
         assert uu is None
 
-    def test_upate(self):
+    def test_get_by_uid(self):
+        MEntity.get_by_uid(self.uid)
         assert True
 
     def test_query_all(self):
@@ -61,10 +62,12 @@ class TestEntity():
         MEntity.delete(self.uid)
         assert True
 
+    def test_delete_by_path(self):
+        MEntity.delete_by_path(self.path)
+        assert True
+
     def tearDown(self):
         print("function teardown")
         tt = MEntity.get_id_by_impath(self.path)
         if tt:
-            print('x' * 20)
-            print(tt)
             MEntity.delete(tt)

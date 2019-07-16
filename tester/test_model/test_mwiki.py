@@ -105,8 +105,3 @@ class TestWiki():
     def test_upate(self):
         assert True
 
-    def tearDown(self):
-        print ("function teardown")
-        tt = MWiki.get_by_wiki(self.wiki_title)
-        if tt:
-            MWiki.delete(tt.uid)
