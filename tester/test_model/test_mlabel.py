@@ -5,7 +5,7 @@ from torcms.model.label_model import MLabel
 from torcms.model.label_model import MPost2Label
 
 
-class TestLabel():
+class TestMLabel():
     def setup(self):
         print('setup 方法执行于本类中每条用例之前')
         self.uu = MLabel()

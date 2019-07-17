@@ -5,7 +5,7 @@ from torcms.model.post_model import MPost
 import tornado.escape
 
 
-class TestPost():
+class TestMPost():
     def setup(self):
         print('setup 方法执行于本类中每条用例之前')
         self.uu = MPost()

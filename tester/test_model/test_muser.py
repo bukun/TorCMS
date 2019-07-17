@@ -5,13 +5,13 @@ from torcms.model.user_model import MUser
 import tornado.escape
 
 
-class TestUser():
+class TestMUser():
     def setup(self):
         print('setup 方法执行于本类中每条用例之前')
         self.uu = MUser()
         self.username = 'namea'
 
-    def test_insert(self):
+    def test_create_user(self):
         post_data = {
             'user_name': self.username,
             'user_pass': 'g131322',
@@ -22,7 +22,7 @@ class TestUser():
 
         assert tt['success'] == True
 
-    def test_insert2(self):
+    def test_create_user2(self):
         post_data = {
             'user_name': '',
             'user_pass': 'g131322',
@@ -54,7 +54,7 @@ class TestUser():
         post_data = {
             'user_email': 'ssadfs@163.com'
         }
-        self.test_insert()
+        self.test_create_user()
         user_info = self.uu.get_by_name(self.username)
         tt = self.uu.update_info(user_info.uid, post_data['user_email'])
         assert tt['success'] == True
@@ -73,7 +73,9 @@ class TestUser():
         tt = self.uu.update_role(self.username, post_data['role'])
         assert tt == True
 
-    def test_upate(self):
+
+    def test_query_all(self):
+        self.uu.query_all()
         assert True
 
     def tearDown(self):
