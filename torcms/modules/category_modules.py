@@ -84,3 +84,22 @@ class SecondaryCategoryList(tornado.web.UIModule):
                 userinfo=userinfo,
                 kwd=kwd
             )
+class CategoryName(tornado.web.UIModule):
+    '''
+
+    '''
+
+    def render(self, *args, **kwargs):
+        cat_id = args[0]
+
+        if cat_id != '0000':
+            catinfo = MCategory.get_by_uid(cat_id)
+        else:
+            catinfo = ''
+
+        kwd = {
+
+        }
+        return self.render_string('modules/category/category_name.html',
+                                  recs=catinfo,
+                                  kwd=kwd)

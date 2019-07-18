@@ -104,6 +104,7 @@ core_modules = {
 
     # Category
     'category_menu': category_modules.CategoryMenu,
+    'category_name':category_modules.CategoryName,
     'catalog_menu': catalog_modules.CatalogMenu,
 
     'catalog_list': catalog_modules.CatalogList,
