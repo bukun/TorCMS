@@ -84,6 +84,8 @@ class SecondaryCategoryList(tornado.web.UIModule):
                 userinfo=userinfo,
                 kwd=kwd
             )
+
+
 class CategoryName(tornado.web.UIModule):
     '''
 
@@ -91,14 +93,17 @@ class CategoryName(tornado.web.UIModule):
 
     def render(self, *args, **kwargs):
         cat_id = args[0]
-
+        order = kwargs.get('order', False)
         if cat_id != '0000':
             catinfo = MCategory.get_by_uid(cat_id)
         else:
             catinfo = ''
-
+        if order:
+            cat_url = 'catalog'
+        else:
+            cat_url = 'list'
         kwd = {
-
+            'cat_url': cat_url
         }
         return self.render_string('modules/category/category_name.html',
                                   recs=catinfo,
