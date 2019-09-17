@@ -4,7 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 from time import sleep
-from config import SITE_CFG
+from cfg import SITE_CFG
 
 
 
