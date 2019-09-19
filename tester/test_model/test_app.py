@@ -98,236 +98,255 @@ class TestApp():
         print(tt)
         assert tt.uid == uu
 
+    def add_message(self, **kwargs):
+        '''
+        添加测试信息
+        '''
+        post_data = {
+            'title': kwargs.get('title', self.title),
+            'keywords': kwargs.get('keywords', 'sd,as'),
+            'cnt_md': kwargs.get('cnt_md', '## adslkfjasdf\n lasdfkjsadf'),
+            'logo': kwargs.get('logo', '/static/'),
+            'user_name': kwargs.get('user_name', 'ss'),
+            'kind': kwargs.get('kind', '0'),
+            'extinfo': kwargs.get('extinfo', ''),
+
+        }
+        MPost.add_meta(self.uid, post_data)
+
     def test_query_random(self):
 
         kwargs = {
-            'limit': 3,
-            'kind': '0',
-        }
 
+            'user_name': '7788',
+            'kind': '2',
+
+        }
+        self.add_message(**kwargs)
+
+        kwargs = {
+            'limit': 300,
+            'kind': '2',
+        }
         pp = MPost.query_random(**kwargs)
-        print('8' * 100)
-        # print(pp)
+        TF = False
+        for i in range(pp.count()):
+            if pp[i].title == self.title:
+                assert pp[i].user_name == '7788'
+                TF = True
+
+            else:
+                continue
+        assert TF == True
+        # print('8' * 100)
         # print(pp.count())
-        # print(pp)
-        # print(pp[0].title)
-        # print(pp.title)
-        assert pp.count()==0
-
-        post_data = {
-            'title': self.title,
-            'keywords': 'sd,as',
-            'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
-            'logo': '/static/',
-            'user_name': 'ss',
-            'kind': '0',
-            'extinfo': ''
-        }
-        MPost.add_meta(self.uid, post_data)
-
-
-
-        pp=MPost.query_random(**kwargs)
-        print('8'*100)
-        # print(pp)
-        # print(pp.count())
-        # print(pp)
-        # print(pp[0].title)
-        # print(pp.title)
-        assert pp.count() <= 3
-        assert pp[0].title==self.title
-
-
-
+        # assert pp==1
 
     def test_query_recent(self):
+
         kwargs = {
-            'kind': '0',
-            'order_by_create':True,
+
+            'user_name': '7788',
+            'kind': '2',
+
         }
+        self.add_message(**kwargs)
 
-        pp=MPost.query_recent(**kwargs)
-        # print('00000000000000000000000')
-        # print(pp.count())
-        assert pp.count()==0
-
-
-
-        post_data = {
-            'title': self.title,
-            'keywords': 'sd,as',
-            'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
-            'logo': '/static/',
-            'user_name': 'ss',
-            'kind': '0',
-            'extinfo': ''
+        kwargs = {
+            'order_by_create': True,
+            'kind': '2',
         }
-        MPost.add_meta(self.uid, post_data)
+        pp = MPost.query_recent(**kwargs)
+        TF = False
+        for i in range(pp.count()):
+            if pp[i].title == self.title:
+                assert pp[i].user_name == '7788'
+                TF = True
 
-        MPost.query_recent(**kwargs)
-        # print('000000000000000000000999')
-        # print(pp[0].logo)
-        # print(pp.count())
-        assert pp[0].logo=='/static/'
-
+            else:
+                continue
+        assert TF == True
 
     def test_query_all(self):
-        kwargs = {
-        }
-        pp=MPost.query_all(**kwargs)
-        print(pp[1].uid)
-        print(pp.count())
-
-
-        post_data = {
-            'title': self.title,
-            'keywords': 'sd,as',
-            'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
-            'logo': '/static/',
-            'user_name': 'ss',
-            'kind': '0',
-            'extinfo': ''
-        }
-        MPost.add_meta(self.uid, post_data)
 
         kwargs = {
-            'limit': 3,
-            'kind': '0',
+
+            'user_name': '7788',
+            'kind': '2',
+
         }
-        pp=MPost.query_all(**kwargs)
-        assert pp[0].uid==self.uid
+        self.add_message(**kwargs)
+
+        kwargs = {
+            'order_by_create': True,
+            'kind': '2',
+        }
+        pp = MPost.query_all(**kwargs)
+        TF = False
+        for i in range(pp.count()):
+            if pp[i].title == self.title:
+                assert pp[i].user_name == '7788'
+                TF = True
+
+            else:
+                continue
+        assert TF == True
 
     def test_query_keywords_empty(self):
-        pp=MPost.query_keywords_empty()
-        d=pp.count()
-        print(d)
 
-        post_data = {
-            'title': self.title,
+        kwargs = {
             'keywords': '',
-            'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
-            'logo': '/static/',
-            'user_name': 'ss',
+            'user_name': '7788',
             'kind': '1',
-            'extinfo': ''
-        }
-        MPost.add_meta(self.uid, post_data)
-        pp = MPost.query_keywords_empty()
 
-        assert pp.count()==d+1
+        }
+        self.add_message(**kwargs)
+
+        pp = MPost.query_keywords_empty()
+        TF = False
+        for i in range(pp.count()):
+            if pp[i].title == self.title:
+                assert pp[i].user_name == '7788'
+                TF = True
+                print('000')
+
+            else:
+                continue
+        assert TF == True
 
     def test_query_recent_edited(self):
-        pp=MPost.query_recent_edited(1539069122)
-        d = pp.count()
-        print(d)
 
-        post_data = {
-            'title': self.title,
-            'keywords': 'lalalala',
-            'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
-            'logo': '/static/',
-            'user_name': 'ss',
+        kwargs = {
+            'keywords': '',
+            'user_name': '7788',
             'kind': '1',
-            'extinfo': ''
-        }
-        MPost.add_meta(self.uid, post_data)
-        pp = MPost.query_recent_edited(1539069122)
 
-        print(pp.count())
-        assert pp.count()==d+1
+        }
+        self.add_message(**kwargs)
+
+        pp = MPost.query_recent_edited(1539069122)
+        TF = False
+        for i in range(pp.count()):
+            if pp[i].title == self.title:
+                assert pp[i].user_name == '7788'
+                TF = True
+                print('000')
+
+            else:
+                continue
+        assert TF == True
 
     def test_query_dated(self):
-        pp=MPost.query_dated()
+        pp = MPost.query_dated()
 
-        assert pp.count()==8
+        assert pp.count() == 8
+
+    # def test_query_cat_recent(self):
+    #     kwargs = {
+    #         'keywords': '',
+    #         'user_name': '7788',
+    #         'kind': '1',
+    #         'extinfo':'def_tag_arr'
+    #
+    #     }
+    #     self.add_message(**kwargs)
+    #     pp=MPost.query_cat_recent(self.uid)
+    #     TF = False
+    #     for i in range(pp.count()):
+    #         if pp[i].title == self.title:
+    #             assert pp[i].user_name == '7788'
+    #             TF = True
+    #             print('000')
+    #
+    #         else:
+    #             continue
+    #     assert TF == True
+
 
     def test_query_most_pic(self):
-        b=MPost.query_most_pic(300)
-        print(b.count())
 
+        kwargs = {
 
-        post_data = {
-            'title': 'lililala',
-            'keywords': 'hiahia',
-            'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
-            'logo': '',
-            'user_name': 'ss',
+            'user_name': '7788',
             'kind': '1',
-            'extinfo': ''
+
         }
-        MPost.add_meta(self.uid, post_data)
-        d = MPost.query_most_pic(300)
-        print(d.count())
-        assert b.count()==d.count()
+        self.add_message(**kwargs)
+
+        pp = MPost.query_most_pic(300)
+        TF = False
+        for i in range(pp.count()):
+            if pp[i].title == self.title:
+                assert pp[i].user_name == '7788'
+                TF = True
+                print('000')
+
+            else:
+                continue
+        assert TF == True
 
     def test_get_all(self):
-        a=MPost.get_all()
-        post_data = {
-            'title': self.title,
-            'keywords': 'lalalala',
-            'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
-            'logo': '/static/',
-            'user_name': 'ss',
+
+        kwargs = {
+
+            'user_name': '7788',
             'kind': '2',
-            'extinfo': ''
+
         }
-        MPost.add_meta(self.uid, post_data)
-        b=MPost.get_all()
-        assert a.count()==b.count()
+        self.add_message(**kwargs)
+
+        pp = MPost.get_all()
+        TF = False
+        for i in range(pp.count()):
+            if pp[i].title == self.title:
+                assert pp[i].user_name == '7788'
+                TF = True
+                print('000')
+
+            else:
+                continue
+        assert TF == True
 
     def test_modify_init(self):
-        uid=self.uid
+        kwargs = {
+
+            'user_name': '7788',
+            'keywords': 'kllll',
+            'kind': '2',
+
+        }
+        self.add_message(**kwargs)
+
+        uid = self.uid
         post_data = {
-            'kind': '9',
-            'keywords': 'k',
+            'keywords': 'oor',
+            'kind': '3',
         }
 
-
         MPost.modify_init(uid, post_data)
-        pp=MPost.get_by_uid(uid)
+        pp = MPost.get_by_uid(uid)
         print('6' * 100)
-        print(pp)
+        print(post_data['keywords'])
+        print(pp.keywords)
         # print(pp.count())
-        assert pp==None
-
-
-
-        post_data2 = {
-            'title': self.title,
-            'keywords': 'sd,as',
-            'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
-            'logo': '/static/',
-            'user_name': 'ss',
-            'kind': '9',
-            'extinfo': ''
-        }
-        MPost.add_meta(uid, post_data2)
-
-
-        MPost.modify_init(uid, post_data)
-        pp=MPost.get_by_uid(uid)
-        print('6' * 100)
-        # print(pp.kind)
-        # print(pp.count())
-        assert pp.kind=='9'
-        assert pp.keywords=='k'
+        assert post_data['keywords'] == pp.keywords
+        assert post_data['kind'] == pp.kind
 
     def test_get_view_count(self):
-        post_data = {
-            'title': self.title,
-            'keywords': 'sd,as',
-            'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
-            'logo': '/static/',
-            'user_name': 'ss',
-            'kind': '0',
-            'extinfo': ''
+        kwargs = {
+
+            'user_name': '7788',
+            'keywords': 'kllll',
+            'kind': '2',
+
         }
-        MPost.add_meta(self.uid, post_data)
-        pp= MPost.get_view_count(self.uid)
-        # print(pp)
+        self.add_message(**kwargs)
+
+        pp = MPost.get_view_count(self.uid)
+        print(pp)
         # print(pp[0].kind)
 
-        assert pp==0
+        assert pp == 0
 
     def tearDown(self):
         print("function teardown")
