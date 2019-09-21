@@ -1,0 +1,43 @@
+{% extends "../theme/bage.html" %}
+{% block head %}
+<title>访问源列表 | 资源学科创新平台</title>
+<meta name="keywords" content="访问源列表,资源学科创新平台">
+<meta name="description" content="访问源列表,资源学科创新平台">
+
+{% end %}
+{% block typebody %}
+
+<h1 class="hden">访问源列表</h1>
+<div class="row">
+    <div class="col-sm-12">
+        <ol class="breadcrumb">
+            <li>当前位置：<a href="/" title="首页"> 首页</a></li>
+
+            <li class="active">访问源列表</li>
+        </ol>
+
+        <div class="panel panel-black">
+            <div class="panel-heading">访问源列表</div>
+            <table class="table">
+                <tr>
+                    <td>用户IP</td>
+                    <td>用户城市</td>
+                    <td>访问来源</td>
+                    <td>访问终端</td>
+                </tr>
+                {% for x in postinfo %}
+                <tr>
+                    <td>{{x.userip}}</td>
+                    <td>{{x.usercity}}</td>
+                    <td>{{x.media}}</td>
+                    <td>{{x.terminal}}</td>
+                </tr>
+                {% end %}
+            </table>
+        </div>
+    </div>
+
+</div>
+<br>
+{% end %}
+
