@@ -24,6 +24,7 @@
                     <td>用户城市</td>
                     <td>访问来源</td>
                     <td>访问终端</td>
+                    <td>访问时间</td>
                 </tr>
                 {% for x in postinfo %}
                 <tr>
@@ -31,6 +32,7 @@
                     <td>{{x.usercity}}</td>
                     <td>{{x.media}}</td>
                     <td>{{x.terminal}}</td>
+                    <td>{{ datetime.datetime.fromtimestamp(x.time_create).strftime('%Y-%m-%d %H:%M:%S')}}</td>
                 </tr>
                 {% end %}
             </table>
