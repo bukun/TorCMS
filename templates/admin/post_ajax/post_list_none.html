@@ -1,7 +1,7 @@
 <script>
     function del_info(reply_id, id_num) {
         id_num = id_num.toString();
-        var AjaxUrl = "/post/p/delete/" + reply_id;
+        var AjaxUrl = "/post_j/delete/" + reply_id;
         $.getJSON(AjaxUrl, function (Json) {
             $("#del_info_" + id_num).html('');
         });

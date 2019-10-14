@@ -42,7 +42,7 @@
         var link = $("#link").val();
         var order = $("#order").val();
         var logo = $("#logo").val();
-        $.post("/link/p/add_link", {name: name, link: link, order: order, logo: logo}, function (result) {
+        $.post("/link_j/add_link", {name: name, link: link, order: order, logo: logo}, function (result) {
         });
         $("#addinfo").html("添加成功");
     }
@@ -51,7 +51,7 @@
     function link_del(reply_id, id_num) {
 
         id_num = id_num.toString();
-        var AjaxUrl = "/link/p/delete/" + reply_id;
+        var AjaxUrl = "/link_j/delete/" + reply_id;
         $.getJSON(AjaxUrl, function (Json) {
             $("#del_link_" + id_num).html('');
         });
@@ -64,7 +64,7 @@
         var link1 = $("#link_" + id_num).val();
         var order1 = $("#order_" + id_num).val();
         var logo1 = $("#logo_" + id_num).val();
-        $.post("/link/p/modify/" + update_id, {
+        $.post("/link_j/_edit/" + update_id, {
             name: name1,
             link: link1,
             order: order1,
@@ -104,7 +104,7 @@
                             </td>
                             <td>
                                 <input id="logo" name="logo" type="text" class="form-control"/>
-                                <label id="up"><a href="/entry/add" target="_blank">上传图片</a></label>
+                                <label id="up"><a href="/entry/_add" target="_blank">上传图片</a></label>
                             </td>
                             <td>
                                 <input id="order" name="order" type="text" class="form-control">
@@ -134,7 +134,7 @@
 
                     {% for x in view %}
                     <tr id="del_link_{{ ii }}">
-                        <form method="post" action="/link/modify/{{x.uid}}" class="form-horizontal" id="form_post">
+                        <form method="post" action="/link/_edit/{{x.uid}}" class="form-horizontal" id="form_post">
 
                             <td>
                                 {{ x.uid }}

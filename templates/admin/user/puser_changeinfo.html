@@ -2,7 +2,7 @@
     function change_info() {
         var rawpass = $("#rawpass").val();
         var user_email = $("#user_email").val();
-        $.post("/user/p/changeinfo", {rawpass: rawpass, user_email: user_email}, function (result) {
+        $.post("/user_j/changeinfo", {rawpass: rawpass, user_email: user_email}, function (result) {
         });
         $("#changeinfo").html("修改成功");
     }

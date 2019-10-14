@@ -11,9 +11,9 @@
         <h2> {{ view.title }} </h2>
         {{ str(view.slug.date)[:-7]}}
         <span class="split">|</span>
-        {{ _('author') }} : {{ _('admin') }}
+        {{ _('Editor') }} : {{ _('admin') }}
         <span class="split">|</span>
-        {{ _('view') }} :
+        {{ _('View counts') }} :
         <em id="_viewnum">{{ view.slug.view_count }}</em>
         {% if userinfo is not None and userinfo.role[4] == '1' %}
         <span class="split">|</span>

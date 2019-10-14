@@ -41,7 +41,7 @@
         var rawpass = $("#rawpass").val();
 
 
-        $.post("/user/p/changepass", {rawpass: rawpass, user_pass: user_pass}, function (result) {
+        $.post("/user_j/changepass", {rawpass: rawpass, user_pass: user_pass}, function (result) {
 
         });
         $("#changepass").html("修改成功");
@@ -101,7 +101,7 @@
 
                             <div class="col-md-9">
                                 <button onclick="change_pass();" class="btn btn-default btn-sm ">修改</button>
-                                <a href="/user/logout" class="btn btn-default btn-sm">注销</a>
+
 
                             </div>
                         </div>

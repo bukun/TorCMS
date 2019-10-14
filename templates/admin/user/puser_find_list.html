@@ -1,7 +1,7 @@
 <script>
     function category_del(reply_id, id_num) {
         id_num = id_num.toString();
-        var AjaxUrl = "/user/p/delete_user/" + reply_id;
+        var AjaxUrl = "/user_j/delete_user/" + reply_id;
         $.getJSON(AjaxUrl, function (Json) {
             $("#del_category_" + id_num).html('');
         });
@@ -11,7 +11,7 @@
     function update_category(update_id, id_num) {
         id_num = id_num.toString();
         var role = $("#role" + id_num).val();
-        $.post("/user/p/changerole/" + update_id, {role: role}, function (result) {
+        $.post("/user_j/changerole/" + update_id, {role: role}, function (result) {
             alert("更新成功");
             $("#del_category").html('');
 
@@ -50,7 +50,6 @@
                 </table>
             </div>
         </div>
-
         {% module admin_user_pager(kwd['current_page']) %}
     </div>
 </div>
