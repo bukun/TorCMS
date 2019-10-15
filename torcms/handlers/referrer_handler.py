@@ -3,7 +3,7 @@
 
 # 统计访问来源
 
-
+import datetime
 from concurrent.futures import ThreadPoolExecutor
 
 from torcms.core import tools
@@ -98,13 +98,20 @@ class Referrer(BaseHandler):
             uid = kwargs['uid']
         else:
             uid = self._gen_uid()
-        print(uid)
         post_data, ext_dic = self.fetch_post_data()
         postinfo = MReferrer.get_by_userip(post_data['userip'])
         if postinfo:
-            print('此用户已经存入数据库内')
+            for x in postinfo:
+                olddate = datetime.datetime.fromtimestamp(x.time_create)
+                oldid = x.uid
+            newdate = datetime.datetime.now()
+            difference = (newdate - olddate).days
+            if difference <= 6:
+                print('此用户已经存入数据库内')
+            else:
+                MReferrer.modify_meta(oldid, post_data)
         else:
-            MReferrer.modify_meta(uid, post_data)
+            MReferrer.add_meta(uid, post_data)
 
     def ext_post_data(self, **kwargs):
         '''

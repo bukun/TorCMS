@@ -21,6 +21,7 @@ class Tabreferrer(BaseModel):
     kind = peewee.CharField(null=False, max_length=1,
                             default='1', help_text='', )
     time_create = peewee.IntegerField()
+    time_update = peewee.IntegerField()
 
 
 class MReferrer(Mabc):
@@ -37,7 +38,7 @@ class MReferrer(Mabc):
         if len(userip) < 2:
             return False
 
-        cur_info = MReferrer.get_by_uid(userip)
+        cur_info = MReferrer.get_by_uid(uid)
         if cur_info:
             entry = Tabreferrer.update(
                 uid=uid,
@@ -45,6 +46,8 @@ class MReferrer(Mabc):
                 terminal=data_dic['terminal'],
                 userip=userip,
                 usercity=data_dic['usercity'],
+                kind=data_dic['kind'],
+                time_update=tools.timestamp(),
             ).where(Tabreferrer.uid == uid)
             entry.execute()
 
@@ -67,6 +70,7 @@ class MReferrer(Mabc):
             usercity=data_dic['usercity'],
             kind=data_dic['kind'],
             time_create=tools.timestamp(),
+            time_update=tools.timestamp(),
         )
         return uid
 
