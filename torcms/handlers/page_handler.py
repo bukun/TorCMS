@@ -5,11 +5,12 @@ Page ( with unique slug) handler.
 '''
 
 import json
+import re
 from concurrent.futures import ThreadPoolExecutor
 import tornado.escape
 import tornado.web
 import tornado.ioloop
-
+from torcms.core.tools import logger
 from torcms.core.base_handler import BaseHandler
 from torcms.model.category_model import MCategory
 from torcms.model.wiki_hist_model import MWikiHist
@@ -82,15 +83,27 @@ class PageHandler(BaseHandler):
         '''
         To Add page.
         '''
-
-        kwd = {
+        if re.match('^[a-zA-Z][a-zA-Z0-9_]{3,19}', citiao) != None:
+            kwd = {
             'cats': MCategory.query_all(),
             'slug': citiao,
             'pager': '',
-        }
-        self.render('wiki_page/page_add.html',
-                    kwd=kwd,
-                    userinfo=self.userinfo)
+            }
+            self.render('wiki_page/page_add.html',
+                        kwd=kwd,
+                        userinfo=self.userinfo)
+
+        else:
+            logger.info(' ' * 4 + 'Slug contains special characters')
+            kwd = {
+                'info': 'Slug contains special characters,Slug must be a combination of letters or alphanumeric or alphanumeric underscores (letters).',
+                'link': '/',
+            }
+            self.render('misc/html/404.html',
+                        kwd=kwd,
+                        userinfo=self.userinfo)
+
+
 
     @tornado.web.authenticated
     def __could_edit(self, slug):
