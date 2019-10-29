@@ -128,6 +128,8 @@ class PostHistoryHandler(EditHistoryHander):
         else:
             post_data['user_name'] = ''
         cur_info = MPost.get_by_uid(uid)
+        cur_info.user_name=post_data['user_name']
+
         MPostHist.create_post_history(cur_info)
         MPost.update_cnt(uid, post_data)
         self.redirect('/{0}/{1}'.format(router_post[cur_info.kind], uid))
