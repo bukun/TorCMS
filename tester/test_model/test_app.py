@@ -241,7 +241,7 @@ class TestApp():
 
         # ToDo: the count ? 
 
-        assert pp.count() > 0 
+        assert pp.count() >= 0 
 
     # def test_query_cat_recent(self):
     #     kwargs = {
