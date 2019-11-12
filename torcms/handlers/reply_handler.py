@@ -8,6 +8,7 @@ import json
 
 from torcms.core.base_handler import BaseHandler
 from torcms.model.reply_model import MReply
+from torcms.model.replyid_model import MReplyid
 from torcms.model.reply2user_model import MReply2User
 from torcms.core.tools import logger
 from config import CMS_CFG
@@ -39,6 +40,9 @@ class ReplyHandler(BaseHandler):
 
         if url_arr[0] == 'add':
             self.add(url_arr[1])
+        elif url_arr[0]=='add_reply':
+            self.add_reply(url_arr[1],url_arr[2])
+
 
     def list(self, cur_p=''):
         '''
@@ -88,6 +92,7 @@ class ReplyHandler(BaseHandler):
         post_data['user_name'] = self.userinfo.user_name
         post_data['user_id'] = self.userinfo.uid
         post_data['post_id'] = post_id
+        post_data['category'] = '0'
         replyid = MReply.create_reply(post_data)
         if replyid:
             out_dic = {'pinglun': post_data['cnt_reply'],
@@ -124,3 +129,24 @@ class ReplyHandler(BaseHandler):
         else:
             output = {'del_zan': 0}
         return json.dump(output, self)
+    def add_reply(self, post_id,reply_id):
+        '''
+        Adding comment to a post.
+        '''
+        post_data = self.get_post_data()
+
+        post_data['user_name'] = self.userinfo.user_name
+        post_data['user_id'] = self.userinfo.uid
+        post_data['post_id'] = post_id
+        post_data['category'] = '1'
+        # 表里添加回复内容返回存储id
+        replyid = MReply.create_reply(post_data)
+        # 在关联表里存储评论id与回复id
+        print(replyid)
+        print(reply_id)
+        MReplyid.create_replyid(reply_id, replyid)
+        if replyid:
+            out_dic = {'pinglun': post_data['cnt_reply'],
+                       'uid': replyid}
+            logger.info('add reply result dic: {0}'.format(out_dic))
+            return json.dump(out_dic, self)

@@ -110,5 +110,7 @@ core_modules = {
     'catalog_list': catalog_modules.CatalogList,
     'secondary_category_menu': category_modules.SecondaryCategoryMenu,
     'secondary_category_list': category_modules.SecondaryCategoryList,
+    #Comment
+    'comment_list':widget_modules.CommentList,
 
 }

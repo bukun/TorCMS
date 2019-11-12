@@ -81,6 +81,17 @@ function reply_it(view_id) {
         $("#pinglun").load("/reply/get/" + msg_json.uid)
     }), $("#cnt_reply").val(""), $("#cnt_reply").attr("disabled", !0), $("#btn_submit_reply").attr("disabled", !0))
 }
+
+function comment_it(view_id,reply_id,cid,bid) {
+    var txt = $("#" + cid).val();
+    txt.length < 10 || ($.post("/reply/add_reply/" + view_id +'/'+ reply_id, {cnt_reply: txt}, function (result) {
+
+        var msg_json = $.parseJSON(result);
+
+    }),$("#" + cid).val(""),$("#" + cid).attr("disabled", !0), $("#"+ bid ).attr("disabled", !0))
+}
+
+
 function del_layout(layout_id) {
     return $.ajax({
         url: "/layout/delete/" + layout_id,

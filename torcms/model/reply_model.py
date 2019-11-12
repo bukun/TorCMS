@@ -10,6 +10,7 @@ from torcms.core import tools
 from torcms.model.core_tab import TabReply
 from torcms.model.core_tab import TabUser2Reply
 from torcms.model.abc_model import Mabc
+from torcms.model.replyid_model import TabReplyid
 from config import CMS_CFG
 
 
@@ -40,11 +41,13 @@ class MReply(Mabc):
             post_id=post_data['post_id'],
             user_name=post_data['user_name'],
             user_id=post_data['user_id'],
+            category = post_data['category'],
             timestamp=tools.timestamp(),
             date=datetime.datetime.now(),
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_reply']),
             cnt_html=tools.markdown2html(post_data['cnt_reply']),
             vote=0
+
         )
         return uid
 
@@ -54,7 +57,7 @@ class MReply(Mabc):
         Get reply list of certain post.
         '''
         return TabReply.select().where(
-            TabReply.post_id == postid
+            (TabReply.post_id == postid)&(TabReply.category == '0')
         ).order_by(TabReply.timestamp.desc())
 
     @staticmethod

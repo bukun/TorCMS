@@ -8,6 +8,7 @@ from torcms.core import tools
 from torcms.model.core_tab import TabUser2Reply
 from torcms.model.core_tab import TabReply
 from torcms.model.abc_model import Mabc
+from torcms.model.replyid_model import TabReplyid
 
 
 class MReply2User(Mabc):
@@ -40,11 +41,20 @@ class MReply2User(Mabc):
     @staticmethod
     def delete(uid):
         try:
+
             del_count2 = TabUser2Reply.delete().where(TabUser2Reply.reply_id == uid)
             del_count2.execute()
 
             del_count = TabReply.delete().where(TabReply.uid == uid)
             del_count.execute()
+
+            rec = TabReplyid.select().where(TabReplyid.reply0 == uid)
+            for x in rec:
+                del_count3 = TabReply.delete().where(TabReply.uid == x.reply1)
+                del_count3.execute()
+
+            del_count4 = TabReplyid.delete().where(TabReplyid.reply0 == uid)
+            del_count4.execute()
 
             return True
         except:

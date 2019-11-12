@@ -9,6 +9,7 @@ import tornado.web
 from torcms.model.reply_model import MReply
 from torcms.model.rating_model import MRating
 from torcms.model.category_model import MCategory
+from torcms.model.replyid_model import MReplyid
 
 
 class BaiduShare(tornado.web.UIModule):
@@ -175,3 +176,21 @@ class Navigation_menu(tornado.web.UIModule):
         return self.render_string('modules/widget/nav_menu.html',
                                   pcatinfo=curinfo,
                                   kwd=kwd)
+class CommentList(tornado.web.UIModule):
+    '''
+
+    '''
+
+    def render(self, *args, **kwargs):
+        replyid = kwargs.get('replyid','')
+        res = MReplyid.get_by_rid(replyid)
+        datas = []
+        for x in res:
+            rec = MReply.get_by_uid(x.reply1)
+            if rec in datas:
+                pass
+            else:
+                datas.append(rec)
+        return self.render_string('modules/widget/comment_list.html',
+                            recs = datas
+                                  )

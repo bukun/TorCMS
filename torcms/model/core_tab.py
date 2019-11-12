@@ -175,6 +175,7 @@ class TabReply(BaseModel):
     cnt_md = peewee.TextField()
     cnt_html = peewee.TextField()
     vote = peewee.IntegerField()
+    category = peewee.CharField(null=False,help_text='0为评论，1为回复', )
 
 
 class TabUser2Reply(BaseModel):
@@ -268,3 +269,13 @@ class TabLog(BaseModel):
     time_create = peewee.BigIntegerField()
     time_out = peewee.BigIntegerField()
     time = peewee.BigIntegerField()
+
+class TabReplyid(BaseModel):
+    '''
+    用户评论回复。
+    '''
+    uid = peewee.CharField(null=False, index=False, unique=True, primary_key=True,
+                           max_length=36, help_text='', )
+    reply0 = peewee.CharField(null=False,max_length=36,help_text='', )
+    reply1 = peewee.CharField(null=False, max_length=36, help_text='', )
+    time_create = peewee.IntegerField()
