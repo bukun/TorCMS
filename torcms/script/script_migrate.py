@@ -46,4 +46,14 @@ def run_migrate(*args):
     except:
         pass
 
+
+    category_field = migrate.CharField(null=False, default='', max_length=1,
+                                     help_text='0为评论，1为回复')
+    try:
+        migrate.migrate(torcms_migrator.add_column('tabreply', 'category', category_field))
+    except:
+        pass
+
+
+
     print('Migration finished.')
