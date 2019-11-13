@@ -175,7 +175,7 @@ class TabReply(BaseModel):
     cnt_md = peewee.TextField()
     cnt_html = peewee.TextField()
     vote = peewee.IntegerField()
-    category = peewee.CharField(null=False,help_text='0为评论，1为回复', )
+    category = peewee.CharField(null=False,default='0',help_text='0为评论，1为回复', )
 
 
 class TabUser2Reply(BaseModel):

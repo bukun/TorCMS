@@ -57,7 +57,7 @@ class MReply(Mabc):
         Get reply list of certain post.
         '''
         return TabReply.select().where(
-            (TabReply.post_id == postid)&(TabReply.category == '0')
+            (TabReply.post_id == postid)&(TabReply.category != '1')
         ).order_by(TabReply.timestamp.desc())
 
     @staticmethod
