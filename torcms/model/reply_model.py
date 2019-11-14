@@ -94,3 +94,32 @@ class MReply(Mabc):
         Query pager
         '''
         return TabReply.select().paginate(current_page_num, CMS_CFG['list_num'])
+
+    @staticmethod
+
+    def modify_by_uid(pid,post_data):
+        rec = MReply.get_by_uid(pid)
+        if rec:
+            entry = TabReply.update(
+                user_name=post_data['user_name'],
+                user_id=post_data['user_id'],
+                category=post_data['category'],
+                timestamp=tools.timestamp(),
+                date=datetime.datetime.now(),
+                cnt_md=tornado.escape.xhtml_escape(post_data['cnt_reply']),
+                cnt_html=tools.markdown2html(post_data['cnt_reply']),
+            ).where(TabReply.uid == pid)
+            entry.execute()
+            return pid
+
+    @staticmethod
+    def delete_by_uid(del_id):
+        delcom=TabReplyid.delete().where(TabReplyid.reply1 == del_id)
+        delcom.execute()
+        entry = TabReply.delete().where(TabReply.uid == del_id)
+        try:
+            entry.execute()
+            return True
+        except:
+            return False
+

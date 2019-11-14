@@ -74,6 +74,12 @@ function reply_del(reply_id, id_num) {
         1 == Json.del_zan ? $("#del_zan_" + id_num).html("") : alert("删除失败！")
     })
 }
+function reply_del_com(reply_id) {
+    var AjaxUrl = "/reply/delete_com/" + reply_id;
+    $.getJSON(AjaxUrl, function (Json) {
+        alert(Json)
+    })
+}
 function reply_it(view_id) {
     var txt = $("#cnt_reply").val();
     txt.length < 10 || ($.post("/reply/add/" + view_id, {cnt_reply: txt}, function (result) {
@@ -81,13 +87,26 @@ function reply_it(view_id) {
         $("#pinglun").load("/reply/get/" + msg_json.uid)
     }), $("#cnt_reply").val(""), $("#cnt_reply").attr("disabled", !0), $("#btn_submit_reply").attr("disabled", !0))
 }
+function reply_modify(pid,cntid,cate) {
+    var txt = $("#" + cntid).val();
+    txt.length < 10 || ($.post("/reply/modify/" + pid +'/'+ cate, {cnt_reply: txt}, function (result) {
+        var msg_json = $.parseJSON(result);
+        if (cate == 0){
+            $("#pinglun").load("/reply/get/" + msg_json.uid)
+        }
+        else{
+            $("#reply_comment").load("/reply/get/" + msg_json.uid)
+        }
+
+    }))
+}
 
 function comment_it(view_id,reply_id,cid,bid) {
     var txt = $("#" + cid).val();
     txt.length < 10 || ($.post("/reply/add_reply/" + view_id +'/'+ reply_id, {cnt_reply: txt}, function (result) {
 
         var msg_json = $.parseJSON(result);
-
+         $("#reply_comment").load("/reply/get/" + msg_json.uid)
     }),$("#" + cid).val(""),$("#" + cid).attr("disabled", !0), $("#"+ bid ).attr("disabled", !0))
 }
 

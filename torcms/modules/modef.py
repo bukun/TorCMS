@@ -112,5 +112,6 @@ core_modules = {
     'secondary_category_list': category_modules.SecondaryCategoryList,
     #Comment
     'comment_list':widget_modules.CommentList,
+    'replycnt':widget_modules.Replycnt,
 
 }

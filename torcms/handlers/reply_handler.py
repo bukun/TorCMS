@@ -31,6 +31,8 @@ class ReplyHandler(BaseHandler):
             self.list(url_arr[1])
         elif url_arr[0] == 'delete':
             self.delete(url_arr[1])
+        elif url_arr[0] == 'delete_com':
+            self.delete_com(url_arr[1])
         elif url_arr[0] == 'zan':
             self.zan(url_arr[1])
 
@@ -42,7 +44,8 @@ class ReplyHandler(BaseHandler):
             self.add(url_arr[1])
         elif url_arr[0]=='add_reply':
             self.add_reply(url_arr[1],url_arr[2])
-
+        elif url_arr[0]=='modify':
+            self.modify(url_arr[1],url_arr[2])
 
     def list(self, cur_p=''):
         '''
@@ -129,9 +132,19 @@ class ReplyHandler(BaseHandler):
         else:
             output = {'del_zan': 0}
         return json.dump(output, self)
+    def delete_com(self, del_id):
+        '''
+        Delete the reply id
+        '''
+
+        if MReply.delete_by_uid(del_id):
+            output = '删除成功'
+        else:
+            output = '删除失败'
+        return json.dump(output,self)
     def add_reply(self, post_id,reply_id):
         '''
-        Adding comment to a post.
+        Adding reply
         '''
         post_data = self.get_post_data()
 
@@ -142,11 +155,25 @@ class ReplyHandler(BaseHandler):
         # 表里添加回复内容返回存储id
         replyid = MReply.create_reply(post_data)
         # 在关联表里存储评论id与回复id
-        print(replyid)
-        print(reply_id)
         MReplyid.create_replyid(reply_id, replyid)
         if replyid:
             out_dic = {'pinglun': post_data['cnt_reply'],
                        'uid': replyid}
             logger.info('add reply result dic: {0}'.format(out_dic))
+            return json.dump(out_dic, self)
+
+    def modify(self, pid,cat):
+        '''
+        Adding comment to a post.
+        '''
+        post_data = self.get_post_data()
+        post_data['user_name'] = self.userinfo.user_name
+        post_data['user_id'] = self.userinfo.uid
+        post_data['category'] = cat
+        reply = MReply.modify_by_uid(pid,post_data)
+
+        if reply:
+            out_dic = {'pinglun': post_data['cnt_reply'],
+                       'uid': reply}
+            logger.info('Modify reply result dic: {0}'.format(out_dic))
             return json.dump(out_dic, self)

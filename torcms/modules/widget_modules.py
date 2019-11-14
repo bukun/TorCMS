@@ -178,11 +178,12 @@ class Navigation_menu(tornado.web.UIModule):
                                   kwd=kwd)
 class CommentList(tornado.web.UIModule):
     '''
-
+    reply list
     '''
 
     def render(self, *args, **kwargs):
         replyid = kwargs.get('replyid','')
+        userinfo = kwargs.get('userinfo','')
         res = MReplyid.get_by_rid(replyid)
         datas = []
         for x in res:
@@ -192,5 +193,14 @@ class CommentList(tornado.web.UIModule):
             else:
                 datas.append(rec)
         return self.render_string('modules/widget/comment_list.html',
+                            userinfo = userinfo,
                             recs = datas
                                   )
+class Replycnt(tornado.web.UIModule):
+
+
+    def render(self, *args, **kwargs):
+        replyid = kwargs.get('replyid','')
+        res = MReply.get_by_uid(replyid)
+        reply_cnt = res.cnt_md
+        return  reply_cnt
