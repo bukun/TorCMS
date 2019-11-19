@@ -115,7 +115,7 @@ class WikiHistoryHandler(EditHistoryHander):
         kwd = {}
         self.render('man_info/wiki_man_view.html',
                     userinfo=self.userinfo,
-                    router=router_post[postinfo.kind],
+
                     postinfo=postinfo,
                     html_diff_arr=html_diff_arr,
                     kwd=kwd)
