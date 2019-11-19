@@ -41,7 +41,7 @@ class MReply(Mabc):
             post_id=post_data['post_id'],
             user_name=post_data['user_name'],
             user_id=post_data['user_id'],
-            category = post_data['category'],
+            category = post_data['category'] if 'category' in post_data else '0',
             timestamp=tools.timestamp(),
             date=datetime.datetime.now(),
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_reply']),
