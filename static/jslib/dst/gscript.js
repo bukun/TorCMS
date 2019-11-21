@@ -90,7 +90,7 @@ function reply_it(view_id) {
 }
 function reply_modify(pid,cntid,cate) {
     var txt = $("#" + cntid).val();
-    txt.length < 10 || ($.post("/reply/modify/" + pid +'/'+ cate, {cnt_reply: txt}, function (result) {
+    txt.length < 1 || ($.post("/reply/modify/" + pid +'/'+ cate, {cnt_reply: txt}, function (result) {
         var msg_json = $.parseJSON(result);
         if (cate == 0){
             $("#pinglun").load("/reply/get/" + msg_json.uid)
@@ -104,7 +104,7 @@ function reply_modify(pid,cntid,cate) {
 
 function comment_it(view_id,reply_id,cid,bid) {
     var txt = $("#" + cid).val();
-    txt.length < 10 || ($.post("/reply/add_reply/" + view_id +'/'+ reply_id, {cnt_reply: txt}, function (result) {
+    txt.length < 1 || ($.post("/reply/add_reply/" + view_id +'/'+ reply_id, {cnt_reply: txt}, function (result) {
 
         var msg_json = $.parseJSON(result);
          $("#reply_comment").load("/reply/get/" + msg_json.uid)
