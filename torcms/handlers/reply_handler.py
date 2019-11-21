@@ -138,9 +138,9 @@ class ReplyHandler(BaseHandler):
         '''
 
         if MReply.delete_by_uid(del_id):
-            output = '删除成功'
+            output = {'del_reply': 1}
         else:
-            output = '删除失败'
+             output = {'del_reply': 0}
         return json.dump(output,self)
     def add_reply(self, post_id,reply_id):
         '''
