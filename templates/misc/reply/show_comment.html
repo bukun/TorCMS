@@ -1,0 +1,15 @@
+<div class="comment">
+    <div class="reply_title"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp; <strong>{{ username
+        }}</strong>
+        <span class="pull-right">
+                <span class="glyphicon glyphicon glyphicon-time"></span>&nbsp;&nbsp;
+                &nbsp;&nbsp;{{ str(date).split('.')[0] }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    </div>
+    <div class="reply_cnt">
+        <div class="listinfo_content" id="wiki_cnt">
+            {% raw unescape(reply.cnt_html) %}
+        </div>
+    </div>
+
+</div>
+

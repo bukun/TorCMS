@@ -29,6 +29,8 @@ class ReplyHandler(BaseHandler):
             self.get_by_id(url_arr[1])
         if url_arr[0] == 'list':
             self.list(url_arr[1])
+        elif url_arr[0] == 'get_comment':
+            self.get_by_id_comment(url_arr[1])
         elif url_arr[0] == 'delete':
             self.delete(url_arr[1])
         elif url_arr[0] == 'delete_com':
@@ -86,6 +88,21 @@ class ReplyHandler(BaseHandler):
                     userinfo=self.userinfo,
                     kwd={})
 
+    def get_by_id_comment(self, reply_id):
+        '''
+        Get the reply by id.
+        '''
+        reply = MReply.get_by_uid(reply_id)
+        logger.info('get_reply: {0}'.format(reply_id))
+
+        self.render('misc/reply/show_comment.html',
+                    reply=reply,
+                    username=reply.user_name,
+                    date=reply.date,
+                    vote=reply.vote,
+                    uid=reply.uid,
+                    userinfo=self.userinfo,
+                    kwd={})
     def add(self, post_id):
         '''
         Adding reply to a post.

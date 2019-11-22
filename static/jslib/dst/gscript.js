@@ -96,7 +96,7 @@ function reply_modify(pid,cntid,cate) {
             $("#pinglun").load("/reply/get/" + msg_json.uid)
         }
         else{
-            $("#reply_comment").load("/reply/get/" + msg_json.uid)
+            $("#reply_comment").load("/reply/get_comment/" + msg_json.uid)
         }
 
     }))
@@ -107,7 +107,7 @@ function comment_it(view_id,reply_id,cid,bid) {
     txt.length < 1 || ($.post("/reply/add_reply/" + view_id +'/'+ reply_id, {cnt_reply: txt}, function (result) {
 
         var msg_json = $.parseJSON(result);
-         $("#reply_comment").load("/reply/get/" + msg_json.uid)
+         $("#reply_comment").load("/reply/get_comment/" + msg_json.uid)
     }),$("#" + cid).val(""),$("#" + cid).attr("disabled", !0), $("#"+ bid ).attr("disabled", !0))
 }
 
