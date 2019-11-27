@@ -13,38 +13,90 @@ class TestMEntity():
         uid = self.uid
         path = self.path
         desc = 'create entity'
-        kind = '1'
+        kind = 'f'
         tt = MEntity.create_entity(uid, path, desc, kind)
         assert tt == True
 
+    def add_message(self):
+        desc = 'create entity'
+        kind = 'f'
+        MEntity.create_entity(self.uid, self.path, desc, kind)
+
     def test_query_recent(self):
-        MEntity.get_by_uid(self.uid)
-        assert True
+        a=MEntity.get_by_uid(self.uid)
+        assert a==None
+        self.add_message()
+        a = MEntity.get_by_uid(self.uid)
+        assert a
 
     def test_query_all(self):
-        MEntity.query_all()
-        assert True
+        self.add_message()
+        a=MEntity.query_all()
+        tf = False
+        for i in a:
+            if i.uid == self.uid:
+                tf = True
+        assert tf
 
     def test_get_by_kind(self):
-        MEntity.get_by_kind()
-        assert True
+        self.add_message()
+        a=MEntity.get_by_kind(kind='f' )
+
+        tf = False
+        for i in a:
+            if i.uid == self.uid:
+                tf = True
+        assert tf
 
     def test_get_all_pager(self):
-        MEntity.get_all_pager()
-        assert True
+        a = MEntity.get_all_pager()
+        tf = True
+        for i in a:
+            if i.uid == self.uid:
+                tf = False
+        assert tf
+        self.add_message()
+        a=MEntity.get_all_pager()
+        tf=False
+        for i in a:
+            if i.uid == self.uid:
+                tf=True
+        assert tf
 
     def test_get_id_by_impath(self):
+        self.add_message()
         path = self.path
-        MEntity.get_id_by_impath(path)
-        assert True
+        a=MEntity.get_id_by_impath(path)
+        assert a.uid==self.uid
 
     def test_total_number(self):
-        MEntity.total_number()
-        assert True
+        b = MEntity.total_number()
+
+        self.add_message()
+        a=MEntity.total_number()
+
+        assert b+1==a
 
     def test_delete_by_path(self):
+        tf= MEntity.get_by_uid(self.uid)
+        assert tf==None
+        self.add_message()
+        tf= MEntity.get_by_uid(self.uid)
+        assert tf
         MEntity.delete_by_path(self.path)
-        assert True
+        tf = MEntity.get_by_uid(self.uid)
+
+        assert tf == None
+
+    def test_delete(self):
+        tf = MEntity.get_by_uid(self.uid)
+        assert tf == None
+        self.add_message()
+        tf =MEntity.delete(self.uid)
+        assert tf
+        tf = MEntity.get_by_uid(self.uid)
+
+        assert tf == None
 
     def tearDown(self):
         print("function teardown")
