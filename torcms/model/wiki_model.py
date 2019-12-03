@@ -72,7 +72,7 @@ class MWiki(Mabc):
             title=title,
             date=datetime.datetime.now(),
             cnt_html=cnt_html,
-            user_name=post_data['user_name'],
+            # user_name=post_data['user_name'],
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md']),
             time_update=tools.timestamp()
         ).where(TabWiki.uid == uid)

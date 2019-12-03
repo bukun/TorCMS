@@ -599,7 +599,7 @@ class MPost(Mabc):
             if DB_CFG['kind'] == 's':
                 entry = TabPost.update(
                     title=title,
-                    user_name=data_dic['user_name'],
+                    # user_name=data_dic['user_name'],
                     keywords='',
                     time_update=tools.timestamp(),
                     date=datetime.now(),
@@ -619,7 +619,7 @@ class MPost(Mabc):
 
                 entry = TabPost.update(
                     title=title,
-                    user_name=data_dic['user_name'],
+                    # user_name=data_dic['user_name'],
                     keywords='',
                     time_update=tools.timestamp(),
                     date=datetime.now(),
