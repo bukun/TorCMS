@@ -819,7 +819,7 @@ class MPost(Mabc):
             TabPost.create(
                 uid=data_dic['sig'],
                 title=data_dic['title'],
-                create_time=time_stamp,
+                time_create=time_stamp,
                 time_update=time_stamp,
                 cnt_md=data_dic['cnt_md'] if 'memo' in data_dic else '',
                 memo=data_dic['memo'] if 'memo' in data_dic else '',
