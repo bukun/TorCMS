@@ -35,7 +35,7 @@ class WikiHistoryHandler(EditHistoryHander):
         post_data = self.get_post_data()
         post_data['user_name'] = self.userinfo.user_name if self.userinfo else ''
         cur_info = MWiki.get_by_uid(uid)
-        MWikiHist.create_wiki_history(cur_info)
+        MWikiHist.create_wiki_history(cur_info, self.userinfo)
         MWiki.update_cnt(uid, post_data)
         if cur_info.kind == '1':
             self.redirect('/wiki/{0}'.format(cur_info.title))

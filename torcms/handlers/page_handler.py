@@ -85,9 +85,9 @@ class PageHandler(BaseHandler):
         '''
         if re.match('^[a-zA-Z][a-zA-Z0-9_]{3,19}', citiao) != None:
             kwd = {
-            'cats': MCategory.query_all(),
-            'slug': citiao,
-            'pager': '',
+                'cats': MCategory.query_all(),
+                'slug': citiao,
+                'pager': '',
             }
             self.render('wiki_page/page_add.html',
                         kwd=kwd,
@@ -102,8 +102,6 @@ class PageHandler(BaseHandler):
             self.render('misc/html/404.html',
                         kwd=kwd,
                         userinfo=self.userinfo)
-
-
 
     @tornado.web.authenticated
     def __could_edit(self, slug):
@@ -138,7 +136,7 @@ class PageHandler(BaseHandler):
         if cnt_old == cnt_new:
             pass
         else:
-            MWikiHist.create_wiki_history(MWiki.get_by_uid(slug))
+            MWikiHist.create_wiki_history(MWiki.get_by_uid(slug), self.userinfo)
 
         MWiki.update(slug, post_data)
         tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)

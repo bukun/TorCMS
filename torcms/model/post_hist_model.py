@@ -71,7 +71,7 @@ class MPostHist(Mabc):
         return None
 
     @staticmethod
-    def create_post_history(raw_data,user_info):
+    def create_post_history(raw_data, user_info):
         '''
         Create the history of certain post.
         '''

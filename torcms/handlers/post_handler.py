@@ -603,7 +603,7 @@ class PostHandler(BaseHandler):
         if cnt_old == cnt_new:
             pass
         else:
-            MPostHist.create_post_history(postinfo,self.userinfo)
+            MPostHist.create_post_history(postinfo, self.userinfo)
 
         MPost.modify_meta(uid, post_data, extinfo=ext_dic)
 
