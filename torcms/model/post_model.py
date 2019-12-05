@@ -826,6 +826,7 @@ class MPost(Mabc):
                 cnt_html=data_dic['cnt_html'],
                 date=datetime.now(),
                 keywords='',
+                view_count=0,
                 extinfo=ext_dic
             )
 

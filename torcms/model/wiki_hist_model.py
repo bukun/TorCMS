@@ -48,12 +48,12 @@ class MWikiHist(Mabc):
         return recs
 
     @staticmethod
-    def create_wiki_history(raw_data):
+    def create_wiki_history(raw_data, user_info):
         entry = TabWikiHist.create(
             uid=tools.get_uuid(),
             title=raw_data.title,
             wiki_id=raw_data.uid,
-            user_name=raw_data.user_name,
+            user_name=user_info.user_name,
             cnt_md=raw_data.cnt_md,
             time_update=raw_data.time_update,
         )

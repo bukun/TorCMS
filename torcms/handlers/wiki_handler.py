@@ -122,7 +122,7 @@ class WikiHandler(BaseHandler):
         if cnt_old == cnt_new:
             pass
         else:
-            MWikiHist.create_wiki_history(postinfo)
+            MWikiHist.create_wiki_history(postinfo, self.userinfo)
 
         MWiki.update(uid, post_data)
 
