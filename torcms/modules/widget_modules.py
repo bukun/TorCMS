@@ -10,6 +10,7 @@ from torcms.model.reply_model import MReply
 from torcms.model.rating_model import MRating
 from torcms.model.category_model import MCategory
 from torcms.model.replyid_model import MReplyid
+from torcms.model.user_model import MUser
 
 
 class BaiduShare(tornado.web.UIModule):
@@ -204,3 +205,14 @@ class Replycnt(tornado.web.UIModule):
         res = MReply.get_by_uid(replyid)
         reply_cnt = res.cnt_md
         return  reply_cnt
+class Userprofile(tornado.web.UIModule):
+    '''
+    the reply panel.
+    '''
+
+    def render(self, *args, **kwargs):
+        user_id = args[0]
+        rec = MUser.get_by_uid(user_id)
+
+        return self.render_string('modules/user_profile.html',
+                                  rec=rec)

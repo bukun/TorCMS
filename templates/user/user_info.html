@@ -17,88 +17,90 @@
                     {% end %}
                     <div class="panel-heading"><b> {{ _('User Info') }} </b></div>
                     <table class="table table-striped">
-                        <tr><td>
-                            <b>{{ _('User Name') }}</b>：</td>
+                        <tr>
+                            <td><b>{{ _('User Name') }}</b>：</td>
                             <td>{{ userinfo.user_name }}</td>
-                        </tr>
-                        <tr><td>
-                            <b>{{ _('Email') }}</b>：</td>
-                            <td>{{ userinfo.user_email }}</td>
+                            <td style="width: 25%" rowspan="4">
+                                  {% if 'def_profile' in userinfo.extinfo %}
+                                <img src=" {{ userinfo.extinfo['def_profile'] }}"
+                                     class="img-thumbnail" alt="{{ userinfo.extinfo['def_profile'] }}">
+                                {% end %}
+                            </td>
+
                         </tr>
                         <tr>
-                            <td>
-                                <b>{{ _('Role') }}</b>：</td>
-                            <td>{{ userinfo.role}}</td>
+                            <td><b>{{ _('Email') }}</b>：</td>
+                            <td>{{ userinfo.user_email }}</td>
+
                         </tr>
-                        <tr><td>
-                            <b>{{ _('True Name') }}</b>：</td><td>
+                        <tr>
+                            <td><b>{{ _('Role') }}</b>：</td>
+                            <td>{{ userinfo.role}}</td>
+
+                        </tr>
+                        <tr>
+                            <td><b>{{ _('True Name') }}</b>：</td><td>
                             {{ userinfo.extinfo['def_truename'] if 'def_truename' in userinfo.extinfo else ''}}</td>
                         </tr>
-                        <tr><td>
-                            <b>{{ _('Gender') }}</b>：</td>
-                            <td>
-                                {{ userinfo.extinfo['def_gender'] if 'def_gender' in userinfo.extinfo else ''}}</td>
-                        </tr>
-                        <tr><td>
-                            <b>{{ _('Birthday') }}</b>：</td>
-                            <td>
-                                {{ userinfo.extinfo['def_birthday'] if 'def_birthday' in userinfo.extinfo else ''}}</td>
-                        </tr>
-                        <tr><td>
-                            <b>{{ _('Mobile') }}</b>：</td>
-                            <td>
-                                {{ userinfo.extinfo['def_mobile'] if 'def_mobile' in userinfo.extinfo else ''}}</td>
-                        </tr>
-                        <tr><td>
-                            <b>{{ _('Location') }}</b>：</td>
-                            <td>
-                                {{ userinfo.extinfo['def_location'] if 'def_location' in userinfo.extinfo else ''}}</td>
-                        </tr>
-                        <tr><td>
-                            <b>{{ _('Profile') }}</b>：</td>
-                            <td>
-                                {{ userinfo.extinfo['def_profile'] if 'def_profile' in userinfo.extinfo else ''}}</td>
-                        </tr>
-                        <tr><td>
-                            <b>{{ _('Postalcode') }}</b>：</td>
-                            <td>
-                                {{ userinfo.extinfo['def_postalcode'] if 'def_postalcode' in userinfo.extinfo else ''}}</td>
+                        <tr>
+                            <td><b>{{ _('Gender') }}</b>：</td>
+                            <td>{{ userinfo.extinfo['def_gender'] if 'def_gender' in userinfo.extinfo else ''}}</td>
+                                 <td></td>
                         </tr>
                         <tr>
-                            <td>
-                                <b>{{ _('Certificatetype') }}</b>：</td>
-                            <td>
-                                {{ userinfo.extinfo['def_certificatetype'] if 'def_certificatetype' in userinfo.extinfo else ''}}</td>
+                            <td><b>{{ _('Birthday') }}</b>：</td>
+                            <td>{{ userinfo.extinfo['def_birthday'] if 'def_birthday' in userinfo.extinfo else ''}}</td>
+                                 <td></td>
                         </tr>
-                        <tr><td>
-                            <b>{{ _('Certificate Number') }}</b>：</td>
-                            <td>
-                                {{ userinfo.extinfo['def_certificate'] if 'def_certificate' in userinfo.extinfo else ''}}</td>
+                        <tr>
+                            <td><b>{{ _('Mobile') }}</b>：</td>
+                            <td>{{ userinfo.extinfo['def_mobile'] if 'def_mobile' in userinfo.extinfo else ''}}</td>
+                             <td></td>
                         </tr>
-                        <tr><td>
-                            <b>{{ _('Company') }}</b>：</td>
-                            <td>
-                                {{ userinfo.extinfo['def_company'] if 'def_company' in userinfo.extinfo else ''}}</td>
+                        <tr>
+                            <td><b>{{ _('Location') }}</b>：</td>
+                            <td>{{ userinfo.extinfo['def_location'] if 'def_location' in userinfo.extinfo else ''}}</td>
+                             <td></td>
                         </tr>
-                        <tr><td>
-                            <b>{{ _('Interest') }}</b>：</td>
-                            <td>
-                                {{ userinfo.extinfo['def_interest'] if 'def_interest' in userinfo.extinfo else ''}}</td>
+                        <tr>
+                            <td><b>{{ _('Postalcode') }}</b>：</td>
+                            <td>{{ userinfo.extinfo['def_postalcode'] if 'def_postalcode' in userinfo.extinfo else ''}}</td>
+                             <td></td>
                         </tr>
-                        <tr><td>
-                            <b>{{ _('High') }}</b>：</td>
-                            <td>
-                                {{ userinfo.extinfo['def_high'] if 'def_high' in userinfo.extinfo else ''}}</td>
+                        <tr>
+                            <td><b>{{ _('Certificatetype') }}</b>：</td>
+                            <td>{{ userinfo.extinfo['def_certificatetype'] if 'def_certificatetype' in userinfo.extinfo else ''}}</td>
+                             <td></td>
                         </tr>
-                        <tr><td>
-                            <b>{{ _('Weight') }}</b>：</td>
-                            <td>
-                                {{ userinfo.extinfo['def_weight'] if 'def_weight' in userinfo.extinfo else ''}}</td>
+                        <tr>
+                            <td><b>{{ _('Certificate Number') }}</b>：</td>
+                            <td>{{ userinfo.extinfo['def_certificate'] if 'def_certificate' in userinfo.extinfo else ''}}</td>
+                             <td></td>
                         </tr>
-                        <tr><td>
-                            <b>{{ _('Bloodtype') }}</b>：</td>
-                            <td>
-                                {{ userinfo.extinfo['def_bloodtype'] if 'def_bloodtype' in userinfo.extinfo else ''}}</td>
+                        <tr>
+                            <td><b>{{ _('Company') }}</b>：</td>
+                            <td>{{ userinfo.extinfo['def_company'] if 'def_company' in userinfo.extinfo else ''}}</td>
+                             <td></td>
+                        </tr>
+                        <tr>
+                            <td><b>{{ _('Interest') }}</b>：</td>
+                            <td>{{ userinfo.extinfo['def_interest'] if 'def_interest' in userinfo.extinfo else ''}}</td>
+                             <td></td>
+                        </tr>
+                        <tr>
+                            <td><b>{{ _('High') }}</b>：</td>
+                            <td>{{ userinfo.extinfo['def_high'] if 'def_high' in userinfo.extinfo else ''}}</td>
+                             <td></td>
+                        </tr>
+                        <tr>
+                            <td><b>{{ _('Weight') }}</b>：</td>
+                            <td>{{ userinfo.extinfo['def_weight'] if 'def_weight' in userinfo.extinfo else ''}}</td>
+                             <td></td>
+                        </tr>
+                        <tr>
+                            <td><b>{{ _('Bloodtype') }}</b>：</td>
+                            <td>{{ userinfo.extinfo['def_bloodtype'] if 'def_bloodtype' in userinfo.extinfo else ''}}</td>
+                             <td></td>
                         </tr>
                     </table>
 

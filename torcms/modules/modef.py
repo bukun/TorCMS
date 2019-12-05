@@ -113,5 +113,6 @@ core_modules = {
     #Comment
     'comment_list':widget_modules.CommentList,
     'replycnt':widget_modules.Replycnt,
+    'user_profile_by_id':widget_modules.Userprofile,
 
 }
