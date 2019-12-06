@@ -1,18 +1,21 @@
- <div id="del_zan_0" style="font-size: 14px;">
-    <p style="color: #f00;"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp; <strong>{{ username }}</strong>
-    </p>
+<div id="del_zan_0" style="font-size: 14px;">
 
-    <p id="wiki_cnt" class="listinfo_content">{% raw unescape(reply.cnt_html) %}</p>
-    <br>
-
-    <p class="font13"><span class="glyphicon glyphicon-hand-right"></span>&nbsp;&nbsp;<b>{{ _('Editor in') }}</b>
-        &nbsp;&nbsp;{{ str(date).split('.')[0] }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-        <span class="glyphicon glyphicon-thumbs-up"></span>
-
-        <span id="text_zan_0"><strong>{{ vote }}</strong></span>
-    </p>
-
+    <div class="col-sm-2">
+        {% module user_profile_by_id(userinfo.uid) %}
+    </div>
+    <div class="col-sm-10">
+        <div class="reply_title"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp; <strong>{{ username
+            }}</strong>
+            <span class="pull-right">
+                <span class="glyphicon glyphicon glyphicon-time"></span>&nbsp;&nbsp;
+                &nbsp;&nbsp;{{ str(date).split('.')[0] }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </div>
+        <div class="reply_cnt">
+            <div class="listinfo_content" id="wiki_cnt">
+                {% raw unescape(reply.cnt_html) %}
+            </div>
+        </div>
+    </div>
     <p class="bor_bottom">&nbsp;</p>
 </div>
 
