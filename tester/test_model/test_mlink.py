@@ -29,15 +29,25 @@ class TestMLink():
         assert tt.logo == post_data['logo']
         assert self.raw_count + 1 == new_count
 
-    def test_upate(self):
+    def add_message(self,**kwargs):
         uid = self.id
         post_data = {
-            'name': 'asdf',
-            'link': 'sadf',
-            'order': '1',
-            'logo': 'asf',
+            'name': kwargs.get('name','asdf'),
+            'link': kwargs.get('link','sadf'),
+            'order': kwargs.get('order','1'),
+            'logo': kwargs.get('logo','asf'),
         }
         MLink.create_link(uid, post_data)
+
+    def test_upate(self):
+        post_data = {
+
+            'name': 'fffffff',
+            'link': '85tgr4ggbf',
+            'order': '13',
+            'logo': 'fdef',
+        }
+        self.add_message(**post_data)
         new_count = MLink.get_counts()
 
         assert self.raw_count + 1 == new_count
@@ -46,17 +56,17 @@ class TestMLink():
 
             'name': 'asdlkjf',
             'link': 'sakljdf',
-            'order': '13',
+            'order': '12',
             'logo': 'asfa',
         }
 
-        MLink.update(uid, post_data2)
+        MLink.update(self.id, post_data2)
 
         new_count = MLink.get_counts()
 
         assert self.raw_count + 1 == new_count
 
-        tt = MLink.get_by_uid(uid)
+        tt = MLink.get_by_uid(self.id)
 
         assert tt.name != post_data['name']
         assert tt.link != post_data['link']
@@ -69,16 +79,58 @@ class TestMLink():
         assert tt.logo == post_data2['logo']
 
     def test_query_all(self):
-        MLink.query_all()
-        assert True
+        a=MLink.query_all()
+        tf=True
+        for i in a:
+            if i.uid==self.id:
+                tf=False
+        assert tf
+        self.add_message()
+        a = MLink.query_all()
+        tf = False
+        for i in a:
+            if i.uid == self.id:
+                tf = True
+        assert tf
 
     def test_get_by_uid(self):
-        MLink.get_by_uid(self.id)
-        assert True
+        a=MLink.get_by_uid(self.id)
+        assert a==None
+        self.add_message()
+        a = MLink.get_by_uid(self.id)
+        assert a.uid == self.id
+
+
+    def test_delete(self):
+        self.add_message()
+        a = MLink.get_by_uid(self.id)
+        assert a.uid == self.id
+        MLink.delete(self.id)
+        a = MLink.get_by_uid(self.id)
+        assert a == None
+
+    def test_get_counts(self):
+        a=MLink.get_counts()
+        self.add_message()
+        b=MLink.get_counts()
+        assert a+1==b
+
 
     def test_query_link(self):
-        MLink.query_link(8)
-        assert True
+        a=MLink.query_link(8)
+        tf = True
+        for i in a:
+            if i.uid == self.id:
+                tf = False
+        assert tf
+        self.add_message()
+        a = MLink.query_link(8)
+        tf = False
+        for i in a:
+            if i.uid == self.id:
+                tf = True
+        assert tf
+
 
     def tearDown(self):
         print("function teardown")
