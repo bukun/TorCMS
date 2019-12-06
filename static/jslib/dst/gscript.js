@@ -74,11 +74,10 @@ function reply_del(reply_id, id_num) {
         1 == Json.del_zan ? $("#del_zan_" + id_num).html("") : alert("删除失败！")
     })
 }
-function reply_del_com(reply_id,id_num) {
-    id_num = id_num.toString();
+function reply_del_com(reply_id) {
     var AjaxUrl = "/reply/delete_com/" + reply_id;
     $.getJSON(AjaxUrl, function (Json) {
-         1 == Json.del_reply ? $("#del_reply_" + id_num).html("") : alert("Delete failed!")
+         1 == Json.del_reply ? $("#" + reply_id).html("") : alert("Delete failed!")
     })
 }
 function reply_it(view_id) {
