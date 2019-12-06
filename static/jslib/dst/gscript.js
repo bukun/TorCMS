@@ -88,15 +88,15 @@ function reply_it(view_id) {
         $("#pinglun").load("/reply/get/" + msg_json.uid)
     }), $("#cnt_reply").val(""), $("#cnt_reply").attr("disabled", !0), $("#btn_submit_reply").attr("disabled", !0))
 }
-function reply_modify(pid,cntid,cate) {
+function reply_modify(pid,cntid,cate,id_num) {
     var txt = $("#" + cntid).val();
     txt.length < 1 || ($.post("/reply/modify/" + pid +'/'+ cate, {cnt_reply: txt}, function (result) {
         var msg_json = $.parseJSON(result);
         if (cate == 0){
-            $("#pinglun").load("/reply/get/" + msg_json.uid)
+            $("#reply_cnt" + id_num).html(msg_json.pinglun)
         }
         else{
-            $("#reply_comment").load("/reply/get_comment/" + msg_json.uid)
+            $("#comment_id" + id_num).html(msg_json.pinglun)
         }
 
     }))
