@@ -101,12 +101,12 @@ function reply_modify(pid,cntid,cate,id_num) {
     }))
 }
 
-function comment_it(view_id,reply_id,cid,bid) {
+function comment_it(view_id,reply_id,cid,bid,id_num) {
     var txt = $("#" + cid).val();
     txt.length < 1 || ($.post("/reply/add_reply/" + view_id +'/'+ reply_id, {cnt_reply: txt}, function (result) {
 
         var msg_json = $.parseJSON(result);
-         $("#reply_comment").load("/reply/get_comment/" + msg_json.uid)
+         $("#reply_comment"+id_num).load("/reply/get_comment/" + msg_json.uid)
     }),$("#" + cid).val(""),$("#" + cid).attr("disabled", !0), $("#"+ bid ).attr("disabled", !0))
 }
 
