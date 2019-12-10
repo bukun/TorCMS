@@ -590,8 +590,8 @@ class MPost(Mabc):
         if extinfo is None:
             extinfo = {}
         title = data_dic['title'].strip()
-        if len(title) < 2:
-            return False
+        # if len(title) < 2:
+        #     return False
 
         cur_info = MPost.get_by_uid(uid)
         if cur_info:
@@ -747,8 +747,8 @@ class MPost(Mabc):
         if len(uid) < 4:
             return False
         title = data_dic['title'].strip()
-        if len(title) < 2:
-            return False
+        # if len(title) < 2:
+        #     return False
         TabPost.create(
             uid=uid,
             title=title,

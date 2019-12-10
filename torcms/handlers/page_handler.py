@@ -213,6 +213,13 @@ class PageHandler(BaseHandler):
         post_data = self.get_post_data()
 
         post_data['user_name'] = self.userinfo.user_name
+        title = post_data['title'].strip()
+        if len(title) < 2:
+            kwd = {
+                'info': 'Title cannot be less than 2 characters',
+                'link': '/'
+            }
+            self.render('misc/html/404.html', userinfo=self.userinfo, kwd=kwd)
 
         if MWiki.get_by_uid(slug):
             self.set_status(400)

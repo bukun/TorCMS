@@ -539,10 +539,22 @@ class PostHandler(BaseHandler):
             uid = self._gen_uid()
 
         post_data, ext_dic = self.fetch_post_data()
+
+        title = post_data['title'].strip()
+
+        if len(title) < 2:
+            kwd = {
+                'info': 'Title cannot be less than 2 characters',
+                'link': '/'
+            }
+            self.render('misc/html/404.html', userinfo=self.userinfo, kwd=kwd)
+
         if 'gcat0' in post_data:
             pass
         else:
             return False
+
+
 
         if 'valid' in post_data:
             post_data['valid'] = int(post_data['valid'])
@@ -552,6 +564,8 @@ class PostHandler(BaseHandler):
         ext_dic['def_uid'] = uid
         ext_dic['gcat0'] = post_data['gcat0']
         ext_dic['def_cat_uid'] = post_data['gcat0']
+
+
 
         MPost.modify_meta(ext_dic['def_uid'],
                           post_data,

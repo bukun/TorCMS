@@ -86,9 +86,9 @@ class MWiki(Mabc):
         logger.info('Call create wiki')
 
         title = post_data['title'].strip()
-        if len(title) < 2:
-            logger.info(' ' * 4 + 'The title is too short.')
-            return False
+        # if len(title) < 2:
+        #     logger.info(' ' * 4 + 'The title is too short.')
+        #     return False
 
         the_wiki = MWiki.get_by_wiki(title)
         if the_wiki:
@@ -109,9 +109,9 @@ class MWiki(Mabc):
         if MWiki.get_by_uid(slug):
             return False
 
-        title = post_data['title'].strip()
-        if len(title) < 2:
-            return False
+        # title = post_data['title'].strip()
+        # if len(title) < 2:
+        #     return False
         return MWiki.__create_rec(slug, '2', post_data=post_data)
 
     @staticmethod

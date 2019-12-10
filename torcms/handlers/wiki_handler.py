@@ -199,7 +199,16 @@ class WikiHandler(BaseHandler):
             pass
         else:
             post_data['title'] = title
+
         post_data['user_name'] = self.get_current_user()
+
+        if len(post_data['title'].strip()) < 2:
+            kwd = {
+                'info': 'Title cannot be less than 2 characters',
+                'link': '/'
+            }
+            self.render('misc/html/404.html', userinfo=self.userinfo, kwd=kwd)
+
         if MWiki.get_by_wiki(post_data['title']):
             pass
         else:
