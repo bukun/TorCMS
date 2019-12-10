@@ -249,29 +249,29 @@ class TestMPost():
         assert qq
 
 
-    def test_update_view_count_by_uid(self):
-
-        post_data = {
-
-            'title': self.post_title,
-            'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
-            'user_name': 'Tome',
-            'view_count': 1,
-            'logo': '/static/',
-            'keywords': 'sdf',
-        }
-        self.uu.create_post(self.uid, post_data)
-
-        rec = self.uu.get_by_uid(self.uid)
-
-        viewcount0 = rec.view_count
-        assert viewcount0 == 1
-        for x in range(100):
-            self.uu.update_misc(rec.uid, count=True)
-
-        viewcount1 = self.uu.get_by_uid(self.uid).view_count
-
-        assert viewcount1 == 101
+    # def test_update_view_count_by_uid(self):
+    #
+    #     post_data = {
+    #
+    #         'title': self.post_title,
+    #         'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
+    #         'user_name': 'Tome',
+    #         'view_count': 1,
+    #         'logo': '/static/',
+    #         'keywords': 'sdf',
+    #     }
+    #     self.uu.create_post(self.uid, post_data)
+    #
+    #     rec = self.uu.get_by_uid(self.uid)
+    #
+    #     viewcount0 = rec.view_count
+    #     assert viewcount0 == 1
+    #     for x in range(100):
+    #         self.uu.update_misc(rec.uid, count=True)
+    #
+    #     viewcount1 = self.uu.get_by_uid(self.uid).view_count
+    #
+    #     assert viewcount1 == 101
 
     def test_upate(self):
         y={

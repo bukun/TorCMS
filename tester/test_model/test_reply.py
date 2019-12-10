@@ -8,16 +8,16 @@ class TestMReply():
         print('setup 方法执行于本类中每条用例之前')
 
         self.uid = tools.get_uuid()
-
-    def test_create_reply(self):
-        post_data = {
-            'post_id': '11111',
-            'user_name': 'giser',
-            'user_id': 'ddadsaweadqw',
-            'cnt_reply': 'gisersdasdasdasdzxcsdwdqgiser',
-        }
-        MReply.create_reply(post_data)
-        assert True
+    #
+    # def test_create_reply(self):
+    #     post_data = {
+    #         'post_id': '11111',
+    #         'user_name': 'giser',
+    #         'user_id': 'ddadsaweadqw',
+    #         'cnt_reply': 'gisersdasdasdasdzxcsdwdqgiser',
+    #     }
+    #     MReply.create_reply(post_data)
+    #     assert True
 
     def test_get_by_uid(self):
         MReply.get_by_uid(self.uid)

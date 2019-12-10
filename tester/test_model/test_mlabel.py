@@ -60,13 +60,13 @@ class TestMLabel():
         MPost.create_post(post_id, p_d)
         self.uu.create_tag_with_uid(self.uid, self.name)
         MPost2Label.add_record(self.post_id, self.name)
-
-    def test_get_id_by_name(self):
-        self.add_message()
-        a=self.uu.get_id_by_name(self.name)
-        print(a)
-        print(self.uid)
-        assert a==self.uid
+    #
+    # def test_get_id_by_name(self):
+    #     self.add_message()
+    #     a=self.uu.get_id_by_name(self.name)
+    #     print(a)
+    #     print(self.uid)
+    #     assert a==self.uid
 
     def test_get_by_slug(self):
         self.add_message()

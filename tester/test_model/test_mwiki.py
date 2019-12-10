@@ -27,31 +27,31 @@ class TestMWiki():
             assert tt.cnt_md == tornado.escape.xhtml_unescape(post_data['cnt_md'])
             assert raw_count + 1 == new_count
 
-    def test_insert_2(self):
-        '''Wiki insert: Test invalid title'''
-        post_data = {
-            'title': '',
-            'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
-            'user_name': 'Tome',
-        }
-        uu = MWiki.create_wiki(post_data)
-        assert uu == False
-
-        post_data = {
-            'title': '1',
-            'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
-            'user_name': 'Tome',
-        }
-        uu = MWiki.create_wiki(post_data)
-        assert uu == False
-
-        post_data = {
-            'title': '天',
-            'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
-            'user_name': 'Tome',
-        }
-        uu = MWiki.create_wiki(post_data)
-        assert uu == False
+    # def test_insert_2(self):
+    #     '''Wiki insert: Test invalid title'''
+    #     post_data = {
+    #         'title': '',
+    #         'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
+    #         'user_name': 'Tome',
+    #     }
+    #     uu = MWiki.create_wiki(post_data)
+    #     assert uu == False
+    #
+    #     post_data = {
+    #         'title': '1',
+    #         'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
+    #         'user_name': 'Tome',
+    #     }
+    #     uu = MWiki.create_wiki(post_data)
+    #     assert uu == False
+    #
+    #     post_data = {
+    #         'title': '天',
+    #         'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
+    #         'user_name': 'Tome',
+    #     }
+    #     uu = MWiki.create_wiki(post_data)
+    #     assert uu == False
 
     def test_get_by_title(self):
         post_data = {
@@ -104,4 +104,13 @@ class TestMWiki():
 
     def test_upate(self):
         assert True
+
+
+
+
+
+
+
+    def  tearDown(self):
+        print("function teardown")
 

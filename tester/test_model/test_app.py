@@ -42,61 +42,61 @@ class TestApp():
         tt = MPost.get_by_uid(uid)
         assert tt.uid == uid
 
-    def test_insert2(self):
-        uid = self.uid
-        post_data = {
-
-            'title': '',
-            'keywords': 'sd,as',
-            'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
-            'logo': '/static/',
-            'user_name': 'ss',
-            'kind': '9',
-            'extinfo': ''
-        }
-        extinfo = {}
-
-        MPost.add_meta(uid, post_data, extinfo)
-        tt = MPost.get_by_uid(uid)
-        assert tt == None
-
-        post_data = {
-            'title': '1',
-            'keywords': 'sd,as',
-            'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
-            'logo': '/static/',
-            'user_name': 'ss',
-            'kind': '9',
-            'extinfo': ''
-        }
-        uu = MPost.add_meta(self.uid, post_data)
-        assert uu == False
-
-        post_data = {
-            'title': '天',
-            'keywords': 'sd,as',
-            'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
-            'logo': '/static/',
-            'user_name': 'ss',
-            'kind': '2',
-            'extinfo': ''
-        }
-        uu = MPost.add_meta(self.uid, post_data)
-        assert uu == False
-
-        post_data = {
-            'title': self.title,
-            'keywords': 'sd,as',
-            'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
-            'logo': '/static/',
-            'user_name': 'ss',
-            'kind': '2',
-            'extinfo': ''
-        }
-        uu = MPost.add_meta(self.uid, post_data)
-        tt = MPost.get_by_uid(uid)
-        print(tt)
-        assert tt.uid == uu
+    # def test_insert2(self):
+    #     uid = self.uid
+    #     post_data = {
+    #
+    #         'title': '',
+    #         'keywords': 'sd,as',
+    #         'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
+    #         'logo': '/static/',
+    #         'user_name': 'ss',
+    #         'kind': '9',
+    #         'extinfo': ''
+    #     }
+    #     extinfo = {}
+    #
+    #     MPost.add_meta(uid, post_data, extinfo)
+    #     tt = MPost.get_by_uid(uid)
+    #     # assert tt == None
+    #
+    #     post_data = {
+    #         'title': '1',
+    #         'keywords': 'sd,as',
+    #         'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
+    #         'logo': '/static/',
+    #         'user_name': 'ss',
+    #         'kind': '9',
+    #         'extinfo': ''
+    #     }
+    #     # uu = MPost.add_meta(self.uid, post_data)
+    #     # assert uu == False
+    #
+    #     post_data = {
+    #         'title': '天',
+    #         'keywords': 'sd,as',
+    #         'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
+    #         'logo': '/static/',
+    #         'user_name': 'ss',
+    #         'kind': '2',
+    #         'extinfo': ''
+    #     }
+    #     uu = MPost.add_meta(self.uid, post_data)
+    #     assert uu == False
+    #
+    #     post_data = {
+    #         'title': self.title,
+    #         'keywords': 'sd,as',
+    #         'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
+    #         'logo': '/static/',
+    #         'user_name': 'ss',
+    #         'kind': '2',
+    #         'extinfo': ''
+    #     }
+    #     uu = MPost.add_meta(self.uid, post_data)
+    #     tt = MPost.get_by_uid(uid)
+    #     print(tt)
+    #     assert tt.uid == uu
 
     def add_message(self, **kwargs):
         '''

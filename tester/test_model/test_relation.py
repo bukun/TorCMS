@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 from torcms.model.category_model import MCategory
+from torcms.model.label_model import MLabel
 from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
 from torcms.model.relation_model import MRelation
@@ -18,12 +19,13 @@ class TestMRelation():
 
         self.tag_id = '6654'
         self.uid=''
+        self.slug = 'ssslug'
 
     def add_message(self, **kwargs):
        
         post_data = {
             'name': kwargs.get('name', 'category'),
-            'slug': kwargs.get('slug', 'slug'),
+            'slug': kwargs.get('slug', self.slug),
             'order': kwargs.get('order', '0'),
             'kind': kwargs.get('kind1', '1'),
             'pid': kwargs.get('pid', '0000'),
@@ -99,3 +101,7 @@ class TestMRelation():
             MPost2Catalog.remove_relation(self.post_id, self.tag_id)
 
         MRelation.delete(self.uid)
+        tt = MLabel.get_by_slug(self.slug)
+        if tt:
+            print('8888888888')
+            MLabel.delete(self.slug)
