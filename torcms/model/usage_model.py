@@ -31,7 +31,7 @@ class MUsage(Mabc):
 
     @staticmethod
     def get_all():
-        return TabUsage.select().order_by('view_count')
+        return TabUsage.select().order_by('count')
 
     @staticmethod
     def query_random(limit=6):
