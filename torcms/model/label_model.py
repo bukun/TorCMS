@@ -137,7 +137,7 @@ class MPost2Label(Mabc):
         out_str = ''
         for tag_info in tag_infos:
             tmp_str = '<li><a href="/list/{0}" >{1}</a></li>'.format(
-                tag_info.tag_id,
+                tag_info.tag_uid,
                 tag_info.tag_name
             )
             out_str += tmp_str
