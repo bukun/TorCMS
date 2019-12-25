@@ -10,10 +10,11 @@ class TestMPostHist():
     def setup(self):
         print('setup 方法执行于本类中每条用例之前')
         self.uid = ''
-        self.post_id = '11111'
+        self.post_id = 'llk8'
 
 
     def test_create_post_history(self):
+        self.tearDown()
 
         p_d = {
             'title': 'qqqii',
@@ -38,6 +39,7 @@ class TestMPostHist():
 
         self.uid=His[0].uid
         assert His[0].cnt_md==p_d['cnt_md']
+        self.tearDown()
 
     def addHis(self, **kwargs):
         p_d = {
@@ -72,6 +74,7 @@ class TestMPostHist():
         self.addHis(**p_t)
         pp=MPostHist.get_by_uid(self.uid)
         assert pp.cnt_md==p_t['cnt_md']
+        self.tearDown()
 
     def test_update_cnt(self):
         self.addHis()
@@ -82,6 +85,7 @@ class TestMPostHist():
         MPostHist.update_cnt(self.uid, post_data)
         pp = MPostHist.get_by_uid(self.uid)
         assert pp.cnt_md == post_data['cnt_md']
+        self.tearDown()
 
     def test_query_by_postid(self):
         p_t = {
@@ -92,6 +96,7 @@ class TestMPostHist():
         aa=MPostHist.query_by_postid(self.post_id)
         assert aa[0].cnt_md==p_t['cnt_md']
         assert aa[0].user_name == p_t['user_name']
+        self.tearDown()
 
     def test_get_last(self):
         p_t = {
@@ -102,6 +107,7 @@ class TestMPostHist():
         aa=MPostHist.get_last(self.post_id)
 
         assert aa.user_name==p_t['user_name']
+        self.tearDown()
 
     def test_delete(self):
         aa=MPostHist.get_by_uid(self.uid)
@@ -112,13 +118,14 @@ class TestMPostHist():
         assert aa.post_id==self.post_id
         aa=MPostHist.delete(self.post_id)
         assert aa==False
+        self.tearDown()
 
     def tearDown(self):
         print("function teardown")
         tt = MPostHist.get_by_uid(self.uid)
         if tt:
-            MPostHist.delete(self.uid)
+            MPostHist.delete(tt.uid)
         tt = MPost.get_by_uid(self.post_id)
         if tt:
 
-            MPost.delete(self.post_id)
+            MPost.delete(tt.uid)

@@ -26,6 +26,7 @@ class TestMLabel():
 
         self.tmpl_uid = tt
         assert tt == newid
+        self.tearDown()
 
 
 
@@ -37,6 +38,7 @@ class TestMLabel():
         self.uu.create_tag_with_uid(self.uid, post_data['name'])
         a=self.uu.get_id_by_name(post_data['name'])
         assert a==self.uid
+        self.tearDown()
 
     def add_message(self, **kwargs):
         p_d = {
@@ -60,18 +62,20 @@ class TestMLabel():
         MPost.create_post(post_id, p_d)
         self.uu.create_tag_with_uid(self.uid, self.name)
         MPost2Label.add_record(self.post_id, self.name)
-    #
-    # def test_get_id_by_name(self):
-    #     self.add_message()
-    #     a=self.uu.get_id_by_name(self.name)
-    #     print(a)
-    #     print(self.uid)
-    #     assert a==self.uid
+
+    def test_get_id_by_name(self):
+        self.add_message()
+        a=self.uu.get_id_by_name(self.name)
+        print(a)
+        print(self.uid)
+        assert a==self.uid
+        self.tearDown()
 
     def test_get_by_slug(self):
         self.add_message()
         a=self.uu.get_by_slug(self.uid)
         assert a.name==self.name
+        self.tearDown()
 
     def test_delete(self):
         self.add_message()
@@ -81,6 +85,7 @@ class TestMLabel():
         a = self.uu.get_by_slug(self.uid)
         print(a)
         assert a==False
+        self.tearDown()
 
     def tearDown(self):
         print("function teardown")
@@ -137,6 +142,7 @@ class TestMPost2Label():
     def add_M2L(self):
         MPost2Label.add_record(self.post_id, self.name)
 
+
     def test_query_count(self):
         self.add_mess()
         a=MPost2Label.query_count(self.uid)
@@ -148,6 +154,7 @@ class TestMPost2Label():
         b = MPost2Label.query_count(self.uid)
         print(b)
         assert a+1==b
+        self.tearDown()
 
     def test_remove_relation(self):
         self.add_mess()
@@ -167,16 +174,23 @@ class TestMPost2Label():
             if i.tag_id == self.tag_id:
                 tf = False
         assert tf
-        assert True
+        self.tearDown()
 
     # def test_generate_catalog_list(self):
     #     self.add_mess()
     #     self.add_M2L()
-    #     a=MPost2Label.generate_catalog_list(self.post_id)
-    #     print(a)
-    #     assert a==0
+    #     a=MPost2Label.get_by_uid(self.post_id)
+    #     print('ppppppppppppppp')
+    #     print(a.count())
+    #     print(a[0].tag_name)
+    #     print(a.tag_uid)
+    #     # a=MPost2Label.generate_catalog_list(self.post_id)
+    #     # print(a)
+    #     # assert a==0
+    #     self.tearDown()
 
     def test_get_by_uid(self):
+        self.tearDown()
         self.add_mess()
         a = MPost2Label.get_by_uid(self.post_id)
         print(a.count())
@@ -185,6 +199,7 @@ class TestMPost2Label():
         a = MPost2Label.get_by_uid(self.post_id)
 
         assert a[0].tag_id==self.uid
+        self.tearDown()
 
     def test_get_by_info(self):
         self.add_mess()
@@ -192,6 +207,7 @@ class TestMPost2Label():
         a=MPost2Label.get_by_info(self.post_id, self.tag_id)
         assert a!=None
 
+        self.tearDown()
     def test_add_record(self):
         a=MPost2Label.get_by_uid(self.post_id)
         tf=True
@@ -208,6 +224,7 @@ class TestMPost2Label():
             if i.tag_id == self.tag_id:
                 tf = True
         assert tf
+        self.tearDown()
 
     def test_total_number(self):
         self.add_mess()
@@ -215,6 +232,7 @@ class TestMPost2Label():
         self.add_M2L()
         b=MPost2Label.total_number(self.uid)
         assert a+1==b
+        self.tearDown()
 
     def test_query_pager_by_slug(self):
         self.add_mess()
@@ -230,6 +248,7 @@ class TestMPost2Label():
             if i.uid == self.post_id:
                 tf = True
         assert tf
+        self.tearDown()
 
     def tearDown(self):
         print("function teardown")
@@ -242,7 +261,7 @@ class TestMPost2Label():
         tt=MLabel.get_by_slug(self.tag_id)
         if tt:
             print('8888888888')
-            MLabel.delete(self.tag_id)
+            MLabel.delete(tt.uid)
 
 
 

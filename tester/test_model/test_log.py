@@ -10,12 +10,12 @@ class TestMLog():
     def setup(self):
         print('setup 方法执行于本类中每条用例之前')
         self.uid = tools.get_uu4d()
-        self.userid = '11111'
+        self.userid = tools.get_uu4d()
 
     def add_message(self, **kwargs):
         post_data = {
             'uid': self.uid,
-            'url': kwargs.get('url', 'http://929287437483'),
+            'url': kwargs.get('url', 'http://87437483'),
             'refer': 'http://232323',
             'user_id': kwargs.get('user_id', self.userid),
             'timein': '1545104860000',
@@ -40,12 +40,14 @@ class TestMLog():
 
         a = MLog.add(post_data)
         assert a
+        self.tearDown()
 
     def test_query_pager_by_user(self):
         self.add_message()
         a = MLog.query_pager_by_user(self.userid)
 
         assert a[0].uid == self.uid
+        self.tearDown()
 
     def test_query_all_user(self):
         self.add_message()
@@ -55,6 +57,7 @@ class TestMLog():
             if i.uid == self.uid:
                 tf = True
         assert tf
+        self.tearDown()
 
     def test_query_all(self):
 
@@ -65,7 +68,7 @@ class TestMLog():
         a = MLog.query_all_current_url()
         x = int(a.count() / 10)
         tf = False
-        for y in range(x + 2):
+        for y in range(x + 3):
             a = MLog.query_all(current_page_num=y)
             for i in a:
 
@@ -73,14 +76,16 @@ class TestMLog():
                     tf = True
                     break
         assert tf
+        self.tearDown()
 
     def test_query_all_pageview(self):
+        self.tearDown()
         self.add_message()
         a = MLog.query_all_current_url()
         x = int(a.count() / 10)
 
         tf = False
-        for y in range(x + 2):
+        for y in range(x + 3):
             a = MLog.query_all_pageview(current_page_num=y)
 
             for i in a:
@@ -89,8 +94,10 @@ class TestMLog():
                     tf = True
                     break
         assert tf
+        self.tearDown()
 
     def test_query_all_current_url(self):
+        self.tearDown()
         self.add_message()
         a = MLog.query_all_current_url()
 
@@ -100,6 +107,7 @@ class TestMLog():
             if i.uid == self.uid:
                 tf = True
         assert tf
+        self.tearDown()
 
     def test_count_of_current_url(self):
         p = {
@@ -108,25 +116,29 @@ class TestMLog():
 
         self.add_message(**p)
         a = MLog.count_of_current_url(p['url'])
-        assert a == 1
+        assert a >= 1
+        self.tearDown()
 
     def test_total_number(self):
         a = MLog.total_number()
         self.add_message()
         b = MLog.total_number()
-        assert a == b - 1
+        assert a >= b - 1
+        self.tearDown()
 
     def test_count_of_certain(self):
         a = MLog.count_of_certain(self.userid)
         self.add_message()
         b = MLog.count_of_certain(self.userid)
-        assert a == b - 1
+        assert a >= b - 1
+        self.tearDown()
 
     def test_count_of_certain_pageview(self):
         a = MLog.count_of_certain_pageview()
         self.add_message()
         b = MLog.count_of_certain_pageview()
-        assert a == b - 1
+        assert a >= b - 1
+        self.tearDown()
 
     def test_get_by_uid(self):
         p = {
@@ -136,6 +148,7 @@ class TestMLog():
         self.add_message(**p)
         a = MLog.get_by_uid(self.uid)
         assert a.current_url == p['url']
+        self.tearDown()
 
     def test_get_pageview_count(self):
         p = {
@@ -144,7 +157,8 @@ class TestMLog():
         b = MLog.get_pageview_count(p['url'])
         self.add_message(**p)
         a = MLog.get_pageview_count(p['url'])
-        assert a == b + 1
+        assert a >= b + 1
+        self.tearDown()
 
     def tearDown(self):
         print("function teardown")

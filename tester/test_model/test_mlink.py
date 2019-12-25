@@ -28,6 +28,7 @@ class TestMLink():
         assert tt.order == int(post_data['order'])
         assert tt.logo == post_data['logo']
         assert self.raw_count + 1 == new_count
+        self.tearDown()
 
     def add_message(self,**kwargs):
         uid = self.id
@@ -77,6 +78,7 @@ class TestMLink():
         assert tt.link == post_data2['link']
         assert tt.order == int(post_data2['order'])
         assert tt.logo == post_data2['logo']
+        self.tearDown()
 
     def test_query_all(self):
         a=MLink.query_all()
@@ -92,6 +94,7 @@ class TestMLink():
             if i.uid == self.id:
                 tf = True
         assert tf
+        self.tearDown()
 
     def test_get_by_uid(self):
         a=MLink.get_by_uid(self.id)
@@ -99,6 +102,7 @@ class TestMLink():
         self.add_message()
         a = MLink.get_by_uid(self.id)
         assert a.uid == self.id
+        self.tearDown()
 
 
     def test_delete(self):
@@ -108,12 +112,14 @@ class TestMLink():
         MLink.delete(self.id)
         a = MLink.get_by_uid(self.id)
         assert a == None
+        self.tearDown()
 
     def test_get_counts(self):
         a=MLink.get_counts()
         self.add_message()
         b=MLink.get_counts()
         assert a+1==b
+        self.tearDown()
 
 
     def test_query_link(self):
@@ -130,6 +136,7 @@ class TestMLink():
             if i.uid == self.id:
                 tf = True
         assert tf
+        self.tearDown()
 
 
     def tearDown(self):

@@ -47,6 +47,7 @@ class TestApp():
         MPost.add_meta(uid, post_data, extinfo)
         tt = MPost.get_by_uid(uid)
         assert tt.uid == uid
+        MPost.delete(uid)
 
     def test_insert2(self):
         uid = self.uid
@@ -108,6 +109,7 @@ class TestApp():
         tt = MPost.get_by_uid(uid)
 
         assert tt.uid == uu
+        MPost.delete(uid)
 
     def add_message(self, **kwargs):
         post_data = {
@@ -142,6 +144,7 @@ class TestApp():
         MPost2Catalog.add_record(self.uid, self.tag_id)
 
     def test_query_random(self):
+        MPost.delete(self.uid)
         kwargs = {
             'limit': 300,
             'kind': '2',
@@ -161,7 +164,7 @@ class TestApp():
         pp = MPost.query_random(**kwargs)
         TF = False
         for i in range(pp.count()):
-            if pp[i].title == self.title:
+            if pp[i].uid == self.uid:
                 assert pp[i].user_name == '7788'
                 TF = True
 
@@ -169,9 +172,9 @@ class TestApp():
                 continue
         assert TF == True
         assert pp.count() == f+1
+        self.tearDown()
 
     def test_query_recent(self):
-
         kwargs = {
 
             'user_name': '7788',
@@ -184,16 +187,17 @@ class TestApp():
             'order_by_create': True,
             'kind': '2',
         }
-        pp = MPost.query_recent(**kwargs)
+        pp = MPost.query_recent(num=300,**kwargs)
         TF = False
         for i in range(pp.count()):
-            if pp[i].title == self.title:
+            if pp[i].uid == self.uid:
                 assert pp[i].user_name == '7788'
                 TF = True
 
             else:
                 continue
         assert TF == True
+        self.tearDown()
 
     def test_query_all(self):
 
@@ -208,17 +212,19 @@ class TestApp():
         kwargs = {
             'order_by_create': True,
             'kind': '2',
+            'limit':100
         }
         pp = MPost.query_all(**kwargs)
         TF = False
         for i in range(pp.count()):
-            if pp[i].title == self.title:
+            if pp[i].uid == self.uid:
                 assert pp[i].user_name == '7788'
                 TF = True
 
             else:
                 continue
         assert TF == True
+        self.tearDown()
 
     def test_query_keywords_empty(self):
 
@@ -233,13 +239,14 @@ class TestApp():
         pp = MPost.query_keywords_empty()
         TF = False
         for i in range(pp.count()):
-            if pp[i].title == self.title:
+            if pp[i].uid == self.uid:
                 assert pp[i].user_name == '7788'
                 TF = True
 
             else:
                 continue
         assert TF == True
+        self.tearDown()
 
     def test_query_recent_edited(self):
 
@@ -254,13 +261,14 @@ class TestApp():
         pp = MPost.query_recent_edited(1539069122)
         TF = False
         for i in range(pp.count()):
-            if pp[i].title == self.title:
+            if pp[i].uid == self.uid:
                 assert pp[i].user_name == '7788'
                 TF = True
 
             else:
                 continue
         assert TF == True
+        self.tearDown()
 
     def test_query_dated(self):
         pp = MPost.query_dated()
@@ -279,15 +287,16 @@ class TestApp():
 
         }
         self.add_message(**kwargs)
-        pp=MPost.query_cat_recent(self.tag_id)
+        pp=MPost.query_cat_recent(self.tag_id,num=100)
         TF = False
         for i in range(pp.count()):
-            if pp[i].title == self.title:
+            if pp[i].uid == self.uid:
                 assert pp[i].user_name == '7788'
                 TF = True
             else:
                 continue
         assert TF == True
+        self.tearDown()
 
     def test_query_most_pic(self):
 
@@ -302,13 +311,14 @@ class TestApp():
         pp = MPost.query_most_pic(300)
         TF = False
         for i in range(pp.count()):
-            if pp[i].title == self.title:
+            if pp[i].uid == self.uid:
                 assert pp[i].user_name == '7788'
                 TF = True
 
             else:
                 continue
         assert TF == True
+        self.tearDown()
 
     def test_get_all(self):
 
@@ -323,12 +333,13 @@ class TestApp():
         pp = MPost.get_all()
         TF = False
         for i in range(pp.count()):
-            if pp[i].title == self.title:
+            if pp[i].uid == self.uid:
                 assert pp[i].user_name == '7788'
                 TF = True
             else:
                 continue
         assert TF == True
+        self.tearDown()
 
     def test_modify_init(self):
         kwargs = {
@@ -350,6 +361,7 @@ class TestApp():
         pp = MPost.get_by_uid(uid)
         assert post_data['keywords'] == pp.keywords
         assert post_data['kind'] == pp.kind
+        self.tearDown()
 
     def test_get_view_count(self):
         kwargs = {
@@ -363,6 +375,7 @@ class TestApp():
 
         pp = MPost.get_view_count(self.uid)
         assert pp == 1
+        self.tearDown()
 
     def tearDown(self):
         print("function teardown")
@@ -376,4 +389,4 @@ class TestApp():
             MPost2Catalog.remove_relation(self.uid, self.tag_id)
         tt = MLabel.get_by_slug(self.slug)
         if tt:
-            MLabel.delete(self.slug)
+            MLabel.delete(tt.uid)

@@ -32,6 +32,7 @@ class TestMCategory():
         }
         MCategory.add_or_update(self.uid, post_data2)
         a2 = MCategory.get_by_uid(self.uid)
+        self.tearDown()
         assert a2.name == post_data2['name']
 
     def add_message(self,**kwargs):
@@ -81,17 +82,26 @@ class TestMCategory():
         self.add_message()
         MCategory.update(self.uid, post_data)
         a = MCategory.get_by_uid(self.uid)
+        self.tearDown()
         assert a.name == post_data['name']
+
 
     def test_update_count(self):
         self.add_message()
-        a=MCategory.update_count(self.uid)
+        MCategory.update_count(self.uid)
+
+        a=MCategory.get_by_uid(self.uid)
+        self.tearDown()
+        assert a.count>=0
+
+
 
 
     def test_get_by_slug(self):
         self.add_message()
 
         a=MCategory.get_by_slug(self.slug)
+        self.tearDown()
         assert a
 
     def test_query_field_count(self):
@@ -102,8 +112,9 @@ class TestMCategory():
         for i in range(a.count()):
             if a[i].uid==self.uid:
                 TF=True
-
+        self.tearDown()
         assert TF
+
 
     def test_get_qian2(self):
         post_data={
@@ -115,6 +126,7 @@ class TestMCategory():
         for i in range(a.count()):
             if a[i].pid == post_data['pid']:
                 TF = True
+        self.tearDown()
         assert TF
 
 
@@ -127,6 +139,7 @@ class TestMCategory():
         TF = False
         if a.pid == post_data['pid']:
                 TF = True
+        self.tearDown()
         assert TF
 
 
@@ -138,6 +151,7 @@ class TestMCategory():
         for i in range(a.count()):
             if a[i].uid == self.uid:
                 TF = True
+        self.tearDown()
         assert TF
 
     def test_query_uid_starts_with(self):
@@ -147,6 +161,7 @@ class TestMCategory():
         for i in range(a.count()):
             if a[i].uid == self.uid:
                 TF = True
+        self.tearDown()
         assert TF
 
     def test_query_pcat(self):
@@ -156,6 +171,7 @@ class TestMCategory():
         for i in range(a.count()):
             if a[i].uid == self.uid:
                 TF = True
+        self.tearDown()
         assert TF
 
     def test_query_sub_cat(self):
@@ -166,6 +182,7 @@ class TestMCategory():
         for i in range(a.count()):
             if a[i].uid == self.uid:
                 TF = True
+        self.tearDown()
         assert TF
 
     def test_delete(self):
@@ -173,6 +190,7 @@ class TestMCategory():
         a=MCategory.delete(self.uid)
 
 
+        self.tearDown()
         assert a
 
     def test_query_kind_cat(self):
@@ -182,6 +200,7 @@ class TestMCategory():
         for i in range(a.count()):
             if a[i].uid == self.uid:
                 TF = True
+        self.tearDown()
         assert TF
 
     def test_get_parent_list(self):
@@ -191,8 +210,10 @@ class TestMCategory():
         for i in range(a.count()):
             if a[i].uid == self.uid:
                 TF = True
-        assert TF
 
+        self.tearDown()
+
+        assert TF
     def tearDown(self):
         print("function teardown")
         tt = MCategory.get_by_uid(self.uid)

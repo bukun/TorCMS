@@ -46,10 +46,17 @@ class TestMCollect():
 
 
         assert a != None
+        self.tearDown()
 
     def add_mess(self):
         self.add_message()
         MCollect.add_or_update(self.user_id, self.post_id)
+        a = MCollect.query_pager_by_all(self.user_id)
+        tf = False
+        for i in a:
+            if i.post_id == self.post_id:
+                tf = True
+        assert tf
 
 
     def test_query_recent(self):
@@ -58,6 +65,7 @@ class TestMCollect():
         a=MCollect.query_recent(user_id)
 
         assert a[0].post_id==self.post_id
+        self.tearDown()
 
 
     def test_get_by_signature(self):
@@ -68,6 +76,7 @@ class TestMCollect():
         a=MCollect.get_by_signature(user_id, self.post_id)
 
         assert a!=None
+        self.tearDown()
 
     def test_count_of_user(self):
         user_id = self.user_id
@@ -78,6 +87,7 @@ class TestMCollect():
 
 
         assert a == b+1
+        self.tearDown()
 
     def test_query_pager_by_all(self):
         user_id = self.user_id
@@ -88,6 +98,7 @@ class TestMCollect():
             if i.post_id==self.post_id:
                 tf=True
         assert tf
+        self.tearDown()
 
 
 
@@ -101,6 +112,7 @@ class TestMCollect():
             if i.post_id == self.post_id:
                 tf = True
         assert tf
+        self.tearDown()
 
     def tearDown(self):
         print("function teardown")

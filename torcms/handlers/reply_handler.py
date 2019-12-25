@@ -44,10 +44,10 @@ class ReplyHandler(BaseHandler):
 
         if url_arr[0] == 'add':
             self.add(url_arr[1])
-        elif url_arr[0]=='add_reply':
-            self.add_reply(url_arr[1],url_arr[2])
-        elif url_arr[0]=='modify':
-            self.modify(url_arr[1],url_arr[2])
+        elif url_arr[0] == 'add_reply':
+            self.add_reply(url_arr[1], url_arr[2])
+        elif url_arr[0] == 'modify':
+            self.modify(url_arr[1], url_arr[2])
 
     def list(self, cur_p=''):
         '''
@@ -64,7 +64,9 @@ class ReplyHandler(BaseHandler):
 
         kwd = {'pager': '',
                'current_page': current_page_number,
-               'title': '单页列表'}
+               'title': '单页列表',
+               'num_of_reply': MReply.total_number()
+               }
         self.render('admin/reply_ajax/reply_list.html',
                     kwd=kwd,
                     view_all=MReply.query_all(),
@@ -103,6 +105,7 @@ class ReplyHandler(BaseHandler):
                     uid=reply.uid,
                     userinfo=self.userinfo,
                     kwd={})
+
     def add(self, post_id):
         '''
         Adding reply to a post.
@@ -149,6 +152,7 @@ class ReplyHandler(BaseHandler):
         else:
             output = {'del_zan': 0}
         return json.dump(output, self)
+
     def delete_com(self, del_id):
         '''
         Delete the reply id
@@ -157,9 +161,10 @@ class ReplyHandler(BaseHandler):
         if MReply.delete_by_uid(del_id):
             output = {'del_reply': 1}
         else:
-             output = {'del_reply': 0}
-        return json.dump(output,self)
-    def add_reply(self, post_id,reply_id):
+            output = {'del_reply': 0}
+        return json.dump(output, self)
+
+    def add_reply(self, post_id, reply_id):
         '''
         Adding reply
         '''
@@ -179,7 +184,7 @@ class ReplyHandler(BaseHandler):
             logger.info('add reply result dic: {0}'.format(out_dic))
             return json.dump(out_dic, self)
 
-    def modify(self, pid,cat):
+    def modify(self, pid, cat):
         '''
         Adding comment to a post.
         '''
@@ -187,7 +192,7 @@ class ReplyHandler(BaseHandler):
         post_data['user_name'] = self.userinfo.user_name
         post_data['user_id'] = self.userinfo.uid
         post_data['category'] = cat
-        reply = MReply.modify_by_uid(pid,post_data)
+        reply = MReply.modify_by_uid(pid, post_data)
 
         if reply:
             out_dic = {'pinglun': post_data['cnt_reply'],
