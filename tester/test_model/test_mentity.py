@@ -19,6 +19,7 @@ class TestMEntity():
 
         MEntity.create_entity(uid, post_data['path'])
         assert True
+        self.tearDown()
 
     def test_create_entity_2(self):
         '''Wiki insert: Test invalid title'''
@@ -33,6 +34,7 @@ class TestMEntity():
         }
         uu = MEntity.get_id_by_impath(post_data['path'])
         assert uu is None
+        self.tearDown()
 
     def test_get_by_uid(self):
         MEntity.get_by_uid(self.uid)
@@ -70,4 +72,4 @@ class TestMEntity():
         print("function teardown")
         tt = MEntity.get_id_by_impath(self.path)
         if tt:
-            MEntity.delete(tt)
+            MEntity.delete(tt.uid)

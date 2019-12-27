@@ -90,6 +90,7 @@ class UserHandler(BaseHandler):
         url_str = args[0]
         url_arr = self.parse_url(url_str)
 
+
         # ToDo: change to dict.
         if url_str == 'regist':
             self.__register__()
@@ -103,18 +104,22 @@ class UserHandler(BaseHandler):
             self.login()
         elif url_str == 'changepass':
             self.__change_password__()
-        elif url_arr[0] == 'changepass':
-            self.p_changepassword()
         elif url_str == 'changeinfo':
             self.__change_info__()
-        elif url_arr[0] == 'changeinfo':
-            self.p_changeinfo()
+
         elif url_str == 'find':
             self.post_find()
-        elif url_arr[0] == 'find':
-            self.find(url_arr[1])
         elif url_str == 'reset-password':
             self.reset_password()
+
+        elif url_arr[0] == 'changepass':
+            self.p_changepassword()
+        elif url_arr[0] == 'changeinfo':
+            self.p_changeinfo()
+
+        elif url_arr[0] == 'find':
+            self.find(url_arr[1])
+
         elif url_arr[0] == 'changerole':
             self.__change_role__(url_arr[1])
 

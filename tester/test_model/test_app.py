@@ -276,6 +276,7 @@ class TestApp():
         # ToDo: the count ? 
 
         assert pp.count() >= 0
+        self.tearDown()
 
     def test_query_cat_recent(self):
 

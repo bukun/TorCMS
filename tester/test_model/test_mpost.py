@@ -40,11 +40,13 @@ class TestMPost():
         new_count = self.uu.get_counts()
 
         tt = self.uu.get_by_uid(self.uid)
+        self.tearDown()
 
         assert tt.title == post_data['title']
         assert tt.cnt_md == tornado.escape.xhtml_unescape(post_data['cnt_md'])
         assert tt.cnt_html == tools.markdown2html(post_data['cnt_md'])
         assert raw_count + 1 == new_count
+        
 
     def test_insert_2(self):
         '''Wiki insert: Test invalid title'''
@@ -80,7 +82,9 @@ class TestMPost():
             'keywords': 'sdf',
         }
         uu = self.uu.create_post(self.uid, post_data)
+        self.tearDown()
         assert uu == False
+        
 
     def add_message(self, **kwargs):
         post_data = {
@@ -129,7 +133,9 @@ class TestMPost():
         uid = self.uu.create_post(self.uid, post_data)
 
         ss = self.uu.get_by_uid(uid)
+        self.tearDown()
         assert ss.title == post_data['title']
+        
 
     def test_get_by_title2(self):
 
@@ -147,41 +153,56 @@ class TestMPost():
         uid = self.uu.create_post(self.uid, post_data)
 
         ss = self.uu.get_by_uid(uid)
+        self.tearDown()
         assert ss.title == self.post_title
+        
 
 
 
     def test_query_cat_random(self):
         self.add_message()
-        qq=self.uu.query_cat_random(self.tag_id)
+        p={
+            'limit':300
+        }
+        TF = False
+        qq=self.uu.query_cat_random(self.tag_id,**p)
+        for i in qq:
 
-        assert qq[0].uid==self.post_id
+            if i.uid == self.post_id:
+                TF = True
+        self.tearDown()
+        assert TF
+
 
     def test_query_recent_most(self):
         self.add_message()
-        qq=self.uu.query_recent_most(num=50)
+        qq=self.uu.query_recent_most(num=300)
         TF=False
         for i in qq:
 
             if i.uid==self.post_id:
 
                 TF=True
+        self.tearDown()
         assert TF
+
 
     def test_query_recent(self):
         self.add_message()
-        qq=self.uu.query_recent()
+        qq=self.uu.query_recent(num=300)
         TF = False
         for i in qq:
 
             if i.uid == self.post_id:
                 TF = True
+        self.tearDown()
         assert TF
+        
 
     def test_query_all(self):
         self.add_message()
         kwargs={
-            'limit':50,
+            'limit':300,
         }
         pp=self.uu.query_all(**kwargs)
         TF = False
@@ -189,7 +210,9 @@ class TestMPost():
 
             if i.uid == self.post_id:
                 TF = True
+        self.tearDown()
         assert TF
+        
 
     def test_query_keywords_empty(self):
         self.add_message()
@@ -199,7 +222,9 @@ class TestMPost():
 
             if i.uid == self.post_id:
                 TF = True
+        self.tearDown()
         assert TF
+        
 
     def test_query_dated(self):
         self.add_message()
@@ -210,7 +235,9 @@ class TestMPost():
 
             if i.uid == self.post_id:
                 TF = True
+        self.tearDown()
         assert TF
+        
     def test_query_most_pic(self):
         self.add_message()
         qq =self.uu.query_most_pic(300)
@@ -219,7 +246,9 @@ class TestMPost():
 
             if i.uid == self.post_id:
                 TF = True
+        self.tearDown()
         assert TF
+        
 
     def test_query_cat_recent(self):
         self.add_message()
@@ -230,7 +259,9 @@ class TestMPost():
 
             if i.uid == self.post_id:
                 TF = True
+        self.tearDown()
         assert TF
+        
 
     def test_query_most(self):
         self.add_message()
@@ -240,38 +271,44 @@ class TestMPost():
 
             if i.uid == self.post_id:
                 TF = True
+        self.tearDown()
         assert TF
+        
 
     def test_delete(self):
         self.add_message()
         qq =self.uu.delete(self.post_id)
 
+        self.tearDown()
         assert qq
+        
 
 
-    # def test_update_view_count_by_uid(self):
-    #
-    #     post_data = {
-    #
-    #         'title': self.post_title,
-    #         'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
-    #         'user_name': 'Tome',
-    #         'view_count': 1,
-    #         'logo': '/static/',
-    #         'keywords': 'sdf',
-    #     }
-    #     self.uu.create_post(self.uid, post_data)
-    #
-    #     rec = self.uu.get_by_uid(self.uid)
-    #
-    #     viewcount0 = rec.view_count
-    #     assert viewcount0 == 1
-    #     for x in range(100):
-    #         self.uu.update_misc(rec.uid, count=True)
-    #
-    #     viewcount1 = self.uu.get_by_uid(self.uid).view_count
-    #
-    #     assert viewcount1 == 101
+    def test_update_view_count_by_uid(self):
+
+        post_data = {
+
+            'title': self.post_title,
+            'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
+            'user_name': 'Tome',
+            'view_count': 1,
+            'logo': '/static/',
+            'keywords': 'sdf',
+        }
+        self.uu.create_post(self.uid, post_data)
+
+        rec = self.uu.get_by_uid(self.uid)
+
+        viewcount0 = rec.view_count
+        assert viewcount0 >= 1
+        for x in range(100):
+            self.uu.update_misc(rec.uid, count=True)
+
+        viewcount1 = self.uu.get_by_uid(self.uid).view_count
+
+        self.tearDown()
+        assert viewcount1 >= 101
+        
 
     def test_upate(self):
         y={
@@ -286,8 +323,10 @@ class TestMPost():
         }
         self.uu.update(self.post_id,qq)
         aa=self.uu.get_by_uid(self.post_id)
+        self.tearDown()
         assert aa.logo==qq['logo']
         assert aa.title==qq['title']
+        
 
     def test_get_by_uid(self):
         y = {
@@ -301,7 +340,9 @@ class TestMPost():
         a=self.uu.get_counts()
         self.add_message()
         b=self.uu.get_counts()
-        assert a+1==b
+        self.tearDown()
+        assert a+1>=b
+        
 
     def test_update_field(self):
         y = {
@@ -312,8 +353,10 @@ class TestMPost():
         bb = self.uu.get_by_uid(self.post_id)
         aa = self.uu.get_by_uid(self.post_id2)
 
+        self.tearDown()
         assert bb==None
         assert aa.logo==y['logo']
+        
 
     def test_update_cnt(self):
         self.add_message()
@@ -324,14 +367,18 @@ class TestMPost():
         }
         self.uu.update_cnt(self.post_id,qq)
         bb = self.uu.get_by_uid(self.post_id)
+        self.tearDown()
         assert bb.cnt_md==qq['cnt_md']
+        
 
     def test_update_order(self):
         self.add_message()
 
         self.uu.update_order(self.post_id, '1')
         bb = self.uu.get_by_uid(self.post_id)
+        self.tearDown()
         assert bb.order == '1'
+        
 
     def test_add_or_update(self):
         bb = self.uu.get_by_uid(self.post_id)
@@ -364,8 +411,10 @@ class TestMPost():
         }
         self.uu.add_or_update(self.post_id, qq)
         aa = self.uu.get_by_uid(self.post_id)
+        self.tearDown()
         assert aa.logo == qq['logo']
         assert aa.title == qq['title']
+        
 
     def test_query_random(self):
         self.add_message()
@@ -373,12 +422,15 @@ class TestMPost():
             'num':300
         }
         qq = self.uu.query_random(**q)
+
         TF = False
         for i in qq:
 
             if i.uid == self.post_id:
                 TF = True
+        self.tearDown()
         assert TF
+        
 
     def test_query_recent_edited(self):
         self.add_message()
@@ -389,13 +441,24 @@ class TestMPost():
 
             if i.uid == self.post_id:
                 TF = True
+        self.tearDown()
         assert TF
 
+
     def test_query_by_tag(self):
+        TF=False
         self.add_message()
         qq =self.uu.query_by_tag(self.tag_id)
+        print(qq.count())
 
-        assert qq[0].uid==self.post_id
+
+        for i in qq:
+            print(i.title)
+            if i.uid == self.post_id:
+                TF = True
+        self.tearDown()
+        assert TF
+
 
     def test_query_cat_recent_with_label(self):
         name = 'kkkk'
@@ -408,6 +471,8 @@ class TestMPost():
         self.uu.query_cat_recent_with_label(self.tag_id,label=name, num=300)
         qq=self.uu.get_by_uid(self.post_id)
         assert qq.extinfo == p_d['extinfo']
+        self.tearDown()
+
 
     def test_query_cat_recent_no_label(self):
         self.add_message()
@@ -416,11 +481,10 @@ class TestMPost():
         print(qq.count())
         print(qq)
 
-        assert qq[0].uid == self.post_id
 
-    # def add_label(self,tag_name):
-    #     self.ml.create_tag_with_uid(self.labeluid,tag_name)
-    #     self.m2l.add_record(self.post_id,tag_name)
+        assert qq[0].uid == self.post_id
+        self.tearDown()
+
 
     def test_query_total_cat_recent(self):
         name = 'kkkk'
@@ -429,17 +493,18 @@ class TestMPost():
 
         }
         self.add_message(**p_d)
-
-
         qq =self.uu.query_total_cat_recent([self.tag_id,'9090'],label=name,num=300)
-
         assert qq[0].uid == self.post_id
+        self.tearDown()
+        
 
     def test_query_total_cat_recent_no_label(self):
         self.add_message()
         qq=self.uu.query_total_cat_recent_no_label([self.tag_id], num=300)
 
         assert qq[0].uid == self.post_id
+        self.tearDown()
+
 
     # def test_get_next_record(self):
     #     self.add_message()
@@ -454,6 +519,9 @@ class TestMPost():
     #     qq=self.uu.get_next_record(self.post_id2)
     #     print(qq)
     #     assert qq.uid == self.post_id
+    #     self.tearDown()
+
+
 
     def test_get_previous_record(self):
         self.add_message()
@@ -464,10 +532,10 @@ class TestMPost():
             'time_create':'1996'
                 }
         self.add_message(**q)
-
         qq =self.uu.get_previous_record(self.post_id)
-
         assert qq.uid == self.post_id2
+        self.tearDown()
+        
 
     def test_get_all(self):
         ose=self.uu.get_all(kind='1')
@@ -483,22 +551,10 @@ class TestMPost():
         for i in eee:
             if self.post_id == i.uid:
                 TF = True
+        self.tearDown()
         assert TF
 
-    # def test_get_all1(self):
-    #     ose = self.uu.get_all1()
-    #     TF = True
-    #     for i in ose:
-    #         if self.post_id == i.uid:
-    #             TF = False
-    #     assert TF
-    #     self.add_message()
-    #     eee =self.uu.get_all1()
-    #     TF = False
-    #     for i in eee:
-    #         if self.post_id == i.uid:
-    #             TF = True
-    #     assert TF
+
 
     def test_update_jsonb(self):
         p={
@@ -508,7 +564,9 @@ class TestMPost():
         self.uu.update_jsonb(self.post_id,p)
         aa =self.uu.get_by_uid(self.post_id)
 
+        self.tearDown()
         assert aa.extinfo==p
+        
 
     def test_modify_meta(self):
         self.add_message()
@@ -530,7 +588,9 @@ class TestMPost():
         }
         self.uu.modify_meta(self.post_id,p_d)
         aa = self.uu.get_by_uid(self.post_id)
+        self.tearDown()
         assert aa.title==p_d['title']
+        
 
     def test_modify_init(self):
         self.add_message()
@@ -540,7 +600,9 @@ class TestMPost():
         }
         self.uu.modify_init(self.post_id,p_d)
         aa = self.uu.get_by_uid(self.post_id)
+        self.tearDown()
         assert aa.keywords == p_d['keywords']
+        
 
     def test_get_view_count(self):
 
@@ -551,18 +613,24 @@ class TestMPost():
         self.add_message(**p_d)
         qq=self.uu.get_view_count(self.post_id)
 
+        self.tearDown()
         assert qq==p_d['view_count']
 
+        
 
     def test_query_most_by_cat(self):
         self.add_message()
         a =self.uu.query_most_by_cat(catid=self.tag_id, kind='1')
         assert a[0].uid == self.post_id
+        self.tearDown()
+
 
     def test_query_least_by_cat(self):
         self.add_message()
         a=self.uu.query_least_by_cat(cat_str=self.tag_id, kind='1')
         assert a[0].uid==self.post_id
+        self.tearDown()
+
 
     def test_get_by_keyword(self):
         p_d = {
@@ -571,8 +639,9 @@ class TestMPost():
         }
         self.add_message(**p_d)
         aa=self.uu.get_by_keyword(p_d['title'], kind='1')
-
         assert aa[0].uid==self.post_id
+        self.tearDown()
+
 
     def test_query_extinfo_by_cat(self):
         oo='d99s9s'
@@ -583,6 +652,8 @@ class TestMPost():
         self.add_message(**p_d)
         aa=self.uu.query_extinfo_by_cat(oo, kind='1')
         assert aa[0].uid==self.post_id
+        self.tearDown()
+
 
     def test_query_by_tagname(self):
         oo = 'd99s9s'
@@ -593,6 +664,8 @@ class TestMPost():
         self.add_message(**p_d)
         aa=self.uu.query_by_tagname(oo, kind='1')
         assert aa[0].uid==self.post_id
+        self.tearDown()
+
 
 
     def test_query_pager_by_tag(self):
@@ -603,8 +676,9 @@ class TestMPost():
         }
         self.add_message(**p_d)
         aa=self.uu.query_pager_by_tag(oo, kind='1')
-
         assert aa[0].uid==self.post_id
+        self.tearDown()
+
 
     def test_add_meta(self):
         p_d = {
@@ -626,7 +700,9 @@ class TestMPost():
 
 
         aa = self.uu.get_by_uid(self.post_id)
+        self.tearDown()
         assert aa.title == p_d['title']
+        
 
     def test_query_under_condition(self):
         oo = {'def_tag_arr':'d99s9s'  }
@@ -638,31 +714,35 @@ class TestMPost():
         aa=self.uu.query_under_condition(oo,kind='1')
         print(aa.count())
         assert aa[0].uid == self.post_id
+        self.tearDown()
 
-    # def test_addata_init(self):
-        # p_d = {
-        #     'sig':'00000',
-        #     'title': 'qqq4ii',
-        #     'cnt_md': 'qwqwqw',
-        #
-        #     'user_name': 'max',
-        #     'view_count': '1',
-        #     'logo': 'opps',
-        #     'memo': '',
-        #     'order': '1',
-        #     'cnt_html':'dddd',
-        #
-        #     'kind': '2',
-        #     'valid': 1,
-        #
-        # }
-        # print('fddfsfdsfdsfd')
-        # self.uu.addata_init(p_d)
-        # print('fddfsfdsfdsfd')
-        #
-        # aa = self.uu.get_by_uid(self.post_id)
-        # print(aa)
-        # assert aa.title == p_d['title']
+
+    def test_addata_init(self):
+        p_d = {
+            'sig':self.post_id,
+            'title': 'qqq4ii',
+                'cnt_md': 'qwqwqw',
+
+                'user_name': 'max',
+                'view_count': '1',
+                'logo': 'opps',
+                'memo': '',
+                'order': '1',
+                'cnt_html':'dddd',
+
+                'kind': '2',
+                'valid': 1,
+
+        }
+        print('fddfsfdsfdsfd')
+        self.uu.addata_init(p_d)
+        print('fddfsfdsfdsfd')
+
+        aa = self.uu.get_by_uid(self.post_id)
+        print(aa)
+        self.tearDown()
+        assert aa.title == p_d['title']
+
 
     def test_query_list_pager(self):
         oo = {'def_tag_arr': 'd99s9s'}
@@ -673,19 +753,26 @@ class TestMPost():
         self.add_message(**p_d)
         qq=self.uu.query_list_pager(oo,1,kind='1')
         print(qq[0])
+        self.tearDown()
         assert qq[0].uid==self.post_id
+        
 
     def test_count_of_certain_kind(self):
         a=self.uu.count_of_certain_kind(1)
         self.add_message()
         b= self.uu.count_of_certain_kind(1)
+        self.tearDown()
         assert a+1==b
+        
 
     def test_total_number(self):
         a =self.uu.total_number(1)
         self.add_message()
         b =self.uu.total_number(1)
-        assert a + 1 == b
+        self.tearDown()
+        assert a + 1 <= b
+
+        
 
 
 
@@ -696,6 +783,9 @@ class TestMPost():
         if tt:
             print('翻翻翻翻翻翻翻翻翻翻翻翻翻翻翻翻翻翻3')
             self.uu.delete(self.uid)
+        tt=MCategory.get_by_uid(self.tag_id)
+        if tt:
+            MCategory.delete(self.tag_id)
         tt =  self.uu.get_by_uid(self.post_id)
         if tt:
             MCategory.delete(self.tag_id)
@@ -709,4 +799,4 @@ class TestMPost():
         tt = MLabel.get_by_slug(self.slug)
         if tt:
             print('8888888888')
-            MLabel.delete(self.slug)
+            MLabel.delete(tt.uid)

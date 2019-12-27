@@ -52,6 +52,7 @@ class TestMReply():
         print('=' * 20)
         print(tt)
         assert tt['success'] == True
+        self.tearDown()
 
 
     def test_insert_reply(self):
@@ -63,7 +64,7 @@ class TestMReply():
         }
 
 
-        tt=self.user.create_user(post_data)
+        # tt=self.user.create_user(post_data)
 
 
         # u_id = self.user.get_by_name(self.username)
@@ -84,12 +85,62 @@ class TestMReply():
         #     'vote':0,
         # }
 
+        self.tearDown()
 
 
+    #
+    # def test_update_vote(self):
+    #     self.reply.update_vote()
+    #     assert True
+    #
+    #
+    # def test_delete_by_uid(self):
+    #     self.reply.delete_by_uid()
+    #     assert True
+    #
+    #
+    # def test_modify_by_uid(self):
+    #     self.reply.modify_by_uid()
+    #     assert True
+    #
 
-
-    def test_upate(self):
+    def test_query_pager(self):
+        self.reply.query_pager()
         assert True
+
+
+    def test_total_number(self):
+        self.reply.total_number()
+        assert True
+
+
+    def test_count_of_certain(self):
+        self.reply.count_of_certain()
+        assert True
+    #
+    # def test_delete(self):
+    #     self.reply.delete()
+    #     assert True
+    #
+    # def test_query_all(self):
+    #     self.reply.query_all()
+    #     assert True
+    #
+    # def test_get_by_zan(self):
+    #     self.reply.get_by_zan()
+    #     assert True
+    #
+    # def test_query_by_post(self):
+    #     self.reply.query_by_post()
+    #     assert True
+    #
+    # def test_create_reply(self):
+    #     self.reply.create_reply()
+    #     assert True
+    #
+    # def test_get_by_uid(self):
+    #     self.reply.get_by_uid()
+    #     assert True
 
     def tearDown(self):
         print("function teardown")

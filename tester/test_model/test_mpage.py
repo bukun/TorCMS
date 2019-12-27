@@ -32,6 +32,8 @@ class TestMWiki():
         # assert tt.cnt_md == tornado.escape.xhtml_unescape(post_data['cnt_md'][0])
         # assert raw_count + 1 == new_count
 
+        self.tearDown()
+
     def test_insert_2(self):
         '''Wiki insert: Test invalid title'''
         post_data = {
@@ -60,14 +62,17 @@ class TestMWiki():
         }
         uu = self.uu.create_page('aaaa', post_data)
         assert uu == False
+        self.tearDown()
 
     def test_query_all(self):
         self.uu.query_all()
         assert True
+        self.tearDown()
 
     def test_get_by_slug(self):
         self.uu.get_by_uid('aa')
         assert True
+        self.tearDown()
 
     def test_update_cnt(self):
         post_data = {
@@ -77,6 +82,7 @@ class TestMWiki():
         }
         self.uu.update_cnt(self.uid, post_data)
         assert True
+        self.tearDown()
 
     def test_update(self):
         post_data = {
@@ -86,11 +92,13 @@ class TestMWiki():
         }
         self.uu.update(self.uid, post_data)
         assert True
+        self.tearDown()
 
     def test_query_recent_edited(self):
         timstamp = tools.timestamp()
         self.uu.query_recent_edited(timstamp)
         assert True
+        self.tearDown()
 
     def tearDown(self):
         print("function teardown")
