@@ -87,59 +87,148 @@ class TestMUser():
         self.tearDown()
 
     def test_update_role(self):
+        self.add_mess()
         post_data = {
             'role': '1111'
         }
-        tt = self.uu.update_role(self.username, post_data['role'])
-        assert tt == True
+        self.uu.update_role(self.username, post_data['role'])
+        tt = self.uu.get_by_uid(self.uid)
+        assert tt.role == post_data['role']
         self.tearDown()
 
-    # def test_total_number(self):
-    #     self.uu.total_number()
-    #
-    #
-    # def test_query_pager_by_slug(self):
-    #     self.uu.query_pager_by_slug()
-    #
-    # def test_count_of_certain(self):
-    #     self.uu.count_of_certain()
-    #
-    # def test_delete(self):
-    #     self.uu.delete()
-    #
-    # def test_delete_by_user_name(self):
-    #     self.uu.delete_by_user_name()
-    #
-    # def test_get_by_keyword(self):
-    #     self.uu.get_by_keyword()
-    #
-    # def test_update_time_login(self):
-    #     self.uu.update_time_login()
-    #
-    # def test_update_time_reset_passwd(self):
-    #     self.uu.update_time_reset_passwd()
-    #
-    # def test_query_nologin(self):
-    #     self.uu.query_nologin()
-    #
-    # def test_check_user_by_email(self):
-    #     self.uu.check_user_by_email()
-    #
-    # def test_check_user_by_name(self):
-    #     self.uu.check_user_by_name()
-    #
-    # def test_check_user(self):
-    #     self.uu.check_user()
-    #
-    # def test_get_by_email(self):
-    #     self.uu.get_by_email()
+    def test_total_number(self):
+        a=self.uu.total_number()
+        self.add_mess()
+        b=self.uu.total_number()
+        assert a+1<=b
+        self.tearDown()
+
+
+    def test_query_pager_by_slug(self):
+        self.add_mess()
+        a = self.uu.total_number()
+        x=int(a/10)
+        tf=False
+        for i in range(x+2):
+
+            aa=self.uu.query_pager_by_slug(current_page_num=i)
+            for y in aa:
+                if y.uid==self.uid:
+                    tf=True
+        self.tearDown()
+        assert tf
+
+
+    def test_count_of_certain(self):
+        a=self.uu.count_of_certain()
+        self.add_mess()
+        b=self.uu.count_of_certain()
+        assert a+1<=b
+        self.tearDown()
+
+    def test_delete(self):
+        user_info = self.uu.get_by_name(self.username)
+        self.add_mess()
+        user_info2 = self.uu.get_by_name(self.username)
+        aa=self.uu.delete(self.uid)
+        user_info3 = self.uu.get_by_name(self.username)
+        assert aa == True
+        assert user_info==user_info3
+        assert user_info==None
+        assert user_info2.uid==self.uid
+        self.tearDown()
+
+    def test_delete_by_user_name(self):
+        user_info = self.uu.get_by_name(self.username)
+        self.add_mess()
+        user_info2 = self.uu.get_by_name(self.username)
+        aa=self.uu.delete_by_user_name(self.username)
+        user_info3 = self.uu.get_by_name(self.username)
+        assert aa==True
+        assert user_info == user_info3
+        assert user_info == None
+        assert user_info2.uid == self.uid
+        self.tearDown()
+
+    def test_get_by_keyword(self):
+        self.add_mess()
+        aa=self.uu.get_by_keyword('me')
+        tf=False
+        for i in aa:
+            if i.uid==self.uid:
+                tf=True
+        self.tearDown()
+        assert tf
+
+
+    def test_update_time_login(self):
+        self.add_mess()
+        user_info = self.uu.get_by_name(self.username)
+        time.sleep(2)
+        self.uu.update_time_login(self.username)
+        aa = self.uu.get_by_name(self.username)
+        assert user_info.time_login!=aa.time_login
+        self.tearDown()
+
+    def test_update_time_reset_passwd(self):
+        self.add_mess()
+        time_r=11111111
+        aa=self.uu.update_time_reset_passwd(self.username,time_r)
+        assert aa==True
+        aa = self.uu.get_by_name(self.username)
+        assert aa.time_reset_passwd==time_r
+        self.tearDown()
+
+    def test_query_nologin(self):
+        aa=self.uu.query_nologin()
+        self.add_mess()
+        bb=self.uu.query_nologin()
+        assert aa.count()==bb.count()
+        self.tearDown()
+
+    def test_check_user_by_email(self):
+        post_data = {
+            'user_email': 'ssadfs@163.com',
+            'user_pass':'ffffff'
+        }
+        self.add_mess(**post_data)
+        aa=self.uu.check_user_by_email(post_data['user_email'],post_data['user_pass'])
+        assert aa==1
+        self.tearDown()
+
+    def test_check_user_by_name(self):
+        post_data = {
+            'user_pass': 'ffffff'
+        }
+        self.add_mess(**post_data)
+        aa=self.uu.check_user_by_name(self.username,post_data['user_pass'])
+        assert aa == 1
+        self.tearDown()
+
+    def test_check_user(self):
+        post_data = {
+            'user_pass': 'ffffff'
+        }
+        self.add_mess(**post_data)
+        aa=self.uu.check_user(self.uid,post_data['user_pass'])
+        assert aa == 1
+        self.tearDown()
+
+    def test_get_by_email(self):
+        post_data = {
+            'user_email': 'ssadfs@163.com'
+        }
+        self.add_mess(**post_data)
+        aa=self.uu.get_by_email(post_data['user_email'])
+        assert aa.uid==self.uid
+        self.tearDown()
 
     def test_set_sendemail_time(self):
         self.add_mess()
         bb= self.uu.get_by_uid(self.uid)
 
         time.sleep(2)
-        aa=self.uu.set_sendemail_time(self.uid)
+        self.uu.set_sendemail_time(self.uid)
         aa = self.uu.get_by_uid(self.uid)
         assert bb.time_email<=aa.time_email
         self.tearDown()
