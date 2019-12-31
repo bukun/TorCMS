@@ -4,6 +4,7 @@ from torcms.core import tools
 from torcms.model.post_model import MPost
 from torcms.model.reply_model import MReply
 from torcms.model.user_model import MUser
+import tornado.web
 import tornado.escape
 
 
@@ -18,13 +19,14 @@ class TestMReply():
         self.username = 'adminsadfl'
         self.user_uid=''
         self.reply_uid = ''
-        self.post_uid='35j9'
+        self.post_uid='998h'
+        self.password='g131322'
 
     def add_user(self ,**kwargs):
         name=kwargs.get('user_name',self.username)
         post_data = {
             'user_name': name,
-            'user_pass': kwargs.get('user_pass','g131322'),
+            'user_pass': kwargs.get('user_pass',self.password),
             'user_email': kwargs.get('user_email','name@kljhqq.com'),
         }
 
@@ -73,34 +75,38 @@ class TestMReply():
             'post_id': self.post_uid,
             'user_name':self.username,
             'user_id': self.user_uid,
-            'category': kwargs.get('category', '0'),
-
-            'cnt_reply': kwargs.get('cnt_reply', 'nininininin'),
+            'category':'0',
+            'cnt_reply': kwargs.get('cnt_reply', 'f4klkj进口国海关好姐姐4'),
 
 
         }
         uid=self.reply.create_reply(p_d)
         self.reply_uid=uid
-    #
-    # def test_insert_reply(self):
-    #
-    #     self.tearDown()
-    #     self.add_user()
-    #     self.add_post()
-    #     self.add_reply()
-    #     aa=self.reply.get_by_uid(self.reply_uid)
-    #     assert aa.user_name==self.username
-    #     assert aa.post_id==self.post_uid
-    #     assert aa.user_id==self.user_uid
-    #     self.tearDown()
+    def test_insert_reply(self):
+
+        self.add_user()
+        self.add_post()
+        self.add_reply()
+        aa=self.reply.get_by_uid(self.reply_uid)
+        assert aa.user_name==self.username
+        assert aa.post_id==self.post_uid
+        assert aa.user_id==self.user_uid
+        self.tearDown()
 
 
-    #
-    # def test_update_vote(self):
-    #     self.reply.update_vote()
-    #     assert True
-    #
-    #
+
+    def test_update_vote(self):
+        self.add_user()
+        self.add_post()
+        self.add_reply()
+        before=self.reply.get_by_uid(self.reply_uid)
+        self.reply.update_vote(self.reply_uid,10)
+        after=self.reply.get_by_uid(self.reply_uid)
+        assert after.vote==10
+        assert before.vote<after.vote
+        self.tearDown()
+
+
     # def test_delete_by_uid(self):
     #     self.reply.delete_by_uid()
     #     assert True
@@ -112,18 +118,42 @@ class TestMReply():
     #
 
     def test_query_pager(self):
-        self.reply.query_pager()
-        assert True
+        self.add_user()
+        self.add_post()
+        self.add_reply()
+        aa = self.reply.total_number()
+        a=int(aa/10)
+        tf=False
+        for i in range(a+3):
+
+            list=self.reply.query_pager(current_page_num=i)
+            for x in list:
+                if x.uid==self.reply_uid:
+                    tf=True
+                    break
+        self.tearDown()
+        assert tf
 
 
     def test_total_number(self):
-        self.reply.total_number()
-        assert True
+        aa=self.reply.total_number()
+        self.add_user()
+        self.add_post()
+        self.add_reply()
+        bb=self.reply.total_number()
+        assert aa+1<=bb
+        self.tearDown()
 
 
     def test_count_of_certain(self):
-        self.reply.count_of_certain()
-        assert True
+        aa = self.reply.count_of_certain()
+        self.add_user()
+        self.add_post()
+        self.add_reply()
+        bb =self.reply.count_of_certain()
+        assert aa + 1 <= bb
+        self.tearDown()
+
     #
     # def test_delete(self):
     #     self.reply.delete()

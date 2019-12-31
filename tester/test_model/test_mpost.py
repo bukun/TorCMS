@@ -40,12 +40,11 @@ class TestMPost():
         new_count = self.uu.get_counts()
 
         tt = self.uu.get_by_uid(self.uid)
-        self.tearDown()
-
         assert tt.title == post_data['title']
         assert tt.cnt_md == tornado.escape.xhtml_unescape(post_data['cnt_md'])
         assert tt.cnt_html == tools.markdown2html(post_data['cnt_md'])
         assert raw_count + 1 == new_count
+        self.tearDown()
         
 
     def test_insert_2(self):
@@ -133,9 +132,9 @@ class TestMPost():
         uid = self.uu.create_post(self.uid, post_data)
 
         ss = self.uu.get_by_uid(uid)
-        self.tearDown()
         assert ss.title == post_data['title']
-        
+
+        self.tearDown()
 
     def test_get_by_title2(self):
 
@@ -153,9 +152,9 @@ class TestMPost():
         uid = self.uu.create_post(self.uid, post_data)
 
         ss = self.uu.get_by_uid(uid)
-        self.tearDown()
         assert ss.title == self.post_title
-        
+
+        self.tearDown()
 
 
 
@@ -279,9 +278,9 @@ class TestMPost():
         self.add_message()
         qq =self.uu.delete(self.post_id)
 
-        self.tearDown()
         assert qq
-        
+
+        self.tearDown()
 
 
     def test_update_view_count_by_uid(self):
@@ -323,10 +322,10 @@ class TestMPost():
         }
         self.uu.update(self.post_id,qq)
         aa=self.uu.get_by_uid(self.post_id)
-        self.tearDown()
         assert aa.logo==qq['logo']
         assert aa.title==qq['title']
-        
+
+        self.tearDown()
 
     def test_get_by_uid(self):
         y = {
@@ -335,14 +334,15 @@ class TestMPost():
         self.add_message(**y)
         a=self.uu.get_by_uid(self.post_id)
         assert a.logo==y['logo']
+        self.tearDown()
 
     def test_get_counts(self):
         a=self.uu.get_counts()
         self.add_message()
         b=self.uu.get_counts()
-        self.tearDown()
         assert a+1>=b
-        
+
+        self.tearDown()
 
     def test_update_field(self):
         y = {
@@ -353,10 +353,10 @@ class TestMPost():
         bb = self.uu.get_by_uid(self.post_id)
         aa = self.uu.get_by_uid(self.post_id2)
 
-        self.tearDown()
         assert bb==None
         assert aa.logo==y['logo']
-        
+
+        self.tearDown()
 
     def test_update_cnt(self):
         self.add_message()
@@ -367,18 +367,18 @@ class TestMPost():
         }
         self.uu.update_cnt(self.post_id,qq)
         bb = self.uu.get_by_uid(self.post_id)
-        self.tearDown()
         assert bb.cnt_md==qq['cnt_md']
-        
+
+        self.tearDown()
 
     def test_update_order(self):
         self.add_message()
 
         self.uu.update_order(self.post_id, '1')
         bb = self.uu.get_by_uid(self.post_id)
-        self.tearDown()
         assert bb.order == '1'
-        
+
+        self.tearDown()
 
     def test_add_or_update(self):
         bb = self.uu.get_by_uid(self.post_id)
@@ -414,6 +414,7 @@ class TestMPost():
         self.tearDown()
         assert aa.logo == qq['logo']
         assert aa.title == qq['title']
+        self.tearDown()
         
 
     def test_query_random(self):
@@ -506,20 +507,20 @@ class TestMPost():
         self.tearDown()
 
 
-    # def test_get_next_record(self):
-    #     self.add_message()
-    #
-    #     q = {
-    #         'post_id': self.post_id2,
-    #         'title': '90909090',
-    #         'cnt_md': 'oosdfsfofsf',
-    #         'time_create': '1996'
-    #     }
-    #     self.add_message(**q)
-    #     qq=self.uu.get_next_record(self.post_id2)
-    #     print(qq)
-    #     assert qq.uid == self.post_id
-    #     self.tearDown()
+    def test_get_next_record(self):
+        self.add_message()
+
+        q = {
+            'post_id': self.post_id2,
+            'title': '90909090',
+            'cnt_md': 'oosdfsfofsf',
+            'time_create': '1996'
+        }
+        self.add_message(**q)
+        qq=self.uu.get_next_record(self.post_id2)
+        print(qq)
+        assert qq.uid == self.post_id
+        self.tearDown()
 
 
 
@@ -564,9 +565,9 @@ class TestMPost():
         self.uu.update_jsonb(self.post_id,p)
         aa =self.uu.get_by_uid(self.post_id)
 
-        self.tearDown()
         assert aa.extinfo==p
-        
+
+        self.tearDown()
 
     def test_modify_meta(self):
         self.add_message()
@@ -600,9 +601,9 @@ class TestMPost():
         }
         self.uu.modify_init(self.post_id,p_d)
         aa = self.uu.get_by_uid(self.post_id)
-        self.tearDown()
         assert aa.keywords == p_d['keywords']
-        
+
+        self.tearDown()
 
     def test_get_view_count(self):
 
@@ -613,9 +614,9 @@ class TestMPost():
         self.add_message(**p_d)
         qq=self.uu.get_view_count(self.post_id)
 
-        self.tearDown()
-        assert qq==p_d['view_count']
 
+        assert qq==p_d['view_count']
+        self.tearDown()
         
 
     def test_query_most_by_cat(self):
@@ -740,9 +741,9 @@ class TestMPost():
 
         aa = self.uu.get_by_uid(self.post_id)
         print(aa)
-        self.tearDown()
         assert aa.title == p_d['title']
 
+        self.tearDown()
 
     def test_query_list_pager(self):
         oo = {'def_tag_arr': 'd99s9s'}
@@ -753,25 +754,25 @@ class TestMPost():
         self.add_message(**p_d)
         qq=self.uu.query_list_pager(oo,1,kind='1')
         print(qq[0])
-        self.tearDown()
         assert qq[0].uid==self.post_id
-        
+
+        self.tearDown()
 
     def test_count_of_certain_kind(self):
         a=self.uu.count_of_certain_kind(1)
         self.add_message()
         b= self.uu.count_of_certain_kind(1)
+        assert a+1<=b
+
         self.tearDown()
-        assert a+1==b
-        
 
     def test_total_number(self):
         a =self.uu.total_number(1)
         self.add_message()
         b =self.uu.total_number(1)
-        self.tearDown()
         assert a + 1 <= b
 
+        self.tearDown()
         
 
 
