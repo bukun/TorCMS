@@ -4,6 +4,7 @@ from torcms.core import tools
 from torcms.model.post_model import MPost
 from torcms.model.reply_model import MReply
 from torcms.model.user_model import MUser
+from torcms.model.reply2user_model import MReply2User
 import tornado.web
 import tornado.escape
 
@@ -14,6 +15,7 @@ class TestMReply():
         self.post = MPost()
         self.user = MUser()
         self.reply = MReply()
+        self.r2u=MReply2User()
 
         self.post_title = 'fwwgccc'
         self.username = 'adminsadfl'
@@ -77,11 +79,12 @@ class TestMReply():
             'user_id': self.user_uid,
             'category':'0',
             'cnt_reply': kwargs.get('cnt_reply', 'f4klkj进口国海关好姐姐4'),
-
-
-        }
+         }
         uid=self.reply.create_reply(p_d)
         self.reply_uid=uid
+        self.r2u.create_reply(self.user_uid,uid)
+
+
     def test_insert_reply(self):
 
         self.add_user()
@@ -107,15 +110,36 @@ class TestMReply():
         self.tearDown()
 
 
-    # def test_delete_by_uid(self):
-    #     self.reply.delete_by_uid()
-    #     assert True
-    #
-    #
-    # def test_modify_by_uid(self):
-    #     self.reply.modify_by_uid()
-    #     assert True
-    #
+    def test_delete_by_uid(self):
+        self.add_user()
+        self.add_post()
+        self.add_reply()
+        yesrep=self.reply.get_by_uid(self.reply_uid)
+        assert yesrep.post_id==self.post_uid
+        aa=self.reply.delete_by_uid(self.reply_uid)
+        assert aa
+        nosrep = self.reply.get_by_uid(self.reply_uid)
+        assert nosrep == None
+        self.tearDown()
+
+
+    def test_modify_by_uid(self):
+        self.add_user()
+        self.add_post()
+        self.add_reply()
+        p_d = {
+            'user_name': self.username,
+            'user_id': self.user_uid,
+            'category': '1',
+            'cnt_reply': '一二三四',
+        }
+        aa=self.reply.modify_by_uid(self.reply_uid,p_d)
+        assert aa==self.reply_uid
+        tt=self.reply.get_by_uid(self.reply_uid)
+        assert tt.category==p_d['category']
+        assert tt.cnt_md==p_d['cnt_reply']
+        self.tearDown()
+
 
     def test_query_pager(self):
         self.add_user()
@@ -154,28 +178,67 @@ class TestMReply():
         assert aa + 1 <= bb
         self.tearDown()
 
-    #
     # def test_delete(self):
-    #     self.reply.delete()
-    #     assert True
-    #
-    # def test_query_all(self):
-    #     self.reply.query_all()
-    #     assert True
-    #
-    # def test_get_by_zan(self):
-    #     self.reply.get_by_zan()
-    #     assert True
-    #
-    # def test_query_by_post(self):
-    #     self.reply.query_by_post()
-    #     assert True
-    #
+    #     self.tearDown()
+    #     self.add_user()
+    #     self.add_post()
+    #     self.add_reply()
+    #     bb = self.reply.count_of_certain()
+    #     print(bb)
+    #     aa=self.reply.get_by_uid(self.reply_uid)
+    #     assert aa.post_id==self.post_uid
+    #     bb=self.reply.delete(self.post_uid)
+    #     print(bb)
+    #     self.tearDown()
+    #     s = self.reply.count_of_certain()
+    #     print(s)
+    #     assert bb
+    #     aa = self.reply.get_by_uid(self.reply_uid)
+    #     assert aa==None
+    #     self.tearDown()
 
+    # def test_query_all(self):
     #
-    # def test_get_by_uid(self):
-    #     self.reply.get_by_uid()
-    #     assert True
+    #     aa=self.reply.query_all()
+    #     self.add_user()
+    #     self.add_post()
+    #     self.add_reply()
+    #     bb = self.reply.query_all()
+    #     # self.tearDown()
+    #     assert aa.count() + 1 <= bb.count()
+    #     self.tearDown()
+
+    def test_get_by_zan(self):
+
+        self.add_user()
+        self.add_post()
+        self.add_reply()
+        aa = self.reply.get_by_zan(self.reply_uid)
+        assert aa
+        self.tearDown()
+
+    def test_query_by_post(self):
+        self.add_user()
+        self.add_post()
+        self.add_reply()
+        aa=self.reply.query_by_post(self.post_uid)
+        tf=False
+        for i in aa:
+            if i.uid==self.reply_uid:
+                tf=True
+                break
+        assert tf
+        self.tearDown()
+
+
+
+    def test_get_by_uid(self):
+        self.add_user()
+        self.add_post()
+        self.add_reply()
+        aa=self.reply.get_by_uid(self.reply_uid)
+        assert aa.user_id==self.user_uid
+        self.tearDown()
 
     def tearDown(self):
         print("function teardown")
@@ -188,4 +251,5 @@ class TestMReply():
             self.user.delete(tt.uid)
         tt=self.reply.get_by_uid(self.reply_uid)
         if tt:
-            self.reply.delete(tt.uid)
+            self.reply.delete_by_uid(tt.uid)
+        self.r2u.delete(self.reply_uid)
