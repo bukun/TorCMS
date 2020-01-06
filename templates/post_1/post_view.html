@@ -3,9 +3,7 @@
 {% block head %}
 <meta name="keywords" content="{{ postinfo.keywords }} ">
 <meta name="description" content="{% module generate_description(postinfo.cnt_html) %}">
-<script>
-    $.get('/post_j/count_plus/{{postinfo.uid}}');
-</script>
+
 {% end %}
 {% block content %}
 

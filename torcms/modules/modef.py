@@ -104,15 +104,15 @@ core_modules = {
 
     # Category
     'category_menu': category_modules.CategoryMenu,
-    'category_name':category_modules.CategoryName,
+    'category_name': category_modules.CategoryName,
     'catalog_menu': catalog_modules.CatalogMenu,
 
     'catalog_list': catalog_modules.CatalogList,
     'secondary_category_menu': category_modules.SecondaryCategoryMenu,
     'secondary_category_list': category_modules.SecondaryCategoryList,
-    #Comment
-    'comment_list':widget_modules.CommentList,
-    'replycnt':widget_modules.Replycnt,
-    'user_profile_by_id':widget_modules.Userprofile,
+    # Comment
+    'comment_list': widget_modules.CommentList,
+    'replycnt': widget_modules.Replycnt,
+    'user_profile_by_id': widget_modules.Userprofile,
 
 }

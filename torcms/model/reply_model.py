@@ -15,7 +15,6 @@ from config import CMS_CFG
 
 
 class MReply(Mabc):
-
     @staticmethod
     def get_by_uid(uid):
         recs = TabReply.select().where(TabReply.uid == uid)
@@ -41,7 +40,7 @@ class MReply(Mabc):
             post_id=post_data['post_id'],
             user_name=post_data['user_name'],
             user_id=post_data['user_id'],
-            category = post_data['category'] if 'category' in post_data else '0',
+            category=post_data['category'] if 'category' in post_data else '0',
             timestamp=tools.timestamp(),
             date=datetime.datetime.now(),
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_reply']),
@@ -57,7 +56,7 @@ class MReply(Mabc):
         Get reply list of certain post.
         '''
         return TabReply.select().where(
-            (TabReply.post_id == postid)&(TabReply.category != '1')
+            (TabReply.post_id == postid) & (TabReply.category != '1')
         ).order_by(TabReply.timestamp.desc())
 
     @staticmethod
@@ -96,8 +95,7 @@ class MReply(Mabc):
         return TabReply.select().paginate(current_page_num, CMS_CFG['list_num'])
 
     @staticmethod
-
-    def modify_by_uid(pid,post_data):
+    def modify_by_uid(pid, post_data):
         rec = MReply.get_by_uid(pid)
         if rec:
             entry = TabReply.update(
@@ -114,7 +112,7 @@ class MReply(Mabc):
 
     @staticmethod
     def delete_by_uid(del_id):
-        delcom=TabReplyid.delete().where(TabReplyid.reply1 == del_id)
+        delcom = TabReplyid.delete().where(TabReplyid.reply1 == del_id)
         delcom.execute()
         entry = TabReply.delete().where(TabReply.uid == del_id)
         try:
@@ -122,4 +120,3 @@ class MReply(Mabc):
             return True
         except:
             return False
-

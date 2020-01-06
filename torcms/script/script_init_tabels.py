@@ -6,7 +6,7 @@ initialize table.s
 
 from torcms.model.core_tab import TabPost, TabTag, TabMember, TabWiki, TabLink, TabEntity, \
     TabPostHist, TabWikiHist, TabCollect, TabPost2Tag, TabRel, TabEvaluation, TabUsage, TabReply, \
-    TabUser2Reply, TabRating, TabEntity2User, TabLog,TabReplyid
+    TabUser2Reply, TabRating, TabEntity2User, TabLog, TabReplyid
 
 
 def create_table(the_table):

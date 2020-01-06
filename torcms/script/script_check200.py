@@ -51,7 +51,8 @@ def run_check200(_):
                 pass
             else:
                 print(the_url0)
-                tstr = tstr + DT_STR.format(idx=str(idx).zfill(2), url0=the_url0, code=req.status_code, edit_link=the_url)
+                tstr = tstr + DT_STR.format(idx=str(idx).zfill(2), url0=the_url0, code=req.status_code,
+                                            edit_link=the_url)
                 idx = idx + 1
 
     time_local = time.localtime(timestamp())

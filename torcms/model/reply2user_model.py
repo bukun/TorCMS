@@ -12,7 +12,6 @@ from torcms.model.replyid_model import TabReplyid
 
 
 class MReply2User(Mabc):
-
     @staticmethod
     def update(uid, post_data, update_time=False):
         pass

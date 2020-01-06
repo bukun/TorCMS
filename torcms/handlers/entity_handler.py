@@ -95,7 +95,6 @@ class EntityHandler(BaseHandler):
         print(down_url)
         str_down_url = str(down_url)[15:]
 
-
         if down_url:
             ment_id = MEntity.get_id_by_impath(str_down_url)
             if ment_id:

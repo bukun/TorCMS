@@ -26,8 +26,6 @@ class PostAjaxHandler(PostHandler):
         url_arr = self.parse_url(args[0])
         if url_arr[0] in ['_delete', 'delete']:
             self.j_delete(url_arr[1])
-        elif url_arr[0] in ['count_plus']:
-            self.count_plus(url_arr[1])
 
         if len(url_arr) == 2:
             if url_arr[0] == 'recent':
@@ -51,19 +49,6 @@ class PostAjaxHandler(PostHandler):
 
         }
         self.write(json.dumps(out_json))
-
-    def count_plus(self, uid):
-        '''
-        Ajax request, that the view count will plus 1.
-        '''
-        self.set_header("Content-Type", "application/json")
-        output = {
-            # ToDo: Test the following codes.
-            # MPost.__update_view_count_by_uid(uid) else 0,
-            'status': 1 if MPost.update_misc(uid, count=1) else 0
-        }
-        # return json.dump(output, self)
-        self.write(json.dumps(output))
 
     def p_recent(self, kind, cur_p='', with_catalog=True, with_date=True):
         '''

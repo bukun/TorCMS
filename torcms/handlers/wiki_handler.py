@@ -36,8 +36,7 @@ class WikiHandler(BaseHandler):
 
         if url_str in ['', 'recent', '_recent']:
             self.recent()
-        elif url_arr[0] in ['ajax_count_plus', 'j_count_plus']:
-            self.j_count_plus(url_arr[1])
+
         elif url_str == 'refresh':
             self.refresh()
         elif url_arr[0] in ['_edit', 'edit']:
@@ -157,18 +156,11 @@ class WikiHandler(BaseHandler):
             'pager': '',
             'editable': self.editable(),
         }
-
+        MWiki.update_view_count(view.uid)
         self.render('wiki_page/wiki_view.html',
                     postinfo=view,
                     kwd=kwd,
                     userinfo=self.userinfo)
-
-    def j_count_plus(self, slug):
-        output = {
-            'status': 1 if MWiki.update_view_count(slug) else 0,
-        }
-
-        return json.dump(output, self)
 
     def to_add(self, title):
         kwd = {

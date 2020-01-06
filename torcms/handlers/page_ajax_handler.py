@@ -23,10 +23,7 @@ class PageAjaxHandler(PageHandler):
         url_str = args[0]
         url_arr = self.parse_url(url_str)
 
-        if url_arr[0] in ['count_plus']:
-            self.j_count_plus(url_arr[1])
-
-        elif url_arr[0] in ['_add']:
+        if url_arr[0] in ['_add']:
             self.p_to_add()
 
         elif len(url_arr) == 2:
@@ -57,13 +54,6 @@ class PageAjaxHandler(PageHandler):
     @tornado.web.authenticated
     def to_add(self, citiao):
         self.write(json.dumps({'code': citiao}))
-
-    def j_count_plus(self, slug):
-        '''
-        plus count via ajax.
-        '''
-        output = {'status': 1 if MWiki.view_count_plus(slug) else 0}
-        return json.dump(output, self)
 
     def p_list(self, kind, cur_p='', ):
         '''

@@ -45,8 +45,6 @@ class PageHandler(BaseHandler):
             self.to_modify(url_arr[1])
         elif url_str == 'list':
             self.list()
-        elif url_arr[0] == 'ajax_count_plus':
-            self.ajax_count_plus(url_arr[1])
         elif len(url_arr) == 1:
             self.view_or_add(url_str)
         else:
@@ -168,7 +166,7 @@ class PageHandler(BaseHandler):
         kwd = {
             'pager': '',
         }
-
+        MWiki.view_count_plus(rec.uid)
         self.render('wiki_page/page_view.html',
                     postinfo=rec,
                     kwd=kwd,
@@ -176,16 +174,6 @@ class PageHandler(BaseHandler):
                     format_date=tools.format_date,
                     userinfo=self.userinfo,
                     cfg=CMS_CFG)
-
-    def ajax_count_plus(self, slug):
-        '''
-        post count plus one via ajax.
-        '''
-        output = {
-            'status': 1 if MWiki.view_count_plus(slug) else 0,
-        }
-
-        return json.dump(output, self)
 
     def list(self):
         '''

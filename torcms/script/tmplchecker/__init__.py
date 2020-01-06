@@ -54,11 +54,11 @@ def check_html(html_file, begin):
                 # print(os.path.abspath(ff_tmpl))
                 pass
             else:
-                print('=' *10 + 'ERROR' + '=' *10)
+                print('=' * 10 + 'ERROR' + '=' * 10)
                 print('The file:')
                 print(' ' * 4 + html_file)
                 print('needs:')
-                print(' ' * 4 +ff_tmpl)
+                print(' ' * 4 + ff_tmpl)
                 print('Error, tmpl not find.')
                 # continue
                 sys.exit(1)

@@ -20,4 +20,3 @@ class BaseModel(peewee.Model):
         '''
         # pylint: disable=no-value-for-parameter
         database = config.DB_CON
-

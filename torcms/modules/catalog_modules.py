@@ -37,6 +37,3 @@ class CatalogList(tornado.web.UIModule):
         return self.render_string('modules/catalog/catalog_menu.html',
                                   recs=recs,
                                   catid=catid)
-
-
-

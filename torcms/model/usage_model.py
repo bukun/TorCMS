@@ -19,7 +19,6 @@ class MUsage(Mabc):
     Handle the usage of the info.
     '''
 
-
     @staticmethod
     def query_by_post(postid):
         '''

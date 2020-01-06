@@ -34,7 +34,6 @@ def gen_xlsx_category():
             b_cell_val = sheet_ranges['B{0}'.format(row_num)].value
             c_cell_val = sheet_ranges['C{0}'.format(row_num)].value
 
-
             if a_cell_val or b_cell_val or c_cell_val:
                 pass
             else:
@@ -72,6 +71,7 @@ def gen_xlsx_category():
             MCategory.add_or_update(u_uid, post_data)
             order_index += 1
     return all_cate_arr
+
 
 def gen_category(yaml_file, sig):
     '''

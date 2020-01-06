@@ -1,10 +1,6 @@
 {% extends "../theme/bage.html" %}
 {% block head %}
-<script type="text/javascript">
-    $(document).ready(function () {
-        $.get('/wiki/ajax_count_plus/{{postinfo.uid}}');
-    });
-</script>
+
 {% end %}
 {% block headinfo %}
 {% end %}
@@ -22,6 +18,7 @@
         {{ datetime.datetime.fromtimestamp(postinfo.time_update).strftime('%Y-%m-%d') }}
         <span class="split">|</span>
         {{ _('author') }} : {{ _('admin') }}
+
         <span class="cmts"><a href="/wiki/_edit/{{ postinfo.uid  }}" class="btn btn-xs btn-warning">
             <span class="glyphicon glyphicon-pencil"></span>
             {{ _('Edit') }}</a></span>

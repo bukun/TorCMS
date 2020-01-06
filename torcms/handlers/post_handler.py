@@ -554,8 +554,6 @@ class PostHandler(BaseHandler):
         else:
             return False
 
-
-
         if 'valid' in post_data:
             post_data['valid'] = int(post_data['valid'])
         else:
@@ -564,8 +562,6 @@ class PostHandler(BaseHandler):
         ext_dic['def_uid'] = uid
         ext_dic['gcat0'] = post_data['gcat0']
         ext_dic['def_cat_uid'] = post_data['gcat0']
-
-
 
         MPost.modify_meta(ext_dic['def_uid'],
                           post_data,

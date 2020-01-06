@@ -13,7 +13,6 @@ from torcms.core.base_model import BaseModel
 from torcms.model.core_tab import TabReplyid
 
 
-
 class MReplyid(Mabc):
     @staticmethod
     def get_by_uid(uid):
@@ -23,13 +22,12 @@ class MReplyid(Mabc):
         return MHelper.get_by_uid(TabReplyid, uid)
 
     @staticmethod
-    def create_replyid(pid,rid):
-
+    def create_replyid(pid, rid):
         uid = tools.get_uuid()
         TabReplyid.create(
             uid=uid,
-            reply0 = pid,
-            reply1 = rid,
+            reply0=pid,
+            reply1=rid,
             time_create=tools.timestamp(),
 
         )
