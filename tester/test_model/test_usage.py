@@ -65,19 +65,17 @@ class TestMUsage():
 
 
 
-    # def test_get_all(self):
-    #     self.add_message()
-    #     self.add_usage()
-    #     aa =MUsage.get_all()
-    #     tf = False
-    #     print('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
-    #     print(aa)
-    #     for i in aa:
-    #         if i.post_id == self.postid:
-    #             assert i.uid == self.uid
-    #             tf = True
-    #     assert tf
-    #     self.tearDown()
+    def test_get_all(self):
+        self.add_message()
+        self.add_usage()
+        aa =MUsage.get_all()
+        tf = False
+        for i in aa:
+            if i.post_id == self.postid:
+                assert i.uid == self.uid
+                tf = True
+        assert tf
+        self.tearDown()
 
     def test_query_random(self):
         self.add_message()
@@ -119,7 +117,6 @@ class TestMUsage():
         self.add_message()
         self.add_usage()
         aa=MUsage.query_most(self.userid, '1', 8)
-        print(aa.count())
         tf = False
         for i in aa:
             if i.post_id == self.postid:
@@ -133,7 +130,6 @@ class TestMUsage():
         self.add_message()
         self.add_usage()
         aa=MUsage.query_by_signature(self.userid, self.postid)
-        print(aa.count())
         assert aa[0].uid==self.uid
 
         self.tearDown()
@@ -143,8 +139,6 @@ class TestMUsage():
         self.add_usage()
         MUsage.count_increate(self.uid, self.tag_id, 8)
         aa = MUsage.query_recent(self.userid, '1')
-        print(self.postid)
-        print(aa.count())
         tf = False
         for i in aa:
             if i.user_id == self.userid:
@@ -158,7 +152,6 @@ class TestMUsage():
         self.add_message()
         MUsage.add_or_update(self.userid, self.postid, '1')
         aa=MUsage.query_recent(self.userid,'1')
-        print(aa)
         tf=False
         for i in aa:
             if i.user_id==self.userid:
@@ -186,24 +179,16 @@ class TestMUsage():
         }
         self.add_message(**p)
         a=MPost.get_by_uid(self.postid2)
-        print(a.uid)
-        print('00000000000000000')
         MUsage.update_field(self.uid,post_id=self.postid2)
         aa = MUsage.query_recent(self.userid, '1')
-        print(self.postid)
-        print(aa.count())
         tf = False
         for i in aa:
             if i.user_id == self.userid:
-                print('kkkkkkkkkkkkkkkkkkkkkkkk')
-                print(i.uid)
-
                 assert i.post_id ==  self.postid2
                 tf = True
         assert tf
         MUsage.update_field(self.uid, self.postid)
         aa = MUsage.query_recent(self.userid, '1')
-        print(aa)
         tf = False
         for i in aa:
             if i.user_id == self.userid:
@@ -223,5 +208,5 @@ class TestMUsage():
             MPost.delete(self.postid)
 
             MPost2Catalog.remove_relation(self.postid, self.tag_id)
-            print('545456365635653')
+
 
