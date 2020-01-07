@@ -53,7 +53,7 @@ class TestMRelation():
     def add_2post(self):
         post_data = {
             'post_uid': self.post_id,
-            'title': 'skt',
+            'title': 'sky',
             'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
             'user_name': 'Tome',
             'view_count': 1,
@@ -95,22 +95,32 @@ class TestMRelation():
         assert aa.count>=2+1
         self.tearDown()
 
-    # def test_get_app_relations(self):
-    #     self.add_tag()
-    #     self.add_2post()
-    #     self.add_rela()
-    #     aa=MRelation.get_app_relations(self.post_id)
-    #     print(aa)
-    #     assert aa==0
-    #
-    # def test_delete(self):
-    #     app_id = self.app_id
-    #
-    #     MRelation.delete(app_id)
-    #     assert True
+    def test_get_app_relations(self):
+        self.add_tag()
+        self.add_2post()
+        self.add_rela()
+        aa=MRelation.get_app_relations(self.post_id)
+        tf=False
+        for i in aa:
+            print(i.post_id)
+            if i.post_id==self.post_id2:
+                tf=True
+        self.tearDown()
+        assert tf
+
+
+    def test_delete(self):
+        self.add_tag()
+        self.add_2post()
+        self.add_rela()
+        aa=MHelper.get_by_uid(TabRel,self.uid)
+        assert aa.post_f_id==self.post_id
+        MRelation.delete(self.uid)
+        aa = MHelper.get_by_uid(TabRel, self.uid)
+        assert aa==None
+        self.tearDown()
 
     def tearDown(self):
-        MCategory.delete(self.tag_id)
         MCategory.delete(self.tag_id)
         MPost.delete(self.post_id2)
         MPost.delete(self.post_id)

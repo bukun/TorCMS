@@ -76,6 +76,7 @@ class TestMRelation():
 
 
     def test_add_relation(self):
+        self.tearDown()
         self.setup()
         self.add_message()
         a=MRelation.add_relation(self.app_f, self.app_t)
@@ -86,6 +87,7 @@ class TestMRelation():
         self.tearDown()
 
     def test_update_relation(self):
+        self.tearDown()
         self.add_message()
         a=MRelation.add_relation(self.app_f, self.app_t)
         self.uid = a
@@ -94,7 +96,7 @@ class TestMRelation():
         self.tearDown()
 
     def test_get_app_relations(self):
-
+        self.tearDown()
         self.add_message()
         MRelation.add_relation(self.app_f, self.app_t)
         a=MRelation.get_app_relations(self.app_f,num=300)

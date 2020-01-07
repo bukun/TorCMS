@@ -50,6 +50,7 @@ class TestMLog():
         self.tearDown()
 
     def test_query_all_user(self):
+        self.tearDown()
         self.add_message()
         a = MLog.query_all_user()
         tf = False
