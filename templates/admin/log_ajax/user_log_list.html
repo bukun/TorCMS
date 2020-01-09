@@ -3,7 +3,7 @@
         <div class="panel panel-default">
             <div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span> 日志列表</div>
             <div class="panel-body">
-                <h3>用户：{% module user_name_by_id(kwd['user_id']) %}</h3>
+                <h3><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;用户：{% module user_name_by_id(kwd['user_id']) %}</h3>
                 <hr>
                 <table class="table table-bordered">
                     <tr>
@@ -21,8 +21,8 @@
                     {% for x in infos %}
                     <tr>
                         <td>{{ ii }}</td>
-                        <td>{{ x.current_url }}</td>
-                        <td>{{ x.refer_url }}</td>
+                        <td><a href="{{ x.current_url }}" target="_blank"> {{ x.current_url }}</a></td>
+                        <td><a href="{{ x.refer_url }}" target="_blank"> {{ x.refer_url }}</a></td>
                         <td> {{ x.time }}</td>
                         <td> {{ x.time_create }}</td>
                         <td>{{ x.time_out }}</td>

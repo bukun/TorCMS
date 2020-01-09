@@ -28,8 +28,8 @@
             {% for x in infos %}
             <tr>
                 <td>{{ ii }}</td>
-                <td>{{ x.current_url }}</td>
-                <td>{{ x.refer_url }}</td>
+                <td><a href="{{ x.current_url }}" target="_blank"> {{ x.current_url }}</a></td>
+                <td><a href="{{ x.refer_url }}" target="_blank"> {{ x.refer_url }}</a></td>
                 <td> {{ x.time }}</td>
                 <td> {{  datetime.datetime.fromtimestamp(x.time_create / 1000).strftime('%Y-%m-%d %H:%M:%S') }}</td>
                 <td> {{  datetime.datetime.fromtimestamp(x.time_out / 1000).strftime('%Y-%m-%d %H:%M:%S') }}</td>

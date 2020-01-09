@@ -197,16 +197,16 @@ class TestMReply():
     #     assert aa==None
     #     self.tearDown()
 
-    # def test_query_all(self):
-    #
-    #     aa=self.reply.query_all()
-    #     self.add_user()
-    #     self.add_post()
-    #     self.add_reply()
-    #     bb = self.reply.query_all()
-    #     # self.tearDown()
-    #     assert aa.count() + 1 <= bb.count()
-    #     self.tearDown()
+    def test_query_all(self):
+
+        aa=self.reply.query_all()
+        self.add_user()
+        self.add_post()
+        self.add_reply()
+        bb = self.reply.query_all()
+        # self.tearDown()
+        assert aa.count() + 1 <= bb.count()
+        self.tearDown()
 
     def test_get_by_zan(self):
 
