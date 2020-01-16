@@ -180,6 +180,8 @@ class TestMReply():
 
     # def test_delete(self):
     #     self.tearDown()
+    #     bb = self.reply.count_of_certain()
+    #     print(bb)
     #     self.add_user()
     #     self.add_post()
     #     self.add_reply()
@@ -187,25 +189,45 @@ class TestMReply():
     #     print(bb)
     #     aa=self.reply.get_by_uid(self.reply_uid)
     #     assert aa.post_id==self.post_uid
-    #     bb=self.reply.delete(self.post_uid)
-    #     print(bb)
-    #     self.tearDown()
+    #     aa = self.reply.query_by_post(self.post_uid)
+    #     tf = False
+    #     for i in aa:
+    #         if i.uid == self.reply_uid:
+    #             tf = True
+    #             break
+    #     assert tf
+    #     vv=self.reply.delete(self.post_uid)
+    #     print('LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLl')
+    #     print(vv)
     #     s = self.reply.count_of_certain()
     #     print(s)
-    #     assert bb
+    #     # assert vv
     #     aa = self.reply.get_by_uid(self.reply_uid)
-    #     assert aa==None
     #     self.tearDown()
+    #     assert aa==None
+
 
     def test_query_all(self):
+        self.tearDown()
 
         aa=self.reply.query_all()
+        tf = True
+        for i in aa:
+            if i.uid == self.reply_uid:
+                tf = False
+                break
+        assert tf
         self.add_user()
         self.add_post()
         self.add_reply()
         bb = self.reply.query_all()
-        # self.tearDown()
-        assert aa.count() + 1 <= bb.count()
+        tf=False
+        for i in bb:
+            if i.uid==self.reply_uid:
+                tf=True
+                assert i.post_id==self.post_uid
+                break
+        assert tf
         self.tearDown()
 
     def test_get_by_zan(self):
@@ -214,7 +236,7 @@ class TestMReply():
         self.add_post()
         self.add_reply()
         aa = self.reply.get_by_zan(self.reply_uid)
-        assert aa
+        assert aa>=1
         self.tearDown()
 
     def test_query_by_post(self):
