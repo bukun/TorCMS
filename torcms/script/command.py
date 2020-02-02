@@ -19,7 +19,7 @@ from .autocrud.gen_html_file import generate_html_files as run_auto
 from .tmplchecker import run_checkit
 from .script_sitemap import run_editmap
 from .script_check200 import run_check200
-
+from .script_dump import run_dump
 
 def entry(argv):
     '''
@@ -42,6 +42,8 @@ def entry(argv):
         'html': run_checkit,
         'update_cat': run_update_cat,
         'check200': run_check200,
+        'dump': run_dump,
+        
     }
     try:
         # 这里的 h 就表示该选项无参数，i:表示 i 选项后需要有参数
