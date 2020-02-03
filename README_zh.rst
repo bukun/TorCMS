@@ -10,10 +10,10 @@ TorCMS中文说明
 中科东地石山内容管理系统（简称：TorCMS系统）安装部署说明主要用于详细描述整个系统的软硬件组成、系统架构，
 以及各组成部分的安装部署方法、配置方法等信息，通过本文档可以对整体系统进行全新部署，或者针对某个组成部分进行重新部署。
 
-TorCMS系统是使用Python 3.4，Tornado Web框架、Peewee、BootStrap开发的，基于Tornado的开源CMS系统。
+TorCMS系统是使用Python 3.7，Tornado Web框架、Peewee、BootStrap开发的，基于Tornado的开源CMS系统。
 
 此CMS系统原本用于云算笔记、开放地理空间实验室等网站，后来慢慢将 CMS 从中抽取出来。
-系统运行使用Python 3.4进行开发，经过少量修改，可以运行在 Python 2.7下面，但是发布的版本不对Python 2.7进行特别的支持。
+系统运行使用Python 3.7 （原版本基于 Python 3.4 ）进行开发，经过少量修改，可以运行在 Python 2.7下面，但是发布的版本不对Python 2.7进行特别的支持。
 由于使用了 PostgreSQL 的 JSON 扩展功能，系统目前仅支持 PostgreSQL 。
 
 TorCMS系统的功能特征
@@ -26,7 +26,7 @@ TorCMS系统的功能特征
 * 精心设计默认模板，如Post, Info, Page, Wiki等。
 * 用户权限管理。
 * 全文检索。
-* PostgreSQL 9.4以上，使用JSONB以便于框架可扩展。
+* PostgreSQL 11 以上，使用JSONB以便于框架可扩展。
 * 通过Peewee访问数据库。
 * 样式使用SASS子项目进行管理。
 * 最新版本的Jquery 和Bootstrap 作为默认JavaScript与CSS框架。
@@ -44,7 +44,7 @@ TorCMS系统的功能特征
 
 Python语言
 
-系统运行支持Python 3.4、Python 3.5、Python 3.6。
+系统运行支持Python 3.7、Python 3.8。
 
 在Debian下安装
 -------------------------------------
@@ -57,7 +57,7 @@ Python语言
 
 搭建数据库
 -------------------------------------------------------
-在PostgreSQL中创建数据库和用户。该信息应该在config.py文件中使用。 并且，在数据库中创建hstore扩展。
+在PostgreSQL中创建数据库和用户。该信息应该在 ``cfg.py`` 文件中使用。 并且，在数据库中创建 hstore 扩展。
 
 首先切换到系统用户：
 
@@ -71,7 +71,7 @@ Python语言
 
     psql
 
-进入到postgresql环境，
+进入到 postgresql 环境，
 接下来开始创建数据库，以下代码一句一句执行:
 
 ::
@@ -198,25 +198,18 @@ Web应用程序的元数据信息处理
 单元测试
 ==================================
 
-首先应该用pip安装nose。
-注意：nose继承自unittest，且比unittest更容易使用。
+首先应该用 pip 安装 pytest 。
+
 
 ::
 
-    pip3 install nose
+    pip3 install pytest
 
 然后运行如下：
 
 ::
 
-    nosetests -v -d tester
-
-
-如果要运行 coverage来查看单元测试覆盖情况，首先要安装coverage (install with: pip3 install coverage )，然后进行:
-
-::
-
-    nosetests3 -v -d --with-coverage tester
+    python3 -m pytest tester
 
 
 API文档的建立

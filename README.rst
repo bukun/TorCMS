@@ -1,8 +1,9 @@
+==============================
 TorCMS Introduction
 ==============================
 
 Status
-------------------------
+==============================
 
 .. image:: https://travis-ci.org/bukun/TorCMS.svg?branch=master
     :target: https://travis-ci.org/bukun/TorCMS
@@ -17,11 +18,11 @@ Checking ``torcms`` with ``pylint`` using default configuration (Under Debian St
 gets score greater than 8.9.
 
 Introduction
--------------------------------------------------
+==============================
 
 Flexible, extensible web CMS framework built on Tornado and Peewee,
-compatible with Python 3.4 and above. Using PostgreSQL with JSON
-extension as the database(postgresql-server >9.4).
+compatible with Python 3.7 and above. Using PostgreSQL with JSON
+extension as the database( postgresql-server >= 11.0 ).
 
 pypi: The kernel of this CMS has been submit to pypi.
 https://pypi.python.org/pypi/torcms . Could be installed via:
@@ -31,7 +32,7 @@ https://pypi.python.org/pypi/torcms . Could be installed via:
     pip3 install torcms
 
 Features
---------------------------------------------------
+==============================
 
 - Build on Tornado, only with Web features, which made it is simple to use.
 - Markdown editor, make your HTML clean and clear.
@@ -42,17 +43,19 @@ Features
 - Using XLXS, could be parsed by ``openpyxl``, to define the schema of the database.
 - Access database via Peewee.
 - SASS sub-project for Style.
-- Last version of Jquery. And, Bootstrap as the default CSS framework.
+- Last version of JQuery. And, Bootstrap as the default CSS framework.
 
 Application
-------------------
+==============================
 
 -  http://drr.ikcest.org (Disaster Risk Reduction Knowledge Service of UNESCO)
--  http://eng.wdc.cn (World data center for Renewable Resources and Environment)
+-  http://wdcrre.data.ac.cn/ (World data center for Renewable Resources and Environment)
 -  http://www.wds-china.org/ (ICSU-WDS, World Data System China)
--  http://www.osgeo.cn (OSGeo China Chapter)
--  http://www.maphub.cn
--  http://www.yunsuan.org
+-  https://www.osgeo.cn (OSGeo China Chapter)
+
+
+-  http://www.maphub.cn (Merged into https://www.osgeo.cn)
+-  http://www.yunsuan.org (Merged into https://www.osgeo.cn)
 
 
 Install
@@ -80,7 +83,7 @@ Create the Database
 ---------------------------
 
 Create the database, and user in PostgreSQL.
-The information should be used in the config.py file.
+The information should be used in the ``cfg.py`` file.
 And, create hstore extension in the database.
 
 ::
@@ -225,25 +228,19 @@ would generate the picture for the relationship of the template files.
 Unit Tests
 =========================================
 
-First you should install nose with pip,
+First you should install pytest with ``pip`` ,
 
 ::
 
-    pip3 install nose
+    pip3 install pytest
 
 then run as follow:
 
 ::
 
-    nosetests -v -d --exe tester
+    python3 -m pytest tester
 
-with ``coverage`` (install with:  ``pip3 install coverage`` ):
 
-::
-
-    nosetests  --exe -v -d --with-coverage tester
-
-Note: I alway writing code in the folder which is mounted by Debian in VirtualBox, so ``--exe``.
 
 Build the API documents
 ========================================
@@ -280,6 +277,7 @@ Then, upload to the website.
 ::
 
     twine upload dist/torcms-version.tar.gz
+
 
 In Chinese
 =========================

@@ -20,6 +20,7 @@ from .tmplchecker import run_checkit
 from .script_sitemap import run_editmap
 from .script_check200 import run_check200
 from .script_dump import run_dump
+from .script_zero import run_zero
 
 def entry(argv):
     '''
@@ -43,7 +44,7 @@ def entry(argv):
         'update_cat': run_update_cat,
         'check200': run_check200,
         'dump': run_dump,
-        
+        '0': run_zero,
     }
     try:
         # 这里的 h 就表示该选项无参数，i:表示 i 选项后需要有参数
@@ -59,12 +60,14 @@ def entry(argv):
             print('       migrate: ')
             print('        review: ')
             print('         -------------')
+            print('             0: ')
             print('      send_all: ')
             print('  send_nologin: ')
             print('       sitemap: ')
             print('       editmap: ')
             print('    check_kind: ')
             print('      check200: ')
+            print('          dump: ')
 
             sys.exit()
         elif opt == "-i":

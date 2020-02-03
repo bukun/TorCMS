@@ -18,7 +18,7 @@ psycopg2-binary
 redis
 pyyaml
 openpyxl
-nose
+# nose
 requests
 pytest
 coverage
@@ -30,3 +30,4 @@ sphinx
 ##################################
 graphviz
 pylint
+selenium

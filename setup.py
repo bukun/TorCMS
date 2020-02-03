@@ -8,10 +8,10 @@ For pypi
 from setuptools import setup, find_packages
 
 desc = ('Flexible, extensible Web CMS framework built on Tornado,'
-        'compatible with Python 3.4 and above.')
+        'compatible with Python 3.7 and above.')
 setup(
     name='torcms',
-    version='0.7.8',
+    version='0.7.9',
     keywords=('torcms', 'tornado', 'cms'),
     description=desc,
     long_description=''.join(open('README.rst').readlines()),
@@ -47,9 +47,6 @@ setup(
         'License :: OSI Approved :: MIT License',
 
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
     ],
