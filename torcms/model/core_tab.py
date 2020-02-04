@@ -280,3 +280,19 @@ class TabReplyid(BaseModel):
     reply0 = peewee.CharField(null=False, max_length=36, help_text='', )
     reply1 = peewee.CharField(null=False, max_length=36, help_text='', )
     time_create = peewee.IntegerField()
+
+
+class Tabreferrer(BaseModel):
+    '''
+    创建 访问来源 记录表 Tabreferrer
+    '''
+    uid = peewee.CharField(null=False, index=False, unique=True, primary_key=True, default='00000',
+                           max_length=5, help_text='', )
+    media = peewee.CharField(null=False, help_text='来源', )
+    terminal = peewee.CharField(null=False, help_text='终端', )
+    userip = peewee.CharField(null=False, unique=True, help_text='用户端ip', )
+    usercity = peewee.CharField(null=False, help_text='用户端城市', )
+    kind = peewee.CharField(null=False, max_length=1,
+                            default='1', help_text='', )
+    time_create = peewee.IntegerField()
+    time_update = peewee.IntegerField()

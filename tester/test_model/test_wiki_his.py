@@ -41,7 +41,13 @@ class TestMWikiHist():
 
         MUser.create_user(post_data)
         aa=MUser.get_by_name(name)
+
+
+
         self.user_uid=aa.uid
+
+
+
 
     def add_w_h(self):
         self.add_user()

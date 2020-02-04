@@ -6,7 +6,7 @@ initialize table.s
 
 from torcms.model.core_tab import TabPost, TabTag, TabMember, TabWiki, TabLink, TabEntity, \
     TabPostHist, TabWikiHist, TabCollect, TabPost2Tag, TabRel, TabEvaluation, TabUsage, TabReply, \
-    TabUser2Reply, TabRating
+    TabUser2Reply, TabRating,TabLog,Tabreferrer,TabEntity2User,TabReplyid
 
 
 def drop_the_table(table_name):
@@ -41,3 +41,7 @@ def run_drop_tables(_):
     drop_the_table(TabReply)
     drop_the_table(TabUser2Reply)
     drop_the_table(TabRating)
+    drop_the_table(TabLog)
+    drop_the_table(Tabreferrer)
+    drop_the_table(TabEntity2User)
+    drop_the_table(TabReplyid)
