@@ -283,7 +283,8 @@ In Chinese
 =========================
 
 本 CMS 是使用Python 3.4，Tornado Web框架， Peewee，开发的。
-此CMS系统原本用于\ `云算笔记 <http://www.yunsuan.org>`__\ 、\ `开放地理空间实验室 <http://lab.osgeo.cn>`__\ （现合并到\ `OSGeo中国中心 <http://www.osgeo.cn>`__\ ）等网站，
+此CMS系统原本用于 `云算笔记 <http://www.yunsuan.org>`__ 、
+`开放地理空间实验室 <http://lab.osgeo.cn>`__ （现合并到 `OSGeo中国中心 <http://www.osgeo.cn>`__ ）等网站，
 后来慢慢将 CMS 从中抽取出来。
 
 在网站设计方面，提出了文档（Post）、信息（Infor）两种对等的模型进行信息的组织。
@@ -301,5 +302,5 @@ In Chinese
 -  http://www.maphub.cn (地图云集网站)
 -  http://www.yunsuan.org (云算笔记网站)
 -  http://www.wds-china.org (世界数据系统中国)
--  http://eng.wdc.cn/ (可再生资源与环境世界数据中心)
+-  http://wdcrre.data.ac.cn/ (可再生资源与环境世界数据中心)
 -  http://drr.ikcest.org (联合国教科文组织国际工程科技知识中心防灾减灾知识服务平台)

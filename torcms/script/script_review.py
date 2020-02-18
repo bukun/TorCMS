@@ -17,7 +17,7 @@ from config import SMTP_CFG, post_emails, SITE_CFG, router_post
 
 DATE_STR = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-TIME_LIMIT = 7 * 60 * 60  # 每7小时
+TIME_LIMIT = 6 * 60 * 60 + 60  # Every 6 house, plus 60 seconds.
 
 
 def __get_diff_recent():
