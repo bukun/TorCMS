@@ -110,4 +110,3 @@ class TestMWikiHist():
         MUser.delete(self.user_uid)
         MWiki.delete(self.wiki_uid)
         MWikiHist.delete(self.uid)
-

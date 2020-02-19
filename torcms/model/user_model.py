@@ -214,9 +214,10 @@ class MUser(Mabc):
         '''
         Create the user.
         The code used if `False`.
-        11: standsfor invalid username.
-        21: standsfor invalide E-mail.
-        91: standsfor unkown reson.
+        11: invalid username.
+        21: invalide E-mail.
+        31: E-mail exists..
+        91: unkown reason.
         '''
         out_dic = {'success': False, 'code': '00'}
 
@@ -233,17 +234,23 @@ class MUser(Mabc):
             out_dic['code'] = '21'
             return out_dic
 
+        if MUser.get_by_email(post_data['user_email']):
+            out_dic['code'] = '31'
+            return out_dic
+
         try:
-            TabMember.create(uid=tools.get_uuid(),
-                             user_name=post_data['user_name'],
-                             user_pass=tools.md5(post_data['user_pass']),
-                             user_email=post_data['user_email'],
-                             role='1000',  # ‘1000' as default role.
-                             time_create=tools.timestamp(),
-                             time_update=tools.timestamp(),
-                             time_reset_passwd=tools.timestamp(),
-                             time_login=tools.timestamp(),
-                             time_email=tools.timestamp())
+            TabMember.create(
+                uid=tools.get_uuid(),
+                user_name=post_data['user_name'],
+                user_pass=tools.md5(post_data['user_pass']),
+                user_email=post_data['user_email'],
+                role='1000',  # ‘1000' as default role.
+                time_create=tools.timestamp(),
+                time_update=tools.timestamp(),
+                time_reset_passwd=tools.timestamp(),
+                time_login=tools.timestamp(),
+                time_email=tools.timestamp()
+            )
 
             out_dic['success'] = True
         except:

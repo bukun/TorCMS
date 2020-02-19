@@ -4,6 +4,7 @@ from torcms.core import tools
 from torcms.model.user_model import MUser
 import tornado.escape
 import time
+import random
 
 
 class TestMUser():
@@ -30,7 +31,7 @@ class TestMUser():
         post_data = {
             'user_name': name,
             'user_pass': kwargs.get('user_pass','g131322'),
-            'user_email': kwargs.get('user_email','name@kljhqq.com'),
+            'user_email': kwargs.get('user_email','{}@kljhqq.com'.format(random.randint(1,1000000))),
         }
 
         self.uu.create_user(post_data)
@@ -261,9 +262,20 @@ class TestMUser():
         assert tf
         self.tearDown()
 
+    def test_db_email(self):
+        pdata = {
+            'user_name': 'asdfdsf',
+            'user_pass': 'sadf',
+            'user_email': 'sadflsdf@11.com',
+        }
+        aa = MUser.create_user(pdata)
+        bb = MUser.create_user(pdata)
+        assert bb == {'code': '31', 'success': False}
+
     def tearDown(self):
         print("function teardown")
         tt=self.uu.get_by_uid(self.uid)
         if tt:
             self.uu.delete(tt.uid)
         self.uu.delete_by_user_name(self.username)
+
