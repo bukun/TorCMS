@@ -5,6 +5,7 @@ User defined Configuration for the application.
 '''
 
 DB_CFG = {
+    'host': '127.0.0.1',
     'db': 'torcms',
     'user': 'torcms',
     'pass': '111111',

@@ -410,7 +410,7 @@ def get_cfg():
         db_cfg['db'],
         user=db_cfg.get('user', db_cfg['db']),
         password=db_cfg['pass'],
-        host='127.0.0.1',
+        host=db_cfg.get('host', '127.0.0.1'),
         port=db_cfg.get('port', '5432'),
         autocommit=True,
         autorollback=True)

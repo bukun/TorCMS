@@ -75,6 +75,7 @@ def run_whoosh(*args):
 def run_update_cat(_):
     '''
     Update the catagery.
+    ToDo: must be some thing wrong.
     '''
     recs = MPost2Catalog.query_all().objects()
     for rec in recs:

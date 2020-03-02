@@ -394,13 +394,12 @@ class MPost(Mabc):
     def query_by_tag(cat_id, kind='1'):
         '''
         Query recent posts of catalog.
+        ToDo: kind ?
         '''
-
         return TabPost.select().join(
             TabPost2Tag,
             on=(TabPost.uid == TabPost2Tag.post_id)
         ).where(
-
             (TabPost.kind == kind) &
             (TabPost2Tag.tag_id == cat_id) &
             (TabPost.valid == 1)
