@@ -4,7 +4,13 @@
 Dump database of PostgreSQL, with date stamp.
 '''
 import os
-from cfg import DB_CFG
+try:
+    from cfg import DB_CFG
+except:
+    DB_CFG = {
+        'db': '',
+        'pass': '',
+    }
 import subprocess
 import datetime
 
