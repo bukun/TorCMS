@@ -4,7 +4,13 @@
 Generate some helper files.
 '''
 
-from cfg import DB_CFG
+try:
+    from cfg import DB_CFG
+except:
+    DB_CFG = {
+        'db': '',
+        'pass': '',
+    }
 
 
 def run_zero(_):

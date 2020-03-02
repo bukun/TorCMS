@@ -6,15 +6,14 @@ from selenium.webdriver.support.ui import Select
 from time import sleep
 from cfg import SITE_CFG
 
-
-
 driver = webdriver.Firefox()
 site_url = SITE_CFG['site_url']
 
 
 class Login():
     '''另外帐号登陆'''
-    def login(self,driver):
+
+    def login(self, driver):
         driver.get('{0}/user/login'.format(site_url))
         driver.find_element_by_id('user_name').clear()
         driver.find_element_by_id('user_name').send_keys('gislite')
@@ -22,8 +21,6 @@ class Login():
         driver.find_element_by_id('user_pass').send_keys('131322')
         driver.find_element_by_xpath('//button[@class="btn btn-primary"]').click()
         sleep(5)
-
-
 
 
 def test_main_page():
@@ -40,10 +37,6 @@ def test_main_page():
 
     driver.find_element_by_id('keyword').send_keys(Keys.ENTER)
     sleep(5)
-
-
-
-
 
 
 def test_regist():
@@ -89,8 +82,6 @@ def test_registb():
     sleep(4)
 
 
-
-
 def test_login():
     '''
        测试用户登陆
@@ -133,16 +124,12 @@ def test_loginb():
     sleep(5)
 
 
-
-
-
 def test_logout():
     '''
         用户退出登陆
         '''
     test_login()
     driver.get('{0}/user/logout'.format(site_url))
-
 
 
 def test_userinfo():
@@ -198,7 +185,6 @@ def test_changepassb():
     sleep(5)
 
 
-
 def test_userinfoa():
     '''
         用户中心
@@ -237,7 +223,6 @@ def test_changeinfo():
     driver.find_element_by_xpath('//button[@class="btn btn-primary"]').click()
 
 
-
 def test_userinfod():
     '''
         用户中心
@@ -248,7 +233,6 @@ def test_userinfod():
     sleep(2)
     driver.find_element_by_link_text('Logout').click()
     sleep(5)
-
 
 
 def test_userinfob():
@@ -262,7 +246,6 @@ def test_userinfob():
     sleep(5)
 
 
-
 def test_userinfoc():
     '''
        用户中心
@@ -273,7 +256,6 @@ def test_userinfoc():
     driver.get('{0}/user/info'.format(site_url))
     driver.find_element_by_link_text('Publish Info').click()
     sleep(5)
-
 
 
 def test_publish():
@@ -303,12 +285,12 @@ def test_post():
     driver.find_element_by_name('pcat2').send_keys('Education')
     driver.find_element_by_name('pcat3').send_keys('Major')
     driver.find_element_by_name('pcat4').send_keys('Resources')
-    driver.find_element_by_id('logo').send_keys('/static/upload/b9/b99c9056-90ef-11e6-8e5f-6c0b8492a212_m.jpg')
-    #driver.find_element_by_xpath("//textarea[@id='cnt_md']").send_keys('coasasdsdnte1131321321513201531302313151nt')
+    driver.find_element_by_id('logo').send_keys(
+        '/static/upload/b9/b99c9056-90ef-11e6-8e5f-6c0b8492a212_m.jpg')
+    # driver.find_element_by_xpath("//textarea[@id='cnt_md']").send_keys('coasasdsdnte1131321321513201531302313151nt')
     # driver.find_element_by_id('memo').send_keys('memo')
     driver.find_element_by_id('sub1').click()
     sleep(5)
-
 
 
 def test_postview():
@@ -338,7 +320,8 @@ def test_post_edit():
     driver.find_element_by_name('pcat2').send_keys('Principle')
     driver.find_element_by_name('pcat3').send_keys('Resources')
     driver.find_element_by_name('pcat4').send_keys('Technology')
-    driver.find_element_by_id('logo').send_keys('/static/upload/b9/b99c9056-90ef-11e6-8e5f-6c0b8492a212_m.jpg')
+    driver.find_element_by_id('logo').send_keys(
+        '/static/upload/b9/b99c9056-90ef-11e6-8e5f-6c0b8492a212_m.jpg')
     sleep(2)
     # content= driver.find_element_by_xpath("//textarea[@id='cnt_md']")
     # if content:
@@ -346,7 +329,6 @@ def test_post_edit():
     # content.send_keys('coasasdsdnte1131321321513201531302313151nt')
     driver.find_element_by_id('logo').send_keys(Keys.ENTER)
     sleep(5)
-
 
 
 def test_post_reclass():
@@ -364,7 +346,6 @@ def test_post_reclass():
     driver.find_element_by_id('sub1').click()
 
 
-
 def test_post_view():
     '''
         Review 后，查看文档按钮。
@@ -373,7 +354,6 @@ def test_post_view():
     driver.get('{0}/post_man/view/t0000'.format(site_url))
     driver.find_element_by_link_text('View').click()
     sleep(5)
-
 
 
 def test_post_collect():
@@ -387,7 +367,6 @@ def test_post_collect():
     sleep(5)
 
 
-
 def test_page():
     '''
       添加page页面
@@ -396,7 +375,7 @@ def test_page():
     test_login()
     driver.get('{0}/page/t0000'.format(site_url))
     driver.find_element_by_id('title').send_keys('erfefsadfefasdfe')
-    #driver.find_element_by_xpath("//textarea[@id='cnt_md']").send_keys('coasasdsdnte1131321321513201531302313151nt')
+    # driver.find_element_by_xpath("//textarea[@id='cnt_md']").send_keys('coasasdsdnte1131321321513201531302313151nt')
     driver.find_element_by_id('sub1').click()
     sleep(5)
 
@@ -408,11 +387,9 @@ def test_page_edit():
     test_login()
     driver.get('{0}/page/_edit/t0000'.format(site_url))
     driver.find_element_by_id('title').send_keys('e1111111rfefsadfefasdfe')
-    #driver.find_element_by_xpath("//textarea[@id='cnt_md']").send_keys('coasasdsdnte1131321321513201531302313151nt')
+    # driver.find_element_by_xpath("//textarea[@id='cnt_md']").send_keys('coasasdsdnte1131321321513201531302313151nt')
     driver.find_element_by_id('sub1').click()
     sleep(5)
-
-
 
 
 def test_info():
@@ -425,8 +402,9 @@ def test_info():
     driver.get('{0}/info/_cat_add/8101'.format(site_url))
     driver.find_element_by_id("title").send_keys('kldfkeji')
     driver.find_element_by_id('tags').send_keys('sfef')
-    driver.find_element_by_id('logo').send_keys('/static/upload/b9/b99c9056-90ef-11e6-8e5f-6c0b8492a212_m.jpg')
-    #driver.find_element_by_xpath("//textarea[@id='cnt_md']").send_keys('coasasdsdnte1131321321513201531302313151nt')
+    driver.find_element_by_id('logo').send_keys(
+        '/static/upload/b9/b99c9056-90ef-11e6-8e5f-6c0b8492a212_m.jpg')
+    # driver.find_element_by_xpath("//textarea[@id='cnt_md']").send_keys('coasasdsdnte1131321321513201531302313151nt')
 
     s1 = Select(driver.find_element_by_id('tag__record'))
     s1.select_by_value("2")
@@ -453,7 +431,6 @@ def test_info():
     sleep(5)
 
 
-
 def test_info_edit():
     '''
         整体测试修改信息。
@@ -463,7 +440,8 @@ def test_info_edit():
     driver.get('{0}/info/_edit/928b3'.format(site_url))
     driver.find_element_by_id('title').send_keys('kldfkeji')
     driver.find_element_by_id('tags').send_keys('sfef')
-    driver.find_element_by_id('logo').send_keys('/static/upload/b9/b99c9056-90ef-11e6-8e5f-6c0b8492a212_m.jpg')
+    driver.find_element_by_id('logo').send_keys(
+        '/static/upload/b9/b99c9056-90ef-11e6-8e5f-6c0b8492a212_m.jpg')
 
     s1 = Select(driver.find_element_by_id('tag__record'))
     s1.select_by_value("2")
@@ -550,8 +528,6 @@ def test_infoe():
     sleep(5)
 
 
-
-
 def test_post_man():
     '''
       Review中 edit测试
@@ -598,16 +574,12 @@ def test_postlia():
     sleep(4)
 
 
-
-
 def test_user_recent():
     test_login()
     driver.get('{0}/user_list/user_recent'.format(site_url))
     sleep(2)
     driver.find_element_by_xpath("//a[@href='#tab2']").click()
     sleep(4)
-
-
 
 
 def test_comment():
@@ -663,7 +635,6 @@ def test_pldeletea():
     sleep(2)
 
 
-
 def test_nextpage():
     '''
     测试翻页功能
@@ -675,6 +646,8 @@ def test_nextpage():
     sleep(2)
     driver.find_element_by_link_text('Previous Post').click()
     sleep(2)
+
+
 def test_nextpagea():
     '''
     测试列表翻页功能
@@ -692,55 +665,51 @@ def test_nextpagea():
     sleep(2)
 
 
-
-
-
 if __name__ == '__main__':
-      test_main_page()
-    # test_mainsearch()
-    # test_regist()
-    #  test_regista()
-    # test_registb()
-    # test_login()
-    # test_logina()
-    #  test_loginb()
-    # test_userinfo()
-    # test_userinfoa()
-    # test_userinfob()
-    # test_userinfoc()
-    # test_userinfod()
-    # test_logout()
-    # test_changepass()
-    # test_changepassa()
-    # test_changepassb()
-    #  test_publish()
-    # test_publisha()
-    #  test_post()
-    # test_post_collect()
-    # test_postview()
-    # test_post_reclass()
-    #  test_post_edit()
-    # test_post_view()
+    test_main_page()
+# test_mainsearch()
+# test_regist()
+#  test_regista()
+# test_registb()
+# test_login()
+# test_logina()
+#  test_loginb()
+# test_userinfo()
+# test_userinfoa()
+# test_userinfob()
+# test_userinfoc()
+# test_userinfod()
+# test_logout()
+# test_changepass()
+# test_changepassa()
+# test_changepassb()
+#  test_publish()
+# test_publisha()
+#  test_post()
+# test_post_collect()
+# test_postview()
+# test_post_reclass()
+#  test_post_edit()
+# test_post_view()
 
-    # test_page()
-    #  test_page_edit()
-    # test_info()
-    # test_info_edit()
-    # test_changeinfo()
-     # test_infoa()
-    # test_infob()
-    # test_infoc()
-     #test_infod()
-     # test_infoe()
-    # test_post_man()
-    #  test_post_mana()
-    #  test_postli()
-     # test_postlia()
-    #  test_user_recent()
-    # test_comment()
-    # test_vote()
-    # test_pldelete()
-    # test_pldeletea()
-    # test_nextpage()
-    # test_nextpagea()
-
+# test_page()
+#  test_page_edit()
+# test_info()
+# test_info_edit()
+# test_changeinfo()
+# test_infoa()
+# test_infob()
+# test_infoc()
+# test_infod()
+# test_infoe()
+# test_post_man()
+#  test_post_mana()
+#  test_postli()
+# test_postlia()
+#  test_user_recent()
+# test_comment()
+# test_vote()
+# test_pldelete()
+# test_pldeletea()
+# test_nextpage()
+# test_nextpagea()
