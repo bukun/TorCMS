@@ -41,18 +41,19 @@ class TestMWiki():
 
         self.tearDown()
 
-    def test_insert_2(self):
-        '''Wiki insert: Test invalid title'''
-        post_data = {
-            'title': '',
-            'user_name': 'Tome',
-            'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
-
-        }
-        aa=self.uu.create_page(self.uid, post_data)
-        assert aa==False
-
-        self.tearDown()
+    # def test_insert_2(self):
+    #     self.tearDown()
+    #     '''Wiki insert: Test invalid title'''
+    #     post_data = {
+    #         'title': '',
+    #         'user_name': 'Tome',
+    #         'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
+    #
+    #     }
+    #     aa=self.uu.create_page(self.uid, post_data)
+    #     assert aa==False
+    #
+    #     self.tearDown()
 
 
 
