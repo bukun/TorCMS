@@ -263,14 +263,17 @@ class TestMUser():
         self.tearDown()
 
     def test_db_email(self):
+        self.tearDown()
         pdata = {
             'user_name': 'asdfdsf',
             'user_pass': 'sadf',
             'user_email': 'sadflsdf@11.com',
         }
-        aa = MUser.create_user(pdata)
+        MUser.create_user(pdata)
         bb = MUser.create_user(pdata)
         assert bb == {'code': '31', 'success': False}
+        self.uu.delete_by_user_name(pdata['user_name'])
+
 
     def tearDown(self):
         print("function teardown")

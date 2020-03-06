@@ -50,8 +50,7 @@ class EntityHandler(BaseHandler):
             self.to_add()
         elif url_str == 'list' or url_str == '':
             self.list()
-        elif url_arr[0] == 'down':
-            self.down(url_arr[1])
+
         elif len(url_str) > 36:
             self.view(url_str)
         elif len(url_arr) == 1:
@@ -61,9 +60,12 @@ class EntityHandler(BaseHandler):
 
     def post(self, *args, **kwargs):
         url_str = args[0]
+        url_arr = self.parse_url(url_str)
         # url_arr = self.parse_url(url_str)
         if url_str in ['add_img', 'add', '', '_add']:
             self.add_entity()
+        elif url_arr[0] == 'down':
+            self.down(url_arr[1])
         else:
             self.render('misc/html/404.html', kwd={}, userinfo=self.userinfo)
 
@@ -72,6 +74,7 @@ class EntityHandler(BaseHandler):
         '''
         Lists of the entities.
         '''
+
         current_page_number = int(cur_p) if cur_p else 1
         current_page_number = 1 if current_page_number < 1 else current_page_number
 
@@ -90,15 +93,21 @@ class EntityHandler(BaseHandler):
         '''
         Download the entity by UID.
         '''
+        post_data = {}
+        for key in self.request.arguments:
+            post_data[key] = self.get_arguments(key)[0]
+
+
         down_url = MPost.get_by_uid(down_uid).extinfo.get('tag__file_download', '')
-        print('=' * 40)
-        print(down_url)
+
         str_down_url = str(down_url)[15:]
 
         if down_url:
             ment_id = MEntity.get_id_by_impath(str_down_url)
             if ment_id:
-                MEntity2User.create_entity2user(ment_id, self.userinfo.uid)
+
+                MEntity2User.create_entity2user(ment_id, self.userinfo.uid, post_data['userip'])
+
             return True
         else:
             return False
