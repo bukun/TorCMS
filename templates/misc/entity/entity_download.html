@@ -20,7 +20,7 @@
             {% for x in imgs %}
             <tr>
                 <td>{{ ii }}</td>
-                <td>{{ x.entity_path }}</td>
+                <td><a href="/static/upload/{{ x.entity_path }}" target="_blank">/static/upload/{{ x.entity_path }}</a></td>
                 <td>{{ userinfo.user_name }}</td>
                 <td>{{ x.user_ip }}</td>
             </tr>

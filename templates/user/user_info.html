@@ -160,7 +160,10 @@
                                 <span class="glyphicon glyphicon-arrow-down"></span>
                                 下载记录
                             </a>
-
+                             <a href="/entity_download/{% if userinfo %}{{ userinfo.uid }}{% end %}/"
+                               class="btn btn-xs btn-warning" title="My download">
+                                <span class="glyphicon glyphicon-save"></span>
+                                我的下载</a>
 
                         </li>
                         <li class="list-group-item">
