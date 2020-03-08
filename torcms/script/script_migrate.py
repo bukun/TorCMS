@@ -53,4 +53,17 @@ def run_migrate(*args):
     except:
         pass
 
+    try:
+        migrate.migrate(torcms_migrator.drop_column('tabentity2user', 'count'))
+        # print('删除字段成功：count.')
+    except:
+        pass
+
+    user_ip_field = migrate.CharField(null=False, default='0', help_text='User IP Address', )
+    try:
+        migrate.migrate(torcms_migrator.add_column('tabentity2user', 'user_ip', user_ip_field))
+        # print('添加字段成功：user_ip.')
+    except:
+        pass
+
     print('Migration finished.')
