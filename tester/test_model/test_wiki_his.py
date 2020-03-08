@@ -9,11 +9,7 @@ class TestMWikiHist():
     def setup(self):
         print('setup 方法执行于本类中每条用例之前')
         self.wiki_uid=''
-        self.userinfo = {
-            'postid': '12345',
-            'uid': tools.get_uuid(),
-            'user_name': 'giser'
-        }
+
         self.username='snow'
         self.title='bibo'
         self.uid=''
@@ -41,13 +37,7 @@ class TestMWikiHist():
 
         MUser.create_user(post_data)
         aa=MUser.get_by_name(name)
-
-
-
         self.user_uid=aa.uid
-
-
-
 
     def add_w_h(self):
         self.add_user()
@@ -68,6 +58,7 @@ class TestMWikiHist():
         self.add_w_h()
         aa=MWikiHist.get_by_uid(self.uid)
         assert aa.user_name==self.username
+        self.tearDown()
 
     def test_update_cnt(self):
         self.add_w_h()
@@ -110,3 +101,4 @@ class TestMWikiHist():
         MUser.delete(self.user_uid)
         MWiki.delete(self.wiki_uid)
         MWikiHist.delete(self.uid)
+

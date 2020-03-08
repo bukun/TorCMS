@@ -9,7 +9,7 @@ class TestMEvaluation():
     def setup(self):
         print('setup 方法执行于本类中每条用例之前')
         self.user_id = '11111'
-        self.app_id = 'a1234'
+        self.app_id = 'a1244'
         self.post_id=self.app_id
 
 
@@ -73,6 +73,4 @@ class TestMEvaluation():
 
     def tearDown(self):
         print("function teardown")
-        tt = MPost.get_by_uid(self.post_id)
-        if tt:
-            MPost.delete(self.post_id)
+        MPost.delete(self.post_id)

@@ -7,7 +7,7 @@ from torcms.model.post_model import MPost
 class TestMCategory():
     def setup(self):
         print('setup 方法执行于本类中每条用例之前')
-        self.uid = '0100'
+        self.uid = 'hy00'
         self.slug = 'sluug'
 
         self.postid='greww'
@@ -62,22 +62,13 @@ class TestMCategory():
 
         }
         MPost.get_by_uid(self.postid)
-
-
-
         MPost.create_post(self.postid,p_d)
-
-
-
-
         MPost2Catalog.add_record(self.postid,self.uid)
-
 
     def test_update(self):
         post_data = {
             'name': 'adsfdsf',
             'pid': 'z222',
-
         }
         self.add_message()
         MCategory.update(self.uid, post_data)
@@ -93,9 +84,6 @@ class TestMCategory():
         a=MCategory.get_by_uid(self.uid)
         self.tearDown()
         assert a.count>=0
-
-
-
 
     def test_get_by_slug(self):
         self.add_message()
@@ -121,7 +109,7 @@ class TestMCategory():
             'pid':'1992'
         }
         self.add_message(**post_data)
-        a=MCategory.get_qian2('01')
+        a=MCategory.get_qian2(self.uid[:2])
         TF = False
         for i in range(a.count()):
             if a[i].pid == post_data['pid']:
@@ -135,7 +123,7 @@ class TestMCategory():
             'pid': '1992'
         }
         self.add_message(**post_data)
-        a=MCategory.get_by_uid('0100')
+        a=MCategory.get_by_uid(self.uid)
         TF = False
         if a.pid == post_data['pid']:
                 TF = True
@@ -156,7 +144,7 @@ class TestMCategory():
 
     def test_query_uid_starts_with(self):
         self.add_message()
-        a=MCategory.query_uid_starts_with('01')
+        a=MCategory.query_uid_starts_with(self.uid[:2])
         TF = False
         for i in range(a.count()):
             if a[i].uid == self.uid:

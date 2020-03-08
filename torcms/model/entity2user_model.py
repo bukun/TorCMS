@@ -54,34 +54,20 @@ class MEntity2User(Mabc):
         ).paginate(current_page_num, CMS_CFG['list_num'])
         return recs
 
-    @staticmethod
-    def count_increate(rec, num):
-        entry = TabEntity2User.update(
-            timestamp=int(time.time()),
-            count=num + 1
-        ).where(TabEntity2User.uid == rec)
-        entry.execute()
 
     @staticmethod
-    def create_entity2user(enti_uid, user_id):
+    def create_entity2user(enti_uid, user_id, user_ip):
         '''
         create entity2user record in the database.
         '''
-        record = TabEntity2User.select().where(
-            (TabEntity2User.entity_id == enti_uid) & (TabEntity2User.user_id == user_id)
-        )
 
-        if record.count() > 0:
-            record = record.get()
-            MEntity2User.count_increate(record.uid, record.count)
-        else:
-            TabEntity2User.create(
-                uid=tools.get_uuid(),
-                entity_id=enti_uid,
-                user_id=user_id,
-                count=1,
-                timestamp=time.time()
-            )
+        TabEntity2User.create(
+            uid=tools.get_uuid(),
+            entity_id=enti_uid,
+            user_id=user_id,
+            user_ip=user_ip,
+            timestamp=time.time()
+        )
 
     @staticmethod
     def total_number():

@@ -252,8 +252,8 @@ class TabEntity2User(BaseModel):
     uid = peewee.CharField(null=False, index=True,
                            unique=True, primary_key=True, max_length=36, )
     entity_id = peewee.CharField(null=False, max_length=36, help_text='', )
-    user_id = peewee.CharField(null=False, index=True, max_length=36, help_text='', )
-    count = peewee.IntegerField(default=0)
+    user_id = peewee.CharField(null=False, index=True, max_length=36, help_text='用户ID,未登录表示为xxxx', )
+    user_ip = peewee.CharField(null=False, help_text='用户端ip', )
     timestamp = peewee.IntegerField(null=False)
 
 
