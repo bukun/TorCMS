@@ -21,7 +21,7 @@
             <tr>
                 <td>{{ ii }}</td>
                 <td><a href="/static/upload/{{ x.entity_path }}" target="_blank">/static/upload/{{ x.entity_path }}</a></td>
-                <td>{{ userinfo.user_name }}</td>
+                <td>{% module user_name_by_id(x.user_id)%}</td>
                 <td>{{ x.user_ip }}</td>
             </tr>
             {% set ii = ii +1 %}
