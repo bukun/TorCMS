@@ -8,6 +8,16 @@
         });
     }
 </script>
+<script>
+    function update_valid(reply_id, id_num) {
+        id_num = id_num.toString();
+        var AjaxUrl = "/post_j/update_valid/" + reply_id;
+        $.getJSON(AjaxUrl, function (Json) {
+            $("#del_info_" + id_num).html('');
+            alert("Delete successfully");
+        });
+    }
+</script>
 <div class="row">
     <div class="col-md-10">
         <div class="panel panel-default">
@@ -47,7 +57,7 @@
 
                         </td>
                         <td width="5%">
-                            <a class="trash" onclick="del_info('{{ x.uid }}', {{ ii }} );">
+                            <a class="trash" onclick="update_valid('{{ x.uid }}', {{ ii }} );">
                                 <span class="glyphicon glyphicon-trash"></span> 删除
                             </a>
                         </td>
