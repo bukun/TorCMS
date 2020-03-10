@@ -894,3 +894,20 @@ class MPost(Mabc):
         ).paginate(
             current_page_num, CMS_CFG['list_num']
         )
+
+    @staticmethod
+    def update_valid(uid):
+        '''
+        update valid
+        '''
+
+        entry = TabPost.update(
+            valid=0
+        ).where(TabPost.uid == uid)
+
+        try:
+            entry.execute()
+            return True
+        except:
+            return False
+
