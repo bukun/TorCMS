@@ -93,14 +93,26 @@ class EntityHandler(BaseHandler):
         '''
         Download the entity by UID.
         '''
+
+
         post_data = {}
         for key in self.request.arguments:
             post_data[key] = self.get_arguments(key)[0]
 
 
         down_url = MPost.get_by_uid(down_uid).extinfo.get('tag__file_download', '')
-
-        str_down_url = str(down_url)[15:]
+        if down_url and allowed_file(down_url):
+            kind = '1'
+        elif down_url and allowed_file_pdf(down_url):
+            kind = '2'
+        else:
+            kind = '3'
+        if str(down_url)[:17] == '/static/datasets/':
+            str_down_url = str(down_url)[8:]
+        else:
+            str_down_url = str(down_url)[15:]
+        if kind == '3':
+            str_down_url = down_url
 
         if down_url:
             ment_id = MEntity.get_id_by_impath(str_down_url)
@@ -108,7 +120,14 @@ class EntityHandler(BaseHandler):
 
                 MEntity2User.create_entity2user(ment_id, self.userinfo.uid, post_data['userip'])
 
-            return True
+                return True
+            else:
+
+                MEntity.create_entity(uid='', path=str_down_url, desc='', kind=kind)
+                ment_id = MEntity.get_id_by_impath(str_down_url)
+                if ment_id:
+                    MEntity2User.create_entity2user(ment_id, self.userinfo.uid, post_data['userip'])
+                    return True
         else:
             return False
 
