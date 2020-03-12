@@ -19,61 +19,88 @@
                 <td>Desc</td>
                 <td>Img</td>
             </tr>
-            {% set ii = 1 %}
+             {% set ii = 1 %}
             {% for x in imgs %}
             <tr>
-                <td>{{ ii }}</td>
+                <td>
+                    {{ ii }}
+
+                </td>
                 {% if x.kind == '1' %}
 
-                {% if len(x.path) == 39 %}
-                <td>
-                    <a href="{% module site_url() %}{{ static_url('upload/') }}{{ x.path }}_m.jpg"
-                       target="_blank">
-                        {% module site_url() %}{{ static_url('upload/') }}{{ x.path}}_m.jpg
-                    </a>
-                </td>
-                <td>
-                    <b>图片说明：</b>{{ x.desc }}
-                </td>
-                <td>
-                    <a href="{{ static_url('upload/') }}{{ x.path }}_m.jpg" target="_blank">
-                        <img src="{{ static_url('upload/') }}{{ x.path }}_m.jpg" style="width: 150px"/>
-                    </a>
-                </td>
-                {% else %}
-                <td>
-                    <a href="{% module site_url() %}{{ static_url('upload/') }}{{ x.path }}"
-                       target="_blank">
-                        {% module site_url() %}{{ static_url('upload/') }}{{ x.path }}
-                    </a>
-                </td>
-                <td>
-                    <b>图片说明：</b>{{ x.desc }}
-                </td>
-                <td>
-                    <a href="{{ static_url('upload/') }}{{ x.path }}" target="_blank">
-                        <img src="{{ static_url('upload/') }}{{ x.path }}" style="width: 150px"/>
-                    </a>
-                </td>
-                {% end %}
+                    {% if len(x.path) == 39 %}
+                        <td>
+                            <a href="{% module site_url() %}{{ static_url('upload/') }}{{ x.path }}_m.jpg"
+                               target="_blank" title="{% module site_url() %}{{ static_url('upload/') }}{{ x.path }}_m.jpg">
+                                {% module site_url() %}{{ static_url('upload/') }}{{ x.path}}_m.jpg
+                            </a>
+                        </td>
+                        <td>
+                            {{ x.desc }}
+                        </td>
+                        <td>
+                            <a href="{{ static_url('upload/') }}{{ x.path }}_m.jpg" target="_blank"
+                               title="{{ static_url('upload/') }}{{ x.path }}_m.jpg">
+                                <img src="{{ static_url('upload/') }}{{ x.path }}_m.jpg" style="width: 150px" alt="{{ x.path}}"/>
+                            </a>
+                        </td>
+                    {% else %}
+                        <td>
+                            <a href="{% module site_url() %}{{ static_url('upload/') }}{{ x.path }}"
+                               title="{% module site_url() %}{{ static_url('upload/') }}{{ x.path }}"
+                               target="_blank">
+                                {% module site_url() %}{{ static_url('upload/') }}{{ x.path }}
+                            </a>
+                        </td>
+                        <td>
+                            {{ x.desc }}
+                        </td>
+                        <td>
+                            <a href="{{ static_url('upload/') }}{{ x.path }}" target="_blank"
+                               title="{{ static_url('upload/') }}{{ x.path }}">
+                                <img src="{{ static_url('upload/') }}{{ x.path }}" style="width: 150px" alt="{{ x.path}}"/>
+                            </a>
+                        </td>
+                    {% end %}
 
                 {% else %}
 
-                {% if x.kind == '3'%}
-                <td><a href="{{ x.path}}" target="_blank">{{ x.path }}</a></td>
+                {% if x.kind == '2' %}
+                <td>
+                 {% if x.path.startswith('datasets')%}
+
+                        <a href="{% module site_url() %}/static/{{x.path}}" target="_blank"
+                           title="{% module site_url() %}/static/{{x.path}}">
+
+                       {% module site_url() %}/static/{{x.path}}
+                        </a>
+                        {% else %}
+                         <a href="{% module site_url() %}{{ static_url('upload/') }}{{x.path}}" target="_blank"
+                            title="{% module site_url() %}{{ static_url('upload/') }}{{x.path}}">
+                            {% module site_url() %}{{ static_url('upload/') }}{{x.path}}
+                         </a>
+                        {% end  %}
+                    </td>
+                {% elif x.kind == '3' %}
+
+
+                        <td><a href="{{ x.path}}" target="_blank" title="{{ x.path}}">{{ x.path }}</a></td>
+                {% elif x.kind =='4' %}
+                <td><a href="{% module site_url() %}{{ x.path}}" target="_blank" title="{% module site_url() %}{{ x.path}}">{% module site_url() %}{{ x.path }}</a></td>
+
                 {% else %}
-                <td>
-                    <a href="{% module site_url() %}{{ static_url('upload/') }}{{ x.path }}"
-                       target="_blank">
-                        {% module site_url() %}{{ static_url('upload/') }}{{ x.path }}</a>
-                </td>
+                        <td>
+                            <a href="{% module site_url() %}{{ static_url('upload/') }}{{ x.path }}"
+                               title="{% module site_url() %}{{ static_url('upload/') }}{{ x.path }}"
+                               target="_blank">
+                                {% module site_url() %}{{ static_url('upload/') }}{{ x.path }}</a>
+                        </td>
                 {% end %}
                 <td>
-                    <b>说明：</b>{{ x.desc }}
-                </td>
-                <td>
+                     {{ x.desc }}
                 </td>
                 {% end %}
+
             </tr>
             {% set ii = ii +1 %}
             {% end %}

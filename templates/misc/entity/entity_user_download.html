@@ -15,6 +15,7 @@
                 <th>{{ _('Entity') }}</th>
                 <th>{{ _('User') }}</th>
                 <th>{{ _('User IP') }}</th>
+               <th>{{ _('Download Time') }}</th>
 
 
             </tr>
@@ -22,15 +23,9 @@
             {% for x in imgs %}
             <tr>
                 <td>{{ ii }}</td>
-                <td>
+                  <td>
 
-                    {% if x.entity_kind == '4' %}
-                    <a href="{% module site_url() %}{{ static_url('upload') }}{{x.entity_path}}" target="_blank">
-                        {% elif x.entity_kind == '3' %}
-                        <a href="{{x.entity_path}}" target="_blank">
-                        {% else %}
-                    <a href="{% module site_url() %}{{ static_url('upload/') }}{{x.entity_path}}" target="_blank">
-                        {% end %}
+
 
 
                      <span id="entry_img_{{ii}}" style="display: none; float: left;padding-right: 10px"
@@ -39,10 +34,55 @@
                               class="glyphicon glyphicon-file"></span>
                         <span id="entry_url_{{ii}}" style="display: none; float: left;padding-right: 10px"
                               class="glyphicon glyphicon-link"></span>
-                    {{ x.entity_path }}
-                </a></td>
+                {% if x.entity_kind == '2' %}
+
+
+                        {% if x.entity_path.startswith('datasets')%}
+
+                        <a href="{% module site_url() %}/static/{{x.entity_path}}" target="_blank"
+                           title="{% module site_url() %}/static/{{x.entity_path}}">
+
+                       {% module site_url() %}/static/{{x.entity_path}}
+                        </a>
+                        {% else %}
+                         <a href="{% module site_url() %}{{ static_url('upload/') }}{{x.entity_path}}" target="_blank"
+                            title="{% module site_url() %}{{ static_url('upload/') }}{{x.entity_path}}">
+                            {% module site_url() %}{{ static_url('upload/') }}{{x.entity_path}}
+                         </a>
+                        {% end  %}
+
+
+                        {% elif x.entity_kind == '3' %}
+                        <a href="{{x.entity_path}}" target="_blank" title="{{x.entity_path}}">
+
+                            {{x.entity_path}}
+                        </a>
+
+
+                     {% elif x.entity_kind == '4' %}
+                    <a href="{% module site_url() %}{{ static_url('upload') }}{{x.entity_path}}" target="_blank"
+                    title="{% module site_url() %}{{ static_url('upload') }}{{x.entity_path}}">
+                        {% module site_url() %}{{ static_url('upload') }}{{x.entity_path}}
+                    </a>
+
+
+                        {% else %}
+                    <a href="{% module site_url() %}{{ static_url('upload/') }}{{x.entity_path}}" target="_blank"
+                       title="{% module site_url() %}{{ static_url('upload/') }}{{x.entity_path}}">
+
+                        {% module site_url() %}{{ static_url('upload/') }}{{x.entity_path}}
+                    </a>
+
+
+                        {% end %}
+
+
+                </td>
                 <td>{{ userinfo.user_name }}</td>
                 <td>{{ x.user_ip }}</td>
+                <td>
+                    {{ datetime.datetime.fromtimestamp(x.timestamp).strftime('%Y-%m-%d %H:%M:%S')  }}
+                </td>
 
 
             </tr>
