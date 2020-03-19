@@ -49,7 +49,7 @@ class MEntity2User(Mabc):
             TabEntity.kind.alias('entity_kind'),
         ).join(TabEntity, on=(TabEntity2User.entity_id == TabEntity.uid)).join(
             TabMember, on=(TabEntity2User.user_id == TabMember.uid)
-        ).where(TabEntity2User.user_id == userid).distinct(TabEntity2User.entity_id).order_by(
+        ).where(TabEntity2User.user_id == userid).order_by(
             TabEntity2User.entity_id
         ).paginate(current_page_num, CMS_CFG['list_num'])
         return recs
@@ -71,12 +71,11 @@ class MEntity2User(Mabc):
 
     @staticmethod
     def total_number():
-        return TabEntity2User.select().distinct(TabEntity2User.entity_id).count()
+        return TabEntity2User.select().count()
 
     @staticmethod
     def total_number_by_user(userid):
-        return TabEntity2User.select().where(TabEntity2User.user_id == userid).distinct(
-            TabEntity2User.entity_id).count()
+        return TabEntity2User.select().where(TabEntity2User.user_id == userid).count()
 
     @staticmethod
     def delete_by_uid(entity_uid):

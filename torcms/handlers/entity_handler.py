@@ -101,20 +101,22 @@ class EntityHandler(BaseHandler):
 
 
         down_url = MPost.get_by_uid(down_uid).extinfo.get('tag__file_download', '')
-        if down_url and allowed_file(down_url):
-            kind = '1'
-        elif down_url and allowed_file_pdf(down_url):
-            kind = '2'
-        else:
-            kind = '3'
-        if str(down_url)[:17] == '/static/datasets/':
-            str_down_url = str(down_url)[8:]
-        else:
-            str_down_url = str(down_url)[15:]
-        if kind == '3':
-            str_down_url = down_url
-
         if down_url:
+
+            if allowed_file(down_url):
+                kind = '1'
+            elif allowed_file_pdf(down_url):
+                kind = '2'
+            else:
+                kind = '3'
+            if str(down_url)[:17] == '/static/datasets/':
+                str_down_url = str(down_url)[8:]
+            else:
+                str_down_url = str(down_url)[15:]
+            if kind == '3':
+                str_down_url = down_url
+
+
             ment_id = MEntity.get_id_by_impath(str_down_url)
             if ment_id:
 
