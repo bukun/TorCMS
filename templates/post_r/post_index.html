@@ -21,7 +21,7 @@
             <table class="table">
                 <tr>
                     <td>用户IP</td>
-                    <td>用户城市</td>
+<!--                    <td>用户城市</td>-->
                     <td>访问来源</td>
                     <td>访问终端</td>
                     <td>访问时间</td>
@@ -29,7 +29,7 @@
                 {% for x in postinfo %}
                 <tr>
                     <td>{{x.userip}}</td>
-                    <td>{{x.usercity}}</td>
+{#                  <td>{{x.usercity}}</td>#}
                     <td>{{x.media}}</td>
                     <td>{{x.terminal}}</td>
                     <td>{{ datetime.datetime.fromtimestamp(x.time_update).strftime('%Y-%m-%d %H:%M:%S')}}</td>

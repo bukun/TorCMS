@@ -30,7 +30,7 @@ class MReferrer(Mabc):
                 media=data_dic['media'],
                 terminal=data_dic['terminal'],
                 userip=userip,
-                usercity=data_dic['usercity'],
+                # usercity=data_dic['usercity'],
                 kind=data_dic['kind'],
                 time_update=tools.timestamp(),
             ).where(Tabreferrer.uid == uid)
@@ -52,7 +52,7 @@ class MReferrer(Mabc):
             media=data_dic['media'],
             terminal=data_dic['terminal'],
             userip=userip,
-            usercity=data_dic['usercity'],
+            # usercity=data_dic['usercity'],
             kind=data_dic['kind'],
             time_create=tools.timestamp(),
             time_update=tools.timestamp(),

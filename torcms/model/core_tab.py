@@ -291,7 +291,7 @@ class Tabreferrer(BaseModel):
     media = peewee.CharField(null=False, help_text='来源', )
     terminal = peewee.CharField(null=False, help_text='终端', )
     userip = peewee.CharField(null=False, unique=True, help_text='用户端ip', )
-    usercity = peewee.CharField(null=False, help_text='用户端城市', )
+    # usercity = peewee.CharField(null=False, help_text='用户端城市', )
     kind = peewee.CharField(null=False, max_length=1,
                             default='1', help_text='', )
     time_create = peewee.IntegerField()

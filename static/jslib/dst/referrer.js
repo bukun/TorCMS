@@ -1,3 +1,4 @@
+getUserIP(function (ip) {
 var args = {
     mySite: "http://127.0.0.1:8888/"  //修改为需要统计网址
 };
@@ -55,12 +56,10 @@ var userChannel = {
         } else if (channelInfo.indexOf("zhihu.com") != -1) {
             media = "知乎";
             mediaSubdivide = "无法判断";
-        }
-        else if (channelInfo.indexOf("toutiao") != -1) {
+        } else if (channelInfo.indexOf("toutiao") != -1) {
             media = "今日头条";
             mediaSubdivide = "无法判断";
-        }
-        else {
+        } else {
             media = "来源不明";                       //媒体
             mediaSubdivide = "无法判断";        //媒体细分
         }
@@ -84,22 +83,24 @@ var userChannel = {
 
 var judgeMedia = userChannel.Media(dataSource);
 var judgeTerminal = userChannel.Terminal();
-var judgeip = returnCitySN["cip"];
-var judgecity = returnCitySN["cname"];
+
+
+    var user_ip = ip;
 
 // FormData 对象
-var formData = new FormData();
-formData.append("media", judgeMedia);    // 可以增加表单数据
-formData.append("terminal", judgeTerminal);
-formData.append("userip", judgeip);
-formData.append("usercity", judgecity);
+    var formData = new FormData();
+    formData.append("media", judgeMedia);    // 可以增加表单数据
+    formData.append("terminal", judgeTerminal);
+    formData.append("userip", user_ip);
+    // formData.append("usercity", '');
 
-$.ajax({
-    url: "/referrer/_add",
-    type: "post",
-    cache: false,
-    data: formData,
-    processData: false,
-    contentType: false
+    $.ajax({
+        url: "/referrer/_add",
+        type: "post",
+        cache: false,
+        data: formData,
+        processData: false,
+        contentType: false
+
+    });
 });
-
