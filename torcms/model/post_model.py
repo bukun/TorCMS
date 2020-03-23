@@ -614,43 +614,27 @@ class MPost(Mabc):
 
         cur_info = MPost.get_by_uid(uid)
         if cur_info:
-            # ToDo: should not do this. Not for 's'
-            if DB_CFG['kind'] == 's':
-                entry = TabPost.update(
-                    title=title,
-                    # user_name=data_dic['user_name'],
-                    keywords='',
-                    time_update=tools.timestamp(),
-                    date=datetime.now(),
-                    cnt_md=data_dic['cnt_md'],
-                    memo=data_dic['memo'] if 'memo' in data_dic else '',
-                    logo=data_dic['logo'],
-                    order=data_dic['order'],
-                    cnt_html=tools.markdown2html(data_dic['cnt_md']),
-                    valid=data_dic['valid']
-                ).where(TabPost.uid == uid)
-                entry.execute()
-            else:
-                cur_extinfo = cur_info.extinfo
-                # Update the extinfo, Not replace
-                for key in extinfo:
-                    cur_extinfo[key] = extinfo[key]
 
-                entry = TabPost.update(
-                    title=title,
-                    # user_name=data_dic['user_name'],
-                    keywords='',
-                    time_update=tools.timestamp(),
-                    date=datetime.now(),
-                    cnt_md=data_dic['cnt_md'],
-                    memo=data_dic['memo'] if 'memo' in data_dic else '',
-                    logo=data_dic['logo'],
-                    order=data_dic['order'] if 'order' in data_dic else '',
-                    cnt_html=tools.markdown2html(data_dic['cnt_md']),
-                    extinfo=cur_extinfo,
-                    valid=data_dic['valid']
-                ).where(TabPost.uid == uid)
-                entry.execute()
+            cur_extinfo = cur_info.extinfo
+            # Update the extinfo, Not replace
+            for key in extinfo:
+                cur_extinfo[key] = extinfo[key]
+
+            entry = TabPost.update(
+                title=title,
+                # user_name=data_dic['user_name'],
+                keywords='',
+                time_update=tools.timestamp(),
+                date=datetime.now(),
+                cnt_md=data_dic['cnt_md'],
+                memo=data_dic['memo'] if 'memo' in data_dic else '',
+                logo=data_dic['logo'],
+                order=data_dic['order'] if 'order' in data_dic else '',
+                cnt_html=tools.markdown2html(data_dic['cnt_md']),
+                extinfo=cur_extinfo,
+                valid=data_dic['valid']
+            ).where(TabPost.uid == uid)
+            entry.execute()
         else:
             return MPost.add_meta(uid, data_dic, extinfo)
         return uid
