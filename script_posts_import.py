@@ -82,34 +82,6 @@ def update_category(uid, postdata, kwargs):
             MPost2Catalog.remove_relation(uid, cur_info.tag_id)
 
 
-# def fix_entity_path(data_id):
-#     # 新拷贝到的路径
-#     out_dir = './static/datasets'
-#     # 原始数据集路径
-#     meta_base = '/home/bk/ws/igadc_datasets'
-#     for wroot, wdirs, wfiles in os.walk(meta_base):
-#         for wdir in wdirs:
-#             test_sig = wdir.split('_')[-1]
-#             the_path = os.path.join(wroot, wdir)
-#             if data_id == test_sig:
-#                 # print('Got it')
-#                 the_list_files = os.listdir(the_path)
-#
-#                 entity = None
-#                 for the_file in the_list_files:
-#                     if the_file.startswith('entity') and the_file.endswith('.7z'):
-#                         entity = the_file
-#
-#                 if entity:
-#                     the_entity = os.path.join(wroot, wdir, entity)
-#                     out_entity = os.path.join(out_dir, 'entityx_' + get_uu8d() + '_' + data_id + '.7z')
-#                     shutil.copy(the_entity, out_entity)
-#                 else:
-#                     out_entity = None
-#
-#                 return out_entity.strip('.') if out_entity else None
-
-
 def fix_entity_path(sig):
     # 元数据实体目录
     ins = '/home/bk/ws/igadc_datasets'
@@ -126,7 +98,7 @@ def fix_entity_path(sig):
                 shutil.copy(entity_path, out_path)
                 return out_path.strip('.') if out_path else None
 
-
+#Todo: 内容解析错误。
 def chuli_meta(sig, metafile):
     cnts = open(metafile).readlines()
 
@@ -163,6 +135,7 @@ def get_meta(catid, sig, kind_sig=''):
 
     for wroot, wdirs, wfiles in os.walk(meta_base):
         for wdir in wdirs:
+
             if wdir.lower().endswith(sig[1:]):
                 ds_base = pathlib.Path(os.path.join(wroot, wdir))
                 pp_data = {'logo': '', 'kind': kind_sig}
@@ -175,9 +148,10 @@ def get_meta(catid, sig, kind_sig=''):
                             pass
                         else:
                             continue
+
                         pp_data['title'] = meta_dic['title']
-                        pp_data['cnt_md'] = meta_dic['title']
-                        pp_data['user_name'] = 'admin'
+                        pp_data['cnt_md'] = meta_dic['cnt_md']
+                        pp_data['user_name'] = meta_dic['author']
                         pp_data['gcat0'] = catid
                         pp_data['def_cat_pid'] = catid[:2] + '00'
                         pp_data['valid'] = 1
@@ -185,7 +159,6 @@ def get_meta(catid, sig, kind_sig=''):
                         pp_data['extinfo'] = {
 
                         }
-
 
                         # print(uu.name)
 
@@ -199,18 +172,23 @@ def get_meta(catid, sig, kind_sig=''):
                             thum_path = gen_thumb(os.path.join(wroot, wdir, uu.name), 'd' + sig[1:])
                             pp_data['logo'] = thum_path.strip('.')
 
+
+
                 # ToDo: 未处理完
-                dataset_id = 'dn'+sig[1:]
+
+
+                dataset_id = 'dn' + sig[1:]
                 the_entity = fix_entity_path(dataset_id)
                 # print(the_entity)
 
                 post_id = sig
 
                 postinfo = MPost.get_by_uid(post_id)
+
                 if postinfo:
                     postinfo.extinfo.update(pp_data['extinfo'])
                     pp_data['extinfo'] = postinfo.extinfo
-        
+
                 # pp_data['extinfo']['tag_data_classification'] = str(dwmode)
 
                 if the_entity:
@@ -224,7 +202,10 @@ def get_meta(catid, sig, kind_sig=''):
                     # ws.cell(row=i, column=2).value = pp_data['title']
                 # Write a copy with titles.
 
-                print(pp_data)
+                # TODO: ID最多5位，取后5位？
+
+                sig = str(sig)[1:]
+
                 MPost.add_or_update(sig, pp_data)
 
                 update_category(sig, pp_data, kwargsa)
@@ -301,7 +282,7 @@ def import_meta():
 def chli_xlsx(cat_path):
     print('操作中，请等待')
     result_xlsx = 'xx_{}'.format(os.path.split(str(cat_path))[-1])
-    print(result_xlsx)
+    # print(result_xlsx)
     wb = load_workbook(cat_path)
 
     # uid_reg = re.compile('\_kind-\w{1}')
@@ -312,8 +293,8 @@ def chli_xlsx(cat_path):
 
     sheets = wb.sheetnames
     for sheet in sheets:
-        print(sheet)
-        catid = sheet.split('-')[0]
+        # print(sheet)
+        catid = sheet.split('_')[0]
         ws = wb[sheet]
         rows = ws.max_row
         cols = ws.max_column
@@ -323,25 +304,8 @@ def chli_xlsx(cat_path):
             # entity_path = get_entity(sig)
             # print(sig)
             if sig:
-                print(catid)
-                print(sig)
+
                 atitle = get_meta(catid, sig, kind_sig=kind_sig)
-
-
-# def get_entity(sig):
-#     # 元数据实体目录
-#     ins = './entitydata'
-#     # copy到新目录
-#     out_dir = './static/datasets'
-#
-#     for home, dirs, files in os.walk(ins):
-#         for filename in files:
-#             if sig and sig in str(filename):
-#                 entity_path = os.path.join(home, filename)
-#                 out_path = os.path.join(out_dir, 'entityx_' + sig + '.7z')
-#                 # print(out_path)
-#                 shutil.copy(entity_path, out_path)
-#                 return out_path.strip('.') if out_path else None
 
 
 if __name__ == '__main__':

@@ -4,20 +4,13 @@
 '''
 
 import os
-import sys
 import markdown
 
 from torcms.model.post_model import MPost
 from torcms.model.category_model import MCategory
 from torcms.model.post2catalog_model import MPost2Catalog
-import yaml
-from pprint import pprint
 import re
 import shutil
-
-
-# import ruamel.yaml
-
 
 out_ws = './static/xx_mds'
 
@@ -36,7 +29,7 @@ def get_img(text):
 def do_for_cat(rec):
     pid = rec.pid
     cat_id = rec.uid
-    out_base_dir = os.path.join(out_ws, pid, 'ch{}_{}_{}'.format(rec.order, rec.uid,  '_'.join(rec.name.split())))
+    out_base_dir = os.path.join(out_ws, pid, 'ch{}_{}_{}'.format(rec.order, rec.uid, '_'.join(rec.name.split())))
     if os.path.exists(out_base_dir):
         pass
     else:
@@ -50,6 +43,7 @@ def do_for_cat(rec):
         md = markdown.Markdown(extensions=['meta'])
         html = md.convert(markdown_cnt)
 
+        print("*" * 50)
         print(md.Meta)
         stitle = md.Meta.get('s-title')
         if stitle:
@@ -57,15 +51,15 @@ def do_for_cat(rec):
         else:
             stitle = postinfo.title.strip().replace('/', '-').replace(' ', '_')
 
-        print(stitle)
 
-        out_cat_dir = os.path.join(out_base_dir, 'sec{}_'.format(post2tag_rec.order) + '_'.join(stitle.split()) + '_uid' + post2tag_rec.post_id)
+
+        out_cat_dir = os.path.join(out_base_dir, 'sec{}_'.format(post2tag_rec.order) + '_'.join(
+            stitle.split()) + '_uid' + post2tag_rec.post_id)
 
         if os.path.exists(out_cat_dir):
             pass
         else:
             os.makedirs(out_cat_dir)
-
 
         # 拷贝图片到同一文件夹
         imgs = get_img(postinfo.cnt_md)
@@ -100,8 +94,7 @@ def do_for_cat(rec):
             else:
                 pass
 
-
-        out_file = os.path.join(out_cat_dir , stitle + '.md')
+        out_file = os.path.join(out_cat_dir, stitle + '.md')
 
         with open(out_file, 'w') as fout_md:
             if md.Meta.get('title'):
@@ -122,11 +115,17 @@ def do_for_cat(rec):
             if md.Meta.get('author'):
                 pass
             else:
-                fout_md.write('author: {}\n\n'.format(postinfo.user_name))
+                fout_md.write('author: {}\n'.format(postinfo.user_name))
 
-            fout_md.write(markdown_cnt.replace('\r\n', '\n'))
+            if md.Meta.get('cnt_md'):
+                pass
+            else:
+                fout_md.write('cnt_md: {}\n'.format(markdown_cnt.replace('\r\n', '\n')))
 
-        # return
+            # if md.Meta.get('extinfo'):
+            #     pass
+            # else:
+            #     fout_md.write('extinfo: {}\n\n'.format(postinfo.extinfo))
 
 
 def run_export():
@@ -138,44 +137,6 @@ def run_export():
 
         else:
             do_for_cat(rec)
-
-        # return
-
-    # all_recs = MPost.query_all(kind='1', limit=10000)
-    #
-    # for postinfo in all_recs:
-    #     out_arr =            {
-    #             'uid': postinfo.uid,
-    #             'title': postinfo.title,
-    #             'keywords': postinfo.keywords,
-    #             'date': postinfo.date,
-    #             'extinfo': postinfo.extinfo,
-    #             'cnt_md': postinfo.cnt_md,
-    #             'cnt_html': postinfo.cnt_html,
-    #             'kind': postinfo.kind,
-    #             'user_name': postinfo.user_name,
-    #             'logo': '',
-    #         }
-    #
-    #     # print(postinfo.extinfo)
-    #
-    #
-    #     cat_id = postinfo.extinfo.get('def_cat_uid')
-    #
-    #     if cat_id:
-    #         pass
-    #     else:
-    #         print(postinfo.uid)
-    #         print(postinfo.extinfo)
-    #         print('Not found')
-    #         return
-
-    # outdir = os.path.join(out_ws, postinfo.extinfo.get(''))
-
-    # dumper = ruamel.yaml.RoundTripDumper
-
-    # with open('xx_posts.yaml', 'w') as fo:
-    #     yaml.dump(out_arr, fo, Dumper=dumper, allow_unicode=True)
 
 
 if __name__ == '__main__':
