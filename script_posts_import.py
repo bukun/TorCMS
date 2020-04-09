@@ -67,10 +67,7 @@ def update_category(uid, postdata, kwargs):
     if def_cat_id:
         cat_dic['def_cat_uid'] = def_cat_id
         cat_dic['def_cat_pid'] = MCategory.get_by_uid(def_cat_id).pid
-    #
-    # print('=' * 40)
-    # print(uid)
-    # print(cat_dic)
+
     MPost.update_jsonb(uid, cat_dic)
 
     for index, catid in enumerate(new_category_arr):
@@ -94,19 +91,19 @@ def fix_entity_path(sig):
             if sig in str(filename):
                 entity_path = os.path.join(home, filename)
                 out_path = os.path.join(out_dir, 'entityx_' + get_uu8d() + '_' + sig + '.7z')
-                # print(out_path)
+
                 shutil.copy(entity_path, out_path)
                 return out_path.strip('.') if out_path else None
 
-#Todo: 内容解析错误。
+
+# Todo: 内容解析错误。
 def chuli_meta(sig, metafile):
     cnts = open(metafile).readlines()
 
     meta_dic = {}
 
     for row in cnts:
-        row = row.strip()
-        print(row)
+
         if row:
             pass
         else:
@@ -115,10 +112,10 @@ def chuli_meta(sig, metafile):
         the_key, the_val = [x.strip() for x in row.split(':')]
 
         meta_dic[the_key] = the_val
-        # print()
+
+
     meta_dic['identifier'] = sig
-    # print(meta_dic)
-    # mrec.add_or_update(meta_dic)
+
     return meta_dic
 
 
@@ -160,8 +157,6 @@ def get_meta(catid, sig, kind_sig=''):
 
                         }
 
-                        # print(uu.name)
-
                         kwargsa = {
                             'gcat0': catid,
                             'cat_id': catid,
@@ -172,14 +167,10 @@ def get_meta(catid, sig, kind_sig=''):
                             thum_path = gen_thumb(os.path.join(wroot, wdir, uu.name), 'd' + sig[1:])
                             pp_data['logo'] = thum_path.strip('.')
 
-
-
                 # ToDo: 未处理完
-
 
                 dataset_id = 'dn' + sig[1:]
                 the_entity = fix_entity_path(dataset_id)
-                # print(the_entity)
 
                 post_id = sig
 
@@ -201,10 +192,6 @@ def get_meta(catid, sig, kind_sig=''):
 
                     # ws.cell(row=i, column=2).value = pp_data['title']
                 # Write a copy with titles.
-
-                # TODO: ID最多5位，取后5位？
-
-                sig = str(sig)[1:]
 
                 MPost.add_or_update(sig, pp_data)
 
@@ -282,7 +269,7 @@ def import_meta():
 def chli_xlsx(cat_path):
     print('操作中，请等待')
     result_xlsx = 'xx_{}'.format(os.path.split(str(cat_path))[-1])
-    # print(result_xlsx)
+
     wb = load_workbook(cat_path)
 
     # uid_reg = re.compile('\_kind-\w{1}')
@@ -293,18 +280,15 @@ def chli_xlsx(cat_path):
 
     sheets = wb.sheetnames
     for sheet in sheets:
-        # print(sheet)
+
         catid = sheet.split('_')[0]
         ws = wb[sheet]
         rows = ws.max_row
         cols = ws.max_column
         for i in range(1, rows + 1):
             sig = ws.cell(row=i, column=1).value
-            # dwmode = ws.cell(row=i, column=3).value
-            # entity_path = get_entity(sig)
-            # print(sig)
-            if sig:
 
+            if sig:
                 atitle = get_meta(catid, sig, kind_sig=kind_sig)
 
 
