@@ -276,7 +276,7 @@ def chli_xlsx(cat_path):
 
     # kind_pat = re.search(uid_reg, str(cat_path))
     # if kind_pat:
-    kind_sig = '1'
+    kind_sig = '9'
 
     sheets = wb.sheetnames
     for sheet in sheets:

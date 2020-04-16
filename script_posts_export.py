@@ -41,7 +41,7 @@ def do_for_cat(rec):
         postinfo = MPost.get_by_uid(post2tag_rec.post_id)
         markdown_cnt = postinfo.cnt_md
         md = markdown.Markdown(extensions=['meta'])
-        html = md.convert(markdown_cnt)
+        html = "{ " + md.convert(markdown_cnt)+" }"
 
         print("*" * 50)
         print(md.Meta)
@@ -51,8 +51,6 @@ def do_for_cat(rec):
         else:
             stitle = postinfo.title.strip().replace('/', '-').replace(' ', '_')
 
-
-
         out_cat_dir = os.path.join(out_base_dir, 'sec{}_'.format(post2tag_rec.order) + '_'.join(
             stitle.split()) + '_uid' + post2tag_rec.post_id)
 
@@ -60,6 +58,37 @@ def do_for_cat(rec):
             pass
         else:
             os.makedirs(out_cat_dir)
+
+        logo = postinfo.logo
+        logo_name = os.path.split(logo)[-1]
+        if logo.startswith('http'):
+
+            # 下面代码，可同时处理 http 与 https
+            img_path = './' + logo[len('http://www.osgeo.cn/'):].strip('/')
+
+            out_img_path = os.path.join(out_cat_dir, logo_name)
+            if os.path.exists(img_path):
+                shutil.copy(img_path, out_img_path)
+            logo = out_img_path
+
+
+        elif logo.startswith('//www.osgeo.cn'):
+            img_path = './' + logo[len('//www.osgeo.cn/'):].strip('/')
+            print(img_path)
+            out_img_path = os.path.join(out_cat_dir, logo_name)
+            if os.path.exists(img_path):
+                shutil.copy(img_path, out_img_path)
+            logo = out_img_path
+
+
+        elif logo.startswith('/static'):
+            img_path = '.' + logo
+            out_img_path = os.path.join(out_cat_dir, logo_name)
+            if os.path.exists(img_path):
+                shutil.copy(img_path, out_img_path)
+            logo = out_img_path
+        else:
+            pass
 
         # 拷贝图片到同一文件夹
         imgs = get_img(postinfo.cnt_md)
@@ -106,6 +135,14 @@ def do_for_cat(rec):
                 pass
             else:
                 fout_md.write('s-title: {}\n'.format(stitle))
+            if md.Meta.get('logo'):
+                pass
+            else:
+                fout_md.write('logo: {}\n'.format(logo))
+            if md.Meta.get('order'):
+                pass
+            else:
+                fout_md.write('order: {}\n'.format(postinfo.order))
 
             if md.Meta.get('date'):
                 pass
@@ -120,18 +157,26 @@ def do_for_cat(rec):
             if md.Meta.get('cnt_md'):
                 pass
             else:
-                fout_md.write('cnt_md: {}\n'.format(markdown_cnt.replace('\r\n', '\n')))
+                fout_md.write('cnt_md: {}\n'.format("{ " +markdown_cnt.replace('\r\n', '\n')+" }"))
+            if md.Meta.get('cnt_html'):
+                pass
+            else:
+                fout_md.write('cnt_html: {}\n'.format(html))
+            if md.Meta.get('memo'):
+                pass
+            else:
+                fout_md.write('memo: {}\n'.format(postinfo.memo))
 
-            # if md.Meta.get('extinfo'):
-            #     pass
-            # else:
-            #     fout_md.write('extinfo: {}\n\n'.format(postinfo.extinfo))
+            if md.Meta.get('extinfo'):
+                pass
+            else:
+                fout_md.write('extinfo: {}\n\n'.format(postinfo.extinfo))
 
 
 def run_export():
-    all_cats = MCategory.query_all('1')
+    all_cats = MCategory.query_all('9')
     for rec in all_cats:
-        print(rec.uid, rec.pid)
+
         if rec.pid == '0000':
             continue
 

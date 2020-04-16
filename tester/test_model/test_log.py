@@ -9,11 +9,12 @@ from torcms.model.log_model import MLog
 class TestMLog():
     def setup(self):
         print('setup 方法执行于本类中每条用例之前')
-        self.uid = ''
-        self.userid = 'f4f4f23'
+        self.uid = tools.get_uu4d()
+        self.userid = tools.get_uu4d()
 
     def add_message(self, **kwargs):
         post_data = {
+            'uid': self.uid,
             'url': kwargs.get('url', 'http://87437483'),
             'refer': 'http://232323',
             'user_id': kwargs.get('user_id', self.userid),
@@ -21,12 +22,14 @@ class TestMLog():
             'timeOut': '1545104861000',
             'timeon': '1',
         }
-        aa=MLog.add(post_data)
-        self.uid=aa
+        MLog.add(post_data)
 
     def test_add(self):
+        a = MLog.get_by_uid(self.uid)
 
+        assert a == None
         post_data = {
+            'uid': self.uid,
             'url': 'http://54243243',
             'refer': 'http://344343',
             'user_id': self.userid,
@@ -36,23 +39,15 @@ class TestMLog():
         }
 
         a = MLog.add(post_data)
-        aa=MLog.get_by_uid(a)
-        self.uid=a
-        assert aa.refer_url==post_data['refer']
+        assert a
         self.tearDown()
 
     def test_query_pager_by_user(self):
         self.add_message()
         a = MLog.query_pager_by_user(self.userid)
-        print(a)
-        print(a.count())
-        tf=False
-        for i in a:
-            if i.uid==self.uid:
-                tf=True
-        self.tearDown()
-        assert tf
 
+        assert a[0].uid == self.uid
+        self.tearDown()
 
     def test_query_all_user(self):
         self.tearDown()
@@ -62,8 +57,8 @@ class TestMLog():
         for i in a:
             if i.uid == self.uid:
                 tf = True
-        self.tearDown()
         assert tf
+        self.tearDown()
 
     def test_query_all(self):
 
@@ -81,8 +76,8 @@ class TestMLog():
                 if i.uid == self.uid:
                     tf = True
                     break
-        self.tearDown()
         assert tf
+        self.tearDown()
 
     def test_query_all_pageview(self):
         self.tearDown()
@@ -99,8 +94,8 @@ class TestMLog():
                 if i.uid == self.uid:
                     tf = True
                     break
-        self.tearDown()
         assert tf
+        self.tearDown()
 
     def test_query_all_current_url(self):
         self.tearDown()
@@ -112,8 +107,8 @@ class TestMLog():
 
             if i.uid == self.uid:
                 tf = True
-        self.tearDown()
         assert tf
+        self.tearDown()
 
     def test_count_of_current_url(self):
         p = {
@@ -168,6 +163,6 @@ class TestMLog():
 
     def tearDown(self):
         print("function teardown")
-        MHelper.delete(TabLog, self.uid)
-        self.uid = ''
-
+        tt = MLog.get_by_uid(self.uid)
+        if tt:
+            MHelper.delete(TabLog, self.uid)

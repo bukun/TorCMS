@@ -21,8 +21,8 @@ class MLog():
         '''
         Insert new record.
         '''
-        # uid = data_dic['uid']
-        uid = tools.get_uuid()
+        uid = data_dic['uid']
+
         TabLog.create(
             uid=uid,
             current_url=data_dic['url'],
@@ -45,6 +45,14 @@ class MLog():
         ).paginate(
             current_page_num, CMS_CFG['list_num']
         )
+
+    @staticmethod
+    def get_all(num=200):
+        '''
+        查询近期访问记录
+
+        '''
+        return TabLog.select().order_by(TabLog.time_create.desc()).limit(num)
 
     @staticmethod
     def query_all_user():
@@ -85,7 +93,7 @@ class MLog():
     @staticmethod
     def count_of_current_url(current_url):
         '''
-        长询制订页面（current_url）的访问量
+        查询当前页面（current_url）的访问量
         '''
         res = TabLog.select().where(TabLog.current_url == current_url)
         return res.count()
