@@ -22,7 +22,6 @@ class MLog():
         Insert new record.
         '''
         uid = data_dic['uid']
-
         TabLog.create(
             uid=uid,
             current_url=data_dic['url'],
@@ -58,9 +57,8 @@ class MLog():
     def query_all_user():
         '''
         查询所有登录用户的访问记录
-        ToDo:  ``None`` ?
         '''
-        return TabLog.select().where(TabLog.user_id != 'None').distinct(TabLog.user_id).order_by(
+        return TabLog.select().where(TabLog.user_id != '').distinct(TabLog.user_id).order_by(
             TabLog.user_id
         )
 
@@ -68,9 +66,8 @@ class MLog():
     def query_all(current_page_num=1):
         '''
         查询所有未登录用户的访问记录
-        ToDo:  ``None`` ?
         '''
-        return TabLog.select().where(TabLog.user_id == 'None').order_by(TabLog.time_out.desc()).paginate(
+        return TabLog.select().where(TabLog.user_id == '').order_by(TabLog.time_out.desc()).paginate(
             current_page_num, CMS_CFG['list_num']
         )
 

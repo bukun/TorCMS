@@ -21,7 +21,7 @@
     // 统计用户 访问网站步骤记录
     var tjSecond = 0;
     var tjRandom = 0;
-    var userinfo="{{userinfo}}";
+    var userinfo="{{ userinfo.uid if userinfo else ''}}";
 
     window.setInterval(function () {
         tjSecond++;
