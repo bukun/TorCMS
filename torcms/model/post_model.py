@@ -408,6 +408,22 @@ class MPost(Mabc):
         )
 
     @staticmethod
+    def query_by_parid(par_id, kind='9'):
+        '''
+        Query recent posts of catalog.
+
+        '''
+        return TabPost.select().join(
+            TabPost2Tag,
+            on=(TabPost.uid == TabPost2Tag.post_id)
+        ).where(
+            (TabPost.kind == kind) &
+            (TabPost2Tag.par_id == par_id) &
+            (TabPost.valid == 1)
+        ).order_by(
+            TabPost.time_create.desc()
+        )
+    @staticmethod
     def query_cat_recent_with_label(cat_id, label=None, num=8, kind='1', order=False):
         '''
         query_cat_recent_with_label
@@ -774,7 +790,7 @@ class MPost(Mabc):
         return uid
 
     @staticmethod
-    def query_under_condition(condition, kind='2'):
+    def query_under_condition(condition, kind='9'):
         '''
         Get All data of certain kind according to the condition
         '''
