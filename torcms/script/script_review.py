@@ -110,11 +110,12 @@ def __get_post_review(email_cnt, idx):
         recent_posts = MPost.query_recent_edited(tools.timestamp() - TIME_LIMIT, kind=key)
         for recent_post in recent_posts:
             hist_rec = MPostHist.get_last(recent_post.uid)
+            editor_name = recent_post.extinfo['def_editor_name'] if 'def_editor_name' in recent_post.extinfo else recent_post.user_name
             if hist_rec:
                 foo_str = '''
                     <tr><td>{0}</td><td>{1}</td><td class="diff_chg">Edit</td><td>{2}</td>
                     <td><a href="{3}">{3}</a></td></tr>
-                    '''.format(idx, recent_post.user_name, recent_post.title,
+                    '''.format(idx, editor_name, recent_post.title,
                                os.path.join(SITE_CFG['site_url'], router_post[key],
                                             recent_post.uid))
                 email_cnt = email_cnt + foo_str
@@ -122,7 +123,7 @@ def __get_post_review(email_cnt, idx):
                 foo_str = '''
                     <tr><td>{0}</td><td>{1}</td><td class="diff_add">New </td><td>{2}</td>
                     <td><a href="{3}">{3}</a></td></tr>
-                    '''.format(idx, recent_post.user_name, recent_post.title,
+                    '''.format(idx, editor_name, recent_post.title,
                                os.path.join(SITE_CFG['site_url'], router_post[key],
                                             recent_post.uid))
                 email_cnt = email_cnt + foo_str

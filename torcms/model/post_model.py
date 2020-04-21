@@ -635,7 +635,7 @@ class MPost(Mabc):
             # Update the extinfo, Not replace
             for key in extinfo:
                 cur_extinfo[key] = extinfo[key]
-
+            cur_extinfo['def_editor_name'] = data_dic['user_name'].strip()
             entry = TabPost.update(
                 title=title,
                 # user_name=data_dic['user_name'],
