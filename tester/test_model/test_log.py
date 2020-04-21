@@ -63,22 +63,23 @@ class TestMLog():
     def test_query_all(self):
 
         p = {
-            'user_id': 'None'
+            'user_id': ''
         }
         self.add_message(**p)
         a = MLog.query_all_current_url()
-        x = int(a.count() / 10)
+        x = int(a.count() / 8)
         tf = False
-        for y in range(x + 3):
+        for y in range(x+3):
             a = MLog.query_all(current_page_num=y)
+            # print(a[0])
             for i in a:
-
+                print(i.uid)
                 if i.uid == self.uid:
                     tf = True
                     break
-        assert tf
         self.tearDown()
 
+        assert tf
     def test_query_all_pageview(self):
         self.tearDown()
         self.add_message()
@@ -94,8 +95,8 @@ class TestMLog():
                 if i.uid == self.uid:
                     tf = True
                     break
-        assert tf
         self.tearDown()
+        assert tf
 
     def test_query_all_current_url(self):
         self.tearDown()
@@ -107,8 +108,8 @@ class TestMLog():
 
             if i.uid == self.uid:
                 tf = True
-        assert tf
         self.tearDown()
+        assert tf
 
     def test_count_of_current_url(self):
         p = {
