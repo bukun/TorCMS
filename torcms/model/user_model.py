@@ -210,7 +210,7 @@ class MUser(Mabc):
         entry.execute()
 
     @staticmethod
-    def create_user(post_data):
+    def create_user(post_data, extinfo=None):
         '''
         Create the user.
         The code used if `False`.
@@ -238,6 +238,9 @@ class MUser(Mabc):
             out_dic['code'] = '31'
             return out_dic
 
+        if extinfo is None:
+            extinfo = {}
+
         try:
             TabMember.create(
                 uid=tools.get_uuid(),
@@ -249,7 +252,8 @@ class MUser(Mabc):
                 time_update=tools.timestamp(),
                 time_reset_passwd=tools.timestamp(),
                 time_login=tools.timestamp(),
-                time_email=tools.timestamp()
+                time_email=tools.timestamp(),
+                extinfo=extinfo,
             )
 
             out_dic['success'] = True
