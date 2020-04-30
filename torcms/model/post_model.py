@@ -161,7 +161,7 @@ class MPost(Mabc):
         cur_rec = MPost.get_by_uid(uid)
 
         entry = TabPost.update(
-            title=title,
+            title=tools.markdown2html(title),
             user_name=post_data['user_name'],
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'].strip()),
             memo=post_data['memo'] if 'memo' in post_data else '',
@@ -201,7 +201,7 @@ class MPost(Mabc):
             return False
 
         entry = TabPost.create(
-            title=title,
+            title=tools.markdown2html(title),
             date=datetime.now(),
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'].strip()),
             cnt_html=tools.markdown2html(post_data['cnt_md']),
@@ -637,7 +637,7 @@ class MPost(Mabc):
                 cur_extinfo[key] = extinfo[key]
             cur_extinfo['def_editor_name'] = data_dic['user_name'].strip()
             entry = TabPost.update(
-                title=title,
+                title=tools.markdown2html(title),
                 # user_name=data_dic['user_name'],
                 keywords='',
                 time_update=tools.timestamp(),
@@ -770,7 +770,7 @@ class MPost(Mabc):
         #     return False
         TabPost.create(
             uid=uid,
-            title=title,
+            title=tools.markdown2html(title),
             keywords='',
             time_create=tools.timestamp(),
             time_update=tools.timestamp(),
@@ -838,7 +838,7 @@ class MPost(Mabc):
 
             TabPost.create(
                 uid=data_dic['sig'],
-                title=data_dic['title'],
+                title=tools.markdown2html(data_dic['title']),
                 time_create=time_stamp,
                 time_update=time_stamp,
                 cnt_md=data_dic['cnt_md'] if 'memo' in data_dic else '',
