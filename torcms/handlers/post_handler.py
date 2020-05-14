@@ -381,9 +381,10 @@ class PostHandler(BaseHandler):
         # ext_catid = postinfo.extinfo['def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else ''
         # ext_catid2 = postinfo.extinfo['def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else None
 
-        ext_catid = postinfo.extinfo['def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else ''
+        # ext_catid = postinfo.extinfo['def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else ''
+        __ext_catid = postinfo.extinfo.get('def_cat_uid', '')
 
-        cat_enum1 = MCategory.get_qian2(ext_catid[:2]) if ext_catid else []
+        cat_enum1 = MCategory.get_qian2(__ext_catid[:2]) if __ext_catid else []
 
         rand_recs, rel_recs = self.fetch_additional_posts(postinfo.uid)
 
