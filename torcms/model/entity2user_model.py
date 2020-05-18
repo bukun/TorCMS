@@ -50,7 +50,7 @@ class MEntity2User(Mabc):
         ).join(TabEntity, on=(TabEntity2User.entity_id == TabEntity.uid)).join(
             TabMember, on=(TabEntity2User.user_id == TabMember.uid)
         ).where(TabEntity2User.user_id == userid).order_by(
-            TabEntity2User.entity_id
+            TabEntity2User.timestamp.desc(),TabEntity2User.entity_id
         ).paginate(current_page_num, CMS_CFG['list_num'])
         return recs
 
