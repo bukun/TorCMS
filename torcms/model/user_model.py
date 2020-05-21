@@ -223,7 +223,7 @@ class MUser(Mabc):
 
         if post_data['user_name'].startswith('_'):
             '''
-            the user_name startwith with ``_``, ONLY used for inner, not for login.            
+            the user_name startwith with ``_``, ONLY used for inner, not for login.
             '''
             pass
         elif not tools.check_username_valid(post_data['user_name']):
@@ -267,6 +267,13 @@ class MUser(Mabc):
         Get Member by keyword
         '''
         return TabMember.select().where(TabMember.user_name.contains(par2))
+
+    @staticmethod
+    def get_by_Email(par2):
+        '''
+        Get Member by keyword
+        '''
+        return TabMember.select().where(TabMember.user_email.contains(par2))
 
     @staticmethod
     def delete_by_user_name(user_name):
