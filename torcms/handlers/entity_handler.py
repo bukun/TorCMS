@@ -109,13 +109,20 @@ class EntityHandler(BaseHandler):
                 kind = '2'
             else:
                 kind = '3'
-            if str(down_url)[:17] == '/static/datasets/':
-                str_down_url = str(down_url)[8:]
+
+            if down_url.startswith('http://') or down_url.startswith('http://'):
+                str_down_url = down_url
+
             else:
                 str_down_url = str(down_url)[15:]
+
             if kind == '3':
                 str_down_url = down_url
 
+
+            print("*" * 50)
+            print(down_url)
+            print(str_down_url)
 
             ment_id = MEntity.get_id_by_impath(str_down_url)
             if ment_id:

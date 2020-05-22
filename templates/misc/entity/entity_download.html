@@ -36,14 +36,13 @@
                   {% if x.entity_kind == '2' %}
 
 
-                        {% if x.entity_path.startswith('datasets')%}
+                        {% if x.entity_path.startswith('http://') or x.entity_path.startswith('https://')%}
 
-                        <a href="{% module site_url() %}/static/{{x.entity_path}}" target="_blank"
-                           title="{% module site_url() %}/static/{{x.entity_path}}">
+                    <a href="{{x.entity_path}}" target="_blank" title="{{x.entity_path}}">
 
-                       {% module site_url() %}/static/{{x.entity_path}}
-                        </a>
-                        {% else %}
+                        {{x.entity_path}}
+                    </a>
+                    {% else %}
                          <a href="{% module site_url() %}{{ static_url('upload/') }}{{x.entity_path}}" target="_blank"
                             title="{% module site_url() %}{{ static_url('upload/') }}{{x.entity_path}}">
                             {% module site_url() %}{{ static_url('upload/') }}{{x.entity_path}}
