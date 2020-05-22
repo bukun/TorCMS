@@ -67,14 +67,13 @@
 
                 {% if x.kind == '2' %}
                 <td>
-                 {% if x.path.startswith('datasets')%}
+                  {% if x.path.startswith('http://') or x.path.startswith('https://')%}
 
-                        <a href="{% module site_url() %}/static/{{x.path}}" target="_blank"
-                           title="{% module site_url() %}/static/{{x.path}}">
+                    <a href="{{x.path}}" target="_blank" title="{{x.path}}">
 
-                       {% module site_url() %}/static/{{x.path}}
-                        </a>
-                        {% else %}
+                        {{x.path}}
+                    </a>
+                    {% else %}
                          <a href="{% module site_url() %}{{ static_url('upload/') }}{{x.path}}" target="_blank"
                             title="{% module site_url() %}{{ static_url('upload/') }}{{x.path}}">
                             {% module site_url() %}{{ static_url('upload/') }}{{x.path}}
