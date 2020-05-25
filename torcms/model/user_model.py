@@ -120,6 +120,21 @@ class MUser(Mabc):
         return out_dic
 
     @staticmethod
+    def update_user_name(user_email, user_name):
+        '''
+        Update the user_name of a user.
+        '''
+
+        out_dic = {'success': False, 'code': '00'}
+
+        entry = TabMember.update(user_name=user_name).where(TabMember.user_email == user_email)
+        entry.execute()
+
+        out_dic['success'] = True
+
+        return out_dic
+
+    @staticmethod
     def query_nologin():
         '''
         Query the users who do not login recently (90 days).
