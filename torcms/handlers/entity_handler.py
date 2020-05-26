@@ -94,11 +94,9 @@ class EntityHandler(BaseHandler):
         Download the entity by UID.
         '''
 
-
         post_data = {}
         for key in self.request.arguments:
             post_data[key] = self.get_arguments(key)[0]
-
 
         down_url = MPost.get_by_uid(down_uid).extinfo.get('tag__file_download', '')
         if down_url:
@@ -110,21 +108,7 @@ class EntityHandler(BaseHandler):
             else:
                 kind = '3'
 
-            if down_url.startswith('http://') or down_url.startswith('http://'):
-                str_down_url = down_url
-
-            else:
-                str_down_url = str(down_url)[15:]
-
-            if kind == '3':
-                str_down_url = down_url
-
-
-            print("*" * 50)
-            print(down_url)
-            print(str_down_url)
-
-            ment_id = MEntity.get_id_by_impath(str_down_url)
+            ment_id = MEntity.get_id_by_impath(down_url)
             if ment_id:
 
                 MEntity2User.create_entity2user(ment_id, self.userinfo.uid, post_data['userip'])
@@ -132,8 +116,8 @@ class EntityHandler(BaseHandler):
                 return True
             else:
 
-                MEntity.create_entity(uid='', path=str_down_url, desc='', kind=kind)
-                ment_id = MEntity.get_id_by_impath(str_down_url)
+                MEntity.create_entity(uid='', path=down_url, desc='', kind=kind)
+                ment_id = MEntity.get_id_by_impath(down_url)
                 if ment_id:
                     MEntity2User.create_entity2user(ment_id, self.userinfo.uid, post_data['userip'])
                     return True
