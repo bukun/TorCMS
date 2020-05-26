@@ -33,42 +33,25 @@
                               class="glyphicon glyphicon-file"></span>
                         <span id="entry_url_{{ii}}" style="display: none; float: left;padding-right: 10px"
                               class="glyphicon glyphicon-link"></span>
-                  {% if x.entity_kind == '2' %}
-
-
-                        {% if x.entity_path.startswith('http://') or x.entity_path.startswith('https://')%}
+                 {% if x.entity_path.startswith('http://') or x.entity_path.startswith('https://')%}
 
                     <a href="{{x.entity_path}}" target="_blank" title="{{x.entity_path}}">
 
                         {{x.entity_path}}
                     </a>
-                    {% else %}
-                         <a href="{% module site_url() %}{{ static_url('upload/') }}{{x.entity_path}}" target="_blank"
-                            title="{% module site_url() %}{{ static_url('upload/') }}{{x.entity_path}}">
-                            {% module site_url() %}{{ static_url('upload/') }}{{x.entity_path}}
-                         </a>
-                        {% end  %}
-
-
-                        {% elif x.entity_kind == '3' %}
-                        <a href="{{x.entity_path}}" target="_blank" title="{{x.entity_path}}">
-
-                            {{x.entity_path}}
+                    {% elif x.entity_path.startswith('/static/')%}
+                        <a href="{% module site_url() %}{{x.entity_path}}" target="_blank"
+                       title="{% module site_url() %}{{x.entity_path}}">
+                        {% module site_url() %}{{x.entity_path}}
                         </a>
-                     {% elif x.entity_kind == '4' %}
-                    <a href="{% module site_url() %}{{ static_url('upload') }}{{x.entity_path}}" target="_blank"
-                    title="{% module site_url() %}{{ static_url('upload') }}{{x.entity_path}}">
-                        {% module site_url() %}{{ static_url('upload') }}{{x.entity_path}}
-                    </a>
-                        {% else %}
+
+                    {% else %}
                     <a href="{% module site_url() %}{{ static_url('upload/') }}{{x.entity_path}}" target="_blank"
                        title="{% module site_url() %}{{ static_url('upload/') }}{{x.entity_path}}">
-
                         {% module site_url() %}{{ static_url('upload/') }}{{x.entity_path}}
                     </a>
+                    {% end %}
 
-
-                        {% end %}
 
 
 

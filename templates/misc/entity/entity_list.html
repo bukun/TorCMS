@@ -65,39 +65,34 @@
 
                 {% else %}
 
-                {% if x.kind == '2' %}
                 <td>
-                  {% if x.path.startswith('http://') or x.path.startswith('https://')%}
+                    {% if x.path.startswith('http://') or x.path.startswith('https://')%}
 
                     <a href="{{x.path}}" target="_blank" title="{{x.path}}">
 
                         {{x.path}}
                     </a>
+                    {% elif x.path.startswith('/static/')%}
+                        <a href="{% module site_url() %}{{x.path}}" target="_blank"
+                       title="{% module site_url() %}{{x.path}}">
+                        {% module site_url() %}{{x.path}}
+                        </a>
+                    {% elif x.kind=='f' %}
+                    <a href="{% module site_url() %}{{ static_url('') }}{{x.path}}" target="_blank"
+                       title="{% module site_url() %}{{ static_url('') }}{{x.path}}">
+                        {% module site_url() %}{{ static_url('') }}{{x.path}}
+                        </a>
                     {% else %}
-                         <a href="{% module site_url() %}{{ static_url('upload/') }}{{x.path}}" target="_blank"
-                            title="{% module site_url() %}{{ static_url('upload/') }}{{x.path}}">
-                            {% module site_url() %}{{ static_url('upload/') }}{{x.path}}
-                         </a>
-                        {% end  %}
-                    </td>
-                {% elif x.kind == '3' %}
-
-
-                        <td><a href="{{ x.path}}" target="_blank" title="{{ x.path}}">{{ x.path }}</a></td>
-                {% elif x.kind =='4' %}
-                <td><a href="{% module site_url() %}{{ x.path}}" target="_blank" title="{% module site_url() %}{{ x.path}}">{% module site_url() %}{{ x.path }}</a></td>
-
-                {% else %}
-                        <td>
-                            <a href="{% module site_url() %}{{ static_url('upload/') }}{{ x.path }}"
-                               title="{% module site_url() %}{{ static_url('upload/') }}{{ x.path }}"
-                               target="_blank">
-                                {% module site_url() %}{{ static_url('upload/') }}{{ x.path }}</a>
-                        </td>
-                {% end %}
+                    <a href="{% module site_url() %}{{ static_url('upload/') }}{{x.path}}" target="_blank"
+                       title="{% module site_url() %}{{ static_url('upload/') }}{{x.path}}">
+                        {% module site_url() %}{{ static_url('upload/') }}{{x.path}}
+                    </a>
+                    {% end %}
+                </td>
                 <td>
                      {{ x.desc }}
                 </td>
+                 <td></td>
                 {% end %}
 
             </tr>
