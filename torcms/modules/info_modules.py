@@ -35,9 +35,11 @@ class InfoCategory(tornado.web.UIModule):
         with_title = kwargs.get('with_title', False)
 
         glyph = kwargs.get('glyph', '')
+        count = kwargs.get('count', False)
 
         kwd = {
-            'glyph': glyph
+            'glyph': glyph,
+            'count': count
         }
         curinfo = MCategory.get_by_uid(uid_with_str)
 
