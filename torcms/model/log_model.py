@@ -21,7 +21,8 @@ class MLog():
         '''
         Insert new record.
         '''
-        uid = data_dic['uid']
+        # uid = data_dic['uid']
+        uid = tools.get_uuid()
         TabLog.create(
             uid=uid,
             current_url=data_dic['url'],
