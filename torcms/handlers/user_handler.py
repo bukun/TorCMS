@@ -75,6 +75,7 @@ class UserHandler(BaseHandler):
             'changerole': self.__to_change_role__,
             'find': self.find,
             'delete_user': self.__delete_user__,
+            'list': self.__user_list__,
         }
 
         if len(url_arr) == 1:
@@ -630,6 +631,23 @@ class UserHandler(BaseHandler):
 
                     kwd=kwd,
                     view=MUser.get_by_keyword(keyword),
+                    cfg=config.CMS_CFG,
+                    userinfo=self.userinfo)
+    def __user_list__(self):
+        '''
+        find by keyword.
+        '''
+
+        kwd = {
+            'pager': '',
+            'title': '查找结果',
+            'user_count':MUser.total_number()
+        }
+
+        self.render(self.wrap_tmpl('user/user_list.html'),
+
+                    kwd=kwd,
+                    view=MUser.query_by_time(),
                     cfg=config.CMS_CFG,
                     userinfo=self.userinfo)
 

@@ -3,7 +3,7 @@
 '''
 Model for user.
 '''
-
+import time
 from torcms.core import tools
 from torcms.model.core_tab import TabMember
 from torcms.model.abc_model import Mabc
@@ -330,6 +330,22 @@ class MUser(Mabc):
         Query pager
         '''
         return TabMember.select().paginate(current_page_num, CMS_CFG['list_num'])
+
+    @staticmethod
+    def query_by_time(recent=90):
+        '''
+        Return some of the records. Not all.
+        '''
+        time_that = int(time.time()) - recent * 24 * 3600
+
+        return TabMember.select().where( (TabMember.time_create > time_that))
+
+    @staticmethod
+    def query_pager_by_time(current_page_num=1):
+        '''
+        Query pager
+        '''
+        return TabMember.select().where(TabMember.time_create).paginate(current_page_num, CMS_CFG['list_num'])
 
     @staticmethod
     def count_of_certain():
