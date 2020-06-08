@@ -1,0 +1,55 @@
+{% extends "../theme/bage.html" %}
+{% block head %}
+<title>{{ _('User List') }}</title>
+<meta name="description" content="{{ _('User List') }}">
+<meta name="keywords" content="{{ _('User List') }}">
+
+{% end %}
+{% block mainbody %}
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li><a href="/" title="Home">{{ _('Home') }}</a></li>
+        <li class="active">{{ _('User List') }}</li>
+    </ul>
+</div>
+<div class="panel panel-default" style="font-size: 14px">
+    <div class="panel-heading">
+        <h1 class="news-title">{{ _('User List') }}</h1></div>
+    <div class="panel-body">
+
+        <div class="col-sm-12">
+            <br>
+
+            <p><b style="font-size: 18px">本平台用户注册量统计 : <span class="red">{{ kwd['user_count'] }}</span></b></p>
+            <br>
+        </div>
+        <table class="table table-bordered">
+
+            <tr>
+                <td colspan="4">
+                    <center><b style="font-size: 18px">近3个月注册用户信息</b></center>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 25%"><b>用户名</b></td>
+                <td style="width: 25%"><b>邮箱</b></td>
+                <td style="width: 25%"><b>注册时间</b></td>
+
+            </tr>
+            {% for user_info in view%}
+            <tr>
+                <td style="width: 25%"><b>{{user_info.user_name}}</b></td>
+                <td style="width: 25%"><b>{{user_info.user_email}}</b></td>
+                <td style="width: 25%"><b>{{ datetime.datetime.fromtimestamp(user_info.time_create).strftime('%Y-%m-%d') }} </b></td>
+
+            </tr>
+            {% end %}
+
+        </table>
+
+
+    </div>
+</div>
+
+{% end %}
+
