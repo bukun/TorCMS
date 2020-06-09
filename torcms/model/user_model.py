@@ -250,7 +250,6 @@ class MUser(Mabc):
             out_dic['code'] = '21'
             return out_dic
 
-
         if MUser.get_by_email(post_data['user_email']):
             out_dic['code'] = '31'
             return out_dic
@@ -338,7 +337,7 @@ class MUser(Mabc):
         '''
         time_that = int(time.time()) - recent * 24 * 3600
 
-        return TabMember.select().where( (TabMember.time_create > time_that))
+        return TabMember.select().where(TabMember.time_create > time_that).order_by(TabMember.time_create.desc())
 
     @staticmethod
     def query_pager_by_time(current_page_num=1):
