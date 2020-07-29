@@ -213,7 +213,10 @@ class MPost2Catalog(Mabc):
                 cat_con & TabPost.extinfo.contains(condition)
             )
         else:
-            recs = TabPost2Tag.select().where(
+            recs = TabPost2Tag.select().join(
+                TabPost,
+                on=((TabPost2Tag.post_id == TabPost.uid) & (TabPost.valid == 1))
+            ).where(
                 cat_con
             )
 
