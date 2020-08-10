@@ -101,6 +101,7 @@ core_modules = {
     'app_recent_used': info_modules.InfoRecentUsed,
     'app_most_used': info_modules.InfoMostUsed,
     'label_count': info_modules.LabelCount,
+    'info_count' : info_modules.InfoCount,
 
     # Category
     'category_menu': category_modules.CategoryMenu,
@@ -114,5 +115,6 @@ core_modules = {
     'comment_list': widget_modules.CommentList,
     'replycnt': widget_modules.Replycnt,
     'user_profile_by_id': widget_modules.Userprofile,
+
 
 }

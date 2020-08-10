@@ -282,7 +282,20 @@ class LabelCount(tornado.web.UIModule):
         uid = kwargs.get('uid', args[0])
         return MPost2Label.query_count(uid)
 
+class InfoCount(tornado.web.UIModule):
+    '''
+    各信息分类下，信息数量。
+    '''
 
+    def render(self, *args, **kwargs):
+        pcat = kwargs['pcat']
+        catid = kwargs['catid']
+        kind = kwargs['kind']
+        if pcat == False:
+            recs = MPost.query_by_tag(catid, kind)
+        else:
+            recs = MPost.query_by_parid(catid, kind)
+        return recs.count()
 class InfoMenu(tornado.web.UIModule):
     '''
     menu for infor.
