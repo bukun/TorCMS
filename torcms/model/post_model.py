@@ -396,6 +396,7 @@ class MPost(Mabc):
         Query recent posts of catalog.
         ToDo: kind ?
         '''
+
         return TabPost.select().join(
             TabPost2Tag,
             on=(TabPost.uid == TabPost2Tag.post_id)
@@ -406,6 +407,7 @@ class MPost(Mabc):
         ).order_by(
             TabPost.time_create.desc()
         )
+
 
     @staticmethod
     def query_by_parid(par_id, kind='9'):

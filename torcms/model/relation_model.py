@@ -73,7 +73,8 @@ class MRelation(Mabc):
                 TabPost, on=(TabPost2Tag.post_id == TabPost.uid)
             ).where(
                 (TabPost2Tag.tag_id == info_tag.tag_id) &
-                (TabPost.kind == kind)
+                (TabPost.kind == kind)&
+                (TabPost.valid == 1)
             ).order_by(
                 peewee.fn.Random()
             ).limit(num)
@@ -84,5 +85,6 @@ class MRelation(Mabc):
         ).join(
             TabPost, on=(TabPost2Tag.post_id == TabPost.uid)
         ).where(
-            TabPost.kind == kind
+            (TabPost.kind == kind) &
+            (TabPost.valid == 1)
         ).order_by(peewee.fn.Random()).limit(num)

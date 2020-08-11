@@ -177,6 +177,7 @@ class PostHandler(BaseHandler):
                 self.add(uid=url_str)
         elif url_arr[0] == 'rel' and len(url_arr) == 3:
             self._add_relation(url_arr[1], url_arr[2])
+
         else:
             self.show404()
 
@@ -735,3 +736,4 @@ class PostHandler(BaseHandler):
 
         update_category(post_uid, post_data)
         self.redirect('/{0}/{1}'.format(router_post[post_data['kcat']], post_uid))
+
