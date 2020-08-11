@@ -268,7 +268,7 @@ class MPost2Catalog(Mabc):
             ).where(
                 cat_con
             ).order_by(
-                TabPost.time_update.desc()
+                TabPost.time_create.desc()
             ).paginate(current_page_num, CMS_CFG['list_num'])
 
         return recs

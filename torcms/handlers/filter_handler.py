@@ -4,6 +4,7 @@
 '''
 
 import math
+import json
 from html2text import html2text
 import tornado.escape
 from torcms.model.post_model import MPost
@@ -82,9 +83,12 @@ class FilterHandler(BaseHandler):
         url_str = args[0]
 
         logger.info('infocat get url_str: {0}'.format(url_str))
+
+
         if len(url_str) == 4:
             self.list(url_str)
         elif len(url_str) > 4:
+
             self.echo_html(url_str)
         else:
             kwd = {
@@ -92,6 +96,13 @@ class FilterHandler(BaseHandler):
                 'info': '404. Page not found!',
             }
             self.render('misc/html/404.html', kwd=kwd)
+    def post(self, *args, **kwargs):
+        url_str=args[0]
+
+        url_arr = self.parse_url(args[0])
+        if url_arr[1] == 'info_count':
+            self.get_info_num(url_str)
+
 
     def gen_redis_kw(self):
         condition = {}
@@ -157,6 +168,48 @@ class FilterHandler(BaseHandler):
                     )
                 )
             )
+
+    def get_info_num(self, url_str):
+        '''
+        Show the HTML
+        '''
+
+        logger.info('info echo html: {0}'.format(url_str))
+
+        condition = self.gen_redis_kw()
+
+        url_arr = self.parse_url(url_str)
+        sig = url_arr[0]
+
+        num = (len(url_arr) - 2) // 2
+
+        catinfo = MCategory.get_by_uid(sig)
+
+        if catinfo.pid == '0000':
+            condition['def_cat_pid'] = sig
+        else:
+            condition['def_cat_uid'] = sig
+
+        for idx in range(num):
+            ckey = url_arr[idx * 2 + 2]
+            tval = url_arr[idx * 2 + 3]
+
+            if tval == '0':
+                continue
+            if ckey == 'fenye':
+                # 分页参数。单独处理。
+                fenye_num = int(tval)
+                continue
+            else:
+                cval = tval
+            ckey = 'tag_' + ckey
+            condition[ckey] = cval
+
+
+        allinfos = MPost.query_under_condition(condition, kind=catinfo.kind)
+        output = {'info_count': allinfos.count()}
+
+        return json.dump(output, self)
 
     def echo_html_list_str(self, catid, infos):
         '''
