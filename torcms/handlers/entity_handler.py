@@ -109,9 +109,12 @@ class EntityHandler(BaseHandler):
                 kind = '3'
 
             ment_id = MEntity.get_id_by_impath(down_url)
+
+            userip = self.get_host_ip()
+
             if ment_id:
 
-                MEntity2User.create_entity2user(ment_id, self.userinfo.uid, post_data['userip'])
+                MEntity2User.create_entity2user(ment_id, self.userinfo.uid, userip)
 
                 return True
             else:
@@ -119,10 +122,12 @@ class EntityHandler(BaseHandler):
                 MEntity.create_entity(uid='', path=down_url, desc='', kind=kind)
                 ment_id = MEntity.get_id_by_impath(down_url)
                 if ment_id:
-                    MEntity2User.create_entity2user(ment_id, self.userinfo.uid, post_data['userip'])
+                    MEntity2User.create_entity2user(ment_id, self.userinfo.uid, userip)
                     return True
         else:
             return False
+
+
 
     @tornado.web.authenticated
     def to_add(self):

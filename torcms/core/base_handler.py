@@ -6,6 +6,7 @@ Basic for handler
 
 from tornado.concurrent import run_on_executor
 
+import socket
 import tornado.web
 
 from torcms.model.user_model import MUser
@@ -125,6 +126,20 @@ class BaseHandler(tornado.web.RequestHandler):
         :param tmpl:
         '''
         return 'admin/' + tmpl.format(sig='p') if self.is_p else tmpl.format(sig='')
+
+    def get_host_ip(self):
+        """
+        查询本机ip地址
+        :return:
+        """
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            s.connect(('8.8.8.8', 80))
+            ip = s.getsockname()[0]
+        finally:
+            s.close()
+
+        return ip
 
     def show404(self, kwd=None):
         if kwd:
