@@ -44,7 +44,8 @@ class MUsage(Mabc):
             TabPost, on=(TabUsage.post_id == TabPost.uid)
         ).where(
             (TabUsage.user_id == user_id) &
-            (TabUsage.kind == kind)
+            (TabUsage.kind == kind) &
+            (TabPost.valid == 1)
         ).order_by(
             TabUsage.timestamp.desc()
         ).limit(num)
@@ -66,7 +67,8 @@ class MUsage(Mabc):
             TabPost, on=(TabUsage.post_id == TabPost.uid)
         ).where(
             (TabUsage.user_id == user_id) &
-            (TabUsage.kind == kind)
+            (TabUsage.kind == kind)&
+            (TabPost.valid == 1)
         ).order_by(
             TabUsage.count.desc()
         ).limit(num)
