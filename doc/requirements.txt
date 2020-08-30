@@ -12,6 +12,7 @@ tornado
 Whoosh
 WTForms
 wtforms-tornado
+email-validator
 # psycopg2
 # http://initd.org/psycopg/docs/install.html#binary-install-from-pypi
 psycopg2-binary

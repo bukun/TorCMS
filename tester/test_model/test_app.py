@@ -364,19 +364,19 @@ class TestApp():
         assert post_data['kind'] == pp.kind
         self.tearDown()
 
-    def test_get_view_count(self):
-        kwargs = {
-
-            'user_name': '7788',
-            'keywords': 'kllll',
-            'kind': '2',
-
-        }
-        self.add_message(**kwargs)
-
-        pp = MPost.get_view_count(self.uid)
-        assert pp == 1
-        self.tearDown()
+    # def test_get_view_count(self):
+    #     kwargs = {
+    #
+    #         'user_name': '7788',
+    #         'keywords': 'kllll',
+    #         'kind': '2',
+    #
+    #     }
+    #     self.add_message(**kwargs)
+    #
+    #     pp = MPost.get_view_count(self.uid)
+    #     assert pp == 1
+    #     self.tearDown()
 
     def tearDown(self):
         print("function teardown")

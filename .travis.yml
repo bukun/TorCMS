@@ -1,8 +1,8 @@
 language: python
 python:
-  - "3.6"
   - "3.7"
   - "3.8"
+  - "3.9"
 addons:
   postgresql: "9.4"
 # currently points to 3.7-dev# command to install dependencies

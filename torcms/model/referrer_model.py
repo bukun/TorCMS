@@ -7,7 +7,7 @@ Model for referrer.
 from torcms.core import tools
 
 from torcms.model.abc_model import Mabc, MHelper
-from torcms.model.core_tab import Tabreferrer
+from torcms.model.core_tab import TabReferrer
 
 class MReferrer(Mabc):
     @staticmethod
@@ -15,7 +15,7 @@ class MReferrer(Mabc):
         '''
         return the record by uid
         '''
-        return MHelper.get_by_uid(Tabreferrer, uid)
+        return MHelper.get_by_uid(TabReferrer, uid)
 
     @staticmethod
     def modify_meta(uid, data_dic):
@@ -25,7 +25,7 @@ class MReferrer(Mabc):
 
         cur_info = MReferrer.get_by_uid(uid)
         if cur_info:
-            entry = Tabreferrer.update(
+            entry = TabReferrer.update(
                 uid=uid,
                 media=data_dic['media'],
                 terminal=data_dic['terminal'],
@@ -33,7 +33,7 @@ class MReferrer(Mabc):
                 # usercity=data_dic['usercity'],
                 kind=data_dic['kind'],
                 time_update=tools.timestamp(),
-            ).where(Tabreferrer.uid == uid)
+            ).where(TabReferrer.uid == uid)
             entry.execute()
 
         else:
@@ -47,7 +47,7 @@ class MReferrer(Mabc):
         userip = data_dic['userip'].strip()
         if len(userip) < 2:
             return False
-        Tabreferrer.create(
+        TabReferrer.create(
             uid=uid,
             media=data_dic['media'],
             terminal=data_dic['terminal'],
@@ -65,16 +65,16 @@ class MReferrer(Mabc):
         Delete by uid
         '''
 
-        return MHelper.delete(Tabreferrer, uid)
+        return MHelper.delete(TabReferrer, uid)
 
     @staticmethod
     def query_all():
         '''
         query all the posts.
         '''
-        return Tabreferrer.select()
+        return TabReferrer.select()
 
     @staticmethod
     def get_by_userip(userip):
-        recs = Tabreferrer.select().where(Tabreferrer.userip == userip)
+        recs = TabReferrer.select().where(TabReferrer.userip == userip)
         return recs

@@ -66,4 +66,22 @@ def run_migrate(*args):
     except:
         pass
 
+    view_count_1d = migrate.IntegerField(default=0, help_text='24小时内阅读量')
+    try:
+        migrate.migrate(torcms_migrator.add_column('tabpost', 'view_count_1d', view_count_1d))
+    except:
+        pass
+
+    view_count_7d = migrate.IntegerField(default=0, help_text='7*24小时内阅读量')
+    try:
+        migrate.migrate(torcms_migrator.add_column('tabpost', 'view_count_7d', view_count_7d))
+    except:
+        pass
+
+    view_count_30d = migrate.IntegerField(default=0, help_text='30*24小时内阅读量')
+    try:
+        migrate.migrate(torcms_migrator.add_column('tabpost', 'view_count_30d', view_count_30d))
+    except:
+        pass
+
     print('Migration finished.')

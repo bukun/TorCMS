@@ -202,7 +202,7 @@ class TestMUsage():
         }
         self.add_message(**p)
         a=MPost.get_by_uid(self.postid2)
-        MUsage.update_field(self.uid,post_id=self.postid2)
+        # MUsage.update_field(self.uid,post_id=self.postid2)
         aa = MUsage.query_recent(self.userid, '1')
         tf = False
         for i in aa:
@@ -210,7 +210,7 @@ class TestMUsage():
                 assert i.post_id ==  self.postid2
                 tf = True
         assert tf
-        MUsage.update_field(self.uid, self.postid)
+        # MUsage.update_field(self.uid, self.postid)
         aa = MUsage.query_recent(self.userid, '1')
         tf = False
         for i in aa:

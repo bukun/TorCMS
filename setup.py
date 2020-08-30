@@ -11,7 +11,7 @@ desc = ('Flexible, extensible Web CMS framework built on Tornado,'
         'compatible with Python 3.7 and above.')
 setup(
     name='torcms',
-    version='0.8.0',
+    version='0.8.1',
     keywords=('torcms', 'tornado', 'cms'),
     description=desc,
     long_description=''.join(open('README.rst').readlines()),
@@ -28,9 +28,12 @@ setup(
 
     platforms='any',
     zip_safe=True,
-    install_requires=['beautifulsoup4', 'jieba', 'markdown', 'peewee', 'Pillow',
-                      'tornado', 'Whoosh', 'WTForms', 'wtforms-tornado',
-                      'psycopg2-binary', 'html2text', 'redis', 'pyyaml','htmlmin'],
+    install_requires=['beautifulsoup4', 'jieba', 'markdown',
+                      'peewee', 'Pillow',
+                      'tornado', 'Whoosh', 'WTForms',
+                      'wtforms-tornado', 'email-validator',
+                      'psycopg2-binary', 'html2text',
+                      'redis', 'pyyaml','htmlmin'],
 
     classifiers=[
         # How mature is this project? Common values are
@@ -49,5 +52,6 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
     ],
 )

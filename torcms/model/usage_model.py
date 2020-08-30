@@ -120,10 +120,10 @@ class MUsage(Mabc):
                 kind=kind,
             )
 
-    @staticmethod
-    def update_field(uid, post_id=None):
-        if post_id:
-            entry = TabUsage.update(
-                post_id=post_id
-            ).where(TabUsage.uid == uid)
-            entry.execute()
+    # @staticmethod
+    # def update_field(uid, post_id=None):
+    #     if post_id:
+    #         entry = TabUsage.update(
+    #             post_id=post_id
+    #         ).where(TabUsage.uid == uid)
+    #         entry.execute()

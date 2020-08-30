@@ -24,6 +24,7 @@ from torcms.model.relation_model import MRelation
 from torcms.model.evaluation_model import MEvaluation
 from torcms.model.usage_model import MUsage
 from torcms.model.entity_model import MEntity
+from torcms.model.access_model import MAcces
 from config import router_post
 from torcms.handlers.entity_handler import EntityHandler
 
@@ -405,6 +406,7 @@ class PostHandler(BaseHandler):
         MPost.update_misc(postinfo.uid, count=True)
         if self.get_current_user() and self.userinfo:
             MUsage.add_or_update(self.userinfo.uid, postinfo.uid, postinfo.kind)
+        MAcces.add(postinfo.uid)
 
         self.set_cookie('user_pass', kwd['cookie_str'])
 

@@ -76,7 +76,7 @@ Under Debian/Ubuntu
 
 ::
 
-    # apt install -y postgresql-server-dev-all postgresql-contrib redis-server
+    $ sudo apt install -y postgresql-server-dev-all postgresql-contrib redis-server
 
 
 Create the Database
@@ -89,7 +89,7 @@ And, create hstore extension in the database.
 ::
 
     \set dbname torcms
-    CREATE USER :dbname WITH PASSWORD '131322' ; 
+    CREATE USER :dbname WITH PASSWORD '111111' ;
     CREATE DATABASE :dbname OWNER :dbname ;
     GRANT ALL PRIVILEGES ON DATABASE :dbname to :dbname ;
     \c :dbname ;
@@ -125,7 +125,8 @@ or using the same f2elib via aliyun:
 
 ::
 
-    $ git clone https://git.dev.tencent.com/gislite/torcms_f2elib.git static/f2elib
+    $ git clone https://e.coding.net/bukun/torcms_f2elib.git static/f2elib
+    $ git clone https://e.coding.net/bukun/torcms_modules_bootstrap.git templates/modules
 
 Edit the configiure.
 -----------------------

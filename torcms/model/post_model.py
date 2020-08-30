@@ -672,15 +672,15 @@ class MPost(Mabc):
         entry.execute()
         return uid
 
-    @staticmethod
-    def get_view_count(sig):
-        '''
-        get count of view.
-        '''
-        try:
-            return TabPost.get(uid=sig).view_count
-        except:
-            return False
+    # @staticmethod
+    # def get_view_count(sig):
+    #     '''
+    #     get count of view.
+    #     '''
+    #     try:
+    #         return TabPost.get(uid=sig).view_count
+    #     except:
+    #         return False
 
     @staticmethod
     def query_most_by_cat(num=8, catid=None, kind='2'):
@@ -712,6 +712,9 @@ class MPost(Mabc):
 
     @staticmethod
     def get_by_keyword(par2, kind='2'):
+        '''
+        根据关键字对标题进行检索
+        '''
         return TabPost.select().where(
             (TabPost.kind == kind) &
             (TabPost.valid == 1) &
@@ -731,7 +734,21 @@ class MPost(Mabc):
         )
 
     @staticmethod
+    def query_by_extinfo(key = '', val = ''):
+        '''
+        根据扩展字段查询
+        '''
+        return TabPost.select().where(
+            (TabPost.extinfo[key] == val)
+        ).order_by(
+            TabPost.time_update.desc()
+        )
+
+    @staticmethod
     def query_by_tagname(tag_name, kind='2'):
+        '''
+        根据标签进行查询
+        '''
         return TabPost.select().where(
             (TabPost.kind == kind) &
             (TabPost.valid == 1) &

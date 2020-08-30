@@ -622,18 +622,18 @@ class TestMPost():
 
         self.tearDown()
 
-    def test_get_view_count(self):
-
-        p_d = {
-            'view_count': 3
-
-        }
-        self.add_message(**p_d)
-        qq=self.uu.get_view_count(self.post_id)
-
-
-        assert qq==p_d['view_count']
-        self.tearDown()
+    # def test_get_view_count(self):
+    #
+    #     p_d = {
+    #         'view_count': 3
+    #
+    #     }
+    #     self.add_message(**p_d)
+    #     qq=self.uu.get_view_count(self.post_id)
+    #
+    #
+    #     assert qq==p_d['view_count']
+    #     self.tearDown()
         
 
     def test_query_most_by_cat(self):

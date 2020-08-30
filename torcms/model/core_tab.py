@@ -42,7 +42,12 @@ class TabPost(BaseModel):
     time_create = peewee.IntegerField()
     user_name = peewee.CharField(null=False, default='', max_length=36, help_text='UserName', )
     time_update = peewee.IntegerField()
-    view_count = peewee.IntegerField()
+    view_count = peewee.IntegerField(default = 0)
+
+    view_count_1d = peewee.IntegerField(default=0, help_text='24小时内阅读量')
+    view_count_7d = peewee.IntegerField(default=0, help_text='7*24小时内阅读量')
+    view_count_30d = peewee.IntegerField(default=0, help_text='30*24小时内阅读量')
+
     logo = peewee.CharField(default='')
     order = peewee.CharField(null=False, default='', max_length=8)
     valid = peewee.IntegerField(null=False, default=1, help_text='Whether the infor would show.')
@@ -223,7 +228,8 @@ class TabRating(BaseModel):
 
 class TabUsage(BaseModel):
     '''
-    Posts accessed by user.
+    记录用户访问 Post 的概括情况。
+    包括数目，最后的访问时间。
     '''
     uid = peewee.CharField(max_length=36, null=False, unique=True, help_text='', primary_key=True)
     post_id = peewee.CharField(null=False, max_length=5, help_text='', )
@@ -232,6 +238,17 @@ class TabUsage(BaseModel):
     tag_id = peewee.CharField(null=False, max_length=4, help_text='', )
     kind = peewee.CharField(null=False, max_length=1)
     timestamp = peewee.IntegerField()
+
+class TabAccess(BaseModel):
+    '''
+    Post访问情况， 按时间戳记录。此表与用户无关。
+    ID 无法用时间戳，访问量大的情况下可能会相同。
+    '''
+    uid = peewee.BigIntegerField(null=False,
+                              primary_key=True,
+                              unique=True,
+                              help_text='用时间时间戳作为ID')
+    post_id = peewee.CharField(null=False, max_length=5, help_text='' )
 
 
 class TabRel(BaseModel):
@@ -249,11 +266,17 @@ class TabEntity2User(BaseModel):
     '''
     The table for the entity to user.
     '''
-    uid = peewee.CharField(null=False, index=True,
-                           unique=True, primary_key=True, max_length=36, )
-    entity_id = peewee.CharField(null=False, max_length=36, help_text='', )
-    user_id = peewee.CharField(null=False, index=True, max_length=36, help_text='用户ID,未登录表示为xxxx', )
-    user_ip = peewee.CharField(null=False, help_text='用户端ip', )
+    uid = peewee.CharField(null=False,
+                           index=True,
+                           unique=True,
+                           primary_key=True,
+                           max_length=36)
+    entity_id = peewee.CharField(null=False, max_length=36, help_text='')
+    user_id = peewee.CharField(null=False,
+                               index=True,
+                               max_length=36,
+                               help_text='用户ID,未登录表示为xxxx')
+    user_ip = peewee.CharField(null=False, help_text='用户端ip')
     timestamp = peewee.IntegerField(null=False)
 
 
@@ -262,10 +285,10 @@ class TabLog(BaseModel):
     用户访问行为记录
     '''
     uid = peewee.CharField(null=False, index=True,
-                           unique=True, primary_key=True, max_length=36, )
+                           unique=True, primary_key=True, max_length=36)
     current_url = peewee.CharField(null=False, help_text='', )
     refer_url = peewee.CharField(null=False, help_text='', )
-    user_id = peewee.CharField(null=False, index=True, max_length=36, help_text='', )
+    user_id = peewee.CharField(null=False, index=True, max_length=36, help_text='')
     time_create = peewee.BigIntegerField()
     time_out = peewee.BigIntegerField()
     time = peewee.BigIntegerField()
@@ -276,23 +299,23 @@ class TabReplyid(BaseModel):
     用户评论回复。
     '''
     uid = peewee.CharField(null=False, index=False, unique=True, primary_key=True,
-                           max_length=36, help_text='', )
-    reply0 = peewee.CharField(null=False, max_length=36, help_text='', )
-    reply1 = peewee.CharField(null=False, max_length=36, help_text='', )
+                           max_length=36, help_text='')
+    reply0 = peewee.CharField(null=False, max_length=36, help_text='')
+    reply1 = peewee.CharField(null=False, max_length=36, help_text='')
     time_create = peewee.IntegerField()
 
 
-class Tabreferrer(BaseModel):
+class TabReferrer(BaseModel):
     '''
-    创建 访问来源 记录表 Tabreferrer
+    创建 访问来源 记录表
     '''
     uid = peewee.CharField(null=False, index=False, unique=True, primary_key=True, default='00000',
-                           max_length=5, help_text='', )
-    media = peewee.CharField(null=False, help_text='来源', )
-    terminal = peewee.CharField(null=False, help_text='终端', )
-    userip = peewee.CharField(null=False, unique=True, help_text='用户端ip', )
+                           max_length=5, help_text='')
+    media = peewee.CharField(null=False, help_text='来源')
+    terminal = peewee.CharField(null=False, help_text='终端')
+    userip = peewee.CharField(null=False, unique=True, help_text='用户端ip')
     # usercity = peewee.CharField(null=False, help_text='用户端城市', )
     kind = peewee.CharField(null=False, max_length=1,
-                            default='1', help_text='', )
+                            default='1', help_text='')
     time_create = peewee.IntegerField()
     time_update = peewee.IntegerField()
