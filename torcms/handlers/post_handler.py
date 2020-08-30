@@ -375,15 +375,10 @@ class PostHandler(BaseHandler):
     @privilege.auth_view
     def viewinfo(self, postinfo):
         '''
-        In infor.
+        查看 Post.
         '''
         self.redirect_kind(postinfo)
 
-        # ToDo: 原为下面代码。
-        # ext_catid = postinfo.extinfo['def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else ''
-        # ext_catid2 = postinfo.extinfo['def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else None
-
-        # ext_catid = postinfo.extinfo['def_cat_uid'] if 'def_cat_uid' in postinfo.extinfo else ''
         __ext_catid = postinfo.extinfo.get('def_cat_uid', '')
 
         cat_enum1 = MCategory.get_qian2(__ext_catid[:2]) if __ext_catid else []
@@ -404,9 +399,10 @@ class PostHandler(BaseHandler):
         kwd = self._the_view_kwd(postinfo)
 
         MPost.update_misc(postinfo.uid, count=True)
+        MAcces.add(postinfo.uid)
+
         if self.get_current_user() and self.userinfo:
             MUsage.add_or_update(self.userinfo.uid, postinfo.uid, postinfo.kind)
-        MAcces.add(postinfo.uid)
 
         self.set_cookie('user_pass', kwd['cookie_str'])
 
@@ -738,4 +734,3 @@ class PostHandler(BaseHandler):
 
         update_category(post_uid, post_data)
         self.redirect('/{0}/{1}'.format(router_post[post_data['kcat']], post_uid))
-

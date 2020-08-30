@@ -408,7 +408,6 @@ class MPost(Mabc):
             TabPost.time_create.desc()
         )
 
-
     @staticmethod
     def query_by_parid(par_id, kind='9'):
         '''
@@ -425,6 +424,7 @@ class MPost(Mabc):
         ).order_by(
             TabPost.time_create.desc()
         )
+
     @staticmethod
     def query_cat_recent_with_label(cat_id, label=None, num=8, kind='1', order=False):
         '''
@@ -439,7 +439,6 @@ class MPost(Mabc):
             TabPost2Tag,
             on=(TabPost.uid == TabPost2Tag.post_id)
         ).where(
-
             (TabPost.kind == kind) &
             (TabPost2Tag.tag_id == cat_id) &
             (TabPost.valid == 1) &
@@ -734,7 +733,7 @@ class MPost(Mabc):
         )
 
     @staticmethod
-    def query_by_extinfo(key = '', val = ''):
+    def query_by_extinfo(key='', val=''):
         '''
         根据扩展字段查询
         '''
@@ -929,4 +928,3 @@ class MPost(Mabc):
             return True
         except:
             return False
-
