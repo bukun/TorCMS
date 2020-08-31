@@ -1,4 +1,5 @@
 # -*- coding: utf-8
+
 import sys
 from torcms.script.command import entry
 

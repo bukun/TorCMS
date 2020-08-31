@@ -21,6 +21,8 @@ from .script_sitemap import run_editmap
 from .script_check200 import run_check200
 from .script_dump import run_dump
 from .script_zero import run_zero
+from .script_update_count import run_update_count
+
 
 def entry(argv):
     '''
@@ -44,6 +46,7 @@ def entry(argv):
         'update_cat': run_update_cat,
         'check200': run_check200,
         'dump': run_dump,
+        'update': run_update_count,
         '0': run_zero,
     }
     try:
@@ -71,6 +74,8 @@ def entry(argv):
 
             sys.exit()
         elif opt == "-i":
+
+            print(command_dic.keys())
 
             if arg in command_dic:
                 command_dic[arg](args)
