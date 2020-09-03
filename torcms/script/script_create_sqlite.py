@@ -6,7 +6,7 @@ import os
 import sqlite3
 
 
-def create_db():
+def run_create_db():
     db_file = os.path.join(os.getcwd(), 'access.db')
     conn = sqlite3.connect(db_file)
     cursor = conn.cursor()
@@ -15,4 +15,4 @@ def create_db():
 
 
 if __name__ == '__main__':
-    create_db()
+    run_create_db()

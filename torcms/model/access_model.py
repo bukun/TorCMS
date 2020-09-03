@@ -46,11 +46,12 @@ class MAcces(Mabc):
             pass
 
 
-        # cursor.execute('select * from TabAccess;')
-        # conn.commit()
+        cursor.execute('select * from TabAccess;')
+        
+        conn.commit()
 
-        # print("222" * 50)
-        # print(cursor.fetchall())
+        print("2" * 50)
+        print(cursor.fetchall())
 
 
 

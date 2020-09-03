@@ -22,6 +22,7 @@ from .script_check200 import run_check200
 from .script_dump import run_dump
 from .script_zero import run_zero
 from .script_update_count import run_update_count
+from .script_create_sqlite import run_create_db
 
 
 def entry(argv):
@@ -48,6 +49,7 @@ def entry(argv):
         'dump': run_dump,
         'update': run_update_count,
         '0': run_zero,
+        'create_db': run_create_db,
     }
     try:
         # 这里的 h 就表示该选项无参数，i:表示 i 选项后需要有参数
