@@ -11,8 +11,13 @@
 
 import psycopg2
 import time
-
+import sqlite3
+import os
 from cfg import DB_CFG
+
+db_file = os.path.join(os.getcwd(), 'access.db')
+conn2 = sqlite3.connect(db_file)
+cursql = conn2.cursor()
 
 conn = psycopg2.connect(
     database=DB_CFG['db'],
@@ -32,8 +37,8 @@ ts30d = timestamp - 30 * 24 * 60 * 60
 
 def echo_info():
     print('访问总数目：')
-    cur.execute('select count(*) from tabaccess')
-    recs = cur.fetchall()
+    cursql.execute('SELECT count(*) FROM tabaccess')
+    recs = cursql.fetchall()
     for rec in recs:
         print(rec)
 
@@ -79,12 +84,12 @@ def update_view_count():
 
     print('更新近24小时')
     for uid in post_ids:
-        cur.execute(
+        cursql.execute(
             "select count(*) from tabaccess where post_id = '{}' and uid >= {}".format(
                 uid, ts1d
             )
         )
-        the_count = cur.fetchone()[0]
+        the_count = cursql.fetchone()[0]
 
         cur.execute(
             "update tabpost set view_count_1d = {} where uid = '{}'".format(
@@ -96,12 +101,12 @@ def update_view_count():
 
     print('更新近7日')
     for uid in post_ids:
-        cur.execute(
+        cursql.execute(
             "select count(*) from tabaccess where post_id = '{}' and uid >= {}".format(
                 uid, ts7d
             )
         )
-        the_count = cur.fetchone()[0]
+        the_count = cursql.fetchone()[0]
 
         cur.execute(
             "update tabpost set view_count_7d = {} where uid = '{}'".format(
@@ -113,12 +118,12 @@ def update_view_count():
 
     print('更新近30日')
     for uid in post_ids:
-        cur.execute(
+        cursql.execute(
             "select count(*) from tabaccess where post_id = '{}' and uid >= {}".format(
                 uid, ts30d
             )
         )
-        the_count = cur.fetchone()[0]
+        the_count = cursql.fetchone()[0]
 
         cur.execute(
             "update tabpost set view_count_30d = {} where uid = '{}'".format(
