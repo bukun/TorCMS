@@ -75,8 +75,6 @@ def entry(argv):
             sys.exit()
         elif opt == "-i":
 
-            print(command_dic.keys())
-
             if arg in command_dic:
                 command_dic[arg](args)
                 print('QED!')
