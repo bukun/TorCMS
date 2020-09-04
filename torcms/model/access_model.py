@@ -38,6 +38,12 @@ class MAcces(Mabc):
         conn = sqlite3.connect(db_file)
         cursor = conn.cursor()
         try:
+            cursor.execute('CREATE TABLE TabAccess (uid BIGINT PRIMARY KEY NOT NULL ,'
+                           'post_id VARCHAR(5));')
+        except:
+            pass
+
+        try:
             sql = '''insert into TabAccess (uid, post_id) values (?,?)'''
             para = (millis, post_id)
             cursor.execute(sql, para)
@@ -45,9 +51,8 @@ class MAcces(Mabc):
         except:
             pass
 
+        cursor.execute('SELECT * FROM TabAccess;')
 
-        cursor.execute('select * from TabAccess;')
-        
         conn.commit()
 
         print("2" * 50)
