@@ -16,7 +16,7 @@ import sqlite3
 import os
 from cfg import DB_CFG
 
-db_file = os.path.join(os.getcwd(), 'access.db')
+db_file = './database/log_access.db'
 conn2 = sqlite3.connect(db_file)
 cursql = conn2.cursor()
 

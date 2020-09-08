@@ -16,13 +16,13 @@ from .script_init_tabels import run_init_tables
 from .script_drop_tabels import run_drop_tables
 from .script_gen_category import run_gen_category
 from .autocrud.gen_html_file import generate_html_files as run_auto
-from .tmplchecker import run_checkit
+# from .tmplchecker import run_checkit
 from .script_sitemap import run_editmap
 from .script_check200 import run_check200
 from .script_dump import run_dump
 from .script_zero import run_zero
 from .script_update_count import run_update_count
-from .script_create_sqlite import run_create_db
+# from .script_create_sqlite import run_create_db
 
 
 def entry(argv):
@@ -43,13 +43,13 @@ def entry(argv):
         'gen_category': run_gen_category,
         'auto': run_auto,
         'whoosh': run_whoosh,
-        'html': run_checkit,
+        # 'html': run_checkit,
         'update_cat': run_update_cat,
         'check200': run_check200,
         'dump': run_dump,
         'update': run_update_count,
         '0': run_zero,
-        'create_db': run_create_db,
+        # 'create_db': run_create_db,
     }
     try:
         # 这里的 h 就表示该选项无参数，i:表示 i 选项后需要有参数

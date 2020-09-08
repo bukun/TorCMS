@@ -29,6 +29,6 @@ htmlmin
 
 sphinx
 ##################################
-graphviz
+# graphviz
 pylint
 selenium

@@ -34,7 +34,7 @@ class MAcces(Mabc):
         # 使用毫秒作为ID。
         millis = int(round(time.time() * 1000))
 
-        db_file = os.path.join(os.getcwd(), 'access.db')
+        db_file = './database/log_access.db'
         conn = sqlite3.connect(db_file)
         cursor = conn.cursor()
         try:
