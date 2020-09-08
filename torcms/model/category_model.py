@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 '''
-Model for category
+数据库操作，处理分类
 '''
 
 from torcms.model.core_tab import TabTag, TabPost2Tag
@@ -22,9 +22,23 @@ class MCategory(Mabc):
 
     @staticmethod
     def get_by_uid(uid):
+        '''
+        根据ID得到类别实例
+        '''
         if uid:
             return MHelper.get_by_uid(TabTag, uid)
         return False
+
+    @staticmethod
+    def get_kind(tagid):
+        '''
+        得到类别的 kind 值。
+        '''
+        query = TabTag.select().where(TabTag.uid == tagid)
+        if query:
+            return query.get().kind
+
+        return None
 
     # Deprived
     @staticmethod

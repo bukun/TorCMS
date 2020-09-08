@@ -6,7 +6,7 @@ initialize table.s
 
 from torcms.model.core_tab import TabPost, TabTag, TabMember, TabWiki, TabLink, TabEntity, \
     TabPostHist, TabWikiHist, TabCollect, TabPost2Tag, TabRel, TabEvaluation, TabUsage, TabReply, \
-    TabUser2Reply, TabRating, TabEntity2User, TabLog, TabReplyid,TabReferrer, TabAccess
+    TabUser2Reply, TabRating, TabEntity2User, TabLog, TabReplyid,TabReferrer
 
 
 def create_table(the_table):
@@ -45,4 +45,4 @@ def run_init_tables(*args):
     create_table(TabLog)
     create_table(TabReplyid)
     create_table(TabReferrer)
-    create_table(TabAccess)
+

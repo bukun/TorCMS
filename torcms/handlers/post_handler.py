@@ -24,7 +24,7 @@ from torcms.model.relation_model import MRelation
 from torcms.model.evaluation_model import MEvaluation
 from torcms.model.usage_model import MUsage
 from torcms.model.entity_model import MEntity
-from torcms.model.access_model import MAcces
+from torcms.core.tool.sqlite_helper import MAcces
 from config import router_post
 from torcms.handlers.entity_handler import EntityHandler
 

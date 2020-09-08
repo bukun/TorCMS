@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 '''
-For label, and label to post
+数据库操作，处理标签
 '''
 
 from torcms.core import tools

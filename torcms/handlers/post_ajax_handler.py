@@ -27,12 +27,11 @@ class PostAjaxHandler(PostHandler):
         if url_arr[0] in ['_delete', 'delete']:
             self.j_delete(url_arr[1])
 
-
         if len(url_arr) == 2:
             if url_arr[0] == 'recent':
                 self.p_recent(url_arr[1])
-            elif url_arr[0] == 'update_valid':
-                self.j_update_valid(url_arr[1])
+            elif url_arr[0] in ['nullify', 'update_valid']:
+                self.j_nullify(url_arr[1])
 
         elif len(url_arr) == 3:
             self.p_recent(url_arr[1], url_arr[2])
@@ -48,8 +47,7 @@ class PostAjaxHandler(PostHandler):
             'uid': postinfo.uid,
             'time_update': postinfo.time_update,
             'title': postinfo.title,
-            'cnt_html': tornado.escape.xhtml_unescape(postinfo.cnt_html),
-
+            'cnt_html': tornado.escape.xhtml_unescape(postinfo.cnt_html)
         }
         self.write(json.dumps(out_json))
 
@@ -64,7 +62,7 @@ class PostAjaxHandler(PostHandler):
 
         current_page_number = 1 if current_page_number < 1 else current_page_number
 
-        pager_num = int(MPost.total_number(kind) / CMS_CFG['list_num'])
+        # pager_num = int(MPost.total_number(kind) / CMS_CFG['list_num'])
         kwd = {
             'pager': '',
             'title': 'Recent posts.',
@@ -115,14 +113,14 @@ class PostAjaxHandler(PostHandler):
 
     @tornado.web.authenticated
     @privilege.auth_delete
-    def j_update_valid(self, *args):
+    def j_nullify(self, *args):
         '''
         update valid, but return the JSON.
         '''
 
         uid = args[0]
 
-        is_deleted = MPost.update_valid(uid)
+        is_deleted = MPost.nullify(uid)
 
         if is_deleted:
             output = {
@@ -134,4 +132,3 @@ class PostAjaxHandler(PostHandler):
                 'del_info': 0,
             }
         return json.dump(output, self)
-

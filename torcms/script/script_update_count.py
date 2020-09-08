@@ -1,10 +1,11 @@
 '''
+用 SQLite 中的访问日志，更新PostgreSQL.
 数据量大的时候比较慢，
 按脚本运行。
 
 简单的方法，使用下面的语句更新，但是数据量大的时候很慢。更改为逐条更新：
 
-    UPDATE tabpost SET view_count_1d=(SELECT count(*) FROM
+    UPDATE tabpost SET access_1d=(SELECT count(*) FROM
         tabaccess WHERE (tabaccess.post_id = tabpost.uid)
         and (tabaccess.uid >= {}));'.format(ts1d)
 '''
@@ -50,7 +51,7 @@ def echo_info():
 
     print('近24小时：')
     recent_1d = '''
-    select uid, view_count_1d, view_count_7d, view_count_30d, title from tabpost order by view_count_1d DESC limit 10
+    select uid, access_1d, access_7d, access_30d, title from tabpost order by access_1d DESC limit 10
     '''
     cur.execute(recent_1d)
     recs = cur.fetchall()
@@ -59,7 +60,7 @@ def echo_info():
 
     print('近7日：')
     recent_7d = '''
-    select uid, view_count_1d, view_count_7d, view_count_30d, title from tabpost order by view_count_7d DESC limit 10
+    select uid, access_1d, access_7d, access_30d, title from tabpost order by access_7d DESC limit 10
     '''
     cur.execute(recent_7d)
     recs = cur.fetchall()
@@ -68,7 +69,7 @@ def echo_info():
 
     print('近30日：')
     recent_30d = '''
-    select uid, view_count_1d, view_count_7d, view_count_30d, title from tabpost order by view_count_7d DESC limit 10
+    select uid, access_1d, access_7d, access_30d, title from tabpost order by access_7d DESC limit 10
     '''
     cur.execute(recent_30d)
     recs = cur.fetchall()
@@ -92,7 +93,7 @@ def update_view_count():
         the_count = cursql.fetchone()[0]
 
         cur.execute(
-            "update tabpost set view_count_1d = {} where uid = '{}'".format(
+            "update tabpost set access_1d = {} where uid = '{}'".format(
                 the_count, uid
             )
         )
@@ -109,7 +110,7 @@ def update_view_count():
         the_count = cursql.fetchone()[0]
 
         cur.execute(
-            "update tabpost set view_count_7d = {} where uid = '{}'".format(
+            "update tabpost set access_7d = {} where uid = '{}'".format(
                 the_count, uid
             )
         )
@@ -126,7 +127,7 @@ def update_view_count():
         the_count = cursql.fetchone()[0]
 
         cur.execute(
-            "update tabpost set view_count_30d = {} where uid = '{}'".format(
+            "update tabpost set access_30d = {} where uid = '{}'".format(
                 the_count, uid
             )
         )

@@ -102,6 +102,7 @@ core_modules = {
     'app_most_used': info_modules.InfoMostUsed,
     'label_count': info_modules.LabelCount,
     'info_count' : info_modules.InfoCount,
+    'recent_access': info_modules.RecentAccess,
 
     # Category
     'category_menu': category_modules.CategoryMenu,

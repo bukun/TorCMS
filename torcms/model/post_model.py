@@ -273,7 +273,7 @@ class MPost(Mabc):
     @staticmethod
     def query_recent(num=8, **kwargs):
         '''
-        query recent posts.
+        获取最近发布，或更新的Post列表
         '''
         order_by_create = kwargs.get('order_by_create', False)
         kind = kwargs.get('kind', None)
@@ -335,7 +335,7 @@ class MPost(Mabc):
     @staticmethod
     def query_recent_edited(timstamp, kind='1'):
         '''
-        Query posts recently update.
+        获取最近更新的Post，以时间戳为条件
         '''
         return TabPost.select().where(
             (TabPost.kind == kind) &
@@ -347,7 +347,7 @@ class MPost(Mabc):
     @staticmethod
     def query_dated(num=8, kind='1'):
         '''
-        Query posts, outdate.
+        获取久未更新的Post列表。
         '''
         return TabPost.select().where(
             (TabPost.kind == kind) &
@@ -671,18 +671,12 @@ class MPost(Mabc):
         entry.execute()
         return uid
 
-    # @staticmethod
-    # def get_view_count(sig):
-    #     '''
-    #     get count of view.
-    #     '''
-    #     try:
-    #         return TabPost.get(uid=sig).view_count
-    #     except:
-    #         return False
 
     @staticmethod
     def query_most_by_cat(num=8, catid=None, kind='2'):
+        '''
+        获取某类别下最多访问的列表
+        '''
         if catid:
             return TabPost.select().join(
                 TabPost2Tag,
@@ -698,6 +692,9 @@ class MPost(Mabc):
 
     @staticmethod
     def query_least_by_cat(num=8, cat_str=1, kind='2'):
+        '''
+        获取某类别下最少访问的列表
+        '''
         return TabPost.select().join(
             TabPost2Tag,
             on=(TabPost.uid == TabPost2Tag.post_id)
@@ -913,10 +910,39 @@ class MPost(Mabc):
             current_page_num, CMS_CFG['list_num']
         )
 
+
     @staticmethod
-    def update_valid(uid):
+    def query_access(kind, day_sig, limit = 10):
         '''
-        update valid
+        返回最近几天访问的列表。
+        day_sig为标识 : 'd' 为 近24小时， 'w'为近1击， 'm' 为近1月
+        '''
+        if day_sig == 'd':
+            return TabPost.select().where(
+                TabPost.kind == kind
+            ).order_by(
+                TabPost.access_1d.desc()
+            ).limit(limit)
+        elif day_sig == 'w':
+            return TabPost.select().where(
+                TabPost.kind == kind
+            ).order_by(
+                TabPost.access_7d.desc()
+            ).limit(limit)
+        elif day_sig == 'm':
+            return TabPost.select().where(
+                TabPost.kind == kind
+            ).order_by(
+                TabPost.access_30d.desc()
+            ).limit(limit)
+
+        return None
+
+
+    @staticmethod
+    def nullify(uid):
+        '''
+        使无效
         '''
 
         entry = TabPost.update(

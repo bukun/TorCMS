@@ -44,9 +44,9 @@ class TabPost(BaseModel):
     time_update = peewee.IntegerField()
     view_count = peewee.IntegerField(default = 0)
 
-    view_count_1d = peewee.IntegerField(default=0, help_text='24小时内阅读量')
-    view_count_7d = peewee.IntegerField(default=0, help_text='7*24小时内阅读量')
-    view_count_30d = peewee.IntegerField(default=0, help_text='30*24小时内阅读量')
+    access_1d = peewee.IntegerField(default=0, help_text='24小时内阅读量')
+    access_7d = peewee.IntegerField(default=0, help_text='7*24小时内阅读量')
+    access_30d = peewee.IntegerField(default=0, help_text='30*24小时内阅读量')
 
     logo = peewee.CharField(default='')
     order = peewee.CharField(null=False, default='', max_length=8)
@@ -239,16 +239,16 @@ class TabUsage(BaseModel):
     kind = peewee.CharField(null=False, max_length=1)
     timestamp = peewee.IntegerField()
 
-class TabAccess(BaseModel):
-    '''
-    Post访问情况， 按时间戳记录。此表与用户无关。
-    ID 无法用时间戳，访问量大的情况下可能会相同。
-    '''
-    uid = peewee.BigIntegerField(null=False,
-                              primary_key=True,
-                              unique=True,
-                              help_text='用时间时间戳作为ID')
-    post_id = peewee.CharField(null=False, max_length=5, help_text='' )
+# class TabAccess(BaseModel):
+#     '''
+#     Post访问情况， 按时间戳记录。此表与用户无关。
+#     ID 无法用时间戳，访问量大的情况下可能会相同。
+#     '''
+#     uid = peewee.BigIntegerField(null=False,
+#                               primary_key=True,
+#                               unique=True,
+#                               help_text='用时间时间戳作为ID')
+#     post_id = peewee.CharField(null=False, max_length=5, help_text='' )
 
 
 class TabRel(BaseModel):

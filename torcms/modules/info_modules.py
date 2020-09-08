@@ -244,11 +244,34 @@ class InfoRandom(tornado.web.UIModule):
 
         all_cats = MPost.query_random(num=num, kind=kind)
         kwd = {
-
+            'router': router_post[kind],
             'glyph': glyph
         }
         return self.render_string('modules/info/list_equation.html',
                                   recs=all_cats, kwd=kwd)
+
+
+class RecentAccess(tornado.web.UIModule):
+    '''
+    模块，最近访问最多
+    '''
+
+    def render(self, *args, **kwargs):
+        kind = args[0]
+        sig = args[1]
+
+        glyph = kwargs.get('glyph', '')
+
+        recs = MPost.query_access(kind, sig)
+
+        kwd = {
+            'router': router_post[kind],
+            'with_tag': '',
+            'glyph': glyph
+        }
+        return self.render_string('modules/info/list_equation.html',
+                                  recs=recs,
+                                  kwd=kwd)
 
 
 class InfoTags(tornado.web.UIModule):
@@ -282,6 +305,7 @@ class LabelCount(tornado.web.UIModule):
         uid = kwargs.get('uid', args[0])
         return MPost2Label.query_count(uid)
 
+
 class InfoCount(tornado.web.UIModule):
     '''
     各信息分类下，信息数量。
@@ -296,6 +320,8 @@ class InfoCount(tornado.web.UIModule):
         else:
             recs = MPost.query_by_parid(catid, kind)
         return recs.count()
+
+
 class InfoMenu(tornado.web.UIModule):
     '''
     menu for infor.
