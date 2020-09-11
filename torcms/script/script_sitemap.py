@@ -53,7 +53,7 @@ def gen_wiki_map(file_name, ext_url=''):
             fileout.write('{url}\n'.format(url=url))
 
 
-def run_sitemap(_):
+def run_sitemap():
     '''
     Generate the sitemap file.
     '''
@@ -65,7 +65,7 @@ def run_sitemap(_):
     gen_post_map(site_map_file)
 
 
-def run_editmap(_):
+def run_editmap():
     '''
     Generate the urls file for editing.
     '''

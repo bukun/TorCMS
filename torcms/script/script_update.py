@@ -14,7 +14,19 @@ import psycopg2
 import time
 import sqlite3
 import os
+from .script_sitemap import run_sitemap, run_editmap
 from cfg import DB_CFG
+
+
+def method_name():
+    timestamp = int(time.time())
+    ts1d = timestamp - 24 * 60 * 60
+    ts7d = timestamp - 7 * 24 * 60 * 60
+    ts30d = timestamp - 30 * 24 * 60 * 60
+    return (ts1d, ts7d, ts30d)
+
+
+method_name()
 
 db_file = './database/log_access.db'
 conn2 = sqlite3.connect(db_file)
@@ -29,11 +41,6 @@ conn = psycopg2.connect(
 )
 
 cur = conn.cursor()
-
-timestamp = int(time.time())
-ts1d = timestamp - 24 * 60 * 60
-ts7d = timestamp - 7 * 24 * 60 * 60
-ts30d = timestamp - 30 * 24 * 60 * 60
 
 
 def echo_info():
@@ -78,6 +85,8 @@ def echo_info():
 
 
 def update_view_count():
+    ts1d, ts7d, ts30d = method_name()
+
     cur.execute('select uid from tabpost')
     post_ids = []
     for rec in cur.fetchall():
@@ -135,6 +144,8 @@ def update_view_count():
         conn.commit()
 
 
-def run_update_count(_):
+def run_update(_):
+    run_sitemap()
+    run_editmap()
     update_view_count()
     echo_info()

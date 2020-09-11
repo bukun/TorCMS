@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 '''
-initialize table.s
+删除所有的表。
 '''
 
 from torcms.model.core_tab import TabPost, TabTag, TabMember, TabWiki, TabLink, TabEntity, \
