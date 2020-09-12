@@ -78,7 +78,7 @@ def gen_category(yaml_file, sig):
     Genereting catetory from YAML file.
     '''
 
-    out_dic = yaml.load(open(yaml_file))
+    out_dic = yaml.full_load(open(yaml_file))
 
     for key in out_dic:
 

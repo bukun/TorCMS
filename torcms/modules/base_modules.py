@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 '''
-Define the basic modules for TorCMS.
+TorCMS 基本模块
 '''
 
 from math import ceil as math_ceil
@@ -9,7 +9,6 @@ from math import ceil as math_ceil
 import bs4
 import tornado.escape
 import tornado.web
-import datetime
 import config
 from torcms.core.tool.whoosh_tool import YunSearch
 from torcms.core.tools import logger

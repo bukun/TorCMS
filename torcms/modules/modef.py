@@ -1,8 +1,9 @@
 # -*- coding:utf-8 -*-
 
 '''
-define the Core Modules of TorCMS.
+定义模块的名称，作为调用的名称
 '''
+
 from torcms.modules import base_modules
 from torcms.modules import info_modules
 from torcms.modules import widget_modules
@@ -101,7 +102,7 @@ core_modules = {
     'app_recent_used': info_modules.InfoRecentUsed,
     'app_most_used': info_modules.InfoMostUsed,
     'label_count': info_modules.LabelCount,
-    'info_count' : info_modules.InfoCount,
+    'info_count': info_modules.InfoCount,
     'recent_access': info_modules.RecentAccess,
 
     # Category
@@ -116,6 +117,5 @@ core_modules = {
     'comment_list': widget_modules.CommentList,
     'replycnt': widget_modules.Replycnt,
     'user_profile_by_id': widget_modules.Userprofile,
-
 
 }

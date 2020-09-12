@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 '''
-sending email via Python.
+发送 E-mail 的脚本
 '''
 
 import smtplib

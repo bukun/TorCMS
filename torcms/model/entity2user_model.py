@@ -77,6 +77,9 @@ class MEntity2User(Mabc):
 
     @staticmethod
     def total_number():
+        '''
+        用户相关的实体总数目
+        '''
         return TabEntity2User.select().count()
 
     @staticmethod

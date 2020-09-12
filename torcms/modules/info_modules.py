@@ -6,7 +6,6 @@ Tornado Modules for infor.
 
 import tornado.web
 from html2text import html2text
-
 from config import router_post
 from torcms.core.tools import logger
 from torcms.model.category_model import MCategory

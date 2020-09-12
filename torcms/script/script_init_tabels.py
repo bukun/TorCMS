@@ -27,7 +27,7 @@ def run_init_tables(*args):
     Run to init tables.
     '''
     print('--')
-
+    print('Create tables ...')
     create_table(TabPost)
     create_table(TabTag)
     create_table(TabMember)
@@ -48,6 +48,7 @@ def run_init_tables(*args):
     create_table(TabLog)
     create_table(TabReplyid)
     create_table(TabReferrer)
+    print('Creating tables finished.')
     run_migrate()
 
 def run_migrate(*args):

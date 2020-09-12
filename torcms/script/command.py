@@ -7,12 +7,11 @@ Entry for command script.
 import sys
 import getopt
 from .script_init import run_init
-from .script_sendemail_all import run_send_all, run_send_nologin
 from .script_review import run_review
 from .script_drop_tabels import run_drop_tables
 from .script_check import run_check
 from .script_dump import run_dump
-from .script_zero import run_zero
+
 from .script_update import run_update
 
 
@@ -22,14 +21,12 @@ def entry(argv):
     '''
     command_dic = {
         'init': run_init,
-        'send_nologin': run_send_nologin,
-        'send_all': run_send_all,
         'review': run_review,
         'check': run_check,
         'reset': run_drop_tables,
         'dump': run_dump,
         'update': run_update,
-        '0': run_zero,
+        # '0': run_zero,
     }
     try:
         # 这里的 h 就表示该选项无参数，i:表示 i 选项后需要有参数
@@ -52,9 +49,6 @@ def entry(argv):
                   '       review: (检查网站更新的内容)',
                   '\033[0m')
             print('            --:--               ')
-            print('             0: (初始化网站前生成辅助文件)')
-            print('      send_all: ')
-            print('  send_nologin: ')
             print('         check: (检查网站问题)')
             print('        update: (更新访问次数等)')
             print('          dump: (备份数据库)')

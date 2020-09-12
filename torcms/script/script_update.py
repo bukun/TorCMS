@@ -10,15 +10,17 @@
         and (tabaccess.uid >= {}));'.format(ts1d)
 '''
 
-import psycopg2
 import time
 import sqlite3
-import os
+
+from .script_funcs import postgres_svr
 from .script_sitemap import run_sitemap, run_editmap
-from cfg import DB_CFG
+
+CONN = sqlite3.connect('./database/log_access.db')
+CUR = CONN.cursor()
 
 
-def method_name():
+def ts_helper():
     timestamp = int(time.time())
     ts1d = timestamp - 24 * 60 * 60
     ts7d = timestamp - 7 * 24 * 60 * 60
@@ -26,27 +28,13 @@ def method_name():
     return (ts1d, ts7d, ts30d)
 
 
-method_name()
-
-db_file = './database/log_access.db'
-conn2 = sqlite3.connect(db_file)
-cursql = conn2.cursor()
-
-conn = psycopg2.connect(
-    database=DB_CFG['db'],
-    user=DB_CFG['user'],
-    password=DB_CFG['pass'],
-    host="127.0.0.1",
-    port=DB_CFG.get('port', "5432")
-)
-
-cur = conn.cursor()
 
 
 def echo_info():
+    conn, cur = postgres_svr()
     print('访问总数目：')
-    cursql.execute('SELECT count(*) FROM tabaccess')
-    recs = cursql.fetchall()
+    CUR.execute('SELECT count(*) FROM tabaccess')
+    recs = CUR.fetchall()
     for rec in recs:
         print(rec)
 
@@ -85,7 +73,8 @@ def echo_info():
 
 
 def update_view_count():
-    ts1d, ts7d, ts30d = method_name()
+    conn, cur = postgres_svr()
+    ts1d, ts7d, ts30d = ts_helper()
 
     cur.execute('select uid from tabpost')
     post_ids = []
@@ -94,12 +83,12 @@ def update_view_count():
 
     print('更新近24小时')
     for uid in post_ids:
-        cursql.execute(
+        CUR.execute(
             "select count(*) from tabaccess where post_id = '{}' and uid >= {}".format(
                 uid, ts1d
             )
         )
-        the_count = cursql.fetchone()[0]
+        the_count = CUR.fetchone()[0]
 
         cur.execute(
             "update tabpost set access_1d = {} where uid = '{}'".format(
@@ -111,12 +100,12 @@ def update_view_count():
 
     print('更新近7日')
     for uid in post_ids:
-        cursql.execute(
+        CUR.execute(
             "select count(*) from tabaccess where post_id = '{}' and uid >= {}".format(
                 uid, ts7d
             )
         )
-        the_count = cursql.fetchone()[0]
+        the_count = CUR.fetchone()[0]
 
         cur.execute(
             "update tabpost set access_7d = {} where uid = '{}'".format(
@@ -128,12 +117,12 @@ def update_view_count():
 
     print('更新近30日')
     for uid in post_ids:
-        cursql.execute(
+        CUR.execute(
             "select count(*) from tabaccess where post_id = '{}' and uid >= {}".format(
                 uid, ts30d
             )
         )
-        the_count = cursql.fetchone()[0]
+        the_count = CUR.fetchone()[0]
 
         cur.execute(
             "update tabpost set access_30d = {} where uid = '{}'".format(

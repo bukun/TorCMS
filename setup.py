@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
 '''
@@ -11,7 +10,7 @@ desc = ('Flexible, extensible Web CMS framework built on Tornado,'
         'compatible with Python 3.7 and above.')
 setup(
     name='torcms',
-    version='0.8.2',
+    version='0.8.3',
     keywords=('torcms', 'tornado', 'cms'),
     description=desc,
     long_description=''.join(open('README.rst').readlines()),
@@ -29,7 +28,7 @@ setup(
     platforms='any',
     zip_safe=True,
     install_requires=['beautifulsoup4', 'jieba', 'markdown',
-                      'peewee', 'Pillow',
+                      'peewee', 'Pillow', 'wheel',
                       'tornado', 'Whoosh', 'WTForms',
                       'wtforms-tornado', 'email-validator',
                       'psycopg2-binary', 'html2text',

@@ -110,23 +110,27 @@ def __get_post_review(email_cnt, idx):
         recent_posts = MPost.query_recent_edited(tools.timestamp() - TIME_LIMIT, kind=key)
         for recent_post in recent_posts:
             hist_rec = MPostHist.get_last(recent_post.uid)
-            editor_name = recent_post.extinfo['def_editor_name'] if 'def_editor_name' in recent_post.extinfo else recent_post.user_name
+            editor_name = recent_post.extinfo.get('def_editor_name', recent_post.user_name)
             if hist_rec:
-                foo_str = '''
-                    <tr><td>{0}</td><td>{1}</td><td class="diff_chg">Edit</td><td>{2}</td>
-                    <td><a href="{3}">{3}</a></td></tr>
-                    '''.format(idx, editor_name, recent_post.title,
-                               os.path.join(SITE_CFG['site_url'], router_post[key],
-                                            recent_post.uid))
-                email_cnt = email_cnt + foo_str
+                foo_str = ('<tr><td>{0}</td><td>{1}</td>'
+                           '<td class="diff_chg">Edit</td>'
+                           '<td>{2}</td><td><a href="{3}">{3}</a></td></tr>')
             else:
-                foo_str = '''
-                    <tr><td>{0}</td><td>{1}</td><td class="diff_add">New </td><td>{2}</td>
-                    <td><a href="{3}">{3}</a></td></tr>
-                    '''.format(idx, editor_name, recent_post.title,
-                               os.path.join(SITE_CFG['site_url'], router_post[key],
-                                            recent_post.uid))
-                email_cnt = email_cnt + foo_str
+                foo_str = ('<tr><td>{0}</td><td>{1}</td>'
+                           '<td class="diff_add">New </td>'
+                           '<td>{2}</td><td><a href="{3}">{3}</a></td></tr>')
+
+            foo_str = foo_str.format(
+                idx,
+                editor_name,
+                recent_post.title,
+                os.path.join(
+                    SITE_CFG['site_url'],
+                    router_post[key],
+                    recent_post.uid
+                )
+            )
+            email_cnt = email_cnt + foo_str
             idx = idx + 1
 
     return email_cnt, idx
@@ -138,16 +142,16 @@ def run_review(*args):
     For: wiki, page, and post.
     '''
     email_cnt = '''<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title></title>
-    <style type="text/css">
-        table.diff {font-family:Courier; border:medium;}
-        .diff_header {background-color:#e0e0e0}
-        td.diff_header {text-align:right}
-        .diff_next {background-color:#c0c0c0}
-        .diff_add {background-color:#aaffaa}
-        .diff_chg {background-color:#ffff77}
-        .diff_sub {background-color:#ffaaaa}
-    </style></head><body>'''
+<title></title>
+<style type="text/css">
+table.diff {font-family:Courier; border:medium;}
+.diff_header {background-color:#e0e0e0}
+td.diff_header {text-align:right}
+.diff_next {background-color:#c0c0c0}
+.diff_add {background-color:#aaffaa}
+.diff_chg {background-color:#ffff77}
+.diff_sub {background-color:#ffaaaa}
+</style></head><body>'''
 
     idx = 1
 
@@ -162,6 +166,7 @@ def run_review(*args):
     diff_str = __get_diff_recent()
 
     if len(diff_str) < 20000:
+        # 如果太多了，则不放在 Email 内容中.
         email_cnt = email_cnt + diff_str
     email_cnt = email_cnt + '''</body></html>'''
 

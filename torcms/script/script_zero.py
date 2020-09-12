@@ -13,7 +13,7 @@ except:
     }
 
 
-def run_zero(_):
+def run_zero():
     '''
     Generate some helper files.
     '''
