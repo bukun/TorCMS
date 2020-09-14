@@ -42,7 +42,7 @@ class TabPost(BaseModel):
     time_create = peewee.IntegerField()
     user_name = peewee.CharField(null=False, default='', max_length=36, help_text='UserName', )
     time_update = peewee.IntegerField()
-    view_count = peewee.IntegerField(default = 0)
+    view_count = peewee.IntegerField(default=0)
 
     access_1d = peewee.IntegerField(default=0, help_text='24小时内阅读量')
     access_7d = peewee.IntegerField(default=0, help_text='7*24小时内阅读量')
@@ -120,11 +120,11 @@ class TabMember(BaseModel):
     3:
     '''
     uid = peewee.CharField(null=False, index=True, unique=True,
-                           primary_key=True, max_length=36, help_text='', )
+                           primary_key=True, max_length=36, help_text='')
     user_name = peewee.CharField(null=False, index=True,
-                                 unique=True, max_length=16, help_text='User Name', )
+                                 unique=True, max_length=255, help_text='User Name')
     user_email = peewee.CharField(null=False, unique=True,
-                                  max_length=255, help_text='User Email', )
+                                  max_length=255, help_text='User Email')
     user_pass = peewee.CharField(null=False, max_length=255,
                                  help_text='User Password')
     role = peewee.CharField(null=False, default='1000',
@@ -238,6 +238,7 @@ class TabUsage(BaseModel):
     tag_id = peewee.CharField(null=False, max_length=4, help_text='', )
     kind = peewee.CharField(null=False, max_length=1)
     timestamp = peewee.IntegerField()
+
 
 # class TabAccess(BaseModel):
 #     '''

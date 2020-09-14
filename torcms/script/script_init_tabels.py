@@ -3,6 +3,8 @@
 '''
 initialize table.s
 '''
+
+from .script_funcs import postgres_svr
 from playhouse import migrate
 from playhouse.postgres_ext import BinaryJSONField
 
@@ -58,6 +60,19 @@ def run_migrate(*args):
         migrate.migrate(torcms_migrator.rename_table('e_layout', 'mablayout'))
         migrate.migrate(torcms_migrator.drop_column('tabtag', 'role_mask'))
     '''
+
+    '''
+    在psql状态下查询表结构
+    \d
+    tablename
+    '''
+
+
+    conn, cur = postgres_svr()
+
+    cur = conn.cursor()
+    cur.execute('''alter table tabmember alter column user_name type character varying(255)''')
+    print(    "Table TabMember altered successfully")
 
     print('Begin migrate ...')
 
