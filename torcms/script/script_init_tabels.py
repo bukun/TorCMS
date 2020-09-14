@@ -11,7 +11,7 @@ from playhouse.postgres_ext import BinaryJSONField
 import config
 from torcms.model.core_tab import TabPost, TabTag, TabMember, TabWiki, TabLink, TabEntity, \
     TabPostHist, TabWikiHist, TabCollect, TabPost2Tag, TabRel, TabEvaluation, TabUsage, TabReply, \
-    TabUser2Reply, TabRating, TabEntity2User, TabLog, TabReplyid,TabReferrer
+    TabUser2Reply, TabRating, TabEntity2User, TabLog, TabReplyid, TabReferrer
 
 
 def create_table(the_table):
@@ -53,6 +53,7 @@ def run_init_tables(*args):
     print('Creating tables finished.')
     run_migrate()
 
+
 def run_migrate(*args):
     '''
     for database schema migration.
@@ -67,12 +68,13 @@ def run_migrate(*args):
     tablename
     '''
 
-
-    conn, cur = postgres_svr()
-
-    cur = conn.cursor()
-    cur.execute('''alter table tabmember alter column user_name type character varying(255)''')
-    print(    "Table TabMember altered successfully")
+    try:
+        conn, cur = postgres_svr()
+        cur.execute('''alter table tabmember alter column user_name type character varying(255)''')
+        print("    Table TabMember altered successfully")
+        conn.commit()
+    except:
+        pass
 
     print('Begin migrate ...')
 
@@ -140,6 +142,5 @@ def run_migrate(*args):
         migrate.migrate(torcms_migrator.add_column('tabpost', 'access_30d', view_count_30d))
     except:
         pass
-
 
     print('Migration finished.')
