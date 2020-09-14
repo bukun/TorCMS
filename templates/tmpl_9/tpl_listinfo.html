@@ -20,6 +20,11 @@
                 </a></strong>
                  {% if userinfo and( userinfo.role[1] >= '2' or userinfo.user_name == postinfo.user_name) %}
                 <a href="/info/_edit/{{ postinfo.uid }}" class="btn btn-xs btn-primary">Modify</a>
+
+
+                <a href="/info/_nullify/{{ postinfo.uid }}"  class="btn btn-xs btn-warning">Nullify</a>
+
+
             {% end %}
             </div>
             <div class="listinfo_content" style="width: 99%;overflow: hidden;margin: 5px 15px 20px 5px;">

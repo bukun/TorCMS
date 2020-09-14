@@ -4,7 +4,7 @@
 数据库操作，处理分类
 '''
 
-from torcms.model.core_tab import TabTag, TabPost2Tag
+from torcms.model.core_tab import TabTag, TabPost2Tag, TabPost
 from torcms.model.abc_model import Mabc, MHelper
 
 
@@ -118,10 +118,14 @@ class MCategory(Mabc):
         '''
         Update the count of certain category.
         '''
-        # Todo: the record not valid should not be counted.
+
         entry2 = TabTag.update(
-            count=TabPost2Tag.select().where(
-                TabPost2Tag.tag_id == cat_id
+            count=TabPost2Tag.select().join(
+                TabPost,
+                on=(TabPost.uid == TabPost2Tag.post_id)
+            ).where(
+                (TabPost.valid == 1) &
+                (TabPost2Tag.tag_id == cat_id)
             ).count()
         ).where(TabTag.uid == cat_id)
         entry2.execute()
