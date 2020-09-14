@@ -12,7 +12,7 @@ class TestMUsage():
         print('setup 方法执行于本类中每条用例之前')
 
         self.postid = '12345'
-        self.userid = tools.get_uuid()
+        self.userid = ''
         self.uid = ''
         self.tag_id='87hy'
         self.slug='qwqqq'
@@ -53,13 +53,17 @@ class TestMUsage():
 
         MPost2Catalog.add_record(self.postid, self.tag_id)
 
-    def add_usage(self):
-        MUsage.add_or_update(self.userid, self.postid, '1')
-        aa = MUsage.query_by_post(self.postid)
+    def add_usage(self,**kwargs):
+        id=kwargs.get('post_id', self.postid)
+        MUsage.add_or_update(self.userid, id, '1')
+        aa = MUsage.query_by_post(id)
+        print('add_usage')
+        print(aa)
 
         for i in aa:
             if i.user_id == self.userid:
                 self.uid = i.uid
+        print(self.uid)
 
     def test_query_by_post(self):
         self.add_message()
@@ -75,6 +79,7 @@ class TestMUsage():
         assert tf
 
 
+    #
     # def test_get_all(self):
     #     self.tearDown()
     #     aa = MUsage.get_all()
@@ -87,11 +92,13 @@ class TestMUsage():
     #     print(aa.count())
     #     tf = False
     #     for i in aa:
+    #         print('kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk')
+    #         print(i)
     #         if i.post_id == self.postid:
     #             assert i.uid == self.uid
     #             tf = True
     #             break
-    #     self.tearDown()
+    #     # self.tearDown()
     #     assert tf
 
     def test_query_random(self):
@@ -172,7 +179,7 @@ class TestMUsage():
 
     def test_add_or_update(self):
         self.add_message()
-        MUsage.add_or_update(self.userid, self.postid, '1')
+        self.add_usage()
         aa=MUsage.query_recent(self.userid,'1')
         tf=False
         for i in aa:
@@ -184,42 +191,7 @@ class TestMUsage():
         self.tearDown()
         assert tf
 
-    def test_update_field(self):
-        self.add_message()
-        self.add_usage()
-        aa = MUsage.query_recent(self.userid, '1')
-        tf = False
-        for i in aa:
-            if i.user_id == self.userid:
-                self.uid = i.uid
-                assert i.post_id == self.postid
-                tf = True
 
-        assert tf
-
-        p={
-            'post_id':self.postid2
-        }
-        self.add_message(**p)
-        a=MPost.get_by_uid(self.postid2)
-        # MUsage.update_field(self.uid,post_id=self.postid2)
-        aa = MUsage.query_recent(self.userid, '1')
-        tf = False
-        for i in aa:
-            if i.user_id == self.userid:
-                assert i.post_id ==  self.postid2
-                tf = True
-        assert tf
-        # MUsage.update_field(self.uid, self.postid)
-        aa = MUsage.query_recent(self.userid, '1')
-        tf = False
-        for i in aa:
-            if i.user_id == self.userid:
-                assert i.post_id == self.postid
-                tf = True
-        assert tf
-        MPost.delete(self.postid2)
-        self.tearDown()
 
     def tearDown(self):
         print("function teardown")

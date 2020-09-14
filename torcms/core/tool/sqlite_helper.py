@@ -55,8 +55,8 @@ class MAcces(Mabc):
 
         conn.commit()
 
-        print("2" * 50)
-        print(cursor.fetchall())
+        # print("2" * 50)
+        # print(cursor.fetchall())
 
 
 

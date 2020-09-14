@@ -9,12 +9,12 @@ from torcms.model.log_model import MLog
 class TestMLog():
     def setup(self):
         print('setup 方法执行于本类中每条用例之前')
-        self.uid = tools.get_uu4d()
-        self.userid = tools.get_uu4d()
+        self.uid = ''
+        self.userid = '1lioio'
 
     def add_message(self, **kwargs):
         post_data = {
-            'uid': self.uid,
+            # 'uid': self.uid,
             'url': kwargs.get('url', 'http://87437483'),
             'refer': 'http://232323',
             'user_id': kwargs.get('user_id', self.userid),
@@ -22,12 +22,12 @@ class TestMLog():
             'timeOut': '1545104861000',
             'timeon': '1',
         }
-        MLog.add(post_data)
+        a = MLog.add(post_data)
+        self.uid = a
 
     def test_add(self):
-        a = MLog.get_by_uid(self.uid)
-
-        assert a == None
+        a = MLog.query_pager_by_user(self.userid)
+        assert a.count() == 0
         post_data = {
             'uid': self.uid,
             'url': 'http://54243243',
@@ -39,8 +39,10 @@ class TestMLog():
         }
 
         a = MLog.add(post_data)
-        assert a
+        self.uid=a
         self.tearDown()
+        assert a
+
 
     def test_query_pager_by_user(self):
         self.add_message()
