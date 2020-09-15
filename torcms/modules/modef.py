@@ -68,6 +68,8 @@ core_modules = {
     'admin_log_pager': base_modules.Admin_log_pager,
 
     'pageview_count': base_modules.LogPageviewCount,
+    'info_nullify': base_modules.InfoNullify,
+    'nullify_pager': base_modules.Nullify_pager,
 
     # widget
     'reply_panel': widget_modules.ReplyPanel,
@@ -81,7 +83,6 @@ core_modules = {
     'upload_file': widget_modules.UploadFile,
     'nav_menu': widget_modules.Navigation_menu,
     'baidu_search': widget_modules.BaiduSearch,
-    'info_nullify':widget_modules.InfoNullify,
 
     # Infor
     'app_catalog_of': info_modules.InfoCategory,

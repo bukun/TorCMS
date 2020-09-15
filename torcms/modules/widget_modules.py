@@ -220,18 +220,3 @@ class Userprofile(tornado.web.UIModule):
 
         return self.render_string('modules/user_profile.html',
                                   rec=rec)
-
-
-class InfoNullify(tornado.web.UIModule):
-    '''
-
-    '''
-
-    def render(self, *args, **kwargs):
-
-        info_uid = kwargs.get('uid', '')
-        info_router = kwargs.get('router', '')
-
-        return self.render_string('modules/widget/info_nullify.html',
-                                  info_uid=info_uid,
-                                  info_router=info_router)

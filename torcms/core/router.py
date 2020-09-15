@@ -31,7 +31,7 @@ from torcms.handlers.entity2user_handler import Entity2UserHandler
 from torcms.handlers.catalog_hander import CatalogHandler
 from torcms.handlers.sys_handler import SysHandler
 from torcms.handlers.log_handler import LogHandler, LogPartialHandler
-
+from torcms.handlers.nullify_info_handler import NullifyInfoHandler
 urls = [
     ('/_rating/(.*)', RatingHandler, dict()),
 
@@ -90,5 +90,6 @@ urls = [
     ("/sys/(.*)", SysHandler, dict()),
     ("/log/(.*)", LogHandler, dict()),
     ("/log_j/(.*)", LogPartialHandler, dict()),
+    ('/nullify_info/(.*)', NullifyInfoHandler, dict()),
     ("/", IndexHandler, dict())
 ]

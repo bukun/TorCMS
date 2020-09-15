@@ -25,6 +25,7 @@ from torcms.model.user_model import MUser
 from torcms.model.wiki_model import MWiki
 from torcms.model.reply_model import MReply
 from torcms.model.log_model import MLog
+from torcms.model.nullify_info_model import MNullifyInfo
 
 
 class ShowPage(tornado.web.UIModule):
@@ -1109,3 +1110,45 @@ class LogPageviewCount(tornado.web.UIModule):
         count = MLog.get_pageview_count(current_url)
 
         return count
+
+
+class InfoNullify(tornado.web.UIModule):
+    '''
+    将信息变为无效module
+    '''
+
+    def render(self, *args, **kwargs):
+        info_uid = kwargs.get('uid', '')
+        info_router = kwargs.get('router', '')
+
+        return self.render_string('modules/post/info_nullify.html',
+                                  info_uid=info_uid,
+                                  info_router=info_router)
+
+
+class Nullify_pager(tornado.web.UIModule):
+    '''
+   无效信息列表分页
+    '''
+
+    def render(self, *args, **kwargs):
+        current = int(args[0])
+
+        num_of_cat = MNullifyInfo.count_of_certain()
+
+        tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
+
+        page_num = (tmp_page_num if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
+                    else tmp_page_num + 1)
+
+        kwd = {
+            'page_home': False if current <= 1 else True,
+            'page_end': False if current >= page_num else True,
+            'page_pre': False if current <= 1 else True,
+            'page_next': False if current >= page_num else True,
+        }
+
+        return self.render_string('modules/post/nullify_pager.html',
+                                  kwd=kwd,
+                                  pager_num=page_num,
+                                  page_current=current)
