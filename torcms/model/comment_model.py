@@ -1,0 +1,52 @@
+# -*- coding:utf-8 -*-
+
+'''
+Model for Posts.
+'''
+import time
+from datetime import datetime
+import peewee
+import tornado.escape
+from torcms.core import tools
+from torcms.model.core_tab import TabPost
+from torcms.model.core_tab import TabPost2Tag
+from torcms.model.core_tab import TabPostHist, TabCollect, TabRel, TabEvaluation, TabReply, \
+    TabRating, TabUsage, \
+    TabUser2Reply
+from torcms.model.abc_model import Mabc, MHelper
+from config import CMS_CFG, DB_CFG
+
+
+class MComment(Mabc):
+    '''
+    Model for Posts.
+    '''
+
+    def __init__(self):
+        super(MComment, self).__init__()
+
+
+    @staticmethod
+    def query_pager_by_comment(current_page_num=1):
+
+        recs = TabPost.select().join(
+                TabReply,
+                on=(TabPost.uid == TabReply.post_id)
+            ).distinct(TabPost.uid).paginate(current_page_num, CMS_CFG['list_num'])
+
+        return recs
+
+    @staticmethod
+    def count_of_certain():
+        recs = TabPost.select().join(
+                TabReply,
+                on=(TabPost.uid == TabReply.post_id)
+            ).distinct(TabPost.uid)
+        return recs.count()
+    @staticmethod
+    def count_of_comment(postid):
+        recs = TabReply.select().join(
+                TabPost,
+                on=(TabReply.post_id == TabPost.uid)
+            ).where(TabPost.uid == postid)
+        return recs.count()

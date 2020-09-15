@@ -1,0 +1,40 @@
+{% extends "../../theme/bage.html" %}
+{% block head %}
+<title>{{ _('Comment List') }}</title>
+<meta name="description" content="{{ _('Classify List') }}">
+<meta name="keywords" content="{{ _('Classify List') }}">
+{% end %}
+{% block typebody %}
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li><a href="/">{{ _('Home') }}</a></li>
+        <li class="active">{{ _('Comment List') }}</li>
+    </ul>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h1 class="news-title">{{ _('Comment List') }} (  <span class="red">{{ kwd['count'] }}</span> )</h1></div>
+    <div class="panel-body">
+        {% for x in postinfo %}
+        <li class="list-group-item">
+
+            <span style="color:green;"><b>[ {{router_post[x.kind]}} ]</b></span>
+
+            <a href="/post/{{x.uid}}" title="{{ x.title }}"> {{ x.title }} </a>
+            <!--<span style="color:red;"><b>( {{x.rating}} )</b></span>-->
+            <button  class="btn btn-xs btn-primary">
+
+            {% module comment_num( x.uid ) %}
+            </button>
+
+        </li>
+        {% end %}
+    </div>
+</div>
+<div class="col-sm-12">
+    <div class="row">
+        {% module comment_pager( kwd['current_page']) %}
+    </div>
+</div>
+{% end %}
+

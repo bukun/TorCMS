@@ -33,6 +33,7 @@ post_type = {
 }
 
 kind_arr = ['9', 'm', 's']
+
 post_emails = ['bukun@osgeo.cn', '118171@qq.com']
 email_cfg = {
     'title': '好久没登录了',
