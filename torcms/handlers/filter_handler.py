@@ -12,7 +12,7 @@ from torcms.core.base_handler import BaseHandler
 from torcms.model.category_model import MCategory
 from torcms.core.torcms_redis import redisvr
 from torcms.core.tools import logger
-from config import CMS_CFG
+from config import CMS_CFG, router_post
 
 
 def echo_html_fenye_str(rec_num, fenye_num):
@@ -84,7 +84,6 @@ class FilterHandler(BaseHandler):
 
         logger.info('infocat get url_str: {0}'.format(url_str))
 
-
         if len(url_str) == 4:
             self.list(url_str)
         elif len(url_str) > 4:
@@ -96,13 +95,13 @@ class FilterHandler(BaseHandler):
                 'info': '404. Page not found!',
             }
             self.render('misc/html/404.html', kwd=kwd)
+
     def post(self, *args, **kwargs):
-        url_str=args[0]
+        url_str = args[0]
 
         url_arr = self.parse_url(args[0])
         if url_arr[1] == 'info_count':
             self.get_info_num(url_str)
-
 
     def gen_redis_kw(self):
         condition = {}
@@ -157,7 +156,7 @@ class FilterHandler(BaseHandler):
 
         if url_arr[1] == 'con':
             infos = MPost.query_list_pager(condition, fenye_num, kind=catinfo.kind)
-            self.echo_html_list_str(sig, infos)
+            self.echo_html_list_str(sig, infos, catinfo)
         elif url_arr[1] == 'num':
             allinfos = MPost.query_under_condition(condition, kind=catinfo.kind)
             self.write(
@@ -205,13 +204,12 @@ class FilterHandler(BaseHandler):
             ckey = 'tag_' + ckey
             condition[ckey] = cval
 
-
         allinfos = MPost.query_under_condition(condition, kind=catinfo.kind)
         output = {'info_count': allinfos.count()}
 
         return json.dump(output, self)
 
-    def echo_html_list_str(self, catid, infos):
+    def echo_html_list_str(self, catid, infos, catinfo):
         '''
         生成 list 后的 HTML 格式的字符串
         '''
@@ -223,6 +221,7 @@ class FilterHandler(BaseHandler):
             'imgname': imgname,
             'zhiding': zhiding_str,
             'tuiguang': tuiguang_str,
+            'router': router_post[catinfo.kind],
         }
 
         self.render('autogen/infolist/infolist_{0}.html'.format(catid),

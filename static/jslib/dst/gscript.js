@@ -28,37 +28,37 @@ function g_load_kindcat() {
 }
 function g_load_postcat(ii) {
     0 == $("#pcat" + ii.toString()).val() ? $("#gcat" + ii.toString()).empty() : $.ajax({
-        url: "/list/j_subcat/" + $("#pcat" + ii.toString()).val(),
-        type: "GET",
-        data: {},
-        timeout: 1e3,
-        error: function () {
-            alert("重新加载")
-        },
-        success: function (result) {
-            var data = eval("(" + result + ")");
-            $("#gcat" + ii.toString()).empty(), $.each(data, function (tagidx, tagname) {
-                $("<option></option>").val(tagidx).text(tagname).appendTo($("#gcat" + ii.toString()))
-            })
-        }
-    })
+            url: "/list/j_subcat/" + $("#pcat" + ii.toString()).val(),
+            type: "GET",
+            data: {},
+            timeout: 1e3,
+            error: function () {
+                alert("重新加载")
+            },
+            success: function (result) {
+                var data = eval("(" + result + ")");
+                $("#gcat" + ii.toString()).empty(), $.each(data, function (tagidx, tagname) {
+                    $("<option></option>").val(tagidx).text(tagname).appendTo($("#gcat" + ii.toString()))
+                })
+            }
+        })
 }
 function g_load_infocat(ii) {
     0 == $("#pcat" + ii.toString()).val() ? $("#gcat" + ii.toString()).empty() : $.ajax({
-        url: "/list/j_subcat/" + $("#pcat" + ii.toString()).val(),
-        type: "GET",
-        data: {},
-        timeout: 1e3,
-        error: function () {
-            alert("重新加载")
-        },
-        success: function (result) {
-            var data = eval("(" + result + ")");
-            $("#gcat" + ii.toString()).empty(), $.each(data, function (tagidx, tagname) {
-                $("<option></option>").val(tagidx).text(tagname).appendTo($("#gcat" + ii.toString()))
-            })
-        }
-    })
+            url: "/list/j_subcat/" + $("#pcat" + ii.toString()).val(),
+            type: "GET",
+            data: {},
+            timeout: 1e3,
+            error: function () {
+                alert("重新加载")
+            },
+            success: function (result) {
+                var data = eval("(" + result + ")");
+                $("#gcat" + ii.toString()).empty(), $.each(data, function (tagidx, tagname) {
+                    $("<option></option>").val(tagidx).text(tagname).appendTo($("#gcat" + ii.toString()))
+                })
+            }
+        })
 }
 function reply_zan(reply_id, id_num) {
     id_num = id_num.toString(), zans = $("#text_zan").val();
@@ -77,7 +77,7 @@ function reply_del(reply_id, id_num) {
 function reply_del_com(reply_id) {
     var AjaxUrl = "/reply/delete_com/" + reply_id;
     $.getJSON(AjaxUrl, function (Json) {
-         1 == Json.del_reply ? $("#" + reply_id).html("") : alert("Delete failed!")
+        1 == Json.del_reply ? $("#" + reply_id).html("") : alert("Delete failed!")
     })
 }
 function reply_it(view_id) {
@@ -87,27 +87,27 @@ function reply_it(view_id) {
         $("#pinglun").load("/reply/get/" + msg_json.uid)
     }), $("#cnt_reply").val(""), $("#cnt_reply").attr("disabled", !0), $("#btn_submit_reply").attr("disabled", !0))
 }
-function reply_modify(pid,cntid,cate) {
+function reply_modify(pid, cntid, cate) {
     var txt = $("#" + cntid).val();
-    txt.length < 1 || ($.post("/reply/modify/" + pid +'/'+ cate, {cnt_reply: txt}, function (result) {
+    txt.length < 1 || ($.post("/reply/modify/" + pid + '/' + cate, {cnt_reply: txt}, function (result) {
         var msg_json = $.parseJSON(result);
-        if (cate == 0){
-            $("#reply_cnt" + pid ).html(msg_json.pinglun)
+        if (cate == 0) {
+            $("#reply_cnt" + pid).html(msg_json.pinglun)
         }
-        else{
-            $("#comment_id" + pid ).html(msg_json.pinglun)
+        else {
+            $("#comment_id" + pid).html(msg_json.pinglun)
         }
 
     }))
 }
 
-function comment_it(view_id,reply_id,cid,bid,id_num) {
+function comment_it(view_id, reply_id, cid, bid, id_num) {
     var txt = $("#" + cid).val();
-    txt.length < 1 || ($.post("/reply/add_reply/" + view_id +'/'+ reply_id, {cnt_reply: txt}, function (result) {
+    txt.length < 1 || ($.post("/reply/add_reply/" + view_id + '/' + reply_id, {cnt_reply: txt}, function (result) {
 
         var msg_json = $.parseJSON(result);
-         $("#reply_comment"+id_num).load("/reply/get_comment/" + msg_json.uid)
-    }),$("#" + cid).val(""),$("#" + cid).attr("disabled", !0), $("#"+ bid ).attr("disabled", !0))
+        $("#reply_comment" + id_num).load("/reply/get_comment/" + msg_json.uid)
+    }), $("#" + cid).val(""), $("#" + cid).attr("disabled", !0), $("#" + bid).attr("disabled", !0))
 }
 
 
@@ -254,4 +254,3 @@ $("#form_reset").validate({
         }), map.on("zoomend", onZoomend), map.on("moveend", onZoomend), map.on("click", onMapClick), baseMaps = {BaseMap: the_basemap}, overlayMaps = {"专题地图": nexrad}, L.control.layers(baseMaps, overlayMaps).addTo(map)
     }
 });
-

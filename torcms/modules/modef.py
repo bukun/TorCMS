@@ -81,6 +81,7 @@ core_modules = {
     'upload_file': widget_modules.UploadFile,
     'nav_menu': widget_modules.Navigation_menu,
     'baidu_search': widget_modules.BaiduSearch,
+    'info_nullify':widget_modules.InfoNullify,
 
     # Infor
     'app_catalog_of': info_modules.InfoCategory,
