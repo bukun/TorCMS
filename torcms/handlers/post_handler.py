@@ -138,8 +138,6 @@ class PostHandler(BaseHandler):
             self.index()
         elif url_arr[0] == '_cat_add':
             self._to_add(catid=url_arr[1])
-        elif url_arr[0] == '_nullify':
-            self.nullify(uid=url_arr[1])
         elif url_arr[0] == '_add':
             if len(url_arr) == 2:
                 self._to_add(uid=url_arr[1])
@@ -736,12 +734,3 @@ class PostHandler(BaseHandler):
 
         update_category(post_uid, post_data)
         self.redirect('/{0}/{1}'.format(router_post[post_data['kcat']], post_uid))
-
-    @tornado.web.authenticated
-    @privilege.auth_add
-    def nullify(self, uid):
-
-        is_valid = MPost.nullify(uid)
-
-        if is_valid:
-            self.redirect('/')

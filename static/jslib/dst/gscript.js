@@ -254,3 +254,4 @@ $("#form_reset").validate({
         }), map.on("zoomend", onZoomend), map.on("moveend", onZoomend), map.on("click", onMapClick), baseMaps = {BaseMap: the_basemap}, overlayMaps = {"专题地图": nexrad}, L.control.layers(baseMaps, overlayMaps).addTo(map)
     }
 });
+

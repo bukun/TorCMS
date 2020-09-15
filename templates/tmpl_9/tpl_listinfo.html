@@ -22,7 +22,7 @@
                 <a href="/info/_edit/{{ postinfo.uid }}" class="btn btn-xs btn-primary">Modify</a>
 
 
-                <a href="/info/_nullify/{{ postinfo.uid }}"  class="btn btn-xs btn-warning">Nullify</a>
+                <a onclick="info_nullify('{{postinfo.uid}}')" class="btn btn-xs btn-warning">Nullify</a>
 
 
             {% end %}
