@@ -41,3 +41,15 @@ class MComment(Mabc):
             on=(TabReply.post_id == TabPost.uid)
         ).where(TabPost.uid == postid)
         return recs.count()
+
+    @staticmethod
+    def query_recent_edited(timstamp):
+        '''
+        获取最近有评论的Post，以时间戳为条件
+        '''
+        return TabPost.select().join(
+            TabReply,
+            on=(TabPost.uid == TabReply.post_id)
+        ).where(
+            (TabReply.timestamp > timstamp)
+        ).distinct(TabPost.uid)

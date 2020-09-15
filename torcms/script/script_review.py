@@ -14,6 +14,7 @@ from torcms.model.wiki_hist_model import MWikiHist
 from torcms.core.tool.send_email import send_mail
 from torcms.core.tools import diff_table
 from config import SMTP_CFG, post_emails, SITE_CFG, router_post
+from torcms.model.comment_model import MComment
 
 DATE_STR = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
@@ -136,6 +137,36 @@ def __get_post_review(email_cnt, idx):
     return email_cnt, idx
 
 
+def __get_comment_list():
+    '''
+    Review for posts.
+    '''
+
+    idx = 1
+
+    comment_cnt = '<br><br><table border=1><tr><td colspan=5><center><h3>有评论的信息列表<h3></center></td></tr>'
+    recent_posts = MComment.query_recent_edited(tools.timestamp() - TIME_LIMIT)
+    for recent_post in recent_posts:
+        foo_str = ('<tr><td>{0}</td> '
+
+                   '<td>{1}</td><td><a href="{2}">{2}</a></td></tr>')
+
+        foo_str = foo_str.format(
+            idx,
+
+            recent_post.title,
+            os.path.join(
+                SITE_CFG['site_url'],
+                router_post[recent_post.kind],
+                recent_post.uid
+            )
+        )
+        comment_cnt = comment_cnt + foo_str
+        idx = idx + 1
+    comment_cnt = comment_cnt + '''</table>'''
+    return comment_cnt
+
+
 def run_review(*args):
     '''
     Get the difference of recents modification, and send the Email.
@@ -155,11 +186,12 @@ td.diff_header {text-align:right}
 
     idx = 1
 
-    email_cnt = email_cnt + '<table border=1>'
+    email_cnt = email_cnt + '<table border=1><tr><td colspan=5><center><h3>文档更新情况<h3></center></td></tr>'
 
     email_cnt, idx = __get_post_review(email_cnt, idx)  # post
     email_cnt, idx = __get_page_review(email_cnt, idx)  # page.
     email_cnt, idx = __get_wiki_review(email_cnt, idx)  # wiki
+    email_cnt = email_cnt + __get_comment_list() # 有评论的信息列表
 
     ###########################################################
 
@@ -169,6 +201,9 @@ td.diff_header {text-align:right}
         # 如果太多了，则不放在 Email 内容中.
         email_cnt = email_cnt + diff_str
     email_cnt = email_cnt + '''</body></html>'''
+
+
+
 
     if idx > 1:
         send_mail(post_emails, "{0}|{1}|{2}".format(SMTP_CFG['name'], '文档更新情况', DATE_STR), email_cnt)

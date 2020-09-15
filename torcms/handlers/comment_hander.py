@@ -46,3 +46,4 @@ class CommentHandler(BaseHandler):
                     cfg=CMS_CFG,
                     kwd=kwd,
                     router_post= router_post)
+
