@@ -1,0 +1,179 @@
+{% extends "../../theme/bage.html" %}
+{% block head %}
+<title>各分类下信息数量统计</title>
+<meta name="description" content="各分类下信息数量统计">
+<meta name="keywords" content="各分类下信息数量统计">
+{% end %}
+{% block typebody %}
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li><a href="/" title="Home">{{ _('Home') }}</a></li>
+        <li class="active">各分类下信息数量统计</li>
+    </ul>
+</div>
+<div class="panel panel-primary" style="font-size: 14px">
+    <div class="panel-heading">
+        <h1 class="news-title">各分类下信息数量统计</h1></div>
+    <div class="panel-body">
+
+
+        <table class="table table-bordered">
+
+            <tr>
+                <td colspan="4">
+                    <center><b style="font-size: 18px">各一级分类对应 文档/数据 数量统计</b></center>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 25%"><b>分类名</b></td>
+                <td style="width: 25%"><b>数量</b></td>
+                <td style="width: 25%"><b>分类名</b></td>
+                <td style="width: 25%"><b>数量</b></td>
+
+
+            </tr>
+
+            <tr>
+                {% set aa = 0 %}
+                {% for ia in postinfo %}
+
+                {% if ia.kind !='h'%}
+                <td>{{aa}}. {{ia.name}} <span class="red">( {{router_post[ia.kind]}} )</span></td>
+                <td>{{arr_num[aa]}} </td>
+
+                {% end %}
+                {% if aa % 2 == 1 %}
+            </tr>
+            <tr>
+                {% end %}
+                {% set aa = aa + 1 %}
+
+                {% end %}
+            </tr>
+
+        </table>
+
+
+        <div class="col-sm-12"><h3>各一级分类对应 文档/数据 数量统计柱状图</h3></div>
+        <div id="zzt">
+            <style>
+
+                .axis path,
+                .axis line {
+                    fill: none;
+                    stroke: black;
+                    shape-rendering: crispEdges;
+                }
+
+                .axis text {
+                    font-family: sans-serif;
+                    font-size: 11px;
+                }
+
+            </style>
+
+            <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+            <script>
+
+                var width = 1200;
+                var height = 600;
+                var dataset = {{arr_num}};
+
+                var svg = d3.select("#zzt").append("svg")
+                        .attr("width", width)
+                        .attr("height", height);
+
+                var xAxisScale = d3.scale.ordinal()
+                        .domain(d3.range(dataset.length))
+                        .rangeRoundBands([0, 1100]);
+
+                var yAxisScale = d3.scale.linear()
+                        .domain([0, d3.max(dataset)])
+                        .range([500, 0]);
+
+                var xAxis = d3.svg.axis()
+                        .scale(xAxisScale)
+                        .orient("bottom");
+
+                var yAxis = d3.svg.axis()
+                        .scale(yAxisScale)
+                        .orient("left");
+
+                var xScale = d3.scale.ordinal()
+                        .domain(d3.range(dataset.length))
+                        .rangeRoundBands([0, 1100], 0.05);
+
+                var yScale = d3.scale.linear()
+                        .domain([0, d3.max(dataset)])
+                        .range([0, 500]);
+
+                svg.selectAll("rect")
+                        .data(dataset)
+                        .enter()
+                        .append("rect")
+                        .attr("x", function (d, i) {
+                            return 30 + xScale(i);
+                        })
+                        .attr("y", function (d, i) {
+                            return 50 + 500 - yScale(d);
+                        })
+                        .attr("width", function (d, i) {
+                            return xScale.rangeBand();
+                        })
+                        .attr("height", yScale)
+                        .attr("fill", "steelblue");
+
+                svg.selectAll("text")
+                        .data(dataset)
+                        .enter().append("text")
+                        .attr("x", function (d, i) {
+                            return 23 + xScale(i);
+                        })
+                        .attr("y", function (d, i) {
+                            return 30 + 500 - yScale(d);
+                        })
+                        .attr("dx", function (d, i) {
+                            return xScale.rangeBand() / 3;
+                        })
+                        .attr("dy", 15)
+                        .attr("text-anchor", "begin")
+                        .attr("font-size", 14)
+                        .attr("fill", "red")
+                        .text(function (d, i) {
+                            return d;
+                        });
+
+                svg.append("g")
+                        .attr("class", "axis")
+                        .attr("transform", "translate(30,550)")
+                        .call(xAxis);
+
+                svg.append("g")
+                        .attr("class", "axis")
+                        .attr("transform", "translate(30,50)")
+                        .call(yAxis);
+
+
+            </script>
+
+            <div class="col-sm-12" style="font-size: 14px">
+                <b style="color: red">注：x轴坐标对应分类依次为</b><br>
+
+                <div class="col-sm-12">
+                    {% set ii = 0 %}
+                    {% for i in postinfo %}
+                    <div class="col-sm-3"> <b style="padding-right: 15px;"> <span style="color: #f00;"> [ {{ii}} ] : </span>  {{i.name}}</b></div>
+                    {% set ii = ii + 1 %}
+                    {% end %}
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </div>
+</div>
+
+{% end %}
+

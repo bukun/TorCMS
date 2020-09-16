@@ -915,7 +915,7 @@ class MPost(Mabc):
     def query_access(kind, day_sig, limit = 10):
         '''
         返回最近几天访问的列表。
-        day_sig为标识 : 'd' 为 近24小时， 'w'为近1击， 'm' 为近1月
+        day_sig为标识 : 'd' 为 近24小时， 'w'为近1周， 'm' 为近1月
         '''
         if day_sig == 'd':
             return TabPost.select().where(

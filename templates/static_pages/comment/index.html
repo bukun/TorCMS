@@ -1,19 +1,19 @@
 {% extends "../../theme/bage.html" %}
 {% block head %}
-<title>{{ _('Comment List') }}</title>
-<meta name="description" content="{{ _('Classify List') }}">
-<meta name="keywords" content="{{ _('Classify List') }}">
+<title>有评论的信息列表</title>
+<meta name="description" content="有评论的信息列表">
+<meta name="keywords" content="有评论的信息列表">
 {% end %}
 {% block typebody %}
 <div class="mtop">
     <ul class="breadcrumb">
         <li><a href="/">{{ _('Home') }}</a></li>
-        <li class="active">{{ _('Comment List') }}</li>
+        <li class="active">有评论的信息列表</li>
     </ul>
 </div>
-<div class="panel panel-default">
+<div class="panel panel-primary">
     <div class="panel-heading">
-        <h1 class="news-title">{{ _('Comment List') }} (  <span class="red">{{ kwd['count'] }}</span> )</h1></div>
+        <h1 class="news-title">有评论的信息列表 (  <span class="red">{{ kwd['count'] }}</span> )</h1></div>
     <div class="panel-body">
         {% for x in postinfo %}
         <li class="list-group-item">
