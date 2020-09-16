@@ -33,6 +33,8 @@ from torcms.handlers.sys_handler import SysHandler
 from torcms.handlers.log_handler import LogHandler, LogPartialHandler
 from torcms.handlers.nullify_info_handler import NullifyInfoHandler
 from torcms.handlers.comment_hander import CommentHandler
+from torcms.handlers.classify_hander import ClassifyHandler
+
 urls = [
     ('/_rating/(.*)', RatingHandler, dict()),
 
@@ -93,5 +95,6 @@ urls = [
     ("/log_j/(.*)", LogPartialHandler, dict()),
     ('/nullify_info/(.*)', NullifyInfoHandler, dict()),
     ('/comment/(.*)', CommentHandler, dict()),
+    ('/classify/(.*)', ClassifyHandler, dict()),
     ("/", IndexHandler, dict())
 ]
