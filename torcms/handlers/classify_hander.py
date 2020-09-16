@@ -30,7 +30,6 @@ class ClassifyHandler(BaseHandler):
             return the_num
 
         current_page_num = get_pager_idx()
-        num_of_cat = MClassify.count_of_certain()
 
         kwd = {
             'current_page': current_page_num,
