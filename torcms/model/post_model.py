@@ -283,13 +283,13 @@ class MPost(Mabc):
                     (TabPost.kind == kind) &
                     (TabPost.valid == 1)
                 ).order_by(
-                    TabPost.time_create.desc()
+                    TabPost.time_update.desc()
                 ).limit(num)
             else:
                 recent_recs = TabPost.select().where(
                     TabPost.valid == 1
                 ).order_by(
-                    TabPost.time_create.desc()
+                    TabPost.time_update.desc()
                 ).limit(num)
         else:
             if kind:
@@ -405,7 +405,7 @@ class MPost(Mabc):
             (TabPost2Tag.tag_id == cat_id) &
             (TabPost.valid == 1)
         ).order_by(
-            TabPost.time_create.desc()
+            TabPost.time_update.desc()
         )
 
     @staticmethod
@@ -422,7 +422,7 @@ class MPost(Mabc):
             (TabPost2Tag.par_id == par_id) &
             (TabPost.valid == 1)
         ).order_by(
-            TabPost.time_create.desc()
+            TabPost.time_update.desc()
         )
 
     @staticmethod
@@ -433,7 +433,7 @@ class MPost(Mabc):
         if order:
             sort_criteria = TabPost.order.asc()
         else:
-            sort_criteria = TabPost.time_create.desc()
+            sort_criteria = TabPost.time_update.desc()
 
         return TabPost.select().join(
             TabPost2Tag,
@@ -498,7 +498,7 @@ class MPost(Mabc):
              (TabPost.valid == 1)
              )
         ).order_by(
-            TabPost.time_create.desc()
+            TabPost.time_update.desc()
         ).limit(num)
 
     @staticmethod
@@ -514,7 +514,7 @@ class MPost(Mabc):
             (TabPost2Tag.tag_id << cat_id_arr) &  # the "<<" operator signifies an "IN" query
             (TabPost.valid == 1)
         ).order_by(
-            TabPost.time_create.desc()
+            TabPost.time_update.desc()
         ).limit(num)
 
     @staticmethod
@@ -570,9 +570,9 @@ class MPost(Mabc):
         current_rec = MPost.get_by_uid(in_uid)
         recs = TabPost.select().where(
             (TabPost.kind == kind) &
-            (TabPost.time_create < current_rec.time_create) &
+            (TabPost.time_update < current_rec.time_update) &
             (TabPost.valid == 1)
-        ).order_by(TabPost.time_create.desc())
+        ).order_by(TabPost.time_update.desc())
         if recs.count():
             return recs.get()
         return None
@@ -585,9 +585,9 @@ class MPost(Mabc):
         current_rec = MPost.get_by_uid(in_uid)
         recs = TabPost.select().where(
             (TabPost.kind == kind) &
-            (TabPost.time_create > current_rec.time_create) &
+            (TabPost.time_update > current_rec.time_update) &
             (TabPost.valid == 1)
-        ).order_by(TabPost.time_create)
+        ).order_by(TabPost.time_update)
         if recs.count():
             return recs.get()
         return None
@@ -905,7 +905,7 @@ class MPost(Mabc):
             (TabPost.kind == kind) &
             (TabPost.valid == 1)
         ).order_by(
-            TabPost.time_create.desc()
+            TabPost.time_update.desc()
         ).paginate(
             current_page_num, CMS_CFG['list_num']
         )

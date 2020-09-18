@@ -337,14 +337,23 @@ class MUser(Mabc):
         '''
         time_that = int(time.time()) - recent * 24 * 3600
 
-        return TabMember.select().where(TabMember.time_create > time_that).order_by(TabMember.time_create.desc())
+        return TabMember.select().where(
+            TabMember.time_create > time_that
+        ).order_by(
+            TabMember.time_create.desc()
+        )
 
     @staticmethod
     def query_pager_by_time(current_page_num=1):
         '''
         Query pager
         '''
-        return TabMember.select().where(TabMember.time_create).paginate(current_page_num, CMS_CFG['list_num'])
+        return TabMember.select().where(
+            TabMember.time_create
+        ).paginate(
+            current_page_num,
+            CMS_CFG['list_num']
+        )
 
     @staticmethod
     def count_of_certain():
