@@ -1121,10 +1121,13 @@ class InfoNullify(tornado.web.UIModule):
     def render(self, *args, **kwargs):
         info_uid = kwargs.get('uid', '')
         info_router = kwargs.get('router', '')
+        url = kwargs.get('url', '')
 
         return self.render_string('modules/post/info_nullify.html',
                                   info_uid=info_uid,
-                                  info_router=info_router)
+                                  info_router=info_router,
+                                  url=url
+                                  )
 
 
 class Nullify_pager(tornado.web.UIModule):
