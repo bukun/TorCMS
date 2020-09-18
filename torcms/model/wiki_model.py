@@ -260,7 +260,7 @@ class MWiki(Mabc):
         return TabWiki.select().where(
             TabWiki.kind == kind
         ).order_by(
-            TabWiki.time_create.desc()
+            TabWiki.time_update.desc()
         ).paginate(
             current_page_num, CMS_CFG['list_num']
         )

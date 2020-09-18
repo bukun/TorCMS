@@ -23,7 +23,7 @@ class MNullifyInfo(Mabc):
     def query_pager_by_valid(current_page_num=1):
 
         recs = TabPost.select().where(TabPost.valid == 0).order_by(
-            TabPost.time_create.desc()
+            TabPost.time_update.desc()
         ).paginate(current_page_num, CMS_CFG['list_num'])
 
         return recs
