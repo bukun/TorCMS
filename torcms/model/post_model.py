@@ -455,7 +455,7 @@ class MPost(Mabc):
         if order:
             sort_criteria = TabPost.order.asc()
         else:
-            sort_criteria = TabPost.time_create.desc()
+            sort_criteria = TabPost.time_update.desc()
 
         return TabPost.select().join(
             TabPost2Tag,
