@@ -68,6 +68,10 @@ core_modules = {
     'admin_log_pager': base_modules.Admin_log_pager,
 
     'pageview_count': base_modules.LogPageviewCount,
+    'info_nullify': base_modules.InfoNullify,
+    'nullify_pager': base_modules.Nullify_pager,
+    'comment_num': base_modules.Comment_num,
+    'comment_pager': base_modules.Comment_pager,
 
     # widget
     'reply_panel': widget_modules.ReplyPanel,

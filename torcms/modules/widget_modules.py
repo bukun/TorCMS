@@ -63,6 +63,11 @@ class WidgetEditor(tornado.web.UIModule):
         router = args[0]
         uid = args[1]
         userinfo = args[2]
+        review = kwargs.get('review',True)
+        delete = kwargs.get('delete',False)
+        nullify = kwargs.get('nullify',False)
+        reclass = kwargs.get('reclass',True)
+        url = kwargs.get('url','')
         if 'catid' in kwargs:
             catid = kwargs['catid']
         else:
@@ -70,7 +75,13 @@ class WidgetEditor(tornado.web.UIModule):
         kwd = {
             'router': router,
             'uid': uid,
-            'catid': catid
+            'catid': catid,
+            'review': review,
+            'delete': delete,
+            'nullify': nullify,
+            'reclass': reclass,
+            'url': url
+
         }
         return self.render_string(
             'modules/widget/widget_editor.html',

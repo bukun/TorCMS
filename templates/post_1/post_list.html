@@ -12,6 +12,7 @@
             <a href="/post/{{ x.uid }}" title="{{ x.title }}">
                 {{ x.title }}
             </a>
+
             <span>{{ datetime.datetime.fromtimestamp(x.time_update).strftime('%Y-%m-%d %H:%M:%S') }}</span>
         </li>
         {% end %}

@@ -22,13 +22,13 @@
             </div>
             <div class="col-sm-8">
                 <div class="col-sm-12">
-                    <div class="listinfo_title"><a href="/post/{{ x.uid }}"> {{ x.title }} </a></div>
+                    <div class="listinfo_title"><a href="/post/{{ x.uid }}"> {{ x.title }} </a>  {% module info_nullify(uid = x.uid,router=kwd['router'])%}</div>
                     <div class="listinfo_content padt10">{% module generate_abstract(x.cnt_html)[:215] %}...</div>
                 </div>
             </div>
             {% else %}
             <div class="col-sm-12">
-                <div class="listinfo_title"><a href="/post/{{ x.uid }}"> {{ x.title }} </a></div>
+                <div class="listinfo_title"><a href="/post/{{ x.uid }}"> {{ x.title }} </a>{% module info_nullify(uid = x.uid,router=kwd['router'])%}</div>
                 <div class="listinfo_content padt10">{% module generate_abstract(x.cnt_html)[:215] %}...</div>
             </div>
 

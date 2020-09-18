@@ -6,6 +6,8 @@ Handler for user.
 
 import json
 import re
+import datetime
+import time
 import tornado
 import tornado.escape
 import tornado.web
@@ -638,14 +640,81 @@ class UserHandler(BaseHandler):
         find by keyword.
         '''
 
+        month_arr = []
+        count_arr = []
+        num_arr = []
+        Jan_arr = []
+        Feb_arr = []
+        Mar_arr = []
+        Apr_arr = []
+        May_arr = []
+        June_arr = []
+        July_arr = []
+        Aug_arr = []
+        Sep_arr = []
+        Oct_arr = []
+        Nov_arr = []
+        Dec_arr = []
+        current_month = datetime.datetime.now().month
+
+        # 获取当年，1月到当前月份注册信息
+        recs = MUser.query_by_time(current_month * 30)
+
+        for x in recs:
+
+            current_mon = time.strftime("%m", time.localtime(x.time_create))
+            if current_mon == '01':
+                Jan_arr.append(x)
+            elif current_mon == '02':
+                Feb_arr.append(x)
+            elif current_mon == '03':
+                Mar_arr.append(x)
+            elif current_mon == '04':
+                Apr_arr.append(x)
+            elif current_mon == '05':
+                May_arr.append(x)
+            elif current_mon == '06':
+                June_arr.append(x)
+            elif current_mon == '07':
+                July_arr.append(x)
+            elif current_mon == '08':
+                Aug_arr.append(x)
+            elif current_mon == '09':
+                Sep_arr.append(x)
+            elif current_mon == '10':
+                Oct_arr.append(x)
+            elif current_mon == '11':
+                Nov_arr.append(x)
+            elif current_mon == '12':
+                Dec_arr.append(x)
+        count_arr.append(len(Jan_arr))
+        count_arr.append(len(Feb_arr))
+        count_arr.append(len(Mar_arr))
+        count_arr.append(len(Apr_arr))
+        count_arr.append(len(May_arr))
+        count_arr.append(len(June_arr))
+        count_arr.append(len(July_arr))
+        count_arr.append(len(Aug_arr))
+        count_arr.append(len(Sep_arr))
+        count_arr.append(len(Oct_arr))
+        count_arr.append(len(Nov_arr))
+        count_arr.append(len(Dec_arr))
+
+        for mon in range(0, current_month):
+            month_arr.append(mon + 1)
+            num_arr.append(count_arr[mon])
+
         kwd = {
             'pager': '',
             'title': '查找结果',
-            'user_count':MUser.total_number()
+            'user_count': MUser.total_number(),
+            'month_arr': month_arr,
+            'num_arr': num_arr,
+
         }
 
-        self.render(self.wrap_tmpl('user/user_list.html'),
-
+        self.render('user/user_list.html',
+                    recs=recs,
                     kwd=kwd,
                     view=MUser.query_by_time(),
                     cfg=config.CMS_CFG,

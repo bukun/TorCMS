@@ -119,16 +119,22 @@ class PostAjaxHandler(PostHandler):
         '''
 
         uid = args[0]
-
+        current_infor = MPost.get_by_uid(uid)
+        tslug = MCategory.get_by_uid(current_infor.extinfo['def_cat_uid'])
         is_deleted = MPost.nullify(uid)
+        MCategory.update_count(current_infor.extinfo['def_cat_uid'])
+
 
         if is_deleted:
             output = {
-                'del_info': 1,
+                'nullify_info': 1,
+                'cat_slug': tslug.slug,
+                'cat_id': tslug.uid,
+                'kind': current_infor.kind
 
             }
         else:
             output = {
-                'del_info': 0,
+                'nullify_info': 0,
             }
         return json.dump(output, self)

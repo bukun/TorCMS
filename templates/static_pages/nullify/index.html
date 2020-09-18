@@ -1,0 +1,37 @@
+{% extends "../../theme/bage.html" %}
+{% block head %}
+<title>{{ _('Invalid information list') }}</title>
+<meta name="description" content="{{ _('Invalid information list') }}">
+<meta name="keywords" content="{{ _('Invalid information list') }}">
+{% end %}
+{% block typebody %}
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li><a href="/" title="Home">{{ _('Home') }}</a></li>
+        <li class="active">{{ _('Invalid information list') }}</li>
+    </ul>
+</div>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h1 class="news-title">{{ _('Invalid information list') }}</h1></div>
+    <ul class="list-group">
+        {% for x in postinfo %}
+        <li class="list-group-item">
+
+            <span style="color:green;"><b>[ {{router_post[x.kind]}} ]</b></span>
+
+            <a href="/post/{{x.uid}}" title="{{ x.title }}"> {{ x.title }} </a>
+            <span class="post_label">{% module app_tags(x.uid) %}</span>
+
+
+        </li>
+        {% end %}
+    </ul>
+</div>
+<div class="col-sm-12">
+    <div class="row">
+        {% module nullify_pager( kwd['current_page']) %}
+    </div>
+</div>
+{% end %}
+
