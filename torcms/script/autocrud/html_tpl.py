@@ -89,7 +89,7 @@ HTML_INPUT_EDIT_DOWNLOAD = '''
         </label>
         <div class="col-sm-8">
         <input id='{sig_en}' name="{sig_en}"
-        value="{{{{ postinfo.extinfo['{sig_en}'] if '{sig_en}' in postinfo.extinfo else '' }}}}"
+        value="{{{{ postinfo.extinfo.get('{sig_en}','') }}}}"
         type="{sig_type}"  class="form-control"> </div>
          <div class="col-sm-2"><a href="/entry/add" target="_blank" class="btn btn-primary" role="button">Upload</a></div>
          </div>
@@ -102,7 +102,7 @@ HTML_INPUT_EDIT = '''
         </label>
         <div class="col-sm-9">
         <input id='{sig_en}' name="{sig_en}"
-        value="{{{{ postinfo.extinfo['{sig_en}'] if '{sig_en}' in postinfo.extinfo else '' }}}}"
+        value="{{{{ postinfo.extinfo.get('{sig_en}','') }}}}"
         type="{sig_type}"  class="form-control"> </div>
          <div class="col-sm-1">{sig_dic}</div>
          </div>
@@ -159,15 +159,15 @@ HTML_INPUT_VIEW_DONWLOAD = '''<div class="row">
 HTML_INPUT_VIEW_LINK = '''<div class="row">
     <div class="col-sm-4"><span class="des"><strong>{1}</strong></span></div>
     <div class="col-sm-8">
-    <a class="val" target="_blank" href="{{{{ postinfo.extinfo['{0}'] if '{0}' in postinfo.extinfo else '' }}}}
+    <a class="val" target="_blank" href="{{{{ postinfo.extinfo.get('{0}','') }}}}
      {2}" style="cursor: pointer; color:#069">
-     {{{{ postinfo.extinfo['{0}'] if '{0}' in postinfo.extinfo else '' }}}}
+     {{{{ postinfo.extinfo.get('{0}','') }}}}
      {2} </a></div></div>
     '''
 HTML_INPUT_VIEW = '''<div class="row">
     <div class="col-sm-4"><span class="des"><strong>{1}</strong></span></div>
     <div class="col-sm-8">
-    <span class="val">{{{{ postinfo.extinfo['{0}'] if '{0}' in postinfo.extinfo else '' }}}}
+    <span class="val">{{{{ postinfo.extinfo.get('{0}','') }}}}
      {2}</span></div></div>
     '''
 HTML_TPL_DICT = {

@@ -54,7 +54,7 @@
                                 <p><strong>Browsing times：</strong> {% raw postinfo.view_count %}</p>
 
 
-                                {% if 'tag__file_download' in postinfo.extinfo and postinfo.extinfo['tag__file_download'] != '' %}
+                                {% if postinfo.extinfo.get('tag__file_download') %}
                                <p style="float:right;">
                                    <a class="btn btn-danger btn-sm"
                                 onclick="entity_down('{{postinfo.uid}}')" target="_blank">
@@ -63,9 +63,9 @@
                                 {% else %}
                                 {% end %}
 
-                                {% if 'ext_pdf' in postinfo.extinfo and postinfo.extinfo['ext_pdf'] != '' %}
+                                {% if postinfo.extinfo.get('ext_pdf') %}
                                 <p>    <a class="btn btn-info btn-sm"
-                                href="{{postinfo.extinfo['ext_pdf'] if 'ext_pdf' in postinfo.extinfo else ''}}" target="_blank">
+                                href="{{postinfo.extinfo.get('ext_pdf','')}}" target="_blank">
                                    <span class="glyphicon glyphicon-new-window"> </span>
                                     View Document</a></p>
                                  {% else %}
@@ -81,7 +81,7 @@
                              {% if userinfo %}
                 {% module collect(userinfo.uid, postinfo.uid) %}
                 {% end %}
-         {% module widget_editor('info', postinfo.uid, userinfo,review=True,delete=True,nullify=False,reclass=False,url='filter') %}
+         {% module widget_editor('info', postinfo.uid, userinfo,review=True,delete=True,nullify=True,reclass=False,url='filter') %}
                             <br>
                             <br>
                             <p><strong>Tag:</strong><span class="post_label">
@@ -96,7 +96,7 @@
                                 {% raw postinfo.view_count %}&nbsp;&nbsp;&nbsp;&nbsp;
 
                             </p>
-                              {% if 'tag__file_download' in postinfo.extinfo and postinfo.extinfo['tag__file_download'] != '' %}
+                              {% if postinfo.extinfo.get('tag__file_download') %}
                                <p style="float:right;">
                                    <a class="btn btn-danger btn-sm"
                                  onclick="entity_down('{{postinfo.uid}}')"  target="_blank">
@@ -105,9 +105,9 @@
                                 {% else %}
                                 {% end %}
 
-                                {% if 'ext_pdf' in postinfo.extinfo and postinfo.extinfo['ext_pdf'] != '' %}
+                                {% if postinfo.extinfo.get('ext_pdf') %}
                                 <p>    <a class="btn btn-info btn-sm"
-                                href="{{postinfo.extinfo['ext_pdf'] if 'ext_pdf' in postinfo.extinfo else ''}}" target="_blank">
+                                href="{{postinfo.extinfo.get('ext_pdf','')}}" target="_blank">
                                    <span class="glyphicon glyphicon-new-window"> </span>
                                     View Document</a></p>
                                  {% else %}

@@ -74,7 +74,7 @@
                 <label for="logo" class="col-sm-2 control-label">File</label>
 
                 <div class="col-sm-10">
-                    <input id="ext_file" name="ext_file" type="text" value="{{ postinfo.extinfo['ext_file'] if 'ext_file' in postinfo.extinfo else ''}}"
+                    <input id="ext_file" name="ext_file" type="text" value="{{ postinfo.extinfo.get('ext_file','')}}"
                            class="form-control" readonly/>
                     <br>
                     <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal_file">Upload File</a>

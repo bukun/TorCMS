@@ -88,17 +88,16 @@ class EntityHandler(BaseHandler):
                     kwd=kwd,
                     userinfo=self.userinfo)
 
-    @tornado.web.authenticated
+
     def down(self, down_uid):
         '''
         Download the entity by UID.
-        '''
-
+        ''' 
         post_data = {}
         for key in self.request.arguments:
             post_data[key] = self.get_arguments(key)[0]
 
-        down_url = MPost.get_by_uid(down_uid).extinfo.get('tag__file_download', '')
+        down_url = MPost.get_by_uid(down_uid).extinfo.get('tag_file_download', '')
         if down_url:
 
             if allowed_file(down_url):
