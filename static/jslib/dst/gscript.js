@@ -14,6 +14,27 @@ function js_update_pass() {
         }
     })
 }
+function entity_down(uid) {
+
+    $.ajax({
+        url: "/entity/down/" + uid,
+        type: "post",
+        data: '',
+        timeout: 1e3,
+        processData: false,
+        contentType: false,
+        error: function () {
+//                    alert("Reload")
+        },
+        success: function (result) {
+            var msg_json = $.parseJSON(result);
+            if (msg_json.down_code == 1) {
+                  window.open(msg_json.down_url)
+            }
+        }
+    })
+
+    }
 function g_load_kindcat() {
     $.ajax({
         url: "/list/j_kindcat/" + $("#kcat").val(), type: "GET", data: {}, timeout: 1e3, error: function () {

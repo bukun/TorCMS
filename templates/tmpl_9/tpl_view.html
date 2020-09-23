@@ -187,33 +187,6 @@
     </div>
 
 
-<script type="text/javascript">
-    function entity_down(uid) {
-        getUserIP(function (ip) {
-            var user_ip = ip;
-
-            var form_Data = new FormData();
-
-            form_Data.append("userip", user_ip);
-
-            $.ajax({
-                url: "/entity/down/" + uid,
-                type: "post",
-                data: form_Data,
-                timeout: 1e3,
-                processData: false,
-                contentType: false,
-                error: function () {
-                    alert("Reload")
-                },
-                success: function (result) {
-                    window.open("{{postinfo.extinfo.get('tag__file_download','')}}");
-                }
-            })
-        });
-    }
-
-</script>
 {% end %}
 
 

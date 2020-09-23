@@ -88,16 +88,15 @@ class EntityHandler(BaseHandler):
                     kwd=kwd,
                     userinfo=self.userinfo)
 
-
     def down(self, down_uid):
         '''
         Download the entity by UID.
-        ''' 
+        '''
         post_data = {}
         for key in self.request.arguments:
             post_data[key] = self.get_arguments(key)[0]
 
-        down_url = MPost.get_by_uid(down_uid).extinfo.get('tag_file_download', '')
+        down_url = MPost.get_by_uid(down_uid).extinfo.get('tag__file_download', '')
         if down_url:
 
             if allowed_file(down_url):
@@ -115,18 +114,20 @@ class EntityHandler(BaseHandler):
 
                 MEntity2User.create_entity2user(ment_id, self.userinfo.uid, userip)
 
-                return True
+
             else:
 
                 MEntity.create_entity(uid='', path=down_url, desc='', kind=kind)
                 ment_id = MEntity.get_id_by_impath(down_url)
                 if ment_id:
                     MEntity2User.create_entity2user(ment_id, self.userinfo.uid, userip)
-                    return True
+
+            output = {'down_code': 1,
+                      'down_url': down_url}
+
         else:
-            return False
-
-
+            output = {'down_code': 0}
+        return json.dump(output, self)
 
     @tornado.web.authenticated
     def to_add(self):
