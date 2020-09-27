@@ -5,14 +5,14 @@
         $.getJSON(AjaxUrl, function (Json) {
             $("#del_category_" + id_num).html('');
         });
-        alert("删除成功");
+
         $("#del_category_" + id_num).html('');
     }
     function update_category(update_id, id_num) {
         id_num = id_num.toString();
         var role = $("#role" + id_num).val();
         $.post("/user_j/changerole/" + update_id, {role: role}, function (result) {
-            alert("更新成功");
+
             $("#del_category").html('');
 
         });

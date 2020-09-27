@@ -28,7 +28,6 @@ from torcms.core.tool.sqlite_helper import MAcces
 from config import router_post
 from torcms.handlers.entity_handler import EntityHandler
 
-
 def update_category(uid, post_data):
     '''
     Update the category of the post.
@@ -562,7 +561,6 @@ class PostHandler(BaseHandler):
         ext_dic['def_uid'] = uid
         ext_dic['gcat0'] = post_data['gcat0']
         ext_dic['def_cat_uid'] = post_data['gcat0']
-
         MPost.modify_meta(ext_dic['def_uid'],
                           post_data,
                           extinfo=ext_dic)

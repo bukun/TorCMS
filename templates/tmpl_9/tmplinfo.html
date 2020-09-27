@@ -36,12 +36,10 @@
         // 预约刷新
         // 模拟Form提交
         var myVAriable = $("#keywords")[0].value;
-        // alert(myVAriable);
         var stringArray = myVAriable.split(",");
         var out_str = '<span class="btn btn-warning btn-xs">';
         out_str += stringArray.join('</span> <span class="btn btn-warning btn-xs">');
         out_str += '</span';
-        // alert(out_str);
         // $('#kwlist').html('');
         $('#kwlist').html(out_str);
 
