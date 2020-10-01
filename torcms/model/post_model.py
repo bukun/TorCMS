@@ -140,50 +140,65 @@ class MPost(Mabc):
         entry.execute()
 
     @staticmethod
-    def update(uid, post_data, update_time=False):
+    def update(uid, post_data, update_time=True):
         '''
-        update the infor.
+        参数 `update_time` ， 是否更新时间。对于导入的数据，有时不需要更新。
         '''
 
         title = post_data['title'].strip()
         if len(title) < 2:
             return False
         cnt_html = tools.markdown2html(post_data['cnt_md'])
-        try:
-            if update_time:
-                entry2 = TabPost.update(
-                    date=datetime.now(),
-                    time_create=tools.timestamp()
-                ).where(TabPost.uid == uid)
-                entry2.execute()
-        except:
-            pass
+        # try:
+        #     if update_time:
+        #         entry2 = TabPost.update(
+        #             date=datetime.now(),
+        #             time_create=tools.timestamp()
+        #         ).where(TabPost.uid == uid)
+        #         entry2.execute()
+        # except:
+        #     pass
         cur_rec = MPost.get_by_uid(uid)
 
-        entry = TabPost.update(
-            title=title,
-            user_name=post_data['user_name'],
-            cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'].strip()),
-            memo=post_data['memo'] if 'memo' in post_data else '',
-            cnt_html=cnt_html,
-            logo=post_data['logo'],
-            order=post_data['order'] if 'order' in post_data else '',
-            keywords=post_data['keywords'] if 'keywords' in post_data else '',
-            kind=post_data['kind'] if 'kind' in post_data else 1,
-            extinfo=post_data['extinfo'] if 'extinfo' in post_data else cur_rec.extinfo,
-            time_update=tools.timestamp(),
-            valid=post_data.get('valid', 1)
-        ).where(TabPost.uid == uid)
+        if update_time:
+            entry = TabPost.update(
+                title=title,
+                user_name=post_data['user_name'],
+                cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'].strip()),
+                memo=post_data['memo'] if 'memo' in post_data else '',
+                cnt_html=cnt_html,
+                logo=post_data['logo'],
+                order=post_data['order'] if 'order' in post_data else '',
+                keywords=post_data['keywords'] if 'keywords' in post_data else '',
+                kind=post_data['kind'] if 'kind' in post_data else 1,
+                extinfo=post_data['extinfo'] if 'extinfo' in post_data else cur_rec.extinfo,
+                valid=post_data.get('valid', 1)
+            ).where(TabPost.uid == uid)
+        else:
+            entry = TabPost.update(
+                title=title,
+                user_name=post_data['user_name'],
+                cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'].strip()),
+                memo=post_data['memo'] if 'memo' in post_data else '',
+                cnt_html=cnt_html,
+                logo=post_data['logo'],
+                order=post_data['order'] if 'order' in post_data else '',
+                keywords=post_data['keywords'] if 'keywords' in post_data else '',
+                kind=post_data['kind'] if 'kind' in post_data else 1,
+                extinfo=post_data['extinfo'] if 'extinfo' in post_data else cur_rec.extinfo,
+                time_update=tools.timestamp(),
+                valid=post_data.get('valid', 1)
+            ).where(TabPost.uid == uid)
         entry.execute()
 
     @staticmethod
-    def add_or_update(uid, post_data):
+    def add_or_update(uid, post_data, update_time = True):
         '''
         Add or update the post.
         '''
         cur_rec = MPost.get_by_uid(uid)
         if cur_rec:
-            MPost.update(uid, post_data)
+            MPost.update(uid, post_data, update_time = update_time)
         else:
             MPost.create_post(uid, post_data)
 
@@ -283,13 +298,13 @@ class MPost(Mabc):
                     (TabPost.kind == kind) &
                     (TabPost.valid == 1)
                 ).order_by(
-                    TabPost.time_update.desc()
+                    TabPost.time_create.desc()
                 ).limit(num)
             else:
                 recent_recs = TabPost.select().where(
                     TabPost.valid == 1
                 ).order_by(
-                    TabPost.time_update.desc()
+                    TabPost.time_create.desc()
                 ).limit(num)
         else:
             if kind:
@@ -405,7 +420,7 @@ class MPost(Mabc):
             (TabPost2Tag.tag_id == cat_id) &
             (TabPost.valid == 1)
         ).order_by(
-            TabPost.time_update.desc()
+            TabPost.time_create.desc()
         )
 
     @staticmethod
@@ -422,7 +437,7 @@ class MPost(Mabc):
             (TabPost2Tag.par_id == par_id) &
             (TabPost.valid == 1)
         ).order_by(
-            TabPost.time_update.desc()
+            TabPost.time_create.desc()
         )
 
     @staticmethod
@@ -433,7 +448,7 @@ class MPost(Mabc):
         if order:
             sort_criteria = TabPost.order.asc()
         else:
-            sort_criteria = TabPost.time_update.desc()
+            sort_criteria = TabPost.time_create.desc()
 
         return TabPost.select().join(
             TabPost2Tag,
@@ -455,7 +470,7 @@ class MPost(Mabc):
         if order:
             sort_criteria = TabPost.order.asc()
         else:
-            sort_criteria = TabPost.time_update.desc()
+            sort_criteria = TabPost.time_create.desc()
 
         return TabPost.select().join(
             TabPost2Tag,
@@ -498,7 +513,7 @@ class MPost(Mabc):
              (TabPost.valid == 1)
              )
         ).order_by(
-            TabPost.time_update.desc()
+            TabPost.time_create.desc()
         ).limit(num)
 
     @staticmethod
@@ -514,7 +529,7 @@ class MPost(Mabc):
             (TabPost2Tag.tag_id << cat_id_arr) &  # the "<<" operator signifies an "IN" query
             (TabPost.valid == 1)
         ).order_by(
-            TabPost.time_update.desc()
+            TabPost.time_create.desc()
         ).limit(num)
 
     @staticmethod
@@ -570,9 +585,9 @@ class MPost(Mabc):
         current_rec = MPost.get_by_uid(in_uid)
         recs = TabPost.select().where(
             (TabPost.kind == kind) &
-            (TabPost.time_update < current_rec.time_update) &
+            (TabPost.time_create < current_rec.time_create) &
             (TabPost.valid == 1)
-        ).order_by(TabPost.time_update.desc())
+        ).order_by(TabPost.time_create.desc())
         if recs.count():
             return recs.get()
         return None
@@ -585,9 +600,9 @@ class MPost(Mabc):
         current_rec = MPost.get_by_uid(in_uid)
         recs = TabPost.select().where(
             (TabPost.kind == kind) &
-            (TabPost.time_update > current_rec.time_update) &
+            (TabPost.time_create > current_rec.time_create) &
             (TabPost.valid == 1)
-        ).order_by(TabPost.time_update)
+        ).order_by(TabPost.time_create)
         if recs.count():
             return recs.get()
         return None
@@ -670,7 +685,6 @@ class MPost(Mabc):
         ).where(TabPost.uid == uid)
         entry.execute()
         return uid
-
 
     @staticmethod
     def query_most_by_cat(num=8, catid=None, kind='2'):
@@ -905,17 +919,16 @@ class MPost(Mabc):
             (TabPost.kind == kind) &
             (TabPost.valid == 1)
         ).order_by(
-            TabPost.time_update.desc()
+            TabPost.time_create.desc()
         ).paginate(
             current_page_num, CMS_CFG['list_num']
         )
 
-
     @staticmethod
-    def query_access(kind, day_sig, limit = 10):
+    def query_access(kind, day_sig, limit=10):
         '''
         返回最近几天访问的列表。
-        day_sig为标识 : 'd' 为 近24小时， 'w'为近1周， 'm' 为近1月
+        day_sig为标识 : 'd' 为 近24小时， 'w'为近1击， 'm' 为近1月
         '''
         if day_sig == 'd':
             return TabPost.select().where(
@@ -937,7 +950,6 @@ class MPost(Mabc):
             ).limit(limit)
 
         return None
-
 
     @staticmethod
     def nullify(uid):
