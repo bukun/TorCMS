@@ -172,6 +172,7 @@ class MPost(Mabc):
                 keywords=post_data['keywords'] if 'keywords' in post_data else '',
                 kind=post_data['kind'] if 'kind' in post_data else 1,
                 extinfo=post_data['extinfo'] if 'extinfo' in post_data else cur_rec.extinfo,
+                time_update=tools.timestamp(),
                 valid=post_data.get('valid', 1)
             ).where(TabPost.uid == uid)
         else:
@@ -186,19 +187,18 @@ class MPost(Mabc):
                 keywords=post_data['keywords'] if 'keywords' in post_data else '',
                 kind=post_data['kind'] if 'kind' in post_data else 1,
                 extinfo=post_data['extinfo'] if 'extinfo' in post_data else cur_rec.extinfo,
-                time_update=tools.timestamp(),
                 valid=post_data.get('valid', 1)
             ).where(TabPost.uid == uid)
         entry.execute()
 
     @staticmethod
-    def add_or_update(uid, post_data, update_time = True):
+    def add_or_update(uid, post_data, update_time=True):
         '''
         Add or update the post.
         '''
         cur_rec = MPost.get_by_uid(uid)
         if cur_rec:
-            MPost.update(uid, post_data, update_time = update_time)
+            MPost.update(uid, post_data, update_time=update_time)
         else:
             MPost.create_post(uid, post_data)
 
