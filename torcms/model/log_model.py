@@ -1,14 +1,11 @@
-# -*- coding:utf-8 -*-
-
 '''
-Rating for post.
+数据库处理，日志存储
 '''
 
-import peewee
 from torcms.core import tools
 from torcms.model.core_tab import TabLog
-from config import CMS_CFG, DB_CFG
-from torcms.model.abc_model import Mabc, MHelper
+from config import CMS_CFG
+from torcms.model.abc_model import MHelper
 
 
 class MLog():
@@ -21,7 +18,6 @@ class MLog():
         '''
         Insert new record.
         '''
-        # uid = data_dic['uid']
         uid = tools.get_uuid()
         TabLog.create(
             uid=uid,
@@ -32,7 +28,6 @@ class MLog():
             time_out=data_dic['timeOut'],
             time=data_dic['timeon']
         )
-
         return uid
 
     @staticmethod
@@ -59,18 +54,18 @@ class MLog():
         '''
         查询所有登录用户的访问记录
         '''
-        return TabLog.select().where(TabLog.user_id != '').distinct(TabLog.user_id).order_by(
-            TabLog.user_id
-        )
+        return TabLog.select().where(
+            TabLog.user_id != ''
+        ).distinct(TabLog.user_id).order_by(TabLog.user_id)
 
     @staticmethod
     def query_all(current_page_num=1):
         '''
         查询所有未登录用户的访问记录
         '''
-        return TabLog.select().where(TabLog.user_id == '').order_by(TabLog.time_out.desc()).paginate(
-            current_page_num, CMS_CFG['list_num']
-        )
+        return TabLog.select().where(TabLog.user_id == '').order_by(
+            TabLog.time_out.desc()
+        ).paginate(current_page_num, CMS_CFG['list_num'])
 
     @staticmethod
     def query_all_pageview(current_page_num=1):

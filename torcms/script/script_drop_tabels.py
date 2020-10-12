@@ -6,7 +6,7 @@
 
 from torcms.model.core_tab import TabPost, TabTag, TabMember, TabWiki, TabLink, TabEntity, \
     TabPostHist, TabWikiHist, TabCollect, TabPost2Tag, TabRel, TabEvaluation, TabUsage, TabReply, \
-    TabUser2Reply, TabRating,TabLog,TabReferrer,TabEntity2User,TabReplyid
+    TabUser2Reply, TabRating, TabLog, TabReferrer, TabEntity2User, TabReplyid
 
 
 def drop_the_table(table_name):

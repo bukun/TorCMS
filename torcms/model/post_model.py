@@ -192,13 +192,13 @@ class MPost(Mabc):
         entry.execute()
 
     @staticmethod
-    def add_or_update(uid, post_data, update_time = True):
+    def add_or_update(uid, post_data, update_time=True):
         '''
         Add or update the post.
         '''
         cur_rec = MPost.get_by_uid(uid)
         if cur_rec:
-            MPost.update(uid, post_data, update_time = update_time)
+            MPost.update(uid, post_data, update_time=update_time)
         else:
             MPost.create_post(uid, post_data)
 
@@ -242,7 +242,9 @@ class MPost(Mabc):
         '''
         num = kwargs.get('limit', 8)
         if catid == '':
-            rand_recs = TabPost.select().where(TabPost.valid == 1).order_by(peewee.fn.Random()).limit(num)
+            rand_recs = TabPost.select().where(
+                TabPost.valid == 1
+            ).order_by(peewee.fn.Random()).limit(num)
         else:
             rand_recs = TabPost.select().join(
                 TabPost2Tag,

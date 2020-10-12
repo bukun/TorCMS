@@ -10,11 +10,9 @@ class TestMEvaluation():
         print('setup 方法执行于本类中每条用例之前')
         self.user_id = '11111'
         self.app_id = 'a1244'
-        self.post_id=self.app_id
-
+        self.post_id = self.app_id
 
     def add_message(self, **kwargs):
-
         p_d = {
             'title': kwargs.get('title', 'iiiii'),
             'cnt_md': kwargs.get('cnt_md', 'grgr'),
@@ -33,18 +31,15 @@ class TestMEvaluation():
         }
         post_id = kwargs.get('post_id', self.post_id)
 
-
         MPost.create_post(post_id, p_d)
-        user_id=kwargs.get('user_id', self.user_id)
+        user_id = kwargs.get('user_id', self.user_id)
         MEvaluation.add_or_update(user_id, self.app_id, 1)
-
-
 
     def test_app_evaluation_count(self):
         b = MEvaluation.app_evaluation_count(self.app_id)
 
-        p={
-            'user_id':'33336'
+        p = {
+            'user_id': '33336'
         }
         self.add_message(**p)
         p = {
@@ -52,13 +47,13 @@ class TestMEvaluation():
         }
         self.add_message(**p)
 
-        a=MEvaluation.app_evaluation_count(self.app_id)
-        assert a==b+2
+        a = MEvaluation.app_evaluation_count(self.app_id)
+        assert a == b + 2
         self.tearDown()
 
     def test_get_by_signature(self):
-        a=MEvaluation.get_by_signature(self.user_id, self.app_id)
-        assert a==None
+        a = MEvaluation.get_by_signature(self.user_id, self.app_id)
+        assert a == None
         self.add_message()
         a = MEvaluation.get_by_signature(self.user_id, self.app_id)
         assert a
@@ -67,7 +62,7 @@ class TestMEvaluation():
     def test_add_or_update(self):
         value = 1
         MEvaluation.add_or_update(self.user_id, self.app_id, value)
-        a=MEvaluation.get_by_signature(self.user_id, self.app_id)
+        a = MEvaluation.get_by_signature(self.user_id, self.app_id)
         assert a
         self.tearDown()
 

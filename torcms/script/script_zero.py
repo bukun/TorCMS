@@ -32,5 +32,5 @@ create extension hstore;
             the_str
         )
     print('\033[33m'
-        '打开 xx_create_db.sql 文件，查看创建数据库的命令。'
+          '打开 xx_create_db.sql 文件，查看创建数据库的命令。'
           '\033[0m')

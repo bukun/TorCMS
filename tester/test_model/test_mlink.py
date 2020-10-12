@@ -30,13 +30,13 @@ class TestMLink():
         assert self.raw_count + 1 <= new_count
         self.tearDown()
 
-    def add_message(self,**kwargs):
+    def add_message(self, **kwargs):
         uid = self.id
         post_data = {
-            'name': kwargs.get('name','asdf'),
-            'link': kwargs.get('link','sadf'),
-            'order': kwargs.get('order','1'),
-            'logo': kwargs.get('logo','asf'),
+            'name': kwargs.get('name', 'asdf'),
+            'link': kwargs.get('link', 'sadf'),
+            'order': kwargs.get('order', '1'),
+            'logo': kwargs.get('logo', 'asf'),
         }
         MLink.create_link(uid, post_data)
 
@@ -81,11 +81,11 @@ class TestMLink():
         self.tearDown()
 
     def test_query_all(self):
-        a=MLink.query_all()
-        tf=True
+        a = MLink.query_all()
+        tf = True
         for i in a:
-            if i.uid==self.id:
-                tf=False
+            if i.uid == self.id:
+                tf = False
         assert tf
         self.add_message()
         a = MLink.query_all()
@@ -97,13 +97,12 @@ class TestMLink():
         assert tf
 
     def test_get_by_uid(self):
-        a=MLink.get_by_uid(self.id)
-        assert a==None
+        a = MLink.get_by_uid(self.id)
+        assert a == None
         self.add_message()
         a = MLink.get_by_uid(self.id)
         assert a.uid == self.id
         self.tearDown()
-
 
     def test_delete(self):
         self.add_message()
@@ -115,15 +114,14 @@ class TestMLink():
         self.tearDown()
 
     def test_get_counts(self):
-        a=MLink.get_counts()
+        a = MLink.get_counts()
         self.add_message()
-        b=MLink.get_counts()
-        assert a+1<=b
+        b = MLink.get_counts()
+        assert a + 1 <= b
         self.tearDown()
 
-
     def test_query_link(self):
-        a=MLink.query_link(29)
+        a = MLink.query_link(29)
         tf = True
         for i in a:
             if i.uid == self.id:
@@ -137,7 +135,6 @@ class TestMLink():
                 tf = True
         self.tearDown()
         assert tf
-
 
     def tearDown(self):
         print("function teardown")
