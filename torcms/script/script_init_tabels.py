@@ -4,7 +4,7 @@
 initialize table.s
 '''
 
-from .script_funcs import postgres_svr
+
 from playhouse import migrate
 from playhouse.postgres_ext import BinaryJSONField
 
@@ -69,7 +69,8 @@ def run_migrate(*args):
     '''
 
     try:
-        conn, cur = postgres_svr()
+        conn = config.DB_CON
+        cur = conn.cursor()
         cur.execute('''alter table tabmember alter column user_name type character varying(255)''')
         print("    Table TabMember altered successfully")
         conn.commit()

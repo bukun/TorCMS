@@ -13,8 +13,8 @@
 import time
 import sqlite3
 
-from .script_funcs import postgres_svr
 from .script_sitemap import run_sitemap, run_editmap
+from config import DB_CON
 
 CONN = sqlite3.connect('./database/log_access.db')
 CUR = CONN.cursor()
@@ -28,10 +28,9 @@ def ts_helper():
     return (ts1d, ts7d, ts30d)
 
 
-
-
 def echo_info():
-    conn, cur = postgres_svr()
+
+    cur = DB_CON.cursor()
     print('访问总数目：')
     CUR.execute('SELECT count(*) FROM tabaccess')
     recs = CUR.fetchall()
@@ -73,7 +72,7 @@ def echo_info():
 
 
 def update_view_count():
-    conn, cur = postgres_svr()
+    cur = DB_CON.cursor()
     ts1d, ts7d, ts30d = ts_helper()
 
     cur.execute('select uid from tabpost')
@@ -96,7 +95,7 @@ def update_view_count():
             )
         )
         # 每次提交。不然似乎导致数据库锁住，长时间无响应。
-        conn.commit()
+        DB_CON.commit()
 
     print('更新近7日')
     for uid in post_ids:
@@ -113,7 +112,7 @@ def update_view_count():
             )
         )
         # 每次提交。不然似乎导致数据库锁住，长时间无响应。
-        conn.commit()
+        DB_CON.commit()
 
     print('更新近30日')
     for uid in post_ids:
@@ -130,7 +129,7 @@ def update_view_count():
             )
         )
         # 每次提交。不然似乎导致数据库锁住，长时间无响应。
-        conn.commit()
+        DB_CON.commit()
 
 
 def run_update(_):

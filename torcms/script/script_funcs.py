@@ -9,8 +9,6 @@ and locale.
 '''
 import os
 
-import psycopg2
-
 from config import DB_CON
 from config import kind_arr, post_type
 from torcms.core.tool import run_whoosh as running_whoosh
@@ -56,14 +54,3 @@ def run_whoosh(*args):
     running_whoosh.gen_whoosh_database(kind_arr=kind_arr, post_type=post_type)
 
 
-def postgres_svr():
-    # conn = psycopg2.connect(
-    #     database=DB_CFG['db'],
-    #     user=DB_CFG['user'],
-    #     password=DB_CFG['pass'],
-    #     host="127.0.0.1",
-    #     port=DB_CFG.get('port', "5432")
-    # )
-    cur = DB_CON.cursor()
-
-    return (DB_CON, cur)
