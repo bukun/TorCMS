@@ -11,7 +11,7 @@ import os
 
 import psycopg2
 
-from cfg import DB_CFG
+from config import DB_CFG
 from config import kind_arr, post_type
 from torcms.core.tool import run_whoosh as running_whoosh
 from torcms.model.user_model import MUser
