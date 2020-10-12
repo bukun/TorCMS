@@ -2,8 +2,11 @@ language: python
 python:
   - "3.7"
   - "3.8"
-addons:
-  postgresql: "9.4"
+services:
+  - postgresql
+
+#addons:
+#  postgresql: "9.4"
 # currently points to 3.7-dev# command to install dependencies
 install:
   - pip install -r doc/requirements_dev.txt
