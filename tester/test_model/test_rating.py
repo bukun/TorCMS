@@ -33,6 +33,7 @@ class TestMRating():
         self.tearDown()
         assert tf
 
+
     def test_query_average_rating(self):
         self.add_message()
         MRating.update(self.post_id, 'fin', 4)

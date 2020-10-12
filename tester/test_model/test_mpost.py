@@ -495,35 +495,34 @@ class TestMPost():
 
     def test_get_next_record(self):
         p = {
-            'time_update': '1999999990'
+            'time_create': '1999999990'
         }
         self.add_message(**p)
         q = {
             'post_id': self.post_id2,
             'title': '90909090',
             'cnt_md': 'oosdfsfofsf',
-            'time_update': '1999999992'
+            'time_create': '1999999992'
         }
         self.add_message(**q)
         qq = self.uu.get_next_record(self.post_id2)
-        print(qq)
         assert qq.uid == self.post_id
         self.tearDown()
 
     def test_get_previous_record(self):
         p = {
-            'time_update': '1999999992'
+            'time_create': '1999999992'
         }
         self.add_message(**p)
         q = {
             'post_id': self.post_id2,
             'title': '90909090',
             'cnt_md': 'oosdfsfofsf',
-            'time_update': '1999999990'
+            'time_create': '1888888880'
         }
         self.add_message(**q)
         qq = self.uu.get_previous_record(self.post_id2)
-        assert qq.uid == self.post_id
+        assert qq.uid==self.post_id
         self.tearDown()
 
     def test_get_all(self):
@@ -591,18 +590,6 @@ class TestMPost():
 
         self.tearDown()
 
-    # def test_get_view_count(self):
-    #
-    #     p_d = {
-    #         'view_count': 3
-    #
-    #     }
-    #     self.add_message(**p_d)
-    #     qq=self.uu.get_view_count(self.post_id)
-    #
-    #
-    #     assert qq==p_d['view_count']
-    #     self.tearDown()
 
     def test_query_most_by_cat(self):
         self.add_message()
@@ -744,12 +731,9 @@ class TestMPost():
             'valid': 1,
 
         }
-        print('fddfsfdsfdsfd')
         self.uu.addata_init(p_d)
-        print('fddfsfdsfdsfd')
 
         aa = self.uu.get_by_uid(self.post_id)
-        print(aa)
         assert aa.title == p_d['title']
 
         self.tearDown()
@@ -795,8 +779,8 @@ class TestMPost():
 
         self.uu.delete(self.uid)
         MCategory.delete(self.tag_id)
-        MPost.delete(self.post_id2)
-        MPost.delete(self.post_id)
+        self.uu.delete(self.post_id2)
+        self.uu.delete(self.post_id)
         MPost2Catalog.remove_relation(self.post_id, self.tag_id)
         tt = MLabel.get_by_slug(self.slug)
         if tt:
