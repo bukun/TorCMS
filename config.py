@@ -12,6 +12,9 @@ DB_CFG = {
     'kind': 'p',  # Todo: Do not use any more.
 }
 
+print(DB_CON)
+print(DB_CFG)
+
 CMS_CFG = {
     'list_num': 10,
     'redis_kw': 'lsadfkj'}

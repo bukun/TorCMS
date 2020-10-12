@@ -369,6 +369,7 @@ def get_cfg():
         db_cfg = cfg.DB_CFG
     else:
         db_cfg = ConfigDefault.DB_CFG
+    print(db_cfg)
 
     if 'SMTP_CFG' in cfg_var:
         smtp_cfg = cfg.SMTP_CFG
