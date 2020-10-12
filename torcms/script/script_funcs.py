@@ -11,7 +11,7 @@ import os
 
 import psycopg2
 
-from config import DB_CFG
+from config import DB_CON
 from config import kind_arr, post_type
 from torcms.core.tool import run_whoosh as running_whoosh
 from torcms.model.user_model import MUser
@@ -57,13 +57,13 @@ def run_whoosh(*args):
 
 
 def postgres_svr():
-    conn = psycopg2.connect(
-        database=DB_CFG['db'],
-        user=DB_CFG['user'],
-        password=DB_CFG['pass'],
-        host="127.0.0.1",
-        port=DB_CFG.get('port', "5432")
-    )
-    cur = conn.cursor()
+    # conn = psycopg2.connect(
+    #     database=DB_CFG['db'],
+    #     user=DB_CFG['user'],
+    #     password=DB_CFG['pass'],
+    #     host="127.0.0.1",
+    #     port=DB_CFG.get('port', "5432")
+    # )
+    cur = DB_CON.cursor()
 
-    return (conn, cur)
+    return (DB_CON, cur)
