@@ -19,7 +19,8 @@ class BaiduShare(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-        return self.render_string('modules/widget/baidu_share.html')
+        en = kwargs.get('en',False)
+        return self.render_string('modules/widget/baidu_share.html',en=en)
 
 
 class ReplyPanel(tornado.web.UIModule):
