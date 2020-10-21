@@ -821,7 +821,7 @@ class MPost(Mabc):
         return uid
 
     @staticmethod
-    def query_under_condition(condition, kind='9'):
+    def query_under_condition(condition, kind='9',sort_option=''):
         '''
         Get All data of certain kind according to the condition
         '''
@@ -833,11 +833,31 @@ class MPost(Mabc):
                 TabPost.time_update.desc()
             )
 
+        if sort_option:
+            if sort_option == 'time_update':
+                sort_criteria = TabPost.time_update.desc()
+            elif sort_option == 'time_create':
+                sort_criteria = TabPost.time_create.desc()
+            elif sort_option == 'access_1d':
+                sort_criteria = TabPost.access_1d.desc()
+            elif sort_option == 'access_7d':
+                sort_criteria = TabPost.access_7d.desc()
+            elif sort_option == 'access_30d':
+                sort_criteria = TabPost.access_30d.desc()
+            else:
+                sort_criteria = TabPost.view_count.desc()
+
+
+        else:
+            sort_criteria = TabPost.time_update.desc()
+
+
+
         return TabPost.select().where(
             (TabPost.kind == kind) &
             (TabPost.valid == 1) &
             TabPost.extinfo.contains(condition)
-        ).order_by(TabPost.time_update.desc())
+        ).order_by(sort_criteria)
 
     @staticmethod
     def get_num_condition(con):
@@ -882,11 +902,14 @@ class MPost(Mabc):
             )
 
     @staticmethod
-    def query_list_pager(con, idx, kind='2'):
+    def query_list_pager(con, idx, kind='2',sort_option = ''):
         '''
         Get records of certain pager.
         '''
-        all_list = MPost.query_under_condition(con, kind=kind)
+        if sort_option:
+            all_list = MPost.query_under_condition(con, kind=kind,sort_option = sort_option)
+        else:
+            all_list = MPost.query_under_condition(con, kind=kind)
         return all_list[(idx - 1) * CMS_CFG['list_num']: idx * CMS_CFG['list_num']]
 
     @staticmethod

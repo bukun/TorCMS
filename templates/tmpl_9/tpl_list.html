@@ -36,6 +36,26 @@
         // $('#resultSpan').load(html_condition);
         $('#resultFenye').load(html_pagination);
     }
+     function select_order(option) {
+
+        // 选择之后，将条件放到 url 中，
+        var html_condition = window.location.href  + '/con';
+        var html_pagination = window.location.href  + '/num';
+        for (var ii in obj) {
+            if (obj[ii] != '') {
+                html_condition += '/' + ii + '/' + obj[ii] ;
+                html_pagination += '/' + ii + '/' + obj[ii] ;
+            }
+        }
+        html_condition += '?sort=' + option;
+        html_pagination += '?sort=' + option;
+        $.get(html_condition, function (result) {
+            $("#resultSpan").html(result);
+        });
+
+        // $('#resultSpan').load(html_condition);
+        $('#resultFenye').load(html_pagination);
+    }
 
     function keyword_del(key_name, id_num) {
 
@@ -73,6 +93,17 @@
                 {{ widget_info['catname'] }} Data</a></li>
             {% end %}
         </ol>
+        <div class="row">
+        <div class="col-sm-12">
+            <a onclick="select_order('time_create')" class="btn btn-primary">创建时间</a>
+            <a onclick="select_order('time_update')" class="btn btn-primary">更新时间</a>
+
+            <a onclick="select_order('access_1d')" class="btn btn-primary">24小时阅读量</a>
+            <a onclick="select_order('access_7d')" class="btn btn-primary">一周阅读量</a>
+            <a onclick="select_order('access_30d')" class="btn btn-primary">一个月阅读量</a>
+            <a onclick="select_order('view_count')" class="btn btn-primary">总阅读量</a>
+        </div>
+        </div><br>
         <ul class="list-group">
             {% block infolist %}
             {% end %}
