@@ -60,7 +60,10 @@ class LabelHandler(BaseHandler):
         if cur_p == '':
             current_page_number = 1
         else:
-            current_page_number = int(cur_p)
+            try:
+                current_page_number = int(cur_p)
+            except:
+                current_page_number = 1
 
         current_page_number = 1 if current_page_number < 1 else current_page_number
 
@@ -139,9 +142,9 @@ class InfoTagHandler(BaseHandler):
     Access label without 'kind'. redirect to /label/
     '''
 
-    # def __init__(self):
-    #     super(InfoTagHandler, self).__init__()
-    #     self.kind = '9'
+    def __init__(self):
+        super(InfoTagHandler, self).__init__()
+        self.kind = '9'
 
     def initialize(self, **kwargs):
         super(InfoTagHandler, self).initialize()
