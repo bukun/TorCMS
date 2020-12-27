@@ -13,7 +13,6 @@ import re
 import markdown
 import tornado.escape
 from difflib import HtmlDiff
-# from css_html_js_minify import html_minify
 from htmlmin import minify
 from markdown.extensions.wikilinks import WikiLinkExtension
 from playhouse.postgres_ext import PostgresqlExtDatabase
@@ -290,16 +289,19 @@ def gen_pager_purecss(cat_slug, page_num, current):
     return pager
 
 
-def average_array(num_arr):
-    '''
-    The average value of the given array.
-    '''
-    return sum(num_arr) / len(num_arr)
+# def average_array(num_arr):
+#     '''
+#     The average value of the given array.
+#     '''
+#     return sum(num_arr) / len(num_arr)
 
 
 class ConfigDefault(object):
     '''
     Class for the default configuration.
+
+    ``DB_CFG`` 的配置：这个是用于 Travis 。如果没有配置，则使用 Travis 的设置。
+    一般应用中都是要进行配置的。
     '''
     SMTP_CFG = {
         'name': 'TorCMS',

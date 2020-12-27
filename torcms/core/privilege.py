@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 '''
-wrap for roles.
+针对增删改查的权限进行处理。
 '''
 
 from config import ROLE_CFG
