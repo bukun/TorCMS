@@ -142,7 +142,7 @@ HTML_INPUT_VIEW_DONWLOAD = '''<div class="row">
 
     {{% if userinfo %}}
 
-    {{% if postinfo.extinfo.get('tag_file_download') %}}
+    {{% if postinfo.extinfo.get('tag_file_download') or postinfo.extinfo.get('tag__file_download') %}}
     <a class="val btn-xs btn btn-primary" onclick="entity_down('{{{{postinfo.uid}}}}')"
      id="file_download" style="cursor: pointer; color:#fff">
      <span class="glyphicon glyphicon-download-alt"> Download</span>
