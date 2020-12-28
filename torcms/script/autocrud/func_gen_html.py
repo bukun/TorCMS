@@ -53,14 +53,14 @@ def gen_input_view(sig_dic):
     '''
     Viewing the HTML text.
     '''
-    if sig_dic['en'] == 'tag_file_download':
+    if sig_dic['en'] in ['tag_file_download','tag__file_download']:
         html_str = HTML_TPL_DICT['input_view_download'].format(
             sig_zh=sig_dic['zh'],
             sig_unit=sig_dic['dic'][1]
         )
     elif sig_dic['en'] in ['tag_access_link', 'tag_dmoz_url',
                            'tag_online_link', 'tag_event_url',
-                           'tag_expert_home', 'tag_pic_url']:
+                           'tag_expert_home', 'tag_pic_url','tag_url','tag__data_doc','tag__report_doc']:
         html_str = HTML_TPL_DICT['input_view_link'].format(
             sig_dic['en'],
             sig_dic['zh'],
