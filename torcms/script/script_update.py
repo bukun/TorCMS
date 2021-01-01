@@ -72,6 +72,11 @@ def echo_info():
 
 
 def update_view_count():
+    '''
+    这种方式太慢了。
+    '''
+    return True
+
     cur = DB_CON.cursor()
     ts1d, ts7d, ts30d = ts_helper()
 
