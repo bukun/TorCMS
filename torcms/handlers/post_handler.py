@@ -650,6 +650,7 @@ class PostHandler(BaseHandler):
         '''
         更新查看的次数，分为近24小时，近1周，近30天。
         '''
+        return
         cur = DB_CON.cursor()
         ts1d, ts7d, ts30d = ts_helper()
 
