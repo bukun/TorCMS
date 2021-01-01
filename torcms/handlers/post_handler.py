@@ -393,6 +393,7 @@ class PostHandler(BaseHandler):
         '''
         self.redirect_kind(postinfo)
 
+
         __ext_catid = postinfo.extinfo.get('def_cat_uid', '')
 
         cat_enum1 = MCategory.get_qian2(__ext_catid[:2]) if __ext_catid else []
@@ -427,6 +428,8 @@ class PostHandler(BaseHandler):
         else:
             recent_apps = []
         logger.info('The Info Template: {0}'.format(tmpl))
+
+        self.__update_view_count(postinfo.uid)
         self.render(tmpl,
                     kwd=dict(kwd, **self.ext_view_kwd(postinfo)),
                     postinfo=postinfo,
@@ -643,7 +646,7 @@ class PostHandler(BaseHandler):
         self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], uid))
 
     @tornado.gen.coroutine
-    def update_view_count(self, uid):
+    def __update_view_count(self, uid):
         '''
         更新查看的次数，分为近24小时，近1周，近30天。
         '''
