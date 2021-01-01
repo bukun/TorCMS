@@ -7,7 +7,6 @@ The basic HTML Page handler.
 import time
 import json
 import random
-import sqlite3
 from concurrent.futures import ThreadPoolExecutor
 import tornado.escape
 import tornado.web
@@ -29,10 +28,6 @@ from torcms.model.entity_model import MEntity
 from torcms.core.tool.sqlite_helper import MAcces
 from config import router_post
 from torcms.handlers.entity_handler import EntityHandler
-from config import DB_CON
-
-CONN = sqlite3.connect('./database/log_access.db')
-CUR = CONN.cursor()
 
 
 def update_category(uid, post_data):
@@ -122,12 +117,12 @@ def update_label(signature, post_data):
             MPost2Label.remove_relation(signature, cur_info.tag_id)
 
 
-def ts_helper():
-    timestamp = int(time.time())
-    ts1d = timestamp - 24 * 60 * 60
-    ts7d = timestamp - 7 * 24 * 60 * 60
-    ts30d = timestamp - 30 * 24 * 60 * 60
-    return (ts1d, ts7d, ts30d)
+# def ts_helper():
+#     timestamp = int(time.time())
+#     ts1d = timestamp - 24 * 60 * 60
+#     ts7d = timestamp - 7 * 24 * 60 * 60
+#     ts30d = timestamp - 30 * 24 * 60 * 60
+#     return (ts1d, ts7d, ts30d)
 
 
 class PostHandler(BaseHandler):
@@ -393,7 +388,6 @@ class PostHandler(BaseHandler):
         '''
         self.redirect_kind(postinfo)
 
-
         __ext_catid = postinfo.extinfo.get('def_cat_uid', '')
 
         cat_enum1 = MCategory.get_qian2(__ext_catid[:2]) if __ext_catid else []
@@ -429,7 +423,6 @@ class PostHandler(BaseHandler):
             recent_apps = []
         logger.info('The Info Template: {0}'.format(tmpl))
 
-        self.__update_view_count(postinfo.uid)
         self.render(tmpl,
                     kwd=dict(kwd, **self.ext_view_kwd(postinfo)),
                     postinfo=postinfo,
@@ -644,71 +637,6 @@ class PostHandler(BaseHandler):
         # cele_gen_whoosh.delay()
         tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
         self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], uid))
-
-    @tornado.gen.coroutine
-    def __update_view_count(self, uid):
-        '''
-        更新查看的次数，分为近24小时，近1周，近30天。
-        '''
-        return
-        cur = DB_CON.cursor()
-        ts1d, ts7d, ts30d = ts_helper()
-
-        # cur.execute('select uid from tabpost')
-        # post_ids = []
-        # for rec in cur.fetchall():
-        #     post_ids.append(rec[0])
-
-        print('更新近24小时')
-        # for uid in post_ids:
-        CUR.execute(
-            "select count(*) from tabaccess where post_id = '{}' and uid >= {}".format(
-                uid, ts1d
-            )
-        )
-        the_count = CUR.fetchone()[0]
-
-        cur.execute(
-            "update tabpost set access_1d = {} where uid = '{}'".format(
-                the_count, uid
-            )
-        )
-
-        # DB_CON.commit()
-
-        print('更新近7日')
-        # for uid in post_ids:
-        CUR.execute(
-            "select count(*) from tabaccess where post_id = '{}' and uid >= {}".format(
-                uid, ts7d
-            )
-        )
-        the_count = CUR.fetchone()[0]
-
-        cur.execute(
-            "update tabpost set access_7d = {} where uid = '{}'".format(
-                the_count, uid
-            )
-        )
-
-        # DB_CON.commit()
-
-        print('更新近30日')
-        # for uid in post_ids:
-        CUR.execute(
-            "select count(*) from tabaccess where post_id = '{}' and uid >= {}".format(
-                uid, ts30d
-            )
-        )
-        the_count = CUR.fetchone()[0]
-
-        cur.execute(
-            "update tabpost set access_30d = {} where uid = '{}'".format(
-                the_count, uid
-            )
-        )
-
-        DB_CON.commit()
 
     @tornado.web.authenticated
     @privilege.auth_delete

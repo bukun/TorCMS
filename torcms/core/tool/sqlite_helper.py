@@ -7,6 +7,9 @@ Handle the usage of the info.
 import time
 import os
 import sqlite3
+
+from torcms.core.tools import ts_helper
+
 # from torcms.model.core_tab import TabAccess
 
 from torcms.model.abc_model import Mabc
@@ -31,12 +34,22 @@ class MAcces(Mabc):
         Create the record.
         '''
 
+        ts1d, ts7d, ts30d = ts_helper()
+
+
         # 使用毫秒作为ID。
         millis = int(round(time.time() * 1000))
 
         db_file = './database/log_access.db'
         conn = sqlite3.connect(db_file)
         cursor = conn.cursor()
+
+        del_cmd = 'delete from TabAccess where uid < {}'.format(ts30d)
+        print(del_cmd)
+        cursor.execute(del_cmd)
+        conn.commit()
+
+
         try:
             cursor.execute('CREATE TABLE TabAccess (uid BIGINT PRIMARY KEY NOT NULL ,'
                            'post_id VARCHAR(5));')
@@ -44,21 +57,37 @@ class MAcces(Mabc):
             pass
 
         try:
-            sql = '''insert into TabAccess (uid, post_id) values (?,?)'''
-            para = (millis, post_id)
-            cursor.execute(sql, para)
-            conn.commit()
+            cursor.execute('CREATE TABLE TabPost (post_id VARCHAR(5) PRIMARY KEY NOT NULL ,'
+                           'count_1d integer , count_7d integer, count_30d integer );')
         except:
             pass
 
-        cursor.execute('SELECT * FROM TabAccess;')
+        cursor.execute("select * from TabPost where post_id = '{}'".format(post_id))
+        rec = cursor.fetchone()
+        print(rec)
+        if rec:
+            pass
+        else:
+            sql = 'insert into TabPost (post_id, count_1d, count_7d, count_30d) values (?,?, ?, ?)'
+            para = (post_id, 1, 1, 1)
+            cursor.execute(sql, para)
+
+        try:
+            sql = '''insert into TabAccess (uid, post_id) values (?,?)'''
+            para = (millis, post_id)
+            cursor.execute(sql, para)
+        except:
+            pass
 
         conn.commit()
 
+
+
+        # cursor.execute('SELECT * FROM TabAccess;')
+        # conn.commit()
+
         # print("2" * 50)
         # print(cursor.fetchall())
-
-
 
         # 有可能会冲突。由于只访问的记录，并不重要，所以直接跳过去。
         # try:
@@ -68,3 +97,7 @@ class MAcces(Mabc):
         #     )
         # except:
         #     pass
+
+
+if __name__ == '__main__':
+    MAcces.add('145db')

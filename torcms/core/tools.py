@@ -418,3 +418,11 @@ def get_cfg():
         autorollback=True)
 
     return (db_con, smtp_cfg, site_cfg, role_cfg)
+
+
+def ts_helper():
+    timestamp = int(time.time())
+    ts1d = timestamp - 24 * 60 * 60
+    ts7d = timestamp - 7 * 24 * 60 * 60
+    ts30d = timestamp - 30 * 24 * 60 * 60
+    return [x * 1000 for x in (ts1d, ts7d, ts30d)]
