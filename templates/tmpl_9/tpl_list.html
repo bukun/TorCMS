@@ -79,8 +79,22 @@
             {% end %}
         </ol>
 
-
+ <div class="row">
+            <div class="col-sm-12" style="font-size: 14px;padding-bottom: 15px">
+                <span name="_order" value='1'
+                                                                       onclick="select_order(this,'time_create')"
+                                                                       class="btn btn-xs btn-default"><span
+                    class="glyphicon glyphicon-arrow-down"></span> {{ _('Creation time') }}</span><span name="_order"
+                                                                                                        value='2'
+                                                                                                        onclick="select_order(this,'time_update')"
+                                                                                                        class="btn btn-xs btn-default"><span
+                    class="glyphicon glyphicon-arrow-down"></span> {{ _('Update time') }}</span><span
+                    name="_order" value='6' onclick="select_order(this,'view_count')"
+                    class="btn btn-xs btn-default"><span class="glyphicon glyphicon-arrow-down"></span> {{ _('Browse times') }}</span>
+            </div>
+        </div>
         <ul class="list-group">
+
             {% block infolist %}
             {% end %}
         </ul>
@@ -98,27 +112,7 @@
     </div>
     <div class="col-sm-4">
 
-        <div class="panel panel-black">
-             <div class="panel-heading">
-                 Order
 
-        </div>
-            <div class="panel-body">
-                    <div class="row">
-                        <div class="col-sm-3">Order</div>
-                        <div class="col-sm-9">
-                            <span name="_order" value='1' onclick="select_order(this,'time_create')" class="label label-default">{{ _('Creation time') }}</span>
-                            <span name="_order" value='2' onclick="select_order(this,'time_update')" class="label label-default">{{ _('Update time') }}</span>
-                            <span name="_order" value='3' onclick="select_order(this,'access_1d')" class="label label-default">{{ _('24-hour reading') }}</span>
-                            <span name="_order" value='4' onclick="select_order(this,'access_7d')" class="label label-default">{{ _('Weekly reading') }}</span>
-                            <span name="_order" value='5' onclick="select_order(this,'access_30d')" class="label label-default">{{ _("A month's reading") }}</span>
-                            <span name="_order" value='6' onclick="select_order(this,'view_count')" class="label label-default">{{ _('Total reading') }}</span>
-                        </div>
-                    </div>
-
-
-                </div>
-        </div>
         <div class="panel panel-black">
              <div class="panel-heading">
                  Filter

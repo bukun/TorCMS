@@ -89,9 +89,11 @@ class WikiHistoryHandler(EditHistoryHander):
 
         hist_recs = MWikiHist.query_by_wikiid(uid, limit=5)
         html_diff_arr = []
-        for hist_rec in hist_recs:
+        if hist_recs:
 
-            if hist_rec:
+            for hist_rec in hist_recs:
+
+
                 infobox = diff_table(hist_rec.cnt_md, postinfo.cnt_md)
                 hist_user = hist_rec.user_name
                 hist_time = hist_rec.time_update
@@ -99,26 +101,26 @@ class WikiHistoryHandler(EditHistoryHander):
                 hist_words_num = len((hist_rec.cnt_md).strip())
                 post_words_num = len((postinfo.cnt_md).strip())
                 up_words_num = post_words_num - hist_words_num
-            else:
-                infobox = ''
-                hist_user = ''
-                hist_time = ''
-                up_words_num = ''
 
-            html_diff_arr.append(
-                {'hist_uid': hist_rec.uid,
-                 'html_diff': infobox,
-                 'hist_user': hist_user,
-                 'hist_time': hist_time,
-                 'up_words_num': up_words_num}
-            )
-        kwd = {}
-        self.render('man_info/wiki_man_view.html',
-                    userinfo=self.userinfo,
 
-                    postinfo=postinfo,
-                    html_diff_arr=html_diff_arr,
-                    kwd=kwd)
+
+
+                html_diff_arr.append(
+                    {'hist_uid': hist_rec.uid,
+                     'html_diff': infobox,
+                     'hist_user': hist_user,
+                     'hist_time': hist_time,
+                     'up_words_num': up_words_num}
+                )
+
+            kwd = {}
+            self.render('man_info/wiki_man_view.html',
+                        userinfo=self.userinfo,
+                        postinfo=postinfo,
+                        html_diff_arr=html_diff_arr,
+                        kwd=kwd)
+        else:
+            self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], postinfo.uid))
 
     @tornado.web.authenticated
     def restore(self, hist_uid):
