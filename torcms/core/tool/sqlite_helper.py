@@ -44,10 +44,6 @@ class MAcces(Mabc):
         conn = sqlite3.connect(db_file)
         cursor = conn.cursor()
 
-        del_cmd = 'delete from TabAccess where uid < {}'.format(ts30d)
-        print(del_cmd)
-        cursor.execute(del_cmd)
-        conn.commit()
 
 
         try:
@@ -61,6 +57,11 @@ class MAcces(Mabc):
                            'count_1d integer , count_7d integer, count_30d integer );')
         except:
             pass
+
+        del_cmd = 'delete from TabAccess where uid < {}'.format(ts30d)
+        print(del_cmd)
+        cursor.execute(del_cmd)
+        conn.commit()
 
         cursor.execute("select * from TabPost where post_id = '{}'".format(post_id))
         rec = cursor.fetchone()
