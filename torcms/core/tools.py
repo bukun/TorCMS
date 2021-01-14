@@ -423,15 +423,15 @@ def get_cfg():
         if not redis_cfg.get('host'):
             redis_cfg['host'] = 'localhost'
         if not redis_cfg.get('port'):
-            redis_cfg['port'] = '6379'
+            redis_cfg['port'] = 6379
         if not redis_cfg.get('pass'):
-            redis_cfg['pass'] = 'None'
+            redis_cfg['pass'] = None
     else:
 
         redis_cfg = {
             'host': 'localhost',
-            'port': '6379',
-            'pass': 'None'
+            'port': 6379,
+            'pass': None
         }
 
     return (db_con, smtp_cfg, site_cfg, role_cfg, redis_cfg)

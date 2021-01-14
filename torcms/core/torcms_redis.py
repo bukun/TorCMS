@@ -6,7 +6,7 @@ import redis
 from config import REDIS_CFG
 
 redisvr = redis.Redis(host=REDIS_CFG.get('host'),
-                      port=REDIS_CFG.get('post'),
+                      port=REDIS_CFG.get('port'),
                       db=0,
                       password=REDIS_CFG.get('pass'),
                       socket_timeout=None,
