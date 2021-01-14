@@ -417,11 +417,22 @@ def get_cfg():
         autocommit=True,
         autorollback=True)
 
-    redis_cfg = {
-        'host': '',
-        'port': '',
-        'pass': ''
-    }
+    if 'REDIS_CFG' in cfg_var:
+
+        redis_cfg = cfg.REDIS_CFG
+        if not redis_cfg.get('host'):
+            redis_cfg['host'] = 'localhost'
+        if not redis_cfg.get('port'):
+            redis_cfg['port'] = '6379'
+        if not redis_cfg.get('pass'):
+            redis_cfg['pass'] = 'None'
+    else:
+
+        redis_cfg = {
+            'host': 'localhost',
+            'port': '6379',
+            'pass': 'None'
+        }
 
     return (db_con, smtp_cfg, site_cfg, role_cfg, redis_cfg)
 
