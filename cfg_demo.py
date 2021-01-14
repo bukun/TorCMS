@@ -11,6 +11,12 @@ DB_CFG = {
     'pass': '111111',
 }
 
+REDIS_CFG = {
+    'host': '',
+    'port': '',
+    'pass': ''
+}
+
 SMTP_CFG = {
     'name': 'TorCMS',
     'host': "smtp.ym.163.com",

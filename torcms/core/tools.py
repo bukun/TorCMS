@@ -417,7 +417,13 @@ def get_cfg():
         autocommit=True,
         autorollback=True)
 
-    return (db_con, smtp_cfg, site_cfg, role_cfg)
+    redis_cfg = {
+        'host': '',
+        'port': '',
+        'pass': ''
+    }
+
+    return (db_con, smtp_cfg, site_cfg, role_cfg, redis_cfg)
 
 
 def ts_helper():

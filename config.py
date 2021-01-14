@@ -5,7 +5,7 @@ Config for the website.
 '''
 from torcms.core.tools import get_cfg
 
-DB_CON, SMTP_CFG, SITE_CFG, ROLE_CFG = get_cfg()
+DB_CON, SMTP_CFG, SITE_CFG, ROLE_CFG, REDIS_CFG = get_cfg()
 
 DB_CFG = {
     'conn': DB_CON,
