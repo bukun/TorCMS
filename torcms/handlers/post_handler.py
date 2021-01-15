@@ -434,7 +434,7 @@ class PostHandler(BaseHandler):
                     pcatinfo=p_catinfo,
                     relations=rel_recs,
                     rand_recs=rand_recs,
-                    subcats=MCategory.query_sub_cat(p_catinfo.uid),
+                    subcats=MCategory.query_sub_cat(p_catinfo.uid) if p_catinfo else '',
                     ad_switch=random.randint(1, 18),
                     tag_info=filter(lambda x: not x.tag_name.startswith('_'),
                                     MPost2Label.get_by_uid(postinfo.uid).objects()),
