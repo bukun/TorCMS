@@ -95,18 +95,18 @@ class TestMRelation():
         assert aa.count>=2+1
         self.tearDown()
 
-    def test_get_app_relations(self):
-        self.add_tag()
-        self.add_2post()
-        self.add_rela()
-        aa=MRelation.get_app_relations(self.post_id)
-        tf=False
-        for i in aa:
-            print(i.post_id)
-            if i.post_id==self.post_id2:
-                tf=True
-        self.tearDown()
-        assert tf
+    # def test_get_app_relations(self):
+    #     self.add_tag()
+    #     self.add_2post()
+    #     self.add_rela()
+    #     aa=MRelation.get_app_relations(self.post_id)
+    #     tf=False
+    #     for i in aa:
+    #         print(i.post_id)
+    #         if i.post_id==self.post_id2:
+    #             tf=True
+    #     self.tearDown()
+    #     assert tf
 
 
     def test_delete(self):

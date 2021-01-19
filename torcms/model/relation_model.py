@@ -7,6 +7,8 @@ from torcms.model.core_tab import TabRel
 from torcms.model.core_tab import TabPost2Tag
 from torcms.model.post2catalog_model import MPost2Catalog as MInfor2Catalog
 from torcms.model.abc_model import Mabc
+from peewee import SQL
+from torcms.handlers.post_handler import MPost
 
 
 class MRelation(Mabc):
@@ -64,6 +66,8 @@ class MRelation(Mabc):
         The the related infors.
         '''
         info_tag = MInfor2Catalog.get_first_category(app_id)
+        info_title = MPost.get_by_uid(app_id)
+
         if info_tag:
             return TabPost2Tag.select(
                 TabPost2Tag,
@@ -78,13 +82,14 @@ class MRelation(Mabc):
             ).order_by(
                 peewee.fn.Random()
             ).limit(num)
-        return TabPost2Tag.select(
-            TabPost2Tag,
+
+        return TabPost.select(
             TabPost.title.alias('post_title'),
-            TabPost.valid.alias('post_valid')
-        ).join(
-            TabPost, on=(TabPost2Tag.post_id == TabPost.uid)
+            TabPost.valid.alias('post_valid'),
+            TabPost.uid.alias('post_id')
         ).where(
+            (SQL(("title like '%%{0}%%' ").format(info_title.title)))&
             (TabPost.kind == kind) &
             (TabPost.valid == 1)
+
         ).order_by(peewee.fn.Random()).limit(num)

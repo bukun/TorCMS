@@ -71,6 +71,21 @@
         </div>
     </div>
 </div>
+
+<div class="panel panel-primary">
+    <div class="panel-heading"><h3 class="panel-title">Related</h3></div>
+    <ul class="list-group" style="overflow: hidden;">
+        {% for x in relations %}
+        <li class="list-group-item" style="overflow: hidden;">
+            <a href="/post/{{ x.post_id }}">
+               {{ x.post_title }}
+                {% if x.post_id[0] == 'v' %}<span class="badge" style="color:yellow">v</span>{% end %}
+            </a>
+        </li>
+        {% end %}
+
+    </ul>
+</div>
 {% end %}
 
 
