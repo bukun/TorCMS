@@ -7,7 +7,6 @@ from torcms.model.core_tab import TabPost
 from torcms.model.core_tab import TabRel
 from torcms.model.core_tab import TabPost2Tag
 from torcms.model.abc_model import Mabc
-from torcms.handlers.post_handler import MPost
 from torcms.model.label_model import MPost2Label
 
 
@@ -69,7 +68,7 @@ class MRelation(Mabc):
         tag_info = filter(lambda x: not x.tag_name.startswith('_'),
                           MPost2Label.get_by_uid(app_id).objects())
 
-        info = MPost.get_by_uid(app_id)
+        info =TabPost.get_by_id(app_id)
 
         if tag_info:
             tag_arr = []
