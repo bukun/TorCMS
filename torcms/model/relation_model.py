@@ -70,12 +70,13 @@ class MRelation(Mabc):
 
         info =TabPost.get_by_id(app_id)
 
-        if tag_info:
-            tag_arr = []
-            for tag in tag_info:
-                tag_arr.append(tag.tag_uid)
+        tag_arr = []
+        for tag in tag_info:
+            tag_arr.append(tag.tag_uid)
 
-            return TabPost2Tag.select(
+        if len(tag_arr) > 0:
+
+            rec = TabPost2Tag.select(
                 TabPost2Tag,
                 TabPost.title.alias('post_title'),
                 TabPost.valid.alias('post_valid')
@@ -89,14 +90,17 @@ class MRelation(Mabc):
             ).distinct(TabPost2Tag.post_id).order_by(
                 TabPost2Tag.post_id
             ).limit(num)
+        else:
 
-        return TabPost.select(
-            TabPost.title.alias('post_title'),
-            TabPost.valid.alias('post_valid'),
-            TabPost.uid.alias('post_id')
-        ).where(
-            (SQL(("title like '%%{0}%%' ").format(info.title))) &
-            (TabPost.kind == kind) &
-            (TabPost.valid == 1)
+            rec = TabPost.select(
+                TabPost.title.alias('post_title'),
+                TabPost.valid.alias('post_valid'),
+                TabPost.uid.alias('post_id')
+            ).where(
+                (SQL(("title like '%%{0}%%' ").format(info.title))) &
+                (TabPost.uid != app_id) &
+                (TabPost.kind == kind) &
+                (TabPost.valid == 1)
 
-        ).order_by(peewee.fn.Random()).limit(num)
+            ).order_by(peewee.fn.Random()).limit(num)
+        return rec
