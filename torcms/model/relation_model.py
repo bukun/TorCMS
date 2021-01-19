@@ -97,7 +97,7 @@ class MRelation(Mabc):
                 TabPost.valid.alias('post_valid'),
                 TabPost.uid.alias('post_id')
             ).where(
-                (SQL(("title like '%%{0}%%' ").format(info.title))) &
+                (SQL(("title ilike '%%{0}%%' ").format(info.title))) &
                 (TabPost.uid != app_id) &
                 (TabPost.kind == kind) &
                 (TabPost.valid == 1)
