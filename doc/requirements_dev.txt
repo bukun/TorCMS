@@ -32,3 +32,5 @@ sphinx
 # graphviz
 pylint
 selenium
+pycodestyle
+tox
