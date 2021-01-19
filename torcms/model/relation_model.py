@@ -68,7 +68,7 @@ class MRelation(Mabc):
         tag_info = filter(lambda x: not x.tag_name.startswith('_'),
                           MPost2Label.get_by_uid(app_id).objects())
 
-        info =TabPost.get_by_id(app_id)
+        info = TabPost.get_by_id(app_id)
 
         tag_arr = []
         for tag in tag_info:
@@ -76,7 +76,7 @@ class MRelation(Mabc):
 
         if len(tag_arr) > 0:
 
-            rec = TabPost2Tag.select(
+            recs = TabPost2Tag.select(
                 TabPost2Tag,
                 TabPost.title.alias('post_title'),
                 TabPost.valid.alias('post_valid')
@@ -92,7 +92,7 @@ class MRelation(Mabc):
             ).limit(num)
         else:
 
-            rec = TabPost.select(
+            recs = TabPost.select(
                 TabPost.title.alias('post_title'),
                 TabPost.valid.alias('post_valid'),
                 TabPost.uid.alias('post_id')
@@ -103,4 +103,4 @@ class MRelation(Mabc):
                 (TabPost.valid == 1)
 
             ).order_by(peewee.fn.Random()).limit(num)
-        return rec
+        return recs
