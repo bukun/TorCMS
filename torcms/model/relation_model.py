@@ -1,14 +1,14 @@
 # -*- coding:utf-8 -*-
 
 import peewee
+from peewee import SQL
 from torcms.core import tools
 from torcms.model.core_tab import TabPost
 from torcms.model.core_tab import TabRel
 from torcms.model.core_tab import TabPost2Tag
-from torcms.model.post2catalog_model import MPost2Catalog as MInfor2Catalog
 from torcms.model.abc_model import Mabc
-from peewee import SQL
 from torcms.handlers.post_handler import MPost
+from torcms.model.label_model import MPost2Label
 
 
 class MRelation(Mabc):
@@ -63,12 +63,19 @@ class MRelation(Mabc):
     @staticmethod
     def get_app_relations(app_id, num=20, kind='1'):
         '''
-        The the related infors.
+        The the related infors. 如有标签按标签推荐，如无标签按标题推荐
         '''
-        info_tag = MInfor2Catalog.get_first_category(app_id)
-        info_title = MPost.get_by_uid(app_id)
 
-        if info_tag:
+        tag_info = filter(lambda x: not x.tag_name.startswith('_'),
+                          MPost2Label.get_by_uid(app_id).objects())
+
+        info = MPost.get_by_uid(app_id)
+
+        if tag_info:
+            tag_arr = []
+            for tag in tag_info:
+                tag_arr.append(tag.tag_uid)
+
             return TabPost2Tag.select(
                 TabPost2Tag,
                 TabPost.title.alias('post_title'),
@@ -76,11 +83,12 @@ class MRelation(Mabc):
             ).join(
                 TabPost, on=(TabPost2Tag.post_id == TabPost.uid)
             ).where(
-                (TabPost2Tag.tag_id == info_tag.tag_id) &
-                (TabPost.kind == kind)&
+                (TabPost2Tag.tag_id << tag_arr) &
+                (TabPost.uid != app_id) &
+                (TabPost.kind == kind) &
                 (TabPost.valid == 1)
-            ).order_by(
-                peewee.fn.Random()
+            ).distinct(TabPost2Tag.post_id).order_by(
+                TabPost2Tag.post_id
             ).limit(num)
 
         return TabPost.select(
@@ -88,7 +96,7 @@ class MRelation(Mabc):
             TabPost.valid.alias('post_valid'),
             TabPost.uid.alias('post_id')
         ).where(
-            (SQL(("title like '%%{0}%%' ").format(info_title.title)))&
+            (SQL(("title like '%%{0}%%' ").format(info.title))) &
             (TabPost.kind == kind) &
             (TabPost.valid == 1)
 
