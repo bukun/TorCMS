@@ -821,7 +821,7 @@ class MPost(Mabc):
         return uid
 
     @staticmethod
-    def query_under_condition(condition, kind='9',sort_option=''):
+    def query_under_condition(condition, kind='9', sort_option=''):
         '''
         Get All data of certain kind according to the condition
         '''
@@ -846,12 +846,8 @@ class MPost(Mabc):
                 sort_criteria = TabPost.access_30d.desc()
             else:
                 sort_criteria = TabPost.view_count.desc()
-
-
         else:
             sort_criteria = TabPost.time_update.desc()
-
-
 
         return TabPost.select().where(
             (TabPost.kind == kind) &
@@ -902,12 +898,12 @@ class MPost(Mabc):
             )
 
     @staticmethod
-    def query_list_pager(con, idx, kind='2',sort_option = ''):
+    def query_list_pager(con, idx, kind='2', sort_option=''):
         '''
         Get records of certain pager.
         '''
         if sort_option:
-            all_list = MPost.query_under_condition(con, kind=kind,sort_option = sort_option)
+            all_list = MPost.query_under_condition(con, kind=kind, sort_option=sort_option)
         else:
             all_list = MPost.query_under_condition(con, kind=kind)
         return all_list[(idx - 1) * CMS_CFG['list_num']: idx * CMS_CFG['list_num']]

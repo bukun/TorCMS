@@ -124,9 +124,7 @@ class ListHandler(BaseHandler):
                'kind': cat_rec.kind,
                'tag': tag}
 
-
         # Todo: review the following codes.
-
 
         if self.order:
             tmpl = 'list/catalog_list.html'

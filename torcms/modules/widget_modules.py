@@ -19,8 +19,8 @@ class BaiduShare(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-        en = kwargs.get('en',False)
-        return self.render_string('modules/widget/baidu_share.html',en=en)
+        en = kwargs.get('en', False)
+        return self.render_string('modules/widget/baidu_share.html', en=en)
 
 
 class ReplyPanel(tornado.web.UIModule):
@@ -64,11 +64,11 @@ class WidgetEditor(tornado.web.UIModule):
         router = args[0]
         uid = args[1]
         userinfo = args[2]
-        review = kwargs.get('review',True)
-        delete = kwargs.get('delete',False)
-        nullify = kwargs.get('nullify',False)
-        reclass = kwargs.get('reclass',True)
-        url = kwargs.get('url','')
+        review = kwargs.get('review', True)
+        delete = kwargs.get('delete', False)
+        nullify = kwargs.get('nullify', False)
+        reclass = kwargs.get('reclass', True)
+        url = kwargs.get('url', '')
         if 'catid' in kwargs:
             catid = kwargs['catid']
         else:

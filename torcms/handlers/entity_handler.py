@@ -111,12 +111,8 @@ class EntityHandler(BaseHandler):
             userip = self.get_host_ip()
 
             if ment_id:
-
                 MEntity2User.create_entity2user(ment_id, self.userinfo.uid, userip)
-
-
             else:
-
                 MEntity.create_entity(uid='', path=down_url, desc='', kind=kind)
                 ment_id = MEntity.get_id_by_impath(down_url)
                 if ment_id:
@@ -208,7 +204,7 @@ class EntityHandler(BaseHandler):
                                            path_save,
                                            post_data['desc'] if 'desc' in post_data else '',
                                            kind=post_data['kind'] if 'kind' in post_data else '1')
-        if self.entity_ajax == False:
+        if self.entity_ajax is False:
             self.redirect('/entity/{0}_m.jpg'.format(sig_save))
         else:
             if create_pic:
@@ -247,7 +243,7 @@ class EntityHandler(BaseHandler):
         path_save = os.path.join(signature[:2], outfilename)
         create_pdf = MEntity.create_entity(signature, path_save, img_desc,
                                            kind=post_data['kind'] if 'kind' in post_data else '2')
-        if self.entity_ajax == False:
+        if self.entity_ajax is False:
             self.redirect('/entity/{0}{1}'.format(sig_save, hou.lower()))
         else:
             if create_pdf:

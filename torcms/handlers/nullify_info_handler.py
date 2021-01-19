@@ -17,7 +17,6 @@ class NullifyInfoHandler(BaseHandler):
 
             self.list(url_arr[0], cur_p=url_arr[1])
 
-
     def list(self, list, **kwargs):
         '''
         List the replies.
@@ -45,4 +44,4 @@ class NullifyInfoHandler(BaseHandler):
                     userinfo=self.userinfo,
                     cfg=CMS_CFG,
                     kwd=kwd,
-                    router_post= router_post)
+                    router_post=router_post)

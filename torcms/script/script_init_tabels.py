@@ -4,7 +4,6 @@
 initialize table.s
 '''
 
-
 from playhouse import migrate
 from playhouse.postgres_ext import BinaryJSONField
 
@@ -60,12 +59,6 @@ def run_migrate(*args):
     Memo for Usage:
         migrate.migrate(torcms_migrator.rename_table('e_layout', 'mablayout'))
         migrate.migrate(torcms_migrator.drop_column('tabtag', 'role_mask'))
-    '''
-
-    '''
-    在psql状态下查询表结构
-    \d
-    tablename
     '''
 
     try:

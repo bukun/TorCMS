@@ -14,6 +14,7 @@ from torcms.core.tool import run_whoosh
 
 from config import kind_arr, post_type
 
+
 class BaseHandler(tornado.web.RequestHandler):
     '''
     The base class for handlers.
@@ -32,7 +33,6 @@ class BaseHandler(tornado.web.RequestHandler):
             self.userinfo = None
         self.is_p = False  # True, if partially rendered.
         self.is_j = False  # True, if json would be returned.
-
 
     def get_post_data(self):
         '''

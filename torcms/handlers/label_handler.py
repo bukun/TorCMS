@@ -62,8 +62,12 @@ class LabelHandler(BaseHandler):
         else:
             try:
                 current_page_number = int(cur_p)
-            except:
+            except TypeError:
                 current_page_number = 1
+            except Exception as e:
+                print(e.args)
+                print(str(e))
+                print(repr(e))
 
         current_page_number = 1 if current_page_number < 1 else current_page_number
 

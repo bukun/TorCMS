@@ -38,12 +38,10 @@ class CommentHandler(BaseHandler):
             'current_page': current_page_num,
             'count': num_of_cat,
 
-
         }
         self.render('static_pages/comment/index.html',
                     postinfo=MComment.query_pager_by_comment(current_page_num),
                     userinfo=self.userinfo,
                     cfg=CMS_CFG,
                     kwd=kwd,
-                    router_post= router_post)
-
+                    router_post=router_post)

@@ -105,14 +105,14 @@ def check_username_valid(username):
 
     >>> check_username_valid('/sadf')
     False
-    >>> check_username_valid('\s.adf')
+    >>> check_username_valid('\\s.adf')
     False
     >>> check_username_valid('')
     False
     >>> check_username_valid(' ')
     False
     '''
-    if re.match('^[a-zA-Z][a-zA-Z0-9_]{3,19}', username) != None:
+    if re.match('^[a-zA-Z][a-zA-Z0-9_]{3,19}', username) is not None:
         return True
     return False
 
@@ -128,8 +128,8 @@ def check_email_valid(email_str):
     >>> check_email_valid('sadfsdfa@comaldfsdaf.cosdafj')
     False
     '''
-    if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$",
-                email_str) != None:
+    ck_str = "^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$"
+    if re.match(ck_str, email_str) is not None:
         return True
 
     return False

@@ -81,7 +81,7 @@ class PageHandler(BaseHandler):
         '''
         To Add page.
         '''
-        if re.match('^[a-zA-Z][a-zA-Z0-9_]{3,19}', citiao) != None:
+        if re.match('^[a-zA-Z][a-zA-Z0-9_]{3,19}', citiao) is not None:
             kwd = {
                 'cats': MCategory.query_all(),
                 'slug': citiao,
@@ -90,11 +90,12 @@ class PageHandler(BaseHandler):
             self.render('wiki_page/page_add.html',
                         kwd=kwd,
                         userinfo=self.userinfo)
-
         else:
             logger.info(' ' * 4 + 'Slug contains special characters')
             kwd = {
-                'info': 'Slug contains special characters,Slug must be a combination of letters or alphanumeric or alphanumeric underscores (letters).',
+                'info': '''Slug contains special characters,
+                Slug must be a combination of letters or 
+                alphanumeric or alphanumeric underscores (letters).''',
                 'link': '/',
             }
             self.render('misc/html/404.html',

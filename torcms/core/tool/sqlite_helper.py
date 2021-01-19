@@ -36,15 +36,12 @@ class MAcces(Mabc):
 
         ts1d, ts7d, ts30d = ts_helper()
 
-
         # 使用毫秒作为ID。
         millis = int(round(time.time() * 1000))
 
         db_file = './database/log_access.db'
         conn = sqlite3.connect(db_file)
         cursor = conn.cursor()
-
-
 
         try:
             cursor.execute('CREATE TABLE TabAccess (uid BIGINT PRIMARY KEY NOT NULL ,'
@@ -81,8 +78,6 @@ class MAcces(Mabc):
             pass
 
         conn.commit()
-
-
 
         # cursor.execute('SELECT * FROM TabAccess;')
         # conn.commit()

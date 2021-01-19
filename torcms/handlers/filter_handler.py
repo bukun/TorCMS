@@ -129,10 +129,9 @@ class FilterHandler(BaseHandler):
         url_arr = self.parse_url(url_str)
         sig = url_arr[0]
 
-
         post_data = self.get_post_data()
         sort_option = post_data.get('sort', '')
-        
+
         num = (len(url_arr) - 2) // 2
 
         catinfo = MCategory.get_by_uid(sig)
@@ -159,10 +158,10 @@ class FilterHandler(BaseHandler):
             condition[ckey] = cval
 
         if url_arr[1] == 'con':
-            infos = MPost.query_list_pager(condition, fenye_num, kind=catinfo.kind,sort_option = sort_option)
+            infos = MPost.query_list_pager(condition, fenye_num, kind=catinfo.kind, sort_option=sort_option)
             self.echo_html_list_str(sig, infos, catinfo)
         elif url_arr[1] == 'num':
-            allinfos = MPost.query_under_condition(condition, kind=catinfo.kind,sort_option = sort_option)
+            allinfos = MPost.query_under_condition(condition, kind=catinfo.kind, sort_option=sort_option)
             self.write(
                 tornado.escape.xhtml_unescape(
                     echo_html_fenye_str(

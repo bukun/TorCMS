@@ -1,5 +1,5 @@
-# polib Makefile, useful for developers only.
-# Make sure you have pep8 and tox python modules installed.
+# Makefile, useful for developers only.
+# Make sure you have pycodestyle and tox python modules installed.
 
 .PHONY: clean lint test dist
 

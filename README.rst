@@ -229,17 +229,17 @@ would generate the picture for the relationship of the template files.
 Unit Tests
 =========================================
 
-First you should install pytest with ``pip`` ,
+First you should install ``pytest``, ``coverage`` and ``pytest-cov`` with ``pip`` ,
 
 ::
 
-    pip3 install pytest
+   pip3 install pytest pytest-cov coverage
 
 then run as follow:
 
 ::
 
-    python3 -m pytest tester
+   python3 -m pytest tester --cov=./tester --cov-report=html
 
 
 

@@ -65,9 +65,8 @@ class SecondaryCategoryList(tornado.web.UIModule):
             'glyph': glyph,
             'catid': catid,
             'cat_id': cat_id
-
         }
-        if second == False:
+        if second is False:
             return self.render_string(
                 'modules/category/showsubcat_list.html',
                 recs=recs,

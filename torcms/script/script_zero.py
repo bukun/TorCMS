@@ -20,7 +20,7 @@ def run_zero():
     if "'" in DB_CFG['pass']:
         print("There should be no ``'`` in password. Be careful.")
 
-    the_str = '''CREATE USER {db} WITH PASSWORD '{passwd}' ;
+    the_str = r'''CREATE USER {db} WITH PASSWORD '{passwd}' ;
 CREATE DATABASE {db} OWNER {db} ;
 GRANT ALL PRIVILEGES ON DATABASE {db} to {db} ;
 \c {db} ;
