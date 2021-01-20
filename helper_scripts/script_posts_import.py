@@ -212,7 +212,8 @@ def gen_thumb(img_path, sig):
     try:
         thum_file_path = os.path.join(logo_cache_dir, 'd' + sig[1:] + '.jpg')
         img.save(thum_file_path, "JPEG")
-    except:
+    except Exception as err:
+        print(repr(err))
         thum_file_path = os.path.join(logo_cache_dir, 'd' + sig[1:] + '.png')
         img.save(thum_file_path, "PNG")
     return thum_file_path

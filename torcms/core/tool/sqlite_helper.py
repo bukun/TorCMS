@@ -10,6 +10,7 @@ import time
 from torcms.core.tools import ts_helper
 from torcms.model.abc_model import Mabc
 
+
 # from torcms.model.core_tab import TabAccess
 
 
@@ -17,6 +18,7 @@ class MAcces(Mabc):
     '''
     Handle the usage of the info.
     '''
+
     @staticmethod
     def get_all():
         pass
@@ -44,15 +46,15 @@ class MAcces(Mabc):
             cursor.execute(
                 'CREATE TABLE TabAccess (uid BIGINT PRIMARY KEY NOT NULL ,'
                 'post_id VARCHAR(5));')
-        except:
-            pass
+        except Exception as err:
+            print(repr(err))
 
         try:
             cursor.execute(
                 'CREATE TABLE TabPost (post_id VARCHAR(5) PRIMARY KEY NOT NULL ,'
                 'count_1d integer , count_7d integer, count_30d integer );')
-        except:
-            pass
+        except Exception as err:
+            print(repr(err))
 
         del_cmd = 'delete from TabAccess where uid < {}'.format(ts30d)
         print(del_cmd)
@@ -74,8 +76,8 @@ class MAcces(Mabc):
             sql = '''insert into TabAccess (uid, post_id) values (?,?)'''
             para = (millis, post_id)
             cursor.execute(sql, para)
-        except:
-            pass
+        except Exception as err:
+            print(repr(err))
 
         conn.commit()
 
@@ -96,4 +98,4 @@ class MAcces(Mabc):
 
 
 if __name__ == '__main__':
-    MAcces.add('145db')
+    pass

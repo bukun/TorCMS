@@ -28,7 +28,8 @@ class MUser(Mabc):
         '''
         try:
             return TabMember.get(TabMember.uid == uid)
-        except:
+        except Exception as err:
+            print(repr(err))
             return None
 
     @staticmethod
@@ -38,7 +39,8 @@ class MUser(Mabc):
         '''
         try:
             return TabMember.get(user_name=uname)
-        except:
+        except Exception as err:
+            print(repr(err))
             return None
 
     @staticmethod
@@ -57,7 +59,8 @@ class MUser(Mabc):
         '''
         try:
             return TabMember.get(user_email=useremail)
-        except:
+        except Exception as err:
+            print(repr(err))
             return None
 
     @staticmethod
@@ -176,7 +179,8 @@ class MUser(Mabc):
             entry.execute()
 
             out_dic['success'] = True
-        except:
+        except Exception as err:
+            print(repr(err))
             out_dic['code'] = '91'
 
         return out_dic
@@ -191,7 +195,8 @@ class MUser(Mabc):
         try:
             entry.execute()
             return True
-        except:
+        except Exception as err:
+            print(repr(err))
             return False
 
     @staticmethod
@@ -204,7 +209,8 @@ class MUser(Mabc):
         try:
             entry.execute()
             return True
-        except:
+        except Exception as err:
+            print(repr(err))
             return False
 
     @staticmethod
@@ -265,7 +271,8 @@ class MUser(Mabc):
             )
 
             out_dic['success'] = True
-        except:
+        except Exception as err:
+            print(repr(err))
             out_dic['code'] = '91'
         return out_dic
 
@@ -293,7 +300,8 @@ class MUser(Mabc):
                 TabMember.user_name == user_name)
             del_count.execute()
             return True
-        except:
+        except Exception as err:
+            print(repr(err))
             return False
 
     @staticmethod
@@ -305,7 +313,8 @@ class MUser(Mabc):
             del_count = TabMember.delete().where(TabMember.uid == user_id)
             del_count.execute()
             return True
-        except:
+        except Exception as err:
+            print(repr(err))
             return False
 
     @staticmethod

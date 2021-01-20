@@ -45,7 +45,8 @@ class MRelation(Mabc):
         try:
             postinfo = TabRel.get((TabRel.post_f_id == app_f)
                                   & (TabRel.post_t_id == app_t))
-        except:
+        except Exception as err:
+            print(repr(err))
             return False
         entry = TabRel.update(count=postinfo.count +
                               weight).where((TabRel.post_f_id == app_f)

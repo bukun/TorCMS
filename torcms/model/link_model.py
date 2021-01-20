@@ -53,7 +53,8 @@ class MLink(Mabc):
         try:
             entry.execute()
             return True
-        except:
+        except Exception as err:
+            print(repr(err))
             return False
 
     @staticmethod
@@ -65,7 +66,8 @@ class MLink(Mabc):
             return False
         try:
             the_order = int(post_data['order'])
-        except:
+        except Exception as err:
+            print(repr(err))
             the_order = 999
         TabLink.create(name=post_data['name'],
                        link=post_data['link'],

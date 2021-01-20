@@ -57,6 +57,6 @@ class MReply2User(Mabc):
             del_count4.execute()
 
             return True
-        except:
-
+        except Exception as err:
+            print(repr(err))
             return False

@@ -94,7 +94,7 @@ class PageHandler(BaseHandler):
             logger.info(' ' * 4 + 'Slug contains special characters')
             kwd = {
                 'info': '''Slug contains special characters,
-                Slug must be a combination of letters or 
+                Slug must be a combination of letters or
                 alphanumeric or alphanumeric underscores (letters).''',
                 'link': '/',
             }

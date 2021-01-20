@@ -24,5 +24,6 @@ class MHelper():
         try:
             entry.execute()
             return True
-        except:
+        except Exception as err:
+            print(repr(err))
             return False

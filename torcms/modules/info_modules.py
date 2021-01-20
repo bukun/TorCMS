@@ -20,6 +20,7 @@ class InfoCategory(tornado.web.UIModule):
     '''
     List of category
     '''
+
     def render(self, *args, **kwargs):
         '''
         fun(uid_with_str)
@@ -57,6 +58,7 @@ class InforUserMost(tornado.web.UIModule):
     '''
     User most accessed posts.
     '''
+
     def render(self, *args, **kwargs):
         '''
         fun(user_name, kind)
@@ -85,6 +87,7 @@ class InfoMostUsed(tornado.web.UIModule):
     '''
     posts that most used.
     '''
+
     def render(self, *args, **kwargs):
 
         kind = kwargs.get('kind', args[0] if args else '1')
@@ -158,6 +161,7 @@ class InfoRecentUsed(tornado.web.UIModule):
     '''
     posts that recently used.
     '''
+
     def render(self, *args, **kwargs):
 
         kind = kwargs.get('kind', args[0] if args else '1')
@@ -210,8 +214,10 @@ class InfoRecentUsed(tornado.web.UIModule):
         glyph = kwargs.get('glyph', '')
 
         logger.info(
-            'Infor user recent, username: {user_name}, kind: {kind}, num: {num}'
-            .format(user_name=user_id, kind=kind, num=num))
+            'Infor user recent, username: {id}, kind: {kind}, num: {num}'.format(
+                id=user_id, kind=kind, num=num
+            )
+        )
 
         all_cats = MUsage.query_recent(user_id, kind, num).objects()
         kwd = {
@@ -230,6 +236,7 @@ class InfoRandom(tornado.web.UIModule):
     fun(kind, num)
     fun(kind, num, glyph = val1)
     '''
+
     def render(self, *args, **kwargs):
         kind = kwargs.get('kind', args[0])
         num = kwargs.get('num', args[1] if len(args) > 1 else 6)
@@ -246,6 +253,7 @@ class RecentAccess(tornado.web.UIModule):
     '''
     模块，最近访问最多
     '''
+
     def render(self, *args, **kwargs):
         kind = args[0]
         sig = args[1]
@@ -265,6 +273,7 @@ class InfoTags(tornado.web.UIModule):
     return tags of certain infor
     fun(uid)
     '''
+
     def render(self, *args, **kwargs):
         uid = kwargs.get('uid', args[0])
 
@@ -284,6 +293,7 @@ class LabelCount(tornado.web.UIModule):
     the count of certian tag.
     fun(uid)
     '''
+
     def render(self, *args, **kwargs):
         # uid = args[0]
 
@@ -295,14 +305,15 @@ class InfoCount(tornado.web.UIModule):
     '''
     各信息分类下，信息数量。
     '''
+
     def render(self, *args, **kwargs):
         pcat = kwargs['pcat']
         catid = kwargs['catid']
         kind = kwargs['kind']
-        if pcat == False:
-            recs = MPost.query_by_tag(catid, kind)
-        else:
+        if pcat:
             recs = MPost.query_by_parid(catid, kind)
+        else:
+            recs = MPost.query_by_tag(catid, kind)
         return recs.count()
 
 
@@ -312,6 +323,7 @@ class InfoMenu(tornado.web.UIModule):
     fun(kind)
     fun(kind, limit)
     '''
+
     def render(self, *args, **kwargs):
         kind = kwargs.get('kind', args[0])
         limit = kwargs.get('limit', 10)
@@ -330,6 +342,7 @@ class RelPost2app(tornado.web.UIModule):
     fun(uid, num, kind = val1)
     fun(uid, num, kind = val1, num = val2)
     '''
+
     def render(self, *args, **kwargs):
         uid = kwargs.get('uid', args[0])
         num = kwargs.get('num', args[1] if len(args) > 1 else 6)
@@ -361,6 +374,7 @@ class RelApp2post(tornado.web.UIModule):
     fun(uid, num, kind = val1)
     fun(uid, num, kind = val1, num = val2)
     '''
+
     def render(self, *args, **kwargs):
         uid = kwargs.get('uid', args[0])
         num = kwargs.get('num', args[1] if len(args) > 1 else 6)
@@ -387,6 +401,7 @@ class ImgSlide(tornado.web.UIModule):
     Module for Image slide.
     fun(info)
     '''
+
     def render(self, *args, **kwargs):
         info = kwargs.get('info', args[0])
         return self.render_string('modules/info/img_slide.html',
@@ -398,6 +413,7 @@ class UserInfo(tornado.web.UIModule):
     Display userinfo.
     fun(uinfo, uop)
     '''
+
     def render(self, *args, **kwargs):
         uinfo = kwargs.get('uinfo', args[0])
         uop = kwargs.get('uop', args[1])
@@ -411,6 +427,7 @@ class VipInfo(tornado.web.UIModule):
     VipInfo
     fun(uinfo, uvip)
     '''
+
     def render(self, *args, **kwargs):
         uinfo = kwargs.get('uinfo', args[0])
         uvip = kwargs.get('uvip', args[1])
@@ -424,6 +441,7 @@ class BannerModule(tornado.web.UIModule):
     BannerModule
     fun(parentid = val)
     '''
+
     def render(self, *args, **kwargs):
         parentid = kwargs.get('parentid', '')
         parentlist = MCategory.get_parent_list()
@@ -439,6 +457,7 @@ class BreadCrumb(tornado.web.UIModule):
     BreadCrumb
     fun(info)
     '''
+
     def render(self, *args, **kwargs):
         info = kwargs.get('info', args[0])
         return self.render_string('modules/info/bread_crumb.html', info=info)
@@ -449,6 +468,7 @@ class ParentName(tornado.web.UIModule):
     ParentName
     fun(info)
     '''
+
     def render(self, *args, **kwargs):
         info = kwargs.get('info', args[0])
         return self.render_string('modules/info/parentname.html', info=info)
@@ -459,6 +479,7 @@ class CatName(tornado.web.UIModule):
     CatName
     fun(info)
     '''
+
     def render(self, *args, **kwargs):
         info = kwargs.get('info', args[0])
         return self.render_string('modules/info/catname.html', info=info)
@@ -469,6 +490,7 @@ class ContactInfo(tornado.web.UIModule):
     ContactInfo
     fun(info)
     '''
+
     def render(self, *args, **kwargs):
         # info = args[0]
 
@@ -486,6 +508,7 @@ class BreadcrumbPublish(tornado.web.UIModule):
     BreadCrumb
     fun(sig = val1)
     '''
+
     def render(self, *args, **kwargs):
         sig = kwargs.get('sig', 0)
         kwd = {
@@ -500,6 +523,7 @@ class InfoList(tornado.web.UIModule):
     InfoList.
     fun(info)
     '''
+
     def render(self, *args, **kwargs):
 
         # info = args[0]

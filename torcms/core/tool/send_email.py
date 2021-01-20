@@ -27,5 +27,6 @@ def send_mail(to_list, sub, content, cc=None):
         smtper.sendmail(sender, to_list, msg.as_string())
         smtper.close()
         return True
-    except:
+    except Exception as err:
+        print(repr(err))
         return False

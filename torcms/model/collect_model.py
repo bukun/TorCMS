@@ -39,7 +39,8 @@ class MCollect(Mabc):
         try:
             return TabCollect.get((TabCollect.user_id == user_id)
                                   & (TabCollect.post_id == app_id))
-        except:
+        except Exception as err:
+            print(repr(err))
             return None
 
     @staticmethod

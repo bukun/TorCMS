@@ -134,7 +134,8 @@ class MWiki(Mabc):
                 kind=kind,  # 1 for wiki,  2 for page
             )
             return True
-        except:
+        except Exception as err:
+            print(repr(err))
             return False
 
     @staticmethod

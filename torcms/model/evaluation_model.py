@@ -28,7 +28,8 @@ class MEvaluation(Mabc):
         try:
             return TabEvaluation.get((TabEvaluation.user_id == user_id)
                                      & (TabEvaluation.post_id == app_id))
-        except:
+        except Exception as err:
+            print(repr(err))
             return None
 
     @staticmethod

@@ -22,7 +22,8 @@ def run_init(*args):
 
     try:
         DB_CON.cursor()
-    except:
+    except Exception as err:
+        print(repr(err))
         print('Could not connect to database ...')
         run_zero()
         sys.exit()

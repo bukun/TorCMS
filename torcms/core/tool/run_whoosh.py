@@ -16,7 +16,8 @@ from torcms.model.wiki_model import MWiki
 
 try:
     from jieba.analyse import ChineseAnalyzer
-except:
+except Exception as err:
+    print(repr(err))
     ChineseAnalyzer = None
 
 SITE_CFG['LANG'] = SITE_CFG.get('LANG', 'zh')

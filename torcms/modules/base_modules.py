@@ -802,7 +802,8 @@ class ReplyPostById(tornado.web.UIModule):
         try:
             rec = MPost.get_by_uid(post_id)
             return rec.title
-        except:
+        except Exception as err:
+            print(repr(err))
             # todo:进入评论列表页面后显示None，再刷新才会删除不存在post的评论
             MReply2User.delete(reply_uid)
 

@@ -34,7 +34,8 @@ class MRating(Mabc):
         try:
             recs = TabRating.select().where((TabRating.post_id == postid)
                                             & (TabRating.user_id == userid))
-        except:
+        except Exception as err:
+            print(repr(err))
             return False
         if recs.count() > 0:
             return recs.get().rating

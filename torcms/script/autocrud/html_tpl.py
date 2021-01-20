@@ -81,31 +81,31 @@ TPL_VIEW = '''{% extends "../../tmpl_kkkk/tpl_viewssss.html" %}
     {% end %}'''
 
 HTML_INPUT_EDIT_DOWNLOAD = '''
-    <div class="form-group">
-        <label  class="col-sm-2 control-label"  for="{sig_en}">
-        <span><a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
-        </a>{sig_zh}</span>
-        </label>
-        <div class="col-sm-8">
-        <input id='{sig_en}' name="{sig_en}"
-        value="{{{{ postinfo.extinfo.get('{sig_en}','') }}}}"
-        type="{sig_type}"  class="form-control"> </div>
-         <div class="col-sm-2"><a href="/entry/add" target="_blank" class="btn btn-primary" role="button">Upload</a></div>
-         </div>
-        '''
+<div class="form-group">
+<label  class="col-sm-2 control-label"  for="{sig_en}">
+<span><a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
+</a>{sig_zh}</span>
+</label>
+<div class="col-sm-8">
+<input id='{sig_en}' name="{sig_en}"
+value="{{{{ postinfo.extinfo.get('{sig_en}','') }}}}"
+type="{sig_type}"  class="form-control"> </div>
+<div class="col-sm-2"><a href="/entry/add" target="_blank" class="btn btn-primary" role="button">Upload</a></div>
+</div>
+'''
 HTML_INPUT_EDIT = '''
-        <div class="form-group">
-        <label  class="col-sm-2 control-label"  for="{sig_en}">
-        <span><a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
-        </a>{sig_zh}</span>
-        </label>
-        <div class="col-sm-9">
-        <input id='{sig_en}' name="{sig_en}"
-        value="{{{{ postinfo.extinfo.get('{sig_en}','') }}}}"
-        type="{sig_type}"  class="form-control"> </div>
-         <div class="col-sm-1">{sig_dic}</div>
-         </div>
-        '''
+<div class="form-group">
+<label  class="col-sm-2 control-label"  for="{sig_en}">
+<span><a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
+</a>{sig_zh}</span>
+</label>
+<div class="col-sm-9">
+<input id='{sig_en}' name="{sig_en}"
+value="{{{{ postinfo.extinfo.get('{sig_en}','') }}}}"
+type="{sig_type}"  class="form-control"> </div>
+<div class="col-sm-1">{sig_dic}</div>
+</div>
+'''
 
 HTML_INPUT_ADD_DOWNLOAD = '''<div class="form-group">
 <label class="col-sm-2 control-label" for="{sig_en}">
@@ -121,39 +121,39 @@ class="form-control">
 </div></div>
 '''
 HTML_INPUT_ADD = '''
-        <div class="form-group">
-        <label class="col-sm-2 control-label" for="{sig_en}">
-        <span><a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
-        </a>{sig_zh}</span>
-        </label>
-        <div class="col-sm-9">
-        <input id='{sig_en}' name="{sig_en}" value="" type="{sig_type}"
-        class="form-control">
-         </div>
-         <div class="col-sm-1">
-         {sig_dic}
-        </div></div>
-        '''
+<div class="form-group">
+<label class="col-sm-2 control-label" for="{sig_en}">
+<span><a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
+</a>{sig_zh}</span>
+</label>
+<div class="col-sm-9">
+<input id='{sig_en}' name="{sig_en}" value="" type="{sig_type}"
+class="form-control">
+</div>
+<div class="col-sm-1">
+{sig_dic}
+</div></div>
+'''
 
 HTML_INPUT_VIEW_DONWLOAD = '''<div class="row">
-    <div class="col-sm-4"><span class="des"><strong>{sig_zh}</strong></span></div>
-    <div class="col-sm-8">
+<div class="col-sm-4"><span class="des"><strong>{sig_zh}</strong></span></div>
+<div class="col-sm-8">
 
-    {{% if userinfo %}}
+{{% if userinfo %}}
 
-    {{% if postinfo.extinfo.get('tag_file_download') or postinfo.extinfo.get('tag__file_download') %}}
-    <a class="val btn-xs btn btn-warning" onclick="entity_down('{{{{postinfo.uid}}}}')"
-     id="file_download" style="cursor: pointer; color:#fff">
-     <span class="glyphicon glyphicon-download-alt"> Download</span>
-     {sig_unit}</a>
-     {{% else %}}
-     <span class="glyphicon glyphicon-ban-circle" style="color:red"> Unavailable</span>
-    {{% end %}}
-      {{% else %}}
-    <a href="/user/login">Please download after login, click to <span class="btn btn-primary btn-xs"> login in</span>. </a>
-    {{% end %}}
-     </div></div>
-    '''
+{{% if postinfo.extinfo.get('tag_file_download') or postinfo.extinfo.get('tag__file_download') %}}
+<a class="val btn-xs btn btn-warning" onclick="entity_down('{{{{postinfo.uid}}}}')"
+ id="file_download" style="cursor: pointer; color:#fff">
+ <span class="glyphicon glyphicon-download-alt"> Download</span>
+ {sig_unit}</a>
+ {{% else %}}
+ <span class="glyphicon glyphicon-ban-circle" style="color:red"> Unavailable</span>
+{{% end %}}
+  {{% else %}}
+<a href="/user/login">Please download after login, click to <span class="btn btn-primary btn-xs"> login in</span>. </a>
+{{% end %}}
+ </div></div>
+'''
 
 HTML_INPUT_VIEW_LINK = '''<div class="row">
     <div class="col-sm-4"><span class="des"><strong>{1}</strong></span></div>

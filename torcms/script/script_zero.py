@@ -5,7 +5,8 @@ Generate some helper files.
 
 try:
     from cfg import DB_CFG
-except:
+except Exception as err:
+    print(repr(err))
     DB_CFG = {
         'db': '',
         'pass': '',

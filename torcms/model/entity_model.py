@@ -77,7 +77,8 @@ class MEntity():
                              time_create=time.time(),
                              kind=kind)
             return True
-        except:
+        except Exception as err:
+            print(repr(err))
             return False
 
     @staticmethod

@@ -30,7 +30,8 @@ class MPostHist(Mabc):
         try:
             del_count.execute()
             return False
-        except:
+        except Exception as err:
+            print(repr(err))
             return True
 
     @staticmethod

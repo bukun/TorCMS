@@ -53,6 +53,7 @@ def html_min(func):
     used as decorator to minify HTML string.
     Unused.
     '''
+
     def wrapper(*args):
         # return html_minify(func(*args))
         return minify(func(*args))
@@ -65,6 +66,7 @@ class Storage(dict):
     from web.py
     对字典进行扩展，使其支持通过 dict.a形式访问以代替dict['a']
     """
+
     def __getattr__(self, key):
         try:
             return self[key]
@@ -180,7 +182,11 @@ def get_uu8d():
     return str(uuid.uuid1()).split('-')[0]
 
 
-func_rand_arr = lambda arr, len: ''.join(random.sample(arr, len))
+def func_rand_arr(arr, len):
+    '''
+    func_rand_arr = lambda arr, len: ''.join(random.sample(arr, len))
+    '''
+    return ''.join(random.sample(arr, len))
 
 
 def get_uu4d_v2():

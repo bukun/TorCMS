@@ -19,7 +19,6 @@ class Ext_tag(Mabc):
         return taglist
 
 
-
 class Ext_Post(Mabc):
     @staticmethod
     def query_all_bytag(tag, kind='2'):
@@ -37,24 +36,15 @@ class Ext_Post(Mabc):
         return recs
 
 
-
-
-
-
-
-
-
-
 def export_data(kind):
-
     filename = 'ResForm'
 
     out_docx = './xx_out.xlsx'
     if os.path.exists(out_docx):
         try:
             os.remove(out_docx)
-        except:
-            pass
+        except Exception as err:
+            print(repr(err))
 
     kind = kind
     taglist = Ext_tag.get_taglist(kind)
@@ -63,7 +53,7 @@ def export_data(kind):
     for tag in taglist:
         if not str(tag).endswith('00'):
             sig = str(tag)
-            postinfos = Ext_Post.query_all_bytag(sig,kind = kind)
+            postinfos = Ext_Post.query_all_bytag(sig, kind=kind)
             wb.create_sheet(str(tag))
             print(len(postinfos))
             ws = wb[sig]
@@ -72,10 +62,11 @@ def export_data(kind):
             if len(postinfos):
                 for x in postinfos:
                     ws.cell(row=row_inx + 1, column=col_inx).value = x.uid
-                    ws.cell(row=row_inx + 1,column = col_inx + 1).value = x.title
+                    ws.cell(row=row_inx + 1, column=col_inx + 1).value = x.title
                     row_inx = row_inx + 1
     wb.save(out_docx)
     return filename
+
 
 if __name__ == '__main__':
     export_data('9')

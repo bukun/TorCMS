@@ -17,8 +17,8 @@ def drop_the_table(table_name):
     '''
     try:
         table_name.drop_table()
-    except:
-        pass
+    except Exception as err:
+        print(repr(err))
 
 
 def run_drop_tables(_):

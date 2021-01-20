@@ -21,8 +21,8 @@ def create_table(the_table):
     '''
     try:
         the_table.create_table()
-    except:
-        pass
+    except Exception as err:
+        print(repr(err))
 
 
 def run_init_tables(*args):
@@ -71,8 +71,8 @@ def run_migrate(*args):
         )
         print("    Table TabMember altered successfully")
         conn.commit()
-    except:
-        pass
+    except Exception as err:
+        print(repr(err))
 
     print('Begin migrate ...')
 
@@ -86,8 +86,8 @@ def run_migrate(*args):
     try:
         migrate.migrate(
             torcms_migrator.add_column('tabpost', 'memo', memo_field))
-    except:
-        pass
+    except Exception as err:
+        print(repr(err))
 
     desc_field = migrate.CharField(null=False,
                                    default='',
@@ -96,8 +96,8 @@ def run_migrate(*args):
     try:
         migrate.migrate(
             torcms_migrator.add_column('tabentity', 'desc', desc_field))
-    except:
-        pass
+    except Exception as err:
+        print(repr(err))
 
     extinfo_field = BinaryJSONField(null=False,
                                     default={},
@@ -105,8 +105,8 @@ def run_migrate(*args):
     try:
         migrate.migrate(
             torcms_migrator.add_column('tabmember', 'extinfo', extinfo_field))
-    except:
-        pass
+    except Exception as err:
+        print(repr(err))
 
     par_id_field = migrate.CharField(null=False,
                                      default='',
@@ -115,8 +115,8 @@ def run_migrate(*args):
     try:
         migrate.migrate(
             torcms_migrator.add_column('tabpost2tag', 'par_id', par_id_field))
-    except:
-        pass
+    except Exception as err:
+        print(repr(err))
 
     category_field = migrate.CharField(null=False,
                                        default='0',
@@ -125,14 +125,14 @@ def run_migrate(*args):
     try:
         migrate.migrate(
             torcms_migrator.add_column('tabreply', 'category', category_field))
-    except:
-        pass
+    except Exception as err:
+        print(repr(err))
 
     try:
         migrate.migrate(torcms_migrator.drop_column('tabentity2user', 'count'))
         # print('删除字段成功：count.')
-    except:
-        pass
+    except Exception as err:
+        print(repr(err))
 
     user_ip_field = migrate.CharField(
         null=False,
@@ -144,29 +144,29 @@ def run_migrate(*args):
             torcms_migrator.add_column('tabentity2user', 'user_ip',
                                        user_ip_field))
         # print('添加字段成功：user_ip.')
-    except:
-        pass
+    except Exception as err:
+        print(repr(err))
 
     view_count_1d = migrate.IntegerField(default=0, help_text='24小时内阅读量')
     try:
         migrate.migrate(
             torcms_migrator.add_column('tabpost', 'access_1d', view_count_1d))
-    except:
-        pass
+    except Exception as err:
+        print(repr(err))
 
     view_count_7d = migrate.IntegerField(default=0, help_text='7*24小时内阅读量')
     try:
         migrate.migrate(
             torcms_migrator.add_column('tabpost', 'access_7d', view_count_7d))
-    except:
-        pass
+    except Exception as err:
+        print(repr(err))
 
     view_count_30d = migrate.IntegerField(default=0, help_text='30*24小时内阅读量')
     try:
         migrate.migrate(
             torcms_migrator.add_column('tabpost', 'access_30d',
                                        view_count_30d))
-    except:
-        pass
+    except Exception as err:
+        print(repr(err))
 
     print('Migration finished.')
