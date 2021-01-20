@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 针对增删改查的权限进行处理。
 '''
@@ -24,7 +23,6 @@ def auth_view(method):
     '''
     role for view.
     '''
-
     def wrapper(self, *args, **kwargs):
         '''
         wrapper.
@@ -47,9 +45,7 @@ def auth_view(method):
             kwd = {
                 'info': 'No role',
             }
-            self.render('misc/html/404.html',
-                        kwd=kwd,
-                        userinfo=self.userinfo)
+            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
     return wrapper
 
@@ -58,7 +54,6 @@ def auth_add(method):
     '''
     role for add.
     '''
-
     def wrapper(self, *args, **kwargs):
         '''
         wrapper.
@@ -78,9 +73,7 @@ def auth_add(method):
             kwd = {
                 'info': 'No role',
             }
-            self.render('misc/html/404.html',
-                        kwd=kwd,
-                        userinfo=self.userinfo)
+            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
     return wrapper
 
@@ -89,7 +82,6 @@ def auth_edit(method):
     '''
     role for edit.
     '''
-
     def wrapper(self, *args, **kwargs):
         '''
         wrapper.
@@ -110,9 +102,7 @@ def auth_edit(method):
             kwd = {
                 'info': 'No role',
             }
-            self.render('misc/html/404.html',
-                        kwd=kwd,
-                        userinfo=self.userinfo)
+            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
     return wrapper
 
@@ -121,7 +111,6 @@ def auth_delete(method):
     '''
     role for delete.
     '''
-
     def wrapper(self, *args, **kwargs):
         '''
         wrapper.
@@ -142,9 +131,7 @@ def auth_delete(method):
             kwd = {
                 'info': 'No role',
             }
-            self.render('misc/html/404.html',
-                        kwd=kwd,
-                        userinfo=self.userinfo)
+            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
     return wrapper
 
@@ -153,7 +140,6 @@ def auth_admin(method):
     '''
     role for admin.
     '''
-
     def wrapper(self, *args, **kwargs):
         '''
         wrapper.
@@ -174,8 +160,6 @@ def auth_admin(method):
             kwd = {
                 'info': 'No role',
             }
-            self.render('misc/html/404.html',
-                        kwd=kwd,
-                        userinfo=self.userinfo)
+            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
     return wrapper

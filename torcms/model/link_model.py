@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 For friends links.
 '''
@@ -11,7 +10,6 @@ class MLink(Mabc):
     '''
     For friends links.
     '''
-
     @staticmethod
     def get_counts():
         '''

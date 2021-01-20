@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 Handler for wiki, and page.
 '''
@@ -11,7 +10,6 @@ class WikiAjaxHandler(WikiHandler):
     '''
     Handler for wiki, and page.
     '''
-
     def initialize(self):
         super(WikiAjaxHandler, self).initialize()
         self.kind = '1'

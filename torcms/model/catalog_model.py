@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 Model for Posts.
 '''
@@ -13,7 +12,6 @@ class MCatalog(Mabc):
     '''
     Model for catalog list.
     '''
-
     def __init__(self):
         super(MCatalog, self).__init__()
 
@@ -35,12 +33,8 @@ class MCatalog(Mabc):
 
         recs = TabPost.select().join(
             TabPost2Tag,
-            on=(TabPost.uid == TabPost2Tag.post_id)
-        ).where(
-            cat_con
-        ).order_by(
-            TabPost.time_update.desc()
-        )
+            on=(TabPost.uid == TabPost2Tag.post_id)).where(cat_con).order_by(
+                TabPost.time_update.desc())
 
         return recs
 
@@ -50,5 +44,6 @@ class MCatalog(Mabc):
         查询大类记录
         '''
 
-        recs = TabTag.select().where(TabTag.uid.endswith('00')).order_by(TabTag.uid)
+        recs = TabTag.select().where(TabTag.uid.endswith('00')).order_by(
+            TabTag.uid)
         return recs

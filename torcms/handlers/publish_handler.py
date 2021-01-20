@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 The web page for publish, with category.
 '''
@@ -16,7 +15,6 @@ class PublishHandler(BaseHandler):
     '''
     Try to add new post, with category information.
     '''
-
     def initialize(self, **kwargs):
         super(PublishHandler, self).initialize()
 
@@ -76,9 +74,11 @@ class PublishHandler(BaseHandler):
              style="display: inline-block;margin:3px;" >
              {1}</a>'''.format(rec.uid, rec.name)
 
-        kwd = {'class1str': class1str,
-               'parentid': '0',
-               'parentlist': MCategory.get_parent_list()}
+        kwd = {
+            'class1str': class1str,
+            'parentid': '0',
+            'parentlist': MCategory.get_parent_list()
+        }
         self.render('misc/publish/publish.html',
                     userinfo=self.userinfo,
                     kwd=kwd)
@@ -94,9 +94,11 @@ class PublishHandler(BaseHandler):
         else:
             return False
 
-        kwd = {'class1str': self.format_class2(fatherid),
-               'parentid': '0',
-               'parentlist': MCategory.get_parent_list()}
+        kwd = {
+            'class1str': self.format_class2(fatherid),
+            'parentid': '0',
+            'parentlist': MCategory.get_parent_list()
+        }
 
         if fatherid.endswith('00'):
             self.render('misc/publish/publish2.html',
@@ -104,4 +106,5 @@ class PublishHandler(BaseHandler):
                         kwd=kwd)
         else:
             catinfo = MCategory.get_by_uid(fatherid)
-            self.redirect('/{1}/_cat_add/{0}'.format(fatherid, router_post[catinfo.kind]))
+            self.redirect('/{1}/_cat_add/{0}'.format(
+                fatherid, router_post[catinfo.kind]))

@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 定义模块的名称，作为调用的名称
 '''
@@ -24,7 +23,6 @@ core_modules = {
     'post_cat_recent': base_modules.PostCategoryRecent,
     'showout_recent': base_modules.ShowoutRecent,
     'generate_abstract': base_modules.GenerateAbstract,
-
     'site_url': base_modules.SiteUrl,
     'site_title': base_modules.SiteTitle,
     'generate_description': base_modules.GenerateDescription,
@@ -46,14 +44,12 @@ core_modules = {
     'Topline': base_modules.ToplineModule,
     'collect': base_modules.Collect,
     'user_collect': base_modules.UserCollect,
-
     'torcms_copyright': base_modules.CopyRight,
     'entity_list': base_modules.EntityList,
     'entity_pager': base_modules.EntityPager,
     'entity_download_user': base_modules.Entity2UserPager,
     'entity_download_list': base_modules.Entity2Pager,
     'app_title': base_modules.AppTitle,
-
     'user_name_by_id': base_modules.UserName,
     'reply_post_by_id': base_modules.ReplyPostById,
     'category_by_slug': base_modules.CategoryBySlug,
@@ -63,7 +59,6 @@ core_modules = {
     'admin_reply_pager': base_modules.Admin_reply_pager,
     'admin_user_pager': base_modules.Admin_user_pager,
     'admin_log_pager': base_modules.Admin_log_pager,
-
     'pageview_count': base_modules.LogPageviewCount,
     'info_nullify': base_modules.InfoNullify,
     'nullify_pager': base_modules.Nullify_pager,
@@ -110,7 +105,6 @@ core_modules = {
     'category_menu': category_modules.CategoryMenu,
     'category_name': category_modules.CategoryName,
     'catalog_menu': catalog_modules.CatalogMenu,
-
     'catalog_list': catalog_modules.CatalogList,
     'secondary_category_menu': category_modules.SecondaryCategoryMenu,
     'secondary_category_list': category_modules.SecondaryCategoryList,
@@ -118,5 +112,4 @@ core_modules = {
     'comment_list': widget_modules.CommentList,
     'replycnt': widget_modules.Replycnt,
     'user_profile_by_id': widget_modules.Userprofile,
-
 }

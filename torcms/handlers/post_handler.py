@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 The basic HTML Page handler.
 '''
@@ -200,7 +199,9 @@ class PostHandler(BaseHandler):
         '''
         self.render('post_{0}/post_index.html'.format(self.kind),
                     userinfo=self.userinfo,
-                    kwd={'uid': '', })
+                    kwd={
+                        'uid': '',
+                    })
 
     def _gen_uid(self):
         '''
@@ -227,7 +228,8 @@ class PostHandler(BaseHandler):
         else:
             cat_id = None
 
-        logger.info('For templates: catid: {0},  filter_view: {1}'.format(cat_id, self.filter_view))
+        logger.info('For templates: catid: {0},  filter_view: {1}'.format(
+            cat_id, self.filter_view))
 
         if cat_id and self.filter_view:
             tmpl = 'autogen/view/view_{0}.html'.format(cat_id)
@@ -287,9 +289,12 @@ class PostHandler(BaseHandler):
             else:
                 uid = ''
             self.render('post_{0}/post_add.html'.format(self.kind),
-                        tag_infos=MCategory.query_all(by_order=True, kind=self.kind),
+                        tag_infos=MCategory.query_all(by_order=True,
+                                                      kind=self.kind),
                         userinfo=self.userinfo,
-                        kwd={'uid': uid, })
+                        kwd={
+                            'uid': uid,
+                        })
 
     @tornado.web.authenticated
     @privilege.auth_edit
@@ -333,7 +338,9 @@ class PostHandler(BaseHandler):
             'catname': '',
             'parentlist': MCategory.get_parent_list(),
             'userip': self.request.remote_ip,
-            'extinfo': json.dumps(postinfo.extinfo, indent=2, ensure_ascii=False),
+            'extinfo': json.dumps(postinfo.extinfo,
+                                  indent=2,
+                                  ensure_ascii=False),
         }
 
         if self.filter_view:
@@ -343,19 +350,20 @@ class PostHandler(BaseHandler):
 
         logger.info('Meta template: {0}'.format(tmpl))
 
-        self.render(
-            tmpl,
-            kwd=kwd,
-            postinfo=postinfo,
-            catinfo=catinfo,
-            pcatinfo=p_catinfo,
-            userinfo=self.userinfo,
-            cat_enum=MCategory.get_qian2(catid[:2]),
-            tag_infos=MCategory.query_all(by_order=True, kind=self.kind),
-            tag_infos2=MCategory.query_all(by_order=True, kind=self.kind),
-            app2tag_info=MPost2Catalog.query_by_entity_uid(infoid, kind=self.kind).objects(),
-            app2label_info=MPost2Label.get_by_uid(infoid).objects()
-        )
+        self.render(tmpl,
+                    kwd=kwd,
+                    postinfo=postinfo,
+                    catinfo=catinfo,
+                    pcatinfo=p_catinfo,
+                    userinfo=self.userinfo,
+                    cat_enum=MCategory.get_qian2(catid[:2]),
+                    tag_infos=MCategory.query_all(by_order=True,
+                                                  kind=self.kind),
+                    tag_infos2=MCategory.query_all(by_order=True,
+                                                   kind=self.kind),
+                    app2tag_info=MPost2Catalog.query_by_entity_uid(
+                        infoid, kind=self.kind).objects(),
+                    app2label_info=MPost2Label.get_by_uid(infoid).objects())
 
     def _gen_last_current_relation(self, post_id):
         '''
@@ -381,7 +389,8 @@ class PostHandler(BaseHandler):
         if postinfo.kind == self.kind:
             pass
         else:
-            self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], postinfo.uid),
+            self.redirect('/{0}/{1}'.format(router_post[postinfo.kind],
+                                            postinfo.uid),
                           permanent=True)
 
     @privilege.auth_view
@@ -414,33 +423,37 @@ class PostHandler(BaseHandler):
         MAcces.add(postinfo.uid)
 
         if self.get_current_user() and self.userinfo:
-            MUsage.add_or_update(self.userinfo.uid, postinfo.uid, postinfo.kind)
+            MUsage.add_or_update(self.userinfo.uid, postinfo.uid,
+                                 postinfo.kind)
 
         self.set_cookie('user_pass', kwd['cookie_str'])
 
         tmpl = self.ext_tmpl_view(postinfo)
 
         if self.userinfo:
-            recent_apps = MUsage.query_recent(self.userinfo.uid, postinfo.kind, 6).objects()[1:]
+            recent_apps = MUsage.query_recent(self.userinfo.uid, postinfo.kind,
+                                              6).objects()[1:]
         else:
             recent_apps = []
         logger.info('The Info Template: {0}'.format(tmpl))
 
-        self.render(tmpl,
-                    kwd=dict(kwd, **self.ext_view_kwd(postinfo)),
-                    postinfo=postinfo,
-                    userinfo=self.userinfo,
-                    author=postinfo.user_name,  # Todo: remove the key `author`.
-                    catinfo=catinfo,
-                    pcatinfo=p_catinfo,
-                    relations=rel_recs,
-                    rand_recs=rand_recs,
-                    subcats=MCategory.query_sub_cat(p_catinfo.uid) if p_catinfo else '',
-                    ad_switch=random.randint(1, 18),
-                    tag_info=filter(lambda x: not x.tag_name.startswith('_'),
-                                    MPost2Label.get_by_uid(postinfo.uid).objects()),
-                    recent_apps=recent_apps,
-                    cat_enum=cat_enum1)
+        self.render(
+            tmpl,
+            kwd=dict(kwd, **self.ext_view_kwd(postinfo)),
+            postinfo=postinfo,
+            userinfo=self.userinfo,
+            author=postinfo.user_name,  # Todo: remove the key `author`.
+            catinfo=catinfo,
+            pcatinfo=p_catinfo,
+            relations=rel_recs,
+            rand_recs=rand_recs,
+            subcats=MCategory.query_sub_cat(p_catinfo.uid)
+            if p_catinfo else '',
+            ad_switch=random.randint(1, 18),
+            tag_info=filter(lambda x: not x.tag_name.startswith('_'),
+                            MPost2Label.get_by_uid(postinfo.uid).objects()),
+            recent_apps=recent_apps,
+            cat_enum=cat_enum1)
 
     def _the_view_kwd(self, postinfo):
         '''
@@ -476,13 +489,16 @@ class PostHandler(BaseHandler):
             cat_uid = cat_rec.tag_id
             cat_uid_arr.append(cat_uid)
         logger.info('info category: {0}'.format(cat_uid_arr))
-        rel_recs = MRelation.get_app_relations(uid, 8, kind=self.kind).objects()
+        rel_recs = MRelation.get_app_relations(uid, 8,
+                                               kind=self.kind).objects()
 
         logger.info('rel_recs count: {0}'.format(rel_recs.count()))
         if cat_uid_arr:
-            rand_recs = MPost.query_cat_random(cat_uid_arr[0], limit=4 - rel_recs.count() + 4)
+            rand_recs = MPost.query_cat_random(cat_uid_arr[0],
+                                               limit=4 - rel_recs.count() + 4)
         else:
-            rand_recs = MPost.query_random(num=4 - rel_recs.count() + 4, kind=self.kind)
+            rand_recs = MPost.query_random(num=4 - rel_recs.count() + 4,
+                                           kind=self.kind)
         return rand_recs, rel_recs
 
     def _add_relation(self, f_uid, t_uid):
@@ -532,8 +548,10 @@ class PostHandler(BaseHandler):
         # append external infor.
 
         if 'tags' in post_data:
-            ext_dic['def_tag_arr'] = [x.strip() for x
-                                      in post_data['tags'].strip().strip(',').split(',')]
+            ext_dic['def_tag_arr'] = [
+                x.strip()
+                for x in post_data['tags'].strip().strip(',').split(',')
+            ]
         ext_dic = dict(ext_dic, **self.ext_post_data(postdata=post_data))
 
         return (post_data, ext_dic)
@@ -575,9 +593,7 @@ class PostHandler(BaseHandler):
         ext_dic['def_uid'] = uid
         ext_dic['gcat0'] = post_data['gcat0']
         ext_dic['def_cat_uid'] = post_data['gcat0']
-        MPost.modify_meta(ext_dic['def_uid'],
-                          post_data,
-                          extinfo=ext_dic)
+        MPost.modify_meta(ext_dic['def_uid'], post_data, extinfo=ext_dic)
         kwargs.pop('uid', None)  # delete `uid` if exists in kwargs
 
         self._add_download_entity(ext_dic)
@@ -703,8 +719,8 @@ class PostHandler(BaseHandler):
         return {}
 
     def _add_download_entity(self, ext_dic):
-        download_url = ext_dic['tag_file_download'].strip().lower() if ('tag_file_download'
-                                                                        in ext_dic) else ''
+        download_url = ext_dic['tag_file_download'].strip().lower() if (
+            'tag_file_download' in ext_dic) else ''
         the_entity = MEntity.get_id_by_impath(download_url)
         if the_entity:
             return True
@@ -745,4 +761,5 @@ class PostHandler(BaseHandler):
         # self.update_category(post_uid)
 
         update_category(post_uid, post_data)
-        self.redirect('/{0}/{1}'.format(router_post[post_data['kcat']], post_uid))
+        self.redirect('/{0}/{1}'.format(router_post[post_data['kcat']],
+                                        post_uid))

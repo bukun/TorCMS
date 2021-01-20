@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 Tornado Modules for infor.
 '''
@@ -21,7 +20,6 @@ class InfoCategory(tornado.web.UIModule):
     '''
     List of category
     '''
-
     def render(self, *args, **kwargs):
         '''
         fun(uid_with_str)
@@ -37,10 +35,7 @@ class InfoCategory(tornado.web.UIModule):
         glyph = kwargs.get('glyph', '')
         count = kwargs.get('count', False)
 
-        kwd = {
-            'glyph': glyph,
-            'count': count
-        }
+        kwd = {'glyph': glyph, 'count': count}
         curinfo = MCategory.get_by_uid(uid_with_str)
 
         sub_cats = MCategory.query_sub_cat(uid_with_str)
@@ -62,7 +57,6 @@ class InforUserMost(tornado.web.UIModule):
     '''
     User most accessed posts.
     '''
-
     def render(self, *args, **kwargs):
         '''
         fun(user_name, kind)
@@ -91,7 +85,6 @@ class InfoMostUsed(tornado.web.UIModule):
     '''
     posts that most used.
     '''
-
     def render(self, *args, **kwargs):
 
         kind = kwargs.get('kind', args[0] if args else '1')
@@ -108,7 +101,10 @@ class InfoMostUsed(tornado.web.UIModule):
                                         user_id=userinfo.uid,
                                         glyph=glyph)
         else:
-            html_str = self.render_it(kind, num, with_tag=with_tag, glyph=glyph)
+            html_str = self.render_it(kind,
+                                      num,
+                                      with_tag=with_tag,
+                                      glyph=glyph)
         return html_str
 
     def render_it(self, *args, **kwargs):
@@ -162,7 +158,6 @@ class InfoRecentUsed(tornado.web.UIModule):
     '''
     posts that recently used.
     '''
-
     def render(self, *args, **kwargs):
 
         kind = kwargs.get('kind', args[0] if args else '1')
@@ -173,15 +168,16 @@ class InfoRecentUsed(tornado.web.UIModule):
         glyph = kwargs.get('glyph', '')
 
         if userinfo:
-            html_str = self.render_user(
-                kind,
-                num,
-                with_tag=with_tag,
-                user_id=userinfo.uid,
-                glyph=glyph
-            )
+            html_str = self.render_user(kind,
+                                        num,
+                                        with_tag=with_tag,
+                                        user_id=userinfo.uid,
+                                        glyph=glyph)
         else:
-            html_str = self.render_it(kind, num, with_tag=with_tag, glyph=glyph)
+            html_str = self.render_it(kind,
+                                      num,
+                                      with_tag=with_tag,
+                                      glyph=glyph)
         return html_str
 
     def render_it(self, kind, num, with_tag=False, glyph=''):
@@ -214,10 +210,8 @@ class InfoRecentUsed(tornado.web.UIModule):
         glyph = kwargs.get('glyph', '')
 
         logger.info(
-            'Infor user recent, username: {user_name}, kind: {kind}, num: {num}'.format(
-                user_name=user_id, kind=kind, num=num
-            )
-        )
+            'Infor user recent, username: {user_name}, kind: {kind}, num: {num}'
+            .format(user_name=user_id, kind=kind, num=num))
 
         all_cats = MUsage.query_recent(user_id, kind, num).objects()
         kwd = {
@@ -236,26 +230,22 @@ class InfoRandom(tornado.web.UIModule):
     fun(kind, num)
     fun(kind, num, glyph = val1)
     '''
-
     def render(self, *args, **kwargs):
         kind = kwargs.get('kind', args[0])
         num = kwargs.get('num', args[1] if len(args) > 1 else 6)
         glyph = kwargs.get('glyph', '')
 
         all_cats = MPost.query_random(num=num, kind=kind)
-        kwd = {
-            'router': router_post[kind],
-            'glyph': glyph
-        }
+        kwd = {'router': router_post[kind], 'glyph': glyph}
         return self.render_string('modules/info/list_equation.html',
-                                  recs=all_cats, kwd=kwd)
+                                  recs=all_cats,
+                                  kwd=kwd)
 
 
 class RecentAccess(tornado.web.UIModule):
     '''
     模块，最近访问最多
     '''
-
     def render(self, *args, **kwargs):
         kind = args[0]
         sig = args[1]
@@ -264,11 +254,7 @@ class RecentAccess(tornado.web.UIModule):
 
         recs = MPost.query_access(kind, sig)
 
-        kwd = {
-            'router': router_post[kind],
-            'with_tag': '',
-            'glyph': glyph
-        }
+        kwd = {'router': router_post[kind], 'with_tag': '', 'glyph': glyph}
         return self.render_string('modules/info/list_equation.html',
                                   recs=recs,
                                   kwd=kwd)
@@ -279,7 +265,6 @@ class InfoTags(tornado.web.UIModule):
     return tags of certain infor
     fun(uid)
     '''
-
     def render(self, *args, **kwargs):
         uid = kwargs.get('uid', args[0])
 
@@ -287,7 +272,8 @@ class InfoTags(tornado.web.UIModule):
         iii = 1
         for tag_info in MPost2Catalog.query_by_entity_uid(uid).objects():
             tmp_str = '''<a data-inline="true" href="/list/{0}"
-             class="tag{1}">{2}</a>'''.format(tag_info.tag_slug, iii, tag_info.tag_name)
+             class="tag{1}">{2}</a>'''.format(tag_info.tag_slug, iii,
+                                              tag_info.tag_name)
             out_str += tmp_str
             iii += 1
         return out_str
@@ -298,7 +284,6 @@ class LabelCount(tornado.web.UIModule):
     the count of certian tag.
     fun(uid)
     '''
-
     def render(self, *args, **kwargs):
         # uid = args[0]
 
@@ -310,7 +295,6 @@ class InfoCount(tornado.web.UIModule):
     '''
     各信息分类下，信息数量。
     '''
-
     def render(self, *args, **kwargs):
         pcat = kwargs['pcat']
         catid = kwargs['catid']
@@ -328,7 +312,6 @@ class InfoMenu(tornado.web.UIModule):
     fun(kind)
     fun(kind, limit)
     '''
-
     def render(self, *args, **kwargs):
         kind = kwargs.get('kind', args[0])
         limit = kwargs.get('limit', 10)
@@ -347,7 +330,6 @@ class RelPost2app(tornado.web.UIModule):
     fun(uid, num, kind = val1)
     fun(uid, num, kind = val1, num = val2)
     '''
-
     def render(self, *args, **kwargs):
         uid = kwargs.get('uid', args[0])
         num = kwargs.get('num', args[1] if len(args) > 1 else 6)
@@ -360,12 +342,15 @@ class RelPost2app(tornado.web.UIModule):
         }
         rel_recs = MRelation.get_app_relations(uid, num, kind=kind).objects()
 
-        rand_recs = MPost.query_random(num=num - rel_recs.count() + 2, kind=kind)
+        rand_recs = MPost.query_random(num=num - rel_recs.count() + 2,
+                                       kind=kind)
 
-        return self.render_string('modules/info/relation_post2app.html',
-                                  relations=rel_recs,
-                                  rand_recs=rand_recs,
-                                  kwd=kwd, )
+        return self.render_string(
+            'modules/info/relation_post2app.html',
+            relations=rel_recs,
+            rand_recs=rand_recs,
+            kwd=kwd,
+        )
 
 
 # Todo: To test the class.
@@ -376,7 +361,6 @@ class RelApp2post(tornado.web.UIModule):
     fun(uid, num, kind = val1)
     fun(uid, num, kind = val1, num = val2)
     '''
-
     def render(self, *args, **kwargs):
         uid = kwargs.get('uid', args[0])
         num = kwargs.get('num', args[1] if len(args) > 1 else 6)
@@ -389,7 +373,8 @@ class RelApp2post(tornado.web.UIModule):
         }
         rel_recs = MRelation.get_app_relations(uid, num, kind=kind).objects()
 
-        rand_recs = MPost.query_random(num=num - rel_recs.count() + 2, kind=kind)
+        rand_recs = MPost.query_random(num=num - rel_recs.count() + 2,
+                                       kind=kind)
 
         return self.render_string('modules/info/relation_app2post.html',
                                   relations=rel_recs,
@@ -402,10 +387,10 @@ class ImgSlide(tornado.web.UIModule):
     Module for Image slide.
     fun(info)
     '''
-
     def render(self, *args, **kwargs):
         info = kwargs.get('info', args[0])
-        return self.render_string('modules/info/img_slide.html', post_info=info)
+        return self.render_string('modules/info/img_slide.html',
+                                  post_info=info)
 
 
 class UserInfo(tornado.web.UIModule):
@@ -413,11 +398,12 @@ class UserInfo(tornado.web.UIModule):
     Display userinfo.
     fun(uinfo, uop)
     '''
-
     def render(self, *args, **kwargs):
         uinfo = kwargs.get('uinfo', args[0])
         uop = kwargs.get('uop', args[1])
-        return self.render_string('modules/info/user_info.html', userinfo=uinfo, userop=uop)
+        return self.render_string('modules/info/user_info.html',
+                                  userinfo=uinfo,
+                                  userop=uop)
 
 
 class VipInfo(tornado.web.UIModule):
@@ -425,11 +411,12 @@ class VipInfo(tornado.web.UIModule):
     VipInfo
     fun(uinfo, uvip)
     '''
-
     def render(self, *args, **kwargs):
         uinfo = kwargs.get('uinfo', args[0])
         uvip = kwargs.get('uvip', args[1])
-        return self.render_string('modules/info/vip_info.html', userinfo=uinfo, uservip=uvip)
+        return self.render_string('modules/info/vip_info.html',
+                                  userinfo=uinfo,
+                                  uservip=uvip)
 
 
 class BannerModule(tornado.web.UIModule):
@@ -437,7 +424,6 @@ class BannerModule(tornado.web.UIModule):
     BannerModule
     fun(parentid = val)
     '''
-
     def render(self, *args, **kwargs):
         parentid = kwargs.get('parentid', '')
         parentlist = MCategory.get_parent_list()
@@ -453,7 +439,6 @@ class BreadCrumb(tornado.web.UIModule):
     BreadCrumb
     fun(info)
     '''
-
     def render(self, *args, **kwargs):
         info = kwargs.get('info', args[0])
         return self.render_string('modules/info/bread_crumb.html', info=info)
@@ -464,7 +449,6 @@ class ParentName(tornado.web.UIModule):
     ParentName
     fun(info)
     '''
-
     def render(self, *args, **kwargs):
         info = kwargs.get('info', args[0])
         return self.render_string('modules/info/parentname.html', info=info)
@@ -475,7 +459,6 @@ class CatName(tornado.web.UIModule):
     CatName
     fun(info)
     '''
-
     def render(self, *args, **kwargs):
         info = kwargs.get('info', args[0])
         return self.render_string('modules/info/catname.html', info=info)
@@ -486,7 +469,6 @@ class ContactInfo(tornado.web.UIModule):
     ContactInfo
     fun(info)
     '''
-
     def render(self, *args, **kwargs):
         # info = args[0]
 
@@ -494,7 +476,9 @@ class ContactInfo(tornado.web.UIModule):
         kwd = {
             'maskip': '',  # maskip,
         }
-        return self.render_string('modules/info/contact_info.html', post_info=info, kwd=kwd)
+        return self.render_string('modules/info/contact_info.html',
+                                  post_info=info,
+                                  kwd=kwd)
 
 
 class BreadcrumbPublish(tornado.web.UIModule):
@@ -502,13 +486,13 @@ class BreadcrumbPublish(tornado.web.UIModule):
     BreadCrumb
     fun(sig = val1)
     '''
-
     def render(self, *args, **kwargs):
         sig = kwargs.get('sig', 0)
         kwd = {
             'sig': sig,
         }
-        return self.render_string('modules/info/breadcrumb_publish.html', kwd=kwd)
+        return self.render_string('modules/info/breadcrumb_publish.html',
+                                  kwd=kwd)
 
 
 class InfoList(tornado.web.UIModule):
@@ -516,7 +500,6 @@ class InfoList(tornado.web.UIModule):
     InfoList.
     fun(info)
     '''
-
     def render(self, *args, **kwargs):
 
         # info = args[0]
@@ -540,7 +523,8 @@ class InfoList(tornado.web.UIModule):
             'tuiguan': tuiguang_str,
         }
 
-        return self.render_string('infor/infolist/infolist_{0}.html'.format(list_type),
-                                  kwd=kwd,
-                                  html2text=html2text,
-                                  post_info=info)
+        return self.render_string(
+            'infor/infolist/infolist_{0}.html'.format(list_type),
+            kwd=kwd,
+            html2text=html2text,
+            post_info=info)

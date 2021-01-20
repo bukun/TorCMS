@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 TorCMS 基本模块
 '''
@@ -34,7 +33,6 @@ class ShowPage(tornado.web.UIModule):
     '''
     Get page info by page_id.
     '''
-
     def render(self, *args, **kwargs):
         '''
         '''
@@ -42,10 +40,7 @@ class ShowPage(tornado.web.UIModule):
         userinfo = kwargs.get('userinfo', None)
         count = kwargs.get('count', 0)
         page = MWiki.get_by_uid(page_id)
-        kwd = {
-            'uid': page_id,
-            'count': count
-        }
+        kwd = {'uid': page_id, 'count': count}
         if page:
             out_str = self.render_string('modules/show_page.html',
                                          postinfo=page,
@@ -72,7 +67,6 @@ class PostLabels(tornado.web.UIModule):
     '''
     Show the labels of the post.
     '''
-
     def render(self, *args, **kwargs):
         postinfo = kwargs.get('postinfo', None)
         if postinfo:
@@ -96,22 +90,19 @@ class GetFooter(tornado.web.UIModule):
     '''
     Render footer.
     '''
-
     def render(self, *args, **kwargs):
         logger.info('Init footer')
         all_cats = MCategory.query_all()
         kwd = {
             'cats': all_cats,
         }
-        return self.render_string('modules/post/menu.html',
-                                  kwd=kwd)
+        return self.render_string('modules/post/menu.html', kwd=kwd)
 
 
 class PreviousPostLink(tornado.web.UIModule):
     '''
     Link for the previous post link.
     '''
-
     def render(self, *args, **kwargs):
         current_id = args[0]
         kind = kwargs.get("kind", '1')
@@ -120,7 +111,6 @@ class PreviousPostLink(tornado.web.UIModule):
             kwd = {
                 'uid': prev_record.uid,
                 'router': config.router_post[kind],
-
             }
             return self.render_string('modules/post/pre_page.html', kwd=kwd)
         return self.render_string('modules/post/last_page.html')
@@ -130,7 +120,6 @@ class NextPostLink(tornado.web.UIModule):
     '''
     Link for the next post link.
     '''
-
     def render(self, *args, **kwargs):
         current_id = args[0]
         kind = kwargs.get("kind", '1')
@@ -148,7 +137,6 @@ class PostMostView(tornado.web.UIModule):
     '''
     list of most viewd posts.
     '''
-
     def render(self, num, with_date=True, with_catalog=True, kind='1'):
         kwd = {
             'with_date': with_date,
@@ -166,7 +154,6 @@ class PostRandom(tornado.web.UIModule):
     '''
     return some posts randomly.
     '''
-
     def render(self, num, with_date=True, with_catalog=True, kind='1'):
         kwd = {
             'with_date': with_date,
@@ -182,7 +169,6 @@ class PostCatRandom(tornado.web.UIModule):
     '''
     return some posts randomly of certain category.
     '''
-
     def render(self, cat_id, num, with_date=True, with_catalog=True):
         kwd = {
             'with_date': with_date,
@@ -190,7 +176,8 @@ class PostCatRandom(tornado.web.UIModule):
             'router': config.router_post['1'],
         }
         return self.render_string('modules/post/post_list.html',
-                                  recs=MPost.query_cat_random(cat_id, limit=num),
+                                  recs=MPost.query_cat_random(cat_id,
+                                                              limit=num),
                                   kwd=kwd)
 
 
@@ -198,7 +185,6 @@ class PostRecentMostView(tornado.web.UIModule):
     '''
     return some posts most viewed recently.
     '''
-
     def render(self, num, recent, with_date=True, with_catalog=True):
         kwd = {
             'with_date': with_date,
@@ -214,24 +200,26 @@ class CategoryOf(tornado.web.UIModule):
     '''
     return the categories which uid starts with certain string.
     '''
-
     def render(self, *args, **kwargs):
         uid_with_str = args[0]
-        return self.render_string('modules/post/catalog_of.html',
-                                  recs=MCategory.query_uid_starts_with(uid_with_str))
+        return self.render_string(
+            'modules/post/catalog_of.html',
+            recs=MCategory.query_uid_starts_with(uid_with_str))
 
 
 class PostCategoryOf(tornado.web.UIModule):
     '''
     The catalog of the post.
     '''
-
-    def render(self, uid_with_str, slug=False, order=False, with_title=True, glyph=''):
+    def render(self,
+               uid_with_str,
+               slug=False,
+               order=False,
+               with_title=True,
+               glyph=''):
         curinfo = MCategory.get_by_uid(uid_with_str)
         sub_cats = MCategory.query_sub_cat(uid_with_str)
-        kwd = {
-            'glyph': glyph
-        }
+        kwd = {'glyph': glyph}
         if slug:
             return self.render_string('modules/post/post_catalog_slug.html',
                                       pcatinfo=curinfo,
@@ -253,7 +241,6 @@ class PostRecent(tornado.web.UIModule):
     '''
     return the post of recent.
     '''
-
     def render(self, num=10, with_catalog=True, with_date=True, kind='1'):
         kwd = {
             'with_date': with_date,
@@ -270,7 +257,6 @@ class LinkList(tornado.web.UIModule):
     '''
     return the list of links.
     '''
-
     def render(self, *args, **kwargs):
         num = kwargs['num'] if 'num' in kwargs else 10
         return self.render_string('modules/post/link_list.html',
@@ -281,7 +267,6 @@ class PostCategoryRecent(tornado.web.UIModule):
     '''
     The reccent posts of certain category.
     '''
-
     def render(self, *args, **kwargs):
 
         cat_id = args[0]
@@ -298,11 +283,17 @@ class PostCategoryRecent(tornado.web.UIModule):
         if catinfo.pid == '0000':
             subcats = MCategory.query_sub_cat(cat_id)
             sub_cat_ids = [x.uid for x in subcats]
-            recs = MPost.query_total_cat_recent(sub_cat_ids, label=label, num=num,
+            recs = MPost.query_total_cat_recent(sub_cat_ids,
+                                                label=label,
+                                                num=num,
                                                 kind=catinfo.kind)
 
         else:
-            recs = MPost.query_cat_recent(cat_id, label=label, num=num, kind=catinfo.kind, order=order)
+            recs = MPost.query_cat_recent(cat_id,
+                                          label=label,
+                                          num=num,
+                                          kind=catinfo.kind,
+                                          order=order)
 
         kwd = {
             'with_catalog': with_catalog,
@@ -323,7 +314,6 @@ class ShowoutRecent(tornado.web.UIModule):
     '''
     return posts of recent for showing out.
     '''
-
     def render(self, cat_id, kind, **kwargs):
         num = kwargs.get('num', 10)
 
@@ -340,7 +330,9 @@ class ShowoutRecent(tornado.web.UIModule):
         }
 
         return self.render_string('modules/post/showout_list.html',
-                                  recs=MPost.query_cat_recent(cat_id, num=num, kind=kind),
+                                  recs=MPost.query_cat_recent(cat_id,
+                                                              num=num,
+                                                              kind=kind),
                                   kwd=kwd)
 
 
@@ -348,7 +340,6 @@ class SiteUrl(tornado.web.UIModule):
     '''
     return the url of the site.
     '''
-
     def render(self, *args, **kwargs):
         return config.SITE_CFG['site_url']
 
@@ -357,7 +348,6 @@ class SiteTitle(tornado.web.UIModule):
     '''
     return the title of the site.
     '''
-
     def render(self, *args, **kwargs):
         if 'site_title' in config.SITE_CFG:
             return config.SITE_CFG['site_title']
@@ -369,15 +359,16 @@ class TheCategory(tornado.web.UIModule):
     '''
     return the category according to the id of post.
     '''
-
     def render(self, post_id, order=False):
         if order:
             tmpl_str = '''<a href="/catalog/{0}">{1}</a>'''
         else:
             tmpl_str = '''<a href="/list/{0}">{1}</a>'''
 
-        format_arr = [tmpl_str.format(uu.tag_slug, uu.tag_name) for uu in
-                      MPost2Catalog().query_by_entity_uid(post_id).objects()]
+        format_arr = [
+            tmpl_str.format(uu.tag_slug, uu.tag_name)
+            for uu in MPost2Catalog().query_by_entity_uid(post_id).objects()
+        ]
         return ', '.join(format_arr)
 
 
@@ -385,15 +376,12 @@ class ListCategories(tornado.web.UIModule):
     '''
     list categories.
     '''
-
     def render(self, cat_id, list_num):
         recs = MPost.query_cat_recent(cat_id, num=list_num)
         out_str = ''
         for rec in recs:
             tmp_str = '''<li><a href="/{0}">{1}</a></li>'''.format(
-                rec.title,
-                rec.title
-            )
+                rec.title, rec.title)
             out_str += tmp_str
         return out_str
 
@@ -402,11 +390,11 @@ class GenerateAbstract(tornado.web.UIModule):
     '''
     translate html to text, and return 130 charactors.
     '''
-
     def render(self, *args, **kwargs):
         html_str = args[0]
         count = kwargs.get('count', 130)
-        tmp_str = bs4.BeautifulSoup(tornado.escape.xhtml_unescape(html_str), "html.parser")
+        tmp_str = bs4.BeautifulSoup(tornado.escape.xhtml_unescape(html_str),
+                                    "html.parser")
         return tmp_str.get_text()[:count] + '...'
 
 
@@ -415,10 +403,10 @@ class GenerateDescription(tornado.web.UIModule):
     '''
     Just as GenerateAbstract
     '''
-
     def render(self, *args, **kwargs):
         html_str = args[0]
-        tmp_str = bs4.BeautifulSoup(tornado.escape.xhtml_unescape(html_str), "html.parser")
+        tmp_str = bs4.BeautifulSoup(tornado.escape.xhtml_unescape(html_str),
+                                    "html.parser")
         return tmp_str.get_text()[:100]
 
 
@@ -426,7 +414,6 @@ class CopyRight(tornado.web.UIModule):
     '''
     show TorCMS copy right.
     '''
-
     def render(self, *args, **kwargs):
         return '''<span>Build on
         <a href="https://github.com/bukun/TorCMS" target="_blank">TorCMS</a>.</span>'''
@@ -436,17 +423,15 @@ class PostTags(tornado.web.UIModule):
     '''
     show tags of the post.
     '''
-
     def render(self, *args, **kwargs):
         uid = args[0]
         kind = args[1]
         out_str = ''
         idx = 1
-        for tag_info in MPost2Catalog.query_by_entity_uid(uid, kind=kind).objects():
+        for tag_info in MPost2Catalog.query_by_entity_uid(uid,
+                                                          kind=kind).objects():
             tmp_str = '<a href="/list/{0}" class="tag{1}">{2}</a>'.format(
-                tag_info.tag_slug,
-                idx,
-                tag_info.tag_name)
+                tag_info.tag_slug, idx, tag_info.tag_name)
             out_str += tmp_str
             idx += 1
         return out_str
@@ -456,16 +441,14 @@ class MapTags(tornado.web.UIModule):
     '''
     show tags of the map.
     '''
-
     def render(self, *args, **kwargs):
         uid = args[0]
         out_str = ''
         idx = 1
-        for tag_info in MPost2Catalog.query_by_entity_uid(uid, kind='m').objects():
+        for tag_info in MPost2Catalog.query_by_entity_uid(uid,
+                                                          kind='m').objects():
             tmp_str = '<a href="/list/{0}" class="tag{1}">{2}</a>'.format(
-                tag_info.tag_slug,
-                idx,
-                tag_info.tag_name)
+                tag_info.tag_slug, idx, tag_info.tag_name)
             out_str += tmp_str
             idx += 1
         return out_str
@@ -475,21 +458,18 @@ class ModuleCatMenu(tornado.web.UIModule):
     '''
 
     '''
-
     def render(self, with_count=True):
         kwd = {
             'cats': MCategory.query_all(by_count=True),
             'with_count': with_count,
         }
-        return self.render_string('modules/post/menu_post.html',
-                                  kwd=kwd)
+        return self.render_string('modules/post/menu_post.html', kwd=kwd)
 
 
 class ToplineModule(tornado.web.UIModule):
     '''
 
     '''
-
     def render(self, *args, **kwargs):
         return self.render_string('modules/widget/topline.html')
 
@@ -498,7 +478,6 @@ class CategoryPager(tornado.web.UIModule):
     '''
     pager of category
     '''
-
     def render(self, *args, **kwargs):
         cat_slug = args[0]
         current = int(args[1])
@@ -507,12 +486,14 @@ class CategoryPager(tornado.web.UIModule):
         tag = kwargs['tag'] if 'tag' in kwargs else ""
 
         cat_rec = MCategory.get_by_slug(cat_slug)
-        num_of_cat = MPost2Catalog.count_of_certain_category(cat_rec.uid, tag=tag)
+        num_of_cat = MPost2Catalog.count_of_certain_category(cat_rec.uid,
+                                                             tag=tag)
 
         pager_cnt = int(num_of_cat / config.CMS_CFG['list_num'])
 
-        page_num = (pager_cnt if abs(pager_cnt - num_of_cat / config.CMS_CFG['list_num']) < 0.1
-                    else pager_cnt + 1)
+        page_num = (pager_cnt
+                    if abs(pager_cnt - num_of_cat / config.CMS_CFG['list_num'])
+                    < 0.1 else pager_cnt + 1)
 
         kwd = {
             'page_home': False if current <= 1 else True,
@@ -533,7 +514,6 @@ class CollectPager(tornado.web.UIModule):
     '''
     pager of category
     '''
-
     def render(self, *args, **kwargs):
         user_id = args[0]
         current = int(args[1])
@@ -544,8 +524,9 @@ class CollectPager(tornado.web.UIModule):
 
         pager_count = int(the_count / config.CMS_CFG['list_num'])
 
-        page_num = (pager_count if abs(pager_count - the_count / config.CMS_CFG['list_num']) < 0.1
-                    else pager_count + 1)
+        page_num = (pager_count if
+                    abs(pager_count - the_count / config.CMS_CFG['list_num']) <
+                    0.1 else pager_count + 1)
 
         kwd = {
             'page_home': False if current <= 1 else True,
@@ -564,7 +545,6 @@ class InfoLabelPager(tornado.web.UIModule):
     '''
     Pager for info label.
     '''
-
     def render(self, *args, **kwargs):
         tag_slug = args[0]
         current = int(args[1])
@@ -572,9 +552,10 @@ class InfoLabelPager(tornado.web.UIModule):
         cat_rec = MPost.query_by_tagname(tag_slug)
 
         pager_count = int(cat_rec.count() / config.CMS_CFG['list_num'])
-        page_num = (
-            pager_count if abs(pager_count - cat_rec.count() / config.CMS_CFG['list_num']) < 0.1
-            else pager_count + 1)
+        page_num = (pager_count
+                    if abs(pager_count -
+                           cat_rec.count() / config.CMS_CFG['list_num']) < 0.1
+                    else pager_count + 1)
 
         kwd = {
             'page_home': False if current <= 1 else True,
@@ -594,16 +575,18 @@ class LabelPager(tornado.web.UIModule):
     '''
     Pager for label.
     '''
-
     def render(self, *args, **kwargs):
         kind = args[0]
         tag_slug = args[1]
         current = int(args[2])
 
-        pager_count = int(MPost2Label.total_number(tag_slug, kind) / config.CMS_CFG['list_num'])
-        page_num = (pager_count if abs(
-            pager_count - MPost2Label.total_number(tag_slug, kind) / config.CMS_CFG[
-                'list_num']) < 0.1 else pager_count + 1)
+        pager_count = int(
+            MPost2Label.total_number(tag_slug, kind) /
+            config.CMS_CFG['list_num'])
+        page_num = (
+            pager_count
+            if abs(pager_count - MPost2Label.total_number(tag_slug, kind) /
+                   config.CMS_CFG['list_num']) < 0.1 else pager_count + 1)
         kwd = {
             'page_home': False if current <= 1 else True,
             'page_end': False if current >= page_num else True,
@@ -623,15 +606,15 @@ class TagPager(tornado.web.UIModule):
     '''
     Pager for tag.
     '''
-
     def render(self, *args, **kwargs):
         tag_slug = args[0]
         current = int(args[1])
         taginfo = MCategory.get_by_slug(tag_slug)
         num_of_tag = MPost2Catalog.count_of_certain_category(taginfo.uid)
         pager_count = int(math_ceil(num_of_tag / config.CMS_CFG['list_num']))
-        page_num = (pager_count if abs(pager_count - num_of_tag / config.CMS_CFG['list_num']) < 0.1
-                    else pager_count + 1)
+        page_num = (pager_count if
+                    abs(pager_count - num_of_tag / config.CMS_CFG['list_num'])
+                    < 0.1 else pager_count + 1)
 
         kwd = {
             'page_home': False if current <= 1 else True,
@@ -651,7 +634,6 @@ class SearchPager(tornado.web.UIModule):
     '''
     Pager for search result.
     '''
-
     def render(self, *args, **kwargs):
         ysearch = YunSearch()
         catid = args[0]
@@ -659,8 +641,9 @@ class SearchPager(tornado.web.UIModule):
         current = int(args[2])
         res_all = ysearch.get_all_num(tag_slug, catid=catid)
         pager_count = int(res_all / config.CMS_CFG['list_num'])
-        page_num = (pager_count if abs(pager_count - res_all / config.CMS_CFG['list_num']) < 0.1
-                    else pager_count + 1)
+        page_num = (pager_count
+                    if abs(pager_count - res_all / config.CMS_CFG['list_num'])
+                    < 0.1 else pager_count + 1)
         kwd = {
             'page_home': False if current <= 1 else True,
             'page_end': False if current >= page_num else True,
@@ -680,7 +663,6 @@ class AppTitle(tornado.web.UIModule):
     '''
     search widget. Simple searching. searching for all.
     '''
-
     def render(self, *args, **kwargs):
         uid = args[0]
         rec = MPost.get_by_uid(uid=uid)
@@ -691,7 +673,6 @@ class EntityList(tornado.web.UIModule):
     '''
     search widget. Simple searching. searching for all.
     '''
-
     def render(self, kind, cur_p=''):
         if cur_p == '':
             current_page_number = 1
@@ -699,11 +680,10 @@ class EntityList(tornado.web.UIModule):
             current_page_number = int(cur_p)
 
         current_page_number = 1 if current_page_number < 1 else current_page_number
-        kwd = {
-            'current_page': current_page_number
-        }
+        kwd = {'current_page': current_page_number}
 
-        recs = MEntity.get_by_kind(kind=kind, current_page_num=current_page_number)
+        recs = MEntity.get_by_kind(kind=kind,
+                                   current_page_num=current_page_number)
 
         return self.render_string('modules/post/entity_list.html',
                                   kwd=kwd,
@@ -714,15 +694,13 @@ class EntityPager(tornado.web.UIModule):
     '''
     Pager for search result.
     '''
-
     def render(self, *args, **kwargs):
         current = int(args[0])
 
         pager_count = int(MEntity.total_number() / config.CMS_CFG['list_num'])
-        page_num = (
-            pager_count if abs(
-                pager_count - MEntity.total_number() / config.CMS_CFG['list_num']) < 0.1
-            else pager_count + 1)
+        page_num = (pager_count if abs(pager_count - MEntity.total_number() /
+                                       config.CMS_CFG['list_num']) < 0.1 else
+                    pager_count + 1)
         kwd = {
             'page_home': False if current <= 1 else True,
             'page_end': False if current >= page_num else True,
@@ -740,15 +718,17 @@ class Entity2UserPager(tornado.web.UIModule):
     '''
     Pager for search result.
     '''
-
     def render(self, *args, **kwargs):
         current = int(args[0])
         user_id = kwargs.get('userid', None)
 
-        pager_count = int(MEntity2User.total_number_by_user(user_id) / config.CMS_CFG['list_num'])
-        page_num = (pager_count if abs(
-            pager_count - MEntity2User.total_number_by_user(user_id) / config.CMS_CFG['list_num']) < 0.1
-                    else pager_count + 1)
+        pager_count = int(
+            MEntity2User.total_number_by_user(user_id) /
+            config.CMS_CFG['list_num'])
+        page_num = (
+            pager_count
+            if abs(pager_count - MEntity2User.total_number_by_user(user_id) /
+                   config.CMS_CFG['list_num']) < 0.1 else pager_count + 1)
         kwd = {
             'page_home': False if current <= 1 else True,
             'page_end': False if current >= page_num else True,
@@ -756,26 +736,27 @@ class Entity2UserPager(tornado.web.UIModule):
             'page_next': False if current >= page_num else True,
         }
 
-        return self.render_string('modules/post/entity_user_download_pager.html',
-                                  kwd=kwd,
-                                  user_id=user_id,
-                                  pager_num=page_num,
-                                  page_current=current)
+        return self.render_string(
+            'modules/post/entity_user_download_pager.html',
+            kwd=kwd,
+            user_id=user_id,
+            pager_num=page_num,
+            page_current=current)
 
 
 class Entity2Pager(tornado.web.UIModule):
     '''
     Pager for search result.
     '''
-
     def render(self, *args, **kwargs):
         current = int(args[0])
         user_id = kwargs.get('userid', None)
 
-        pager_count = int(MEntity2User.total_number() / config.CMS_CFG['list_num'])
-        page_num = (pager_count if abs(
-            pager_count - MEntity2User.total_number() / config.CMS_CFG['list_num']) < 0.1
-                    else pager_count + 1)
+        pager_count = int(MEntity2User.total_number() /
+                          config.CMS_CFG['list_num'])
+        page_num = (pager_count if
+                    abs(pager_count - MEntity2User.total_number() /
+                        config.CMS_CFG['list_num']) < 0.1 else pager_count + 1)
         kwd = {
             'page_home': False if current <= 1 else True,
             'page_end': False if current >= page_num else True,
@@ -806,20 +787,17 @@ class UserName(tornado.web.UIModule):
     '''
     Pager for search result.
     '''
-
     def render(self, *args, **kwargs):
         user_id = args[0]
         rec = MUser.get_by_uid(user_id)
 
-        return self.render_string('modules/post/user_name.html',
-                                  rec=rec)
+        return self.render_string('modules/post/user_name.html', rec=rec)
 
 
 class ReplyPostById(tornado.web.UIModule):
     '''
     Pager for search result.
     '''
-
     def render(self, post_id, reply_uid):
         try:
             rec = MPost.get_by_uid(post_id)
@@ -834,23 +812,17 @@ class CategoryBySlug(tornado.web.UIModule):
     '''
     catalog 列表页 面包屑导航
     '''
-
     def render(self, *args, **kwargs):
         slug = args[0]
         rec = MCategory.get_by_slug(slug)
 
         par = MCategory.get_by_uid(rec.pid)
         if rec.uid.endswith('00'):
-            tmp_str = '<li class="active">{0}</li>'.format(
-                rec.name
-            )
+            tmp_str = '<li class="active">{0}</li>'.format(rec.name)
 
         else:
             tmp_str = '<li><a href="/catalog/{0}">{1}</a></li><li class="active">{2}</li>'.format(
-                par.slug,
-                par.name,
-                rec.name
-            )
+                par.slug, par.name, rec.name)
         return tmp_str
 
 
@@ -858,19 +830,18 @@ class Collect(tornado.web.UIModule):
     '''
 添加收藏模块
     '''
-
     def render(self, *args, **kwargs):
         user_id = args[0]
         post_id = args[1]
         user_collect = MCollect.get_by_signature(user_id, post_id)
-        return self.render_string('modules/widget/collect.html', user_collect=user_collect)
+        return self.render_string('modules/widget/collect.html',
+                                  user_collect=user_collect)
 
 
 class UserCollect(tornado.web.UIModule):
     '''
     用户收藏列表
     '''
-
     def render(self, *args, **kwargs):
         user_id = kwargs.get('user_id', args[0])
         kind = kwargs.get('kind', args[1])
@@ -879,10 +850,7 @@ class UserCollect(tornado.web.UIModule):
         glyph = kwargs.get('glyph', '')
 
         all_cats = MCollect.query_pager_by_userid(user_id, kind, num).objects()
-        kwd = {
-            'with_tag': with_tag,
-            'glyph': glyph
-        }
+        kwd = {'with_tag': with_tag, 'glyph': glyph}
         return self.render_string('modules/widget/user_collect.html',
                                   recs=all_cats,
                                   kwd=kwd)
@@ -892,7 +860,6 @@ class Admin_Post_pager(tornado.web.UIModule):
     '''
     pager of kind
     '''
-
     def render(self, *args, **kwargs):
         kind = args[0]
         current = int(args[1])
@@ -903,8 +870,9 @@ class Admin_Post_pager(tornado.web.UIModule):
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
-        page_num = (tmp_page_num if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
-                    else tmp_page_num + 1)
+        page_num = (tmp_page_num if
+                    abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num'])
+                    < 0.1 else tmp_page_num + 1)
 
         kwd = {
             'page_home': False if current <= 1 else True,
@@ -924,7 +892,6 @@ class Admin_Page_pager(tornado.web.UIModule):
     '''
     pager of kind
     '''
-
     def render(self, *args, **kwargs):
         kind = args[0]
         current = int(args[1])
@@ -935,8 +902,9 @@ class Admin_Page_pager(tornado.web.UIModule):
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
-        page_num = (tmp_page_num if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
-                    else tmp_page_num + 1)
+        page_num = (tmp_page_num if
+                    abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num'])
+                    < 0.1 else tmp_page_num + 1)
 
         kwd = {
             'page_home': False if current <= 1 else True,
@@ -956,7 +924,6 @@ class Admin_reply_pager(tornado.web.UIModule):
     '''
     pager of kind
     '''
-
     def render(self, *args, **kwargs):
         current = int(args[0])
         # kind
@@ -966,8 +933,9 @@ class Admin_reply_pager(tornado.web.UIModule):
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
-        page_num = (tmp_page_num if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
-                    else tmp_page_num + 1)
+        page_num = (tmp_page_num if
+                    abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num'])
+                    < 0.1 else tmp_page_num + 1)
 
         kwd = {
             'page_home': False if current <= 1 else True,
@@ -986,7 +954,6 @@ class Admin_user_pager(tornado.web.UIModule):
     '''
     pager of kind
     '''
-
     def render(self, *args, **kwargs):
         current = int(args[0])
         # kind
@@ -996,8 +963,9 @@ class Admin_user_pager(tornado.web.UIModule):
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
-        page_num = (tmp_page_num if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
-                    else tmp_page_num + 1)
+        page_num = (tmp_page_num if
+                    abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num'])
+                    < 0.1 else tmp_page_num + 1)
 
         kwd = {
             'page_home': False if current <= 1 else True,
@@ -1016,7 +984,6 @@ class Admin_log_pager(tornado.web.UIModule):
     '''
     pager of log
     '''
-
     def render(self, *args, **kwargs):
         user_id = args[0]
         current = int(args[1])
@@ -1027,8 +994,9 @@ class Admin_log_pager(tornado.web.UIModule):
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
-        page_num = (tmp_page_num if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
-                    else tmp_page_num + 1)
+        page_num = (tmp_page_num if
+                    abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num'])
+                    < 0.1 else tmp_page_num + 1)
 
         kwd = {
             'page_home': False if current <= 1 else True,
@@ -1048,7 +1016,6 @@ class LogPager(tornado.web.UIModule):
     '''
     pager of log
     '''
-
     def render(self, *args, **kwargs):
         user_id = args[0]
         current = int(args[1])
@@ -1057,11 +1024,11 @@ class LogPager(tornado.web.UIModule):
 
         pager_count = int(the_count / config.CMS_CFG['list_num'])
 
-        page_num = (pager_count if abs(pager_count - the_count / config.CMS_CFG['list_num']) < 0.1
-                    else pager_count + 1)
+        page_num = (pager_count if
+                    abs(pager_count - the_count / config.CMS_CFG['list_num']) <
+                    0.1 else pager_count + 1)
 
         kwd = {
-
             'page_home': False if current <= 1 else True,
             'page_end': False if current >= page_num else True,
             'page_pre': False if current <= 1 else True,
@@ -1079,7 +1046,6 @@ class LogPageviewPager(tornado.web.UIModule):
     '''
     pager of log
     '''
-
     def render(self, *args, **kwargs):
         current = int(args[0])
 
@@ -1087,11 +1053,11 @@ class LogPageviewPager(tornado.web.UIModule):
 
         pager_count = int(the_count / config.CMS_CFG['list_num'])
 
-        page_num = (pager_count if abs(pager_count - the_count / config.CMS_CFG['list_num']) < 0.1
-                    else pager_count + 1)
+        page_num = (pager_count if
+                    abs(pager_count - the_count / config.CMS_CFG['list_num']) <
+                    0.1 else pager_count + 1)
 
         kwd = {
-
             'page_home': False if current <= 1 else True,
             'page_end': False if current >= page_num else True,
             'page_pre': False if current <= 1 else True,
@@ -1100,7 +1066,6 @@ class LogPageviewPager(tornado.web.UIModule):
 
         return self.render_string('modules/admin/log_pageview_pager.html',
                                   kwd=kwd,
-
                                   pager_num=page_num,
                                   page_current=current)
 
@@ -1118,7 +1083,6 @@ class InfoNullify(tornado.web.UIModule):
     '''
     将信息变为无效module
     '''
-
     def render(self, *args, **kwargs):
         info_uid = kwargs.get('uid', '')
         info_router = kwargs.get('router', '')
@@ -1127,15 +1091,13 @@ class InfoNullify(tornado.web.UIModule):
         return self.render_string('modules/post/info_nullify.html',
                                   info_uid=info_uid,
                                   info_router=info_router,
-                                  url=url
-                                  )
+                                  url=url)
 
 
 class Nullify_pager(tornado.web.UIModule):
     '''
    无效信息列表分页
     '''
-
     def render(self, *args, **kwargs):
         current = int(args[0])
 
@@ -1143,8 +1105,9 @@ class Nullify_pager(tornado.web.UIModule):
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
-        page_num = (tmp_page_num if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
-                    else tmp_page_num + 1)
+        page_num = (tmp_page_num if
+                    abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num'])
+                    < 0.1 else tmp_page_num + 1)
 
         kwd = {
             'page_home': False if current <= 1 else True,
@@ -1163,7 +1126,6 @@ class Comment_pager(tornado.web.UIModule):
     '''
     pager of Comment
     '''
-
     def render(self, *args, **kwargs):
         current = int(args[0])
 
@@ -1171,8 +1133,9 @@ class Comment_pager(tornado.web.UIModule):
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
-        page_num = (tmp_page_num if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
-                    else tmp_page_num + 1)
+        page_num = (tmp_page_num if
+                    abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num'])
+                    < 0.1 else tmp_page_num + 1)
 
         kwd = {
             'page_home': False if current <= 1 else True,
@@ -1191,7 +1154,6 @@ class Comment_num(tornado.web.UIModule):
     '''
     num of Comment
     '''
-
     def render(self, *args, **kwargs):
         postid = args[0]
         comment_num = MComment.count_of_comment(postid)

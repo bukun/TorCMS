@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 For catalog modules.
 '''
@@ -14,7 +13,6 @@ class CatalogMenu(tornado.web.UIModule):
     '''
     Menu for catalog lists.
     '''
-
     def render(self, *args, **kwargs):
         # kind = kwargs['kind'] if 'kind' in kwargs else '1'
         catid = kwargs['catid'] if 'catid' in kwargs else ''
@@ -29,7 +27,6 @@ class CatalogList(tornado.web.UIModule):
     '''
     catalog lists.
     '''
-
     def render(self, *args, **kwargs):
         catid = kwargs['catid'] if 'catid' in kwargs else ''
         cat_id = catid[:2]

@@ -12,7 +12,6 @@ class AdminHandler(BaseHandler):
     '''
     Handler for Admin.
     '''
-
     def initialize(self, **kwargs):
         super(AdminHandler, self).initialize()
 
@@ -21,9 +20,7 @@ class AdminHandler(BaseHandler):
         if url_str == '':
             self.index()
         else:
-            self.render('misc/html/404.html',
-                        kwd={},
-                        userinfo=self.userinfo)
+            self.render('misc/html/404.html', kwd={}, userinfo=self.userinfo)
 
     @tornado.web.authenticated
     def index(self):

@@ -18,7 +18,6 @@ class PostAjaxHandler(PostHandler):
     '''
     Handler of Posts via Ajax.
     '''
-
     def initialize(self, **kwargs):
         super(PostAjaxHandler, self).initialize()
 
@@ -74,16 +73,16 @@ class PostAjaxHandler(PostHandler):
             'post_count': MPost.get_counts(),
             'router': config.router_post[kind],
         }
-        self.render('admin/post_ajax/post_list.html',
-                    kwd=kwd,
-                    view=MPost.query_recent(num=20, kind=kind),
-                    infos=MPost.query_pager_by_slug(
-                        kind=kind,
-                        current_page_num=current_page_number
-                    ),
-                    format_date=tools.format_date,
-                    userinfo=self.userinfo,
-                    cfg=CMS_CFG, )
+        self.render(
+            'admin/post_ajax/post_list.html',
+            kwd=kwd,
+            view=MPost.query_recent(num=20, kind=kind),
+            infos=MPost.query_pager_by_slug(
+                kind=kind, current_page_num=current_page_number),
+            format_date=tools.format_date,
+            userinfo=self.userinfo,
+            cfg=CMS_CFG,
+        )
 
     @tornado.web.authenticated
     @privilege.auth_delete
@@ -104,7 +103,6 @@ class PostAjaxHandler(PostHandler):
                 'cat_slug': tslug.slug,
                 'cat_id': tslug.uid,
                 'kind': current_infor.kind
-
             }
         else:
             output = {
@@ -125,14 +123,12 @@ class PostAjaxHandler(PostHandler):
         is_deleted = MPost.nullify(uid)
         MCategory.update_count(current_infor.extinfo['def_cat_uid'])
 
-
         if is_deleted:
             output = {
                 'nullify_info': 1,
                 'cat_slug': tslug.slug,
                 'cat_id': tslug.uid,
                 'kind': current_infor.kind
-
             }
         else:
             output = {

@@ -13,7 +13,6 @@ class UserListHandler(BaseHandler):
     '''
     List infors of the User.
     '''
-
     def initialize(self):
         super(UserListHandler, self).initialize()
 
@@ -37,11 +36,9 @@ class UserListHandler(BaseHandler):
         '''
         List the apps.
         '''
-        kwd = {
-            'pager': '',
-            'title': ''
-        }
-        self.render('user/info_list/list_app.html', kwd=kwd,
+        kwd = {'pager': '', 'title': ''}
+        self.render('user/info_list/list_app.html',
+                    kwd=kwd,
                     userinfo=self.userinfo)
 
     @tornado.web.authenticated
@@ -63,10 +60,7 @@ class UserListHandler(BaseHandler):
         '''
         User used recently.
         '''
-        kwd = {
-            'pager': '',
-            'title': ''
-        }
+        kwd = {'pager': '', 'title': ''}
         self.render('user/info_list/user_recent.html',
                     kwd=kwd,
                     user_name=self.get_current_user(),

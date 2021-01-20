@@ -3,7 +3,8 @@
 '''
 Testing for map app.
 '''
-
+import sys
+sys.path.append('.')
 import time
 from datetime import datetime
 

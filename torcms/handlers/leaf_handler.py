@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 access via: /leaf/
             vs: /post/
@@ -29,11 +28,11 @@ class LeafHandler(PostHandler):
     '''
     The basic HTML Page handler.
     '''
-
     def initialize(self, **kwargs):
         super(LeafHandler, self).initialize()
         self.kind = kwargs['kind'] if 'kind' in kwargs else '6'
-        self.filter_view = kwargs['filter_view'] if 'filter_view' in kwargs else False
+        self.filter_view = kwargs[
+            'filter_view'] if 'filter_view' in kwargs else False
 
     def post(self, *args, **kwargs):
 

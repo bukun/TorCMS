@@ -143,5 +143,6 @@ def __get_switch_arr(work_sheet, row_num):
         cell_val = work_sheet['{0}{1}'.format(col_idx, row_num)].value
         if cell_val in [1, '1']:
             # Appending the slug name of the switcher.
-            u_dic.append(work_sheet['{0}1'.format(col_idx)].value.strip().split(',')[0])
+            u_dic.append(
+                work_sheet['{0}1'.format(col_idx)].value.strip().split(',')[0])
     return u_dic

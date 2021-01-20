@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 Hander for entiey, such as files or URL.
 '''
@@ -22,22 +21,25 @@ from torcms.model.post_model import MPost
 
 ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif', 'tif', 'bmp']
 
-ALLOWED_EXTENSIONS_PDF = ['pdf', 'doc', 'docx', 'zip', 'rar', 'ppt', '7z', 'xlsx']
+ALLOWED_EXTENSIONS_PDF = [
+    'pdf', 'doc', 'docx', 'zip', 'rar', 'ppt', '7z', 'xlsx'
+]
 
 
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return '.' in filename and filename.rsplit(
+        '.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 def allowed_file_pdf(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS_PDF
+    return '.' in filename and filename.rsplit(
+        '.', 1)[1].lower() in ALLOWED_EXTENSIONS_PDF
 
 
 class EntityHandler(BaseHandler):
     '''
     Hander for entiey, such as files or URL.
     '''
-
     def initialize(self, **kwargs):
         super(EntityHandler, self).initialize()
         self.entity_ajax = False
@@ -78,9 +80,7 @@ class EntityHandler(BaseHandler):
         current_page_number = int(cur_p) if cur_p else 1
         current_page_number = 1 if current_page_number < 1 else current_page_number
 
-        kwd = {
-            'current_page': current_page_number
-        }
+        kwd = {'current_page': current_page_number}
         recs = MEntity.get_all_pager(current_page_num=current_page_number)
         self.render('misc/entity/entity_list.html',
                     imgs=recs,
@@ -96,7 +96,8 @@ class EntityHandler(BaseHandler):
         for key in self.request.arguments:
             post_data[key] = self.get_arguments(key)[0]
 
-        down_url = MPost.get_by_uid(down_uid).extinfo.get('tag__file_download', '')
+        down_url = MPost.get_by_uid(down_uid).extinfo.get(
+            'tag__file_download', '')
         if down_url:
 
             if allowed_file(down_url):
@@ -111,15 +112,19 @@ class EntityHandler(BaseHandler):
             userip = self.get_host_ip()
 
             if ment_id:
-                MEntity2User.create_entity2user(ment_id, self.userinfo.uid, userip)
+                MEntity2User.create_entity2user(ment_id, self.userinfo.uid,
+                                                userip)
             else:
-                MEntity.create_entity(uid='', path=down_url, desc='', kind=kind)
+                MEntity.create_entity(uid='',
+                                      path=down_url,
+                                      desc='',
+                                      kind=kind)
                 ment_id = MEntity.get_id_by_impath(down_url)
                 if ment_id:
-                    MEntity2User.create_entity2user(ment_id, self.userinfo.uid, userip)
+                    MEntity2User.create_entity2user(ment_id, self.userinfo.uid,
+                                                    userip)
 
-            output = {'down_code': 1,
-                      'down_url': down_url}
+            output = {'down_code': 1, 'down_url': down_url}
 
         else:
             output = {'down_code': 0}
@@ -200,10 +205,11 @@ class EntityHandler(BaseHandler):
         im0.thumbnail(thub_size)
         im0.save(imgpath_sm, 'JPEG')
 
-        create_pic = MEntity.create_entity(signature,
-                                           path_save,
-                                           post_data['desc'] if 'desc' in post_data else '',
-                                           kind=post_data['kind'] if 'kind' in post_data else '1')
+        create_pic = MEntity.create_entity(
+            signature,
+            path_save,
+            post_data['desc'] if 'desc' in post_data else '',
+            kind=post_data['kind'] if 'kind' in post_data else '1')
         if self.entity_ajax is False:
             self.redirect('/entity/{0}_m.jpg'.format(sig_save))
         else:
@@ -241,8 +247,11 @@ class EntityHandler(BaseHandler):
 
         sig_save = os.path.join(signature[:2], signature)
         path_save = os.path.join(signature[:2], outfilename)
-        create_pdf = MEntity.create_entity(signature, path_save, img_desc,
-                                           kind=post_data['kind'] if 'kind' in post_data else '2')
+        create_pdf = MEntity.create_entity(
+            signature,
+            path_save,
+            img_desc,
+            kind=post_data['kind'] if 'kind' in post_data else '2')
         if self.entity_ajax is False:
             self.redirect('/entity/{0}{1}'.format(sig_save, hou.lower()))
         else:
@@ -262,10 +271,13 @@ class EntityHandler(BaseHandler):
         cur_uid = tools.get_uudd(4)
         while MEntity.get_by_uid(cur_uid):
             cur_uid = tools.get_uudd(4)
-        MEntity.create_entity(cur_uid, img_path, img_desc, kind=post_data['kind'] if 'kind' in post_data else '3')
+        MEntity.create_entity(
+            cur_uid,
+            img_path,
+            img_desc,
+            kind=post_data['kind'] if 'kind' in post_data else '3')
         kwd = {
             'kind': post_data['kind'] if 'kind' in post_data else '3',
-
         }
         self.render('misc/entity/entity_view.html',
                     filename=img_path,
@@ -275,23 +287,20 @@ class EntityHandler(BaseHandler):
 
     @tornado.web.authenticated
     def view(self, outfilename):
-        kwd = {
-            'pager': '',
-            'kind': ''
-
-        }
-        self.render('misc/entity/entity_view.html',
-                    filename=outfilename,
-                    cfg=config.CMS_CFG,
-                    kwd=kwd,
-                    userinfo=self.userinfo, )
+        kwd = {'pager': '', 'kind': ''}
+        self.render(
+            'misc/entity/entity_view.html',
+            filename=outfilename,
+            cfg=config.CMS_CFG,
+            kwd=kwd,
+            userinfo=self.userinfo,
+        )
 
 
 class EntityAjaxHandler(EntityHandler):
     '''
     Hander for entiey, such as files or URL.
     '''
-
     def initialize(self, **kwargs):
         super(EntityAjaxHandler, self).initialize()
         self.entity_ajax = True

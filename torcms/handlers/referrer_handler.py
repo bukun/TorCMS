@@ -1,6 +1,5 @@
 # -*- coding:utf-8 -*-
 
-
 # 统计访问来源
 
 import datetime
@@ -52,7 +51,9 @@ class Referrer(BaseHandler):
         self.render('post_{0}/post_index.html'.format(self.kind),
                     userinfo=self.userinfo,
                     postinfo=postinfo,
-                    kwd={'uid': '', })
+                    kwd={
+                        'uid': '',
+                    })
 
     def _gen_uid(self):
         '''
@@ -81,8 +82,10 @@ class Referrer(BaseHandler):
         # append external infor.
 
         if 'tags' in post_data:
-            ext_dic['def_tag_arr'] = [x.strip() for x
-                                      in post_data['tags'].strip().strip(',').split(',')]
+            ext_dic['def_tag_arr'] = [
+                x.strip()
+                for x in post_data['tags'].strip().strip(',').split(',')
+            ]
         ext_dic = dict(ext_dic, **self.ext_post_data(postdata=post_data))
 
         return (post_data, ext_dic)

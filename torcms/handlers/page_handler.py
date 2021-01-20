@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 Page ( with unique slug) handler.
 '''
@@ -99,9 +98,7 @@ class PageHandler(BaseHandler):
                 alphanumeric or alphanumeric underscores (letters).''',
                 'link': '/',
             }
-            self.render('misc/html/404.html',
-                        kwd=kwd,
-                        userinfo=self.userinfo)
+            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
     @tornado.web.authenticated
     def __could_edit(self, slug):
@@ -136,7 +133,8 @@ class PageHandler(BaseHandler):
         if cnt_old == cnt_new:
             pass
         else:
-            MWikiHist.create_wiki_history(MWiki.get_by_uid(slug), self.userinfo)
+            MWikiHist.create_wiki_history(MWiki.get_by_uid(slug),
+                                          self.userinfo)
 
         MWiki.update(slug, post_data)
         tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
@@ -152,7 +150,6 @@ class PageHandler(BaseHandler):
 
         kwd = {
             'pager': '',
-
         }
         self.render('wiki_page/page_edit.html',
                     postinfo=MWiki.get_by_uid(uid),

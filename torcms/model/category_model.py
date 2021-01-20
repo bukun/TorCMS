@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 数据库操作，处理分类
 '''
@@ -12,7 +11,6 @@ class MCategory(Mabc):
     '''
     Model for category
     '''
-
     @staticmethod
     def delete(uid):
         '''
@@ -48,23 +46,20 @@ class MCategory(Mabc):
         :param qian2: 分类id的前两位
         :return: 数组，包含了找到的分类
         '''
-        return TabTag.select().where(
-            TabTag.uid.startswith(qian2)
-        ).order_by(TabTag.order)
+        return TabTag.select().where(TabTag.uid.startswith(qian2)).order_by(
+            TabTag.order)
 
     @staticmethod
     def get_parent_list(kind='1'):
-        return TabTag.select().where(
-            (TabTag.kind == kind) & (TabTag.uid.endswith('00'))
-        ).order_by(
-            TabTag.uid
-        )
+        return TabTag.select().where((TabTag.kind == kind)
+                                     & (TabTag.uid.endswith('00'))).order_by(
+                                         TabTag.uid)
 
     @staticmethod
     def query_kind_cat(kind_sig):
-        return TabTag.select().where(
-            (TabTag.kind == kind_sig) & (TabTag.pid == '0000')
-        ).order_by(TabTag.order)
+        return TabTag.select().where((TabTag.kind == kind_sig)
+                                     & (TabTag.pid == '0000')).order_by(
+                                         TabTag.order)
 
     @staticmethod
     def query_sub_cat(pid):
@@ -73,7 +68,8 @@ class MCategory(Mabc):
     @staticmethod
     def query_pcat(**kwargs):
         _ = kwargs
-        return TabTag.select().where(TabTag.pid == '0000').order_by(TabTag.order)
+        return TabTag.select().where(TabTag.pid == '0000').order_by(
+            TabTag.order)
 
     @staticmethod
     def query_uid_starts_with(qian2):
@@ -85,11 +81,14 @@ class MCategory(Mabc):
         Qeury all the categories, order by count or defined order.
         '''
         if by_count:
-            recs = TabTag.select().where(TabTag.kind == kind).order_by(TabTag.count.desc())
+            recs = TabTag.select().where(TabTag.kind == kind).order_by(
+                TabTag.count.desc())
         elif by_order:
-            recs = TabTag.select().where(TabTag.kind == kind).order_by(TabTag.order)
+            recs = TabTag.select().where(TabTag.kind == kind).order_by(
+                TabTag.order)
         else:
-            recs = TabTag.select().where(TabTag.kind == kind).order_by(TabTag.uid)
+            recs = TabTag.select().where(TabTag.kind == kind).order_by(
+                TabTag.uid)
         return recs
 
     @staticmethod
@@ -97,11 +96,8 @@ class MCategory(Mabc):
         '''
         Query the posts count of certain category.
         '''
-        return TabTag.select().where(
-            TabTag.kind == kind
-        ).order_by(
-            TabTag.count.desc()
-        ).limit(limit_num)
+        return TabTag.select().where(TabTag.kind == kind).order_by(
+            TabTag.count.desc()).limit(limit_num)
 
     @staticmethod
     def get_by_slug(slug):
@@ -119,15 +115,11 @@ class MCategory(Mabc):
         Update the count of certain category.
         '''
 
-        entry2 = TabTag.update(
-            count=TabPost2Tag.select().join(
-                TabPost,
-                on=(TabPost.uid == TabPost2Tag.post_id)
-            ).where(
-                (TabPost.valid == 1) &
-                (TabPost2Tag.tag_id == cat_id)
-            ).count()
-        ).where(TabTag.uid == cat_id)
+        entry2 = TabTag.update(count=TabPost2Tag.select().join(
+            TabPost, on=(TabPost.uid == TabPost2Tag.post_id)).where(
+                (TabPost.valid == 1)
+                & (TabPost2Tag.tag_id == cat_id)).count()).where(
+                    TabTag.uid == cat_id)
         entry2.execute()
 
     @staticmethod
@@ -139,7 +131,8 @@ class MCategory(Mabc):
         entry = TabTag.update(
             name=post_data['name'] if 'name' in post_data else raw_rec.name,
             slug=post_data['slug'] if 'slug' in post_data else raw_rec.slug,
-            order=post_data['order'] if 'order' in post_data else raw_rec.order,
+            order=post_data['order']
+            if 'order' in post_data else raw_rec.order,
             kind=post_data['kind'] if 'kind' in post_data else raw_rec.kind,
             pid=post_data['pid'],
         ).where(TabTag.uid == uid)

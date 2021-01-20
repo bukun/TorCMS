@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 Model for Evaluation
 '''
@@ -12,15 +11,14 @@ class MEvaluation(Mabc):
     '''
     Model for Evaluation
     '''
-
     @staticmethod
     def app_evaluation_count(app_id, value=1):
         '''
         Get the Evalution sum.
         '''
         return TabEvaluation.select().where(
-            (TabEvaluation.post_id == app_id) & (TabEvaluation.value == value)
-        ).count()
+            (TabEvaluation.post_id == app_id)
+            & (TabEvaluation.value == value)).count()
 
     @staticmethod
     def get_by_signature(user_id, app_id):
@@ -28,9 +26,8 @@ class MEvaluation(Mabc):
         get by user ID, and app ID.
         '''
         try:
-            return TabEvaluation.get(
-                (TabEvaluation.user_id == user_id) & (TabEvaluation.post_id == app_id)
-            )
+            return TabEvaluation.get((TabEvaluation.user_id == user_id)
+                                     & (TabEvaluation.post_id == app_id))
         except:
             return None
 
@@ -42,8 +39,7 @@ class MEvaluation(Mabc):
         rec = MEvaluation.get_by_signature(user_id, app_id)
         if rec:
             entry = TabEvaluation.update(
-                value=value,
-            ).where(TabEvaluation.uid == rec.uid)
+                value=value, ).where(TabEvaluation.uid == rec.uid)
             entry.execute()
         else:
             TabEvaluation.create(

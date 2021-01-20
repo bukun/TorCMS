@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 CRUD for the category.
 '''
@@ -20,7 +19,6 @@ class CategoryAjaxHandler(BaseHandler):
     '''
     Handler for category.
     '''
-
     def initialize(self, **kwargs):
         super(CategoryAjaxHandler, self).initialize()
         self.tmpl_router = 'category_ajax'
@@ -40,7 +38,11 @@ class CategoryAjaxHandler(BaseHandler):
             kwd = {
                 'info': '页面未找到',
             }
-            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo, )
+            self.render(
+                'misc/html/404.html',
+                kwd=kwd,
+                userinfo=self.userinfo,
+            )
 
     def post(self, *args, **kwargs):
         url_str = args[0]

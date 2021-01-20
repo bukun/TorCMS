@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 Model for classify.
 '''
@@ -13,14 +12,13 @@ class MClassify(Mabc):
     '''
     Model for classify.
     '''
-
     def __init__(self):
         super(MClassify, self).__init__()
 
     @staticmethod
     def query_pager_by_classify(current_page_num=1):
-        recs = TabTag.select().where(TabTag.uid.endswith("00")).order_by(TabTag.uid).paginate(current_page_num,
-                                                                                              CMS_CFG['list_num'])
+        recs = TabTag.select().where(TabTag.uid.endswith("00")).order_by(
+            TabTag.uid).paginate(current_page_num, CMS_CFG['list_num'])
 
         return recs
 
@@ -31,7 +29,8 @@ class MClassify(Mabc):
 
     @staticmethod
     def query_pager_by_classify_all():
-        recs = TabTag.select().where(TabTag.uid.endswith("00")).order_by(TabTag.uid)
+        recs = TabTag.select().where(TabTag.uid.endswith("00")).order_by(
+            TabTag.uid)
 
         return recs
 
@@ -40,15 +39,13 @@ class MClassify(Mabc):
 
         if tagid.endswith('00'):
             recs = TabPost.select().join(
-                TabPost2Tag, on=(TabPost2Tag.post_id == TabPost.uid)
-            ).join(TabTag, on=(TabPost2Tag.tag_id == TabTag.uid)).where(
-                TabTag.uid.startswith(tagid[:2])
-            )
+                TabPost2Tag, on=(TabPost2Tag.post_id == TabPost.uid)).join(
+                    TabTag, on=(TabPost2Tag.tag_id == TabTag.uid)).where(
+                        TabTag.uid.startswith(tagid[:2]))
         else:
             recs = TabPost.select().join(
-                TabPost2Tag, on=(TabPost2Tag.post_id == TabPost.uid)
-            ).join(TabTag, on=(TabPost2Tag.tag_id == TabTag.uid)).where(
-                TabTag.uid == tagid
-            )
+                TabPost2Tag, on=(TabPost2Tag.post_id == TabPost.uid)).join(
+                    TabTag, on=(TabPost2Tag.tag_id == TabTag.uid)).where(
+                        TabTag.uid == tagid)
 
         return recs.count()

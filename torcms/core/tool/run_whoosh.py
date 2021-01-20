@@ -56,15 +56,15 @@ def do_for_app(rand=True, kind='', doc_type=None):
         recs = MPost.query_recent(num=2, kind=kind)
 
     for rec in recs:
-        text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
+        text2 = rec.title + ',' + html2text.html2text(
+            tornado.escape.xhtml_unescape(rec.cnt_html))
         writer = TOR_IDX.writer()
-        writer.update_document(
-            catid='sid' + kind,
-            title=rec.title,
-            type=doc_type[rec.kind],
-            link='/{0}/{1}'.format(router_post[rec.kind], rec.uid),
-            content=text2
-        )
+        writer.update_document(catid='sid' + kind,
+                               title=rec.title,
+                               type=doc_type[rec.kind],
+                               link='/{0}/{1}'.format(router_post[rec.kind],
+                                                      rec.uid),
+                               content=text2)
         writer.commit()
 
 
@@ -112,7 +112,8 @@ def do_for_post(rand=True, doc_type=''):
         recs = MPost.query_recent(num=2, kind='1')
 
     for rec in recs:
-        text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
+        text2 = rec.title + ',' + html2text.html2text(
+            tornado.escape.xhtml_unescape(rec.cnt_html))
         writer = TOR_IDX.writer()
         writer.update_document(
             title=rec.title,
@@ -131,16 +132,15 @@ def do_for_wiki(rand=True, doc_type=''):
         recs = MWiki.query_recent(num=2, kind='1')
 
     for rec in recs:
-        text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
+        text2 = rec.title + ',' + html2text.html2text(
+            tornado.escape.xhtml_unescape(rec.cnt_html))
 
         writer = TOR_IDX.writer()
-        writer.update_document(
-            title=rec.title,
-            catid='sid1',
-            type=doc_type,
-            link='/wiki/{0}'.format(rec.title),
-            content=text2
-        )
+        writer.update_document(title=rec.title,
+                               catid='sid1',
+                               type=doc_type,
+                               link='/wiki/{0}'.format(rec.title),
+                               content=text2)
         writer.commit()
 
 
@@ -151,15 +151,14 @@ def do_for_page(rand=True, doc_type=''):
         recs = MWiki.query_recent(num=2, kind='2')
 
     for rec in recs:
-        text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
+        text2 = rec.title + ',' + html2text.html2text(
+            tornado.escape.xhtml_unescape(rec.cnt_html))
         writer = TOR_IDX.writer()
-        writer.update_document(
-            title=rec.title,
-            catid='sid1',
-            type=doc_type,
-            link='/page/{0}'.format(rec.uid),
-            content=text2
-        )
+        writer.update_document(title=rec.title,
+                               catid='sid1',
+                               type=doc_type,
+                               link='/page/{0}'.format(rec.uid),
+                               content=text2)
         writer.commit()
 
 

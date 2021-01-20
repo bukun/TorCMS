@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 Model for referrer.
 '''
@@ -27,7 +26,6 @@ class MReplyid(Mabc):
             reply0=pid,
             reply1=rid,
             time_create=tools.timestamp(),
-
         )
 
     @staticmethod

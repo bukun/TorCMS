@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 Handler for links.
 '''
@@ -19,7 +18,6 @@ class LinkHandler(BaseHandler):
     '''
     Handler for links.
     '''
-
     def initialize(self, **kwargs):
         super(LinkHandler, self).initialize()
 
@@ -39,8 +37,11 @@ class LinkHandler(BaseHandler):
             kwd = {
                 'info': '页面未找到',
             }
-            self.render('misc/html/404.html', kwd=kwd,
-                        userinfo=self.userinfo, )
+            self.render(
+                'misc/html/404.html',
+                kwd=kwd,
+                userinfo=self.userinfo,
+            )
 
     def post(self, *args, **kwargs):
         url_str = args[0]
@@ -91,10 +92,12 @@ class LinkHandler(BaseHandler):
             'pager': '',
             'uid': '',
         }
-        self.render('misc/link/link_add.html',
-                    topmenu='',
-                    kwd=kwd,
-                    userinfo=self.userinfo, )
+        self.render(
+            'misc/link/link_add.html',
+            topmenu='',
+            kwd=kwd,
+            userinfo=self.userinfo,
+        )
 
     @tornado.web.authenticated
     def update(self, uid):
@@ -156,11 +159,13 @@ class LinkHandler(BaseHandler):
             'editable': self.editable(),
         }
 
-        self.render('misc/link/link_view.html',
-                    view=rec,
-                    kwd=kwd,
-                    userinfo=self.userinfo,
-                    cfg=CMS_CFG, )
+        self.render(
+            'misc/link/link_view.html',
+            view=rec,
+            kwd=kwd,
+            userinfo=self.userinfo,
+            cfg=CMS_CFG,
+        )
 
     @tornado.web.authenticated
     def p_user_add_link(self):
@@ -235,7 +240,6 @@ class LinkPartialHandler(LinkHandler):
     '''
     Partially render for user handler.
     '''
-
     def initialize(self, **kwargs):
         super(LinkPartialHandler, self).initialize()
         self.is_p = True

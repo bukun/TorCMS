@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 create a base model class that our application's models will extend. From django
 '''

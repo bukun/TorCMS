@@ -17,7 +17,6 @@ class PageAjaxHandler(PageHandler):
     '''
     Handler of Pages via Ajax.
     '''
-
     def initialize(self, **kwargs):
         super(PageAjaxHandler, self).initialize()
 
@@ -49,7 +48,6 @@ class PageAjaxHandler(PageHandler):
             'time_update': rec.time_update,
             'title': rec.title,
             'cnt_html': tornado.escape.xhtml_unescape(rec.cnt_html),
-
         }
         self.write(json.dumps(out_json))
 
@@ -57,7 +55,11 @@ class PageAjaxHandler(PageHandler):
     def to_add(self, citiao):
         self.write(json.dumps({'code': citiao}))
 
-    def p_list(self, kind, cur_p='', ):
+    def p_list(
+        self,
+        kind,
+        cur_p='',
+    ):
         '''
         List the post .
         '''
@@ -79,8 +81,8 @@ class PageAjaxHandler(PageHandler):
         }
 
         self.render('admin/page_ajax/page_list.html',
-                    postrecs=MWiki.query_pager_by_kind(kind=kind,
-                                                       current_page_num=current_page_number),
+                    postrecs=MWiki.query_pager_by_kind(
+                        kind=kind, current_page_num=current_page_number),
                     kwd=kwd)
 
     def p_to_add(self):

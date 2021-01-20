@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 Manage the posts by Administrator.
 '''
@@ -114,7 +113,6 @@ class PostHistoryHandler(EditHistoryHander):
     '''
     Manage the posts by Administrator.
     '''
-
     def initialize(self):
         super(PostHistoryHandler, self).initialize()
 
@@ -154,7 +152,8 @@ class PostHistoryHandler(EditHistoryHander):
         post_rec = MPost.get_by_uid(postid)
         if not post_rec:
             return False
-        if self.check_post_role()['EDIT'] or post_rec.user_name == self.userinfo.user_name:
+        if self.check_post_role(
+        )['EDIT'] or post_rec.user_name == self.userinfo.user_name:
             return True
         else:
             return False
@@ -197,13 +196,13 @@ class PostHistoryHandler(EditHistoryHander):
                 post_words_num = len((postinfo.cnt_md).strip())
                 up_words_num = post_words_num - hist_words_num
 
-                html_diff_arr.append(
-                    {'hist_uid': hist_rec.uid,
-                     'html_diff': infobox,
-                     'hist_user': hist_user,
-                     'hist_time': hist_time,
-                     'up_words_num': up_words_num}
-                )
+                html_diff_arr.append({
+                    'hist_uid': hist_rec.uid,
+                    'html_diff': infobox,
+                    'hist_user': hist_user,
+                    'hist_time': hist_time,
+                    'up_words_num': up_words_num
+                })
             kwd = {}
 
             self.render('man_info/post_man_view.html',
@@ -214,7 +213,8 @@ class PostHistoryHandler(EditHistoryHander):
                         router=router_post[postinfo.kind],
                         kwd=kwd)
         else:
-            self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], postinfo.uid))
+            self.redirect('/{0}/{1}'.format(router_post[postinfo.kind],
+                                            postinfo.uid))
 
     @tornado.web.authenticated
     def restore(self, hist_uid):
@@ -232,8 +232,14 @@ class PostHistoryHandler(EditHistoryHander):
         cur_cnt = tornado.escape.xhtml_unescape(postinfo.cnt_md)
         old_cnt = tornado.escape.xhtml_unescape(histinfo.cnt_md)
 
-        MPost.update_cnt(histinfo.post_id,
-                         {'cnt_md': old_cnt, 'user_name': self.userinfo.user_name})
+        MPost.update_cnt(histinfo.post_id, {
+            'cnt_md': old_cnt,
+            'user_name': self.userinfo.user_name
+        })
 
-        MPostHist.update_cnt(histinfo.uid, {'cnt_md': cur_cnt, 'user_name': postinfo.user_name})
-        self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], postinfo.uid))
+        MPostHist.update_cnt(histinfo.uid, {
+            'cnt_md': cur_cnt,
+            'user_name': postinfo.user_name
+        })
+        self.redirect('/{0}/{1}'.format(router_post[postinfo.kind],
+                                        postinfo.uid))

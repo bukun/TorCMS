@@ -36,12 +36,10 @@ from torcms.handlers.wiki_history_manager import WikiHistoryHandler
 
 urls = [
     ('/_rating/(.*)', RatingHandler, dict()),
-
     ('/post_man/(.*)', PostHistoryHandler, dict()),
     ('/meta_man/(.*)', PostHistoryHandler, dict()),
     ('/wiki_man/(.*)', WikiHistoryHandler, dict()),
     ('/page_man/(.*)', WikiHistoryHandler, dict()),
-
     ("/admin/(.*)", AdminHandler, dict()),
     ("/entry/(.*)", EntityHandler, dict()),
     ("/entity/(.*)", EntityHandler, dict()),
@@ -61,33 +59,23 @@ urls = [
     # For filter listing.
     ("/filter/(.*)", FilterHandler, dict()),
     ("/info/(.*)", PostHandler, dict(kind='9', filter_view=True)),
-
     ("/label/(.*)", LabelHandler, dict()),
-
     ("/user/(.*)", UserHandler, dict()),
     ("/user_j/(.*)", UserPartialHandler, dict()),
-
     ("/post_j/(.*)", PostAjaxHandler, dict()),
-
     ("/post_list/(.*)", PostListHandler, dict()),
-
     ("/category_j/(.*)", CategoryAjaxHandler, dict()),
-
     ("/link_j/(.*)", LinkPartialHandler, dict()),
     ("/link/(.*)", LinkHandler, dict()),
-
     ("/page_j/(.*)", PageAjaxHandler, dict()),
     ("/page/(.*)", PageHandler, dict()),
     ("/wiki/(.*)", WikiHandler, dict()),
     ("/search/(.*)", SearchHandler, dict()),
     ("/reply/(.*)", ReplyHandler, dict()),
-
     ("/publish/(.*)", PublishHandler, dict()),
-
     ("/collect/(.*)", CollectHandler, dict()),
     ('/rel/(.*)', RelHandler, dict()),
     ("/user_list/(.*)", UserListHandler, dict()),
-
     ("/evaluate/(.*)", EvaluationHandler, dict()),
     ("/sys/(.*)", SysHandler, dict()),
     ("/log/(.*)", LogHandler, dict()),

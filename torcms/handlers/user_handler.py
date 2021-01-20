@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 Handler for user.
 '''
@@ -30,18 +29,25 @@ class SumForm(Form):
     '''
     WTForm for user.
     '''
-    user_name = StringField('user_name', validators=[DataRequired()], default='')
-    user_pass = StringField('user_pass', validators=[DataRequired()], default='')
-    user_email = StringField('user_email',
-                             validators=[DataRequired(), wtforms.validators.Email()],
-                             default='')
+    user_name = StringField('user_name',
+                            validators=[DataRequired()],
+                            default='')
+    user_pass = StringField('user_pass',
+                            validators=[DataRequired()],
+                            default='')
+    user_email = StringField(
+        'user_email',
+        validators=[DataRequired(), wtforms.validators.Email()],
+        default='')
 
 
 class SumFormInfo(Form):
     '''
     WTForm for user.
     '''
-    user_email = StringField('user_email', validators=[DataRequired(), wtforms.validators.Email()])
+    user_email = StringField(
+        'user_email', validators=[DataRequired(),
+                                  wtforms.validators.Email()])
 
 
 class SumFormPass(Form):
@@ -55,7 +61,6 @@ class UserHandler(BaseHandler):
     '''
     Handler for user.
     '''
-
     def initialize(self, **kwargs):
         super(UserHandler, self).initialize()
 
@@ -65,20 +70,30 @@ class UserHandler(BaseHandler):
         url_arr = self.parse_url(url_str)
 
         dict_get = {
-            'regist': (
-                lambda: self.redirect('/user/info')
-            ) if self.get_current_user() else self.__to_register__,
-            'login': self.__to_login__,
-            'info': self.__to_show_info__,
-            'logout': self.__logout__,
-            'reset-password': self.__to_reset_password__,
-            'changepass': self.__change_pass__,
-            'changeinfo': self.__to_change_info__,
-            'reset-passwd': self.gen_passwd,
-            'changerole': self.__to_change_role__,
-            'find': self.find,
-            'delete_user': self.__delete_user__,
-            'list': self.__user_list__,
+            'regist': (lambda: self.redirect('/user/info'))
+            if self.get_current_user() else self.__to_register__,
+            'login':
+            self.__to_login__,
+            'info':
+            self.__to_show_info__,
+            'logout':
+            self.__logout__,
+            'reset-password':
+            self.__to_reset_password__,
+            'changepass':
+            self.__change_pass__,
+            'changeinfo':
+            self.__to_change_info__,
+            'reset-passwd':
+            self.gen_passwd,
+            'changerole':
+            self.__to_change_role__,
+            'find':
+            self.find,
+            'delete_user':
+            self.__delete_user__,
+            'list':
+            self.__user_list__,
         }
 
         if len(url_arr) == 1:
@@ -93,7 +108,6 @@ class UserHandler(BaseHandler):
     def post(self, *args, **kwargs):
         url_str = args[0]
         url_arr = self.parse_url(url_str)
-
 
         # ToDo: change to dict.
         if url_str == 'regist':
@@ -153,7 +167,9 @@ class UserHandler(BaseHandler):
 
         usercheck = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
         if usercheck == 1:
-            MUser.update_info(self.userinfo.uid, post_data['user_email'], extinfo=def_dic)
+            MUser.update_info(self.userinfo.uid,
+                              post_data['user_email'],
+                              extinfo=def_dic)
             output = {'changeinfo ': usercheck}
         else:
             output = {'changeinfo ': 0}
@@ -193,7 +209,8 @@ class UserHandler(BaseHandler):
         '''
         post_data = self.get_post_data()
 
-        usercheck_num = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
+        usercheck_num = MUser.check_user(self.userinfo.uid,
+                                         post_data['rawpass'])
         if usercheck_num == 1:
             MUser.update_pass(self.userinfo.uid, post_data['user_pass'])
             self.redirect('/user/info')
@@ -202,9 +219,7 @@ class UserHandler(BaseHandler):
                 'info': '原密码输入错误，请重新输入',
                 'link': '/user/changepass',
             }
-            self.render('misc/html/404.html',
-                        kwd=kwd,
-                        userinfo=self.userinfo)
+            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
     @tornado.web.authenticated
     def __change_info__(self):
@@ -214,18 +229,19 @@ class UserHandler(BaseHandler):
 
         post_data, def_dic = self.fetch_post_data()
 
-        usercheck_num = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
+        usercheck_num = MUser.check_user(self.userinfo.uid,
+                                         post_data['rawpass'])
         if usercheck_num == 1:
-            MUser.update_info(self.userinfo.uid, post_data['user_email'], extinfo=def_dic)
+            MUser.update_info(self.userinfo.uid,
+                              post_data['user_email'],
+                              extinfo=def_dic)
             self.redirect(('/user/info'))
         else:
             kwd = {
                 'info': '密码输入错误。',
                 'link': '/user/changeinfo',
             }
-            self.render('misc/html/404.html',
-                        kwd=kwd,
-                        userinfo=self.userinfo)
+            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
     @tornado.web.authenticated
     def __change_role__(self, xg_username):
@@ -259,7 +275,8 @@ class UserHandler(BaseHandler):
         '''
 
         self.render(self.wrap_tmpl('user/{sig}user_changepass.html'),
-                    userinfo=self.userinfo, kwd={})
+                    userinfo=self.userinfo,
+                    kwd={})
 
     @tornado.web.authenticated
     def __to_change_info__(self):
@@ -267,7 +284,8 @@ class UserHandler(BaseHandler):
         to change the user info.
         '''
         self.render(self.wrap_tmpl('user/{sig}user_changeinfo.html'),
-                    userinfo=self.userinfo, kwd={})
+                    userinfo=self.userinfo,
+                    kwd={})
 
     @tornado.web.authenticated
     def __to_change_role__(self, xg_username):
@@ -275,7 +293,8 @@ class UserHandler(BaseHandler):
         to change the user role
         '''
         self.render('user/user_changerole.html',
-                    userinfo=MUser.get_by_name(xg_username), kwd={})
+                    userinfo=MUser.get_by_name(xg_username),
+                    kwd={})
 
     @tornado.web.authenticated
     def __to_find__(self, cur_p=''):
@@ -291,13 +310,11 @@ class UserHandler(BaseHandler):
 
         pager_num = int(MUser.total_number() / CMS_CFG['list_num'])
 
-        kwd = {
-            'pager': '',
-            'current_page': current_page_number
-        }
+        kwd = {'pager': '', 'current_page': current_page_number}
         self.render(self.wrap_tmpl('user/{sig}user_find_list.html'),
                     cfg=config.CMS_CFG,
-                    infos=MUser.query_pager_by_slug(current_page_num=current_page_number),
+                    infos=MUser.query_pager_by_slug(
+                        current_page_num=current_page_number),
                     kwd=kwd,
                     view=MUser.get_by_keyword(""),
                     userinfo=self.userinfo)
@@ -320,7 +337,8 @@ class UserHandler(BaseHandler):
         to reset the password.
         '''
         self.render('user/user_reset_password.html',
-                    userinfo=self.userinfo, kwd={})
+                    userinfo=self.userinfo,
+                    kwd={})
 
     def __to_login__(self):
         '''
@@ -337,9 +355,7 @@ class UserHandler(BaseHandler):
                 'next_url': next_url,
                 'ad': False,
             }
-            self.render('user/user_login.html',
-                        kwd=kwd,
-                        userinfo=None)
+            self.render('user/user_login.html', kwd=kwd, userinfo=None)
 
     def __check_valid(self, post_data):
         '''
@@ -487,7 +503,8 @@ class UserHandler(BaseHandler):
         # user_create_status = {'success': False, 'code': '00'}
         post_data = self.get_post_data()
 
-        is_user_passed = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
+        is_user_passed = MUser.check_user(self.userinfo.uid,
+                                          post_data['rawpass'])
 
         if is_user_passed == 1:
 
@@ -498,7 +515,8 @@ class UserHandler(BaseHandler):
             form_info = SumFormInfo(self.request.arguments)
 
             if form_info.validate():
-                user_create_status = MUser.update_info(self.userinfo.uid, post_data['user_email'])
+                user_create_status = MUser.update_info(self.userinfo.uid,
+                                                       post_data['user_email'])
                 return json.dump(user_create_status, self)
             return json.dump(user_create_status, self)
         return False
@@ -518,7 +536,8 @@ class UserHandler(BaseHandler):
         # user_create_status = {'success': False, 'code': '00'} # Not used currently.
         post_data = self.get_post_data()
 
-        check_usr_status = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
+        check_usr_status = MUser.check_user(self.userinfo.uid,
+                                            post_data['rawpass'])
 
         if check_usr_status == 1:
 
@@ -572,9 +591,6 @@ class UserHandler(BaseHandler):
         else:
             result = MUser.check_user_by_name(u_name, u_pass)
 
-
-
-
         # Todo: the kwd should remove from the codes.
         if result == 1:
             self.set_secure_cookie("user", u_name)
@@ -609,7 +625,6 @@ class UserHandler(BaseHandler):
         '''
         kwd = {
             'pager': '',
-
         }
         self.render('user/user_find_list.html',
                     kwd=kwd,
@@ -627,15 +642,14 @@ class UserHandler(BaseHandler):
         kwd = {
             'pager': '',
             'title': '查找结果',
-
         }
 
         self.render(self.wrap_tmpl('user/{sig}user_find_list.html'),
-
                     kwd=kwd,
                     view=MUser.get_by_keyword(keyword),
                     cfg=config.CMS_CFG,
                     userinfo=self.userinfo)
+
     def __user_list__(self):
         '''
         find by keyword.
@@ -711,7 +725,6 @@ class UserHandler(BaseHandler):
             'user_count': MUser.total_number(),
             'month_arr': month_arr,
             'num_arr': num_arr,
-
         }
 
         self.render('user/user_list.html',
@@ -727,9 +740,7 @@ class UserHandler(BaseHandler):
         '''
         if self.is_p:
             if MUser.delete(user_id):
-                output = {
-                    'del_category': 1
-                }
+                output = {'del_category': 1}
             else:
                 output = {
                     'del_category': 0,
@@ -766,7 +777,9 @@ class UserHandler(BaseHandler):
                     'info': '两次重置密码时间应该大于1分钟',
                     'link': '/user/reset-password',
                 }
-                self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
+                self.render('misc/html/404.html',
+                            kwd=kwd,
+                            userinfo=self.userinfo)
                 return False
 
             if userinfo:
@@ -775,18 +788,16 @@ class UserHandler(BaseHandler):
                 username = userinfo.user_name
                 hash_str = tools.md5(username + str(timestamp) + passwd)
                 url_reset = '{0}/user/reset-passwd?u={1}&t={2}&p={3}'.format(
-                    config.SITE_CFG['site_url'],
-                    username,
-                    timestamp,
-                    hash_str)
+                    config.SITE_CFG['site_url'], username, timestamp, hash_str)
                 email_cnt = '''<div>请查看下面的信息，并<span style="color:red">谨慎操作</span>：</div>
             <div>您在"{0}"网站（{1}）申请了密码重置，如果确定要进行密码重置，请打开下面链接：</div>
             <div><a href={2}>{2}</a></div>
-            <div>如果无法确定本信息的有效性，请忽略本邮件。</div>'''.format(config.SMTP_CFG['name'],
-                                                       config.SITE_CFG['site_url'],
-                                                       url_reset)
+            <div>如果无法确定本信息的有效性，请忽略本邮件。</div>'''.format(
+                    config.SMTP_CFG['name'], config.SITE_CFG['site_url'],
+                    url_reset)
 
-                if send_mail([userinfo.user_email], "{0}|密码重置".format(config.SMTP_CFG['name']),
+                if send_mail([userinfo.user_email],
+                             "{0}|密码重置".format(config.SMTP_CFG['name']),
                              email_cnt):
                     MUser.update_time_reset_passwd(username, timestamp)
                     self.set_status(200)
@@ -818,11 +829,10 @@ class UserHandler(BaseHandler):
                 'link': '/user/reset-password',
             }
             self.set_status(400)
-            self.render('misc/html/404.html',
-                        kwd=kwd,
-                        userinfo=self.userinfo)
+            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
-        hash_str = tools.md5(userinfo.user_name + post_data['t'] + userinfo.user_pass)
+        hash_str = tools.md5(userinfo.user_name + post_data['t'] +
+                             userinfo.user_pass)
         if hash_str == post_data['p']:
             pass
         else:
@@ -831,9 +841,11 @@ class UserHandler(BaseHandler):
                 'link': '/user/reset-password',
             }
             self.set_status(400)
-            self.render('misc/html/404.html',
-                        kwd=kwd,
-                        userinfo=self.userinfo, )
+            self.render(
+                'misc/html/404.html',
+                kwd=kwd,
+                userinfo=self.userinfo,
+            )
 
         new_passwd = tools.get_uu8d()
         MUser.update_pass(userinfo.uid, new_passwd)
@@ -841,17 +853,18 @@ class UserHandler(BaseHandler):
             'user_name': userinfo.user_name,
             'new_pass': new_passwd,
         }
-        self.render('user/user_show_pass.html',
-                    cfg=config.CMS_CFG,
-                    kwd=kwd,
-                    userinfo=self.userinfo, )
+        self.render(
+            'user/user_show_pass.html',
+            cfg=config.CMS_CFG,
+            kwd=kwd,
+            userinfo=self.userinfo,
+        )
 
 
 class UserPartialHandler(UserHandler):
     '''
     Partially render for user handler.
     '''
-
     def initialize(self, **kwargs):
         super(UserPartialHandler, self).initialize()
         self.is_p = True

@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 Handle the usage of the info.
 '''
@@ -19,15 +18,12 @@ class MUsage(Mabc):
     '''
     Handle the usage of the info.
     '''
-
     @staticmethod
     def query_by_post(postid):
         '''
         Query records by post.
         '''
-        return TabUsage.select().where(
-            TabUsage.post_id == postid
-        )
+        return TabUsage.select().where(TabUsage.post_id == postid)
 
     @staticmethod
     def get_all():
@@ -40,46 +36,33 @@ class MUsage(Mabc):
     @staticmethod
     def query_recent(user_id, kind, num=10):
         return TabUsage.select(
-            TabUsage, TabPost.title.alias('post_title')
-        ).join(
-            TabPost, on=(TabUsage.post_id == TabPost.uid)
-        ).where(
-            (TabUsage.user_id == user_id) &
-            (TabUsage.kind == kind) &
-            (TabPost.valid == 1)
-        ).order_by(
-            TabUsage.timestamp.desc()
-        ).limit(num)
+            TabUsage, TabPost.title.alias('post_title')).join(
+                TabPost, on=(TabUsage.post_id == TabPost.uid
+                             )).where((TabUsage.user_id == user_id)
+                                      & (TabUsage.kind == kind)
+                                      & (TabPost.valid == 1)).order_by(
+                                          TabUsage.timestamp.desc()).limit(num)
 
     @staticmethod
     def query_recent_by_cat(user_id, cat_id, num):
-        return TabUsage.select().where(
-            (TabUsage.tag_id == cat_id) &
-            (TabUsage.user_id == user_id)
-        ).order_by(
-            TabUsage.timestamp.desc()
-        ).limit(num)
+        return TabUsage.select().where((TabUsage.tag_id == cat_id) & (
+            TabUsage.user_id == user_id)).order_by(
+                TabUsage.timestamp.desc()).limit(num)
 
     @staticmethod
     def query_most(user_id, kind, num):
         return TabUsage.select(
-            TabUsage, TabPost.title.alias('post_title')
-        ).join(
-            TabPost, on=(TabUsage.post_id == TabPost.uid)
-        ).where(
-            (TabUsage.user_id == user_id) &
-            (TabUsage.kind == kind)&
-            (TabPost.valid == 1)
-        ).order_by(
-            TabUsage.count.desc()
-        ).limit(num)
+            TabUsage, TabPost.title.alias('post_title')).join(
+                TabPost, on=(TabUsage.post_id == TabPost.uid
+                             )).where((TabUsage.user_id == user_id)
+                                      & (TabUsage.kind == kind)
+                                      & (TabPost.valid == 1)).order_by(
+                                          TabUsage.count.desc()).limit(num)
 
     @staticmethod
     def query_by_signature(user_id, sig):
-        return TabUsage.select().where(
-            (TabUsage.post_id == sig) &
-            (TabUsage.user_id == user_id)
-        )
+        return TabUsage.select().where((TabUsage.post_id == sig)
+                                       & (TabUsage.user_id == user_id))
 
     @staticmethod
     def count_increate(rec, cat_id, num):

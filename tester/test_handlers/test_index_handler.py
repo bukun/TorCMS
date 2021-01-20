@@ -3,6 +3,8 @@
 '''
 Test
 '''
+import sys
+sys.path.append('.')
 
 from tornado.testing import AsyncHTTPSTestCase
 

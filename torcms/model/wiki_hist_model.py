@@ -14,8 +14,8 @@ class MWikiHist(Mabc):
         Get the last wiki in history.
         '''
         recs = TabWikiHist.select().where(
-            TabWikiHist.wiki_id == postid
-        ).order_by(TabWikiHist.time_update.desc())
+            TabWikiHist.wiki_id == postid).order_by(
+                TabWikiHist.time_update.desc())
 
         return None if recs.count() == 0 else recs.get()
 
@@ -42,10 +42,8 @@ class MWikiHist(Mabc):
     @staticmethod
     def query_by_wikiid(postid, limit=5):
         recs = TabWikiHist.select().where(
-            TabWikiHist.wiki_id == postid
-        ).order_by(
-            TabWikiHist.time_update.desc()
-        ).limit(limit)
+            TabWikiHist.wiki_id == postid).order_by(
+                TabWikiHist.time_update.desc()).limit(limit)
         return recs
 
     @staticmethod

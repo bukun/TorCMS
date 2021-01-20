@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 Handle the usage of the info.
 '''
@@ -14,12 +13,10 @@ from torcms.model.abc_model import Mabc
 # from torcms.model.core_tab import TabAccess
 
 
-
 class MAcces(Mabc):
     '''
     Handle the usage of the info.
     '''
-
     @staticmethod
     def get_all():
         pass
@@ -44,14 +41,16 @@ class MAcces(Mabc):
         cursor = conn.cursor()
 
         try:
-            cursor.execute('CREATE TABLE TabAccess (uid BIGINT PRIMARY KEY NOT NULL ,'
-                           'post_id VARCHAR(5));')
+            cursor.execute(
+                'CREATE TABLE TabAccess (uid BIGINT PRIMARY KEY NOT NULL ,'
+                'post_id VARCHAR(5));')
         except:
             pass
 
         try:
-            cursor.execute('CREATE TABLE TabPost (post_id VARCHAR(5) PRIMARY KEY NOT NULL ,'
-                           'count_1d integer , count_7d integer, count_30d integer );')
+            cursor.execute(
+                'CREATE TABLE TabPost (post_id VARCHAR(5) PRIMARY KEY NOT NULL ,'
+                'count_1d integer , count_7d integer, count_30d integer );')
         except:
             pass
 
@@ -60,7 +59,8 @@ class MAcces(Mabc):
         cursor.execute(del_cmd)
         conn.commit()
 
-        cursor.execute("select * from TabPost where post_id = '{}'".format(post_id))
+        cursor.execute(
+            "select * from TabPost where post_id = '{}'".format(post_id))
         rec = cursor.fetchone()
         print(rec)
         if rec:

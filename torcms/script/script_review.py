@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 '''
 Check the difference of modification.
 '''
@@ -28,7 +27,9 @@ def __get_diff_recent():
     diff_str = ''
 
     for key in router_post:
-        recent_posts = MPost.query_recent_edited(tools.timestamp() - TIME_LIMIT, kind=key)
+        recent_posts = MPost.query_recent_edited(tools.timestamp() -
+                                                 TIME_LIMIT,
+                                                 kind=key)
         for recent_post in recent_posts:
             hist_rec = MPostHist.get_last(recent_post.uid)
             if hist_rec:
@@ -44,8 +45,7 @@ def __get_diff_recent():
                 infobox = diff_table(hist_rec.cnt_md, recent_post.cnt_md)
 
                 diff_str = diff_str + '<h3>CONTENT:{0}</h3>'.format(
-                    recent_post.title
-                ) + infobox + '</hr>'
+                    recent_post.title) + infobox + '</hr>'
             else:
                 continue
     return diff_str
@@ -55,22 +55,25 @@ def __get_wiki_review(email_cnt, idx):
     '''
     Review for wikis.
     '''
-    recent_posts = MWiki.query_recent_edited(tools.timestamp() - TIME_LIMIT, kind='2')
+    recent_posts = MWiki.query_recent_edited(tools.timestamp() - TIME_LIMIT,
+                                             kind='2')
     for recent_post in recent_posts:
         hist_rec = MWikiHist.get_last(recent_post.uid)
         if hist_rec:
             foo_str = '''
                     <tr><td>{0}</td><td>{1}</td><td class="diff_chg">Edit</td><td>{2}</td>
                     <td><a href="{3}">{3}</a></td></tr>
-                    '''.format(idx, recent_post.user_name, recent_post.title,
-                               os.path.join(SITE_CFG['site_url'], 'page', recent_post.uid))
+                    '''.format(
+                idx, recent_post.user_name, recent_post.title,
+                os.path.join(SITE_CFG['site_url'], 'page', recent_post.uid))
             email_cnt = email_cnt + foo_str
         else:
             foo_str = '''
                     <tr><td>{0}</td><td>{1}</td><td class="diff_add">New </td><td>{2}</td>
                     <td><a href="{3}">{3}</a></td></tr>
-                    '''.format(idx, recent_post.user_name, recent_post.title,
-                               os.path.join(SITE_CFG['site_url'], 'page', recent_post.uid))
+                    '''.format(
+                idx, recent_post.user_name, recent_post.title,
+                os.path.join(SITE_CFG['site_url'], 'page', recent_post.uid))
             email_cnt = email_cnt + foo_str
         idx = idx + 1
     email_cnt = email_cnt + '</table>'
@@ -88,15 +91,17 @@ def __get_page_review(email_cnt, idx):
             foo_str = '''
                     <tr><td>{0}</td><td>{1}</td><td class="diff_chg">Edit</td><td>{2}</td>
                     <td><a href="{3}">{3}</a></td></tr>
-                    '''.format(idx, recent_post.user_name, recent_post.title,
-                               os.path.join(SITE_CFG['site_url'], 'wiki', recent_post.title))
+                    '''.format(
+                idx, recent_post.user_name, recent_post.title,
+                os.path.join(SITE_CFG['site_url'], 'wiki', recent_post.title))
             email_cnt = email_cnt + foo_str
         else:
             foo_str = '''
                     <tr><td>{0}</td><td>{1}</td><td class="diff_add">New </td><td>{2}</td>
                     <td><a href="{3}">{3}</a></td></tr>
-                    '''.format(idx, recent_post.user_name, recent_post.title,
-                               os.path.join(SITE_CFG['site_url'], 'wiki', recent_post.title))
+                    '''.format(
+                idx, recent_post.user_name, recent_post.title,
+                os.path.join(SITE_CFG['site_url'], 'wiki', recent_post.title))
             email_cnt = email_cnt + foo_str
         idx = idx + 1
 
@@ -108,10 +113,13 @@ def __get_post_review(email_cnt, idx):
     Review for posts.
     '''
     for key in router_post:
-        recent_posts = MPost.query_recent_edited(tools.timestamp() - TIME_LIMIT, kind=key)
+        recent_posts = MPost.query_recent_edited(tools.timestamp() -
+                                                 TIME_LIMIT,
+                                                 kind=key)
         for recent_post in recent_posts:
             hist_rec = MPostHist.get_last(recent_post.uid)
-            editor_name = recent_post.extinfo.get('def_editor_name', recent_post.user_name)
+            editor_name = recent_post.extinfo.get('def_editor_name',
+                                                  recent_post.user_name)
             if hist_rec:
                 foo_str = ('<tr><td>{0}</td><td>{1}</td>'
                            '<td class="diff_chg">Edit</td>'
@@ -122,15 +130,9 @@ def __get_post_review(email_cnt, idx):
                            '<td>{2}</td><td><a href="{3}">{3}</a></td></tr>')
 
             foo_str = foo_str.format(
-                idx,
-                editor_name,
-                recent_post.title,
-                os.path.join(
-                    SITE_CFG['site_url'],
-                    router_post[key],
-                    recent_post.uid
-                )
-            )
+                idx, editor_name, recent_post.title,
+                os.path.join(SITE_CFG['site_url'], router_post[key],
+                             recent_post.uid))
             email_cnt = email_cnt + foo_str
             idx = idx + 1
 
@@ -148,19 +150,12 @@ def __get_comment_list():
     recent_posts = MComment.query_recent_edited(tools.timestamp() - TIME_LIMIT)
     for recent_post in recent_posts:
         foo_str = ('<tr><td>{0}</td> '
-
                    '<td>{1}</td><td><a href="{2}">{2}</a></td></tr>')
 
         foo_str = foo_str.format(
-            idx,
-
-            recent_post.title,
-            os.path.join(
-                SITE_CFG['site_url'],
-                router_post[recent_post.kind],
-                recent_post.uid
-            )
-        )
+            idx, recent_post.title,
+            os.path.join(SITE_CFG['site_url'], router_post[recent_post.kind],
+                         recent_post.uid))
         comment_cnt = comment_cnt + foo_str
         idx = idx + 1
     comment_cnt = comment_cnt + '''</table>'''
@@ -191,7 +186,7 @@ td.diff_header {text-align:right}
     email_cnt, idx = __get_post_review(email_cnt, idx)  # post
     email_cnt, idx = __get_page_review(email_cnt, idx)  # page.
     email_cnt, idx = __get_wiki_review(email_cnt, idx)  # wiki
-    email_cnt = email_cnt + __get_comment_list() # 有评论的信息列表
+    email_cnt = email_cnt + __get_comment_list()  # 有评论的信息列表
 
     ###########################################################
 
@@ -202,8 +197,6 @@ td.diff_header {text-align:right}
         email_cnt = email_cnt + diff_str
     email_cnt = email_cnt + '''</body></html>'''
 
-
-
-
     if idx > 1:
-        send_mail(post_emails, "{0}|{1}|{2}".format(SMTP_CFG['name'], '文档更新情况', DATE_STR), email_cnt)
+        send_mail(post_emails, "{0}|{1}|{2}".format(SMTP_CFG['name'], '文档更新情况',
+                                                    DATE_STR), email_cnt)

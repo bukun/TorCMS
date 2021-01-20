@@ -20,7 +20,6 @@ class CommentHandler(BaseHandler):
         '''
         List the replies.
         '''
-
         def get_pager_idx():
             '''
             Get the pager index.
@@ -37,7 +36,6 @@ class CommentHandler(BaseHandler):
         kwd = {
             'current_page': current_page_num,
             'count': num_of_cat,
-
         }
         self.render('static_pages/comment/index.html',
                     postinfo=MComment.query_pager_by_comment(current_page_num),

@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 The model for wiki.
 ``kind == '1'``
@@ -21,7 +20,6 @@ class MWiki(Mabc):
     '''
     Class for wiki.
     '''
-
     @staticmethod
     def get_counts():
         '''
@@ -32,11 +30,9 @@ class MWiki(Mabc):
 
     @staticmethod
     def query_recent_edited(timstamp, kind='1'):
-        return TabWiki.select().where(
-            (TabWiki.kind == kind) & (TabWiki.time_update > timstamp)
-        ).order_by(
-            TabWiki.time_update.desc()
-        )
+        return TabWiki.select().where((TabWiki.kind == kind) & (
+            TabWiki.time_update > timstamp)).order_by(
+                TabWiki.time_update.desc())
 
     @staticmethod
     def delete(uid):
@@ -76,8 +72,7 @@ class MWiki(Mabc):
             cnt_html=cnt_html,
             # user_name=post_data['user_name'],
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md']),
-            time_update=tools.timestamp()
-        ).where(TabWiki.uid == uid)
+            time_update=tools.timestamp()).where(TabWiki.uid == uid)
         entry.execute()
 
     @staticmethod
@@ -147,33 +142,24 @@ class MWiki(Mabc):
         '''
         List the wiki of dated.
         '''
-        return TabWiki.select().where(
-            TabWiki.kind == kind
-        ).order_by(
-            TabWiki.time_update.desc()
-        ).limit(num)
+        return TabWiki.select().where(TabWiki.kind == kind).order_by(
+            TabWiki.time_update.desc()).limit(num)
 
     @staticmethod
     def query_most(num=8, kind='1'):
         '''
         List the most viewed wiki.
         '''
-        return TabWiki.select().where(
-            TabWiki.kind == kind
-        ).order_by(
-            TabWiki.view_count.desc()
-        ).limit(num)
+        return TabWiki.select().where(TabWiki.kind == kind).order_by(
+            TabWiki.view_count.desc()).limit(num)
 
     @staticmethod
     def update_view_count(citiao):
         '''
         view count of the wiki, plus 1. By wiki
         '''
-        entry = TabWiki.update(
-            view_count=TabWiki.view_count + 1
-        ).where(
-            TabWiki.title == citiao
-        )
+        entry = TabWiki.update(view_count=TabWiki.view_count +
+                               1).where(TabWiki.title == citiao)
         entry.execute()
 
     @staticmethod
@@ -181,11 +167,8 @@ class MWiki(Mabc):
         '''
         update the count of wiki, by uid.
         '''
-        entry = TabWiki.update(
-            view_count=TabWiki.view_count + 1
-        ).where(
-            TabWiki.uid == uid
-        )
+        entry = TabWiki.update(view_count=TabWiki.view_count +
+                               1).where(TabWiki.uid == uid)
         entry.execute()
 
     @staticmethod
@@ -193,7 +176,8 @@ class MWiki(Mabc):
         '''
         Get the wiki record by title.
         '''
-        q_res = TabWiki.select().where((TabWiki.title == citiao) & (TabWiki.kind == '1'))
+        q_res = TabWiki.select().where((TabWiki.title == citiao)
+                                       & (TabWiki.kind == '1'))
         the_count = q_res.count()
         if the_count == 0 or the_count > 1:
             return None
@@ -213,9 +197,8 @@ class MWiki(Mabc):
         '''
         View count plus one.
         '''
-        entry = TabWiki.update(
-            view_count=TabWiki.view_count + 1,
-        ).where(TabWiki.uid == slug)
+        entry = TabWiki.update(view_count=TabWiki.view_count +
+                               1, ).where(TabWiki.uid == slug)
         entry.execute()
 
     @staticmethod
@@ -233,19 +216,13 @@ class MWiki(Mabc):
         '''
         Query wikis randomly.
         '''
-        return TabWiki.select().where(
-            TabWiki.kind == kind
-        ).order_by(
-            peewee.fn.Random()
-        ).limit(num)
+        return TabWiki.select().where(TabWiki.kind == kind).order_by(
+            peewee.fn.Random()).limit(num)
 
     @staticmethod
     def query_recent(num=8, kind='1'):
-        return TabWiki.select().where(
-            TabWiki.kind == kind
-        ).order_by(
-            TabWiki.time_update.desc()
-        ).limit(num)
+        return TabWiki.select().where(TabWiki.kind == kind).order_by(
+            TabWiki.time_update.desc()).limit(num)
 
     @staticmethod
     def total_number(kind):
@@ -259,13 +236,9 @@ class MWiki(Mabc):
         '''
         Query pager
         '''
-        return TabWiki.select().where(
-            TabWiki.kind == kind
-        ).order_by(
-            TabWiki.time_update.desc()
-        ).paginate(
-            current_page_num, CMS_CFG['list_num']
-        )
+        return TabWiki.select().where(TabWiki.kind == kind).order_by(
+            TabWiki.time_update.desc()).paginate(current_page_num,
+                                                 CMS_CFG['list_num'])
 
     @staticmethod
     def count_of_certain_kind(kind):

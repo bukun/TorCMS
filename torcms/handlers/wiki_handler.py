@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 Handler for wiki, and page.
 '''
@@ -18,6 +17,7 @@ from torcms.model.wiki_hist_model import MWikiHist
 from torcms.model.wiki_model import MWiki
 
 # from celery_server import cele_gen_whoosh
+
 
 class WikiHandler(BaseHandler):
     '''
@@ -107,7 +107,8 @@ class WikiHandler(BaseHandler):
         Update the wiki.
         '''
         postinfo = MWiki.get_by_uid(uid)
-        if self.check_post_role()['EDIT'] or postinfo.user_name == self.get_current_user():
+        if self.check_post_role(
+        )['EDIT'] or postinfo.user_name == self.get_current_user():
             pass
         else:
             return False
@@ -127,13 +128,15 @@ class WikiHandler(BaseHandler):
         # cele_gen_whoosh.delay()
         tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
 
-        self.redirect('/wiki/{0}'.format(tornado.escape.url_escape(post_data['title'])))
+        self.redirect('/wiki/{0}'.format(
+            tornado.escape.url_escape(post_data['title'])))
 
     @tornado.web.authenticated
     def to_edit(self, id_rec):
         wiki_rec = MWiki.get_by_uid(id_rec)
         # 用户具有管理权限，或文章是用户自己发布的。
-        if self.check_post_role()['EDIT'] or wiki_rec.user_name == self.get_current_user():
+        if self.check_post_role(
+        )['EDIT'] or wiki_rec.user_name == self.get_current_user():
             pass
         else:
             return False
@@ -171,9 +174,7 @@ class WikiHandler(BaseHandler):
         else:
             tmpl = 'wiki_page/wiki_login.html'
 
-        self.render(tmpl,
-                    kwd=kwd,
-                    userinfo=self.userinfo)
+        self.render(tmpl, kwd=kwd, userinfo=self.userinfo)
 
     # @tornado.web.asynchronous
     @tornado.web.authenticated
@@ -208,4 +209,5 @@ class WikiHandler(BaseHandler):
         tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
         # cele_gen_whoosh.delay()
 
-        self.redirect('/wiki/{0}'.format(tornado.escape.url_escape(post_data['title'])))
+        self.redirect('/wiki/{0}'.format(
+            tornado.escape.url_escape(post_data['title'])))

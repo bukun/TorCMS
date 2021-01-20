@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 Log handler.
 '''
@@ -97,14 +96,16 @@ class LogHandler(BaseHandler):
             self.render('admin/log_ajax/user_list.html',
                         kwd=kwd,
                         user_list=MLog.query_all_user(),
-                        no_user_list=MLog.query_all(current_page_num=current_page_number),
+                        no_user_list=MLog.query_all(
+                            current_page_num=current_page_number),
                         format_date=tools.format_date,
                         userinfo=self.userinfo)
         else:
             self.render('misc/log/user_list.html',
                         kwd=kwd,
                         user_list=MLog.query_all_user(),
-                        no_user_list=MLog.query_all(current_page_num=current_page_number),
+                        no_user_list=MLog.query_all(
+                            current_page_num=current_page_number),
                         format_date=tools.format_date,
                         userinfo=self.userinfo)
 
@@ -132,18 +133,14 @@ class LogHandler(BaseHandler):
             self.render('admin/log_ajax/user_log_list.html',
                         kwd=kwd,
                         infos=MLog.query_pager_by_user(
-                            userid,
-                            current_page_num=current_page_number
-                        ),
+                            userid, current_page_num=current_page_number),
                         format_date=tools.format_date,
                         userinfo=self.userinfo)
         else:
             self.render('misc/log/user_log_list.html',
                         kwd=kwd,
                         infos=MLog.query_pager_by_user(
-                            userid,
-                            current_page_num=current_page_number
-                        ),
+                            userid, current_page_num=current_page_number),
                         format_date=tools.format_date,
                         userinfo=self.userinfo)
 
@@ -175,7 +172,8 @@ class LogHandler(BaseHandler):
 
         self.render('misc/log/pageview.html',
                     kwd=kwd,
-                    infos=MLog.query_all_pageview(current_page_num=current_page_number),
+                    infos=MLog.query_all_pageview(
+                        current_page_num=current_page_number),
                     postinfo=postinfo,
                     arr_num=arr_num,
                     format_date=tools.format_date,
@@ -186,7 +184,6 @@ class LogPartialHandler(LogHandler):
     '''
     Partially render for user handler.
     '''
-
     def initialize(self, **kwargs):
         super(LogPartialHandler, self).initialize()
         self.is_p = True

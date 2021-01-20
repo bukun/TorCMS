@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 '''
 Entry for command script.
 '''
@@ -37,23 +36,16 @@ def entry(argv):
     for opt, arg in opts:
         if opt == "-h":
             print()
-            print('\033[33m',
-                  'python helper.py -i cmd',
-                  '\033[0m')
+            print('\033[33m', 'python helper.py -i cmd', '\033[0m')
             print()
             print('---- command list --------------')
-            print('\033[33m',
-                  '         init: (初始化网站)',
-                  '\033[0m')
-            print('\033[33m',
-                  '       review: (检查网站更新的内容)',
-                  '\033[0m')
+            print('\033[33m', '         init: (初始化网站)', '\033[0m')
+            print('\033[33m', '       review: (检查网站更新的内容)', '\033[0m')
             print('            --:--               ')
             print('         check: (检查网站问题)')
             print('        update: (更新访问次数等)')
             print('          dump: (备份数据库)')
-            print('\033[31m',
-                  '        reset: (Danger! drop all tables!)',
+            print('\033[31m', '        reset: (Danger! drop all tables!)',
                   '\033[0m')
 
             sys.exit()

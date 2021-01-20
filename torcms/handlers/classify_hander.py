@@ -19,7 +19,6 @@ class ClassifyHandler(BaseHandler):
         '''
         List the replies.
         '''
-
         def get_pager_idx():
             '''
             Get the pager index.
@@ -33,7 +32,6 @@ class ClassifyHandler(BaseHandler):
 
         kwd = {
             'current_page': current_page_num,
-
         }
         arr_num = []
 
@@ -46,7 +44,6 @@ class ClassifyHandler(BaseHandler):
                     postinfo=postinfo,
                     postcount=MClassify.count_of_certain(),
                     userinfo=self.userinfo,
-
                     cfg=CMS_CFG,
                     kwd=kwd,
                     arr_num=arr_num,

@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 Basic for handler
 '''
@@ -18,7 +17,6 @@ class BaseHandler(tornado.web.RequestHandler):
     '''
     The base class for handlers.
     '''
-
     def initialize(self, **kwargs):
 
         # self.set_cookie('b_locale', 'zh_CN')
@@ -56,7 +54,12 @@ class BaseHandler(tornado.web.RequestHandler):
         '''
         check the user role for docs.
         '''
-        priv_dic = {'ADD': False, 'EDIT': False, 'DELETE': False, 'ADMIN': False}
+        priv_dic = {
+            'ADD': False,
+            'EDIT': False,
+            'DELETE': False,
+            'ADMIN': False
+        }
         if self.userinfo:
             if self.userinfo.role[1] > '0':
                 priv_dic['ADD'] = True
@@ -124,7 +127,8 @@ class BaseHandler(tornado.web.RequestHandler):
         return the warpped template path.
         :param tmpl:
         '''
-        return 'admin/' + tmpl.format(sig='p') if self.is_p else tmpl.format(sig='')
+        return 'admin/' + tmpl.format(sig='p') if self.is_p else tmpl.format(
+            sig='')
 
     def get_host_ip(self):
         """
@@ -148,6 +152,4 @@ class BaseHandler(tornado.web.RequestHandler):
                 'info': 'Invalid requests',
             }
         self.set_status(404)
-        self.render('misc/html/404.html',
-                    kwd=kwd,
-                    userinfo=self.userinfo)
+        self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)

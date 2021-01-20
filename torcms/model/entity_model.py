@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 For file entities. Just like pdf, zipfile, docx, etc.
 '''
@@ -16,7 +15,6 @@ class MEntity():
     '''
     For file entities. Just like pdf, zipfile, docx, etc.
     '''
-
     @staticmethod
     def get_by_uid(uid):
         return MHelper.get_by_uid(TabEntity, uid)
@@ -30,19 +28,13 @@ class MEntity():
 
     @staticmethod
     def get_by_kind(kind=1, current_page_num=1):
-        return TabEntity.select().where(
-            TabEntity.kind == kind
-        ).paginate(
-            current_page_num,
-            CMS_CFG['list_num']
-        )
+        return TabEntity.select().where(TabEntity.kind == kind).paginate(
+            current_page_num, CMS_CFG['list_num'])
 
     @staticmethod
     def get_all_pager(current_page_num=1):
-        return TabEntity.select().paginate(
-            current_page_num,
-            CMS_CFG['list_num']
-        )
+        return TabEntity.select().paginate(current_page_num,
+                                           CMS_CFG['list_num'])
 
     @staticmethod
     def get_id_by_impath(path):
@@ -79,13 +71,11 @@ class MEntity():
         else:
             uid = get_uuid()
         try:
-            TabEntity.create(
-                uid=uid,
-                path=path,
-                desc=desc,
-                time_create=time.time(),
-                kind=kind
-            )
+            TabEntity.create(uid=uid,
+                             path=path,
+                             desc=desc,
+                             time_create=time.time(),
+                             kind=kind)
             return True
         except:
             return False
@@ -106,8 +96,7 @@ class MEntity():
     def delete_by_path(path, kind='f'):
         '''
         '''
-        delete = TabEntity.delete().where(
-            (TabEntity.path == path) & (TabEntity.kind == kind)
-        )
+        delete = TabEntity.delete().where((TabEntity.path == path)
+                                          & (TabEntity.kind == kind))
 
         delete.execute()

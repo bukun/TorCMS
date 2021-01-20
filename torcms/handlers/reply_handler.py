@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 Handler for reply.
 '''
@@ -18,7 +17,6 @@ class ReplyHandler(BaseHandler):
     '''
     Handler for reply.
     '''
-
     def initialize(self):
         super(ReplyHandler, self).initialize()
 
@@ -62,17 +60,18 @@ class ReplyHandler(BaseHandler):
 
         pager_num = int(MReply.total_number() / CMS_CFG['list_num'])
 
-        kwd = {'pager': '',
-               'current_page': current_page_number,
-               'title': '单页列表',
-               'num_of_reply': MReply.total_number()
-               }
-        self.render('admin/reply_ajax/reply_list.html',
-                    kwd=kwd,
-                    view_all=MReply.query_all(),
-                    infos=MReply.query_pager(current_page_num=current_page_number),
-                    userinfo=self.userinfo
-                    )
+        kwd = {
+            'pager': '',
+            'current_page': current_page_number,
+            'title': '单页列表',
+            'num_of_reply': MReply.total_number()
+        }
+        self.render(
+            'admin/reply_ajax/reply_list.html',
+            kwd=kwd,
+            view_all=MReply.query_all(),
+            infos=MReply.query_pager(current_page_num=current_page_number),
+            userinfo=self.userinfo)
 
     def get_by_id(self, reply_id):
         '''
@@ -118,8 +117,7 @@ class ReplyHandler(BaseHandler):
         post_data['category'] = '0'
         replyid = MReply.create_reply(post_data)
         if replyid:
-            out_dic = {'pinglun': post_data['cnt_reply'],
-                       'uid': replyid}
+            out_dic = {'pinglun': post_data['cnt_reply'], 'uid': replyid}
             logger.info('add reply result dic: {0}'.format(out_dic))
             return json.dump(out_dic, self)
 
@@ -179,8 +177,7 @@ class ReplyHandler(BaseHandler):
         # 在关联表里存储评论id与回复id
         MReplyid.create_replyid(reply_id, replyid)
         if replyid:
-            out_dic = {'pinglun': post_data['cnt_reply'],
-                       'uid': replyid}
+            out_dic = {'pinglun': post_data['cnt_reply'], 'uid': replyid}
             logger.info('add reply result dic: {0}'.format(out_dic))
             return json.dump(out_dic, self)
 
@@ -195,7 +192,6 @@ class ReplyHandler(BaseHandler):
         reply = MReply.modify_by_uid(pid, post_data)
 
         if reply:
-            out_dic = {'pinglun': post_data['cnt_reply'],
-                       'uid': reply}
+            out_dic = {'pinglun': post_data['cnt_reply'], 'uid': reply}
             logger.info('Modify reply result dic: {0}'.format(out_dic))
             return json.dump(out_dic, self)

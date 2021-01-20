@@ -13,7 +13,6 @@ class IndexHandler(BaseHandler):
     '''
     Index for the application.
     '''
-
     def initialize(self, **kwargs):
         super(IndexHandler, self).initialize()
 
@@ -27,10 +26,12 @@ class IndexHandler(BaseHandler):
         '''
         Index funtion.
         '''
-        self.render('index/index.html',
-                    userinfo=self.userinfo,
-                    catalog_info=MCategory.query_all(by_order=True),
-                    link=MLink.query_all(),
-                    cfg=CMS_CFG,
-                    view=MPost.query_most_pic(20),
-                    kwd={}, )
+        self.render(
+            'index/index.html',
+            userinfo=self.userinfo,
+            catalog_info=MCategory.query_all(by_order=True),
+            link=MLink.query_all(),
+            cfg=CMS_CFG,
+            view=MPost.query_most_pic(20),
+            kwd={},
+        )

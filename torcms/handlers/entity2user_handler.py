@@ -13,7 +13,6 @@ class Entity2UserHandler(BaseHandler):
     '''
     Hander for entity, such as files or URL.
     '''
-
     def initialize(self, **kwargs):
         super(Entity2UserHandler, self).initialize()
 
@@ -38,11 +37,10 @@ class Entity2UserHandler(BaseHandler):
         current_page_number = int(cur_p) if cur_p else 1
         current_page_number = 1 if current_page_number < 1 else current_page_number
 
-        kwd = {
-            'current_page': current_page_number
-        }
+        kwd = {'current_page': current_page_number}
 
-        recs = MEntity2User.get_all_pager(current_page_num=current_page_number).objects()
+        recs = MEntity2User.get_all_pager(
+            current_page_num=current_page_number).objects()
         self.render('misc/entity/entity_download.html',
                     imgs=recs,
                     cfg=config.CMS_CFG,
@@ -57,11 +55,10 @@ class Entity2UserHandler(BaseHandler):
         current_page_number = int(cur_p) if cur_p else 1
         current_page_number = 1 if current_page_number < 1 else current_page_number
 
-        kwd = {
-            'current_page': current_page_number
-        }
+        kwd = {'current_page': current_page_number}
 
-        recs = MEntity2User.get_all_pager_by_username(userid, current_page_num=current_page_number).objects()
+        recs = MEntity2User.get_all_pager_by_username(
+            userid, current_page_num=current_page_number).objects()
 
         self.render('misc/entity/entity_user_download.html',
                     imgs=recs,

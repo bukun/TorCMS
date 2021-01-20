@@ -10,7 +10,6 @@ class SysHandler(BaseHandler):
     '''
     To control the cookie for locale.
     '''
-
     def initialize(self, **kwargs):
         super(SysHandler, self).initialize()
 
@@ -24,9 +23,7 @@ class SysHandler(BaseHandler):
             kwd = {
                 'info': 'The page not found.',
             }
-            self.render('misc/html/404.html',
-                        kwd=kwd,
-                        userinfo=self.userinfo)
+            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
     def post(self, *args, **kwargs):
         url_str = args[0]
@@ -38,9 +35,7 @@ class SysHandler(BaseHandler):
             kwd = {
                 'info': 'The page not found.',
             }
-            self.render('misc/html/404.html',
-                        kwd=kwd,
-                        userinfo=self.userinfo)
+            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
     def get_language(self):
         '''

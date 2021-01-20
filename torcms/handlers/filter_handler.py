@@ -37,7 +37,8 @@ def echo_html_fenye_str(rec_num, fenye_num):
               value='{1}'><a>First Page</a></li>'''.format('', 1)
 
             pager_pre = ''' <li class="{0}" name='fenye' onclick='change(this);'
-              value='{1}'><a>Previous Page</a></li>'''.format('', fenye_num - 1)
+              value='{1}'><a>Previous Page</a></li>'''.format(
+                '', fenye_num - 1)
         if fenye_num > 5:
             cur_num = fenye_num - 4
         else:
@@ -77,7 +78,6 @@ class FilterHandler(BaseHandler):
     '''
     List view,by category uid. The list could be filtered.
     '''
-
     def initialize(self, **kwargs):
         super(FilterHandler, self).initialize()
 
@@ -108,7 +108,8 @@ class FilterHandler(BaseHandler):
     def gen_redis_kw(self):
         condition = {}
         if self.get_current_user() and self.userinfo:
-            redis_kw = redisvr.smembers(CMS_CFG['redis_kw'] + self.userinfo.user_name)
+            redis_kw = redisvr.smembers(CMS_CFG['redis_kw'] +
+                                        self.userinfo.user_name)
         else:
             redis_kw = []
 
@@ -160,18 +161,18 @@ class FilterHandler(BaseHandler):
             condition[ckey] = cval
 
         if url_arr[1] == 'con':
-            infos = MPost.query_list_pager(condition, fenye_num, kind=catinfo.kind, sort_option=sort_option)
+            infos = MPost.query_list_pager(condition,
+                                           fenye_num,
+                                           kind=catinfo.kind,
+                                           sort_option=sort_option)
             self.echo_html_list_str(sig, infos, catinfo)
         elif url_arr[1] == 'num':
-            allinfos = MPost.query_under_condition(condition, kind=catinfo.kind, sort_option=sort_option)
+            allinfos = MPost.query_under_condition(condition,
+                                                   kind=catinfo.kind,
+                                                   sort_option=sort_option)
             self.write(
                 tornado.escape.xhtml_unescape(
-                    echo_html_fenye_str(
-                        allinfos.count(),
-                        fenye_num
-                    )
-                )
-            )
+                    echo_html_fenye_str(allinfos.count(), fenye_num)))
 
     def get_info_num(self, url_str):
         '''
@@ -255,7 +256,8 @@ class FilterHandler(BaseHandler):
             parent_catname = MCategory.get_by_uid(parent_id).name
             condition['parentid'] = [parent_id]
             catname = MCategory.get_by_uid(sig).name
-            bread_crumb_nav_str += '<li><a href="/list/{0}">{1}</a></li>'.format(sig, catname)
+            bread_crumb_nav_str += '<li><a href="/list/{0}">{1}</a></li>'.format(
+                sig, catname)
             bread_title = '{0}'.format(catname)
 
         else:
@@ -266,28 +268,30 @@ class FilterHandler(BaseHandler):
             parent_catname = MCategory.get_by_uid(parent_id).name
             catname = MCategory.get_by_uid(sig).name
             bread_crumb_nav_str += '<li><a href="/list/{0}">{1}</a></li>'.format(
-                parent_id,
-                parent_catname
-            )
+                parent_id, parent_catname)
 
-            bread_crumb_nav_str += '<li><a href="/list/{0}">{1}</a></li>'.format(sig, catname)
+            bread_crumb_nav_str += '<li><a href="/list/{0}">{1}</a></li>'.format(
+                sig, catname)
             bread_title += '{0} - '.format(parent_catname)
             bread_title += '{0}'.format(catname)
 
         num = MPost.get_num_condition(condition)
 
-        kwd = {'catid': catid,
-               'daohangstr': bread_crumb_nav_str,
-               'breadtilte': bread_title,
-               'parentid': parent_id,
-               'parentlist': MCategory.get_parent_list(),
-               'condition': condition,
-               'catname': catname,
-               'rec_num': num}
+        kwd = {
+            'catid': catid,
+            'daohangstr': bread_crumb_nav_str,
+            'breadtilte': bread_title,
+            'parentid': parent_id,
+            'parentlist': MCategory.get_parent_list(),
+            'condition': condition,
+            'catname': catname,
+            'rec_num': num
+        }
 
         # cat_rec = MCategory.get_by_uid(catid)
         if self.get_current_user() and self.userinfo:
-            redis_kw = redisvr.smembers(CMS_CFG['redis_kw'] + self.userinfo.user_name)
+            redis_kw = redisvr.smembers(CMS_CFG['redis_kw'] +
+                                        self.userinfo.user_name)
         else:
             redis_kw = []
         kw_condition_arr = []
@@ -301,6 +305,7 @@ class FilterHandler(BaseHandler):
                     cat_enum=MCategory.get_qian2(parent_id[:2]),
                     pcatinfo=pcatinfo,
                     catinfo=catinfo)
+
 
 #
 #

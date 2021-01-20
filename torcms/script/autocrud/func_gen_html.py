@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 The functions for generating add, edit, view HTML file.
 for each item.
@@ -16,15 +15,12 @@ def gen_input_add(sig_dic):
             sig_en=sig_dic['en'],
             sig_zh=sig_dic['zh'],
             sig_dic=sig_dic['dic'][1],
-            sig_type=sig_dic['type']
-        )
+            sig_type=sig_dic['type'])
     else:
-        html_str = HTML_TPL_DICT['input_add'].format(
-            sig_en=sig_dic['en'],
-            sig_zh=sig_dic['zh'],
-            sig_dic=sig_dic['dic'][1],
-            sig_type=sig_dic['type']
-        )
+        html_str = HTML_TPL_DICT['input_add'].format(sig_en=sig_dic['en'],
+                                                     sig_zh=sig_dic['zh'],
+                                                     sig_dic=sig_dic['dic'][1],
+                                                     sig_type=sig_dic['type'])
     return html_str
 
 
@@ -37,15 +33,13 @@ def gen_input_edit(sig_dic):
             sig_en=sig_dic['en'],
             sig_zh=sig_dic['zh'],
             sig_dic=sig_dic['dic'][1],
-            sig_type=sig_dic['type']
-        )
+            sig_type=sig_dic['type'])
     else:
         html_str = HTML_TPL_DICT['input_edit'].format(
             sig_en=sig_dic['en'],
             sig_zh=sig_dic['zh'],
             sig_dic=sig_dic['dic'][1],
-            sig_type=sig_dic['type']
-        )
+            sig_type=sig_dic['type'])
     return html_str
 
 
@@ -53,26 +47,21 @@ def gen_input_view(sig_dic):
     '''
     Viewing the HTML text.
     '''
-    if sig_dic['en'] in ['tag_file_download','tag__file_download']:
+    if sig_dic['en'] in ['tag_file_download', 'tag__file_download']:
         html_str = HTML_TPL_DICT['input_view_download'].format(
-            sig_zh=sig_dic['zh'],
-            sig_unit=sig_dic['dic'][1]
-        )
-    elif sig_dic['en'] in ['tag_access_link', 'tag_dmoz_url',
-                           'tag_online_link', 'tag_event_url',
-                           'tag_expert_home', 'tag_pic_url','tag_url','tag__data_doc','tag__report_doc']:
+            sig_zh=sig_dic['zh'], sig_unit=sig_dic['dic'][1])
+    elif sig_dic['en'] in [
+            'tag_access_link', 'tag_dmoz_url', 'tag_online_link',
+            'tag_event_url', 'tag_expert_home', 'tag_pic_url', 'tag_url',
+            'tag__data_doc', 'tag__report_doc'
+    ]:
         html_str = HTML_TPL_DICT['input_view_link'].format(
-            sig_dic['en'],
-            sig_dic['zh'],
-            sig_dic['dic'][1]
-        )
+            sig_dic['en'], sig_dic['zh'], sig_dic['dic'][1])
 
     else:
-        html_str = HTML_TPL_DICT['input_view'].format(
-            sig_dic['en'],
-            sig_dic['zh'],
-            sig_dic['dic'][1]
-        )
+        html_str = HTML_TPL_DICT['input_view'].format(sig_dic['en'],
+                                                      sig_dic['zh'],
+                                                      sig_dic['dic'][1])
     return html_str
 
 
@@ -100,11 +89,9 @@ def gen_radio_add(sig_dic):
     <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
     </a>{sig_zh}</span>
     {radio_str}</label>
-    '''.format(
-        sig_en=sig_dic['en'],
-        sig_zh=sig_dic['zh'],
-        radio_str=radio_control_str
-    )
+    '''.format(sig_en=sig_dic['en'],
+               sig_zh=sig_dic['zh'],
+               radio_str=radio_control_str)
 
 
 def gen_radio_edit(sig_dic):
@@ -244,7 +231,9 @@ def gen_select_add(sig_dic):
     {sig_zh}</span></label>
     <div class="col-sm-10"><select id="{sig_en}" name="{sig_en}" class="form-control">
     {option_str}</select></div></div>
-    '''.format(sig_en=sig_dic['en'], sig_zh=sig_dic['zh'], option_str=option_str)
+    '''.format(sig_en=sig_dic['en'],
+               sig_zh=sig_dic['zh'],
+               option_str=option_str)
 
 
 def gen_select_edit(sig_dic):
@@ -270,7 +259,9 @@ def gen_select_edit(sig_dic):
     <select id="{sig_en}" name="{sig_en}" class="form-control">
     {option_str}
     </select></div></div>
-    '''.format(sig_en=sig_dic['en'], sig_zh=sig_dic['zh'], option_str=option_str)
+    '''.format(sig_en=sig_dic['en'],
+               sig_zh=sig_dic['zh'],
+               option_str=option_str)
 
 
 def gen_select_view(sig_dic):

@@ -15,9 +15,8 @@ class MRelation(Mabc):
         '''
         Adding relation between two posts.
         '''
-        recs = TabRel.select().where(
-            (TabRel.post_f_id == app_f) & (TabRel.post_t_id == app_t)
-        )
+        recs = TabRel.select().where((TabRel.post_f_id == app_f)
+                                     & (TabRel.post_t_id == app_t))
         if recs.count() > 1:
             for record in recs:
                 MRelation.delete(record.uid)
@@ -38,24 +37,19 @@ class MRelation(Mabc):
 
     @staticmethod
     def delete(uid):
-        entry = TabRel.delete().where(
-            TabRel.uid == uid
-        )
+        entry = TabRel.delete().where(TabRel.uid == uid)
         entry.execute()
 
     @staticmethod
     def update_relation(app_f, app_t, weight=1):
         try:
-            postinfo = TabRel.get(
-                (TabRel.post_f_id == app_f) & (TabRel.post_t_id == app_t)
-            )
+            postinfo = TabRel.get((TabRel.post_f_id == app_f)
+                                  & (TabRel.post_t_id == app_t))
         except:
             return False
-        entry = TabRel.update(
-            count=postinfo.count + weight
-        ).where(
-            (TabRel.post_f_id == app_f) & (TabRel.post_t_id == app_t)
-        )
+        entry = TabRel.update(count=postinfo.count +
+                              weight).where((TabRel.post_f_id == app_f)
+                                            & (TabRel.post_t_id == app_t))
         entry.execute()
 
     @staticmethod
@@ -76,30 +70,24 @@ class MRelation(Mabc):
         if len(tag_arr) > 0:
 
             recs = TabPost2Tag.select(
-                TabPost2Tag,
-                TabPost.title.alias('post_title'),
-                TabPost.valid.alias('post_valid')
-            ).join(
-                TabPost, on=(TabPost2Tag.post_id == TabPost.uid)
-            ).where(
-                (TabPost2Tag.tag_id << tag_arr) &
-                (TabPost.uid != app_id) &
-                (TabPost.kind == kind) &
-                (TabPost.valid == 1)
-            ).distinct(TabPost2Tag.post_id).order_by(
-                TabPost2Tag.post_id
-            ).limit(num)
+                TabPost2Tag, TabPost.title.alias('post_title'),
+                TabPost.valid.alias('post_valid')).join(
+                    TabPost,
+                    on=(TabPost2Tag.post_id == TabPost.uid
+                        )).where((TabPost2Tag.tag_id << tag_arr)
+                                 & (TabPost.uid != app_id)
+                                 & (TabPost.kind == kind)
+                                 & (TabPost.valid == 1)).distinct(
+                                     TabPost2Tag.post_id).order_by(
+                                         TabPost2Tag.post_id).limit(num)
         else:
 
             recs = TabPost.select(
                 TabPost.title.alias('post_title'),
                 TabPost.valid.alias('post_valid'),
-                TabPost.uid.alias('post_id')
-            ).where(
-                (SQL(("title ilike '%%{0}%%' ").format(info.title))) &
-                (TabPost.uid != app_id) &
-                (TabPost.kind == kind) &
-                (TabPost.valid == 1)
-
-            ).order_by(peewee.fn.Random()).limit(num)
+                TabPost.uid.alias('post_id')).where(
+                    (SQL(("title ilike '%%{0}%%' ").format(info.title)))
+                    & (TabPost.uid != app_id) & (TabPost.kind == kind)
+                    & (TabPost.valid == 1)).order_by(
+                        peewee.fn.Random()).limit(num)
         return recs

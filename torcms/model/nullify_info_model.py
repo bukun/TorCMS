@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 Model for Posts.
 '''
@@ -13,17 +12,15 @@ class MNullifyInfo(Mabc):
     '''
     Model for Posts.
     '''
-
     def __init__(self):
         super(MNullifyInfo, self).__init__()
-
 
     @staticmethod
     def query_pager_by_valid(current_page_num=1):
 
         recs = TabPost.select().where(TabPost.valid == 0).order_by(
-            TabPost.time_update.desc()
-        ).paginate(current_page_num, CMS_CFG['list_num'])
+            TabPost.time_update.desc()).paginate(current_page_num,
+                                                 CMS_CFG['list_num'])
 
         return recs
 

@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 History handler for wiki, and page.
 '''
@@ -19,7 +18,6 @@ class WikiHistoryHandler(EditHistoryHander):
     '''
     History handler for wiki, and page.
     '''
-
     def initialize(self, **kwargs):
         super(WikiHistoryHandler, self).initialize()
 
@@ -34,7 +32,8 @@ class WikiHistoryHandler(EditHistoryHander):
             return False
 
         post_data = self.get_post_data()
-        post_data['user_name'] = self.userinfo.user_name if self.userinfo else ''
+        post_data[
+            'user_name'] = self.userinfo.user_name if self.userinfo else ''
         cur_info = MWiki.get_by_uid(uid)
         MWikiHist.create_wiki_history(cur_info, self.userinfo)
         MWiki.update_cnt(uid, post_data)
@@ -94,7 +93,6 @@ class WikiHistoryHandler(EditHistoryHander):
 
             for hist_rec in hist_recs:
 
-
                 infobox = diff_table(hist_rec.cnt_md, postinfo.cnt_md)
                 hist_user = hist_rec.user_name
                 hist_time = hist_rec.time_update
@@ -103,16 +101,13 @@ class WikiHistoryHandler(EditHistoryHander):
                 post_words_num = len((postinfo.cnt_md).strip())
                 up_words_num = post_words_num - hist_words_num
 
-
-
-
-                html_diff_arr.append(
-                    {'hist_uid': hist_rec.uid,
-                     'html_diff': infobox,
-                     'hist_user': hist_user,
-                     'hist_time': hist_time,
-                     'up_words_num': up_words_num}
-                )
+                html_diff_arr.append({
+                    'hist_uid': hist_rec.uid,
+                    'html_diff': infobox,
+                    'hist_user': hist_user,
+                    'hist_time': hist_time,
+                    'up_words_num': up_words_num
+                })
 
             kwd = {}
             self.render('man_info/wiki_man_view.html',
@@ -121,7 +116,8 @@ class WikiHistoryHandler(EditHistoryHander):
                         html_diff_arr=html_diff_arr,
                         kwd=kwd)
         else:
-            self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], postinfo.uid))
+            self.redirect('/{0}/{1}'.format(router_post[postinfo.kind],
+                                            postinfo.uid))
 
     @tornado.web.authenticated
     def restore(self, hist_uid):
@@ -142,15 +138,15 @@ class WikiHistoryHandler(EditHistoryHander):
         cur_cnt = tornado.escape.xhtml_unescape(postinfo.cnt_md)
         old_cnt = tornado.escape.xhtml_unescape(histinfo.cnt_md)
 
-        MWiki.update_cnt(
-            histinfo.wiki_id,
-            {'cnt_md': old_cnt, 'user_name': self.userinfo.user_name}
-        )
+        MWiki.update_cnt(histinfo.wiki_id, {
+            'cnt_md': old_cnt,
+            'user_name': self.userinfo.user_name
+        })
 
-        MWikiHist.update_cnt(
-            histinfo.uid,
-            {'cnt_md': cur_cnt, 'user_name': postinfo.user_name}
-        )
+        MWikiHist.update_cnt(histinfo.uid, {
+            'cnt_md': cur_cnt,
+            'user_name': postinfo.user_name
+        })
 
         if postinfo.kind == '1':
             self.redirect('/wiki/{0}'.format(postinfo.title))

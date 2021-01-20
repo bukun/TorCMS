@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 Accessing via category.
 '''
@@ -26,7 +25,6 @@ class ListHandler(BaseHandler):
     分类访问
     如果order = True,列表可以进行排序操作。
     '''
-
     def initialize(self, **kwargs):
         super(ListHandler, self).initialize()
         self.kind = kwargs.get('kind', '1')
@@ -112,17 +110,20 @@ class ListHandler(BaseHandler):
         if not cat_rec:
             return False
 
-        num_of_cat = MPost2Catalog.count_of_certain_category(cat_rec.uid, tag=tag)
+        num_of_cat = MPost2Catalog.count_of_certain_category(cat_rec.uid,
+                                                             tag=tag)
 
         page_num = int(num_of_cat / CMS_CFG['list_num']) + 1
         cat_name = cat_rec.name
-        kwd = {'cat_name': cat_name,
-               'cat_slug': cat_slug,
-               'title': cat_name,
-               'router': router_post[cat_rec.kind],
-               'current_page': current_page_num,
-               'kind': cat_rec.kind,
-               'tag': tag}
+        kwd = {
+            'cat_name': cat_name,
+            'cat_slug': cat_slug,
+            'title': cat_name,
+            'router': router_post[cat_rec.kind],
+            'current_page': current_page_num,
+            'kind': cat_rec.kind,
+            'tag': tag
+        }
 
         # Todo: review the following codes.
 
@@ -131,21 +132,17 @@ class ListHandler(BaseHandler):
         else:
             tmpl = 'list/category_list.html'
 
-        infos = MPost2Catalog.query_pager_by_slug(
-            cat_slug,
-            current_page_num,
-            tag=tag,
-            order=self.order
-        )
+        infos = MPost2Catalog.query_pager_by_slug(cat_slug,
+                                                  current_page_num,
+                                                  tag=tag,
+                                                  order=self.order)
 
         # ToDo: `gen_pager_purecss` should not use any more.
         self.render(tmpl,
                     catinfo=cat_rec,
                     infos=infos,
-                    pager=tools.gen_pager_purecss(
-                        '/list/{0}'.format(cat_slug),
-                        page_num,
-                        current_page_num),
+                    pager=tools.gen_pager_purecss('/list/{0}'.format(cat_slug),
+                                                  page_num, current_page_num),
                     userinfo=self.userinfo,
                     html2text=html2text,
                     cfg=CMS_CFG,
@@ -158,6 +155,5 @@ class TagListHandler(BaseHandler):
     List the infos by the slug of the catalog.
     via: `/tag/cat_slug`
     '''
-
     def get(self, *args, **kwargs):
         self.redirect('/list/{0}'.format(args[0]))

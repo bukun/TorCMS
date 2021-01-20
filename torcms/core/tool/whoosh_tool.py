@@ -21,7 +21,6 @@ class YunSearch():
     '''
     For searching in whoosh database.
     '''
-
     def __init__(self):
         self.whbase = open_dir("database/whoosh")
         self.parser = QueryParser("content", schema=self.whbase.schema)
@@ -53,7 +52,10 @@ class YunSearch():
         else:
             queryit = And([Term("catid", catid), queryit])
         try:
-            queryres = self.whbase.searcher().search(queryit, limit=page_index * doc_per_page)
-            return queryres[(page_index - 1) * doc_per_page: page_index * doc_per_page]
+            queryres = self.whbase.searcher().search(queryit,
+                                                     limit=page_index *
+                                                     doc_per_page)
+            return queryres[(page_index - 1) * doc_per_page:page_index *
+                            doc_per_page]
         finally:
             pass

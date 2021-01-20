@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 '''
 Generating sitemap.
 '''
@@ -20,8 +19,7 @@ def gen_post_map(file_name, ext_url=''):
             recent_posts = MPost.query_all(kind=kind_key, limit=1000000)
             for recent_post in recent_posts:
                 url = os.path.join(SITE_CFG['site_url'],
-                                   router_post[recent_post.kind],
-                                   ext_url,
+                                   router_post[recent_post.kind], ext_url,
                                    recent_post.uid)
                 fout.write('{url}\n'.format(url=url))
 
@@ -48,8 +46,7 @@ def gen_wiki_map(file_name, ext_url=''):
     with open(file_name, 'a') as fileout:
         for rec in page_recs:
             url = os.path.join(SITE_CFG['site_url'],
-                               'page' + ('/_edit' if ext_url else ''),
-                               rec.uid)
+                               'page' + ('/_edit' if ext_url else ''), rec.uid)
 
             fileout.write('{url}\n'.format(url=url))
 

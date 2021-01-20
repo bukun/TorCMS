@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 For Post history
 '''
@@ -14,7 +13,6 @@ class MPostHist(Mabc):
     '''
     For Post history
     '''
-
     @staticmethod
     def get_by_uid(uid):
         '''
@@ -53,10 +51,8 @@ class MPostHist(Mabc):
         Query history of certian records.
         '''
         recs = TabPostHist.select().where(
-            TabPostHist.post_id == postid
-        ).order_by(
-            TabPostHist.time_update.desc()
-        ).limit(limit)
+            TabPostHist.post_id == postid).order_by(
+                TabPostHist.time_update.desc()).limit(limit)
         return recs
 
     @staticmethod
@@ -65,8 +61,8 @@ class MPostHist(Mabc):
         Get the last one of the records.
         '''
         recs = TabPostHist.select().where(
-            TabPostHist.post_id == postid
-        ).order_by(TabPostHist.time_update.desc()).limit(limit)
+            TabPostHist.post_id == postid).order_by(
+                TabPostHist.time_update.desc()).limit(limit)
         if recs.count():
             return recs.get()
         return None

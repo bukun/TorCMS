@@ -13,7 +13,6 @@ class PostListHandler(BaseHandler):
     '''
     listing the posts, simply.
     '''
-
     def initialize(self, **kwargs):
         super(PostListHandler, self).initialize()
 
@@ -32,8 +31,11 @@ class PostListHandler(BaseHandler):
             kwd = {
                 'info': '404. Page not found!',
             }
-            self.render('misc/html/404.html', kwd=kwd,
-                        userinfo=self.userinfo, )
+            self.render(
+                'misc/html/404.html',
+                kwd=kwd,
+                userinfo=self.userinfo,
+            )
 
         dict_get.get(url_str, fun404)()
 
@@ -47,13 +49,15 @@ class PostListHandler(BaseHandler):
             'with_catalog': with_catalog,
             'with_date': with_date,
         }
-        self.render('list/post_list.html',
-                    kwd=kwd,
-                    view=MPost.query_recent(num=20),
-                    postrecs=MPost.query_recent(num=2),
-                    format_date=tools.format_date,
-                    userinfo=self.userinfo,
-                    cfg=CMS_CFG, )
+        self.render(
+            'list/post_list.html',
+            kwd=kwd,
+            view=MPost.query_recent(num=20),
+            postrecs=MPost.query_recent(num=2),
+            format_date=tools.format_date,
+            userinfo=self.userinfo,
+            cfg=CMS_CFG,
+        )
 
     def errcat(self):
         '''

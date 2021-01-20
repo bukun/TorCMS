@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 Model for user.
 '''
@@ -15,7 +14,6 @@ class MUser(Mabc):
     '''
     Model for user.
     '''
-
     @staticmethod
     def query_all(limit=50):
         '''
@@ -49,8 +47,7 @@ class MUser(Mabc):
         Set the time that send E-mail to user.
         '''
         entry = TabMember.update(
-            time_email=tools.timestamp(),
-        ).where(TabMember.uid == uid)
+            time_email=tools.timestamp(), ).where(TabMember.uid == uid)
         entry.execute()
 
     @staticmethod
@@ -96,7 +93,8 @@ class MUser(Mabc):
         Checking the password by user's email.
         '''
 
-        the_query = TabMember.select().where(TabMember.user_email == user_email)
+        the_query = TabMember.select().where(
+            TabMember.user_email == user_email)
         if the_query.count() == 0:
             return -1
 
@@ -113,7 +111,8 @@ class MUser(Mabc):
 
         out_dic = {'success': False, 'code': '00'}
 
-        entry = TabMember.update(user_pass=tools.md5(newpass)).where(TabMember.uid == user_id)
+        entry = TabMember.update(user_pass=tools.md5(newpass)).where(
+            TabMember.uid == user_id)
         entry.execute()
 
         out_dic['success'] = True
@@ -128,7 +127,8 @@ class MUser(Mabc):
 
         out_dic = {'success': False, 'code': '00'}
 
-        entry = TabMember.update(user_name=user_name).where(TabMember.user_email == user_email)
+        entry = TabMember.update(user_name=user_name).where(
+            TabMember.user_email == user_email)
         entry.execute()
 
         out_dic['success'] = True
@@ -147,8 +147,7 @@ class MUser(Mabc):
         time_now = tools.timestamp()
         return TabMember.select().where(
             ((time_now - TabMember.time_login) > 7776000)
-            & ((time_now - TabMember.time_email) > 10368000)
-        )
+            & ((time_now - TabMember.time_email) > 10368000))
 
     @staticmethod
     def update_info(user_id, newemail, extinfo=None):
@@ -173,10 +172,7 @@ class MUser(Mabc):
         try:
             entry = TabMember.update(
                 user_email=newemail,
-                extinfo=cur_extinfo
-            ).where(
-                TabMember.uid == user_id
-            )
+                extinfo=cur_extinfo).where(TabMember.uid == user_id)
             entry.execute()
 
             out_dic['success'] = True
@@ -190,9 +186,8 @@ class MUser(Mabc):
         '''
         Update the time when user reset passwd.
         '''
-        entry = TabMember.update(
-            time_reset_passwd=the_time,
-        ).where(TabMember.user_name == user_name)
+        entry = TabMember.update(time_reset_passwd=the_time, ).where(
+            TabMember.user_name == user_name)
         try:
             entry.execute()
             return True
@@ -204,9 +199,8 @@ class MUser(Mabc):
         '''
         Update the role of the usr.
         '''
-        entry = TabMember.update(
-            role=newprivilege
-        ).where(TabMember.user_name == u_name)
+        entry = TabMember.update(role=newprivilege).where(
+            TabMember.user_name == u_name)
         try:
             entry.execute()
             return True
@@ -218,11 +212,8 @@ class MUser(Mabc):
         '''
         Update the login time for user.
         '''
-        entry = TabMember.update(
-            time_login=tools.timestamp()
-        ).where(
-            TabMember.user_name == u_name
-        )
+        entry = TabMember.update(time_login=tools.timestamp()).where(
+            TabMember.user_name == u_name)
         entry.execute()
 
     @staticmethod
@@ -298,7 +289,8 @@ class MUser(Mabc):
         Delete user in the database by `user_name`.
         '''
         try:
-            del_count = TabMember.delete().where(TabMember.user_name == user_name)
+            del_count = TabMember.delete().where(
+                TabMember.user_name == user_name)
             del_count.execute()
             return True
         except:
@@ -329,7 +321,8 @@ class MUser(Mabc):
         '''
         Query pager
         '''
-        return TabMember.select().paginate(current_page_num, CMS_CFG['list_num'])
+        return TabMember.select().paginate(current_page_num,
+                                           CMS_CFG['list_num'])
 
     @staticmethod
     def query_by_time(recent=90):
@@ -339,22 +332,16 @@ class MUser(Mabc):
         time_that = int(time.time()) - recent * 24 * 3600
 
         return TabMember.select().where(
-            TabMember.time_create > time_that
-        ).order_by(
-            TabMember.time_create.desc()
-        )
+            TabMember.time_create > time_that).order_by(
+                TabMember.time_create.desc())
 
     @staticmethod
     def query_pager_by_time(current_page_num=1):
         '''
         Query pager
         '''
-        return TabMember.select().where(
-            TabMember.time_create
-        ).paginate(
-            current_page_num,
-            CMS_CFG['list_num']
-        )
+        return TabMember.select().where(TabMember.time_create).paginate(
+            current_page_num, CMS_CFG['list_num'])
 
     @staticmethod
     def count_of_certain():

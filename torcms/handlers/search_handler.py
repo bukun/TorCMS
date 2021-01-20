@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 For full text searching.
 '''
@@ -28,7 +27,8 @@ def gen_pager_bootstrap_url(cat_slug, page_num, current):
                 <a href="{1}/{2}">首页</a></li>'''.format('', cat_slug, 1)
 
             pager_pre = ''' <li class="{0}" name='fenye' onclick='change(this);'>
-                <a href="{1}/{2}">上一页</a></li>'''.format('', cat_slug, current - 1)
+                <a href="{1}/{2}">上一页</a></li>'''.format(
+                '', cat_slug, current - 1)
         if current > 5:
             cur_num = current - 4
         else:
@@ -47,16 +47,19 @@ def gen_pager_bootstrap_url(cat_slug, page_num, current):
                 checkstr = ''
 
             tmp_str_df = '''<li class="{0}" name='fenye' onclick='change(this);'>
-                  <a href="{1}/{2}">{2}</a></li>'''.format(checkstr, cat_slug, num)
+                  <a href="{1}/{2}">{2}</a></li>'''.format(
+                checkstr, cat_slug, num)
 
             pager_mid += tmp_str_df
         if current < page_num:
             pager_next = '''
                   <li class="{0}" name='fenye' onclick='change(this);'
-                  ><a href="{1}/{2}">下一页</a></li>'''.format('', cat_slug, current + 1)
+                  ><a href="{1}/{2}">下一页</a></li>'''.format(
+                '', cat_slug, current + 1)
             pager_last = '''
                   <li class="{0}" name='fenye' onclick='change(this);'
-                 ><a href="{1}/{2}">末页</a></li>'''.format('', cat_slug, page_num)
+                 ><a href="{1}/{2}">末页</a></li>'''.format(
+                '', cat_slug, page_num)
 
         pager += pager_home + pager_pre + pager_mid + pager_next + pager_last
         pager += '</ul>'
@@ -70,7 +73,6 @@ class SearchHandler(BaseHandler):
     '''
     For full text searching.
     '''
-
     def initialize(self, **kwargs):
         super(SearchHandler, self).initialize()
         self.ysearch = YunSearch()
@@ -89,9 +91,7 @@ class SearchHandler(BaseHandler):
             kwd = {
                 'info': 'The Page not Found.',
             }
-            self.render('misc/html/404.html',
-                        kwd=kwd,
-                        userinfo=self.userinfo)
+            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
     def index(self):
         tag_enum = MCategory.query_pcat()
@@ -135,29 +135,27 @@ class SearchHandler(BaseHandler):
             current_page_number = int(p_index)
         res_all = self.ysearch.get_all_num(keyword, catid=catid)
 
-        results = self.ysearch.search_pager(
-            keyword,
-            catid=catid,
-            page_index=current_page_number,
-            doc_per_page=CMS_CFG['list_num']
-        )
+        results = self.ysearch.search_pager(keyword,
+                                            catid=catid,
+                                            page_index=current_page_number,
+                                            doc_per_page=CMS_CFG['list_num'])
         page_num = int(res_all / CMS_CFG['list_num'])
 
-        kwd = {'title': 'Search Result:',
-               'pager': '',
-               'count': res_all,
-               'current_page': current_page_number,
-               'catid': catid,
-               'keyword': keyword}
+        kwd = {
+            'title': 'Search Result:',
+            'pager': '',
+            'count': res_all,
+            'current_page': current_page_number,
+            'catid': catid,
+            'keyword': keyword
+        }
 
         # ToDo:
         self.render('misc/search/search_list.html',
                     kwd=kwd,
                     srecs=results,
                     pager=gen_pager_bootstrap_url(
-                        '/search/{0}/{1}'.format(catid, keyword),
-                        page_num,
-                        current_page_number
-                    ),
+                        '/search/{0}/{1}'.format(catid, keyword), page_num,
+                        current_page_number),
                     userinfo=self.userinfo,
                     cfg=CMS_CFG)

@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 '''
 Generate some helper files.
 '''
@@ -28,9 +27,5 @@ create extension hstore;
     '''.format(db=DB_CFG['db'], passwd=DB_CFG['pass'])
 
     with open('xx_create_db.sql', 'w') as fo:
-        fo.write(
-            the_str
-        )
-    print('\033[33m'
-          '打开 xx_create_db.sql 文件，查看创建数据库的命令。'
-          '\033[0m')
+        fo.write(the_str)
+    print('\033[33m' '打开 xx_create_db.sql 文件，查看创建数据库的命令。' '\033[0m')

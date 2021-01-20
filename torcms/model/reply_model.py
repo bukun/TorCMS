@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 '''
 Data model for reply.
 '''
@@ -25,9 +24,7 @@ class MReply(Mabc):
 
     @staticmethod
     def update_vote(reply_id, count):
-        entry = TabReply.update(
-            vote=count
-        ).where(TabReply.uid == reply_id)
+        entry = TabReply.update(vote=count).where(TabReply.uid == reply_id)
         entry.execute()
 
     @staticmethod
@@ -46,9 +43,7 @@ class MReply(Mabc):
             date=datetime.datetime.now(),
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_reply']),
             cnt_html=tools.markdown2html(post_data['cnt_reply']),
-            vote=0
-
-        )
+            vote=0)
         return uid
 
     @staticmethod
@@ -56,13 +51,14 @@ class MReply(Mabc):
         '''
         Get reply list of certain post.
         '''
-        return TabReply.select().where(
-            (TabReply.post_id == postid) & (TabReply.category != '1')
-        ).order_by(TabReply.timestamp.desc())
+        return TabReply.select().where((TabReply.post_id == postid)
+                                       & (TabReply.category != '1')).order_by(
+                                           TabReply.timestamp.desc())
 
     @staticmethod
     def get_by_zan(reply_id):
-        return TabUser2Reply.select().where(TabUser2Reply.reply_id == reply_id).count()
+        return TabUser2Reply.select().where(
+            TabUser2Reply.reply_id == reply_id).count()
 
     @staticmethod
     def query_all():
@@ -93,7 +89,8 @@ class MReply(Mabc):
         '''
         Query pager
         '''
-        return TabReply.select().paginate(current_page_num, CMS_CFG['list_num'])
+        return TabReply.select().paginate(current_page_num,
+                                          CMS_CFG['list_num'])
 
     @staticmethod
     def modify_by_uid(pid, post_data):
