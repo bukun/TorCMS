@@ -9,7 +9,7 @@ clean:
 	@find . -name '*.pyc' |xargs rm -f
 	@find . -name '*.pyo' |xargs rm -f
 	@find . -name '*.orig' |xargs rm -f
-	@rm -rf MANIFEST build dist .coverage .tox __pycache__ docs/_build *.egg-info
+	@rm -rf MANIFEST build dist .coverage .tox __pycache__ api_doc docs/_build *.egg-info
 
 lint:
 	@type pycodestyle >/dev/null 2>&1 || { echo >&2 "Please install pycodestyle package."; exit 1; }
@@ -23,3 +23,7 @@ dist: clean
 	@python setup.py register
 	@python setup.py sdist upload
 	@python setup.py bdist_wheel upload
+
+api_doc: clean
+	@sphinx-apidoc -F -o api_doc torcms
+	@cd api_doc && { make html; }
