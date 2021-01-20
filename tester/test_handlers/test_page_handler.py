@@ -5,6 +5,7 @@ Test Post handler
 '''
 
 from tornado.testing import AsyncHTTPTestCase
+
 from application import APP
 
 

@@ -4,11 +4,13 @@ Handler of Pages via Ajax.
 '''
 
 import json
-import tornado.web
+
 import tornado.escape
+import tornado.web
+
+from config import CMS_CFG
 from torcms.handlers.page_handler import PageHandler
 from torcms.model.wiki_model import MWiki
-from config import CMS_CFG
 
 
 class PageAjaxHandler(PageHandler):

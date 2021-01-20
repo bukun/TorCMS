@@ -4,13 +4,11 @@
 数据库操作，处理标签
 '''
 
+from config import CMS_CFG
 from torcms.core import tools
 from torcms.core.tools import logger
-from torcms.model.core_tab import TabTag
-from torcms.model.core_tab import TabPost
-from torcms.model.core_tab import TabPost2Tag
 from torcms.model.abc_model import Mabc, MHelper
-from config import CMS_CFG
+from torcms.model.core_tab import TabPost, TabPost2Tag, TabTag
 
 
 class MLabel(Mabc):

@@ -4,8 +4,8 @@ Define the schema of Tables in TorCMS.
 '''
 
 import peewee
-
 from playhouse.postgres_ext import BinaryJSONField
+
 from torcms.core.base_model import BaseModel
 
 

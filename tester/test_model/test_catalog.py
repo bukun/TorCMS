@@ -1,8 +1,8 @@
 # -*- coding:utf-8 -*-
+from torcms.model.catalog_model import MCatalog
 from torcms.model.category_model import MCategory
 from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
-from torcms.model.catalog_model import MCatalog
 
 
 class TestMCatalog():

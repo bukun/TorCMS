@@ -1,12 +1,13 @@
 # -*- coding:utf-8 -*-
 import time
 
+import tornado.escape
+
 from torcms.core import tools
 from torcms.model.category_model import MCategory
+from torcms.model.label_model import MLabel, MPost2Label
 from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
-import tornado.escape
-from torcms.model.label_model import MLabel, MPost2Label
 
 
 class TestMPost():

@@ -12,13 +12,13 @@
         and (tabaccess.uid >= {}));'.format(ts1d)
 '''
 
-import sqlite3
 import shutil
+import sqlite3
 
-from .script_sitemap import run_sitemap, run_editmap
 from config import DB_CON
 from torcms.core.tools import ts_helper
 
+from .script_sitemap import run_editmap, run_sitemap
 
 # def echo_info():
 #

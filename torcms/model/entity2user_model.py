@@ -5,12 +5,11 @@ For file entities. Just like pdf, zipfile, docx, etc.
 '''
 
 import time
-from torcms.model.core_tab import TabEntity2User
-from torcms.model.core_tab import TabEntity
-from torcms.model.core_tab import TabMember
-from torcms.model.abc_model import Mabc, MHelper
-from torcms.core import tools
+
 from config import CMS_CFG
+from torcms.core import tools
+from torcms.model.abc_model import Mabc, MHelper
+from torcms.model.core_tab import TabEntity, TabEntity2User, TabMember
 
 
 class MEntity2User(Mabc):

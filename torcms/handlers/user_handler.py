@@ -4,10 +4,11 @@
 Handler for user.
 '''
 
+import datetime
 import json
 import re
-import datetime
 import time
+
 import tornado
 import tornado.escape
 import tornado.web
@@ -17,12 +18,12 @@ from wtforms.validators import DataRequired
 from wtforms_tornado import Form
 
 import config
+from config import CMS_CFG
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tool.send_email import send_mail
-from torcms.model.user_model import MUser
 from torcms.core.tools import logger
-from config import CMS_CFG
+from torcms.model.user_model import MUser
 
 
 class SumForm(Form):

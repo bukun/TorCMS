@@ -5,12 +5,14 @@ Entry for the application.
 '''
 
 import sys
-from config import SITE_CFG
+
 import tornado.ioloop
+
+from application import APP
+from config import SITE_CFG
 
 PORT = SITE_CFG['PORT']
 
-from application import APP
 
 if __name__ == "__main__":
     # tornado.locale.set_default_locale('zh_CN')

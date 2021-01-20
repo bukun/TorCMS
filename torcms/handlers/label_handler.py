@@ -5,15 +5,15 @@ For Post Label.
 '''
 
 import json
+import os
+
 import tornado.escape
 import tornado.web
-import os
+
+from config import CMS_CFG, router_post
 from torcms.core.base_handler import BaseHandler
-from torcms.model.label_model import MPost2Label
-from torcms.model.label_model import MLabel
 from torcms.core.torcms_redis import redisvr
-from config import CMS_CFG
-from config import router_post
+from torcms.model.label_model import MLabel, MPost2Label
 
 
 class LabelHandler(BaseHandler):

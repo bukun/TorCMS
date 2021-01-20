@@ -1,6 +1,7 @@
 # -*- coding: utf-8
 
 import sys
+
 from torcms.script.command import entry
 
 if __name__ == '__main__':

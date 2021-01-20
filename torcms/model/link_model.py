@@ -3,8 +3,8 @@
 '''
 For friends links.
 '''
-from torcms.model.core_tab import TabLink
 from torcms.model.abc_model import Mabc, MHelper
+from torcms.model.core_tab import TabLink
 
 
 class MLink(Mabc):

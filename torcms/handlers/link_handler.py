@@ -5,12 +5,14 @@ Handler for links.
 '''
 
 import json
+
 import tornado.escape
 import tornado.web
-from torcms.core.base_handler import BaseHandler
-from torcms.core import tools
-from torcms.model.link_model import MLink
+
 from config import CMS_CFG
+from torcms.core import tools
+from torcms.core.base_handler import BaseHandler
+from torcms.model.link_model import MLink
 
 
 class LinkHandler(BaseHandler):

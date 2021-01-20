@@ -5,8 +5,8 @@ List infors of the User.
 
 import tornado.web
 
-from torcms.model.post_model import MPost
 from torcms.core.base_handler import BaseHandler
+from torcms.model.post_model import MPost
 
 
 class UserListHandler(BaseHandler):

@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
-from torcms.model.post_model import MPost
 from torcms.model.nullify_info_model import MNullifyInfo
+from torcms.model.post_model import MPost
 
 
 class TestMNullifyInfo():

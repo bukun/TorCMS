@@ -4,11 +4,13 @@ To run the script, run the following command the same direcotry.
     git clone https://github.com/bukun/pycsw_helper.git
 '''
 import os
-from tornado.escape import xhtml_unescape
-from torcms.model.post_model import MPost
-import html2text
 import uuid
+
+import html2text
+from tornado.escape import xhtml_unescape
+
 from pycsw_helper.csw_helper import MRecords
+from torcms.model.post_model import MPost
 
 mrec = MRecords()
 
@@ -98,4 +100,3 @@ def run_export():
 
 if __name__ == '__main__':
     run_export()
-

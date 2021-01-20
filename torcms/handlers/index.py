@@ -2,11 +2,11 @@
 '''
 Index for the application.
 '''
+from config import CMS_CFG
 from torcms.core.base_handler import BaseHandler
 from torcms.model.category_model import MCategory
 from torcms.model.link_model import MLink
 from torcms.model.post_model import MPost
-from config import CMS_CFG
 
 
 class IndexHandler(BaseHandler):

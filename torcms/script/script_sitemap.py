@@ -4,9 +4,10 @@
 Generating sitemap.
 '''
 import os
+
+from config import SITE_CFG, router_post
 from torcms.model.post_model import MPost
 from torcms.model.wiki_model import MWiki
-from config import router_post, SITE_CFG
 
 
 def gen_post_map(file_name, ext_url=''):

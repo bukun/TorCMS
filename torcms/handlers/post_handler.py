@@ -4,30 +4,31 @@
 The basic HTML Page handler.
 '''
 
-import time
 import json
 import random
+import time
 from concurrent.futures import ThreadPoolExecutor
+
 import tornado.escape
-import tornado.web
 import tornado.gen
 import tornado.ioloop
-from torcms.core import tools
+import tornado.web
+
+from config import router_post
+from torcms.core import privilege, tools
 from torcms.core.base_handler import BaseHandler
-from torcms.core import privilege
+from torcms.core.tool.sqlite_helper import MAcces
 from torcms.core.tools import logger
+from torcms.handlers.entity_handler import EntityHandler
 from torcms.model.category_model import MCategory
+from torcms.model.entity_model import MEntity
+from torcms.model.evaluation_model import MEvaluation
 from torcms.model.label_model import MPost2Label
 from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_hist_model import MPostHist
 from torcms.model.post_model import MPost
 from torcms.model.relation_model import MRelation
-from torcms.model.evaluation_model import MEvaluation
 from torcms.model.usage_model import MUsage
-from torcms.model.entity_model import MEntity
-from torcms.core.tool.sqlite_helper import MAcces
-from config import router_post
-from torcms.handlers.entity_handler import EntityHandler
 
 
 def update_category(uid, post_data):

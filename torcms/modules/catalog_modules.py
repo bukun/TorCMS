@@ -5,6 +5,7 @@ For catalog modules.
 '''
 
 import tornado.web
+
 from torcms.model.catalog_model import MCatalog
 from torcms.model.category_model import MCategory
 

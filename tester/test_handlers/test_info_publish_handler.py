@@ -13,4 +13,3 @@ def Test():
     urls = [
         ("/label/(.*)", PublishHandler, dict()), ]
     assert urls
-

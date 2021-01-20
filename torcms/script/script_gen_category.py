@@ -4,10 +4,12 @@
 Genereting catetory.
 '''
 import os
-import yaml
 
+import yaml
 from openpyxl.reader.excel import load_workbook
+
 from torcms.model.category_model import MCategory
+
 from .autocrud.base_crud import XLSX_FILE
 
 

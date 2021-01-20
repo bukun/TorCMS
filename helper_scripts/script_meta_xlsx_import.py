@@ -4,15 +4,16 @@
 Import metadata which ID extracted from XLSX.
 '''
 
-import sys
 import os
-
 import pathlib
+import sys
+
 from openpyxl import load_workbook
 
 from torcms.model.category_model import MCategory
 from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
+
 # import xlrd  # 删除
 
 

@@ -3,15 +3,16 @@ Running whoosh script.
 '''
 
 import os
+
 import html2text
 import tornado.escape
 from whoosh.analysis import StemmingAnalyzer
+from whoosh.fields import ID, TEXT, Schema
 from whoosh.index import create_in, open_dir
-from whoosh.fields import Schema, TEXT, ID
 
+from config import SITE_CFG, kind_arr, post_type, router_post
 from torcms.model.post_model import MPost
 from torcms.model.wiki_model import MWiki
-from config import router_post, kind_arr, post_type, SITE_CFG
 
 try:
     from jieba.analyse import ChineseAnalyzer

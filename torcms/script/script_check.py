@@ -2,16 +2,17 @@
 检查的脚本
 '''
 
-import requests
 import time
 
+import requests
+
+# from torcms.model.wiki_model import MWiki
+import config
 from config import router_post
 from torcms.core.tools import timestamp
 from torcms.model.category_model import MCategory
 from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
-# from torcms.model.wiki_model import MWiki
-import config
 
 HTML_TMPL = '''<!doctype html><html><head><title></title>
 <script src="https://www.osgeo.cn/_f2elib/jquery/jquery-3.3.1.min.js"></script>

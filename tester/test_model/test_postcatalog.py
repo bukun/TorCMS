@@ -1,8 +1,9 @@
 # -*- coding:utf-8 -*-
-from torcms.model.category_model import MCategory
 from torcms.core import tools
+from torcms.model.category_model import MCategory
 from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
+
 
 class TestMCategory():
     def setup(self):
@@ -212,4 +213,3 @@ class TestMCategory():
             MPost.delete(self.postid)
 
             MPost2Catalog.remove_relation(self.postid,self.uid)
-

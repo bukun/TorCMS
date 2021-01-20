@@ -4,9 +4,11 @@
 For the evaluation of the posts.
 '''
 import json
+
 import tornado.web
-from torcms.model.evaluation_model import MEvaluation
+
 from torcms.core.base_handler import BaseHandler
+from torcms.model.evaluation_model import MEvaluation
 
 
 class EvaluationHandler(BaseHandler):

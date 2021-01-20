@@ -5,6 +5,7 @@ Menu for category lists.
 '''
 
 import tornado.web
+
 from torcms.model.category_model import MCategory
 
 

@@ -1,7 +1,7 @@
 import config
+from config import CMS_CFG, router_post
 from torcms.core.base_handler import BaseHandler
 from torcms.model.comment_model import MComment
-from config import CMS_CFG, router_post
 
 
 class CommentHandler(BaseHandler):

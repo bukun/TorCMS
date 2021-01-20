@@ -8,9 +8,12 @@ from playhouse import migrate
 from playhouse.postgres_ext import BinaryJSONField
 
 import config
-from torcms.model.core_tab import TabPost, TabTag, TabMember, TabWiki, TabLink, TabEntity, \
-    TabPostHist, TabWikiHist, TabCollect, TabPost2Tag, TabRel, TabEvaluation, TabUsage, TabReply, \
-    TabUser2Reply, TabRating, TabEntity2User, TabLog, TabReplyid, TabReferrer
+from torcms.model.core_tab import (TabCollect, TabEntity, TabEntity2User,
+                                   TabEvaluation, TabLink, TabLog, TabMember,
+                                   TabPost, TabPost2Tag, TabPostHist,
+                                   TabRating, TabReferrer, TabRel, TabReply,
+                                   TabReplyid, TabTag, TabUsage, TabUser2Reply,
+                                   TabWiki, TabWikiHist)
 
 
 def create_table(the_table):

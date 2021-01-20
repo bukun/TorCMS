@@ -1,9 +1,9 @@
 # -*- coding:utf-8 -*-
 
-from torcms.core import tools
-from torcms.model.category_model import MCategory
 import tornado.escape
 
+from torcms.core import tools
+from torcms.model.category_model import MCategory
 from torcms.model.label_model import MLabel
 from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost

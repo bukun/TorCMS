@@ -5,13 +5,14 @@ For User collection
 '''
 
 import json
+
 import tornado.web
 
-from torcms.core.base_handler import BaseHandler
-from torcms.core import tools
-from torcms.model.collect_model import MCollect
-from torcms.core.tools import logger
 from config import CMS_CFG
+from torcms.core import tools
+from torcms.core.base_handler import BaseHandler
+from torcms.core.tools import logger
+from torcms.model.collect_model import MCollect
 
 
 class CollectHandler(BaseHandler):

@@ -4,14 +4,14 @@
 Entry for command script.
 '''
 
-import sys
 import getopt
+import sys
+
+from .script_check import run_check
+from .script_drop_tabels import run_drop_tables
+from .script_dump import run_dump
 from .script_init import run_init
 from .script_review import run_review
-from .script_drop_tabels import run_drop_tables
-from .script_check import run_check
-from .script_dump import run_dump
-
 from .script_update import run_update
 
 

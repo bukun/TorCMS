@@ -11,7 +11,7 @@ import os
 from . import func_gen_html
 from .base_crud import CRUD_PATH, INPUT_ARR
 from .fetch_html_dic import gen_array_crud, gen_html_dic
-from .html_tpl import TPL_ADD, TPL_VIEW, TPL_EDIT, TPL_LIST, TPL_LISTINFO
+from .html_tpl import TPL_ADD, TPL_EDIT, TPL_LIST, TPL_LISTINFO, TPL_VIEW
 
 HTML_DICS = gen_html_dic()
 SWITCH_DICS, KIND_DICS = gen_array_crud()

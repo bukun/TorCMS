@@ -1,7 +1,7 @@
 import config
+from config import CMS_CFG, router_post
 from torcms.core.base_handler import BaseHandler
 from torcms.model.nullify_info_model import MNullifyInfo
-from config import CMS_CFG, router_post
 
 
 class NullifyInfoHandler(BaseHandler):

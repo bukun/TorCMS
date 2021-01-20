@@ -5,8 +5,8 @@ Relationship between Posts.
 '''
 
 from torcms.core.base_handler import BaseHandler
-from torcms.model.relation_model import MRelation
 from torcms.model.post_model import MPost
+from torcms.model.relation_model import MRelation
 
 
 class RelHandler(BaseHandler):

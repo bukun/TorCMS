@@ -3,7 +3,10 @@
 '''
 Dump database of PostgreSQL, with date stamp.
 '''
+import datetime
 import os
+import subprocess
+
 try:
     from cfg import DB_CFG
 except:
@@ -11,8 +14,6 @@ except:
         'db': '',
         'pass': '',
     }
-import subprocess
-import datetime
 
 if os.path.exists('tmp'):
     pass

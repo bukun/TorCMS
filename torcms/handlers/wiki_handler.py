@@ -6,17 +6,16 @@ Handler for wiki, and page.
 
 import json
 from concurrent.futures import ThreadPoolExecutor
+
 import tornado.escape
-import tornado.web
 import tornado.gen
 import tornado.ioloop
+import tornado.web
 
+from torcms.core import privilege, tools
 from torcms.core.base_handler import BaseHandler
-from torcms.core import tools
-from torcms.core import privilege
-from torcms.model.wiki_model import MWiki
 from torcms.model.wiki_hist_model import MWikiHist
-
+from torcms.model.wiki_model import MWiki
 
 # from celery_server import cele_gen_whoosh
 

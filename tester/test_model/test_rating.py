@@ -1,8 +1,9 @@
 # -*- coding:utf-8 -*-
 
-from torcms.model.rating_model import MRating
 from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import TabRating
+from torcms.model.rating_model import MRating
+
 
 class TestMRating():
     def setup(self):

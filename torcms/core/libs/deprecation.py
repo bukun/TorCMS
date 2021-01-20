@@ -14,9 +14,9 @@ From https://github.com/briancurtin/deprecation/blob/master/deprecation.py
 # License for the specific language governing permissions and limitations
 # under the License.
 '''
-from distutils import version
 import functools
 import warnings
+from distutils import version
 
 __version__ = "1.0"
 

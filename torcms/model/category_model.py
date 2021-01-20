@@ -4,8 +4,8 @@
 数据库操作，处理分类
 '''
 
-from torcms.model.core_tab import TabTag, TabPost2Tag, TabPost
 from torcms.model.abc_model import Mabc, MHelper
+from torcms.model.core_tab import TabPost, TabPost2Tag, TabTag
 
 
 class MCategory(Mabc):

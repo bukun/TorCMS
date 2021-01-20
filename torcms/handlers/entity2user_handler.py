@@ -3,9 +3,10 @@
 Hander for entiey, such as files or URL.
 '''
 import tornado.web
+
+import config
 from torcms.core.base_handler import BaseHandler
 from torcms.model.entity2user_model import MEntity2User
-import config
 
 
 class Entity2UserHandler(BaseHandler):

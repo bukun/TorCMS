@@ -1,9 +1,10 @@
 # -*- coding:utf-8 -*-
 
-from torcms.core import tools
-from torcms.model.core_tab import TabWikiHist
 import tornado.escape
+
+from torcms.core import tools
 from torcms.model.abc_model import Mabc, MHelper
+from torcms.model.core_tab import TabWikiHist
 
 
 class MWikiHist(Mabc):

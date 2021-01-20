@@ -1,11 +1,12 @@
 # -*- coding:utf-8 -*-
 
 from torcms.core import tools
-from torcms.model.relation_model import MRelation
-from torcms.model.post_model import MPost
 from torcms.model.category_model import MCategory
-from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.label_model import MLabel, MPost2Label
+from torcms.model.post2catalog_model import MPost2Catalog
+from torcms.model.post_model import MPost
+from torcms.model.relation_model import MRelation
+
 
 class TestMRelation():
     def setup(self):

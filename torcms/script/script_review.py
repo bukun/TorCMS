@@ -3,18 +3,18 @@
 '''
 Check the difference of modification.
 '''
-import os
 import datetime
+import os
 
+from config import SITE_CFG, SMTP_CFG, post_emails, router_post
 from torcms.core import tools
-from torcms.model.post_model import MPost
-from torcms.model.post_hist_model import MPostHist
-from torcms.model.wiki_model import MWiki
-from torcms.model.wiki_hist_model import MWikiHist
 from torcms.core.tool.send_email import send_mail
 from torcms.core.tools import diff_table
-from config import SMTP_CFG, post_emails, SITE_CFG, router_post
 from torcms.model.comment_model import MComment
+from torcms.model.post_hist_model import MPostHist
+from torcms.model.post_model import MPost
+from torcms.model.wiki_hist_model import MWikiHist
+from torcms.model.wiki_model import MWiki
 
 DATE_STR = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 

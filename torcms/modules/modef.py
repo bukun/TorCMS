@@ -4,11 +4,8 @@
 定义模块的名称，作为调用的名称
 '''
 
-from torcms.modules import base_modules
-from torcms.modules import info_modules
-from torcms.modules import widget_modules
-from torcms.modules import catalog_modules
-from torcms.modules import category_modules
+from torcms.modules import (base_modules, catalog_modules, category_modules,
+                            info_modules, widget_modules)
 
 core_modules = {
     'ModuleCatMenu': base_modules.ModuleCatMenu,

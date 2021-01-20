@@ -3,12 +3,13 @@
 '''
 Define the widget modules for TorCMS.
 '''
-import config
 import tornado.escape
 import tornado.web
-from torcms.model.reply_model import MReply
-from torcms.model.rating_model import MRating
+
+import config
 from torcms.model.category_model import MCategory
+from torcms.model.rating_model import MRating
+from torcms.model.reply_model import MReply
 from torcms.model.replyid_model import MReplyid
 from torcms.model.user_model import MUser
 

@@ -8,7 +8,8 @@ import os
 import sys
 
 from openpyxl.reader.excel import load_workbook
-from .base_crud import XLSX_FILE, FILTER_COLUMNS, INPUT_ARR
+
+from .base_crud import FILTER_COLUMNS, INPUT_ARR, XLSX_FILE
 
 if os.path.exists(XLSX_FILE):
     WORK_BOOK = load_workbook(filename=XLSX_FILE)

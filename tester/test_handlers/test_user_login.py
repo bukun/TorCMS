@@ -5,11 +5,12 @@ Test user login.
 '''
 
 
-from tornado.testing import AsyncHTTPTestCase
+import unittest
 #from application import APP
 from http import cookies
+
 from selenium import webdriver
-import unittest
+from tornado.testing import AsyncHTTPTestCase
 
 TEST_URL = '/resource'
 LOGIN_URL = '/login'
@@ -45,5 +46,3 @@ class LoginTest(AsyncHTTPTestCase):
         print("t" * 100)
 if __name__ == '__main__':
    LoginTest.__init__(1,'kkk')
-
-

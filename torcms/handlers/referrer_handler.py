@@ -8,9 +8,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
-
 from torcms.core.tools import logger
-
 from torcms.model.referrer_model import MReferrer
 
 

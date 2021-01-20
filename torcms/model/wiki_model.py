@@ -6,13 +6,15 @@ The model for wiki.
 '''
 
 import datetime
-import tornado.escape
+
 import peewee
+import tornado.escape
+
+from config import CMS_CFG
 from torcms.core import tools
-from torcms.model.core_tab import TabWiki
 from torcms.core.tools import logger
 from torcms.model.abc_model import Mabc, MHelper
-from config import CMS_CFG
+from torcms.model.core_tab import TabWiki
 
 
 class MWiki(Mabc):

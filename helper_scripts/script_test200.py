@@ -1,10 +1,11 @@
+import time
+
+import requests
+
+import config
+from torcms.core.tools import format_date, timestamp
 from torcms.model.post_model import MPost
 from torcms.model.wiki_model import MWiki
-import requests
-import config
-from torcms.core.tools import timestamp
-from torcms.core.tools import format_date
-import time
 
 html_tmpl = '''
 <!doctype html>

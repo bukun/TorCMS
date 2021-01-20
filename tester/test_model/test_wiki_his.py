@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
+from torcms.core import tools
 from torcms.model.user_model import MUser
 from torcms.model.wiki_hist_model import MWikiHist
-from torcms.core import tools
 from torcms.model.wiki_model import MWiki
 
 
@@ -101,4 +101,3 @@ class TestMWikiHist():
         MUser.delete(self.user_uid)
         MWiki.delete(self.wiki_uid)
         MWikiHist.delete(self.uid)
-

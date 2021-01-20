@@ -4,8 +4,8 @@
 Testing for redis.
 '''
 
-from config import REDIS_CFG
 import cfg
+from config import REDIS_CFG
 
 
 class TestRedis():

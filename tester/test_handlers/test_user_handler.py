@@ -6,8 +6,9 @@ Test user handler
 
 from tornado.testing import AsyncHTTPSTestCase
 from tornado.web import Application
-from torcms.handlers.user_handler import UserHandler
+
 from application import SETTINGS
+from torcms.handlers.user_handler import UserHandler
 
 
 class TestUserHandler(AsyncHTTPSTestCase):

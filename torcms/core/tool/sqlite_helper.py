@@ -4,15 +4,15 @@
 Handle the usage of the info.
 '''
 
-import time
 import os
 import sqlite3
+import time
 
 from torcms.core.tools import ts_helper
+from torcms.model.abc_model import Mabc
 
 # from torcms.model.core_tab import TabAccess
 
-from torcms.model.abc_model import Mabc
 
 
 class MAcces(Mabc):

@@ -7,11 +7,12 @@ Handle the usage of the info.
 import time
 
 import peewee
-from torcms.model.post2catalog_model import MPost2Catalog as MInfor2Catalog
-from torcms.model.core_tab import TabUsage, TabPost
+
 from torcms.core import tools
 from torcms.core.tools import logger
 from torcms.model.abc_model import Mabc
+from torcms.model.core_tab import TabPost, TabUsage
+from torcms.model.post2catalog_model import MPost2Catalog as MInfor2Catalog
 
 
 class MUsage(Mabc):

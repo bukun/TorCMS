@@ -1,9 +1,10 @@
 # -*- coding:utf-8 -*-
 import time
 
+import tornado.escape
+
 from torcms.core import tools
 from torcms.model.wiki_model import MWiki
-import tornado.escape
 
 
 class TestMWiki():

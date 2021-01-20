@@ -4,13 +4,14 @@
 '''
 
 import os
-import markdown
-
-from torcms.model.post_model import MPost
-from torcms.model.category_model import MCategory
-from torcms.model.post2catalog_model import MPost2Catalog
 import re
 import shutil
+
+import markdown
+
+from torcms.model.category_model import MCategory
+from torcms.model.post2catalog_model import MPost2Catalog
+from torcms.model.post_model import MPost
 
 out_ws = './static/xx_mds'
 

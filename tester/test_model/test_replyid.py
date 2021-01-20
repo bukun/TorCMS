@@ -1,8 +1,8 @@
 # -*- coding:utf-8 -*-
 
-from torcms.model.replyid_model import MReplyid
 from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import TabReplyid
+from torcms.model.replyid_model import MReplyid
 
 
 class TestMReplyid():

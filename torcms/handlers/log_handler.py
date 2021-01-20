@@ -6,11 +6,10 @@ Log handler.
 
 from concurrent.futures import ThreadPoolExecutor
 
-from torcms.core.base_handler import BaseHandler
-
-from torcms.core import tools
-from torcms.model.log_model import MLog
 from config import CMS_CFG
+from torcms.core import tools
+from torcms.core.base_handler import BaseHandler
+from torcms.model.log_model import MLog
 
 
 class LogHandler(BaseHandler):

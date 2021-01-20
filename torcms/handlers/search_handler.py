@@ -7,8 +7,8 @@ For full text searching.
 from config import CMS_CFG
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tool.whoosh_tool import YunSearch
-from torcms.model.category_model import MCategory
 from torcms.core.tools import logger
+from torcms.model.category_model import MCategory
 
 
 def gen_pager_bootstrap_url(cat_slug, page_num, current):

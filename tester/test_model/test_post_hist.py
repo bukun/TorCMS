@@ -1,9 +1,7 @@
 # -*- coding:utf-8 -*-
-from torcms.model.post_model import MPost
-
-from torcms.model.post_hist_model import MPostHist
 from torcms.core import tools
-
+from torcms.model.post_hist_model import MPostHist
+from torcms.model.post_model import MPost
 
 
 class TestMPostHist():

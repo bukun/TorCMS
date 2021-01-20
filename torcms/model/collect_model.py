@@ -5,11 +5,10 @@ Model for collection.
 '''
 import time
 
-from torcms.core import tools
-from torcms.model.core_tab import TabPost
-from torcms.model.core_tab import TabCollect
-from torcms.model.abc_model import Mabc
 from config import CMS_CFG
+from torcms.core import tools
+from torcms.model.abc_model import Mabc
+from torcms.model.core_tab import TabCollect, TabPost
 
 
 class MCollect(Mabc):

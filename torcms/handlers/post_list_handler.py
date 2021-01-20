@@ -2,11 +2,11 @@
 listing the posts, simply.
 '''
 
+from config import CMS_CFG
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
 from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
-from config import CMS_CFG
 
 
 class PostListHandler(BaseHandler):

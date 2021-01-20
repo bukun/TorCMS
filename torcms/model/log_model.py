@@ -2,10 +2,10 @@
 数据库处理，日志存储
 '''
 
-from torcms.core import tools
-from torcms.model.core_tab import TabLog
 from config import CMS_CFG
+from torcms.core import tools
 from torcms.model.abc_model import MHelper
+from torcms.model.core_tab import TabLog
 
 
 class MLog():

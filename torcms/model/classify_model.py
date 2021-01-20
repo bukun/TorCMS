@@ -4,9 +4,9 @@
 Model for classify.
 '''
 
-from torcms.model.core_tab import TabPost, TabTag, TabPost2Tag, TabMember
-from torcms.model.abc_model import Mabc
 from config import CMS_CFG
+from torcms.model.abc_model import Mabc
+from torcms.model.core_tab import TabMember, TabPost, TabPost2Tag, TabTag
 
 
 class MClassify(Mabc):
@@ -52,5 +52,3 @@ class MClassify(Mabc):
             )
 
         return recs.count()
-
-

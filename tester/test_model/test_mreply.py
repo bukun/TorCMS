@@ -1,12 +1,13 @@
 # -*- coding:utf-8 -*-
 
+import tornado.escape
+import tornado.web
+
 from torcms.core import tools
 from torcms.model.post_model import MPost
+from torcms.model.reply2user_model import MReply2User
 from torcms.model.reply_model import MReply
 from torcms.model.user_model import MUser
-from torcms.model.reply2user_model import MReply2User
-import tornado.web
-import tornado.escape
 
 
 class TestMReply():

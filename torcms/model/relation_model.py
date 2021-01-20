@@ -2,11 +2,10 @@
 
 import peewee
 from peewee import SQL
+
 from torcms.core import tools
-from torcms.model.core_tab import TabPost
-from torcms.model.core_tab import TabRel
-from torcms.model.core_tab import TabPost2Tag
 from torcms.model.abc_model import Mabc
+from torcms.model.core_tab import TabPost, TabPost2Tag, TabRel
 from torcms.model.label_model import MPost2Label
 
 

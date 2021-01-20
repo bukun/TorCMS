@@ -2,6 +2,7 @@
 To control the cookie for locale.
 '''
 import json
+
 from torcms.core.base_handler import BaseHandler
 
 

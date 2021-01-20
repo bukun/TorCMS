@@ -5,6 +5,7 @@ All other static pages.
 '''
 
 import os
+
 from torcms.core.base_handler import BaseHandler
 
 

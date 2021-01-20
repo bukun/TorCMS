@@ -1,16 +1,17 @@
 '''
 Handler of Posts via Ajax.
 '''
-import config
 import json
-import tornado.web
+
 import tornado.escape
+import tornado.web
+
+import config
+from config import CMS_CFG
+from torcms.core import privilege, tools
 from torcms.handlers.post_handler import PostHandler
 from torcms.model.category_model import MCategory
 from torcms.model.post_model import MPost
-from config import CMS_CFG
-from torcms.core import tools
-from torcms.core import privilege
 
 
 class PostAjaxHandler(PostHandler):

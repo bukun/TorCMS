@@ -6,22 +6,20 @@
  import_meta()从dataset_list调用信息生成数据集
  import_tables()从datacn_tables调用信息生成数据表
 '''
-import sys
 import os
-
 import pathlib
-from openpyxl import load_workbook
+import re
+import shutil
+import sys
 
+from openpyxl import load_workbook
+from PIL import Image
+
+from torcms.core.tools import get_uu8d
 from torcms.model.category_model import MCategory
+from torcms.model.label_model import MPost2Label
 from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
-from torcms.model.label_model import MPost2Label
-from torcms.core.tools import get_uu8d
-
-from PIL import Image
-import shutil
-
-import re
 
 logo_cache_dir = './static/cache'
 

@@ -6,12 +6,12 @@ Handler for reply.
 
 import json
 
+from config import CMS_CFG
 from torcms.core.base_handler import BaseHandler
+from torcms.core.tools import logger
+from torcms.model.reply2user_model import MReply2User
 from torcms.model.reply_model import MReply
 from torcms.model.replyid_model import MReplyid
-from torcms.model.reply2user_model import MReply2User
-from torcms.core.tools import logger
-from config import CMS_CFG
 
 
 class ReplyHandler(BaseHandler):

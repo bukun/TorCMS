@@ -7,10 +7,9 @@ The web page for publish, with category.
 import tornado
 import tornado.web
 
+from config import router_post
 from torcms.core.base_handler import BaseHandler
 from torcms.model.category_model import MCategory
-
-from config import router_post
 
 
 class PublishHandler(BaseHandler):

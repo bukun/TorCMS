@@ -1,10 +1,12 @@
 # -*- coding:utf-8 -*-
 
+import random
+import time
+
+import tornado.escape
+
 from torcms.core import tools
 from torcms.model.user_model import MUser
-import tornado.escape
-import time
-import random
 
 
 class TestMUser():

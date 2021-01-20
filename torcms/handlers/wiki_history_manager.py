@@ -7,11 +7,12 @@ History handler for wiki, and page.
 import tornado.escape
 import tornado.web
 
-from torcms.model.wiki_model import MWiki
-from torcms.model.wiki_hist_model import MWikiHist
-from torcms.core.tools import diff_table
-from .post_history_handler import EditHistoryHander
 from config import router_post
+from torcms.core.tools import diff_table
+from torcms.model.wiki_hist_model import MWikiHist
+from torcms.model.wiki_model import MWiki
+
+from .post_history_handler import EditHistoryHander
 
 
 class WikiHistoryHandler(EditHistoryHander):

@@ -1,10 +1,9 @@
 # -*- coding:utf-8 -*-
+from torcms.core import tools
 from torcms.model.category_model import MCategory
 from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
-
 from torcms.model.usage_model import MUsage
-from torcms.core import tools
 
 
 class TestMUsage():
@@ -201,5 +200,3 @@ class TestMUsage():
         MPost.delete(self.postid)
 
         MPost2Catalog.remove_relation(self.postid, self.tag_id)
-
-

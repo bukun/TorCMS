@@ -1,8 +1,7 @@
 # -*- coding:utf-8 -*-
-from torcms.model.collect_model import MCollect
-
 import unittest
 
+from torcms.model.collect_model import MCollect
 from torcms.model.post_model import MPost
 
 

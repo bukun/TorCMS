@@ -5,16 +5,16 @@ Model for Posts.
 '''
 import time
 from datetime import datetime
+
 import peewee
 import tornado.escape
-from torcms.core import tools
-from torcms.model.core_tab import TabPost
-from torcms.model.core_tab import TabPost2Tag
-from torcms.model.core_tab import TabPostHist, TabCollect, TabRel, TabEvaluation, TabReply, \
-    TabRating, TabUsage, \
-    TabUser2Reply
-from torcms.model.abc_model import Mabc, MHelper
+
 from config import CMS_CFG, DB_CFG
+from torcms.core import tools
+from torcms.model.abc_model import Mabc, MHelper
+from torcms.model.core_tab import (TabCollect, TabEvaluation, TabPost,
+                                   TabPost2Tag, TabPostHist, TabRating, TabRel,
+                                   TabReply, TabUsage, TabUser2Reply)
 
 
 class MPost(Mabc):

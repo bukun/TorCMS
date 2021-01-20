@@ -5,13 +5,15 @@ Manage the posts by Administrator.
 '''
 
 from abc import ABCMeta, abstractmethod
+
 import tornado.escape
 import tornado.web
+
 from config import router_post
 from torcms.core.base_handler import BaseHandler
-from torcms.model.post_model import MPost
-from torcms.model.post_hist_model import MPostHist
 from torcms.core.tools import diff_table
+from torcms.model.post_hist_model import MPostHist
+from torcms.model.post_model import MPost
 
 
 class EditHistoryHander(BaseHandler):

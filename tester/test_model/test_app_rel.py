@@ -1,12 +1,12 @@
 # -*- coding:utf-8 -*-
+from torcms.core import tools
+from torcms.model.abc_model import MHelper
 from torcms.model.category_model import MCategory
+from torcms.model.core_tab import TabRel
 from torcms.model.label_model import MLabel
 from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
-from torcms.model.abc_model import MHelper
-from torcms.model.core_tab import TabRel
 from torcms.model.relation_model import MRelation
-from torcms.core import tools
 
 
 class TestMRelation():

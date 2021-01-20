@@ -1,8 +1,7 @@
 # -*- coding:utf-8 -*-
 
 from torcms.core import tools
-from torcms.model.label_model import MLabel
-from torcms.model.label_model import MPost2Label
+from torcms.model.label_model import MLabel, MPost2Label
 from torcms.model.post_model import MPost
 
 
@@ -262,6 +261,3 @@ class TestMPost2Label():
         if tt:
             print('8888888888')
             MLabel.delete(tt.uid)
-
-
-

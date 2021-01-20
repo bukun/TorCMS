@@ -4,18 +4,22 @@
 Some common function used by the CMS.
 '''
 
-import uuid
-import random
-import logging
-import time
 import hashlib
+import logging
+import random
 import re
+import time
+import uuid
+from difflib import HtmlDiff
+
 import markdown
 import tornado.escape
-from difflib import HtmlDiff
 from htmlmin import minify
 from markdown.extensions.wikilinks import WikiLinkExtension
 from playhouse.postgres_ext import PostgresqlExtDatabase
+
+import cfg
+from torcms.core.libs.deprecation import deprecated
 
 # try:
 #     from jieba.analyse import ChineseAnalyzer
@@ -23,8 +27,6 @@ from playhouse.postgres_ext import PostgresqlExtDatabase
 #     ChineseAnalyzer = None
 # from whoosh.analysis import StemmingAnalyzer
 
-from torcms.core.libs.deprecation import deprecated
-import cfg
 
 # import config
 

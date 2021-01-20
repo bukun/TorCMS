@@ -4,7 +4,7 @@
 For pypi
 '''
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 desc = ('Flexible, extensible Web CMS framework built on Tornado,'
         'compatible with Python 3.7 and above.')

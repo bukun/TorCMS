@@ -4,11 +4,9 @@
 Model for Posts.
 '''
 
-from torcms.model.core_tab import TabPost, TabTag
-from torcms.model.core_tab import TabPost2Tag
-
 from torcms.model.abc_model import Mabc
 from torcms.model.category_model import MCategory
+from torcms.model.core_tab import TabPost, TabPost2Tag, TabTag
 
 
 class MCatalog(Mabc):

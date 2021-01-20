@@ -3,9 +3,9 @@
 '''
 发送Email的脚本
 '''
+from config import SMTP_CFG, email_cfg
 from torcms.core.tool.send_email import send_mail
 from torcms.model.user_model import MUser
-from config import SMTP_CFG, email_cfg
 
 
 def run_send_all(*args):

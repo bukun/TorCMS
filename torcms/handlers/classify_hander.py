@@ -1,6 +1,6 @@
+from config import CMS_CFG, router_post
 from torcms.core.base_handler import BaseHandler
 from torcms.model.classify_model import MClassify
-from config import CMS_CFG, router_post
 
 
 class ClassifyHandler(BaseHandler):

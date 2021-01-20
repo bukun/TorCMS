@@ -5,10 +5,11 @@ For rating.
 '''
 
 import tornado.web
+
 from torcms.core.base_handler import BaseHandler
-from torcms.model.rating_model import MRating
-from torcms.model.post_model import MPost
 from torcms.core.tools import logger
+from torcms.model.post_model import MPost
+from torcms.model.rating_model import MRating
 
 
 class RatingHandler(BaseHandler):

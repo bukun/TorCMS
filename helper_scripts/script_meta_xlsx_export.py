@@ -1,15 +1,11 @@
 # import tornado.web
-from torcms.handlers.entity_handler import EntityHandler
+import os
 
 from openpyxl import Workbook
 
-import os
-
-from torcms.model.core_tab import TabPost
-
-from torcms.model.core_tab import TabTag
+from torcms.handlers.entity_handler import EntityHandler
 from torcms.model.abc_model import Mabc
-
+from torcms.model.core_tab import TabPost, TabTag
 
 
 class Ext_tag(Mabc):

@@ -7,17 +7,18 @@ Page ( with unique slug) handler.
 import json
 import re
 from concurrent.futures import ThreadPoolExecutor
+
 import tornado.escape
-import tornado.web
 import tornado.ioloop
-from torcms.core.tools import logger
+import tornado.web
+
+from config import CMS_CFG
+from torcms.core import privilege, tools
 from torcms.core.base_handler import BaseHandler
+from torcms.core.tools import logger
 from torcms.model.category_model import MCategory
 from torcms.model.wiki_hist_model import MWikiHist
 from torcms.model.wiki_model import MWiki
-from torcms.core import tools
-from torcms.core import privilege
-from config import CMS_CFG
 
 
 class PageHandler(BaseHandler):

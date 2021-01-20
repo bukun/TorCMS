@@ -5,12 +5,13 @@ The Application.
 '''
 
 import os
-from config import SITE_CFG
-from urls import urls
+
 import tornado.web
-from torcms.modules.modef import core_modules as modules
-from torcms.modules.modef import core_modules
+
 import torcms.core.uifunction as uifuncs
+from config import SITE_CFG
+from torcms.modules.modef import core_modules as modules
+from urls import urls
 
 # from extor.modules.extends import index_post,Catalog,Postrecent,Indexsearch
 # 定义模板

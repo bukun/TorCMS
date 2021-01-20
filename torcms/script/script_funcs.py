@@ -9,8 +9,7 @@ and locale.
 '''
 import os
 
-from config import DB_CON
-from config import kind_arr, post_type
+from config import DB_CON, kind_arr, post_type
 from torcms.core.tool import run_whoosh as running_whoosh
 from torcms.model.user_model import MUser
 
@@ -52,5 +51,3 @@ def run_whoosh(*args):
     running whoosh
     '''
     running_whoosh.gen_whoosh_database(kind_arr=kind_arr, post_type=post_type)
-
-
