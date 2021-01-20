@@ -14,9 +14,10 @@ clean:
 lint:
 	@type pycodestyle >/dev/null 2>&1 || { echo >&2 "Please install pycodestyle package."; exit 1; }
 	@pycodestyle -r --max-line-length=120 torcms && { echo >&2 "PEP8: congrats, everything is clean !"; }
+	@python3 -m pylint torcms && { echo >&2 "PEP8: congrats, everything is clean !"; }
 
 test:
-	@type tox >/dev/null 2>&1 && { tox; } || { sh ./runtest.sh; }
+	@type tox >/dev/null 2>&1 && { tox; } || { python3 -m pytest tester --cov=./tester --cov-report=html; }
 
 dist: clean
 	@python setup.py register
