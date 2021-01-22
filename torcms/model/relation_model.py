@@ -7,6 +7,7 @@ from torcms.core import tools
 from torcms.model.abc_model import Mabc
 from torcms.model.core_tab import TabPost, TabPost2Tag, TabRel
 from torcms.model.label_model import MPost2Label
+from torcms.model.post2catalog_model import MPost2Catalog as MInfor2Catalog
 
 
 class MRelation(Mabc):
@@ -56,13 +57,13 @@ class MRelation(Mabc):
     @staticmethod
     def get_app_relations(app_id, num=20, kind='1'):
         '''
-        The the related infors. 如有标签按标签推荐，如无标签按标题推荐
+        The the related infors. 如有标签按标签推荐，如无标签按分类推荐
         '''
 
         tag_info = filter(lambda x: not x.tag_name.startswith('_'),
                           MPost2Label.get_by_uid(app_id).objects())
 
-        info = TabPost.get_by_id(app_id)
+        info_tag = MInfor2Catalog.get_first_category(app_id)
 
         tag_arr = []
         for tag in tag_info:
@@ -83,12 +84,17 @@ class MRelation(Mabc):
                                          TabPost2Tag.post_id).limit(num)
         else:
 
-            recs = TabPost.select(
+            recs = TabPost2Tag.select(
+                TabPost2Tag,
                 TabPost.title.alias('post_title'),
-                TabPost.valid.alias('post_valid'),
-                TabPost.uid.alias('post_id')).where(
-                    (SQL(("title ilike '%%{0}%%' ").format(info.title)))
-                    & (TabPost.uid != app_id) & (TabPost.kind == kind)
-                    & (TabPost.valid == 1)).order_by(
-                        peewee.fn.Random()).limit(num)
+                TabPost.valid.alias('post_valid')
+            ).join(
+                TabPost, on=(TabPost2Tag.post_id == TabPost.uid)
+            ).where(
+                (TabPost2Tag.tag_id == info_tag.tag_id) &
+                (TabPost.kind == kind)&
+                (TabPost.valid == 1)
+            ).order_by(
+                peewee.fn.Random()
+            ).limit(num)
         return recs
