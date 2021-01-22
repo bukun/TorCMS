@@ -82,6 +82,23 @@ class MRelation(Mabc):
                                  & (TabPost.valid == 1)).distinct(
                                      TabPost2Tag.post_id).order_by(
                                          TabPost2Tag.post_id).limit(num)
+            if recs.count() == 0:
+
+                recs = TabPost2Tag.select(
+                    TabPost2Tag,
+                    TabPost.title.alias('post_title'),
+                    TabPost.valid.alias('post_valid')
+                ).join(
+                    TabPost, on=(TabPost2Tag.post_id == TabPost.uid)
+                ).where(
+                    (TabPost.uid != app_id) &
+                    (TabPost2Tag.tag_id == info_tag.tag_id) &
+                    (TabPost.kind == kind) &
+                    (TabPost.valid == 1)
+                ).order_by(
+                    peewee.fn.Random()
+                ).limit(num)
+
         else:
 
             recs = TabPost2Tag.select(
@@ -91,8 +108,9 @@ class MRelation(Mabc):
             ).join(
                 TabPost, on=(TabPost2Tag.post_id == TabPost.uid)
             ).where(
+                (TabPost.uid != app_id) &
                 (TabPost2Tag.tag_id == info_tag.tag_id) &
-                (TabPost.kind == kind)&
+                (TabPost.kind == kind) &
                 (TabPost.valid == 1)
             ).order_by(
                 peewee.fn.Random()
