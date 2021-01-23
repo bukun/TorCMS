@@ -14,7 +14,7 @@ class Entity2UserHandler(BaseHandler):
     Hander for entity, such as files or URL.
     '''
     def initialize(self, **kwargs):
-        super(Entity2UserHandler, self).initialize()
+        super().initialize()
 
     def get(self, *args, **kwargs):
         url_str = args[0]

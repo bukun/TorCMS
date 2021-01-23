@@ -19,7 +19,7 @@ class WikiHistoryHandler(EditHistoryHander):
     History handler for wiki, and page.
     '''
     def initialize(self, **kwargs):
-        super(WikiHistoryHandler, self).initialize()
+        super().initialize()
 
     @tornado.web.authenticated
     def update(self, uid):

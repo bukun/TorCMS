@@ -18,7 +18,7 @@ class RatingHandler(BaseHandler):
     评分处理
     '''
     def initialize(self, **kwargs):
-        super(RatingHandler, self).initialize()
+        super().initialize()
 
     def post(self, *args, **kwargs):
 

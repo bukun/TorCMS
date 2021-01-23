@@ -18,7 +18,7 @@ class PageAjaxHandler(PageHandler):
     Handler of Pages via Ajax.
     '''
     def initialize(self, **kwargs):
-        super(PageAjaxHandler, self).initialize()
+        super().initialize()
 
     def get(self, *args, **kwargs):
         url_str = args[0]

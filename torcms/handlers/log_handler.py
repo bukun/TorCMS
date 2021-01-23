@@ -18,7 +18,7 @@ class LogHandler(BaseHandler):
     executor = ThreadPoolExecutor(2)
 
     def initialize(self, **kwargs):
-        super(LogHandler, self).initialize()
+        super().initialize()
 
     def get(self, *args, **kwargs):
 
@@ -185,5 +185,5 @@ class LogPartialHandler(LogHandler):
     Partially render for user handler.
     '''
     def initialize(self, **kwargs):
-        super(LogPartialHandler, self).initialize()
+        super().initialize()
         self.is_p = True

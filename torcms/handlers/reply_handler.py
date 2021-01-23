@@ -18,7 +18,7 @@ class ReplyHandler(BaseHandler):
     Handler for reply.
     '''
     def initialize(self):
-        super(ReplyHandler, self).initialize()
+        super().initialize()
 
     def get(self, *args, **kwargs):
         url_str = args[0]

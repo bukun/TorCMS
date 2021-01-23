@@ -13,7 +13,7 @@ class StaticHandler(BaseHandler):
     All other static pages.
     '''
     def initialize(self):
-        super(StaticHandler, self).initialize()
+        super().initialize()
 
     def get(self, *args, **kwargs):
         url_str = args[0]

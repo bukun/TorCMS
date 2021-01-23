@@ -15,7 +15,7 @@ class EvaluationHandler(BaseHandler):
     For the evaluation of the posts.
     '''
     def initialize(self, **kwargs):
-        super(EvaluationHandler, self).initialize()
+        super().initialize()
 
     def get(self, *args, **kwargs):
         url_arr = self.parse_url(args[0])

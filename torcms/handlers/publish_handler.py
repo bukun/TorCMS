@@ -16,7 +16,7 @@ class PublishHandler(BaseHandler):
     Try to add new post, with category information.
     '''
     def initialize(self, **kwargs):
-        super(PublishHandler, self).initialize()
+        super().initialize()
 
     def get(self, *args):
         url_str = args[0]

@@ -5,7 +5,7 @@ from torcms.model.classify_model import MClassify
 
 class ClassifyHandler(BaseHandler):
     def initialize(self):
-        super(ClassifyHandler, self).initialize()
+        super().initialize()
 
     def get(self, *args, **kwargs):
         url_str = args[0]

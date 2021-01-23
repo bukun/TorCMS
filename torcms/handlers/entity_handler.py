@@ -27,11 +27,17 @@ ALLOWED_EXTENSIONS_PDF = [
 
 
 def allowed_file(filename):
+    '''
+    Allowed files
+    '''
     return '.' in filename and filename.rsplit(
         '.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 def allowed_file_pdf(filename):
+    '''
+    Allowed PDF files
+    '''
     return '.' in filename and filename.rsplit(
         '.', 1)[1].lower() in ALLOWED_EXTENSIONS_PDF
 
@@ -40,8 +46,9 @@ class EntityHandler(BaseHandler):
     '''
     Hander for entiey, such as files or URL.
     '''
+
     def initialize(self, **kwargs):
-        super(EntityHandler, self).initialize()
+        super().initialize()
         self.entity_ajax = False
 
     def get(self, *args, **kwargs):
@@ -50,9 +57,8 @@ class EntityHandler(BaseHandler):
 
         if url_str in ['add', '_add']:
             self.to_add()
-        elif url_str == 'list' or url_str == '':
+        elif url_str in ['list', '']:
             self.list()
-
         elif len(url_str) > 36:
             self.view(url_str)
         elif len(url_arr) == 1:
@@ -301,6 +307,7 @@ class EntityAjaxHandler(EntityHandler):
     '''
     Hander for entiey, such as files or URL.
     '''
+
     def initialize(self, **kwargs):
-        super(EntityAjaxHandler, self).initialize()
+        super().initialize()
         self.entity_ajax = True

@@ -14,7 +14,7 @@ class UserListHandler(BaseHandler):
     List infors of the User.
     '''
     def initialize(self):
-        super(UserListHandler, self).initialize()
+        super().initialize()
 
     def get(self, *args, **kwargs):
         url_str = args[0]

@@ -14,7 +14,7 @@ class PostListHandler(BaseHandler):
     listing the posts, simply.
     '''
     def initialize(self, **kwargs):
-        super(PostListHandler, self).initialize()
+        super().initialize()
 
     def get(self, *args, **kwargs):
 

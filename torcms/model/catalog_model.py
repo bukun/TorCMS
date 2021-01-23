@@ -13,7 +13,7 @@ class MCatalog(Mabc):
     Model for catalog list.
     '''
     def __init__(self):
-        super(MCatalog, self).__init__()
+        super().__init__()
 
     @staticmethod
     def query_by_slug(slug):

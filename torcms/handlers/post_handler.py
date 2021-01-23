@@ -132,7 +132,7 @@ class PostHandler(BaseHandler):
     executor = ThreadPoolExecutor(2)
 
     def initialize(self, **kwargs):
-        super(PostHandler, self).initialize()
+        super().initialize()
         self.kind = kwargs.get('kind', '1')
         self.filter_view = kwargs.get('filter_view', False)
         self.entity = EntityHandler

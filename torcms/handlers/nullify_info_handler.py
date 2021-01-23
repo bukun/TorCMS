@@ -6,7 +6,7 @@ from torcms.model.nullify_info_model import MNullifyInfo
 
 class NullifyInfoHandler(BaseHandler):
     def initialize(self):
-        super(NullifyInfoHandler, self).initialize()
+        super().initialize()
 
     def get(self, *args, **kwargs):
         url_str = args[0]

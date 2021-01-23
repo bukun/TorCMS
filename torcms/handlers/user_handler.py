@@ -62,7 +62,7 @@ class UserHandler(BaseHandler):
     Handler for user.
     '''
     def initialize(self, **kwargs):
-        super(UserHandler, self).initialize()
+        super().initialize()
 
     def get(self, *args, **kwargs):
 
@@ -866,5 +866,5 @@ class UserPartialHandler(UserHandler):
     Partially render for user handler.
     '''
     def initialize(self, **kwargs):
-        super(UserPartialHandler, self).initialize()
+        super().initialize()
         self.is_p = True

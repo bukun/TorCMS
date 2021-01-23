@@ -74,7 +74,7 @@ class SearchHandler(BaseHandler):
     For full text searching.
     '''
     def initialize(self, **kwargs):
-        super(SearchHandler, self).initialize()
+        super().initialize()
         self.ysearch = YunSearch()
 
     def get(self, *args, **kwargs):

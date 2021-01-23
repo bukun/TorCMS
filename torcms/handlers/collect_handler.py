@@ -19,7 +19,7 @@ class CollectHandler(BaseHandler):
     For User collection
     '''
     def initialize(self, **kwargs):
-        super(CollectHandler, self).initialize()
+        super().initialize()
 
     def get(self, *args, **kwargs):
         url_str = args[0]

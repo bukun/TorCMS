@@ -6,7 +6,7 @@ from torcms.model.comment_model import MComment
 
 class CommentHandler(BaseHandler):
     def initialize(self):
-        super(CommentHandler, self).initialize()
+        super().initialize()
 
     def get(self, *args, **kwargs):
         url_str = args[0]

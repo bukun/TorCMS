@@ -11,7 +11,7 @@ class SysHandler(BaseHandler):
     To control the cookie for locale.
     '''
     def initialize(self, **kwargs):
-        super(SysHandler, self).initialize()
+        super().initialize()
 
     def get(self, *args, **kwargs):
         url_str = args[0]

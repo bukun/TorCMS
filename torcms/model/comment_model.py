@@ -12,7 +12,7 @@ class MComment(Mabc):
     Model for Posts.
     '''
     def __init__(self):
-        super(MComment, self).__init__()
+        super().__init__()
 
     @staticmethod
     def query_pager_by_comment(current_page_num=1):

@@ -11,5 +11,5 @@ class WikiAjaxHandler(WikiHandler):
     Handler for wiki, and page.
     '''
     def initialize(self):
-        super(WikiAjaxHandler, self).initialize()
+        super().initialize()
         self.kind = '1'

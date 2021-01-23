@@ -20,7 +20,7 @@ class LabelHandler(BaseHandler):
     For Post Label. with 'kind'.
     '''
     def initialize(self, **kwargs):
-        super(LabelHandler, self).initialize()
+        super().initialize()
 
     def get(self, *args, **kwargs):
         '''
@@ -62,10 +62,10 @@ class LabelHandler(BaseHandler):
                 current_page_number = int(cur_p)
             except TypeError:
                 current_page_number = 1
-            except Exception as e:
-                print(e.args)
-                print(str(e))
-                print(repr(e))
+            except Exception as err:
+                print(err.args)
+                print(str(err))
+                print(repr(err))
 
         current_page_number = 1 if current_page_number < 1 else current_page_number
 
@@ -140,11 +140,11 @@ class InfoTagHandler(BaseHandler):
     Access label without 'kind'. redirect to /label/
     '''
     def __init__(self):
-        super(InfoTagHandler, self).__init__()
+        super().__init__()
         self.kind = '9'
 
     def initialize(self, **kwargs):
-        super(InfoTagHandler, self).initialize()
+        super().initialize()
         if 'kind' in kwargs:
             self.kind = kwargs['kind']
         else:

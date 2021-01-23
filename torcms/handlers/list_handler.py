@@ -26,7 +26,7 @@ class ListHandler(BaseHandler):
     如果order = True,列表可以进行排序操作。
     '''
     def initialize(self, **kwargs):
-        super(ListHandler, self).initialize()
+        super().initialize()
         self.kind = kwargs.get('kind', '1')
         self.order = kwargs.get('order', False)
 

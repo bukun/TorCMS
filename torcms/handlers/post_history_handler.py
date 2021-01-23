@@ -23,7 +23,7 @@ class EditHistoryHander(BaseHandler):
     __metaclass__ = ABCMeta
 
     def initialize(self, **kwargs):
-        super(EditHistoryHander, self).initialize()
+        super().initialize()
 
     def get(self, *args, **kwargs):
         url_arr = self.parse_url(args[0])
@@ -114,7 +114,7 @@ class PostHistoryHandler(EditHistoryHander):
     Manage the posts by Administrator.
     '''
     def initialize(self):
-        super(PostHistoryHandler, self).initialize()
+        super().initialize()
 
     @tornado.web.authenticated
     def update(self, uid):

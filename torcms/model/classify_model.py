@@ -13,7 +13,7 @@ class MClassify(Mabc):
     Model for classify.
     '''
     def __init__(self):
-        super(MClassify, self).__init__()
+        super().__init__()
 
     @staticmethod
     def query_pager_by_classify(current_page_num=1):

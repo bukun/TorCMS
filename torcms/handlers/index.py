@@ -14,7 +14,7 @@ class IndexHandler(BaseHandler):
     Index for the application.
     '''
     def initialize(self, **kwargs):
-        super(IndexHandler, self).initialize()
+        super().initialize()
 
     def get(self, *args, **kwargs):
         if len(args) == 0 or args[0] == 'index':

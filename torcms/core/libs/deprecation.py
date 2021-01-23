@@ -52,7 +52,7 @@ class DeprecatedWarning(DeprecationWarning):
         self.deprecated_in = deprecated_in
         self.removed_in = removed_in
         self.details = details
-        super(DeprecatedWarning, self).__init__()
+        super().__init__()
 
     def __str__(self):
         return (

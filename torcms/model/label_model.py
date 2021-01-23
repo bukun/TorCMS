@@ -108,7 +108,7 @@ class MPost2Label(Mabc):
     For post 2 label
     '''
     def __init__(self):
-        super(MPost2Label, self).__init__()
+        super().__init__()
 
     @staticmethod
     def query_count(uid):

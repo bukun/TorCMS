@@ -79,7 +79,7 @@ class FilterHandler(BaseHandler):
     List view,by category uid. The list could be filtered.
     '''
     def initialize(self, **kwargs):
-        super(FilterHandler, self).initialize()
+        super().initialize()
 
     def get(self, *args, **kwargs):
         url_str = args[0]
@@ -305,18 +305,3 @@ class FilterHandler(BaseHandler):
                     cat_enum=MCategory.get_qian2(parent_id[:2]),
                     pcatinfo=pcatinfo,
                     catinfo=catinfo)
-
-
-#
-#
-# class ListHandler(BaseHandler):
-#     '''
-#     List view,by category uid. The list could be filtered.
-#     '''
-#
-#     def initialize(self):
-#         super(ListHandler, self).initialize()
-#
-#     def get(self, *args):
-#         url_str = args[0]
-#         self.redirect('/filter/{0}'.format(url_str))

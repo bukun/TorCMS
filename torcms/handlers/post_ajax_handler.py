@@ -19,7 +19,7 @@ class PostAjaxHandler(PostHandler):
     Handler of Posts via Ajax.
     '''
     def initialize(self, **kwargs):
-        super(PostAjaxHandler, self).initialize()
+        super().initialize()
 
     def get(self, *args, **kwargs):
         url_str = args[0]

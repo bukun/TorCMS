@@ -18,7 +18,7 @@ class Referrer(BaseHandler):
     executor = ThreadPoolExecutor(2)
 
     def initialize(self, **kwargs):
-        super(Referrer, self).initialize()
+        super().initialize()
         self.kind = kwargs.get('kind', 'r')
 
     def get(self, *args, **kwargs):

@@ -13,7 +13,7 @@ class AdminHandler(BaseHandler):
     Handler for Admin.
     '''
     def initialize(self, **kwargs):
-        super(AdminHandler, self).initialize()
+        super().initialize()
 
     def get(self, *args, **kwargs):
         url_str = args[0]

@@ -13,7 +13,7 @@ class MNullifyInfo(Mabc):
     Model for Posts.
     '''
     def __init__(self):
-        super(MNullifyInfo, self).__init__()
+        super().__init__()
 
     @staticmethod
     def query_pager_by_valid(current_page_num=1):

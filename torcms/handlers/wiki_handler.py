@@ -26,7 +26,7 @@ class WikiHandler(BaseHandler):
     executor = ThreadPoolExecutor(2)
 
     def initialize(self, **kwargs):
-        super(WikiHandler, self).initialize()
+        super().initialize()
         self.kind = '1'
 
     def get(self, *args, **kwargs):

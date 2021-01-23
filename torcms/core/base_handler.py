@@ -23,7 +23,7 @@ class BaseHandler(tornado.web.RequestHandler):
         # self.set_cookie('b_locale', 'en')
 
         _ = kwargs
-        super(BaseHandler, self).initialize()
+        super().initialize()
         if self.get_current_user():
             self.userinfo = MUser.get_by_name(self.get_current_user())
         else:

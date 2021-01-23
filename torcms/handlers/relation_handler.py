@@ -10,7 +10,7 @@ from torcms.model.relation_model import MRelation
 
 class RelHandler(BaseHandler):
     def initialize(self):
-        super(RelHandler, self).initialize()
+        super().initialize()
 
     def get(self, *args, **kwargs):
 
