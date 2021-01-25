@@ -27,3 +27,8 @@ dist: clean
 api_doc: clean
 	@sphinx-apidoc -F -o api_doc torcms
 	@cd api_doc && { make html; }
+
+env:
+	@python3 -m venv env
+	@./env/bin/python3 -m pip install -r doc/requirements.txt
+	@./env/bin/python3 -m pip install -r doc/requirements_dev.txt
