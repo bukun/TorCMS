@@ -12,11 +12,11 @@ class TestMReply():
         print('setup 方法执行于本类中每条用例之前')
 
         self.uid = tools.get_uuid()
-        self.post_id='1q2w'
-        self.username='lopk'
-        self.user_id=''
-        self.reply_uid=''
-        self.reply_id_uid=''
+        self.post_id = '1q2w'
+        self.username = 'lopk'
+        self.user_id = ''
+        self.reply_uid = ''
+        self.reply_id_uid = ''
 
     def add_message(self, **kwargs):
         post_data = {
@@ -46,59 +46,58 @@ class TestMReply():
         }
 
         MPost.create_post(self.post_id, p_d)
-        post_reply={
-            'post_id':self.post_id,
-            'user_name':self.username,
-            'user_id':self.user_id,
-            'cnt_reply':'daswrevwefgfgff'
+        post_reply = {
+            'post_id': self.post_id,
+            'user_name': self.username,
+            'user_id': self.user_id,
+            'cnt_reply': 'daswrevwefgfgff'
         }
-        self.reply_uid=MReply.create_reply(post_reply)
-        MReplyid.create_replyid(self.post_id,self.reply_uid)
-        aa=MReplyid.get_by_rid(self.post_id)
+        self.reply_uid = MReply.create_reply(post_reply)
+        MReplyid.create_replyid(self.post_id, self.reply_uid)
+        aa = MReplyid.get_by_rid(self.post_id)
         for i in aa:
-            if i.reply1==self.reply_uid:
-                self.reply_id_uid=i.reply0
-        MReply2User.create_reply(self.user_id,self.reply_uid)
-
+            if i.reply1 == self.reply_uid:
+                self.reply_id_uid = i.reply0
+        MReply2User.create_reply(self.user_id, self.reply_uid)
 
     def test_create_reply(self):
         self.add_message()
-        aa=MReply.query_by_post(self.post_id)
-        tf=False
+        aa = MReply.query_by_post(self.post_id)
+        tf = False
         for i in aa:
-            if i.uid==self.reply_uid:
-                tf=True
+            if i.uid == self.reply_uid:
+                tf = True
         self.tearDown()
         assert tf
 
     def test_get_by_uid(self):
         self.add_message()
-        aa=MReply.get_by_uid(self.reply_uid)
-        assert aa.uid==self.reply_uid
-        assert aa.post_id==self.post_id
-        assert aa.user_name==self.username
+        aa = MReply.get_by_uid(self.reply_uid)
+        assert aa.uid == self.reply_uid
+        assert aa.post_id == self.post_id
+        assert aa.user_name == self.username
         self.tearDown()
 
     def test_query_by_post(self):
         self.add_message()
-        aa=MReply.query_by_post(self.post_id)
-        tf=False
+        aa = MReply.query_by_post(self.post_id)
+        tf = False
         for i in aa:
-            if i.uid==self.reply_uid:
-                tf=True
+            if i.uid == self.reply_uid:
+                tf = True
         self.tearDown()
         assert tf
 
     def test_get_by_zan(self):
-        a=MReply.get_by_zan(self.reply_uid)
+        a = MReply.get_by_zan(self.reply_uid)
         self.add_message()
-        b=MReply.get_by_zan(self.reply_uid)
-        assert a+1==b
+        b = MReply.get_by_zan(self.reply_uid)
+        assert a + 1 == b
         self.tearDown()
 
     def test_query_all(self):
         self.add_message()
-        aa=MReply.query_all()
+        aa = MReply.query_all()
         tf = False
         for i in aa:
             if i.uid == self.reply_uid:
@@ -107,29 +106,28 @@ class TestMReply():
         assert tf
 
     def test_count_of_certain(self):
-        a=MReply.count_of_certain()
+        a = MReply.count_of_certain()
         self.add_message()
-        b=MReply.count_of_certain()
-        assert a+1==b
+        b = MReply.count_of_certain()
+        assert a + 1 == b
         self.tearDown()
 
     def test_total_number(self):
-        a=MReply.total_number()
+        a = MReply.total_number()
         self.add_message()
-        b=MReply.total_number()
-        assert a+1==b
+        b = MReply.total_number()
+        assert a + 1 == b
         self.tearDown()
 
     def test_query_pager(self):
         self.add_message()
-        aa=MReply.query_pager()
+        aa = MReply.query_pager()
         tf = False
         for i in aa:
             if i.uid == self.reply_uid:
                 tf = True
         self.tearDown()
         assert tf
-
 
     def test_update_vote(self):
         self.add_message()
@@ -139,7 +137,7 @@ class TestMReply():
         for i in aa:
             if i.uid == self.reply_uid:
                 tf = True
-                assert i.vote==8
+                assert i.vote == 8
         self.tearDown()
         assert tf
 
@@ -166,19 +164,19 @@ class TestMReply():
 
     def test_modify_by_uid(self):
         self.add_message()
-        aa=MReply.get_by_uid(self.reply_uid)
-        assert aa.uid==self.reply_uid
-        assert aa.post_id==self.post_id
-        assert aa.user_name==self.username
+        aa = MReply.get_by_uid(self.reply_uid)
+        assert aa.uid == self.reply_uid
+        assert aa.post_id == self.post_id
+        assert aa.user_name == self.username
         post_reply = {
             'category': '1234',
             'user_name': 'pink',
             'user_id': '8900',
             'cnt_reply': 'hahah'
         }
-        MReply.modify_by_uid(self.reply_uid,post_reply)
+        MReply.modify_by_uid(self.reply_uid, post_reply)
         aa = MReply.get_by_uid(self.reply_uid)
-        assert aa.user_name =='pink'
+        assert aa.user_name == 'pink'
         assert aa.category == '1234'
         assert aa.user_id == '8900'
         self.tearDown()

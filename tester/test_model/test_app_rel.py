@@ -15,9 +15,9 @@ class TestMRelation():
         self.post_id = '66565'
         self.tag_id = '2342'
         self.post_id2 = '89898'
-        self.uid=''
+        self.uid = ''
 
-    def add_tag(self,**kwargs):
+    def add_tag(self, **kwargs):
         post_data = {
             'name': kwargs.get('name', 'category'),
             'slug': kwargs.get('slug', 'kkkooo'),
@@ -28,7 +28,6 @@ class TestMRelation():
         MCategory.add_or_update(self.tag_id, post_data)
 
     def add_post(self, **kwargs):
-
         p_d = {
             'title': kwargs.get('title', '一二三'),
             'cnt_md': kwargs.get('cnt_md', 'grgr'),
@@ -45,7 +44,7 @@ class TestMRelation():
             'valid': kwargs.get('valid', 1),
 
         }
-        p_id=kwargs['post_uid']
+        p_id = kwargs['post_uid']
 
         MPost.create_post(p_id, p_d)
         MPost2Catalog.add_record(p_id, self.tag_id)
@@ -73,26 +72,25 @@ class TestMRelation():
         self.add_post(**post_data2)
 
     def add_rela(self):
-        aa=MRelation.add_relation(self.post_id, self.post_id2)
-        self.uid=aa
+        aa = MRelation.add_relation(self.post_id, self.post_id2)
+        self.uid = aa
 
     def test_add_relation(self):
         self.add_tag()
         self.add_2post()
         self.add_rela()
-        aa=MHelper.get_by_uid(TabRel,self.uid)
-        assert aa.post_f_id==self.post_id
-        assert aa.post_t_id==self.post_id2
+        aa = MHelper.get_by_uid(TabRel, self.uid)
+        assert aa.post_f_id == self.post_id
+        assert aa.post_t_id == self.post_id2
         self.tearDown()
-
 
     def test_update_relation(self):
         self.add_tag()
         self.add_2post()
         self.add_rela()
-        MRelation.update_relation(self.post_id, self.post_id2,weight=2)
+        MRelation.update_relation(self.post_id, self.post_id2, weight=2)
         aa = MHelper.get_by_uid(TabRel, self.uid)
-        assert aa.count>=2+1
+        assert aa.count >= 2 + 1
         self.tearDown()
 
     # def test_get_app_relations(self):
@@ -113,11 +111,11 @@ class TestMRelation():
         self.add_tag()
         self.add_2post()
         self.add_rela()
-        aa=MHelper.get_by_uid(TabRel,self.uid)
-        assert aa.post_f_id==self.post_id
+        aa = MHelper.get_by_uid(TabRel, self.uid)
+        assert aa.post_f_id == self.post_id
         MRelation.delete(self.uid)
         aa = MHelper.get_by_uid(TabRel, self.uid)
-        assert aa==None
+        assert aa == None
         self.tearDown()
 
     def tearDown(self):

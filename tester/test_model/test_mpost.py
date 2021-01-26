@@ -523,7 +523,7 @@ class TestMPost():
         }
         self.add_message(**q)
         qq = self.uu.get_previous_record(self.post_id2)
-        assert qq.uid==self.post_id
+        assert qq.uid == self.post_id
         self.tearDown()
 
     def test_get_all(self):
@@ -590,7 +590,6 @@ class TestMPost():
         assert aa.keywords == p_d['keywords']
 
         self.tearDown()
-
 
     def test_query_most_by_cat(self):
         self.add_message()

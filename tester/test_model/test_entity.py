@@ -24,8 +24,8 @@ class TestMEntity():
         MEntity.create_entity(self.uid, self.path, desc, kind)
 
     def test_query_recent(self):
-        a=MEntity.get_by_uid(self.uid)
-        assert a==None
+        a = MEntity.get_by_uid(self.uid)
+        assert a == None
         self.add_message()
         a = MEntity.get_by_uid(self.uid)
         assert a
@@ -33,7 +33,7 @@ class TestMEntity():
 
     def test_query_all(self):
         self.add_message()
-        a=MEntity.query_all()
+        a = MEntity.query_all()
         tf = False
 
         for i in a:
@@ -45,7 +45,7 @@ class TestMEntity():
 
     def test_get_by_kind(self):
         self.add_message()
-        a=MEntity.get_by_kind(kind='f' )
+        a = MEntity.get_by_kind(kind='f')
 
         tf = False
         for i in a:
@@ -62,35 +62,35 @@ class TestMEntity():
                 tf = False
         assert tf
         self.add_message()
-        a=MEntity.get_all_pager()
-        tf=False
+        a = MEntity.get_all_pager()
+        tf = False
         for i in a:
             if i.uid == self.uid:
-                tf=True
+                tf = True
         assert tf
         self.tearDown()
 
     def test_get_id_by_impath(self):
         self.add_message()
         path = self.path
-        a=MEntity.get_id_by_impath(path)
-        assert a.uid==self.uid
+        a = MEntity.get_id_by_impath(path)
+        assert a.uid == self.uid
         self.tearDown()
 
     def test_total_number(self):
         b = MEntity.total_number()
 
         self.add_message()
-        a=MEntity.total_number()
+        a = MEntity.total_number()
 
-        assert b+1<=a
+        assert b + 1 <= a
         self.tearDown()
 
     def test_delete_by_path(self):
-        tf= MEntity.get_by_uid(self.uid)
-        assert tf==None
+        tf = MEntity.get_by_uid(self.uid)
+        assert tf == None
         self.add_message()
-        tf= MEntity.get_by_uid(self.uid)
+        tf = MEntity.get_by_uid(self.uid)
         assert tf
         MEntity.delete_by_path(self.path)
         tf = MEntity.get_by_uid(self.uid)
@@ -102,7 +102,7 @@ class TestMEntity():
         tf = MEntity.get_by_uid(self.uid)
         assert tf == None
         self.add_message()
-        tf =MEntity.delete(self.uid)
+        tf = MEntity.delete(self.uid)
         assert tf
         tf = MEntity.get_by_uid(self.uid)
 

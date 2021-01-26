@@ -9,8 +9,8 @@ class TestMCatalog():
     def setup(self):
         print('setup 方法执行于本类中每条用例之前')
         self.post_id = 'r42w2'
-        self.slug='huohuohuo'
-        self.tag_id='xx00'
+        self.slug = 'huohuohuo'
+        self.tag_id = 'xx00'
 
     def add_message(self, **kwargs):
         post_data = {
@@ -44,32 +44,29 @@ class TestMCatalog():
 
         MPost2Catalog.add_record(self.post_id, self.tag_id)
 
-
-
     def test_query_by_slug(self):
         self.add_message()
-        aa=MCatalog.query_by_slug(self.slug)
-        tf=False
+        aa = MCatalog.query_by_slug(self.slug)
+        tf = False
         for i in aa:
-            if i.uid==self.post_id:
-                tf=True
+            if i.uid == self.post_id:
+                tf = True
         assert tf
         self.tearDown()
 
     def test_query_all(self):
         self.add_message()
-        aa=MCatalog.query_all()
-        tf=False
+        aa = MCatalog.query_all()
+        tf = False
         for i in aa:
-            if i.slug==self.slug:
-                tf=True
+            if i.slug == self.slug:
+                tf = True
         assert tf
         self.tearDown()
-
 
     def tearDown(self):
         print("function teardown")
         MPost.delete(self.post_id)
         MCategory.delete(self.tag_id)
         MPost2Catalog.remove_relation(self.post_id, self.tag_id)
-        self.uid=''
+        self.uid = ''

@@ -19,7 +19,7 @@ class TestMRelation():
     def test_get_app_relations(self, **kwargs):
         MPost.delete(self.uid)
         MPost.delete(self.uid2)
-        #添加post
+        # 添加post
         post_data = {
             'title': 'test1',
             'cnt_md': '## test',
@@ -27,13 +27,11 @@ class TestMRelation():
             'view_count': 1,
             'logo': ' ',
             'keywords': 'test',
-            'kind':'1'
+            'kind': '1'
 
         }
 
         uu1 = MPost.create_post(self.uid, post_data)
-
-
 
         post_data2 = {
             'title': 'test2',
@@ -42,13 +40,13 @@ class TestMRelation():
             'view_count': 1,
             'logo': ' ',
             'keywords': 'test2',
-            'kind':'1'
+            'kind': '1'
 
         }
 
         uu2 = MPost.create_post(self.uid2, post_data2)
 
-        #添加category
+        # 添加category
         cat_data = {
             'name': kwargs.get('name', 'category'),
             'slug': kwargs.get('slug', 'slug1'),
@@ -58,19 +56,10 @@ class TestMRelation():
         }
         MCategory.add_or_update(self.tag_id, cat_data)
 
-
-
-
-
-
         MPost2Catalog.add_record(uu1, self.tag_id)
-
-
 
         MRelation.add_relation(uu1, uu2)
 
-
         MRelation.get_app_relations(uu1)
-
 
         assert True

@@ -30,28 +30,24 @@ class TestMNullifyInfo():
 
         MPost.create_post(post_id, p_d)
 
-
-
     def test_query_pager_by_valid(self):
         self.add_message()
-        aa=MNullifyInfo.query_pager_by_valid()
-        tf=False
+        aa = MNullifyInfo.query_pager_by_valid()
+        tf = False
         for i in aa:
-            if i.uid==self.post_id:
-                tf=True
+            if i.uid == self.post_id:
+                tf = True
         assert tf
         self.tearDown()
 
     def test_count_of_certain(self):
-        aa=MNullifyInfo.count_of_certain()
+        aa = MNullifyInfo.count_of_certain()
         self.add_message()
         bb = MNullifyInfo.count_of_certain()
-        assert bb==aa+1
+        assert bb == aa + 1
         self.tearDown()
-
-
 
     def tearDown(self):
         print("function teardown")
         MPost.delete(self.post_id)
-        self.uid=''
+        self.uid = ''

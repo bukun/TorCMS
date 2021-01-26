@@ -15,6 +15,7 @@ class TestUserHandler(AsyncHTTPSTestCase):
     '''
     Test
     '''
+
     def get_app(self):
         '''
         Test

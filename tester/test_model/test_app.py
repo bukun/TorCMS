@@ -4,6 +4,7 @@
 Testing for map app.
 '''
 import sys
+
 sys.path.append('.')
 import time
 from datetime import datetime
@@ -140,7 +141,6 @@ class TestApp():
 
         }
 
-
         MPost.create_post(self.uid, p_d)
 
         MPost2Catalog.add_record(self.uid, self.tag_id)
@@ -151,8 +151,8 @@ class TestApp():
             'limit': 300,
             'kind': '2',
         }
-        ff= MPost.query_random(**kwargs)
-        f=ff.count()
+        ff = MPost.query_random(**kwargs)
+        f = ff.count()
 
         gg = {
 
@@ -161,7 +161,6 @@ class TestApp():
 
         }
         self.add_message(**gg)
-
 
         pp = MPost.query_random(**kwargs)
         TF = False
@@ -173,7 +172,7 @@ class TestApp():
             else:
                 continue
         assert TF == True
-        assert pp.count() == f+1
+        assert pp.count() == f + 1
         self.tearDown()
 
     def test_query_recent(self):
@@ -189,7 +188,7 @@ class TestApp():
             'order_by_create': True,
             'kind': '2',
         }
-        pp = MPost.query_recent(num=300,**kwargs)
+        pp = MPost.query_recent(num=300, **kwargs)
         TF = False
         for i in range(pp.count()):
             if pp[i].uid == self.uid:
@@ -214,7 +213,7 @@ class TestApp():
         kwargs = {
             'order_by_create': True,
             'kind': '2',
-            'limit':100
+            'limit': 100
         }
         pp = MPost.query_all(**kwargs)
         TF = False
@@ -286,11 +285,11 @@ class TestApp():
             'keywords': '',
             'user_name': '7788',
             'kind': '1',
-            'extinfo':'def_tag_arr'
+            'extinfo': 'def_tag_arr'
 
         }
         self.add_message(**kwargs)
-        pp=MPost.query_cat_recent(self.tag_id,num=100)
+        pp = MPost.query_cat_recent(self.tag_id, num=100)
         TF = False
         for i in range(pp.count()):
             if pp[i].uid == self.uid:

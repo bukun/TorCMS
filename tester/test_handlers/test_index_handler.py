@@ -4,6 +4,7 @@
 Test
 '''
 import sys
+
 sys.path.append('.')
 
 from tornado.testing import AsyncHTTPSTestCase
@@ -15,6 +16,7 @@ class TestSomeHandler(AsyncHTTPSTestCase):
     '''
     Test
     '''
+
     def get_app(self):
         '''
         Test

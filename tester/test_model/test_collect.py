@@ -6,11 +6,10 @@ from torcms.model.post_model import MPost
 
 
 class TestMCollect():
-
     def setup(self):
         print('setup 方法执行于本类中每条用例之前')
         self.user_id = 'pppp'
-        self.post_id='90953'
+        self.post_id = '90953'
 
     def add_message(self, **kwargs):
 
@@ -32,9 +31,7 @@ class TestMCollect():
         }
         post_id = kwargs.get('post_id', self.post_id)
 
-
         MPost.create_post(post_id, p_d)
-
 
     def test_add_or_update(self):
         self.add_message()
@@ -42,7 +39,6 @@ class TestMCollect():
         app_id = self.post_id
         MCollect.add_or_update(user_id, app_id)
         a = MCollect.get_by_signature(user_id, app_id)
-
 
         assert a != None
         self.tearDown()
@@ -57,24 +53,22 @@ class TestMCollect():
                 tf = True
         assert tf
 
-
     def test_query_recent(self):
         self.add_mess()
         user_id = self.user_id
-        a=MCollect.query_recent(user_id)
+        a = MCollect.query_recent(user_id)
 
-        assert a[0].post_id==self.post_id
+        assert a[0].post_id == self.post_id
         self.tearDown()
-
 
     def test_get_by_signature(self):
 
         user_id = self.user_id
 
         self.add_mess()
-        a=MCollect.get_by_signature(user_id, self.post_id)
+        a = MCollect.get_by_signature(user_id, self.post_id)
 
-        assert a!=None
+        assert a != None
         self.tearDown()
 
     def test_count_of_user(self):
@@ -82,30 +76,26 @@ class TestMCollect():
         b = MCollect.count_of_user(user_id)
         self.add_mess()
 
-        a=MCollect.count_of_user(user_id)
+        a = MCollect.count_of_user(user_id)
 
-
-        assert a == b+1
+        assert a == b + 1
         self.tearDown()
 
     def test_query_pager_by_all(self):
         user_id = self.user_id
         self.add_mess()
-        a=MCollect.query_pager_by_all(user_id)
-        tf=False
+        a = MCollect.query_pager_by_all(user_id)
+        tf = False
         for i in a:
-            if i.post_id==self.post_id:
-                tf=True
+            if i.post_id == self.post_id:
+                tf = True
         assert tf
         self.tearDown()
-
-
-
 
     def test_query_pager_by_userid(self):
         user_id = self.user_id
         self.add_mess()
-        a=MCollect.query_pager_by_userid(user_id, '1')
+        a = MCollect.query_pager_by_userid(user_id, '1')
         tf = False
         for i in a:
             if i.post_id == self.post_id:

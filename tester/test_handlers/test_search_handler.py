@@ -13,6 +13,7 @@ class TestSearchHandler(AsyncHTTPSTestCase):
     '''
     Test
     '''
+
     def get_app(self):
         '''
         Test

@@ -39,10 +39,9 @@ class TestMLog():
         }
 
         a = MLog.add(post_data)
-        self.uid=a
+        self.uid = a
         self.tearDown()
         assert a
-
 
     def test_query_pager_by_user(self):
         self.add_message()
@@ -71,7 +70,7 @@ class TestMLog():
         a = MLog.query_all_current_url()
         x = int(a.count() / 8)
         tf = False
-        for y in range(x+3):
+        for y in range(x + 3):
             a = MLog.query_all(current_page_num=y)
             # print(a[0])
             for i in a:
@@ -82,6 +81,7 @@ class TestMLog():
         self.tearDown()
 
         assert tf
+
     def test_query_all_pageview(self):
         self.tearDown()
         self.add_message()

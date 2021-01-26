@@ -12,8 +12,7 @@ class TestMLabel():
         self.name = 'name'
         self.tmpl_uid = ''
         self.uid = tools.get_uu4d()
-        self.post_id='2222'
-
+        self.post_id = '2222'
 
     def test_create_tag(self):
         post_data = {
@@ -27,16 +26,14 @@ class TestMLabel():
         assert tt == newid
         self.tearDown()
 
-
-
     def test_create_tag_with_uid(self):
         '''Wiki insert: Test invalid title'''
         post_data = {
             'name': self.name,
         }
         self.uu.create_tag_with_uid(self.uid, post_data['name'])
-        a=self.uu.get_id_by_name(post_data['name'])
-        assert a==self.uid
+        a = self.uu.get_id_by_name(post_data['name'])
+        assert a == self.uid
         self.tearDown()
 
     def add_message(self, **kwargs):
@@ -64,16 +61,16 @@ class TestMLabel():
 
     def test_get_id_by_name(self):
         self.add_message()
-        a=self.uu.get_id_by_name(self.name)
+        a = self.uu.get_id_by_name(self.name)
         print(a)
         print(self.uid)
-        assert a==self.uid
+        assert a == self.uid
         self.tearDown()
 
     def test_get_by_slug(self):
         self.add_message()
-        a=self.uu.get_by_slug(self.uid)
-        assert a.name==self.name
+        a = self.uu.get_by_slug(self.uid)
+        assert a.name == self.name
         self.tearDown()
 
     def test_delete(self):
@@ -83,7 +80,7 @@ class TestMLabel():
         self.uu.delete(self.uid)
         a = self.uu.get_by_slug(self.uid)
         print(a)
-        assert a==False
+        assert a == False
         self.tearDown()
 
     def tearDown(self):
@@ -132,27 +129,23 @@ class TestMPost2Label():
         }
         post_id = kwargs.get('post_id', self.post_id)
 
-
         MPost.create_post(post_id, p_d)
 
         MLabel.create_tag_with_uid(self.uid, self.name)
 
-
     def add_M2L(self):
         MPost2Label.add_record(self.post_id, self.name)
 
-
     def test_query_count(self):
         self.add_mess()
-        a=MPost2Label.query_count(self.uid)
+        a = MPost2Label.query_count(self.uid)
 
-        print( a)
+        print(a)
         self.add_M2L()
-
 
         b = MPost2Label.query_count(self.uid)
         print(b)
-        assert a+1<=b
+        assert a + 1 <= b
         self.tearDown()
 
     def test_remove_relation(self):
@@ -193,26 +186,27 @@ class TestMPost2Label():
         self.add_mess()
         a = MPost2Label.get_by_uid(self.post_id)
         print(a.count())
-        assert a.count()==0
+        assert a.count() == 0
         self.add_M2L()
         a = MPost2Label.get_by_uid(self.post_id)
 
-        assert a[0].tag_id==self.uid
+        assert a[0].tag_id == self.uid
         self.tearDown()
 
     def test_get_by_info(self):
         self.add_mess()
         self.add_M2L()
-        a=MPost2Label.get_by_info(self.post_id, self.tag_id)
-        assert a!=None
+        a = MPost2Label.get_by_info(self.post_id, self.tag_id)
+        assert a != None
 
         self.tearDown()
+
     def test_add_record(self):
-        a=MPost2Label.get_by_uid(self.post_id)
-        tf=True
+        a = MPost2Label.get_by_uid(self.post_id)
+        tf = True
         for i in a:
-            if i.tag_id==self.tag_id:
-                tf=False
+            if i.tag_id == self.tag_id:
+                tf = False
         assert tf
         self.add_mess()
         MPost2Label.add_record(self.post_id, self.name)
@@ -227,16 +221,16 @@ class TestMPost2Label():
 
     def test_total_number(self):
         self.add_mess()
-        a=MPost2Label.total_number(self.uid)
+        a = MPost2Label.total_number(self.uid)
         self.add_M2L()
-        b=MPost2Label.total_number(self.uid)
-        assert a+1==b
+        b = MPost2Label.total_number(self.uid)
+        assert a + 1 == b
         self.tearDown()
 
     def test_query_pager_by_slug(self):
         self.add_mess()
         self.add_M2L()
-        a=MPost2Label.query_pager_by_slug(self.uid)
+        a = MPost2Label.query_pager_by_slug(self.uid)
         print(a)
         print(a.count())
 
@@ -257,7 +251,7 @@ class TestMPost2Label():
             print('777777777777')
             MPost.delete(self.post_id)
 
-        tt=MLabel.get_by_slug(self.tag_id)
+        tt = MLabel.get_by_slug(self.tag_id)
         if tt:
             print('8888888888')
             MLabel.delete(tt.uid)

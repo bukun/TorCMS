@@ -10,7 +10,6 @@ class TestMPostHist():
         self.uid = ''
         self.post_id = 'llk8'
 
-
     def test_create_post_history(self):
         self.tearDown()
 
@@ -24,19 +23,18 @@ class TestMPostHist():
             'logo': 'opps',
             'memo': '',
             'order': '1',
-
             'kind': '1',
             'valid': 1,
 
         }
         MPost().add_meta(self.post_id, p_d)
-        aa=MPost.get_by_uid(self.post_id)
-        tf=MPostHist.create_post_history(aa,aa)
+        aa = MPost.get_by_uid(self.post_id)
+        tf = MPostHist.create_post_history(aa, aa)
         assert tf
-        His=MPostHist.query_by_postid(self.post_id)
+        His = MPostHist.query_by_postid(self.post_id)
 
-        self.uid=His[0].uid
-        assert His[0].cnt_md==p_d['cnt_md']
+        self.uid = His[0].uid
+        assert His[0].cnt_md == p_d['cnt_md']
         self.tearDown()
 
     def addHis(self, **kwargs):
@@ -64,14 +62,13 @@ class TestMPostHist():
 
         self.uid = His[0].uid
 
-
     def test_get_by_uid(self):
-        p_t={
-            'cnt_md':'bbrreedd'
+        p_t = {
+            'cnt_md': 'bbrreedd'
         }
         self.addHis(**p_t)
-        pp=MPostHist.get_by_uid(self.uid)
-        assert pp.cnt_md==p_t['cnt_md']
+        pp = MPostHist.get_by_uid(self.uid)
+        assert pp.cnt_md == p_t['cnt_md']
         self.tearDown()
 
     def test_update_cnt(self):
@@ -88,11 +85,11 @@ class TestMPostHist():
     def test_query_by_postid(self):
         p_t = {
             'cnt_md': 'bbrreedd',
-            'user_name':'ggggbabybaby'
+            'user_name': 'ggggbabybaby'
         }
         self.addHis(**p_t)
-        aa=MPostHist.query_by_postid(self.post_id)
-        assert aa[0].cnt_md==p_t['cnt_md']
+        aa = MPostHist.query_by_postid(self.post_id)
+        assert aa[0].cnt_md == p_t['cnt_md']
         assert aa[0].user_name == p_t['user_name']
         self.tearDown()
 
@@ -102,20 +99,20 @@ class TestMPostHist():
             'user_name': 'snow'
         }
         self.addHis(**p_t)
-        aa=MPostHist.get_last(self.post_id)
+        aa = MPostHist.get_last(self.post_id)
 
-        assert aa.user_name==p_t['user_name']
+        assert aa.user_name == p_t['user_name']
         self.tearDown()
 
     def test_delete(self):
-        aa=MPostHist.get_by_uid(self.uid)
+        aa = MPostHist.get_by_uid(self.uid)
 
-        assert aa==None
+        assert aa == None
         self.addHis()
         aa = MPostHist.get_by_uid(self.uid)
-        assert aa.post_id==self.post_id
-        aa=MPostHist.delete(self.post_id)
-        assert aa==False
+        assert aa.post_id == self.post_id
+        aa = MPostHist.delete(self.post_id)
+        assert aa == False
         self.tearDown()
 
     def tearDown(self):
@@ -125,5 +122,4 @@ class TestMPostHist():
             MPostHist.delete(tt.uid)
         tt = MPost.get_by_uid(self.post_id)
         if tt:
-
             MPost.delete(tt.uid)
