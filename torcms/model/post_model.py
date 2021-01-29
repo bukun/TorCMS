@@ -20,6 +20,7 @@ class MPost(Mabc):
     '''
     Model for Posts.
     '''
+
     @staticmethod
     def query_recent_most(num=8, recent=30):
         '''
@@ -30,7 +31,7 @@ class MPost(Mabc):
         time_that = int(time.time()) - recent * 24 * 3600
         return TabPost.select().where((TabPost.time_update > time_that)
                                       & (TabPost.valid == 1)).order_by(
-                                          TabPost.view_count.desc()).limit(num)
+            TabPost.view_count.desc()).limit(num)
 
     @staticmethod
     def delete(uid):
@@ -52,7 +53,7 @@ class MPost(Mabc):
 
         reply_arr = []
         for reply in TabUser2Reply.select().where(
-                TabUser2Reply.reply_id == uid):
+                        TabUser2Reply.reply_id == uid):
             reply_arr.append(reply.reply_id.uid)
 
         q_u6 = TabUser2Reply.delete().where(TabUser2Reply.reply_id == uid)
@@ -242,7 +243,7 @@ class MPost(Mabc):
                 on=(TabPost.uid == TabPost2Tag.post_id
                     )).where((TabPost.valid == 1)
                              & (TabPost2Tag.tag_id == catid)).order_by(
-                                 peewee.fn.Random()).limit(num)
+                peewee.fn.Random()).limit(num)
         return rand_recs
 
     @staticmethod
@@ -279,20 +280,20 @@ class MPost(Mabc):
             if kind:
                 recent_recs = TabPost.select().where(
                     (TabPost.kind == kind) & (TabPost.valid == 1)).order_by(
-                        TabPost.time_create.desc()).limit(num)
+                    TabPost.time_create.desc()).limit(num)
             else:
                 recent_recs = TabPost.select().where(
                     TabPost.valid == 1).order_by(
-                        TabPost.time_create.desc()).limit(num)
+                    TabPost.time_create.desc()).limit(num)
         else:
             if kind:
                 recent_recs = TabPost.select().where(
                     (TabPost.kind == kind) & (TabPost.valid == 1)).order_by(
-                        TabPost.time_update.desc()).limit(num)
+                    TabPost.time_update.desc()).limit(num)
             else:
                 recent_recs = TabPost.select().where(
                     TabPost.valid == 1).order_by(
-                        TabPost.time_update.desc()).limit(num)
+                    TabPost.time_update.desc()).limit(num)
         return recent_recs
 
     @staticmethod
@@ -305,7 +306,7 @@ class MPost(Mabc):
 
         return TabPost.select().where(
             (TabPost.kind == kind) & (TabPost.valid == 1)).order_by(
-                TabPost.time_update.desc()).limit(limit)
+            TabPost.time_update.desc()).limit(limit)
 
     @staticmethod
     def query_keywords_empty(kind='1'):
@@ -322,7 +323,7 @@ class MPost(Mabc):
         '''
         return TabPost.select().where((TabPost.kind == kind) & (
             TabPost.time_update > timstamp)).order_by(
-                TabPost.time_update.desc())
+            TabPost.time_update.desc())
 
     @staticmethod
     def query_dated(num=8, kind='1'):
@@ -331,7 +332,7 @@ class MPost(Mabc):
         '''
         return TabPost.select().where((TabPost.kind == kind)
                                       & (TabPost.valid == 1)).order_by(
-                                          TabPost.time_update.asc()).limit(num)
+            TabPost.time_update.asc()).limit(num)
 
     @staticmethod
     def query_most_pic(num, kind='1'):
@@ -341,7 +342,7 @@ class MPost(Mabc):
         return TabPost.select().where((TabPost.kind == kind)
                                       & (TabPost.logo != "")
                                       & (TabPost.valid == 1)).order_by(
-                                          TabPost.view_count.desc()).limit(num)
+            TabPost.view_count.desc()).limit(num)
 
     @staticmethod
     def query_cat_recent(cat_id, label=None, num=8, kind='1', order=False):
@@ -374,7 +375,7 @@ class MPost(Mabc):
                              )).where((TabPost.kind == kind)
                                       & (TabPost2Tag.tag_id == cat_id)
                                       & (TabPost.valid == 1)).order_by(
-                                          TabPost.time_create.desc())
+            TabPost.time_create.desc())
 
     @staticmethod
     def query_by_parid(par_id, kind='9'):
@@ -387,7 +388,7 @@ class MPost(Mabc):
                              )).where((TabPost.kind == kind)
                                       & (TabPost2Tag.par_id == par_id)
                                       & (TabPost.valid == 1)).order_by(
-                                          TabPost.time_create.desc())
+            TabPost.time_create.desc())
 
     @staticmethod
     def query_cat_recent_with_label(cat_id,
@@ -405,10 +406,10 @@ class MPost(Mabc):
 
         return TabPost.select().join(
             TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)).where(
-                (TabPost.kind == kind) & (TabPost2Tag.tag_id == cat_id)
-                & (TabPost.valid == 1)
-                & (TabPost.extinfo['def_tag_arr'].contains(label))).order_by(
-                    sort_criteria).limit(num)
+            (TabPost.kind == kind) & (TabPost2Tag.tag_id == cat_id)
+            & (TabPost.valid == 1)
+            & (TabPost.extinfo['def_tag_arr'].contains(label))).order_by(
+            sort_criteria).limit(num)
 
     @staticmethod
     def query_cat_recent_no_label(cat_id, num=8, kind='1', order=False):
@@ -422,8 +423,8 @@ class MPost(Mabc):
 
         return TabPost.select().join(
             TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)).where(
-                (TabPost.kind == kind) & (TabPost2Tag.tag_id == cat_id)
-                & (TabPost.valid == 1)).order_by(sort_criteria).limit(num)
+            (TabPost.kind == kind) & (TabPost2Tag.tag_id == cat_id)
+            & (TabPost.valid == 1)).order_by(sort_criteria).limit(num)
 
     @staticmethod
     def query_total_cat_recent(cat_id_arr, label=None, num=8, kind='1'):
@@ -453,7 +454,7 @@ class MPost(Mabc):
                          &  # the "<<" operator signifies an "IN" query
                          (TabPost.extinfo['def_tag_arr'].contains(label)
                           & (TabPost.valid == 1))).order_by(
-                              TabPost.time_create.desc()).limit(num)
+            TabPost.time_create.desc()).limit(num)
 
     @staticmethod
     def query_total_cat_recent_no_label(cat_id_arr, num=8, kind='1'):
@@ -467,7 +468,7 @@ class MPost(Mabc):
                          & (TabPost2Tag.tag_id << cat_id_arr)
                          &  # the "<<" operator signifies an "IN" query
                          (TabPost.valid == 1)).order_by(
-                             TabPost.time_create.desc()).limit(num)
+            TabPost.time_create.desc()).limit(num)
 
     @staticmethod
     def query_most(num=8, kind='1'):
@@ -476,7 +477,7 @@ class MPost(Mabc):
         '''
         return TabPost.select().where((TabPost.kind == kind)
                                       & (TabPost.valid == 1)).order_by(
-                                          TabPost.view_count.desc()).limit(num)
+            TabPost.view_count.desc()).limit(num)
 
     @staticmethod
     def update_misc(uid, **kwargs):
@@ -497,7 +498,7 @@ class MPost(Mabc):
         '''
         '''
         entry = TabPost.update(view_count=TabPost.view_count +
-                               1).where(TabPost.uid == uid)
+                                          1).where(TabPost.uid == uid)
         try:
             entry.execute()
             return True
@@ -548,7 +549,7 @@ class MPost(Mabc):
         '''
         return TabPost.select().where((TabPost.kind == kind)
                                       & (TabPost.valid == 1)).order_by(
-                                          TabPost.time_update.desc())
+            TabPost.time_update.desc())
 
     @staticmethod
     def update_jsonb(uid, extinfo):
@@ -626,7 +627,7 @@ class MPost(Mabc):
                 on=(TabPost.uid == TabPost2Tag.post_id
                     )).where((TabPost.kind == kind) & (TabPost.valid == 1)
                              & (TabPost2Tag.tag_id == catid)).order_by(
-                                 TabPost.view_count.desc()).limit(num)
+                TabPost.view_count.desc()).limit(num)
         return False
 
     @staticmethod
@@ -639,7 +640,7 @@ class MPost(Mabc):
             on=(TabPost.uid == TabPost2Tag.post_id
                 )).where((TabPost.kind == kind) & (TabPost.valid == 1)
                          & (TabPost2Tag.tag_id == cat_str)).order_by(
-                             TabPost.view_count).limit(num)
+            TabPost.view_count).limit(num)
 
     @staticmethod
     def get_by_keyword(par2, kind='2'):
@@ -648,14 +649,14 @@ class MPost(Mabc):
         '''
         return TabPost.select().where((TabPost.kind == kind) & (
             TabPost.valid == 1) & (TabPost.title.contains(par2))).order_by(
-                TabPost.time_update.desc()).limit(20)
+            TabPost.time_update.desc()).limit(20)
 
     @staticmethod
     def query_extinfo_by_cat(cat_id, kind='2'):
         return TabPost.select().where(
             (TabPost.kind == kind) & (TabPost.valid == 1)
             & (TabPost.extinfo['def_cat_uid'] == cat_id)).order_by(
-                TabPost.time_update.desc())
+            TabPost.time_update.desc())
 
     @staticmethod
     def query_by_extinfo(key='', val=''):
@@ -673,7 +674,7 @@ class MPost(Mabc):
         return TabPost.select().where(
             (TabPost.kind == kind) & (TabPost.valid == 1)
             & (TabPost.extinfo['def_tag_arr'].contains(tag_name))).order_by(
-                TabPost.time_update.desc())
+            TabPost.time_update.desc())
 
     @staticmethod
     def get_label_fenye(tag_slug, _idx):
@@ -732,7 +733,7 @@ class MPost(Mabc):
         if DB_CFG['kind'] == 's':
             return TabPost.select().where((TabPost.kind == kind)
                                           & (TabPost.valid == 1)).order_by(
-                                              TabPost.time_update.desc())
+                TabPost.time_update.desc())
 
         if sort_option:
             if sort_option == 'time_update':
@@ -776,7 +777,7 @@ class MPost(Mabc):
         if postinfo:
 
             if data_dic['title'] == postinfo.title and data_dic[
-                    'kind'] == postinfo.kind:
+                'kind'] == postinfo.kind:
                 pass
             else:
                 MPost.modify_init(data_dic['sig'], data_dic)
@@ -808,7 +809,7 @@ class MPost(Mabc):
         else:
             all_list = MPost.query_under_condition(con, kind=kind)
         return all_list[(idx - 1) * CMS_CFG['list_num']:idx *
-                        CMS_CFG['list_num']]
+                                                        CMS_CFG['list_num']]
 
     @staticmethod
     def count_of_certain_kind(kind):
@@ -836,9 +837,9 @@ class MPost(Mabc):
         '''
         return TabPost.select().where((TabPost.kind == kind)
                                       & (TabPost.valid == 1)).order_by(
-                                          TabPost.time_create.desc()).paginate(
-                                              current_page_num,
-                                              CMS_CFG['list_num'])
+            TabPost.time_create.desc()).paginate(
+            current_page_num,
+            CMS_CFG['list_num'])
 
     @staticmethod
     def query_access(kind, day_sig, limit=10):
