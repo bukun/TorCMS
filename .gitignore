@@ -95,3 +95,5 @@ static/dataset_list
 templates/ext_autogen/
 .pytest_cache/
 .pytest_cache
+
+nltk_data

@@ -525,6 +525,35 @@ class TabRel(BaseModel):
     count = peewee.IntegerField()
 
 
+
+class TabCorrelation(BaseModel):
+    '''
+    Post之间的相关性
+    `kind为`相关性的类别：
+    1: 同小类
+    2: 同大类
+    3: 同类 (kind)
+    4: 全系统
+    5: 与文档
+    '''
+    uid = peewee.CharField(max_length=36,
+                           null=False,
+                           unique=True,
+                           help_text='',
+                           primary_key=True)
+    post_id = peewee.CharField(
+        null=False,
+        max_length=5,
+        help_text='',
+    )
+    rel_id = peewee.CharField(
+        null=False,
+        max_length=5,
+        help_text='',
+    )
+    kind = peewee.IntegerField()
+    order = peewee.IntegerField()
+
 class TabEntity2User(BaseModel):
     '''
     The table for the entity to user.

@@ -1,0 +1,7 @@
+wheel
+fabric
+nltk
+jieba
+
+# 对于学习自然语言解析的同学，使用python过程中一定用到gensim库
+gensim
