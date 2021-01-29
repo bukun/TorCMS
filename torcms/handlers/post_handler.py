@@ -551,7 +551,7 @@ class PostHandler(BaseHandler):
             ext_dic['def_tag_arr'] = [
                 x.strip()
                 for x in post_data['tags'].strip().strip(',').split(',')
-            ]
+                ]
         ext_dic = dict(ext_dic, **self.ext_post_data(postdata=post_data))
 
         return (post_data, ext_dic)

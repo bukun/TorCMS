@@ -113,6 +113,7 @@ class PostHistoryHandler(EditHistoryHander):
     '''
     Manage the posts by Administrator.
     '''
+
     def initialize(self):
         super().initialize()
 
@@ -130,8 +131,13 @@ class PostHistoryHandler(EditHistoryHander):
         cur_info = MPost.get_by_uid(uid)
         cur_info.user_name = post_data['user_name']
 
-        MPostHist.create_post_history(cur_info, self.userinfo)
-        MPost.update_cnt(uid, post_data)
+        cnt_old = tornado.escape.xhtml_unescape(cur_info.cnt_md).strip()
+        cnt_new = post_data['cnt_md'].strip()
+        if cnt_old == cnt_new:
+            pass
+        else:
+            MPostHist.create_post_history(cur_info, self.userinfo)
+            MPost.update_cnt(uid, post_data)
         self.redirect('/{0}/{1}'.format(router_post[cur_info.kind], uid))
 
     @tornado.web.authenticated
