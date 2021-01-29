@@ -525,7 +525,6 @@ class TabRel(BaseModel):
     count = peewee.IntegerField()
 
 
-
 class TabCorrelation(BaseModel):
     '''
     Post之间的相关性
@@ -553,6 +552,7 @@ class TabCorrelation(BaseModel):
     )
     kind = peewee.IntegerField()
     order = peewee.IntegerField()
+
 
 class TabEntity2User(BaseModel):
     '''
