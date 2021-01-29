@@ -18,6 +18,7 @@ class WikiHistoryHandler(EditHistoryHander):
     '''
     History handler for wiki, and page.
     '''
+
     def initialize(self, **kwargs):
         super().initialize()
 
@@ -35,8 +36,14 @@ class WikiHistoryHandler(EditHistoryHander):
         post_data[
             'user_name'] = self.userinfo.user_name if self.userinfo else ''
         cur_info = MWiki.get_by_uid(uid)
-        MWikiHist.create_wiki_history(cur_info, self.userinfo)
-        MWiki.update_cnt(uid, post_data)
+
+        cnt_old = tornado.escape.xhtml_unescape(cur_info.cnt_md).strip()
+        cnt_new = post_data['cnt_md'].strip()
+        if cnt_old == cnt_new:
+            pass
+        else:
+            MWikiHist.create_wiki_history(cur_info, self.userinfo)
+            MWiki.update_cnt(uid, post_data)
         if cur_info.kind == '1':
             self.redirect('/wiki/{0}'.format(cur_info.title))
         elif cur_info.kind == '2':
@@ -92,7 +99,6 @@ class WikiHistoryHandler(EditHistoryHander):
         if hist_recs:
 
             for hist_rec in hist_recs:
-
                 infobox = diff_table(hist_rec.cnt_md, postinfo.cnt_md)
                 hist_user = hist_rec.user_name
                 hist_time = hist_rec.time_update
