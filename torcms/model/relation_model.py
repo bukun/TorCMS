@@ -74,7 +74,7 @@ class MCorrelation(Mabc):
             (TabCorrelation.kind == kind)
         ).order_by(
             TabCorrelation.order
-        )
+        ).limit(num)
         return recs
 
 
