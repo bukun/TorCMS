@@ -152,9 +152,7 @@ class PostHandler(BaseHandler):
                 self._to_add(uid=url_arr[1])
             else:
                 self._to_add()
-        elif len(url_arr) == 1 and len(url_str) in [4, 5, 7, 8]:
-            if url_str.startswith('cn_'):
-                url_str = url_str[3:]
+        elif len(url_arr) == 1 and len(url_str) in [4, 5]:
             self._view_or_add(url_str)
         elif len(url_arr) == 2:
             dict_get = {
