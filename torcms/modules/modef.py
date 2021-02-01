@@ -100,6 +100,7 @@ core_modules = {
     'label_count': info_modules.LabelCount,
     'info_count': info_modules.InfoCount,
     'recent_access': info_modules.RecentAccess,
+    'relate_doc' : info_modules.RelateDoc,
 
     # Category
     'category_menu': category_modules.CategoryMenu,
