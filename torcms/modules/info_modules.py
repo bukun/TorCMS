@@ -14,6 +14,7 @@ from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
 from torcms.model.relation_model import MRelation
 from torcms.model.usage_model import MUsage
+from torcms.model.relation_model import MCorrelation
 
 
 class InfoCategory(tornado.web.UIModule):
@@ -266,6 +267,28 @@ class RecentAccess(tornado.web.UIModule):
         return self.render_string('modules/info/list_equation.html',
                                   recs=recs,
                                   kwd=kwd)
+
+
+class RelateDoc(tornado.web.UIModule):
+    '''
+    相关推荐
+    '''
+
+    def render(self, *args, **kwargs):
+        post_uid = args[0]
+        kind = kwargs.get('kind', 1)
+        num = kwargs.get('num', 10)
+        recs = MCorrelation.get_app_relations(post_uid, num=num, kind=kind)
+        postinfo_arr = []
+
+        for rec in recs:
+            postinfo = MPost.get_by_uid(rec.rel_id)
+            post_info = {postinfo.uid: postinfo.title}
+            postinfo_arr.append(post_info)
+        return self.render_string('modules/post/relate_doc.html',
+                                  postinfo_arr=postinfo_arr,
+
+                                  )
 
 
 class InfoTags(tornado.web.UIModule):
