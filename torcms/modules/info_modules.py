@@ -283,10 +283,10 @@ class RelateDoc(tornado.web.UIModule):
 
         for rec in recs:
             postinfo = MPost.get_by_uid(rec.rel_id)
-            post_info = {postinfo.uid: postinfo.title}
-            postinfo_arr.append(post_info)
+            postinfo_arr.append(postinfo)
         return self.render_string('modules/post/relate_doc.html',
                                   postinfo_arr=postinfo_arr,
+                                  router_post = router_post
 
                                   )
 
