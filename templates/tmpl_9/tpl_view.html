@@ -41,12 +41,9 @@
                     {% module widget_editor(kwd['router'], postinfo.uid, userinfo,review=True,url='filter') %}
                                 <br>
                             <br>
-                                <p><strong>Tag:</strong><span class="post_label">
-                        {% set iii = 1 %}
-                    {% for x in tag_info %}
-                    <a href="/label/{{postinfo.kind}}/{{ x.tag_uid }}" class="tag{{ iii }}">{{ x.tag_name }}</a>
-                    {% set iii = iii + 1 %}
-                    {% end %} </span></p>
+                                <p><strong>Tag:</strong> <span class="post_label">
+                     {% module post_labels(postinfo = postinfo) %}
+                </span></p>
                                  <span class="split">  {{ _('Author') }} : {{ postinfo.user_name }} </span>&nbsp;
                      <span>{{ str(postinfo.date)[:10] }}</span>
 
@@ -84,13 +81,9 @@
                             {% module widget_editor(kwd['router'], postinfo.uid, userinfo,review=True,url='filter') %}
                             <br>
                             <br>
-                            <p><strong>Tag:</strong><span class="post_label">
-                              {% set iii = 1 %}
-                    {% for x in tag_info %}
-                    <a href="/label/{{postinfo.kind}}/{{ x.tag_uid }}" class="tag{{ iii }}">{{ x.tag_name }}</a>
-                    {% set iii = iii + 1 %}
-                    {% end %}
-                </span>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <p><strong>Tag:</strong> <span class="post_label">
+                     {% module post_labels(postinfo = postinfo) %}
+                </span>
                                 <strong>Release time：</strong>
                                 {{ str(postinfo.date)[:10] }} &nbsp;&nbsp;&nbsp;&nbsp;<strong>Browsing times：</strong>
                                 {% raw postinfo.view_count %}&nbsp;&nbsp;&nbsp;&nbsp; </p>

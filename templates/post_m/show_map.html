@@ -101,14 +101,8 @@
     <div class="row">
         <div class="col-md-6">
             <span>Label:</span>
-                <span class="post_cat">
-                    {% set iii = 1 %}
-                    {% for x in tag_info %}
-                    <a href="/label/{{postinfo.kind}}/{{ x.tag_id }}" class="app_label tag{{ iii }}">
-                        {{ x.tag_name }}
-                    </a>
-                    {% set iii = iii + 1 %}
-                    {% end %}
+                <span class="post_label">
+                     {% module post_labels(postinfo = postinfo) %}
                 </span>
         </div>
         <div class="col-md-6"></div>

@@ -36,11 +36,7 @@
             <div class="bor_bottom">
                 <b>{{ _('Label') }} :</b>
         <span class="post_label">
-            {% set iii = 1 %}
-            {% for x in tag_info %}
-            <a href="/label/{{postinfo.kind}}/{{ x.tag_uid }}" class="tag{{ iii }}">{{ x.tag_name }}</a>
-            {% set iii = iii + 1 %}
-            {% end %}
+             {% module post_labels(postinfo = postinfo) %}
         </span>
             </div>
             <div class="listinfo_content">
