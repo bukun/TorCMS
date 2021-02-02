@@ -5,7 +5,7 @@
     <div class="row">
         {% if postinfo.logo != '' %}
         <div class="col-sm-3">
-            <a href="/special/{{ postinfo.uid }}">
+            <a href="/{{kwd['router']}}/{{ postinfo.uid }}">
                 <img src="{{ postinfo.logo }}" class="img-thumbnail">
             </a>
         </div>
@@ -14,12 +14,12 @@
         <div class="col-sm-12">
         {% end %}
         <div class="listinfo_title">
-            <strong><a href="/special/{{ postinfo.uid }}">
+            <strong><a href="/{{kwd['router']}}/{{ postinfo.uid }}">
                 {{ postinfo.title }}
             </a></strong>
 
             {% if userinfo and( userinfo.role[1] >= '2' or userinfo.user_name == postinfo.user_name) %}
-            <a href="/special/_edit/{{ postinfo.uid }}" class="btn btn-xs btn-primary">Modify</a>
+            <a href="/{{kwd['router']}}/_edit/{{ postinfo.uid }}" class="btn btn-xs btn-primary">Modify</a>
             {% end %}
         </div>
         <div class="listinfo_content padt10">

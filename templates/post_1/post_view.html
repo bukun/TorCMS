@@ -21,7 +21,7 @@
         {% if userinfo %}
         {% module collect(userinfo.uid, postinfo.uid) %}
         {% end %}
-        {% module widget_editor('post', postinfo.uid, userinfo) %}
+        {% module widget_editor(kwd['router'], postinfo.uid, userinfo) %}
     </div>
     <div class="panel-body">
         <div class="entry">
@@ -53,7 +53,7 @@
             <div class="clear"></div>
             <br>
             <strong>Article link:</strong>
-            <a href="{% module site_url() %}/post/{{postinfo.uid}}" class="underline"> {{ postinfo.title }}</a>
+            <a href="{% module site_url() %}/{{kwd['router']}}/{{postinfo.uid}}" class="underline"> {{ postinfo.title }}</a>
             <br/>
             <strong>Copyright:</strong> Non special statement are original articles, reproduced please indicate the
             source
@@ -77,7 +77,7 @@
     <ul class="list-group" style="overflow: hidden;">
         {% for x in relations %}
         <li class="list-group-item" style="overflow: hidden;">
-            <a href="/post/{{ x.post_id }}">
+            <a href="/{{kwd['router']}}/{{ x.post_id }}">
                {{ x.post_title }}
                 {% if x.post_id[0] == 'v' %}<span class="badge" style="color:yellow">v</span>{% end %}
             </a>
