@@ -19,7 +19,7 @@
             <li><a href="/filter/{{catinfo.uid}}">{{catinfo.name}}</a></li>
             {% end %}
             {% if postinfo %}
-            <li><a href="/info/{{ postinfo.uid }}" > {{ postinfo.title }}</a></li>
+            <li><a href="/{{kwd['router']}}/{{ postinfo.uid }}" > {{ postinfo.title }}</a></li>
             {% end %}
         </ol>
             <div class="panel panel-black">
@@ -38,7 +38,7 @@
                     {% if userinfo %}
                                 {% module collect(userinfo.uid, postinfo.uid) %}
                                 {% end %}
-                    {% module widget_editor('info', postinfo.uid, userinfo,review=True,url='filter') %}
+                    {% module widget_editor(kwd['router'], postinfo.uid, userinfo,review=True,url='filter') %}
                                 <br>
                             <br>
                                 <p><strong>Tag:</strong><span class="post_label">
@@ -81,7 +81,7 @@
                                 {% module collect(userinfo.uid, postinfo.uid) %}
                                 {% end %}
 
-                            {% module widget_editor('info', postinfo.uid, userinfo,review=True,url='filter') %}
+                            {% module widget_editor(kwd['router'], postinfo.uid, userinfo,review=True,url='filter') %}
                             <br>
                             <br>
                             <p><strong>Tag:</strong><span class="post_label">
@@ -130,7 +130,7 @@
                         <div class="row">
                             <div class="col-md-9" style="display: block;overflow: hidden; text-overflow:ellipsis; white-space: nowrap;">
                                 Article link：
-                                <a href="/info/{{ postinfo.uid }}"
+                                <a href="/{{kwd['router']}}/{{ postinfo.uid }}"
                                    style=" color: #003366;">
                                     {{ postinfo.title }}
                                 </a>

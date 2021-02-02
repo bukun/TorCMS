@@ -43,7 +43,7 @@
                     {% if userinfo %}
                                 {% module collect(userinfo.uid, postinfo.uid) %}
                                 {% end %}
-                    {% module widget_editor('map', postinfo.uid, userinfo) %}
+                    {% module widget_editor(kwd['router'], postinfo.uid, userinfo) %}
                 </div>
             </div>
         </div>
@@ -115,7 +115,7 @@
     </div>
     <div class="row">
         <div class="col-md-6" id="bwlj">
-            Map link： <a href="{% module site_url() %}/map/{{ postinfo.uid }}">{{ postinfo.title }}</a>
+            Map link： <a href="{% module site_url() %}/{{kwd['router']}}/{{ postinfo.uid }}">{{ postinfo.title }}</a>
         </div>
         <div class="col-md-6 ">
             {% if 1 == 2 %}
@@ -183,7 +183,7 @@
     <ul class="list-group" style="overflow: hidden;">
         {% for x in relations %}
         <li class="list-group-item" style="overflow: hidden;">
-            <a href="/map/{{ x.post_id }}">
+            <a href="/{{kwd['router']}}/{{ x.post_id }}">
                 <span class="glyphicon glyphicon-map-marker"></span>{{ x.post_title }}
                 {% if x.post_id[0] == 'v' %}<span class="badge" style="color:yellow">v</span>{% end %}
             </a>
@@ -191,7 +191,7 @@
         {% end %}
         {% for x in rand_recs %}
         <li class="list-group-item" style="overflow: hidden;">
-            <a href="/map/{{ x.uid }}">
+            <a href="/{{kwd['router']}}/{{ x.uid }}">
                 <span class="glyphicon glyphicon-map-marker"></span>{{ x.title }}
                 {% if x.uid[0] == 'v' %}<span class="badge" style="color:yellow">v</span>{% end %}
             </a>

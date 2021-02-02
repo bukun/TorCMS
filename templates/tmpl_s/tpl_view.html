@@ -137,7 +137,7 @@
             <div class="panel-footer">
                 <div class="row">
                     <div class="col-md-8" style="display: block;overflow: hidden; text-overflow:ellipsis; white-space: nowrap;">
-                         Article link： <a href="/special/{{ postinfo.uid }}"
+                         Article link： <a href="/{{kwd['router']}}/{{ postinfo.uid }}"
                                       style="color: #003366;">
                         {{ postinfo.title }}</a>
                     </div>
@@ -162,7 +162,7 @@
             <ul class="list-group">
                 {% for s in relations %}
                 <li class="list-group-item" style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap; display: block; ">
-                    <a href="/special/{{ s.post_id }}">
+                    <a href="/{{kwd['router']}}/{{ s.post_id }}">
                         <span class="glyphicon glyphicon-list-alt"></span> {{ s.post_title }}
                     </a>
                 </li>
