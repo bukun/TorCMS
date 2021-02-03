@@ -14,6 +14,7 @@ class EvaluationHandler(BaseHandler):
     '''
     For the evaluation of the posts.
     '''
+
     def initialize(self, **kwargs):
         super().initialize()
 
@@ -21,8 +22,7 @@ class EvaluationHandler(BaseHandler):
         url_arr = self.parse_url(args[0])
 
         # Just like  /evalucate/0123/1
-        if len(url_arr) == 2 and len(url_arr[0]) == 4 and (url_arr[1]
-                                                           in ['0', '1']):
+        if len(url_arr) == 2 and len(url_arr[0]) == 4 and (url_arr[1] in ['0', '1']):
             if self.get_current_user():
                 self.add_or_update(url_arr[0], url_arr[1])
             else:

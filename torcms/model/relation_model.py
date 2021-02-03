@@ -53,14 +53,17 @@ class MCorrelation(Mabc):
     @staticmethod
     def update_relation(app_f, app_t, weight=1):
         try:
-            postinfo = TabRel.get((TabRel.post_f_id == app_f)
-                                  & (TabRel.post_t_id == app_t))
+            postinfo = TabRel.get(
+                (TabRel.post_f_id == app_f) & (TabRel.post_t_id == app_t)
+            )
         except Exception as err:
             print(repr(err))
             return False
-        entry = TabRel.update(count=postinfo.count +
-                                    weight).where((TabRel.post_f_id == app_f)
-                                                  & (TabRel.post_t_id == app_t))
+        entry = TabRel.update(
+            count=postinfo.count + weight
+        ).where(
+            (TabRel.post_f_id == app_f) & (TabRel.post_t_id == app_t)
+        )
         entry.execute()
 
     @staticmethod
@@ -112,14 +115,17 @@ class MRelation(Mabc):
     @staticmethod
     def update_relation(app_f, app_t, weight=1):
         try:
-            postinfo = TabRel.get((TabRel.post_f_id == app_f)
-                                  & (TabRel.post_t_id == app_t))
+            postinfo = TabRel.get(
+                (TabRel.post_f_id == app_f) & (TabRel.post_t_id == app_t)
+            )
         except Exception as err:
             print(repr(err))
             return False
-        entry = TabRel.update(count=postinfo.count +
-                                    weight).where((TabRel.post_f_id == app_f)
-                                                  & (TabRel.post_t_id == app_t))
+        entry = TabRel.update(
+            count=postinfo.count + weight
+        ).where(
+            (TabRel.post_f_id == app_f) & (TabRel.post_t_id == app_t)
+        )
         entry.execute()
 
     @staticmethod
