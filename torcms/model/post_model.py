@@ -53,7 +53,7 @@ class MPost(Mabc):
 
         reply_arr = []
         for reply in TabUser2Reply.select().where(
-                        TabUser2Reply.reply_id == uid):
+                TabUser2Reply.reply_id == uid):
             reply_arr.append(reply.reply_id.uid)
 
         q_u6 = TabUser2Reply.delete().where(TabUser2Reply.reply_id == uid)
@@ -176,8 +176,7 @@ class MPost(Mabc):
                 cnt_html=cnt_html,
                 logo=post_data['logo'],
                 order=post_data['order'] if 'order' in post_data else '',
-                keywords=post_data['keywords']
-                if 'keywords' in post_data else '',
+                keywords=post_data['keywords'] if 'keywords' in post_data else '',
                 kind=post_data['kind'] if 'kind' in post_data else 1,
                 extinfo=post_data['extinfo']
                 if 'extinfo' in post_data else cur_rec.extinfo,
@@ -263,7 +262,7 @@ class MPost(Mabc):
 
         if kind:
             rand_recs = TabPost.select().where((TabPost.kind == kind) & (
-                TabPost.valid == 1)).order_by(peewee.fn.Random()).limit(limit)
+                    TabPost.valid == 1)).order_by(peewee.fn.Random()).limit(limit)
         else:
             rand_recs = TabPost.select().where(TabPost.valid == 1).order_by(
                 peewee.fn.Random()).limit(limit)
@@ -322,7 +321,7 @@ class MPost(Mabc):
         获取最近更新的Post，以时间戳为条件
         '''
         return TabPost.select().where((TabPost.kind == kind) & (
-            TabPost.time_update > timstamp)).order_by(
+                TabPost.time_update > timstamp)).order_by(
             TabPost.time_update.desc())
 
     @staticmethod
@@ -497,8 +496,9 @@ class MPost(Mabc):
     def __update_view_count(uid):
         '''
         '''
-        entry = TabPost.update(view_count=TabPost.view_count +
-                                          1).where(TabPost.uid == uid)
+        entry = TabPost.update(
+            view_count=TabPost.view_count + 1
+        ).where(TabPost.uid == uid)
         try:
             entry.execute()
             return True
@@ -648,7 +648,7 @@ class MPost(Mabc):
         根据关键字对标题进行检索
         '''
         return TabPost.select().where((TabPost.kind == kind) & (
-            TabPost.valid == 1) & (TabPost.title.contains(par2))).order_by(
+                TabPost.valid == 1) & (TabPost.title.contains(par2))).order_by(
             TabPost.time_update.desc()).limit(20)
 
     @staticmethod
@@ -776,8 +776,7 @@ class MPost(Mabc):
         postinfo = MPost.get_by_uid(data_dic['sig'])
         if postinfo:
 
-            if data_dic['title'] == postinfo.title and data_dic[
-                'kind'] == postinfo.kind:
+            if data_dic['title'] == postinfo.title and data_dic['kind'] == postinfo.kind:
                 pass
             else:
                 MPost.modify_init(data_dic['sig'], data_dic)
@@ -803,13 +802,12 @@ class MPost(Mabc):
         Get records of certain pager.
         '''
         if sort_option:
-            all_list = MPost.query_under_condition(con,
-                                                   kind=kind,
-                                                   sort_option=sort_option)
+            recs = MPost.query_under_condition(con,
+                                               kind=kind,
+                                               sort_option=sort_option)
         else:
-            all_list = MPost.query_under_condition(con, kind=kind)
-        return all_list[(idx - 1) * CMS_CFG['list_num']:idx *
-                                                        CMS_CFG['list_num']]
+            recs = MPost.query_under_condition(con, kind=kind)
+        return recs[(idx - 1) * CMS_CFG['list_num']:idx * CMS_CFG['list_num']]
 
     @staticmethod
     def count_of_certain_kind(kind):

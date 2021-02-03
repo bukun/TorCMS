@@ -5,6 +5,9 @@
 sphinx
 pylint
 selenium
+pytest
+coverage
+pytest-cov
 pycodestyle
 tox
 

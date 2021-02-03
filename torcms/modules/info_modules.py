@@ -286,9 +286,7 @@ class RelateDoc(tornado.web.UIModule):
             postinfo_arr.append(postinfo)
         return self.render_string('modules/post/relate_doc.html',
                                   postinfo_arr=postinfo_arr,
-                                  router_post = router_post
-
-                                  )
+                                  router_post=router_post)
 
 
 class InfoTags(tornado.web.UIModule):
