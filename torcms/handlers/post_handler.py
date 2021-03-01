@@ -5,7 +5,6 @@ The basic HTML Page handler.
 
 import json
 import random
-import time
 from concurrent.futures import ThreadPoolExecutor
 
 import tornado.escape
