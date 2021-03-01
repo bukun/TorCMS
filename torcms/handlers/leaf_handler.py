@@ -6,20 +6,13 @@ The basic  leaf handler.
 The list of the posts should be ordered under leaf list.
 '''
 
-import random
-
 import tornado.escape
 import tornado.ioloop
 import tornado.web
 
-from config import DB_CFG
 from torcms.core import privilege
 from torcms.core.tools import logger
-from torcms.model.category_model import MCategory
-from torcms.model.label_model import MPost2Label
-from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
-from torcms.model.usage_model import MUsage
 
 from .post_handler import PostHandler
 
@@ -28,6 +21,7 @@ class LeafHandler(PostHandler):
     '''
     The basic HTML Page handler.
     '''
+
     def initialize(self, **kwargs):
         super().initialize()
         self.kind = kwargs['kind'] if 'kind' in kwargs else '6'

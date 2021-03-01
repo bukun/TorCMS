@@ -143,6 +143,7 @@ class EntityHandler(BaseHandler):
         '''
         kwd = {
             'pager': '',
+            'err_info':''
         }
         self.render('misc/entity/entity_add.html',
                     cfg=config.CMS_CFG,
@@ -179,7 +180,14 @@ class EntityHandler(BaseHandler):
         if filename and allowed_file(filename):
             pass
         else:
-            return False
+            kwd = {
+                'err_info': '* The formats of uploadable files are: png, jpg, jpeg, gif, tif, bmp',
+            }
+            self.render('misc/entity/entity_add.html',
+                        cfg=config.CMS_CFG,
+                        kwd=kwd,
+                        userinfo=self.userinfo)
+            # return False
 
         _, hou = os.path.splitext(filename)
         signature = str(uuid.uuid1())
@@ -238,7 +246,14 @@ class EntityHandler(BaseHandler):
         if filename and allowed_file_pdf(filename):
             pass
         else:
-            return False
+            kwd = {
+                'err_info': '* The formats of uploadable files are: pdf, doc, docx, zip, rar, ppt, 7z, xlsx'
+            }
+            self.render('misc/entity/entity_add.html',
+                        cfg=config.CMS_CFG,
+                        kwd=kwd,
+                        userinfo=self.userinfo)
+            # return False
 
         _, hou = os.path.splitext(filename)
         signature = str(uuid.uuid1())
