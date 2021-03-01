@@ -181,6 +181,7 @@ class EntityHandler(BaseHandler):
             pass
         else:
             kwd = {
+                'pager': '',
                 'err_info': '* The formats of uploadable files are: png, jpg, jpeg, gif, tif, bmp',
             }
             self.render('misc/entity/entity_add.html',
@@ -247,6 +248,7 @@ class EntityHandler(BaseHandler):
             pass
         else:
             kwd = {
+                'pager': '',
                 'err_info': '* The formats of uploadable files are: pdf, doc, docx, zip, rar, ppt, 7z, xlsx'
             }
             self.render('misc/entity/entity_add.html',
@@ -298,6 +300,7 @@ class EntityHandler(BaseHandler):
             img_desc,
             kind=post_data['kind'] if 'kind' in post_data else '3')
         kwd = {
+            'pager': '',
             'kind': post_data['kind'] if 'kind' in post_data else '3',
         }
         self.render('misc/entity/entity_view.html',
