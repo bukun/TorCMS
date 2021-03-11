@@ -33,8 +33,7 @@ class WikiHistoryHandler(EditHistoryHander):
             return False
 
         post_data = self.get_post_data()
-        post_data[
-            'user_name'] = self.userinfo.user_name if self.userinfo else ''
+        post_data['user_name'] = self.userinfo.user_name if self.userinfo else ''
         cur_info = MWiki.get_by_uid(uid)
 
         cnt_old = tornado.escape.xhtml_unescape(cur_info.cnt_md).strip()
