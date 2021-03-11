@@ -54,6 +54,6 @@ class MWikiHist(Mabc):
             wiki_id=raw_data.uid,
             user_name=user_info.user_name,
             cnt_md=raw_data.cnt_md,
-            time_update=raw_data.time_update,
+            time_update=tools.timestamp()
         )
         return entry.uid
