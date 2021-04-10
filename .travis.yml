@@ -9,7 +9,8 @@ services:
 #  postgresql: "9.4"
 # currently points to 3.7-dev# command to install dependencies
 install:
-  - pip install -r doc/requirements_dev.txt
+  - pip install -r doc/requirements.txt
+  - pip install -r doc/requirements-dev.txt
 # command to run tests
 
 before_script:
