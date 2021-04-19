@@ -27,17 +27,22 @@ class CollectHandler(BaseHandler):
             url_arr = self.parse_url(url_str)
         else:
             return False
-
-        if url_str == 'list':
-            self.show_list(url_str)
-        elif len(url_arr) == 2:
-            self.show_list(url_arr[0], url_arr[1])
-        elif len(url_arr) == 1 and (len(url_str) == 4 or len(url_str) == 5):
-            if self.get_current_user():
-                self.add_or_update(url_str)
+        if len(url_arr) == 1:
+            if url_str == 'list':
+                self.show_list(url_str)
             else:
-                self.set_status(403)
-                return False
+                if self.get_current_user():
+                    self.add_or_update(url_str)
+                else:
+                    self.set_status(403)
+                    return False
+        elif len(url_arr) == 2:
+            if url_arr[0] == 'remove':
+                self.remove_collect(url_arr[1])
+            else:
+                self.show_list(url_arr[0], url_arr[1])
+
+
 
     @tornado.web.authenticated
     def add_or_update(self, app_id):
@@ -47,6 +52,17 @@ class CollectHandler(BaseHandler):
         logger.info('Collect info: user-{0}, uid-{1}'.format(
             self.userinfo.uid, app_id))
         MCollect.add_or_update(self.userinfo.uid, app_id)
+        out_dic = {'success': True}
+        return json.dump(out_dic, self)
+
+    @tornado.web.authenticated
+    def remove_collect(self, post_id):
+        '''
+        Add or update the category.
+        '''
+        logger.info('Collect info: user-{0}, uid-{1}'.format(
+            self.userinfo.uid, post_id))
+        MCollect.remove_collect(self.userinfo.uid, post_id)
         out_dic = {'success': True}
         return json.dump(out_dic, self)
 

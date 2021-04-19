@@ -184,9 +184,7 @@ $("#form_reset").validate({
 }), $("#searchForm").validate({
     rules: {searchheader: "required"},
     messages: {searchheader: "<span class='red'>Please enter keywords</span>"}
-}), $("#act_collect").click(function () {
-
-
+}),$("#act_collect").click(function () {
     $.ajax({
         url: "/collect/" + post_uid,
         type: "GET",
@@ -195,11 +193,36 @@ $("#form_reset").validate({
         dataType: "html",
         timeout: 1e3,
         error: function () {
-            alert("请登陆后进行收藏！")
+            alert("Please log in first.")
         },
         success: function (result) {
             $.parseJSON(result);
-            $("#text_collect").text("成功收藏"), $("#text_collect").css("color", "red")
+            var al_collect = document.getElementById('already_collect');
+            var act_collect = document.getElementById('act_collect');
+            al_collect.style.display = 'inline';
+            act_collect.style.display = 'none';
+
+        }
+    })
+}), $("#already_collect").click(function () {
+
+    $.ajax({
+        url: "/collect/remove/" + post_uid,
+        type: "GET",
+        cache: !1,
+        data: {},
+        dataType: "html",
+        timeout: 1e3,
+        error: function () {
+            // alert("Please log in first.")
+        },
+        success: function (result) {
+            $.parseJSON(result);
+            var al_collect = document.getElementById('already_collect');
+            var act_collect = document.getElementById('act_collect');
+            act_collect.style.display = 'inline';
+            al_collect.style.display = 'none';
+
         }
     })
 }), $(document).ready(function () {
