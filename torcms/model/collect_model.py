@@ -89,6 +89,21 @@ class MCollect(Mabc):
             )
 
     @staticmethod
+    def remove_collect(user_id, app_id):
+        '''
+        Cancel collection
+        '''
+
+        rec = MCollect.get_by_signature(user_id, app_id)
+
+        if rec:
+            entry = TabCollect.delete().where(
+                TabCollect.uid == rec.uid)
+            entry.execute()
+        else:
+            return None
+
+    @staticmethod
     def query_pager_by_userid(user_id, kind, num=10):
 
         recs = TabCollect.select(
