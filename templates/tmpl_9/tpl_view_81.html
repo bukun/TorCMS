@@ -76,7 +76,7 @@
                         {% else %}
                         <div class="col-sm-12 bor_bottom">
                              {% if userinfo %}
-                {% module collect(userinfo.uid, postinfo.uid) %}
+                {% module collect(userinfo.uid, postinfo.uid, en=True) %}
                 {% end %}
         {% module widget_editor(kwd['router'], postinfo.uid, userinfo,review=True,url='filter') %}
                             <br>
