@@ -103,6 +103,13 @@ class TestMCollect():
         assert tf
         self.tearDown()
 
+    def test_remove_collect(self):
+
+        MCollect.remove_collect(self.user_id, self.post_id)
+        rec = MCollect.get_by_signature(self.user_id, self.post_id)
+        assert rec == None
+        self.tearDown()
+
     def tearDown(self):
         print("function teardown")
         tt = MPost.get_by_uid(self.post_id)
