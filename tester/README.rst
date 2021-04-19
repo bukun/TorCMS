@@ -8,3 +8,4 @@ python helper.py -i init
 
 
 python3 -m pytest tester
+python3 -m pytest tester/test_model/test_collect.py
