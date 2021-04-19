@@ -36,7 +36,7 @@
                             <div class="col-sm-6">
 
                 {% if userinfo %}
-                {% module collect(userinfo.uid, postinfo.uid) %}
+                {% module collect(userinfo.uid, postinfo.uid, en=True) %}
                 {% end %}
 
                                  {% module widget_editor(kwd['router'], postinfo.uid, userinfo,review=True,url='filter') %}

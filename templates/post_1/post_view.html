@@ -19,7 +19,7 @@
         <span>{{ datetime.datetime.fromtimestamp(postinfo.time_create).strftime('%Y-%m-%d %H:%M:%S')}}</span>
         <span>Browse: {{ postinfo.view_count }} </span>
         {% if userinfo %}
-        {% module collect(userinfo.uid, postinfo.uid) %}
+        {% module collect(userinfo.uid, postinfo.uid, en=True) %}
         {% end %}
         {% module widget_editor(kwd['router'], postinfo.uid, userinfo) %}
     </div>
