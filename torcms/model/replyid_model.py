@@ -30,4 +30,4 @@ class MReplyid(Mabc):
 
     @staticmethod
     def get_by_rid(rid):
-        return TabReplyid.select().where(TabReplyid.reply0 == rid)
+        return TabReplyid.select().where(TabReplyid.reply0 == rid).order_by(TabReplyid.time_create.desc())
