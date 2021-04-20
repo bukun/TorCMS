@@ -81,24 +81,17 @@ function g_load_infocat(ii) {
             }
         })
 }
-function reply_zan(reply_id, id_num) {
-    id_num = id_num.toString(), zans = $("#text_zan").val();
+function reply_zan(reply_id) {
+    zans = $("#text_zan").val();
     var AjaxUrl = "/reply/zan/" + reply_id;
     $.getJSON(AjaxUrl, function (Json) {
-        0 == Json.text_zan || $("#text_zan_" + id_num).html(Json.text_zan)
+        0 == Json.text_zan || $("#text_zan_" + reply_id).html(Json.text_zan)
     })
 }
-function reply_del(reply_id, id_num) {
-    id_num = id_num.toString();
+function reply_del(reply_id) {
     var AjaxUrl = "/reply/delete/" + reply_id;
     $.getJSON(AjaxUrl, function (Json) {
-        1 == Json.del_zan ? $("#del_zan_" + id_num).html("") : alert("删除失败！")
-    })
-}
-function reply_del_com(reply_id) {
-    var AjaxUrl = "/reply/delete_com/" + reply_id;
-    $.getJSON(AjaxUrl, function (Json) {
-        1 == Json.del_reply ? $("#" + reply_id).html("") : alert("Delete failed!")
+        1 == Json.del_zan ? $("#del_zan_" + reply_id).html("") : alert("Delete failed！")
     })
 }
 function reply_it(view_id) {
@@ -108,29 +101,33 @@ function reply_it(view_id) {
         $("#pinglun").load("/reply/get/" + msg_json.uid)
     }), $("#cnt_reply").val(""), $("#cnt_reply").attr("disabled", !0), $("#btn_submit_reply").attr("disabled", !0))
 }
-function reply_modify(pid, cntid, cate) {
-    var txt = $("#" + cntid).val();
-    txt.length < 1 || ($.post("/reply/modify/" + pid + '/' + cate, {cnt_reply: txt}, function (result) {
+function reply_del_com(reply_id) {
+    var AjaxUrl = "/reply/delete_com/" + reply_id;
+    $.getJSON(AjaxUrl, function (Json) {
+         1 == Json.del_reply ? $("#" + reply_id).html("") : alert("Delete failed!")
+    })
+}
+function comment_it(view_id, reply_id, cid, bid) {
+    var txt = $("#" + cid).val();
+    txt.length < 10 || ($.post("/reply/add_reply/" + view_id + '/' + reply_id, {cnt_reply: txt}, function (result) {
+
         var msg_json = $.parseJSON(result);
-        if (cate == 0) {
-            $("#reply_cnt" + pid).html(msg_json.pinglun)
+        $("#reply_comment"+reply_id).load("/reply/get/" + msg_json.uid)
+    }), $("#" + cid).val(""), $("#" + cid).attr("disabled", !0), $("#" + bid).attr("disabled", !0))
+}
+function reply_modify(pid,cntid,cate) {
+    var txt = $("#" + cntid).val();
+    txt.length < 1 || ($.post("/reply/modify/" + pid +'/'+ cate, {cnt_reply: txt}, function (result) {
+        var msg_json = $.parseJSON(result);
+        if (cate == 0){
+            $("#reply_cnt" + pid ).html(msg_json.pinglun)
         }
-        else {
-            $("#comment_id" + pid).html(msg_json.pinglun)
+        else{
+            $("#comment_id" + pid ).html(msg_json.pinglun)
         }
 
     }))
 }
-
-function comment_it(view_id, reply_id, cid, bid, id_num) {
-    var txt = $("#" + cid).val();
-    txt.length < 1 || ($.post("/reply/add_reply/" + view_id + '/' + reply_id, {cnt_reply: txt}, function (result) {
-
-        var msg_json = $.parseJSON(result);
-        $("#reply_comment" + id_num).load("/reply/get_comment/" + msg_json.uid)
-    }), $("#" + cid).val(""), $("#" + cid).attr("disabled", !0), $("#" + bid).attr("disabled", !0))
-}
-
 
 function del_layout(layout_id) {
     return $.ajax({
@@ -141,7 +138,7 @@ function del_layout(layout_id) {
         dataType: "html",
         timeout: 1e3,
         error: function () {
-            return alert("删除失败！")
+            return alert("Delete failed！")
         },
         success: function (result) {
             return alert("删除成功！暂请手动刷新页面！")
@@ -157,7 +154,7 @@ function del_geojson(gson_id) {
         dataType: "html",
         timeout: 1e3,
         error: function () {
-            return alert("删除失败！")
+            return alert("Delete failed！")
         },
         success: function (result) {
             return alert("删除成功，暂请手动刷新页面！")
