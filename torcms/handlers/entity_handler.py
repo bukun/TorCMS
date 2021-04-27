@@ -143,7 +143,7 @@ class EntityHandler(BaseHandler):
         '''
         kwd = {
             'pager': '',
-            'err_info':''
+            'err_info': ''
         }
         self.render('misc/entity/entity_add.html',
                     cfg=config.CMS_CFG,

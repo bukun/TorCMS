@@ -31,4 +31,4 @@ api_doc: clean
 env:
 	@python3 -m venv env
 	@./env/bin/python3 -m pip install -r doc/requirements.txt
-	@./env/bin/python3 -m pip install -r doc/requirements_dev.txt
+	@./env/bin/python3 -m pip install -r doc/requirements-dev.txt

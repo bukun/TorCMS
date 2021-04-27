@@ -1,5 +1,5 @@
 # Run with the command:
-# pip install -r doc/requirements_dev.txt
+# pip install -r doc/requirements-dev.txt
 
 # graphviz
 sphinx
