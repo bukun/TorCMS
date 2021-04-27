@@ -8,7 +8,7 @@
 
     python3 -m venv vpy
     source vpy/bin/active
-    pip install -r doc/requirements_dev.txt
+    pip install -r doc/requirements-dev.txt
 
 
 ## 代码检测与测试

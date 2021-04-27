@@ -386,7 +386,7 @@ class TheCategory(tornado.web.UIModule):
         format_arr = [
             tmpl_str.format(uu.tag_slug, uu.tag_name)
             for uu in MPost2Catalog().query_by_entity_uid(post_id).objects()
-            ]
+        ]
         return ', '.join(format_arr)
 
 
@@ -518,9 +518,7 @@ class CategoryPager(tornado.web.UIModule):
 
         pager_cnt = int(num_of_cat / config.CMS_CFG['list_num'])
 
-        page_num = (pager_cnt
-                    if abs(pager_cnt - num_of_cat / config.CMS_CFG['list_num'])
-                       < 0.1 else pager_cnt + 1)
+        page_num = pager_cnt if abs(pager_cnt - num_of_cat / config.CMS_CFG['list_num']) < 0.1 else pager_cnt + 1
 
         kwd = {
             'page_home': False if current <= 1 else True,
@@ -673,9 +671,7 @@ class SearchPager(tornado.web.UIModule):
         current = int(args[2])
         res_all = ysearch.get_all_num(tag_slug, catid=catid)
         pager_count = int(res_all / config.CMS_CFG['list_num'])
-        page_num = (pager_count
-                    if abs(pager_count - res_all / config.CMS_CFG['list_num'])
-                       < 0.1 else pager_count + 1)
+        page_num = pager_count if abs(pager_count - res_all / config.CMS_CFG['list_num']) < 0.1 else pager_count + 1
         kwd = {
             'page_home': False if current <= 1 else True,
             'page_end': False if current >= page_num else True,

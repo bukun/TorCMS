@@ -18,6 +18,7 @@ class CollectHandler(BaseHandler):
     '''
     For User collection
     '''
+
     def initialize(self, **kwargs):
         super().initialize()
 
@@ -41,8 +42,6 @@ class CollectHandler(BaseHandler):
                 self.remove_collect(url_arr[1])
             else:
                 self.show_list(url_arr[0], url_arr[1])
-
-
 
     @tornado.web.authenticated
     def add_or_update(self, app_id):
