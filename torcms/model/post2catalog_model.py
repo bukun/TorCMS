@@ -222,13 +222,13 @@ class MPost2Catalog(Mabc):
                     )).where(cat_con
                              & TabPost.extinfo.contains(condition)).order_by(
                                  TabPost.time_update.desc()).paginate(
-                                     current_page_num, CMS_CFG['list_num'])
+                                     current_page_num, CMS_CFG['list_num']).distinct()
         elif order:
             recs = TabPost.select().join(
                 TabPost2Tag,
                 on=((TabPost.uid == TabPost2Tag.post_id) &
                     (TabPost.valid == 1))).where(cat_con).order_by(
-                        TabPost.order.asc())
+                        TabPost.order.asc()).distinct()
         else:
             recs = TabPost.select().join(
                 TabPost2Tag,
