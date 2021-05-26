@@ -235,7 +235,7 @@ class MPost2Catalog(Mabc):
                 on=((TabPost.uid == TabPost2Tag.post_id) &
                     (TabPost.valid == 1))).where(cat_con).order_by(
                         TabPost.time_update.desc()).paginate(
-                            current_page_num, CMS_CFG['list_num'])
+                            current_page_num, CMS_CFG['list_num']).distinct()
 
         return recs
 
