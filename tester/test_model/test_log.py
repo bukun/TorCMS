@@ -4,6 +4,7 @@ from torcms.core import tools
 from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import TabLog
 from torcms.model.log_model import MLog
+from config import  CMS_CFG
 
 
 class TestMLog():
@@ -61,26 +62,26 @@ class TestMLog():
         assert tf
         self.tearDown()
 
-    def test_query_all(self):
-
-        p = {
-            'user_id': ''
-        }
-        self.add_message(**p)
-        a = MLog.query_all_current_url()
-        x = int(a.count() / 8)
-        tf = False
-        for y in range(x + 3):
-            a = MLog.query_all(current_page_num=y)
-            # print(a[0])
-            for i in a:
-                print(i.uid)
-                if i.uid == self.uid:
-                    tf = True
-                    break
-        self.tearDown()
-
-        assert tf
+    # def test_query_all(self):
+    #
+    #     p = {
+    #         'user_id': ''
+    #     }
+    #     self.add_message(**p)
+    #     a = MLog.query_all_current_url()
+    #     x = int(a.count() / CMS_CFG['list_num'])
+    #     tf = False
+    #     for y in range(x + 3):
+    #         a = MLog.query_all(current_page_num=y)
+    #         # print(a[0])
+    #         for i in a:
+    #             print(i.uid)
+    #             if i.uid == self.uid:
+    #                 tf = True
+    #                 break
+    #     self.tearDown()
+    #
+    #     assert tf
 
     def test_query_all_pageview(self):
         self.tearDown()

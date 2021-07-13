@@ -165,7 +165,7 @@ class TestMUser():
         self.add_mess()
         user_info = self.uu.get_by_name(self.username)
         time.sleep(2)
-        self.uu.update_time_login(self.username)
+        self.uu.update_success_info(self.username)
         aa = self.uu.get_by_name(self.username)
         assert user_info.time_login != aa.time_login
         self.tearDown()
@@ -192,7 +192,8 @@ class TestMUser():
             'user_pass': 'ffffff'
         }
         self.add_mess(**post_data)
-        aa = self.uu.check_user_by_email(post_data['user_email'], post_data['user_pass'])
+        u_name = self.uu.get_by_email(post_data['user_email']).user_name
+        aa = self.uu.check_user_by_name(u_name, post_data['user_pass'])
         assert aa == 1
         self.tearDown()
 
@@ -245,13 +246,18 @@ class TestMUser():
         assert aa.user_name == self.username
         self.tearDown()
 
-    def test_query_all(self):
+    def test_query_all_1(self):
         aa = self.uu.query_all()
         tf = True
         for i in aa:
             if i.user_name == self.username:
                 tf = False
         assert tf
+
+        self.tearDown()
+
+    def test_query_all(self):
+
         self.add_mess()
         aa = self.uu.query_all()
         tf = False

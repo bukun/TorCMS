@@ -14,6 +14,7 @@ class MUser(Mabc):
     '''
     Model for user.
     '''
+
     @staticmethod
     def query_all(limit=50):
         '''
@@ -80,31 +81,55 @@ class MUser(Mabc):
     def check_user_by_name(user_name, u_pass):
         '''
         Checking the password by user's name.
+
+        1: for success
+        0: for failure
+        2: for forbidden.
+        -1: for no user
         '''
         the_query = TabMember.select().where(TabMember.user_name == user_name)
         if the_query.count() == 0:
             return -1
 
         the_user = the_query.get()
+        failed_times = the_user.failed_times
+        time_failed = the_user.time_failed
+        c_tiemstamp = tools.timestamp()
+
+        # 测试是否限制登录
+        if c_tiemstamp - time_failed > 1 * 60 * 60:
+            # 如果距离上次登录失败超过1小时，则重置
+            # Set the failed times to 0.
+            entry2 = TabMember.update(failed_times=0).where(
+                TabMember.user_name == user_name)
+            try:
+                entry2.execute()
+            except Exception as err:
+                print(repr(err))
+        elif failed_times > 4:
+            return 2
+        else:
+            pass
+
         if the_user.user_pass == tools.md5(u_pass):
             return 1
         return 0
 
-    @staticmethod
-    def check_user_by_email(user_email, u_pass):
-        '''
-        Checking the password by user's email.
-        '''
-
-        the_query = TabMember.select().where(
-            TabMember.user_email == user_email)
-        if the_query.count() == 0:
-            return -1
-
-        the_user = the_query.get()
-        if the_user.user_pass == tools.md5(u_pass):
-            return 1
-        return 0
+    # @staticmethod
+    # def check_user_by_email(user_email, u_pass):
+    #     '''
+    #     Checking the password by user's email.
+    #     '''
+    #
+    #     the_query = TabMember.select().where(
+    #         TabMember.user_email == user_email)
+    #     if the_query.count() == 0:
+    #         return -1
+    #
+    #     the_user = the_query.get()
+    #     if the_user.user_pass == tools.md5(u_pass):
+    #         return 1
+    #     return 0
 
     @staticmethod
     def update_pass(user_id, newpass):
@@ -200,6 +225,44 @@ class MUser(Mabc):
             return False
 
     @staticmethod
+    def update_failed_info(user_name):
+        '''
+        Update the time when user reset passwd.
+        '''
+
+        # First: get the user.
+        recs = TabMember.select().where(TabMember.user_name == user_name)
+
+        if recs:
+            rec = recs.get()
+            old_time = rec.failed_times
+        else:
+            return False
+
+        #  Second: upate failed times.
+        entry = TabMember.update(failed_times=old_time + 1).where(
+            TabMember.user_name == user_name)
+        try:
+            entry.execute()
+            # return True
+        except Exception as err:
+            print(repr(err))
+            return False
+
+        # Third: Set timestamp that failed.
+        entry2 = TabMember.update(
+            time_failed=tools.timestamp()
+        ).where(
+            TabMember.user_name == user_name)
+        try:
+            entry2.execute()
+
+        except Exception as err:
+            print(repr(err))
+            return False
+        return True
+
+    @staticmethod
     def update_role(u_name, newprivilege):
         '''
         Update the role of the usr.
@@ -214,13 +277,24 @@ class MUser(Mabc):
             return False
 
     @staticmethod
-    def update_time_login(u_name):
+    def update_success_info(u_name):
         '''
         Update the login time for user.
         '''
+        # First, record the time that logged in.
         entry = TabMember.update(time_login=tools.timestamp()).where(
             TabMember.user_name == u_name)
         entry.execute()
+
+        # Second , set the failed times to 0.
+        entry2 = TabMember.update(failed_times=0).where(
+            TabMember.user_name == u_name)
+        try:
+            entry2.execute()
+        except Exception as err:
+            print(repr(err))
+            return False
+        return True
 
     @staticmethod
     def create_user(post_data, extinfo=None):
@@ -342,7 +416,7 @@ class MUser(Mabc):
 
         return TabMember.select().where(
             TabMember.time_create > time_that).order_by(
-                TabMember.time_create.desc())
+            TabMember.time_create.desc())
 
     @staticmethod
     def query_pager_by_time(current_page_num=1):

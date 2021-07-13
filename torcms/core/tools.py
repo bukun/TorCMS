@@ -425,7 +425,7 @@ def get_cfg():
                                    password=db_cfg['pass'],
                                    host=db_cfg.get('host', '127.0.0.1'),
                                    port=db_cfg.get('port', '5432'),
-                                   autocommit=True,
+                                   # autocommit=True,
                                    autorollback=True)
 
     if 'REDIS_CFG' in cfg_var:
