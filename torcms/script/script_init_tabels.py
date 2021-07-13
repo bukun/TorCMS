@@ -170,4 +170,25 @@ def run_migrate(*args):
     except Exception as err:
         print(repr(err))
 
+    failed_times = migrate.IntegerField(null=False,
+                                        default=0,
+                                        help_text='record the times for trying login.')
+    try:
+        migrate.migrate(
+            torcms_migrator.add_column('tabmember', 'failed_times',
+                                       failed_times))
+    except Exception as err:
+        print(repr(err))
+
+    time_failed = migrate.IntegerField(null=False,
+                                       default=0,
+                                       help_text='timestamp for login failed.')
+
+    try:
+        migrate.migrate(
+            torcms_migrator.add_column('tabmember', 'time_failed',
+                                       time_failed))
+    except Exception as err:
+        print(repr(err))
+
     print('Migration finished.')

@@ -61,6 +61,7 @@ class UserHandler(BaseHandler):
     '''
     Handler for user.
     '''
+
     def initialize(self, **kwargs):
         super().initialize()
 
@@ -73,27 +74,27 @@ class UserHandler(BaseHandler):
             'regist': (lambda: self.redirect('/user/info'))
             if self.get_current_user() else self.__to_register__,
             'login':
-            self.__to_login__,
+                self.__to_login__,
             'info':
-            self.__to_show_info__,
+                self.__to_show_info__,
             'logout':
-            self.__logout__,
+                self.__logout__,
             'reset-password':
-            self.__to_reset_password__,
+                self.__to_reset_password__,
             'changepass':
-            self.__change_pass__,
+                self.__change_pass__,
             'changeinfo':
-            self.__to_change_info__,
+                self.__to_change_info__,
             'reset-passwd':
-            self.gen_passwd,
+                self.gen_passwd,
             'changerole':
-            self.__to_change_role__,
+                self.__to_change_role__,
             'find':
-            self.find,
+                self.find,
             'delete_user':
-            self.__delete_user__,
+                self.__delete_user__,
             'list':
-            self.__user_list__,
+                self.__user_list__,
         }
 
         if len(url_arr) == 1:
@@ -583,35 +584,54 @@ class UserHandler(BaseHandler):
 
         check_email = re.compile(r'^\w+@(\w+\.)+(com|cn|net)$')
 
-        if check_email.search(u_name):
-
-            result = MUser.check_user_by_email(u_name, u_pass)
-            if result == 1:
-                u_name = MUser.get_by_email(u_name).user_name
-        else:
-            result = MUser.check_user_by_name(u_name, u_pass)
+        result = MUser.check_user_by_name(u_name, u_pass)
+        # 根据用户名进行验证，如果不存在，则作为E-mail来获取用户名进行验证
+        if result == -1 and check_email.search(u_name):
+            user_x = MUser.get_by_email(u_name)
+            if user_x:
+                result = MUser.check_user_by_name(user_x.user_name, u_pass)
 
         # Todo: the kwd should remove from the codes.
         if result == 1:
-            self.set_secure_cookie("user", u_name)
-            MUser.update_time_login(u_name)
+            self.set_secure_cookie("user",
+                                   u_name,
+                                   expires_days=None,
+                                   expires=time.time() + 60 * CMS_CFG.get('expires_minutes', 15))
+            MUser.update_success_info(u_name)
             self.redirect(next_url)
         elif result == 0:
             self.set_status(401)
 
+            MUser.update_failed_info(u_name)
+
             self.render('user/user_relogin.html',
                         cfg=config.CMS_CFG,
                         kwd={
-                            'info': '密码验证出错，请重新登陆。',
+                            'info': 'Invalid password. Please try again.',
+                            'code': '0',
+                            'link': '/user/login',
+                        },
+                        userinfo=self.userinfo)
+        elif result == 2:
+            self.set_status(401)
+
+            MUser.update_failed_info(u_name)
+
+            self.render('user/user_relogin.html',
+                        cfg=config.CMS_CFG,
+                        kwd={
+                            'info': 'Too many faild times. Please try again later.',
+                            'code': '2',
                             'link': '/user/login',
                         },
                         userinfo=self.userinfo)
         elif result == -1:
             self.set_status(401)
-            self.render('misc/html/404.html',
+            self.render('user/user_relogin.html',
                         cfg=config.CMS_CFG,
                         kwd={
-                            'info': '没有这个用户',
+                            'info': 'No such user.',
+                            'code': -1,
                             'link': '/user/login',
                         },
                         userinfo=self.userinfo)
@@ -764,7 +784,7 @@ class UserHandler(BaseHandler):
     def reset_password(self):
         '''
         Do reset password
-        :return:
+        :return: None
         '''
         post_data = self.get_post_data()
 
@@ -865,6 +885,7 @@ class UserPartialHandler(UserHandler):
     '''
     Partially render for user handler.
     '''
+
     def initialize(self, **kwargs):
         super().initialize()
         self.is_p = True

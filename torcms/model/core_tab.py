@@ -259,6 +259,8 @@ class TabMember(BaseModel):
     time_email = peewee.IntegerField(null=False,
                                      default=0,
                                      help_text='Time auto send email.')
+    failed_times = peewee.IntegerField(null=False, default=0, help_text='record the times for trying login.')
+    time_failed = peewee.IntegerField(null=False, default=0, help_text='timestamp for login failed.')
     extinfo = BinaryJSONField(null=False,
                               default={},
                               help_text='Extra data in JSON.')

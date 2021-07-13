@@ -12,6 +12,6 @@ redisvr = redis.Redis(host=REDIS_CFG.get('host'),
                       password=REDIS_CFG.get('pass'),
                       socket_timeout=None,
                       connection_pool=None,
-                      charset='utf-8',
-                      errors='strict',
+                      encoding='utf-8',
+                      encoding_errors='strict',
                       unix_socket_path=None)

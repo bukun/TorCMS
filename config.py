@@ -14,7 +14,9 @@ DB_CFG = {
 
 CMS_CFG = {
     'list_num': 10,
-    'redis_kw': 'lsadfkj'}
+    'redis_kw': 'lsadfkj',
+    # 'expires_minutes': 1
+}
 
 router_post = {'1': 'post',
                '9': 'info',  # Filter_View
