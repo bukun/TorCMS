@@ -300,13 +300,6 @@ def gen_pager_purecss(cat_slug, page_num, current):
     return pager
 
 
-# def average_array(num_arr):
-#     '''
-#     The average value of the given array.
-#     '''
-#     return sum(num_arr) / len(num_arr)
-
-
 class ConfigDefault(object):
     '''
     Class for the default configuration.

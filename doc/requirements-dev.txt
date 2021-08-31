@@ -1,7 +1,7 @@
 # Run with the command:
 # pip install -r doc/requirements-dev.txt
 
-# graphviz
+-r requirements.txt
 sphinx
 pylint
 selenium
@@ -10,4 +10,3 @@ coverage
 pytest-cov
 pycodestyle
 tox
-

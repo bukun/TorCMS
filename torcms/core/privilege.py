@@ -27,7 +27,6 @@ def auth_view(method):
         '''
         wrapper.
         '''
-
         if ROLE_CFG['view'] == '':
             return method(self, *args, **kwargs)
         elif self.current_user:
