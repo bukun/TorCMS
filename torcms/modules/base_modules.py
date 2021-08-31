@@ -975,17 +975,24 @@ class Admin_reply_pager(tornado.web.UIModule):
 
         num_of_cat = MReply.count_of_certain()
 
-        tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
+        test_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
-        page_num = (tmp_page_num if
-                    abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num'])
-                    < 0.1 else tmp_page_num + 1)
+        '''
+        原代码：
+        page_num = (test_page_num if
+                    abs(test_page_num - num_of_cat / config.CMS_CFG['list_num'])
+                    < 0.1 else test_page_num + 1)
+        '''
+        if abs(test_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1:
+            page_num = test_page_num
+        else:
+            page_num = test_page_num + 1
 
         kwd = {
-            'page_home': False if current <= 1 else True,
-            'page_end': False if current >= page_num else True,
-            'page_pre': False if current <= 1 else True,
-            'page_next': False if current >= page_num else True,
+            'page_home': current > 1,
+            'page_end': current < page_num,
+            'page_pre': current > 1,
+            'page_next': current < page_num,
         }
 
         return self.render_string('modules/admin/reply_pager.html',

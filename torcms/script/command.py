@@ -25,7 +25,6 @@ def entry(argv):
         'reset': run_drop_tables,
         'dump': run_dump,
         'update': run_update,
-        # '0': run_zero,
     }
     try:
         # 这里的 h 就表示该选项无参数，i:表示 i 选项后需要有参数

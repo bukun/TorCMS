@@ -16,12 +16,13 @@ from torcms.model.user_model import MUser
 class BaseHandler(tornado.web.RequestHandler):
     '''
     The base class for handlers.
+    继承RequestHandler，并添加了一些自定义的函数，方便使用。
     '''
+
     def initialize(self, **kwargs):
-
-        # self.set_cookie('b_locale', 'zh_CN')
-        # self.set_cookie('b_locale', 'en')
-
+        '''
+        Tornado 的初始化方法
+        '''
         _ = kwargs
         super().initialize()
         if self.get_current_user():
@@ -87,18 +88,18 @@ class BaseHandler(tornado.web.RequestHandler):
         locale_id = self.get_cookie('ulocale')
         if locale_id:
             return tornado.locale.get(locale_id)
-        else:
-            return tornado.locale.get('en_US')
 
-    def get_browser_locale(self):
-        '''
-        Override the function, to control the UI language.
-        '''
-        locale_id = self.get_cookie('blocale')
-        if locale_id:
-            return tornado.locale.get(locale_id)
-        else:
-            return tornado.locale.get('en_US')
+        return tornado.locale.get('en_US')
+
+    # def get_browser_locale(self, default: str = "en_US"):
+    #     '''
+    #     Override the function, to control the UI language.
+    #     '''
+    #     locale_id = self.get_cookie('blocale')
+    #     if locale_id:
+    #         return tornado.locale.get(locale_id)
+    #
+    #     return tornado.locale.get('en_US')
 
     def is_admin(self):
         '''
@@ -136,11 +137,11 @@ class BaseHandler(tornado.web.RequestHandler):
         :return:
         """
         try:
-            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            s.connect(('8.8.8.8', 80))
-            ip = s.getsockname()[0]
+            socker = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            socker.connect(('8.8.8.8', 80))
+            ip = socker.getsockname()[0]
         finally:
-            s.close()
+            socker.close()
 
         return ip
 
