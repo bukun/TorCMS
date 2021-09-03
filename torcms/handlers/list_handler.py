@@ -25,6 +25,7 @@ class ListHandler(BaseHandler):
     分类访问
     如果order = True,列表可以进行排序操作。
     '''
+
     def initialize(self, **kwargs):
         super().initialize()
         self.kind = kwargs.get('kind', '1')
@@ -101,7 +102,15 @@ class ListHandler(BaseHandler):
             Get the pager index.
             '''
             cur_p = kwargs.get('cur_p')
-            the_num = int(cur_p) if cur_p else 1
+
+            if cur_p:
+                try:
+                    the_num = int(cur_p)
+                except:
+                    the_num = 1
+            else:
+                the_num = 1
+
             the_num = 1 if the_num < 1 else the_num
             return the_num
 
@@ -155,5 +164,6 @@ class TagListHandler(BaseHandler):
     List the infos by the slug of the catalog.
     via: `/tag/cat_slug`
     '''
+
     def get(self, *args, **kwargs):
         self.redirect('/list/{0}'.format(args[0]))

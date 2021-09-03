@@ -54,7 +54,7 @@ class LabelHandler(BaseHandler):
         # Todo:
         # if self.get_current_user():
         #     redisvr.sadd(config.redis_kw + self.userinfo.user_name, tag_slug)
-
+        current_page_number = 1
         if cur_p == '':
             current_page_number = 1
         else:
