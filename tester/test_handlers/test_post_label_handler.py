@@ -10,7 +10,7 @@ def test_bb():
     Test
     '''
     urls = [
-        ("/label/(.*)", LabelHandler, dict()),
+        ("/label/(.*)", LabelHandler, {}),
     ]
 
     assert urls

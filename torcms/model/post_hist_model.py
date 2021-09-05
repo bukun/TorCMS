@@ -5,11 +5,11 @@ For Post history
 import tornado.escape
 
 from torcms.core import tools
-from torcms.model.abc_model import Mabc, MHelper
+from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import TabPostHist
 
 
-class MPostHist(Mabc):
+class MPostHist():
     '''
     For Post history
     '''

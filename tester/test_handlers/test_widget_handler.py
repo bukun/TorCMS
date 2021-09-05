@@ -5,6 +5,6 @@
 #
 # def Test():
 #     urls = [
-#         ("/label/(.*)", WidgetHandler, dict()),
+#         ("/label/(.*)", WidgetHandler, {}),
 #     ]
 #     assert urls

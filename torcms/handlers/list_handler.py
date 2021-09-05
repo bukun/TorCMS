@@ -106,7 +106,7 @@ class ListHandler(BaseHandler):
             if cur_p:
                 try:
                     the_num = int(cur_p)
-                except:
+                except TypeError:
                     the_num = 1
             else:
                 the_num = 1

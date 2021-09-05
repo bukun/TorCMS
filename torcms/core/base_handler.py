@@ -105,13 +105,13 @@ class BaseHandler(tornado.web.RequestHandler):
         '''
         if is admin
         '''
-        return True if self.check_post_role()['ADMIN'] else False
+        return self.check_post_role()['ADMIN']
 
     def editable(self):
         '''
         if is editable
         '''
-        return True if self.check_post_role()['EDIT'] else False
+        return self.check_post_role()['EDIT']
 
     def data_received(self, chunk):
         return False
@@ -128,24 +128,30 @@ class BaseHandler(tornado.web.RequestHandler):
         return the warpped template path.
         :param tmpl:
         '''
-        return 'admin/' + tmpl.format(sig='p') if self.is_p else tmpl.format(
-            sig='')
+        if self.is_p:
+            _out_str = 'admin/' + tmpl.format(sig='p')
+        else:
+            _out_str = 'admin/' + tmpl.format(sig='')
+        return _out_str
 
     def get_host_ip(self):
         """
         查询本机ip地址
-        :return:
         """
+        socker = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         try:
-            socker = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             socker.connect(('8.8.8.8', 80))
-            ip = socker.getsockname()[0]
+            local_ip = socker.getsockname()[0]
+        except Exception:
+            local_ip = '0.0.0.0'
         finally:
             socker.close()
-
-        return ip
+        return local_ip
 
     def show404(self, kwd=None):
+        '''
+        Show 404 Page.
+        '''
         if kwd:
             pass
         else:

@@ -3,8 +3,6 @@
 The Base of Model
 '''
 
-Mabc = object
-
 
 class MHelper():
     '''

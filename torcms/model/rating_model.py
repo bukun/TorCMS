@@ -6,11 +6,10 @@ Rating for post.
 import peewee
 
 from torcms.core import tools
-from torcms.model.abc_model import Mabc
 from torcms.model.core_tab import TabRating
 
 
-class MRating(Mabc):
+class MRating():
     '''
     Rating for post.
     '''

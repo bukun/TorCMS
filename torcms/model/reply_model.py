@@ -9,12 +9,11 @@ import tornado.escape
 
 from config import CMS_CFG
 from torcms.core import tools
-from torcms.model.abc_model import Mabc
 from torcms.model.core_tab import TabReply, TabUser2Reply
 from torcms.model.replyid_model import TabReplyid
 
 
-class MReply(Mabc):
+class MReply():
     @staticmethod
     def get_by_uid(uid):
         recs = TabReply.select().where(TabReply.uid == uid)

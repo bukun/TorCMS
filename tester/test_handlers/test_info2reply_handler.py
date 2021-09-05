@@ -4,8 +4,8 @@
 # 
 # 
 # def Test():
-#     # assert InfoHandler(dict(), request="/entity/(.*)")
+#     # assert InfoHandler({}, request="/entity/(.*)")
 #     urls = [
-#         # ("/label/(.*)", Info2ReplyHandler, dict()),
+#         # ("/label/(.*)", Info2ReplyHandler, {}),
 #     ]
 #     assert urls

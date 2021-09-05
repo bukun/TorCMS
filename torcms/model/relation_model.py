@@ -3,13 +3,12 @@
 import peewee
 
 from torcms.core import tools
-from torcms.model.abc_model import Mabc
 from torcms.model.core_tab import TabPost, TabPost2Tag, TabRel, TabCorrelation
 from torcms.model.label_model import MPost2Label
 from torcms.model.post2catalog_model import MPost2Catalog as MInfor2Catalog
 
 
-class MCorrelation(Mabc):
+class MCorrelation():
     @staticmethod
     def add_relation(postid, relid, kind, order):
         '''
@@ -81,7 +80,7 @@ class MCorrelation(Mabc):
         return recs
 
 
-class MRelation(Mabc):
+class MRelation():
     @staticmethod
     def add_relation(app_f, app_t, weight=1):
         '''

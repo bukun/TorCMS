@@ -3,11 +3,11 @@
 import tornado.escape
 
 from torcms.core import tools
-from torcms.model.abc_model import Mabc, MHelper
+from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import TabWikiHist
 
 
-class MWikiHist(Mabc):
+class MWikiHist():
     @staticmethod
     def get_last(postid):
         '''

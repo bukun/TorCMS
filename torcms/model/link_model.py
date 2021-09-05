@@ -2,11 +2,11 @@
 '''
 For friends links.
 '''
-from torcms.model.abc_model import Mabc, MHelper
+from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import TabLink
 
 
-class MLink(Mabc):
+class MLink():
     '''
     For friends links.
     '''

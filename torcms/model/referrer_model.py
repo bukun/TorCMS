@@ -4,11 +4,11 @@ Model for referrer.
 '''
 
 from torcms.core import tools
-from torcms.model.abc_model import Mabc, MHelper
+from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import TabReferrer
 
 
-class MReferrer(Mabc):
+class MReferrer():
     @staticmethod
     def get_by_uid(uid):
         '''

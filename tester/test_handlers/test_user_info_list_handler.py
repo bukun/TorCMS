@@ -6,8 +6,8 @@ from torcms.handlers.user_info_list_handler import UserListHandler
 
 
 def test_a():
-    # assert InfoHandler(dict(), request="/entity/(.*)")
+    # assert InfoHandler({}, request="/entity/(.*)")
     urls = [
-        ("/label/(.*)", UserListHandler, dict()),
+        ("/label/(.*)", UserListHandler, {}),
     ]
     assert urls

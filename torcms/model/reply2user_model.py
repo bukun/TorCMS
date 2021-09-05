@@ -5,12 +5,11 @@ Reply of users.
 import time
 
 from torcms.core import tools
-from torcms.model.abc_model import Mabc
 from torcms.model.core_tab import TabReply, TabUser2Reply
 from torcms.model.replyid_model import TabReplyid
 
 
-class MReply2User(Mabc):
+class MReply2User():
     @staticmethod
     def update(uid, post_data, update_time=False):
         pass

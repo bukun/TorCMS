@@ -4,11 +4,10 @@ Model for classify.
 '''
 
 from config import CMS_CFG
-from torcms.model.abc_model import Mabc
-from torcms.model.core_tab import TabMember, TabPost, TabPost2Tag, TabTag
+from torcms.model.core_tab import TabPost, TabPost2Tag, TabTag
 
 
-class MClassify(Mabc):
+class MClassify():
     '''
     Model for classify.
     '''

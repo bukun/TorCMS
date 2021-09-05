@@ -6,11 +6,11 @@
 from config import CMS_CFG
 from torcms.core import tools
 from torcms.core.tools import logger
-from torcms.model.abc_model import Mabc, MHelper
+from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import TabPost, TabPost2Tag, TabTag
 
 
-class MLabel(Mabc):
+class MLabel():
     '''
     For Label
     '''
@@ -103,7 +103,7 @@ class MLabel(Mabc):
         return uid
 
 
-class MPost2Label(Mabc):
+class MPost2Label():
     '''
     For post 2 label
     '''

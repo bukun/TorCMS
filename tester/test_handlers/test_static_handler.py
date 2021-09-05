@@ -11,6 +11,6 @@ def test_zl():
     Test
     '''
     urls = [
-        ("/label/(.*)", StaticHandler, dict()),
+        ("/label/(.*)", StaticHandler, {}),
     ]
     assert urls

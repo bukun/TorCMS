@@ -13,6 +13,6 @@ def Test():
     '''
     Test
     '''
-    # assert InfoHandler(dict(), request="/entity/(.*)")
-    urls = [("/label/(.*)", AdminHandler, dict()), ]
+    # assert InfoHandler({}, request="/entity/(.*)")
+    urls = [("/label/(.*)", AdminHandler, {}), ]
     assert urls

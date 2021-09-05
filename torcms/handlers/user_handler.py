@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 '''
 Handler for user.
+ToDo: 太多硬编码。需要处理。
 '''
 
 import datetime
@@ -23,6 +24,60 @@ from torcms.core.base_handler import BaseHandler
 from torcms.core.tool.send_email import send_mail
 from torcms.core.tools import logger
 from torcms.model.user_model import MUser
+
+
+def check_regist_info(post_data):
+    '''
+    check data for user regist.
+    Return the status code dict.
+
+    The first char of 'code' stands for the different field.
+    '1' for user_name
+    '2' for user_email
+    '3' for user_pass
+    '4' for user_role
+    The seconde char of 'code' stands for different status.
+    '1' for invalide
+    '2' for already exists.
+    '''
+    user_create_status = {'success': False, 'code': '00'}
+
+    if not tools.check_username_valid(post_data['user_name']):
+        user_create_status['code'] = '11'
+    elif not tools.check_email_valid(post_data['user_email']):
+        user_create_status['code'] = '21'
+    elif MUser.get_by_name(post_data['user_name']):
+        user_create_status['code'] = '12'
+    elif MUser.get_by_email(post_data['user_email']):
+        user_create_status['code'] = '22'
+    else:
+        user_create_status['success'] = True
+    return user_create_status
+
+
+def check_modify_info(post_data):
+    '''
+    check data for user infomation modification.
+    '''
+    user_create_status = {'success': False, 'code': '00'}
+
+    if not tools.check_email_valid(post_data['user_email']):
+        user_create_status['code'] = '21'
+    elif MUser.get_by_email(post_data['user_email']):
+        user_create_status['code'] = '22'
+    else:
+        user_create_status['success'] = True
+    return user_create_status
+
+
+def check_valid_pass(postdata):
+    '''
+    ToDo: 对用户密码进行有效性检查。似乎没必要。
+    '''
+    _ = postdata
+    user_create_status = {'success': False, 'code': '00'}
+    user_create_status['success'] = True
+    return user_create_status
 
 
 class SumForm(Form):
@@ -107,10 +162,13 @@ class UserHandler(BaseHandler):
             pass
 
     def post(self, *args, **kwargs):
+        '''
+        用户操作。
+        '''
+        _ = kwargs
         url_str = args[0]
         url_arr = self.parse_url(url_str)
 
-        # ToDo: change to dict.
         if url_str == 'regist':
             self.__register__()
         elif url_str == 'j_regist':
@@ -125,20 +183,16 @@ class UserHandler(BaseHandler):
             self.__change_password__()
         elif url_str == 'changeinfo':
             self.__change_info__()
-
         elif url_str == 'find':
             self.post_find()
         elif url_str == 'reset-password':
             self.reset_password()
-
         elif url_arr[0] == 'changepass':
             self.p_changepassword()
         elif url_arr[0] == 'changeinfo':
             self.p_changeinfo()
-
         elif url_arr[0] == 'find':
             self.find(url_arr[1])
-
         elif url_arr[0] == 'changerole':
             self.__change_role__(url_arr[1])
 
@@ -197,8 +251,6 @@ class UserHandler(BaseHandler):
     def ext_post_data(self, **kwargs):
         '''
         The additional information.  for add(), or update().
-        :param post_data.
-        :return: directory.
         '''
         _ = kwargs
         return {}
@@ -250,16 +302,9 @@ class UserHandler(BaseHandler):
         Change th user rule
         '''
         post_data = self.get_post_data()
-
-        # if self.tmpl_router == "user":
         MUser.update_role(xg_username, post_data['role'])
         self.redirect('/user/info')
-        # else:
-        #     if MUser.update_role(xg_username, post_data['role']):
-        #         output = {'del_category ': 1}
-        #     else:
-        #         output = {'del_category ': 0}
-        #     return json.dump(output, self)
+
 
     @tornado.web.authenticated
     def __logout__(self):
@@ -274,7 +319,6 @@ class UserHandler(BaseHandler):
         '''
         to change the password.
         '''
-
         self.render(self.wrap_tmpl('user/{sig}user_changepass.html'),
                     userinfo=self.userinfo,
                     kwd={})
@@ -358,53 +402,6 @@ class UserHandler(BaseHandler):
             }
             self.render('user/user_login.html', kwd=kwd, userinfo=None)
 
-    def __check_valid(self, post_data):
-        '''
-        To check if the user is succesfully created.
-        Return the status code dict.
-        '''
-        user_create_status = {'success': False, 'code': '00'}
-
-        if not tools.check_username_valid(post_data['user_name']):
-            user_create_status['code'] = '11'
-            return user_create_status
-        elif not tools.check_email_valid(post_data['user_email']):
-            user_create_status['code'] = '21'
-            return user_create_status
-        elif MUser.get_by_name(post_data['user_name']):
-            user_create_status['code'] = '12'
-            return user_create_status
-        elif MUser.get_by_email(post_data['user_email']):
-            user_create_status['code'] = '22'
-            return user_create_status
-
-        user_create_status['success'] = True
-        return user_create_status
-
-    def __check_valid_info(self, post_data):
-        user_create_status = {'success': False, 'code': '00'}
-
-        if not tools.check_email_valid(post_data['user_email']):
-            user_create_status['code'] = '21'
-            return user_create_status
-        elif MUser.get_by_email(post_data['user_email']):
-            user_create_status['code'] = '22'
-            return user_create_status
-
-        user_create_status['success'] = True
-        return user_create_status
-
-    def __check_valid_pass(self, _):
-        # ToDo: todo.
-        '''
-        '''
-        user_create_status = {'success': False, 'code': '00'}
-        #    user_create_status['code'] = '31'
-        #    return user_create_status
-
-        user_create_status['success'] = True
-        return user_create_status
-
     def __register__(self):
         '''
         regist the user.
@@ -466,18 +463,11 @@ class UserHandler(BaseHandler):
 
     def json_register(self):
         '''
-        The first char of 'code' stands for the different field.
-        '1' for user_name
-        '2' for user_email
-        '3' for user_pass
-        '4' for user_role
-        The seconde char of 'code' stands for different status.
-        '1' for invalide
-        '2' for already exists.
+        user regist.
         '''
-        # user_create_status = {'success': False, 'code': '00'}
+
         post_data = self.get_post_data()
-        user_create_status = self.__check_valid(post_data)
+        user_create_status = check_regist_info(post_data)
         if not user_create_status['success']:
             return json.dump(user_create_status, self)
 
@@ -491,17 +481,9 @@ class UserHandler(BaseHandler):
 
     def json_changeinfo(self):
         '''
-        The first char of 'code' stands for the different field.
-        '1' for user_name
-        '2' for user_email
-        '3' for user_pass
-        '4' for user_role
-        The seconde char of 'code' stands for different status.
-        '1' for invalide
-        '2' for already exists.
+        Modify user infomation.
         '''
 
-        # user_create_status = {'success': False, 'code': '00'}
         post_data = self.get_post_data()
 
         is_user_passed = MUser.check_user(self.userinfo.uid,
@@ -509,7 +491,7 @@ class UserHandler(BaseHandler):
 
         if is_user_passed == 1:
 
-            user_create_status = self.__check_valid_info(post_data)
+            user_create_status = check_modify_info(post_data)
             if not user_create_status['success']:
                 return json.dump(user_create_status, self)
 
@@ -524,14 +506,7 @@ class UserHandler(BaseHandler):
 
     def json_changepass(self):
         '''
-        The first char of 'code' stands for the different field.
-        '1' for user_name
-        '2' for user_email
-        '3' for user_pass
-        '4' for user_role
-        The seconde char of 'code' stands for different status.
-        '1' for invalide
-        '2' for already exists.
+        modify password.
         '''
 
         # user_create_status = {'success': False, 'code': '00'} # Not used currently.
@@ -542,7 +517,7 @@ class UserHandler(BaseHandler):
 
         if check_usr_status == 1:
 
-            user_create_status = self.__check_valid_pass(post_data)
+            user_create_status = check_valid_pass(post_data)
             if not user_create_status['success']:
                 return json.dump(user_create_status, self)
 
@@ -678,62 +653,64 @@ class UserHandler(BaseHandler):
         month_arr = []
         count_arr = []
         num_arr = []
-        Jan_arr = []
-        Feb_arr = []
-        Mar_arr = []
-        Apr_arr = []
-        May_arr = []
-        June_arr = []
-        July_arr = []
-        Aug_arr = []
-        Sep_arr = []
-        Oct_arr = []
-        Nov_arr = []
-        Dec_arr = []
+
+        jan_arr = []
+        feb_arr = []
+        mar_arr = []
+        apr_arr = []
+        may_arr = []
+        jun_arr = []
+        jul_arr = []
+        aug_arr = []
+        sep_arr = []
+        oct_arr = []
+        nov_arr = []
+        dec_arr = []
+
         current_month = datetime.datetime.now().month
 
         # 获取当年，1月到当前月份注册信息
         recs = MUser.query_by_time(current_month * 30)
 
-        for x in recs:
+        for rec in recs:
 
-            current_mon = time.strftime("%m", time.localtime(x.time_create))
+            current_mon = time.strftime("%m", time.localtime(rec.time_create))
             if current_mon == '01':
-                Jan_arr.append(x)
+                jan_arr.append(rec)
             elif current_mon == '02':
-                Feb_arr.append(x)
+                feb_arr.append(rec)
             elif current_mon == '03':
-                Mar_arr.append(x)
+                mar_arr.append(rec)
             elif current_mon == '04':
-                Apr_arr.append(x)
+                apr_arr.append(rec)
             elif current_mon == '05':
-                May_arr.append(x)
+                may_arr.append(rec)
             elif current_mon == '06':
-                June_arr.append(x)
+                jun_arr.append(rec)
             elif current_mon == '07':
-                July_arr.append(x)
+                jul_arr.append(rec)
             elif current_mon == '08':
-                Aug_arr.append(x)
+                aug_arr.append(rec)
             elif current_mon == '09':
-                Sep_arr.append(x)
+                sep_arr.append(rec)
             elif current_mon == '10':
-                Oct_arr.append(x)
+                oct_arr.append(rec)
             elif current_mon == '11':
-                Nov_arr.append(x)
+                nov_arr.append(rec)
             elif current_mon == '12':
-                Dec_arr.append(x)
-        count_arr.append(len(Jan_arr))
-        count_arr.append(len(Feb_arr))
-        count_arr.append(len(Mar_arr))
-        count_arr.append(len(Apr_arr))
-        count_arr.append(len(May_arr))
-        count_arr.append(len(June_arr))
-        count_arr.append(len(July_arr))
-        count_arr.append(len(Aug_arr))
-        count_arr.append(len(Sep_arr))
-        count_arr.append(len(Oct_arr))
-        count_arr.append(len(Nov_arr))
-        count_arr.append(len(Dec_arr))
+                dec_arr.append(rec)
+        count_arr.append(len(jan_arr))
+        count_arr.append(len(feb_arr))
+        count_arr.append(len(mar_arr))
+        count_arr.append(len(apr_arr))
+        count_arr.append(len(may_arr))
+        count_arr.append(len(jun_arr))
+        count_arr.append(len(jul_arr))
+        count_arr.append(len(aug_arr))
+        count_arr.append(len(sep_arr))
+        count_arr.append(len(oct_arr))
+        count_arr.append(len(nov_arr))
+        count_arr.append(len(dec_arr))
 
         for mon in range(0, current_month):
             month_arr.append(mon + 1)
@@ -776,7 +753,6 @@ class UserHandler(BaseHandler):
     def post_find(self):
         '''
         Do find user.
-        :return:
         '''
         keyword = self.get_argument('keyword', default='')
         self.find(keyword)

@@ -116,14 +116,6 @@ def update_label(signature, post_data):
             MPost2Label.remove_relation(signature, cur_info.tag_id)
 
 
-# def ts_helper():
-#     timestamp = int(time.time())
-#     ts1d = timestamp - 24 * 60 * 60
-#     ts7d = timestamp - 7 * 24 * 60 * 60
-#     ts30d = timestamp - 30 * 24 * 60 * 60
-#     return (ts1d, ts7d, ts30d)
-
-
 class PostHandler(BaseHandler):
     '''
     The basic HTML Page handler.
@@ -548,7 +540,7 @@ class PostHandler(BaseHandler):
             ext_dic['def_tag_arr'] = [
                 x.strip()
                 for x in post_data['tags'].strip().strip(',').split(',')
-                ]
+            ]
         ext_dic = dict(ext_dic, **self.ext_post_data(postdata=post_data))
 
         return (post_data, ext_dic)
@@ -717,7 +709,7 @@ class PostHandler(BaseHandler):
 
     def _add_download_entity(self, ext_dic):
         download_url = ext_dic['tag_file_download'].strip().lower() if (
-            'tag_file_download' in ext_dic) else ''
+                'tag_file_download' in ext_dic) else ''
         the_entity = MEntity.get_id_by_impath(download_url)
         if the_entity:
             return True

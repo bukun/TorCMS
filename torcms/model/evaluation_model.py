@@ -3,11 +3,10 @@
 Model for Evaluation
 '''
 from torcms.core import tools
-from torcms.model.abc_model import Mabc
 from torcms.model.core_tab import TabEvaluation
 
 
-class MEvaluation(Mabc):
+class MEvaluation():
     '''
     Model for Evaluation
     '''

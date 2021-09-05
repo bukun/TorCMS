@@ -10,7 +10,7 @@ def test_vz():
     Test
     '''
     urls = [
-        ("/label/(.*)", CategoryAjaxHandler, dict()),
+        ("/label/(.*)", CategoryAjaxHandler, {}),
 
     ]
 

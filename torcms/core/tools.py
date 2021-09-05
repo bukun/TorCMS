@@ -61,34 +61,6 @@ def html_min(func):
     return wrapper
 
 
-class Storage(dict):
-    """
-    from web.py
-    对字典进行扩展，使其支持通过 dict.a形式访问以代替dict['a']
-    """
-
-    def __getattr__(self, key):
-        try:
-            return self[key]
-        except KeyError:
-            raise AttributeError
-
-    def __setattr__(self, key, value):
-        self[key] = value
-
-    def __delattr__(self, key):
-        try:
-            del self[key]
-        except KeyError:
-            raise AttributeError
-
-    def __repr__(self):
-        return '<Storage ' + dict.__repr__(self) + '>'
-
-
-storage = Storage
-
-
 def diff_table(rawinfo, newinfo):
     '''
     Generate the difference as the table format.
@@ -182,11 +154,11 @@ def get_uu8d():
     return str(uuid.uuid1()).split('-')[0]
 
 
-def func_rand_arr(arr, len):
+def func_rand_arr(arr, length):
     '''
     func_rand_arr = lambda arr, len: ''.join(random.sample(arr, len))
     '''
-    return ''.join(random.sample(arr, len))
+    return ''.join(random.sample(arr, length))
 
 
 def get_uu4d_v2():
