@@ -12,6 +12,6 @@ def Test():
     Test
     '''
     urls = [
-        ("/label/(.*)", LogHandler, dict()),
-        ("/label/(.*)", LogPartialHandler, dict()), ]
+        ("/label/(.*)", LogHandler, {}),
+        ("/label/(.*)", LogPartialHandler, {}), ]
     assert urls

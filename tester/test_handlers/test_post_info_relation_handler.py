@@ -6,7 +6,7 @@ from torcms.handlers.relation_handler import RelHandler
 
 
 def test_lz():
-    # assert InfoHandler(dict(), request="/entity/(.*)")
+    # assert InfoHandler({}, request="/entity/(.*)")
     urls = [
-        ("/label/(.*)", RelHandler, dict()), ]
+        ("/label/(.*)", RelHandler, {}), ]
     assert urls

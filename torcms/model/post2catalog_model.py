@@ -7,12 +7,11 @@ import peewee
 
 from config import CMS_CFG
 from torcms.core import tools
-from torcms.model.abc_model import Mabc
 from torcms.model.category_model import MCategory
 from torcms.model.core_tab import TabPost, TabPost2Tag, TabTag
 
 
-class MPost2Catalog(Mabc):
+class MPost2Catalog():
     '''
     Database Model for post to catalog.
     '''

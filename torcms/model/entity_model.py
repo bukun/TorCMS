@@ -7,7 +7,7 @@ import time
 
 from config import CMS_CFG
 from torcms.core.tools import get_uuid, logger
-from torcms.model.abc_model import Mabc, MHelper
+from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import TabEntity
 
 

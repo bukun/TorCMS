@@ -9,7 +9,7 @@ def test_ab():
     '''
     Test
     '''
-    # assert InfoHandler(dict(), request="/entity/(.*)")
+    # assert InfoHandler({}, request="/entity/(.*)")
     urls = [
-        ("/label/(.*)", PostHandler, dict()), ]
+        ("/label/(.*)", PostHandler, {}), ]
     assert urls

@@ -6,11 +6,10 @@ import time
 
 from config import CMS_CFG
 from torcms.core import tools
-from torcms.model.abc_model import Mabc
 from torcms.model.core_tab import TabMember
 
 
-class MUser(Mabc):
+class MUser():
     '''
     Model for user.
     '''

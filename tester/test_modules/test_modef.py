@@ -4,4 +4,4 @@ from torcms.modules.modef import core_modules
 
 
 def Test():
-    assert type(core_modules) == type(dict())
+    assert type(core_modules) == type({})

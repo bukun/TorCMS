@@ -4,11 +4,10 @@ Model for Posts.
 '''
 
 from config import CMS_CFG
-from torcms.model.abc_model import Mabc
 from torcms.model.core_tab import TabPost
 
 
-class MNullifyInfo(Mabc):
+class MNullifyInfo():
     '''
     Model for Posts.
     '''

@@ -7,6 +7,6 @@ from torcms.handlers.reply_handler import ReplyHandler
 
 def test_b():
     urls = [
-        ("/label/(.*)", ReplyHandler, dict()),
+        ("/label/(.*)", ReplyHandler, {}),
     ]
     assert urls

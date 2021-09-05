@@ -10,10 +10,10 @@ def is_prived(usr_rule, def_rule):
     '''
     Compare between two role string.
     '''
-    for iii in range(4):
-        if def_rule[iii] == '0':
+    for ii in range(4):
+        if def_rule[ii] == '0':
             continue
-        if usr_rule[iii] >= def_rule[iii]:
+        if usr_rule[ii] >= def_rule[ii]:
             return True
 
     return False
@@ -23,12 +23,13 @@ def auth_view(method):
     '''
     role for view.
     '''
+
     def wrapper(self, *args, **kwargs):
         '''
         wrapper.
         '''
         if ROLE_CFG['view'] == '':
-            return method(self, *args, **kwargs)
+            pass
         elif self.current_user:
             if is_prived(self.userinfo.role, ROLE_CFG['view']):
                 return method(self, *args, **kwargs)
@@ -46,6 +47,8 @@ def auth_view(method):
             }
             self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
+        return method(self, *args, **kwargs)
+
     return wrapper
 
 
@@ -53,6 +56,7 @@ def auth_add(method):
     '''
     role for add.
     '''
+
     def wrapper(self, *args, **kwargs):
         '''
         wrapper.
@@ -81,6 +85,7 @@ def auth_edit(method):
     '''
     role for edit.
     '''
+
     def wrapper(self, *args, **kwargs):
         '''
         wrapper.
@@ -110,12 +115,12 @@ def auth_delete(method):
     '''
     role for delete.
     '''
+
     def wrapper(self, *args, **kwargs):
         '''
         wrapper.
         '''
         if self.current_user:
-
             if is_prived(self.userinfo.role, ROLE_CFG['delete']):
                 return method(self, *args, **kwargs)
             else:
@@ -144,7 +149,6 @@ def auth_admin(method):
         wrapper.
         '''
         if self.current_user:
-
             if is_prived(self.userinfo.role, ROLE_CFG['admin']):
                 return method(self, *args, **kwargs)
             else:
@@ -154,7 +158,6 @@ def auth_admin(method):
                 self.render('misc/html/404.html',
                             kwd=kwd,
                             userinfo=self.userinfo)
-
         else:
             kwd = {
                 'info': 'No role',

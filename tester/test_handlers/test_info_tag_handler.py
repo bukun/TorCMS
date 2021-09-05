@@ -5,7 +5,7 @@ from torcms.handlers.label_handler import InfoTagHandler
 
 def Test():
     urls = [
-        ("/label/(.*)", InfoTagHandler, dict()),
+        ("/label/(.*)", InfoTagHandler, {}),
     ]
 
     assert urls

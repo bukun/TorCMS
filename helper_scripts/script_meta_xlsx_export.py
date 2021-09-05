@@ -4,11 +4,10 @@ import os
 from openpyxl import Workbook
 
 from torcms.handlers.entity_handler import EntityHandler
-from torcms.model.abc_model import Mabc
 from torcms.model.core_tab import TabPost, TabTag
 
 
-class Ext_tag(Mabc):
+class Ext_tag():
     '''
     Model for Posts.
     '''
@@ -19,7 +18,7 @@ class Ext_tag(Mabc):
         return taglist
 
 
-class Ext_Post(Mabc):
+class Ext_Post():
     @staticmethod
     def query_all_bytag(tag, kind='2'):
         recs = TabPost.select().where(

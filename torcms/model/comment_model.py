@@ -3,11 +3,10 @@
 Model for Posts.
 '''
 from config import CMS_CFG
-from torcms.model.abc_model import Mabc
 from torcms.model.core_tab import TabPost, TabReply
 
 
-class MComment(Mabc):
+class MComment():
     '''
     Model for Posts.
     '''

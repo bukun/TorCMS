@@ -10,6 +10,6 @@ def test_k():
     Test
     '''
     urls = [
-        ("/post_man/(.*)", PostHistoryHandler, dict()),
+        ("/post_man/(.*)", PostHistoryHandler, {}),
     ]
     assert urls

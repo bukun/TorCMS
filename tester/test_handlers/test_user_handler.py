@@ -21,7 +21,7 @@ class TestUserHandler(AsyncHTTPSTestCase):
         Test
         '''
         self.app = Application(
-            handlers=[("/user/(.*)", UserHandler, dict())],
+            handlers=[("/user/(.*)", UserHandler, {})],
             **SETTINGS)
         return self.app
 

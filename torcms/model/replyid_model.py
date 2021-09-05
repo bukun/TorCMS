@@ -5,12 +5,11 @@ Model for referrer.
 import peewee
 
 from torcms.core import tools
-from torcms.core.base_model import BaseModel
-from torcms.model.abc_model import Mabc, MHelper
+from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import TabReplyid
 
 
-class MReplyid(Mabc):
+class MReplyid():
     @staticmethod
     def get_by_uid(uid):
         '''

@@ -10,13 +10,13 @@ import tornado.escape
 
 from config import CMS_CFG, DB_CFG
 from torcms.core import tools
-from torcms.model.abc_model import Mabc, MHelper
+from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import (TabCollect, TabEvaluation, TabPost,
                                    TabPost2Tag, TabPostHist, TabRating, TabRel,
                                    TabReply, TabUsage, TabUser2Reply)
 
 
-class MPost(Mabc):
+class MPost():
     '''
     Model for Posts.
     '''

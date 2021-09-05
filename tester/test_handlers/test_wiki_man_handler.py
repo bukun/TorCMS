@@ -5,6 +5,6 @@ from torcms.handlers.wiki_history_manager import WikiHistoryHandler
 
 def Test():
     urls = [
-        ("/wiki_man/(.*)", WikiHistoryHandler, dict()),
+        ("/wiki_man/(.*)", WikiHistoryHandler, {}),
     ]
     assert urls

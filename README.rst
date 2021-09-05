@@ -14,7 +14,7 @@ Status
 .. image:: https://img.shields.io/pypi/pyversions/torcms.svg
     :target: https://pypi.python.org/pypi/torcms/
 
-Checking ``torcms`` with ``pylint`` using default configuration (Under Debian Buster),
+Checking ``torcms`` with ``pylint`` using default configuration (Under Debian 11.0),
 gets score greater than 8.9.
 
 Introduction
@@ -121,12 +121,12 @@ Get the HTML for modules
     $ git clone https://github.com/bukun/torcms_modules_bootstrap.git templates/modules
 
 
-or using the same f2elib via aliyun:
+or using the same f2elib via Gitee:
 
 ::
 
-    $ git clone https://e.coding.net/bukun/torcms_f2elib.git static/f2elib
-    $ git clone https://e.coding.net/bukun/torcms_modules_bootstrap.git templates/modules
+    $ git clone https://gitee.com/bukun/torcms_f2elib.git static/f2elib
+    $ git clone https://gitee.com/bukun/torcms_modules_bootstrap.git templates/modules
 
 Edit the configiure.
 -----------------------

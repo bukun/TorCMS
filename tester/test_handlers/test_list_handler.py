@@ -11,8 +11,8 @@ def Test():
     Test
     '''
     urls = [
-        ("/label/(.*)", ListHandler, dict()),
-        ("/label/(.*)", MCategory, dict()),
+        ("/label/(.*)", ListHandler, {}),
+        ("/label/(.*)", MCategory, {}),
     ]
 
     assert urls

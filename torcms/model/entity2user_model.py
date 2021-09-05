@@ -7,11 +7,11 @@ import time
 
 from config import CMS_CFG
 from torcms.core import tools
-from torcms.model.abc_model import Mabc, MHelper
+from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import TabEntity, TabEntity2User, TabMember
 
 
-class MEntity2User(Mabc):
+class MEntity2User():
     '''
     For file entities. Just like pdf, zipfile, docx, etc.
     '''

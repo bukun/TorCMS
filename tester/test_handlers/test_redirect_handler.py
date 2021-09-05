@@ -5,6 +5,6 @@
 #
 # def Test():
 #     urls = [
-#         ("/label/(.*)", RedirectHandler, dict()),
+#         ("/label/(.*)", RedirectHandler, {}),
 #     ]
 #     assert urls

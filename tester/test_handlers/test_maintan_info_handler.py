@@ -5,7 +5,7 @@
 #
 # def Test():
 #     urls = [
-#         ("/label/(.*)", MaintainPycateCategoryHandler, dict()),
+#         ("/label/(.*)", MaintainPycateCategoryHandler, {}),
 #
 #     ]
 #

@@ -100,7 +100,8 @@ Python语言
 ::
 
     $ cd TorCMS
-    $ git clone https://github.com/bukun/torcms_modules_bootstrap.git templates/modules
+    $ git clone https://gitee.com/bukun/torcms_f2elib.git static/f2elib
+    $ git clone https://gitee.com/bukun/torcms_modules_bootstrap.git templates/modules
 
 
 编辑configiure

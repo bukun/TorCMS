@@ -520,13 +520,8 @@ class CategoryPager(tornado.web.UIModule):
 
         page_num = pager_cnt if abs(pager_cnt - num_of_cat / config.CMS_CFG['list_num']) < 0.1 else pager_cnt + 1
 
-        kwd = {
-            'page_home': False if current <= 1 else True,
-            'page_end': False if current >= page_num else True,
-            'page_pre': False if current <= 1 else True,
-            'page_next': False if current >= page_num else True,
-            'tag': tag,
-        }
+        kwd = get_page_position(current, page_num)
+        kwd['tag'] = tag
 
         return self.render_string('modules/post/catalog_pager.html',
                                   kwd=kwd,
@@ -554,12 +549,7 @@ class CollectPager(tornado.web.UIModule):
                     abs(pager_count - the_count / config.CMS_CFG['list_num']) <
                     0.1 else pager_count + 1)
 
-        kwd = {
-            'page_home': False if current <= 1 else True,
-            'page_end': False if current >= page_num else True,
-            'page_pre': False if current <= 1 else True,
-            'page_next': False if current >= page_num else True,
-        }
+        kwd = get_page_position(current, page_num)
 
         return self.render_string('modules/post/collect_pager.html',
                                   kwd=kwd,
@@ -584,12 +574,7 @@ class InfoLabelPager(tornado.web.UIModule):
                            cat_rec.count() / config.CMS_CFG['list_num']) < 0.1
                     else pager_count + 1)
 
-        kwd = {
-            'page_home': False if current <= 1 else True,
-            'page_end': False if current >= page_num else True,
-            'page_pre': False if current <= 1 else True,
-            'page_next': False if current >= page_num else True,
-        }
+        kwd = get_page_position(current, page_num)
 
         return self.render_string('modules/post/info_label_pager.html',
                                   kwd=kwd,
@@ -615,12 +600,7 @@ class LabelPager(tornado.web.UIModule):
             pager_count
             if abs(pager_count - MPost2Label.total_number(tag_slug, kind) /
                    config.CMS_CFG['list_num']) < 0.1 else pager_count + 1)
-        kwd = {
-            'page_home': False if current <= 1 else True,
-            'page_end': False if current >= page_num else True,
-            'page_pre': False if current <= 1 else True,
-            'page_next': False if current >= page_num else True,
-        }
+        kwd = get_page_position(current, page_num)
 
         return self.render_string('modules/post/label_pager.html',
                                   kwd=kwd,
@@ -645,12 +625,7 @@ class TagPager(tornado.web.UIModule):
                     abs(pager_count - num_of_tag / config.CMS_CFG['list_num'])
                     < 0.1 else pager_count + 1)
 
-        kwd = {
-            'page_home': False if current <= 1 else True,
-            'page_end': False if current >= page_num else True,
-            'page_pre': False if current <= 1 else True,
-            'page_next': False if current >= page_num else True,
-        }
+        kwd = get_page_position(current, page_num)
 
         return self.render_string('modules/post/tag_pager.html',
                                   kwd=kwd,
@@ -672,12 +647,7 @@ class SearchPager(tornado.web.UIModule):
         res_all = ysearch.get_all_num(tag_slug, catid=catid)
         pager_count = int(res_all / config.CMS_CFG['list_num'])
         page_num = pager_count if abs(pager_count - res_all / config.CMS_CFG['list_num']) < 0.1 else pager_count + 1
-        kwd = {
-            'page_home': False if current <= 1 else True,
-            'page_end': False if current >= page_num else True,
-            'page_pre': False if current <= 1 else True,
-            'page_next': False if current >= page_num else True,
-        }
+        kwd = get_page_position(current, page_num)
 
         return self.render_string('modules/post/search_pager.html',
                                   kwd=kwd,
@@ -732,12 +702,7 @@ class EntityPager(tornado.web.UIModule):
         page_num = (pager_count if abs(pager_count - MEntity.total_number() /
                                        config.CMS_CFG['list_num']) < 0.1 else
                     pager_count + 1)
-        kwd = {
-            'page_home': False if current <= 1 else True,
-            'page_end': False if current >= page_num else True,
-            'page_pre': False if current <= 1 else True,
-            'page_next': False if current >= page_num else True,
-        }
+        kwd = get_page_position(current, page_num)
 
         return self.render_string('modules/post/entity_pager.html',
                                   kwd=kwd,
@@ -761,12 +726,7 @@ class Entity2UserPager(tornado.web.UIModule):
             pager_count
             if abs(pager_count - MEntity2User.total_number_by_user(user_id) /
                    config.CMS_CFG['list_num']) < 0.1 else pager_count + 1)
-        kwd = {
-            'page_home': False if current <= 1 else True,
-            'page_end': False if current >= page_num else True,
-            'page_pre': False if current <= 1 else True,
-            'page_next': False if current >= page_num else True,
-        }
+        kwd = get_page_position(current, page_num)
 
         return self.render_string(
             'modules/post/entity_user_download_pager.html',
@@ -790,12 +750,7 @@ class Entity2Pager(tornado.web.UIModule):
         page_num = (pager_count if
                     abs(pager_count - MEntity2User.total_number() /
                         config.CMS_CFG['list_num']) < 0.1 else pager_count + 1)
-        kwd = {
-            'page_home': False if current <= 1 else True,
-            'page_end': False if current >= page_num else True,
-            'page_pre': False if current <= 1 else True,
-            'page_next': False if current >= page_num else True,
-        }
+        kwd = get_page_position(current, page_num)
 
         return self.render_string('modules/post/entity_download_pager.html',
                                   kwd=kwd,
@@ -916,12 +871,7 @@ class Admin_Post_pager(tornado.web.UIModule):
                     abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num'])
                     < 0.1 else tmp_page_num + 1)
 
-        kwd = {
-            'page_home': False if current <= 1 else True,
-            'page_end': False if current >= page_num else True,
-            'page_pre': False if current <= 1 else True,
-            'page_next': False if current >= page_num else True,
-        }
+        kwd = get_page_position(current, page_num)
 
         return self.render_string('modules/admin/post_pager.html',
                                   kwd=kwd,
@@ -949,12 +899,7 @@ class Admin_Page_pager(tornado.web.UIModule):
                     abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num'])
                     < 0.1 else tmp_page_num + 1)
 
-        kwd = {
-            'page_home': False if current <= 1 else True,
-            'page_end': False if current >= page_num else True,
-            'page_pre': False if current <= 1 else True,
-            'page_next': False if current >= page_num else True,
-        }
+        kwd = get_page_position(current, page_num)
 
         return self.render_string('modules/admin/page_pager.html',
                                   kwd=kwd,
@@ -988,12 +933,9 @@ class Admin_reply_pager(tornado.web.UIModule):
         else:
             page_num = test_page_num + 1
 
-        kwd = {
-            'page_home': current > 1,
-            'page_end': current < page_num,
-            'page_pre': current > 1,
-            'page_next': current < page_num,
-        }
+
+
+        kwd = get_page_position(current, page_num)
 
         return self.render_string('modules/admin/reply_pager.html',
                                   kwd=kwd,
@@ -1019,17 +961,24 @@ class Admin_user_pager(tornado.web.UIModule):
                     abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num'])
                     < 0.1 else tmp_page_num + 1)
 
-        kwd = {
-            'page_home': False if current <= 1 else True,
-            'page_end': False if current >= page_num else True,
-            'page_pre': False if current <= 1 else True,
-            'page_next': False if current >= page_num else True,
-        }
+        kwd = get_page_position(current, page_num)
 
         return self.render_string('modules/admin/user_pager.html',
                                   kwd=kwd,
                                   pager_num=page_num,
                                   page_current=current)
+
+
+def get_page_position(current, page_num):
+    '''
+    返回当面页面索引位置信息
+    '''
+    return {
+        'page_home': current > 1,
+        'page_end': current < page_num,
+        'page_pre': current > 1,
+        'page_next': current < page_num,
+    }
 
 
 class Admin_log_pager(tornado.web.UIModule):
@@ -1051,12 +1000,7 @@ class Admin_log_pager(tornado.web.UIModule):
                     abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num'])
                     < 0.1 else tmp_page_num + 1)
 
-        kwd = {
-            'page_home': False if current <= 1 else True,
-            'page_end': False if current >= page_num else True,
-            'page_pre': False if current <= 1 else True,
-            'page_next': False if current >= page_num else True,
-        }
+        kwd = get_page_position(current, page_num)
 
         return self.render_string('modules/admin/log_admin_pager.html',
                                   kwd=kwd,
@@ -1082,12 +1026,7 @@ class LogPager(tornado.web.UIModule):
                     abs(pager_count - the_count / config.CMS_CFG['list_num']) <
                     0.1 else pager_count + 1)
 
-        kwd = {
-            'page_home': False if current <= 1 else True,
-            'page_end': False if current >= page_num else True,
-            'page_pre': False if current <= 1 else True,
-            'page_next': False if current >= page_num else True,
-        }
+        kwd = get_page_position(current, page_num)
 
         return self.render_string('modules/admin/log_pager.html',
                                   kwd=kwd,
@@ -1112,12 +1051,7 @@ class LogPageviewPager(tornado.web.UIModule):
                     abs(pager_count - the_count / config.CMS_CFG['list_num']) <
                     0.1 else pager_count + 1)
 
-        kwd = {
-            'page_home': False if current <= 1 else True,
-            'page_end': False if current >= page_num else True,
-            'page_pre': False if current <= 1 else True,
-            'page_next': False if current >= page_num else True,
-        }
+        kwd = get_page_position(current, page_num)
 
         return self.render_string('modules/admin/log_pageview_pager.html',
                                   kwd=kwd,
@@ -1166,12 +1100,7 @@ class Nullify_pager(tornado.web.UIModule):
                     abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num'])
                     < 0.1 else tmp_page_num + 1)
 
-        kwd = {
-            'page_home': False if current <= 1 else True,
-            'page_end': False if current >= page_num else True,
-            'page_pre': False if current <= 1 else True,
-            'page_next': False if current >= page_num else True,
-        }
+        kwd = get_page_position(current, page_num)
 
         return self.render_string('modules/post/nullify_pager.html',
                                   kwd=kwd,
@@ -1195,12 +1124,7 @@ class Comment_pager(tornado.web.UIModule):
                     abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num'])
                     < 0.1 else tmp_page_num + 1)
 
-        kwd = {
-            'page_home': False if current <= 1 else True,
-            'page_end': False if current >= page_num else True,
-            'page_pre': False if current <= 1 else True,
-            'page_next': False if current >= page_num else True,
-        }
+        kwd = get_page_position(current, page_num)
 
         return self.render_string('modules/post/comment_pager.html',
                                   kwd=kwd,

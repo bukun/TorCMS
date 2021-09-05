@@ -3,18 +3,13 @@
 Handle the usage of the info.
 '''
 
-import os
 import sqlite3
 import time
 
 from torcms.core.tools import ts_helper
-from torcms.model.abc_model import Mabc
 
 
-# from torcms.model.core_tab import TabAccess
-
-
-class MAcces(Mabc):
+class MAcces():
     '''
     Handle the usage of the info.
     '''
@@ -22,10 +17,6 @@ class MAcces(Mabc):
     @staticmethod
     def get_all():
         pass
-        #
-        # return TabAccess.select().order_by('timestamp').limit(10)
-
-    #
 
     @staticmethod
     def add(post_id):
@@ -33,7 +24,7 @@ class MAcces(Mabc):
         Create the record.
         '''
 
-        ts1d, ts7d, ts30d = ts_helper()
+        ts30d = ts_helper()[2]
 
         # 使用毫秒作为ID。
         millis = int(round(time.time() * 1000))
@@ -80,21 +71,6 @@ class MAcces(Mabc):
             print(repr(err))
 
         conn.commit()
-
-        # cursor.execute('SELECT * FROM TabAccess;')
-        # conn.commit()
-
-        # print("2" * 50)
-        # print(cursor.fetchall())
-
-        # 有可能会冲突。由于只访问的记录，并不重要，所以直接跳过去。
-        # try:
-        #     TabAccess.create(
-        #         uid=millis,
-        #         post_id=post_id,
-        #     )
-        # except:
-        #     pass
 
 
 if __name__ == '__main__':
