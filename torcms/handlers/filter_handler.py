@@ -7,6 +7,7 @@ import json
 import math
 
 import tornado.escape
+from urllib.parse import unquote
 from html2text import html2text
 
 from config import CMS_CFG, router_post
@@ -78,25 +79,30 @@ class FilterHandler(BaseHandler):
     '''
     List view,by category uid. The list could be filtered.
     '''
+
     def initialize(self, **kwargs):
         super().initialize()
 
     def get(self, *args, **kwargs):
-        url_str = args[0]
+        _kwargs = kwargs
+
+        # 会有莫名其妙的空格。需要去掉。
+        url_str = unquote(args[0]).strip()
 
         logger.info('infocat get url_str: {0}'.format(url_str))
 
-        if len(url_str) == 4:
-            self.list(url_str)
-        elif len(url_str) > 4:
+        url_arr = self.parse_url(url_str)
 
+        if len(url_arr) == 1:
+            self.list(url_str)
+        elif len(url_arr) == 2:
             self.echo_html(url_str)
         else:
             kwd = {
                 'title': '',
                 'info': '404. Page not found!',
             }
-            self.render('misc/html/404.html', kwd=kwd)
+            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
     def post(self, *args, **kwargs):
         url_str = args[0]
@@ -108,8 +114,9 @@ class FilterHandler(BaseHandler):
     def gen_redis_kw(self):
         condition = {}
         if self.get_current_user() and self.userinfo:
-            redis_kw = redisvr.smembers(CMS_CFG['redis_kw'] +
-                                        self.userinfo.user_name)
+            redis_kw = redisvr.smembers(
+                CMS_CFG['redis_kw'] + self.userinfo.user_name
+            )
         else:
             redis_kw = []
 
@@ -248,6 +255,17 @@ class FilterHandler(BaseHandler):
         bread_crumb_nav_str = '<li>当前位置：<a href="/">信息</a></li>'
 
         _catinfo = MCategory.get_by_uid(catid)
+
+        if _catinfo:
+            pass
+        else:
+            kwd = {
+                'title': '',
+
+                'info': '404. Can not find the category!',
+            }
+            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
+
         logger.info('Infocat input: {0}'.format(_catinfo))
         if _catinfo.pid == '0000':
             pcatinfo = _catinfo

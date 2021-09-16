@@ -564,17 +564,16 @@ class MPost():
         return uid
 
     @staticmethod
-    def modify_meta(uid, data_dic, extinfo=None):
+    def add_or_modify_meta(uid, data_dic, extinfo=None):
         '''
         update meta of the rec.
         '''
         if extinfo is None:
             extinfo = {}
         title = data_dic['title'].strip()
-        # if len(title) < 2:
-        #     return False
 
         cur_info = MPost.get_by_uid(uid)
+
         if cur_info:
 
             cur_extinfo = cur_info.extinfo
@@ -686,9 +685,13 @@ class MPost():
 
     @staticmethod
     def query_pager_by_tag(tag, current_page_num=1, kind='2'):
-        recs = MPost.query_by_tagname(tag,
-                                      kind).paginate(current_page_num,
-                                                     CMS_CFG['list_num'])
+        recs = MPost.query_by_tagname(
+            tag,
+            kind
+        ).paginate(
+            current_page_num,
+            CMS_CFG['list_num']
+        )
         return recs
 
     @staticmethod
@@ -702,8 +705,8 @@ class MPost():
         if len(uid) < 4:
             return False
         title = data_dic['title'].strip()
-        # if len(title) < 2:
-        #     return False
+        if len(title) < 1:
+            return False
         TabPost.create(
             uid=uid,
             title=title,
@@ -713,14 +716,14 @@ class MPost():
             create_time=tools.timestamp(),
             date=datetime.now(),
             cnt_md=data_dic['cnt_md'].strip(),
-            memo=data_dic['memo'] if 'memo' in data_dic else '',
+            memo=data_dic.get('memo', ''),
             logo=data_dic['logo'].strip(),
-            order=data_dic['order'] if 'order' in data_dic else '',
+            order=data_dic.get('order', ''),
             cnt_html=tools.markdown2html(data_dic['cnt_md']),
             view_count=0,
             extinfo=extinfo,
             user_name=data_dic['user_name'],
-            valid=data_dic['valid'] if 'valid' in data_dic else 1,
+            valid=data_dic.get('valid', 1),
             kind=data_dic['kind'],
         )
         return uid

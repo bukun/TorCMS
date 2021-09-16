@@ -123,17 +123,6 @@ class BaseHandler(tornado.web.RequestHandler):
         '''
         run_whoosh.gen_whoosh_database(kind_arr=kind_arr, post_type=post_type)
 
-    def wrap_tmpl(self, tmpl):
-        '''
-        return the warpped template path.
-        :param tmpl:
-        '''
-        if self.is_p:
-            _out_str = 'admin/' + tmpl.format(sig='p')
-        else:
-            _out_str = 'admin/' + tmpl.format(sig='')
-        return _out_str
-
     def get_host_ip(self):
         """
         查询本机ip地址

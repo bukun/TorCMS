@@ -69,9 +69,12 @@ class TestApp():
         MPost.add_meta(uid, post_data, extinfo)
         tt = MPost.get_by_uid(uid)
 
-        assert tt.uid == uid
-        MPost.delete(uid)
+        assert tt is None
 
+        # MPost.delete(uid)
+
+    def test_insert3(self):
+        uid = self.uid
         post_data = {
             'title': '1',
             'keywords': 'sd,as',
@@ -86,6 +89,8 @@ class TestApp():
         assert uu == uid
         MPost.delete(uid)
 
+    def test_insert5(self):
+        uid = self.uid
         post_data = {
             'title': '天',
             'keywords': 'sd,as',
@@ -99,6 +104,8 @@ class TestApp():
         assert uu == uid
         MPost.delete(uid)
 
+    def test_insert2(self):
+        uid = self.uid
         post_data = {
             'title': self.title,
             'keywords': 'sd,as',

@@ -119,6 +119,7 @@ class UserHandler(BaseHandler):
 
     def initialize(self, **kwargs):
         super().initialize()
+        self.is_p = False
 
     def get(self, *args, **kwargs):
 
@@ -305,7 +306,6 @@ class UserHandler(BaseHandler):
         MUser.update_role(xg_username, post_data['role'])
         self.redirect('/user/info')
 
-
     @tornado.web.authenticated
     def __logout__(self):
         '''
@@ -319,7 +319,12 @@ class UserHandler(BaseHandler):
         '''
         to change the password.
         '''
-        self.render(self.wrap_tmpl('user/{sig}user_changepass.html'),
+
+        if self.is_p:
+            tmpl = 'admin/user/puser_changepass.html'
+        else:
+            tmpl = 'user/user_changepass.html'
+        self.render(tmpl,
                     userinfo=self.userinfo,
                     kwd={})
 
@@ -328,7 +333,11 @@ class UserHandler(BaseHandler):
         '''
         to change the user info.
         '''
-        self.render(self.wrap_tmpl('user/{sig}user_changeinfo.html'),
+        if self.is_p:
+            tmpl = 'admin/user/puser_changeinfo.html'
+        else:
+            tmpl = 'user/user_changeinfo.html'
+        self.render(tmpl,
                     userinfo=self.userinfo,
                     kwd={})
 
@@ -356,7 +365,12 @@ class UserHandler(BaseHandler):
         pager_num = int(MUser.total_number() / CMS_CFG['list_num'])
 
         kwd = {'pager': '', 'current_page': current_page_number}
-        self.render(self.wrap_tmpl('user/{sig}user_find_list.html'),
+
+        if self.is_p:
+            tmpl = 'admin/user/puser_find_list.html'
+        else:
+            tmpl = 'user/user_find_list.html'
+        self.render(tmpl,
                     cfg=config.CMS_CFG,
                     infos=MUser.query_pager_by_slug(
                         current_page_num=current_page_number),
@@ -372,7 +386,12 @@ class UserHandler(BaseHandler):
         rec = MUser.get_by_uid(self.userinfo.uid)
         kwd = {}
 
-        self.render(self.wrap_tmpl('user/{sig}user_info.html'),
+        if self.is_p:
+            tmpl = 'admin/user/puser_info.html'
+        else:
+            tmpl = 'user/user_info.html'
+
+        self.render(tmpl,
                     userinfo=self.userinfo,
                     extinfo=rec.extinfo,
                     kwd=kwd)
@@ -499,7 +518,8 @@ class UserHandler(BaseHandler):
 
             if form_info.validate():
                 user_create_status = MUser.update_info(self.userinfo.uid,
-                                                       post_data['user_email'])
+                                                       post_data['user_email']
+                                                       )
                 return json.dump(user_create_status, self)
             return json.dump(user_create_status, self)
         return False
@@ -568,10 +588,12 @@ class UserHandler(BaseHandler):
 
         # Todo: the kwd should remove from the codes.
         if result == 1:
-            self.set_secure_cookie("user",
-                                   u_name,
-                                   expires_days=None,
-                                   expires=time.time() + 60 * CMS_CFG.get('expires_minutes', 15))
+            self.set_secure_cookie(
+                "user",
+                u_name,
+                expires_days=None,
+                expires=time.time() + 60 * CMS_CFG.get('expires_minutes', 15)
+            )
             MUser.update_success_info(u_name)
             self.redirect(next_url)
         elif result == 0:
@@ -639,7 +661,12 @@ class UserHandler(BaseHandler):
             'title': '查找结果',
         }
 
-        self.render(self.wrap_tmpl('user/{sig}user_find_list.html'),
+        if self.is_p:
+            tmpl = 'admin/user/puser_find_list.html'
+        else:
+            tmpl = 'user/user_find_list.html'
+
+        self.render(tmpl,
                     kwd=kwd,
                     view=MUser.get_by_keyword(keyword),
                     cfg=config.CMS_CFG,
@@ -673,7 +700,6 @@ class UserHandler(BaseHandler):
         recs = MUser.query_by_time(current_month * 30)
 
         for rec in recs:
-
             current_mon = time.strftime("%m", time.localtime(rec.time_create))
             if current_mon == '01':
                 jan_arr.append(rec)
@@ -699,37 +725,37 @@ class UserHandler(BaseHandler):
                 nov_arr.append(rec)
             elif current_mon == '12':
                 dec_arr.append(rec)
-        count_arr.append(len(jan_arr))
-        count_arr.append(len(feb_arr))
-        count_arr.append(len(mar_arr))
-        count_arr.append(len(apr_arr))
-        count_arr.append(len(may_arr))
-        count_arr.append(len(jun_arr))
-        count_arr.append(len(jul_arr))
-        count_arr.append(len(aug_arr))
-        count_arr.append(len(sep_arr))
-        count_arr.append(len(oct_arr))
-        count_arr.append(len(nov_arr))
-        count_arr.append(len(dec_arr))
+            count_arr.append(len(jan_arr))
+            count_arr.append(len(feb_arr))
+            count_arr.append(len(mar_arr))
+            count_arr.append(len(apr_arr))
+            count_arr.append(len(may_arr))
+            count_arr.append(len(jun_arr))
+            count_arr.append(len(jul_arr))
+            count_arr.append(len(aug_arr))
+            count_arr.append(len(sep_arr))
+            count_arr.append(len(oct_arr))
+            count_arr.append(len(nov_arr))
+            count_arr.append(len(dec_arr))
 
-        for mon in range(0, current_month):
-            month_arr.append(mon + 1)
-            num_arr.append(count_arr[mon])
+            for mon in range(0, current_month):
+                month_arr.append(mon + 1)
+                num_arr.append(count_arr[mon])
 
-        kwd = {
-            'pager': '',
-            'title': '查找结果',
-            'user_count': MUser.total_number(),
-            'month_arr': month_arr,
-            'num_arr': num_arr,
-        }
+            kwd = {
+                'pager': '',
+                'title': '查找结果',
+                'user_count': MUser.total_number(),
+                'month_arr': month_arr,
+                'num_arr': num_arr,
+            }
 
-        self.render('user/user_list.html',
-                    recs=recs,
-                    kwd=kwd,
-                    view=MUser.query_by_time(),
-                    cfg=config.CMS_CFG,
-                    userinfo=self.userinfo)
+            self.render('user/user_list.html',
+                        recs=recs,
+                        kwd=kwd,
+                        view=MUser.query_by_time(),
+                        cfg=config.CMS_CFG,
+                        userinfo=self.userinfo)
 
     def __delete_user__(self, user_id):
         '''
@@ -786,9 +812,9 @@ class UserHandler(BaseHandler):
                 url_reset = '{0}/user/reset-passwd?u={1}&t={2}&p={3}'.format(
                     config.SITE_CFG['site_url'], username, timestamp, hash_str)
                 email_cnt = '''<div>请查看下面的信息，并<span style="color:red">谨慎操作</span>：</div>
-            <div>您在"{0}"网站（{1}）申请了密码重置，如果确定要进行密码重置，请打开下面链接：</div>
-            <div><a href={2}>{2}</a></div>
-            <div>如果无法确定本信息的有效性，请忽略本邮件。</div>'''.format(
+                <div>您在"{0}"网站（{1}）申请了密码重置，如果确定要进行密码重置，请打开下面链接：</div>
+                <div><a href={2}>{2}</a></div>
+                <div>如果无法确定本信息的有效性，请忽略本邮件。</div>'''.format(
                     config.SMTP_CFG['name'], config.SITE_CFG['site_url'],
                     url_reset)
 
@@ -860,6 +886,7 @@ class UserHandler(BaseHandler):
 class UserPartialHandler(UserHandler):
     '''
     Partially render for user handler.
+    For website background.
     '''
 
     def initialize(self, **kwargs):

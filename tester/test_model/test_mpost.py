@@ -574,7 +574,7 @@ class TestMPost():
             'valid': '1',
 
         }
-        self.uu.modify_meta(self.post_id, p_d)
+        self.uu.add_or_modify_meta(self.post_id, p_d)
         aa = self.uu.get_by_uid(self.post_id)
         self.tearDown()
         assert aa.title == p_d['title']
