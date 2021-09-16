@@ -582,7 +582,7 @@ class PostHandler(BaseHandler):
         ext_dic['def_uid'] = uid
         ext_dic['gcat0'] = post_data['gcat0']
         ext_dic['def_cat_uid'] = post_data['gcat0']
-        MPost.modify_meta(ext_dic['def_uid'], post_data, extinfo=ext_dic)
+        MPost.add_or_modify_meta(ext_dic['def_uid'], post_data, extinfo=ext_dic)
         kwargs.pop('uid', None)  # delete `uid` if exists in kwargs
 
         self._add_download_entity(ext_dic)
@@ -632,7 +632,7 @@ class PostHandler(BaseHandler):
         else:
             MPostHist.create_post_history(postinfo, self.userinfo)
 
-        MPost.modify_meta(uid, post_data, extinfo=ext_dic)
+        MPost.add_or_modify_meta(uid, post_data, extinfo=ext_dic)
 
         self._add_download_entity(ext_dic)
         # self.update_tag(uid=uid)
