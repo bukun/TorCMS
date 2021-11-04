@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 '''
-TorCMS 基本模块
+TorCMS basic modules.
 '''
 
 from math import ceil as math_ceil
@@ -8,10 +8,7 @@ from math import ceil as math_ceil
 import bs4
 import tornado.escape
 import tornado.web
-
-import config
 from torcms.core.tool.whoosh_tool import YunSearch
-from torcms.core.tools import logger
 from torcms.model.category_model import MCategory
 from torcms.model.collect_model import MCollect
 from torcms.model.comment_model import MComment
@@ -28,6 +25,8 @@ from torcms.model.reply_model import MReply
 from torcms.model.user_model import MUser
 from torcms.model.wiki_model import MWiki
 
+import config
+
 
 class ShowPage(tornado.web.UIModule):
     '''
@@ -43,7 +42,7 @@ class ShowPage(tornado.web.UIModule):
         page = MWiki.get_by_uid(page_id)
         kwd = {'uid': page_id, 'count': count}
         if page:
-            out_str = self.render_string('modules/show_page.html',
+            out_str = self.render_string('modules/post/show_page.html',
                                          postinfo=page,
                                          userinfo=userinfo,
                                          kwd=kwd)
@@ -52,54 +51,38 @@ class ShowPage(tornado.web.UIModule):
         return out_str
 
 
-class PostListOfTag(tornado.web.UIModule):
-    def render(self, *args, **kwargs):
-        tagid = args[0]
-        posts = MPost.query_by_tag(tagid, kind='5')
-        outstr = ''
-        for postinfo in posts:
-            tmpl = '''<li class ="list-group-item" ><a href="/course/{uid}">{title}</a></li>
-            '''.format(title=postinfo.title, uid=postinfo.uid)
-            outstr = outstr + tmpl
-        return outstr
-
-
 class PostLabels(tornado.web.UIModule):
     '''
     Show the labels of the post.
     '''
 
     def render(self, *args, **kwargs):
-        postinfo = kwargs.get('postinfo', None)
-        if postinfo:
+
+        post_uid = kwargs.get('post_uid', None)
+
+        if post_uid:
+
+            postinfo = MPost.get_by_uid(post_uid)
+            kind = postinfo.kind
             tag_info = filter(lambda x: not x.tag_name.startswith('_'),
                               MPost2Label.get_by_uid(postinfo.uid).objects())
-            idx = 1
-            outstr = '<span class="post_label">'
-            for tag in tag_info:
-                outstr += '''<a href="/label/{kind}/{tag_uid}"
-                    class ="app_label tag{index}"> {tag_name} </a>
-                    '''.format(tag_uid=tag.tag_id,
-                               kind=postinfo.kind,
-                               tag_name=tag.tag_name,
-                               index=idx)
-                idx += 1
-            return outstr + '</span>'
-        return ''
+            outstr = self.join_tags(kind, tag_info)
+        else:
+            outstr = ''
+        return outstr
 
-
-class GetFooter(tornado.web.UIModule):
-    '''
-    Render footer.
-    '''
-
-    def render(self, *args, **kwargs):
-        logger.info('Init footer')
-        all_cats = MCategory.query_all()
-        kwd = {
-            'cats': all_cats,
-        }
-        return self.render_string('modules/post/menu.html', kwd=kwd)
+    def join_tags(self, kind, tag_info):
+        idx = 1
+        outstr = '<span class="post_label">'
+        tmpl_str = '<a href="/label/{kind}/{tag_uid}" class="app_label tag{index}">{tag_name}</a>'
+        for tag in tag_info:
+            outstr += tmpl_str.format(tag_uid=tag.tag_id,
+                                      kind=kind,
+                                      tag_name=tag.tag_name,
+                                      index=idx)
+            idx += 1
+        outstr = outstr + '</span>'
+        return outstr
 
 
 class PreviousPostLink(tornado.web.UIModule):
@@ -292,6 +275,7 @@ class PostCategoryRecent(tornado.web.UIModule):
 
         is_spa = kwargs.get('spa', False)
         order = kwargs.get('order', False)
+        post_uid = kwargs.get('post_uid', '')
 
         catinfo = MCategory.get_by_uid(cat_id)
         if catinfo.pid == '0000':
@@ -317,7 +301,8 @@ class PostCategoryRecent(tornado.web.UIModule):
             'glyph': glyph,
             'spa': is_spa,
             'order': order,
-            'kind': catinfo.kind
+            'kind': catinfo.kind,
+            'post_uid': post_uid
         }
         return self.render_string('modules/post/post_list.html',
                                   recs=recs,
@@ -431,16 +416,6 @@ class GenerateDescription(tornado.web.UIModule):
         return tmp_str.get_text()[:100]
 
 
-class CopyRight(tornado.web.UIModule):
-    '''
-    show TorCMS copy right.
-    '''
-
-    def render(self, *args, **kwargs):
-        return '''<span>Build on
-        <a href="https://github.com/bukun/TorCMS" target="_blank">TorCMS</a>.</span>'''
-
-
 class PostTags(tornado.web.UIModule):
     '''
     show tags of the post.
@@ -476,28 +451,6 @@ class MapTags(tornado.web.UIModule):
             out_str += tmp_str
             idx += 1
         return out_str
-
-
-class ModuleCatMenu(tornado.web.UIModule):
-    '''
-
-    '''
-
-    def render(self, with_count=True):
-        kwd = {
-            'cats': MCategory.query_all(by_count=True),
-            'with_count': with_count,
-        }
-        return self.render_string('modules/post/menu_post.html', kwd=kwd)
-
-
-class ToplineModule(tornado.web.UIModule):
-    '''
-
-    '''
-
-    def render(self, *args, **kwargs):
-        return self.render_string('modules/widget/topline.html')
 
 
 class CategoryPager(tornado.web.UIModule):
@@ -932,8 +885,6 @@ class Admin_reply_pager(tornado.web.UIModule):
             page_num = test_page_num
         else:
             page_num = test_page_num + 1
-
-
 
         kwd = get_page_position(current, page_num)
 

@@ -19,22 +19,18 @@ CMS_CFG = {
 }
 
 router_post = {'1': 'post',
-               '9': 'info',  # Filter_View
-               'm': 'map',
-               's': 'special', }
+               '2': 'info',  # Filter_View
+               }
 
 post_type = {
     '1': '''<span style="color:green;" class="glyphicon glyphicon-list-alt">[{0}]</span>
         '''.format('Document'),
-    '9': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>
-        '''.format('Dataset'),
-    's': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>
-        '''.format('Info'),
-    'm': '''<span style="color:red;" class="glyphicon glyphicon-map-marker">[{0}]</span>
-        '''.format('Map'),
+    '2': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>
+        '''.format('Data'),
+
 }
 
-kind_arr = ['9', 'm', 's']
+kind_arr = ['2']
 
 post_emails = ['bukun@osgeo.cn', '118171@qq.com']
 

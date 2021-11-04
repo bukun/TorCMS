@@ -334,7 +334,7 @@ class MUser():
                 user_name=post_data['user_name'],
                 user_pass=tools.md5(post_data['user_pass']),
                 user_email=post_data['user_email'],
-                role='1000',  # ‘1000' as default role.
+                role=post_data['role'] if 'role' in post_data else '1000',  # ‘1000' as default role.
                 time_create=tools.timestamp(),
                 time_update=tools.timestamp(),
                 time_reset_passwd=tools.timestamp(),

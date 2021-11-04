@@ -1,0 +1,139 @@
+
+.b-link-fade
+  position: relative
+  display: inline-block
+  vertical-align: top
+  margin-bottom: 5px
+
+
+.b-link-fade .b-wrapper
+  z-index: 1
+
+.b-link-fade .b-top-line
+  z-index: 0
+
+.b-link-fade .b-wrapper, .b-link-fade .b-top-line
+  position: absolute
+  width: 100%
+  height: 100%
+  top: 0
+  left: 0
+  text-align: center
+  color: #fff
+  background: #74c9be
+  visibility: hidden
+/* lt-ie9 */
+
+
+.b-link-fade .b-wrapper, .b-link-fade .b-top-line
+  transition: all 0.6s ease
+  -moz-transition: all 0.6s ease
+  -ms-transition: all 0.6s ease
+  -o-transition: all 0.6s ease
+  -webkit-transition: all 0.6s ease
+
+  overflow: hidden
+  opacity: 0
+
+.b-link-fade:hover .b-wrapper, .b-link-fade:hover .b-top-line
+
+  opacity: 0.8
+  visibility: visible
+/* lt-ie9 */
+
+
+
+
+
+
+
+
+/*-----------------------------------------------------------------------------------*/
+/*	Delay
+/*-----------------------------------------------------------------------------------*/
+.b-delay03
+  transition-delay: 0.3s !important
+  -moz-transition-delay: 0.3s !important
+  -ms-transition-delay: 0.3s !important
+  -o-transition-delay: 0.3s !important
+  -webkit-transition-delay: 0.3s !important
+
+
+/*-----------------------------------------------------------------------------------*/
+/*	Animation effects
+/*-----------------------------------------------------------------------------------*/
+.b-animate-go
+  text-decoration: none
+
+.b-animate
+  transition: all 0.5s
+  -moz-transition: all 0.5s
+  -ms-transition: all 0.5s
+  -o-transition: all 0.5s
+  -webkit-transition: all 0.5s
+  visibility: hidden
+/* lt-ie9 */
+
+/* lt-ie9 */
+.b-animate-go:hover .b-animate
+  visibility: visible
+
+
+.b-from-left
+  position: relative
+  left: -100%
+
+.b-animate-go:hover .b-from-left
+  left: 0
+
+
+.b-from-right
+  position: relative
+  right: -100%
+
+.b-animate-go:hover .b-from-right
+  right: 0
+
+
+.b-animate-go:hover .b-from-top
+  top: 0
+
+
+.b-animate-go:hover .b-opacity
+  opacity: 1
+
+
+.b-animate-go:hover .b-cw-90, .b-animate-go:hover .b-cw-180, .b-animate-go:hover .b-ccw-90, .b-animate-go:hover .b-ccw-180
+  transform: rotate(0)
+  -moz-transform: rotate(0)
+  -ms-transform: rotate(0)
+  -o-transform: rotate(0)
+  -webkit-transform: rotate(0)
+
+.b-animate-go .b-cw-90
+  transform: rotate(90deg)
+  -moz-transform: rotate(90deg)
+  -ms-transform: rotate(90deg)
+  -o-transform: rotate(90deg)
+  -webkit-transform: rotate(90deg)
+
+.b-animate-go .b-cw-180
+  transform: rotate(180deg)
+  -moz-transform: rotate(180deg)
+  -ms-transform: rotate(180deg)
+  -o-transform: rotate(180deg)
+  -webkit-transform: rotate(180deg)
+
+.b-animate-go .b-ccw-90
+  transform: rotate(-90deg)
+  -moz-transform: rotate(-90deg)
+  -ms-transform: rotate(-90deg)
+  -o-transform: rotate(-90deg)
+  -webkit-transform: rotate(-90deg)
+
+.b-animate-go .b-ccw-180
+  transform: rotate(-180deg)
+  -moz-transform: rotate(-180deg)
+  -ms-transform: rotate(-180deg)
+  -o-transform: rotate(-180deg)
+  -webkit-transform: rotate(-180deg)

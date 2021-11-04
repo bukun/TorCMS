@@ -417,71 +417,12 @@ class RelApp2post(tornado.web.UIModule):
                                   kwd=kwd)
 
 
-class ImgSlide(tornado.web.UIModule):
-    '''
-    Module for Image slide.
-    fun(info)
-    '''
-
-    def render(self, *args, **kwargs):
-        info = kwargs.get('info', args[0])
-        return self.render_string('modules/info/img_slide.html',
-                                  post_info=info)
 
 
-class UserInfo(tornado.web.UIModule):
-    '''
-    Display userinfo.
-    fun(uinfo, uop)
-    '''
-
-    def render(self, *args, **kwargs):
-        uinfo = kwargs.get('uinfo', args[0])
-        uop = kwargs.get('uop', args[1])
-        return self.render_string('modules/info/user_info.html',
-                                  userinfo=uinfo,
-                                  userop=uop)
 
 
-class VipInfo(tornado.web.UIModule):
-    '''
-    VipInfo
-    fun(uinfo, uvip)
-    '''
-
-    def render(self, *args, **kwargs):
-        uinfo = kwargs.get('uinfo', args[0])
-        uvip = kwargs.get('uvip', args[1])
-        return self.render_string('modules/info/vip_info.html',
-                                  userinfo=uinfo,
-                                  uservip=uvip)
 
 
-class BannerModule(tornado.web.UIModule):
-    '''
-    BannerModule
-    fun(parentid = val)
-    '''
-
-    def render(self, *args, **kwargs):
-        parentid = kwargs.get('parentid', '')
-        parentlist = MCategory.get_parent_list()
-        kwd = {
-            'parentlist': parentlist,
-            'parentid': parentid,
-        }
-        return self.render_string('modules/info/banner.html', kwd=kwd)
-
-
-class BreadCrumb(tornado.web.UIModule):
-    '''
-    BreadCrumb
-    fun(info)
-    '''
-
-    def render(self, *args, **kwargs):
-        info = kwargs.get('info', args[0])
-        return self.render_string('modules/info/bread_crumb.html', info=info)
 
 
 class ParentName(tornado.web.UIModule):
@@ -506,22 +447,7 @@ class CatName(tornado.web.UIModule):
         return self.render_string('modules/info/catname.html', info=info)
 
 
-class ContactInfo(tornado.web.UIModule):
-    '''
-    ContactInfo
-    fun(info)
-    '''
 
-    def render(self, *args, **kwargs):
-        # info = args[0]
-
-        info = kwargs.get('info', args[0])
-        kwd = {
-            'maskip': '',  # maskip,
-        }
-        return self.render_string('modules/info/contact_info.html',
-                                  post_info=info,
-                                  kwd=kwd)
 
 
 class BreadcrumbPublish(tornado.web.UIModule):

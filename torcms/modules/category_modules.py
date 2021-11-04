@@ -45,6 +45,7 @@ class SecondaryCategoryList(tornado.web.UIModule):
         catid = kwargs.get('catid', '')
         second = kwargs.get('second', True)
         userinfo = kwargs.get('userinfo', None)
+        post_uid = kwargs.get('post_uid', '')
 
         glyph = kwargs.get('glyph', '')
         cat_id = catid[:2]
@@ -61,6 +62,7 @@ class SecondaryCategoryList(tornado.web.UIModule):
                 'modules/category/showsubcat_list_second.html',
                 recs=recs,
                 catid=catid,
+                post_uid=post_uid,
                 userinfo=userinfo,
                 kwd=kwd)
 

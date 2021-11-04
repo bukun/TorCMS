@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
-    <title>World Data Center for Renewable Resourees and Enviornment,Beijing,China</title>
+    <meta charset="utf-8">
     <meta charset="utf-8">
     <meta name="applicable-device" content="pc,mobile">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,99 +15,98 @@
     {% block head %}
     {% end %}
 
-<script src="{{ static_url('jslib/dst/getIP.js') }}"></script>
+    <script src="{{ static_url('jslib/dst/getIP.js') }}"></script>
 
-<script language="javascript" type="text/javascript">
-    // 统计用户 访问网站步骤记录
-    var tjSecond = 0;
-    var tjRandom = 0;
-    var userinfo="{{ userinfo.uid if userinfo else ''}}";
+    <script language="javascript" type="text/javascript">
+        // 统计用户 访问网站步骤记录
+        var tjSecond = 0;
+        var tjRandom = 0;
+        var userinfo = "{{ userinfo.uid if userinfo else ''}}";
 
-    window.setInterval(function () {
-        tjSecond++;
-    }, 1000);
-    // 随机数
-    tjRandom = (new Date()).valueOf();
+        window.setInterval(function () {
+            tjSecond++;
+        }, 1000);
+        // 随机数
+        tjRandom = (new Date()).valueOf();
 
-    // 用户第一次访问页面记录部分数据
-    window.onload = function () {
+        // 用户第一次访问页面记录部分数据
+        window.onload = function () {
 
-        var tjArr = localStorage.getItem("jsArr") ? localStorage.getItem("jsArr") : '[]';
+            var tjArr = localStorage.getItem("jsArr") ? localStorage.getItem("jsArr") : '[]';
 
-        var dataArr = {
-            'tjRd': tjRandom,
-            'url': location.href,
-            'refer': getReferrer(),
-            'user_id':userinfo
-        };
-        tjArr = eval('(' + tjArr + ')');
-        tjArr.push(dataArr);
-        var tjArr1 = JSON.stringify(tjArr);
+            var dataArr = {
+                'tjRd': tjRandom,
+                'url': location.href,
+                'refer': getReferrer(),
+                'user_id': userinfo
+            };
+            tjArr = eval('(' + tjArr + ')');
+            tjArr.push(dataArr);
+            var tjArr1 = JSON.stringify(tjArr);
 
-        localStorage.setItem("jsArr", tjArr1);
-
-
-    };
-    // 用户继续访问根据上面提供的key值补充数据
-    window.onbeforeunload = function () {
-
-        var tjArrRd = eval('(' + localStorage.getItem("jsArr") + ')');
-        var tjI = tjArrRd.length - 1;
-        if (tjArrRd[tjI].tjRd == tjRandom) {
-            tjArrRd[tjI].time = tjSecond;
-            tjArrRd[tjI].timeIn = Date.parse(new Date()) - (tjSecond * 1000);
-            tjArrRd[tjI].timeOut = Date.parse(new Date());
-
-            $.post("/log/_add", {
-                url: tjArrRd[tjI].url,
-                refer: tjArrRd[tjI].refer,
-                user_id: tjArrRd[tjI].user_id,
-                uid: tjArrRd[tjI].tjRd,
-                timeon: tjArrRd[tjI].time,
-                timein: tjArrRd[tjI].timeIn,
-                timeOut: tjArrRd[tjI].timeOut
-
-            }, function (result) {
-            });
-            var tjArr1 = JSON.stringify(tjArrRd);
             localStorage.setItem("jsArr", tjArr1);
 
 
-        }
-    };
+        };
+        // 用户继续访问根据上面提供的key值补充数据
+        window.onbeforeunload = function () {
+
+            var tjArrRd = eval('(' + localStorage.getItem("jsArr") + ')');
+            var tjI = tjArrRd.length - 1;
+            if (tjArrRd[tjI].tjRd == tjRandom) {
+                tjArrRd[tjI].time = tjSecond;
+                tjArrRd[tjI].timeIn = Date.parse(new Date()) - (tjSecond * 1000);
+                tjArrRd[tjI].timeOut = Date.parse(new Date());
+
+                $.post("/log/_add", {
+                    url: tjArrRd[tjI].url,
+                    refer: tjArrRd[tjI].refer,
+                    user_id: tjArrRd[tjI].user_id,
+                    uid: tjArrRd[tjI].tjRd,
+                    timeon: tjArrRd[tjI].time,
+                    timein: tjArrRd[tjI].timeIn,
+                    timeOut: tjArrRd[tjI].timeOut
+
+                }, function (result) {
+                });
+                var tjArr1 = JSON.stringify(tjArrRd);
+                localStorage.setItem("jsArr", tjArr1);
 
 
-    function getReferrer() {
-        var referrer = '';
-        try {
-            referrer = window.top.document.referrer;
-        } catch (e) {
-            if (window.parent) {
-                try {
-                    referrer = window.parent.document.referrer;
-                } catch (e2) {
-                    referrer = '';
+            }
+        };
+
+
+        function getReferrer() {
+            var referrer = '';
+            try {
+                referrer = window.top.document.referrer;
+            } catch (e) {
+                if (window.parent) {
+                    try {
+                        referrer = window.parent.document.referrer;
+                    } catch (e2) {
+                        referrer = '';
+                    }
                 }
             }
+            if (referrer === '') {
+                referrer = document.referrer;
+            }
+
+            return referrer;
+
         }
-        if (referrer === '') {
-            referrer = document.referrer;
-        }
 
-        return referrer;
+    </script>
 
-    }
 
-</script>
+    <link href="/static/css/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
 
 </head>
-<body>
-<!--<div class="container">-->
-    <!--<div class="col-sm-12">-->
-        <!--<a href="/"><img src="{{ static_url('tass/images/world.png') }}" class="img-responsive"></a>-->
-    <!--</div>-->
-<!--</div>-->
 
+<body>
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
@@ -117,43 +116,25 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/"> Geodata</a>
+            <a class="navbar-brand" href="/"> TorCMS</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
+                <li><a href="/page/about_torcms">About</a></li>
                 <li class="dropdown">
-                    <a href="" class="dropdown-toggle" data-toggle="dropdown">Menu
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">Data
                         <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/filter/8100">Basic geographic</a></li>
-                        <li><a href="/filter/8200">Nature resources</a></li>
-                        <li><a href="/filter/8300">Population and social economy</a></li>
-                        <li><a href="/filter/8400">Disaster risk reduction</a></li>
-                        <li><a href="/filter/8500">Land use and land cover database</a></li>
-                        <li><a href="/filter/8600">Loess Plateau</a></li>
-                        <li><a href="/filter/8700">Temperature</a></li>
-                        <li><a href="/filter/8800">Regional and thematic</a></li>
+                        <li><a href="/filter/2100">Basic geographic</a></li>
+                        <li><a href="/filter/2200">Nature resources</a></li>
+
 
                     </ul>
                 </li>
-                <li><a href="/post/">Document</a></li>
-                <li><a href="/catalog/rs">Catalog</a></li>
-                <!--<li class="dropdown">-->
-                    <!--<a href="" class="dropdown-toggle" data-toggle="dropdown"> catalog-->
-                        <!--<b class="caret"></b></a>-->
-                    <!--<ul class="dropdown-menu">-->
-                        <!--<li><a href="/catalog/rs">Remote Sensing</a></li>-->
-                    <!--</ul>-->
-                <!--</li>-->
-                 <li><a href="/special/">Special Database</a></li>
-                <li class="dropdown">
-                    <a href="" class="dropdown-toggle" data-toggle="dropdown">Help
-                        <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/page/about">About</a></li>
-                        <li><a href="/page/contact">Content</a></li>
-                    </ul>
-                </li>
+
+                <li><a href="/post/">News</a></li>
+
+
                 <li class="dropdown">
                     <a href="" class="dropdown-toggle" data-toggle="dropdown">User
                         <b class="caret"></b></a>
@@ -172,90 +153,47 @@
             <ul class="nav navbar-nav navbar-right">
                 <li>
                     <div>
-                    {% module widget_search() %}
+                        {% module widget_search() %}
                     </div>
                 </li>
 
                 {% if userinfo %}
-                <li><a href="/user/info">{{userinfo.user_name}}</a> </li>
-                <li><a href="/user/logout">{{ _('Logout') }}</a> </li>
+                <li><a href="/user/info">{{ userinfo.user_name }}</a></li>
+                <li><a href="/user/logout">{{ _('Logout') }}</a></li>
                 {% else %}
-                <li><a href="/user/login">{{ _('Login') }}</a> </li>
-                <li><a href="/user/regist">{{ _('Register') }}</a> </li>
-                {% end%}
+                <li><a href="/user/login">{{ _('Login') }}</a></li>
+                <li><a href="/user/regist">{{ _('Register') }}</a></li>
+                {% end %}
             </ul>
         </div>
     </div>
 </div>
-
-
-
+{% block mainbody %}
 <div class="container" style="padding-top: 80px">
     {% block typebody %}{% end %}
 </div>
 
-<div class="container-fluid" style="background: #e9f4fa">
- <div class="container">
-        <div class="col-sm-12">
-            <div class="col-sm-4">
-                <h4><b>Contact Us</b></h4>
-            <ul class="lists">
-                <li class="home"><span class="glyphicon glyphicon-road"></span>&nbsp
-                    11A, Datun Road, Chaoyang District, Beijing, 100101, China </li>
+{% end %}
 
-                <li class="telephone">
-                    <span class="glyphicon glyphicon-phone-alt"></span>&nbsp
 
-                    +86 010-64889048-8006</li>
+<div id="copyrights">
+    <div class="container">
+        <p>
+            &copy; ICP备案号:nih-c169205-1 © 2003 - 2026 wdc.cn All rights reserved
+        </p>
 
-                <li class="email">
-                     <span class="glyphicon glyphicon-envelope"></span>&nbsp
-
-                    wdc-rre@lreis.ac.cn</li></ul>
-            </div>
-            <div class="col-sm-4">
-                <h4><b>RELATED DOCUMENTS</b></h4>
-                <ul class="lists">
-			<li><a href="/page/mission">Mission and Goals</a></li>
-			<li> <a href="/page/introduction">Introduction</a></li>
-                    <li> <a href="/page/framework">WDC-RRE framework and development guarantee</a></li><li>
-                <a href="/page/expert">Committees of expert and users</a></li><li>
-                 <a href="/page/handbook">Data process handbook</a></li><li>
-                 <a href="/page/management">Management and operation</a></li>
-                    </ul>
-            </div>
-
-            <div class="col-sm-4">
-                <h4><b>Thanks!</b></h4>
-                <ul class="lists"><li>
-                 This website is based on <a href="http://torcms.yunsuan.org" target="_blank">TorCMS</a>
-                (MIT protocol) development
-                </li><li>
-                    The operation of this website is supported by the following units and agencies: <br>
-
-              <span style="padding: 10px; font-size: 12px">
-                  <a href="http://english.igsnrr.cas.cn/" target="_blank">
-                      <img src="{{ static_url('tass/images/enl38_logo.png') }}" width="10%">
-                Institute of Geographic Sciences and Natural Resources Research, CAS
-              </a></span><br>
-                    <span style="padding: 10px; font-size: 12px">
-
-              <a href="http://english.neigae.cas.cn/" target="_blank">
-                  <img src="{{ static_url('tass/images/north.png') }}" width="10%">
-                Northeast Institute of Geography and Agroecology, Chinese Academy of Sciences
-            </a> </span>
-                </li></ul>
-            </div>
-        </div>
-    </div>
-    <div class="row" style="text-align: center;border-top: 2px dashed #ddd;">
-        ICP备案号:nih-c169205-1   © 2003 - 2026 wdc.cn All rights reserved
     </div>
 </div>
 
+<script src="/static/css/lib/jquery/jquery.min.js"></script>
+<script src="/static/css/lib/hover-pack/hover-pack.js"></script>
+<script src="/static/js/main.js"></script>
 <script type="text/javascript"
         src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script type="text/javascript" src="{{ static_url('jslib/dst/gscript.js') }}"></script>
-<script type="text/javascript" src="{{ static_url('jslib/dst/referrer.js')}}"></script>
+<script type="text/javascript" src="{{ static_url('jslib/dst/referrer.js') }}"></script>
 </body>
 </html>
+
+
+

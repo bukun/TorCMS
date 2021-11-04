@@ -3,34 +3,33 @@
 <script type="text/javascript">
     $().ready(function () {
         $("#form_login").validate(
-                {
-                    rules: {
-                        user_name: {
-                            required: true
-                        },
-                        user_pass: {
-                            required: true
-                        }
+            {
+                rules: {
+                    user_name: {
+                        required: true
                     },
-                    messages: {
-                        user_name: {
-                            required: "<span class='red'>enter one user name</span>"
-                        },
+                    user_pass: {
+                        required: true
+                    }
+                },
+                messages: {
+                    user_name: {
+                        required: "<span class='red'>enter one user name</span>"
+                    },
 
-                        user_pass: {
-                            required: "<span class='red'>Please enter a password</span>"
-                        }
+                    user_pass: {
+                        required: "<span class='red'>Please enter a password</span>"
                     }
                 }
+            }
         );
         var kwd_next = "{{kwd['next_url']}}";
-         if (kwd_next == '/'){
+        if (kwd_next == '/') {
 
-             document.getElementById('next').value = document.referrer;
-         }
-         else{
+            document.getElementById('next').value = document.referrer;
+        } else {
             document.getElementById('next').value = kwd_next;
-         }
+        }
     });
 
 
@@ -43,49 +42,57 @@
         <li class="active">{{ _('User Login') }}</li>
     </ul>
 </div>
+
+
 <div class="panel panel-black">
-    <div class="panel-heading"><b> {{ _('User Login') }} </b></div>
-    <div class="panel-body">
-        <form id="form_login" action="/user/login" method="post" class="form-horizontal" role="form">
-            <input type="hidden" name="next" id="next" class="form-control" value=""  />
-            <div class="form-group">
-                <label for="user_name" class="col-sm-2 control-label">{{ _('User name') }}: </label>
+    <div class="panel-heading"><b>{{ _('User Login') }} </b></div>
+<div class="panel-body">
+    <form id="form_login" action="/user/login" method="post" class="contact-form" role="form">
+        <input type="hidden" name="next" id="next" class="form-control" value=""/>
+        <div class="form-group">
+            <label for="user_name" class="col-sm-1 control-label"> </label>
 
-                <div class="col-sm-10">
-
-
-                    <input type="text" name="user_name" id="user_name" class="form-control"
-                           placeholder="Please enter your user name"/>
-
-                </div>
+            <div class="col-sm-10">
+                <input type="text" name="user_name" id="user_name" class="form-control"
+                       placeholder="Please enter your user name"/>
             </div>
-            <div class="form-group">
-                <label for="user_pass" class="col-sm-2 control-label">{{ _('Password') }}: </label>
-
-                <div class="col-sm-10">
-                    <input type="password" name="user_pass" id="user_pass" class="form-control"
-                           placeholder="Please enter your password">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label"></label>
-
-                <div class="col-sm-10">
-                    <button type="submit" class="btn btn-primary">{{ _('Login') }}</button>
-                </div>
-            </div>
-        </form>
-        <br>
-
-        <div class="alert alert-info">Non users of the station？ Please
-            <a href="/user/regist" class="btn btn-primary">Register</a> 。
+                <br><br>
         </div>
-        <div class="alert alert-warning">
-            Forget Password，Try to
-            <a href="/user/reset-password" class="btn btn-primary"> reset the password</a>
+
+        <div class="form-group">
+            <label for="user_pass" class="col-sm-1 control-label"> </label>
+
+            <div class="col-sm-10">
+                <input type="password" name="user_pass" id="user_pass" class="form-control"
+                       placeholder="Please enter your password">
+            </div>
+               <br><br>
         </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label"></label>
+
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary">{{ _('Login') }}</button>
+            </div>
+        </div>
+    </form>
+    <br>
+ <div class="row">
+     <div class="col-sm-1"></div>
+     <div class="col-sm-10">
+    <div class="btn sent-message">Non users of the station？ Please
+        <a href="/user/regist">Register</a> 。
     </div>
+    <br>
+    <div class="btn sent-message">
+        Forget Password，Try to
+        <a href="/user/reset-password"> reset the password</a>
+    </div>
+         </div>
 </div>
+</div>
+</div>
+
 
 {% end %}
 
