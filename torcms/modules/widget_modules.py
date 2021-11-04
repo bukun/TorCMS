@@ -131,16 +131,6 @@ class UseF2E(tornado.web.UIModule):
         return self.render_string('modules/usef2e/{0}.html'.format(f2ename))
 
 
-class BaiduSearch(tornado.web.UIModule):
-    '''
-    widget for baidu search.
-    '''
-
-    def render(self, *args, **kwargs):
-        baidu_script = ''
-        return self.render_string('modules/info/baidu_script.html',
-                                  baidu_script=baidu_script)
-
 
 class UploadPicture(tornado.web.UIModule):
     '''
@@ -226,4 +216,4 @@ class Userprofile(tornado.web.UIModule):
         user_id = args[0]
         rec = MUser.get_by_uid(user_id)
 
-        return self.render_string('modules/user_profile.html', rec=rec)
+        return self.render_string('modules/widget/user_profile.html', rec=rec)

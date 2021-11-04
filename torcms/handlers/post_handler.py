@@ -253,7 +253,16 @@ class PostHandler(BaseHandler):
         '''
         postinfo = MPost.get_by_uid(uid)
         if postinfo:
-            self.viewinfo(postinfo)
+            if postinfo.kind == self.kind:
+                self.viewinfo(postinfo)
+            else:
+                self.redirect(
+                    '/{0}/{1}'.format(
+                        router_post[postinfo.kind],
+                        postinfo.uid
+                    ),
+                    permanent=True)
+
         elif self.userinfo:
             self._to_add(uid=uid)
         else:
@@ -366,33 +375,16 @@ class PostHandler(BaseHandler):
         if last_post_id and MPost.get_by_uid(last_post_id):
             self._add_relation(last_post_id, post_id)
 
-    def redirect_kind(self, postinfo):
-        '''
-        Redirect according the kind of the post.
-        :param postinfo: the postinfo
-        :return: None
-        '''
-        logger.warning('info kind:{0} '.format(postinfo.kind))
 
-        # If not, there must be something wrong.
-        if postinfo.kind == self.kind:
-            pass
-        else:
-            self.redirect('/{0}/{1}'.format(router_post[postinfo.kind],
-                                            postinfo.uid),
-                          permanent=True)
 
     @privilege.auth_view
     def viewinfo(self, postinfo):
         '''
         查看 Post.
         '''
-        self.redirect_kind(postinfo)
 
         __ext_catid = postinfo.extinfo.get('def_cat_uid', '')
-
         cat_enum1 = MCategory.get_qian2(__ext_catid[:2]) if __ext_catid else []
-
         rand_recs, rel_recs = self.fetch_additional_posts(postinfo.uid)
 
         self._chuli_cookie_relation(postinfo.uid)
@@ -436,8 +428,7 @@ class PostHandler(BaseHandler):
             pcatinfo=p_catinfo,
             relations=rel_recs,
             rand_recs=rand_recs,
-            subcats=MCategory.query_sub_cat(p_catinfo.uid)
-            if p_catinfo else '',
+            subcats=MCategory.query_sub_cat(p_catinfo.uid) if p_catinfo else '',
             ad_switch=random.randint(1, 18),
             tag_info=filter(lambda x: not x.tag_name.startswith('_'),
                             MPost2Label.get_by_uid(postinfo.uid).objects()),

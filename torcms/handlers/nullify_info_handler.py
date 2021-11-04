@@ -1,4 +1,9 @@
-import config
+'''
+Handler for `valid==0`.
+
+ToDo: fix it.
+'''
+
 from config import CMS_CFG, router_post
 from torcms.core.base_handler import BaseHandler
 from torcms.model.nullify_info_model import MNullifyInfo
@@ -17,10 +22,11 @@ class NullifyInfoHandler(BaseHandler):
 
             self.list(url_arr[0], cur_p=url_arr[1])
 
-    def list(self, list, **kwargs):
+    def list(self, _, **kwargs):
         '''
         List the replies.
         '''
+
         def get_pager_idx():
             '''
             Get the pager index.

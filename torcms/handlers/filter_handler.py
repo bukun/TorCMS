@@ -95,7 +95,7 @@ class FilterHandler(BaseHandler):
 
         if len(url_arr) == 1:
             self.list(url_str)
-        elif len(url_arr) == 2:
+        elif len(url_arr) >= 2:
             self.echo_html(url_str)
         else:
             kwd = {

@@ -19,6 +19,7 @@ def run_init(*args):
     running init.
     '''
     build_dir()
+    run_auto()
 
     try:
         DB_CON.cursor()
@@ -27,9 +28,8 @@ def run_init(*args):
         print('Could not connect to database ...')
         run_zero()
         sys.exit()
-
+        
     run_init_tables()
     run_gen_category()
     run_create_admin()
-    run_auto()
     run_whoosh()

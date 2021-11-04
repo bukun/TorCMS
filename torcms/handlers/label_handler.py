@@ -54,6 +54,15 @@ class LabelHandler(BaseHandler):
         # Todo:
         # if self.get_current_user():
         #     redisvr.sadd(config.redis_kw + self.userinfo.user_name, tag_slug)
+
+        # ToDo: 可能会有类似于 `('s')`  这样的请求。 发起的地方未找到。暂按如下处理。
+        if len(kind) == 1:
+            pass
+        else:
+            print('Invalid requst: ', kind)
+            self.set_status(406)
+            return
+
         current_page_number = 1
         if cur_p == '':
             current_page_number = 1
