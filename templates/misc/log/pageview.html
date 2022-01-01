@@ -3,7 +3,7 @@
 
 <div class="mtop">
     <ul class="breadcrumb">
-        <li>Current location：<a href="/">{{ _('Home') }}</a></li>
+        <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
         <li>{{ _('Manage Log') }}</li>
         <li class="active">页面访问量</li>
     </ul>

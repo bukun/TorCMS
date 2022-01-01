@@ -2,7 +2,7 @@
 {% block typebody %}
 <div class="mtop">
     <ul class="breadcrumb">
-        <li>Current location: <a href="/">{{ _('Home') }}</a></li>
+       <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
         <li class="active">{{ _('Password Error') }}</li>
     </ul>
 </div>
@@ -13,7 +13,7 @@
         <Br>
 
         <div style="text-align: center;">
-            <a href="/user/login" class="btn btn-warning " style="text-align: center;">Reenter</a>
+            <a href="/user/login" class="btn btn-warning " style="text-align: center;">{{ _('Reenter') }}</a>
         </div>
     </div>
 </div>

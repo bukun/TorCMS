@@ -2,7 +2,7 @@
 {% block typebody %}
 <div class="mtop">
     <ul class="breadcrumb">
-        <li>Current location: <a href="/">{{ _('Home') }}</a></li>
+        <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
         <li class="active">{{ _('Modify personal information') }}</li>
     </ul>
 </div>
@@ -43,11 +43,11 @@
                                 <option value="Male"
                                 {% if 'def_gender'in userinfo.extinfo and userinfo.extinfo['def_gender'] == "Male"%} selected {% end %}
                                 >
-                                    Male
+                                    {{ _('Male') }}
                                 </option>
                                 <option value="Female"
                                 {% if 'def_gender'in userinfo.extinfo and userinfo.extinfo['def_gender'] == "Female"%} selected {% end %}>
-                                    Female
+                                    {{ _('Female') }}
                                 </option>
                             </select>
                 </div>

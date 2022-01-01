@@ -130,7 +130,8 @@ class MRelation():
     @staticmethod
     def get_app_relations(app_id, num=20, kind='1'):
         '''
-        The the related infors. 如有标签按标签推荐，如无标签按分类推荐
+        The the related infors.
+        如有标签按标签推荐，如无标签按分类推荐
         '''
 
         tag_info = filter(lambda x: not x.tag_name.startswith('_'),
@@ -172,19 +173,33 @@ class MRelation():
                 ).limit(num)
 
         else:
-
-            recs = TabPost2Tag.select(
-                TabPost2Tag,
-                TabPost.title.alias('post_title'),
-                TabPost.valid.alias('post_valid')
-            ).join(
-                TabPost, on=(TabPost2Tag.post_id == TabPost.uid)
-            ).where(
-                (TabPost.uid != app_id) &
-                (TabPost2Tag.tag_id == info_tag.tag_id) &
-                (TabPost.kind == kind) &
-                (TabPost.valid == 1)
-            ).order_by(
-                peewee.fn.Random()
-            ).limit(num)
+            if info_tag:
+                recs = TabPost2Tag.select(
+                    TabPost2Tag,
+                    TabPost.title.alias('post_title'),
+                    TabPost.valid.alias('post_valid')
+                ).join(
+                    TabPost, on=(TabPost2Tag.post_id == TabPost.uid)
+                ).where(
+                    (TabPost.uid != app_id) &
+                    (TabPost2Tag.tag_id == info_tag.tag_id) &
+                    (TabPost.kind == kind) &
+                    (TabPost.valid == 1)
+                ).order_by(
+                    peewee.fn.Random()
+                ).limit(num)
+            else:
+                recs = TabPost2Tag.select(
+                    TabPost2Tag,
+                    TabPost.title.alias('post_title'),
+                    TabPost.valid.alias('post_valid')
+                ).join(
+                    TabPost, on=(TabPost2Tag.post_id == TabPost.uid)
+                ).where(
+                    (TabPost.uid != app_id) &
+                    (TabPost.kind == kind) &
+                    (TabPost.valid == 1)
+                ).order_by(
+                    peewee.fn.Random()
+                ).limit(num)
         return recs

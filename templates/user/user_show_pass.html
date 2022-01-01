@@ -2,7 +2,7 @@
 {% block typebody %}
 <div class="mtop">
     <ul class="breadcrumb">
-        <li>Current location: <a href="/">{{ _('Home') }}</a></li>
+         <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
         <li class="active">{{ _('Password Reset') }}</li>
     </ul>
 </div>
@@ -12,10 +12,10 @@
         <div>You have applied for a user password reset, the following is a new password, please record this information
             elsewhere.
         </div>
-        <div class="opy">User name：{{ kwd['user_name'] }}</div>
-        <div class="opy">New password：{{ kwd['new_pass'] }}</div>
+        <div class="opy">{{ _('User name') }}：{{ kwd['user_name'] }}</div>
+        <div class="opy">{{ _('New password') }}：{{ kwd['new_pass'] }}</div>
         <div class="alert alert-warning">
-            We do not explicitly store user passwords, but for security purposes, <a href="/user/login">please login</a>,
+            We do not explicitly store user passwords, but for security purposes, <a href="/user/login">{{ _('please login') }}</a>,
             <a href="/user/changepass">modify the user password.</a>
         </div>
     </div>

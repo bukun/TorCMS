@@ -8,16 +8,16 @@
 {% block content %}
 
 <ol class="breadcrumb">
-    <li>Current location: <a href="{% module site_url() %}">Home</a></li>
+   <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
     <li>{% module the_category(postinfo.uid) %}</li>
-    <li class="active">Text</li>
+    <li class="active">{{ _('Text') }}</li>
 </ol>
 <div class="panel panel-black">
     <div class="panel-heading">
         <h3 class="listinfo_title" style="line-height: 35px">{{ postinfo.title }}</h3>
         <span class="split">  {{ _('Author') }} : {{ postinfo.user_name }} </span>&nbsp;
         <span>{{ datetime.datetime.fromtimestamp(postinfo.time_create).strftime('%Y-%m-%d %H:%M:%S')}}</span>
-        <span>Browse: {{ postinfo.view_count }} </span>
+        <span>{{ _('Browse') }}: {{ postinfo.view_count }} </span>
         {% if userinfo %}
         {% module collect(userinfo.uid, postinfo.uid, en=True) %}
         {% end %}
@@ -28,7 +28,7 @@
             <div class="bor_bottom">
                 <b>{{ _('Category') }} :</b> <span class="post_cat">{% module post_catalogs(postinfo.uid,'1') %}</span>
             </div>
-            <p class="summary"><strong>Abstract</strong>: {% module generate_abstract(postinfo.cnt_html) %} </p>
+            <p class="summary"><strong>{{ _('Abstract') }}</strong>: {% module generate_abstract(postinfo.cnt_html) %} </p>
 
             <div class="entrycontent">
                 {% raw unescape(postinfo.cnt_html) %}
@@ -36,7 +36,7 @@
             <div class="bor_bottom">
                 <b>{{ _('Label') }} :</b>
         <span class="post_label">
-             {% module post_labels(postinfo = postinfo) %}
+             {% module post_labels(post_uid = postinfo.uid) %}
         </span>
             </div>
             <div class="listinfo_content">
@@ -48,11 +48,10 @@
             <div class="wpyouvote"></div>
             <div class="clear"></div>
             <br>
-            <strong>Article link:</strong>
+            <strong>{{ _('Article link') }}:</strong>
             <a href="{% module site_url() %}/{{kwd['router']}}/{{postinfo.uid}}" class="underline"> {{ postinfo.title }}</a>
             <br/>
-            <strong>Copyright:</strong> Non special statement are original articles, reproduced please indicate the
-            source
+            <strong>{{ _('Copyright') }}:</strong> {{ _('Non special statement are original articles, reproduced please indicate the  source') }}
         </div>
     </div>
     <div class="panel-footer">
@@ -69,7 +68,7 @@
 </div>
 
 <div class="panel panel-black">
-    <div class="panel-heading"><h3 class="panel-title">Related</h3></div>
+    <div class="panel-heading"><h3 class="panel-title">{{ _('Related') }}</h3></div>
     <ul class="list-group" style="overflow: hidden;">
         {% for x in relations %}
         <li class="list-group-item" style="overflow: hidden;">

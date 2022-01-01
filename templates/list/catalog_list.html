@@ -48,7 +48,7 @@
 {% end %}
 {% block content %}
 <ol class="breadcrumb">
-    <li>Current location: <a href="{% module site_url() %}">Home</a></li>
+    <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
     <li class="active">{{ kwd['cat_name'] }}</li>
 </ol>
 <div class="panel panel-black">

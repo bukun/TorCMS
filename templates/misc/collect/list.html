@@ -1,13 +1,13 @@
 {% extends "../../theme/bage.html" %}
 {% block typebody %}
 <ol class="breadcrumb">
-    <li>Current location: <a href="/">Home</a></li>
-    <li><a href="/user/info">User</a></li>
-    <li><a href="/collect/list"> My collection</a></li>
+   <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
+    <li><a href="/user/info">{{ _('User') }}</a></li>
+    <li><a href="/collect/list"> {{ _('My collection') }}</a></li>
 </ol>
 <div class="panel panel-black">
     <div class="panel-heading">
-        My collection
+        {{ _('My collection') }}
     </div>
     <ul class="list-group">
         {% for rec in recs_collect %}
@@ -35,7 +35,7 @@
 <div class="panel panel-primary">
     <div class="panel-heading">
         <h3 class="panel-title">
-            Application classification
+            {{ _('Application classification') }}
         </h3>
     </div>
     <div class="panel-body">

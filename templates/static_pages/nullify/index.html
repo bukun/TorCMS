@@ -7,7 +7,7 @@
 {% block typebody %}
 <div class="mtop">
     <ul class="breadcrumb">
-        <li><a href="/" title="Home">{{ _('Home') }}</a></li>
+        <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
         <li class="active">{{ _('Invalid information list') }}</li>
     </ul>
 </div>

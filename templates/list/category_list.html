@@ -1,13 +1,11 @@
 {% extends "../theme/tmpldoc.html" %}
 {% block head %}
-<title>OSGeo中国中心 | 开放地理空间实验室</title>
-<meta name="keywords" content="GIS,地理信息系统,开源GIS,OSGeo,OpenLayers,MapServer,GDAL,GIS教程,WebGIS">
-<meta name="description" content="OSGeo中国中心实验室，关注开源GIS，开放数据">
+
 {% end %}
 {% block content %}
 <ol class="breadcrumb">
-    <li>Current location：<a href="{% module site_url() %}">Home</a></li>
-    <li><a href="/post/">Document</a></li>
+    <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
+    <li><a href="/post/">{{ _('Document') }}</a></li>
     <li class="active">{{ kwd['cat_name'] }}</li>
 </ol>
 <div class="panel panel-black">

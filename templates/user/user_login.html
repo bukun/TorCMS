@@ -38,7 +38,7 @@
 
 <div class="mtop">
     <ul class="breadcrumb">
-        <li>Current location: <a href="/">{{ _('Home') }}</a></li>
+        <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
         <li class="active">{{ _('User Login') }}</li>
     </ul>
 </div>
@@ -81,7 +81,7 @@
      <div class="col-sm-1"></div>
      <div class="col-sm-10">
     <div class="btn sent-message">Non users of the station？ Please
-        <a href="/user/regist">Register</a> 。
+        <a href="/user/regist">{{ _('Register') }}</a> 。
     </div>
     <br>
     <div class="btn sent-message">

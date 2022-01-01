@@ -102,8 +102,16 @@ class EntityHandler(BaseHandler):
         for key in self.request.arguments:
             post_data[key] = self.get_arguments(key)[0]
 
-        down_url = MPost.get_by_uid(down_uid).extinfo.get(
+        down_url1 = MPost.get_by_uid(down_uid).extinfo.get(
             'tag__file_download', '')
+        down_url2 = MPost.get_by_uid(down_uid).extinfo.get(
+            'tag_file_download', '')
+
+        if down_url1:
+            down_url = down_url1
+        else:
+            down_url = down_url2
+
         if down_url:
 
             if allowed_file(down_url):

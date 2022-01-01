@@ -1,12 +1,12 @@
 {% extends "../theme/tmpldoc.html" %}
 {% block content %}
 <ol class="breadcrumb">
-    <li>Current location: <a href="/">Home</a></li>
-    <li>Modify the document</li>
+      <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
+    <li>{{ _('Modify the document') }}</li>
 </ol>
 <div class="panel panel-black">
     <div class="panel-heading">
-        {{ postinfo.title }}-Modify the document
+        {{ postinfo.title }}-{{ _('Modify the document') }}
     </div>
     <div class="panel-body">
         <form method="post" class="form-horizontal" role="form" id="form_post">
@@ -14,7 +14,7 @@
                 <input type="hidden" id="id_post" name="id_post" value="{{ postinfo.uid }}"/>
 
                 <div class="form-group">
-                    <label for="title" class="col-sm-2 control-label">Title</label>
+                    <label for="title" class="col-sm-2 control-label">{{ _('Title') }}</label>
 
                     <div class="col-sm-10">
                         <input type="text" id="title" name="title" value="{{ postinfo.title }}"
@@ -29,7 +29,9 @@
                         <input class="form-control" id="tags" name="tags" type="text"
                                value="{% for x in app2label_info %}
                                     {{ x.tag_name }},
-                                    {% end  %}">
+                                    {% end  %}" onchange="chuli_kw()">
+                            <br>
+                            <div id="kwlist"></div>
                     </div>
                 </div>
 
@@ -39,14 +41,14 @@
                 {% for ii in range(0,5) %}
                 <div class="form-group">
                     {% if ii == 0 %}
-                    <label for="pcat0" class="col-sm-2 control-label">Category</label>
+                    <label for="pcat0" class="col-sm-2 control-label">{{ _('Category') }}</label>
                     {% else %}
                     <label class="col-sm-2 control-label"></label>
                     {% end %}
                     <div class="col-sm-3">
                         <select name="pcat{{ii}}" id="pcat{{ii}}" class="form-control"
                                 onchange="g_load_postcat({{ii}})">
-                            <option value="">Please select</option>
+                            <option value="">{{ _('Please select') }}</option>
                             {% for taginfo in tag_infos %}
                             {% if taginfo.uid.endswith('00') %}
                             <option value="{{ taginfo.uid }}"
@@ -64,7 +66,7 @@
 
                     <div class="col-sm-4">
                         <select name="gcat{{ii}}" id="gcat{{ii}}" class="form-control">
-                            <option value="0">Please select</option>
+                            <option value="0">{{ _('Please select') }}</option>
                             {# 设置父类ID，用在下面子类是否显示看 #}
                             {% set pcatid = 'xx' %}
                             {% for taginfo in tag_infos %}
@@ -97,17 +99,17 @@
                 {% end %}
 
                 <div class="form-group">
-                    <label for="logo" class="col-sm-2 control-label">Picture</label>
+                    <label for="logo" class="col-sm-2 control-label">{{ _('Picture') }}</label>
 
                     <div class="col-sm-10">
                         <input id="logo" name="logo" type="text" value="{{ postinfo.logo }}"  class="form-control" readonly />
                         <br>
-                        <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Upload picture</a>
+                        <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">{{ _('Upload picture') }}</a>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="cnt_md" class="col-sm-2 control-label">Content</label>
+                    <label for="cnt_md" class="col-sm-2 control-label">{{ _('Content') }}</label>
 
                     <div class="col-sm-10">
                         <textarea rows=26 id="cnt_md" name="cnt_md" class="form-control">
@@ -126,18 +128,18 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="is_update_time" class="col-sm-2 control-label">Update edit time</label>
+                    <label for="is_update_time" class="col-sm-2 control-label">{{ _('Update edit time') }}</label>
 
                     <div class="col-sm-10">
-                        <input id="is_update_time" type="radio" name="is_update_time" value="1">To update
-                        <input id="is_update_time" type="radio" name="is_update_time" value="0" checked>Not updated
+                        <input id="is_update_time" type="radio" name="is_update_time" value="1">{{ _('To update') }}
+                        <input id="is_update_time" type="radio" name="is_update_time" value="0" checked>{{ _('Not updated') }}
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="sub1" class="col-sm-2 control-label"></label>
 
                     <div class="col-sm-10">
-                        <input id="sub1" type="submit" class="btn btn-primary" value="Sumbit"/>
+                        <input id="sub1" type="submit" class="btn btn-primary" value="{{ _('Sumbit') }}"/>
                     </div>
                 </div>
             </fieldset>

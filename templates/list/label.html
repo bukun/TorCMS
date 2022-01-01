@@ -1,7 +1,7 @@
 {% extends "../theme/bage.html" %}
 {% block typebody %}
  <ol class="breadcrumb">
-            <li>Current location：<a href="/">Home</a></li>
+            <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
             <li>{{ kwd['tag_name'] }}</li>
         </ol>
 <div class="panel panel-black">

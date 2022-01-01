@@ -31,6 +31,7 @@ def auth_view(method):
         if ROLE_CFG['view'] == '':
             pass
         elif self.current_user:
+
             if is_prived(self.userinfo.role, ROLE_CFG['view']):
                 return method(self, *args, **kwargs)
             else:
