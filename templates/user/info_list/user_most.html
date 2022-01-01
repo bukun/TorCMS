@@ -1,13 +1,13 @@
 {% extends "../../theme/bage.html" %}
 {% block typebody %}
 <ol class="breadcrumb">
-    <li>Current location: <a href="/">Home</a></li>
-    <li><a href="/user/info"> User</a></li>
-    <li>Most use</li>
+   <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
+    <li><a href="/user/info"> {{ _('User') }}</a></li>
+    <li>{{ _('Most use') }}</li>
 </ol>
 <div class="panel panel-black">
     <div class="panel-heading">
-        Most use
+        {{ _('Most use') }}
     </div>
     <div class="panel-body">
         <div class=" marketing">
@@ -17,14 +17,14 @@
                         <li class="span3 active main-selector main-tabs">
                             <a href="#tab1" data-toggle="tab" class="home-tab-a">
                                 <span class="tabfix">
-                                    <h4>Information</h4>
+                                    <h4>{{ _('Information') }}</h4>
                                 </span>
                             </a>
                         </li>
                         <li class="span3 main-selector main-tabs">
                             <a href="#tab2" data-toggle="tab" class="home-tab-a">
                                 <span class="tabfix">
-                                    <h4>Document</h4>
+                                    <h4>{{ _('Document') }}</h4>
                                 </span>
                             </a>
                         </li>
@@ -36,7 +36,7 @@
                     <div class="row-fluid">
                         <br>
                         <ul class="list-group">
-                            {% module app_user_most(userinfo.uid,'2',20,with_tag=True,glyph="glyphicon glyphicon-th-list") %}
+                            {% module app_user_most(userinfo.uid,'9',20,with_tag=True,glyph="glyphicon glyphicon-th-list") %}
                         </ul>
                         <br>
 
@@ -56,7 +56,7 @@
     <div class="panel-footer">
         <div class="row">
             <div class="col-md-6">
-                Article link： <a href="/user_list/user_most" style="color:#069">Most use</a>
+                {{ _('Article link') }}： <a href="/user_list/user_most" style="color:#069">{{ _('Most use') }}</a>
             </div>
             <div class="col-md-6">
                 <div class="widget_baidu_share">{% module baidu_share() %}</div>

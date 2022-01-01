@@ -1,5 +1,5 @@
-{% extends "bage.html" %}
-{% block typebody %}
+{% extends "../theme/bage.html" %}
+{% block headinfo %}
 {% module use_f2e('codemirror') %}
 <script>
     // 提交预约刷新的动作
@@ -59,39 +59,11 @@
 
     chuli_kw();
 </script>
-<div class="row">
-    <div class="col-sm-9">
-        {% block content %}
-        {% end %}
-    </div>
-    <div class="col-sm-3">
-        <div class="sidebar">
-            <div class="panel panel-black">
-                <div class="panel-heading">
-                    {{ _('Most attention') }}
-                </div>
-                <ul class="list-group" id="mostall">
-                    {% module post_most_view(5, with_date = False, with_catalog= False) %}
-                </ul>
-            </div>
-            <div class="panel panel-black">
-                <div class="panel-heading">
-                    {{ _('Recent articles') }}
-                </div>
-                <ul class="list-group">
-                    {% module post_recent(5, with_date = False, with_catalog= False) %}
-                </ul>
-            </div>
-        </div>
-
-        <div class="panel panel-black">
-            <div class="panel-heading">
-                <h3 class="panel-title"> {{ _('Classified catalogue') }}</h3>
-            </div>
-            <ul class="list-group list-font">
-                {% module category_menu() %}
-            </ul>
-        </div>
-    </div>
-</div>
 {% end %}
+{% block typebody %}
+{% end %}
+
+
+
+
+

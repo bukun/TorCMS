@@ -35,7 +35,7 @@
 
 {% block typebody %}
 <ol class="breadcrumb">
-    <li>Current location: <a href="{% module site_url() %}">Home</a></li>
+    <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
     <li>{% module the_category(postinfo.uid) %}</li>
     <li class="active">{{ postinfo.title }}</li>
 </ol>
@@ -43,8 +43,8 @@
     <div class="panel-heading">
         <h2>{{ postinfo.title }}</h2>
         <span>{{ str(postinfo.date)[:10] }}</span>
-        <span>Author: <a href="http://www.osgeo.cn/">OSGeo中国中心</a></span>
-        <span>Browse: {{ postinfo.view_count }} 次</span>
+        <span>{{ _('Author') }}: <a href="http://www.osgeo.cn/">OSGeo中国中心</a></span>
+        <span>{{ _('Browse') }}: {{ postinfo.view_count }} </span>
 
         {% module widget_editor(router, postinfo.uid, userinfo) %}
         <span class="cmts"><a href="/{{ router }}/{{postinfo.uid}}" class="btn btn-xs btn-primary">{{ _('View') }}</a></span>
@@ -56,8 +56,8 @@
                 {% for diff_dic in html_diff_arr %}
                 {% if userinfo and userinfo.role[2] >= '1' %}
                 <div class="bg-info"><a href="/post_man/restore/{{ diff_dic['hist_uid'] }}"
-                                        class="btn btn-xs btn-warning">Restore</a>
-                    <a href="/post_man/delete/{{ diff_dic['hist_uid'] }}" class="btn btn-xs btn-danger">Delete</a>
+                                        class="btn btn-xs btn-warning">{{ _('Restore') }}</a>
+                    <a href="/post_man/delete/{{ diff_dic['hist_uid'] }}" class="btn btn-xs btn-danger">{{ _('Delete') }}</a>
                 </div>
                 {% end %}
                 {% raw (diff_dic['html_diff']) %}

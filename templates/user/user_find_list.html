@@ -2,12 +2,12 @@
 {% block typebody %}
 <div class="mtop">
     <ul class="breadcrumb">
-        <li>Current location: <a href="/">{{ _('Home') }}</a></li>
+        <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
         <li class="active">{{ _('Find User') }}</li>
     </ul>
 </div>
 <div class="panel panel-black">
-    <div class="panel-heading"><b> Find User </b></div>
+    <div class="panel-heading"><b> {{ _('Find User') }} </b></div>
     <div class="panel-body">
         <form method="post" id="find_calc" action="/user/find" class="form-horizontal">
             <div class="form-group">

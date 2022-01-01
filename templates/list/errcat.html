@@ -1,8 +1,8 @@
 {% extends "../theme/tmpldoc.html" %}
 {% block content %}
 <ol class="breadcrumb">
-    <li>当前位置: <a href="/">首页</a></li>
-    <li><a href="/post/recent"> 文档列表</a></li>
+   <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
+    <li><a href="/post/recent"> {{ _('Document list') }}</a></li>
 </ol>
 <div class="panel panel-primary">
     <div class="panel-heading">无分类</div>

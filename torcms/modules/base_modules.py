@@ -618,7 +618,10 @@ class AppTitle(tornado.web.UIModule):
     def render(self, *args, **kwargs):
         uid = args[0]
         rec = MPost.get_by_uid(uid=uid)
-        return rec.title if rec else None
+
+        return self.render_string('modules/info/app_title.html',
+                                  rec=rec)
+
 
 
 class EntityList(tornado.web.UIModule):

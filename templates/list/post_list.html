@@ -1,11 +1,11 @@
 {% extends "../theme/tmpldoc.html" %}
 {% block content %}
 <ol class="breadcrumb">
-    <li>当前位置: <a href="{% module site_url() %}">首页</a></li>
-    <li><a href="/post/recent"> 文档列表</a></li>
+    <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
+    <li><a href="/post/recent"> {{ _('Document list') }}</a></li>
 </ol>
 <div class="panel panel-black">
-    <div class="panel-heading">文档列表</div>
+    <div class="panel-heading">{{ _('Document list') }}</div>
     <ul class="list-group">
         {% for postinfo in postrecs %}
         <li class="list-group-item">

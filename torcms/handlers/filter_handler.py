@@ -308,8 +308,9 @@ class FilterHandler(BaseHandler):
 
         # cat_rec = MCategory.get_by_uid(catid)
         if self.get_current_user() and self.userinfo:
-            redis_kw = redisvr.smembers(CMS_CFG['redis_kw'] +
-                                        self.userinfo.user_name)
+            redis_kw = redisvr.smembers(
+                CMS_CFG['redis_kw'] + self.userinfo.user_name
+            )
         else:
             redis_kw = []
         kw_condition_arr = []

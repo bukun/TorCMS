@@ -8,7 +8,7 @@
 {% end %}
 {% block content %}
 <ol class="breadcrumb">
-    <li>Current location: <a href="{% module site_url() %}">Home</a></li>
+    <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
     <li>{% module the_category(postinfo.uid, order=True) %}</li>
     <li class="active">{{ postinfo.title }}</li>
 </ol>
@@ -16,13 +16,13 @@
     <div class="panel-heading">
         <h2>{{ postinfo.title }}</h2>
         <span>{{ str(postinfo.date)[:10] }}</span>
-        <span>Author: <a href="http://www.osgeo.cn/">OSGeo中国中心</a></span>
-        <span>Browse: {{ postinfo.view_count }} 次</span>
+        <span>{{ _('Author') }}: <a href="http://www.osgeo.cn/">OSGeo中国中心</a></span>
+        <span>{{ _('Browse') }}: {{ postinfo.view_count }} </span>
         {% module widget_editor('post', postinfo.uid, userinfo) %}
     </div>
     <div class="panel-body">
         <div class="entry">
-            <p class="summary"><strong>Abstract</strong>: {% module generate_abstract(postinfo.cnt_html) %} </p>
+            <p class="summary"><strong>{{ _('Abstract') }}</strong>: {% module generate_abstract(postinfo.cnt_html) %} </p>
 
             <div class="entrycontent">
                 {% raw unescape(postinfo.cnt_html) %}
@@ -32,11 +32,11 @@
             <div class="wpyouvote"></div>
             <div class="clear"></div>
             <br>
-            <strong>Article link:</strong>
+            <strong>{{ _('Article link') }}:</strong>
             <a href="{% module site_url() %}/post/{{postinfo.uid}}" class="underline"> {{ postinfo.title }}</a>
             <br/>
-            <strong>Copyright:</strong> Non special statement are original articles, reproduced please indicate the
-            source： <a href="http://osgeo.cn" class="underline">OSGeo中国中心</a><br>
+            <strong>{{ _('Copyright') }}:</strong> {{ _('Non special statement are original articles, reproduced please indicate the  source') }}：
+            <a href="http://osgeo.cn" class="underline">OSGeo中国中心</a><br>
         </div>
     </div>
     <p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>

@@ -2,7 +2,7 @@
 {% block typebody %}
 <div class="mtop">
     <ul class="breadcrumb">
-        <li>Current location：<a href="/">{{ _('Home') }}</a></li>
+        <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
         <li class="active">{{ _('Entity List') }}</li>
         {% if userinfo and( userinfo.role[1] >= '2') %}
         <li><a href="/entry/add" class="btn btn-primary btn-xs">{{ _('Upload Files') }}</a></li>

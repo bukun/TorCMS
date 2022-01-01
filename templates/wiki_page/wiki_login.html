@@ -27,7 +27,7 @@
 </script>
 <div class="mtop">
     <ul class="breadcrumb">
-        <li>Current location：<a href="/">{{ _('Home') }}</a></li>
+        <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
         <li class="active">{{ _('User Login') }}</li>
     </ul>
 </div>
@@ -62,11 +62,11 @@
         <br>
 
         <div class="alert alert-info">Non users of the station？ Please
-            <a href="/user/regist" class="btn btn-primary">Register</a> 。
+            <a href="/user/regist" class="btn btn-primary">{{ _('Register') }}</a> 。
         </div>
         <div class="alert alert-warning">Forget Password，Try to
             <a href="/user/reset-password" class="btn btn-primary">
-                reset the password
+                {{ _('reset the password') }}
             </a>
         </div>
     </div>

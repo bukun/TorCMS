@@ -1,0 +1,154 @@
+{% extends "./tmplinfo.html" %}
+{% block head %}
+<script>
+    $().ready(function () {
+        $("#form_add_info").validate(
+                {
+                    submitHandler: function (form) {
+                        form.submit();
+                    }
+                }
+        );
+    });
+</script>
+{% end %}
+{% block typebody %}
+<ol class="breadcrumb">
+  <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
+
+
+    <li class="active"> {{ _('Modify') }}</li>
+</ol>
+<div class="panel panel-black">
+    <div class="panel-heading">
+
+        {{ _('Modify') }} - {{postinfo.title}}
+
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal" role="form" id="form_add_info" name="form_add_info" method="post"
+              enctype="multipart/form-data">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="title" >
+                    <span class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></span>
+                    {{ _('Title') }}
+                </label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="title" id="title"
+                           value="{{ postinfo.title }}" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="gcat0">
+                    <span class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></span>
+                    {{ _('Category') }}
+                </label>
+
+                <div class="col-sm-10">
+                    <select class="form-control" name="gcat0" id="gcat0">
+                        {% for taginfo in cat_enum %}
+                        {% if not taginfo.uid.endswith('00') %}
+                        <option value="{{ taginfo.uid }}" {% if taginfo.uid== postinfo.extinfo[
+                        'gcat0'] %}
+                        selected="selected"
+                        {% end %} >{{taginfo.uid[:2]}}_{{ taginfo.name }}</option>
+                        {% end %}
+                        {% end %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    <span for="tags">{{ _('Label') }} </span> </label>
+
+                <div class="col-sm-10">
+                    <input type="text" id="tags" name="tags" value="{% for x in app2label_info %}
+                {{ x.tag_name }},
+                {% end %}" class="form-control" onchange="chuli_kw()">
+                            <br>
+                            <div id="kwlist"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="order">{{ _('Order') }}</label>
+
+                <div class="col-sm-10">
+                    <input class="form-control" id="order" name="order" type="text"
+                           value="{{ postinfo.order if postinfo.order else '' }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="logo" class="col-sm-2 control-label">{{ _('Picture') }}</label>
+
+                <div class="col-sm-10">
+                    <input id="logo" name="logo" type="text" value="{{ postinfo.logo }}" class="form-control" readonly/>
+                    <br>
+                    <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">{{ _('Upload picture') }}</a>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="logo" class="col-sm-2 control-label">{{ _('File') }}</label>
+
+                <div class="col-sm-10">
+                    <input id="ext_file" name="ext_file" type="text" value="{{ postinfo.extinfo.get('ext_file','')}}"
+                           class="form-control" readonly/>
+                    <br>
+                    <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal_file">{{ _('Upload File') }}</a>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a>
+                    {{ _('Content') }}(Markdown)
+                </label>
+
+                <div class="col-sm-10">
+                    <textarea class="form-control" rows=26 id="cnt_md" name="cnt_md">
+                        {{ postinfo.cnt_md }}
+                    </textarea>
+                </div>
+            </div>
+            <hr/>
+            {% block extrainfo %}{% end %}
+             <hr/>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="valid">{{ _('Is available') }}</label>
+
+                <div class="col-sm-10">
+                    <select name="valid" id="valid" class="form-control">
+                        <option value="1" {% if postinfo.valid == 1 %} selected {% end %} >{{ _('yes') }}</option>
+                        <option value="0" {% if postinfo.valid == 0 %} selected {% end %} >{{ _('no') }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"> </label>
+
+                <div class="col-sm-10">
+                    <input type="submit" name="post_submit" value="{{ _('Submit') }}" id="Button1"
+                           class="btn btn-primary" role="button"/>
+                </div>
+            </div>
+            <hr/>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a>
+                    JSON
+                </label>
+
+                <div class="col-sm-10">
+                    <textarea class="form-control" rows=26 id="json" name="json" readonly="readonly">
+                        {{ kwd['extinfo'] }}
+                    </textarea>
+                </div>
+            </div>
+        </form>
+        {% module upload_pic() %}
+        {% module upload_file() %}
+    </div>
+</div>
+{% end %}

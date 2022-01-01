@@ -10,7 +10,7 @@
         <div class="sidebar">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Most attention
+                    {{ _('Most attention') }}
                 </div>
                 <ul class="list-group" id="mostall">
                     {% for info in catalog_infos %}
@@ -21,7 +21,7 @@
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"> Classified catalogue</h3>
+                <h3 class="panel-title"> {{ _('Classified catalogue') }}</h3>
             </div>
             <ul class="list-group list-font">
                 {% module category_menu() %}

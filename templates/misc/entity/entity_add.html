@@ -2,7 +2,7 @@
 {% block typebody %}
 <div class="mtop">
     <ul class="breadcrumb">
-        <li>Current location：<a href="/">{{ _('Home') }}</a></li>
+        <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
         <li class="active">{{ _('Add Picture') }}</li>
     </ul>
 </div>
@@ -43,7 +43,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label" for="desc">Describe</label>
+                <label class="col-sm-2 control-label" for="desc">{{ _('Describe') }}</label>
 
                 <div class="col-sm-4">
                     <textarea name="desc" type="text" id="desc" class="form-control" rows="8"></textarea>

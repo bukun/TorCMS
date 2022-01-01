@@ -4,13 +4,15 @@ Basic for handler
 '''
 
 import socket
+import time
 
 import tornado.web
 from tornado.concurrent import run_on_executor
-
-from config import kind_arr, post_type
 from torcms.core.tool import run_whoosh
 from torcms.model.user_model import MUser
+
+from config import kind_arr, post_type
+from config import CMS_CFG
 
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -27,6 +29,13 @@ class BaseHandler(tornado.web.RequestHandler):
         super().initialize()
         if self.get_current_user():
             self.userinfo = MUser.get_by_name(self.get_current_user())
+            if self.userinfo:
+                self.set_secure_cookie(
+                    "user",
+                    self.userinfo.user_name,
+                    expires_days=None,
+                    expires=time.time() + 60 * CMS_CFG.get('expires_minutes', 15)
+                )
         else:
             self.userinfo = None
         self.is_p = False  # True, if partially rendered.
@@ -77,9 +86,6 @@ class BaseHandler(tornado.web.RequestHandler):
         the current user.
         '''
         return self.get_secure_cookie("user")
-        # user_id = self.get_secure_cookie("user")
-        # if not user_id: return None
-        #     return self.backend.get_user_by_id(user_id)
 
     def get_user_locale(self):
         '''

@@ -13,7 +13,7 @@
 {% end %}
 {% block typebody %}
 <ol class="breadcrumb">
-    <li>Current location: <a href="{% module site_url() %}">Home</a></li>
+    <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
     <li>{% module the_category(postinfo.uid) %}</li>
     <li class="active">{{ postinfo.title }}</li>
 </ol>
@@ -22,14 +22,14 @@
         <h2>{{ postinfo.title }}</h2>
         <span>{{ str(postinfo.date)[:10] }}</span>
 
-        <span>Browse: {{ postinfo.view_count }} </span>
-        <span class="cmts"><a class="btn btn-xm btn-primary" href="/post/{{ postinfo.uid }}">View</a></span>
+        <span>{{ _('Browse') }}: {{ postinfo.view_count }} </span>
+        <span class="cmts"><a class="btn btn-xm btn-primary" href="/post/{{ postinfo.uid }}">{{ _('View') }}</a></span>
     </div>
     <div class="panel-body">
         <form method="post" class="form-horizontal" role="form" id="form_post">
             <fieldset>
                 <div class="form-group">
-                    <label for="cnt_md" class="col-sm-1 control-label">内容</label>
+                    <label for="cnt_md" class="col-sm-1 control-label">{{ _('Content') }}</label>
 
                     <div class="col-sm-10">
             <textarea rows=26 id="cnt_md" name="cnt_md" cols="80" class="form-control">
@@ -41,7 +41,7 @@
                     <label for="sub1" class="col-sm-2 control-label"></label>
 
                     <div class="col-sm-10">
-                        <input id="sub1" type="submit" class="btn btn-primary" value="Update data"/>
+                        <input id="sub1" type="submit" class="btn btn-primary" value="{{ _('Update data') }}"/>
                     </div>
                 </div>
             </fieldset>

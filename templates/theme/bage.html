@@ -118,33 +118,33 @@
             </button>
             <a class="navbar-brand" href="/"> TorCMS</a>
         </div>
-        <div class="navbar-collapse collapse">
+        <div class="navbar-collapse collapse" id="nava">
             <ul class="nav navbar-nav">
-                <li><a href="/page/about_torcms">About</a></li>
+                <li><a href="/page/about_torcms">{{ _('About') }}</a></li>
                 <li class="dropdown">
-                    <a href="" class="dropdown-toggle" data-toggle="dropdown">Data
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">{{ _('Data') }}
                         <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/filter/2100">Basic geographic</a></li>
-                        <li><a href="/filter/2200">Nature resources</a></li>
+                        <li><a href="/filter/2100">{{ _('Basic geographic') }}</a></li>
+                        <li><a href="/filter/2200">{{ _('Nature resources') }}</a></li>
 
 
                     </ul>
                 </li>
 
-                <li><a href="/post/">News</a></li>
+                <li><a href="/post/">{{ _('News') }}</a></li>
 
 
                 <li class="dropdown">
-                    <a href="" class="dropdown-toggle" data-toggle="dropdown">User
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">{{ _('User') }}
                         <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/user_list/user_recent">Recent use</a></li>
-                        <li><a href="/user_list/user_most">Most use</a></li>
+                        <li><a href="/user_list/user_recent">{{ _('Recent use') }}</a></li>
+                        <li><a href="/user_list/user_most">{{ _('Most use') }}</a></li>
                         <li class="divider"></li>
-                        <li><a href="/collect/list">My collection</a></li>
+                        <li><a href="/collect/list">{{ _('My collection') }}</a></li>
                         <li class="divider"></li>
-                        <li><a href="/user/info">Personal Data</a></li>
+                        <li><a href="/user/info">{{ _('Personal Data') }}</a></li>
 
                     </ul>
                 </li>
@@ -184,7 +184,28 @@
 
     </div>
 </div>
+<script type="text/javascript">
+    var urlstr = location.href;
 
+    var urlstatus = false;
+    $("#nava a").each(function () {
+        if ((urlstr + '/').indexOf($(this).attr('href')) > -1 && $(this).attr('href') != '') {
+            $(this).addClass('current');
+            urlstatus = true;
+        } else {
+            $(this).removeClass('current');
+        }
+    });
+    $(".dropdown-menu a").each(function () {
+        if ($(this).hasClass('current')) {
+            $(this).parents('ul').siblings('a').eq(0).addClass('current');
+            urlstatus = true;
+        }
+    });
+    if (!urlstatus) {
+        $("#nava a").eq(-1).addClass('current');
+    }
+</script>
 <script src="/static/css/lib/jquery/jquery.min.js"></script>
 <script src="/static/css/lib/hover-pack/hover-pack.js"></script>
 <script src="/static/js/main.js"></script>

@@ -1,11 +1,11 @@
 {% extends "../theme/tmpldoc.html" %}
 {% block content %}
 <ol class="breadcrumb">
-    <li>Current location: <a href="{% module site_url() %}">Home</a></li>
-    <li><a href="/post/recent"> Document list</a></li>
+   <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
+    <li><a href="/post/recent"> {{ _('Document list') }}</a></li>
 </ol>
 <div class="panel panel-black">
-    <div class="panel-heading">Document list</div>
+    <div class="panel-heading">{{ _('Document list') }}</div>
     <ul class="list-group">
         {% for x in view %}
         <li class="list-group-item">

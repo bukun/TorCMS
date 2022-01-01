@@ -9,8 +9,6 @@ import json
 import re
 import time
 
-import tornado
-import tornado.escape
 import tornado.web
 import wtforms.validators
 from wtforms.fields import StringField
@@ -312,6 +310,7 @@ class UserHandler(BaseHandler):
         user logout.
         '''
         self.clear_all_cookies()
+        print('log out')
         self.redirect('/')
 
     @tornado.web.authenticated
@@ -408,7 +407,6 @@ class UserHandler(BaseHandler):
         '''
         to login.
         '''
-        print('to losafd')
         next_url = self.get_argument("next", "/")
 
         if self.get_current_user():
@@ -586,7 +584,7 @@ class UserHandler(BaseHandler):
             if user_x:
                 result = MUser.check_user_by_name(user_x.user_name, u_pass)
 
-        # Todo: the kwd should remove from the codes.
+        # Todo: the `kwd` should remove from the codes.
         if result == 1:
             self.set_secure_cookie(
                 "user",

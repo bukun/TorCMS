@@ -417,14 +417,6 @@ class RelApp2post(tornado.web.UIModule):
                                   kwd=kwd)
 
 
-
-
-
-
-
-
-
-
 class ParentName(tornado.web.UIModule):
     '''
     ParentName
@@ -445,9 +437,6 @@ class CatName(tornado.web.UIModule):
     def render(self, *args, **kwargs):
         info = kwargs.get('info', args[0])
         return self.render_string('modules/info/catname.html', info=info)
-
-
-
 
 
 class BreadcrumbPublish(tornado.web.UIModule):

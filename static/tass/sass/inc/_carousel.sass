@@ -27,9 +27,11 @@ a
   left: 0
   right: 0
   z-index: 20
+
   .container
     padding-left: 0
     padding-right: 0
+
   .navbar
     padding-left: 15px
     padding-right: 15px
@@ -71,15 +73,25 @@ a
 .marketing
   padding-left: 15px
   padding-right: 15px
+
   .col-lg-4
     text-align: center
     margin-bottom: 20px
+
   h2
     font-weight: normal
+
   .col-lg-4 p
     margin-left: 10px
     margin-right: 10px
-
+  a
+    color: #006982
+#tab1,#tab2
+  a
+    color: #006982
+  .post_cat
+    a
+      color: #fff
 /* Center align the text within the three columns below the carousel
 
 /* Featurettes
@@ -107,9 +119,11 @@ a
   /* Navbar positioning foo
   .navbar-wrapper
     margin-top: 20px
+
     .container
       padding-left: 15px
       padding-right: 15px
+
     .navbar
       padding-left: 0
       padding-right: 0
@@ -134,9 +148,11 @@ a
   margin: 20px 0
   padding: 20px
   border-left: 3px solid #eee
+
   h4
     margin-top: 0
     margin-bottom: 5px
+
   p:last-child
     margin-bottom: 0
 
@@ -145,18 +161,21 @@ a
 .bs-callout-danger
   background-color: #fdf7f7
   border-color: #eed3d7
+
   h4
     color: #b94a48
 
 .bs-callout-warning
   background-color: #faf8f0
   border-color: #faebcc
+
   h4
     color: #8a6d3b
 
 .bs-callout-info
   background-color: #f4f8fa
   border-color: #bce8f1
+
   h4
     color: #34789a
 
@@ -190,20 +209,24 @@ a
       display: block
       color: #716b7a
       padding: 5px 20px
+
       &:hover, &:focus
         text-decoration: none
         background-color: #e5e3e9
         border-right: 1px solid #dbd8e0
+
     .active
       > a, &:hover > a, &:focus > a
         font-weight: bold
         color: #563d7c
         background-color: transparent
         border-right: 1px solid #563d7c
+
   .nav
     display: none
     /* Hide by default, but at >768px, show it
     margin-bottom: 8px
+
     > li > a
       padding-top: 3px
       padding-bottom: 3px
@@ -217,18 +240,24 @@ a
   .bs-sidebar
     .nav > .active > ul
       display: block
+
     &.affix, &.affix-bottom
       width: 213px
+
     &.affix
       position: fixed
       /* Undo the static from mobile first approach
       top: 80px
+
     &.affix-bottom
       position: absolute
       /* Undo the static from mobile first approach
+
+
       .bs-sidenav
         margin-top: 0
         margin-bottom: 0
+
     &.affix .bs-sidenav
       margin-top: 0
       margin-bottom: 0
@@ -272,6 +301,7 @@ h1[id]
   background-image: -webkit-linear-gradient(45deg, #020031, #6d3353)
   background-image: -moz-linear-gradient(45deg, #020031, #6d3353)
   background-image: linear-gradient(45deg, #020031, #6d3353)
+
   &:after
     content: ''
     display: block
@@ -317,23 +347,24 @@ h1[id]
   color: #fff
 
 
-
-
 .lead
   font-size: 1.3em
+
   a:hover
     cursor: pointer
 
 
-
 .panel-black
   border-color: #666
+
   .panel-heading
     color: #fff
     background-color: #666
     border-color: #666
+
     + .panel-collapse > .panel-body
       border-top-color: #666
+
     .panel-footer + .panel-collapse > .panel-body
       border-color: #337ab7
 
@@ -342,20 +373,25 @@ h1[id]
     color: #fff
     background-color: #666
     border-color: #666
+
     a
       color: #fff
+
     &:hover
       background: #666
 
 
 .panel-wetland
   border-color: #761c19
+
   .panel-heading
     color: #fff
     background-color: #8f5536
     border-color: #666
+
     + .panel-collapse > .panel-body
       border-top-color: #666
+
     .panel-footer + .panel-collapse > .panel-body
       border-color: #337ab7
 
@@ -364,20 +400,24 @@ h1[id]
     color: #fff
     background-color: #666
     border-color: #666
+
     a
       color: #fff
+
     &:hover
       background: #666
 
 .panel-info
   border-color: #31708f
   color: #d9d9d9
+
   .panel-heading
     color: #d9edf7
     background-color: #31708f
     border-color: #31708f
+
     a
-      @include link-colors(#d9edf7,#d9edf7)
+      @include link-colors(#d9edf7, #d9edf7)
       @include hover-link
 
 
@@ -392,7 +432,6 @@ h1[id]
     float: right
 
 
-
 input select textarea
   // font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
   font-family: 'Lucida Console', Monaco, monospace
@@ -402,44 +441,62 @@ input select textarea
     font-size: 1.4em
     // line-height: 1.5em
     text-align: center
-    //margin: 0 auto
-    // padding: 0 auto
+//margin: 0 auto
+// padding: 0 auto
 
 #wiki_cnt
-  text-align:  justify
+  text-align: justify
+
   p
     text-indent: 2em
     line-height: 1.6em
-  h1, h2 ,h3, h4, h5
+
+  h1, h2, h3, h4, h5
     text-indent: 0
+
   h1
     font-size: 1.5em
     line-height: 1.6em
+
   h2
     font-size: 1.4em
     line-height: 1.5em
+
   h3
     font-size: 1.3em
     line-height: 1.4em
+
   h4
     font-size: 1.2em
     line-height: 1.3em
+
   h5
     font-size: 1.1em
     line-height: 1.2em
 
-.listinfo_content,.listinfo_title
+.listinfo_title
+  color: #fff
+
+  .btn
+    color: #fff
+
+.listinfo_content, .listinfo_title
+
   word-wrap: break-word
   //word-break: break-all
   img
     width: 100%
+
   a
     color: #006892
     font-weight: bold
+
   em, i
     font-style: italic
+
   li
     list-style-type: disc
+
 #bwlj
   a
     color: #003366
@@ -447,9 +504,28 @@ input select textarea
 
 .flbt
   color: #fff
+
   &:hover, &:focus
     color: #fff
     opacity: 0.8
+
 .bor
   border-bottom: 1px dashed #ddd
   margin: 15px 0
+
+.panel-heading
+  h2
+    color: #fff
+
+.panel-footer
+  .btn
+    a
+      color: #fff
+
+a.btn
+  color: #fff
+
+.tab-content
+  color: #006982
+  a
+    color: #006982

@@ -5,6 +5,7 @@ The basic HTML Page handler.
 
 import json
 import random
+
 from concurrent.futures import ThreadPoolExecutor
 
 import tornado.escape
@@ -127,6 +128,7 @@ class PostHandler(BaseHandler):
         self.kind = kwargs.get('kind', '1')
         self.filter_view = kwargs.get('filter_view', False)
         self.entity = EntityHandler
+
 
     def get(self, *args, **kwargs):
         url_str = args[0]

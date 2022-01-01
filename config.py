@@ -19,18 +19,18 @@ CMS_CFG = {
 }
 
 router_post = {'1': 'post',
-               '2': 'info',  # Filter_View
+               '9': 'info',  # Filter_View
                }
 
 post_type = {
     '1': '''<span style="color:green;" class="glyphicon glyphicon-list-alt">[{0}]</span>
         '''.format('Document'),
-    '2': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>
+    '9': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>
         '''.format('Data'),
 
 }
 
-kind_arr = ['2']
+kind_arr = ['9']
 
 post_emails = ['bukun@osgeo.cn', '118171@qq.com']
 

@@ -1,12 +1,12 @@
 {% extends "../theme/bage.html" %}
 {% block typebody %}
 <div class="panel panel-black">
-    <div class="panel-heading">Modify - {{ postinfo.title }}</div>
+    <div class="panel-heading">{{ _('Modify') }} - {{ postinfo.title }}</div>
     <div class="panel-body">
         <form method="post" class="form-horizontal" id="form_post" role="form">
             <fieldset>
                 <div class="form-group">
-                    <label for="title" class="col-sm-2 control-label">Title</label>
+                    <label for="title" class="col-sm-2 control-label">{{ _('Title') }}</label>
 
                     <div class="col-sm-10">
                         <input type="text" id="title" name="title" value="{{ postinfo.title }}"
@@ -27,17 +27,17 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="pcat0" class="col-sm-2 control-label">Category</label>
+                    <label for="pcat0" class="col-sm-2 control-label">{{ _('Category') }}</label>
 
                     <div class="col-sm-3">
                         <select name="pcat0" id="pcat0" class="form-control" onchange="g_load_infocat(0)">
-                            <option value="">Please Select</option>
+                            <option value="">{{ _('Please Select') }}</option>
                             <option> </option>
                         </select>
                     </div>
                     <div class="col-sm-4">
                         <select name="gcat0" id="gcat0" class="form-control">
-                            <option value="">Please Select</option>
+                            <option value="">{{ _('Please Select') }}</option>
                             <option value=""> </option>
                         </select>
                     </div>
@@ -50,7 +50,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="sub1" class="col-sm-2 control-label">Content</label>
+                    <label for="sub1" class="col-sm-2 control-label">{{ _('Content') }}</label>
 
                     <div class="col-sm-10">
                     <textarea class="form-control" style="width: 99%;" rows="6" readonly>
@@ -59,7 +59,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="sub1" class="col-sm-2 control-label">Content</label>
+                    <label for="sub1" class="col-sm-2 control-label">json</label>
 
                     <div class="col-sm-10">
                     <textarea class="form-control" style="width: 99%;" rows="8" readonly>
