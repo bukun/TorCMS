@@ -115,8 +115,12 @@ class TabPost(BaseModel):
         null=False,
         max_length=1,
         default='1',
-        help_text='Post type: 1 for doc, 2 for inor',
+        help_text='Post type. According to the user defined.',
     )
+    state = peewee.CharField(null=False,
+                             max_length=4,
+                             default='0000',
+                             help_text='state for post. 发布/审核状态.')
     rating = peewee.FloatField(null=False,
                                default=5,
                                help_text='Rating of the post.')
