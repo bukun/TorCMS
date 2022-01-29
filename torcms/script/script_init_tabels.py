@@ -79,6 +79,19 @@ def run_migrate(*args):
 
     torcms_migrator = migrate.PostgresqlMigrator(config.DB_CON)
 
+    ###########################################################################################
+    state_field = migrate.CharField(null=False,
+                                    max_length=4,
+                                    default='0000',
+                                    help_text='state for post. 发布/审核状态.')
+    try:
+        migrate.migrate(
+            torcms_migrator.add_column('tabpost', 'state', state_field)
+        )
+    except Exception as err:
+        print(repr(err))
+
+    ###########################################################################################
     memo_field = migrate.TextField(
         null=False,
         default='',
@@ -86,55 +99,59 @@ def run_migrate(*args):
     )
     try:
         migrate.migrate(
-            torcms_migrator.add_column('tabpost', 'memo', memo_field))
+            torcms_migrator.add_column('tabpost', 'memo', memo_field)
+        )
     except Exception as err:
         print(repr(err))
 
+    ############################################################################################
     desc_field = migrate.CharField(null=False,
                                    default='',
                                    max_length=255,
                                    help_text='')
     try:
         migrate.migrate(
-            torcms_migrator.add_column('tabentity', 'desc', desc_field))
+            torcms_migrator.add_column('tabentity', 'desc', desc_field)
+        )
     except Exception as err:
         print(repr(err))
 
+    ###########################################################################################
     extinfo_field = BinaryJSONField(null=False,
                                     default={},
                                     help_text='Extra data in JSON.')
     try:
         migrate.migrate(
-            torcms_migrator.add_column('tabmember', 'extinfo', extinfo_field))
+            torcms_migrator.add_column('tabmember', 'extinfo', extinfo_field)
+        )
     except Exception as err:
         print(repr(err))
 
+    ###########################################################################################
     par_id_field = migrate.CharField(null=False,
                                      default='',
                                      max_length=4,
                                      help_text='父类id，对于label，top_id为""')
     try:
         migrate.migrate(
-            torcms_migrator.add_column('tabpost2tag', 'par_id', par_id_field))
+            torcms_migrator.add_column('tabpost2tag', 'par_id', par_id_field)
+        )
     except Exception as err:
         print(repr(err))
 
+    ###########################################################################################
     category_field = migrate.CharField(null=False,
                                        default='0',
                                        max_length=1,
                                        help_text='0为评论，1为回复')
     try:
         migrate.migrate(
-            torcms_migrator.add_column('tabreply', 'category', category_field))
+            torcms_migrator.add_column('tabreply', 'category', category_field)
+        )
     except Exception as err:
         print(repr(err))
 
-    try:
-        migrate.migrate(torcms_migrator.drop_column('tabentity2user', 'count'))
-        # print('删除字段成功：count.')
-    except Exception as err:
-        print(repr(err))
-
+    ###########################################################################################
     user_ip_field = migrate.CharField(
         null=False,
         default='0',
@@ -142,12 +159,12 @@ def run_migrate(*args):
     )
     try:
         migrate.migrate(
-            torcms_migrator.add_column('tabentity2user', 'user_ip',
-                                       user_ip_field))
-        # print('添加字段成功：user_ip.')
+            torcms_migrator.add_column('tabentity2user', 'user_ip', user_ip_field)
+        )
     except Exception as err:
         print(repr(err))
 
+    ###########################################################################################
     view_count_1d = migrate.IntegerField(default=0, help_text='24小时内阅读量')
     try:
         migrate.migrate(
@@ -155,6 +172,7 @@ def run_migrate(*args):
     except Exception as err:
         print(repr(err))
 
+    ###########################################################################################
     view_count_7d = migrate.IntegerField(default=0, help_text='7*24小时内阅读量')
     try:
         migrate.migrate(
@@ -162,6 +180,7 @@ def run_migrate(*args):
     except Exception as err:
         print(repr(err))
 
+    ###########################################################################################
     view_count_30d = migrate.IntegerField(default=0, help_text='30*24小时内阅读量')
     try:
         migrate.migrate(
@@ -170,6 +189,7 @@ def run_migrate(*args):
     except Exception as err:
         print(repr(err))
 
+    ###########################################################################################
     failed_times = migrate.IntegerField(null=False,
                                         default=0,
                                         help_text='record the times for trying login.')
@@ -180,6 +200,7 @@ def run_migrate(*args):
     except Exception as err:
         print(repr(err))
 
+    ###########################################################################################
     time_failed = migrate.IntegerField(null=False,
                                        default=0,
                                        help_text='timestamp for login failed.')
@@ -190,5 +211,14 @@ def run_migrate(*args):
                                        time_failed))
     except Exception as err:
         print(repr(err))
+    ###########################################################################################
+    try:
+        migrate.migrate(
+            torcms_migrator.drop_column('tabentity2user', 'count')
+        )
+        # print('删除字段成功：count.')
+    except Exception as err:
+        print(repr(err))
+    ###########################################################################################
 
     print('Migration finished.')
