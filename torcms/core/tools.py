@@ -238,42 +238,6 @@ def markdown2html(markdown_text):
     return tornado.escape.xhtml_escape(html)
 
 
-@deprecated(details='using `tag_pager` as the replacement.')
-def gen_pager_purecss(cat_slug, page_num, current):
-    '''
-    Generate pager of purecss.
-    '''
-    if page_num == 1:
-        return ''
-
-    pager_shouye = '''<li class="pure-menu-item {0}">
-    <a class="pure-menu-link" href="{1}">&lt;&lt; 首页</a></li>'''.format(
-        'hidden' if current <= 1 else '', cat_slug)
-
-    pager_pre = '''<li class="pure-menu-item {0}">
-                <a class="pure-menu-link" href="{1}/{2}">&lt; 前页</a>
-                </li>'''.format('hidden' if current <= 1 else '', cat_slug,
-                                current - 1)
-    pager_mid = ''
-    for ind in range(0, page_num):
-        tmp_mid = '''<li class="pure-menu-item {0}">
-                <a class="pure-menu-link" href="{1}/{2}">{2}</a></li>
-                '''.format('selected' if ind + 1 == current else '', cat_slug,
-                           ind + 1)
-        pager_mid += tmp_mid
-    pager_next = '''<li class="pure-menu-item {0}">
-                <a class="pure-menu-link" href="{1}/{2}">后页 &gt;</a>
-                </li> '''.format('hidden' if current >= page_num else '',
-                                 cat_slug, current + 1)
-    pager_last = '''<li class="pure-menu-item {0}">
-                <a hclass="pure-menu-link" ref="{1}/{2}">末页
-                &gt;&gt;</a>
-                </li> '''.format('hidden' if current >= page_num else '',
-                                 cat_slug, page_num)
-    pager = pager_shouye + pager_pre + pager_mid + pager_next + pager_last
-    return pager
-
-
 class ConfigDefault(object):
     '''
     Class for the default configuration.
@@ -301,6 +265,7 @@ class ConfigDefault(object):
         'pass': '',
     }
 
+    # 权限的缺省值
     ROLE_CFG = {
         'view': '',
         'add': '1000',
