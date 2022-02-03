@@ -55,7 +55,6 @@ def html_min(func):
     '''
 
     def wrapper(*args):
-        # return html_minify(func(*args))
         return minify(func(*args))
 
     return wrapper
@@ -142,7 +141,6 @@ def format_date(indate):
 def get_uuid():
     '''
     Using python uuid
-    :return:
     '''
     return str(uuid.uuid1())
 
@@ -151,7 +149,9 @@ def get_uu8d():
     '''
     Get ID of 8 digit.
     '''
-    return str(uuid.uuid1()).split('-')[0]
+
+    # str(uuid.uuid1()).split('-', maxsplit=1)[0]
+    return str(uuid.uuid1()).split('-', maxsplit=1)[0]
 
 
 def func_rand_arr(arr, length):
@@ -165,7 +165,8 @@ def get_uu4d_v2():
     '''
     Get ID of 4 digit. version 2.
     '''
-    sel_arr = [x for x in 'ghijklmnopqrstuvwxyz']
+    # sel_arr = [x for x in 'ghijklmnopqrstuvwxyz']
+    sel_arr = list('ghijklmnopqrstuvwxyz')
     return func_rand_arr(sel_arr, 4)
 
 
@@ -221,15 +222,16 @@ def markdown2html(markdown_text):
     :param markdown_text:   The markdown text.
     :return:  The HTML text.
     '''
-    html = markdown.markdown(markdown_text,
-                             extensions=[
-                                 WikiLinkExtension(base_url='/wiki/',
-                                                   end_url=''),
-                                 'markdown.extensions.extra',
-                                 'markdown.extensions.toc',
-                                 'markdown.extensions.codehilite',
-                                 'markdown.extensions.meta'
-                             ])
+    html = markdown.markdown(
+        markdown_text,
+        extensions=[
+            WikiLinkExtension(base_url='/wiki/', end_url=''),
+            'markdown.extensions.extra',
+            'markdown.extensions.toc',
+            'markdown.extensions.codehilite',
+            'markdown.extensions.meta'
+        ]
+    )
     han_biaodians = ['。', '，', '；', '、', '！', '？']
     for han_biaodian in han_biaodians:
         html = html.replace(han_biaodian + '\n', han_biaodian)
@@ -308,35 +310,6 @@ class ConfigDefault(object):
     }
 
 
-# def get_analyzer():
-#     '''
-#     Get the analyzer for whoosh of difference language. Currrent only for zh and en.
-#     '''
-#     alyzer = {
-#         'zh': ChineseAnalyzer,
-#         'en': StemmingAnalyzer,
-#     }
-#
-#     # cfg_var = dir(cfg)
-#     # site_cfg = cfg.SITE_CFG if 'SITE_CFG' in cfg_var else ConfigDefault.SITE_CFG
-#
-#     site_cfg = config.SITE_CFG
-#
-#     site_cfg['LANG'] = site_cfg.get('LANG', 'zh')
-#
-#     if site_cfg['LANG'] == 'zh' and ChineseAnalyzer:
-#         pass
-#     else:
-#         site_cfg['LANG'] = 'en'
-#
-#    print('x' * 20)
-#    print(site_cfg)
-#
-#    # print(site_cfg['LANG'])
-#    # return alyzer[site_cfg['LANG']]
-#    return StemmingAnalyzer
-
-
 def get_cfg():
     '''
     Get the configure value.
@@ -408,8 +381,8 @@ def get_cfg():
 
 
 def ts_helper():
-    timestamp = int(time.time())
-    ts1d = timestamp - 24 * 60 * 60
-    ts7d = timestamp - 7 * 24 * 60 * 60
-    ts30d = timestamp - 30 * 24 * 60 * 60
+    the_timestamp = int(time.time())
+    ts1d = the_timestamp - 24 * 60 * 60
+    ts7d = the_timestamp - 7 * 24 * 60 * 60
+    ts30d = the_timestamp - 30 * 24 * 60 * 60
     return [x * 1000 for x in (ts1d, ts7d, ts30d)]

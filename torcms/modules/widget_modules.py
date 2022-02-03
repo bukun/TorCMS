@@ -131,7 +131,6 @@ class UseF2E(tornado.web.UIModule):
         return self.render_string('modules/usef2e/{0}.html'.format(f2ename))
 
 
-
 class UploadPicture(tornado.web.UIModule):
     '''
     Upload picture

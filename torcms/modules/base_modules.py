@@ -166,10 +166,12 @@ class PostCatRandom(tornado.web.UIModule):
             'with_catalog': with_catalog,
             'router': config.router_post['1'],
         }
-        return self.render_string('modules/post/post_list.html',
-                                  recs=MPost.query_cat_random(cat_id,
-                                                              limit=num),
-                                  kwd=kwd)
+        return self.render_string(
+            'modules/post/post_list.html',
+            recs=MPost.query_cat_random(cat_id,
+                                        limit=num),
+            kwd=kwd
+        )
 
 
 class PostRecentMostView(tornado.web.UIModule):
@@ -255,8 +257,10 @@ class LinkList(tornado.web.UIModule):
 
     def render(self, *args, **kwargs):
         num = kwargs['num'] if 'num' in kwargs else 10
-        return self.render_string('modules/post/link_list.html',
-                                  recs=MLink.query_link(num))
+        return self.render_string(
+            'modules/post/link_list.html',
+            recs=MLink.query_link(num)
+        )
 
 
 class PostCategoryRecent(tornado.web.UIModule):
@@ -471,7 +475,9 @@ class CategoryPager(tornado.web.UIModule):
 
         pager_cnt = int(num_of_cat / config.CMS_CFG['list_num'])
 
-        page_num = pager_cnt if abs(pager_cnt - num_of_cat / config.CMS_CFG['list_num']) < 0.1 else pager_cnt + 1
+        page_num = (pager_cnt
+                    if abs(pager_cnt - num_of_cat / config.CMS_CFG['list_num']) < 0.1
+                    else pager_cnt + 1)
 
         kwd = get_page_position(current, page_num)
         kwd['tag'] = tag
@@ -498,9 +504,9 @@ class CollectPager(tornado.web.UIModule):
 
         pager_count = int(the_count / config.CMS_CFG['list_num'])
 
-        page_num = (pager_count if
-                    abs(pager_count - the_count / config.CMS_CFG['list_num']) <
-                    0.1 else pager_count + 1)
+        page_num = (pager_count
+                    if abs(pager_count - the_count / config.CMS_CFG['list_num']) < 0.1
+                    else pager_count + 1)
 
         kwd = get_page_position(current, page_num)
 
@@ -523,8 +529,7 @@ class InfoLabelPager(tornado.web.UIModule):
 
         pager_count = int(cat_rec.count() / config.CMS_CFG['list_num'])
         page_num = (pager_count
-                    if abs(pager_count -
-                           cat_rec.count() / config.CMS_CFG['list_num']) < 0.1
+                    if abs(pager_count - cat_rec.count() / config.CMS_CFG['list_num']) < 0.1
                     else pager_count + 1)
 
         kwd = get_page_position(current, page_num)
@@ -551,8 +556,9 @@ class LabelPager(tornado.web.UIModule):
             config.CMS_CFG['list_num'])
         page_num = (
             pager_count
-            if abs(pager_count - MPost2Label.total_number(tag_slug, kind) /
-                   config.CMS_CFG['list_num']) < 0.1 else pager_count + 1)
+            if abs(pager_count - MPost2Label.total_number(tag_slug, kind) / config.CMS_CFG['list_num']) < 0.1
+            else pager_count + 1
+        )
         kwd = get_page_position(current, page_num)
 
         return self.render_string('modules/post/label_pager.html',
@@ -574,9 +580,9 @@ class TagPager(tornado.web.UIModule):
         taginfo = MCategory.get_by_slug(tag_slug)
         num_of_tag = MPost2Catalog.count_of_certain_category(taginfo.uid)
         pager_count = int(math_ceil(num_of_tag / config.CMS_CFG['list_num']))
-        page_num = (pager_count if
-                    abs(pager_count - num_of_tag / config.CMS_CFG['list_num'])
-                    < 0.1 else pager_count + 1)
+        page_num = (pager_count
+                    if abs(pager_count - num_of_tag / config.CMS_CFG['list_num']) < 0.1
+                    else pager_count + 1)
 
         kwd = get_page_position(current, page_num)
 
@@ -623,7 +629,6 @@ class AppTitle(tornado.web.UIModule):
                                   rec=rec)
 
 
-
 class EntityList(tornado.web.UIModule):
     '''
     search widget. Simple searching. searching for all.
@@ -655,9 +660,9 @@ class EntityPager(tornado.web.UIModule):
         current = int(args[0])
 
         pager_count = int(MEntity.total_number() / config.CMS_CFG['list_num'])
-        page_num = (pager_count if abs(pager_count - MEntity.total_number() /
-                                       config.CMS_CFG['list_num']) < 0.1 else
-                    pager_count + 1)
+        page_num = (pager_count
+                    if abs(pager_count - MEntity.total_number() / config.CMS_CFG['list_num']) < 0.1
+                    else pager_count + 1)
         kwd = get_page_position(current, page_num)
 
         return self.render_string('modules/post/entity_pager.html',
@@ -678,10 +683,9 @@ class Entity2UserPager(tornado.web.UIModule):
         pager_count = int(
             MEntity2User.total_number_by_user(user_id) /
             config.CMS_CFG['list_num'])
-        page_num = (
-            pager_count
-            if abs(pager_count - MEntity2User.total_number_by_user(user_id) /
-                   config.CMS_CFG['list_num']) < 0.1 else pager_count + 1)
+        page_num = (pager_count
+                    if abs(pager_count - MEntity2User.total_number_by_user(user_id) / config.CMS_CFG['list_num']) < 0.1
+                    else pager_count + 1)
         kwd = get_page_position(current, page_num)
 
         return self.render_string(
@@ -703,9 +707,9 @@ class Entity2Pager(tornado.web.UIModule):
 
         pager_count = int(MEntity2User.total_number() /
                           config.CMS_CFG['list_num'])
-        page_num = (pager_count if
-                    abs(pager_count - MEntity2User.total_number() /
-                        config.CMS_CFG['list_num']) < 0.1 else pager_count + 1)
+        page_num = (pager_count
+                    if abs(pager_count - MEntity2User.total_number() / config.CMS_CFG['list_num']) < 0.1
+                    else pager_count + 1)
         kwd = get_page_position(current, page_num)
 
         return self.render_string('modules/post/entity_download_pager.html',
@@ -713,18 +717,6 @@ class Entity2Pager(tornado.web.UIModule):
                                   user_id=user_id,
                                   pager_num=page_num,
                                   page_current=current)
-
-
-# class Entity_path(tornado.web.UIModule):
-#     '''
-#     Pager for search result.
-#     '''
-#
-#     def render(self, enti_id):
-#         rec = MEntity.get_by_uid(enti_id)
-#
-#         return self.render_string('modules/post/entity_path.html',
-#                                   rec=rec)
 
 
 class UserName(tornado.web.UIModule):
@@ -776,7 +768,7 @@ class CategoryBySlug(tornado.web.UIModule):
 
 class Collect(tornado.web.UIModule):
     '''
-添加收藏模块
+    添加收藏模块
     '''
 
     def render(self, *args, **kwargs):
@@ -823,9 +815,9 @@ class Admin_Post_pager(tornado.web.UIModule):
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
-        page_num = (tmp_page_num if
-                    abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num'])
-                    < 0.1 else tmp_page_num + 1)
+        page_num = (tmp_page_num
+                    if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
+                    else tmp_page_num + 1)
 
         kwd = get_page_position(current, page_num)
 
@@ -851,9 +843,9 @@ class Admin_Page_pager(tornado.web.UIModule):
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
-        page_num = (tmp_page_num if
-                    abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num'])
-                    < 0.1 else tmp_page_num + 1)
+        page_num = (tmp_page_num
+                    if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
+                    else tmp_page_num + 1)
 
         kwd = get_page_position(current, page_num)
 
@@ -911,9 +903,9 @@ class Admin_user_pager(tornado.web.UIModule):
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
-        page_num = (tmp_page_num if
-                    abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num'])
-                    < 0.1 else tmp_page_num + 1)
+        page_num = (tmp_page_num
+                    if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
+                    else tmp_page_num + 1)
 
         kwd = get_page_position(current, page_num)
 
@@ -950,9 +942,9 @@ class Admin_log_pager(tornado.web.UIModule):
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
-        page_num = (tmp_page_num if
-                    abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num'])
-                    < 0.1 else tmp_page_num + 1)
+        page_num = (tmp_page_num
+                    if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
+                    else tmp_page_num + 1)
 
         kwd = get_page_position(current, page_num)
 
@@ -976,9 +968,9 @@ class LogPager(tornado.web.UIModule):
 
         pager_count = int(the_count / config.CMS_CFG['list_num'])
 
-        page_num = (pager_count if
-                    abs(pager_count - the_count / config.CMS_CFG['list_num']) <
-                    0.1 else pager_count + 1)
+        page_num = (pager_count
+                    if abs(pager_count - the_count / config.CMS_CFG['list_num']) < 0.1
+                    else pager_count + 1)
 
         kwd = get_page_position(current, page_num)
 
@@ -1001,9 +993,9 @@ class LogPageviewPager(tornado.web.UIModule):
 
         pager_count = int(the_count / config.CMS_CFG['list_num'])
 
-        page_num = (pager_count if
-                    abs(pager_count - the_count / config.CMS_CFG['list_num']) <
-                    0.1 else pager_count + 1)
+        page_num = (pager_count
+                    if abs(pager_count - the_count / config.CMS_CFG['list_num']) < 0.1
+                    else pager_count + 1)
 
         kwd = get_page_position(current, page_num)
 
@@ -1040,7 +1032,7 @@ class InfoNullify(tornado.web.UIModule):
 
 class Nullify_pager(tornado.web.UIModule):
     '''
-   无效信息列表分页
+    无效信息列表分页
     '''
 
     def render(self, *args, **kwargs):
@@ -1050,9 +1042,9 @@ class Nullify_pager(tornado.web.UIModule):
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
-        page_num = (tmp_page_num if
-                    abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num'])
-                    < 0.1 else tmp_page_num + 1)
+        page_num = (tmp_page_num
+                    if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
+                    else tmp_page_num + 1)
 
         kwd = get_page_position(current, page_num)
 
@@ -1074,9 +1066,9 @@ class Comment_pager(tornado.web.UIModule):
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
-        page_num = (tmp_page_num if
-                    abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num'])
-                    < 0.1 else tmp_page_num + 1)
+        page_num = (tmp_page_num
+                    if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
+                    else tmp_page_num + 1)
 
         kwd = get_page_position(current, page_num)
 
