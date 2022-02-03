@@ -146,12 +146,9 @@ class ListHandler(BaseHandler):
                                                   tag=tag,
                                                   order=self.order)
 
-        # ToDo: `gen_pager_purecss` should not use any more.
         self.render(tmpl,
                     catinfo=cat_rec,
                     infos=infos,
-                    pager=tools.gen_pager_purecss('/list/{0}'.format(cat_slug),
-                                                  page_num, current_page_num),
                     userinfo=self.userinfo,
                     html2text=html2text,
                     cfg=CMS_CFG,

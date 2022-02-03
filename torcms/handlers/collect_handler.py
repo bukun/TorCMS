@@ -82,9 +82,6 @@ class CollectHandler(BaseHandler):
         self.render('misc/collect/list.html',
                     recs_collect=MCollect.query_pager_by_all(
                         self.userinfo.uid, current_page_num).objects(),
-                    pager=tools.gen_pager_purecss(
-                        '/collect/{0}'.format(the_list), page_num,
-                        current_page_num),
                     userinfo=self.userinfo,
                     cfg=CMS_CFG,
                     kwd=kwd)
