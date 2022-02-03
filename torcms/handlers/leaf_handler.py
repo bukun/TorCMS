@@ -2,7 +2,7 @@
 '''
 access via: /leaf/
             vs: /post/
-The basic  leaf handler.
+The basic leaf handler.
 The list of the posts should be ordered under leaf list.
 '''
 

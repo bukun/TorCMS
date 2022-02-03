@@ -28,7 +28,7 @@ def run_init(*args):
         print('Could not connect to database ...')
         run_zero()
         sys.exit()
-        
+
     run_init_tables()
     run_gen_category()
     run_create_admin()

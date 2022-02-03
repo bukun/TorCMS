@@ -39,6 +39,13 @@ def update_category(uid, post_data):
     # deprecated
     # catid = kwargs['catid'] if MCategory.get_by_uid(kwargs.get('catid')) else None
     # post_data = self.get_post_data()
+
+    '''
+    在前端，使用 `gcat0`，`gcat1`，`gcat2` 等，作为分类的参数。
+    因为一个 post 可能会有多个分类，再定义第1分类的 key ：
+        'def_cat_uid'： 第1分类
+        'def_cat_pid' : 分1分类的父类
+    '''
     if 'gcat0' in post_data:
         pass
     else:
@@ -77,10 +84,11 @@ def update_category(uid, post_data):
         the_cats_dict['def_cat_uid'] = def_cat_id
         the_cats_dict['def_cat_pid'] = MCategory.get_by_uid(def_cat_id).pid
 
-    # Add the category
+
     logger.info('Update category: {0}'.format(the_cats_arr))
     logger.info('Update category: {0}'.format(the_cats_dict))
 
+    # Add the category
     MPost.update_jsonb(uid, the_cats_dict)
 
     for index, idx_catid in enumerate(the_cats_arr):
@@ -93,11 +101,11 @@ def update_category(uid, post_data):
             MPost2Catalog.remove_relation(uid, cur_info.tag_id)
 
 
-def update_label(signature, post_data):
+def update_label(post_id, post_data):
     '''
     Update the label when updating.
     '''
-    current_tag_infos = MPost2Label.get_by_uid(signature).objects()
+    current_tag_infos = MPost2Label.get_by_uid(post_id).objects()
     if 'tags' in post_data:
         pass
     else:
@@ -108,13 +116,13 @@ def update_label(signature, post_data):
         if tag_name == '':
             pass
         else:
-            MPost2Label.add_record(signature, tag_name, 1)
+            MPost2Label.add_record(post_id, tag_name, 1)
 
     for cur_info in current_tag_infos:
         if cur_info.tag_name in tags_arr:
             pass
         else:
-            MPost2Label.remove_relation(signature, cur_info.tag_id)
+            MPost2Label.remove_relation(post_id, cur_info.tag_id)
 
 
 class PostHandler(BaseHandler):
@@ -128,7 +136,6 @@ class PostHandler(BaseHandler):
         self.kind = kwargs.get('kind', '1')
         self.filter_view = kwargs.get('filter_view', False)
         self.entity = EntityHandler
-
 
     def get(self, *args, **kwargs):
         url_str = args[0]
@@ -212,12 +219,7 @@ class PostHandler(BaseHandler):
         :return: the temaplte path.
         '''
 
-        if 'def_cat_uid' in rec.extinfo and rec.extinfo['def_cat_uid'] != '':
-            cat_id = rec.extinfo['def_cat_uid']
-        elif 'gcat0' in rec.extinfo and rec.extinfo['gcat0'] != '':
-            cat_id = rec.extinfo['gcat0']
-        else:
-            cat_id = None
+        cat_id = self.__get_cat_id(rec)
 
         logger.info('For templates: catid: {0},  filter_view: {1}'.format(
             cat_id, self.filter_view))
@@ -227,6 +229,14 @@ class PostHandler(BaseHandler):
         else:
             tmpl = 'post_{0}/post_view.html'.format(self.kind)
         return tmpl
+
+    def __get_cat_id(self, postinfo):
+        cat_id = postinfo.extinfo.get('def_cat_uid')
+        if cat_id:
+            pass
+        else:
+            cat_id = postinfo.extinfo.get('gcat0')
+        return cat_id
 
     @tornado.web.authenticated
     @privilege.auth_add
@@ -310,12 +320,7 @@ class PostHandler(BaseHandler):
         else:
             return self.show404()
 
-        if 'def_cat_uid' in postinfo.extinfo:
-            catid = postinfo.extinfo['def_cat_uid']
-        elif 'gcat0' in postinfo.extinfo:
-            catid = postinfo.extinfo['gcat0']
-        else:
-            catid = ''
+        catid = self.__get_cat_id(postinfo)
 
         if len(catid) == 4:
             pass
@@ -376,8 +381,6 @@ class PostHandler(BaseHandler):
 
         if last_post_id and MPost.get_by_uid(last_post_id):
             self._add_relation(last_post_id, post_id)
-
-
 
     @privilege.auth_view
     def viewinfo(self, postinfo):
@@ -572,18 +575,16 @@ class PostHandler(BaseHandler):
         else:
             post_data['valid'] = 1
 
-        ext_dic['def_uid'] = uid
+        ext_dic['def_uid'] = uid  # 此 key 用于更新文档时在历史记录中跟踪原 uid .
         ext_dic['gcat0'] = post_data['gcat0']
         ext_dic['def_cat_uid'] = post_data['gcat0']
-        MPost.add_or_modify_meta(ext_dic['def_uid'], post_data, extinfo=ext_dic)
+        MPost.add_or_modify_meta(uid, post_data, extinfo=ext_dic)
         kwargs.pop('uid', None)  # delete `uid` if exists in kwargs
 
         self._add_download_entity(ext_dic)
 
-        # self.update_tag(uid=ext_dic['def_uid'], **kwargs)
-
-        update_category(ext_dic['def_uid'], post_data)
-        update_label(ext_dic['def_uid'], post_data)
+        update_category(uid, post_data)
+        update_label(uid, post_data)
         # self.update_label(uid)
 
         # cele_gen_whoosh.delay()
@@ -616,7 +617,7 @@ class PostHandler(BaseHandler):
         else:
             post_data['valid'] = postinfo.valid
 
-        ext_dic['def_uid'] = str(uid)
+        ext_dic['def_uid'] = uid
 
         cnt_old = tornado.escape.xhtml_unescape(postinfo.cnt_md).strip()
         cnt_new = post_data['cnt_md'].strip()
@@ -701,8 +702,9 @@ class PostHandler(BaseHandler):
         return {}
 
     def _add_download_entity(self, ext_dic):
-        download_url = ext_dic['tag_file_download'].strip().lower() if (
-                'tag_file_download' in ext_dic) else ''
+        download_url = (ext_dic['tag_file_download'].strip().lower()
+                        if ('tag_file_download' in ext_dic)
+                        else '')
         the_entity = MEntity.get_id_by_impath(download_url)
         if the_entity:
             return True
