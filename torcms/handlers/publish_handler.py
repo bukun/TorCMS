@@ -15,12 +15,23 @@ class PublishHandler(BaseHandler):
     '''
     Try to add new post, with category information.
     '''
+
     def initialize(self, **kwargs):
         super().initialize()
 
     def get(self, *args):
+        '''
+        if len(url_str) == 1:
+            # like:  /publish/s or  /publish/m
+            self.view_class1(url_str)
+        elif len(url_str) == 4:
+            # like:  /publish/s or  /publish/m
+            self.view_class2(url_str)
+        elif len(url_str) == 5:
+            self.echo_class2(url_str)
+        '''
+
         url_str = args[0]
-        # url_arr = self.parse_url(url_str)
 
         dict_get = {
             1: self.view_class1,
@@ -30,16 +41,6 @@ class PublishHandler(BaseHandler):
 
         dict_get.get(len(url_str), lambda x: self.redirect('/'))(url_str)
 
-        # if len(url_str) == 1:
-        #     # like:  /publish/s or  /publish/m
-        #     self.view_class1(url_str)
-        # elif len(url_str) == 4:
-        #     # like:  /publish/s or  /publish/m
-        #     self.view_class2(url_str)
-        # elif len(url_str) == 5:
-        #     self.echo_class2(url_str)
-
-    # Todo: unused ?
     @tornado.web.authenticated
     def echo_class2(self, catstr=''):
         '''

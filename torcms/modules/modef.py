@@ -23,7 +23,7 @@ core_modules = {
     'generate_abstract': base_modules.GenerateAbstract,
     'site_url': base_modules.SiteUrl,
     'site_title': base_modules.SiteTitle,
-    'generate_description': base_modules.GenerateDescription,
+    # 'generate_description': base_modules.GenerateDescription,
     'post_tags': base_modules.PostTags,
     'post_catalogs': base_modules.PostTags,
     'map_catalogs': base_modules.MapTags,

@@ -47,9 +47,7 @@ urls = [
     ("/entity_download/(.*)", Entity2UserHandler, {}),
 
     # For listing items.
-
-    # ToDo: To check.
-    ("/list/(.*)", ListHandler, {}),  # use to be category
+    ("/list/(.*)", ListHandler, {}),
     ("/post/(.*)", PostHandler, dict(kind='1')),
 
     # For listing ordered items.
