@@ -365,16 +365,16 @@ class MPost():
     @staticmethod
     def query_by_tag(cat_id, kind='1'):
         '''
-        Query recent posts of catalog.
-        ToDo: kind ?
+        Query posts of catalog.
         '''
 
         return TabPost.select().join(
-            TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id
-                             )).where((TabPost.kind == kind)
-                                      & (TabPost2Tag.tag_id == cat_id)
-                                      & (TabPost.valid == 1)).order_by(
-            TabPost.time_create.desc())
+            TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)
+        ).where(
+            (TabPost.kind == kind) & (TabPost2Tag.tag_id == cat_id) & (TabPost.valid == 1)
+        ).order_by(
+            TabPost.time_create.desc()
+        )
 
     @staticmethod
     def query_by_parid(par_id, kind='9'):
@@ -675,13 +675,12 @@ class MPost():
             & (TabPost.extinfo['def_tag_arr'].contains(tag_name))).order_by(
             TabPost.time_update.desc())
 
-    @staticmethod
-    def get_label_fenye(tag_slug, _idx):
-        all_list = MPost.query_by_tagname(tag_slug)
-        # 当前分页的记录
-        # Todo
-        # current_list = all_list[(idx - 1) * CMS_CFG['list_num']: idx * CMS_CFG['list_num']]
-        return all_list
+    # @staticmethod
+    # def get_label_fenye(tag_slug, _idx):
+    #     all_list = MPost.query_by_tagname(tag_slug)
+    #     # 当前分页的记录
+    #     # current_list = all_list[(idx - 1) * CMS_CFG['list_num']: idx * CMS_CFG['list_num']]
+    #     return all_list
 
     @staticmethod
     def query_pager_by_tag(tag, current_page_num=1, kind='2'):
@@ -733,10 +732,6 @@ class MPost():
         '''
         Get All data of certain kind according to the condition
         '''
-        if DB_CFG['kind'] == 's':
-            return TabPost.select().where((TabPost.kind == kind)
-                                          & (TabPost.valid == 1)).order_by(
-                TabPost.time_update.desc())
 
         if sort_option:
             if sort_option == 'time_update':
@@ -755,8 +750,8 @@ class MPost():
             sort_criteria = TabPost.time_update.desc()
 
         return TabPost.select().where(
-            (TabPost.kind == kind) & (TabPost.valid == 1)
-            & TabPost.extinfo.contains(condition)).order_by(sort_criteria)
+            (TabPost.kind == kind) & (TabPost.valid == 1) & TabPost.extinfo.contains(condition)
+        ).order_by(sort_criteria)
 
     @staticmethod
     def get_num_condition(con):

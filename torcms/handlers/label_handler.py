@@ -5,20 +5,19 @@ For Post Label.
 
 import json
 import os
-
-import tornado.escape
 import tornado.web
 
-from config import CMS_CFG, router_post
 from torcms.core.base_handler import BaseHandler
 from torcms.core.torcms_redis import redisvr
 from torcms.model.label_model import MLabel, MPost2Label
+from config import CMS_CFG, router_post
 
 
 class LabelHandler(BaseHandler):
     '''
     For Post Label. with 'kind'.
     '''
+
     def initialize(self, **kwargs):
         super().initialize()
 
@@ -30,6 +29,7 @@ class LabelHandler(BaseHandler):
 
         if len(url_arr) == 2:
             if url_arr[0] == 'remove':
+                # ToDo: 此情况应该未使用，可以删除.
                 self.remove_redis_keyword(url_arr[1])
             else:
                 self.list(url_arr[0], url_arr[1])
@@ -51,7 +51,6 @@ class LabelHandler(BaseHandler):
         根据 cat_handler.py 中的 def view_cat_new(self, cat_slug, cur_p = '')
         '''
         # 下面用来使用关键字过滤信息，如果网站信息量不是很大不要开启
-        # Todo:
         # if self.get_current_user():
         #     redisvr.sadd(config.redis_kw + self.userinfo.user_name, tag_slug)
 
@@ -148,6 +147,7 @@ class InfoTagHandler(BaseHandler):
     '''
     Access label without 'kind'. redirect to /label/
     '''
+
     def __init__(self):
         super().__init__()
         self.kind = '9'

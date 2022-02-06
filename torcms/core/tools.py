@@ -18,17 +18,7 @@ from markdown.extensions.wikilinks import WikiLinkExtension
 from playhouse.postgres_ext import PostgresqlExtDatabase
 
 import cfg
-from torcms.core.libs.deprecation import deprecated
 
-# try:
-#     from jieba.analyse import ChineseAnalyzer
-# except:
-#     ChineseAnalyzer = None
-# from whoosh.analysis import StemmingAnalyzer
-
-# import config
-
-# Config for logging
 logging.basicConfig(
     level=logging.DEBUG,
     format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
@@ -166,39 +156,40 @@ def get_uu4d_v2():
     Get ID of 4 digit. version 2.
     '''
     # sel_arr = [x for x in 'ghijklmnopqrstuvwxyz']
-    sel_arr = list('ghijklmnopqrstuvwxyz')
-    return func_rand_arr(sel_arr, 4)
+
+    return func_rand_arr(
+        list('ghijklmnopqrstuvwxyz'),
+        4
+    )
 
 
 def get_uu4d():
     '''
     Get ID of 4 digit.
     '''
-    sel_arr = [
-        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd',
-        'e', 'f'
-    ]
-    # rarr = random.sample(sel_arr, 4)
-    return func_rand_arr(sel_arr, 4)
+
+    return func_rand_arr(
+        list('0123456789abcdef'),
+        4
+    )
 
 
 def get_uu5d():
     '''
     Get ID of 5 digit.
     '''
-    sel_arr = [
-        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd',
-        'e', 'f'
-    ]
-    # rarr = random.sample(sel_arr, 5)
-    return func_rand_arr(sel_arr, 5)
+
+    return func_rand_arr(
+        list('0123456789abcdef'),
+        5
+    )
 
 
 def get_uudd(lenth):
     '''
     随机获取给定位数的整数
     '''
-    sel_arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    sel_arr = list('0123456789')
     rarr = random.sample(sel_arr, lenth)
     while rarr[0] == '0':
         rarr = random.sample(sel_arr, lenth)
@@ -209,11 +200,11 @@ def get_uu6d():
     '''
     Get ID of 6 digit.
     '''
-    sel_arr = [
-        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd',
-        'e', 'f'
-    ]
-    return func_rand_arr(sel_arr, 6)
+
+    return func_rand_arr(
+        list('0123456789abcdef'),
+        6
+    )
 
 
 def markdown2html(markdown_text):

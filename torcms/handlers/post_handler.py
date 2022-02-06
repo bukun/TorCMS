@@ -84,7 +84,6 @@ def update_category(uid, post_data):
         the_cats_dict['def_cat_uid'] = def_cat_id
         the_cats_dict['def_cat_pid'] = MCategory.get_by_uid(def_cat_id).pid
 
-
     logger.info('Update category: {0}'.format(the_cats_arr))
     logger.info('Update category: {0}'.format(the_cats_dict))
 
@@ -181,10 +180,8 @@ class PostHandler(BaseHandler):
             self._change_kind(url_arr[1])
         elif url_arr[0] in ['_cat_add']:
             self.add(catid=url_arr[1])
-        elif len(url_arr) == 1:
-            # Todo: should not exists.
-            if len(url_str) in [4, 5]:
-                self.add(uid=url_str)
+        elif len(url_arr) == 1 and len(url_str) in [4, 5]:
+            self.add(uid=url_str)
         elif url_arr[0] == 'rel' and len(url_arr) == 3:
             self._add_relation(url_arr[1], url_arr[2])
 
@@ -428,7 +425,6 @@ class PostHandler(BaseHandler):
             kwd=dict(kwd, **self.ext_view_kwd(postinfo)),
             postinfo=postinfo,
             userinfo=self.userinfo,
-            author=postinfo.user_name,  # Todo: remove the key `author`.
             catinfo=catinfo,
             pcatinfo=p_catinfo,
             relations=rel_recs,

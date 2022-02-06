@@ -47,10 +47,8 @@ class LeafHandler(PostHandler):
             self.add(catid=url_arr[1])
         elif url_arr[0] == 'update_order':
             self.update_order(url_arr[1], url_arr[2])
-        elif len(url_arr) == 1:
-            # Todo: should not exists.
-            if len(url_str) in [4, 5]:
-                self.add(uid=url_str)
+        elif len(url_arr) == 1 and len(url_str) == 5:
+            self.add(uid=url_str)
         elif url_arr[0] == 'rel' and len(url_arr) == 3:
             self._add_relation(url_arr[1], url_arr[2])
         else:
