@@ -350,27 +350,27 @@ class TestApp():
         assert TF == True
         self.tearDown()
 
-    def test_modify_init(self):
-        kwargs = {
-
-            'user_name': '7788',
-            'keywords': 'kllll',
-            'kind': '2',
-
-        }
-        self.add_message(**kwargs)
-
-        uid = self.uid
-        post_data = {
-            'keywords': 'oor',
-            'kind': '3',
-        }
-
-        MPost.modify_init(uid, post_data)
-        pp = MPost.get_by_uid(uid)
-        assert post_data['keywords'] == pp.keywords
-        assert post_data['kind'] == pp.kind
-        self.tearDown()
+    # def test_modify_init(self):
+    #     kwargs = {
+    #
+    #         'user_name': '7788',
+    #         'keywords': 'kllll',
+    #         'kind': '2',
+    #
+    #     }
+    #     self.add_message(**kwargs)
+    #
+    #     uid = self.uid
+    #     post_data = {
+    #         'keywords': 'oor',
+    #         'kind': '3',
+    #     }
+    #
+    #     MPost.modify_init(uid, post_data)
+    #     pp = MPost.get_by_uid(uid)
+    #     assert post_data['keywords'] == pp.keywords
+    #     assert post_data['kind'] == pp.kind
+    #     self.tearDown()
 
     # def test_get_view_count(self):
     #     kwargs = {

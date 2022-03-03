@@ -11,6 +11,7 @@ from torcms.model.rating_model import MRating
 from torcms.model.reply_model import MReply
 from torcms.model.replyid_model import MReplyid
 from torcms.model.user_model import MUser
+from torcms.model.post_model import MPost
 
 
 class BaiduShare(tornado.web.UIModule):
@@ -216,3 +217,50 @@ class Userprofile(tornado.web.UIModule):
         rec = MUser.get_by_uid(user_id)
 
         return self.render_string('modules/widget/user_profile.html', rec=rec)
+
+class State(tornado.web.UIModule):
+    def render(self, *args, **kwargs):
+        postinfo = kwargs.get('postinfo','')
+        userinfo = kwargs.get('userinfo','')
+        kind = kwargs.get('kind','1')
+        kwd = {
+            'router': config.router_post[kind],
+        }
+        return self.render_string('modules/post/state.html',
+                                  postinfo=postinfo,
+                                  userinfo=userinfo,
+                                  kwd = kwd
+                                  )
+class Check_pager(tornado.web.UIModule):
+    '''
+    审核翻页
+    '''
+
+    def render(self, *args, **kwargs):
+        current = int(args[0])
+        state = kwargs.get('state', '')
+
+        if state:
+            num_of_cat = MPost.count_of_certain_by_state(state)
+        else:
+            num_of_cat = MPost.query_all().count()
+
+        tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
+
+        page_num = (tmp_page_num if
+                    abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num'])
+                    < 0.1 else tmp_page_num + 1)
+
+        kwd = {
+            'page_home': current > 1,
+            'page_end': current < page_num,
+            'page_pre': current > 1,
+            'page_next': current < page_num,
+
+        }
+
+        return self.render_string('modules/post/check_pager.html',
+                                  kwd=kwd,
+                                  pager_num=page_num,
+                                  page_current=current,
+                                  state=state)

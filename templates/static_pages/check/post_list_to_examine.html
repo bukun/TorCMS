@@ -1,0 +1,75 @@
+{% extends "../../theme/bage.html" %}
+{% block head %}
+<title>Pending review list </title>
+<meta name="keywords" content="文档">
+<meta name="description"
+      content="文档">
+{% end %}
+{% block typebody %}
+<div class="row">
+
+    <ol class="breadcrumb">
+        <li>Current location: <a href="/" title="home">Home</a></li>
+        <li class="active">Pending review list</li>
+    </ol>
+    <div class="panel panel-black">
+        <div class="panel-heading">
+           <h3 class="panel-title">Pending review list</h3></div>
+        <table class="table table-bordered table-condensed table-striped">
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>State</th>
+            </tr>
+            {% for rec in recs %}
+            <tr>
+                <td>{{ rec.uid }}</td>
+                <td><a href="/info/{{ rec.uid}}">{{ rec.title }}</a></td>
+                <td>
+                    {% if  rec.state == 'a000' %}
+                    Updating
+                    {% elif rec.state == 'a100' %}
+                    Pending review
+                    {% elif rec.state == 'b100' %}
+                    Review passed
+                    {% else %}
+                    Review failed
+                    {% end %}
+                </td>
+            </tr>
+            {% end %}
+        </table>
+
+        <div class="col-sm-12">
+        <div class="row">
+            {% module check_pager( kwd['current_page'],state = state) %}
+        </div>
+        <div class="row">
+            Go to <input id="changePage" type="text" size="1" maxlength="4" style=" border: 3px solid #fff; height: 20px "/>
+        page
+        <a href="#" id="btn5" class="btn btn-xs btn-primary">{{ _('Jump') }}</a>
+        </div>
+    </div>
+    </div>
+</div>
+
+
+<br>
+<script type="text/javascript">
+    var page = '{{kwd['pager_num']}}';
+    $("#btn5").click(function changePage() {
+        curPage = document.getElementById("changePage").value * 1;
+        if (!/^[1-9]\d*$/.test(curPage)) {
+            $("#fyts").val("Please enter a positive integer");
+            return;
+        }
+        if (curPage > page) {
+
+            document.getElementById("fyts").innerText = "Exceed the data page";
+            return;
+        }
+        window.location.href = "/check/exa/" + curPage;
+    });
+</script>
+{% end %}
+

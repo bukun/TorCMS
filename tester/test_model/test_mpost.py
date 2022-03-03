@@ -330,19 +330,19 @@ class TestMPost():
 
         self.tearDown()
 
-    def test_update_field(self):
-        y = {
-            'logo': '123123'
-        }
-        self.add_message(**y)
-        self.uu.update_field(self.post_id, self.post_id2)
-        bb = self.uu.get_by_uid(self.post_id)
-        aa = self.uu.get_by_uid(self.post_id2)
-
-        assert bb == None
-        assert aa.logo == y['logo']
-
-        self.tearDown()
+    # def test_update_field(self):
+    #     y = {
+    #         'logo': '123123'
+    #     }
+    #     self.add_message(**y)
+    #     self.uu.update_field(self.post_id, self.post_id2)
+    #     bb = self.uu.get_by_uid(self.post_id)
+    #     aa = self.uu.get_by_uid(self.post_id2)
+    #
+    #     assert bb == None
+    #     assert aa.logo == y['logo']
+    #
+    #     self.tearDown()
 
     def test_update_cnt(self):
         self.add_message()
@@ -579,17 +579,17 @@ class TestMPost():
         self.tearDown()
         assert aa.title == p_d['title']
 
-    def test_modify_init(self):
-        self.add_message()
-        p_d = {
-            'keywords': 'io'
-
-        }
-        self.uu.modify_init(self.post_id, p_d)
-        aa = self.uu.get_by_uid(self.post_id)
-        assert aa.keywords == p_d['keywords']
-
-        self.tearDown()
+    # def test_modify_init(self):
+    #     self.add_message()
+    #     p_d = {
+    #         'keywords': 'io'
+    #
+    #     }
+    #     self.uu.modify_init(self.post_id, p_d)
+    #     aa = self.uu.get_by_uid(self.post_id)
+    #     assert aa.keywords == p_d['keywords']
+    #
+    #     self.tearDown()
 
     def test_query_most_by_cat(self):
         self.add_message()
@@ -714,29 +714,29 @@ class TestMPost():
         self.tearDown()
         assert tf
 
-    def test_addata_init(self):
-        p_d = {
-            'sig': self.post_id,
-            'title': 'qqq4ii',
-            'cnt_md': 'qwqwqw',
-
-            'user_name': 'max',
-            'view_count': '1',
-            'logo': 'opps',
-            'memo': '',
-            'order': '1',
-            'cnt_html': 'dddd',
-
-            'kind': '2',
-            'valid': 1,
-
-        }
-        self.uu.addata_init(p_d)
-
-        aa = self.uu.get_by_uid(self.post_id)
-        assert aa.title == p_d['title']
-
-        self.tearDown()
+    # def test_addata_init(self):
+    #     p_d = {
+    #         'sig': self.post_id,
+    #         'title': 'qqq4ii',
+    #         'cnt_md': 'qwqwqw',
+    #
+    #         'user_name': 'max',
+    #         'view_count': '1',
+    #         'logo': 'opps',
+    #         'memo': '',
+    #         'order': '1',
+    #         'cnt_html': 'dddd',
+    #
+    #         'kind': '2',
+    #         'valid': 1,
+    #
+    #     }
+    #     self.uu.addata_init(p_d)
+    #
+    #     aa = self.uu.get_by_uid(self.post_id)
+    #     assert aa.title == p_d['title']
+    #
+    #     self.tearDown()
 
     def test_query_list_pager(self):
         oo = {'def_tag_arr': 'd99s9s'}
@@ -773,6 +773,32 @@ class TestMPost():
         assert a + 1 <= b
 
         self.tearDown()
+
+    def test_update_state(self):
+        p_d = {
+            'title': 'qqqii',
+            'cnt_md': 'qwqwqw',
+            'time_create': '1999',
+            'time_update': '2019',
+            'user_name': 'max',
+            'view_count': '1',
+            'logo': 'opps',
+            'memo': '',
+            'order': '1',
+
+            'extinfo': {},
+            'kind': '1',
+            'valid': '1',
+
+        }
+        self.uu.add_or_modify_meta(self.post_id, p_d)
+        tf = False
+        MPost.update_state(self.post_id, 'a000')
+        recs = MPost.query_by_state('a000')
+        if recs.count() >= 1:
+            tf = True
+
+        assert tf
 
     def tearDown(self):
         print("function teardown")

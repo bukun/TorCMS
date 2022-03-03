@@ -101,11 +101,11 @@ class MPost():
         entry.execute()
         return True
 
-    @staticmethod
-    def update_field(uid, post_id=None):
-        if post_id:
-            entry = TabPost.update(uid=post_id).where(TabPost.uid == uid)
-            entry.execute()
+    # @staticmethod
+    # def update_field(uid, post_id=None):
+    #     if post_id:
+    #         entry = TabPost.update(uid=post_id).where(TabPost.uid == uid)
+    #         entry.execute()
 
     @staticmethod
     def update_cnt(uid, post_data):
@@ -570,7 +570,6 @@ class MPost():
         '''
         if extinfo is None:
             extinfo = {}
-        title = data_dic['title'].strip()
 
         cur_info = MPost.get_by_uid(uid)
 
@@ -581,8 +580,9 @@ class MPost():
             for key in extinfo:
                 cur_extinfo[key] = extinfo[key]
             cur_extinfo['def_editor_name'] = data_dic['user_name'].strip()
+
             entry = TabPost.update(
-                title=title,
+                title=data_dic['title'].strip(),
                 # user_name=data_dic['user_name'],
                 keywords='',
                 time_update=tools.timestamp(),
@@ -593,27 +593,28 @@ class MPost():
                 order=data_dic['order'] if 'order' in data_dic else '',
                 cnt_html=tools.markdown2html(data_dic['cnt_md']),
                 extinfo=cur_extinfo,
-                valid=data_dic['valid']).where(TabPost.uid == uid)
+                valid=data_dic['valid']
+            ).where(TabPost.uid == uid)
             entry.execute()
         else:
             return MPost.add_meta(uid, data_dic, extinfo)
         return uid
 
-    @staticmethod
-    def modify_init(uid, data_dic):
-        '''
-        update when init.
-        '''
-        postinfo = MPost.get_by_uid(uid)
-        entry = TabPost.update(
-            time_update=tools.timestamp(),
-            date=datetime.now(),
-            kind=data_dic['kind'] if 'kind' in data_dic else postinfo.kind,
-            keywords=data_dic['keywords']
-            if 'keywords' in data_dic else postinfo.keywords,
-        ).where(TabPost.uid == uid)
-        entry.execute()
-        return uid
+    # @staticmethod
+    # def modify_init(uid, data_dic):
+    #     '''
+    #     update when init.
+    #     '''
+    #     postinfo = MPost.get_by_uid(uid)
+    #     entry = TabPost.update(
+    #         time_update=tools.timestamp(),
+    #         date=datetime.now(),
+    #         kind=data_dic['kind'] if 'kind' in data_dic else postinfo.kind,
+    #         keywords=data_dic['keywords']
+    #         if 'keywords' in data_dic else postinfo.keywords,
+    #     ).where(TabPost.uid == uid)
+    #     entry.execute()
+    #     return uid
 
     @staticmethod
     def query_most_by_cat(num=8, catid=None, kind='2'):
@@ -646,16 +647,19 @@ class MPost():
         '''
         根据关键字对标题进行检索
         '''
-        return TabPost.select().where((TabPost.kind == kind) & (
-                TabPost.valid == 1) & (TabPost.title.contains(par2))).order_by(
-            TabPost.time_update.desc()).limit(20)
+        return TabPost.select().where(
+            (TabPost.kind == kind) & (TabPost.valid == 1) & (TabPost.title.contains(par2))
+        ).order_by(
+            TabPost.time_update.desc()
+        ).limit(20)
 
     @staticmethod
     def query_extinfo_by_cat(cat_id, kind='2'):
         return TabPost.select().where(
-            (TabPost.kind == kind) & (TabPost.valid == 1)
-            & (TabPost.extinfo['def_cat_uid'] == cat_id)).order_by(
-            TabPost.time_update.desc())
+            (TabPost.kind == kind) & (TabPost.valid == 1) & (TabPost.extinfo['def_cat_uid'] == cat_id)
+        ).order_by(
+            TabPost.time_update.desc()
+        )
 
     @staticmethod
     def query_by_extinfo(key='', val=''):
@@ -663,7 +667,8 @@ class MPost():
         根据扩展字段查询
         '''
         return TabPost.select().where(
-            (TabPost.extinfo[key] == val)).order_by(TabPost.time_update.desc())
+            (TabPost.extinfo[key] == val)
+        ).order_by(TabPost.time_update.desc())
 
     @staticmethod
     def query_by_tagname(tag_name, kind='2'):
@@ -671,8 +676,8 @@ class MPost():
         根据标签进行查询
         '''
         return TabPost.select().where(
-            (TabPost.kind == kind) & (TabPost.valid == 1)
-            & (TabPost.extinfo['def_tag_arr'].contains(tag_name))).order_by(
+            (TabPost.kind == kind) & (TabPost.valid == 1) & (TabPost.extinfo['def_tag_arr'].contains(tag_name))
+        ).order_by(
             TabPost.time_update.desc())
 
     # @staticmethod
@@ -718,6 +723,7 @@ class MPost():
             memo=data_dic.get('memo', ''),
             logo=data_dic['logo'].strip(),
             order=data_dic.get('order', ''),
+            state=data_dic.get('state', 'a000'),
             cnt_html=tools.markdown2html(data_dic['cnt_md']),
             view_count=0,
             extinfo=extinfo,
@@ -760,39 +766,39 @@ class MPost():
         '''
         return MPost.query_under_condition(con).count()
 
-    @staticmethod
-    def addata_init(data_dic, ext_dic=None):
-        if ext_dic is None:
-            ext_dic = {}
-
-        if len(data_dic['sig']) < 4:
-            return False
-        title = data_dic['title'].strip()
-        if len(title) < 2:
-            return False
-
-        postinfo = MPost.get_by_uid(data_dic['sig'])
-        if postinfo:
-
-            if data_dic['title'] == postinfo.title and data_dic['kind'] == postinfo.kind:
-                pass
-            else:
-                MPost.modify_init(data_dic['sig'], data_dic)
-        else:
-            time_stamp = int(time.time())
-
-            TabPost.create(
-                uid=data_dic['sig'],
-                title=data_dic['title'],
-                time_create=time_stamp,
-                time_update=time_stamp,
-                cnt_md=data_dic['cnt_md'] if 'memo' in data_dic else '',
-                memo=data_dic['memo'] if 'memo' in data_dic else '',
-                cnt_html=data_dic['cnt_html'],
-                date=datetime.now(),
-                keywords='',
-                view_count=0,
-                extinfo=ext_dic)
+    # @staticmethod
+    # def addata_init(data_dic, ext_dic=None):
+    #     if ext_dic is None:
+    #         ext_dic = {}
+    #
+    #     if len(data_dic['sig']) < 4:
+    #         return False
+    #     title = data_dic['title'].strip()
+    #     if len(title) < 2:
+    #         return False
+    #
+    #     postinfo = MPost.get_by_uid(data_dic['sig'])
+    #     if postinfo:
+    #
+    #         if data_dic['title'] == postinfo.title and data_dic['kind'] == postinfo.kind:
+    #             pass
+    #         else:
+    #             MPost.modify_init(data_dic['sig'], data_dic)
+    #     else:
+    #         time_stamp = int(time.time())
+    #
+    #         TabPost.create(
+    #             uid=data_dic['sig'],
+    #             title=data_dic['title'],
+    #             time_create=time_stamp,
+    #             time_update=time_stamp,
+    #             cnt_md=data_dic['cnt_md'] if 'memo' in data_dic else '',
+    #             memo=data_dic['memo'] if 'memo' in data_dic else '',
+    #             cnt_html=data_dic['cnt_html'],
+    #             date=datetime.now(),
+    #             keywords='',
+    #             view_count=0,
+    #             extinfo=ext_dic)
 
     @staticmethod
     def query_list_pager(con, idx, kind='2', sort_option=''):
@@ -869,3 +875,33 @@ class MPost():
         except Exception as err:
             print(repr(err))
             return False
+
+    @staticmethod
+    def update_state(uid, state):
+        '''
+        更新审核状态
+        '''
+        try:
+            entry = TabPost.update(
+                state=state
+            ).where(TabPost.uid == uid)
+            entry.execute()
+            return True
+        except Exception as err:
+            print(repr(err))
+            return False
+
+    @staticmethod
+    def query_by_state(state, current_page_num=1):
+
+        recent_recs = TabPost.select().where((TabPost.state.startswith(state))&(TabPost.valid==1)).order_by(
+            TabPost.time_create.desc()).paginate(
+            current_page_num,
+            CMS_CFG['list_num'])
+
+        return recent_recs
+
+    @staticmethod
+    def count_of_certain_by_state(state):
+        recs = TabPost.select().where(TabPost.state.startswith(state)&(TabPost.valid==1))
+        return recs.count()
