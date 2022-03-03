@@ -624,6 +624,10 @@ class PostHandler(BaseHandler):
 
         MPost.add_or_modify_meta(uid, post_data, extinfo=ext_dic)
 
+        # todo:应该判断当前审核状态，是否可以进行修改状态。
+        if self.userinfo.user_name == postinfo.user_name and postinfo.state == 'b000' :
+            MPost.update_state(uid,'a000')
+
         self._add_download_entity(ext_dic)
         # self.update_tag(uid=uid)
 

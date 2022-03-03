@@ -18,6 +18,7 @@ class PostAjaxHandler(PostHandler):
     '''
     Handler of Posts via Ajax.
     '''
+
     def initialize(self, **kwargs):
         super().initialize()
 
@@ -38,6 +39,15 @@ class PostAjaxHandler(PostHandler):
 
         elif len(url_arr) == 1 and len(url_str) in [4, 5]:
             self._view_or_add(url_str)
+
+    def post(self, *args, **kwargs):
+        url_str = args[0]
+        url_arr = self.parse_url(url_str)
+
+        if len(url_arr) == 3 and url_arr[0] == 'update_state':
+            print('=========')
+            print(url_arr[1], url_arr[2])
+            self.update_state(url_arr[1], url_arr[2])
 
     def viewinfo(self, postinfo):
         '''
@@ -135,3 +145,25 @@ class PostAjaxHandler(PostHandler):
                 'nullify_info': 0,
             }
         return json.dump(output, self)
+
+    def update_state(self, infoid, state):
+        postinfo = MPost.get_by_uid(infoid)
+        # print(self.userinfo.role)
+
+        if state[0] == 'a':
+            if postinfo and postinfo.user_name == self.userinfo.user_name:
+                is_true = MPost.update_state(infoid, state)
+            else:
+                is_true = False
+        elif state[0] == 'b':
+            if self.userinfo.role[3] >= '1':
+                is_true = MPost.update_state(infoid, state)
+            else:
+                is_true = False
+        else:
+            is_true = False
+        output = {'state': state}
+        if is_true:
+            return json.dump(output, self)
+        else:
+            return False

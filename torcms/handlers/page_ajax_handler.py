@@ -17,6 +17,7 @@ class PageAjaxHandler(PageHandler):
     '''
     Handler of Pages via Ajax.
     '''
+
     def initialize(self, **kwargs):
         super().initialize()
 
@@ -55,13 +56,10 @@ class PageAjaxHandler(PageHandler):
     def to_add(self, citiao):
         self.write(json.dumps({'code': citiao}))
 
-    def p_list(
-        self,
-        kind,
-        cur_p='',
-    ):
+    def p_list(self, kind, cur_p=''):
         '''
         List the post .
+        ToDo: 检查
         '''
         if cur_p == '':
             current_page_number = 1

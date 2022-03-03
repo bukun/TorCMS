@@ -101,4 +101,6 @@ core_modules = {
     'comment_list': widget_modules.CommentList,
     'replycnt': widget_modules.Replycnt,
     'user_profile_by_id': widget_modules.Userprofile,
+    'post_state': widget_modules.State,
+    'check_pager': widget_modules.Check_pager
 }

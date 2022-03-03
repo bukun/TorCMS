@@ -1,7 +1,7 @@
 {% extends "../../theme/bage_add_edit.html" %}
 {% block head %}
 <title>{{ view.title }}</title>
-<meta name="description" content="{% module generate_description(view.cnt_html) %}">
+<meta name="description" content="{% module generate_abstract(view.cnt_html) %}">
 <meta name="keywords" content="{{ view.keywords }}">
 <script>
     function reply_zan(sig, reply_id, id_num) {
