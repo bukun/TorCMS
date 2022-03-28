@@ -3,7 +3,7 @@
 Hander for entiey, such as files or URL.
 '''
 import tornado.web
-
+import json
 import config
 from torcms.core.base_handler import BaseHandler
 from torcms.model.entity2user_model import MEntity2User
@@ -27,6 +27,22 @@ class Entity2UserHandler(BaseHandler):
             self.user_list(url_arr[0], url_arr[1])
         else:
             self.render('misc/html/404.html', kwd={}, userinfo=self.userinfo)
+
+    def post(self, *args, **kwargs):
+        url_str = args[0]
+        url_arr = self.parse_url(url_str)
+        if url_str == 'count':
+            self.down_count_by_year()
+
+    def down_count_by_year(self):
+        '''
+        List the entities of the user.
+        '''
+        post_data = self.get_post_data()
+        down_year = post_data.get('down_year', '2022')
+        count = MEntity2User.total_number_by_year(down_year)
+        output = {'count': count}
+        return json.dump(output, self)
 
     @tornado.web.authenticated
     def all_list(self, cur_p=''):
