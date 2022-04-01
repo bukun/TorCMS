@@ -46,7 +46,7 @@ class TestMRelation():
         }
         p_id = kwargs['post_uid']
 
-        MPost.create_post(p_id, p_d)
+        MPost.add_or_update(p_id, p_d)
         MPost2Catalog.add_record(p_id, self.tag_id)
 
     def add_2post(self):

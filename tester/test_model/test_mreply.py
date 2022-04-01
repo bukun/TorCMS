@@ -55,7 +55,7 @@ class TestMReply():
 
         }
 
-        MPost.create_post(self.post_uid, p_d)
+        MPost.add_or_update(self.post_uid, p_d)
 
     def test_insert_post(self):
         # raw_count = self.post.get_counts()

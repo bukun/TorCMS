@@ -45,7 +45,7 @@ class TestMReply():
 
         }
 
-        MPost.create_post(self.post_id, p_d)
+        MPost.add_or_update(self.post_id, p_d)
         post_reply = {
             'post_id': self.post_id,
             'user_name': self.username,

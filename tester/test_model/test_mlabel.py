@@ -55,7 +55,7 @@ class TestMLabel():
         }
         post_id = kwargs.get('post_id', self.post_id)
 
-        MPost.create_post(post_id, p_d)
+        MPost.add_or_update(post_id, p_d)
         self.uu.create_tag_with_uid(self.uid, self.name)
         MPost2Label.add_record(self.post_id, self.name)
 
@@ -129,7 +129,7 @@ class TestMPost2Label():
         }
         post_id = kwargs.get('post_id', self.post_id)
 
-        MPost.create_post(post_id, p_d)
+        MPost.add_or_update(post_id, p_d)
 
         MLabel.create_tag_with_uid(self.uid, self.name)
 

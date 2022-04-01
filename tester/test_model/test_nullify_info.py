@@ -28,7 +28,7 @@ class TestMNullifyInfo():
         }
         post_id = kwargs.get('post_id', self.post_id)
 
-        MPost.create_post(post_id, p_d)
+        MPost.add_or_update(post_id, p_d)
 
     def test_query_pager_by_valid(self):
         self.add_message()

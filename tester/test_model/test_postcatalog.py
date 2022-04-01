@@ -63,7 +63,7 @@ class TestMCategory():
 
         }
         MPost.get_by_uid(self.postid)
-        MPost.create_post(self.postid, p_d)
+        MPost.add_or_update(self.postid, p_d)
         MPost2Catalog.add_record(self.postid, self.uid)
 
     def test_update(self):

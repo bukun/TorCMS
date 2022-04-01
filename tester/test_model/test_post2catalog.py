@@ -53,7 +53,7 @@ class TestMPost2Catalog():
         post_id = kwargs.get('post_id', self.post_id)
         i = MPost.get_by_uid(post_id)
 
-        g = MPost.create_post(post_id, p_d)
+        g = MPost.add_or_update(post_id, p_d)
 
     def add_P2C(self):
         MPost2Catalog.add_record(self.post_id, self.tag_id)

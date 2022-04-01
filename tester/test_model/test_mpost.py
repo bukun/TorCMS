@@ -38,7 +38,7 @@ class TestMPost():
             'keywords': 'sdf',
 
         }
-        self.uu.create_post(self.uid, post_data)
+        self.uu.add_or_update(self.uid, post_data)
         new_count = self.uu.get_counts()
 
         tt = self.uu.get_by_uid(self.uid)
@@ -59,7 +59,7 @@ class TestMPost():
             'logo': '/static/',
             'keywords': 'sdf',
         }
-        uu = self.uu.create_post(self.uid, post_data)
+        uu = self.uu.add_or_update(self.uid, post_data)
         assert uu == False
 
         post_data = {
@@ -70,7 +70,7 @@ class TestMPost():
             'logo': '/static/',
             'keywords': 'sdf',
         }
-        uu = self.uu.create_post(self.uid, post_data)
+        uu = self.uu.add_or_update(self.uid, post_data)
         assert uu == False
 
         post_data = {
@@ -81,7 +81,7 @@ class TestMPost():
             'logo': '/static/',
             'keywords': 'sdf',
         }
-        uu = self.uu.create_post(self.uid, post_data)
+        uu = self.uu.add_or_update(self.uid, post_data)
         self.tearDown()
         assert uu == False
 
@@ -113,7 +113,7 @@ class TestMPost():
         }
         post_id = kwargs.get('post_id', self.post_id)
 
-        MPost.create_post(post_id, p_d)
+        MPost.add_or_update(post_id, p_d)
 
         MPost2Catalog.add_record(self.post_id, self.tag_id)
 
@@ -128,7 +128,7 @@ class TestMPost():
             'logo': '/static/',
             'keywords': 'sdf',
         }
-        uid = self.uu.create_post(self.uid, post_data)
+        uid = self.uu.add_or_update(self.uid, post_data)
 
         ss = self.uu.get_by_uid(uid)
         assert ss.title == post_data['title']
@@ -148,7 +148,7 @@ class TestMPost():
             'logo': '/static/',
             'keywords': 'sdf',
         }
-        uid = self.uu.create_post(self.uid, post_data)
+        uid = self.uu.add_or_update(self.uid, post_data)
 
         ss = self.uu.get_by_uid(uid)
         assert ss.title == self.post_title
@@ -281,7 +281,7 @@ class TestMPost():
             'logo': '/static/',
             'keywords': 'sdf',
         }
-        self.uu.create_post(self.uid, post_data)
+        self.uu.add_or_update(self.uid, post_data)
 
         rec = self.uu.get_by_uid(self.uid)
 
@@ -306,7 +306,7 @@ class TestMPost():
             'cnt_md': 'iiii',
             'user_name': 'yy'
         }
-        self.uu.update(self.post_id, qq)
+        self.uu.add_or_update(self.post_id, qq)
         aa = self.uu.get_by_uid(self.post_id)
         assert aa.logo == qq['logo']
         assert aa.title == qq['title']
@@ -568,7 +568,6 @@ class TestMPost():
             'logo': 'opps',
             'memo': '',
             'order': '1',
-
             'extinfo': {},
             'kind': '1',
             'valid': '1',
@@ -692,7 +691,7 @@ class TestMPost():
             'valid': 1,
 
         }
-        self.uu.add_meta(self.post_id, p_d)
+        self.uu.add_or_modify_meta(self.post_id, p_d)
 
         aa = self.uu.get_by_uid(self.post_id)
         self.tearDown()
