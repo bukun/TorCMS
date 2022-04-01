@@ -155,51 +155,6 @@ class MPost():
         return uid
 
     @staticmethod
-    def add_or_update(uid, post_data, update_time=True):
-        '''
-        Add or update the post.
-        '''
-        cur_rec = MPost.get_by_uid(uid)
-        if cur_rec:
-            uid = MPost.__update_post(uid, post_data, update_time=update_time)
-        else:
-            uid = MPost.__create_post(uid, post_data)
-        return  uid 
-
-    @staticmethod
-    def __create_post(post_uid, post_data):
-        '''
-        create the post.
-        '''
-        title = post_data['title'].strip()
-        if len(title) < 2:
-            return False
-
-        cur_rec = MPost.get_by_uid(post_uid)
-        if cur_rec:
-            return False
-
-        entry = TabPost.create(
-            title=title,
-            date=datetime.now(),
-            cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'].strip()),
-            cnt_html=tools.markdown2html(post_data['cnt_md']),
-            uid=post_uid,
-            time_create=post_data.get('time_create', tools.timestamp()),
-            time_update=post_data.get('time_update', tools.timestamp()),
-            user_name=post_data['user_name'],
-            view_count=post_data['view_count']
-            if 'view_count' in post_data else 1,
-            logo=post_data['logo'],
-            memo=post_data['memo'] if 'memo' in post_data else '',
-            order=post_data['order'] if 'order' in post_data else '',
-            keywords=post_data['keywords'] if 'keywords' in post_data else '',
-            extinfo=post_data['extinfo'] if 'extinfo' in post_data else {},
-            kind=post_data['kind'] if 'kind' in post_data else '1',
-            valid=post_data.get('valid', 1))
-        return entry.uid
-
-    @staticmethod
     def query_cat_random(catid, **kwargs):
         '''
         Get random lists of certain category.
@@ -535,24 +490,50 @@ class MPost():
         return uid
 
     @staticmethod
+    def add_or_update(uid, post_data, update_time=True):
+        '''
+        Add or update the post.
+        '''
+        title = post_data['title'].strip()
+        if len(title) < 2:
+            return False
+        post_data['title'] = title
+        cur_rec = MPost.get_by_uid(uid)
+        if cur_rec:
+            uid = MPost.__update_post(uid, post_data, update_time=update_time)
+        else:
+            # uid = MPost.__create_post(uid, post_data)
+            # uid = MPost.__add_meta(uid, post_data)
+            uid = MPost.add_or_modify_meta(uid, post_data)
+        return uid
+
+    @staticmethod
     def add_or_modify_meta(uid, post_data, extinfo=None):
         '''
         update meta of the rec.
         '''
-        if extinfo is None:
-            extinfo = {}
+        if len(uid) < 4:
+            return False
+        title = post_data['title'].strip()
+        if len(title) < 2:
+            return False
+        post_data['title'] = title
+
+        post_extdata = post_data.get('extinfo', {})
+        if extinfo:
+            post_extdata.update(extinfo)
 
         cur_info = MPost.get_by_uid(uid)
 
         if cur_info:
             cur_extinfo = cur_info.extinfo
             # Update the extinfo, Not replace
-            cur_extinfo.update(extinfo)
+            cur_extinfo.update(post_extdata)
             cur_extinfo['def_editor_name'] = post_data['user_name'].strip()
 
             MPost.__update_meta(uid, post_data, cur_extinfo)
         else:
-            MPost.__add_meta(uid, post_data, extinfo)
+            MPost.__add_meta(uid, post_data, post_extdata)
         return uid
 
     @staticmethod
@@ -573,21 +554,7 @@ class MPost():
         ).where(TabPost.uid == uid)
         entry.execute()
 
-    # @staticmethod
-    # def modify_init(uid, data_dic):
-    #     '''
-    #     update when init.
-    #     '''
-    #     postinfo = MPost.get_by_uid(uid)
-    #     entry = TabPost.update(
-    #         time_update=tools.timestamp(),
-    #         date=datetime.now(),
-    #         kind=data_dic['kind'] if 'kind' in data_dic else postinfo.kind,
-    #         keywords=data_dic['keywords']
-    #         if 'keywords' in data_dic else postinfo.keywords,
-    #     ).where(TabPost.uid == uid)
-    #     entry.execute()
-    #     return uid
+
 
     @staticmethod
     def query_most_by_cat(num=8, catid=None, kind='2'):
@@ -653,12 +620,7 @@ class MPost():
         ).order_by(
             TabPost.time_update.desc())
 
-    # @staticmethod
-    # def get_label_fenye(tag_slug, _idx):
-    #     all_list = MPost.query_by_tagname(tag_slug)
-    #     # 当前分页的记录
-    #     # current_list = all_list[(idx - 1) * CMS_CFG['list_num']: idx * CMS_CFG['list_num']]
-    #     return all_list
+
 
     @staticmethod
     def query_pager_by_tag(tag, current_page_num=1, kind='2'):
@@ -672,37 +634,32 @@ class MPost():
         return recs
 
     @staticmethod
-    def __add_meta(uid, data_dic, extinfo=None):
+    def __add_meta(uid, post_data, extinfo=None):
         '''
         adding meta for post.
         '''
 
         if extinfo is None:
             extinfo = {}
-        if len(uid) < 4:
-            return False
-        title = data_dic['title'].strip()
-        if len(title) < 1:
-            return False
+
         TabPost.create(
             uid=uid,
-            title=title,
-            keywords='',
-            time_create=tools.timestamp(),
-            time_update=tools.timestamp(),
-            create_time=tools.timestamp(),
+            title=post_data['title'],
+            keywords=post_data.get('keywords', ''),
+            time_create=post_data.get('time_create', tools.timestamp()),
+            time_update=post_data.get('time_update', tools.timestamp()),
             date=datetime.now(),
-            cnt_md=data_dic['cnt_md'].strip(),
-            memo=data_dic.get('memo', ''),
-            logo=data_dic['logo'].strip(),
-            order=data_dic.get('order', ''),
-            state=data_dic.get('state', 'a000'),
-            cnt_html=tools.markdown2html(data_dic['cnt_md']),
-            view_count=0,
+            cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'].strip()),
+            memo=post_data.get('memo', ''),
+            logo=post_data.get('logo', '').strip(),
+            order=post_data.get('order', ''),
+            state=post_data.get('state', 'a000'),
+            cnt_html=tools.markdown2html(post_data['cnt_md']),
+            view_count=post_data.get('view_count', 1),
             extinfo=extinfo,
-            user_name=data_dic['user_name'],
-            valid=data_dic.get('valid', 1),
-            kind=data_dic['kind'],
+            user_name=post_data['user_name'],
+            valid=post_data.get('valid', 1),
+            kind=post_data.get('kind', '1'),
         )
         return uid
 
@@ -740,40 +697,6 @@ class MPost():
         Return the number under condition.
         '''
         return MPost.query_under_condition(con).count()
-
-    # @staticmethod
-    # def addata_init(data_dic, ext_dic=None):
-    #     if ext_dic is None:
-    #         ext_dic = {}
-    #
-    #     if len(data_dic['sig']) < 4:
-    #         return False
-    #     title = data_dic['title'].strip()
-    #     if len(title) < 2:
-    #         return False
-    #
-    #     postinfo = MPost.get_by_uid(data_dic['sig'])
-    #     if postinfo:
-    #
-    #         if data_dic['title'] == postinfo.title and data_dic['kind'] == postinfo.kind:
-    #             pass
-    #         else:
-    #             MPost.modify_init(data_dic['sig'], data_dic)
-    #     else:
-    #         time_stamp = int(time.time())
-    #
-    #         TabPost.create(
-    #             uid=data_dic['sig'],
-    #             title=data_dic['title'],
-    #             time_create=time_stamp,
-    #             time_update=time_stamp,
-    #             cnt_md=data_dic['cnt_md'] if 'memo' in data_dic else '',
-    #             memo=data_dic['memo'] if 'memo' in data_dic else '',
-    #             cnt_html=data_dic['cnt_html'],
-    #             date=datetime.now(),
-    #             keywords='',
-    #             view_count=0,
-    #             extinfo=ext_dic)
 
     @staticmethod
     def query_list_pager(con, idx, kind='2', sort_option='', list_num=''):
