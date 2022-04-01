@@ -228,11 +228,13 @@ class PostHandler(BaseHandler):
         return tmpl
 
     def __get_cat_id(self, postinfo):
-        cat_id = postinfo.extinfo.get('def_cat_uid')
-        if cat_id:
-            pass
+
+        catinfo = MPost2Catalog.get_first_category(postinfo.uid)
+        if catinfo:
+            cat_id = catinfo.tag_id
         else:
-            cat_id = postinfo.extinfo.get('gcat0')
+            cat_id = None
+
         return cat_id
 
     @tornado.web.authenticated
@@ -511,14 +513,14 @@ class PostHandler(BaseHandler):
         MRelation.add_relation(t_uid, f_uid, 1)
         return True
 
-    def fetch_post_data(self):
+    def __parse_post_data(self):
         '''
         fetch post accessed data. post_data, and ext_dic.
         '''
         post_data = {}
         ext_dic = {}
         for key in self.request.arguments:
-            if key.startswith('ext_') or key.startswith('tag_'):
+            if key.startswith('ext_') or key.startswith('tag_') or key.startswith('_tag_'):
                 ext_dic[key] = self.get_argument(key, default='')
             else:
                 post_data[key] = self.get_arguments(key)[0]
@@ -550,7 +552,7 @@ class PostHandler(BaseHandler):
         else:
             uid = self._gen_uid()
 
-        post_data, ext_dic = self.fetch_post_data()
+        post_data, ext_dic = self.__parse_post_data()
 
         title = post_data['title'].strip()
 
@@ -561,21 +563,23 @@ class PostHandler(BaseHandler):
             }
             self.render('misc/html/404.html', userinfo=self.userinfo, kwd=kwd)
 
-        if 'gcat0' in post_data:
-            pass
-        else:
-            return False
-
         if 'valid' in post_data:
             post_data['valid'] = int(post_data['valid'])
         else:
             post_data['valid'] = 1
 
+        # 在应用中，会有分类的逻辑，需要处理
+        if 'gcat0' in post_data:
+            pass
+        else:
+            return False
         ext_dic['def_uid'] = uid  # 此 key 用于更新文档时在历史记录中跟踪原 uid .
         ext_dic['gcat0'] = post_data['gcat0']
         ext_dic['def_cat_uid'] = post_data['gcat0']
+
+        # MPost中并没有分类的逻辑关系
         MPost.add_or_modify_meta(uid, post_data, extinfo=ext_dic)
-        kwargs.pop('uid', None)  # delete `uid` if exists in kwargs
+        # kwargs.pop('uid', None)  # delete `uid` if exists in kwargs
 
         self._add_download_entity(ext_dic)
 
@@ -602,7 +606,7 @@ class PostHandler(BaseHandler):
         else:
             return False
 
-        post_data, ext_dic = self.fetch_post_data()
+        post_data, ext_dic = self.__parse_post_data()
         if 'gcat0' in post_data:
             pass
         else:
@@ -625,8 +629,8 @@ class PostHandler(BaseHandler):
         MPost.add_or_modify_meta(uid, post_data, extinfo=ext_dic)
 
         # todo:应该判断当前审核状态，是否可以进行修改状态。
-        if self.userinfo.user_name == postinfo.user_name and postinfo.state == 'b000' :
-            MPost.update_state(uid,'a000')
+        if self.userinfo.user_name == postinfo.user_name and postinfo.state == 'b000':
+            MPost.update_state(uid, 'a000')
 
         self._add_download_entity(ext_dic)
         # self.update_tag(uid=uid)

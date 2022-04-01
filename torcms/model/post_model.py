@@ -9,6 +9,7 @@ import peewee
 import tornado.escape
 
 from config import CMS_CFG, DB_CFG
+from torcms.core.tools import logger
 from torcms.core import tools
 from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import (TabCollect, TabEvaluation, TabPost,
@@ -97,15 +98,9 @@ class MPost():
         update the kind of post.
         '''
 
-        entry = TabPost.update(kind=kind, ).where(TabPost.uid == uid)
+        entry = TabPost.update(kind=kind).where(TabPost.uid == uid)
         entry.execute()
         return True
-
-    # @staticmethod
-    # def update_field(uid, post_id=None):
-    #     if post_id:
-    #         entry = TabPost.update(uid=post_id).where(TabPost.uid == uid)
-    #         entry.execute()
 
     @staticmethod
     def update_cnt(uid, post_data):
@@ -117,7 +112,8 @@ class MPost():
             cnt_html=tools.markdown2html(post_data['cnt_md']),
             user_name=post_data['user_name'],
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'].strip()),
-            time_update=tools.timestamp()).where(TabPost.uid == uid)
+            time_update=tools.timestamp()
+        ).where(TabPost.uid == uid)
         entry.execute()
 
     @staticmethod
@@ -129,7 +125,7 @@ class MPost():
         entry.execute()
 
     @staticmethod
-    def update(uid, post_data, update_time=True):
+    def __update_post(uid, post_data, update_time=False):
         '''
         参数 `update_time` ， 是否更新时间。对于导入的数据，有时不需要更新。
         '''
@@ -138,50 +134,25 @@ class MPost():
         if len(title) < 2:
             return False
         cnt_html = tools.markdown2html(post_data['cnt_md'])
-        # try:
-        #     if update_time:
-        #         entry2 = TabPost.update(
-        #             date=datetime.now(),
-        #             time_create=tools.timestamp()
-        #         ).where(TabPost.uid == uid)
-        #         entry2.execute()
-        # except:
-        #     pass
+
         cur_rec = MPost.get_by_uid(uid)
 
-        if update_time:
-            entry = TabPost.update(
-                title=title,
-                user_name=post_data['user_name'],
-                cnt_md=tornado.escape.xhtml_escape(
-                    post_data['cnt_md'].strip()),
-                memo=post_data['memo'] if 'memo' in post_data else '',
-                cnt_html=cnt_html,
-                logo=post_data['logo'],
-                order=post_data['order'] if 'order' in post_data else '',
-                keywords=post_data['keywords']
-                if 'keywords' in post_data else '',
-                kind=post_data['kind'] if 'kind' in post_data else 1,
-                extinfo=post_data['extinfo']
-                if 'extinfo' in post_data else cur_rec.extinfo,
-                time_update=tools.timestamp(),
-                valid=post_data.get('valid', 1)).where(TabPost.uid == uid)
-        else:
-            entry = TabPost.update(
-                title=title,
-                user_name=post_data['user_name'],
-                cnt_md=tornado.escape.xhtml_escape(
-                    post_data['cnt_md'].strip()),
-                memo=post_data['memo'] if 'memo' in post_data else '',
-                cnt_html=cnt_html,
-                logo=post_data['logo'],
-                order=post_data['order'] if 'order' in post_data else '',
-                keywords=post_data['keywords'] if 'keywords' in post_data else '',
-                kind=post_data['kind'] if 'kind' in post_data else 1,
-                extinfo=post_data['extinfo']
-                if 'extinfo' in post_data else cur_rec.extinfo,
-                valid=post_data.get('valid', 1)).where(TabPost.uid == uid)
+        entry = TabPost.update(
+            title=title,
+            user_name=post_data['user_name'],
+            cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'].strip()),
+            memo=post_data['memo'] if 'memo' in post_data else '',
+            cnt_html=cnt_html,
+            logo=post_data['logo'],
+            order=post_data['order'] if 'order' in post_data else '',
+            keywords=post_data['keywords'] if 'keywords' in post_data else '',
+            kind=post_data['kind'] if 'kind' in post_data else 1,
+            extinfo=post_data['extinfo'] if 'extinfo' in post_data else cur_rec.extinfo,
+            time_update=tools.timestamp(),
+            valid=post_data.get('valid', 1)).where(TabPost.uid == uid)
+
         entry.execute()
+        return uid
 
     @staticmethod
     def add_or_update(uid, post_data, update_time=True):
@@ -190,12 +161,13 @@ class MPost():
         '''
         cur_rec = MPost.get_by_uid(uid)
         if cur_rec:
-            MPost.update(uid, post_data, update_time=update_time)
+            uid = MPost.__update_post(uid, post_data, update_time=update_time)
         else:
-            MPost.create_post(uid, post_data)
+            uid = MPost.__create_post(uid, post_data)
+        return  uid 
 
     @staticmethod
-    def create_post(post_uid, post_data):
+    def __create_post(post_uid, post_data):
         '''
         create the post.
         '''
@@ -547,9 +519,9 @@ class MPost():
         '''
         Get All the records.
         '''
-        return TabPost.select().where((TabPost.kind == kind)
-                                      & (TabPost.valid == 1)).order_by(
-            TabPost.time_update.desc())
+        return TabPost.select().where(
+            (TabPost.kind == kind) & (TabPost.valid == 1)
+        ).order_by(TabPost.time_update.desc())
 
     @staticmethod
     def update_jsonb(uid, extinfo):
@@ -557,14 +529,13 @@ class MPost():
         Update the json.
         '''
         cur_extinfo = MPost.get_by_uid(uid).extinfo
-        for key in extinfo:
-            cur_extinfo[key] = extinfo[key]
-        entry = TabPost.update(extinfo=cur_extinfo, ).where(TabPost.uid == uid)
+        cur_extinfo.update(extinfo)
+        entry = TabPost.update(extinfo=cur_extinfo).where(TabPost.uid == uid)
         entry.execute()
         return uid
 
     @staticmethod
-    def add_or_modify_meta(uid, data_dic, extinfo=None):
+    def add_or_modify_meta(uid, post_data, extinfo=None):
         '''
         update meta of the rec.
         '''
@@ -574,31 +545,33 @@ class MPost():
         cur_info = MPost.get_by_uid(uid)
 
         if cur_info:
-
             cur_extinfo = cur_info.extinfo
             # Update the extinfo, Not replace
-            for key in extinfo:
-                cur_extinfo[key] = extinfo[key]
-            cur_extinfo['def_editor_name'] = data_dic['user_name'].strip()
+            cur_extinfo.update(extinfo)
+            cur_extinfo['def_editor_name'] = post_data['user_name'].strip()
 
-            entry = TabPost.update(
-                title=data_dic['title'].strip(),
-                # user_name=data_dic['user_name'],
-                keywords='',
-                time_update=tools.timestamp(),
-                date=datetime.now(),
-                cnt_md=data_dic['cnt_md'],
-                memo=data_dic['memo'] if 'memo' in data_dic else '',
-                logo=data_dic['logo'],
-                order=data_dic['order'] if 'order' in data_dic else '',
-                cnt_html=tools.markdown2html(data_dic['cnt_md']),
-                extinfo=cur_extinfo,
-                valid=data_dic['valid']
-            ).where(TabPost.uid == uid)
-            entry.execute()
+            MPost.__update_meta(uid, post_data, cur_extinfo)
         else:
-            return MPost.add_meta(uid, data_dic, extinfo)
+            MPost.__add_meta(uid, post_data, extinfo)
         return uid
+
+    @staticmethod
+    def __update_meta(uid, post_data, cur_extinfo):
+        entry = TabPost.update(
+            title=post_data['title'].strip(),
+            # user_name=data_dic['user_name'],
+            keywords='',
+            time_update=tools.timestamp(),
+            date=datetime.now(),
+            cnt_md=post_data['cnt_md'],
+            memo=post_data['memo'] if 'memo' in post_data else '',
+            logo=post_data['logo'],
+            order=post_data['order'] if 'order' in post_data else '',
+            cnt_html=tools.markdown2html(post_data['cnt_md']),
+            extinfo=cur_extinfo,
+            valid=post_data['valid']
+        ).where(TabPost.uid == uid)
+        entry.execute()
 
     # @staticmethod
     # def modify_init(uid, data_dic):
@@ -699,7 +672,7 @@ class MPost():
         return recs
 
     @staticmethod
-    def add_meta(uid, data_dic, extinfo=None):
+    def __add_meta(uid, data_dic, extinfo=None):
         '''
         adding meta for post.
         '''
@@ -738,6 +711,8 @@ class MPost():
         '''
         Get All data of certain kind according to the condition
         '''
+
+        logger.info(f'TorCMS:: condition: {condition}')
 
         if sort_option:
             if sort_option == 'time_update':
@@ -801,17 +776,23 @@ class MPost():
     #             extinfo=ext_dic)
 
     @staticmethod
-    def query_list_pager(con, idx, kind='2', sort_option=''):
+    def query_list_pager(con, idx, kind='2', sort_option='', list_num=''):
         '''
         Get records of certain pager.
         '''
+
         if sort_option:
             recs = MPost.query_under_condition(con,
                                                kind=kind,
                                                sort_option=sort_option)
         else:
             recs = MPost.query_under_condition(con, kind=kind)
-        return recs[(idx - 1) * CMS_CFG['list_num']:idx * CMS_CFG['list_num']]
+        if list_num:
+            list_num = list_num
+        else:
+            list_num = CMS_CFG['list_num']
+
+        return recs[(int(idx) - 1) * int(list_num):int(idx) * int(list_num)]
 
     @staticmethod
     def count_of_certain_kind(kind):
@@ -894,7 +875,7 @@ class MPost():
     @staticmethod
     def query_by_state(state, current_page_num=1):
 
-        recent_recs = TabPost.select().where((TabPost.state.startswith(state))&(TabPost.valid==1)).order_by(
+        recent_recs = TabPost.select().where((TabPost.state.startswith(state)) & (TabPost.valid == 1)).order_by(
             TabPost.time_create.desc()).paginate(
             current_page_num,
             CMS_CFG['list_num'])
@@ -903,5 +884,5 @@ class MPost():
 
     @staticmethod
     def count_of_certain_by_state(state):
-        recs = TabPost.select().where(TabPost.state.startswith(state)&(TabPost.valid==1))
+        recs = TabPost.select().where(TabPost.state.startswith(state) & (TabPost.valid == 1))
         return recs.count()

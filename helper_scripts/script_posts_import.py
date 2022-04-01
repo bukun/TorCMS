@@ -175,7 +175,7 @@ def get_meta(catid, sig, kind_sig=''):
                 postinfo = MPost.get_by_uid(post_id)
 
                 if postinfo:
-                    postinfo.extinfo.update(pp_data['extinfo'])
+                    postinfo.extinfo.__update_post(pp_data['extinfo'])
                     pp_data['extinfo'] = postinfo.extinfo
 
                 # pp_data['extinfo']['tag_data_classification'] = str(dwmode)

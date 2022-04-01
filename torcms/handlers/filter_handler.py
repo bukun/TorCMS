@@ -152,6 +152,7 @@ class FilterHandler(BaseHandler):
             condition['def_cat_uid'] = sig
 
         fenye_num = 1
+        logger.info( f'num: {num}')
         for idx in range(num):
             ckey = url_arr[idx * 2 + 2]
             tval = url_arr[idx * 2 + 3]
@@ -164,8 +165,11 @@ class FilterHandler(BaseHandler):
                 continue
             else:
                 cval = tval
-            ckey = 'tag_' + ckey
-            condition[ckey] = cval
+
+            condition['_tag_' + ckey] = cval
+            # condition['tag_' + ckey] = cval
+
+            logger.info(f'TorCMS:: post handler: {  condition}')
 
         if url_arr[1] == 'con':
             infos = MPost.query_list_pager(condition,
@@ -177,9 +181,9 @@ class FilterHandler(BaseHandler):
             allinfos = MPost.query_under_condition(condition,
                                                    kind=catinfo.kind,
                                                    sort_option=sort_option)
-            self.write(
-                tornado.escape.xhtml_unescape(
-                    echo_html_fenye_str(allinfos.count(), fenye_num)))
+            self.write(tornado.escape.xhtml_unescape(
+                echo_html_fenye_str(allinfos.count(), fenye_num)
+            ))
 
     def get_info_num(self, url_str):
         '''

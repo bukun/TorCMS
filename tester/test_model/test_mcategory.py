@@ -45,7 +45,7 @@ class TestMCategory():
         }
         post_id = kwargs.get('post_id', self.post_id)
 
-        MPost.create_post(post_id, p_d)
+        MPost.add_or_update(post_id, p_d)
         MPost2Catalog.add_record(self.post_id, self.tag_id)
 
     def test_add_or_update(self):

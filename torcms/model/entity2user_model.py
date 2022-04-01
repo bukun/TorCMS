@@ -91,9 +91,7 @@ class MEntity2User():
         down_year = int(time.mktime(time.strptime(year, "%Y")))
         next_year = str(int(year) + 1)
         return TabEntity2User.select().where(
-            (
-                    TabEntity2User.timestamp >= down_year
-            ) & (
+            (TabEntity2User.timestamp >= down_year) & (
                     TabEntity2User.timestamp < int(time.mktime(time.strptime(next_year, "%Y")))
             )
         ).count()

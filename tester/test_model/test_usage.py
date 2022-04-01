@@ -46,7 +46,7 @@ class TestMUsage():
         }
         post_id = kwargs.get('post_id', self.postid)
 
-        MPost.create_post(post_id, p_d)
+        MPost.add_or_update(post_id, p_d)
 
         MPost2Catalog.add_record(self.postid, self.tag_id)
 

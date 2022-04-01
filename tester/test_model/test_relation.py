@@ -28,10 +28,9 @@ class TestMRelation():
             'logo': ' ',
             'keywords': 'test',
             'kind': '1'
-
         }
 
-        uu1 = MPost.create_post(self.uid, post_data)
+        uu1 = MPost.add_or_update(self.uid, post_data)
 
         post_data2 = {
             'title': 'test2',
@@ -44,7 +43,7 @@ class TestMRelation():
 
         }
 
-        uu2 = MPost.create_post(self.uid2, post_data2)
+        uu2 = MPost.add_or_update(self.uid2, post_data2)
 
         # 添加category
         cat_data = {
@@ -54,8 +53,8 @@ class TestMRelation():
             'kind': kwargs.get('kind1', '1'),
             'pid': kwargs.get('pid', '0000'),
         }
-        MCategory.add_or_update(self.tag_id, cat_data)
 
+        MCategory.add_or_update(self.tag_id, cat_data)
         MPost2Catalog.add_record(uu1, self.tag_id)
 
         MRelation.add_relation(uu1, uu2)
