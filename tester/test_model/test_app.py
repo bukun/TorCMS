@@ -76,7 +76,7 @@ class TestApp():
     def test_insert3(self):
         uid = self.uid
         post_data = {
-            'title': '1',
+            'title': 'title1',
             'keywords': 'sd,as',
             'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
             'logo': '/static/',
@@ -92,7 +92,7 @@ class TestApp():
     def test_insert5(self):
         uid = self.uid
         post_data = {
-            'title': '天',
+            'title': '天天',
             'keywords': 'sd,as',
             'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
             'logo': '/static/',
@@ -104,7 +104,7 @@ class TestApp():
         assert uu == uid
         MPost.delete(uid)
 
-    def test_insert2(self):
+    def test_insert8(self):
         uid = self.uid
         post_data = {
             'title': self.title,
