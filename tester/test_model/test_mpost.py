@@ -573,7 +573,7 @@ class TestMPost():
             'valid': '1',
 
         }
-        self.uu.add_or_modify_meta(self.post_id, p_d)
+        self.uu.add_or_update_post(self.post_id, p_d)
         aa = self.uu.get_by_uid(self.post_id)
         self.tearDown()
         assert aa.title == p_d['title']
@@ -691,7 +691,7 @@ class TestMPost():
             'valid': 1,
 
         }
-        self.uu.add_or_modify_meta(self.post_id, p_d)
+        self.uu.add_or_update_post(self.post_id, p_d)
 
         aa = self.uu.get_by_uid(self.post_id)
         self.tearDown()
@@ -790,7 +790,7 @@ class TestMPost():
             'valid': '1',
 
         }
-        self.uu.add_or_modify_meta(self.post_id, p_d)
+        self.uu.add_or_update_post(self.post_id, p_d)
         tf = False
         MPost.update_state(self.post_id, 'a000')
         recs = MPost.query_by_state('a000')

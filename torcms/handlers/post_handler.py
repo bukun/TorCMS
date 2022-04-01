@@ -578,7 +578,7 @@ class PostHandler(BaseHandler):
         ext_dic['def_cat_uid'] = post_data['gcat0']
 
         # MPost中并没有分类的逻辑关系
-        MPost.add_or_modify_meta(uid, post_data, extinfo=ext_dic)
+        MPost.add_or_update_post(uid, post_data, extinfo=ext_dic)
         # kwargs.pop('uid', None)  # delete `uid` if exists in kwargs
 
         self._add_download_entity(ext_dic)
@@ -626,7 +626,7 @@ class PostHandler(BaseHandler):
         else:
             MPostHist.create_post_history(postinfo, self.userinfo)
 
-        MPost.add_or_modify_meta(uid, post_data, extinfo=ext_dic)
+        MPost.add_or_update_post(uid, post_data, extinfo=ext_dic)
 
         # todo:应该判断当前审核状态，是否可以进行修改状态。
         if self.userinfo.user_name == postinfo.user_name and postinfo.state == 'b000':

@@ -47,7 +47,7 @@ class TestApp():
         }
         extinfo = {}
 
-        MPost.add_or_modify_meta(uid, post_data, extinfo)
+        MPost.add_or_update_post(uid, post_data, extinfo)
         tt = MPost.get_by_uid(uid)
         assert tt.uid == uid
         MPost.delete(uid)
@@ -66,7 +66,7 @@ class TestApp():
         }
         extinfo = {}
 
-        MPost.add_or_modify_meta(uid, post_data, extinfo)
+        MPost.add_or_update_post(uid, post_data, extinfo)
         tt = MPost.get_by_uid(uid)
 
         assert tt is None
@@ -84,7 +84,7 @@ class TestApp():
             'kind': '9',
             'extinfo': ''
         }
-        uu = MPost.add_or_modify_meta(self.uid, post_data)
+        uu = MPost.add_or_update_post(self.uid, post_data)
 
         assert uu == uid
         MPost.delete(uid)
@@ -100,7 +100,7 @@ class TestApp():
             'kind': '2',
             'extinfo': ''
         }
-        uu = MPost.add_or_modify_meta(self.uid, post_data)
+        uu = MPost.add_or_update_post(self.uid, post_data)
         assert uu == uid
         MPost.delete(uid)
 
@@ -115,7 +115,7 @@ class TestApp():
             'kind': '2',
             'extinfo': ''
         }
-        uu = MPost.add_or_modify_meta(self.uid, post_data)
+        uu = MPost.add_or_update_post(self.uid, post_data)
         tt = MPost.get_by_uid(uid)
 
         assert tt.uid == uu
