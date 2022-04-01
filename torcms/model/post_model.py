@@ -124,8 +124,6 @@ class MPost():
         entry = TabPost.update(order=order).where(TabPost.uid == uid)
         entry.execute()
 
-
-
     @staticmethod
     def query_cat_random(catid, **kwargs):
         '''
@@ -133,15 +131,19 @@ class MPost():
         '''
         num = kwargs.get('limit', 8)
         if catid == '':
-            rand_recs = TabPost.select().where(TabPost.valid == 1).order_by(
-                peewee.fn.Random()).limit(num)
+            rand_recs = TabPost.select().where(
+                TabPost.valid == 1
+            ).order_by(
+                peewee.fn.Random()
+            ).limit(num)
         else:
             rand_recs = TabPost.select().join(
                 TabPost2Tag,
-                on=(TabPost.uid == TabPost2Tag.post_id
-                    )).where((TabPost.valid == 1)
-                             & (TabPost2Tag.tag_id == catid)).order_by(
-                peewee.fn.Random()).limit(num)
+                on=(TabPost.uid == TabPost2Tag.post_id)
+            ).where(
+                (TabPost.valid == 1) &
+                (TabPost2Tag.tag_id == catid)
+            ).order_by(peewee.fn.Random()).limit(num)
         return rand_recs
 
     @staticmethod
@@ -160,11 +162,14 @@ class MPost():
         kind = kwargs.get('kind', None)
 
         if kind:
-            rand_recs = TabPost.select().where((TabPost.kind == kind) & (
-                    TabPost.valid == 1)).order_by(peewee.fn.Random()).limit(limit)
+            rand_recs = TabPost.select().where(
+                (TabPost.kind == kind) &
+                (TabPost.valid == 1)
+            ).order_by(peewee.fn.Random()).limit(limit)
         else:
-            rand_recs = TabPost.select().where(TabPost.valid == 1).order_by(
-                peewee.fn.Random()).limit(limit)
+            rand_recs = TabPost.select().where(
+                TabPost.valid == 1
+            ).order_by(peewee.fn.Random()).limit(limit)
         return rand_recs
 
     @staticmethod
@@ -497,6 +502,7 @@ class MPost():
         else:
             MPost.__add_post(uid, post_data, post_extdata)
         return uid
+
     #
     # @staticmethod
     # def __update_post(uid, post_data, update_time=False):
@@ -541,15 +547,13 @@ class MPost():
             # cnt_md=post_data['cnt_md'],
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'].strip()),
             memo=post_data.get('memo', ''),
-            logo=post_data.get('logo','').strip(),
+            logo=post_data.get('logo', '').strip(),
             order=post_data.get('order', ''),
             cnt_html=tools.markdown2html(post_data['cnt_md']),
             extinfo=cur_extinfo,
             valid=post_data.get('valid', 1)
         ).where(TabPost.uid == uid)
         entry.execute()
-
-
 
     @staticmethod
     def query_most_by_cat(num=8, catid=None, kind='2'):
@@ -614,8 +618,6 @@ class MPost():
             (TabPost.kind == kind) & (TabPost.valid == 1) & (TabPost.extinfo['def_tag_arr'].contains(tag_name))
         ).order_by(
             TabPost.time_update.desc())
-
-
 
     @staticmethod
     def query_pager_by_tag(tag, current_page_num=1, kind='2'):
