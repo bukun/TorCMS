@@ -462,28 +462,15 @@ class MPost():
         return uid
 
     @staticmethod
-    def add_or_update(uid, post_data, update_time=True):
+    def add_or_update(uid, post_data, update_time=None):
         '''
         Add or update the post.
         '''
-        # title = post_data['title'].strip()
-        # if len(title) < 2:
-        #     return False
-        # post_data['title'] = title
-        uid = MPost.add_or_modify_meta(uid, post_data)
-        #
-        # cur_rec = MPost.get_by_uid(uid)
-        # if cur_rec:
-        #     # uid = MPost.__update_post(uid, post_data, update_time=update_time)
-        #
-        # else:
-        #     # uid = MPost.__create_post(uid, post_data)
-        #     # uid = MPost.__add_meta(uid, post_data)
-        #     uid = MPost.add_or_modify_meta(uid, post_data)
+        uid = MPost.add_or_update_post(uid, post_data)
         return uid
 
     @staticmethod
-    def add_or_modify_meta(uid, post_data, extinfo=None):
+    def add_or_update_post(uid, post_data, extinfo=None):
         '''
         update meta of the rec.
         '''
@@ -506,9 +493,9 @@ class MPost():
             cur_extinfo.update(post_extdata)
             cur_extinfo['def_editor_name'] = post_data['user_name'].strip()
 
-            MPost.__update_meta(uid, post_data, cur_extinfo)
+            MPost.__update_post(uid, post_data, cur_extinfo)
         else:
-            MPost.__add_meta(uid, post_data, post_extdata)
+            MPost.__add_post(uid, post_data, post_extdata)
         return uid
     #
     # @staticmethod
@@ -541,7 +528,7 @@ class MPost():
     #     return uid
 
     @staticmethod
-    def __update_meta(uid, post_data, cur_extinfo):
+    def __update_post(uid, post_data, cur_extinfo):
         '''
         注意，不更新 kind
         '''
@@ -642,7 +629,7 @@ class MPost():
         return recs
 
     @staticmethod
-    def __add_meta(uid, post_data, extinfo=None):
+    def __add_post(uid, post_data, extinfo=None):
         '''
         adding meta for post.
         '''

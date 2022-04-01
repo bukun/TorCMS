@@ -27,7 +27,7 @@ class TestMPostHist():
             'valid': 1,
 
         }
-        MPost().add_or_modify_meta(self.post_id, p_d)
+        MPost().add_or_update_post(self.post_id, p_d)
         aa = MPost.get_by_uid(self.post_id)
         tf = MPostHist.create_post_history(aa, aa)
         assert tf
@@ -54,7 +54,7 @@ class TestMPostHist():
             'valid': kwargs.get('valid', 1),
 
         }
-        MPost().add_or_modify_meta(self.post_id, p_d)
+        MPost().add_or_update_post(self.post_id, p_d)
         aa = MPost.get_by_uid(self.post_id)
         MPostHist.create_post_history(aa, aa)
 
