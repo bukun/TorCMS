@@ -124,35 +124,7 @@ class MPost():
         entry = TabPost.update(order=order).where(TabPost.uid == uid)
         entry.execute()
 
-    @staticmethod
-    def __update_post(uid, post_data, update_time=False):
-        '''
-        参数 `update_time` ， 是否更新时间。对于导入的数据，有时不需要更新。
-        '''
 
-        title = post_data['title'].strip()
-        if len(title) < 2:
-            return False
-        cnt_html = tools.markdown2html(post_data['cnt_md'])
-
-        cur_rec = MPost.get_by_uid(uid)
-
-        entry = TabPost.update(
-            title=title,
-            user_name=post_data['user_name'],
-            cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'].strip()),
-            memo=post_data['memo'] if 'memo' in post_data else '',
-            cnt_html=cnt_html,
-            logo=post_data['logo'],
-            order=post_data['order'] if 'order' in post_data else '',
-            keywords=post_data['keywords'] if 'keywords' in post_data else '',
-            kind=post_data['kind'] if 'kind' in post_data else 1,
-            extinfo=post_data['extinfo'] if 'extinfo' in post_data else cur_rec.extinfo,
-            time_update=tools.timestamp(),
-            valid=post_data.get('valid', 1)).where(TabPost.uid == uid)
-
-        entry.execute()
-        return uid
 
     @staticmethod
     def query_cat_random(catid, **kwargs):
@@ -494,17 +466,20 @@ class MPost():
         '''
         Add or update the post.
         '''
-        title = post_data['title'].strip()
-        if len(title) < 2:
-            return False
-        post_data['title'] = title
-        cur_rec = MPost.get_by_uid(uid)
-        if cur_rec:
-            uid = MPost.__update_post(uid, post_data, update_time=update_time)
-        else:
-            # uid = MPost.__create_post(uid, post_data)
-            # uid = MPost.__add_meta(uid, post_data)
-            uid = MPost.add_or_modify_meta(uid, post_data)
+        # title = post_data['title'].strip()
+        # if len(title) < 2:
+        #     return False
+        # post_data['title'] = title
+        uid = MPost.add_or_modify_meta(uid, post_data)
+        #
+        # cur_rec = MPost.get_by_uid(uid)
+        # if cur_rec:
+        #     # uid = MPost.__update_post(uid, post_data, update_time=update_time)
+        #
+        # else:
+        #     # uid = MPost.__create_post(uid, post_data)
+        #     # uid = MPost.__add_meta(uid, post_data)
+        #     uid = MPost.add_or_modify_meta(uid, post_data)
         return uid
 
     @staticmethod
@@ -535,22 +510,55 @@ class MPost():
         else:
             MPost.__add_meta(uid, post_data, post_extdata)
         return uid
+    #
+    # @staticmethod
+    # def __update_post(uid, post_data, update_time=False):
+    #     '''
+    #     参数 `update_time` ， 是否更新时间。对于导入的数据，有时不需要更新。
+    #     '''
+    #
+    #
+    #     # cnt_html = tools.markdown2html(post_data['cnt_md'])
+    #
+    #     cur_rec = MPost.get_by_uid(uid)
+    #
+    #     entry = TabPost.update(
+    #         # title='',
+    #         # user_name=post_data['user_name'],
+    #         # cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'].strip()),
+    #         # memo=post_data['memo'] if 'memo' in post_data else '',
+    #         # cnt_html=cnt_html,
+    #         # logo=post_data['logo'],
+    #         # order=post_data['order'] if 'order' in post_data else '',
+    #
+    #         # kind=post_data['kind'] if 'kind' in post_data else 1,
+    #         # extinfo=post_data['extinfo'] if 'extinfo' in post_data else cur_rec.extinfo,
+    #         # time_update=tools.timestamp(),
+    #         # valid=post_data.get('valid', 1)
+    #     ).where(TabPost.uid == uid)
+    #
+    #     entry.execute()
+    #     return uid
 
     @staticmethod
     def __update_meta(uid, post_data, cur_extinfo):
+        '''
+        注意，不更新 kind
+        '''
         entry = TabPost.update(
             title=post_data['title'].strip(),
             # user_name=data_dic['user_name'],
-            keywords='',
+            keywords=post_data['keywords'] if 'keywords' in post_data else '',
             time_update=tools.timestamp(),
             date=datetime.now(),
-            cnt_md=post_data['cnt_md'],
-            memo=post_data['memo'] if 'memo' in post_data else '',
-            logo=post_data['logo'],
-            order=post_data['order'] if 'order' in post_data else '',
+            # cnt_md=post_data['cnt_md'],
+            cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'].strip()),
+            memo=post_data.get('memo', ''),
+            logo=post_data.get('logo','').strip(),
+            order=post_data.get('order', ''),
             cnt_html=tools.markdown2html(post_data['cnt_md']),
             extinfo=cur_extinfo,
-            valid=post_data['valid']
+            valid=post_data.get('valid', 1)
         ).where(TabPost.uid == uid)
         entry.execute()
 
