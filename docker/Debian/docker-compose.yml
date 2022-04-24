@@ -1,0 +1,20 @@
+# yaml 配置实例
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/code
+      - logvolume01:/var/log
+    links:
+      - redis
+  postgres:
+    image: postgres:12
+    ports:
+      - "54323:5432"
+
+
+volumes:
+  logvolume01: {}
