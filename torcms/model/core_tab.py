@@ -78,13 +78,12 @@ class TabLink(BaseModel):
 
 
 class TabPost(BaseModel):
-    uid = peewee.CharField(
+    uid = peewee.TextField(
         null=False,
         index=True,
         unique=True,
         primary_key=True,
         default='00000',
-        max_length=5,
         help_text='',
     )
     title = peewee.CharField(null=False, help_text='Title')
@@ -182,9 +181,8 @@ class TabPostHist(BaseModel):
         max_length=255,
         help_text='',
     )
-    post_id = peewee.CharField(
+    post_id = peewee.TextField(
         null=False,
-        max_length=5,
         help_text='',
     )
     user_name = peewee.CharField()
@@ -321,9 +319,8 @@ class TabPost2Tag(BaseModel):
         max_length=4,
         help_text='',
     )
-    post_id = peewee.CharField(
+    post_id = peewee.TextField(
         null=False,
-        max_length=5,
         help_text='',
     )
     order = peewee.IntegerField()
@@ -341,10 +338,9 @@ class TabReply(BaseModel):
         max_length=36,
         help_text='',
     )
-    post_id = peewee.CharField(
+    post_id = peewee.TextField(
         null=False,
         index=True,
-        max_length=5,
         help_text='',
     )
     user_id = peewee.CharField(
@@ -403,9 +399,8 @@ class TabCollect(BaseModel):
                            unique=True,
                            help_text='',
                            primary_key=True)
-    post_id = peewee.CharField(
+    post_id = peewee.TextField(
         null=False,
-        max_length=5,
         help_text='',
     )
     user_id = peewee.CharField(
@@ -426,9 +421,8 @@ class TabEvaluation(BaseModel):
                            unique=True,
                            help_text='',
                            primary_key=True)
-    post_id = peewee.CharField(
+    post_id = peewee.TextField(
         null=False,
-        max_length=5,
         help_text='',
     )
     user_id = peewee.CharField(
@@ -455,10 +449,9 @@ class TabRating(BaseModel):
         max_length=36,
         help_text='',
     )
-    post_id = peewee.CharField(
+    post_id = peewee.TextField(
         null=False,
         index=True,
-        max_length=5,
         help_text='',
     )
     rating = peewee.FloatField(null=False, )
@@ -475,9 +468,8 @@ class TabUsage(BaseModel):
                            unique=True,
                            help_text='',
                            primary_key=True)
-    post_id = peewee.CharField(
+    post_id = peewee.TextField(
         null=False,
-        max_length=5,
         help_text='',
     )
     user_id = peewee.CharField(
@@ -496,18 +488,6 @@ class TabUsage(BaseModel):
     timestamp = peewee.IntegerField()
 
 
-# class TabAccess(BaseModel):
-#     '''
-#     Post访问情况， 按时间戳记录。此表与用户无关。
-#     ID 无法用时间戳，访问量大的情况下可能会相同。
-#     '''
-#     uid = peewee.BigIntegerField(null=False,
-#                               primary_key=True,
-#                               unique=True,
-#                               help_text='用时间时间戳作为ID')
-#     post_id = peewee.CharField(null=False, max_length=5, help_text='' )
-
-
 class TabRel(BaseModel):
     '''
     相关应用
@@ -518,14 +498,12 @@ class TabRel(BaseModel):
                            unique=True,
                            help_text='',
                            primary_key=True)
-    post_f_id = peewee.CharField(
+    post_f_id = peewee.TextField(
         null=False,
-        max_length=5,
         help_text='',
     )
-    post_t_id = peewee.CharField(
+    post_t_id = peewee.TextField(
         null=False,
-        max_length=5,
         help_text='',
     )
     count = peewee.IntegerField()
@@ -546,14 +524,12 @@ class TabCorrelation(BaseModel):
                            unique=True,
                            help_text='',
                            primary_key=True)
-    post_id = peewee.CharField(
+    post_id = peewee.TextField(
         null=False,
-        max_length=5,
         help_text='',
     )
-    rel_id = peewee.CharField(
+    rel_id = peewee.TextField(
         null=False,
-        max_length=5,
         help_text='',
     )
     kind = peewee.IntegerField()
@@ -628,7 +604,6 @@ class TabReferrer(BaseModel):
                            unique=True,
                            primary_key=True,
                            default='00000',
-                           max_length=5,
                            help_text='')
     media = peewee.CharField(null=False, help_text='来源')
     terminal = peewee.CharField(null=False, help_text='终端')
