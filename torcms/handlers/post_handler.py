@@ -151,7 +151,7 @@ class PostHandler(BaseHandler):
                 self._to_add(uid=url_arr[1])
             else:
                 self._to_add()
-        elif len(url_arr) == 1 and len(url_str) in [4, 5]:
+        elif len(url_arr) == 1 and len(url_str) >= 4:
             self._view_or_add(url_str)
         elif len(url_arr) == 2:
             dict_get = {
@@ -180,11 +180,10 @@ class PostHandler(BaseHandler):
             self._change_kind(url_arr[1])
         elif url_arr[0] in ['_cat_add']:
             self.add(catid=url_arr[1])
-        elif len(url_arr) == 1 and len(url_str) in [4, 5]:
+        elif len(url_arr) == 1 and len(url_str) >= 4:
             self.add(uid=url_str)
         elif url_arr[0] == 'rel' and len(url_arr) == 3:
             self._add_relation(url_arr[1], url_arr[2])
-
         else:
             self.show404()
 
