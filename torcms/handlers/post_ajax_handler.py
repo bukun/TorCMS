@@ -37,7 +37,7 @@ class PostAjaxHandler(PostHandler):
         elif len(url_arr) == 3:
             self.p_recent(url_arr[1], url_arr[2])
 
-        elif len(url_arr) == 1 and len(url_str) in [4, 5]:
+        elif len(url_arr) == 1 and len(url_str) >= 4:
             self._view_or_add(url_str)
 
     def post(self, *args, **kwargs):
