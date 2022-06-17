@@ -3,6 +3,7 @@
 For full text searching.
 '''
 
+import json
 from config import CMS_CFG
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tool.whoosh_tool import YunSearch
@@ -73,6 +74,7 @@ class SearchHandler(BaseHandler):
     '''
     For full text searching.
     '''
+
     def initialize(self, **kwargs):
         super().initialize()
         self.ysearch = YunSearch()
@@ -81,12 +83,22 @@ class SearchHandler(BaseHandler):
         url_str = args[0]
         url_arr = self.parse_url(url_str)
 
+        para_dict = self.get_request_arguments()
+
+        print('=' * 40)
+        print(self.request.arguments)
+        print(para_dict)
+        print(url_arr)
+        print(args)
+        print(kwargs)
+        print('=' * 40)
+
         if url_str == '':
             self.index()
         elif len(url_arr) == 2:
-            self.search_cat(url_arr[0], url_arr[1])
+            self.search_cat(url_arr[0], url_arr[1], format=para_dict.get('format'))
         elif len(url_arr) == 3:
-            self.search_cat(url_arr[1], int(url_arr[2]), url_arr[0])
+            self.search_cat(url_arr[1], int(url_arr[2]), url_arr[0], format=para_dict.get('format'))
         else:
             kwd = {
                 'info': 'The Page not Found.',
@@ -102,7 +114,7 @@ class SearchHandler(BaseHandler):
                     kwd={})
 
     def post(self, *args, **kwargs):
-        post_data = self.get_post_data()
+        post_data = self.get_request_arguments()
 
         catid = post_data['searchcat'] if 'searchcat' in post_data else ''
 
@@ -117,7 +129,7 @@ class SearchHandler(BaseHandler):
         else:
             self.redirect('/search/{0}/{1}/1'.format(catid, keyword))
 
-    def search_cat(self, keyword, p_index=1, catid=''):
+    def search_cat(self, keyword, p_index=1, catid='', format='html'):
         '''
         Searching according the kind.
         '''
@@ -151,11 +163,27 @@ class SearchHandler(BaseHandler):
         }
 
         # ToDo:
-        self.render('misc/search/search_list.html',
-                    kwd=kwd,
-                    srecs=results,
-                    pager=gen_pager_bootstrap_url(
-                        '/search/{0}/{1}'.format(catid, keyword), page_num,
-                        current_page_number),
-                    userinfo=self.userinfo,
-                    cfg=CMS_CFG)
+
+        if format == 'json':
+            out_dict = {}
+            idx = 1
+            for result in results:
+                out_dict[idx] = {
+                    'title': result['title'],
+                    'url': result['link'],
+                    'content': result['content'],
+                }
+                idx = idx + 1
+
+            print(out_dict)
+            return json.dump(out_dict, self)
+        else:
+            self.render('misc/search/search_list.html',
+                        kwd=kwd,
+                        srecs=results,
+                        pager=gen_pager_bootstrap_url(
+                            '/search/{0}/{1}'.format(catid, keyword), page_num,
+                            current_page_number
+                        ),
+                        userinfo=self.userinfo,
+                        cfg=CMS_CFG)

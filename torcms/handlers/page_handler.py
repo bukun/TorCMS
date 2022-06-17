@@ -122,7 +122,7 @@ class PageHandler(BaseHandler):
         Update the page.
         '''
 
-        post_data = self.get_post_data()
+        post_data = self.get_request_arguments()
 
         post_data['user_name'] = self.userinfo.user_name
 
@@ -197,7 +197,7 @@ class PageHandler(BaseHandler):
         Add new page.
         '''
 
-        post_data = self.get_post_data()
+        post_data = self.get_request_arguments()
 
         post_data['user_name'] = self.userinfo.user_name
         title = post_data['title'].strip()

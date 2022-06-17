@@ -123,7 +123,7 @@ class PostHistoryHandler(EditHistoryHander):
             pass
         else:
             return False
-        post_data = self.get_post_data()
+        post_data = self.get_request_arguments()
         if self.userinfo:
             post_data['user_name'] = self.userinfo.user_name
         else:

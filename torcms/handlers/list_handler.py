@@ -94,7 +94,7 @@ class ListHandler(BaseHandler):
 
         根据分类（cat_slug）显示分类列表
         '''
-        post_data = self.get_post_data()
+        post_data = self.get_request_arguments()
         tag = post_data.get('tag', '')
 
         def get_pager_idx():

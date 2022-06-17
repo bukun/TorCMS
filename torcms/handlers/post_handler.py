@@ -38,7 +38,7 @@ def update_category(uid, post_data):
 
     # deprecated
     # catid = kwargs['catid'] if MCategory.get_by_uid(kwargs.get('catid')) else None
-    # post_data = self.get_post_data()
+    # post_data = self.get_request_arguments()
 
     '''
     在前端，使用 `gcat0`，`gcat1`，`gcat2` 等，作为分类的参数。
@@ -740,7 +740,7 @@ class PostHandler(BaseHandler):
         To modify the category of the post, and kind.
         '''
 
-        post_data = self.get_post_data()
+        post_data = self.get_request_arguments()
 
         logger.info('admin post update: {0}'.format(post_data))
 

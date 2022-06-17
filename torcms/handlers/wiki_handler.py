@@ -112,7 +112,7 @@ class WikiHandler(BaseHandler):
             pass
         else:
             return False
-        post_data = self.get_post_data()
+        post_data = self.get_request_arguments()
         post_data['user_name'] = self.userinfo.user_name
 
         cnt_old = tornado.escape.xhtml_unescape(postinfo.cnt_md).strip()
@@ -185,7 +185,7 @@ class WikiHandler(BaseHandler):
         Add wiki
         '''
 
-        post_data = self.get_post_data()
+        post_data = self.get_request_arguments()
 
         if title == '':
             pass

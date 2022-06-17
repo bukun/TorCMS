@@ -109,7 +109,7 @@ class ReplyHandler(BaseHandler):
         '''
         Adding reply to a post.
         '''
-        post_data = self.get_post_data()
+        post_data = self.get_request_arguments()
 
         post_data['user_name'] = self.userinfo.user_name
         post_data['user_id'] = self.userinfo.uid
@@ -166,7 +166,7 @@ class ReplyHandler(BaseHandler):
         '''
         Adding reply
         '''
-        post_data = self.get_post_data()
+        post_data = self.get_request_arguments()
 
         post_data['user_name'] = self.userinfo.user_name
         post_data['user_id'] = self.userinfo.uid
@@ -185,7 +185,7 @@ class ReplyHandler(BaseHandler):
         '''
         Adding comment to a post.
         '''
-        post_data = self.get_post_data()
+        post_data = self.get_request_arguments()
         post_data['user_name'] = self.userinfo.user_name
         post_data['user_id'] = self.userinfo.uid
         post_data['category'] = cat

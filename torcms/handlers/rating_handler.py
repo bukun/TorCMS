@@ -52,7 +52,7 @@ class RatingHandler(BaseHandler):
         '''
         only the used who logged in would voting.
         '''
-        post_data = self.get_post_data()
+        post_data = self.get_request_arguments()
         rating = float(post_data['rating'])
         postinfo = MPost.get_by_uid(postid)
         if postinfo and self.userinfo:

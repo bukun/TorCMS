@@ -145,6 +145,7 @@ def auth_admin(method):
     '''
     role for admin.
     '''
+
     def wrapper(self, *args, **kwargs):
         '''
         wrapper.
@@ -166,6 +167,8 @@ def auth_admin(method):
             self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
     return wrapper
+
+
 def auth_check(method):
     '''
     role for examine.

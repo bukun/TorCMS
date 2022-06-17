@@ -85,7 +85,7 @@ class CategoryAjaxHandler(BaseHandler):
             pass
         else:
             return False
-        post_data = self.get_post_data()
+        post_data = self.get_request_arguments()
 
         post_data['user_name'] = self.get_current_user()
 
@@ -111,7 +111,7 @@ class CategoryAjaxHandler(BaseHandler):
             pass
         else:
             return False
-        post_data = self.get_post_data()
+        post_data = self.get_request_arguments()
 
         post_data['user_name'] = self.get_current_user()
 
