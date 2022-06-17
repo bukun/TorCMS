@@ -38,7 +38,7 @@ class Entity2UserHandler(BaseHandler):
         '''
         List the entities of the user.
         '''
-        post_data = self.get_post_data()
+        post_data = self.get_request_arguments()
         down_year = post_data.get('down_year', '2022')
         count = MEntity2User.total_number_by_year(down_year)
         output = {'count': count}

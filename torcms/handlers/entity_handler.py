@@ -163,7 +163,7 @@ class EntityHandler(BaseHandler):
         '''
         Add the entity. All the information got from the post data.
         '''
-        post_data = self.get_post_data()
+        post_data = self.get_request_arguments()
 
         if 'kind' in post_data:
             if post_data['kind'] == '1':

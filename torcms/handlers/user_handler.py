@@ -201,7 +201,7 @@ class UserHandler(BaseHandler):
         Changing password.
         '''
 
-        post_data = self.get_post_data()
+        post_data = self.get_request_arguments()
 
         usercheck = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
         if usercheck == 1:
@@ -259,7 +259,7 @@ class UserHandler(BaseHandler):
         '''
         Change password
         '''
-        post_data = self.get_post_data()
+        post_data = self.get_request_arguments()
 
         usercheck_num = MUser.check_user(self.userinfo.uid,
                                          post_data['rawpass'])
@@ -300,7 +300,7 @@ class UserHandler(BaseHandler):
         '''
         Change th user rule
         '''
-        post_data = self.get_post_data()
+        post_data = self.get_request_arguments()
         MUser.update_role(xg_username, post_data['role'])
         self.redirect('/user/info')
 
@@ -423,7 +423,7 @@ class UserHandler(BaseHandler):
         '''
         regist the user.
         '''
-        post_data = self.get_post_data()
+        post_data = self.get_request_arguments()
 
         form = SumForm(self.request.arguments)
         ckname = MUser.get_by_name(post_data['user_name'])
@@ -483,7 +483,7 @@ class UserHandler(BaseHandler):
         user regist.
         '''
 
-        post_data = self.get_post_data()
+        post_data = self.get_request_arguments()
         user_create_status = check_regist_info(post_data)
         if not user_create_status['success']:
             return json.dump(user_create_status, self)
@@ -501,7 +501,7 @@ class UserHandler(BaseHandler):
         Modify user infomation.
         '''
 
-        post_data = self.get_post_data()
+        post_data = self.get_request_arguments()
 
         is_user_passed = MUser.check_user(self.userinfo.uid,
                                           post_data['rawpass'])
@@ -528,7 +528,7 @@ class UserHandler(BaseHandler):
         '''
 
         # user_create_status = {'success': False, 'code': '00'} # Not used currently.
-        post_data = self.get_post_data()
+        post_data = self.get_request_arguments()
 
         check_usr_status = MUser.check_user(self.userinfo.uid,
                                             post_data['rawpass'])
@@ -565,7 +565,7 @@ class UserHandler(BaseHandler):
         '''
         user login.
         '''
-        post_data = self.get_post_data()
+        post_data = self.get_request_arguments()
 
         if 'next' in post_data:
             next_url = post_data['next']
@@ -786,7 +786,7 @@ class UserHandler(BaseHandler):
         Do reset password
         :return: None
         '''
-        post_data = self.get_post_data()
+        post_data = self.get_request_arguments()
 
         if 'email' in post_data:
             userinfo = MUser.get_by_email(post_data['email'])
@@ -835,7 +835,7 @@ class UserHandler(BaseHandler):
         '''
         reseting password
         '''
-        post_data = self.get_post_data()
+        post_data = self.get_request_arguments()
 
         userinfo = MUser.get_by_name(post_data['u'])
 

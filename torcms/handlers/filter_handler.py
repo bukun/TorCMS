@@ -139,7 +139,7 @@ class FilterHandler(BaseHandler):
         url_arr = self.parse_url(url_str)
         sig = url_arr[0]
 
-        post_data = self.get_post_data()
+        post_data = self.get_request_arguments()
         sort_option = post_data.get('sort', '')
 
         num = (len(url_arr) - 2) // 2
@@ -152,7 +152,7 @@ class FilterHandler(BaseHandler):
             condition['def_cat_uid'] = sig
 
         fenye_num = 1
-        logger.info( f'num: {num}')
+        logger.info(f'num: {num}')
         for idx in range(num):
             ckey = url_arr[idx * 2 + 2]
             tval = url_arr[idx * 2 + 3]
@@ -169,7 +169,7 @@ class FilterHandler(BaseHandler):
             condition['_tag_' + ckey] = cval
             # condition['tag_' + ckey] = cval
 
-            logger.info(f'TorCMS:: post handler: {  condition}')
+            logger.info(f'TorCMS:: post handler: {condition}')
 
         if url_arr[1] == 'con':
             infos = MPost.query_list_pager(condition,

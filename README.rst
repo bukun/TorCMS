@@ -76,7 +76,7 @@ Under Debian/Ubuntu
 
 ::
 
-    $ sudo apt install -y postgresql-server-dev-all postgresql-contrib redis-server
+    $ sudo apt install -y postgresql postgresql-contrib redis-server
 
 
 Create the Database

@@ -52,9 +52,7 @@ Python语言
 
 ::
 
-    aptitude install postgresql-server-dev-all
-    aptitude install postgresql-contrib
-    aptitude install redis-server
+    apt install -y postgresql postgresql-contrib redis-server
 
 搭建数据库
 -------------------------------------------------------

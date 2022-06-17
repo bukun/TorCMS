@@ -41,14 +41,14 @@ class BaseHandler(tornado.web.RequestHandler):
         self.is_p = False  # True, if partially rendered.
         self.is_j = False  # True, if json would be returned.
 
-    def get_post_data(self):
+    def get_request_arguments(self):
         '''
-        Get all the arguments from post request. Only get the first argument by default.
+        Get all the arguments from request. Only get the first argument by default.
         '''
-        post_data = {}
+        para_dict = {}
         for key in self.request.arguments:
-            post_data[key] = self.get_arguments(key)[0]
-        return post_data
+            para_dict[key] = self.get_arguments(key)[0]
+        return para_dict
 
     # pylint: disable=R0201
     def parse_url(self, url_str):
