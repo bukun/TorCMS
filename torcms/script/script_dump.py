@@ -28,8 +28,8 @@ def run_dump(_):
     print('Dumping ... ')
 
     current = datetime.datetime.now()
-    dstr = '{}{}{}-{}{}'.format(current.year, current.month, current.day,
+    dstr = '{}{:0>2d}{:0>2d}-{:0>2d}{:0>2d}'.format(current.year, current.month, current.day,
                                 current.hour, current.minute)
-    cmd = 'export PGPASSWORD={p} && pg_dump -h localhost -F c -U {n} {n} > ./tmp/xx_pg_{n}_{d}.bak'.format(
-        n=DB_CFG['db'], p=DB_CFG['pass'], d=dstr)
+    cmd = 'export PGPASSWORD={p} && pg_dump -h localhost -p {k} -F c -U {n} {n} > ./tmp/xx_pg_{n}_{d}.bak'.format(
+        n=DB_CFG['db'], p=DB_CFG['pass'], d=dstr, k = DB_CFG.get('port', 5432))
     subprocess.run(cmd, shell=True)
