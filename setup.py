@@ -30,7 +30,7 @@ setup(
     install_requires=['beautifulsoup4', 'jieba', 'markdown',
                       'peewee', 'Pillow', 'wheel',
                       'tornado', 'Whoosh', 'WTForms',
-                      'wtforms-tornado', 'email-validator',
+                      'tornado-wtforms', 'email-validator',
                       'psycopg2-binary', 'html2text',
                       'redis', 'pyyaml','htmlmin'],
 
