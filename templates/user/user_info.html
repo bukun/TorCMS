@@ -117,10 +117,13 @@
                 </div>
 
 
-                {% if userinfo and userinfo.role[0] >= '2' %}
+
                 <div class="col-sm-4">
+
                     <div class="panel-heading"><b> {{ _('Related operations') }} </b></div>
+
                     <ul class="list-group">
+                        {% if userinfo and userinfo.role[0] >= '2' %}
                         <li class="list-group-item"><a href="/post/_add" class="btn btn-xs btn-success">
                             <span class="glyphicon glyphicon-list-alt"></span>
                             {{ _('Add Document') }}</a>
