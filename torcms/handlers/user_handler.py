@@ -131,6 +131,8 @@ class UserHandler(BaseHandler):
                 self.__to_login__,
             'info':
                 self.__to_show_info__,
+            'j_info':
+                self.json_info,
             'logout':
                 self.__logout__,
             'reset-password':
@@ -302,7 +304,11 @@ class UserHandler(BaseHandler):
         '''
         post_data = self.get_request_arguments()
         MUser.update_role(xg_username, post_data['role'])
-        self.redirect('/user/info')
+        if self.is_p:
+            output = {'changerole': '1'}
+            return json.dump(output, self)
+        else:
+            self.redirect('/user/info')
 
     @tornado.web.authenticated
     def __logout__(self):
@@ -593,46 +599,66 @@ class UserHandler(BaseHandler):
                 expires=time.time() + 60 * CMS_CFG.get('expires_minutes', 15)
             )
             MUser.update_success_info(u_name)
-            self.redirect(next_url)
+            if self.is_p:
+                user_login_status = {'success': True, 'code': '1', 'info': 'Login successful', 'user_name': u_name}
+                return json.dump(user_login_status, self)
+            else:
+                self.redirect(next_url)
         elif result == 0:
             self.set_status(401)
 
             MUser.update_failed_info(u_name)
-
-            self.render('user/user_relogin.html',
-                        cfg=config.CMS_CFG,
-                        kwd={
-                            'info': 'Invalid password. Please try again.',
-                            'code': '0',
-                            'link': '/user/login',
-                        },
-                        userinfo=self.userinfo)
+            if self.is_p:
+                user_login_status = {'success': False, 'code': '0', 'info': 'Invalid password. Please try again.',
+                                     'user_name': u_name}
+                return json.dump(user_login_status, self)
+            else:
+                self.render('user/user_relogin.html',
+                            cfg=config.CMS_CFG,
+                            kwd={
+                                'info': 'Invalid password. Please try again.',
+                                'code': '0',
+                                'link': '/user/login',
+                            },
+                            userinfo=self.userinfo)
         elif result == 2:
             self.set_status(401)
 
             MUser.update_failed_info(u_name)
-
-            self.render('user/user_relogin.html',
-                        cfg=config.CMS_CFG,
-                        kwd={
-                            'info': 'Too many faild times. Please try again later.',
-                            'code': '2',
-                            'link': '/user/login',
-                        },
-                        userinfo=self.userinfo)
+            if self.is_p:
+                user_login_status = {'success': False, 'code': '2', 'info': 'Too many faild times. Please try again later.',
+                                     'user_name': u_name}
+                return json.dump(user_login_status, self)
+            else:
+                self.render('user/user_relogin.html',
+                            cfg=config.CMS_CFG,
+                            kwd={
+                                'info': 'Too many faild times. Please try again later.',
+                                'code': '2',
+                                'link': '/user/login',
+                            },
+                            userinfo=self.userinfo)
         elif result == -1:
             self.set_status(401)
-            self.render('user/user_relogin.html',
-                        cfg=config.CMS_CFG,
-                        kwd={
-                            'info': 'No such user.',
-                            'code': -1,
-                            'link': '/user/login',
-                        },
-                        userinfo=self.userinfo)
+            if self.is_p:
+                user_login_status = {'success': False, 'code': '-1', 'info': 'No such user.', 'user_name': u_name}
+                return json.dump(user_login_status, self)
+            else:
+                self.render('user/user_relogin.html',
+                            cfg=config.CMS_CFG,
+                            kwd={
+                                'info': 'No such user.',
+                                'code': -1,
+                                'link': '/user/login',
+                            },
+                            userinfo=self.userinfo)
         else:
             self.set_status(305)
-            self.redirect("{0}".format(next_url))
+            if self.is_p:
+                user_login_status = {'success': True, 'code': '1', 'info': '305', 'user_name': u_name}
+                return json.dump(user_login_status, self)
+            else:
+                self.redirect("{0}".format(next_url))
 
     def p_to_find(self, ):
         '''
@@ -879,6 +905,25 @@ class UserHandler(BaseHandler):
             kwd=kwd,
             userinfo=self.userinfo,
         )
+
+    @tornado.web.authenticated
+    def json_info(self):
+        '''
+        show the user info
+        '''
+        post_data = self.get_request_arguments()
+        user_name = post_data.get('user_name', '')
+        rec = MUser.get_by_uid(self.userinfo.uid)
+        # rec = MUser.get_by_name(user_name)
+
+        userinfo = {
+            'user_name': rec.user_name,
+            'user_email': rec.user_email,
+            'role': rec.role,
+            # 'extinfo': rec.extinfo,
+
+        }
+        return json.dump(userinfo, self)
 
 
 class UserPartialHandler(UserHandler):
