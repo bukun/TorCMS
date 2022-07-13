@@ -12,6 +12,7 @@ from torcms.core import privilege
 from torcms.core.base_handler import BaseHandler
 from torcms.model.post_model import MPost
 
+
 class CheckHandler(BaseHandler):
 
     def initialize(self, **kwargs):
@@ -38,6 +39,7 @@ class CheckHandler(BaseHandler):
         The default page of examine.
         '''
         state = 'a1'
+
         def get_pager_idx():
             '''
             Get the pager index.
@@ -61,11 +63,11 @@ class CheckHandler(BaseHandler):
             'config_num': config.CMS_CFG['list_num']
         }
 
-        res = MPost.query_by_state(state,current_page_num)
+        res = MPost.query_by_state(state, current_page_num)
 
         self.render('static_pages/check/post_list_to_examine.html',
                     userinfo=self.userinfo,
                     recs=res,
                     kwd=kwd,
-                    state = state,
+                    state=state,
                     )
