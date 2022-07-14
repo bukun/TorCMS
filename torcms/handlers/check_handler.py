@@ -68,7 +68,7 @@ class CheckHandler(BaseHandler):
 
         res = MPost.query_by_state(state, current_page_num)
 
-        self.render('static_pages/check/post_list_to_examine.html',
+        self.render('static_pages/check/pend_review.html',
                     userinfo=self.userinfo,
                     recs=res,
                     kwd=kwd,
