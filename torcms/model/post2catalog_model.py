@@ -178,10 +178,11 @@ class MPost2Catalog():
         if cat_id.endswith('00'):
             # The first level category, using the code bellow.
             cat_con = TabPost2Tag.par_id == cat_id
-        elif state:
-            cat_con = (TabPost2Tag.par_id == cat_id) & (TabPost.state=='b100')
         else:
             cat_con = TabPost2Tag.tag_id == cat_id
+            
+        if state:
+            cat_con = (cat_con)  & (TabPost.state == 'b100')
 
         if tag:
             condition = {'def_tag_arr': [tag]}
