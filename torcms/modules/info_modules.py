@@ -331,6 +331,23 @@ class InfoCount(tornado.web.UIModule):
         pcat = kwargs['pcat']
         catid = kwargs['catid']
         kind = kwargs['kind']
+        state = kwargs['state']
+        if pcat:
+            recs = MPost.query_by_parid(catid, kind,state)
+        else:
+            recs = MPost.query_by_tag(catid, kind,state)
+        return recs.count()
+
+
+class InfoCountByState(tornado.web.UIModule):
+    '''
+    各信息分类下，信息数量。
+    '''
+
+    def render(self, *args, **kwargs):
+        pcat = kwargs['pcat']
+        catid = kwargs['catid']
+        kind = kwargs['kind']
         if pcat:
             recs = MPost.query_by_parid(catid, kind)
         else:

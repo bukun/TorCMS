@@ -11,6 +11,7 @@ class MCategory():
     '''
     Model for category
     '''
+
     @staticmethod
     def delete(uid):
         '''
@@ -51,15 +52,15 @@ class MCategory():
 
     @staticmethod
     def get_parent_list(kind='1'):
-        return TabTag.select().where((TabTag.kind == kind)
-                                     & (TabTag.uid.endswith('00'))).order_by(
-                                         TabTag.uid)
+        return TabTag.select().where(
+            (TabTag.kind == kind) & (TabTag.uid.endswith('00'))
+        ).order_by(TabTag.uid)
 
     @staticmethod
     def query_kind_cat(kind_sig):
-        return TabTag.select().where((TabTag.kind == kind_sig)
-                                     & (TabTag.pid == '0000')).order_by(
-                                         TabTag.order)
+        return TabTag.select().where(
+            (TabTag.kind == kind_sig) & (TabTag.pid == '0000')
+        ).order_by(TabTag.order)
 
     @staticmethod
     def query_sub_cat(pid):
@@ -117,9 +118,9 @@ class MCategory():
 
         entry2 = TabTag.update(count=TabPost2Tag.select().join(
             TabPost, on=(TabPost.uid == TabPost2Tag.post_id)).where(
-                (TabPost.valid == 1)
-                & (TabPost2Tag.tag_id == cat_id)).count()).where(
-                    TabTag.uid == cat_id)
+            (TabPost.valid == 1)
+            & (TabPost2Tag.tag_id == cat_id)).count()).where(
+            TabTag.uid == cat_id)
         entry2.execute()
 
     @staticmethod

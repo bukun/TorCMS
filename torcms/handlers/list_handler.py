@@ -96,6 +96,7 @@ class ListHandler(BaseHandler):
         '''
         post_data = self.get_request_arguments()
         tag = post_data.get('tag', '')
+        state = post_data.get('state', False)
 
         def get_pager_idx():
             '''
@@ -120,7 +121,7 @@ class ListHandler(BaseHandler):
             return False
 
         num_of_cat = MPost2Catalog.count_of_certain_category(cat_rec.uid,
-                                                             tag=tag)
+                                                             tag=tag, state=state)
 
         page_num = int(num_of_cat / CMS_CFG['list_num']) + 1
         cat_name = cat_rec.name
@@ -144,7 +145,9 @@ class ListHandler(BaseHandler):
         infos = MPost2Catalog.query_pager_by_slug(cat_slug,
                                                   current_page_num,
                                                   tag=tag,
-                                                  order=self.order)
+                                                  state=state,
+                                                  order=self.order
+                                                  )
 
         self.render(tmpl,
                     catinfo=cat_rec,

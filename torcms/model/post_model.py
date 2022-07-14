@@ -267,31 +267,51 @@ class MPost():
         return recent_recs
 
     @staticmethod
-    def query_by_tag(cat_id, kind='1'):
+    def query_by_tag(cat_id, kind='1', state=False):
         '''
         Query posts of catalog.
         '''
+        if state:
+            return TabPost.select().join(
+                TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)
+            ).where(
+                (TabPost.kind == kind) & (TabPost2Tag.tag_id == cat_id) & (TabPost.valid == 1) & (
+                        TabPost.state == 'b100')
+            ).order_by(
+                TabPost.time_create.desc()
+            )
 
-        return TabPost.select().join(
-            TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)
-        ).where(
-            (TabPost.kind == kind) & (TabPost2Tag.tag_id == cat_id) & (TabPost.valid == 1)
-        ).order_by(
-            TabPost.time_create.desc()
-        )
+        else:
+            return TabPost.select().join(
+                TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id)
+            ).where(
+                (TabPost.kind == kind) & (TabPost2Tag.tag_id == cat_id) & (TabPost.valid == 1)
+            ).order_by(
+                TabPost.time_create.desc()
+            )
 
     @staticmethod
-    def query_by_parid(par_id, kind='9'):
+    def query_by_parid(par_id, kind='9', state=False):
         '''
         Query recent posts of catalog.
 
         '''
-        return TabPost.select().join(
-            TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id
-                             )).where((TabPost.kind == kind)
-                                      & (TabPost2Tag.par_id == par_id)
-                                      & (TabPost.valid == 1)).order_by(
-            TabPost.time_create.desc())
+        if state:
+            return TabPost.select().join(
+                TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id
+                                 )).where((TabPost.kind == kind)
+                                          & (TabPost2Tag.par_id == par_id)
+                                          & (TabPost.valid == 1)
+                                          & (TabPost.state == 'b100')
+                                          ).order_by(
+                TabPost.time_create.desc())
+        else:
+            return TabPost.select().join(
+                TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id
+                                 )).where((TabPost.kind == kind)
+                                          & (TabPost2Tag.par_id == par_id)
+                                          & (TabPost.valid == 1)).order_by(
+                TabPost.time_create.desc())
 
     @staticmethod
     def query_cat_recent_with_label(cat_id,

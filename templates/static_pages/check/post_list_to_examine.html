@@ -10,11 +10,11 @@
 
     <ol class="breadcrumb">
         <li>Current location: <a href="/" title="home">Home</a></li>
-        <li class="active">Pending review list</li>
+        <li class="active">{% if state=='a1' %} Pending review list{% else %} Updating list{% end %}</li>
     </ol>
     <div class="panel panel-black">
         <div class="panel-heading">
-           <h3 class="panel-title">Pending review list</h3></div>
+           <h3 class="panel-title">{% if state=='a1' %} Pending review list{% else %} Updating list{% end %}</h3></div>
         <table class="table table-bordered table-condensed table-striped">
             <tr>
                 <th>ID</th>
@@ -68,7 +68,7 @@
             document.getElementById("fyts").innerText = "Exceed the data page";
             return;
         }
-        window.location.href = "/check/exa/" + curPage;
+        window.location.href = "/check/pend_review/" + curPage;
     });
 </script>
 {% end %}
