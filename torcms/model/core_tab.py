@@ -254,6 +254,15 @@ class TabMember(BaseModel):
                             default='1000',
                             help_text='Member Privilege',
                             max_length='4')
+    '''
+    进行审核的权限，与 role 配合使用。
+    role 声明是否有权限，    authority 声明对哪些 post 有权限。
+    post 权限类型由二进制的 1, 2, 4, 8 ... 声明 ，成员的 authority 则根据二进制相加的结果来声明多种 post 的审核权限
+    '''
+    authority = peewee.CharField(null=False,
+                            default='0',
+                            help_text='Member authority for checking',
+                            max_length='8')
     time_reset_passwd = peewee.IntegerField(null=False, default=0)
     time_login = peewee.IntegerField(null=False, default=0)
     time_create = peewee.IntegerField(null=False, default=0)

@@ -8,7 +8,7 @@ from datetime import datetime
 import peewee
 import tornado.escape
 
-from config import CMS_CFG, DB_CFG
+from config import CMS_CFG
 from torcms.core.tools import logger
 from torcms.core import tools
 from torcms.model.abc_model import MHelper
