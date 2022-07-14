@@ -277,6 +277,7 @@ class PostAjaxHandler(PostHandler):
         else:
             return False
 
+    @tornado.web.authenticated
     def json_add(self):
 
         '''
@@ -385,6 +386,7 @@ class PostAjaxHandler(PostHandler):
             }
             return json.dump(output, self)
 
+    @tornado.web.authenticated
     def json_edit(self,uid):
         '''
         in infor.

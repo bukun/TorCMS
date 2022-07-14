@@ -116,11 +116,13 @@ class MCategory():
         Update the count of certain category.
         '''
 
-        entry2 = TabTag.update(count=TabPost2Tag.select().join(
-            TabPost, on=(TabPost.uid == TabPost2Tag.post_id)).where(
-            (TabPost.valid == 1)
-            & (TabPost2Tag.tag_id == cat_id)).count()).where(
-            TabTag.uid == cat_id)
+        entry2 = TabTag.update(
+            count=TabPost2Tag.select().join(
+                TabPost, on=(TabPost.uid == TabPost2Tag.post_id)
+            ).where(
+                (TabPost.valid == 1) & (TabPost2Tag.tag_id == cat_id)
+            ).count()
+        ).where(TabTag.uid == cat_id)
         entry2.execute()
 
     @staticmethod
@@ -130,11 +132,10 @@ class MCategory():
         '''
         raw_rec = TabTag.get(TabTag.uid == uid)
         entry = TabTag.update(
-            name=post_data['name'] if 'name' in post_data else raw_rec.name,
-            slug=post_data['slug'] if 'slug' in post_data else raw_rec.slug,
-            order=post_data['order']
-            if 'order' in post_data else raw_rec.order,
-            kind=post_data['kind'] if 'kind' in post_data else raw_rec.kind,
+            name=post_data.get('name', raw_rec.name),
+            slug=post_data.get('slug', raw_rec.slug),
+            order=post_data.get('order', raw_rec.order),
+            kind=post_data.get('kind', raw_rec.kind),
             pid=post_data['pid'],
         ).where(TabTag.uid == uid)
         entry.execute()
@@ -153,7 +154,7 @@ class MCategory():
                 name=post_data['name'],
                 slug=post_data['slug'],
                 order=post_data['order'],
-                kind=post_data['kind'] if 'kind' in post_data else '1',
+                kind=post_data.get('kind', '1'),
                 pid=post_data['pid'],
             )
         return uid

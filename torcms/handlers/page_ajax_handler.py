@@ -103,12 +103,14 @@ class PageAjaxHandler(PageHandler):
                         kind=kind, current_page_num=current_page_number),
                     kwd=kwd)
 
+    @tornado.web.authenticated
     def p_to_add(self):
         '''
         To add the page.
         '''
         self.render('admin/page_ajax/page_add.html', kwd={})
 
+    @tornado.web.authenticated
     def json_add(self):
         '''
         Add new page.
@@ -201,6 +203,7 @@ class PageAjaxHandler(PageHandler):
         }
         return json.dump(out_json, self)
 
+    @tornado.web.authenticated
     def json_edit(self, slug):
         '''
         Update the page.
