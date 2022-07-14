@@ -180,7 +180,7 @@ class MPost2Catalog():
             cat_con = TabPost2Tag.par_id == cat_id
         else:
             cat_con = TabPost2Tag.tag_id == cat_id
-            
+
         if state:
             cat_con = (cat_con)  & (TabPost.state == 'b100')
 
