@@ -7,10 +7,6 @@ from torcms.core.tools import get_cfg
 
 DB_CON, SMTP_CFG, SITE_CFG, ROLE_CFG, REDIS_CFG = get_cfg()
 
-DB_CFG = {
-    'conn': DB_CON,
-}
-
 CMS_CFG = {
     'list_num': 10,
     'redis_kw': 'lsadfkj',
@@ -26,7 +22,19 @@ post_type = {
         '''.format('Document'),
     '9': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>
         '''.format('Data'),
+}
 
+post_cfg = {
+    '1': {
+        'router': 'post',
+        'html': '''<span style="color:green;" class="glyphicon glyphicon-list-alt">[{0}]</span>'''.format('Document'),
+        'checker': 0,
+    },
+    '9': {
+        'router': 'info',
+        'html': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>'''.format('Data'),
+        'checker': '1', # '10', '100', '1000', '10000'
+    }
 }
 
 kind_arr = ['9']

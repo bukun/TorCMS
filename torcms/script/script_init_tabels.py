@@ -80,6 +80,18 @@ def run_migrate(*args):
     torcms_migrator = migrate.PostgresqlMigrator(config.DB_CON)
 
     ###########################################################################################
+    authority_field = migrate.CharField(null=False,
+                                  default='0',
+                                  help_text='Member authority for checking',
+                                  max_length='8')
+    try:
+        migrate.migrate(
+            torcms_migrator.add_column('tabmember', 'authority', authority_field)
+        )
+    except Exception as err:
+        print(repr(err))
+
+    ###########################################################################################
     state_field = migrate.CharField(null=False,
                                     max_length=4,
                                     default='0000',
