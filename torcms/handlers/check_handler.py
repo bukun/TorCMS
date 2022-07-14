@@ -24,21 +24,24 @@ class CheckHandler(BaseHandler):
         url_str = args[0]
         url_arr = self.parse_url(url_str)
 
-        if url_str == 'examine' or url_str == 'exa':
-            self.examine(url_str)
+        if url_str == 'pend_review':
+            self.pend_review(url_str)
+
         elif len(url_arr) == 2:
-            if url_arr[0] == 'exa':
-                self.examine(url_arr[0], cur_p=url_arr[1])
+            if url_arr[0] == 'pend_review':
+                self.pend_review(url_arr[0], cur_p=url_arr[1])
         else:
             self.show404()
 
     @tornado.web.authenticated
     @privilege.auth_check
-    def examine(self, list, **kwargs):
+    def pend_review(self, list, **kwargs):
         '''
         The default page of examine.
         '''
-        state = 'a1'
+
+        post_data = self.get_request_arguments()
+        state = post_data.get('state', 'a1')
 
         def get_pager_idx():
             '''

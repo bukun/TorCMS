@@ -170,7 +170,7 @@ class MPost2Catalog():
         MCategory.update_count(catalog_id)
 
     @staticmethod
-    def count_of_certain_category(cat_id, tag=''):
+    def count_of_certain_category(cat_id, tag='',state=False):
         '''
         Get the count of certain category.
         '''
@@ -178,6 +178,8 @@ class MPost2Catalog():
         if cat_id.endswith('00'):
             # The first level category, using the code bellow.
             cat_con = TabPost2Tag.par_id == cat_id
+        elif state:
+            cat_con = (TabPost2Tag.par_id == cat_id) & (TabPost.state=='b100')
         else:
             cat_con = TabPost2Tag.tag_id == cat_id
 
@@ -196,7 +198,7 @@ class MPost2Catalog():
         return recs.count()
 
     @staticmethod
-    def query_pager_by_slug(slug, current_page_num=1, tag='', order=False):
+    def query_pager_by_slug(slug, current_page_num=1, tag='', order=False,state=False):
         '''
         Query pager via category slug.
         '''
@@ -212,6 +214,8 @@ class MPost2Catalog():
             cat_con = TabPost2Tag.par_id == cat_id
         else:
             cat_con = TabPost2Tag.tag_id == cat_id
+        if state:
+            cat_con = (cat_con)  & (TabPost.state == 'b100')
 
         if tag:
             condition = {'def_tag_arr': [tag]}
