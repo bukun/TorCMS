@@ -207,12 +207,11 @@ class PostCategoryOf(tornado.web.UIModule):
     The catalog of the post.
     '''
 
-    def render(self, uid_with_str, slug=False, order=False, with_title=True, state=False, glyph=''):
+    def render(self, uid_with_str, slug=False, order=False, with_title=True,  glyph=''):
         curinfo = MCategory.get_by_uid(uid_with_str)
         sub_cats = MCategory.query_sub_cat(uid_with_str)
         kwd = {
             'glyph': glyph,
-            'state': state,
             'order': order,
             'with_title': with_title,
         }

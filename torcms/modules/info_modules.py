@@ -331,11 +331,10 @@ class InfoCount(tornado.web.UIModule):
         pcat = kwargs['pcat']
         catid = kwargs['catid']
         kind = kwargs['kind']
-        state = kwargs['state']
         if pcat:
-            recs = MPost.query_by_parid(catid, kind,state)
+            recs = MPost.query_by_parid(catid, kind)
         else:
-            recs = MPost.query_by_tag(catid, kind,state)
+            recs = MPost.query_by_tag(catid, kind)
         return recs.count()
 
 
