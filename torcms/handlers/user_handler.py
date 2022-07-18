@@ -303,7 +303,7 @@ class UserHandler(BaseHandler):
         Change th user rule
         '''
         post_data = self.get_request_arguments()
-        MUser.update_role(xg_username, post_data['role'])
+        MUser.update_role(xg_username, post_data)
         if self.is_p:
             output = {'changerole': '1'}
             return json.dump(output, self)

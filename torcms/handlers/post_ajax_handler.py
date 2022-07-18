@@ -265,8 +265,14 @@ class PostAjaxHandler(PostHandler):
             else:
                 is_true = False
         elif state[0] == 'b':
-            if self.userinfo.role[3] >= '1':
+
+            if self.userinfo.role[2] >= '1':
                 is_true = MPost.update_state(infoid, state)
+                if state[1] == '1':
+                    MPost.update_valid(infoid)
+                else:
+                    MPost.nullify(infoid)
+
             else:
                 is_true = False
         else:
