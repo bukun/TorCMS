@@ -1,6 +1,7 @@
 {% extends "../../theme/bage.html" %}
 {% block head %}
-<title>Pending review list </title>
+<title>  {% if state=='a1' %} Pending review list{% elif state=='a0' %}Information review list{% elif state=='b0' %}Review
+    failed list{% else %} Approved list{% end %} </title>
 <meta name="keywords" content="文档">
 <meta name="description"
       content="文档">
@@ -10,11 +11,17 @@
 
     <ol class="breadcrumb">
         <li>Current location: <a href="/" title="home">Home</a></li>
-        <li class="active">{% if state=='a1' %} Pending review list{% else %} Updating list{% end %}</li>
+        <li class="active">
+            {% if state=='a1' %} Pending review list{% elif state=='a0' %}Information review list{% elif state=='b0' %}Review
+            failed list{% else %} Approved list{% end %}
+        </li>
     </ol>
     <div class="panel panel-black">
         <div class="panel-heading">
-           <h3 class="panel-title">{% if state=='a1' %} Pending review list{% else %} Updating list{% end %}</h3></div>
+            <h3 class="panel-title">
+                {% if state=='a1' %} Pending review list{% elif state=='a0' %}Information review
+                list{% elif state=='b0' %}Review failed list{% else %} Approved list{% end %}
+            </h3></div>
         <table class="table table-bordered table-condensed table-striped">
             <tr>
                 <th>ID</th>
@@ -24,7 +31,7 @@
             {% for rec in recs %}
             <tr>
                 <td>{{ rec.uid }}</td>
-                <td><a href="/info/{{ rec.uid}}">{{ rec.title }}</a></td>
+                <td><a href="/info/{{ rec.uid }}">{{ rec.title }}</a></td>
                 <td>
                     {% if  rec.state == 'a000' %}
                     Updating
@@ -41,15 +48,16 @@
         </table>
 
         <div class="col-sm-12">
-        <div class="row">
-            {% module check_pager( kwd['current_page'],state = state) %}
+            <div class="row">
+                {% module check_pager( kwd['current_page'],state = state) %}
+            </div>
+            <div class="row">
+                Go to <input id="changePage" type="text" size="1" maxlength="4"
+                             style=" border: 3px solid #fff; height: 20px "/>
+                page
+                <a href="#" id="btn5" class="btn btn-xs btn-primary">{{ _('Jump') }}</a>
+            </div>
         </div>
-        <div class="row">
-            Go to <input id="changePage" type="text" size="1" maxlength="4" style=" border: 3px solid #fff; height: 20px "/>
-        page
-        <a href="#" id="btn5" class="btn btn-xs btn-primary">{{ _('Jump') }}</a>
-        </div>
-    </div>
     </div>
 </div>
 
@@ -57,6 +65,7 @@
 <br>
 <script type="text/javascript">
     var page = '{{kwd['pager_num']}}';
+    var state = '{{state}}';
     $("#btn5").click(function changePage() {
         curPage = document.getElementById("changePage").value * 1;
         if (!/^[1-9]\d*$/.test(curPage)) {
@@ -68,7 +77,7 @@
             document.getElementById("fyts").innerText = "Exceed the data page";
             return;
         }
-        window.location.href = "/check/pend_review/" + curPage;
+        window.location.href = "/check/pend_review/" + curPage + "?state=" + state;
     });
 </script>
 {% end %}

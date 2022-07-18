@@ -92,9 +92,10 @@ class TestMUser():
     def test_update_role(self):
         self.add_mess()
         post_data = {
-            'role': '1111'
+            'role': '1111',
+            'authority': '1'
         }
-        self.uu.update_role(self.username, post_data['role'])
+        self.uu.update_role(self.username, post_data)
         tt = self.uu.get_by_uid(self.uid)
         assert tt.role == post_data['role']
         self.tearDown()

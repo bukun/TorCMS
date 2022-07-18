@@ -779,6 +779,18 @@ class MPost():
             return False
 
     @staticmethod
+    def update_valid(uid):
+
+        entry = TabPost.update(valid=1).where(TabPost.uid == uid)
+
+        try:
+            entry.execute()
+            return True
+        except Exception as err:
+            print(repr(err))
+            return False
+
+    @staticmethod
     def update_state(uid, state):
         '''
         更新审核状态
@@ -796,7 +808,7 @@ class MPost():
     @staticmethod
     def query_by_state(state, current_page_num=1):
 
-        recent_recs = TabPost.select().where((TabPost.state.startswith(state)) & (TabPost.valid == 1)).order_by(
+        recent_recs = TabPost.select().where(TabPost.state.startswith(state)).order_by(
             TabPost.time_create.desc()).paginate(
             current_page_num,
             CMS_CFG['list_num'])
@@ -805,5 +817,5 @@ class MPost():
 
     @staticmethod
     def count_of_certain_by_state(state):
-        recs = TabPost.select().where(TabPost.state.startswith(state) & (TabPost.valid == 1))
+        recs = TabPost.select().where(TabPost.state.startswith(state))
         return recs.count()

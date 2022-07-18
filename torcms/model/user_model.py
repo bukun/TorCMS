@@ -262,11 +262,13 @@ class MUser():
         return True
 
     @staticmethod
-    def update_role(u_name, newprivilege):
+    def update_role(u_name, postdata):
         '''
         Update the role of the usr.
         '''
-        entry = TabMember.update(role=newprivilege).where(
+        role = postdata['role']
+        authority = postdata['authority']
+        entry = TabMember.update(role=role, authority=authority).where(
             TabMember.user_name == u_name)
         try:
             entry.execute()

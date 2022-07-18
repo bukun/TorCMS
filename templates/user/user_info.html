@@ -38,6 +38,11 @@
                             <td>{{ userinfo.role}}</td>
 
                         </tr>
+                          <tr>
+                            <td><b>{{ _('authority') }}</b>：</td>
+                            <td>{{ userinfo.authority}}</td>
+
+                        </tr>
                         <tr>
                             <td><b>{{ _('True Name') }}</b>：</td><td>
                             {{ userinfo.extinfo['def_truename'] if 'def_truename' in userinfo.extinfo else ''}}</td>
@@ -172,6 +177,7 @@
                         <li class="list-group-item">
                             <a href="/referrer/" class="btn btn-xs btn-primary"> 访问来源统计 </a>
                         </li>
+
                         {% end %}
 
                     </ul>

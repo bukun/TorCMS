@@ -15,8 +15,16 @@
                 <label class="col-sm-2 control-label" for="role">{{ _('permissions') }}</label>
 
                 <div class="col-sm-10">
-                    <input type="text" name="role" id="role" class="form-control"
+                    <input type="text" name="role" id="role" class="form-control" value="{{ userinfo.role }}"
                            placeholder="Please enter administrative permission, case 0000"/>
+                </div>
+            </div>
+             <div class="form-group">
+                <label class="col-sm-2 control-label" for="role">{{ _('authority') }}</label>
+
+                <div class="col-sm-10">
+                    <input type="text" name="authority" id="authority" class="form-control"  value="{{ userinfo.authority }}"
+                           placeholder="Please enter administrative authority, case 1"/>
                 </div>
             </div>
             <div class="form-group">
