@@ -303,6 +303,13 @@ class UserHandler(BaseHandler):
         Change th user rule
         '''
         post_data = self.get_request_arguments()
+
+        # 审核权限
+        authority = '0'
+        for i in self.get_arguments('authority'):
+            authority = bin(int(authority, 2) + int(i, 2))[2:]
+        post_data['authority'] = authority
+
         MUser.update_role(xg_username, post_data)
         if self.is_p:
             output = {'changerole': '1'}
@@ -626,7 +633,8 @@ class UserHandler(BaseHandler):
 
             MUser.update_failed_info(u_name)
             if self.is_p:
-                user_login_status = {'success': False, 'code': '2', 'info': 'Too many faild times. Please try again later.',
+                user_login_status = {'success': False, 'code': '2',
+                                     'info': 'Too many faild times. Please try again later.',
                                      'user_name': u_name}
                 return json.dump(user_login_status, self)
             else:

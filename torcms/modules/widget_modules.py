@@ -70,7 +70,7 @@ class WidgetEditor(tornado.web.UIModule):
         nullify = kwargs.get('nullify', False)
         reclass = kwargs.get('reclass', True)
         url = kwargs.get('url', '')
-        catid = kwargs.get('catid','')
+        catid = kwargs.get('catid', '')
 
         kwd = {
             'router': router,
@@ -216,19 +216,25 @@ class Userprofile(tornado.web.UIModule):
 
         return self.render_string('modules/widget/user_profile.html', rec=rec)
 
+
 class State(tornado.web.UIModule):
     def render(self, *args, **kwargs):
-        postinfo = kwargs.get('postinfo','')
-        userinfo = kwargs.get('userinfo','')
-        kind = kwargs.get('kind','1')
+        postinfo = kwargs.get('postinfo', '')
+        userinfo = kwargs.get('userinfo', '')
+        kind = kwargs.get('kind', '1')
+        authority = kwargs.get('authority', 0)
         kwd = {
             'router': config.router_post[kind],
+            'kind': kind,
+            'authority': authority
         }
         return self.render_string('modules/post/state.html',
                                   postinfo=postinfo,
                                   userinfo=userinfo,
-                                  kwd = kwd
+                                  kwd=kwd
                                   )
+
+
 class Check_pager(tornado.web.UIModule):
     '''
     审核翻页

@@ -22,9 +22,13 @@
              <div class="form-group">
                 <label class="col-sm-2 control-label" for="role">{{ _('authority') }}</label>
 
+
                 <div class="col-sm-10">
-                    <input type="text" name="authority" id="authority" class="form-control"  value="{{ userinfo.authority }}"
-                           placeholder="Please enter administrative authority, case 1"/>
+
+                    <input type="checkbox" name="authority" value="1"> POST
+                    <input type="checkbox" name="authority" value="10"> INFO
+
+
                 </div>
             </div>
             <div class="form-group">
