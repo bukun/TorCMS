@@ -267,7 +267,7 @@ class MUser():
         Update the role of the usr.
         '''
         role = postdata['role']
-        authority = postdata.get('authority','1')
+        authority = postdata['authority']
         entry = TabMember.update(role=role, authority=authority).where(
             TabMember.user_name == u_name)
         try:
