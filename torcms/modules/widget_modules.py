@@ -14,6 +14,7 @@ from torcms.model.user_model import MUser
 from torcms.model.post_model import MPost
 
 
+
 class BaiduShare(tornado.web.UIModule):
     '''
     widget for baidu share.
@@ -222,11 +223,13 @@ class State(tornado.web.UIModule):
         postinfo = kwargs.get('postinfo', '')
         userinfo = kwargs.get('userinfo', '')
         kind = kwargs.get('kind', '1')
-        authority = kwargs.get('authority', 0)
+        post_authority = config.post_cfg[kind]['checker']
+
+
         kwd = {
             'router': config.router_post[kind],
             'kind': kind,
-            'authority': authority
+            'post_authority': post_authority
         }
         return self.render_string('modules/post/state.html',
                                   postinfo=postinfo,

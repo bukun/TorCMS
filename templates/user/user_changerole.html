@@ -24,10 +24,9 @@
 
 
                 <div class="col-sm-10">
-
-                    <input type="checkbox" name="authority" value="1"> POST
-                    <input type="checkbox" name="authority" value="10"> INFO
-
+                    {% for post_auth in post_authority %}
+                    <input type="checkbox" name="authority" value="{{ post_authority[post_auth]['checker'] }}"> {{ post_authority[post_auth]['router'] }}
+                    {% end %}
 
                 </div>
             </div>
