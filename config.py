@@ -28,15 +28,15 @@ post_cfg = {
     '1': {
         'router': 'post',
         'html': '''<span style="color:green;" class="glyphicon glyphicon-list-alt">[{0}]</span>'''.format('Document'),
-        'checker': 0,
+        'checker': '1',
     },
     '9': {
         'router': 'info',
         'html': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>'''.format('Data'),
-        'checker': '1', # '10', '100', '1000', '10000'
+        'checker': '10',  # '10', '100', '1000', '10000'
     }
-}
 
+}
 kind_arr = ['9']
 
 post_emails = ['bukun@osgeo.cn', '118171@qq.com']

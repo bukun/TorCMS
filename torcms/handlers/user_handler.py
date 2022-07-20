@@ -360,6 +360,7 @@ class UserHandler(BaseHandler):
         '''
         self.render('user/user_changerole.html',
                     userinfo=MUser.get_by_name(xg_username),
+                    post_authority=config.post_cfg,
                     kwd={})
 
     @tornado.web.authenticated
