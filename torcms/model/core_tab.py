@@ -257,7 +257,7 @@ class TabMember(BaseModel):
     '''
     进行审核的权限，与 role 配合使用。
     role 声明是否有权限，    authority 声明对哪些 post 有权限。
-    post 权限类型由二进制的 1, 2, 4, 8 ... 声明 ，成员的 authority 则根据二进制相加的结果来声明多种 post 的审核权限
+    post 权限类型由二进制的 '1', '10', '100', '1000', ... 声明 ，成员的 authority 则根据二进制相加的结果来声明多种 post 的审核权限
     '''
     authority = peewee.CharField(null=False,
                             default='0',
