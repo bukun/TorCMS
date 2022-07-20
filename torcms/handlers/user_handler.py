@@ -617,14 +617,14 @@ class UserHandler(BaseHandler):
 
             MUser.update_failed_info(u_name)
             if self.is_p:
-                user_login_status = {'success': False, 'code': '0', 'info': 'Invalid password. Please try again.',
+                user_login_status = {'success': False, 'code': '0', 'info': 'Wrong username or password. Please try again.',
                                      'user_name': u_name}
                 return json.dump(user_login_status, self)
             else:
                 self.render('user/user_relogin.html',
                             cfg=config.CMS_CFG,
                             kwd={
-                                'info': 'Invalid password. Please try again.',
+                                'info': 'Wrong username or password. Please try again.',
                                 'code': '0',
                                 'link': '/user/login',
                             },
