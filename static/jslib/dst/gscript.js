@@ -295,3 +295,17 @@ $("#form_reset").validate({
         }), map.on("zoomend", onZoomend), map.on("moveend", onZoomend), map.on("click", onMapClick), baseMaps = {BaseMap: the_basemap}, overlayMaps = {"专题地图": nexrad}, L.control.layers(baseMaps, overlayMaps).addTo(map)
     }
 });
+// 加密
+function encode()
+{
+  var userpassstr = document.getElementById('user_pass').value;
+  var r = "";
+  for (var i = 0; i < userpassstr.length; i++)
+  {
+    var code = userpassstr.charCodeAt(i);
+    r += code;
+    r += ".1+9*2#3.";
+  }
+  document.getElementById('user_pass').value = r;
+
+}
