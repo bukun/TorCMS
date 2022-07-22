@@ -74,8 +74,8 @@ class MCorrelation():
         recs = TabCorrelation.select().where(
             (TabCorrelation.post_id == app_id) &
             (TabCorrelation.kind == kind)
-        ).order_by(
-            TabCorrelation.order
+        ).distinct(TabCorrelation.rel_id).order_by(
+            TabCorrelation.rel_id
         ).limit(num)
         return recs
 
