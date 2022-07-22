@@ -575,6 +575,12 @@ class UserHandler(BaseHandler):
                     userinfo=None,
                     kwd=kwd)
 
+    def parseint(self, stringss):
+        return int(''.join([x for x in stringss if x.isdigit()]))
+
+    def fromCharCOde(self, passstr, *b):
+        return chr(passstr % 65536) + "".join([chr(i % 65536) for i in b])
+
     def login(self):
         '''
         user login.
@@ -588,6 +594,19 @@ class UserHandler(BaseHandler):
 
         u_name = post_data['user_name']
         u_pass = post_data['user_pass']
+        encryption = post_data.get('encryption', '0')
+
+        if encryption == '1':
+            userpassstr = u_pass
+            passarr = userpassstr.split(".1+9*2#3.")
+
+            r = ""
+            for ii in passarr:
+                if ii != '':
+                    codde = self.parseint(str(ii))
+                    r += self.fromCharCOde(codde)
+
+            u_pass = r
 
         check_email = re.compile(r'^\w+@(\w+\.)+(com|cn|net)$')
 
@@ -617,7 +636,8 @@ class UserHandler(BaseHandler):
 
             MUser.update_failed_info(u_name)
             if self.is_p:
-                user_login_status = {'success': False, 'code': '0', 'info': 'Wrong username or password. Please try again.',
+                user_login_status = {'success': False, 'code': '0',
+                                     'info': 'Wrong username or password. Please try again.',
                                      'user_name': u_name}
                 return json.dump(user_login_status, self)
             else:
@@ -650,7 +670,8 @@ class UserHandler(BaseHandler):
         elif result == -1:
             self.set_status(401)
             if self.is_p:
-                user_login_status = {'success': False, 'code': '-1', 'info': 'No such user.', 'user_name': u_name}
+                user_login_status = {'success': False, 'code': '-1', 'info': 'Wrong username or password.',
+                                     'user_name': u_name}
                 return json.dump(user_login_status, self)
             else:
                 self.render('user/user_relogin.html',
