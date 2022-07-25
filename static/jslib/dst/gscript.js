@@ -296,7 +296,7 @@ $("#form_reset").validate({
     }
 });
 // 加密
-function encode()
+function encode(pass_encrypt)
 {
   var userpassstr = document.getElementById('user_pass').value;
   var r = "";
@@ -304,7 +304,7 @@ function encode()
   {
     var code = userpassstr.charCodeAt(i);
     r += code;
-    r += ".1+9*2#3.";
+    r += pass_encrypt;
   }
   document.getElementById('user_pass').value = r;
 

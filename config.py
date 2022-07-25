@@ -11,6 +11,7 @@ CMS_CFG = {
     'list_num': 10,
     'redis_kw': 'lsadfkj',
     # 'expires_minutes': 1
+    'pass_encrypt': ',.'
 }
 
 router_post = {'1': 'post',
