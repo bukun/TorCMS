@@ -64,8 +64,8 @@
             <label for="user_pass" class="col-sm-1 control-label"> </label>
 
             <div class="col-sm-10">
-                <input type="text" name="user_pass" id="user_pass" class="form-control"
-                       placeholder="Please enter your password" onchange="encode('{{ kwd['pass_encrypt'] }}')">
+                <input type="password" name="user_pass" id="user_pass" class="form-control"
+                       placeholder="Please enter your password" onchange="encode('{{ kwd.get('pass_encrypt',',') }}')">
 
             </div>
                <br><br>

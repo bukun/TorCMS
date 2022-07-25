@@ -430,7 +430,7 @@ class UserHandler(BaseHandler):
                 'pager': '',
                 'next_url': next_url,
                 'ad': False,
-                'pass_encrypt': CMS_CFG['pass_encrypt']
+                'pass_encrypt': CMS_CFG.get('pass_encrypt', ',')
             }
             self.render('user/user_login.html', kwd=kwd, userinfo=None)
 
@@ -599,7 +599,7 @@ class UserHandler(BaseHandler):
 
         if encryption == '1':
             userpassstr = u_pass
-            passarr = userpassstr.split(CMS_CFG['pass_encrypt'])
+            passarr = userpassstr.split(CMS_CFG.get('pass_encrypt', ','))
 
             r = ""
             for ii in passarr:
