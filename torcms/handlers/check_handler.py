@@ -41,7 +41,7 @@ class CheckHandler(BaseHandler):
         '''
 
         post_data = self.get_request_arguments()
-        state = post_data.get('state', 'a1')
+        state = post_data.get('state', '0')
 
         def get_pager_idx():
             '''

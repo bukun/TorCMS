@@ -12,15 +12,15 @@
     <ol class="breadcrumb">
         <li>Current location: <a href="/" title="home">Home</a></li>
         <li class="active">
-            {% if state=='a1' %} Pending review list{% elif state=='a0' %}Information review list{% elif state=='b0' %}Review
+            {% if state[1]=='1' %} Pending review list{% elif state[1]=='0' %}Information review list{% elif state[1]=='3' %}Review
             failed list{% else %} Approved list{% end %}
         </li>
     </ol>
     <div class="panel panel-black">
         <div class="panel-heading">
             <h3 class="panel-title">
-                {% if state=='a1' %} Pending review list{% elif state=='a0' %}Information review
-                list{% elif state=='b0' %}Review failed list{% else %} Approved list{% end %}
+                {% if state[1]=='1' %} Pending review list{% elif state[1]=='0' %}Information review
+                list{% elif state[1]=='3' %}Review failed list{% else %} Approved list{% end %}
             </h3></div>
         <table class="table table-bordered table-condensed table-striped">
             <tr>
@@ -33,11 +33,11 @@
                 <td>{{ rec.uid }}</td>
                 <td><a href="/info/{{ rec.uid }}">{{ rec.title }}</a></td>
                 <td>
-                    {% if  rec.state == 'a000' %}
+                    {% if  rec.state[1] == '0' %}
                     Updating
-                    {% elif rec.state == 'a100' %}
+                    {% elif rec.state[1] == '1' %}
                     Pending review
-                    {% elif rec.state == 'b100' %}
+                    {% elif rec.state[1] == '2' %}
                     Review passed
                     {% else %}
                     Review failed
@@ -49,7 +49,7 @@
 
         <div class="col-sm-12">
             <div class="row">
-                {% module check_pager( kwd['current_page'],state = state) %}
+                {% module check_pager( kwd['current_page'],state = str(state)[0:]) %}
             </div>
             <div class="row">
                 Go to <input id="changePage" type="text" size="1" maxlength="4"
@@ -65,7 +65,8 @@
 <br>
 <script type="text/javascript">
     var page = '{{kwd['pager_num']}}';
-    var state = '{{state}}';
+    var state = '{{str(state)[0:]}}';
+
     $("#btn5").click(function changePage() {
         curPage = document.getElementById("changePage").value * 1;
         if (!/^[1-9]\d*$/.test(curPage)) {
