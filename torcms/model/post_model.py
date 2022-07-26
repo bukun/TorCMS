@@ -808,7 +808,7 @@ class MPost():
     @staticmethod
     def query_by_state(state, current_page_num=1):
 
-        recent_recs = TabPost.select().where(TabPost.state.startswith(state)).order_by(
+        recent_recs = TabPost.select().where(TabPost.state.endswith(state)).order_by(
             TabPost.time_create.desc()).paginate(
             current_page_num,
             CMS_CFG['list_num'])
@@ -817,5 +817,5 @@ class MPost():
 
     @staticmethod
     def count_of_certain_by_state(state):
-        recs = TabPost.select().where(TabPost.state.startswith(state))
+        recs = TabPost.select().where(TabPost.state.endswith(state))
         return recs.count()

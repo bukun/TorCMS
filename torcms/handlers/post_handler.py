@@ -618,6 +618,10 @@ class PostHandler(BaseHandler):
 
         ext_dic['def_uid'] = uid
 
+        # 用于判断是第几轮审核
+        edit_count = int(postinfo.extinfo.get('def_edit_count', 0)) + 1
+        ext_dic['def_edit_count'] = edit_count
+
         cnt_old = tornado.escape.xhtml_unescape(postinfo.cnt_md).strip()
         cnt_new = post_data['cnt_md'].strip()
         if cnt_old == cnt_new:
@@ -628,8 +632,10 @@ class PostHandler(BaseHandler):
         MPost.add_or_update_post(uid, post_data, extinfo=ext_dic)
 
         # todo:应该判断当前审核状态，是否可以进行修改状态。
-        if self.userinfo.user_name == postinfo.user_name and postinfo.state == 'b000':
-            MPost.update_state(uid, 'a000')
+        if postinfo.state[1] == '3':
+            state_arr = ['a', 'b', 'c', 'd', 'e', 'f']
+            pstate = str(state_arr[edit_count]) + '000'
+            MPost.update_state(uid, pstate)
 
         self._add_download_entity(ext_dic)
         # self.update_tag(uid=uid)

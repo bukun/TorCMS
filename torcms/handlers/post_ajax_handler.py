@@ -257,18 +257,17 @@ class PostAjaxHandler(PostHandler):
 
     def update_state(self, infoid, state):
         postinfo = MPost.get_by_uid(infoid)
-        # print(self.userinfo.role)
 
-        if state[0] == 'a':
+        if state[1] in ['0', '1']:
             if postinfo and postinfo.user_name == self.userinfo.user_name:
                 is_true = MPost.update_state(infoid, state)
             else:
                 is_true = False
-        elif state[0] == 'b':
+        elif state[1] in ['2', '3']:
 
             if self.userinfo.role[2] >= '1':
                 is_true = MPost.update_state(infoid, state)
-                if state[1] == '1':
+                if state[1] == '2':
                     MPost.update_valid(infoid)
                 else:
                     MPost.nullify(infoid)
@@ -393,7 +392,7 @@ class PostAjaxHandler(PostHandler):
             return json.dump(output, self)
 
     @tornado.web.authenticated
-    def json_edit(self,uid):
+    def json_edit(self, uid):
         '''
         in infor.
         '''
@@ -469,15 +468,12 @@ class PostAjaxHandler(PostHandler):
         with_catalog = post_data.get('with_catalog', True)
         with_date = post_data.get('with_date', True)
 
-
         if cur_p == '':
             current_page_number = 1
         else:
             current_page_number = int(cur_p)
 
         current_page_number = 1 if current_page_number < 1 else current_page_number
-
-
 
         recs = MPost.query_recent(num=20, kind=kind)
         rec_arr = []
