@@ -678,7 +678,7 @@ class UserHandler(BaseHandler):
                 self.render('user/user_relogin.html',
                             cfg=config.CMS_CFG,
                             kwd={
-                                'info': 'No such user.',
+                                'info': 'Wrong username or password.',
                                 'code': -1,
                                 'link': '/user/login',
                             },
