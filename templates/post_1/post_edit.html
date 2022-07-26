@@ -142,6 +142,19 @@
                         <input id="sub1" type="submit" class="btn btn-primary" value="{{ _('Sumbit') }}"/>
                     </div>
                 </div>
+                <hr/>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a>
+                    JSON
+                </label>
+
+                <div class="col-sm-10">
+                    <textarea class="form-control" rows=26 id="json" name="json" readonly="readonly">
+                        {{ kwd['extinfo'] }}
+                    </textarea>
+                </div>
+            </div>
             </fieldset>
         </form>
           {% module upload_pic() %}
