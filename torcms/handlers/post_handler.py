@@ -634,8 +634,10 @@ class PostHandler(BaseHandler):
         # todo:应该判断当前审核状态，是否可以进行修改状态。
         if postinfo.state[1] == '3':
             state_arr = ['a', 'b', 'c', 'd', 'e', 'f']
-            pstate = str(state_arr[edit_count]) + '000'
-            MPost.update_state(uid, pstate)
+        
+            if len(state_arr) > edit_count:
+                pstate = str(state_arr[edit_count]) + '000'
+                MPost.update_state(uid, pstate)
 
         self._add_download_entity(ext_dic)
         # self.update_tag(uid=uid)
