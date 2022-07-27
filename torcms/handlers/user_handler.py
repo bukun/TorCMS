@@ -358,9 +358,16 @@ class UserHandler(BaseHandler):
         '''
         to change the user role
         '''
+        try:
+            if config.post_cfg:
+                post_authority = config.post_cfg
+            else:
+                post_authority={}
+        except:
+            post_authority = {}
         self.render('user/user_changerole.html',
                     userinfo=MUser.get_by_name(xg_username),
-                    post_authority=config.post_cfg,
+                    post_authority=post_authority,
                     kwd={})
 
     @tornado.web.authenticated
