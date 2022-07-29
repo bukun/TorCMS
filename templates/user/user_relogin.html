@@ -11,10 +11,11 @@
     <div class="panel-body">
         <div class="alert alert-danger">{{ _(kwd.get('info')) }}</div>
         <Br>
-
+        {% if kwd.get('code') != '2' %}
         <div style="text-align: center;">
             <a href="/user/login" class="btn btn-warning " style="text-align: center;">{{ _('Reenter') }}</a>
         </div>
+        {% end %}
     </div>
 </div>
 {% end %}
