@@ -3,11 +3,11 @@
 <div class="mtop">
     <ul class="breadcrumb">
        <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
-        <li class="active">{{ _('Wrong username or password') }}</li>
+        <li class="active">{{ _('Login failed') }}</li>
     </ul>
 </div>
 <div class="panel panel-black">
-    <div class="panel-heading"><b> {{ _('Wrong username or password') }} </b></div>
+    <div class="panel-heading"><b> {{ _('Login failed') }} </b></div>
     <div class="panel-body">
         <div class="alert alert-danger">{{ _(kwd.get('info')) }}</div>
         <Br>
