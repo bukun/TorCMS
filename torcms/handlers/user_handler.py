@@ -268,11 +268,9 @@ class UserHandler(BaseHandler):
         usercheck_num = MUser.check_user(self.userinfo.uid,
                                          post_data['rawpass'])
 
-        ckpass = tools.check_pass_valid(post_data['user_pass'])
-
-        if ckpass is False:
+        if not tools.check_pass_valid(post_data['user_pass']):
             kwd = {
-                'info': '密码过于简单，至少1个大写字母，1个小写字母和1个数字,不能包含特殊字符。',
+                'info': '密码过于简单，至少包含1个大写字母，1个小写字母和1个数字。',
                 'link': '/user/regist',
             }
             self.set_status(400)
@@ -280,6 +278,7 @@ class UserHandler(BaseHandler):
                         cfg=config.CMS_CFG,
                         kwd=kwd,
                         userinfo=None)
+
         else:
             pass
 
@@ -468,11 +467,9 @@ class UserHandler(BaseHandler):
         form = SumForm(self.request.arguments)
         ckname = MUser.get_by_name(post_data['user_name'])
         ckemail = MUser.get_by_email(post_data['user_email'])
-        ckpass = tools.check_pass_valid(post_data['user_pass'])
-
-        if ckpass is False:
+        if not tools.check_pass_valid(post_data['user_pass']):
             kwd = {
-                'info': '密码过于简单，至少1个大写字母，1个小写字母和1个数字,不能包含特殊字符。',
+                'info': '密码过于简单，至少包含1个大写字母，1个小写字母和1个数字。',
                 'link': '/user/regist',
             }
             self.set_status(400)
@@ -480,8 +477,11 @@ class UserHandler(BaseHandler):
                         cfg=config.CMS_CFG,
                         kwd=kwd,
                         userinfo=None)
+
         else:
             pass
+
+
         if ckname is None:
             pass
         else:
