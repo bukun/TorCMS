@@ -19,7 +19,7 @@ class TestMUser():
     def test_create_user(self):
         post_data = {
             'user_name': self.username,
-            'user_pass': 'g131322',
+            'user_pass': 'Lg131322',
             'user_email': 'name@kljhqq.com',
         }
 
@@ -32,7 +32,7 @@ class TestMUser():
         name = kwargs.get('user_name', self.username)
         post_data = {
             'user_name': name,
-            'user_pass': kwargs.get('user_pass', 'g131322'),
+            'user_pass': kwargs.get('user_pass', 'Lg131322'),
             'user_email': kwargs.get('user_email', '{}@kljhqq.com'.format(random.randint(1, 1000000))),
         }
 
@@ -43,7 +43,7 @@ class TestMUser():
     def test_create_user2(self):
         post_data = {
             'user_name': '',
-            'user_pass': 'g131322',
+            'user_pass': 'Lg131322',
             'user_email': 'name@qkjhlq.com',
         }
 
@@ -52,7 +52,7 @@ class TestMUser():
 
         post_data = {
             'user_name': '天',
-            'user_pass': 'g131322',
+            'user_pass': 'Lg131322',
             'user_email': 'name@qhjq.com',
         }
 
@@ -61,7 +61,7 @@ class TestMUser():
 
         post_data = {
             'user_name': '/sdfadf',
-            'user_pass': 'g131322',
+            'user_pass': 'Lg131322',
             'user_email': 'name@qjhgq.com',
         }
 
@@ -82,7 +82,7 @@ class TestMUser():
     def test_update_pass(self):
         self.add_mess()
         post_data = {
-            'user_pass': 'sdfsdfsdf'
+            'user_pass': 'sdfsdfsdf15G'
         }
         self.uu.update_pass(self.uid, post_data['user_pass'])
         tt = self.uu.get_by_uid(self.uid)
@@ -190,7 +190,7 @@ class TestMUser():
     def test_check_user_by_email(self):
         post_data = {
             'user_email': 'ssadfs@163.com',
-            'user_pass': 'ffffff'
+            'user_pass': 'LG1ffffff'
         }
         self.add_mess(**post_data)
         u_name = self.uu.get_by_email(post_data['user_email']).user_name
@@ -200,7 +200,7 @@ class TestMUser():
 
     def test_check_user_by_name(self):
         post_data = {
-            'user_pass': 'ffffff'
+            'user_pass': 'LG1ffffff'
         }
         self.add_mess(**post_data)
         aa = self.uu.check_user_by_name(self.username, post_data['user_pass'])
@@ -209,7 +209,7 @@ class TestMUser():
 
     def test_check_user(self):
         post_data = {
-            'user_pass': 'ffffff'
+            'user_pass': 'LG1ffffff'
         }
         self.add_mess(**post_data)
         aa = self.uu.check_user(self.uid, post_data['user_pass'])
@@ -272,7 +272,7 @@ class TestMUser():
         self.tearDown()
         pdata = {
             'user_name': 'asdfdsf',
-            'user_pass': 'sadf',
+            'user_pass': 'LG1sadf',
             'user_email': 'sadflsdf@11.com',
         }
         MUser.create_user(pdata)
