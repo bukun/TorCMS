@@ -151,6 +151,8 @@ class UserHandler(BaseHandler):
                 self.__delete_user__,
             'list':
                 self.__user_list__,
+            'pass_strength':
+                self.pass_strength,
         }
 
         if len(url_arr) == 1:
@@ -362,7 +364,7 @@ class UserHandler(BaseHandler):
             if config.post_cfg:
                 post_authority = config.post_cfg
             else:
-                post_authority={}
+                post_authority = {}
         except:
             post_authority = {}
         self.render('user/user_changerole.html',
@@ -962,6 +964,61 @@ class UserHandler(BaseHandler):
 
         }
         return json.dump(userinfo, self)
+
+    def pass_strength(self, pwd):
+        '''
+        实现密码强度计算函数:
+        1. 实现函数 passworld_strength 返回 0-10 的数值，表示强度，数值越高，密码强度越强
+        2. 密码长度在 6 位及以上，强度 +1，
+           在 8 位及以上，强度 +2，
+           在 12 位及以上，强度 +4
+        3. 有大写字母，强度 +2
+        4. 除字母外，还包含数字，强度 +2
+        5. 有除字母、数字以外字符，强度 +2
+        '''
+
+        intensity = 0
+        if len(pwd) >= 12:
+            intensity += 4
+        elif 8 <= len(pwd) < 12:
+            intensity += 2
+        elif 6 <= len(pwd) < 8:
+            intensity += 1
+        pwdlist = list(pwd)
+        for i in range(len(pwd)):
+            if 'A' <= pwdlist[i] <= 'Z':
+                intensity += 2
+                break
+        for i in range(len(pwd)):
+            if 'A' <= pwdlist[i] <= 'Z' or 'a' <= pwdlist[i] <= 'z':
+                for j in range(len(pwd)):
+                    if '0' <= pwdlist[j] <= '9':
+                        intensity += 2
+                        break
+            break
+        for i in range(len(pwd)):
+            if ('null' <= pwdlist[i] < '0') or ('9' < pwdlist[i] <= '@') or ('Z' < pwdlist[i] <= '`') or (
+                    'z' < pwdlist[i] <= '~'):
+                intensity += 2
+                break
+
+        pass_strength_status = {'intensity': intensity}
+        return json.dump(pass_strength_status, self)
+
+
+
+
+
+        #
+        # ck_str = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[\s\S]{6,16}$/"
+        # if re.match(ck_str, password) is not None:
+        #     info = 'Password strength'
+        # else:
+        #     info = 'sssssss'
+        # print("a" * 50)
+        # print(info)
+        # pass_strength_status = {'info': info}
+        # return json.dump(pass_strength_status, self)
 
 
 class UserPartialHandler(UserHandler):

@@ -309,3 +309,73 @@ function encode(pass_encrypt)
   document.getElementById('user_pass').value = r;
 
 }
+  function check_strength() {
+
+       var userpassstr = document.getElementById('user_pass').value;
+       var progress = document.getElementById('progress');
+       var progress20 = document.getElementById('progress20');
+       var progress40 = document.getElementById('progress40');
+       var progress60 = document.getElementById('progress60');
+       var progress80 = document.getElementById('progress80');
+       var progress100 = document.getElementById('progress100');
+        $.ajax({
+            type: 'get',
+            url: '/user/pass_strength/' + userpassstr,
+            success: function (rs) {
+                var m = eval("(" + rs + ")");
+                if(m.intensity <= '2'){
+
+                    progress.style.display = 'block';
+                    progress20.style.display = 'block';
+                    progress40.style.display = 'none';
+                    progress60.style.display = 'none';
+                    progress80.style.display = 'none';
+                    progress100.style.display = 'none';
+                }else if(m.intensity <= '4'){
+                    progress.style.display = 'block';
+                    progress20.style.display = 'block';
+                    progress40.style.display = 'block';
+                    progress60.style.display = 'none';
+                    progress80.style.display = 'none';
+                    progress100.style.display = 'none';
+                }
+                else if(m.intensity <= '6'){
+                    progress.style.display = 'block';
+                    progress20.style.display = 'block';
+                    progress40.style.display = 'block';
+                    progress60.style.display = 'block';
+                    progress80.style.display = 'none';
+                    progress100.style.display = 'none';
+                }
+                else if(m.intensity <= '8'){
+                    progress.style.display = 'block';
+                    progress20.style.display = 'block';
+                    progress40.style.display = 'block';
+                    progress60.style.display = 'block';
+                    progress80.style.display = 'block';
+                    progress100.style.display = 'none';
+                }
+                else if(m.intensity <= '10'){
+                    progress.style.display = 'block';
+                    progress20.style.display = 'block';
+                    progress40.style.display = 'block';
+                    progress60.style.display = 'block';
+                    progress80.style.display = 'block';
+                    progress100.style.display = 'block';
+                }else{
+                    progress.style.display = 'none';
+                    progress20.style.display = 'none';
+                    progress40.style.display = 'none';
+                    progress60.style.display = 'none';
+                    progress80.style.display = 'none';
+                    progress100.style.display = 'none';
+                }
+
+
+            },
+            error: function (err) {
+                alert('提交失败');
+            }
+        });
+
+    }
