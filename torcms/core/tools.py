@@ -100,6 +100,18 @@ def check_email_valid(email_str):
     return False
 
 
+def check_pass_valid(pass_str):
+    '''
+    Checking if the given password is valid.
+    '''
+
+    ck_str = "^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$"
+    if re.match(ck_str, pass_str) is not None:
+        return True
+
+    return False
+
+
 def md5(instr):
     '''
     md5
