@@ -105,7 +105,7 @@ def check_pass_valid(pass_str):
     Checking if the given password is valid.
     '''
 
-    ck_str = "^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$"
+    ck_str = "^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d][\s\S]{6,20}$"
     if re.match(ck_str, pass_str) is not None:
         return True
 
