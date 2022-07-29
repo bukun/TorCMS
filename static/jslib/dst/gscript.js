@@ -313,10 +313,9 @@ function encode(pass_encrypt)
 
        var userpassstr = document.getElementById('user_pass').value;
        var progress = document.getElementById('progress');
-       var progress20 = document.getElementById('progress20');
-       var progress40 = document.getElementById('progress40');
-       var progress60 = document.getElementById('progress60');
-       var progress80 = document.getElementById('progress80');
+       var progress25 = document.getElementById('progress25');
+       var progress50 = document.getElementById('progress50');
+       var progress75 = document.getElementById('progress75'); 
        var progress100 = document.getElementById('progress100');
         $.ajax({
             type: 'get',
@@ -326,48 +325,35 @@ function encode(pass_encrypt)
                 if(m.intensity <= '2'){
 
                     progress.style.display = 'block';
-                    progress20.style.display = 'block';
-                    progress40.style.display = 'none';
-                    progress60.style.display = 'none';
-                    progress80.style.display = 'none';
+                    progress25.style.display = 'block';
+                    progress50.style.display = 'none';
+                    progress75.style.display = 'none';
                     progress100.style.display = 'none';
-                }else if(m.intensity <= '4'){
+                }else if(m.intensity <= '5'){
                     progress.style.display = 'block';
-                    progress20.style.display = 'block';
-                    progress40.style.display = 'block';
-                    progress60.style.display = 'none';
-                    progress80.style.display = 'none';
+                    progress25.style.display = 'block';
+                    progress50.style.display = 'block';
+                    progress75.style.display = 'none';
                     progress100.style.display = 'none';
                 }
-                else if(m.intensity <= '6'){
+                else if(m.intensity <= '7'){
                     progress.style.display = 'block';
-                    progress20.style.display = 'block';
-                    progress40.style.display = 'block';
-                    progress60.style.display = 'block';
-                    progress80.style.display = 'none';
-                    progress100.style.display = 'none';
-                }
-                else if(m.intensity <= '8'){
-                    progress.style.display = 'block';
-                    progress20.style.display = 'block';
-                    progress40.style.display = 'block';
-                    progress60.style.display = 'block';
-                    progress80.style.display = 'block';
+                    progress25.style.display = 'block';
+                    progress50.style.display = 'block';
+                    progress75.style.display = 'block';
                     progress100.style.display = 'none';
                 }
                 else if(m.intensity <= '10'){
                     progress.style.display = 'block';
-                    progress20.style.display = 'block';
-                    progress40.style.display = 'block';
-                    progress60.style.display = 'block';
-                    progress80.style.display = 'block';
+                    progress25.style.display = 'block';
+                    progress50.style.display = 'block';
+                    progress75.style.display = 'block';
                     progress100.style.display = 'block';
                 }else{
                     progress.style.display = 'none';
-                    progress20.style.display = 'none';
-                    progress40.style.display = 'none';
-                    progress60.style.display = 'none';
-                    progress80.style.display = 'none';
+                    progress25.style.display = 'none';
+                    progress50.style.display = 'none';
+                    progress75.style.display = 'none';
                     progress100.style.display = 'none';
                 }
 
