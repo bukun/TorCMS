@@ -481,7 +481,7 @@ class UserHandler(BaseHandler):
                         kwd=kwd,
                         userinfo=None)
         else:
-           pass
+            pass
         if ckname is None:
             pass
         else:
@@ -1034,21 +1034,6 @@ class UserHandler(BaseHandler):
 
         pass_strength_status = {'intensity': intensity}
         return json.dump(pass_strength_status, self)
-
-
-
-
-
-        #
-        # ck_str = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[\s\S]{6,16}$/"
-        # if re.match(ck_str, password) is not None:
-        #     info = 'Password strength'
-        # else:
-        #     info = 'sssssss'
-        # print("a" * 50)
-        # print(info)
-        # pass_strength_status = {'info': info}
-        # return json.dump(pass_strength_status, self)
 
 
 class UserPartialHandler(UserHandler):
