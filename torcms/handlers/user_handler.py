@@ -44,6 +44,8 @@ def check_regist_info(post_data):
         user_create_status['code'] = '11'
     elif not tools.check_email_valid(post_data['user_email']):
         user_create_status['code'] = '21'
+    elif not tools.check_pass_valid(post_data['user_pass']):
+        user_create_status['code'] = '41'
     elif MUser.get_by_name(post_data['user_name']):
         user_create_status['code'] = '12'
     elif MUser.get_by_email(post_data['user_email']):
@@ -70,11 +72,14 @@ def check_modify_info(post_data):
 
 def check_valid_pass(postdata):
     '''
-    ToDo: 对用户密码进行有效性检查。似乎没必要。
+     对用户密码进行有效性检查。
     '''
     _ = postdata
     user_create_status = {'success': False, 'code': '00'}
-    user_create_status['success'] = True
+    if not tools.check_pass_valid(postdata['user_pass']):
+        user_create_status['code'] = '41'
+    else:
+        user_create_status['success'] = True
     return user_create_status
 
 
@@ -481,7 +486,6 @@ class UserHandler(BaseHandler):
         else:
             pass
 
-
         if ckname is None:
             pass
         else:
@@ -538,6 +542,7 @@ class UserHandler(BaseHandler):
         '''
 
         post_data = self.get_request_arguments()
+
         user_create_status = check_regist_info(post_data)
         if not user_create_status['success']:
             return json.dump(user_create_status, self)

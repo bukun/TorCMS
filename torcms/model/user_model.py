@@ -319,9 +319,15 @@ class MUser():
             out_dic['code'] = '11'
             return out_dic
 
+
         if not tools.check_email_valid(post_data['user_email']):
             out_dic['code'] = '21'
             return out_dic
+
+        if not tools.check_pass_valid(post_data['user_pass']):
+            out_dic['code'] = '41'
+            return out_dic
+
 
         if MUser.get_by_email(post_data['user_email']):
             out_dic['code'] = '31'
