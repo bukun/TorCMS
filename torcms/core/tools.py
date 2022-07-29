@@ -103,6 +103,7 @@ def check_email_valid(email_str):
 def check_pass_valid(pass_str):
     '''
     Checking if the given password is valid.
+    至少6-20个字符，至少1个大写字母，1个小写字母和1个数字，其他可以是任意字符
     '''
 
     ck_str = "^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d][\s\S]{6,20}$"
