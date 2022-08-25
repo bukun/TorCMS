@@ -617,9 +617,12 @@ class PostHandler(BaseHandler):
             post_data['valid'] = postinfo.valid
 
         ext_dic['def_uid'] = uid
-
         # 用于判断是第几轮审核
-        edit_count = int(postinfo.extinfo.get('def_edit_count', 0)) + 1
+        if postinfo.state[1] == '3':
+            edit_count = int(postinfo.extinfo.get('def_edit_count', 0)) + 1
+        else:
+            edit_count = int(postinfo.extinfo.get('def_edit_count', 0))
+
         ext_dic['def_edit_count'] = edit_count
 
         cnt_old = tornado.escape.xhtml_unescape(postinfo.cnt_md).strip()
