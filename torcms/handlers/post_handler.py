@@ -320,7 +320,7 @@ class PostHandler(BaseHandler):
 
         catid = self.__get_cat_id(postinfo)
 
-        if len(catid) == 4:
+        if catid and len(catid) == 4:
             pass
         else:
             catid = ''
