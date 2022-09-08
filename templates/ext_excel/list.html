@@ -9,22 +9,16 @@
            <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
             <li><a href="/ext_excel/index">ext</a></li>
         </ol>
-
         <table class="table table-hover">
-
             {% set s = 1 %}
             {% for all in result %}
             {% if s == 1%}
             <tr>
-
-
                 {%set ii = 1%}
                 {% for x in all %}
                 {% if ii < 6 %}
                 <td>
-
                     {{ x }}
-
                 </td>
                 {% set ii = ii + 1 %}
                 {% end %}
@@ -32,8 +26,6 @@
             </tr>
             {% end %}
             <tr>
-
-
                 {%set ii = 1%}
                 {% for x in all %}
                 {% if ii < 6 %}
@@ -48,10 +40,7 @@
             </tr>
             {% set s = s + 1 %}
             {% end %}
-
         </table>
-
-
         <div class="clear"></div>
         <div class="row">
             <div class="col-sm-12">
@@ -60,6 +49,5 @@
         </div>
         <br>
     </div>
-
 </div>
 {% end %}
