@@ -5,3 +5,7 @@
 prune tester*
 prune flasky*
 # exclude_package_data=True
+#
+# recursive-include templates *.html
+# recursive-include static *
+
