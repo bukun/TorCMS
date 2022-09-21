@@ -89,11 +89,11 @@ class CollectHandler(BaseHandler):
         num_of_cat = MCollect.count_of_user(self.userinfo.uid)
         page_num = int(num_of_cat / CMS_CFG['list_num']) + 1
 
-        kwd = {'current_page': current_page_num}
+        kwd = {'current_page': current_page_number}
 
         self.render('misc/collect/list.html',
                     recs_collect=MCollect.query_pager_by_all(
-                        self.userinfo.uid, current_page_num).objects(),
+                        self.userinfo.uid, current_page_number).objects(),
                     userinfo=self.userinfo,
                     cfg=CMS_CFG,
                     kwd=kwd)
