@@ -174,10 +174,18 @@ class PostAjaxHandler(PostHandler):
         '''
         List posts that recent edited, partially.
         '''
+        current_page_number = 1
         if cur_p == '':
             current_page_number = 1
         else:
-            current_page_number = int(cur_p)
+            try:
+                current_page_number = int(cur_p)
+            except TypeError:
+                current_page_number = 1
+            except Exception as err:
+                print(err.args)
+                print(str(err))
+                print(repr(err))
 
         current_page_number = 1 if current_page_number < 1 else current_page_number
 
@@ -468,10 +476,18 @@ class PostAjaxHandler(PostHandler):
         with_catalog = post_data.get('with_catalog', True)
         with_date = post_data.get('with_date', True)
 
+        current_page_number = 1
         if cur_p == '':
             current_page_number = 1
         else:
-            current_page_number = int(cur_p)
+            try:
+                current_page_number = int(cur_p)
+            except TypeError:
+                current_page_number = 1
+            except Exception as err:
+                print(err.args)
+                print(str(err))
+                print(repr(err))
 
         current_page_number = 1 if current_page_number < 1 else current_page_number
 

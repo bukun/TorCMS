@@ -38,6 +38,7 @@ class ListHandler(BaseHandler):
         if len(url_arr) == 1:
             self.list_catalog(url_str)
         elif len(url_arr) == 2:
+
             if url_arr[0] == 'j_subcat':
                 self.ajax_subcat_arr(url_arr[1])
             elif url_arr[0] == 'j_kindcat':
@@ -46,12 +47,13 @@ class ListHandler(BaseHandler):
                 self.ajax_list_catalog(url_arr[1])
             else:
                 self.list_catalog(url_arr[0], cur_p=url_arr[1])
+
         else:
             kwd = {
                 'title': '',
                 'info': '404. Page not found!',
             }
-            self.render('misc/html/404.html', kwd=kwd)
+            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
     def ajax_list_catalog(self, catid):
         '''
@@ -88,7 +90,7 @@ class ListHandler(BaseHandler):
             out_arr[catinfo.uid] = catinfo.name
         json.dump(out_arr, self)
 
-    def list_catalog(self, cat_slug, **kwargs):
+    def list_catalog(self, cat_slug, cur_p='', **kwargs):
         '''
         listing the posts via category
 
@@ -102,17 +104,21 @@ class ListHandler(BaseHandler):
             Get the pager index.
             '''
             cur_p = kwargs.get('cur_p')
-
-            if cur_p:
-                try:
-                    the_num = int(cur_p)
-                except TypeError:
-                    the_num = 1
+            current_page_number = 1
+            if cur_p == '':
+                current_page_number = 1
             else:
-                the_num = 1
+                try:
+                    current_page_number = int(cur_p)
+                except TypeError:
+                    current_page_number = 1
+                except Exception as err:
+                    print(err.args)
+                    print(str(err))
+                    print(repr(err))
 
-            the_num = 1 if the_num < 1 else the_num
-            return the_num
+            current_page_number = 1 if current_page_number < 1 else current_page_number
+            return current_page_number
 
         current_page_num = get_pager_idx()
         cat_rec = MCategory.get_by_slug(cat_slug)

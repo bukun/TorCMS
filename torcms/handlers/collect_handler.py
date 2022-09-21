@@ -71,8 +71,20 @@ class CollectHandler(BaseHandler):
         List of the user collections.
         '''
 
-        current_page_num = int(cur_p) if cur_p else 1
-        current_page_num = 1 if current_page_num < 1 else current_page_num
+        current_page_number = 1
+        if cur_p == '':
+            current_page_number = 1
+        else:
+            try:
+                current_page_number = int(cur_p)
+            except TypeError:
+                current_page_number = 1
+            except Exception as err:
+                print(err.args)
+                print(str(err))
+                print(repr(err))
+
+        current_page_number = 1 if current_page_number < 1 else current_page_number
 
         num_of_cat = MCollect.count_of_user(self.userinfo.uid)
         page_num = int(num_of_cat / CMS_CFG['list_num']) + 1

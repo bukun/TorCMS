@@ -78,10 +78,18 @@ class LogHandler(BaseHandler):
         View the list of the Log.
         '''
 
+        current_page_number = 1
         if cur_p == '':
             current_page_number = 1
         else:
-            current_page_number = int(cur_p)
+            try:
+                current_page_number = int(cur_p)
+            except TypeError:
+                current_page_number = 1
+            except Exception as err:
+                print(err.args)
+                print(str(err))
+                print(repr(err))
 
         current_page_number = 1 if current_page_number < 1 else current_page_number
 
@@ -114,10 +122,18 @@ class LogHandler(BaseHandler):
         View the list of the Log.
         '''
 
+        current_page_number = 1
         if cur_p == '':
             current_page_number = 1
         else:
-            current_page_number = int(cur_p)
+            try:
+                current_page_number = int(cur_p)
+            except TypeError:
+                current_page_number = 1
+            except Exception as err:
+                print(err.args)
+                print(str(err))
+                print(repr(err))
 
         current_page_number = 1 if current_page_number < 1 else current_page_number
 
@@ -149,10 +165,18 @@ class LogHandler(BaseHandler):
         View the list of the Log.
         '''
 
+        current_page_number = 1
         if cur_p == '':
             current_page_number = 1
         else:
-            current_page_number = int(cur_p)
+            try:
+                current_page_number = int(cur_p)
+            except TypeError:
+                current_page_number = 1
+            except Exception as err:
+                print(err.args)
+                print(str(err))
+                print(repr(err))
 
         current_page_number = 1 if current_page_number < 1 else current_page_number
 
@@ -184,6 +208,7 @@ class LogPartialHandler(LogHandler):
     '''
     Partially render for user handler.
     '''
+
     def initialize(self, **kwargs):
         super().initialize()
         self.is_p = True

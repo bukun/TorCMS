@@ -14,6 +14,7 @@ from torcms.model.wiki_model import MWiki
 from torcms.model.wiki_hist_model import MWikiHist
 from torcms.model.user_model import MUser
 
+
 class PageAjaxHandler(PageHandler):
     '''
     Handler of Pages via Ajax.
@@ -81,10 +82,18 @@ class PageAjaxHandler(PageHandler):
         List the post .
         ToDo: 检查
         '''
+        current_page_number = 1
         if cur_p == '':
             current_page_number = 1
         else:
-            current_page_number = int(cur_p)
+            try:
+                current_page_number = int(cur_p)
+            except TypeError:
+                current_page_number = 1
+            except Exception as err:
+                print(err.args)
+                print(str(err))
+                print(repr(err))
 
         current_page_number = 1 if current_page_number < 1 else current_page_number
 

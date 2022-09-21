@@ -10,6 +10,7 @@ class CatalogHandler(ListHandler):
     '''
     For catalog hander.
     '''
+
     def initialize(self, **kwargs):
         super().initialize()
         self.kind = kwargs.get('kind', '1')

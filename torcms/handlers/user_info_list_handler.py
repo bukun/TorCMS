@@ -13,6 +13,7 @@ class UserListHandler(BaseHandler):
     '''
     List infors of the User.
     '''
+
     def initialize(self):
         super().initialize()
 

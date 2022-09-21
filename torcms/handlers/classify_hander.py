@@ -19,14 +19,27 @@ class ClassifyHandler(BaseHandler):
         '''
         List the replies.
         '''
+
         def get_pager_idx():
             '''
             Get the pager index.
             '''
             cur_p = kwargs.get('cur_p')
-            the_num = int(cur_p) if cur_p else 1
-            the_num = 1 if the_num < 1 else the_num
-            return the_num
+            current_page_number = 1
+            if cur_p == '':
+                current_page_number = 1
+            else:
+                try:
+                    current_page_number = int(cur_p)
+                except TypeError:
+                    current_page_number = 1
+                except Exception as err:
+                    print(err.args)
+                    print(str(err))
+                    print(repr(err))
+
+            current_page_number = 1 if current_page_number < 1 else current_page_number
+            return current_page_number
 
         current_page_num = get_pager_idx()
 

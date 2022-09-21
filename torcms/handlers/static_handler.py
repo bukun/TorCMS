@@ -12,6 +12,7 @@ class StaticHandler(BaseHandler):
     '''
     All other static pages.
     '''
+
     def initialize(self):
         super().initialize()
 

@@ -18,6 +18,7 @@ class LinkHandler(BaseHandler):
     '''
     Handler for links.
     '''
+
     def initialize(self, **kwargs):
         super().initialize()
 
@@ -240,6 +241,7 @@ class LinkPartialHandler(LinkHandler):
     '''
     Partially render for user handler.
     '''
+
     def initialize(self, **kwargs):
         super().initialize()
         self.is_p = True

@@ -13,6 +13,7 @@ class PostListHandler(BaseHandler):
     '''
     listing the posts, simply.
     '''
+
     def initialize(self, **kwargs):
         super().initialize()
 

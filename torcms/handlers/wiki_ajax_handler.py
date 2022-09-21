@@ -10,6 +10,7 @@ class WikiAjaxHandler(WikiHandler):
     '''
     Handler for wiki, and page.
     '''
+
     def initialize(self):
         super().initialize()
         self.kind = '1'

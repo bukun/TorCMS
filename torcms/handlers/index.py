@@ -13,6 +13,7 @@ class IndexHandler(BaseHandler):
     '''
     Index for the application.
     '''
+
     def initialize(self, **kwargs):
         super().initialize()
 
