@@ -19,6 +19,7 @@ class CategoryAjaxHandler(BaseHandler):
     '''
     Handler for category.
     '''
+
     def initialize(self, **kwargs):
         super().initialize()
         self.tmpl_router = 'category_ajax'

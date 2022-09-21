@@ -13,6 +13,7 @@ class Entity2UserHandler(BaseHandler):
     '''
     Hander for entity, such as files or URL.
     '''
+
     def initialize(self, **kwargs):
         super().initialize()
 
@@ -49,7 +50,19 @@ class Entity2UserHandler(BaseHandler):
         '''
         List the entities of the user.
         '''
-        current_page_number = int(cur_p) if cur_p else 1
+        current_page_number = 1
+        if cur_p == '':
+            current_page_number = 1
+        else:
+            try:
+                current_page_number = int(cur_p)
+            except TypeError:
+                current_page_number = 1
+            except Exception as err:
+                print(err.args)
+                print(str(err))
+                print(repr(err))
+
         current_page_number = 1 if current_page_number < 1 else current_page_number
 
         kwd = {'current_page': current_page_number}
@@ -67,7 +80,19 @@ class Entity2UserHandler(BaseHandler):
         '''
         List the entities of the user.
         '''
-        current_page_number = int(cur_p) if cur_p else 1
+        current_page_number = 1
+        if cur_p == '':
+            current_page_number = 1
+        else:
+            try:
+                current_page_number = int(cur_p)
+            except TypeError:
+                current_page_number = 1
+            except Exception as err:
+                print(err.args)
+                print(str(err))
+                print(repr(err))
+
         current_page_number = 1 if current_page_number < 1 else current_page_number
 
         kwd = {'current_page': current_page_number}

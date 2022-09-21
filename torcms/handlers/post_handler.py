@@ -119,7 +119,7 @@ def update_label(post_id, post_data):
         tags_arr = [x.strip() for x in post_data['tags'].split(';')]
     else:
         tags_arr = [x.strip() for x in post_data['tags'].split(' ')]
- 
+
     for tag_name in tags_arr:
         if tag_name == '':
             pass

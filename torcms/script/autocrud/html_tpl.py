@@ -81,7 +81,7 @@ TPL_VIEW = '''{% extends "../../tmpl_kkkk/tpl_viewssss.html" %}
     {% end %}'''
 
 HTML_INPUT_EDIT_DOWNLOAD = '''
-<div class="form-group">
+ <div class="form-group">
 <label  class="col-sm-2 control-label"  for="{sig_en}">
 <span><a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
 </a>{sig_zh}</span>
@@ -94,7 +94,7 @@ type="{sig_type}"  class="form-control"> </div>
 </div>
 '''
 HTML_INPUT_EDIT = '''
-<div class="form-group">
+ <div class="form-group">
 <label  class="col-sm-2 control-label"  for="{sig_en}">
 <span><a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
 </a>{sig_zh}</span>
@@ -107,7 +107,7 @@ type="{sig_type}"  class="form-control"> </div>
 </div>
 '''
 
-HTML_INPUT_ADD_DOWNLOAD = '''<div class="form-group">
+HTML_INPUT_ADD_DOWNLOAD = ''' <div class="form-group">
 <label class="col-sm-2 control-label" for="{sig_en}">
 <span><a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
 </a>{sig_zh}</span>
@@ -121,7 +121,7 @@ class="form-control">
 </div></div>
 '''
 HTML_INPUT_ADD = '''
-<div class="form-group">
+ <div class="form-group">
 <label class="col-sm-2 control-label" for="{sig_en}">
 <span><a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
 </a>{sig_zh}</span>

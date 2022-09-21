@@ -12,6 +12,7 @@ class AdminHandler(BaseHandler):
     '''
     Handler for Admin.
     '''
+
     def initialize(self, **kwargs):
         super().initialize()
 

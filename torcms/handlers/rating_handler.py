@@ -17,6 +17,7 @@ class RatingHandler(BaseHandler):
 
     评分处理
     '''
+
     def initialize(self, **kwargs):
         super().initialize()
 

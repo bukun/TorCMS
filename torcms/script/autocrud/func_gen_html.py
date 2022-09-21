@@ -225,7 +225,7 @@ def gen_select_add(sig_dic):
         tmp_str = '''<option value="{0}">{1}</option>'''.format(key, val)
         option_str += tmp_str
 
-    return '''<div class="form-group">
+    return ''' <div class="form-group">
     <label for="{sig_en}" class="col-sm-2 control-label"><span>
     <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a>
     {sig_zh}</span></label>
@@ -252,7 +252,7 @@ def gen_select_edit(sig_dic):
         '''.format(sig_dic['en'], key, val)
         option_str += tmp_str
 
-    return '''<div class="form-group">
+    return ''' <div class="form-group">
     <label  for="{sig_en}"  class="col-sm-2 control-label">
     <span class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
     </span> {sig_zh}</label><div class="col-sm-10">
@@ -296,7 +296,7 @@ def gen_file_add(sig_dic):
     '''
     _ = sig_dic
     add_html = '''
-    <div class="form-group">
+     <div class="form-group">
     <label class="col-sm-2 control-label" for="dasf">上传图片：</label>
     <div id="dasf" class="col-sm-10"> png,jpg,gif,jpeg格式！大小不得超过500KB </div>
     </div>
@@ -328,11 +328,11 @@ def gen_file_edit(sig_dic):
     '''
     _ = sig_dic
     view_html = '''
-    <div class="form-group">
+     <div class="form-group">
     <label for="dasf">上传图片：</label>
     <div id="dasf" class="col-sm-10"> png,jpg,gif,jpeg格式！大小不得超过500KB </div>
     </div>
-    <div class="form-group">
+     <div class="form-group">
     <label for="mymps_img2" class="col-sm-2 control-label"> </label>
     <div id="mymps_img2" class="col-sm-10">
     <input class="pure-button" type="file" name="mymps_img" id="mymps_img1">

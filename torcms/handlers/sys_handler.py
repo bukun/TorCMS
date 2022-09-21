@@ -10,6 +10,7 @@ class SysHandler(BaseHandler):
     '''
     To control the cookie for locale.
     '''
+
     def initialize(self, **kwargs):
         super().initialize()
 

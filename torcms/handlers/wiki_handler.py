@@ -16,6 +16,7 @@ from torcms.core.base_handler import BaseHandler
 from torcms.model.wiki_hist_model import MWikiHist
 from torcms.model.wiki_model import MWiki
 
+
 # from celery_server import cele_gen_whoosh
 
 
