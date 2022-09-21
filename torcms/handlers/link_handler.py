@@ -152,7 +152,7 @@ class LinkHandler(BaseHandler):
 
         if not rec:
             kwd = {'info': '您要找的分类不存在。'}
-            self.render('misc/html/404.html', kwd=kwd)
+            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
             return False
 
         kwd = {
