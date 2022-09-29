@@ -103,7 +103,7 @@ class ListHandler(BaseHandler):
             '''
             Get the pager index.
             '''
-            
+
             current_page_number = 1
             if cur_p == '':
                 current_page_number = 1
