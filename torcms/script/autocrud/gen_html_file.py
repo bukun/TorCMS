@@ -55,7 +55,7 @@ def __gen_select_filter(bl_str):
     bianliang = HTML_DICS[bl_str]
     # bianliang = eval('html_vars.' + bl_str)
     html_out = '''<li class="list-group-item">
-    <div class="row"><div class="col-sm-3">{0}</div><div class="col-sm-9">
+    <div class="row"><div class="col-sm-3">{{{{_('{0}')}}}}</div><div class="col-sm-9">
      <span class="label label-default"  name='{1}' onclick='change(this);' value=''>{{{{_('All')}}}}</span>
     '''.format(bianliang['zh'], '_'.join(bl_str.split('_')[1:]))
 
@@ -63,7 +63,7 @@ def __gen_select_filter(bl_str):
     for key in tmp_dic.keys():
         tmp_str = '''
         <span  class="label label-default" name='{0}' onclick='change(this);' value='{1}'>
-        {2}</span>'''.format('_'.join(bl_str.split('_')[1:]), key,
+        {{{{_('{2}')}}}}</span>'''.format('_'.join(bl_str.split('_')[1:]), key,
                              tmp_dic[key])
         html_out += tmp_str
     html_out += '''</div></div></li>'''
