@@ -126,12 +126,14 @@ class PostMostView(tornado.web.UIModule):
     list of most viewd posts.
     '''
 
-    def render(self, num, with_date=True, with_catalog=True, kind='1'):
+    def render(self, num, **kwargs):
+        kind = kwargs.get('kind', 1)
         kwd = {
-            'with_date': with_date,
-            'with_catalog': with_catalog,
-            'router': config.router_post['1'],
-            'kind': kind
+            'with_date': kwargs.get('with_date', True),
+            'with_catalog': kwargs.get('with_catalog', True),
+            'router': config.router_post[kind],
+            'kind': kind,
+            'glyph': kwargs.get('glyph', '')
         }
 
         return self.render_string('modules/post/post_list.html',
@@ -148,7 +150,7 @@ class PostRandom(tornado.web.UIModule):
         kwd = {
             'with_date': with_date,
             'with_catalog': with_catalog,
-            'router': config.router_post['1']
+            'router': config.router_post[kind]
         }
         return self.render_string('modules/post/post_list.html',
                                   recs=MPost.query_random(num=num, kind=kind),
@@ -207,7 +209,7 @@ class PostCategoryOf(tornado.web.UIModule):
     The catalog of the post.
     '''
 
-    def render(self, uid_with_str, slug=False, order=False, with_title=True,  glyph=''):
+    def render(self, uid_with_str, slug=False, order=False, with_title=True, glyph=''):
         curinfo = MCategory.get_by_uid(uid_with_str)
         sub_cats = MCategory.query_sub_cat(uid_with_str)
         kwd = {
@@ -232,12 +234,14 @@ class PostRecent(tornado.web.UIModule):
     return the post of recent.
     '''
 
-    def render(self, num=10, with_catalog=True, with_date=True, kind='1'):
+    def render(self, num=10, **kwargs):
+        kind = kwargs.get('kind', 1)
         kwd = {
-            'with_date': with_date,
-            'with_catalog': with_catalog,
+            'with_date': kwargs.get('with_date', True),
+            'with_catalog': kwargs.get('with_catalog', True),
             'router': config.router_post[kind],
-            'kind': kind
+            'kind': kind,
+            'glyph': kwargs.get('glyph', '')
         }
         return self.render_string('modules/post/post_list.html',
                                   recs=MPost.query_recent(num, kind=kind),
