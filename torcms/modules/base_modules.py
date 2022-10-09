@@ -127,7 +127,7 @@ class PostMostView(tornado.web.UIModule):
     '''
 
     def render(self, num, **kwargs):
-        kind = kwargs.get('kind', 1)
+        kind = kwargs.get('kind', '1')
         kwd = {
             'with_date': kwargs.get('with_date', True),
             'with_catalog': kwargs.get('with_catalog', True),
@@ -235,7 +235,7 @@ class PostRecent(tornado.web.UIModule):
     '''
 
     def render(self, num=10, **kwargs):
-        kind = kwargs.get('kind', 1)
+        kind = kwargs.get('kind', '1')
         kwd = {
             'with_date': kwargs.get('with_date', True),
             'with_catalog': kwargs.get('with_catalog', True),
