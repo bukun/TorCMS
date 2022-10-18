@@ -35,10 +35,10 @@ def echo_html_fenye_str(rec_num, fenye_num):
 
         if fenye_num > 1:
             pager_home = '''<li class="{0}" name='fenye' onclick='change(this);'
-              value='{1}'><a>{{{{ _('First Page') }}}}</a></li>'''.format('', 1)
+              value='{1}'><a>First Page</a></li>'''.format('', 1)
 
             pager_pre = ''' <li class="{0}" name='fenye' onclick='change(this);'
-              value='{1}'><a>{{{{ _('Previous Page') }}}}</a></li>'''.format(
+              value='{1}'><a>Previous Page</a></li>'''.format(
                 '', fenye_num - 1)
         if fenye_num > 5:
             cur_num = fenye_num - 4
@@ -63,9 +63,9 @@ def echo_html_fenye_str(rec_num, fenye_num):
             pager_mid += tmp_str_df
         if fenye_num < pagination_num:
             pager_next = '''<li class="{0}" name='fenye' onclick='change(this);'
-              value='{1}'><a>{{{{ _('Next Page') }}}}</a></li>'''.format('', fenye_num + 1)
+              value='{1}'><a>Next Page</a></li>'''.format('', fenye_num + 1)
             pager_last = '''<li class="{0}" name='fenye' onclick='change(this);'
-              value='{1}'><a>{{{{ _('End Page') }}}}</a></li>'''.format('', pagination_num)
+              value='{1}'><a>End Page</a></li>'''.format('', pagination_num)
 
         fenye_str += pager_home + pager_pre + pager_mid + pager_next + pager_last
         fenye_str += '</ul>'
