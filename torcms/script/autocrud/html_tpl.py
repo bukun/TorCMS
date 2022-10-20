@@ -144,13 +144,13 @@ HTML_INPUT_VIEW_DONWLOAD = '''<div class="row">
 {{% if postinfo.extinfo.get('tag_file_download') or postinfo.extinfo.get('tag__file_download') %}}
 <a class="val btn-xs btn btn-warning" onclick="entity_down('{{{{postinfo.uid}}}}')"
  id="file_download" style="cursor: pointer; color:#fff">
- <span class="glyphicon glyphicon-download-alt"> {{ _('Download') }}</span>
+ <span class="glyphicon glyphicon-download-alt"> {{{{ _('Download') }}}}</span>
  {sig_unit}</a>
  {{% else %}}
- <span class="glyphicon glyphicon-ban-circle" style="color:red"> {{ _('Unavailable') }}</span>
+ <span class="glyphicon glyphicon-ban-circle" style="color:red"> {{{{ _('Unavailable') }}}}</span>
 {{% end %}}
   {{% else %}}
-<a href="/user/login">{{ _('Please download after login, click to') }} <span class="btn btn-primary btn-xs"> {{ _('login in') }}</span>. </a>
+<a href="/user/login">{{{{ _('Please download after login, click to') }}}} <span class="btn btn-primary btn-xs"> {{{{ _('login in') }}}}</span>. </a>
 {{% end %}}
  </div></div>
 '''
