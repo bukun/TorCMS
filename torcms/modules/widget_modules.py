@@ -222,8 +222,7 @@ class State(tornado.web.UIModule):
     def render(self, *args, **kwargs):
         postinfo = kwargs.get('postinfo', '')
         userinfo = kwargs.get('userinfo', '')
-        router_url = kwargs.get('router_url','post')
-        kind = kwargs.get('kind', '1')
+        kind = kwargs.get('kind', '9')
         post_authority = config.post_cfg[kind]['checker']
 
 
@@ -235,8 +234,7 @@ class State(tornado.web.UIModule):
         return self.render_string('modules/post/state.html',
                                   postinfo=postinfo,
                                   userinfo=userinfo,
-                                  kwd=kwd,
-                                  router_url=router_url
+                                  kwd=kwd
                                   )
 
 
