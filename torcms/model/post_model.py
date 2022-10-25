@@ -821,9 +821,10 @@ class MPost():
         return recs.count()
 
     @staticmethod
-    def query_by_username(username, current_page_num=1):
+    def query_by_username(username, state, current_page_num=1):
 
-        recent_recs = TabPost.select().where(TabPost.user_name == username).order_by(
+        recent_recs = TabPost.select().where(
+            (TabPost.user_name == username) & (TabPost.state.endswith(state))).order_by(
             TabPost.time_create.desc()).paginate(
             current_page_num,
             CMS_CFG['list_num'])
@@ -831,6 +832,6 @@ class MPost():
         return recent_recs
 
     @staticmethod
-    def count_of_certain_by_username(username):
-        recs = TabPost.select().where(TabPost.user_name == username)
+    def count_of_certain_by_username(username, state):
+        recs = TabPost.select().where((TabPost.user_name == username) & (TabPost.state.endswith(state)))
         return recs.count()

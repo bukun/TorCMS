@@ -283,7 +283,7 @@ class Check_username_pager(tornado.web.UIModule):
         state = kwargs.get('sate', '0000')
 
 
-        num_of_cat = MPost.count_of_certain_by_username(username)
+        num_of_cat = MPost.count_of_certain_by_username(username,state)
 
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
