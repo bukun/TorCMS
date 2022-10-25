@@ -271,3 +271,38 @@ class Check_pager(tornado.web.UIModule):
                                   pager_num=page_num,
                                   page_current=current,
                                   state=state)
+
+class Check_username_pager(tornado.web.UIModule):
+    '''
+    审核翻页
+    '''
+
+    def render(self, *args, **kwargs):
+        current = int(args[0])
+        username = kwargs.get('username', '')
+        state = kwargs.get('sate', '0000')
+
+
+        num_of_cat = MPost.count_of_certain_by_username(username)
+
+
+        tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
+
+        page_num = (tmp_page_num if
+                    abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num'])
+                    < 0.1 else tmp_page_num + 1)
+
+        kwd = {
+            'page_home': current > 1,
+            'page_end': current < page_num,
+            'page_pre': current > 1,
+            'page_next': current < page_num,
+
+        }
+
+        return self.render_string('modules/post/check_username_pager.html',
+                                  kwd=kwd,
+                                  pager_num=page_num,
+                                  page_current=current,
+                                  state=state,
+                                  username=username)
