@@ -102,5 +102,6 @@ core_modules = {
     'replycnt': widget_modules.Replycnt,
     'user_profile_by_id': widget_modules.Userprofile,
     'post_state': widget_modules.State,
-    'check_pager': widget_modules.Check_pager
+    'check_pager': widget_modules.Check_pager,
+    'check_username_pager': widget_modules.Check_username_pager
 }

@@ -26,10 +26,13 @@ class CheckHandler(BaseHandler):
 
         if url_str == 'pend_review':
             self.pend_review(url_str)
-
+        elif url_str == 'publish':
+            self.publish_list()
         elif len(url_arr) == 2:
             if url_arr[0] == 'pend_review':
                 self.pend_review(url_arr[0], cur_p=url_arr[1])
+            elif url_arr[0] == 'publish':
+                self.publish_list(url_arr[0], cur_p=url_arr[1])
         else:
             self.show404()
 
@@ -69,6 +72,47 @@ class CheckHandler(BaseHandler):
         res = MPost.query_by_state(state, current_page_num)
 
         self.render('static_pages/check/pend_review.html',
+                    userinfo=self.userinfo,
+                    recs=res,
+                    kwd=kwd,
+                    state=state,
+                    )
+
+    @tornado.web.authenticated
+    def publish_list(self,username, **kwargs):
+        '''
+        The default page of examine.
+        '''
+
+        post_data = self.get_request_arguments()
+        state = post_data.get('state', '0000')
+
+        def get_pager_idx():
+            '''
+            Get the pager index.
+            '''
+            cur_p = kwargs.get('cur_p')
+            the_num = int(cur_p) if cur_p else 1
+            the_num = 1 if the_num < 1 else the_num
+            return the_num
+
+        current_page_num = get_pager_idx()
+        num_of_cat = MPost.count_of_certain_by_username(self.userinfo.user_name)
+        tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
+        page_num = (tmp_page_num if
+                    abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num'])
+                    < 0.1 else tmp_page_num + 1)
+
+        kwd = {
+            'current_page': current_page_num,
+            'count': num_of_cat,
+            'pager_num': page_num,
+            'config_num': config.CMS_CFG['list_num']
+        }
+
+        res = MPost.query_by_username(self.userinfo.user_name, current_page_num)
+
+        self.render('static_pages/check/publish_list.html',
                     userinfo=self.userinfo,
                     recs=res,
                     kwd=kwd,
