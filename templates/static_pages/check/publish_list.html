@@ -1,0 +1,107 @@
+{% extends "../../theme/bage.html" %}
+{% block head %}
+<title>
+    {% if state[0]=='1' %} {{ _('Pending review list') }} {% elif state[0]=='0' %}{{ _('Information review list') }}
+    {% elif state[0]=='3' %} {{ _('Review failed list') }} {% else %} {{ _('Approved list') }}{% end %} </title>
+<meta name="keywords" content="文档">
+<meta name="description"
+      content="文档">
+{% end %}
+{% block typebody %}
+<div class="row">
+       <ul class="breadcrumb">
+            <li> <a href="/" title="home">{{ _('Home') }}</a></li>
+            <li> <a href="/check/publish">{{ _('List of published information') }}</a></li>
+            <li class="active">
+                {% if state[0]=='1' %} {{ _('Pending review list') }}{% elif state[0]=='0' %}
+                {{ _('Information review list') }}{% elif state[0]=='3' %}
+                {{ _('Review failed list') }}{% else %}{{ _('Approved list') }}{% end %}
+            </li>
+        </ul>
+    <div class="col-sm-8">
+
+
+        <div class="panel panel-black">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    {% if state[0]=='1' %}
+                    {{ _('Pending review list') }}{% elif state[0]=='0' %}{{ _('Information review list') }}
+                    {% elif state[0]=='3' %}{{ _('Review failed list') }}{% else %} {{ _('Approved list') }}{% end %}
+                </h3></div>
+            <table class="table table-bordered table-condensed table-striped">
+                <tr>
+                    <th>ID</th>
+                    <th>{{ _('Title') }}</th>
+                    <th>{{ _('State') }}</th>
+                </tr>
+                {% for rec in recs %}
+                <tr>
+                    <td>{{ rec.uid }}</td>
+                    <td><a href="/meta_info/{{ rec.uid }}">{{ rec.title }}</a></td>
+                    <td>
+                        {% if  rec.state[1] == '0' %}
+                        {{ _('Editing') }}
+                        {% elif rec.state[1] == '1' %}
+                        {{ _('Pending review') }}
+                        {% elif rec.state[1] == '2' %}
+                        {{ _('Review passed') }}
+                        {% else %}
+                        {{ _('Review failed') }}
+                        {% end %}
+                    </td>
+                </tr>
+                {% end %}
+            </table>
+
+            <div class="col-sm-12">
+                <div class="row">
+                    {% module check_username_pager( kwd['current_page'],username = userinfo.user_name,kind=kwd['kind']) %}
+                </div>
+                <div class="row">
+                    Go to <input id="changePage" type="text" size="1" maxlength="4"
+                                 style=" border: 3px solid #fff; height: 20px "/>
+                    page
+                    <a href="#" id="btn5" class="btn btn-xs btn-primary">{{ _('Jump') }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="panel panel-black">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                   {{ _('List of published information') }}
+                </h3></div>
+            <ul class="list-group">
+                <li class="list-group-item"><a href="/check/publish?state=000">{{ _('Information review list') }}</a>
+                </li>
+                <li class="list-group-item"><a href="/check/publish?state=100">{{ _('Pending review list') }}</a></li>
+                <li class="list-group-item"><a href="/check/publish?state=200">{{ _('Approved list') }}</a></li>
+                <li class="list-group-item"><a href="/check/publish?state=300">{{ _('Review failed list') }}</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<br>
+<script type="text/javascript">
+    var page = '{{kwd['pager_num']}}';
+    var state = '{{str(state)[0:]}}';
+
+    $("#btn5").click(function changePage() {
+        curPage = document.getElementById("changePage").value * 1;
+        if (!/^[1-9]\d*$/.test(curPage)) {
+            $("#fyts").val("Please enter a positive integer");
+            return;
+        }
+        if (curPage > page) {
+
+            document.getElementById("fyts").innerText = "Exceed the data page";
+            return;
+        }
+        window.location.href = "/check/publish/" + curPage + "?state=" + state;
+    });
+</script>
+{% end %}
+

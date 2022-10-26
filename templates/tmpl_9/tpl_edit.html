@@ -28,6 +28,7 @@
     <div class="panel-body">
         <form class="form-horizontal" role="form" id="form_add_info" name="form_add_info" method="post"
               enctype="multipart/form-data">
+            <input type='hidden' name="valid" value="0">
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="title" >
                     <span class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></span>
@@ -115,16 +116,16 @@
             <hr/>
             {% block extrainfo %}{% end %}
              <hr/>
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="valid">{{ _('Is available') }}</label>
-
-                <div class="col-sm-10">
-                    <select name="valid" id="valid" class="form-control">
-                        <option value="1" {% if postinfo.valid == 1 %} selected {% end %} >{{ _('yes') }}</option>
-                        <option value="0" {% if postinfo.valid == 0 %} selected {% end %} >{{ _('no') }}</option>
-                    </select>
-                </div>
-            </div>
+{#            <div class="form-group">#}
+{#                <label class="col-sm-2 control-label" for="valid">{{ _('Is available') }}</label>#}
+{##}
+{#                <div class="col-sm-10">#}
+{#                    <select name="valid" id="valid" class="form-control">#}
+{#                        <option value="1" {% if postinfo.valid == 1 %} selected {% end %} >{{ _('yes') }}</option>#}
+{#                        <option value="0" {% if postinfo.valid == 0 %} selected {% end %} >{{ _('no') }}</option>#}
+{#                    </select>#}
+{#                </div>#}
+{#            </div>#}
             <div class="form-group">
                 <label class="col-sm-2 control-label"> </label>
 
