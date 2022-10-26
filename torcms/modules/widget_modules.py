@@ -246,9 +246,10 @@ class Check_pager(tornado.web.UIModule):
     def render(self, *args, **kwargs):
         current = int(args[0])
         state = kwargs.get('state', '')
+        kind = kwargs.get('kind', '9')
 
         if state:
-            num_of_cat = MPost.count_of_certain_by_state(state)
+            num_of_cat = MPost.count_of_certain_by_state(state,kind)
         else:
             num_of_cat = MPost.query_all().count()
 
@@ -281,9 +282,10 @@ class Check_username_pager(tornado.web.UIModule):
         current = int(args[0])
         username = kwargs.get('username', '')
         state = kwargs.get('sate', '0000')
+        kind = kwargs.get('kind', '9')
 
 
-        num_of_cat = MPost.count_of_certain_by_username(username,state)
+        num_of_cat = MPost.count_of_certain_by_username(username,state,kind)
 
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
