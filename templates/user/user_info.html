@@ -6,184 +6,187 @@
         <li class="active">{{ _('User Info') }}</li>
     </ul>
 </div>
-<div class="panel panel-black">
 
-    <div class="panel-body">
-        <div class="row">
-            {% if userinfo and userinfo.role[0] >= '2' %}
-            <div class="col-sm-8">
-                {% else %}
-                <div class="col-sm-12">
-                    {% end %}
-                    <div class="panel-heading"><b> {{ _('User Info') }} </b></div>
-                    <table class="table table-striped">
-                        <tr>
-                            <td><b>{{ _('User Name') }}</b>：</td>
-                            <td>{{ userinfo.user_name }}</td>
-                            <td style="width: 25%" rowspan="4">
-                                {% if 'def_profile' in userinfo.extinfo %}
-                                <img src=" {{ userinfo.extinfo['def_profile'] }}"
-                                     class="img-thumbnail" alt="{{ userinfo.extinfo['def_profile'] }}">
-                                {% end %}
-                            </td>
+<div class="row">
 
-                        </tr>
-                        <tr>
-                            <td><b>{{ _('Email') }}</b>：</td>
-                            <td>{{ userinfo.user_email }}</td>
-
-                        </tr>
-                        <tr>
-                            <td><b>{{ _('Role') }}</b>：</td>
-                            <td>{{ userinfo.role }}</td>
-
-                        </tr>
-                        <tr>
-                            <td><b>{{ _('authority') }}</b>：</td>
-                            <td>{{ userinfo.authority }}</td>
-
-                        </tr>
-                        <tr>
-                            <td><b>{{ _('True Name') }}</b>：</td>
-                            <td>
-                                {{ userinfo.extinfo['def_truename'] if 'def_truename' in userinfo.extinfo else '' }}</td>
-                        </tr>
-                        <tr>
-                            <td><b>{{ _('Gender') }}</b>：</td>
-                            <td>{{ userinfo.extinfo['def_gender'] if 'def_gender' in userinfo.extinfo else '' }}</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><b>{{ _('Birthday') }}</b>：</td>
-                            <td>{{ userinfo.extinfo['def_birthday'] if 'def_birthday' in userinfo.extinfo else '' }}</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><b>{{ _('Mobile') }}</b>：</td>
-                            <td>{{ userinfo.extinfo['def_mobile'] if 'def_mobile' in userinfo.extinfo else '' }}</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><b>{{ _('Location') }}</b>：</td>
-                            <td>{{ userinfo.extinfo['def_location'] if 'def_location' in userinfo.extinfo else '' }}</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><b>{{ _('Postalcode') }}</b>：</td>
-                            <td>{{ userinfo.extinfo['def_postalcode'] if 'def_postalcode' in userinfo.extinfo else '' }}</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><b>{{ _('Certificatetype') }}</b>：</td>
-                            <td>{{ userinfo.extinfo['def_certificatetype'] if 'def_certificatetype' in userinfo.extinfo else '' }}</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><b>{{ _('Certificate Number') }}</b>：</td>
-                            <td>{{ userinfo.extinfo['def_certificate'] if 'def_certificate' in userinfo.extinfo else '' }}</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><b>{{ _('Company') }}</b>：</td>
-                            <td>{{ userinfo.extinfo['def_company'] if 'def_company' in userinfo.extinfo else '' }}</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><b>{{ _('Interest') }}</b>：</td>
-                            <td>{{ userinfo.extinfo['def_interest'] if 'def_interest' in userinfo.extinfo else '' }}</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><b>{{ _('High') }}</b>：</td>
-                            <td>{{ userinfo.extinfo['def_high'] if 'def_high' in userinfo.extinfo else '' }}</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><b>{{ _('Weight') }}</b>：</td>
-                            <td>{{ userinfo.extinfo['def_weight'] if 'def_weight' in userinfo.extinfo else '' }}</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><b>{{ _('Bloodtype') }}</b>：</td>
-                            <td>{{ userinfo.extinfo['def_bloodtype'] if 'def_bloodtype' in userinfo.extinfo else '' }}</td>
-                            <td></td>
-                        </tr>
-                    </table>
-
-                    <a href="/user/changepass" class="btn btn-xs btn-primary">
-                        <span class="glyphicon glyphicon-edit"></span>
-                        {{ _('Change Password') }}</a>
-                    <a href="/user/changeinfo" class="btn btn-xs btn-primary">
-                        <span class="glyphicon glyphicon-edit"></span>
-                        {{ _('Modify Personal Information') }}</a>
-                    <a href="/user/logout" class="btn btn-xs btn-primary">
-                        {{ _('Logout') }}</a>
+    <div class="col-sm-8">
+        <div class="panel panel-black">
 
 
-                </div>
-                {% if userinfo and userinfo.role[0] >= '2' %}
-                <div class="col-sm-4">
+            <div class="panel-heading"><b> {{ _('User Info') }} </b></div>
+            <div class="panel-body">
+                <table class="table table-striped">
+                    <tr>
+                        <td><b>{{ _('User Name') }}</b>：</td>
+                        <td>{{ userinfo.user_name }}</td>
+                        <td style="width: 25%" rowspan="4">
+                            {% if 'def_profile' in userinfo.extinfo %}
+                            <img src=" {{ userinfo.extinfo['def_profile'] }}"
+                                 class="img-thumbnail" alt="{{ userinfo.extinfo['def_profile'] }}">
+                            {% end %}
+                        </td>
 
-                    <div class="panel-heading"><b> {{ _('Related operations') }} </b></div>
+                    </tr>
+                    <tr>
+                        <td><b>{{ _('Email') }}</b>：</td>
+                        <td>{{ userinfo.user_email }}</td>
 
-                    <ul class="list-group">
+                    </tr>
+                    {#                        <tr>#}
+                    {#                            <td><b>{{ _('Role') }}</b>：</td>#}
+                    {#                            <td>{{ userinfo.role }}</td>#}
+                    {##}
+                    {#                        </tr>#}
+                    <tr>
+                        <td><b>{{ _('Authority') }}</b>：</td>
+                        <td>{{ userinfo.authority }}</td>
 
-                        <li class="list-group-item"><a href="/post/_add" class="btn btn-xs btn-success">
-                            <span class="glyphicon glyphicon-list-alt"></span>
-                            {{ _('Add Document') }}</a>
-                            <a href="/publish/9" class="btn btn-xs btn-success">
-                                <span class="glyphicon glyphicon-list-alt"></span>
-                                {{ _('Publish Info') }}</a></li>
-                        {% end %}
-                        {% if userinfo and userinfo.role[0] >= '3' %}
-                        <li class="list-group-item">
+                    </tr>
+                    <tr>
+                        <td><b>{{ _('True Name') }}</b>：</td>
+                        <td>
+                            {{ userinfo.extinfo['def_truename'] if 'def_truename' in userinfo.extinfo else '' }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>{{ _('Gender') }}</b>：</td>
+                        <td>{{ userinfo.extinfo['def_gender'] if 'def_gender' in userinfo.extinfo else '' }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><b>{{ _('Birthday') }}</b>：</td>
+                        <td>{{ userinfo.extinfo['def_birthday'] if 'def_birthday' in userinfo.extinfo else '' }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><b>{{ _('Mobile') }}</b>：</td>
+                        <td>{{ userinfo.extinfo['def_mobile'] if 'def_mobile' in userinfo.extinfo else '' }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><b>{{ _('Location') }}</b>：</td>
+                        <td>{{ userinfo.extinfo['def_location'] if 'def_location' in userinfo.extinfo else '' }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><b>{{ _('Postalcode') }}</b>：</td>
+                        <td>{{ userinfo.extinfo['def_postalcode'] if 'def_postalcode' in userinfo.extinfo else '' }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><b>{{ _('Certificatetype') }}</b>：</td>
+                        <td>{{ userinfo.extinfo['def_certificatetype'] if 'def_certificatetype' in userinfo.extinfo else '' }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><b>{{ _('Certificate Number') }}</b>：</td>
+                        <td>{{ userinfo.extinfo['def_certificate'] if 'def_certificate' in userinfo.extinfo else '' }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><b>{{ _('Company') }}</b>：</td>
+                        <td>{{ userinfo.extinfo['def_company'] if 'def_company' in userinfo.extinfo else '' }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><b>{{ _('Interest') }}</b>：</td>
+                        <td>{{ userinfo.extinfo['def_interest'] if 'def_interest' in userinfo.extinfo else '' }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><b>{{ _('High') }}</b>：</td>
+                        <td>{{ userinfo.extinfo['def_high'] if 'def_high' in userinfo.extinfo else '' }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><b>{{ _('Weight') }}</b>：</td>
+                        <td>{{ userinfo.extinfo['def_weight'] if 'def_weight' in userinfo.extinfo else '' }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><b>{{ _('Bloodtype') }}</b>：</td>
+                        <td>{{ userinfo.extinfo['def_bloodtype'] if 'def_bloodtype' in userinfo.extinfo else '' }}</td>
+                        <td></td>
+                    </tr>
+                </table>
 
-                            <a href="/entity/" class="btn btn-xs btn-warning">
-                                <span class="glyphicon glyphicon-file"></span>
-                                {{ _('Entity List') }}
-                            </a>
-                            <a href="/entity_download/" class="btn btn-xs btn-warning">
-                                <span class="glyphicon glyphicon-arrow-down"></span>
-                                {{ _('Entity Download List') }}
-                            </a>
-                        </li>
-
-                        <li class="list-group-item">
-                            <a href="/user/find/" class="btn btn-xs btn-primary">
-                                <span class="glyphicon glyphicon-user"></span>
-                                {{ _('Show All User') }}
-                            </a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="/log/" class="btn btn-xs btn-primary">
-                                <span class="glyphicon glyphicon-time"></span>
-                                访问记录/留存时间
-                            </a>
-                            <a href="/log/pageview" class="btn btn-xs btn-primary">
-                                <span class="glyphicon glyphicon-hand-right"></span>
-                                访问量
-                            </a>
-                            <a href="/entity_download/" class="btn btn-xs btn-primary">
-                                <span class="glyphicon glyphicon-arrow-down"></span>
-                                下载记录
-                            </a>
-                            <a href="/entity_download/{% if userinfo %}{{ userinfo.uid }}{% end %}/"
-                               class="btn btn-xs btn-warning" title="My download">
-                                <span class="glyphicon glyphicon-save"></span>
-                                我的下载</a>
-
-                        </li>
-                        <li class="list-group-item">
-                            <a href="/referrer/" class="btn btn-xs btn-primary"> 访问来源统计 </a>
-                        </li>
-
-
-                    </ul>
-                </div>
-                {% end %}
+                <a href="/user/changepass" class="btn btn-xs btn-primary">
+                    <span class="glyphicon glyphicon-edit"></span>
+                    {{ _('Change Password') }}</a>
+                <a href="/user/changeinfo" class="btn btn-xs btn-primary">
+                    <span class="glyphicon glyphicon-edit"></span>
+                    {{ _('Modify Personal Information') }}</a>
+                <a href="/user/logout" class="btn btn-xs btn-primary">
+                    {{ _('Logout') }}</a>
 
 
             </div>
         </div>
     </div>
+
+
+    <div class="col-sm-4">
+        <div class="panel panel-black">
+            <div class="panel-heading"><b> {{ _('Related operations') }} </b></div>
+
+            <ul class="list-group">
+                 <li class="list-group-item"><a href="/check/publish" class="btn btn-xs btn-success">{{ _('List of published information') }}</a></li>
+                {% if userinfo and userinfo.role[0] >= '2' %}
+                <li class="list-group-item"><a href="/post/_add" class="btn btn-xs btn-success">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    {{ _('Add Document') }}</a>
+                    <a href="/publish/9" class="btn btn-xs btn-success">
+                        <span class="glyphicon glyphicon-list-alt"></span>
+                        {{ _('Publish Info') }}</a></li>
+                {% end %}
+
+                {% if userinfo and userinfo.role[0] >= '3' %}
+                <li class="list-group-item">
+
+                    <a href="/entity/" class="btn btn-xs btn-warning">
+                        <span class="glyphicon glyphicon-file"></span>
+                        {{ _('Entity List') }}
+                    </a>
+                    <a href="/entity_download/" class="btn btn-xs btn-warning">
+                        <span class="glyphicon glyphicon-arrow-down"></span>
+                        {{ _('Entity Download List') }}
+                    </a>
+                </li>
+
+                <li class="list-group-item">
+                    <a href="/user/find/" class="btn btn-xs btn-primary">
+                        <span class="glyphicon glyphicon-user"></span>
+                        {{ _('Show All User') }}
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a href="/log/" class="btn btn-xs btn-primary">
+                        <span class="glyphicon glyphicon-time"></span>
+                        访问记录/留存时间
+                    </a>
+                    <a href="/log/pageview" class="btn btn-xs btn-primary">
+                        <span class="glyphicon glyphicon-hand-right"></span>
+                        访问量
+                    </a>
+                    <a href="/entity_download/" class="btn btn-xs btn-primary">
+                        <span class="glyphicon glyphicon-arrow-down"></span>
+                        下载记录
+                    </a>
+                    <a href="/entity_download/{% if userinfo %}{{ userinfo.uid }}{% end %}/"
+                       class="btn btn-xs btn-warning" title="My download">
+                        <span class="glyphicon glyphicon-save"></span>
+                        我的下载</a>
+
+                </li>
+                <li class="list-group-item">
+                    <a href="/referrer/" class="btn btn-xs btn-primary"> 访问来源统计 </a>
+                </li>
+ <li class="list-group-item"><a href="/check/pend_review" class="btn btn-primary btn-xs"
+                >{{ _('Audit information list') }}</a></li>
+                {% end %}
+            </ul>
+        </div>
+    </div>
+
+</div>
+
 {% end %}

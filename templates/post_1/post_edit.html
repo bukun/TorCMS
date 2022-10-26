@@ -11,6 +11,7 @@
     <div class="panel-body">
         <form method="post" class="form-horizontal" role="form" id="form_post">
             <fieldset>
+                <input type='hidden' name="valid" value="0">
                 <input type="hidden" id="id_post" name="id_post" value="{{ postinfo.uid }}"/>
 
                 <div class="form-group">
@@ -117,16 +118,16 @@
                         </textarea>
                     </div>
                 </div>
-                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="valid">{{ _('Is available') }}</label>
-
-                    <div class="col-sm-10">
-                        <select name="valid" id="valid" class="form-control">
-                            <option value="1" {% if postinfo.valid == 1 %} selected {% end %} >{{ _('yes') }}</option>
-                            <option value="0" {% if postinfo.valid == 0 %} selected {% end %} >{{ _('no') }}</option>
-                        </select>
-                    </div>
-                </div>
+{#                 <div class="form-group">#}
+{#                    <label class="col-sm-2 control-label" for="valid">{{ _('Is available') }}</label>#}
+{##}
+{#                    <div class="col-sm-10">#}
+{#                        <select name="valid" id="valid" class="form-control">#}
+{#                            <option value="1" {% if postinfo.valid == 1 %} selected {% end %} >{{ _('yes') }}</option>#}
+{#                            <option value="0" {% if postinfo.valid == 0 %} selected {% end %} >{{ _('no') }}</option>#}
+{#                        </select>#}
+{#                    </div>#}
+{#                </div>#}
                 <div class="form-group">
                     <label for="is_update_time" class="col-sm-2 control-label">{{ _('Update edit time') }}</label>
 
