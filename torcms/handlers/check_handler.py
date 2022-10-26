@@ -44,7 +44,7 @@ class CheckHandler(BaseHandler):
         '''
 
         post_data = self.get_request_arguments()
-        state = post_data.get('state', '0')
+        state = post_data.get('state', '0000')
 
         def get_pager_idx():
             '''
@@ -56,7 +56,7 @@ class CheckHandler(BaseHandler):
             return the_num
 
         current_page_num = get_pager_idx()
-        num_of_cat = MPost.count_of_certain_by_state(state)
+        num_of_cat = MPost.count_of_certain_by_state(state, self.kind)
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
         page_num = (tmp_page_num if
                     abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num'])
@@ -66,10 +66,11 @@ class CheckHandler(BaseHandler):
             'current_page': current_page_num,
             'count': num_of_cat,
             'pager_num': page_num,
-            'config_num': config.CMS_CFG['list_num']
+            'config_num': config.CMS_CFG['list_num'],
+            'kind': self.kind
         }
 
-        res = MPost.query_by_state(state, current_page_num)
+        res = MPost.query_by_state(state, self.kind, current_page_num)
 
         self.render('static_pages/check/pend_review.html',
                     userinfo=self.userinfo,
@@ -97,7 +98,7 @@ class CheckHandler(BaseHandler):
             return the_num
 
         current_page_num = get_pager_idx()
-        num_of_cat = MPost.count_of_certain_by_username(self.userinfo.user_name, state)
+        num_of_cat = MPost.count_of_certain_by_username(self.userinfo.user_name, state, self.kind)
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
         page_num = (tmp_page_num if
                     abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num'])
@@ -107,10 +108,11 @@ class CheckHandler(BaseHandler):
             'current_page': current_page_num,
             'count': num_of_cat,
             'pager_num': page_num,
-            'config_num': config.CMS_CFG['list_num']
+            'config_num': config.CMS_CFG['list_num'],
+            'kind':self.kind
         }
 
-        res = MPost.query_by_username(self.userinfo.user_name, state, current_page_num)
+        res = MPost.query_by_username(self.userinfo.user_name, state, self.kind, current_page_num)
 
         self.render('static_pages/check/publish_list.html',
                     userinfo=self.userinfo,
