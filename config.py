@@ -24,7 +24,10 @@ post_type = {
     '9': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>
         '''.format('Data'),
 }
-
+check_type={
+    '1':'Document',
+    '9':'Data'
+}
 post_cfg = {
     '1': {
         'router': 'post',

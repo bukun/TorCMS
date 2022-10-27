@@ -248,10 +248,8 @@ class Check_pager(tornado.web.UIModule):
         state = kwargs.get('state', '')
         kind = kwargs.get('kind', '9')
 
-        if state:
-            num_of_cat = MPost.count_of_certain_by_state(state,kind)
-        else:
-            num_of_cat = MPost.query_all().count()
+        num_of_cat = MPost.count_of_certain_by_state(state,kind)
+
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
