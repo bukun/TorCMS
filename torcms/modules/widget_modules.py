@@ -14,7 +14,6 @@ from torcms.model.user_model import MUser
 from torcms.model.post_model import MPost
 
 
-
 class BaiduShare(tornado.web.UIModule):
     '''
     widget for baidu share.
@@ -225,7 +224,6 @@ class State(tornado.web.UIModule):
         kind = kwargs.get('kind', '9')
         post_authority = config.post_cfg[kind]['checker']
 
-
         kwd = {
             'router': config.router_post[kind],
             'kind': kind,
@@ -248,8 +246,7 @@ class Check_pager(tornado.web.UIModule):
         state = kwargs.get('state', '')
         kind = kwargs.get('kind', '9')
 
-        num_of_cat = MPost.count_of_certain_by_state(state,kind)
-
+        num_of_cat = MPost.count_of_certain_by_state(state, kind)
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
@@ -262,6 +259,7 @@ class Check_pager(tornado.web.UIModule):
             'page_end': current < page_num,
             'page_pre': current > 1,
             'page_next': current < page_num,
+            'kind': kind
 
         }
 
@@ -270,6 +268,7 @@ class Check_pager(tornado.web.UIModule):
                                   pager_num=page_num,
                                   page_current=current,
                                   state=state)
+
 
 class Check_username_pager(tornado.web.UIModule):
     '''
@@ -282,9 +281,7 @@ class Check_username_pager(tornado.web.UIModule):
         state = kwargs.get('sate', '0000')
         kind = kwargs.get('kind', '9')
 
-
-        num_of_cat = MPost.count_of_certain_by_username(username,state,kind)
-
+        num_of_cat = MPost.count_of_certain_by_username(username, state, kind)
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
@@ -297,6 +294,7 @@ class Check_username_pager(tornado.web.UIModule):
             'page_end': current < page_num,
             'page_pre': current > 1,
             'page_next': current < page_num,
+            'kind': kind
 
         }
 
