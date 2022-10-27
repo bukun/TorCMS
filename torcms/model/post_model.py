@@ -807,32 +807,49 @@ class MPost():
 
     @staticmethod
     def query_by_state(state, kind, current_page_num=1):
-
-        recent_recs = TabPost.select().where(TabPost.state.endswith(state) & (TabPost.kind == kind)).order_by(
-            TabPost.time_create.desc()).paginate(
-            current_page_num,
-            CMS_CFG['list_num'])
+        if state:
+            recent_recs = TabPost.select().where(TabPost.state.endswith(state) & (TabPost.kind == kind)).order_by(
+                TabPost.time_create.desc()).paginate(
+                current_page_num,
+                CMS_CFG['list_num'])
+        else:
+            recent_recs = TabPost.select().where(TabPost.kind == kind).order_by(
+                TabPost.time_create.desc()).paginate(
+                current_page_num,
+                CMS_CFG['list_num'])
 
         return recent_recs
 
     @staticmethod
     def count_of_certain_by_state(state, kind):
-        recs = TabPost.select().where(TabPost.state.endswith(state) & (TabPost.kind == kind))
+        if state:
+            recs = TabPost.select().where(TabPost.state.endswith(state) & (TabPost.kind == kind))
+        else:
+            recs = TabPost.select().where(TabPost.kind == kind)
         return recs.count()
 
     @staticmethod
     def query_by_username(username, state, kind, current_page_num=1):
-
-        recent_recs = TabPost.select().where(
-            (TabPost.user_name == username) & (TabPost.state.endswith(state)) & (TabPost.kind == kind)).order_by(
-            TabPost.time_create.desc()).paginate(
-            current_page_num,
-            CMS_CFG['list_num'])
-
+        if state:
+            recent_recs = TabPost.select().where(
+                (TabPost.user_name == username) & (TabPost.state.endswith(state)) & (TabPost.kind == kind)).order_by(
+                TabPost.time_create.desc()).paginate(
+                current_page_num,
+                CMS_CFG['list_num'])
+        else:
+            recent_recs = TabPost.select().where(
+                (TabPost.user_name == username) & (TabPost.kind == kind)).order_by(
+                TabPost.time_create.desc()).paginate(
+                current_page_num,
+                CMS_CFG['list_num'])
         return recent_recs
 
     @staticmethod
     def count_of_certain_by_username(username, state, kind):
-        recs = TabPost.select().where(
-            (TabPost.user_name == username) & (TabPost.state.endswith(state)) & (TabPost.kind == kind))
+        if state:
+            recs = TabPost.select().where(
+                (TabPost.user_name == username) & (TabPost.state.endswith(state)) & (TabPost.kind == kind))
+        else:
+            recs = TabPost.select().where(
+                (TabPost.user_name == username) & (TabPost.kind == kind))
         return recs.count()

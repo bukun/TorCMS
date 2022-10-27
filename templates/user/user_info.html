@@ -129,7 +129,11 @@
             <div class="panel-heading"><b> {{ _('Related operations') }} </b></div>
 
             <ul class="list-group">
-                 <li class="list-group-item"><a href="/check/publish" class="btn btn-xs btn-success">{{ _('List of published information') }}</a></li>
+                 <li class="list-group-item">
+                     <b>{{ _('List of published information') }}</b><br><br>
+                     <a href="/check/publish?kind=9" class="btn btn-xs btn-success">{{ _('Info') }}</a>
+                 <a href="/check/publish?kind=1" class="btn btn-xs btn-success">{{ _('Document') }}</a>
+                 </li>
                 {% if userinfo and userinfo.role[0] >= '2' %}
                 <li class="list-group-item"><a href="/post/_add" class="btn btn-xs btn-success">
                     <span class="glyphicon glyphicon-list-alt"></span>
@@ -180,8 +184,12 @@
                 <li class="list-group-item">
                     <a href="/referrer/" class="btn btn-xs btn-primary"> 访问来源统计 </a>
                 </li>
- <li class="list-group-item"><a href="/check/pend_review" class="btn btn-primary btn-xs"
-                >{{ _('Audit information list') }}</a></li>
+
+                <li class="list-group-item">
+                     <b>{{ _('Audit information list') }}</b><br><br>
+                     <a href="/check/pend_review?kind=9" class="btn btn-xs btn-primary">{{ _('Info') }}</a>
+                 <a href="/check/pend_review?kind=1" class="btn btn-xs btn-primary">{{ _('Document') }}</a>
+                 </li>
                 {% end %}
             </ul>
         </div>
