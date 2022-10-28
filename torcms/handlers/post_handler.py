@@ -649,15 +649,13 @@ class PostHandler(BaseHandler):
             MPostHist.create_post_history(postinfo, self.userinfo)
 
         MPost.add_or_update_post(uid, post_data, extinfo=ext_dic)
-        print('-=-=-=-==-=-=-=-=')
-        print(edit_count)
+
         # todo:应该判断当前审核状态，是否可以进行修改状态。
         if postinfo.state[1] == '3':
             state_arr = ['a', 'b', 'c', 'd', 'e', 'f']
             if len(state_arr) > edit_count:
                 pstate = str(state_arr[edit_count]) + '0'+ postinfo.state[2:]
-                print('-=-=-=-==-=-=-=-=')
-                print(pstate)
+             
                 MPost.update_state(uid, pstate)
 
         if postinfo.state[1] == '2':
