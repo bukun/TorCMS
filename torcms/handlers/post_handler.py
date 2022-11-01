@@ -647,7 +647,8 @@ class PostHandler(BaseHandler):
             pass
         else:
             MPostHist.create_post_history(postinfo, self.userinfo)
-
+        print('============'*10)
+        print(postinfo.state)
         MPost.add_or_update_post(uid, post_data, extinfo=ext_dic)
 
         # todo:应该判断当前审核状态，是否可以进行修改状态。
@@ -655,14 +656,16 @@ class PostHandler(BaseHandler):
             state_arr = ['a', 'b', 'c', 'd', 'e', 'f']
             if len(state_arr) > edit_count:
                 pstate = str(state_arr[edit_count]) + '0'+ postinfo.state[2:]
-             
+
                 MPost.update_state(uid, pstate)
 
         if postinfo.state[1] == '2':
             approved_state_arr = ['1', '2', '3', '4', '5', '6','7','8','9']
             if len(approved_state_arr) > approved_count:
                 pstate = postinfo.state[0] + '0' + str(approved_state_arr[approved_count]) + '0'
-                MPost.update_state(uid, pstate)
+            else:
+                pstate = postinfo.state[0] + '090'
+            MPost.update_state(uid, pstate)
 
         self._add_download_entity(ext_dic)
         # self.update_tag(uid=uid)
