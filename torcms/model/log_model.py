@@ -12,6 +12,7 @@ class MLog():
     '''
     Log for user action.
     '''
+
     @staticmethod
     def add(data_dic):
         '''
@@ -116,5 +117,9 @@ class MLog():
     @staticmethod
     def get_pageview_count(current_url):
         recs = TabLog.select().where(TabLog.current_url == current_url)
-
         return recs.count()
+
+    @staticmethod
+    def get_by_url(current_url):
+        recs = TabLog.select().where(TabLog.current_url == current_url).distinct(TabLog.current_url)
+        return recs
