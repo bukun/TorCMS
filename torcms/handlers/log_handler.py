@@ -29,7 +29,7 @@ class LogHandler(BaseHandler):
         if url_str == '':
             self.list()
         elif len(url_arr) == 1:
-            if url_arr[0] == 'pageview':
+            if url_arr[0] in ['pageview', 'search']:
                 # 访问量
                 self.pageview()
             else:
@@ -54,6 +54,8 @@ class LogHandler(BaseHandler):
                 self.add(uid=url_arr[1])
             else:
                 self.add()
+        elif url_arr[0] == 'search':
+            self.search()
 
         else:
             self.show404()
@@ -202,6 +204,28 @@ class LogHandler(BaseHandler):
                     arr_num=arr_num,
                     format_date=tools.format_date,
                     userinfo=self.userinfo)
+
+    def search(self, **kwargs):
+        post_data = self.get_request_arguments()
+        url = post_data.get('url')
+        if url:
+            res = MLog.get_by_url(url)
+            self.render('misc/log/pageview_search.html',
+                        res=res,
+                        format_date=tools.format_date,
+                        userinfo=self.userinfo)
+        else:
+            kwd = {
+                'pager': '',
+                'title': '',
+                'current_page': 1,
+            }
+            self.render('misc/log/pageview.html',
+                        kwd=kwd,
+                        infos=MLog.query_all_pageview(
+                            current_page_num=1),
+                        format_date=tools.format_date,
+                        userinfo=self.userinfo)
 
 
 class LogPartialHandler(LogHandler):
