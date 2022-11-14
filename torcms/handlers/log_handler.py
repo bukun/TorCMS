@@ -198,8 +198,8 @@ class LogHandler(BaseHandler):
 
         self.render('misc/log/pageview.html',
                     kwd=kwd,
-                    infos=MLog.query_all_pageview(
-                        current_page_num=current_page_number),
+                    # infos=MLog.query_all_pageview(
+                    #     current_page_num=current_page_number),
                     postinfo=postinfo,
                     arr_num=arr_num,
                     format_date=tools.format_date,
@@ -208,24 +208,12 @@ class LogHandler(BaseHandler):
     def search(self, **kwargs):
         post_data = self.get_request_arguments()
         url = post_data.get('url')
-        if url:
-            res = MLog.get_by_url(url)
-            self.render('misc/log/pageview_search.html',
-                        res=res,
-                        format_date=tools.format_date,
-                        userinfo=self.userinfo)
-        else:
-            kwd = {
-                'pager': '',
-                'title': '',
-                'current_page': 1,
-            }
-            self.render('misc/log/pageview.html',
-                        kwd=kwd,
-                        infos=MLog.query_all_pageview(
-                            current_page_num=1),
-                        format_date=tools.format_date,
-                        userinfo=self.userinfo)
+
+        res = MLog.get_by_url(url)
+        self.render('misc/log/pageview_search.html',
+                    res=res,
+                    format_date=tools.format_date,
+                    userinfo=self.userinfo)
 
 
 class LogPartialHandler(LogHandler):
