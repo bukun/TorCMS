@@ -31,7 +31,7 @@ class LogHandler(BaseHandler):
         elif len(url_arr) == 1:
             if url_arr[0] in ['pageview', 'search']:
                 # 访问量
-                self.pageview()
+                self.search()
             else:
                 # 留存时间
                 self.list(url_arr[0])
@@ -208,7 +208,6 @@ class LogHandler(BaseHandler):
     def search(self, **kwargs):
         post_data = self.get_request_arguments()
         url = post_data.get('url')
-
         res = MLog.get_by_url(url)
         self.render('misc/log/pageview_search.html',
                     res=res,
