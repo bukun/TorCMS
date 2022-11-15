@@ -26,20 +26,16 @@ class LogHandler(BaseHandler):
 
         url_arr = self.parse_url(url_str)
 
-        if url_str == '':
-            self.list()
-        elif len(url_arr) == 1:
+        if len(url_arr) == 1:
             if url_arr[0] in ['pageview', 'search']:
                 # 访问量
                 self.search()
-            else:
-                # 留存时间
-                self.list(url_arr[0])
-        elif len(url_arr) == 2:
-            if url_arr[0] == 'pageview':
-                self.pageview(url_arr[1])
-            else:
-                self.user_log_list(url_arr[0], url_arr[1])
+
+        # elif len(url_arr) == 2:
+        #     if url_arr[0] == 'pageview':
+        #         self.pageview(url_arr[1])
+            # else:
+            #     self.user_log_list(url_arr[0], url_arr[1])
         else:
             self.render('misc/html/404.html', userinfo=self.userinfo, kwd={})
 
