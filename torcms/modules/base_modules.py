@@ -24,7 +24,7 @@ from torcms.model.reply2user_model import MReply2User
 from torcms.model.reply_model import MReply
 from torcms.model.user_model import MUser
 from torcms.model.wiki_model import MWiki
-
+from config import router_post
 import config
 
 
@@ -209,13 +209,25 @@ class PostCategoryOf(tornado.web.UIModule):
     The catalog of the post.
     '''
 
-    def render(self, uid_with_str, slug=False, order=False, with_title=True, glyph=''):
+    def render(self, uid_with_str, **kwargs):
         curinfo = MCategory.get_by_uid(uid_with_str)
         sub_cats = MCategory.query_sub_cat(uid_with_str)
+        kind = kwargs.get('kind', '9')
+        slug = kwargs.get('slug', False)
+        cat_dic = []
+        for cat in sub_cats:
+            res = MPost.query_by_tag(cat.uid, kind)
+
+            if res.count() == 0:
+                pass
+            else:
+                cat_dic.append({cat.uid: cat.name})
         kwd = {
-            'glyph': glyph,
-            'order': order,
-            'with_title': with_title,
+            'glyph': kwargs.get('glyph', ''),
+            'order': kwargs.get('order', False),
+            'with_title': kwargs.get('with_title', True),
+            'router': router_post[kind],
+            'kind': kind
         }
         if slug:
             return self.render_string('modules/post/post_catalog_slug.html',
@@ -225,7 +237,7 @@ class PostCategoryOf(tornado.web.UIModule):
         else:
             return self.render_string('modules/info/catalog_of.html',
                                       pcatinfo=curinfo,
-                                      recs=sub_cats,
+                                      recs=cat_dic,
                                       kwd=kwd)
 
 
