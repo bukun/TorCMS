@@ -11,7 +11,8 @@ CMS_CFG = {
     'list_num': 10,
     'redis_kw': 'lsadfkj',
     # 'expires_minutes': 1
-    'pass_encrypt': ',.'
+    'pass_encrypt': ',.',
+    'redis_kw': 'lsadfkj'
 }
 
 router_post = {'1': 'post',
@@ -24,9 +25,9 @@ post_type = {
     '9': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>
         '''.format('Data'),
 }
-check_type={
-    '1':'Document',
-    '9':'Data'
+check_type = {
+    '1': 'Document',
+    '9': 'Data'
 }
 post_cfg = {
     '1': {

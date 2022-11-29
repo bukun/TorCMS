@@ -793,7 +793,7 @@ class TestMPost():
         self.uu.add_or_update_post(self.post_id, p_d)
         tf = False
         MPost.update_state(self.post_id, 'a000')
-        recs = MPost.query_by_state('a000')
+        recs = MPost.query_by_state('a000', '1')
         if recs.count() >= 1:
             tf = True
 

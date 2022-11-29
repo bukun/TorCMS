@@ -97,3 +97,5 @@ templates/ext_autogen/
 .pytest_cache
 
 nltk_data
+
+torcms_*
