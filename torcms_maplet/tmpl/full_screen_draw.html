@@ -1,0 +1,83 @@
+{% extends "../torcms_maplet/map_full.html" %}
+{% block head %}
+<title>{{ _('Map drawing board, drawing geographic data online') }}</title>
+<meta name="keywords" content="{{ _('Online map, map drawing board') }}">
+    {% module use_f2e('f2elib') %}
+
+
+{#
+<script src="{{ static_url('jslib/dist/leaflet.draw.js') }}"></script>
+<link rel="stylesheet" href="{{ static_url('jslib/Leaflet.draw/dist/leaflet.draw.css') }}" />
+#}
+
+<script type="text/javascript" src="{{ static_url('maplet/leafedit.js') }}"></script>
+
+
+<style type="text/css">
+    body {
+        padding: 0;
+        margin: 0;
+    }
+    html, body, #map {
+        height: 100%;
+        width: 100%;
+    }
+</style>
+<script>
+
+    window.ondragstart = function() { return false; }
+var vlon = 105;
+var vlat = 38;
+var vzoom_current = 5;
+var vzoom_max = 12;
+var vzoom_min = 3;
+var geojsonid = "{{ kwd['geojson'] }}";
+    var login = {{ kwd['login'] }};
+</script>
+
+
+{% end %}
+{% block mainbody %}
+
+<span id="pycode"></span>
+<div id="map" class="map" tabindex="0"></div>
+<div class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
+   <div>
+      <ul class="nav navbar-nav">
+         <li><a class="navbar-brand" href="/geojson/"><span class="glyphicon glyphicon-globe"></span> {{ _('Map drawing board') }}</a></li>
+
+          <li></li>
+          {% if  kwd['geojson'] != '' %}
+         <li><a href="/geojson/download/maplet_geojson_{{ kwd['geojson'] }}.json">{{ _('Download data') }}</a></li>
+          {% end %}
+      </ul>
+       <ul class="nav navbar-nav navbar-right">
+           <li>{% if kwd['login'] != 1 %}<a style="color:#ff0">{{ _('Save data after login') }}！</a>{% end %}</li>
+           <li><a id="infor"></a></li>
+           <li>
+               <form class="navbar-form navbar-left">
+                   <div class="form-group">
+                                <select id="maplet_id" name="maplet_id" class="form-control">
+                                {% for recent in recent_apps %}
+                                <option value="{{recent.uid}}">{{recent.uid }} |
+                                    {{recent.post_id}}
+                                </option>
+                                {% end %}
+                            </select>
+                        <input type='button' value=' {{ _('Add maplet') }}' id='btn_add_maplet' class="btn btn-primary btn-inverse">
+
+                       <input type="text" class="form-control" placeholder="{{ _('Paste geojason data') }}" id="hdata">
+                        <input type='button' value=' {{ _('Add geojason') }}' id='load_geojson' class="btn btn-primary btn-inverse">
+                   </div>
+
+               </form>
+           </li>
+       </ul>
+   </div>
+</div>
+
+<script src="{{ static_url('maplet/gsonedit.js') }}"></script>
+
+{% end %}
+
+

@@ -1,0 +1,62 @@
+<script type="text/javascript">
+    $(document).ready(function () {
+        map_uid = "{{mapinfo.uid[1:]}}";
+      vlon = {{mapinfo.extinfo['ext_lon']}};
+      vlat = {{mapinfo.extinfo['ext_lat']}};
+      vzoom_current = {{mapinfo.extinfo['ext_zoom_current']}};
+      vzoom_max = {{mapinfo.extinfo['ext_zoom_max']}};
+      vzoom_min = {{mapinfo.extinfo['ext_zoom_min']}};
+
+        var popup = L.popup();
+        function onMapClick(e) {
+            popup.setLatLng(e.latlng).setContent("坐标位置" + e.latlng.toString()).openOn(map);
+        }
+
+        cities = new L.LayerGroup();
+	// https://blog.csdn.net/GISuuser/article/details/77600052
+
+
+
+        var osm = L.tileLayer.chinaProvider('TianDiTu.Normal.Annotion', {
+            maxZoom: 18,
+            minZoom: 1
+        });
+
+        var osm1 = L.tileLayer.chinaProvider('TianDiTu.Normal.Map', {
+            maxZoom: 18,
+            minZoom: 1
+        });
+
+        var the_basemap = L.layerGroup([osm1, osm]);
+
+        nexrad = L.tileLayer.wms("https://tile.osgeo.cn/service?", {
+        layers: "maplet_" + map_uid,
+        format: "image/png",
+        transparent: true,
+        attribution: 'Map &copy; <a href=\"http://www.osgeo.cn/map/m' + map_uid + '\">{{mapinfo.title}}</a>'
+      });
+
+        nexrad.addTo(cities);
+        var map = L.map("mapdiv", {
+        center: [vlat, vlon],
+        zoom: vzoom_current,
+        maxZoom: vzoom_max,
+        minZoom: vzoom_min,
+        layers: [the_basemap, nexrad]
+      });
+
+
+        map.on('click', onMapClick);
+//        var igainfo = '<span style="color:#056dae;">中国科学院<br>东北地理与农业生态研究所</span>';
+       // L.marker([43.99862, 125.39653]).addTo(map).bindPopup(igainfo).openPopup();
+
+        baseMaps = {
+        BaseMap: the_basemap
+      };
+      overlayMaps = {
+        "专题地图": nexrad
+      };
+      return L.control.layers(baseMaps, overlayMaps).addTo(map);
+
+    })
+</script>

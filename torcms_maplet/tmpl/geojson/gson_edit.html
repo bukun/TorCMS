@@ -1,0 +1,57 @@
+{% extends "../../../templates/theme/_maplet.html" %}
+{% block head %}
+<title>{{ postinfo.title }}</title>
+<meta name="keywords" content="OpenLayers,MapServer,GDAL,GIS,WebGIS">
+
+
+{% end %}
+
+{% block zhuti %}
+<h1 class="hden">{{ postinfo.title }}</h1>
+
+<div class="panel panel-black">
+    <div class="panel-heading">
+        {{ postinfo.title }}
+
+    </div>
+    <div class="panel-body">
+        <form action="" method="post" class="form-horizontal" id="form_post">
+            <fieldset>
+                <input type="hidden" id="id_post" name="id_post" value="{{ postinfo.uid }}">
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="title">{{ _('title') }}</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" type="text" id="title" name="title" value="{{ postinfo.title }}">
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label class="col-sm-2 control-label" for="title">json</label>
+
+                    <div class="col-sm-10">
+                        <textarea class="form-control" rows="8" id="geojson" name="geojson">
+                            {{ postinfo.json }}
+                        </textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+
+
+                    <label class="col-sm-2 control-label" for="sub1"></label>
+
+                    <div class="col-sm-10">
+
+                        <input id="sub1" type="submit" value="{{ _('submit') }}" class="btn btn-primary">
+                    </div>
+                </div>
+
+            </fieldset>
+
+        </form>
+    </div>
+</div>
+{% end %}
+
+

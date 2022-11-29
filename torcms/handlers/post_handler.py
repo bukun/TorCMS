@@ -654,12 +654,12 @@ class PostHandler(BaseHandler):
         if postinfo.state[1] == '3':
             state_arr = ['a', 'b', 'c', 'd', 'e', 'f']
             if len(state_arr) > edit_count:
-                pstate = str(state_arr[edit_count]) + '0'+ postinfo.state[2:]
+                pstate = str(state_arr[edit_count]) + '0' + postinfo.state[2:]
 
                 MPost.update_state(uid, pstate)
 
         if postinfo.state[1] == '2':
-            approved_state_arr = ['1', '2', '3', '4', '5', '6','7','8','9']
+            approved_state_arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
             if len(approved_state_arr) > approved_count:
                 pstate = postinfo.state[0] + '1' + str(approved_state_arr[approved_count]) + '0'
             else:

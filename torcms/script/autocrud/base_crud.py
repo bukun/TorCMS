@@ -4,18 +4,28 @@ Basic configuration for CRUD.
 '''
 
 import os
+from pathlib import Path
 
 CRUD_PATH = os.path.abspath('./templates/autogen')
 
 META_DIR = './database/meta'
 
-XLSX_FILE = './database/meta/info_tags.xlsx'
+# XLSX_FILE = './database/meta/info_tags.xlsx'
 
-for wfile in os.listdir(META_DIR):
-    if wfile.startswith('~'):
+XLSX_FILE_LIST = []
+
+for wfile in Path(META_DIR).rglob('*.xlsx'):
+    if wfile.name.startswith('~'):
         continue
-    if wfile.lower().endswith('.xlsx'):
-        XLSX_FILE = os.path.join(META_DIR, wfile)
+    # XLSX_FILE = os.path.join(META_DIR, wfile)
+    XLSX_FILE_LIST.append(wfile)
+
+for wdir in Path('.').iterdir():
+    if wdir.is_dir() and wdir.name.startswith('torcms_'):
+        for wfile in (wdir / 'database' / 'meta').rglob('*.xlsx'):
+            if wfile.name.startswith('~'):
+                continue
+            XLSX_FILE_LIST.append(wfile)
 
 # The filter key stored in the colomns below.
 RAW_LIST = [

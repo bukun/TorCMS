@@ -1,0 +1,17 @@
+.leaflet-text-icon {
+  text-align: center;
+}
+
+.leaflet-text-icon > div {
+/*//overflow: hidden;*/
+/*//text-overflow: ellipsis;*/
+  white-space: nowrap;
+}
+
+.leaflet-text-icon .text-and-icon {
+  margin-right: 0 !important;
+}
+
+/*i[class^=text-and-icon]:before {*/
+  /*margin: 0 !important;*/
+/*}*/

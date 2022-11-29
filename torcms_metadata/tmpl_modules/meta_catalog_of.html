@@ -1,0 +1,20 @@
+<ul class="list-group">
+    {% if pcatinfo.uid.endswith('00') %}
+    <div class="panel-heading">
+        <a href="/{{ kwd['router'] }}_filter/{{ pcatinfo.uid }}">{{ _(pcatinfo.name) }}</a>
+    </div>
+    {% end %}
+
+    {% for rec in recs %}
+    {% for key,value in rec.items() %}
+    <li class="list-group-item">
+        <a href="/{{ kwd['router'] }}_filter/{{ key }}"> {{ _(value) }}
+            <span style="font-size:0.8em;background-color:#00adef;color:#fff;padding:1px;">
+                ({% module info_count(pcat=False,catid = key,kind=pcatinfo.kind) %})
+            </span>
+        </a>
+    </li>
+
+    {% end %}
+    {% end %}
+</ul>

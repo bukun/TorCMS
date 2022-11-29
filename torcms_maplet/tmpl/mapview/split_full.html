@@ -1,0 +1,102 @@
+{% extends "../torcms_maplet/map_full_overlay.html" %}
+{% block head %}
+<title>{{ _('Map') }},{{ _('Sliding window view') }}</title>
+<meta name="description" content="{{ _('Map') }},{{ _('Sliding window view') }}">
+<meta name="keywords" content="{{ _('Map') }},{{ _('Sliding window view') }}">
+ <style>
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    #maps {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+    }
+    </style>
+
+    <script type="text/javascript" src="{{ static_url('maplet/leaflet-side-by-side.min.js') }}"></script>
+
+<SCRIPT>
+    var vlon = {{ kwd['lon']}};
+    var vlat = {{ kwd['lat']}};
+    var vzoom_current = {{ kwd['zoom_current'] }};
+    var vzoom_max = {{ kwd['zoom_max']}};
+    var vzoom_min = {{ kwd['zoom_min']}};
+
+</script>
+
+
+{% end %}
+
+{% block mainbody %}
+
+
+<input id="app_ctrl" value="{{ app_str }}" style="display: none;">
+
+
+
+<div id='maps'></div>
+
+<script type="text/javascript">
+    $.ready()
+    {
+        var app_arr, app_url, baseMaps1, map_obj, osm, osm1, the_basemap, overlayMaps1;
+
+        app_url = $("#app_ctrl").val();
+        app_arr = app_url.split("/");
+
+
+        var center = [vlat, vlon];
+
+        map_obj = L.map('maps', {
+
+            center: center,
+            zoom: vzoom_current,
+            maxZoom: vzoom_max,
+            minZoom: vzoom_min,
+        });
+
+
+        osm = L.tileLayer.chinaProvider('TianDiTu.Normal.Annotion', {
+            maxZoom: 18,
+            minZoom: 1
+        });
+
+        osm1 = L.tileLayer.chinaProvider('TianDiTu.Normal.Map', {
+            maxZoom: 18,
+            minZoom: 1
+        });
+
+        the_basemap = L.layerGroup([osm1, osm]);
+
+
+        the_basemap.addTo(map_obj);
+
+
+        m1 = L.tileLayer.wms("https://tile.osgeo.cn/service?", {
+            layers: "maplet_" + app_arr[0].substring(1),
+            format: "image/png",
+            transparent: !0,
+            attribution: "Maplet"
+        }).addTo(map_obj);
+
+
+        m2 = L.tileLayer.wms("https://tile.osgeo.cn/service?", {
+            layers: "maplet_" + app_arr[1].substring(1),
+            format: "image/png",
+            transparent: !0,
+            attribution: "Maplet"
+        }).addTo(map_obj);
+
+        baseMaps1 = {'basemap': the_basemap};
+        overlayMaps1 = {"{{app_arr[0].title}}": m1, "{{app_arr[1].title}}": m2};
+
+        L.control.layers(baseMaps1, overlayMaps1).addTo(map_obj);
+        L.control.sideBySide(m1, m2).addTo(map_obj);
+
+    }
+</script>
+
+{% end %}

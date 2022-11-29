@@ -82,11 +82,9 @@ static/tass/sass/partial
 templates/pycate/autogen/
 templates/autogen/
 
-torcms_helper
 api_doc
 api_html
 
-torcms_tester
 flasky/static
 templates/modules
 
@@ -98,4 +96,3 @@ templates/ext_autogen/
 
 nltk_data
 
-torcms_*
