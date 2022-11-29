@@ -1,0 +1,1187 @@
+
+    {% extends "../torcms_metadata/tpl_add.html" %}
+
+    {% block header %}
+    <h1>{{ header_text }}</h1>
+    {% end %}
+
+    {% block extrainfo %}
+
+    <div id="iga_add_rec_box">
+    
+
+<input id='pycsw_identifier' name="pycsw_identifier" value="" type="hidden"
+class="form-control">
+ 
+
+ 
+<input id='pycsw_title' name="pycsw_title" value="" type="hidden"
+class="form-control">
+ 
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_title_alternate">
+{{_('Title alternate')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_title_alternate' name="pycsw_title_alternate" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_parentidentifier">
+{{_('Parent identifier')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_parentidentifier' name="pycsw_parentidentifier" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_topicategory">
+{{_('Topicategory')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_topicategory' name="pycsw_topicategory" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_language">
+{{_('Language')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_language' name="pycsw_language" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_type">
+{{_('Type')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_type' name="pycsw_type" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_format">
+{{_('Format')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_format' name="pycsw_format" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ 
+<input id='pycsw_abstract' name="pycsw_abstract" value="" type="hidden"
+class="form-control">
+ 
+
+ 
+<input id='pycsw_keywords' name="pycsw_keywords" value="" type="hidden"
+class="form-control">
+ 
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_links">
+{{_('Links')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_links' name="pycsw_links" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_time_begin">
+{{_('Time begin')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_time_begin' name="pycsw_time_begin" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_time_end">
+{{_('Time end')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_time_end' name="pycsw_time_end" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_creator">
+{{_('Creator ')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_creator' name="pycsw_creator" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_publisher">
+{{_('Publisher')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_publisher' name="pycsw_publisher" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_contributor">
+{{_('Contributor')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_contributor' name="pycsw_contributor" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_organization">
+{{_('Organization')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_organization' name="pycsw_organization" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_operateson">
+{{_('Operateson')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_operateson' name="pycsw_operateson" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_anytext">
+{{_('Anytext')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_anytext' name="pycsw_anytext" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_typename">
+{{_('Typename')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_typename' name="pycsw_typename" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_classification">
+{{_('Classification')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_classification' name="pycsw_classification" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_schema">
+{{_('Schema')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_schema' name="pycsw_schema" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_mdsource">
+{{_('Mdsource')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_mdsource' name="pycsw_mdsource" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_insert_date">
+{{_('Insert date')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_insert_date' name="pycsw_insert_date" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_resourcelanguage">
+{{_('Resource language')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_resourcelanguage' name="pycsw_resourcelanguage" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_keywordstype">
+{{_('Keywords type')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_keywordstype' name="pycsw_keywordstype" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_relation">
+{{_('Relation')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_relation' name="pycsw_relation" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_securityconstraints">
+{{_('Security constraints')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_securityconstraints' name="pycsw_securityconstraints" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_accessconstraints">
+{{_('Access constraints')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_accessconstraints' name="pycsw_accessconstraints" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_otherconstraints">
+{{_('Other constraints')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_otherconstraints' name="pycsw_otherconstraints" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_date">
+{{_('Date')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_date' name="pycsw_date" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_date_revision">
+{{_('Date revision')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_date_revision' name="pycsw_date_revision" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_date_creation">
+{{_('Date creation')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_date_creation' name="pycsw_date_creation" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_date_publication">
+{{_('Date publication')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_date_publication' name="pycsw_date_publication" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_date_modified">
+{{_('Date modified')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_date_modified' name="pycsw_date_modified" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_source">
+{{_('Source')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_source' name="pycsw_source" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_crs">
+{{_('Crs')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_crs' name="pycsw_crs" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_geodescode">
+{{_('Geodescode')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_geodescode' name="pycsw_geodescode" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_denominator">
+{{_('Denominator')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_denominator' name="pycsw_denominator" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_distancevalue">
+{{_('Distance value')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_distancevalue' name="pycsw_distancevalue" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_distanceuom">
+{{_('Distanceuom')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_distanceuom' name="pycsw_distanceuom" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_wkt_geometry">
+{{_('Wkt geometry')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_wkt_geometry' name="pycsw_wkt_geometry" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_servicetype">
+{{_('Service type')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_servicetype' name="pycsw_servicetype" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_servicetypeversion">
+{{_('Service type version')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_servicetypeversion' name="pycsw_servicetypeversion" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_operation">
+{{_('Operation')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_operation' name="pycsw_operation" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_couplingtype">
+{{_('Coupling type')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_couplingtype' name="pycsw_couplingtype" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_operatesonidentifier">
+{{_('Operator identifier')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_operatesonidentifier' name="pycsw_operatesonidentifier" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_operatesoname">
+{{_('Operator name')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_operatesoname' name="pycsw_operatesoname" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_degree">
+{{_('Degree')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_degree' name="pycsw_degree" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_conditionapplyingtoaccessanduse">
+{{_('Condition applying to access and use')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_conditionapplyingtoaccessanduse' name="pycsw_conditionapplyingtoaccessanduse" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_lineage">
+{{_('Lineage')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_lineage' name="pycsw_lineage" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_responsiblepartyrole">
+{{_('Responsible party role')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_responsiblepartyrole' name="pycsw_responsiblepartyrole" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_specificationtitle">
+{{_('Specification title')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_specificationtitle' name="pycsw_specificationtitle" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_specificationdate">
+{{_('Specification date')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_specificationdate' name="pycsw_specificationdate" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="pycsw_specificationdatetype">
+{{_('Specification date type')}}
+</label>
+<div class="col-sm-9">
+<input id='pycsw_specificationdatetype' name="pycsw_specificationdatetype" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+<legend>{{ _('Extra Metadata fields') }}</legend> <div class="form-group">
+    <label for="tag__view_class" class="col-sm-2 control-label"><span>
+ 
+    {{_('View_class')}}</span></label>
+    <div class="col-sm-9"><select id="tag__view_class" name="tag__view_class" class="form-control">
+    <option value="1">{{_('Open')}}</option><option value="2">{{_('Interior')}}</option><option value="3">{{_('Sensitive')}}</option><option value="4">{{_('Secret')}}</option></select></div></div>
+    
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_size">
+{{_('Dataset Size')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_size' name="tag_size" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+kb
+</div>
+ </div>
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag__file_download">
+<span><a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
+</a>{{_('Download')}}</span>
+</label>
+<div class="col-sm-8">
+<input id='ext_file' name="tag__file_download" value="" type="download"
+class="form-control">
+</div>
+<div class="col-sm-2">
+   <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal_file">
+ {{ _('Upload File') }}
+</a>
+</div></div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gpurpose">
+{{_('Purpose')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gpurpose' name="tag_gpurpose" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_glicense">
+{{_('License')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_glicense' name="tag_glicense" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gextension">
+{{_('Data Extension')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gextension' name="tag_gextension" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gscale">
+{{_('Scale')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gscale' name="tag_gscale" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gproduct">
+{{_('Production Unit')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gproduct' name="tag_gproduct" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gsupplement">
+{{_('Supplement')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gsupplement' name="tag_gsupplement" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag__gtheme">
+{{_('Theme')}}
+</label>
+<div class="col-sm-9">
+<input id='tag__gtheme' name="tag__gtheme" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gprojectinfo">
+{{_('Project Information')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gprojectinfo' name="tag_gprojectinfo" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gprojectstatus">
+{{_('Project Status')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gprojectstatus' name="tag_gprojectstatus" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gprojectname">
+{{_('Project Name')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gprojectname' name="tag_gprojectname" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gprojectadmin">
+{{_('Project  Leader')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gprojectadmin' name="tag_gprojectadmin" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gstarttime">
+{{_('Start Time')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gstarttime' name="tag_gstarttime" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gfinishtime">
+{{_('Finish Time')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gfinishtime' name="tag_gfinishtime" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gprojection">
+{{_('Projection')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gprojection' name="tag_gprojection" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gdataquality">
+{{_('Data Quality')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gdataquality' name="tag_gdataquality" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gmaddress">
+{{_('Contributor Address')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gmaddress' name="tag_gmaddress" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gmpostcode">
+{{_('Contributor Postcode')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gmpostcode' name="tag_gmpostcode" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gmphone">
+{{_('Contributor Phone')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gmphone' name="tag_gmphone" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gmemail">
+{{_('Contributor Email')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gmemail' name="tag_gmemail" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gmfax">
+{{_('Contributor Fax')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gmfax' name="tag_gmfax" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gmhomepage">
+{{_('Contributor Homepage')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gmhomepage' name="tag_gmhomepage" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gwestbl">
+{{_('West BL')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gwestbl' name="tag_gwestbl" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_geastbl">
+{{_('East BL')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_geastbl' name="tag_geastbl" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gsouthbl">
+{{_('South BL')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gsouthbl' name="tag_gsouthbl" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gnorthbl">
+{{_('North BL')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gnorthbl' name="tag_gnorthbl" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gvermin">
+{{_('Ver Min')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gvermin' name="tag_gvermin" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gvermax">
+{{_('Ver Max')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gvermax' name="tag_gvermax" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gdname">
+{{_('Responsible Name')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gdname' name="tag_gdname" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gdpname">
+{{_('RespInst Name')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gdpname' name="tag_gdpname" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gdaddress">
+{{_('RespInst Address')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gdaddress' name="tag_gdaddress" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gdpostcode">
+{{_('RespInst Postcode')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gdpostcode' name="tag_gdpostcode" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gdphone">
+{{_('RespInst Phone')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gdphone' name="tag_gdphone" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gdemail">
+{{_('RespInst Email')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gdemail' name="tag_gdemail" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gdfax">
+{{_('RespInst Fax')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gdfax' name="tag_gdfax" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+ <div class="form-group">
+<label class="col-sm-2 control-label" for="tag_gdhomepage">
+{{_('RespInst Homepage')}}
+</label>
+<div class="col-sm-9">
+<input id='tag_gdhomepage' name="tag_gdhomepage" value="" type="text"
+class="form-control">
+</div>
+<div class="col-sm-1">
+
+</div>
+ </div>
+
+    </div>
+    {% end %}
+    {% block footer %}
+    <p>{{ footer_text }}</p>
+    {% end %}

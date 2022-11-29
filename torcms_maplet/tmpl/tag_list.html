@@ -1,0 +1,64 @@
+{% extends "../../templates/theme/_maplet.html" %}
+{% block head %}
+<title>{{ _('Online maps are listed by category') }}</title>
+<meta name="keywords" content="{{ _(taginfo.name) }}{{ _('Maps') }}, {{ _('online maps') }}, {{ _('historical maps') }}, {{ _('classified maps') }},">
+<meta name="description" content="{{ taginfo.name }}{{ _('Maps') }}, {{ _('online maps') }}, {{ _('historical maps') }},
+{{ _('online maps by categories') }}">
+{% end %}
+{% block zhuti %}
+<div class="panel panel-black">
+    <div class="panel-heading">
+        <h1 class="htitle">{{ taginfo.name }} > {{ _('Maps') }}: {{ _('Online maps are listed by category') }}</h1>
+    </div>
+    <ul class="list-group">
+        {% for rec in infos %}
+        <li class="list-group-item">
+            <a href="/{{router}}/{{ rec.uid }}" title="{{ rec.title }}"><span class="glyphicon glyphicon-map-marker"></span>
+                {{ rec.title }}
+            </a>
+            <span class="post_cat">{% module map_catalogs(rec.uid ) %}</span>
+        </li>
+        {% end %}
+    </ul>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="widget_baidu_share">{% module baidu_share(en=True) %}</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        {% module tag_pager( kwd['tag_slug'], kwd['current_page'] ) %}
+    </div>
+</div>
+{% end %}
+{% block right %}
+<div class="panel panel-black">
+    <div class="panel-heading">
+        <b>
+            {{ _('Recent use') }}
+        </b>
+    </div>
+    <ul class="list-group">
+        {% if userinfo is None %}
+        {% module app_recent_used(taginfo.kind, 10) %}
+        {% else %}
+        {% module app_recent_used(userinfo = userinfo, kind = taginfo.kind , num = 6) %}
+        {% end %}
+    </ul>
+</div>
+<div class="panel panel-black">
+    <div class="panel-heading">
+        <b>
+            {{ _('Most use') }}
+        </b>
+    </div>
+    <ul class="list-group">
+        {% if userinfo is None %}
+        {% module app_most_used(taginfo.kind, 10) %}
+        {% else %}
+        {% module app_user_most(userinfo.uid, taginfo.kind ,6) %}
+        {% end %}
+    </ul>
+</div>
+{% end %}

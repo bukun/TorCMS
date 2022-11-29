@@ -1,0 +1,75 @@
+{% extends "./_maplet.html" %}
+{% block head %}
+<title>地图日志 OSGeo中国中心 | 开放地理空间实验室</title>
+<meta name="keywords" content="GIS,地理信息系统,开源GIS,OSGeo,OpenLayers,MapServer,GDAL,GIS教程,WebGIS">
+<meta name="description" content="OSGeo中国中心实验室，关注开源GIS，开放数据">
+{% end %}
+{% block mainbody %}
+
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li><a href="/" title="首页">首页</a></li>
+        <li class="active">地图日志</li>
+
+    </ul>
+</div>
+<div class="panel panel-black">
+
+
+
+    <div class="panel-heading"><b>地图日志</b></div>
+    <div class="panel-body">
+        <table class="table table-bordered">
+            <tr>
+                <th>序号</th>
+                <th>地图UID</th>
+                <th>经度</th>
+                <th>纬度</th>
+                <th>中心点</th>
+                <th>当前缩放</th>
+                <th>最小缩放</th>
+                <th>最大缩放</th>
+
+
+                <th>类型</th>
+                <th>创建时间</th>
+                <th>用户</th>
+                 <th>Geojson</th>
+                 <th>用户IP</th>
+                 <th>浏览器</th>
+
+            </tr>
+
+
+            {% set ii = 1 %}
+            {% for x in recs %}
+            <tr>
+                <td>{{ ii }}</td>
+                <td>{{x[0]}}</td>
+                <td>{{x[1]}}</td>
+                <td>{{x[2]}}</td>
+                <td>{{x[3]}}</td>
+                <td>{{x[4]}}</td>
+                <td>{{x[5]}}</td>
+                <td>{{x[6]}}</td>
+
+                <td>{% if x[8] == '1' %} 点击 {% else %}滑轮{% end %}</td>
+                <td>
+                {{ datetime.datetime.fromtimestamp(x[9]).strftime('%Y-%m-%d %H:%M:%S') }}
+                </td>
+                  <td>{% module user_name_by_id(x[10])%}</td>
+                  <td>{{x[7]}}</td>
+                  <td>{{x[11]}}</td>
+                  <td>{{x[12]}}</td>
+
+
+            </tr>
+            {% set ii = ii +1 %}
+            {% end %}
+        </table>
+
+    </div>
+</div>
+
+{% end %}
+

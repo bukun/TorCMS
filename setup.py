@@ -22,7 +22,7 @@ setup(
 
     packages=find_packages(
         # include=('torcms',),
-        exclude=("tester", "torcms_tester", 'flasky',)),
+        exclude=("tester", "torcms_tester", 'flasky', 'torcms_*')),
     include_package_data=True,
 
     platforms='any',

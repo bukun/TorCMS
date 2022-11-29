@@ -150,7 +150,8 @@ HTML_INPUT_VIEW_DONWLOAD = '''<div class="row">
  <span class="glyphicon glyphicon-ban-circle" style="color:red"> {{{{ _('Unavailable') }}}}</span>
 {{% end %}}
   {{% else %}}
-<a href="/user/login">{{{{ _('Please download after login, click to') }}}} <span class="btn btn-primary btn-xs"> {{{{ _('login in') }}}}</span>. </a>
+<a href="/user/login">{{{{ _('Please download after login, click to') }}}} 
+<span class="btn btn-primary btn-xs"> {{{{ _('login in') }}}}</span>. </a>
 {{% end %}}
  </div></div>
 '''
