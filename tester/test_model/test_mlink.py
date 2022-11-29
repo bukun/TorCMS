@@ -5,7 +5,7 @@ from torcms.model.link_model import MLink
 
 
 class TestMLink():
-    def setup(self):
+    def setup_method(self):
         self.id = tools.get_uu4d()
         self.raw_count = MLink.get_counts()
         print(self.raw_count)

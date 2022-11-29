@@ -11,7 +11,7 @@ from torcms.model.post_model import MPost
 
 
 class TestMPost():
-    def setup(self):
+    def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
         self.uu = MPost()
         self.m2c = MPost2Catalog()

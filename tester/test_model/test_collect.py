@@ -6,7 +6,7 @@ from torcms.model.post_model import MPost
 
 
 class TestMCollect():
-    def setup(self):
+    def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
         self.user_id = 'pppp'
         self.post_id = '90953'

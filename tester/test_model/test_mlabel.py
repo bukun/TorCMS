@@ -6,7 +6,7 @@ from torcms.model.post_model import MPost
 
 
 class TestMLabel():
-    def setup(self):
+    def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
         self.uu = MLabel()
         self.name = 'name'
@@ -101,7 +101,7 @@ class TestMLabel():
 
 
 class TestMPost2Label():
-    def setup(self):
+    def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
 
         self.name = 'nyteame'

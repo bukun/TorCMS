@@ -6,7 +6,7 @@ from torcms.model.post_model import MPost
 
 
 class TestMCatalog():
-    def setup(self):
+    def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
         self.post_id = 'r42w2'
         self.slug = 'huohuohuo'
