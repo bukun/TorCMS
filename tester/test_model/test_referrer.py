@@ -4,7 +4,7 @@ from torcms.model.referrer_model import MReferrer
 
 
 class TestMReferrer():
-    def setup(self):
+    def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
         self.uid = '',
         self.post_id = 'grww',

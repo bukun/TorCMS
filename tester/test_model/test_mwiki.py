@@ -7,7 +7,7 @@ from torcms.model.wiki_model import MWiki
 
 
 class TestMWiki():
-    def setup(self):
+    def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
         self.raw_count = MWiki.get_counts()
         self.wiki_title = 'lkablkjcdefg'

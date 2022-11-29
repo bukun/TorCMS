@@ -4,7 +4,7 @@ from torcms.model.entity_model import MEntity
 
 
 class TestMEntity():
-    def setup(self):
+    def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
         self.uid = tools.get_uuid()
         self.path = '/static/123123'

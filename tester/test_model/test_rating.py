@@ -6,7 +6,7 @@ from torcms.model.rating_model import MRating
 
 
 class TestMRating():
-    def setup(self):
+    def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
         self.uid = ''
         self.uid2 = ''

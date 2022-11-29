@@ -5,7 +5,7 @@ from torcms.model.user_model import MUser
 
 
 class TestMReply2User():
-    def setup(self):
+    def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
         self.user = MUser()
         self.reply = MReply()

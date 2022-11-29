@@ -13,7 +13,7 @@ class TestRedis():
     Testing for redis.
     '''
 
-    def setup(self):
+    def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
         self.torcms_redis = REDIS_CFG
 

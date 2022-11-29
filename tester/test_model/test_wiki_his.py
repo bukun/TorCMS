@@ -6,7 +6,7 @@ from torcms.model.wiki_model import MWiki
 
 
 class TestMWikiHist():
-    def setup(self):
+    def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
         self.wiki_uid = ''
         self.username = 'snow'

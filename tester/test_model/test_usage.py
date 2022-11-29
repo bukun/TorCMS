@@ -7,7 +7,7 @@ from torcms.model.usage_model import MUsage
 
 
 class TestMUsage():
-    def setup(self):
+    def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
 
         self.postid = '12345'

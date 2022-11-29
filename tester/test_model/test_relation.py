@@ -9,7 +9,7 @@ from torcms.model.relation_model import MRelation
 
 
 class TestMRelation():
-    def setup(self):
+    def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
 
         self.uid = 'r1234'
