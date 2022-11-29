@@ -300,8 +300,6 @@ In Chinese
 ------------------------
 
 -  http://www.osgeo.cn (OSGeo中国中心)
--  http://www.maphub.cn (地图云集网站)
--  http://www.yunsuan.org (云算笔记网站)
 -  http://www.wds-china.org (世界数据系统中国)
 -  http://wdcrre.data.ac.cn/ (可再生资源与环境世界数据中心)
 -  http://drr.ikcest.org (联合国教科文组织国际工程科技知识中心防灾减灾知识服务平台)

@@ -22,7 +22,7 @@ setup(
 
     packages=find_packages(
         # include=('torcms',),
-        exclude=("tester", "torcms_tester", 'flasky', 'torcms_*')),
+        exclude=('devops', "tester", "torcms_tester", 'flasky', 'torcms_*')),
     include_package_data=True,
 
     platforms='any',
@@ -32,7 +32,7 @@ setup(
                       'tornado', 'Whoosh', 'WTForms',
                       'tornado-wtforms', 'email-validator',
                       'psycopg2-binary', 'html2text',
-                      'redis', 'pyyaml','htmlmin'],
+                      'redis', 'pyyaml', 'htmlmin'],
 
     classifiers=[
         # How mature is this project? Common values are

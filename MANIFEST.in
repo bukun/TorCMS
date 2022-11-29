@@ -2,6 +2,7 @@
 # recursive-exclude tester *
 # recursive-exclude flasky *
 # recursive-exclude torcms_maplet *
+prune devops*
 prune tester*
 prune flasky*
 # exclude_package_data=True
