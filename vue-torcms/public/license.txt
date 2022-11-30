@@ -1,0 +1,11 @@
+Model Information:
+* title:	Erbil, NASADEM
+* source:	https://sketchfab.com/3d-models/erbil-nasadem-8380fcf8f8e349539c7ae7413cfc7c65
+* author:	Xavier Fischer - Elevation API (https://sketchfab.com/xfischer)
+
+Model License:
+* license type:	CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)
+* requirements:	Author must be credited. No commercial use. Modified versions must have the same license.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Erbil, NASADEM" (https://sketchfab.com/3d-models/erbil-nasadem-8380fcf8f8e349539c7ae7413cfc7c65) by Xavier Fischer - Elevation API (https://sketchfab.com/xfischer) licensed under CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)

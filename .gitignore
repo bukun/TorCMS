@@ -95,4 +95,6 @@ templates/ext_autogen/
 .pytest_cache
 
 nltk_data
+node_modules
+
 
