@@ -1,4 +1,4 @@
-<template>
+\<template>
   <q-layout view="hHh lpR fFf">
     <EssentialHead/>
     <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered>
@@ -30,9 +30,26 @@ const linksList = [
     title: 'Home',
     caption: '内容介绍说明',
     icon: 'school',
-    link: '/#/post/list'
+    link: '/#/intro'
   },
-
+  {
+    title: 'Leaflet',
+    caption: '轻量级WebGIS类库',
+    icon: 'code',
+    link: '/#/intro/intro1'
+  },
+  {
+    title: 'OpenLayers',
+    caption: '全能型WebGIS类库',
+    icon: 'chat',
+    link: '/#/intro/intro2'
+  },
+  {
+    title: 'MapTalks',
+    caption: 'Developed in China',
+    icon: 'record_voice_over',
+    link: '/#/intro/intro3'
+  },
 
 ];
 

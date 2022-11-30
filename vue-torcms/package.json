@@ -1,8 +1,8 @@
 {
   "name": "quagis",
   "version": "0.0.1",
-  "description": "A Quasar Project for GIS.",
-  "productName": "Quasar GIS",
+  "description": "Vue-TorCMS",
+  "productName": "Vue-TorCMS",
   "author": "bukun <bukun@osgeo.cn>",
   "private": true,
   "scripts": {

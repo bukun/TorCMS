@@ -3,8 +3,10 @@ import {RouteRecordRaw} from 'vue-router';
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    component: () => import('layouts/MainLayout.vue'),
-
+    component: () => import('layouts/MainLayoutPost.vue'),
+    children: [
+      {path: '', component: () => import('pages/IndexPage.vue')}
+]
 
   },
 
@@ -15,6 +17,8 @@ const routes: RouteRecordRaw[] = [
       {path: 'add', component: () => import('pages/post/post_add.vue')},
       {path: 'view', component: () => import('pages/post/post_view.vue')},
       {path: 'list', component: () => import('pages/post/post_list.vue')},
+      {path: 'list/:catid', component: () => import('pages/post/post_list.vue')},
+      {path: 'listp/:pid', component: () => import('pages/post/post_list.vue')},
       {path: 'edit', component: () => import('pages/post/post_edit.vue')},
     ],
   },

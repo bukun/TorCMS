@@ -26,7 +26,7 @@
         <div class="row">
           <div class="col-8">
 
-            <q-uploader label="上传" accept=".jpg,.png" @added="file_selected" url=""  auto-expand hide-upload-button/>
+            <q-uploader label="上传" accept=".jpg,.png" @added="file_selected"/>
             <q-btn @click="uploadFile">Upload</q-btn>
 
           </div>
@@ -81,7 +81,6 @@
           type="textarea"
 
         ></q-input>
-
 
 
         <div>
@@ -231,10 +230,8 @@ export default {
     },
 
     file_selected(file) {
-      alert(JSON.stringify(file[0]))
       this.selected_file = file[0];
       this.check_if_document_upload=true
-
     },
 
     uploadFile() {
@@ -244,10 +241,9 @@ export default {
         kind: '1'
 
       }
-      // alert(JSON.stringify(formdata))
-      console.log(formdata)
+      alert(JSON.stringify(formdata))
       this.$axios({
-        url: '/entity_j/img-upload',
+        url: '/entity_j/img_upload',
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         params: formdata
@@ -273,15 +269,7 @@ export default {
         })
 
 
-    },
-
-
-    // uploadFile(file, updateProgress) {
-    //   return new Promise((resolve, reject) => {
-    //     resolve(file);
-    //     console.log(resolve(file));
-    //   });
-    // }
+    }
 
 
 
