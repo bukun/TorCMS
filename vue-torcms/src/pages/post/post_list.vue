@@ -1,31 +1,21 @@
 <template>
-
   <q-page padding>
-    <h3>粮食作物播种面积和产量</h3>
+    <h3>
+      {{ this.pagetitle }}
+    </h3>
     <div class="row justify-left ">
       <div class="col-sm-12 col-xs-12">
-
         <q-markup-table :separator="separator" flat bordered>
-
           <tbody>
           <tr v-for="(item,index)  in this.info.recs" :key="index">
-
-
             <td> {{ index + this.pagination.offset * this.pagination.limit - this.pagination.limit + 1 }}</td>
-
-            <td><a @click="tolink(item.uid)" class="text-primary ">{{ item.title }}</a></td>
+            <td><a @click="tolink(item.uid,item.city)" class="text-primary ">{{ item.title }}</a></td>
             <td>{{ item.cnt_md }}</td>
-
-
           </tr>
           </tbody>
         </q-markup-table>
-
       </div>
-
-
     </div>
-
     <div class="row q-my-md fs-14">
       <span class="self-center col-auto q-pb-sm q-mt-md q-mr-md">共{{ this.info.count }}条，第{{ this.pagination.offset }} /{{ this.info.maxpage }}页</span>
       <q-select
@@ -37,17 +27,17 @@
       <q-pagination class="col q-mt-md" v-model="page" :max=this.info.maxpage size="sm" boundary-links boundary-numbers
                     :max-pages="10" direction-links ellipses/>
     </div>
-
-
   </q-page>
 </template>
 
 <script>
-
 export default {
   data() {
     return {
       info: '',
+      catid:this.$route.params.catid || '',
+      pid:this.$route.params.pid || '',
+      pagetitle:'列表',
       pagination: {
         offset: 1,
         limit: 10
@@ -75,35 +65,82 @@ export default {
 
     };
   },
+
   mounted() {
-
+    this.init()
     this.get_info();
-
+  },
+  async beforeRouteUpdate (to, from, next) {
+    console.info('beforeRouteUpdate');
+    await this.init(to.params.pid);
+    next();
 
   },
   methods: {
+    async init(pid) {
+
+      this.catid = this.$route.params.catid;
+      this.pid = pid || this.$route.params.pid;
+      if(this.pid ==='8100'){
+        this.pagetitle = '粮食作物播种面积和产量'
+      }
+      else if(this.pid ==='8200'){
+        this.pagetitle = '规模优势指数'
+      }
+      else if(this.pid ==='8300'){
+        this.pagetitle = '效率优势指数'
+      }
+      else if(this.pid ==='8400'){
+        this.pagetitle = '综合优势指数'
+      }
+      else if(this.catid ==='8101'){
+        this.pagetitle = '2010年粮食作物播种面积和产量'
+      }
+      else if(this.catid ==='8102'){
+        this.pagetitle = '2020年粮食作物播种面积和产量'
+      }
+      else if(this.catid ==='8201'){
+        this.pagetitle = '2010年规模优势指数'
+      }
+      else if(this.catid ==='8202'){
+        this.pagetitle = '2020年规模优势指数'
+      }
+      else if(this.catid ==='8301'){
+        this.pagetitle = '2010年效率优势指数'
+      }
+      else if(this.catid ==='8302'){
+        this.pagetitle = '2020年效率优势指数'
+      }
+      else if(this.catid ==='8401'){
+        this.pagetitle = '2010年综合优势指数'
+      }
+      else if(this.catid ==='8402'){
+        this.pagetitle = '2020年综合优势指数'
+      }
+      else {
+        this.pagetitle='列表'
+      }
+      this.get_info()
+
+    },
 
     get_info() {
-
+      console.log(this.catid)
+      console.log(this.pid)
       this.$axios({
         url: '/post_j/j_recent',
         method: 'post',
         headers: {'Content-Type': 'application/json'},
-        params: {kind: '9', catid: '8101', offset: this.pagination.offset, limit: this.pagination.limit}
+        params: {kind: '9', catid: this.catid,pid:this.pid, offset: this.pagination.offset, limit: this.pagination.limit}
 
       }).then(response => {
-
           console.log(response);
-
           if (response.data.code === '1') {
-
             this.info = response.data
-
           } else {
             this.$q.notify('falied')
             this.$router.push('/')
           }
-
         }
       )
         .catch(function (error) { // 请求失败处理
@@ -111,15 +148,16 @@ export default {
           console.log(error);
         });
     },
-    tolink(uid) {
+    tolink(uid,city) {
+
       this.$router.push({
         path: '/post/view',
         query: {
-          uid: uid
+          uid: uid,
+          city:city,
+          catid:this.$route.params.catid
         }
       })
-
-
     },
 
 
@@ -173,15 +211,11 @@ export default {
       },
       set: function (val) {
         if (val !== this.perPageNum) {
-
           this.pagination.limit = val['value']
           this.get_info()
-
           // 进行每页显示数量切换时，判断当前偏移量是否大于改变后的偏移量，如果是，则不触发limit改变的事件，因为偏移量的改变也会触发
           if (this.pagination.offset > (Math.floor(this.pagination.offset / val)) * val) {
             this.pageChangeFlag = true
-
-
           }
         }
       }
@@ -200,9 +234,5 @@ export default {
       default: false
     }
   }
-
-
 };
-
-
 </script>

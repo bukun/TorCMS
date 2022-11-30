@@ -1,7 +1,6 @@
 import {boot} from 'quasar/wrappers';
 import axios, {AxiosInstance} from 'axios';
 import {Notify} from 'quasar'
-import qs from "qs";
 // import Router from '../router/index';
 
 declare module '@vue/runtime-core' {
@@ -17,54 +16,13 @@ declare module '@vue/runtime-core' {
 // "export default () => {}" function below (which runs individually
 // for each client)
 
+
+
+
 const api = axios.create({
   baseURL: process.env.API,
   timeout: 10000
 });
-
-
-api.defaults.transformRequest = [
-  function(data, headers) {
-    // Do whatever you want to transform the data
-    let contentType = headers["Content-Type"] || headers["content-type"];
-    if (!contentType) {
-      contentType = "application/json";
-      headers["Content-Type"] = "application/json";
-    }
-
-    if (contentType.indexOf("multipart/form-data") >= 0) {
-      return data;
-    } else if (contentType.indexOf("application/x-www-form-urlencoded") >= 0) {
-      return qs.stringify(data);
-    }
-
-    return JSON.stringify(data);
-  }
-];
-//
-// // Add a request interceptor
-// api.interceptors.request.use(
-//   function(config) {
-//     if (config.permission && !permissionService.check(config.permission)) {
-//       throw {
-//         message: "403 forbidden"
-//       };
-//     }
-//
-//     if (config.dataSource) {
-//       console.log("config.dataSource = " + config.dataSource);
-//       config.headers["dataSource"] = config.dataSource;
-//     }
-//
-//     return config;
-//   },
-//   function(error) {
-//     // Do something with request error
-//     return Promise.reject(error);
-//   }
-// );
-
-
 
 
 

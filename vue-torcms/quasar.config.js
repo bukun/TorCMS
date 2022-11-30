@@ -70,10 +70,10 @@ module.exports = configure(function (ctx) {
       // publicPath: '/',
       // analyze: true,
       env: ctx.dev
-        ?{API:JSON.stringify('http://127.0.0.1:8888')}
+        ?{API:JSON.stringify('http://127.0.0.1:6898')}
         :{
 
-        API:JSON.stringify('http://39.100.72.56:8888')
+        API:JSON.stringify('http://39.100.72.56:6898')
         },
 
       // rawDefine: {}
@@ -100,40 +100,41 @@ module.exports = configure(function (ctx) {
     devServer: {
       // https: true,
       open: true, // opens browser window automatically
+      port: 6899,
       proxy: {
         // proxy all requests starting with /api to jsonplaceholder
         '/user_j': {
-          // target: 'http://39.100.72.56:8888',
-          target: 'http://127.0.0.1:8888',
+          // target: 'http://39.100.72.56:6898',
+          target: 'http://127.0.0.1:6898',
           changeOrigin: true,
 
 
         },
         '/user': {
-          // target: 'http://39.100.72.56:8888',
-          target: 'http://127.0.0.1:8888',
+          // target: 'http://39.100.72.56:6898',
+          target: 'http://127.0.0.1:6898',
           changeOrigin: true,
 
 
         },
 
         '/post_j': {
-          // target: 'http://39.100.72.56:8888',
-          target: 'http://127.0.0.1:8888',
+          // target: 'http://39.100.72.56:6898',
+          target: 'http://127.0.0.1:6898',
           changeOrigin: true,
 
 
         },
         '/list': {
-          // target: 'http://39.100.72.56:8888',
-          target: 'http://127.0.0.1:8888',
+          // target: 'http://39.100.72.56:6898',
+          target: 'http://127.0.0.1:6898',
           changeOrigin: true,
 
 
         },
         '/entity_j': {
-          // target: 'http://39.100.72.56:8888',
-          target: 'http://127.0.0.1:8888',
+          // target: 'http://39.100.72.56:6898',
+          target: 'http://127.0.0.1:6898',
           changeOrigin: true,
 
 

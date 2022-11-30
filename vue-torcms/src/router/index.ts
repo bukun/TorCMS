@@ -37,5 +37,13 @@ export default route(function (/* { store, ssrContext } */) {
     history: createHistory(process.env.VUE_ROUTER_BASE),
   });
 
+
+
+  // Router.beforeEach(async (to, from, next) => {
+  //
+  //         next();
+  //
+  // });
+
   return Router;
 });

@@ -1,87 +1,79 @@
 <template>
 
   <q-page padding>
-    <h3>Modify-post</h3>
-<!--    this.info.data['title']-->
+    <h3>Modify-{{this.info.title}}</h3>
+
     <div class="row justify-left">
       <q-card class="col-sm-6 col-xs-12">
         <q-card-section>
           <q-form @submit="onSubmit" class="q-gutter-md">
 
-            <q-input
-              filled
-              v-model="model.title"
-              label="title"
-              hint="title"
-              lazy-rules
-              :rules="[ val => val && val.length > 0 || 'Please type something']"
-            ></q-input>
-            <q-input
-              filled
-              v-model="model.tags"
-              label="tags"
-              hint="tags"
+            <q-input filled v-model="model.title"
+              label="标题"
+              lazy-rules :rules="[ val => val && val.length > 0 || 'Please type something']"
+            >{{this.info.title}}</q-input>
+            <!--8101-->
+            <div ref="css8101" style="display: none">
+              <q-input filled v-model="model.tag_lsbzmj"
+                       label="粮食播种面积（公顷）"
+              >{{this.extinfo.tag_lsbzmj}}</q-input>
+              <q-input filled v-model="model.tag_lszcl"
+                       label="粮食总产量（吨）"
+              >{{this.extinfo.tag_lszcl}}</q-input>
+              <q-input filled v-model="model.tag_sdcl"
+                       label="水稻播种面积（公顷）"
+              >{{this.extinfo.tag_sdbzmj}}</q-input>
+              <q-input filled v-model="model.tag_sdcl"
+                       label="水稻产量（吨）"
+              >{{this.extinfo.tag_sdcl}}</q-input>
+              <q-input filled v-model="model.tag_ymbzmj"
+                       label="玉米播种面积（公顷）"
+              >{{this.extinfo.tag_ymbzmj}}</q-input>
+              <q-input filled v-model="model.tag_ymcl"
+                       label="玉米产量（吨）"
+              >{{this.extinfo.tag_ymcl}}</q-input>
+              <q-input filled v-model="model.tag_ddbzmj"
+                       label="大豆播种面积（公顷）"
+              >{{this.extinfo.tag_ddbzmj}}</q-input>
+              <q-input filled v-model="model.tag_ddcl"
+                       label="大豆产量（吨）"
+              >{{this.extinfo.tag_ddcl}}</q-input>
 
-            ></q-input>
+            </div>
 
-            <div class="row">
-              <div class="col-8">
-                <q-input standout v-model="model.logo" label="logo" hint="logo"></q-input>
-              </div>
-              <div class="col-1"></div>
-              <div class="col-3">
-                <q-btn label="upload" color="secondary" @click="toolbar = true"/>
-              </div>
+            <!-- 8102-->
+            <div ref="css8102" style="display: none">
+              <q-input filled v-model="model.tag_mlsbzmj"
+                       label="马铃薯播种面积（公顷）"
+              >{{this.extinfo.tag_mlsbzmj}}</q-input>
+              <q-input filled v-model="model.tag_mlscl"
+                       label="马铃薯产量（吨）"
+              >{{this.extinfo.tag_mlscl}}</q-input>
+
+            </div>
+
+            <!--        8201,8301,8401-->
+            <div ref="css_zhishu1" style="display: none">
+              <q-input filled v-model="model.tag_sd"
+                       label="水稻"
+              >{{this.extinfo.tag_sd}}</q-input>
+              <q-input filled v-model="model.tag_ym"
+                       label="玉米"
+              >{{this.extinfo.tag_ym}}</q-input>
+              <q-input filled v-model="model.tag_dd"
+                       label="大豆"
+              >{{this.extinfo.tag_dd}}</q-input>
+
+            </div>
+            <!--        8202,8302,8402-->
+            <div ref="css_zhishu2" style="display: none">
+              <q-input filled v-model="model.tag_mls"
+                       label="马铃薯"
+              >{{this.extinfo.tag_mls}}</q-input>
+
             </div>
 
 
-            <div v-for="(parItem,index) in pcatArr" :key="index" class="row">
-              <div class="col-5">
-
-
-                <q-select
-                  filled
-                  v-model="parItem.puid"
-                  label="Select category"
-                  :options="sub_options"
-                  option-value="id"
-                  option-label="desc"
-                  hint="Select category"
-                  emit-value
-                  map-options
-                  @update:model-value="changeSub"
-
-                />
-              </div>
-              <div class="col-1"></div>
-              <div class="col-6">
-
-
-                <q-select
-                  filled
-                  v-model="model.gcat0"
-                  :options="sub2_options"
-                  :option-value="opt => Object(opt) === opt && 'id' in opt ? opt.id : null"
-                  :option-label="opt => Object(opt) === opt && 'desc' in opt ? opt.desc : '- Null -'"
-                  :option-disable="opt => Object(opt) === opt ? opt.inactive === true : true"
-                  emit-value
-                  map-options
-                  hint="Secondary classification"
-                  label="Secondary classification"
-                />
-
-              </div>
-            </div>
-
-
-            <q-input
-              filled
-              v-model="model.cnt_md"
-              label="content"
-              hint="content"
-              type="textarea"
-
-            ></q-input>
             <div>
               <q-btn label="Submit" type="submit" color="primary"/>
 
@@ -100,6 +92,7 @@ export default {
   data() {
     return {
       info:'',
+      extinfo:'',
       file_model: {},
       selected_file: '',
       check_if_document_upload: false,
@@ -130,7 +123,31 @@ export default {
           // alert(JSON.stringify(response.data))
           if (response.data.code === '1') {
             // alert(JSON.stringify(response.data))
-            this.info = response
+            this.info = response.data
+            this.extinfo = response.data.extinfo
+            if(this.extinfo.def_cat_uid ==='8101'){
+
+              this.$refs.css8101.style.setProperty('display','block')
+
+            }
+            else if(this.extinfo.def_cat_uid ==='8102'){
+              this.$refs.css8101.style.setProperty('display','block')
+              this.$refs.css8102.style.setProperty('display','block')
+
+            }
+            else{
+              if(this.extinfo.def_cat_uid ==='8201'|| this.extinfo.def_cat_uid ==='8301' || this.extinfo.def_cat_uid ==='8401'){
+
+                this.$refs.css_zhishu1.style.setProperty('display','block')
+
+              }else{
+
+                this.$refs.css_zhishu1.style.setProperty('display','block')
+                this.$refs.css_zhishu2.style.setProperty('display','block')
+
+              }
+            }
+
 
           } else {
 
@@ -148,15 +165,36 @@ export default {
     onSubmit() {
       let formdata = {
         title: this.model.title,
-        cnt_md: this.model.cnt_md,
-        tags: this.model.tags,
-        gcat0: this.model.gcat0,
-        gcat1: this.model.gcat1,
-        gcat2: this.model.gcat2,
-        gcat3: this.model.gcat3,
-        gcat4: this.model.gcat4,
+        cnt_md: '',
+        tags: '',
         logo: '',
+        gcat0: this.extinfo.def_cat_uid,
       }
+      // 8101
+      if (this.extinfo.def_cat_uid === '8101' || this.extinfo.def_cat_uid === '8102') {
+
+        formdata['tag_lsbzmj'] = this.model.tag_lsbzmj || this.extinfo.tag_lsbzmj,
+          formdata['tag_lszcl'] = this.model.tag_lszcl || this.extinfo.tag_lszcl,
+          formdata['tag_sdbzmj'] = this.model.tag_sdbzmj || this.extinfo.tag_sdbzmj,
+          formdata['tag_sdcl'] = this.model.tag_sdcl || this.extinfo.tag_sdcl,
+          formdata['tag_ymbzmj'] = this.model.tag_ymbzmj || this.extinfo.tag_ymbzmj,
+          formdata['tag_ymcl'] = this.model.tag_ymcl || this.extinfo.tag_ymcl,
+          formdata['tag_ddbzmj'] = this.model.tag_ddbzmj || this.extinfo.tag_ddbzmj,
+          formdata['tag_ddcl'] = this.model.tag_ddcl || this.extinfo.tag_ddcl
+      } else if (this.extinfo.def_cat_uid === '8102') {
+        // 8102
+        formdata['tag_mlsbzmj'] = this.model.tag_mlsbzmj || this.extinfo.tag_mlsbzmj,
+          formdata['tag_mlscl'] = this.model.tag_mlscl || this.extinfo.tag_mlscl
+      } else if (this.extinfo.def_cat_uid === '8201' || this.extinfo.def_cat_uid === '8301' || this.extinfo.def_cat_uid === '8401') {
+        // 8201,8301,8401
+        formdata['tag_sd'] = this.model.tag_sd || this.extinfo.tag_sd,
+          formdata['tag_ym'] = this.model.tag_ym || this.extinfo.tag_ym,
+          formdata['tag_dd'] = this.model.tag_dd || this.extinfo.tag_dd
+      } else {
+        // 8202,8302,8402
+        formdata['tag_mls'] = this.model.tag_mls || this.extinfo.tag_mls
+      }
+
 
       this.$axios({
         url: '/post_j/j_edit/' + this.$route.query.uid,
@@ -173,7 +211,8 @@ export default {
             this.$router.push({
               path: '/post/view',
               query: {
-                uid: this.$route.query.uid
+                uid: this.$route.query.uid,
+                city:this.extinfo.tag_city
               }
             });
             this.$q.loading.hide();
