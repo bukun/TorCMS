@@ -1,11 +1,11 @@
-{% extends "../../templates/theme/_maplet.html" %}
+{% extends "../torcms_maplet/bage.html" %}
 {% block head %}
 <title> {{ postinfo.title }} - {{ _('Modify') }} </title>
 <meta name="keywords" content="{{ postinfo.title }} ">
 <meta name="description" content="{{ postinfo.title }} ">
 {% module use_f2e('codemirror') %}
 {% end %}
-{% block mainbody %}
+{% block typebody %}
 <div class="mtop">
     <ul class="breadcrumb">
         <li><a href="/" title="Home">{{ _('Home') }} </a></li>

@@ -1,4 +1,4 @@
-{% extends "../../templates/theme/_maplet.html" %}
+{% extends "../torcms_maplet/bage_add_edit.html" %}
 {% block head %}
 <title>{{postinfo.title}} | {{ _('Online map') }}</title>
 <meta name="keywords" content="{% for x in tag_info %} {{ _(x.tag_name) }} {% end %},{{postinfo.title}}">
