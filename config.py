@@ -32,26 +32,35 @@ email_cfg = {
     ,
 }
 
-router_post = {'1': 'post',
-               }
+router_post = {
+    '1': 'post',
+    '3': 'info',
+}
 
 post_type = {
     '1': '''<span style="color:green;" class="glyphicon glyphicon-list-alt">[{0}]</span>
         '''.format('Document'),
+    '3': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>
+        '''.format('Data'),
 }
 check_type = {
     '1': 'Document',
+    '3': 'Filter',
 }
 post_cfg = {
-    '1': {
+    '': {
         'router': 'post',
         'html': '''<span style="color:green;" class="glyphicon glyphicon-list-alt">[{0}]</span>'''.format('Document'),
         'checker': '1',
     },
-
+    '3': {
+        'router': 'info',
+        'html': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>'''.format('Data'),
+        'checker': '10',  # '10', '100', '1000', '10000'
+    }
 
 }
-kind_arr = ['1','9','m','s']
+kind_arr = ['1', '3', 'm', 's']
 
 from pathlib import Path
 

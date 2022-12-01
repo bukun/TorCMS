@@ -168,7 +168,7 @@
                 {{ _('Most attention') }}
             </div>
             <ul class="list-group" id="mostall">
-                {% module post_most_view(5, with_date = False, with_catalog= False,kind='9') %}
+                {% module post_most_view(5, with_date = False, with_catalog= False,kind=postinfo.kind) %}
             </ul>
         </div>
         <div class="panel panel-black">
@@ -176,7 +176,7 @@
                 {{ _('Recent articles') }}
             </div>
             <ul class="list-group">
-                {% module post_recent(5, with_date = False, with_catalog= False,kind='9') %}
+                {% module post_recent(5, with_date = False, with_catalog= False,kind=postinfo.kind) %}
             </ul>
         </div>
 
