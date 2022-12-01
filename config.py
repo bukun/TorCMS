@@ -33,20 +33,14 @@ email_cfg = {
 }
 
 router_post = {'1': 'post',
-               '9': 'info',  # Filter_View
-               'm': 'map',
                }
 
 post_type = {
     '1': '''<span style="color:green;" class="glyphicon glyphicon-list-alt">[{0}]</span>
         '''.format('Document'),
-    '9': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>
-        '''.format('Data'),
 }
 check_type = {
     '1': 'Document',
-    '9': 'Data',
-    'm': 'Map',
 }
 post_cfg = {
     '1': {
@@ -54,13 +48,10 @@ post_cfg = {
         'html': '''<span style="color:green;" class="glyphicon glyphicon-list-alt">[{0}]</span>'''.format('Document'),
         'checker': '1',
     },
-    '9': {
-        'router': 'info',
-        'html': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>'''.format('Data'),
-        'checker': '10',  # '10', '100', '1000', '10000'
-    }
+
+
 }
-kind_arr = ['9']
+kind_arr = ['1','9','m','s']
 
 from pathlib import Path
 
@@ -71,7 +62,7 @@ for wdir in Path('.').iterdir():
         _mod = __import__(the_file)
 
         router_post = dict(router_post, **_mod.config._router_post)
-        post_type = dict(router_post, **_mod.config._post_type)
-        check_type = dict(router_post, **_mod.config._check_type)
-        post_cfg = dict(router_post, **_mod.config._post_cfg)
+        post_type = dict(post_type, **_mod.config._post_type)
+        check_type = dict(check_type, **_mod.config._check_type)
+        post_cfg = dict(post_cfg, **_mod.config._post_cfg)
         # kind_arr = kind_arr + _mod.config._kind_arr

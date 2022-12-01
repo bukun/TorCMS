@@ -4,7 +4,41 @@
     {{ header_text }}
     {% end %}
     {% block infoselect %}
-    <div class="infoselect">  </div>
+    <div class="infoselect"> <li class="list-group-item">
+    <div class="row"><div class="col-sm-3">{{_('Record')}}</div><div class="col-sm-9">
+     <span class="label label-default"  name='_record' onclick='change(this);' value=''>{{_('All')}}</span>
+    
+        <span  class="label label-default" name='_record' onclick='change(this);' value='1'>
+        {{_('RS Image')}}</span>
+        <span  class="label label-default" name='_record' onclick='change(this);' value='2'>
+        {{_('GIS Data')}}</span>
+        <span  class="label label-default" name='_record' onclick='change(this);' value='3'>
+        {{_('Document')}}</span>
+        <span  class="label label-default" name='_record' onclick='change(this);' value='4'>
+        {{_('Multimedia')}}</span>
+        <span  class="label label-default" name='_record' onclick='change(this);' value='5'>
+        {{_('Formatted Data')}}</span></div></div></li><li class="list-group-item">
+    <div class="row"><div class="col-sm-3">{{_('Derive')}}</div><div class="col-sm-9">
+     <span class="label label-default"  name='_derive' onclick='change(this);' value=''>{{_('All')}}</span>
+    
+        <span  class="label label-default" name='_derive' onclick='change(this);' value='1'>
+        {{_('Observation')}}</span>
+        <span  class="label label-default" name='_derive' onclick='change(this);' value='2'>
+        {{_('Monitor')}}</span>
+        <span  class="label label-default" name='_derive' onclick='change(this);' value='3'>
+        {{_('Detection')}}</span>
+        <span  class="label label-default" name='_derive' onclick='change(this);' value='4'>
+        {{_('General Investigation')}}</span>
+        <span  class="label label-default" name='_derive' onclick='change(this);' value='5'>
+        {{_('Research')}}</span>
+        <span  class="label label-default" name='_derive' onclick='change(this);' value='6'>
+        {{_('Field trip')}}</span>
+        <span  class="label label-default" name='_derive' onclick='change(this);' value='7'>
+        {{_('Digital data')}}</span>
+        <span  class="label label-default" name='_derive' onclick='change(this);' value='8'>
+        {{_('Data reanalysis')}}</span>
+        <span  class="label label-default" name='_derive' onclick='change(this);' value='9'>
+        {{_('Network capture')}}</span></div></div></li> </div>
     {% end %}
 
     {% block infonav %}

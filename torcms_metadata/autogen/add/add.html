@@ -691,7 +691,19 @@ class="form-control">
 
 </div>
  </div>
-<legend>{{ _('Extra Metadata fields') }}</legend>
+<legend>{{ _('Extra Metadata fields') }}</legend> <div class="form-group">
+    <label for="tag__record" class="col-sm-2 control-label"><span>
+ 
+    {{_('Record')}}</span></label>
+    <div class="col-sm-9"><select id="tag__record" name="tag__record" class="form-control">
+    <option value="1">{{_('RS Image')}}</option><option value="2">{{_('GIS Data')}}</option><option value="3">{{_('Document')}}</option><option value="4">{{_('Multimedia')}}</option><option value="5">{{_('Formatted Data')}}</option></select></div></div>
+     <div class="form-group">
+    <label for="tag__derive" class="col-sm-2 control-label"><span>
+ 
+    {{_('Derive')}}</span></label>
+    <div class="col-sm-9"><select id="tag__derive" name="tag__derive" class="form-control">
+    <option value="1">{{_('Observation')}}</option><option value="2">{{_('Monitor')}}</option><option value="3">{{_('Detection')}}</option><option value="4">{{_('General Investigation')}}</option><option value="5">{{_('Research')}}</option><option value="6">{{_('Field trip')}}</option><option value="7">{{_('Digital data')}}</option><option value="8">{{_('Data reanalysis')}}</option><option value="9">{{_('Network capture')}}</option></select></div></div>
+    
     </div>
     {% end %}
     {% block footer %}
