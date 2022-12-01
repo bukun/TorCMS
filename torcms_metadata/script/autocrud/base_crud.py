@@ -8,7 +8,7 @@ import os
 CRUD_PATH = os.path.abspath('./torcms_metadata/autogen')
 
 META_DIR = './torcms_metadata'
-META_TAG_DIR = './database/meta'
+META_TAG_DIR = './torcms_metadata/database/meta'
 XLSX_FILE = './torcms_metadata/meta_元数据模板20220921.xlsx'
 
 for wfile in os.listdir(META_DIR):

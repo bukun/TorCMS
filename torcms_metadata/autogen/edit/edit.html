@@ -589,7 +589,103 @@ value="{{ postinfo.extinfo.get('pycsw_specificationdatetype','') }}"
 type="text"  class="form-control"> </div> 
 <div class="col-sm-1"></div>
 </div>
-<legend>{{ _('Extra Metadata fields') }}</legend>
+<legend>{{ _('Extra Metadata fields') }}</legend> <div class="form-group">
+    <label  for="tag__record"  class="col-sm-2 control-label">
+    {{_('Record')}}</label><div class="col-sm-9">
+    <select id="tag__record" name="tag__record" class="form-control">
+    
+        <option value="1"
+        {% if  'tag__record' in postinfo.extinfo and postinfo.extinfo["tag__record"] == "1" %}
+        selected = "selected"
+        {% end %}
+        >{{_('RS Image')}}</option>
+        
+        <option value="2"
+        {% if  'tag__record' in postinfo.extinfo and postinfo.extinfo["tag__record"] == "2" %}
+        selected = "selected"
+        {% end %}
+        >{{_('GIS Data')}}</option>
+        
+        <option value="3"
+        {% if  'tag__record' in postinfo.extinfo and postinfo.extinfo["tag__record"] == "3" %}
+        selected = "selected"
+        {% end %}
+        >{{_('Document')}}</option>
+        
+        <option value="4"
+        {% if  'tag__record' in postinfo.extinfo and postinfo.extinfo["tag__record"] == "4" %}
+        selected = "selected"
+        {% end %}
+        >{{_('Multimedia')}}</option>
+        
+        <option value="5"
+        {% if  'tag__record' in postinfo.extinfo and postinfo.extinfo["tag__record"] == "5" %}
+        selected = "selected"
+        {% end %}
+        >{{_('Formatted Data')}}</option>
+        
+    </select></div></div>
+     <div class="form-group">
+    <label  for="tag__derive"  class="col-sm-2 control-label">
+    {{_('Derive')}}</label><div class="col-sm-9">
+    <select id="tag__derive" name="tag__derive" class="form-control">
+    
+        <option value="1"
+        {% if  'tag__derive' in postinfo.extinfo and postinfo.extinfo["tag__derive"] == "1" %}
+        selected = "selected"
+        {% end %}
+        >{{_('Observation')}}</option>
+        
+        <option value="2"
+        {% if  'tag__derive' in postinfo.extinfo and postinfo.extinfo["tag__derive"] == "2" %}
+        selected = "selected"
+        {% end %}
+        >{{_('Monitor')}}</option>
+        
+        <option value="3"
+        {% if  'tag__derive' in postinfo.extinfo and postinfo.extinfo["tag__derive"] == "3" %}
+        selected = "selected"
+        {% end %}
+        >{{_('Detection')}}</option>
+        
+        <option value="4"
+        {% if  'tag__derive' in postinfo.extinfo and postinfo.extinfo["tag__derive"] == "4" %}
+        selected = "selected"
+        {% end %}
+        >{{_('General Investigation')}}</option>
+        
+        <option value="5"
+        {% if  'tag__derive' in postinfo.extinfo and postinfo.extinfo["tag__derive"] == "5" %}
+        selected = "selected"
+        {% end %}
+        >{{_('Research')}}</option>
+        
+        <option value="6"
+        {% if  'tag__derive' in postinfo.extinfo and postinfo.extinfo["tag__derive"] == "6" %}
+        selected = "selected"
+        {% end %}
+        >{{_('Field trip')}}</option>
+        
+        <option value="7"
+        {% if  'tag__derive' in postinfo.extinfo and postinfo.extinfo["tag__derive"] == "7" %}
+        selected = "selected"
+        {% end %}
+        >{{_('Digital data')}}</option>
+        
+        <option value="8"
+        {% if  'tag__derive' in postinfo.extinfo and postinfo.extinfo["tag__derive"] == "8" %}
+        selected = "selected"
+        {% end %}
+        >{{_('Data reanalysis')}}</option>
+        
+        <option value="9"
+        {% if  'tag__derive' in postinfo.extinfo and postinfo.extinfo["tag__derive"] == "9" %}
+        selected = "selected"
+        {% end %}
+        >{{_('Network capture')}}</option>
+        
+    </select></div></div>
+    
     </div>
     {% end %}
     {% block footer %}

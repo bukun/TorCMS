@@ -262,7 +262,117 @@
     <div class="col-sm-8">
     <span class="val">{{ postinfo.extinfo.get('pycsw_specificationdatetype','') }} 
      </span></div></div>{% end %}
+    {% if userinfo and userinfo.role[1] > '0' %}
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>{{_('Record')}}</strong></span></div>
+    <div class="col-sm-8">
     
+         {% if 'tag__record' in postinfo.extinfo %}
+          {% set tmp_var = postinfo.extinfo["tag__record"] %}
+          {% if tmp_var == "1" %}
+          {{_('RS Image')}}
+          {% end %}
+          {% end %}
+         
+         {% if 'tag__record' in postinfo.extinfo %}
+          {% set tmp_var = postinfo.extinfo["tag__record"] %}
+          {% if tmp_var == "2" %}
+          {{_('GIS Data')}}
+          {% end %}
+          {% end %}
+         
+         {% if 'tag__record' in postinfo.extinfo %}
+          {% set tmp_var = postinfo.extinfo["tag__record"] %}
+          {% if tmp_var == "3" %}
+          {{_('Document')}}
+          {% end %}
+          {% end %}
+         
+         {% if 'tag__record' in postinfo.extinfo %}
+          {% set tmp_var = postinfo.extinfo["tag__record"] %}
+          {% if tmp_var == "4" %}
+          {{_('Multimedia')}}
+          {% end %}
+          {% end %}
+         
+         {% if 'tag__record' in postinfo.extinfo %}
+          {% set tmp_var = postinfo.extinfo["tag__record"] %}
+          {% if tmp_var == "5" %}
+          {{_('Formatted Data')}}
+          {% end %}
+          {% end %}
+         
+    </div></div>
+    {% end %}{% if userinfo and userinfo.role[1] > '0' %}
+    <div class="row">
+    <div class="col-sm-4"><span class="des"><strong>{{_('Derive')}}</strong></span></div>
+    <div class="col-sm-8">
+    
+         {% if 'tag__derive' in postinfo.extinfo %}
+          {% set tmp_var = postinfo.extinfo["tag__derive"] %}
+          {% if tmp_var == "1" %}
+          {{_('Observation')}}
+          {% end %}
+          {% end %}
+         
+         {% if 'tag__derive' in postinfo.extinfo %}
+          {% set tmp_var = postinfo.extinfo["tag__derive"] %}
+          {% if tmp_var == "2" %}
+          {{_('Monitor')}}
+          {% end %}
+          {% end %}
+         
+         {% if 'tag__derive' in postinfo.extinfo %}
+          {% set tmp_var = postinfo.extinfo["tag__derive"] %}
+          {% if tmp_var == "3" %}
+          {{_('Detection')}}
+          {% end %}
+          {% end %}
+         
+         {% if 'tag__derive' in postinfo.extinfo %}
+          {% set tmp_var = postinfo.extinfo["tag__derive"] %}
+          {% if tmp_var == "4" %}
+          {{_('General Investigation')}}
+          {% end %}
+          {% end %}
+         
+         {% if 'tag__derive' in postinfo.extinfo %}
+          {% set tmp_var = postinfo.extinfo["tag__derive"] %}
+          {% if tmp_var == "5" %}
+          {{_('Research')}}
+          {% end %}
+          {% end %}
+         
+         {% if 'tag__derive' in postinfo.extinfo %}
+          {% set tmp_var = postinfo.extinfo["tag__derive"] %}
+          {% if tmp_var == "6" %}
+          {{_('Field trip')}}
+          {% end %}
+          {% end %}
+         
+         {% if 'tag__derive' in postinfo.extinfo %}
+          {% set tmp_var = postinfo.extinfo["tag__derive"] %}
+          {% if tmp_var == "7" %}
+          {{_('Digital data')}}
+          {% end %}
+          {% end %}
+         
+         {% if 'tag__derive' in postinfo.extinfo %}
+          {% set tmp_var = postinfo.extinfo["tag__derive"] %}
+          {% if tmp_var == "8" %}
+          {{_('Data reanalysis')}}
+          {% end %}
+          {% end %}
+         
+         {% if 'tag__derive' in postinfo.extinfo %}
+          {% set tmp_var = postinfo.extinfo["tag__derive"] %}
+          {% if tmp_var == "9" %}
+          {{_('Network capture')}}
+          {% end %}
+          {% end %}
+         
+    </div></div>
+    {% end %}
     </div>
 
     {% end %}
