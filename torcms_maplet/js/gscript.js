@@ -29,12 +29,12 @@ function entity_down(uid) {
         success: function (result) {
             var msg_json = $.parseJSON(result);
             if (msg_json.down_code == 1) {
-                window.open(msg_json.down_url)
+                  window.open(msg_json.down_url)
             }
         }
     })
 
-}
+    }
 
 function g_load_kindcat() {
     $.ajax({
@@ -105,7 +105,7 @@ function reply_it(view_id) {
 function reply_del_com(reply_id) {
     var AjaxUrl = "/reply/delete_com/" + reply_id;
     $.getJSON(AjaxUrl, function (Json) {
-        1 == Json.del_reply ? $("#" + reply_id).html("") : alert("Delete failed!")
+         1 == Json.del_reply ? $("#" + reply_id).html("") : alert("Delete failed!")
     })
 }
 function comment_it(view_id, reply_id, cid, bid) {
@@ -214,21 +214,21 @@ $("#sub_reset").click(function () {
 }),$(document).ready(function () {
     var AjaxUrl, baseMaps, cities, currentX, currentY, currentZoom, geojsonid, map, map_uid, mapson, nexrad, onMapClick, onZoomend, osm, overlayMaps, popup, vlat, vlon, vmarker, vzoom_current, vzoom_max, vzoom_min;
     if (currentZoom = 0, currentX = 0, currentY = 0, map_uid = "", $("#btn_updatemap").click(function () {
-        $.ajax({
-            url: "/admin_map/_update_view/m" + map_uid,
-            type: "POST",
-            cache: !1,
-            data: {ext_lat: currentY, ext_lon: currentX, ext_zoom_current: currentZoom},
-            dataType: "html",
-            timeout: 1e3,
-            error: function () {
-                alert("Please log in first.")
-            },
-            success: function (result) {
-                $("#btn_updatemap").text("Successfully")
-            }
-        })
-    }), $("#map").length > 0) {
+            $.ajax({
+                url: "/admin_map/_update_view/m" + map_uid,
+                type: "POST",
+                cache: !1,
+                data: {ext_lat: currentY, ext_lon: currentX, ext_zoom_current: currentZoom},
+                dataType: "html",
+                timeout: 1e3,
+                error: function () {
+                    alert("Please log in first.")
+                },
+                success: function (result) {
+                    $("#btn_updatemap").text("Successfully")
+                }
+            })
+        }), $("#map").length > 0) {
         $("#map").hasClass("mapdiv") || $("#map").css({
             height: "350px",
             width: "92%"
@@ -325,7 +325,7 @@ function map_add_log(map_str,mapson) {
     map_data.append("browser", _browserType);
 
 
-    $.ajax({
+     $.ajax({
         url: "/map_log/_add/",
         type: "post",
         data: map_data,

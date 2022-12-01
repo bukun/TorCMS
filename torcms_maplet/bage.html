@@ -1,383 +1,188 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta charset="utf-8">
+    <meta name="applicable-device" content="pc,mobile">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="{{ _('Disaster Risk Reduction Knowledge Service') }}">
-    <meta name="Copyright" content="{{ _('Disaster Risk Reduction Knowledge Service CopyRight') }}">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <link rel="shortcut icon" href="/favicon.ico" mce_href="/favicon.ico" type="image/x-icon">
-
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     {% module use_f2e('f2elib') %}
-    <link rel="stylesheet" href="/static/tass/css/style.css">
+    {% module use_f2e('codemirror') %}
 
+    <link rel="stylesheet" href="/static/tass/css/style.css" type="text/css">
+    {% block headinfo %}
+    {% end %}
+    {% block head %}
+    {% end %}
     <script src="{{ static_url('jslib/dst/getIP.js') }}"></script>
-    <script src="{{ static_url('jslib/dst/drr_js.js') }}"></script>
-    <script src="{{ static_url('jslib/jquery.lazyload.js') }}"></script>
-    {% block head %}{% end %}
-    <link rel="stylesheet" href="{{ static_url('f2elib/bootstrap-star-rating-master/css/star-rating.css')}}" media="all">
-    <link href="{{ static_url('dist_mv/iconfont/iconfont.css') }}" rel=stylesheet>
-    <link href="{{ static_url('dist_mv/texticon.css') }}" rel=stylesheet>
-    <script>
+
+    <script language="javascript" type="text/javascript">
+        // 统计用户 访问网站步骤记录
+        var tjSecond = 0;
+        var tjRandom = 0;
         var userinfo = "{{ userinfo.uid if userinfo else ''}}";
 
+        window.setInterval(function () {
+            tjSecond++;
+        }, 1000);
+        // 随机数
+        tjRandom = (new Date()).valueOf();
+
+        // 用户第一次访问页面记录部分数据
+        window.onload = function () {
+
+            var tjArr = localStorage.getItem("jsArr") ? localStorage.getItem("jsArr") : '[]';
+
+            var dataArr = {
+                'tjRd': tjRandom,
+                'url': location.href,
+                'refer': getReferrer(),
+                'user_id': userinfo
+            };
+            tjArr = eval('(' + tjArr + ')');
+            tjArr.push(dataArr);
+            var tjArr1 = JSON.stringify(tjArr);
+
+            localStorage.setItem("jsArr", tjArr1);
+
+
+        };
+        // 用户继续访问根据上面提供的key值补充数据
+        window.onbeforeunload = function () {
+
+            var tjArrRd = eval('(' + localStorage.getItem("jsArr") + ')');
+            var tjI = tjArrRd.length - 1;
+            if (tjArrRd[tjI].tjRd == tjRandom) {
+                tjArrRd[tjI].time = tjSecond;
+                tjArrRd[tjI].timeIn = Date.parse(new Date()) - (tjSecond * 1000);
+                tjArrRd[tjI].timeOut = Date.parse(new Date());
+
+                $.post("/log/_add", {
+                    url: tjArrRd[tjI].url,
+                    refer: tjArrRd[tjI].refer,
+                    user_id: tjArrRd[tjI].user_id,
+                    uid: tjArrRd[tjI].tjRd,
+                    timeon: tjArrRd[tjI].time,
+                    timein: tjArrRd[tjI].timeIn,
+                    timeOut: tjArrRd[tjI].timeOut
+
+                }, function (result) {
+                });
+                var tjArr1 = JSON.stringify(tjArrRd);
+                localStorage.setItem("jsArr", tjArr1);
+
+
+            }
+        };
+
+
+        function getReferrer() {
+            var referrer = '';
+            try {
+                referrer = window.top.document.referrer;
+            } catch (e) {
+                if (window.parent) {
+                    try {
+                        referrer = window.parent.document.referrer;
+                    } catch (e2) {
+                        referrer = '';
+                    }
+                }
+            }
+            if (referrer === '') {
+                referrer = document.referrer;
+            }
+
+            return referrer;
+
+        }
 
     </script>
 
-    <link rel="stylesheet" href="/static/tass/css/nav-hidden.css">
+
+    <link href="/static/css/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+
 </head>
+
 <body>
-<div class="col-sm-12  header_bg">
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
-        <div class="row">
-            <div class="col-sm-4 navbar-home">
-                <a href="http://www.ikcest.org/index.htm" class="welcom">
-                    {{ _('Welcome to the IKCEST') }}
-                </a>
-            </div>
-            <div class="col-sm-8 line50 visible-lg" style="text-align: right; line-height: 50px;  font-size: 14px">
-                <div class="row">
-                <div class="col-sm-9">
-            <span id="user-out" style="display: none">
-                <span class="glyphicon glyphicon-user"></span>&nbsp;
-	        <a id="drr_userName" href="/user/info" title="User info"></a>&nbsp;&nbsp; | &nbsp;&nbsp;
-            <span class="glyphicon glyphicon-log-out"></span>&nbsp;
-	        <a href="" id="btn_logout" title="Logout">{{ _('Logout') }}</a>
-	      </span>
-            <span id="user-in">
-             <span class="glyphicon glyphicon-log-in"></span>&nbsp;
-	        <a href="https://www.ikcest.org/my/login.htm?returnUrl=https://drr.ikcest.org/" title="Login">{{ _('Login') }}</a>&nbsp;&nbsp; | &nbsp;&nbsp;
-             <span class="glyphicon glyphicon-registration-mark"></span>&nbsp;
-	        <a href="https://www.ikcest.org/my/register.htm?type=drr&returnUrl=https://drr.ikcest.org/" title="Register">{{ _('Register') }}</a>
-	       </span>
-                </div>
-                    <div class="col-sm-3">
-                            <span id="lang_en" onclick="chgLang('lang_en','EN');">
-                                <span class="glyphicon glyphicon-hand-right"></span>
-                                <span>English</span>                                &nbsp;&nbsp;
-                            </span>
-                            <span id="lang_zh" onclick="chgLang('lang_zh','ZH');">
-                               <span class="glyphicon glyphicon-hand-right"></span>
-                                <span>中文</span>
-                            </span>
-                    </div>
-                </div>
-            </div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/"> TorCMS</a>
         </div>
-        <div class="row">
-            <div class="col-sm-8">
+        <div class="navbar-collapse collapse" id="nava">
+            <ul class="nav navbar-nav">
+                <li><a href="/page/about_torcms">{{ _('About') }}</a></li>
+                <li class="dropdown">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">{{ _('Data') }}
+                        <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/meta_info_filter/2100">{{ _('Basic geographic') }}</a></li>
+                        <li><a href="/meta_info_filter/2200">{{ _('Nature resources') }}</a></li>
 
-                <a href="/">
-                    <img src="{{ static_url('tass/images/img-ikcestlogo.png') }}" class="img-thumbnail" style="border: 0; " alt="logo"/>
-                </a>
-            </div>
-            <div class="col-sm-4 ">
-                <div style="clear: both"></div>
-                <div class="header_m">
 
-                </div>
-            </div>
+                    </ul>
+                </li>
+
+                <li><a href="/post/">{{ _('News') }}</a></li>
+                <li><a href="/map/">{{ _('Map') }}</a></li>
+
+
+
+                <li class="dropdown">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">{{ _('User') }}
+                        <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/user_list/user_recent">{{ _('Recent use') }}</a></li>
+                        <li><a href="/user_list/user_most">{{ _('Most use') }}</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/collect/list">{{ _('My collection') }}</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/user/info">{{ _('Personal Data') }}</a></li>
+
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <div>
+                        {% module widget_search() %}
+                    </div>
+                </li>
+
+                {% if userinfo %}
+                <li><a href="/user/info">{{ userinfo.user_name }}</a></li>
+                <li><a href="/user/logout">{{ _('Logout') }}</a></li>
+                {% else %}
+                <li><a href="/user/login">{{ _('Login') }}</a></li>
+                <li><a href="/user/regist">{{ _('Register') }}</a></li>
+                {% end %}
+            </ul>
         </div>
     </div>
 </div>
-<div class="clear"></div>
-<div class="col-sm-12 bg_white">
-    <div class="row">
-        <nav class="navbar navbar-default" role="navigation">
-            <div class="container">
-                <div class="container-fluid" id="nava">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse"
-                                data-target="#example-navbar-collapse">
-                            <span class="sr-only">Navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="/" style="color: #333333; height:50px;padding-bottom: 9px">{{ _('Home') }}</a>
-                    </div>
-                    <div class="collapse navbar-collapse " id="example-navbar-collapse">
-                        <ul class="nav navbar-nav" id="nav" >
-                             <li>
-                            <a href="/post/" class="dropdown-toggle" data-toggle="dropdown" title="Document">
-                            {{ _('Document') }}
-                            <b class="caret"></b>
-                            </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="/post/" title="{{ _('Post') }}">{{ _('Post') }}</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="/filter/r100" title="{{ _('Report') }}">{{ _('Reports') }}</a></li>
-                                    <li><a href="/news_letters/list" title="{{ _('Newsletters') }}">{{ _('Newsletters') }}</a></li>
-{#                                    <li><a href="/earthquake_imgs/list" title="{{ _('Daily Earthquake Maps') }}">{{ _('Daily Earthquake Maps') }}</a></li>#}
-
-                                </ul>
-                            </li>
-                            {#
-                            <li><a href="/filter/2200" title="{{ _('Data') }}">{{ _('Data') }}</a></li>
-                             #}
-
-                            <li>
-                            <a href="/meta_filter/2200" class="dropdown-toggle" data-toggle="dropdown" title="Document">
-                            {{ _('Data') }}
-                            <b class="caret"></b>
-                            </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="/meta_filter/2202" title="{{ _('Subject database for earthquake') }}">
-                                        {{ _('Subject database for earthquake') }}
-                                    </a></li>
-                                    <li>
-                                        <a href="/meta_filter/2204" title="{{ _('Subject database for drought') }}">
-                                            {{ _('Subject database for drought') }}
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="/meta_filter/2205" title="{{ _('Subject database for flood') }}">
-                                            {{ _('Subject database for flood') }}
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="/meta_filter/2203" title="{{ _('Subject database for frozen') }}">
-                                            {{ _('Subject database for frozen') }}
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="/meta_filter/2211" title="{{ _('Subject database for heat wave') }}">
-                                            {{ _('Subject database for heat wave') }}
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="/meta_filter/2216" title="{{ _('Subject database for wild fire') }}">
-                                            {{ _('Subject database for wild fire') }}
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="/meta_filter/2208"
-                                           title="{{ _('Subject database for ecology & environment') }}">
-                                            {{ _('Subject database for ecology & environment') }}
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="/meta_filter/2212" title="{{ _('Subject database for urban') }}">
-                                            {{ _('Subject database for urban') }}
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="/meta_filter/2213"
-                                           title="{{ _('Subject database for social media mining') }}">
-                                            {{ _('Subject database for social media mining') }}
-                                        </a>
-                                    </li>
-                                    <li class="divider"></li>
-                                    <li>
-                                        <a href="/meta_filter/2214"
-                                           title="{{ _('Regional basic database for the Belt and Road') }}">
-                                            {{ _('Regional basic database for the Belt and Road') }}
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="/meta_filter/2218"
-                                           title="{{ _('Regional disaster database for the Belt and Road') }}">
-                                            {{ _('Regional disaster database for the Belt and Road') }}
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="/meta_filter/2201"
-                                           title="{{ _('Regional database for China-Mongolia-Russia Economic Corridor') }}">
-                                            {{ _('Regional database for China-Mongolia-Russia Economic Corridor') }}
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="/meta_filter/2209"
-                                           title="{{ _('Regional database for China-Pakistan Economic Corridor') }}">
-                                            {{ _('Regional database for China-Pakistan Economic Corridor') }}
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="/meta_filter/2207"
-                                           title="{{ _('Regional database for Bangladesh-China-India-Myanmar Economic Corridor') }}">
-                                            {{ _('Regional database for Bangladesh-China-India-Myanmar Economic Corridor') }}
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-
-
-                              <li>
-                            <a href="/map/" class="dropdown-toggle" data-toggle="dropdown" title="Document">
-                            {{ _('Maps') }}
-                            <b class="caret"></b>
-                            </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="/list/china_historical_disaster" title="{{ _('China Historical Disaster') }}">{{ _('China Historical Disaster') }}</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="/list/dis_biological_disasters" title="{{ _('Biological Disasters') }}">{{ _('Biological Disasters') }}</a></li>
-                                    <li><a href="/list/dis_geological_disasters" title="{{ _('Geological Disasters') }}">{{ _('Geological Disasters') }}</a></li>
-                                    <li><a href="/list/dis_earthquake_disasters" title="{{ _('Earthquake Disasters') }}">{{ _('Earthquake Disasters') }}</a></li>
-                                    <li><a href="/list/dis_meteorologic_disasters" title="{{ _('Meteorologic Disasters') }}">{{ _('Meteorologic Disasters') }}</a></li>
-                                    <li><a href="/list/dis_flood_disasters" title="{{ _('Flood Disasters') }}">{{ _('Flood Disasters') }}</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="/list/raster_data" title="{{ _('Raster Data') }}">{{ _('Raster Data') }}</a></li>
-                                    <li><a href="/list/vector_data" title="{{ _('Vector Data') }}">{{ _('Vector Data') }}</a></li>
-
-
-                                </ul>
-                            </li>
-
-                            {#
-                            <li class="hidden-ssm"><a href="/app/" title="{{ _('Tools') }}">{{ _('Tools') }}</a></li>
-                            #}
-
-                            <li class="dropdown hidden-mid">
-                                <a href="/page/help" class="dropdown-toggle" data-toggle="dropdown" title="Education">
-                                    {{ _('Education') }}
-                                    <b class="caret"></b>
-                                </a>
-
-                                <ul class="dropdown-menu">
-
-                                    <li><a href="/leaf/" title="{{ _('Tutorial for GIS') }}">{{ _('Tutorial for GIS') }}</a></li>
-                                    <li><a href="/tutorial/" title="{{ _('Disaster Knowledge') }}">{{ _('Disaster Knowledge') }}</a></li>
-
-{#                                    <li><a href="/webgis/" title="{{ _('Online WebGIS Tutorial') }}">{{ _('Online WebGIS Tutorial') }}</a></li>#}
-
-                                    {#
-                                    <li><a href="/webgis-notes/" title="{{ _('Notes for WebGIS') }}">{{ _('Notes for WebGIS') }}</a></li>
-                                    <li><a href="/remote-sensing-tutorial/" title="{{ _('Remote Sensing Tutorial') }}">{{ _('Remote Sensing Tutorial') }}</a></li>
-                                     #}
-
-                                    <li class="divider"></li>
-
-                                    <li><a href="/filter/2101" title="{{ _('Presentation') }}">{{ _('Presentation') }} </a></li>
-                                    <li><a href="/filter/2102" title="{{ _('Training Video') }}">{{ _('Training Video') }} </a></li>
-                                    <li><a href="/filter/2103" title="{{ _('Reference report') }}">{{ _('Reference report') }} </a></li>
-                                    <li><a href="/filter/2105" title="{{ _('Disaster news Video') }}">{{ _('Disaster news Video') }} </a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="/science.html" title="{{ _('Science Popularization') }}">{{ _('Science Popularization') }}</a></li>
-
-                                    <li class="divider"></li>
-                                    <li><a href="/training/training.html" title="International Training">{{ _('International Training') }}</a></li>
-
-                                    </ul>
-                            </li>
-                            <li class="dropdown hidden-mids">
-                                <a href="" class="dropdown-toggle" data-toggle="dropdown">{{ _('Subject-Catalogue') }}
-                                    <b class="caret"></b>
-                                </a>
-                                <ul class="dropdown-menu">
-
-                                    <li><a href="/filter/3112" title="{{ _('Organization') }}">{{ _('Organization') }}</a></li>
-                                    <li><a href="/filter/3111" title="{{ _('Experts') }}">{{ _('Experts') }}</a></li>
-                                    <li><a href="/filter/3114" title="{{ _('Website') }}">{{ _('Website') }}</a></li>
-
-
-                                </ul>
-                            </li>
-
-                            <li class="dropdown hidden-mids">
-                                <a href="" class="dropdown-toggle" data-toggle="dropdown">{{ _('Application') }}
-                                    <b class="caret"></b>
-                                </a>
-                                <ul class="dropdown-menu">
-
-                                    <li><a href="/knowledge_service/index.html#app_info" title="{{ _('Information Aggregation') }}">{{ _('Information Aggregation') }}</a></li>
-                                    <li><a href="/knowledge_service/index.html#app_gis" title="{{ _('Application Using Web GIS') }}">{{ _('Application Using Web GIS') }}</a></li>
-                                    <li><a href="/knowledge_service/index.html#app_sci" title="{{ _('Scientific Data Visulization') }}">{{ _('Scientific Data Visulization') }}</a></li>
-                                    <li><a href="/knowledge_service/index.html#app_nat" title="{{ _('Natural Science Research Work') }}">{{ _('Natural Science Research Work') }}</a></li>
-
-
-                                </ul>
-                            </li>
-
-                            {#
-                            <li class="hidden-sms" ><a href="/case/index.html" title="{{ _('Cases') }}">{{ _('Cases') }}</a></li>
-                            #}
-                            <li class="dropdown hidden-mids">
-                                <a href="" class="dropdown-toggle" data-toggle="dropdown">{{ _('Scholar') }}
-                                    <b class="caret"></b>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="/iframe/3" title="{{ _('ALL') }}">{{ _('ALL') }}</a></li>
-                                    <li><a href="/iframe/12" title="{{ _('Earthquake') }}">{{ _('Earthquake') }}</a></li>
-                                    <li><a href="/iframe/13" title="{{ _('Flood') }}">{{ _('Flood') }}</a></li>
-                                    <li><a href="/iframe/14" title="{{ _('Drought') }}">{{ _('Drought') }}</a></li>
-                                    <li><a href="/iframe/15" title="{{ _('Geological disaster') }}">{{ _('Geological disaster') }}</a></li>
-                                    <li><a href="/iframe/16" title="{{ _('Forest fire') }}">{{ _('Forest fire') }}</a></li>
-                                    <li><a href="/iframe/17" title="{{ _('Tsunami') }}">{{ _('Tsunami') }}</a></li>
-                                    <li><a href="/iframe/18" title="{{ _('Extreme heat wave') }}">{{ _('Extreme heat wave') }}</a></li>
-                                    <li><a href="/iframe/19" title="{{ _('Typhoon') }}">{{ _('Typhoon') }}</a></li>
-                                    <li><a href="/iframe/20" title="{{ _('Disaster warning') }}">{{ _('Disaster warning') }}</a></li>
-                                    <li><a href="/iframe/21" title="{{ _('Disaster risk reduction') }}">{{ _('Disaster risk reduction') }}</a></li>
-                                    <li><a href="/iframe/41" title="{{ _('Sichuan-Tibet Railway') }}">{{ _('Sichuan-Tibet Railway') }}</a></li>
-                                </ul>
-                            </li>
-
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </div>
+{% block mainbody %}
+<div class="container" style="padding-top: 80px">
+    {% block typebody %}{% end %}
 </div>
 
-<div class="clear"></div>
- <div class="col-sm-12" style="clear: both; margin-bottom: 20px"></div>
+{% end %}
 
-<div class="container" style="clear: both">
 
-    <div class="row">
-        {% block mainbody %}{% end %}
-    </div>
-
-    {% block flinks%}{% end %}
-    </div>
-<div class="col-sm-12 foot">
+<div id="copyrights">
     <div class="container">
-    <div style="clear: both"></div>
-    <div class="row">
-        <div class="foot_bg">
-            <div class="row">
-                <div class="col-sm-7">
-                    <div class="foot-logo">
-                        <img class="img-responsive"
-                             alt="IKCEST - International Knowledge Centre for Engineering Sciences and
-                                  Technology under the Auspices of UNESCO"
-                             src="{{ static_url('tass/images/whitelogo.png') }}">
-                    </div>
-
-                </div>
-                <div class="col-sm-5 " id="d_nav">
-
-<!--<div class="bott_icon hidden-mid">-->
-<!--<a href="https://www.facebook.com/Ikcest-2061801994091155/" class="social-f" target="_blank"></a>-->
-			<!--<a href="https://twitter.com/IKCESTikcest" class="social-t" target="_blank"></a>-->
-			<!--<a href="https://www.weibo.com/6523298026/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1" class="social-w" target="_blank"></a>-->
-<!--</div>-->
-
-
-                              <div class="foot-bq hidden-xs">
-                                  <span class="visible-lg-block"> <a href="/page/resource" title="Data List">{{ _('Data List') }}</a>
-           &nbsp;|&nbsp;<a href="/page/about" title="About">{{ _('About') }}</a>
-               &nbsp;|&nbsp;<a href="/page/contact" title="Contact Us">{{ _('Contact Us') }}</a> | <a href="/page/how-to-use">{{ _('How to use') }}</a> </span>
-                                  <a href="https://beian.miit.gov.cn" target="_blank">ICP备案号:京ICP备14021735号-1</a> &nbsp; &nbsp;© 2008 - 2022 IKCEST All rights reserved</div>
-
-                        </div>
-
-            </div>
-        </div>
+        <p>
+            Powered by TorCMS (<a href="https://github.com/bukun/TorCMS">https://github.com/bukun/TorCMS</a>).
+        </p>
     </div>
-
-</div>
 </div>
 <script type="text/javascript">
     var urlstr = location.href;
@@ -393,93 +198,23 @@
     });
     $(".dropdown-menu a").each(function () {
         if ($(this).hasClass('current')) {
-
             $(this).parents('ul').siblings('a').eq(0).addClass('current');
-            $(this).eq(0).removeClass('current');
-            $(this).eq(0).addClass('ula');
             urlstatus = true;
         }
     });
-    // if (!urlstatus) {
-    //     $(".dropdown-menu a").eq(0).addClass('ula');
-    // }
-
-</script>
-
-<style>
-    .MathJax_Display {
-    width: auto !important;
-    display: inline !important;
-}
-</style>
-    <script src="{{ static_url('f2elib/bootstrap-star-rating-master/js/star-rating.js') }}"></script>
-
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-    </script>
-
-    <script src="{{ static_url('jslib/dst/gscript.js') }}"></script>
-
-{% block htmlend %}{% end %}
-
-<script>
-    //访问监控代码 谷歌分析
-    (function (i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r;
-        i[r] = i[r] || function () {
-                (i[r].q = i[r].q || []).push(arguments)
-            }, i[r].l = 1 * new Date();
-        a = s.createElement(o),
-            m = s.getElementsByTagName(o)[0];
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-
-    ga('create', 'UA-78638012-3', 'auto');
-    ga('create', 'UA-140398964-2', 'auto', 'gisliter');
-    ga('send', 'pageview');
-    ga('gisliter.send', 'pageview');
-</script>
-{#
-<script>
-    //访问监控代码 百度统计
-    var _hmt = _hmt || [];
-    (function () {
-        var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?2c10b6b9c0e3f89175e2f76f814f5df5";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
-    })();
-</script>
-<script type="text/javascript">
-    function googleTranslateElementInit() {
-        new google.translate.TranslateElement({
-            pageLanguage: 'en',
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-        }, 'google_translate_element');
+    if (!urlstatus) {
+        $("#nava a").eq(-1).addClass('current');
     }
 </script>
-<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-<!-- Piwik -->
-<script type="text/javascript">
-    var _paq = _paq || [];
-    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-    _paq.push(['trackPageView']);
-    _paq.push(['enableLinkTracking']);
-    (function () {
-        var u = "//121.42.45.218/piwik/";
-        _paq.push(['setTrackerUrl', u + 'piwik.php']);
-        _paq.push(['setSiteId', '2']);
-        var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
-        g.type = 'text/javascript';
-        g.async = true;
-        g.defer = true;
-        g.src = u + 'piwik.js';
-        s.parentNode.insertBefore(g, s);
-    })();
-</script>
-<!-- End Piwik Code -->
-#}
+<script src="/static/css/lib/jquery/jquery.min.js"></script>
+<script src="/static/css/lib/hover-pack/hover-pack.js"></script>
+<script src="/static/js/main.js"></script>
+<script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" src="{{ static_url('jslib/dst/gscript.js') }}"></script>
+<script type="text/javascript" src="{{ static_url('jslib/dst/referrer.js') }}"></script>
 </body>
 </html>
+
+
+
