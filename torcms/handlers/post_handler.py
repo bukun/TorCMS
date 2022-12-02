@@ -276,10 +276,7 @@ class PostHandler(BaseHandler):
                 self.viewinfo(postinfo)
             else:
                 self.redirect(
-                    '/{0}/{1}'.format(
-                        router_post[postinfo.kind],
-                        postinfo.uid
-                    ),
+                    '/{0}/{1}'.format(router_post[postinfo.kind], postinfo.uid),
                     permanent=True)
 
         elif self.userinfo:
@@ -306,8 +303,7 @@ class PostHandler(BaseHandler):
             else:
                 uid = ''
             self.render('post_{0}/post_add.html'.format(self.kind),
-                        tag_infos=MCategory.query_all(by_order=True,
-                                                      kind=self.kind),
+                        tag_infos=MCategory.query_all(by_order=True, kind=self.kind),
                         userinfo=self.userinfo,
                         kwd={
                             'uid': uid,

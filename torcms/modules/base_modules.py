@@ -212,7 +212,7 @@ class PostCategoryOf(tornado.web.UIModule):
     def render(self, uid_with_str, **kwargs):
         curinfo = MCategory.get_by_uid(uid_with_str)
         sub_cats = MCategory.query_sub_cat(uid_with_str)
-        kind = kwargs.get('kind', '2')
+        kind = kwargs.get('kind', '3')
         slug = kwargs.get('slug', False)
         cat_dic = []
         for cat in sub_cats:
