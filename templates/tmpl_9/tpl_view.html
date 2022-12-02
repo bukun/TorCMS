@@ -1,4 +1,4 @@
-{% extends "../torcms_metadata/tmplinfo.html" %}
+{% extends "./tmplinfo.html" %}
 
 {% block head %}
 
@@ -35,9 +35,9 @@
 
                 <li><a href="/" title="{{ _('Home') }}"> {{ _('Home') }}</a></li>
 
-                <li><a href="/{{ kwd['router'] }}_filter/{{ pcatinfo.uid }}" title="{{ pcatinfo.name }}">{{ pcatinfo.name }}</a></li>
+                <li><a href="/filter/{{ pcatinfo.uid }}" title="{{ pcatinfo.name }}">{{ pcatinfo.name }}</a></li>
 
-                <li><a href="/{{ kwd['router'] }}_filter/{{ catinfo.uid }}" title="{{ catinfo.name }}">{{ catinfo.name }}</a></li>
+                <li><a href="/filter/{{ catinfo.uid }}" title="{{ catinfo.name }}">{{ catinfo.name }}</a></li>
 
                 <li>{{ _('Text') }}</li>
 
@@ -67,6 +67,8 @@
                 {% module collect(userinfo.uid, postinfo.uid,en=True) %}
                                                            <br>
  <br>
+
+                                {% module post_state(postinfo = postinfo,userinfo = userinfo,kind = postinfo.kind) %}
                 {% end %}
 {#            {% module widget_editor(kwd['router'], postinfo.uid, userinfo) %}#}
 
@@ -243,7 +245,7 @@
             <ul class="list-group">
                 {% for taginfo in cat_enum %}
                 {% if not taginfo.uid.endswith('00') %}
-                <li class="list-group-item"><a href="/{{ kwd['router'] }}_filter/{{ taginfo.uid }}" title="{{ taginfo.name }}">{{ taginfo.name }}</a></li>
+                <li class="list-group-item"><a href="/filter/{{ taginfo.uid }}" title="{{ taginfo.name }}">{{ taginfo.name }}</a></li>
                 {% end %}
                 {% end %}
             </ul>

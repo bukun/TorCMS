@@ -181,17 +181,6 @@ class MetadataHandler(PostHandler):
         else:
             self.show404()
 
-    def index(self, **kwargs):
-        '''
-        cn index
-        '''
-
-        self.render('../torcms_metadata/index_{0}.html'.format(self.kind),
-                    userinfo=self.userinfo,
-                    kind=self.kind,
-                    router=router_post[self.kind]
-
-                    )
 
     def chuli_meta(self, metafile):
         try:
@@ -325,15 +314,6 @@ class MetadataHandler(PostHandler):
 
         tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
         self.redirect('/{0}/{1}'.format(router_post[self.kind], uid))
-
-    def update_state(self, infoid, status):
-
-        output = {'status': status}
-
-        num = MPost.update_jsonb(infoid, output)
-
-        if num:
-            return json.dump(output, self)
 
     @tornado.web.authenticated
     @privilege.auth_edit
@@ -575,114 +555,3 @@ class MetadataHandler(PostHandler):
         ALLOWED_EXTENSIONS_PDF = ['xlsx']
         return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS_PDF
 
-    def _get_tmpl_view(self, rec):
-        '''
-        According to the application, each info of it's classification could
-        has different temaplate.
-        :param rec: the App record.
-        :return: the temaplte path.
-        '''
-
-        cat_id = self.__get_cat_id(rec)
-
-        logger.info('For templates: catid: {0},  filter_view: {1}'.format(
-            cat_id, self.filter_view))
-
-        tmpl = '../torcms_metadata/autogen/view/view.html'
-
-        return tmpl
-
-    def __get_cat_id(self, postinfo):
-
-        catinfo = MPost2Catalog.get_first_category(postinfo.uid)
-        if catinfo:
-            cat_id = catinfo.tag_id
-        else:
-            cat_id = None
-
-        return cat_id
-
-    @tornado.web.authenticated
-    @privilege.auth_add
-    def _to_add_with_category(self, catid):
-        '''
-        Used for info2.
-        :param catid: the uid of category
-        '''
-
-        catinfo = MCategory.get_by_uid(catid)
-        kwd = {
-            'uid': self._gen_uid(),
-            'userid': self.userinfo.user_name if self.userinfo else '',
-            'gcat0': catid,
-            'parentname': MCategory.get_by_uid(catinfo.pid).name,
-            'catname': MCategory.get_by_uid(catid).name,
-            'kind': self.kind,
-            'router': router_post[self.kind]
-        }
-
-        self.render('../torcms_metadata/autogen/add/add.html',
-                    userinfo=self.userinfo,
-                    kwd=kwd)
-
-    @tornado.web.authenticated
-    @privilege.auth_edit
-    def _to_edit(self, infoid):
-        '''
-        render the HTML page for post editing.
-        '''
-
-        postinfo = MPost.get_by_uid(infoid)
-
-        if postinfo:
-            pass
-        else:
-            return self.show404()
-
-        catid = self.__get_cat_id(postinfo)
-
-        if catid and len(catid) == 4:
-            pass
-        else:
-            catid = ''
-
-        catinfo = None
-        p_catinfo = None
-
-        post2catinfo = MPost2Catalog.get_first_category(postinfo.uid)
-        if post2catinfo:
-            catid = post2catinfo.tag_id
-            catinfo = MCategory.get_by_uid(catid)
-            if catinfo:
-                p_catinfo = MCategory.get_by_uid(catinfo.pid)
-
-        kwd = {
-            'gcat0': catid,
-            'parentname': '',
-            'catname': '',
-            'parentlist': MCategory.get_parent_list(),
-            'userip': self.request.remote_ip,
-            'extinfo': json.dumps(postinfo.extinfo,
-                                  indent=2,
-                                  ensure_ascii=False),
-            'router': router_post[postinfo.kind]
-        }
-
-        tmpl = '../torcms_metadata/autogen/edit/edit.html'
-
-        logger.info('Meta template: {0}'.format(tmpl))
-
-        self.render(tmpl,
-                    kwd=kwd,
-                    postinfo=postinfo,
-                    catinfo=catinfo,
-                    pcatinfo=p_catinfo,
-                    userinfo=self.userinfo,
-                    cat_enum=MCategory.get_qian2(catid[:2]),
-                    tag_infos=MCategory.query_all(by_order=True,
-                                                  kind=self.kind),
-                    tag_infos2=MCategory.query_all(by_order=True,
-                                                   kind=self.kind),
-                    app2tag_info=MPost2Catalog.query_by_entity_uid(
-                        infoid, kind=self.kind).objects(),
-                    app2label_info=MPost2Label.get_by_uid(infoid).objects())

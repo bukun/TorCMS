@@ -24,7 +24,25 @@ legend_html = ['''<legend>{{ _('Extra Metadata fields') }}</legend>''']
 
 def minify(the_str):
     return the_str
-
+def __get_view_tmpl(tag_key):
+    '''
+    根据分类uid的4位编码来找模板。如果4位的存在，则使用4位的；不然找其父类；再不然则使用通用模板
+    只有View需要，edit, list使用通用模板
+    :return String.
+    '''
+    the_view_file_4 = './templates/tmpl_{0}/tpl_view_{1}.html'.format(
+        KIND_DICS['kind_' + tag_key.split('_')[-1]],
+        tag_key.split('_')[1])
+    the_view_file_2 = './templates/tmpl_{0}/tpl_view_{1}.html'.format(
+        KIND_DICS['kind_' + tag_key.split('_')[-1]],
+        tag_key.split('_')[1][:2])
+    if os.path.exists(the_view_file_4):
+        the_view_sig_str = '_{0}'.format(tag_key.split('_')[1])
+    elif os.path.exists(the_view_file_2):
+        the_view_sig_str = '_{0}'.format(tag_key.split('_')[1][:2])
+    else:
+        the_view_sig_str = ''
+    return the_view_sig_str
 
 def generate_html_files(*args):
     _ = args
@@ -69,7 +87,7 @@ def __write_edit_tmpl(tag_key, tag_list):
     :param tag_list: list of the tags.
     :return: None
     '''
-    edit_file = os.path.join(OUT_DIR, 'edit', 'edit.html')
+    edit_file = os.path.join(OUT_DIR, 'edit', 'edit_' + tag_key.split('_')[1] + '.html')
     edit_widget_arr = []
     edit_widget_arr_meta = []
     for sig in tag_list:
@@ -99,7 +117,12 @@ def __write_edit_tmpl(tag_key, tag_list):
     edit_widget_arr_all = edit_widget_arr_meta + legend_html + edit_widget_arr
 
     with open(edit_file, 'w') as fileout2:
-        outstr = minify(TPL_EDIT.replace('xxxxxx', ''.join(edit_widget_arr_all)))
+        outstr = minify(
+        TPL_EDIT.replace('xxxxxx', ''.join(edit_widget_arr_all)).replace(
+            'yyyyyy',
+            tag_key.split('_')[1][:2]).replace(
+            'kkkk', KIND_DICS['kind_' + tag_key.split('_')[-1]])
+                        )
         fileout2.write(outstr)
 
 
@@ -110,7 +133,7 @@ def __write_view_tmpl(tag_key, tag_list):
     :param tag_list: list of the tags.
     :return: None
     '''
-    view_file = os.path.join(OUT_DIR, 'view', 'view.html')
+    view_file = os.path.join(OUT_DIR, 'view', 'view_' + tag_key.split('_')[1] + '.html')
     view_widget_arr = []
     view_widget_arr_meta = []
     for sig in tag_list:
@@ -141,9 +164,16 @@ def __write_view_tmpl(tag_key, tag_list):
             tmpl_meta = func_gen_html.gen_input_view_Meta(crud_key, crud_val)
             view_widget_arr_meta.append(tmpl_meta)
     view_widget_arr_all = view_widget_arr_meta + view_widget_arr
-
+    the_view_sig_str = __get_view_tmpl(tag_key)
     with open(view_file, 'w') as fileout:
-        outstr = minify(TPL_VIEW.replace('xxxxxx', ''.join(view_widget_arr_all)))
+        outstr = minify(
+
+        TPL_VIEW.replace('xxxxxx', ''.join(view_widget_arr_all)).replace(
+            'yyyyyy',
+            tag_key.split('_')[1][:2]).replace(
+            'ssss', the_view_sig_str).replace(
+            'kkkk', KIND_DICS['kind_' + tag_key.split('_')[-1]])
+        )
         fileout.write(outstr)
 
 
@@ -155,7 +185,7 @@ def __write_add_tmpl(tag_key, tag_list):
     :return: None
     '''
     add_file = os.path.join(OUT_DIR, 'add',
-                            'add.html')
+                            'add_' + tag_key.split('_')[1] + '.html')
     add_widget_arr = []
     add_widget_arr_meta = []
     # var_dic = eval('dic_vars.' + bianliang)
@@ -186,7 +216,13 @@ def __write_add_tmpl(tag_key, tag_list):
     add_widget_arr_all = add_widget_arr_meta + legend_html + add_widget_arr
 
     with open(add_file, 'w') as fileout:
-        outstr = minify(TPL_ADD.replace('xxxxxx', ''.join(add_widget_arr_all)))
+        outstr = minify(
+
+        TPL_ADD.replace('xxxxxx', ''.join(add_widget_arr_all)).replace(
+            'yyyyyy',
+            tag_key.split('_')[1][:2]).replace(
+            'kkkk', KIND_DICS['kind_' + tag_key.split('_')[-1]])
+                        )
         fileout.write(outstr)
 
 
@@ -205,7 +241,7 @@ def __write_filter_tmpl(html_tpl):
             # 此处简化一下，不考虑子类的问题。
             subdir = ''
             outfile = os.path.join(
-                out_dir, 'list.html')
+                out_dir, 'list' + '_' + var_name.split('_')[1] + '.html')
             html_view_str_arr = []
             # tview_var = eval('dic_vars.' + var_name)
             for the_val in bl_val:
@@ -216,7 +252,17 @@ def __write_filter_tmpl(html_tpl):
                         __gen_select_filter('html_' + the_val))
 
             with open(outfile, 'w') as outfileo:
-                outstr = minify(html_tpl.replace('xxxxxx', ''.join(html_view_str_arr)))
+                outstr = minify(
+
+                html_tpl.replace(
+                    'xxxxxx', ''.join(html_view_str_arr)).replace(
+                    'yyyyyy',
+                    var_name.split('_')[1][:2]).replace(
+                    'ssssss', subdir).replace(
+                    'kkkk',
+                    KIND_DICS['kind_' +
+                              var_name.split('_')[-1]])
+                )
                 outfileo.write(outstr)
 
 
@@ -233,7 +279,7 @@ def __write_list_tmpl(html_tpl):
     for var_name, bl_val in SWITCH_DICS.items():
         if var_name.startswith('dic_'):
             outfile = os.path.join(
-                out_dir, 'infolist.html')
+                out_dir, 'infolist' + '_' + var_name.split('_')[1] + '.html')
             html_view_str_arr = []
             # tview_var = eval('dic_vars.' + var_name)
             subdir = ''
@@ -251,5 +297,15 @@ def __write_list_tmpl(html_tpl):
                         func_gen_html.gen_checkbox_list(sig))
 
             with open(outfile, 'w') as outfileo:
-                outstr = minify(html_tpl.replace('xxxxxx', ''.join(html_view_str_arr)))
+                outstr = minify(
+
+                html_tpl.replace(
+                    'xxxxxx', ''.join(html_view_str_arr)).replace(
+                    'yyyyyy',
+                    var_name.split('_')[1][:2]).replace(
+                    'ssssss', subdir).replace(
+                    'kkkk',
+                    KIND_DICS['kind_' +
+                              var_name.split('_')[-1]])
+                                )
                 outfileo.write(outstr)

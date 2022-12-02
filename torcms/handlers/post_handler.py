@@ -260,6 +260,7 @@ class PostHandler(BaseHandler):
             'gcat0': catid,
             'parentname': MCategory.get_by_uid(catinfo.pid).name,
             'catname': MCategory.get_by_uid(catid).name,
+            'router': router_post[self.kind]
         }
 
         self.render('autogen/add/add_{0}.html'.format(catid),
@@ -307,6 +308,7 @@ class PostHandler(BaseHandler):
                         userinfo=self.userinfo,
                         kwd={
                             'uid': uid,
+
                         })
 
     @tornado.web.authenticated
@@ -349,6 +351,7 @@ class PostHandler(BaseHandler):
             'extinfo': json.dumps(postinfo.extinfo,
                                   indent=2,
                                   ensure_ascii=False),
+            'router': router_post[postinfo.kind]
         }
 
         if self.filter_view:

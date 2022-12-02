@@ -217,7 +217,8 @@ class PostCategoryOf(tornado.web.UIModule):
         cat_dic = []
         for cat in sub_cats:
             res = MPost.query_by_tag(cat.uid, kind)
-
+            print('asdasgewg')
+            print(res.count())
             if res.count() == 0:
                 pass
             else:
