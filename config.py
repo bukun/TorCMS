@@ -3,7 +3,9 @@
 '''
 Config for the website.
 '''
+import tornado.web
 from torcms.core.tools import get_cfg
+from pathlib import Path
 
 DB_CON, SMTP_CFG, SITE_CFG, ROLE_CFG, REDIS_CFG = get_cfg()
 
@@ -41,14 +43,14 @@ post_type = {
     '1': '''<span style="color:green;" class="glyphicon glyphicon-list-alt">[{0}]</span>
         '''.format('Document'),
     '3': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>
-        '''.format('Data'),
+        '''.format('Infor'),
 }
 check_type = {
     '1': 'Document',
-    '3': 'Filter',
+    '3': 'Infor',
 }
 post_cfg = {
-    '': {
+    '1': {
         'router': 'post',
         'html': '''<span style="color:green;" class="glyphicon glyphicon-list-alt">[{0}]</span>'''.format('Document'),
         'checker': '1',
@@ -62,16 +64,37 @@ post_cfg = {
 }
 kind_arr = ['1', '3', 'm', 's']
 
-from pathlib import Path
+
 
 for wdir in Path('.').iterdir():
     if wdir.is_dir() and wdir.name.startswith('torcms_'):
         the_file = f'{wdir.name}.config'
-        print(the_file)
         _mod = __import__(the_file)
-
         router_post = dict(router_post, **_mod.config._router_post)
         post_type = dict(post_type, **_mod.config._post_type)
         check_type = dict(check_type, **_mod.config._check_type)
         post_cfg = dict(post_cfg, **_mod.config._post_cfg)
         # kind_arr = kind_arr + _mod.config._kind_arr
+
+
+class WidgetMenu(tornado.web.UIModule):
+    '''
+    Get page info by page_id.
+    '''
+
+    def render(self, *args, **kwargs):
+        '''
+        '''
+        out_str = ''
+
+        tmpl = '<li><a href="/{}/">{}</a></li>'
+
+        for key in check_type:
+            out_str = out_str + tmpl.format( router_post[key], check_type[key] )
+
+        return out_str
+
+
+config_modules = {
+    'widget_menu': WidgetMenu,
+}

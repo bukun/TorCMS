@@ -8,10 +8,10 @@ import router
 import torcms.core.router
 
 from pathlib import Path
-inws  = Path('.')
 
 urls = router.urls + torcms.core.router.urls
-for wdir in inws.iterdir():
+
+for wdir in Path('.').iterdir():
     if wdir.is_dir() and wdir.name.startswith('torcms_'):
         the_file = f'{wdir.name}.core.router'
         _mod = __import__(the_file)
