@@ -1,4 +1,4 @@
-{% extends "../torcms_metadata/tmplinfo.html" %}
+{% extends "./tmplinfo.html" %}
 
 {% block head %}
 
@@ -112,11 +112,11 @@
 
             <li><a href="/" title="{{ _('Home') }}"> {{ _('Home') }}</a></li>
 
-             <li><a href="/{{ kwd['router'] }}_filter/{{pcatinfo.uid}}" title="{{pcatinfo.name}}">{{pcatinfo.name}}</a></li>
+             <li><a href="/filter/{{pcatinfo.uid}}" title="{{pcatinfo.name}}">{{pcatinfo.name}}</a></li>
 
             {% if catinfo %}
 
-            <li><a href="/{{ kwd['router'] }}_filter/{{catinfo.uid}}" title="{{catinfo.name}}">{{catinfo.name}}</a></li>
+            <li><a href="/filter/{{catinfo.uid}}" title="{{catinfo.name}}">{{catinfo.name}}</a></li>
 
             {% end %}
 
@@ -201,7 +201,7 @@
 
                 {% if not taginfo.uid.endswith('00') %}
 
-                <li class="list-group-item"><a href="/{{ kwd['router'] }}_filter/{{ taginfo.uid }}" title="{{ taginfo.name }}">{{ taginfo.name }}</a></li>
+                <li class="list-group-item"><a href="/filter/{{ taginfo.uid }}" title="{{ taginfo.name }}">{{ taginfo.name }}</a></li>
 
                 {% end %}
 

@@ -5,7 +5,7 @@ Basic configuration for CRUD.
 
 import os
 
-CRUD_PATH = os.path.abspath('./torcms_metadata/autogen')
+CRUD_PATH = os.path.abspath('./templates/autogen')
 
 META_DIR = './torcms_metadata'
 META_TAG_DIR = './torcms_metadata/database/meta'
