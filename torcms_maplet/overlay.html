@@ -1,0 +1,130 @@
+{% extends "../torcms_maplet/bage_add_edit.html" %}
+{% block head %}
+<title>{{ _('Map drawing map overlay') }} </title>
+<meta name="keywords" content="{{ _('Map drawing map overlay') }}">
+<meta name="description" content="{{ _('Map drawing map overlay') }}">
+{% block headinfo %}
+
+{% end %}
+{% end %}
+
+{% block zhuti %}
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li><a href="/" title="Home">{{ _('Home') }} </a></li>
+        <li><a href="/map/" title="Map">{{ _('Map') }}</a></li>
+        <li>{{ _('Online overlay map') }}</li>
+    </ul>
+</div>
+<div class="panel panel-black">
+    <div class="panel-heading">
+        <h1 class="htitle">{{ _('Online overlay map') }}</h1>
+    </div>
+    <div class="panel-body">
+        <div class="row" style="width: auto;">
+            <div class="col-sm-12">
+                <div class="btn-toolbar">
+                    <div class="btn-group">
+                        <!--<button type="button" class="btn btn-default">-->
+                        <a type="button" class="btn btn-warning btn-xs" title="Full screen"
+                           href="/mapview/overlay/{{ app_str }}?fullscreen=1" target="_blank">
+                            <span class="glyphicon glyphicon-fullscreen"></span> {{ _('Full screen') }}</a>
+                    </div>
+                    <div class="btn-group">
+
+                        <a type="button" class="btn btn-warning btn-xs" href="/mapview/sync/{{ app_str }}"
+                           target="_blank" title="Synchronise view">
+                            <span class="glyphicon glyphicon-pause"></span> {{ _('Synchronise view') }}</a>
+                    </div>
+                    <div class="btn-group">
+
+
+                        <a type="button" class="btn btn-warning btn-xs" href="/mapview/split/{{ app_str }}"
+                           target="_blank" title="Sliding window view">
+                            <span class="glyphicon glyphicon-adjust"></span> {{ _('Sliding window view') }}</a>
+
+                    </div>
+                    <div class="btn-group">
+
+
+                        {% if len(app_arr) > 2 %}
+                        <a type="button" class="btn btn-warning btn-xs" title="Layer switching"
+                           href="/mapview/overlay/{{ app_arr[2].uid }}/{{app_arr[1].uid}}/{{app_arr[0].uid}}">
+                            {% else %}
+                            <a type="button" class="btn btn-warning btn-xs" title="Layer switching"
+                               href="/mapview/overlay/{{ app_arr[1].uid }}/{{app_arr[0].uid}}">
+                                {% end %}
+                                <span class="glyphicon glyphicon-random"></span> {{ _('Layer switching') }}</a>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <br>
+        {% block content %}
+        {% end %}
+    </div>
+    <div class="panel-footer">
+        <div class="row">
+            <div class="col-md-8">
+                {{ _('Map overlay link') }}： <a href="{% module site_url() %}/map/overlay/{{ app_str }}" title="{{ app_str }}">
+                {% module site_url() %}/map/overlay/{{ app_str }}
+            </a>
+            </div>
+            <div class="col-md-4">
+                <div class="widget_baidu_share"> {% module baidu_share(en=True) %}</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% end %}
+{% block right %}
+
+
+<div class="panel panel-black">
+    <div class="panel-heading">
+        <b>{{ _('Current map list') }}</b>
+    </div>
+    <ul class="list-group">
+        {% for x in app_arr %}
+        <li class="list-group-item" style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap; ">
+            <a class="btn-info btn-xs" href="/map/{{ x.uid }}"   title="{{ x.title }}" style="padding: 5px " >
+                <span class="badge">{{x.uid}}</span> {{ x.title }}
+            </a>
+        </li>
+        {% end %}
+    </ul>
+</div>
+
+
+<div class="panel panel-black">
+    <div class="panel-heading">
+        <b>
+            {{ _('Recent use') }}
+        </b>
+    </div>
+    <ul class="list-group">
+        {% if userinfo is None %}
+        {% module app_recent_used('m', 10) %}
+        {% else %}
+        {% module app_recent_used(userinfo = userinfo, kind ='m',num = 6) %}
+        {% end %}
+    </ul>
+</div>
+<div class="panel panel-black">
+    <div class="panel-heading">
+        <b>
+            {{ _('Most use') }}
+        </b>
+    </div>
+    <ul class="list-group">
+        {% if userinfo is None %}
+        {% module app_most_used('m', 10) %}
+        {% else %}
+        {% module app_user_most(userinfo.uid, 'm', 6) %}
+        {% end %}
+    </ul>
+</div>
+{% end %}

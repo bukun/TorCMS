@@ -1,0 +1,52 @@
+{% extends "../torcms_maplet/bage_add_edit.html" %}
+{% block head %}
+{% block headinfo %}
+{% end %}
+{% end %}
+{% block zhuti %}
+<div class="row">
+    <div class="col-sm-4">
+        <div class="panel panel-black"> {% module app_catalog_of('09') %}</div>
+        <div class="panel panel-black"> {% module app_catalog_of('13') %}</div>
+    </div>
+    <div class="col-sm-4">
+        <div class="panel panel-black"> {% module app_catalog_of('03') %}</div>
+        <div class="panel panel-black"> {% module app_catalog_of('05') %}</div>
+    </div>
+    <div class="col-sm-4">
+        <div class="panel panel-black"> {% module app_catalog_of('01') %}</div>
+        <div class="panel panel-black"> {% module app_catalog_of('07') %}</div>
+        <div class="panel panel-black"> {% module app_catalog_of('11') %}</div>
+    </div>
+</div>
+{% end %}
+{% block right %}
+<div class="panel panel-black">
+    <div class="panel-heading">
+        <b>
+            {{ _('Recent use') }}
+        </b>
+    </div>
+    <ul class="list-group">
+        {% if userinfo is None %}
+        {% module app_recent_used(10) %}
+        {% else %}
+        {% module app_recent_used(userinfo = userinfo, num = 6) %}
+        {% end %}
+    </ul>
+</div>
+<div class="panel panel-black">
+    <div class="panel-heading">
+        <b>
+            {{ _('Most use') }}
+        </b>
+    </div>
+    <ul class="list-group">
+        {% if userinfo is None %}
+        {% module app_most_used(10) %}
+        {% else %}
+        {% module app_user_most(userinfo.uid, 6) %}
+        {% end %}
+    </ul>
+</div>
+{% end %}
