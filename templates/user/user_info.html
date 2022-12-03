@@ -131,14 +131,14 @@
             <ul class="list-group">
                  <li class="list-group-item">
                      <b>{{ _('List of published information') }}</b><br><br>
-                     <a href="/check/publish?kind=9" class="btn btn-xs btn-success">{{ _('Info') }}</a>
+                     <a href="/check/publish?kind=3" class="btn btn-xs btn-success">{{ _('Info') }}</a>
                  <a href="/check/publish?kind=1" class="btn btn-xs btn-success">{{ _('Document') }}</a>
                  </li>
                 {% if userinfo and userinfo.role[0] >= '2' %}
                 <li class="list-group-item"><a href="/post/_add" class="btn btn-xs btn-success">
                     <span class="glyphicon glyphicon-list-alt"></span>
                     {{ _('Add Document') }}</a>
-                    <a href="/publish/9" class="btn btn-xs btn-success">
+                    <a href="/publish/3" class="btn btn-xs btn-success">
                         <span class="glyphicon glyphicon-list-alt"></span>
                         {{ _('Publish Info') }}</a></li>
                 {% end %}
@@ -180,7 +180,7 @@
 
                 <li class="list-group-item">
                      <b>{{ _('Audit information list') }}</b><br><br>
-                     <a href="/check/pend_review?kind=9" class="btn btn-xs btn-primary">{{ _('Info') }}</a>
+                     <a href="/check/pend_review?kind=3" class="btn btn-xs btn-primary">{{ _('Info') }}</a>
                  <a href="/check/pend_review?kind=1" class="btn btn-xs btn-primary">{{ _('Document') }}</a>
                  </li>
                 {% end %}

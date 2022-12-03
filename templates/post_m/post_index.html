@@ -1,0 +1,56 @@
+{% extends "../theme/bage.html" %}
+{% block head %}
+<title>{{ _('Online map') }} </title>
+{% end %}
+{% block typebody %}
+<h1 class="hden">{{ _('Maps') }}</h1>
+<div class="col-sm-12">
+    <div class="row">
+        <div class="well">
+            {% module show_page(page_id = 'volunteers', userinfo = userinfo) %}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <div class="panel panel-black">
+            {% module app_catalog_of('m700', slug = True,glyph='glyphicon glyphicon-map-marker',count=True ) %}
+        </div>
+        <div class="panel panel-black">
+
+            {% module app_catalog_of('m100', slug = True,glyph='glyphicon glyphicon-map-marker',count=True ) %}
+        </div>
+        <div class="panel panel-black">
+
+            {% module app_catalog_of('m200', slug = True,glyph='glyphicon glyphicon-map-marker',count=True ) %}
+
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="panel panel-black">
+            {% module app_catalog_of('m800', slug = True,glyph='glyphicon glyphicon-map-marker',count=True ) %}
+        </div>
+        <div class="panel panel-black">
+
+
+            {% module app_catalog_of('m500', slug = True,glyph='glyphicon glyphicon-map-marker',count=True ) %}
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="panel panel-black">
+            {% module app_catalog_of('m300', slug = True,glyph='glyphicon glyphicon-map-marker',count=True ) %}
+        </div>
+        <div class="panel panel-black">
+
+
+            {% module app_catalog_of('me00', slug = True,glyph='glyphicon glyphicon-map-marker',count=True ) %}
+        </div>
+        <div class="panel panel-black">
+
+            {% module app_catalog_of('mf00', slug = True,glyph='glyphicon glyphicon-map-marker',count=True ) %}
+
+        </div>
+
+    </div>
+</div>
+{% end %}

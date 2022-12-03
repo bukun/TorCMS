@@ -1,0 +1,380 @@
+{% extends "../theme/bage.html" %}
+{% block head %}
+<title>{{ postinfo.title }},{{ _('Online computing') }}, {{ _('online calculator') }}, {{ _('calculator online calculation') }}</title>
+<meta name="keywords"
+      content="{% for x in tag_info %} {{ _(x.tag_name) }} {% end %}, {{ _('Online calculation') }}, {{ _('online calculator') }}, {{ _('calculator online calculation') }}">
+<link rel="stylesheet" href="{{ static_url('f2elib/bootstrap-star-rating-master/css/star-rating.css')}}"
+      type="text/css" media="all">
+<script type="text/javascript" src="{{ static_url('f2elib/bootstrap-star-rating-master/js/star-rating.js') }}"></script>
+<link rel="stylesheet" href="{{ static_url('css/pure-min.css')}}" type="text/css" media="all">
+<script type="text/javascript">
+    var post_uid = "{{postinfo.uid}}";
+    function get_passport() {
+        $.ajax({
+            type: "GET",
+            url: "https://prod-passport-v2.ikcest.org/passport/checkSSO.do",
+            dataType: "jsonp",
+            jsonp: "callback",
+
+            success: function (msg) {
+                if (typeof (msg.messages.data.session) == "undefined") {
+                    $.get("/user/get_passport/" + '_aa', function (result) {
+                    });
+                    // alert("Calculate after login");
+                    // window.location.href="/user/login";
+                } else {
+                }
+            },
+            error: function () {
+            }
+        });
+    }
+    $(document).ready(function () {
+        get_passport();
+        var runid = "{{ kwd['runid']}}";
+        if (runid == "") {
+        } else {
+            $.ajax({
+                url: '/calcinfo/' + runid,
+                type: 'GET',
+                data: '',
+                dataType: 'html',
+                timeout: 1000,
+                error: function () {
+//                    alert('An unknown error occurred');
+                },
+                success: function (result) {
+                    res = $.parseJSON(result);
+                    $("#calc_form").find('input').each(function (i) {
+                        var a = $(this).attr("id");
+                        $("#" + a).val(res[a]);
+                    });
+                }
+            });
+        }
+        $.ajax({
+            url: '/py/{{ postinfo.uid }}/{{kwd["cookie_str"]}}',
+            type: 'GET',
+            data: '',
+            dataType: 'html',
+            timeout: 1000,
+            error: function () {
+//                alert('An unknown error occurred');
+            },
+            success: function (result) {
+                res = $.parseJSON(result);
+                $('#pycode').html(res['html']);
+            }
+        });
+
+        $('#run_btn').dblclick(function () {
+
+            $.ajax({
+                url: '/calcinfo/{{postinfo.uid}}',
+                type: 'POST',
+                data: $('#calc_form').serialize(),
+                dataType: 'html',
+                timeout: 1000,
+                error: function () {
+                    // alert('Error loading PHP document');
+                },
+                success: function (result) {
+                }
+            });
+        });
+
+
+
+        $('#act_eval0').click(function () {
+            $.ajax({
+                url: '/evaluate/{{ postinfo.uid }}/0',
+                type: 'GET',
+                cache: false,
+                data: {},
+                dataType: 'html',
+                timeout: 1000,
+                error: function () {
+                    alert('Please log in for evaluation！')
+                },
+                success: function (result) {
+                    result = JSON.parse(result);
+                    $('#eval0').text(result['eval0']);
+                    $('#eval1').text(result['eval1']);
+
+                }
+            });
+        });
+
+        $('#act_eval1').click(function () {
+
+            $.ajax({
+                url: '/evaluate/{{ postinfo.uid }}/1',
+                type: 'GET',
+                cache: false,
+                data: {},
+                dataType: 'html',
+                timeout: 1000,
+                error: function () {
+                    alert('Please log in for evaluation！')
+                },
+                success: function (result) {
+                    result = JSON.parse(result);
+                    $('#eval0').text(result['eval0']);
+                    $('#eval1').text(result['eval1']);
+
+                }
+            });
+
+        });
+
+
+    });
+</script>
+{% block headinfo %}
+{% end %}
+{% end %}
+{% block typebody %}
+<ol class="breadcrumb">
+    <li><a href="/" title="Home">{{ _('Home') }}</a></li>
+    <li><a href="/app/">{{ _('Tools') }}</a></li>
+    <li>{% module the_category(postinfo.uid) %}</li>
+    <li class="active">{{ _('Text') }}</li>
+
+    {% if postinfo.uid in ['s8349','s9834','s7834']%}
+    <li class="fr">
+        <a href="/page/{{ postinfo.uid }}" id="{{ postinfo.uid }}" data-mfp-src="#wiki_cnt_html" title="Instructions"
+                      class="open-popup-link btn btn-xs btn-primary">{{ _('Instructions') }}</a>
+    </li>
+
+    <script>
+        function uv(result) {
+            $.each(result, function (i, field) {
+
+                if (i == 'code') {
+                    window.location.href = '/page/' + field;
+                }
+
+                else if (i == "uid") {
+                    $("#wiki_edit_link").html('<a href="/page/_edit/' + field + '">Edit</a>');
+                }
+                else if (i == 'time_update') {
+                    var date = new Date(field * 1000);
+                    $("#wiki_time_update").html(date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay());
+                }
+                else {
+                    $("#wiki_" + i).html(field+ "<p style='color:#f1a899'>{{ _('Click exit without content') }}.</p>");
+                }
+            });
+        }
+
+        var array2 = {
+            "s8349": "/page_j/s8349",
+            "s9834": "/page_j/s9834",
+            "s7834": "/page_j/s7834",
+
+        };
+
+        $('#s8349').click(function () {
+            $.getJSON(array2['s8349'], function (result) {
+                uv(result);
+            });
+        });
+        $('#s9834').click(function () {
+            $.getJSON(array2['s9834'], function (result) {
+                uv(result);
+            });
+        });
+
+        $('#s7834').click(function () {
+
+            $.getJSON(array2['s7834'], function (result) {
+                uv(result);
+            });
+        });
+        $('.open-popup-link').magnificPopup({
+
+            type: 'inline'
+
+
+        });
+
+    </script>
+    <style>
+
+        .white-popup {
+            position: relative;
+            background: #fff;
+            border: 1px solid #fff;
+            border-radius: 8px;
+            padding: 20px;
+            max-width: 50%;
+            margin: 0 auto;
+            z-index: 1044;
+
+        }
+
+        .mfp-bg {
+            opacity: 0.3;
+        }
+
+    </style>
+    <link rel="stylesheet" href="{{ static_url('f2elib/magnific-popup_1.1.0/magnific-popup.css')}}" type="text/css" media="all">
+{% end %}
+</ol>
+
+
+ {% if postinfo.uid in ['s8349','s9834','s7834']%}
+<div id="wiki_cnt_html" class="white-popup mfp-hide">
+  {{ _('No explanation') }}.
+</div>
+{% end %}
+<div class="row">
+{% if postinfo.uid in ['s8349','s9834','s7834'] %}
+<div class="col-sm-12">
+    {% else %}
+    <div class="col-sm-8">
+        {% end %}
+<div class="panel panel-black">
+    <div class="panel-heading listinfo_title">
+        <h1 class="htitle">{{ postinfo.title }}</h1>
+    </div>
+    <div class="panel-body panel-app">
+        <div class="container" style="margin:0 auto;">
+            <div class="row">
+                <div class="col-md-12">
+                    <span style="">{{ _('Category') }}:</span>
+                    <span class="post_cat">{% module app_tags( kwd['signature']) %}  </span>
+
+                    {% if userinfo %}
+                        {% module collect(userinfo.uid, postinfo.uid, en=True) %}
+                        {% end %}
+                    {% module widget_editor('app', postinfo.uid, userinfo) %}
+                </div>
+            </div>
+        </div>
+        <br>
+        {% block content %}
+        {% end %}
+    </div>
+    <div>
+        <ul>
+            {% if kwd['app_hist_recs'] %}
+            {% set app_hist_recs = kwd['app_hist_recs'] %}
+            {% for x in app_hist_recs %}
+            <li><a href="/app/{{ postinfo.uid}}?runid={{ x.uid }}" title="{{ x.time_create }}">{{ x.time_create }}</a></li>
+            {% end %}
+            {% end %}
+        </ul>
+    </div>
+    <hr>
+    <div class="panel-body" id="wiki_cnt">
+        <canvas id="pychart" style="margin:1px;"></canvas>
+
+        {% raw unescape(postinfo.cnt_html) %}
+    </div>
+      {% if postinfo.uid not in ['s8349','s9834','s7834']%}
+    <div class="panel-body">
+        <p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
+        {% module reply_panel(postinfo.uid, userinfo, en=True) %}
+    </div>
+    <div class="panel-footer">
+        <div class="row">
+            <div class="col-md-12">
+                <span style="color: #999;">{{ _('Label') }}:</span>
+                <span class="post_label">
+                   {% module post_labels(post_uid = postinfo.uid) %}
+                </span>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-8" id="bwlj">
+                {{ _('App Link') }}： <a href="{% module site_url() %}/app/{{ postinfo.uid }}" title="{{ postinfo.title }}">{{ postinfo.title }}</a>
+            </div>
+            <div class="col-md-4 ">
+                <div class="widget_baidu_share"> {% module baidu_share(en=True) %}</div>
+            </div>
+        </div>
+    </div>
+   {% end %}
+</div>
+<div id="pycode"></div>
+<script type="text/javascript">
+    var canvas = document.getElementById("pychart");
+    canvas.setAttribute('height', '0px');
+</script>
+</div>
+
+    {% if postinfo.uid not in ['s8349','s9834','s7834']%}
+<div class="col-sm-4">
+ <div class="panel panel-black">
+    <div class="panel-heading">
+        {{ _('Evaluation') }}
+    </div>
+    <div class="panel-body" style="font-size: x-small">
+        {% module star_rating(postinfo, userinfo) %}
+    </div>
+</div>
+<div class="panel panel-black">
+    <div class="panel-heading">
+        {{ _('Related app') }}
+    </div>
+    <ul class="list-group" style="overflow: hidden;">
+        {% set ii =1%}
+        {% for x in relations %}
+        {% if ii <= 10%}
+        <li class="list-group-item" style="overflow: hidden;">
+            <a href="/app/{{ x.post_id }}" title="{{ _(x.post_title) }}">
+                <span class="glyphicon glyphicon-play-circle"></span> {{ _(x.post_title) }}
+            </a>
+            {% set ii = ii+1 %}
+        </li>
+        {% end %}
+        {% end %}
+
+    </ul>
+</div>
+<div class="panel panel-black">
+    <div class="panel-heading">
+        {{ _('App classification') }}
+    </div>
+    <div class="panel-body">
+        <ul class="list-group">
+            {% module app_menu('s', 20) %}
+        </ul>
+    </div>
+</div>
+<div class="panel panel-black">
+    <div class="panel-heading">
+         {{ _('Recent used') }}
+    </div>
+    <ul class="list-group">
+        {% if userinfo is None %}
+        {% module app_recent_used( num = 5, kind = 's', glyph='glyphicon glyphicon-play-circle') %}
+        {% else %}
+        {% module app_recent_used(userinfo = userinfo, kind = 's',num = 5,glyph='glyphicon glyphicon-play-circle' ) %}
+        {% end %}
+    </ul>
+</div>
+<div class="panel panel-black">
+    <div class="panel-heading">
+        {{ _('Most use') }}
+    </div>
+    <ul class="list-group">
+        {% if userinfo is None %}
+        {% module app_most_used( 's', 5,glyph='glyphicon glyphicon-play-circle') %}
+        {% else %}
+        {% module app_user_most(userinfo.uid, 's', 5,glyph='glyphicon glyphicon-play-circle') %}
+        {% end %}
+    </ul>
+</div>
+    </div>
+    {% end %}
+
+    </div>
+</div>
+{% end %}
+
+{% block right %}
+
+{% end %}
