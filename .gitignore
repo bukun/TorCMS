@@ -87,6 +87,7 @@ api_html
 
 flasky/static
 templates/modules
+templates/jshtml
 
 static/dataset_list
 
@@ -96,5 +97,4 @@ templates/ext_autogen/
 
 nltk_data
 node_modules
-
 

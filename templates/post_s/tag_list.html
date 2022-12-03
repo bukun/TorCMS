@@ -1,0 +1,63 @@
+{% extends "../theme/bage_add_edit.html" %}
+{% block head %}
+{% end %}
+{% block zhuti %}
+<ol class="breadcrumb">
+    <li><a href="/app/" title="App">{{ _('App') }}</a></li>
+    <li class="active">{{ _(taginfo.name) }}</li>
+</ol>
+<div class="panel panel-black">
+    <div class="panel-heading">
+        <h1 class="news-title">{{ _(taginfo.name) }}</h1>
+    </div>
+    <ul class="list-group">
+        {% for rec in infos %}
+        <li class="list-group-item">
+            <a href="/app/{{ rec.uid }}" title="{{ rec.title }}"><span class="glyphicon glyphicon-play-circle"></span>
+                {{ rec.title }}
+            </a>
+            <span class="post_cat">{% module app_tags(rec.uid) %}</span>
+        </li>
+        {% end %}
+    </ul>
+    <div class="panel-footer">
+        <ul class="pagination">
+            {% raw pager %}
+        </ul>
+    </div>
+</div>
+{% end %}
+{% block right %}
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            {{ _('Application classification') }}
+        </h3>
+    </div>
+    <div class="panel-body">
+        <ul class="list-group">
+            {% module app_menu('s', 20) %}
+        </ul>
+    </div>
+</div>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            {{ _('Recent use') }}
+        </h3>
+    </div>
+    <ul class="list-group">
+        {% module app_recent_used(taginfo.kind, 8, userinfo = userinfo) %}
+    </ul>
+</div>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            {{ _('Most use') }}
+        </h3>
+    </div>
+    <ul class="list-group">
+        {% module app_most_used(taginfo.kind, 8, userinfo = userinfo) %}
+    </ul>
+</div>
+{% end %}
