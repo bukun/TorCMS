@@ -1,0 +1,207 @@
+{% extends "../torcms_maplet/bage.html" %}
+{% block head %}
+<title> {{ postinfo.title }} - {{ _('Modify') }} </title>
+<meta name="keywords" content="{{ postinfo.title }} ">
+<meta name="description" content="{{ postinfo.title }} ">
+{% module use_f2e('codemirror') %}
+{% end %}
+{% block typebody %}
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li><a href="/" title="Home">{{ _('Home') }} </a></li>
+        <li><a href="/map/" title="Map">{{ _('Map') }} </a></li>
+        <li>{{ _('Modify') }} - {{ postinfo.title }}</li>
+    </ul>
+</div>
+<div class="panel panel-black">
+    <div class="panel-heading"><h1 class="htitle">{{ _('Modify') }} - {{ postinfo.title }}</h1></div>
+    <div class="panel-body">
+        <form method="post" class="form-horizontal" id="form_post" role="form">
+
+                <input type="hidden" id="uid" name="uid" value="{{ postinfo.uid }}"/>
+
+                <div class="form-group">
+                    <label for="title" class="col-sm-2 control-label">{{ _('Title') }}</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="title" name="title" value="{{ postinfo.title }}"
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ext_stitle" class="col-sm-2 control-label">{{ _('Short Title') }}</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="ext_stitle" name="ext_stitle" class="form-control"
+                               value="{{postinfo.extinfo.get('ext_stitle',postinfo.title)}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="tags" class="col-sm-2 control-label">{{ _('label') }}</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="tags" name="tags" class="form-control"
+                               value="{% for x in app2label_info %}
+                                {{ x.tag_name}},
+                                {% end  %}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ext_lat" class="col-sm-2 control-label">{{ _('lat') }}</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="ext_lat" name="ext_lat" class="form-control"
+                               value="{{postinfo.extinfo['ext_lat']}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ext_lon" class="col-sm-2 control-label">{{ _('lon') }}</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="ext_lon" name="ext_lon" class="form-control"
+                               value="{{postinfo.extinfo['ext_lon']}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ext_zoom_max" class="col-sm-2 control-label">{{ _('zoom_max') }}</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="ext_zoom_max" name="ext_zoom_max" class="form-control"
+                               value="{{postinfo.extinfo['ext_zoom_max'] }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ext_zoom_min" class="col-sm-2 control-label">{{ _('zoom_min') }}</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="ext_zoom_min" name="ext_zoom_min" class="form-control"
+                               value="{{postinfo.extinfo['ext_zoom_min']}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ext_zoom_current" class="col-sm-2 control-label">{{ _('zoom_current') }}</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="ext_zoom_current" name="ext_zoom_current" class="form-control"
+                               value="{{postinfo.extinfo['ext_zoom_current'] }}">
+                    </div>
+                </div>
+                {% for ii in range(0,5) %}
+                <div class="form-group">
+                    {% if ii == 0 %}
+                    <label for="pcat0" class="col-sm-2 control-label">{{ _('Category') }}</label>
+                    {% else %}
+                    <label class="col-sm-2 control-label"></label>
+                    {% end %}
+                    <div class="col-sm-3">
+                        <select name="pcat{{ii}}" id="pcat{{ii}}" class="form-control"
+                                onchange="g_load_infocat({{ii}})">
+                            <option value="">{{ _('Please select') }}</option>
+                            {% for taginfo in tag_infos %}
+                            {% if taginfo.uid.endswith('00') %}
+                            <option value="{{ taginfo.uid }}"
+                                    {% for tt in app2tag_info %}
+                                    {% if tt.order== ii and tt.tag_id.startswith(taginfo.uid[:2]) %}
+                                    selected
+                                    {% end %}
+                                    {% end %}>{{ taginfo.name }}
+                            </option>
+                            {% else %}
+                            {% end %}
+                            {% end %}
+                        </select>
+                    </div>
+                    <div class="col-sm-4">
+                        <select name="gcat{{ii}}" id="gcat{{ii}}" class="form-control">
+                            <option value="">{{ _('Please select') }}</option>
+                            {% set pcatid = 'xx' %}
+                            {% for taginfo in tag_infos %}
+                            {% for tt in app2tag_info %}
+                            {% if tt.order== ii and tt.tag_id == taginfo.uid %}
+                            {% set pcatid = tt.tag_id[:2] %}
+                            {% end %}
+                            {% end %}
+                            {% end %}
+                            {% for taginfo in tag_infos2 %}
+                            {% if taginfo.uid.startswith(pcatid) %}
+                            {% if not taginfo.uid.endswith('00') %}
+                            <option value="{{ taginfo.uid }}"
+                                    {% for tt in app2tag_info %}
+                                    {% if tt.order== ii and tt.tag_id== taginfo.uid %}
+                                    selected
+                                    {% end %}
+                                    {% end %}>{{ taginfo.name }}
+                            </option>
+                            {% else %}
+                            {% end %}
+                            {% end %}
+                            {% end %}
+                        </select>
+                    </div>
+                </div>
+                {% end %}
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="valid">{{ _('Is available') }}</label>
+
+                    <div class="col-sm-10">
+                        <select name="valid" id="valid" class="form-control">
+                            <option value="1" {% if postinfo.valid == 1 %} selected {% end %} >{{ _('yes') }}</option>
+                            <option value="0" {% if postinfo.valid == 0 %} selected {% end %} >{{ _('no') }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="logo" class="col-sm-2 control-label">{{ _('logo') }}</label>
+
+                    <div class="col-sm-10">
+                        <input id="logo" name="logo" type="text" value="{{ postinfo.logo }}"  class="form-control" readonly />
+                        <br>
+                        <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" title="Upload picture">{{ _('Upload picture') }}</a>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="cnt_md" class="col-sm-2 control-label">{{ _('Content') }}</label>
+
+                    <div class="col-sm-10">
+                        <textarea rows=16 id="cnt_md" name="cnt_md" cols="70" class="form-control">
+                            {% raw unescape(postinfo.cnt_md) %}
+                        </textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="sub1" class="col-sm-2 control-label"></label>
+
+                    <div class="col-sm-10">
+                        <input id="sub1" type="submit" value="{{ _('Submit') }}" class="btn btn-primary">
+                    </div>
+                </div>
+                <hr/>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="memo">{{ _('Memo') }}</label>
+
+                    <div class="col-sm-10">
+                        <textarea class="form-control" rows=10 id="memo" name="memo"
+                                  {% if userinfo and userinfo.role[1] <= '2' %} readonly {% end %} >
+                        {% raw unescape(postinfo.memo) %}
+                        </textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;"></a>
+                        JSON ：
+                    </label>
+
+                    <div class="col-sm-10">
+                    <textarea class="form-control" rows=26 id="json" name="json"
+                              cols="100" readonly="readonly">{{ kwd['extinfo'] }}</textarea>
+                    </div>
+                </div>
+
+        </form>
+        {% module upload_pic() %}
+    </div>
+</div>
+{% end %}
+
+

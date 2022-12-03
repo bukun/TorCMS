@@ -1,0 +1,14 @@
+{% for layout_rec in layout_recs %}
+{% set u_link = '{0}?zoom={1}&lat={2}&lon={3}&gson={4}&marker={5}'.format(layout_rec.post_id, layout_rec.zoom, layout_rec.lat, layout_rec.lon, layout_rec.json, layout_rec.marker) %}
+<li class="list-group-item" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+    <a href="{{ kwd['site_url'] }}/map/{{ u_link }}" class="btn btn-xs btn-info">
+        <span class="glyphicon glyphicon-open"></span> {{ _('Open') }}</a>
+    <a href="{{ kwd['site_url'] }}/map/{{ u_link }}&fullscreen=1" class="btn btn-xs btn-info" target="_blank">
+        <span class="glyphicon glyphicon-fullscreen"></span> {{ _('Full screen') }} </a>
+    <a onclick="del_layout('{{ layout_rec.uid }}')" class="btn btn-xs btn-danger" target="_blank">
+        <span class="glyphicon glyphicon-remove"></span>{{ _('Delete') }}</a>
+    <a href="{{ kwd['site_url'] }}/map/{{ u_link }}" title="{{ kwd['site_url'] }}/map/{{ u_link }}"
+       style=" white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+        {{ kwd['site_url'] }}/map/{{ u_link }}</a>
+</li>
+{% end %}

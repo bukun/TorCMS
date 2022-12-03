@@ -1,0 +1,70 @@
+{% extends "../torcms_maplet/map_full.html" %}
+{% block head %}
+<title>{{ _('Map Sketchpad to draw geographic data online') }}</title>
+<meta name="keywords" content="{{ _('Online maps') }}, {{ _('maps') }}, {{ _('drawing board') }}">
+<meta name="description" content="{{ _('Map Sketchpad to draw geographic data online') }}">
+
+<style type="text/css">
+    body {
+        padding: 0;
+        margin: 0;
+    }
+    html, body, #map {
+        height: 100%;
+        width: 100%;
+    }
+</style>
+
+
+
+<link href=https://cdn.bootcss.com/leaflet/1.2.0/leaflet.css rel=stylesheet>
+
+<link href="{{ static_url('maplet/dist_me/app.css') }}" rel="stylesheet">
+
+
+
+
+<script>
+
+    {#var site_url = 'http://192.168.4.111:8888'#}
+    var site_url = 'http://www.maplet.org'
+</script>
+
+
+{% end %}
+{% block mainbody %}
+
+
+<div id="q-app"
+     data-map='{"i": "0000",
+            "x": 105,
+"y": 40,
+"v": 4,
+"m": 8,
+"n" : 3,
+"k": 1,
+{#"g": "{{ gsoninfo.uid }}",#}
+"g": "",
+"e": 1,
+"login": {{ kwd['login'] }}
+}'></div>
+
+
+
+
+
+<script src="https://cdn.bootcss.com/vue/2.4.1/vue.min.js"></script>
+<script src="https://cdn.bootcss.com/vuex/2.2.1/vuex.min.js"></script>
+<script src="https://cdn.bootcss.com/leaflet/1.2.0/leaflet.js"></script>
+
+
+<script src=https://cdn.bootcss.com/paper.js/0.11.3/paper-core.min.js></script>
+
+<script type=text/javascript src="{{ static_url('maplet/dist_me/js/manifest.js') }}"></script>
+<script type=text/javascript src="{{ static_url('maplet/dist_me/js/vendor.js') }}"></script>
+<script type=text/javascript src="{{ static_url('maplet/dist_me/js/app.js') }}"></script>
+
+
+{% end %}
+
+

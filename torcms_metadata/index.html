@@ -1,0 +1,377 @@
+{% extends "../torcms_metadata/_metadata.html" %}
+{% block head %}
+<style>
+    .tab .nav-tabs li a {
+        display: block;
+        padding: 8px 5px 1px 10px;
+        font-weight: normal;
+        text-align: left;
+        font-size: 16px;
+
+    }
+
+    .tab .nav-tabs li.active a:after, .tab .nav-tabs li a:hover:after {
+        height: 100%;
+        background: #2782af;
+    }
+
+    li {
+        list-style: none
+    }
+
+    #demo {
+        overflow: hidden;
+        width: 100%;
+    }
+
+    #demo img {
+        border: 3px solid #ddd;
+        margin: 5px 2px
+    }
+
+    .fullscreen_label {
+        color: #555;
+font-size: 20px;
+    }
+
+
+    .fullscreen_label:hover {
+        color: #0b7ad1;
+    }
+
+    .fullscreen_label a {
+        text-decoration: none;
+    }
+       .t_pic tr td{
+        text-align: center;
+width: 33%;
+    }
+    .t_pic tr td img{
+height: 200px;
+    }
+</style>
+{% end %}
+{% block zhuti %}
+
+
+<div class="container">
+
+
+    <div class="row">
+
+        <div class="col-sm-12">
+            <img src="/static/images/Photo_0901_2a.jpg" class="" style="width: 100%" alt="banner">
+
+        </div>
+
+    </div>
+    <br>
+    <div class="row">
+
+        <div class="col-sm-4">
+            <img src="/static/images/fo_i1.png" style="width: 100%">
+        </div>
+        <div class="col-sm-8">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <b>{{ _('Flood Disaster Data') }}</b><em style="float: right"><a href="/meta_filter/f100"
+                                                                                     title="More"> {{ _('More')
+                    }}</a></em>
+                </div>
+                <ul class="list-group">
+                    {% module meta_recent('f101', num=8, glyph="glyphicon glyphicon-time") %}
+               </ul>
+            </div>
+
+
+        </div>
+
+
+        <div class="col-sm-4">
+
+
+
+        </div>
+
+
+    </div>
+    <br>
+    <div class="row">
+
+        <div class="col-sm-12">
+
+            <div class="panel panel-default">
+
+
+                <div class="panel-body ">
+
+                    <div class="col-sm-9">
+                        <div id="map_div" style="width: 100%;height:500px "></div>
+                    </div>
+                    <div class="col-sm-3">
+                        <h3>Flood Disaster Map</h3>
+                        <p>
+                            So far, 1,033 people have died and 1,527 persons injured across Pakistan. The
+majority of deaths of 76 persons were reported in Sindh province. It said. At least 347 people died in Sindh, 238 in Balochistan, 226 in Khyber-Pakhtunkhwa, 168 in Punjab, 38 in Pakistan-occupied Kashmir, 15 in Gilgit-Baltistan, and one person was killed in Islamabad.
+                        </p>
+                        <p>
+                            Floods have destroyed 3,451.5 kilometers of road, swept away 147 bridges, destroyed 170 shops, and partially or fully damaged about 9,49,858 houses.
+                        </p>
+                        <label class="fullscreen_label">
+                            <a target="_blank" href="/flood_page/static_pages/full_indexmap.html"
+                               title="Full Screen">
+                                <span class="glyphicon glyphicon-fullscreen"></span>
+                                {{ _('Full Screen') }}
+                            </a>
+                        </label>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+        <div class="row">
+
+            <div class="col-sm-12">
+                <table class="t_pic">
+                    <tr>
+                        <td><img src="/static/imgs/flood/image3.jpeg"></td>
+                        <td><img src="/static/imgs/flood/image4.jpeg"></td>
+                        <td><img src="/static/imgs/flood/image5.jpeg"></td>
+                    </tr>
+                    <tr>
+                        <td>The rural area of Sindh province in Pakistan under flood water 2022.</td>
+                        <td>Huge flow of flood water in Sawt River after flood.</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><img src="/static/imgs/flood/image6.png"></td>
+                        <td><img src="/static/imgs/flood/image7.jpeg"></td>
+                        <td><img src="/static/imgs/flood/image8.jpeg"></td>
+                    </tr>
+                    <tr>
+                        <td>Rescue team evacuating people from flooded area.</td>
+                        <td>Urban flood in KPK province.</td>
+                        <td>Building collapse after massive flood</td>
+                    </tr>
+                    <tr>
+                        <td><img src="/static/imgs/flood/image9.jpeg"></td>
+                        <td><img src="/static/imgs/flood/image10.png"></td>
+                        <td><img src="/static/imgs/flood/image11.jpeg"></td>
+                    </tr>
+                    <tr>
+                        <td>Large area of road infrastructure has been destroyed due to over flow of river water after during flood.</td>
+                        <td>Urban flooding in Karachi city after heavy monsoon rainfall</td>
+                        <td>Alongside the river bank road has been damaged by flood waters in Madian in the Swat Valley</td>
+                    </tr>
+                    <tr>
+                        <td><img src="/static/imgs/flood/image12.jpeg"></td>
+                        <td><img src="/static/imgs/flood/image13.jpeg"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>People are migrating to safe places from flooded areas.</td>
+                        <td>Large cultivated land has been under water by flooding.</td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+</div>
+
+
+<script src="{{ static_url('jslib/dst/lazyload.js') }}"></script>
+
+<SCRIPT>
+    $(document).ready(function () {
+        var popup = L.popup();
+
+        function onMapClick(e) {
+            popup
+                .setLatLng(e.latlng)
+                .setContent("Location:" + e.latlng.toString())
+                .openOn(map_idx);
+        }
+
+        var cities = new L.LayerGroup();
+
+
+
+
+
+
+
+
+        var osm = L.tileLayer.chinaProvider('TianDiTu.Normal.Map', {
+            maxZoom: 18,
+            attribution: "Flood Disaster in Pakistan",
+            id: "TianDiTu"
+        });
+
+
+        var cp_bnd3 = L.tileLayer.wms('http://qtile.osgeo.cn/service?', {
+            layers: 'q_cpjrc_rs_wb20220825',
+            format: 'image/png',
+
+            transparent: true,
+        });
+        var cp_bnd2 = L.tileLayer.wms('http://qtile.osgeo.cn/service?', {
+            layers: 'q_cpjrc_rs_gf_202206panjad',
+            format: 'image/png',
+
+            transparent: true,
+        });
+        var cp_bnd1 = L.tileLayer.wms('http://qtile.osgeo.cn/service?', {
+            layers: 'q_cpjrc_rs_st2_Sandh',
+            format: 'image/png',
+
+            transparent: true,
+        });
+
+
+
+
+        var china_bnd = L.tileLayer.wms('http://47.94.22.90:9012/service?', {
+            layers: 'q_cp_imagery_imagery',
+            format: 'image/png',
+
+            transparent: true,
+        });
+
+var cp_bnd4 = L.tileLayer.wms('http://47.94.22.90:9012/service?', {
+                        layers: 'q_cp_terrain_terrain',
+                        format: 'image/png',
+
+            transparent: true,
+        });
+      var cp_bnd5 = L.tileLayer.wms('http://47.94.22.90:9012/service?', {
+                        layers: 'q_cp_river_river',
+                        format: 'image/png',
+
+            transparent: true,
+        });
+
+        var cp_bnd6 = L.tileLayer.wms('http://47.94.22.90:9012/service?', {
+                        layers: 'q_cp_climate_climate',
+                        format: 'image/png',
+
+            transparent: true,
+        });
+
+
+
+        var cp_bnd7 = L.tileLayer.wms('http://47.94.22.90:9012/service?', {
+                        layers: 'q_cp_soil_soil',
+                        format: 'image/png',
+
+            transparent: true,
+        });
+
+
+
+        var cp_bnd8 = L.tileLayer.wms('http://47.94.22.90:9012/service?', {
+                        layers: 'q_cp_land_land',
+                        format: 'image/png',
+
+            transparent: true,
+        });
+
+
+
+        var cp_bnd9 = L.tileLayer.wms('http://47.94.22.90:9012/service?', {
+                        layers: 'q_cp_forest_forest',
+                        format: 'image/png',
+
+            transparent: true,
+        });
+
+
+
+        var cp_bnd10 = L.tileLayer.wms('http://47.94.22.90:9012/service?', {
+                        layers: 'q_cp_GDP_GDP',
+                        format: 'image/png',
+
+            transparent: true,
+        });
+
+
+        var cp_bnd11 = L.tileLayer.wms('http://47.94.22.90:9012/service?', {
+                        layers: 'q_cp_population_population',
+                        format: 'image/png',
+
+            transparent: true,
+        });
+        var cp_bnd12 = L.tileLayer.wms('http://47.94.22.90:9012/service?', {
+                        layers: 'q_cp_traffic_traffic',
+                        format: 'image/png',
+
+            transparent: true,
+        });
+
+
+
+
+        osm.addTo(cities);
+
+
+
+
+
+
+        cp_bnd4.addTo(cities);
+        cp_bnd5.addTo(cities);
+        // cp_bnd6.addTo(cities);
+        // cp_bnd7.addTo(cities);
+        // cp_bnd8.addTo(cities);
+        // cp_bnd9.addTo(cities);
+        // cp_bnd10.addTo(cities);
+        // cp_bnd11.addTo(cities);
+        cp_bnd12.addTo(cities);
+
+        cp_bnd1.addTo(cities);
+        cp_bnd2.addTo(cities);
+        cp_bnd3.addTo(cities);
+
+        var map_idx = L.map('map_div', {
+            center: [32.598891, 71.147461],
+            zoom: 5,
+            maxZoom: 10,
+            minZoom: 4,
+            layers: [cities],
+            fullscreenControl: true,
+        });
+        map_idx.on('click', onMapClick);
+        var baseMaps = {
+            "Base": osm,
+        };
+        var overlayMaps = {
+
+             // "Population density": cp_bnd11,
+            // "Gross product": cp_bnd10,
+            // "Forest classification": cp_bnd9,
+            // "Landcover": cp_bnd8,
+            // "Soil classification": cp_bnd7,
+            // "Climatic division": cp_bnd6,
+
+            "Terrain": cp_bnd4,
+            "River": cp_bnd5,
+            "Traffic": cp_bnd12,
+
+
+            "Sentinel 2 image: 2022-06": cp_bnd1,
+            "GF image: 2022-06": cp_bnd2,
+            "Flood coverage": cp_bnd3,
+        };
+        L.control.layers(baseMaps, overlayMaps).addTo(map_idx);
+
+
+    })
+</script>
+
+{% end %}
