@@ -64,8 +64,6 @@ post_cfg = {
 }
 kind_arr = ['1', '3', 'm', 's']
 
-
-
 for wdir in Path('.').iterdir():
     if wdir.is_dir() and wdir.name.startswith('torcms_'):
         the_file = f'{wdir.name}.config'
@@ -90,11 +88,31 @@ class WidgetMenu(tornado.web.UIModule):
         tmpl = '<li><a href="/{}/">{}</a></li>'
 
         for key in check_type:
-            out_str = out_str + tmpl.format( router_post[key], check_type[key] )
+            out_str = out_str + tmpl.format(router_post[key], check_type[key])
+
+        return out_str
+
+
+class PublishListMenu(tornado.web.UIModule):
+    '''
+    Get page info by page_id.
+    '''
+
+    def render(self, *args, **kwargs):
+        '''
+        '''
+        str = args[0]
+        out_str = ''
+
+        tmpl = ' <a href="/check/{}?kind={}" class="btn btn-xs btn-success">{}</a>'
+
+        for key in check_type:
+            out_str = out_str + tmpl.format(str, key, check_type[key])
 
         return out_str
 
 
 config_modules = {
     'widget_menu': WidgetMenu,
+    'publish_list_menu': PublishListMenu,
 }
