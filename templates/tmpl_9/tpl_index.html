@@ -1,0 +1,34 @@
+{% extends "../theme/bage.html" %}
+{% block head %}
+<title>Infor </title>
+<meta name="keywords" content="Infor">
+<meta name="description" content="Infor">
+
+{% end %}
+{% block typebody %}
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <ol class="breadcrumb">
+            <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
+            <li><a href="/info/">{{ _('Infor') }}</a></li>
+        </ol>
+        <div class="row">
+            <div class="col-sm-6">
+            <div class="panel panel-black">
+                {% module post_catalog_of('9100',kind='9') %}
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="panel panel-black">
+                {% module post_catalog_of('9200',kind='9') %}
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+<br>
+{% end %}
+
