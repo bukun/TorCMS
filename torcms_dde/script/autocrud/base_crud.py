@@ -4,22 +4,12 @@ Basic configuration for CRUD.
 '''
 
 import os
-from pathlib import Path
-from torcms_metadata.config import xlsx_src
 
 CRUD_PATH = os.path.abspath('./templates/autogen')
 
 META_DIR = './torcms_metadata'
 META_TAG_DIR = './torcms_metadata/database/meta'
-XLSX_FILE = xlsx_src
-
-META_FILE_LIST = []
-
-for wfile in Path(META_TAG_DIR).rglob('*.xlsx'):
-    if wfile.name.startswith('~'):
-        continue
-
-    META_FILE_LIST.append(wfile)
+XLSX_FILE = './torcms_metadata/meta_元数据模板20220921.xlsx'
 
 for wfile in os.listdir(META_DIR):
     if wfile.startswith('~'):
@@ -27,6 +17,11 @@ for wfile in os.listdir(META_DIR):
     if wfile.lower().endswith('.xlsx'):
         XLSX_FILE = os.path.join(META_DIR, wfile)
 
+for wfile in os.listdir(META_TAG_DIR):
+    if wfile.startswith('~'):
+        continue
+    if wfile.lower().endswith('.xlsx'):
+        XLSX_FILE_TAG = os.path.join(META_TAG_DIR, wfile)
 # The filter key stored in the colomns below.
 RAW_LIST = [
     'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
