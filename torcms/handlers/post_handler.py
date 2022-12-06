@@ -200,11 +200,13 @@ class PostHandler(BaseHandler):
         '''
         The default page of POST.
         '''
-        self.render('post_{0}/post_index.html'.format(self.kind),
+        if self.filter_view:
+            tmpl = f'tmpl_{self.kind}/tpl_index.html'
+        else:
+            tmpl = f'post_{self.kind}/post_index.html'
+        self.render(tmpl,
                     userinfo=self.userinfo,
-                    kwd={
-                        'uid': '',
-                    })
+                    kwd={'uid': '', })
 
     def _gen_uid(self):
         '''
