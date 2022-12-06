@@ -57,6 +57,8 @@ urls = [
 
     # For filter listing.
     ("/filter/(.*)", FilterHandler, {}),
+
+    # CRUD, for information via filter.
     ("/info/(.*)", PostHandler, dict(kind='3', filter_view=True)),
     ("/label/(.*)", LabelHandler, {}),
     ("/user/(.*)", UserHandler, {}),
