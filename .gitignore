@@ -86,7 +86,7 @@ api_doc
 api_html
 
 flasky/static
-templates/modules
+
 templates/jshtml
 
 static/dataset_list
@@ -98,3 +98,6 @@ templates/ext_autogen/
 nltk_data
 node_modules
 
+
+# 模块部分，原来设计可用于多种前面模板，后来全面使用BootStrap，模块部分的模板不再独立。
+# templates/modules
