@@ -1,0 +1,1 @@
+pycsw-admin.py post-xml -u http://0.0.0.0:8000/pycsw/csw -x xx_in.xml
