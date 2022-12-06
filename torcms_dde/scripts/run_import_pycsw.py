@@ -189,7 +189,7 @@ def insert_into_tabpost(catid, rec):
         #     pass
         # else:
         #     print('dodo2')
-        #     update_category(sig, pp_data)
+        update_category(sig, pp_data)
         update_label(sig, pp_data)
 
 

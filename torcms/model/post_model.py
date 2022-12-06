@@ -415,11 +415,11 @@ class MPost():
         '''
         if 'rating' in kwargs:
             MPost.__update_rating(uid, kwargs['rating'])
-        elif 'kind' in kwargs:
+        if 'kind' in kwargs:
             MPost.__update_kind(uid, kwargs['kind'])
-        elif 'keywords' in kwargs:
+        if 'keywords' in kwargs:
             MPost.__update_keywords(uid, kwargs['keywords'])
-        elif 'count' in kwargs:
+        if 'count' in kwargs:
             MPost.__update_view_count(uid)
 
     @staticmethod
