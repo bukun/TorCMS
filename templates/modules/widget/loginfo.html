@@ -1,0 +1,7 @@
+{% if is_logged %}
+document.write("<li><a href=\"/user/info\">{{ _('Welcome') }},{% raw userinfo.username %}   ！&nbsp;</a></li>");
+document.write("<li><a href=\"/user/logout\" >{{ _('Logout') }}</a></li> ");
+{% else %}}
+document.write("<li><a href=\"/user/login\">{{ _('Sign in') }} </a></li>  ");
+document.write("<li><a href=\"/user/regist\">{{ _('Register') }}</a></li>");
+{% end %}

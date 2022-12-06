@@ -1,0 +1,19 @@
+{% if user_collect and (user_collect != None) %}
+<button id="already_collect" class="btn btn-primary btn-xs">
+    <span id="al_icon_collect" style="color: yellow" class="glyphicon glyphicon-heart-empty"></span>
+    <span id="al_text_collect" style="color: yellow">{% if en %} {{ _('Already collected') }} {% else %} 已收藏 {% end %}</span>
+</button>
+<button id="act_collect" class="btn btn-primary btn-xs" style="display: none">
+    <span id="icon_collect" class="glyphicon glyphicon-heart-empty"></span>
+    <span id="text_collect">{% if en %} {{ _('Collection') }} {% else %} 收藏 {% end %}</span>
+</button>
+{% else %}
+<button id="already_collect" class="btn btn-primary btn-xs" style="display: none">
+    <span id="al_icon_collect" style="color: yellow" class="glyphicon glyphicon-heart-empty"></span>
+    <span id="al_text_collect" style="color: yellow">{% if en %} {{ _('Already collected') }} {% else %} 已收藏 {% end %}</span>
+</button>
+<button id="act_collect" class="btn btn-primary btn-xs" >
+    <span id="icon_collect" class="glyphicon glyphicon-heart-empty"></span>
+    <span id="text_collect">{% if en %} {{ _('Collection') }} {% else %} 收藏 {% end %}</span>
+</button>
+{% end %}

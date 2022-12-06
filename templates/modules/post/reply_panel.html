@@ -1,0 +1,46 @@
+<form id="reply_form" method="post" class="pure-form pure-form-aligned">
+    <div class="pure-control-group">
+        {{ _('Let me comment') }}
+    </div>
+    <div class="pure-control-group">
+        <textarea cols="80" rows="5" name="cnt_md" id="cnt_md"></textarea>
+    </div>
+    <div class="pure-control-group">
+        <a id="btn_submit_reply" onclick="reply_it('{{ sig }}', '{{ uid }}');" class="btn btn-primary">
+            {{ _('Submit') }}
+        </a>
+    </div>
+</form>
+<div id="pinglun"></div>
+{{ _('To comment') }}
+<p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
+{% set ii = 0 %}
+{% for reply in replys %}
+<div id="del_zan_{{ ii }}" style="font-size: 14px;">
+    <p><strong>{{ reply.reply_id.user_name }}</strong></p>
+
+    <p>{% raw unescape(reply.reply_id.cnt_html) %}</p>
+
+    <p>{{ _('Editor in') }}{{ str(reply.reply_id.date).split('.')[0] }}
+
+
+        {% if (userinfo is None) or ( (userinfo) and ( userinfo.uid == reply.user_id )) %}
+               <span class="glyphicon glyphicon-thumbs-up"></span>
+        {% else %}
+            <span class="glyphicon glyphicon-thumbs-up"  id="zan_text" onclick="reply_zan('{{ reply.uid }}', {{ ii }} );" style="cursor: pointer"></span>
+        {% end %}
+    <span style="color: #f00" id="text_zan_{{ ii }}">{{ reply.vote }}</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        {% if userinfo is not None and ( userinfo.uid == reply.reply_id.uid or userinfo.role[4] == '1') %}
+        <a class="btn btn-primary" style="padding:3px 8px;"
+           onclick="reply_del('post', '{{ reply.reply_id.uid }}', {{ ii }} );">
+            {{ _('Delete') }}
+        </a>
+        {% end %}
+    </p>
+
+    <p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
+</div>
+{% set ii = ii + 1 %}
+{% end %}

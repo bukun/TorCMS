@@ -1,0 +1,8 @@
+{% if kwd['count'] != 0 %}
+{% raw str(unescape(postinfo.cnt_html)[:kwd['count']]) %}
+{% else %}
+{% raw str(unescape(postinfo.cnt_html)) %}
+{% end %}
+{% if userinfo and userinfo.role[1] > '2' %}
+<div><a href="/page/_edit/{{kwd['uid']}}">{{ _('Edit') }}</a></div>
+{% end %}

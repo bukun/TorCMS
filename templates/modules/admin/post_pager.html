@@ -1,0 +1,50 @@
+<script type="text/javascript">
+    function js_show_page(url_str) {
+
+        $('#showCnt').load(url_str);
+    }
+    jQuery().ready(function () {
+        $("#user_navigation").accordion();
+        js_show_page('/user_j/info');
+    });
+</script>
+<ul class="pagination">
+    {% if kwd['page_home'] %}
+    <li>
+        <a onclick="js_show_page('/post_j/recent/{{ kind }}/1')" class="{0}" >{{ _('Home') }} </a>
+    </li>
+    {% end %}
+
+    {% if kwd['page_pre'] %}
+    <li>
+        <a class="{0}" onclick="js_show_page('/post_j/recent/{{ kind }}/{{ page_current - 1 }}')">{{ _('Previous page') }}</a>
+    </li>
+    {% end %}
+    {% set cur_num = page_current
+    if cur_num > 5:
+        cur_num = cur_num - 4
+    else:
+        cur_num = 1
+    if pager_num > 10 and cur_num < pager_num - 10:
+        show_num = cur_num + 10
+    else:
+        show_num = pager_num + 1
+    %}
+    {% for page_index in range(cur_num, show_num ) %}
+    <li class="{% if page_current == page_index %}active{% end %}">
+        <a onclick="js_show_page('/post_j/recent/{{ kind }}/{{ page_index }}')">{{ page_index }}</a></li>
+    {% end %}
+
+
+    {% if kwd['page_next'] %}
+    <li>
+        <a class="{0}" onclick="js_show_page('/post_j/recent/{{ kind }}/{{ page_current +1 }}')">{{ _('Next page') }}</a>
+    </li>
+    {% end %}
+
+    {% if kwd['page_end'] %}
+    <li>
+        <a class="{0}"onclick="js_show_page('/post_j/recent/{{ kind }}/{{ pager_num }}')"> {{ _('End') }}</a>
+    </li>
+    {% end %}
+</ul>

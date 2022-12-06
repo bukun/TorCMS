@@ -1,0 +1,37 @@
+<ul class="list-group">
+    {% if kwd.get('with_title') %}
+    <div class="panel-heading">
+        {% if kwd.get('order') %}
+            <a href="/catalog/{{ pcatinfo.slug }}" class="flbt">
+        {% else %}
+            <a href="/list/{{ pcatinfo.slug }}" class="flbt">
+        {% end %}
+        {% if kwd.get('glyph') %}
+            <span class="{{ kwd['glyph'] }}"></span>
+        {% end %}
+        {{ _(pcatinfo.name) }}
+            </a>
+    </div>
+    {% end %}
+
+
+    {% for rec in recs %}
+    <li class="list-group-item">
+        {% if kwd.get('order') %}
+            <a href="/catalog/{{ rec.slug }}"> {{ _(rec.name) }}
+                <span style="font-size:0.8em;background-color:#00adef;color:#fff;padding:1px;">
+                ({% module info_count(pcat=False,catid = rec.uid,kind=rec.kind) %})
+                </span>
+            </a>
+        {% else %}
+            <a href="/list/{{ rec.slug }}"> {{ _(rec.name) }}
+                <span style="font-size:0.8em;background-color:#00adef;color:#fff;padding:1px;">
+                ({% module info_count(pcat=False,catid = rec.uid,kind=rec.kind) %})
+                </span>
+            </a>
+        {% end %}
+    </li>
+    {% end %}
+
+
+</ul>

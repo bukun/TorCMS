@@ -1,0 +1,24 @@
+<div class="panel-heading">
+    <a href="/list/{{ pcatinfo.slug }}" class="flbt">
+        {% if kwd.get('glyph') %}
+        <span class="{{ kwd['glyph'] }}"></span>
+        {% else %}
+        {% end %} {{ _(pcatinfo.name) }}
+        {% if kwd.get('count')%}
+        ( {% module info_count(pcat=True,catid = pcatinfo.uid,kind=pcatinfo.kind)%} )
+        {% end %}
+    </a>
+</div>
+<ul class="list-group">
+    {% for rec in recs %}
+    <li class="list-group-item">
+        <a href="/list/{{ rec.slug }}"> {{ _(rec.name) }}
+            <span style="font-size:0.8em;background-color:#00adef;color:#fff;padding:1px;">
+                ({% module info_count(pcat=False,catid = rec.uid,kind=rec.kind)%})
+
+
+            </span>
+        </a>
+    </li>
+    {% end %}
+</ul>

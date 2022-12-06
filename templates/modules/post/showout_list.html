@@ -1,0 +1,12 @@
+{% for x in recs %}
+{% if len(x.logo) > 46  %}
+<li style="float: left; width: {{ kwd['width'] }}px; ">
+    <a href="/post/{{ x.uid }}" title="{{ _(x.title) }}">
+        <img src="{{ x.logo }}" width="{{ kwd['width'] }}"
+             height="{{ kwd['height'] }}"
+             alt="{{ _(x.title) }}">
+        <span>{{ _(x.title) }}</span>
+    </a>
+</li>
+{% end %}
+{% end %}

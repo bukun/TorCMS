@@ -1,0 +1,15 @@
+<ul class="list-group">
+    {% for rec in recs %}
+    {% if rec.uid.endswith('00') %}
+    <div class="panel-heading"> {{ _(rec.name) }}</div>
+    {% else %}
+    <li class="list-group-item">
+        <a href="/filter/{{ rec.uid }}">{{ _(rec.name) }}
+            <span style="font-size:0.8em;background-color:#00adef;color:#fff;padding:1px;">
+                ({% module info_count(pcat=False,catid = rec.uid,kind=rec.kind)%})
+            </span>
+        </a>
+    </li>
+    {% end %}
+    {% end %}
+</ul>

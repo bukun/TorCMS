@@ -1,0 +1,18 @@
+<ul class="list-group">
+    {% for s in relations %}
+    <li class="list-group-item">
+        <a href="/post/{{ s.post_id }}">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            {{ _(s.post_title) }}
+        </a>
+    </li>
+    {% end %}
+    {% for s in rand_recs %}
+
+    <li class="list-group-item">
+        <a href="/post/{{ s.uid }}">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            {{ _(s.title) }}</a>
+    </li>
+    {% end %}
+</ul>
