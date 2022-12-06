@@ -1,0 +1,236 @@
+{% extends "./tmplinfo.html" %}
+{% block head %}
+
+<title>{{ _('Modify Data') }} </title>
+<script>
+    // 提交预约刷新的动作
+    function chuli_kw() {
+        $.ajaxSetup({cache: false});
+        // 预约刷新
+        // 模拟Form提交
+        var myVAriable = $("#tags")[0].value;
+        var stringArray = myVAriable.split(",");
+        var out_str = ''
+        var str_span = ''
+        for (var str in stringArray) {
+            if (stringArray[str] != '') {
+                str_span = '<span class="btn btn-warning btn-xs">' + stringArray[str] + '<span class="glyphicon glyphicon-remove" onclick="del_kw(' + str + ');" style="color: #F00;padding:2px 2px 0 5px"> </span></span>  '
+            } else {
+                str_span = ''
+            }
+            out_str += str_span
+        }
+
+        $('#kwlist').html(out_str);
+
+
+    }
+
+    function del_kw(str1) {
+        $.ajaxSetup({cache: false});
+        var myVAriable = $("#tags")[0].value;
+        var stringArray = myVAriable.split(",");
+        var out_str = ''
+        var tag_str = ''
+        var str_span = ''
+        var tag_span = ''
+        for (var str in stringArray) {
+            if (str == str1) {
+                str_span = ''
+                tag_span = ''
+            } else {
+                if (stringArray[str] != '') {
+                    str_span = '<span class="btn btn-warning btn-xs">' + stringArray[str] + '<span class="glyphicon glyphicon-remove"  onclick="del_kw(' + str + ');" style="color: #F00;padding:2px 2px 0 5px"> </span></span>  '
+                    tag_span = stringArray[str] + ','
+                } else {
+                    str_span = ''
+                    tag_span = ''
+                }
+            }
+
+
+            out_str += str_span
+            tag_str += tag_span
+        }
+
+        $('#kwlist').html(out_str);
+        $("#tags")[0].value = tag_str;
+
+    }
+
+    {#chuli_kw();#}
+     window.onload = chuli_kw;
+</script>
+<style>
+
+     .panel-body{
+        background: #f1f1f1;
+    }
+</style>
+{% end %}
+{% block typebody %}
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li> Modify - {{ postinfo.title }}</li>
+    </ul>
+</div>
+<div class="panel panel-black">
+    <div class="panel-heading">
+        Modify-{{ postinfo.title }}
+    </div>
+    <div class="panel-body">
+ <legend>{{ _('Core Metadata fields') }}</legend>
+      <div class="panel-group" id="accordion">
+
+            <btn data-toggle="collapse" data-parent="#accordion" id="col_btn"
+                 href="#collapseOne" class="btn btn-primary">
+                {{ _('Update Metadata using XLSX file') }}
+            </btn>
+
+            <div id="collapseOne" class="panel-collapse collapse">
+
+                <p class="text-right">
+                    <span onclick="download_excel()" class="btn btn-warning btn-sm ">
+                                   {{ _('Download Metadata') }} </span>
+                </p>
+         {% module upload_excel(postinfo.uid,kwd['router']) %}
+
+            </div>
+
+        </div>
+ <form class="form-horizontal" role="form" id="form_add_info" name="form_add_info" method="post"
+              enctype="multipart/form-data">
+             <input type="hidden" id="pycsw_file" name="pycsw_file" class="form-control" value="{{ postinfo.extinfo.get('pycsw_file')}}" readonly/>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="title">
+                    <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
+</a> {{ _('Title') }}
+                </label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="title" id="title" value="{{ postinfo.title }}"
+                           required>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    <span for="tags"><a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
+</a> {{ _('keywords') }}</span> </label>
+                <div class="col-sm-9">
+                      <input type="text" id="tags" name="tags" value="{% for x in app2label_info %}
+
+                {{ x.tag_name}},
+
+                {% end  %}" class="form-control" onchange="chuli_kw()">
+                        <br>
+                        <div id="kwlist"></div>
+                </div>
+            </div>
+
+
+
+  <div class="form-group">
+                <label class="col-sm-2 control-label ">
+                    <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
+</a> {{ _('Abstract') }}
+                </label>
+
+                <div class="col-sm-9">
+                    <textarea class="form-control" rows=10 id="cnt_md" name="cnt_md" cols="10"  data-provider="markdown" data-provide="markdown">
+                     {% raw unescape(postinfo.cnt_md) %}
+                    </textarea>
+                </div>
+            </div>
+     {% block extrainfo %}{% end %}
+
+
+      <legend>{{ _('Additional information of the dataset') }}</legend>
+
+       <div class="form-group">
+                <label class="col-sm-2 control-label" for="gcat0">
+                    {{ _('Category') }}
+                </label>
+                <div class="col-sm-9">
+                    <select class="form-control" name="gcat0" id="gcat0">
+                         {% for taginfo in cat_enum %}
+                        {% if not taginfo.uid.endswith('00') %}
+                        <option value="{{ taginfo.uid }}" {% if taginfo.uid== postinfo.extinfo['def_cat_uid'] %}
+                        selected="selected"
+                        {% end %} >{{taginfo.uid[:2]}}_{{ taginfo.name }}</option>
+                        {% end %}
+                        {% end %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    {{ _('Thumbnail') }} </label>
+                <div class="col-sm-8">
+                 <input id="logo" name="logo" type="text" value="{{ postinfo.logo }}"  class="form-control" readonly />
+
+                </div>
+                <div class="col-sm-2">
+
+                        <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" title="Upload thumbnail"> {{ _('Upload thumbnail') }}</a>
+
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label"> </label>
+                <div class="col-sm-9">
+                    <input type="submit" name="post_submit" value="Submit"
+                           class="btn btn-primary btn-sm" role="button"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                        JSON
+                </label>
+
+                <div class="col-sm-9">
+                    <textarea class="form-control" rows=26 id="json" name="json" readonly>
+                        {{ kwd['extinfo'] }}
+                    </textarea>
+                </div>
+            </div>
+        </form>
+
+
+</div>
+    {% module upload_pic() %}
+     {% module upload_file() %}
+</div>
+ <script  type="text/javascript">
+    function download_excel() {
+
+        $.ajax({
+            url: "/{{ kwd['router'] }}/download_excel/{{ postinfo.uid }}",
+            type: "get",
+            cache: false,
+            data: '',
+            processData: false,
+            contentType: false,
+
+            success: function (data) {
+                var msg_json = $.parseJSON(data);
+                var file_src = msg_json.file_src;
+                window.location.href=file_src
+
+
+            },
+            error: function () {
+
+            }
+
+        });
+
+
+    }
+</script>
+{% end %}
