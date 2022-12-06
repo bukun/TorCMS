@@ -150,7 +150,7 @@ def insert_into_tabpost(catid, rec):
         # 如果在 TabPost 中已有，则跳过
         pass
     else:
-        kind = '7'
+        kind = 'd'
         # sig = kind + tools.get_uu4d()
         sig = rec[0]
 
@@ -181,7 +181,7 @@ def insert_into_tabpost(catid, rec):
         print('dodo')
         print(pp_data)
         MPost.add_or_update(sig, pp_data)
-        MPost.update_misc(sig, kind = '7')
+        MPost.update_misc(sig, kind = 'd')
 
         # cate_rec = MPost2Catalog.get_first_category(sig )
         # if 1== 2:
