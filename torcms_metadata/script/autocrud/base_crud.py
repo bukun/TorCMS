@@ -21,11 +21,7 @@ for wfile in Path(META_TAG_DIR).rglob('*.xlsx'):
 
     META_FILE_LIST.append(wfile)
 
-for wfile in os.listdir(META_DIR):
-    if wfile.startswith('~'):
-        continue
-    if wfile.lower().endswith('.xlsx'):
-        XLSX_FILE = os.path.join(META_DIR, wfile)
+
 
 # The filter key stored in the colomns below.
 RAW_LIST = [
