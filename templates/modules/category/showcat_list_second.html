@@ -1,0 +1,15 @@
+{% for x in recs %}
+{% if x.uid.endswith('00') %}
+
+{% if catid[:2] != x.uid[:2]%}
+
+<ul class="list-group">
+
+    {% module secondary_category_list(catid=x.uid,second=False,userinfo=userinfo)%}
+
+</ul>
+
+{% end %}
+
+{% end %}
+{% end %}

@@ -1,0 +1,13 @@
+
+    <ul class="list-group">
+        {% for postinfo in postinfo_arr %}
+
+
+        <li class="list-group-item">
+            <a href="/{{router_post[postinfo.kind]}}/{{postinfo.uid}}" title="{{ _(postinfo.title) }}">
+                <span class="glyphicon glyphicon-list-alt"></span> {{ _(postinfo.title) }}
+            </a>
+        </li>
+
+        {% end %}
+    </ul>

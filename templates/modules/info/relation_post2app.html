@@ -1,0 +1,20 @@
+<ul class="list-group">
+    {% for s in relations %}
+    <li class="list-group-item">
+        <a href="/map/{{ s.app_t.uid }}">
+            <span class="glyphicon glyphicon-map-marker"></span>
+            {{ _(s.app_t.title) }}
+            {% if s.app_t.uid[0] == 'v' %}<span class="badge" style="color:yellow">v</span>{% end %}
+        </a>
+    </li>
+    {% end %}
+    {% for s in rand_recs %}
+    <li class="list-group-item">
+        <a href="/map/{{ s.uid }}">
+            <span class="glyphicon glyphicon-map-marker"></span>
+            {{ _(s.title) }}
+            {% if s.uid[0] == 'v' %}<span class="badge" style="color:yellow">v</span>{% end %}
+        </a>
+    </li>
+    {% end %}
+</ul>

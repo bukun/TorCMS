@@ -1,0 +1,102 @@
+<!-- 模态框（Modal） -->
+ <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 99999">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">{{ _('Upload pictures') }}</h4>
+            </div>
+            <div class="modal-body">
+
+
+                <form  enctype="multipart/form-data" class="form-horizontal" id="upload_form">
+
+                    <input name="kind" type="hidden" id="kind" value="1">
+                      <br>
+                    <div class="form-group" >
+                        <label class="col-sm-3 control-label">{{ _('Choose picture') }}</label>
+
+                        <div class="col-sm-9">
+
+                            <input name="file" type="file" id="file_pic" accept=".jpg,.jpeg,.gif,.png,.tif,.bmp">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="desc">{{ _('Describe') }}</label>
+
+                        <div class="col-sm-9">
+                            <textarea name="desc" id="desc" class="form-control" rows="8"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label"></label>
+
+                        <div class="col-sm-9">
+                            <input type="submit" data-dismiss="modal" value="{{ _('submit') }}" class="btn btn-primary btn-sm" onclick="UpladPic()" />
+
+                        </div>
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script  type="text/javascript">
+    function UpladPic() {
+
+        var fileObj = document.getElementById("file_pic").files[0];  // 获取文件对象
+        var kind = document.getElementById("kind").value;
+        var desc = document.getElementById("desc").value;
+
+
+        // FormData 对象
+        var formData = new FormData();
+        formData.append("kind", '1');    // 可以增加表单数据
+        formData.append("file", fileObj);
+        formData.append("desc", desc);
+
+        // 文件对象
+        // XMLHttpRequest 对象
+        $.ajax({
+            url: "/entity_j/_add",
+            type: "post",
+            cache: false,
+            data: formData,
+            processData: false,
+            contentType: false,
+
+            success: function (data) {
+                var msg_json = $.parseJSON(data);
+                var logo_src = "/" + msg_json.path_save;
+                document.getElementById('logo').value = logo_src;
+
+
+            },
+            error: function () {
+            }
+
+        });
+
+
+    }
+</script>
+
+
+<script type="text/javascript">
+
+
+    $(function () {
+        $("#myModal").on("hide.bs.modal", function () {
+            $('#upload_form')[0].reset(); //重置表单
+            $(this).find("label.error").remove(); //去掉错误提示
+        })
+    });
+
+
+</script>

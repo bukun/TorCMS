@@ -1,0 +1,11 @@
+{% for rec in recs %}
+<li class="list-group-item">
+    {% if 'glyph' in kwd and kwd['glyph'] != '' %}
+    <span class="{{ kwd['glyph'] }}"></span>
+    {% else %}
+    <span class="glyphicon glyphicon-map-marker"></span>
+    {% end %}
+    <a href="/map/{{ rec.tag_id }}">{{ _(rec.tag.title) }} </a> <span
+        style="font-size: small; color: #5e5e5e"> ({{ rec.count }})</span>
+</li>
+{% end %}

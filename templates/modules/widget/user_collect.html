@@ -1,0 +1,22 @@
+
+ <ul class="list-group">
+        {% for rec in recs %}
+        <li class="list-group-item">
+            <a href="/info/{{ rec.post_uid }}">
+                {% if 'glyph' in kwd and kwd['glyph'] != '' %}
+        <span class="{{ kwd['glyph'] }}"></span>
+        {% else %}
+        <span class="glyphicon glyphicon-list-alt"></span>
+        {% end %}
+                {{ _(rec.post_title) }}
+            </a>
+            <span class="post_cat">{% module app_tags(rec.post_uid) %}</span>
+
+          <span style="font-size: small; color: #5e5e5e">
+                ({{ rec.post_view_count }})
+          </span>
+
+        </li>
+        {% end %}
+    </ul>
+

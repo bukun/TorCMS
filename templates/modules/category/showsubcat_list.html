@@ -1,0 +1,14 @@
+{% for x in recs %}
+{% if not x.uid.endswith('00') %}
+<li class="list-group-item">
+    <a href="/catalog/{{ x.slug }}" title="{{ _(x.name) }}">
+
+        {% if 'glyph' in kwd and kwd['glyph'] != '' %}
+        <span class="{{ kwd['glyph'] }}"></span>
+        {% end %}
+        {{ _(x.name) }}
+
+    </a>
+</li>
+{% end %}
+{% end %}

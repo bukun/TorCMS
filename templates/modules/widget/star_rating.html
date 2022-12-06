@@ -1,0 +1,34 @@
+<form>
+    <input id="input-rating-infor" value="{{ rating }}" type="number" class="rating" min=0 max=5 step=0.2
+           data-size="xs" {% if not userinfo %} readonly=true {%end %}>
+
+    <div class="clearfix padt10"></div>
+    <div class="form-group">
+        {#
+        <button type="submit" class="btn btn-primary">Submit</button>
+        #}
+
+    </div>
+</form>
+
+<script>
+
+    jQuery(document).ready(function () {
+        $(".rating-kv").rating();
+        $('#input-rating-infor').on('rating.change', function (event, value, caption) {
+            $.ajax({
+                url: '/_rating/_update/{{postinfo.uid}}',
+                type: 'POST',
+                data: {rating: value},
+                dataType: 'html',
+                timeout: 1000,
+                error: function () {
+                },
+                success: function (result) {
+                }
+
+            });
+        });
+    });
+</script>
+

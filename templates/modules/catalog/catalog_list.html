@@ -1,0 +1,32 @@
+{% set ii = 1 %}
+
+<div class="panel-group" id="accordion">
+    {% for x in recs %}
+    {% if x.uid.endswith('00') %}
+    <div class="panel panel-black">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion"
+                   href="#collapse{{ii}}" class="flbt">
+                    {{ _(x.name) }}
+                </a>
+            </h4>
+        </div>
+
+
+        <div id="collapse{{ii}}" class="panel-collapse collapse {% if catid[:2] == x.uid[:2]%} in {% end %}">
+            <ul class="list-group">
+
+                {% module catalog_list(catid=x.uid)%}
+
+            </ul>
+        </div>
+
+
+        {% set ii = ii + 1 %}
+    </div>
+    {% end %}
+    {% end %}
+
+
+</div>

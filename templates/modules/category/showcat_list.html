@@ -1,0 +1,11 @@
+<li class="list-group-item">
+    {% for x in recs %}
+    {% if x.uid.endswith('00') %}
+    {% else %}
+    <a href="/list/{{ x.slug }}" title="{{ _(x.name) }}" class=" btn-primary btn-sm"
+       style="margin-bottom: 5px;color: #fff;">
+        {{ _(x.name) }}
+    </a>
+    {% end %}
+    {% end %}
+</li>

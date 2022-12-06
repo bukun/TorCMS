@@ -1,0 +1,15 @@
+{% for x in rec %}
+<tr>
+    {% if x.kind == '1' %}
+    <td>
+        <a href="{{ static_url('upload/') }}{{ x.path }}_m.jpg" target="_blank">
+            <img src="{{ static_url('upload/') }}{{ x.path }}_m.jpg" style="width: 150px"/>
+        </a>
+    </td>
+    {% end %}
+    <td>{% module site_url() %}{{ static_url('upload/') }}{{ x.path}}_m.jpg</td>
+    <td>
+        <b>图片说明：</b>{{ x.desc }}
+    </td>
+</tr>
+{% end %}

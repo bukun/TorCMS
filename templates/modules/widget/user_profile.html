@@ -1,0 +1,15 @@
+{% if rec and 'def_profile' in rec.extinfo and rec.extinfo['def_profile'] != '' %}
+<img src="{{ rec.extinfo['def_profile'] }}"  style="width:90px; border: 1px solid #ddd">
+{% else %}
+    {% if 'def_gender' in rec.extinfo %}
+        {% if rec.extinfo['def_gender'] == 'Male'%}
+            <img src="{{ static_url('tass/images/nan.png') }}" style="width:90px">
+        {% elif rec.extinfo['def_gender'] == 'Female' %}
+            <img src="{{ static_url('tass/images/nv.png') }}"  style="width:90px">
+        {% else %}
+            <img src="{{ static_url('tass/images/none.png') }}"  style="width:90px">
+        {% end %}
+    {% else %}
+        <img src="{{ static_url('tass/images/none.png') }}"  style="width:90px">
+    {% end %}
+{% end %}

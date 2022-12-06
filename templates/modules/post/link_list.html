@@ -1,0 +1,9 @@
+{% for x in recs %}
+{% if x.logo != '' %}
+    <a href="{{x.link}}" target="_blank" title="{{ _(x.name) }}" style="margin-right: 8px">
+        <img src="{{x.logo}}" style="height: 40px" class="img-thumbnail">
+    </a>
+{% else %}
+    <a href="{{x.link}}" target="_blank" title="{{ _(x.name) }}" style="margin-right: 8px">{{ _(x.name) }}</a>
+{% end %}
+{% end %}

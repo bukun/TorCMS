@@ -1,0 +1,210 @@
+
+<style>
+    .red {
+        color: #f00;
+        font-size: 16px;
+    }
+
+    .comment {
+        margin: 15px 0px 0px 50px
+    }
+
+    .reply_list {
+        margin: 15px auto
+    }
+
+    .reply_title {
+        display: block;
+        padding: 15px;
+        border-bottom: 1px solid #ddd
+    }
+    .reply_cnt {
+        padding: 20px
+    }
+
+    .reply_button {
+        padding: 10px auto
+    }
+    .comment_list{
+        padding-left: 60px;
+    }
+
+</style>
+<form method="post" class="form-horizontal" id="reply_form">
+    <div class="form-group">
+        <div class="col-sm-10">
+            {% if userinfo %}
+            <h5 class="red"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;
+                {% if en %}
+                {{ _('Support for MarkDown syntax ') }}( {{ _(' at least 10 characters ') }})
+                {% else %}
+                支持MarkDown语法（最少10个字符）
+                {% end %}
+            </h5>
+            {% else %}
+
+
+            <h5 class="red">
+                <span class="glyphicon glyphicon-hand-right"></span>&nbsp;
+                &nbsp;
+                {% if en %}
+                <a href="/user/login" class="btn btn-xs btn-danger" > {{ _('Sign in') }}</a>
+                {{ _('for comments') }}!
+                {% else %}
+                 请 <a href="/user/login" class="btn btn-xs btn-danger" > 登陆</a> 后进行评论
+                {% end %}
+            </h5>
+            {% end %}
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-10">
+           {% if userinfo %}
+            <textarea rows="5" name="cnt_reply" id="cnt_reply" class="form-control"></textarea>
+            {% else %}
+            <textarea rows="5" name="cnt_reply" id="cnt_reply" class="form-control" readonly></textarea>
+            {% end %}
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-10">
+            <a id="btn_submit_reply" onclick="reply_it('{{uid}}');" class="btn btn-primary btn-sm">
+                {{ _('Submit') }}
+            </a>
+        </div>
+    </div>
+</form>
+
+<div id="pinglun"></div>
+<br>
+<p><span class="glyphicon glyphicon-th-list"></span> {% if en %}{{ _(' Comment list') }}{% else %} 评论列表 {% end %}
+    (<span  class="red"> {{replys.count()}}</span> )</p>
+<p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
+
+{% for reply in replys %}
+
+<div id="del_zan_{{ reply.uid }}" style="font-size: 14px;">
+    <div class="reply_list">
+        <div class="row">
+            <div class="col-sm-2">{% module user_profile_by_id(reply.user_id) %}</div>
+            <div class="col-sm-10">
+                <div class="reply_title">
+                    <span class="red"> <span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;  {{ reply.user_name }}</span>
+                    <span class="pull-right"><span class=" glyphicon glyphicon-time"></span>&nbsp;
+        {{ str(reply.date).split('.')[0] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </div>
+
+                <div class="reply_cnt">
+                    <div class="listinfo_content" id="reply_cnt{{ reply.uid }}">
+                        {% raw unescape(reply.cnt_html) %}
+                    </div>
+                    <div class="reply_button pull-right">
+                        {% if (userinfo is None) or ( (userinfo) and ( userinfo.uid == reply.user_id )) %}
+                        <span class="glyphicon glyphicon-thumbs-up"></span>
+                        {% else %}
+                        <span class="glyphicon glyphicon-thumbs-up" id="zan_text"
+                              onclick="reply_zan('{{ reply.uid }}');" style="cursor: pointer"></span>
+                        {% end %}
+                        <span class="red" id="text_zan_{{ reply.uid }}">{{ reply.vote }}</span>
+                        &nbsp;
+
+                        {% if userinfo and userinfo.uid == reply.user_id %}
+                        <button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#myModal1_{{reply.uid}}"><span
+                                class="glyphicon glyphicon-pencil"></span>&nbsp;{{ _('Modify') }}
+                        </button>
+                        {% end %}
+                        {% if userinfo and ( userinfo.uid == reply.user_id or userinfo.role[2] > '1') %}
+                        <button class="btn btn-xs btn-danger"
+                                onclick="reply_del('{{ reply.uid }}');">
+                            <span class=" glyphicon glyphicon-trash"></span>
+                            {{ _('Delete') }}
+                        </button>
+                        {% end %}
+                        {% if userinfo %}
+                        <button class="btn btn-primary btn-xs" data-toggle="collapse" data-target="#reply_demo{{reply.uid}}"><span
+                                class="glyphicon glyphicon-share-alt"></span>&nbsp;{{ _('Reply') }}
+                        </button>
+                        {% end %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <br>
+
+    <div id="reply_demo{{reply.uid}}" class="collapse comment">
+                    <form method="post" class="form-horizontal" id="comment_form">
+                        <div class="form-group">
+                            <div class="col-sm-10">
+                               {% if userinfo %}
+                                <textarea rows="5" name="cnt_comment{{reply.uid}}" id="cnt_comment{{reply.uid}}" class="form-control"></textarea>
+                                {% else %}
+                                <textarea rows="5" name="cnt_comment{{reply.uid}}" id="cnt_comment{{reply.uid}}" class="form-control" readonly></textarea>
+                                {% end %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                                <a id="btn_submit_comment{{reply.uid}}" onclick="comment_it('{{uid}}','{{reply.uid}}','cnt_comment{{reply.uid}}','btn_submit_comment{{reply.uid}}');"
+                                   class="btn btn-primary btn-xs" data-toggle="collapse" data-target="#reply_demo{{reply.uid}}">
+                                    {{ _('Submit') }}
+                                </a>
+                            </div>
+                            <div class="col-sm-6">
+                               <button type="button" class="btn btn-primary btn-xs" data-toggle="collapse" data-target="#reply_demo{{reply.uid}}">Cancel Reply</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+        <div style="padding-left: 50px" id="reply_comment{{reply.uid}}"></div>
+        <div class="comment_list">
+            {% module comment_list(replyid = reply.uid,userinfo=userinfo,en=en) %}
+        </div>
+
+        <div class="modal fade" id="myModal1_{{reply.uid}}" tabindex="-1" role="dialog" aria-labelledby="myModal1_Label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModal1_Label">{% if en %} Modify Comment{% else %}修改评论{% end %}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" class="form-horizontal" id="reply_modify_form">
+                            <div class="form-group">
+                                <div class="col-sm-10">
+                                    <h5 class="red"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;
+
+                                        {% if en %}
+                                        {{ _('Support for MarkDown syntax ') }}( {{ _(' at least 10 characters ') }})
+                                        {% else %}
+                                        支持MarkDown语法（最少10个字符）
+                                        {% end %}
+                                    </h5>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-10">
+                                <textarea rows="5" name="cnt_modify_reply{{reply.uid}}" id="cnt_modify_reply{{reply.uid}}"
+                                          class="form-control">
+                                     {% module replycnt(replyid = reply.uid) %}
+                                </textarea>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-default btn-xs" data-dismiss="modal">{{ _('Close') }}</button>
+                            <a onclick="reply_modify('{{reply.uid}}','cnt_modify_reply{{reply.uid}}','0');"
+                               data-dismiss="modal" class="btn btn-primary btn-xs">{{ _('Submit') }}</a>
+                        </form>
+                    </div>
+
+
+                </div>
+    </div>
+</div>
+
+
+    <p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
+</div>
+
+{% end %}
