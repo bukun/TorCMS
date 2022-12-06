@@ -5,12 +5,12 @@ Basic configuration for CRUD.
 
 import os
 from pathlib import Path
-from torcms_metadata.config import xlsx_src
+from torcms_dde.config import xlsx_src
 
 CRUD_PATH = os.path.abspath('./templates/autogen')
 
-META_DIR = './torcms_metadata'
-META_TAG_DIR = './torcms_metadata/database/meta'
+META_DIR = './torcms_dde'
+META_TAG_DIR = './torcms_dde/database/meta'
 XLSX_FILE = xlsx_src
 
 META_FILE_LIST = []
