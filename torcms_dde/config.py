@@ -21,3 +21,4 @@ _post_cfg = {
         'checker': '0',  # '10', '100', '1000', '10000'
     }
 }
+xlsx_src='./torcms_dde/meta.xlsx'
