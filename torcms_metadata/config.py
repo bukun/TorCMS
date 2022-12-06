@@ -1,5 +1,5 @@
 _router_post = {
-                '9': 'meta_info',  # Filter_View
+                '9': 'data',  # Filter_View
 
                 }
 
@@ -16,7 +16,7 @@ _check_type = {
 _post_cfg = {
 
     '9': {
-        'router': 'meta_info',
+        'router': 'data',
         'html': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>'''.format('Data'),
         'checker': '10',  # '10', '100', '1000', '10000'
     }
