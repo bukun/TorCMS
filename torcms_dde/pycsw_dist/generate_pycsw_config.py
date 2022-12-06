@@ -42,7 +42,7 @@ def chuli_cfg():
 
 def chuli_run():
     with open('run_pycsw.sh', 'w') as fo:
-        fo.write('cp -r fangzai/pycsw/pycsw/ogc/api/templates/* pycsw/pycsw/ogc/api/templates/')
+        fo.write('cp -r /home/bk/deploy/fangzai/pycsw/pycsw/ogc/api/templates/* pycsw/pycsw/ogc/api/templates/')
         fo.write('\n')
         fo.write(
             f'. ./vpy_csw/bin/activate && export PYCSW_CONFIG={pycsw_cfg_file.resolve()} && cd pycsw && python3 ./pycsw/wsgi_flask.py'
