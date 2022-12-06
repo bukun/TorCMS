@@ -72,7 +72,6 @@ PYCSW_DB_FIELD = [
     'specificationdate',
     'specificationdatetype',
     'links',
-    'wkt_geometry'
 ]
 
 
@@ -139,7 +138,6 @@ def insert_into_tabpost(catid, rec):
         'pycsw_specificationdatetype': rec[54],
         'pycsw_links': rec[55],
         # 'pycsw_wkb_geometry': rec[56],
-        'pycsw_wkt_geometry': rec[56],
     }
 
     if rec[9]:
