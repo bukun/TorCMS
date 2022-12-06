@@ -51,7 +51,6 @@ RUN git clone https://gitee.com/bukun/TorCMS.git
 WORKDIR /coding/TorCMS
 
 RUN git clone https://gitee.com/bukun/torcms_f2elib.git static/f2elib
-RUN git clone https://gitee.com/bukun/torcms_modules_bootstrap.git templates/modules
 
 RUN source  /vpy/bin/activate && pip3 install wheel
 RUN source  /vpy/bin/activate && pip3 install email_validator
