@@ -11,7 +11,7 @@
 /static/jslib/jquery-2.1.4.min.js
 /templates/theme/_metadata.html
 /helper_metadata.py
-/static/meta_元数据模板20220921.xlsx
+/static/meta_tmpl_20221206.xlsx
 
 
 
