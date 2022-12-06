@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Harvest xmlns="http://www.opengis.net/cat/csw/2.0.2"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.opengis.net/cat/csw/2.0.2 http://schemas.opengis.net/csw/2.0.2/CSW-publication.xsd"
+         service="CSW" version="2.0.2">
+    <!--
+    <Source>http://webgis.cn/cgi-bin/mapserv?map=/owg/mfb1.map&amp;SERVICE=WMS&amp;VERSION=1.3.0&amp;REQUEST=GetCapabilities</Source>
+    -->
+    <Source>http://159.226.123.24:9012/qgisserver?MAP=/home/bk/gisws/qgws/common/pub_sfq_tillageinversion.qgz&amp;SERVICE=WMS&amp;VERSION=1.3.0&amp;REQUEST=GetCapabilities</Source>
+    <ResourceType>http://www.opengis.net/wms</ResourceType>
+</Harvest>
