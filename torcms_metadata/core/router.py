@@ -4,6 +4,6 @@
 from torcms_metadata.handlers.meta_handler import MetadataHandler
 
 _urls = [
-    ("/meta_info/(.*)", MetadataHandler, dict(kind='9')),
+    ("/data/(.*)", MetadataHandler, dict(kind='9')),
 
 ]
