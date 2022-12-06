@@ -1,0 +1,14 @@
+{% extends "../theme/bage.html" %}
+{% block head %}
+{% block headinfo %}
+<link rel="stylesheet" href="{{ static_url('f2elib/bootstrap-star-rating-master/css/star-rating.css')}}" type="text/css" media="all">
+<script type="text/javascript" src="{{ static_url('f2elib/bootstrap-star-rating-master/js/star-rating.js') }}"></script>
+{% end %}
+{% module use_f2e('codemirror') %}
+{% end %}
+{% block mainbody %}
+<div class="container" role="main"  style="padding-top: 80px">
+    {% block typebody %}
+    {% end %}
+</div>
+{% end %}
