@@ -121,7 +121,7 @@ class MetadataHandler(PostHandler):
     def initialize(self, **kwargs):
         super(MetadataHandler, self).initialize(**kwargs)
 
-        self.kind = kwargs.get('kind', '9')
+        self.kind = kwargs.get('kind', 'd')
         self.filter_view = kwargs.get('filter_view', True)
 
     def get(self, *args, **kwargs):
