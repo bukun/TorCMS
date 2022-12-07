@@ -9,11 +9,11 @@
 <div class="row" id="harvest">
 
 
-    <div class="col-sm-4">
+    <div class="col-sm-6">
         <div class="panel panel-black">
 
             <div class="panel-heading">
-                <b> {{ _('Geology') }}</b>
+                <b> {{ _('Natural') }}</b>
             </div>
 
             <ul class="list-group">
@@ -24,14 +24,8 @@
                     {% module meta_catalog('d400',accid='1',kind='d') %}
                     {% module meta_catalog('d500',accid='1',kind='d') %}
                     {% module meta_catalog('d600',accid='1',kind='d') %}
-                    {% module meta_catalog('d700',accid='1',kind='d') %}
-                    {% module meta_catalog('d800',accid='1',kind='d') %}
-                    {% module meta_catalog('d900',accid='1',kind='d') %}
-                    {% module meta_catalog('da00',accid='1',kind='d') %}
-                    {% module meta_catalog('db00',accid='1',kind='d') %}
-                    {% module meta_catalog('dc00',accid='1',kind='d') %}
-                    {% module meta_catalog('dd00',accid='1',kind='d') %}
-                    {% module meta_catalog('de00',accid='1',kind='d') %}
+
+
                 </div>
 
 
@@ -42,17 +36,18 @@
 
     </div>
 
-    <div class="col-sm-4">
+    <div class="col-sm-6">
         <div class="panel panel-black">
 
             <div class="panel-heading">
-                <b> {{ _('Geophysics') }} </b>
+                <b> {{ _('Technological') }} </b>
             </div>
 
             <ul class="list-group list-group-flush">
                 <div id="accordion2">
-                    {% module meta_catalog('df00',accid='2',kind='d') %}
-                    {% module meta_catalog('dg00',accid='2',kind='d') %}
+                    {% module meta_catalog('d700',accid='1',kind='d') %}
+                    {% module meta_catalog('d800',accid='1',kind='d') %}
+                    {% module meta_catalog('d900',accid='1',kind='d') %}
 
                 </div>
 
@@ -61,90 +56,12 @@
 
         </div>
 
-        <div class="panel panel-black">
-            <div class="panel-heading">
-                <b> {{ _('Geography') }} </b>
-            </div>
-
-            <ul class="list-group list-group-flush">
-                <div id="accordion3">
-                    {% module meta_catalog('dh00',accid='3',kind='d') %}
-
-                </div>
 
 
-            </ul>
-        </div>
-        <div class="panel panel-black">
-            <div class="panel-heading">
-                <b> {{ _('Oceanography') }} </b>
-            </div>
-
-            <ul class="list-group list-group-flush">
-                <div id="accordion4">
-                    {% module meta_catalog('dn00',accid='4',kind='d') %}
-
-                </div>
-
-            </ul>
-        </div>
-
-        <div class="panel panel-black">
-            <div class="panel-heading">
-                <b>   {{ _('Atmospheric Science') }}</b>
-            </div>
-
-            <ul class="list-group list-group-flush">
-                <div id="accordion5">
-                    {% module meta_catalog('do00',accid='5',kind='d') %}
-
-                </div>
-
-            </ul>
-
-        </div>
 
 
     </div>
-    <div class="col-sm-4">
-        <div class="panel panel-black">
-            <div class="panel-heading">
-                <b>{{ _('Geological Resources and Geol') }}</b>
-            </div>
 
-            <ul class="list-group list-group-flush">
-                <div id="accordion6">
-                    {% module meta_catalog('di00',accid='6',kind='d') %}
-                    {% module meta_catalog('dj00',accid='6',kind='d') %}
-                    {% module meta_catalog('dk00',accid='6',kind='d') %}
-                    {% module meta_catalog('dl00',accid='6',kind='d') %}
-                    {% module meta_catalog('dm00',accid='4',kind='d') %}
-
-                </div>
-
-
-            </ul>
-        </div>
-
-        <div class="panel panel-black">
-            <div class="panel-heading">
-                <b>  {{ _('Remote sensing science and technology') }}</b>
-            </div>
-
-            <ul class="list-group list-group-flush">
-                <div id="accordion7">
-                    {% module meta_catalog('dp00',accid='7',kind='d') %}
-                    {% module meta_catalog('dq00',accid='7',kind='d') %}
-                    {% module meta_catalog('dr00',accid='7',kind='d') %}
-
-
-                </div>
-
-            </ul>
-        </div>
-
-
-    </div>
 
 </div>
 
