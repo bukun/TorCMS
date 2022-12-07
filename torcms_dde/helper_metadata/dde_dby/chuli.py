@@ -59,7 +59,7 @@ def chuli_meta(metafile, sig):
                 fo.write('<dc:{0}>{1}</dc:{0}>\n'.format(row[0].value, escape(row[1].value)))
             if row[0].value.strip() in ['abstract']:
                 fo.write('<dct:{0}>{1}</dct:{0}>\n'.format(row[0].value, escape(row[1].value)))
-        fo.write(tp_identifier.format('ddedby' + sig))
+        fo.write(tp_identifier.format('drrks2022-' + sig))
         fo.write(tmpl_9)
 
 
@@ -68,7 +68,7 @@ def get_meta():
     Get metadata of dataset via ID.
     '''
 
-    meta_base = './_dde_metadata'
+    meta_base = './xx_it'
     # meta_base = './dataset_DDE'
     #
     # if os.path.exists(meta_base):
