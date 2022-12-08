@@ -74,7 +74,7 @@ def gen_input_view_Meta(crud_key, crud_val):
     '''
     Viewing the HTML text.
     '''
-    if crud_key in ['pycsw_title', 'pycsw_abstract', 'pycsw_keywords', 'pycsw_identifier']:
+    if crud_key in ['pycsw_title', 'pycsw_abstract', 'pycsw_keywords', 'pycsw_identifier','pycsw_xml','pycsw_anytext']:
         html_str = ''
     elif crud_key == 'pycsw_links':
         html_str = HTML_TPL_DICT['input_view_link'].format(
