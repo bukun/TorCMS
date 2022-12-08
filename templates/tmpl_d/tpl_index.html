@@ -3,9 +3,25 @@
 <title>Infor </title>
 <meta name="keywords" content="Infor">
 <meta name="description" content="Infor">
-
+<style type="text/css">
+    #map_div {
+        width: 100%;
+        height: 430px;
+        border: 1px solid black;
+        text-align: center;
+        align-self: center;
+        z-index: 1;
+    }
+</style>
 {% end %}
 {% block typebody %}
+<div class="row">
+    <div class="col-sm-12">
+        <div id="map_div"></div>
+        <Br>
+
+    </div>
+</div>
 <div class="row" id="harvest">
 
 
@@ -67,5 +83,113 @@
 
  
 <br>
+<script src="{{ static_url('jslib/dst/lazyload.js') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+        var popup = L.popup();
+        var geojson_mar_opt_2 = {
+            radius: 4,
+            fillColor: "#f3a5a5",
+            color: "#000",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8
+        };
+
+        var geojson_mar_opt_4 = {
+            radius: 4.5,
+            fillColor: "#f34747",
+            color: "#000",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8
+        };
+        var geojson_mar_opt_5 = {
+            radius: 5,
+            fillColor: "#cb0a0a",
+            color: "#000",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8
+        };
+        var geojson_mar_opt_7 = {
+            radius: 5.5,
+            fillColor: "#8c0808",
+            color: "#000",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8
+        };
+        var geojson_mar_opt_8 = {
+            radius: 6,
+            fillColor: "#5f0505",
+            color: "#000",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8
+        };
+        function onMapClick(e) {
+            popup
+                .setLatLng(e.latlng)
+                .setContent("Location:" + e.latlng.toString())
+                .openOn(map);
+        }
+        var map = L.map("map_div", {
+            center: [15.642588, 0],
+            zoom: 2,
+            maxZoom: 18,
+            minZoom: 1,
+        });
+        var osm = L.tileLayer.chinaProvider('TianDiTu.Normal.Map', {
+            maxZoom: 12,
+            attribution: '',
+            id: "mapbox.satellite",
+
+        });
+        osm.addTo(map);
+        map.on('click', onMapClick);
+        $.ajax({
+            type: "get",
+            url: "/json/cruise-svr",
+            dataType: "json",
+            success: function (msg) {
+                var data = msg.results
+                $.each(data, function (infoIndex, info) {
+                        var title_text = "<div style='font-size:12px;line-height:12px; padding: 10px 0 5px 0'><b>Place</b> : " +
+                            info['place'] + "</div> " + "<div style='font-size:12px;line-height:12px;padding: 10px 0 13px 0''><b>latlng</b> : " + info['lat'] + ',' + info['lon'] + "</div>" + "" +
+                            "<div style='font-size:12px;line-height:12px;'><b>Number:</b>  " + info['num'] + '</div>';
+                        var igainfo = title_text;
+                        L.circleMarker([info['lat'], info['lon']],{
+                            color: '#f90',
+                            fillColor: '#f00',
+                            fill: '#f01234',
+                            fillOpacity: 1.0,
+                            radius:5
+                        }).addTo(map).bindPopup(igainfo);
+                        {#
+                            if (info['num'] < 3) {
+                                L.circleMarker([info['lat'], info['lon']], geojson_mar_opt_2).addTo(map).bindPopup(igainfo);
+                            } else if (info['num'] < 5 && info['num'] >= 3) {
+
+                                L.circleMarker([info['lat'], info['lon']], geojson_mar_opt_4).addTo(map).bindPopup(igainfo);
+                            } else if (info['num'] < 10 && info['num'] >= 5) {
+
+                                L.circleMarker([info['lat'], info['lon']], geojson_mar_opt_5).addTo(map).bindPopup(igainfo);
+                            } else if (info['num'] >= 10) {
+
+                                L.circleMarker([info['lat'], info['lon']], geojson_mar_opt_7).addTo(map).bindPopup(igainfo);
+                            }
+                             #}
+                    }
+                )
+            },
+            error: function () {
+            }
+        });
+
+    })
+</script>
 {% end %}
 

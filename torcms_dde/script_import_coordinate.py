@@ -30,11 +30,11 @@ def get_coor(ip,error_list):
         res = requests.get(url1,headers = header_dict)
     except Exception:
         res = None
-        error_list.append({'url:'+url1 + ', ip:' + ip })
-        f = 'xx_error_list.json'
-        with open(f, 'w') as file_obj:
-            json.dump(error_list, file_obj, ensure_ascii=False)
-    print(res)
+        # error_list.append({'url:'+url1 + ', ip:' + ip })
+        # f = 'xx_error_list.json'
+        # with open(f, 'w') as file_obj:
+        #     json.dump(error_list, file_obj, ensure_ascii=False)
+    # print(res)
     if res and res.status_code == 200:
         print(ip, res.status_code)
         tojson = json.loads(str(res.content.decode('utf-8')))
