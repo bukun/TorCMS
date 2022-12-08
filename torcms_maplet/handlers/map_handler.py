@@ -3,20 +3,12 @@
 '''
 Handlers for Map application.
 '''
-import json
-import tornado.escape
 import tornado.web
 import config
-from config import router_post
-from torcms.core import privilege
 from torcms.core.base_handler import BaseHandler
 from torcms.handlers.post_handler import PostHandler
 from torcms.model.post_model import MPost
 from torcms_maplet.model.layout_model import MLayout
-from torcms.model.category_model import MCategory
-from torcms.model.post2catalog_model import MPost2Catalog
-from torcms.model.label_model import MPost2Label
-from torcms.core.tools import logger
 
 
 class MapPostHandler(PostHandler):
@@ -147,7 +139,7 @@ class MapPostHandler(PostHandler):
         elif 'view3d' in self.request.arguments:
             tmpl = '../torcms_maplet/tmpl/view3d.html'.format(self.kind)
         else:
-            tmpl = '../torcms_maplet/tmpl/show_map.html'.format(self.kind)
+            tmpl = 'post_m/show_map.html'.format(self.kind)
         return tmpl
 
 

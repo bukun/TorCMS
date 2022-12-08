@@ -118,13 +118,13 @@ HTML_INPUT_ADD_hidden = '''
 class="form-control">
  
 '''
-HTML_INPUT_VIEW = '''{{% if postinfo.extinfo.get('{0}') %}}<div class="row">
+HTML_INPUT_VIEW = '''{{% if postinfo.extinfo.get('{0}') not in ['','None','NONE'] %}}<div class="row">
     <div class="col-sm-4"><span class="des"><strong>{{{{_('{1}')}}}}</strong></span></div>
     <div class="col-sm-8">
     <span class="val">{{{{ postinfo.extinfo.get('{0}','') }}}} {2}
      </span></div></div>{{% end %}}
     '''
-HTML_INPUT_VIEW_link = '''{{% if postinfo.extinfo.get('{0}') %}}<div class="row">
+HTML_INPUT_VIEW_link = '''{{% if postinfo.extinfo.get('{0}' not in ['','None','NONE'] ) %}}<div class="row">
     <div class="col-sm-4"><span class="des"><strong>{{{{_('{1}')}}}}</strong></span></div>
     <div class="col-sm-8">
     <span class="val">
