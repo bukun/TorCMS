@@ -208,7 +208,7 @@ def update_label(signature, post_data):
 def import_meta():
     # 此文件夹下声明系统中的数据集及分类
 
-    dts_path_obj = pathlib.Path('./database/datasets')
+    dts_path_obj = pathlib.Path('database/datasets')
     for wfile in dts_path_obj.rglob('*.xlsx'):
         chli_xlsx(wfile)
 
