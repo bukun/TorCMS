@@ -4,7 +4,7 @@ Tempaltes for CRUD.
 '''
 
 TPL_ADD = '''
-    {% extends "../../../templates/tmpl_kkkk/tpl_add.html" %}
+    {% extends "../../../templates/tmpl_kkkk/tpl_addssss.html" %}
 
     {% block header %}
     <h1>{{ header_text }}</h1>
@@ -21,7 +21,7 @@ TPL_ADD = '''
     {% end %}'''
 
 TPL_EDIT = '''
-    {% extends "../../../templates/tmpl_kkkk/tpl_edit.html" %}
+    {% extends "../../../templates/tmpl_kkkk/tpl_editssss.html" %}
 
     {% block header %}
     <h1>{{ header_text }}</h1>
