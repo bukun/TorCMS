@@ -147,7 +147,7 @@ class MapPostHandler(PostHandler):
         elif 'view3d' in self.request.arguments:
             tmpl = '../torcms_maplet/tmpl/view3d.html'.format(self.kind)
         else:
-            tmpl = '../torcms_maplet/tmpl/show_map.html'.format(self.kind)
+            tmpl = 'post_m/show_map.html'.format(self.kind)
         return tmpl
 
 
