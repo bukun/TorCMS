@@ -12,9 +12,9 @@ from owslib.fes import PropertyIsEqualTo, PropertyIsLike, BBox
 # birds_query = PropertyIsEqualTo('csw:AnyText', '')
 # birds_query = PropertyIsEqualTo('csw:AnyText', '')
 
-birds_query = PropertyIsLike('csw:AnyText', '%d%')
+birds_query = PropertyIsLike('csw:AnyText', '%data%')
 
-csw.getrecords2(constraints=[birds_query], maxrecords=20)
+csw.getrecords2(constraints=[birds_query], maxrecords=20, distributedsearch=True, hopcount=2)
 print(csw.results)
 for rec in csw.records:
     print(csw.records[rec].title)
