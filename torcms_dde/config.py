@@ -1,22 +1,22 @@
 _router_post = {
-                'd': 'dde',  # Filter_View
+                'd': 'metadata',  # Filter_View
 
                 }
 
 _post_type = {
 
     'd': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>
-        '''.format('DDE'),
+        '''.format('Metadata'),
 }
 _check_type = {
 
-    'd': 'DDE',
+    'd': 'Metadata',
 
 }
 _post_cfg = {
 
     'd': {
-        'router': 'dde',
+        'router': 'metadata',
         'html': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>'''.format('DDE'),
         'checker': '0',  # '10', '100', '1000', '10000'
     }

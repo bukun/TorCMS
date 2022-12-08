@@ -115,12 +115,13 @@ def __write_edit_tmpl(tag_key, tag_list):
             edit_widget_arr_meta.append(tmpl_meta)
 
     edit_widget_arr_all = edit_widget_arr_meta + legend_html + edit_widget_arr
-
+    the_view_sig_str = __get_view_tmpl(tag_key)
     with open(edit_file, 'w') as fileout2:
         outstr = minify(
         TPL_EDIT.replace('xxxxxx', ''.join(edit_widget_arr_all)).replace(
             'yyyyyy',
             tag_key.split('_')[1][:2]).replace(
+            'ssss', the_view_sig_str).replace(
             'kkkk', KIND_DICS['kind_' + tag_key.split('_')[-1]])
                         )
         fileout2.write(outstr)
@@ -214,13 +215,14 @@ def __write_add_tmpl(tag_key, tag_list):
             add_widget_arr_meta.append(tmpl_meta)
 
     add_widget_arr_all = add_widget_arr_meta + legend_html + add_widget_arr
-
+    the_view_sig_str = __get_view_tmpl(tag_key)
     with open(add_file, 'w') as fileout:
         outstr = minify(
 
         TPL_ADD.replace('xxxxxx', ''.join(add_widget_arr_all)).replace(
             'yyyyyy',
             tag_key.split('_')[1][:2]).replace(
+            'ssss', the_view_sig_str).replace(
             'kkkk', KIND_DICS['kind_' + tag_key.split('_')[-1]])
                         )
         fileout.write(outstr)
