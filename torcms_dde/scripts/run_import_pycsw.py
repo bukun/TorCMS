@@ -217,7 +217,7 @@ def fetch_pycsw():
         # insert_into_tabpost('0701', row)
         # insert_into_tabpost('a301', row)
         print('=' * 40)
-        # print(row)
+        print(row)
         print('=' * 40)
 
         # insert_into_tabpost('2501', row)

@@ -74,7 +74,7 @@ def gen_input_view_Meta(crud_key, crud_val):
     '''
     Viewing the HTML text.
     '''
-    if crud_key in ['pycsw_title', 'pycsw_abstract', 'pycsw_keywords', 'pycsw_identifier']:
+    if crud_key in ['pycsw_title', 'pycsw_abstract', 'pycsw_keywords', 'pycsw_identifier','pycsw_xml','pycsw_anytext']:
         html_str = ''
     elif crud_key == 'pycsw_links':
         html_str = HTML_TPL_DICT['input_view_link'].format(
@@ -90,6 +90,7 @@ def gen_input_view(sig_dic):
     '''
     Viewing the HTML text.
     '''
+
     if sig_dic['en'] in ['tag_file_download', 'tag__file_download']:
         html_str = HTML_TPL_DICT['input_view_download'].format(
             sig_zh=sig_dic['zh'], sig_unit=sig_dic['dic'][1])
@@ -100,7 +101,6 @@ def gen_input_view(sig_dic):
     ]:
         html_str = HTML_TPL_DICT['input_view_link'].format(
             sig_dic['en'], sig_dic['zh'], sig_dic['dic'][1])
-
     else:
         html_str = HTML_TPL_DICT['input_view'].format(sig_dic['en'],
                                                       sig_dic['zh'],

@@ -139,7 +139,7 @@
 
             <div class="panel-footer">
                 <div class="row">
-                    <div class="col-md-9"
+                    <div class="col-md-12"
                          style="display: block;overflow: hidden; text-overflow:ellipsis; white-space: nowrap;">
                         {{ _('Article link') }}：
                         <a href="/{{ kwd['router'] }}/{{ postinfo.uid }}"
@@ -147,9 +147,7 @@
                             {{ postinfo.title }}
                         </a>
                     </div>
-                    <div class="col-md-3">
-                        <div class="widget_baidu_share"> {% module baidu_share() %}</div>
-                    </div>
+
                 </div>
             </div>
         </div>
