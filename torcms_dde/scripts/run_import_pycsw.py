@@ -206,7 +206,7 @@ def fetch_pycsw():
     )
 
     cur = conn.cursor()
-    cmd = "SELECT {} from Records".format(','.join(PYCSW_DB_FIELD)).strip(',')
+    cmd = "SELECT {} from Records_drr".format(','.join(PYCSW_DB_FIELD)).strip(',')
     # print(cmd)
     cur.execute(cmd)
     rows = cur.fetchall()

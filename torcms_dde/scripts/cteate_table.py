@@ -99,9 +99,9 @@ if __name__ == '__main__':
 
     # echo_schema(PYCSW_DB_FIELD)
     data_list = []
-    for ii in range(4):
+    for ii in range(40):
         data={
-            'uid':get_uuid()
+            'uid': 'xx_' + get_uuid()
         }
         for field in PYCSW_DB_FIELD:
             # print(field)
