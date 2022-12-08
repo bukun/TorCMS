@@ -91,6 +91,7 @@ flasky/static
 templates/jshtml
 
 static/dataset_list
+static/cache
 
 templates/ext_autogen/
 .pytest_cache/
