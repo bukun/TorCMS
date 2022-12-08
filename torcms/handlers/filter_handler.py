@@ -170,8 +170,8 @@ class FilterHandler(BaseHandler):
             else:
                 cval = tval
 
-            condition['_tag_' + ckey] = cval
-            # condition['tag_' + ckey] = cval
+            # condition['_tag_' + ckey] = cval
+            condition['tag_' + ckey] = cval
 
             logger.info(f'TorCMS:: post handler: {condition}')
 

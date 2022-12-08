@@ -54,7 +54,7 @@ class MapLogHandler(BaseHandler):
         '''
         kwd = {}
         recs = MMapLog.get_all()
-        self.render('../torcms_maplet/map_log.html',
+        self.render('../torcms_maplet/tmpl/map_log.html',
                     recs=recs,
                     kwd=kwd,
                     userinfo=self.userinfo)

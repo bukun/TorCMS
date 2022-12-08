@@ -10,7 +10,7 @@ def gen_input_add_Meta(crud_key, crud_val):
     '''
     Adding for HTML Input control.
     '''
-    if crud_key in ['pycsw_title', 'pycsw_abstract', 'pycsw_keywords', 'pycsw_identifier','pycsw_xml','pycsw_anytext']:
+    if crud_key in ['pycsw_title', 'pycsw_abstract', 'pycsw_keywords', 'pycsw_identifier']:
         html_str = HTML_TPL_DICT['input_add_hidden'].format(sig_en=crud_key,
                                                             sig_zh=crud_val)
     else:
@@ -74,7 +74,7 @@ def gen_input_view_Meta(crud_key, crud_val):
     '''
     Viewing the HTML text.
     '''
-    if crud_key in ['pycsw_title', 'pycsw_abstract', 'pycsw_keywords', 'pycsw_identifier']:
+    if crud_key in ['pycsw_title', 'pycsw_abstract', 'pycsw_keywords', 'pycsw_identifier','pycsw_xml','pycsw_anytext']:
         html_str = ''
     elif crud_key == 'pycsw_links':
         html_str = HTML_TPL_DICT['input_view_link'].format(
