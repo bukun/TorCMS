@@ -65,6 +65,7 @@ target/
 
 .DS_Store
 xx*
+zz_*
 # config.py
 cfg.py
 *.sqlite
