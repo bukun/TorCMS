@@ -120,7 +120,7 @@
         </div>
         <div class="navbar-collapse collapse" id="nava">
             <ul class="nav navbar-nav">
-                <li><a href="/page/about_torcms">{{ _('About') }}</a></li>
+{#                <li><a href="/page/about_torcms">{{ _('About') }}</a></li>#}
 {#                <li class="dropdown">#}
 {#                    <a href="" class="dropdown-toggle" data-toggle="dropdown">{{ _('Data') }}#}
 {#                        <b class="caret"></b></a>#}
@@ -158,13 +158,13 @@
                     </div>
                 </li>
 
-{#                {% if userinfo %}#}
-{#                <li><a href="/user/info">{{ userinfo.user_name }}</a></li>#}
-{#                <li><a href="/user/logout">{{ _('Logout') }}</a></li>#}
-{#                {% else %}#}
-{#                <li><a href="/user/login">{{ _('Login') }}</a></li>#}
-{#                <li><a href="/user/regist">{{ _('Register') }}</a></li>#}
-{#                {% end %}#}
+                {% if userinfo %}
+                <li><a href="/user/info">{{ userinfo.user_name }}</a></li>
+                <li><a href="/user/logout">{{ _('Logout') }}</a></li>
+                {% else %}
+                <li><a href="/user/login">{{ _('Login') }}</a></li>
+                <li><a href="/user/regist">{{ _('Register') }}</a></li>
+                {% end %}
             </ul>
         </div>
     </div>
