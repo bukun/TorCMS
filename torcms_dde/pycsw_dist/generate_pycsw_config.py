@@ -81,7 +81,7 @@ def chuli_cfg_wdc():
                 fo.write('\n')
             elif 'home=' in cnt:
                 fo.write(
-                    f'home={pycsw_cfg_wdc.resolve()}' + '\n'
+                    f'home={pycsw_cfg_wdc.parent.resolve()}' + '\n'
                 )
             elif cnt.startswith('table='):
                 fo.write(
@@ -93,16 +93,27 @@ def chuli_cfg_wdc():
 
 
 def chuli_run():
-    for wfile in [pycsw_cfg_wdc, pycsw_cfg_svr, pycsw_cfg_portal]:
+    for wfile in [pycsw_cfg_wdc, pycsw_cfg_portal]:
         with open(f'xx_run_{wfile.stem}.sh', 'w') as fo:
             fo.write(
-                'cp -r /home/bk/deploy/fangzai/pycsw/pycsw/ogc/api/templates/* ./zz_pycsw/pycsw/ogc/api/templates/')
+                f'cp -r /home/bk/deploy/fangzai/pycsw/pycsw/ogc/api/templates/* {wfile.parent.resolve()}/pycsw/ogc/api/templates/')
             fo.write('\n')
             fo.write(
 f'''. ~/usr/vpy_csw/bin/activate \\
     && export PYCSW_CONFIG={wfile.resolve()} \\
     && cd {wfile.parent.resolve()} \\
     && python3 ./pycsw/wsgi_flask.py'''
+            )
+    for wfile in [pycsw_cfg_svr]:
+        with open(f'xx_run_{wfile.stem}.sh', 'w') as fo:
+            fo.write(
+                f'cp -r /home/bk/deploy/fangzai/pycsw/pycsw/ogc/api/templates/* {wfile.parent.resolve()}/pycsw/ogc/api/templates/')
+            fo.write('\n')
+            fo.write(
+f'''. ~/usr/vpy_csw/bin/activate \\
+    && export PYCSW_CONFIG={wfile.resolve()} \\
+    && cd {wfile.parent.resolve()} \\
+    && python3 ./pycsw/wsgi.py'''
             )
 
 
@@ -121,6 +132,15 @@ def chuli_port():
         for cnt in cnts:
             if '8000' in cnt:
                 cnt = cnt.replace('8000', '6794')
+            fo.write(cnt)
+
+
+    wfile = './zz_pycsw_wdc/pycsw/wsgi_flask.py'
+    cnts = open(wfile).readlines()
+    with open(wfile, 'w') as fo:
+        for cnt in cnts:
+            if '8000' in cnt:
+                cnt = cnt.replace('8000', '6795')
             fo.write(cnt)
 
 
