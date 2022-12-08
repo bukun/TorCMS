@@ -11,7 +11,7 @@ pycsw_cfg_svr = Path('./pycsw/default.cfg')
 pycsw_cfg_portal = Path('./pycsw/default_portal.cfg')
 
 
-def chuli_cfg():
+def chuli_cfg_svr():
     cnts = open('./pycsw/default-sample.cfg').readlines()
 
     with open(pycsw_cfg_svr, 'w') as fo:
@@ -74,8 +74,6 @@ def chuli_run():
         )
 
     with open('run_pycsw_svr.sh', 'w') as fo:
-        fo.write('cp -r /home/bk/deploy/fangzai/pycsw/pycsw/ogc/api/templates/* pycsw/pycsw/ogc/api/templates/')
-        fo.write('\n')
         fo.write(
             f'. ./vpy_csw/bin/activate && export PYCSW_CONFIG={pycsw_cfg_svr.resolve()} && cd pycsw && python3 ./pycsw/wsgi.py'
         )
@@ -101,6 +99,6 @@ def chuli_port():
 
 if __name__ == '__main__':
     chuli_run()
-    chuli_cfg()
+    chuli_cfg_svr()
     chuli_cfg_portal()
     chuli_port()
