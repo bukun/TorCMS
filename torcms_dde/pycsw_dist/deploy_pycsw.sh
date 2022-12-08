@@ -16,8 +16,20 @@ python3 -m venv --clear ~/usr/vpy_csw \
 
 the_pwd=`pwd`
 
-git clone https://gitee.com/gislite/pycsw.git $the_pwd/zz_pycsw_drr
-git clone https://gitee.com/gislite/pycsw.git $the_pwd/zz_pycsw_wdc
+
+if [ -d "$the_pwd/zz_pycsw_drr" ]; then
+    cd $the_pwd/zz_pycsw_drr && git reset --hard && git clean -fd && git pull
+else
+    cd $the_pwd && git clone https://gitee.com/gislite/pycsw.git $the_pwd/zz_pycsw_drr
+fi
+
+if [ -d "$the_pwd/zz_pycsw_wdc" ]; then
+    cd $the_pwd/zz_pycsw_wdc && git reset --hard && git clean -fd && git pull
+else
+    cd $the_pwd && git clone https://gitee.com/gislite/pycsw.git $the_pwd/zz_pycsw_wdc
+fi
+
+
 cd $the_pwd/zz_pycsw_wdc && pip install -e . && pip install -r requirements-standalone.txt
 
 
