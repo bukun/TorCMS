@@ -171,7 +171,7 @@ def gen_array_crud():
 
     lists = []
     for work_sheet in WORK_BOOK:
-        if work_sheet.title == 'meta':
+        if work_sheet.title.startswith('meta'):
             pass
 
         else:
