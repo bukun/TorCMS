@@ -12,7 +12,43 @@
         border-bottom: 1px dashed #ddd;
         padding: 5px 0;
     }
+    #map-container{
+        height: 200px;
+        width: 100%;
+    }
 </style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+            function onMapClick(e) {
+                popup
+                    .setLatLng(e.latlng)
+                    .setContent("Location:" + e.latlng.toString())
+                    .openOn(map);
+            }
+
+            var map = L.map("map-container", {
+                center: [-40, 0],
+                zoom: 1,
+                maxZoom: 18,
+                minZoom: 1,
+            });
+            var osm = L.tileLayer.chinaProvider('TianDiTu.Normal.Map', {
+                maxZoom: 12,
+                attribution: '',
+                id: "mapbox.satellite",
+
+            });
+            osm.addTo(map);
+            var mapson = $("#map-container").data("map")
+            var geojsonFeature = mapson.g
+            L.geoJSON(geojsonFeature).addTo(map);
+            map.on('click', onMapClick);
+
+        }
+    )
+</script>
 {% end %}
 
 {% block typebody %}
@@ -181,7 +217,7 @@ View Metadata (in XML format) </a>
 
                     {% if postinfo.extinfo.get('geojson') %}
                     <br>
-                    <div id="map" class="map" tabindex="0" data-map='{ "g": "{{ postinfo.extinfo.get('geojson') }}"}'>
+                    <div id="map-container" class="map" tabindex="0" data-map='{ "g": "{{ postinfo.extinfo.get('geojson') }}"}'>
                     </div>
                     <br>
                     {% end %}
@@ -323,35 +359,5 @@ View Metadata (in XML format) </a>
 
     }
 </script>
-<script type="text/javascript">
-    $(document).ready(function () {
 
-            function onMapClick(e) {
-                popup
-                    .setLatLng(e.latlng)
-                    .setContent("Location:" + e.latlng.toString())
-                    .openOn(map);
-            }
-
-            var map = L.map("map", {
-                center: [-40, 0],
-                zoom: 1,
-                maxZoom: 18,
-                minZoom: 1,
-            });
-            var osm = L.tileLayer.chinaProvider('TianDiTu.Normal.Map', {
-                maxZoom: 12,
-                attribution: '',
-                id: "mapbox.satellite",
-
-            });
-            osm.addTo(map);
-            var mapson = $("#map").data("map")
-            var geojsonFeature = mapson.g
-            L.geoJSON(geojsonFeature).addTo(map);
-            map.on('click', onMapClick);
-
-        }
-    )
-</script>
 {% end %}
