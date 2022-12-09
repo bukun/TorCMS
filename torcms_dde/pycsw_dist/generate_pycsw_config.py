@@ -79,6 +79,10 @@ def chuli_cfg_wdc():
                     f'url=http://47.104.152.23:6795'
                 )
                 fo.write('\n')
+            elif 'database=' in cnt:
+                fo.write(
+                    f'database=sqlite:///{os.getcwd()}/zz_wdc.db\n'
+                )
             elif 'home=' in cnt:
                 fo.write(
                     f'home={pycsw_cfg_wdc.parent.resolve()}' + '\n'

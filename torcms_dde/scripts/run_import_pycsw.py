@@ -5,6 +5,10 @@
 import psycopg2
 from pprint import pprint
 
+import shapely
+from shapely.wkt import loads
+from shapely.geometry import mapping
+
 from torcms.core import tools
 from torcms.model.post_model import MPost
 from torcms.model.post2catalog_model import MPost2Catalog
@@ -80,6 +84,15 @@ def insert_into_tabpost(catid, rec):
     在 TabPost 中创建或更新数据
     '''
 
+    gson = ''
+    if rec[39]:
+        print('=' * 40)
+        print(rec[39])
+        geom = loads(rec[39])
+        print(geom)
+        gson = mapping(geom)
+        print(gson)
+
     dde_dict = {
         'pycsw_identifier': rec[0],
         'pycsw_typename': rec[1],
@@ -137,6 +150,7 @@ def insert_into_tabpost(catid, rec):
         'pycsw_specificationdate': rec[53],
         'pycsw_specificationdatetype': rec[54],
         'pycsw_links': rec[55],
+        'geojson' : gson,
         # 'pycsw_wkb_geometry': rec[56],
     }
 
@@ -154,8 +168,8 @@ def insert_into_tabpost(catid, rec):
         # sig = kind + tools.get_uu4d()
         sig = rec[0]
 
-        print('=' * 40)
-        print(sig)
+        # print('=' * 40)
+        # print(sig)
 
         # pprint(dde_dict)
 
@@ -178,8 +192,8 @@ def insert_into_tabpost(catid, rec):
             pp_data['extinfo']['def_tag_arr'] = [
                 x.strip() for x in pp_data['tags'].strip().strip(',').split(',')
             ]
-        print('dodo')
-        print(pp_data)
+        # print('dodo')
+        # print(pp_data)
         MPost.add_or_update(sig, pp_data)
         MPost.update_misc(sig, kind = 'd')
 
@@ -216,9 +230,9 @@ def fetch_pycsw():
 
         # insert_into_tabpost('0701', row)
         # insert_into_tabpost('a301', row)
-        print('=' * 40)
-        print(row)
-        print('=' * 40)
+        # print('=' * 40)
+        # print(row)
+        # print('=' * 40)
 
         # insert_into_tabpost('2501', row)
         insert_into_tabpost('d101', row)

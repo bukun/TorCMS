@@ -6,8 +6,7 @@ from torcms.core.base_model import BaseModel
 
 
 class Records(BaseModel):
-    uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True,help_text='主键', )
-    identifier = peewee.CharField(default='', help_text='identifier')
+    identifier = peewee.CharField(null=False, index=True, unique=True, primary_key=True,help_text='主键', )
     typename = peewee.CharField(default='', help_text='typename')
     schema = peewee.CharField(default='', help_text='schema')
     mdsource = peewee.CharField(default='', help_text='mdsource')
@@ -63,6 +62,8 @@ class Records(BaseModel):
     specificationdate = peewee.CharField(default='', help_text='specificationdate')
     specificationdatetype = peewee.CharField(default='', help_text='specificationdatetype')
     links = peewee.CharField(default='', help_text='links')
+    metadata_type = peewee.CharField(default='', help_text='links')
+
 
 class RecordsModel():
     def __init__(self):
@@ -70,7 +71,6 @@ class RecordsModel():
     @staticmethod
     def add_rec(the_data):
         Records.create(
-            uid = the_data['uid'],
             identifier = the_data['identifier'],
             typename = the_data['typename'],
             schema = the_data['schema'],
@@ -110,7 +110,7 @@ class RecordsModel():
             denominator = the_data['denominator'],
             distancevalue = the_data['distancevalue'],
             distanceuom = the_data['distanceuom'],
-            wkt_geometry = the_data['wkt_geometry'],
+            wkt_geometry = 'POLYGON((35.82 25.67, 35.82 44.82, 42.11 44.82, 42.11 25.67, 35.82 25.67))',
             servicetype = the_data['servicetype'],
             servicetypeversion = the_data['servicetypeversion'],
             operation = the_data['operation'],
@@ -127,4 +127,5 @@ class RecordsModel():
             specificationdate = the_data['specificationdate'],
             specificationdatetype = the_data['specificationdatetype'],
             links = the_data['links'],
+            metadata_type = 'a',
         )
