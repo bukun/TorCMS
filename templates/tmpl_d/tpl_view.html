@@ -166,7 +166,7 @@
 
                     </div>
 
-                    <div>
+                    <p>
                         <a class="btn btn-primary btn-sm"
 href="https://drr.ikcest.org/csw?service=CSW&version=3.0.0&request=GetRecordById&id={{ postinfo.uid }}"
 >
@@ -174,10 +174,17 @@ href="https://drr.ikcest.org/csw?service=CSW&version=3.0.0&request=GetRecordById
 View Metadata (in XML format) </a>
 
 
-                    </div>
+                    </p>
                     <div id="wiki_cnt" class="col-sm-12 listinfo_content ">
                         {% raw unescape(postinfo.cnt_html) %}
                     </div>
+
+                    {% if postinfo.extinfo.get('geojson') %}
+                    <br>
+                    <div id="map" class="map" tabindex="0" data-map='{ "g": "{{ postinfo.extinfo.get('geojson') }}"}'>
+                    </div>
+                    <br>
+                    {% end %}
                     <div class="col-sm-12 ">
                          {% block extrainfo %} {% end %}
 
@@ -290,5 +297,61 @@ View Metadata (in XML format) </a>
 
     }
 </script>
+<script type="text/javascript">
+    function download_excel() {
 
+        $.ajax({
+            url: "/{{ kwd['router'] }}/download_excel/{{ postinfo.uid }}",
+            type: "get",
+            cache: false,
+            data: '',
+            processData: false,
+            contentType: false,
+
+            success: function (data) {
+                var msg_json = $.parseJSON(data);
+                var file_src = msg_json.file_src;
+                window.location.href = file_src
+
+
+            },
+            error: function () {
+            }
+
+        });
+
+
+    }
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+            function onMapClick(e) {
+                popup
+                    .setLatLng(e.latlng)
+                    .setContent("Location:" + e.latlng.toString())
+                    .openOn(map);
+            }
+
+            var map = L.map("map", {
+                center: [-40, 0],
+                zoom: 1,
+                maxZoom: 18,
+                minZoom: 1,
+            });
+            var osm = L.tileLayer.chinaProvider('TianDiTu.Normal.Map', {
+                maxZoom: 12,
+                attribution: '',
+                id: "mapbox.satellite",
+
+            });
+            osm.addTo(map);
+            var mapson = $("#map").data("map")
+            var geojsonFeature = mapson.g
+            L.geoJSON(geojsonFeature).addTo(map);
+            map.on('click', onMapClick);
+
+        }
+    )
+</script>
 {% end %}
