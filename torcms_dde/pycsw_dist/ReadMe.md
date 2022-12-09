@@ -45,6 +45,8 @@ apt install postgresql postgis
     create extension hstore;
     create extension postgis;
     CREATE EXTENSION plpython3u;
+    CREATE EXTENSION zhparser;
+
 
 pycsw 使用
 

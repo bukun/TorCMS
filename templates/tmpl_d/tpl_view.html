@@ -41,8 +41,10 @@
 
             });
             osm.addTo(map);
-            var mapson = $("#map-container").data("map")
-            var geojsonFeature = mapson.g
+            var mapson = $("#map-container").data("map");
+
+            // 不要忽略了str旁边的中括号。如果字符串中已经包含了中括号了，则此时不在需要添加了
+            var geojsonFeature = eval('[' + mapson.g + ']');
             L.geoJSON(geojsonFeature).addTo(map);
             map.on('click', onMapClick);
 
@@ -219,6 +221,7 @@ View Metadata (in XML format) </a>
                     <br>
                     <div id="map-container" class="map" tabindex="0" data-map='{ "g": "{{ postinfo.extinfo.get('geojson') }}"}'>
                     </div>
+                    {{ postinfo.extinfo.get('geojson') }}
                     <br>
                     {% end %}
                     <div class="col-sm-12 ">
