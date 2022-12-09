@@ -1,8 +1,8 @@
 {% extends "../theme/bage.html" %}
 {% block head %}
-<title>Metadata </title>
-<meta name="keywords" content="Infor">
-<meta name="description" content="Infor">
+<title>{{ _('Directory') }} </title>
+<meta name="keywords" content="{{ _('Directory') }}">
+<meta name="description" content="{{ _('Directory') }}">
 <style type="text/css">
     #map_div {
         width: 100%;
@@ -22,67 +22,46 @@
 
     </div>
 </div>
-<div class="row" id="harvest">
+<div class="row" >
 
 
-    <div class="col-sm-6">
+    <div class="col-sm-4">
         <div class="panel panel-black">
-
-            <div class="panel-heading">
-                <b> {{ _('Natural') }}</b>
-            </div>
-
-            <ul class="list-group">
-                <div class="panel-group" id="accordion1">
-                    {% module meta_catalog('d100',accid='1',kind='d') %}
-                    {% module meta_catalog('d200',accid='1',kind='d') %}
-                    {% module meta_catalog('d300',accid='1',kind='d') %}
-                    {% module meta_catalog('d400',accid='1',kind='d') %}
-                    {% module meta_catalog('d500',accid='1',kind='d') %}
-
-
-
-                </div>
-
-
-            </ul>
-
+            {% module post_catalog_of('d100',kind='d') %}
         </div>
-
+        <div class="panel panel-black">
+            {% module post_catalog_of('d200',kind='d') %}
+        </div>
+        <div class="panel panel-black">
+            {% module post_catalog_of('d300',kind='d') %}
+        </div>
 
     </div>
 
-    <div class="col-sm-6">
+
+    <div class="col-sm-4">
         <div class="panel panel-black">
-
-            <div class="panel-heading">
-                <b> {{ _('Others') }} </b>
-            </div>
-
-            <ul class="list-group list-group-flush">
-                <div id="accordion2">
-                    {% module meta_catalog('d600',accid='1',kind='d') %}
-                    {% module meta_catalog('da00',accid='1',kind='d') %}
-                    {% module meta_catalog('db00',accid='1',kind='d') %}
-
-
-                </div>
-
-
-            </ul>
+            {% module post_catalog_of('d400',kind='d') %}
+        </div>
+        <div class="panel panel-black">
+            {% module post_catalog_of('d500',kind='d') %}
+        </div>
+        <div class="panel panel-black">
+            {% module post_catalog_of('d600',kind='d') %}
+        </div>
+        <div class="panel panel-black">
+            {% module post_catalog_of('da00',kind='d') %}
+        </div>
+        <div class="panel panel-black">
+            {% module post_catalog_of('db00',kind='d') %}
 
         </div>
 
-
-
-
-
     </div>
-
 
 </div>
 
- 
+
 <br>
 <script src="{{ static_url('jslib/dst/lazyload.js') }}"></script>
 <script type="text/javascript">
@@ -131,12 +110,14 @@
             opacity: 1,
             fillOpacity: 0.8
         };
+
         function onMapClick(e) {
             popup
                 .setLatLng(e.latlng)
                 .setContent("Location:" + e.latlng.toString())
                 .openOn(map);
         }
+
         var map = L.map("map_div", {
             center: [15.642588, 0],
             zoom: 2,
@@ -162,12 +143,12 @@
                             info['place'] + "</div> " + "<div style='font-size:12px;line-height:12px;padding: 10px 0 13px 0''><b>latlng</b> : " + info['lat'] + ',' + info['lon'] + "</div>" + "" +
                             "<div style='font-size:12px;line-height:12px;'><b>Number:</b>  " + info['num'] + '</div>';
                         var igainfo = title_text;
-                        L.circleMarker([info['lat'], info['lon']],{
+                        L.circleMarker([info['lat'], info['lon']], {
                             color: '#f90',
                             fillColor: '#f00',
                             fill: '#f01234',
                             fillOpacity: 1.0,
-                            radius:5
+                            radius: 5
                         }).addTo(map).bindPopup(igainfo);
                         {#
                             if (info['num'] < 3) {
