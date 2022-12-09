@@ -74,11 +74,11 @@ class DirectorySearchHandler(BaseHandler):
 
         csw = CatalogueServiceWeb('https://drr.ikcest.org/csw')
         # birds_query_like = PropertyIsLike('dc:title', '%{0}%'.format(keyw))
-        birds_query = PropertyIsLike('csw:AnyText', '%{0}%'.format(keyw))
-
         if isweb == '1':
+            birds_query = PropertyIsLike('dc:title', '%{0}%'.format(keyw))
             csw.getrecords2(constraints=[birds_query], maxrecords=20)
         else:
+            birds_query = PropertyIsLike('csw:AnyText', '%{0}%'.format(keyw))
             csw.getrecords2(constraints=[birds_query], maxrecords=20, distributedsearch=True, hopcount=2)
         print('-' * 20)
         print(isweb)
