@@ -1,0 +1,173 @@
+{% extends "../../templates/theme/bage.html" %}
+{% block head %}
+<title> {{ _('Directory Search Result') }} - {{ _('Disaster Risk Reduction Knowledge Service') }}</title>
+<meta name="description" content="{{ _('Directory Search Result') }}">
+<meta name="keywords" content="{{ _('Directory Search Result') }}">
+{% end %}
+{% block mainbody %}
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li><a href="/" title="Home">{{ _('Home') }}</a></li>
+        <li><a href="/directory/" title="{{ _('Directory') }}">{{ _('Directory') }}</a></li>
+        <li class="active">{{ _('Directory Search Result') }}</li>
+    </ul>
+</div>
+<div class="panel panel-default">
+
+    {% if meta_rec %}
+    <div class="panel-heading">
+        <h1 class="news-title">{{ meta_rec.title }}</h1></div>
+    <div class="panel-body">
+        <table class="table table-hover">
+            <tr>
+                <td class="col-sm-2"><b>{{ _('Title') }}</b></td>
+                <td class="col-sm-10">{{ meta_rec.title }}</td>
+            </tr>
+            <tr>
+                <td class="col-sm-2"><b>{{ _('Identifier') }}</b></td>
+                <td class="col-sm-10">{{ meta_rec.identifier }}</td>
+            </tr>
+            <tr>
+                <td class="col-sm-2"><b>{{ _('Abstract') }}</b></td>
+                <td class="col-sm-10">{% raw unescape(meta_rec.abstract) %}</td>
+            </tr>
+
+            <tr>
+                <td class="col-sm-2"><b>{{ _('Accessrights') }}</b></td>
+                <td class="col-sm-10">{{ _('Open Access') }}</td>
+            </tr>
+
+
+            <tr>
+
+                <td class="col-sm-2">
+                    <b>{{ _('Alternative') }}
+                    </b>
+                </td>
+                <td class="col-sm-10">{{ meta_rec.title }}
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-sm-2">
+                    <b>{{ _('Contributor') }}
+                    </b>
+                </td>
+                <td class="col-sm-10">{{ _('DRRKS, IKCEST') }}
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-sm-2">
+                    <b>{{ _('Creator') }}
+                    </b>
+                </td>
+                <td class="col-sm-10">{{ _('administrator') }}
+                </td>
+            </tr>
+            <tr>
+                <td class="col-sm-2">
+                    <b>{{ _('Date') }}
+                    </b>
+                </td>
+                <td class="col-sm-10">{{meta_rec.date if meta_rec.date else ''}}
+                </td>
+            </tr>
+            <tr>
+                <td class="col-sm-2">
+                    <b>{{ _('Format') }}
+                    </b>
+                </td>
+                <td class="col-sm-10">{{meta_rec.format if meta_rec.format else ''}}
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-sm-2">
+                    <b>{{ _('Language') }}
+                    </b>
+                </td>
+                <td class="col-sm-10">{{meta_rec.language if meta_rec.language else ''}}
+                </td>
+            </tr>
+            <tr>
+                <td class="col-sm-2">
+                    <b>{{ _('License') }}
+                    </b>
+                </td>
+                <td class="col-sm-10">{{ _('CC-BY-SA') }}
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-sm-2">
+                    <b>{{ _('Publisher') }}
+                    </b>
+                </td>
+                <td class="col-sm-10">{{meta_rec.publisher if meta_rec.publisher else ''}}
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-sm-2">
+                    <b>{{ _('Source') }}
+                    </b>
+                </td>
+                <td class="col-sm-10">
+                    {% if meta_rec.source %}
+                    <a href="{{ meta_rec.source }}"> {{ meta_rec.source }}</a>
+                    {% end %}
+                </td>
+            </tr>
+            <tr>
+                <td class="col-sm-2">
+                    <b>{{ _('Spatial') }}
+                    </b>
+                </td>
+                <td class="col-sm-10">{{meta_rec.spatial if meta_rec.spatial else ''}}
+                </td>
+            </tr>
+            <tr>
+                <td class="col-sm-2">
+                    <b>{{ _('Subjects') }}
+                    </b>
+                </td>
+                <td class="col-sm-10">{{meta_rec.subjects if meta_rec.subjects else ''}}
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-sm-2">
+                    <b>{{ _('Xml') }}
+                    </b>
+                </td>
+
+                <td class="col-sm-10">
+                    <div class="listinfo_content">{{meta_rec.xml if meta_rec.xml else ''}}</div>
+                </td>
+            </tr>
+
+
+            {% if meta_rec.identifier.startswith('maplet') %}
+            <tr>
+                <td class="col-sm-2"><b>{{ _('Link') }}</b></td>
+                <td class="col-sm-10">
+                    <a href="https://www.osgeo.cn/map/{{ meta_rec.identifier[7:] }}" target="_blank"
+                       title="{{ meta_rec.identifier[7:]}}">
+                        https://www.osgeo.cn/map/{{ meta_rec.identifier[7:]}}</a>
+                </td>
+            </tr>
+            {% end %}
+        </table>
+    </div>
+
+
+    {% end %}
+</div>
+{% end %}
+

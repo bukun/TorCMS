@@ -1,0 +1,30 @@
+{% extends "../../templates/theme/bage.html" %}
+{% block head %}
+<title> {{ _('Directory Search Result') }} - {{ _('Disaster Risk Reduction Knowledge Service') }}</title>
+<meta name="description" content="{{ _('Directory Search Result') }}">
+<meta name="keywords" content="{{ _('Directory Search Result') }}">
+{% end %}
+{% block mainbody %}
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li><a href="/" title="Home">{{ _('Home') }}</a></li>
+        <li><a href="/directory/" title="{{ _('Directory') }}">{{ _('Directory') }}</a></li>
+        <li class="active">{% if isweb == '1' %}{{ _('In Website') }}{% else %}{{ _('Distributed') }} {% end %} - {{ _('Directory Search Result') }}</li>
+    </ul>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h1 class="news-title">{% if isweb == '1' %}{{ _('In Website') }}{% else %}{{ _('Distributed') }} {% end %} - {{ _('Directory Search Result') }}</h1></div>
+    <ul class="list-group">
+
+        {% for x in meta_results %}
+        <li class="list-group-item">
+            <a href="/directory_search/view/{{ meta_results[x].identifier }}" title="{{ _(meta_results[x].title) }}">
+                {{ _(meta_results[x].title) }}
+            </a>
+        </li>
+        {% end %}
+    </ul>
+</div>
+{% end %}
+
