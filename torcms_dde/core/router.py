@@ -5,6 +5,6 @@ from torcms_dde.handlers.meta_handler import MetadataHandler
 from torcms_dde.handlers.json_handler import JsonHandler
 
 _urls = [
-    ("/metadata/(.*)", MetadataHandler, dict(kind='d',  filter_view=True)),
-    ("/json/(.*)", JsonHandler),
+    ("/directory/(.*)", MetadataHandler, dict(kind='d',  filter_view=True)),
+    ("/directory_json/(.*)", JsonHandler),
 ]
