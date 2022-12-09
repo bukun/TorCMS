@@ -1,0 +1,124 @@
+{% extends "../../templates/theme/bage.html" %}
+{% block head %}
+<title> {{ _('Directory') }} - {{ _('Disaster Risk Reduction Knowledge Service') }}</title>
+<meta name="description" content="{{ _('Directory') }}">
+<meta name="keywords" content="{{ _('Directory') }}">
+<script>
+    $(document).ready(function () {
+
+
+        $("#subit").click(function () {
+            var keyw = $("#keyw9").val();
+            var isweb = $('input:radio[name="isweb"]:checked').val();
+
+            window.location = "/directory_search/search/" + keyw + "/" + isweb;
+        });
+
+        $("#keyw9").keydown(function (event) {
+            var keyw = $("#keyw9").val();
+            var isweb = $('input:radio[name="isweb"]:checked').val();
+            if (event.keyCode == 13) {
+
+
+                window.location = "/directory_search/search/" + keyw + "/" + isweb;
+            }
+        });
+    });
+</script>
+
+{% end %}
+{% block mainbody %}
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li><a href="/static" title="Home">{{ _('Home') }}</a></li>
+        <li><a href="/directory/" title="{{ _('Directory') }}">{{ _('Directory') }}</a></li>
+        <li class="active">{{ _('Directory') }}</li>
+    </ul>
+</div>
+
+<div class="row">
+<div class="col-sm-8">
+
+<div class="panel panel-default">
+
+    <div class="panel-body">
+
+
+        <form action="/directory_search/" class="form-horizontal mart15">
+
+                <legend>{{ _('searching in Directory') }}</legend>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="text" id="keyw9" placeholder="{{ _('Enter the key words') }}"
+                                   class="form-control"
+                                   onKeyDown="if(event.keyCode==13)return false;">
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="radio" id="isweb" name="isweb" value="1" checked> {{ _('In Website') }}<br>
+                            <input type="radio" id="isweb" name="isweb" value="2" > {{ _('Distributed') }}
+                        </div>
+                    </div>
+                     <div class="form-group">
+                        <div class="col-sm-12">
+                              <a type="submit" class="btn btn-primary" id="subit">{{ _('Search') }}</a>
+                        </div>
+                    </div>
+
+        </form>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">{{ _('Recent List') }}</div>
+    <ul class="list-group">
+        {% for x in meta_results %}
+        <li class="list-group-item">
+            <a href="/directory_search/view/{{ meta_results[x].identifier }}" title="{{ _(meta_results[x].title) }}">
+                {{ _(meta_results[x].title) }}
+            </a>
+        </li>
+        {% end %}
+    </ul>
+</div>
+</div>
+
+    <div class="col-sm-4">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3>{{ _('Directory Server') }}</h3></div>
+    <div class="panel-body">
+
+        <img src="/fixed/pycsw-logo.png" style="float: right; width:100px; margin:10px;"/>
+        <p>
+            In order to exchange and interoperate metadata with other data centers,
+            DRRKS deploys pycsw tool to publish metadata.
+        </p>
+<p>Pycsw is the Python language implementation of OGC CSW server,
+    and is also the  CSW tool recommended by OGC.
+    Because pycsw uses many open source geospatial libraries,
+    it is easier to install under the Linux operating system.
+    In practical use, Debian Linux is deployed with  Python 3.5 runtime environment.
+</p>
+        <p>
+Unlike other CSW servers,
+            pycsw has the ability to implement distributed search on its own.
+            When pycsw is enabled,
+            pycsw searches all specified directories and returns a unified set of search results to the client.
+            pycsw deployment has three configurations (CSW-1, CSW-2, CSW-3),
+            and also provides three endpoints.
+            Each endpoint is based on an opaque metadata repository (subject/location/discipline, etc.).
+            The goal is to perform one-to-one searches for all endpoints.
+            pycsw has the ability to perform server-side repository or database filtering
+            to cover all CSW requests.
+            The purpose of pycsw is to query a specific subset of metadata repository
+            and return specific query results.
+        </p>
+    </div>
+</div>
+    </div>
+</div>
+{% end %}
+

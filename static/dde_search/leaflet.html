@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quick Start - Leaflet</title>
+ <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    <link rel="stylesheet" href="./leaflet.draw.css" />
+ <script type="text/javascript" src="./Leaflet.draw.js"></script>
+ <script type="text/javascript" src="./Control.Draw.js"></script>
+ <script type="text/javascript" src="./copyright.js"></script>
+ <script type="text/javascript" src="./Leaflet.Draw.Event.js"></script>
+ <script type="text/javascript" src="./Toolbar.js"></script>
+ <script type="text/javascript" src="./Tooltip.js"></script>
+ <script type="text/javascript" src="./ext/GeometryUtil.js"></script>
+ <script type="text/javascript" src="./ext/LatLngUtil.js"></script>
+ <script type="text/javascript" src="./ext/LineUtil.Intersect.js"></script>
+ <script type="text/javascript" src="./ext/Polygon.Intersect.js"></script>
+ <script type="text/javascript" src="./ext/Polyline.Intersect.js"></script>
+
+
+    <script src="./ext/TouchEvents.js"></script>
+
+    <script src="./draw/DrawToolbar.js"></script>
+    <script src="./draw/handler/Draw.Feature.js"></script>
+    <script src="./draw/handler/Draw.SimpleShape.js"></script>
+    <script src="./draw/handler/Draw.Polyline.js"></script>
+    <script src="./draw/handler/Draw.Marker.js"></script>
+    <script src="./draw/handler/Draw.Circle.js"></script>
+    <script src="./draw/handler/Draw.CircleMarker.js"></script>
+    <script src="./draw/handler/Draw.Polygon.js"></script>
+    <script src="./draw/handler/Draw.Rectangle.js"></script>
+
+
+    <script src="./edit/EditToolbar.js"></script>
+    <script src="./edit/handler/EditToolbar.Edit.js"></script>
+    <script src="./edit/handler/EditToolbar.Delete.js"></script>
+
+
+    <script src="./edit/handler/Edit.Poly.js"></script>
+    <script src="./edit/handler/Edit.SimpleShape.js"></script>
+    <script src="./edit/handler/Edit.Rectangle.js"></script>
+    <script src="./edit/handler/Edit.Marker.js"></script>
+    <script src="./edit/handler/Edit.CircleMarker.js"></script>
+    <script src="./edit/handler/Edit.Circle.js"></script>
+
+
+
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    #map {
+      height: 100vh;
+      width: 100vw;
+      z-index: 1;
+    }
+    #info{
+      z-index: 50;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background-color: white;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div id="info"></div>
+  <script>
+    var map = L.map('map').setView([39.736861245030326, 116.13991336098002], 13);
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
+
+
+     //添加绘制图层
+        var drawnItems = new L.FeatureGroup();
+        map.addLayer(drawnItems);
+        //添加绘制控件
+        // var drawControl = new L.Control.Draw({
+        //     draw:{
+        //         //绘制线
+        //         polyline:true,
+        //         //绘制多边形
+        //         polygon:true,
+        //         //绘制矩形
+        //         rectangle:true,
+        //         //绘制圆
+        //         circle:true,
+        //         //绘制标注
+        //         marker:true,
+        //         //绘制圆形标注
+        //         circlemarker:true
+        //     },
+        //     edit:{
+        //         //绘制图层
+        //         featureGroup:drawnItems,
+        //         //图形编辑控件
+        //         edit:true,
+        //         //图形删除控件
+        //         remove:true,
+        //     }
+        // });
+        //
+        // //添加绘制控件
+        // map.addControl(drawControl);
+        // //绘制事件
+
+
+    let rectangle = new L.Draw.Rectangle(map, {
+        shapeOptions: {
+          weight: 1,
+          color: '#3760d4',
+          opacity: 0.8
+        }
+      });
+      rectangle.enable();
+        map.on(L.Draw.Event.CREATED, function(e){
+//          清空之前画得矩形
+drawnItems.clearLayers();
+            var type = e.layerType,
+            //获取绘制图层
+            drawlayer = e.layer;
+
+            console.log(type)
+            console.log(drawlayer)
+            console.log(drawlayer._latlngs[0][0])
+// const marker = L.marker(drawlayer._latlngs[0][0]).addTo(map);//左下
+// const marker = L.marker(drawlayer._latlngs[0][1]).addTo(map);//左上
+// const marker = L.marker(drawlayer._latlngs[0][3]).addTo(map);//右下
+          document.getElementById('info').innerHTML ='左下latlng:'+ drawlayer._latlngs[0][0]+'右上latlng：'+drawlayer._latlngs[0][2];
+            if(type === 'marker'){
+                drawlayer.bindPopup('A popup!');
+            }
+            drawnItems.addLayer(drawlayer);
+
+    //重新开启画矩形
+    let rectangle = new L.Draw.Rectangle(map, {
+        shapeOptions: {
+          weight: 1,
+          color: '#3760d4',
+          opacity: 0.8
+        }
+      });
+      rectangle.enable();
+      });
+var popup=L.popup();
+        map.on('click',function (e) {
+  popup
+        .setLatLng(e.latlng)
+        .setContent(e.latlng.toString())
+        .openOn(map);
+        })
+
+  </script>
+</body>
+</html>

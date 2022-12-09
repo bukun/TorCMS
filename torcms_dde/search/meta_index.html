@@ -9,25 +9,83 @@
 
         $("#subit").click(function () {
             var keyw = $("#keyw9").val();
+            var ldrt = $("#ldrt").val();
             var isweb = $('input:radio[name="isweb"]:checked').val();
 
-            window.location = "/directory_search/search/" + keyw + "/" + isweb;
+            window.location = "/directory_search/search/" + keyw + "/" + isweb+"/" + ldrt;
         });
 
         $("#keyw9").keydown(function (event) {
             var keyw = $("#keyw9").val();
+            var ld = $("#ldrt").val();
             var isweb = $('input:radio[name="isweb"]:checked').val();
             if (event.keyCode == 13) {
 
 
-                window.location = "/directory_search/search/" + keyw + "/" + isweb;
+                window.location = "/directory_search/search/" + keyw + "/" + isweb + ld + "/" + rt;
             }
         });
     });
 </script>
 
+ <link rel="stylesheet" href="/static/dde_search/leaflet.draw.css" />
+<script type="text/javascript" src="/static/dde_search/Leaflet.draw.js"></script>
+<script type="text/javascript" src="/static/dde_search/Control.Draw.js"></script>
+<script type="text/javascript" src="/static/dde_search/copyright.js"></script>
+<script type="text/javascript" src="/static/dde_search/Leaflet.Draw.Event.js"></script>
+<script type="text/javascript" src="/static/dde_search/Toolbar.js"></script>
+<script type="text/javascript" src="/static/dde_search/Tooltip.js"></script>
+<script type="text/javascript" src="/static/dde_search/ext/GeometryUtil.js"></script>
+<script type="text/javascript" src="/static/dde_search/ext/LatLngUtil.js"></script>
+<script type="text/javascript" src="/static/dde_search/ext/LineUtil.Intersect.js"></script>
+<script type="text/javascript" src="/static/dde_search/ext/Polygon.Intersect.js"></script>
+<script type="text/javascript" src="/static/dde_search/ext/Polyline.Intersect.js"></script>
+
+
+<script src="/static/dde_search/ext/TouchEvents.js"></script>
+
+<script src="/static/dde_search/draw/DrawToolbar.js"></script>
+<script src="/static/dde_search/draw/handler/Draw.Feature.js"></script>
+<script src="/static/dde_search/draw/handler/Draw.SimpleShape.js"></script>
+<script src="/static/dde_search/draw/handler/Draw.Polyline.js"></script>
+<script src="/static/dde_search/draw/handler/Draw.Marker.js"></script>
+<script src="/static/dde_search/draw/handler/Draw.Circle.js"></script>
+<script src="/static/dde_search/draw/handler/Draw.CircleMarker.js"></script>
+<script src="/static/dde_search/draw/handler/Draw.Polygon.js"></script>
+<script src="/static/dde_search/draw/handler/Draw.Rectangle.js"></script>
+
+
+<script src="/static/dde_search/edit/EditToolbar.js"></script>
+<script src="/static/dde_search/edit/handler/EditToolbar.Edit.js"></script>
+<script src="/static/dde_search/edit/handler/EditToolbar.Delete.js"></script>
+
+
+<script src="/static/dde_search/edit/handler/Edit.Poly.js"></script>
+<script src="/static/dde_search/edit/handler/Edit.SimpleShape.js"></script>
+<script src="/static/dde_search/edit/handler/Edit.Rectangle.js"></script>
+<script src="/static/dde_search/edit/handler/Edit.Marker.js"></script>
+<script src="/static/dde_search/edit/handler/Edit.CircleMarker.js"></script>
+<script src="/static/dde_search/edit/handler/Edit.Circle.js"></script>
+
+
+
+<style>
+
+    #ddemap {
+        height: 350px;
+        z-index: 1;
+        width: 100%;
+    }
+    #info{
+        z-index: 50;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background-color: white;
+    }
+</style>
 {% end %}
-{% block mainbody %}
+{% block typebody %}
 <div class="mtop">
     <ul class="breadcrumb">
         <li><a href="/" title="Home">{{ _('Home') }}</a></li>
@@ -37,35 +95,151 @@
 </div>
 
 <div class="row">
-<div class="col-sm-8">
+<div class="col-sm-12">
 
 <div class="panel panel-default">
 
     <div class="panel-body">
 
-
         <form action="/directory_search/" class="form-horizontal mart15">
+            <legend>{{ _('Searching in Directory') }}</legend>
+            <div class="row">
+<div class="col-sm-6">
+    <div id="ddemap"></div>
+    <div id="info"></div>
+    <script>
+        var map = L.map("ddemap", {
+            center: [45, 0],
+            zoom: 1.1,
+            maxZoom: 18,
+            minZoom: 1,
+        });
 
-                <legend>{{ _('searching in Directory') }}</legend>
-                    <div class="form-group">
-                        <div class="col-sm-12">
-                            <input type="text" id="keyw9" placeholder="{{ _('Enter the key words') }}"
-                                   class="form-control"
-                                   onKeyDown="if(event.keyCode==13)return false;">
-                        </div>
+        var osm = L.tileLayer.chinaProvider('TianDiTu.Normal.Map', {
+            maxZoom: 12,
+            attribution: '',
+            id: "mapbox.satellite",
 
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-12">
-                            <input type="radio" id="isweb" name="isweb" value="1" checked> {{ _('In Website') }}<br>
-                            <input type="radio" id="isweb" name="isweb" value="2" > {{ _('Distributed') }}
-                        </div>
-                    </div>
-                     <div class="form-group">
-                        <div class="col-sm-12">
-                              <a type="submit" class="btn btn-primary" id="subit">{{ _('Search') }}</a>
-                        </div>
-                    </div>
+        });
+        osm.addTo(map);
+
+        //添加绘制图层
+        var drawnItems = new L.FeatureGroup();
+        map.addLayer(drawnItems);
+        //添加绘制控件
+        // var drawControl = new L.Control.Draw({
+        //     draw:{
+        //         //绘制线
+        //         polyline:true,
+        //         //绘制多边形
+        //         polygon:true,
+        //         //绘制矩形
+        //         rectangle:true,
+        //         //绘制圆
+        //         circle:true,
+        //         //绘制标注
+        //         marker:true,
+        //         //绘制圆形标注
+        //         circlemarker:true
+        //     },
+        //     edit:{
+        //         //绘制图层
+        //         featureGroup:drawnItems,
+        //         //图形编辑控件
+        //         edit:true,
+        //         //图形删除控件
+        //         remove:true,
+        //     }
+        // });
+        //
+        // //添加绘制控件
+        // map.addControl(drawControl);
+        // //绘制事件
+
+
+        let rectangle = new L.Draw.Rectangle(map, {
+            shapeOptions: {
+                weight: 1,
+                color: '#3760d4',
+                opacity: 0.8
+            }
+        });
+        rectangle.enable();
+        map.on(L.Draw.Event.CREATED, function(e){
+//          清空之前画得矩形
+            drawnItems.clearLayers();
+            var type = e.layerType,
+                //获取绘制图层
+                drawlayer = e.layer;
+
+            console.log(type)
+            console.log(drawlayer)
+            console.log(drawlayer._latlngs[0][0])
+// const marker = L.marker(drawlayer._latlngs[0][0]).addTo(map);//左下
+// const marker = L.marker(drawlayer._latlngs[0][1]).addTo(map);//左上
+// const marker = L.marker(drawlayer._latlngs[0][3]).addTo(map);//右下
+            document.getElementById('info').innerHTML ='左下latlng:'+ drawlayer._latlngs[0][0]+'右上latlng：'+drawlayer._latlngs[0][2];
+
+            var ld = String(drawlayer._latlngs[0][0]).slice(7,-1).replace(" ","")
+            var rt = String(drawlayer._latlngs[0][2]).slice(7,-1).replace(" ","")
+
+            document.getElementById('ldrt').value =ld +","+ rt
+
+            if(type === 'marker'){
+                drawlayer.bindPopup('A popup!');
+            }
+            drawnItems.addLayer(drawlayer);
+
+            //重新开启画矩形
+            let rectangle = new L.Draw.Rectangle(map, {
+                shapeOptions: {
+                    weight: 1,
+                    color: '#3760d4',
+                    opacity: 0.8
+                }
+            });
+            rectangle.enable();
+        });
+        var popup=L.popup();
+        map.on('click',function (e) {
+            popup
+                .setLatLng(e.latlng)
+                .setContent(e.latlng.toString())
+                .openOn(map);
+        })
+
+    </script>
+</div>
+<div class="col-sm-6">
+    <div class="form-group">
+        <div class="col-sm-12">
+            <input type="text" id="ldrt" name="ldrt"  class="form-control"><br>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-12">
+            <input type="text" id="keyw9" placeholder="{{ _('Enter the key words') }}"
+                   class="form-control"
+                   onKeyDown="if(event.keyCode==13)return false;">
+        </div>
+
+    </div>
+    <div class="form-group">
+        <div class="col-sm-12">
+            <input type="radio" id="isweb" name="isweb" value="1" checked> {{ _('In Website') }}<br>
+            <input type="radio" id="isweb" name="isweb" value="2" > {{ _('Distributed') }}
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-12">
+            <a type="submit" class="btn btn-primary" id="subit">{{ _('Search') }}</a>
+        </div>
+    </div>
+
+</div>
+
+
+            </div>
 
         </form>
     </div>
@@ -85,40 +259,6 @@
 </div>
 </div>
 
-    <div class="col-sm-4">
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3>{{ _('Directory Server') }}</h3></div>
-    <div class="panel-body">
-
-        <img src="/static/fixed/pycsw-logo.png"  style="float: right; width:100px; margin:10px;"/>
-        <p>
-            In order to exchange and interoperate metadata with other data centers,
-            DRRKS deploys pycsw tool to publish metadata.
-        </p>
-<p>Pycsw is the Python language implementation of OGC CSW server,
-    and is also the  CSW tool recommended by OGC.
-    Because pycsw uses many open source geospatial libraries,
-    it is easier to install under the Linux operating system.
-    In practical use, Debian Linux is deployed with  Python 3.5 runtime environment.
-</p>
-        <p>
-Unlike other CSW servers,
-            pycsw has the ability to implement distributed search on its own.
-            When pycsw is enabled,
-            pycsw searches all specified directories and returns a unified set of search results to the client.
-            pycsw deployment has three configurations (CSW-1, CSW-2, CSW-3),
-            and also provides three endpoints.
-            Each endpoint is based on an opaque metadata repository (subject/location/discipline, etc.).
-            The goal is to perform one-to-one searches for all endpoints.
-            pycsw has the ability to perform server-side repository or database filtering
-            to cover all CSW requests.
-            The purpose of pycsw is to query a specific subset of metadata repository
-            and return specific query results.
-        </p>
-    </div>
-</div>
-    </div>
 </div>
 {% end %}
 
