@@ -18,4 +18,13 @@ birds_query = PropertyIsLike('csw:AnyText', 'Food')
 csw.getrecords2(constraints=[birds_query], maxrecords=20, distributedsearch=True, hopcount=2)
 print(csw.results)
 for rec in csw.records:
+    pass
+    # print(csw.records[rec].title)
+
+
+
+bbox_query = BBox([-141,42,-52,84])
+csw.getrecords2(constraints=[birds_query, bbox_query])
+
+for rec in csw.records:
     print(csw.records[rec].title)
