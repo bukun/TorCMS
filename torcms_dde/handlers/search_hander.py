@@ -10,7 +10,7 @@ class DirectorySearchHandler(BaseHandler):
         super(DirectorySearchHandler, self).initialize()
 
     def get(self, url_str=''):
-
+        url_arr = self.parse_url(url_str)
         if len(url_str) > 0:
             url_arr = url_str.split('/')
             # if url_str == '':
