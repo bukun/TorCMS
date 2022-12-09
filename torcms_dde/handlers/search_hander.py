@@ -83,13 +83,25 @@ class DirectorySearchHandler(BaseHandler):
         # birds_query_like = PropertyIsLike('dc:title', '%{0}%'.format(keyw))
 
         if ldrt:
+            print('=' * 40)
+            print(type(ldrt))
+            print(ldrt)
+            print('=' * 40)
+
+            xx_ldrt = [float(x) for x in ldrt.split(',')]
+
+            xx_ldrt = [xx_ldrt[1], xx_ldrt[0], xx_ldrt[3], xx_ldrt[2]]
+
+            print(xx_ldrt)
+
+            bbox_query = BBox(xx_ldrt)
             if isweb == '1':
-                bbox_query = BBox([ldrt])
-                birds_query = PropertyIsLike('dc:title', '%{0}%'.format(keyw))
-                csw.getrecords2(constraints=[birds_query, bbox_query], maxrecords=20)
+
+                # birds_query = PropertyIsLike('dc:title', '%{0}%'.format(keyw))
+                csw.getrecords2(constraints=[ bbox_query], maxrecords=20)
 
             else:
-                bbox_query = BBox([ldrt])
+
                 birds_query = PropertyIsLike('csw:AnyText', '%{0}%'.format(keyw))
                 csw.getrecords2(constraints=[birds_query, bbox_query], maxrecords=20, distributedsearch=True, hopcount=2)
         else:
