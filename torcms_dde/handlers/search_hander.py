@@ -15,13 +15,20 @@ class DirectorySearchHandler(BaseHandler):
             url_arr = url_str.split('/')
             # if url_str == '':
             # self.render('metadata/meta_index.html')
+
         if url_str == '':
             self.list('')
-        elif url_arr[0] == 'search':
-            self.search(url_arr[1], url_arr[2])
+        elif url_arr[0]  == 'search':
+
+            if len(url_arr) >= 4:
+                self.search(url_arr[1], url_arr[2], url_arr[3])
+            else:
+                self.search(url_arr[1], url_arr[2],'')
 
         elif url_arr[0] == 'view':
             self.ajax_get(url_arr[1])
+
+
 
     # def post(self, url_str=''):
     #     print('vvsdlfksdajfsaklfjsdlfsjdfsadlkfjsadlkfsd')
@@ -68,18 +75,31 @@ class DirectorySearchHandler(BaseHandler):
 
         # self.parseXML(r.text.encode(encoding='UTF-8'))
 
-    def search(self, keyw, isweb):
-        # print('====' * 40)
-        # print(post_data)
+    def search(self, keyw, isweb,ldrt):
+        print('=' * 40)
+        print(ldrt)
 
         csw = CatalogueServiceWeb('https://drr.ikcest.org/csw')
         # birds_query_like = PropertyIsLike('dc:title', '%{0}%'.format(keyw))
-        if isweb == '1':
-            birds_query = PropertyIsLike('dc:title', '%{0}%'.format(keyw))
-            csw.getrecords2(constraints=[birds_query], maxrecords=20)
+
+        if ldrt:
+            if isweb == '1':
+                bbox_query = BBox([ldrt])
+                birds_query = PropertyIsLike('dc:title', '%{0}%'.format(keyw))
+                csw.getrecords2(constraints=[birds_query, bbox_query], maxrecords=20)
+
+            else:
+                bbox_query = BBox([ldrt])
+                birds_query = PropertyIsLike('csw:AnyText', '%{0}%'.format(keyw))
+                csw.getrecords2(constraints=[birds_query, bbox_query], maxrecords=20, distributedsearch=True, hopcount=2)
         else:
-            birds_query = PropertyIsLike('csw:AnyText', '%{0}%'.format(keyw))
-            csw.getrecords2(constraints=[birds_query], maxrecords=20, distributedsearch=True, hopcount=2)
+            if isweb == '1':
+
+                birds_query = PropertyIsLike('dc:title', '%{0}%'.format(keyw))
+                csw.getrecords2(constraints=[birds_query], maxrecords=20)
+            else:
+                birds_query = PropertyIsLike('csw:AnyText', '%{0}%'.format(keyw))
+                csw.getrecords2(constraints=[birds_query], maxrecords=20, distributedsearch=True, hopcount=2)
         print('-' * 20)
         print(isweb)
         print(csw.results)
