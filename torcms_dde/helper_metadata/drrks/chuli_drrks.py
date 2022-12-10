@@ -13,6 +13,7 @@ import yaml
 解析DRR数据集，解压缩后获取每个的地理范围
 '''
 
+import tornado.escape
 import os
 from pathlib import Path
 from osgeo import ogr
@@ -21,7 +22,13 @@ from pyproj import Proj
 from pyproj import CRS
 from osgeo import osr
 import shutil
-import subprocess
+# import subprocess
+# import nltk
+
+from  dehtml import dehtml
+
+from bs4 import BeautifulSoup
+
 
 
 target = osr.SpatialReference()
@@ -30,6 +37,40 @@ target.ImportFromEPSG(4326)
 inws = Path('/pb1/drr_datasets')
 
 workdir = Path('/vb1/tmp')
+
+
+tmpl = open('./tmpl.xml').read()
+
+# print(tmpl)
+
+tmpl_0 = '''<?xml version="1.0" encoding="UTF-8"?>
+<csw:Record
+	xmlns:csw="http://www.opengis.net/cat/csw/2.0.2"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:dct="http://purl.org/dc/terms/"
+	xmlns:ows="http://www.opengis.net/ows"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.opengis.net/cat/csw/2.0.2/record.xsd">
+'''
+
+tmpl_9 = '''
+</csw:Record>
+'''
+
+tp_creator = '<dc:creator>{}</dc:creator>'
+tp_contributor = '<dc:contributor>{}</dc:contributor>'
+tp_publisher = '<dc:publisher>{}</dc:publisher>'
+tp_subject = '<dc:subject>{}</dc:subject>'
+tp_abstract = '<dct:abstract>{}</dct:abstract>'
+tp_identifier = '<dc:identifier>{}</dc:identifier>'
+tp_relation = '<dc:relation>{}</dc:relation>'
+tp_source = '<dc:source>{}</dc:source>'
+tp_rights = '<dc:rights>{}</dc:rights>'
+tp_type = '<dc:type>{}</dc:type>'
+tp_title = '<dc:title>{}</dc:title>'
+tp_mofified = '<dct:modified>{}</dct:modified>'
+tp_language = '<dc:language>{}</dc:language>'
+
 
 def get_geo(wdir):
     a,b,c,d = -180, -90, 180, 90
@@ -123,10 +164,16 @@ def walk_dir(the_sig):
 def run_export():
     all_recs = MPost.query_all(kind='9', limit=10000)
     out_arr = []
+    fout = open('xx_links.txt','w')
     for postinfo in all_recs:
         print('=' * 40)
+        pid = postinfo.extinfo.get('def_cat_pid')
+        print()
+        if pid == '2200':
+            pass
+        else:
+            continue
         # print(postinfo.title)
-        sig = postinfo.uid[-4:]
 
 
         out_arr.append(
@@ -154,10 +201,54 @@ def run_export():
 
         #break
 
+        pp = Path('xx_xml')
+        if pp.exists():
+            pass
+        else:
+            pp.mkdir()
+
+        outfile = pp / ( 'drrks-' + postinfo.uid + '.xml')
+
+        fout.write(f'https://drr.ikcest.org/directory/drrks-{postinfo.uid}\n')
+        with open(outfile, 'w') as fo:
+
+            fo.write(tmpl_0)
+            fo.write('\n')
+            fo.write(tp_identifier.format( 'drrks-' + postinfo.uid))
+            fo.write('\n')
+            fo.write(tp_language.format('English'))
+            fo.write('\n')
+            # fo.write(tp_subject.format(''))
+            fo.write('\n')
+            fo.write(tp_title.format(postinfo.title))
+            fo.write('\n')
+            fo.write(tp_source.format('DRRKS'))
+            fo.write('\n')
+            # fo.write(tp_relation.format(v5))
+            fo.write('\n')
+            # markup = postinfo.cnt_html
+            # soup = BeautifulSoup(markup)
 
 
-    # with open('xx_posts.yaml', "w", encoding='utf-8') as f:
-    #     yaml.dump(out_arr, f, allow_unicode=True)
+
+            fo.write(
+                tp_abstract.format(
+                    dehtml(
+                        tornado.escape.xhtml_unescape(
+                        postinfo.cnt_html
+                        )
+                    )
+                    # nltk.clean_html(
+                    #     str(
+                    #     soup.get_text()
+                    #     )
+                    # )
+
+                )
+            )
+            # fo.write(tp_contributor.format(v9))
+
+            fo.write(tmpl_9)
 
 
 

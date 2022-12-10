@@ -151,28 +151,72 @@ def insert_into_tabpost(catid, rec):
         'pycsw_specificationdatetype': rec[54],
         'pycsw_links': rec[55],
         'geojson' : gson,
-        "tag_data_source": "2",
+
         # 'pycsw_wkb_geometry': rec[56],
     }
+
+
 
     if rec[9]:
         pass
     else:
         return
 
-    inrec = TabPost.select().where(TabPost.memo == rec[0])
+    sig = rec[0]
+
+    if sig.startswith('drrmd'):
+        dde_dict["tag_data_source"] =  "2"
+        drr_rec = None
+    elif sig.startswith('drrks'):
+        drr_sig = sig.split('-')[-1]
+        drr_rec = MPost.get_by_uid(drr_sig)
+        dde_dict["tag_data_source"] = "1"
+
+
+
+    inrec = TabPost.select().where(TabPost.uid == sig )
+
+    kind = 'd'
+    # sig = kind + tools.get_uu4d()
+
+
+    # print('=' * 40)
+    # print(sig)
+
+    # pprint(dde_dict)
+
+
     if inrec :
-        # 如果在 TabPost 中已有，则跳过
-        pass
+
+        inrec = inrec.get()
+
+        pp_data = {}
+        pp_data['title'] = inrec.title
+        pp_data['cnt_md'] = inrec.cnt_md
+        pp_data['user_name'] = inrec.user_name
+        # pp_data['tags'] = rec[12]
+        # pp_data['def_cat_uid'] = inrec.def_cat_uid
+        # pp_data['gcat0'] = inrec.gcat0
+        if drr_rec:
+            pp_data['logo'] = drr_rec.logo
+        else:
+            pp_data['logo'] = inrec.logo
+        pp_data['kind'] = inrec.kind
+
+        # pp_data['def_cat_pid'] = inrec.def_cat_pid
+        # pp_data['memo'] = inrec.memo
+        pp_data['extinfo'] = {}
+        pp_data['extinfo'].update(dde_dict)
+
+        if pp_data.get('tags'):
+            pp_data['extinfo']['def_tag_arr'] = [
+                x.strip() for x in pp_data['tags'].strip().strip(',').split(',')
+            ]
+        MPost.add_or_update(sig, pp_data)
+
     else:
-        kind = 'd'
-        # sig = kind + tools.get_uu4d()
-        sig = rec[0]
 
-        # print('=' * 40)
-        # print(sig)
-
-        # pprint(dde_dict)
+        print('x' * 80)
 
         pp_data = {}
         pp_data['title'] = rec[9][:255]
@@ -193,6 +237,7 @@ def insert_into_tabpost(catid, rec):
             pp_data['extinfo']['def_tag_arr'] = [
                 x.strip() for x in pp_data['tags'].strip().strip(',').split(',')
             ]
+
         # print('dodo')
         # print(pp_data)
         MPost.add_or_update(sig, pp_data)

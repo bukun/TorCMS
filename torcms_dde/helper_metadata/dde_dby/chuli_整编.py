@@ -140,7 +140,7 @@ def chuli_meta(metafile, sig, ginfo=None):
                 fo.write('<dct:{0}>{1}</dct:{0}>\n'.format(row[0].value, escape(row[1].value)))
         fo.write(tp_identifier.format('drrmd-' + sig))
         if ginfo:
-            fo.write(tmpl_geo.format(ginfo[0], ginfo[1], ginfo[2], ginfo[3]))
+            fo.write(tmpl_geo.format( ginfo[1], ginfo[0], ginfo[3], ginfo[2]))
             # fo.write(tmpl_geo.format(ginfo[1], ginfo[0], ginfo[3], ginfo[2]))
         fo.write(tmpl_9)
 
