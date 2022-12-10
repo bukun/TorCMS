@@ -282,17 +282,7 @@ class MetadataHandler(PostHandler):
         ext_dic['gcat0'] = post_data['gcat0']
         ext_dic['def_cat_uid'] = post_data['gcat0']
         ext_dic['status'] = 'a0'
-        # -------------重複值處理--------------------------
-        ext_dic['tag__language'] = ext_dic['pycsw_language']
-        ext_dic['tag__data_type'] = ext_dic['pycsw_type']
-        if ext_dic.get('pycsw_format'):
-            format_dic = {'raster': '1', 'vector': '2', 'imagery': '3', 'esheet': '4', 'database': '5', 'file': '6',
-                          'excel': '7', 'tif': '8', 'shp': '9', 'grd': '10', 'geotiff': '11'}
-            for format_key, format_value in format_dic.items():
-                if ext_dic.get('pycsw_format').lower() == format_key:
-                    ext_dic['tag_data_format'] = format_value
 
-        # -----------------------------------------------
 
         MPost.add_or_update_post(ext_dic['def_uid'], post_data, extinfo=ext_dic)
         kwargs.pop('uid', None)  # delete `uid` if exists in kwargs
@@ -359,17 +349,7 @@ class MetadataHandler(PostHandler):
 
         ext_dic['def_approved_count'] = approved_count
 
-        # -------------重複值處理--------------------------
-        ext_dic['tag__language'] = ext_dic['pycsw_language']
-        ext_dic['tag__data_type'] = ext_dic['pycsw_type']
-        if ext_dic.get('pycsw_format'):
-            format_dic = {'raster': '1', 'vector': '2', 'imagery': '3', 'esheet': '4', 'database': '5', 'file': '6',
-                          'excel': '7', 'tif': '8', 'shp': '9', 'grd': '10', 'geotiff': '11'}
-            for format_key, format_value in format_dic.items():
-                if ext_dic.get('pycsw_format').lower() == format_key:
-                    ext_dic['tag_data_format'] = format_value
 
-        # -----------------------------------------------
 
         cnt_old = tornado.escape.xhtml_unescape(postinfo.cnt_md).strip()
         cnt_new = post_data['cnt_md'].strip()
@@ -398,7 +378,7 @@ class MetadataHandler(PostHandler):
 
         update_category(postinfo.uid, post_data)
         update_label(postinfo.uid, post_data)
-        if ext_dic.get('pycsw_file') not in ['', 'None']:
+        if ext_dic.get('pycsw_file') and ext_dic.get('pycsw_file') not in ['', 'None']:
             file_path = ext_dic['pycsw_file']
             file_src = os.path.join('.' + file_path)
             try:
