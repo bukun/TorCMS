@@ -7,10 +7,15 @@ sudo apt install -y libxml2-dev libxslt1-dev liblzma-dev python3-lxml \
 sudo apt install -y postgis postgresql-plpython3-14
 
 # Setup a virtual environment:
-python3 -m venv --clear ~/usr/vpy_csw \
-  && . ~/usr/vpy_csw/bin/activate \
-  && pip3 install wheel \
-  && pip3 install psycopg2-binary
+
+if [ -d "~/usr/vpy_csw" ]; then
+  echo 'venv exists.'
+else
+  python3 -m venv --clear ~/usr/vpy_csw \
+    && . ~/usr/vpy_csw/bin/activate \
+    && pip3 install wheel \
+    && pip3 install psycopg2-binary
+fi
 
 # git clone https://github.com/geopython/pycsw.git && cd pycsw
 

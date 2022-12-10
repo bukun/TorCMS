@@ -1,4 +1,15 @@
 '''
+DRRKS本身数据集
+'''
+from pprint import pprint
+import sys; sys.path.append('.')
+import os
+
+from torcms.model.post_model import MPost
+import yaml
+# import ruamel.yaml
+
+'''
 解析DRR数据集，解压缩后获取每个的地理范围
 '''
 
@@ -84,34 +95,71 @@ def clean():
         if wfile.is_file():
             wfile.unlink()
 
-def walk_dir():
+def walk_dir(the_sig):
     os.chdir(workdir)
 
     for wfile in inws.rglob('*.7z'):
 
-        clean()
-        if wfile.exists():
-            pass
-        else:
-            continue
-        shutil.copy(wfile, workdir / wfile.name )
-        file7z = workdir / wfile.name
-        if file7z.exists():
+        if f'_dn{the_sig}' in wfile.name:
 
-            subprocess.run(['7z', 'x', f'{file7z}'])
-            print('=' * 40)
-            print(wfile)
-            uu = get_geo(workdir)
-            print(uu)
-        # break
+            clean()
+            if wfile.exists():
+                pass
+            else:
+                continue
+            shutil.copy(wfile, workdir / wfile.name )
+            file7z = workdir / wfile.name
+            if file7z.exists():
+
+                subprocess.run(['7z', 'x', f'{file7z}'])
+                print('=' * 40)
+                print(wfile)
+                uu = get_geo(workdir)
+                print(uu)
+                return uu
 
 
-        # print('=' * 40)
-        # print(wdir)
-        # uu = get_geo(wdir )
-        #
-        # print(uu)
+
+def run_export():
+    all_recs = MPost.query_all(kind='9', limit=10000)
+    out_arr = []
+    for postinfo in all_recs:
+        print('=' * 40)
+        # print(postinfo.title)
+        sig = postinfo.uid[-4:]
+
+
+        out_arr.append(
+            {
+                'uid': postinfo.uid,
+                'title': postinfo.title,
+                'keywords': postinfo.keywords,
+                'date': postinfo.date,
+                'extinfo': postinfo.extinfo,
+                'cnt_md': postinfo.cnt_md,
+                'cnt_html': postinfo.cnt_html,
+                'kind': postinfo.kind,
+                'user_name': postinfo.user_name,
+                'logo': postinfo.logo,
+            }
+        )
+
+        ff = postinfo.extinfo.get('_tag__file_download')
+        if ff :
+            pprint(ff)
+
+            # geoinfo = walk_dir(sig)
+            # print(sig)
+            # print(geoinfo)
+
+        #break
+
+
+
+    # with open('xx_posts.yaml', "w", encoding='utf-8') as f:
+    #     yaml.dump(out_arr, f, allow_unicode=True)
+
 
 
 if __name__ == '__main__':
-    walk_dir()
+    run_export()

@@ -151,6 +151,7 @@ def insert_into_tabpost(catid, rec):
         'pycsw_specificationdatetype': rec[54],
         'pycsw_links': rec[55],
         'geojson' : gson,
+        "tag_data_source": "2",
         # 'pycsw_wkb_geometry': rec[56],
     }
 
@@ -160,7 +161,7 @@ def insert_into_tabpost(catid, rec):
         return
 
     inrec = TabPost.select().where(TabPost.memo == rec[0])
-    if 1 == 2 :
+    if inrec :
         # 如果在 TabPost 中已有，则跳过
         pass
     else:

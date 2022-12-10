@@ -108,6 +108,16 @@ Install libs for Python 3.4 or 3.5,
     cd TorCMS
     pip3 install -r doc/requirements.txt
 
+
+For Deiban/Ubutnu
+---------------------------------------
+
+If you are to use Python of OS system directly, install libs as:
+
+::
+
+    sudo apt isntall -y python3-tornado python3-requests python3-openpyxl python3-markdown python3-htmlmin
+
 How to Run
 =========================
 

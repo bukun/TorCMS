@@ -5,13 +5,12 @@ from pyproj import Proj
 from pyproj import CRS
 from osgeo import osr
 
-
 target = osr.SpatialReference()
 target.ImportFromEPSG(4326)
 
 
 def get_geo(wdir):
-    a,b,c,d = -180, -90, 180, 90
+    a, b, c, d = -180, -90, 180, 90
     sig = False
     for wfile in wdir.rglob('*.shp'):
         sig = True
@@ -20,11 +19,12 @@ def get_geo(wdir):
         # lyr = ds.GetLayer(0)
         # ext = lyr.GetExtent()
         # env = lyr.GetEnvelope()
-        ds = fiona.open(wfile)
-
+        try:
+            ds = fiona.open(wfile)
+        except:
+            continue
 
         # print(ds.crs)
-
 
         try:
             crs = CRS(ds.crs)
@@ -39,8 +39,8 @@ def get_geo(wdir):
         p = Proj(crs)
         # print(p)
 
-        ll = p(ds.bounds[0], ds.bounds[1], inverse = True)
-        ur  = p(ds.bounds[2], ds.bounds[3], inverse = True)
+        ll = p(ds.bounds[0], ds.bounds[1], inverse=True)
+        ur = p(ds.bounds[2], ds.bounds[3], inverse=True)
         # srcp = osr.SpatialReference()
         # srcp.ImportFromEPSG(int(ds.crs['init'].split(':')[-1]))
         # trans = osr.CoordinateTransformation(srcp, target)
@@ -61,15 +61,12 @@ def get_geo(wdir):
             d = ur[1]
 
     if sig:
-        return a,b,c,d
+        return a, b, c, d
     else:
         return None
 
-
         # print(ext)
         # print(env)
-
-
 
 
 from pathlib import Path
@@ -84,10 +81,12 @@ import os
 import pathlib
 from openpyxl import load_workbook
 
-HOST_QGSVR = '39.100.254.142:6626'
+
+# HOST_QGSVR = '39.100.254.142:6626'
 
 
-def chuli_meta(metafile, sig, ginfo = None):
+def chuli_meta(metafile, sig, ginfo=None):
+    print(metafile)
     wb = load_workbook(str(metafile))
     sheet = wb[wb.sheetnames[0]]
 
@@ -139,7 +138,7 @@ def chuli_meta(metafile, sig, ginfo = None):
                 fo.write('<dc:{0}>{1}</dc:{0}>\n'.format(row[0].value, escape(row[1].value)))
             if row[0].value.strip() in ['abstract']:
                 fo.write('<dct:{0}>{1}</dct:{0}>\n'.format(row[0].value, escape(row[1].value)))
-        fo.write(tp_identifier.format('drrks2022-' + sig))
+        fo.write(tp_identifier.format('drrmd-' + sig))
         if ginfo:
             fo.write(tmpl_geo.format(ginfo[0], ginfo[1], ginfo[2], ginfo[3]))
             # fo.write(tmpl_geo.format(ginfo[1], ginfo[0], ginfo[3], ginfo[2]))
@@ -165,7 +164,6 @@ def get_meta():
         for wdir in wdirs:
             if wdir.startswith('dataset') and '_dn' in wdir:
 
-
                 #  Got the dataset of certain ID.
 
                 # ds_base = pathlib.Path()
@@ -174,15 +172,14 @@ def get_meta():
                 geoinfo = get_geo(ds_base)
 
                 dataset_id = ds_base.name.split('_')[-1]
-                sig = '9' + str(dataset_id[2:])
 
                 for uu in ds_base.iterdir():
 
-                    if uu.name.endswith('.xlsx') and not uu.name.startswith('~'):
-                        chuli_meta(uu, sig, ginfo = geoinfo)
-
-
-
+                    if uu.name.endswith('.xlsx'):
+                        if uu.name.startswith('~') or uu.name.startswith('.~'):
+                            pass
+                        else:
+                            chuli_meta(uu, dataset_id, ginfo=geoinfo)
 
 
 if __name__ == '__main__':
