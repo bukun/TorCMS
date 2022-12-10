@@ -28,6 +28,7 @@ tmpl_0 = '''<?xml version="1.0" encoding="UTF-8"?>
 	xmlns:dct="http://purl.org/dc/terms/"
 	xmlns:ows="http://www.opengis.net/ows"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
 	xsi:schemaLocation="http://www.opengis.net/cat/csw/2.0.2/record.xsd">
 '''
 
@@ -48,6 +49,7 @@ tp_type = '<dc:type>{}</dc:type>'
 tp_title = '<dc:title>{}</dc:title>'
 tp_mofified = '<dct:modified>{}</dct:modified>'
 tp_language = '<dc:language>{}</dc:language>'
+tp_link = '<ows:OnlineResource xlink:type="simple" xlink:href="{}" />'
 
 # sigs = ['a', 'b', 'c','d','e','f','g','h', 'i', 'j', 'k', 'l', 'm', 'n', 'o','p','q']
 
@@ -156,6 +158,7 @@ for row in ws.rows:
         fo.write(tp_source.format(f'http://wdcrre.data.ac.cn/meta_info/{v0}'))
         fo.write('\n')
         # fo.write(tp_relation.format(v5))
+        fo.write(tp_link.format(f'http://wdcrre.data.ac.cn/meta_info/{v0}'))
         fo.write('\n')
         fo.write(
             tp_abstract.format(

@@ -6,6 +6,7 @@
 	xmlns:ows="http://www.opengis.net/ows"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.opengis.net/cat/csw/2.0.2/record.xsd">
+
 <dc:creator>U.S. Geological Survey</dc:creator>
 <dc:contributor>State of Texas</dc:contributor>
 <dc:publisher>U.S. Geological Survey</dc:publisher>
@@ -20,6 +21,7 @@
 <dc:title>National Elevation Mapping Service for Texas</dc:title>
 <dct:modified>2004-03-01</dct:modified>
 <dc:language>en</dc:language>
+    <ows:OnlineResource xlink:type="simple" xlink:href="http://kralidis.ca/"/>
 <ows:BoundingBox>
 	<ows:LowerCorner>-108.44 28.229</ows:LowerCorner>
 	<ows:UpperCorner>-96.223 34.353</ows:UpperCorner>
