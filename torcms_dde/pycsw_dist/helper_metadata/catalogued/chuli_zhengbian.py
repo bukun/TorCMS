@@ -1,3 +1,7 @@
+'''
+处理整编的元数据
+在当前文件夹运行
+'''
 from pathlib import Path
 from osgeo import ogr
 import fiona
@@ -150,7 +154,7 @@ def get_meta():
     Get metadata of dataset via ID.
     '''
 
-    meta_base = '/home/bk/geows'
+    meta_base = '/home/bk/geows/data'
 
     # meta_base = './dataset_DDE'
     #
