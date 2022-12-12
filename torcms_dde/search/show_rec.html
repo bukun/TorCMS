@@ -27,145 +27,297 @@
                 <td class="col-sm-2"><b>{{ _('Identifier') }}</b></td>
                 <td class="col-sm-10">{{ meta_rec.identifier }}</td>
             </tr>
+            {% if meta_rec.abstract and meta_rec.abstract not in ['None',[]] %}
             <tr>
                 <td class="col-sm-2"><b>{{ _('Abstract') }}</b></td>
                 <td class="col-sm-10">{% raw unescape(meta_rec.abstract) %}</td>
             </tr>
-
+            {% end %}
+            {% if meta_rec.accessrights and meta_rec.accessrights not in ['None',[]] %}
             <tr>
                 <td class="col-sm-2"><b>{{ _('Accessrights') }}</b></td>
-                <td class="col-sm-10">{{ _('Open Access') }}</td>
+                <td class="col-sm-10">{{ meta_rec.accessrights }}</td>
             </tr>
-
-
+            {% end %}
+            {% if meta_rec.alternative and meta_rec.alternative not in ['None',[]] %}
             <tr>
-
                 <td class="col-sm-2">
-                    <b>{{ _('Alternative') }}
-                    </b>
+                    <b>{{ _('Alternative') }}</b>
                 </td>
-                <td class="col-sm-10">{{ meta_rec.title }}
+                <td class="col-sm-10">{{ meta_rec.alternative }}
                 </td>
             </tr>
-
-
+            {% end %}
+            {% if meta_rec.bbox and meta_rec.bbox not in ['None',[]] %}
+            <tr>
+                <td class="col-sm-2">
+                    <b>{{ _('BBox') }}</b>
+                </td>
+                <td class="col-sm-10">{{ meta_rec.bbox }}
+                </td>
+            </tr>
+            {% end %}
+            {% if meta_rec.bbox_wgs84 and meta_rec.bbox_wgs84 not in ['None',[]] %}
+            <tr>
+                <td class="col-sm-2">
+                    <b>{{ _('BBox_wgs84') }}</b>
+                </td>
+                <td class="col-sm-10">{{ meta_rec.bbox_wgs84 }}
+                </td>
+            </tr>
+            {% end %}
+            {% if meta_rec.contributor and meta_rec.contributor not in ['None',[]] %}
             <tr>
                 <td class="col-sm-2">
                     <b>{{ _('Contributor') }}
                     </b>
                 </td>
-                <td class="col-sm-10">{{ _('DRRKS, IKCEST') }}
+                <td class="col-sm-10">{{ meta_rec.contributor }}
                 </td>
             </tr>
-
+            {% end %}
+            {% if meta_rec.coverage and meta_rec.coverage not in ['None',[]] %}
+            <tr>
+                <td class="col-sm-2">
+                    <b>{{ _('Coverage') }}
+                    </b>
+                </td>
+                <td class="col-sm-10">{{ meta_rec.coverage }}
+                </td>
+            </tr>
+            {% end %}
+            {% if meta_rec.created and meta_rec.created not in ['None',[]] %}
+            <tr>
+                <td class="col-sm-2">
+                    <b>{{ _('Created') }}
+                    </b>
+                </td>
+                <td class="col-sm-10">{{ meta_rec.created }}
+                </td>
+            </tr>
+            {% end %}
+            {% if meta_rec.creator and meta_rec.creator not in ['None',[]] %}
             <tr>
                 <td class="col-sm-2">
                     <b>{{ _('Creator') }}
                     </b>
                 </td>
-                <td class="col-sm-10">{{ _('administrator') }}
+                <td class="col-sm-10">{{ meta_rec.creator }}
                 </td>
             </tr>
+            {% end %}
+            {% if meta_rec.date and meta_rec.date not in ['None',[]] %}
             <tr>
                 <td class="col-sm-2">
                     <b>{{ _('Date') }}
                     </b>
                 </td>
-                <td class="col-sm-10">{{meta_rec.date if meta_rec.date else ''}}
+                <td class="col-sm-10">{{ meta_rec.date }}
                 </td>
             </tr>
+            {% end %}
+            {% if meta_rec.format and meta_rec.format not in ['None',[]] %}
             <tr>
                 <td class="col-sm-2">
                     <b>{{ _('Format') }}
                     </b>
                 </td>
-                <td class="col-sm-10">{{meta_rec.format if meta_rec.format else ''}}
+                <td class="col-sm-10">{{ meta_rec.format }}
                 </td>
             </tr>
-
-
+            {% end %}
+            {% if meta_rec.ispartof and meta_rec.ispartof not in ['None',[]] %}
+            <tr>
+                <td class="col-sm-2">
+                    <b>{{ _('Ispartof') }}
+                    </b>
+                </td>
+                <td class="col-sm-10">{{ meta_rec.ispartof }}
+                </td>
+            </tr>
+            {% end %}
+            {% if meta_rec.issued and meta_rec.issued not in ['None',[]] %}
+            <tr>
+                <td class="col-sm-2">
+                    <b>{{ _('Issued') }}
+                    </b>
+                </td>
+                <td class="col-sm-10">{{ meta_rec.issued }}
+                </td>
+            </tr>
+            {% end %}
+            {% if meta_rec.language and meta_rec.language not in ['None',[]] %}
             <tr>
                 <td class="col-sm-2">
                     <b>{{ _('Language') }}
                     </b>
                 </td>
-                <td class="col-sm-10">{{meta_rec.language if meta_rec.language else ''}}
-                </td>
+                <td class="col-sm-10">{{ meta_rec.language }}</td>
             </tr>
+            {% end %}
+            {% if meta_rec.license and meta_rec.license not in ['None',[]] %}
             <tr>
                 <td class="col-sm-2">
                     <b>{{ _('License') }}
                     </b>
                 </td>
-                <td class="col-sm-10">{{ _('CC-BY-SA') }}
+                <td class="col-sm-10">{{ meta_rec.license }}
                 </td>
             </tr>
-
+            {% end %}
+            {% if meta_rec.modified and meta_rec.modified not in ['None',[]] %}
+            <tr>
+                <td class="col-sm-2">
+                    <b>{{ _('Modified') }}
+                    </b>
+                </td>
+                <td class="col-sm-10">{{ meta_rec.modified }}
+                </td>
+            </tr>
+            {% end %}
+            {% if meta_rec.publisher and meta_rec.publisher not in ['None',[]] %}
             <tr>
                 <td class="col-sm-2">
                     <b>{{ _('Publisher') }}
                     </b>
                 </td>
-                <td class="col-sm-10">{{meta_rec.publisher if meta_rec.publisher else ''}}
+                <td class="col-sm-10">{{ meta_rec.publisher }}
                 </td>
             </tr>
-
-
-
-
+            {% end %}
+            {% if meta_rec.rdf and meta_rec.rdf not in ['None',[]] %}
+            <tr>
+                <td class="col-sm-2">
+                    <b>{{ _('Rdf') }}
+                    </b>
+                </td>
+                <td class="col-sm-10">{{ meta_rec.rdf }}
+                </td>
+            </tr>
+            {% end %}
+            {% if meta_rec.references and meta_rec.references not in ['None',[]] %}
+            <tr>
+                <td class="col-sm-2">
+                    <b>{{ _('References') }}
+                    </b>
+                </td>
+                <td class="col-sm-10">{{ meta_rec.references }}
+                </td>
+            </tr>
+            {% end %}
+            {% if meta_rec.relation and meta_rec.relation not in ['None',[]] %}
+            <tr>
+                <td class="col-sm-2">
+                    <b>{{ _('Relation') }}
+                    </b>
+                </td>
+                <td class="col-sm-10">{{ meta_rec.relation }}
+                </td>
+            </tr>
+            {% end %}
+            {% if meta_rec.rights and meta_rec.rights not in ['None',[]] %}
+            <tr>
+                <td class="col-sm-2">
+                    <b>{{ _('Rights') }}
+                    </b>
+                </td>
+                <td class="col-sm-10">{{ meta_rec.rights }}
+                </td>
+            </tr>
+            {% end %}
+            {% if meta_rec.rightsholder and meta_rec.rightsholder not in ['None',[]] %}
+            <tr>
+                <td class="col-sm-2">
+                    <b>{{ _('Rightsholder') }}
+                    </b>
+                </td>
+                <td class="col-sm-10">{{ meta_rec.rightsholder }}
+                </td>
+            </tr>
+            {% end %}
+            {% if meta_rec.source and meta_rec.source not in ['None',[]] %}
             <tr>
                 <td class="col-sm-2">
                     <b>{{ _('Source') }}
                     </b>
                 </td>
-                <td class="col-sm-10">
-                    {% if meta_rec.source %}
-                    <a href="{{ meta_rec.source }}"> {{ meta_rec.source }}</a>
-                    {% end %}
+                <td class="col-sm-10">{{ meta_rec.source }}
                 </td>
             </tr>
+            {% end %}
+            {% if meta_rec.spatial and meta_rec.spatial not in ['None',[]] %}
             <tr>
                 <td class="col-sm-2">
                     <b>{{ _('Spatial') }}
                     </b>
                 </td>
-                <td class="col-sm-10">{{meta_rec.spatial if meta_rec.spatial else ''}}
+                <td class="col-sm-10">{{ meta_rec.spatial }}
                 </td>
             </tr>
+            {% end %}
+            {% if meta_rec.subjects and meta_rec.subjects not in ['None',[]] %}
             <tr>
                 <td class="col-sm-2">
                     <b>{{ _('Subjects') }}
                     </b>
                 </td>
-                <td class="col-sm-10">{{meta_rec.subjects if meta_rec.subjects else ''}}
+                <td class="col-sm-10">{{ meta_rec.subjects }}
                 </td>
             </tr>
-
+            {% end %}
+            {% if meta_rec.temporal and meta_rec.temporal not in ['None',[]] %}
+            <tr>
+                <td class="col-sm-2">
+                    <b>{{ _('Temporal') }}
+                    </b>
+                </td>
+                <td class="col-sm-10">{{ meta_rec.temporal }}
+                </td>
+            </tr>
+            {% end %}
+            {% if meta_rec.type and meta_rec.type not in ['None',[]] %}
+            <tr>
+                <td class="col-sm-2">
+                    <b>{{ _('Type') }}
+                    </b>
+                </td>
+                <td class="col-sm-10">{{ meta_rec.type }}
+                </td>
+            </tr>
+            {% end %}
+            {% if meta_rec.uris and meta_rec.uris not in ['None',[]] %}
+            <tr>
+                <td class="col-sm-2">
+                    <b>{{ _('Uris') }}
+                    </b>
+                </td>
+                <td class="col-sm-10">{{ meta_rec.uris }}
+                </td>
+            </tr>
+            {% end %}
+            {% if meta_rec.xml and meta_rec.xml not in ['None',[]] %}
             <tr>
                 <td class="col-sm-2">
                     <b>{{ _('Xml') }}
                     </b>
                 </td>
-
-                <td class="col-sm-10">
-                    <div class="listinfo_content">{{meta_rec.xml if meta_rec.xml else ''}}</div>
+                <td class="col-sm-10">{{ meta_rec.xml }}
                 </td>
             </tr>
-
+            {% end %}
 
             {% if meta_rec.identifier.startswith('maplet') %}
             <tr>
                 <td class="col-sm-2"><b>{{ _('Link') }}</b></td>
                 <td class="col-sm-10">
                     <a href="https://www.osgeo.cn/map/{{ meta_rec.identifier[7:] }}" target="_blank"
-                       title="{{ meta_rec.identifier[7:]}}">
-                        https://www.osgeo.cn/map/{{ meta_rec.identifier[7:]}}</a>
+                       title="{{ meta_rec.identifier[7:] }}">
+                        https://www.osgeo.cn/map/{{ meta_rec.identifier[7:] }}</a>
                 </td>
             </tr>
             {% end %}
         </table>
     </div>
-
 
     {% end %}
 </div>

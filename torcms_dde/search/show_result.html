@@ -3,6 +3,102 @@
 <title> {{ _('Directory Search Result') }} - {{ _('Disaster Risk Reduction Knowledge Service') }}</title>
 <meta name="description" content="{{ _('Directory Search Result') }}">
 <meta name="keywords" content="{{ _('Directory Search Result') }}">
+<style type="text/css">
+    #map_div {
+        width: 100%;
+        height: 310px;
+        border: 1px solid black;
+        text-align: center;
+        align-self: center;
+        z-index: 1;
+    }
+    #start_draw_btn {
+
+        z-index: 50;
+        position: absolute;
+        top: 20px;
+        right: 200px;
+    }
+    .head{
+        color: #fff;
+        font-weight: normal;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+
+
+        $("#subit").click(function () {
+            var keyw = $("#keyw9").val();
+            var isweb = $('input:radio[name="isweb"]:checked').val();
+            var ldrt = $('#ldrt').val();
+            var max_num = $('#maxrecords').val();
+
+
+            window.location = "/directory_search/search/" + keyw + "/" + isweb+"/"+ldrt+"/"+max_num;
+        });
+
+        $("#keyw9").keydown(function (event) {
+            var keyw = $("#keyw9").val();
+            var isweb = $('input:radio[name="isweb"]:checked').val();
+            var ldrt = $('#ldrt').val();
+            var max_num = $('#maxrecords').val();
+
+            if (event.keyCode == 13) {
+
+
+                window.location = "/directory_search/search/" + keyw + "/" + isweb+"/"+ldrt+"/"+max_num;
+            }
+        });
+    });
+    function select_order(span,options) {
+        {#alert(options)#}
+
+        {#alert(window.location.href.split('?')[0])#}
+        window.location = window.location.href.split('?')[0] + "?startnum=" + options
+
+    }
+</script>
+
+
+<link rel="stylesheet" href="/static/dde_search/leaflet.draw.css" />
+<script type="text/javascript" src="/static/dde_search/Leaflet.draw.js"></script>
+<script type="text/javascript" src="/static/dde_search/Control.Draw.js"></script>
+<script type="text/javascript" src="/static/dde_search/copyright.js"></script>
+<script type="text/javascript" src="/static/dde_search/Leaflet.Draw.Event.js"></script>
+<script type="text/javascript" src="/static/dde_search/Toolbar.js"></script>
+<script type="text/javascript" src="/static/dde_search/Tooltip.js"></script>
+<script type="text/javascript" src="/static/dde_search/ext/GeometryUtil.js"></script>
+<script type="text/javascript" src="/static/dde_search/ext/LatLngUtil.js"></script>
+<script type="text/javascript" src="/static/dde_search/ext/LineUtil.Intersect.js"></script>
+<script type="text/javascript" src="/static/dde_search/ext/Polygon.Intersect.js"></script>
+<script type="text/javascript" src="/static/dde_search/ext/Polyline.Intersect.js"></script>
+
+
+<script src="/static/dde_search/ext/TouchEvents.js"></script>
+
+<script src="/static/dde_search/draw/DrawToolbar.js"></script>
+<script src="/static/dde_search/draw/handler/Draw.Feature.js"></script>
+<script src="/static/dde_search/draw/handler/Draw.SimpleShape.js"></script>
+<script src="/static/dde_search/draw/handler/Draw.Polyline.js"></script>
+<script src="/static/dde_search/draw/handler/Draw.Marker.js"></script>
+<script src="/static/dde_search/draw/handler/Draw.Circle.js"></script>
+<script src="/static/dde_search/draw/handler/Draw.CircleMarker.js"></script>
+<script src="/static/dde_search/draw/handler/Draw.Polygon.js"></script>
+<script src="/static/dde_search/draw/handler/Draw.Rectangle.js"></script>
+
+
+<script src="/static/dde_search/edit/EditToolbar.js"></script>
+<script src="/static/dde_search/edit/handler/EditToolbar.Edit.js"></script>
+<script src="/static/dde_search/edit/handler/EditToolbar.Delete.js"></script>
+
+
+<script src="/static/dde_search/edit/handler/Edit.Poly.js"></script>
+<script src="/static/dde_search/edit/handler/Edit.SimpleShape.js"></script>
+<script src="/static/dde_search/edit/handler/Edit.Rectangle.js"></script>
+<script src="/static/dde_search/edit/handler/Edit.Marker.js"></script>
+<script src="/static/dde_search/edit/handler/Edit.CircleMarker.js"></script>
+<script src="/static/dde_search/edit/handler/Edit.Circle.js"></script>
 {% end %}
 {% block typebody %}
 <div class="mtop">
@@ -12,19 +108,340 @@
         <li class="active">{% if isweb == '1' %}{{ _('In Website') }}{% else %}{{ _('Distributed') }} {% end %} - {{ _('Directory Search Result') }}</li>
     </ul>
 </div>
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h1 class="news-title">{% if isweb == '1' %}{{ _('In Website') }}{% else %}{{ _('Distributed') }} {% end %} - {{ _('Directory Search Result') }}</h1></div>
-    <ul class="list-group">
 
-        {% for x in meta_results %}
-        <li class="list-group-item">
-            <a href="/directory_search/view/{{ meta_results[x].identifier }}" title="{{ _(meta_results[x].title) }}">
-                {{ _(meta_results[x].title) }}
-            </a>
-        </li>
-        {% end %}
-    </ul>
+
+<div class="row">
+
+    <div class="col-sm-8">
+        <div id="map_div"></div>
+        <button type="button" id="start_draw_btn" class="btn btn-primary" onclick="start_draw()">{{ _('Draw box') }}</button>
+        {#            <div id="info"></div>#}
+        <script>
+            var map = L.map("map_div", {
+                center: [30, 0],
+                zoom: 2,
+                maxZoom: 18,
+                minZoom: 1,
+            });
+
+            var osm = L.tileLayer.chinaProvider('TianDiTu.Normal.Map', {
+                maxZoom: 12,
+                attribution: '',
+                id: "mapbox.satellite",
+
+            });
+            osm.addTo(map);
+
+            var service_position = L.layerGroup();
+            $.ajax({
+                type: "get",
+                url: "/directory_json/cruise-svr",
+                dataType: "json",
+                success: function (msg) {
+                    var data = msg.results
+                    $.each(data, function (infoIndex, info) {
+                            var title_text = "<div style='font-size:12px;line-height:12px; padding: 10px 0 5px 0'><b>Place</b> : " +
+                                info['place'] + "</div> " + "<div style='font-size:12px;line-height:12px;padding: 10px 0 13px 0''><b>latlng</b> : " + info['lat'] + ',' + info['lon'] + "</div>" + "" +
+                                "<div style='font-size:12px;line-height:12px;'><b>Number:</b>  " + info['num'] + '</div>';
+                            var igainfo = title_text;
+                            L.circleMarker([info['lat'], info['lon']], {
+                                color: '#f90',
+                                fillColor: '#f00',
+                                fill: '#f01234',
+                                fillOpacity: 1.0,
+                                radius: 5
+                            }).addTo(service_position).bindPopup(igainfo);
+
+                        }
+                    )
+                },
+                error: function () {
+                }
+            });
+
+
+
+            var baseMaps = {
+                "Tianditu": osm,
+            };
+
+            var overlaymaps = {'Service position':service_position}
+
+            L.control.layers(baseMaps,overlaymaps).addTo(map);
+            //添加绘制图层
+            var drawnItems = new L.FeatureGroup();
+            map.addLayer(drawnItems);
+
+            map.on(L.Draw.Event.CREATED, function(e){
+//          清空之前画得矩形
+                drawnItems.clearLayers();
+                var type = e.layerType,
+                    //获取绘制图层
+                    drawlayer = e.layer;
+
+                console.log(type)
+                console.log(drawlayer)
+                console.log(drawlayer._latlngs[0][0].lat.toFixed(3))
+                console.log(drawlayer._latlngs[0][0].lng.toFixed(3))
+                // const marker = L.marker(drawlayer._latlngs[0][0]).addTo(map);//左下
+                // const marker = L.marker(drawlayer._latlngs[0][1]).addTo(map);//左上
+                // const marker = L.marker(drawlayer._latlngs[0][3]).addTo(map);//右下
+                {#document.getElementById('info').innerHTML ='左下latlng:'+ drawlayer._latlngs[0][0]+'右上latlng：'+drawlayer._latlngs[0][2];#}
+
+                var ld = drawlayer._latlngs[0][0].lat.toFixed(3)+','+drawlayer._latlngs[0][0].lng.toFixed(3)
+                var rt = drawlayer._latlngs[0][2].lat.toFixed(3)+','+drawlayer._latlngs[0][2].lng.toFixed(3)
+
+                document.getElementById('ldrt').value =ld +","+ rt
+
+                if(type === 'marker'){
+                    drawlayer.bindPopup('A popup!');
+                }
+                drawnItems.addLayer(drawlayer);
+
+                //重新开启画矩形
+                let rectangle = new L.Draw.Rectangle(map, {
+                    shapeOptions: {
+                        weight: 1,
+                        color: '#3760d4',
+                        opacity: 0.8
+                    }
+                });
+                rectangle.enable();
+            });
+            var popup=L.popup();
+            map.on('click',function (e) {
+                popup
+                    .setLatLng(e.latlng)
+                    .setContent(e.latlng.toString())
+                    .openOn(map);
+            })
+            function start_draw() {
+                console.log('ffffffffffffffffffffff')
+                  $('#start_draw_btn').html("<span class='glyphicon glyphicon-ok'></span> Draw box")
+                  $('#start_draw_btn').addClass("btn-success");
+                let rectangle = new L.Draw.Rectangle(map, {
+                    shapeOptions: {
+                        weight: 1,
+                        color: '#3760d4',
+                        opacity: 0.8
+                    }
+                });
+                rectangle.enable();
+            }
+
+        </script>
+        <Br>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h1 class="news-title" id="qresult" name="qresult">{% if isweb == '1' %}{{ _('Local') }}{% else %}{{ _('Federated') }} {% end %} - {{ _('Directory Query Result') }}</h1></div>
+                <ul class="list-group">
+
+                    {% for x in meta_results %}
+
+                    <li class="list-group-item info-list">
+                        <div class="listinfo_title">
+                            {% if isweb == '1' %}
+                            <strong>
+                                <a href="/directory_search/view/{{ meta_results[x].identifier }}/{{ isweb }}" title="{{ _(meta_results[x].title) }}">
+
+                                    {{ _(meta_results[x].title) }}
+
+                                </a>
+                            </strong>
+                            {% else %}
+                            <strong>
+                                <a href="/directory_search/view/{{ meta_results[x].title }}/{{ isweb }}" title="{{ _(meta_results[x].title) }}">
+
+                                    {{ _(meta_results[x].title) }}
+
+                                </a>
+                            </strong>
+                            {% end  %}
+
+                        </div>
+
+
+                        <div class="listinfo_content padt10">
+                            {{ _(str(meta_results[x].abstract))[:300] }}...
+
+
+                        </div>
+
+                    </li>
+
+                    {% end %}
+                </ul>
+
+
+            </div>
+
+         <div class="col-sm-12">
+         <div class="row">
+
+                    {% if int(startnum) > 0 %}
+                   <a onclick="select_order(this,'{{ int(startnum) - 1 }}')" class="btn btn-primary"> {{ _('PREVIOUS') }}</a>
+                    {% end %}
+                    <a onclick="select_order(this,'{{ int(startnum) + 1 }}')" class="btn btn-primary"> {{ _('NEXT') }}</a>
+                </div>
+                </div>
+    </div>
+    <div class="col-sm-4">
+
+        <div class="panel panel-black">
+
+<div class="panel-heading">
+    <h4 class="head">{{ _('Query in GDMD') }} </h4>
 </div>
+
+            <div class="panel-body">
+
+                <div class="col-sm-12">
+                    <form action="/directory_search/" class="form-horizontal mart15">
+
+
+
+                        <div class="form-group">
+                            <label for="kyew9">Keywords</label>
+                            <input type="text" id="keyw9" name="kyew9" placeholder="{{ _('Enter the keywords') }}"
+                                   class="form-control"
+                                   onKeyDown="if (event.keyCode==13) return false;">
+                        </div>
+                        <div class="form-group">
+                            <label for="maxrecords">{{ _('Max records') }}</label><br />
+                            <input type="text" value="10" id="maxrecords" name="maxrecords" class="form-control" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                   onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}"
+                                  >
+                        </div>
+                        <div class="form-group">
+                            <label for="ldrt">Boundary box(Drawing the box on left map)</label>
+                            <input type="text" id="ldrt" name="ldrt"  class="form-control" readonly>
+                        </div>
+                        <div class="form-group">
+
+                            <label for="kyew9">Query Scope</label><br />
+                            <label >
+                                <input type="radio" id="isweb" name="isweb" value="1" checked> {{ _('Local') }}
+                                <input type="radio" id="isweb" name="isweb" value="2" > {{ _('Federated') }}
+                            </label>
+
+                        </div>
+                        <div class="form-group">
+
+                            <a type="submit" class="btn btn-primary" id="subit"><span class="glyphicon glyphicon-search"></span>
+                                {{ _('Query') }}</a>
+                            {#                <p><a href="/directory_search/"> Advanced search</a></p>#}
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="panel-heading">
+                <h4 class="head">Introduction</h4>
+            </div>
+            <div class="panel-body">
+
+
+
+                <p>GDMD means Global Disaster Data Master Directory. It is a directory, a hub and a clearinghouse for disaster data in the world. It is also a tool for disaster data directory present, search, publish, mining and analyzing.  </p>
+                <p>• Present: show the directory in same classification system with rich metadata.  </p>
+                <p>• Search: search the directory in local database, federated database, and spatial map style.  </p>
+                <p>• Publish, release the metadata in local or harvest the data catalog with same interface.  </p>
+                <p>• Mining, mining the metadata semantic and produce more labels for data discovery.  </p>
+                <p>• Analyzing, analyzing the linked data and producing disaster data knowledge graph.  </p>
+
+
+            </div>
+            {% module statistical_info()  %}
+            <div class="panel-heading">
+                <h4 class="head">Standards Support</h4>
+            </div>
+
+            <div class="panel-body">
+
+                <table border="1" class="docutils table table-bordered" >
+                    {#
+	    <colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+	    #}
+                    <thead valign="bottom">
+                    <tr class="row-odd"><th>Standard</th>
+                        <th>Version(s)</th>
+                    </tr>
+                    </thead>
+                    <tbody valign="top">
+                    <tr class="row-even"><td><a class="reference external" href="https://ogcapi.ogc.org/records">OGC API - Records - Part 1: Core</a></td>
+                        <td>1.0</td>
+                    </tr>
+                    <tr class="row-odd"><td><a class="reference external" href="http://docs.ogc.org/DRAFTS/19-079.html">OGC API - Features - Part 3: Filtering and CQL</a></td>
+                        <td>draft</td>
+                    </tr>
+                    <tr class="row-even"><td><a class="reference external" href="https://www.ogc.org/standards/cat">OGC CSW</a></td>
+                        <td>2.0.2/3.0.0</td>
+                    </tr>
+                    <tr class="row-odd"><td><a class="reference external" href="https://www.ogc.org/standards/filter">OGC Filter</a></td>
+                        <td>1.1.0/2.0.0</td>
+                    </tr>
+                    <tr class="row-even"><td><a class="reference external" href="https://www.ogc.org/standards/common">OGC OWS Common</a></td>
+                        <td>1.0.0/2.0.0</td>
+                    </tr>
+                    <tr class="row-odd"><td><a class="reference external" href="https://www.ogc.org/standards/gml">OGC GML</a></td>
+                        <td>3.1.1</td>
+                    </tr>
+                    <tr class="row-even"><td><a class="reference external" href="https://www.ogc.org/standards/sfs">OGC SFSQL</a></td>
+                        <td>1.2.1</td>
+                    </tr>
+                    <tr class="row-odd"><td><a class="reference external" href="http://docs.opengeospatial.org/cs/17-002r1/17-002r1.html">OGC GeoRSS</a></td>
+                        <td>1.0</td>
+                    </tr>
+                    <tr class="row-even"><td><a class="reference external" href="https://www.dublincore.org/">Dublin Core</a></td>
+                        <td>1.1</td>
+                    </tr>
+                    <tr class="row-odd"><td><a class="reference external" href="https://www.w3.org/TR/soap/">SOAP</a></td>
+                        <td>1.2</td>
+                    </tr>
+                    <tr class="row-even"><td><a class="reference external" href="https://www.iso.org/iso/catalogue_detail.htm?csnumber=26020">ISO 19115</a></td>
+                        <td>2003</td>
+                    </tr>
+                    <tr class="row-odd"><td><a class="reference external" href="https://www.iso.org/iso/catalogue_detail.htm?csnumber=32557">ISO 19139</a></td>
+                        <td>2007</td>
+                    </tr>
+                    <tr class="row-even"><td><a class="reference external" href="https://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=39890">ISO 19119</a></td>
+                        <td>2005</td>
+                    </tr>
+                    <tr class="row-odd"><td><a class="reference external" href="https://earthdata.nasa.gov/esdis/eso/standards-and-references/directory-interchange-format-dif-standard">NASA DIF</a></td>
+                        <td>9.7</td>
+                    </tr>
+                    <tr class="row-even"><td><a class="reference external" href="https://www.fgdc.gov/metadata/csdgm-standard">FGDC CSDGM</a></td>
+                        <td>1998</td>
+                    </tr>
+                    <tr class="row-odd"><td><a class="reference external" href="https://www.geocat.admin.ch/en/dokumentation/gm03.html">GM03</a></td>
+                        <td>2.1</td>
+                    </tr>
+                    <tr class="row-even"><td><a class="reference external" href="https://www.loc.gov/standards/sru">SRU</a></td>
+                        <td>1.1</td>
+                    </tr>
+                    <tr class="row-odd"><td><a class="reference external" href="https://www.ogc.org/standards/opensearchgeo">OGC OpenSearch</a></td>
+                        <td>1.0</td>
+                    </tr>
+                    <tr class="row-even"><td><a class="reference external" href="https://www.openarchives.org/pmh/">OAI-PMH</a></td>
+                        <td>2.0</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+
+<br>
+
 {% end %}
 

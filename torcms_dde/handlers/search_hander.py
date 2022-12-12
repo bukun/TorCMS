@@ -18,26 +18,23 @@ class DirectorySearchHandler(BaseHandler):
 
         if url_str == '':
             self.list('')
-        elif url_arr[0]  == 'search':
-
-            if len(url_arr) >= 4:
-                self.search(url_arr[1], url_arr[2], url_arr[3])
+        elif url_arr[0] == 'search':
+            if len(url_arr[0]) >= 3:
+                self.search(url_arr[1], url_arr[2], url_arr[3], url_arr[4])
             else:
-                self.search(url_arr[1], url_arr[2],'')
+                self.search(url_arr[1], url_arr[2], '', 10)
 
         elif url_arr[0] == 'view':
-            self.ajax_get(url_arr[1])
+            self.ajax_get(url_arr[1], url_arr[2])
 
-
-
-    # def post(self, url_str=''):
-    #     print('vvsdlfksdajfsaklfjsdlfsjdfsadlkfjsadlkfsd')
-    #     post_data = {}
-    #     print(self.request.arguments)
-    #     for key in self.request.arguments:
-    #         print(key)
-    #         post_data[key] = self.get_arguments(key)
-    #     self.get_result(post_data)
+    # def post(self, *args, **kwargs):
+    #     post_data = self.get_request_arguments()
+    #     keyword = post_data.get('keyw9', '')
+    #     isweb = post_data.get('isweb', '1')
+    #     ldrt = post_data.get('ldrt', '')
+    #     maxrecords = post_data.get('maxrecords', 20)
+    #
+    #     self.redirect('/directory_search/search/{0}/{1}/{2}/{3}'.format(keyword, isweb, ldrt, maxrecords))
 
     # def search(self, keyw):
     #     # print('====' * 40)
@@ -75,12 +72,18 @@ class DirectorySearchHandler(BaseHandler):
 
         # self.parseXML(r.text.encode(encoding='UTF-8'))
 
-    def search(self, keyw, isweb,ldrt):
-        print('=' * 40)
-        print(ldrt)
+    def search(self, keyw, isweb, ldrt, max_num):
+        # print('=' * 40)
+        # print(ldrt)
+        post_data = self.get_request_arguments()
+        startnum = post_data.get('startnum', 0)
 
+        startposition = int(startnum) * int(max_num) +1
+        print("," * 50)
+        print(startnum)
         csw = CatalogueServiceWeb('https://drr.ikcest.org/csw')
         # birds_query_like = PropertyIsLike('dc:title', '%{0}%'.format(keyw))
+
 
         if ldrt:
             print('=' * 40)
@@ -98,20 +101,23 @@ class DirectorySearchHandler(BaseHandler):
             if isweb == '1':
 
                 # birds_query = PropertyIsLike('dc:title', '%{0}%'.format(keyw))
-                csw.getrecords2(constraints=[ bbox_query], maxrecords=20)
+                csw.getrecords2(constraints=[bbox_query], startposition=startposition,maxrecords=max_num)
 
             else:
 
                 birds_query = PropertyIsLike('csw:AnyText', '%{0}%'.format(keyw))
-                csw.getrecords2(constraints=[birds_query, bbox_query], maxrecords=20, distributedsearch=True, hopcount=2)
+                csw.getrecords2(constraints=[birds_query, bbox_query], maxrecords=max_num, startposition=startposition,
+                                distributedsearch=True,
+                                hopcount=2)
         else:
             if isweb == '1':
 
                 birds_query = PropertyIsLike('dc:title', '%{0}%'.format(keyw))
-                csw.getrecords2(constraints=[birds_query], maxrecords=20)
+                csw.getrecords2(constraints=[birds_query], startposition=startposition,maxrecords=max_num)
             else:
                 birds_query = PropertyIsLike('csw:AnyText', '%{0}%'.format(keyw))
-                csw.getrecords2(constraints=[birds_query], maxrecords=20, distributedsearch=True, hopcount=2)
+                csw.getrecords2(constraints=[birds_query], maxrecords=max_num, startposition=startposition, distributedsearch=True,
+                                hopcount=2)
         print('-' * 20)
         print(isweb)
         print(csw.results)
@@ -131,7 +137,8 @@ class DirectorySearchHandler(BaseHandler):
         self.render('../torcms_dde/search/show_result.html',
                     meta_results=csw.records,
                     userinfo=self.userinfo,
-                    isweb=isweb
+                    isweb=isweb,
+                    startnum = startnum
                     )
 
         # self.parseXML(r.text.encode(encoding='UTF-8'))
@@ -147,7 +154,7 @@ class DirectorySearchHandler(BaseHandler):
     #     self.parseXML(r.text.encode(encoding='UTF-8'))
     #     # data = urllib.request.Request(url)
 
-    def ajax_get(self, uuid):
+    def ajax_get(self, uuid, isweb):
         print('=' * 20)
         print(uuid)
         # uuid = uuid.split(':')[-1]
@@ -156,7 +163,17 @@ class DirectorySearchHandler(BaseHandler):
 
         csw.getrecordbyid(id=[uuid])
         print('-' * 20)
-        print(csw.results)
+        print(csw.getrecordbyid(id=[uuid]))
+        if isweb == '1':
+            rec = csw.records.get(uuid)
+        else:
+            birds_query = PropertyIsLike('csw:AnyText', uuid)
+            csw.getrecords2(constraints=[birds_query], maxrecords=20, startposition=0, distributedsearch=True,
+                            hopcount=2)
+            print(csw.results)
+            for key in csw.records:
+                rec = csw.records[key]
+
         out_dict = {
             'title': '',
             'uid': '',
@@ -166,7 +183,8 @@ class DirectorySearchHandler(BaseHandler):
 
         self.render('../torcms_dde/search/show_rec.html',
                     kws=out_dict,
-                    meta_rec=csw.records.get(uuid),
+                    # meta_rec=csw.records.get(uuid),
+                    meta_rec=rec,
                     unescape=tornado.escape.xhtml_unescape,
                     userinfo=self.userinfo
                     )

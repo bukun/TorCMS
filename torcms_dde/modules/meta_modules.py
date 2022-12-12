@@ -30,7 +30,7 @@ class MetaCategory(tornado.web.UIModule):
     def render(self, uid_with_str, **kwargs):
         curinfo = MCategory.get_by_uid(uid_with_str)
         sub_cats = MCategory.query_sub_cat(uid_with_str)
-        kind = kwargs.get('kind', '9')
+        kind = kwargs.get('kind', 'd')
         cur_catid = kwargs.get('catinfo')
 
         kwd = {
@@ -48,3 +48,10 @@ class MetaCategory(tornado.web.UIModule):
                                   recs=sub_cats,
                                   kwd=kwd)
 
+class StatisticalInfo(tornado.web.UIModule):
+    def render(self, *args, **kwargs):
+        recs= MPost.get_all('d')
+        return self.render_string(
+            '../torcms_dde/tmpl_modules/statistical_info.html',
+        recs=recs
+        )
