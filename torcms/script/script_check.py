@@ -17,14 +17,14 @@ from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
 
 HTML_TMPL = '''<!doctype html><html><head><title></title>
-<script src="https://www.osgeo.cn/_f2elib/jquery/jquery-3.3.1.min.js"></script>
-<script src="https://www.osgeo.cn/_f2elib/bootstrap_3.3.7/js/bootstrap.min.js"></script>
+<script src="https://www.osgeo.cn/_f2elib/jquery/jquery-3.6.min.js"></script>
+<script src="https://www.osgeo.cn/_f2elib/bootstrap-3.4/js/bootstrap.min.js"></script>
 <script src="https://www.osgeo.cn/_f2elib/jquery-validate_1.15.0/jquery.validate.min.js"></script>
 <script src="https://www.osgeo.cn/_f2elib/magnific-popup_1.1.0/jquery.magnific-popup.min.js"></script>
-<script src="https://www.osgeo.cn/_f2elib/leaflet_1.7.1/leaflet.js"></script>
+<script src="https://www.osgeo.cn/_f2elib/leaflet-1.9/leaflet.js"></script>
 <script src="https://www.osgeo.cn/_f2elib/leaflet/leaflet.ChineseTmsProviders.js"></script>
 <link rel="stylesheet" href="https://www.osgeo.cn/_f2elib/bootstrap_3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://www.osgeo.cn/_f2elib/leaflet_1.7.1/leaflet.css">
+<link rel="stylesheet" href="https://www.osgeo.cn/_f2elib/leaflet-1.9/leaflet.css">
 </head>
 <body>
 <div class="container">
