@@ -48,10 +48,17 @@
         });
 
 
-      // var basemap_kd1 = L.tileLayer.chinaProvider('Google.Satellite.Map', {
-      //   maxZoom: 18,
-      //   minZoom: 1
-      // }).addTo(map_kd1);
+      var basemap_kd1 = L.tileLayer.chinaProvider('TianDiTu.Normal.Map', {
+                maxZoom: 12,
+                attribution: '',
+                id: "mapbox.satellite",
+
+            });
+            basemap_kd1.addTo(map_kd1);
+
+
+
+
 
         var kd1_0131 = L.tileLayer.wms('https://tile.osgeo.cn/service', {
             layers: uu.dataset.maplet,
