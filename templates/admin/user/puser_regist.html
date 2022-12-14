@@ -1,0 +1,154 @@
+<script>
+    function change_info() {
+        var user_name = $("#user_name").val();
+        var user_email = $("#user_email").val();
+        var user_pass = $("#user_pass").val();
+        $.post("/user_j/regist", {
+            user_name: user_name,
+            user_email: user_email,
+            user_pass: user_pass
+        }, function (result) {
+        });
+        $("#user_regist").html("创建用户成功");
+    }
+
+    $().ready(function () {
+        $("#form_regist").validate(
+            {
+                rules: {
+                    user_name: {
+                        required: true,
+                        rangelength: [5, 16]
+                    },
+                    user_pass: {
+                        required: true,
+                        rangelength: [6, 20]
+                    },
+                    user_pass2: {
+                        required: true,
+                        equalTo: "#user_pass"
+                    },
+                    user_email: {
+                        required: true,
+                        email: true
+                    }
+                },
+                messages: {
+                    user_name: {
+                        required: "<span class='red'>请输入用户名</span>",
+                        rangelength: "<span class='red'>用户名至少3位，最多19位</span>"
+                    },
+
+                    user_pass: {
+                        required: "<span class='red'>请输入密码</span>",
+                        rangelength: "<span class='red'>密码至少6位，最多20位 </span>"
+                    },
+                    user_pass2: {
+                        required: "<span class='red'>请输入确认密码</span>",
+                        equalTo: "<span class='red'>请再次确认密码</span>"
+                    },
+                    user_email: {
+                        required: "<span class='red'>请输入邮箱</span>",
+                        email: "<span class='red'>请输入正确的邮箱地址</span>"
+                    }
+                }
+            }
+        );
+    });
+
+</script>
+<div class="row"  >
+    <div class="col-md-10">
+        <div class="panel panel-default">
+            <div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span> 创建用户</div>
+            <div class="panel-body" id="user_regist">
+                <form id="form_regist" action="/user_j/j_regist" method="post" class="form-horizontal" role="form">
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="user_name">用户名： </label>
+
+                            <div class="col-sm-10">
+                                <input class="form-control" id='user_name' type="text" name="user_name"
+                                       placeholder="用户名必须是字母或字母数字组合（字母）">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="user_pass">密码：</label>
+
+                            <div class="col-sm-10">
+                                <input class="form-control" id="user_pass" type="password" name="user_pass"
+                                       placeholder="密码至少6位，最多20位" onchange="check_strength()">
+                                <div class="progress" id="progress" style="display: none">
+                                    <div class="progress-bar progress-bar-danger" role="progressbar" id="progress25"
+                                         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                                         style="width: 25%; display: none">
+                                        <span class="sr-only">25%</span>
+                                    </div>
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" id="progress50"
+                                         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                                         style="width: 25%;  display: none">
+                                        <span class="sr-only">50%</span>
+                                    </div>
+
+                                    <div class="progress-bar progress-bar-info" role="progressbar" id="progress75"
+                                         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                                         style="width: 25%;  display: none">
+                                        <span class="sr-only">75%</span>
+                                    </div>
+
+                                    <div class="progress-bar progress-bar-success" role="progressbar" id="progress100"
+                                         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                                         style="width: 25%;  display: none">
+                                        <span class="sr-only">100%</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="user_pass2">确认密码：</label>
+
+                            <div class="col-sm-10">
+                                <input class="form-control" id="user_pass2" type="password" name="user_pass2"
+                                       placeholder="请再次输入密码">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="user_email">邮箱：</label>
+
+                            <div class="col-sm-10">
+                                <input class="form-control" id="user_email" type="email" name="user_email"
+                                       placeholder="请输入正确的邮箱地址">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="user_email">帐号类型：</label>
+
+                            <div class="col-sm-10">
+                                <select class="form-control" name="ext_type" id="ext_type">
+                                    <option value="1">规模经营主体</option>
+                                    <option value="2">政府</option>
+                                    <option value="3">专家</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="sub1"></label>
+
+                            <div class="col-sm-10">
+                                <button id="sub1" type="submit" class="btn btn-primary">{{ _('Submit') }}</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

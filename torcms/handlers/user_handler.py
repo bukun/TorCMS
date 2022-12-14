@@ -132,6 +132,8 @@ class UserHandler(BaseHandler):
         dict_get = {
             'regist': (lambda: self.redirect('/user/info'))
             if self.get_current_user() else self.__to_register__,
+            'j_regist':
+                self.j_register,
             'login':
                 self.__to_login__,
             'info':
@@ -245,12 +247,30 @@ class UserHandler(BaseHandler):
         post_data = {}
         ext_dic = {}
         for key in self.request.arguments:
-            if key.startswith('def_'):
+            if key.startswith('def_') or key.startswith('ext_'):
                 ext_dic[key] = self.get_argument(key, default='')
+
             else:
                 post_data[key] = self.get_arguments(key)[0]
 
         post_data['user_name'] = self.userinfo.user_name
+
+        ext_dic = dict(ext_dic, **self.ext_post_data(postdata=post_data))
+
+        return (post_data, ext_dic)
+
+    def fetch_user_data(self):
+        '''
+        fetch post accessed data. post_data, and ext_dic.
+        '''
+        post_data = {}
+        ext_dic = {}
+        for key in self.request.arguments:
+            if key.startswith('ext_'):
+                ext_dic[key] = self.get_argument(key, default='')
+
+            else:
+                post_data[key] = self.get_arguments(key)[0]
 
         ext_dic = dict(ext_dic, **self.ext_post_data(postdata=post_data))
 
@@ -549,7 +569,7 @@ class UserHandler(BaseHandler):
         user regist.
         '''
 
-        post_data = self.get_request_arguments()
+        post_data, extinfo = self.fetch_user_data()
 
         user_create_status = check_regist_info(post_data)
         if not user_create_status['success']:
@@ -558,7 +578,7 @@ class UserHandler(BaseHandler):
         form = SumForm(self.request.arguments)
 
         if form.validate():
-            user_create_status = MUser.create_user(post_data)
+            user_create_status = MUser.create_user(post_data, extinfo=extinfo)
             logger.info('user_register_status: {0}'.format(user_create_status))
             return json.dump(user_create_status, self)
         return json.dump(user_create_status, self)
@@ -624,6 +644,18 @@ class UserHandler(BaseHandler):
             'pager': '',
         }
         self.render('user/user_regist.html',
+                    cfg=config.CMS_CFG,
+                    userinfo=None,
+                    kwd=kwd)
+
+    def j_register(self):
+        '''
+        to register.
+        '''
+        kwd = {
+            'pager': '',
+        }
+        self.render('admin/user/puser_regist.html',
                     cfg=config.CMS_CFG,
                     userinfo=None,
                     kwd=kwd)

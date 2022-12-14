@@ -30,6 +30,7 @@
                         <th>用户名</th>
                         <th>当前权限</th>
                         <th>操作</th>
+                        <th>帐号类型</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -43,6 +44,19 @@
                                 class="glyphicon glyphicon-pencil"></span> 修改</a>&nbsp;&nbsp;&nbsp;&nbsp;
                             <a class="trash" onclick="category_del('{{ x.uid }}', {{ ii }} );"><span
                                     class="glyphicon glyphicon-trash"></span> 删除</a></td>
+                        <td>
+
+                            {% if x.extinfo.get('ext_type') == '1' %}
+                            规模经营主体
+                            {% elif  x.extinfo.get('ext_type') == '2' %}
+                            政府
+                            {% elif x.extinfo.get('ext_type') == '3' %}
+                            专家
+                            {% else %}
+                            农户
+                            {% end %}
+                        </td>
+
                     </tr>
                     {% set ii = ii + 1 %}
                     {% end %}
