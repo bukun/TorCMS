@@ -14,7 +14,7 @@
 <script>
 
     jQuery(document).ready(function () {
-        $(".rating-kv").rating();
+        $(".rating").rating();
         $('#input-rating-infor').on('rating.change', function (event, value, caption) {
             $.ajax({
                 url: '/_rating/_update/{{postinfo.uid}}',
