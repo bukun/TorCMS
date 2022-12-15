@@ -39,6 +39,39 @@ class MCategory():
 
         return None
 
+    @staticmethod
+    def get_by_name(name, kind):
+        '''
+        根据Name得到类别实例
+        '''
+        if name:
+            rec = TabTag.select().where((TabTag.kind == kind) & (TabTag.name == name))
+            return rec.get()
+        return False
+
+    @staticmethod
+    def get_by_info(post_id, catalog_id):
+        '''
+        Geo the record by post and catalog.
+        '''
+        recs = TabPost2Tag.select().where((TabPost2Tag.post_id == post_id)
+                                          & (TabPost2Tag.tag_id == catalog_id))
+
+        if recs.count() == 1:
+            return recs.get()
+        elif recs.count() > 1:
+            # return the first one, and delete others.
+            out_rec = None
+            for rec in recs:
+                if out_rec:
+                    entry = TabPost2Tag.delete().where(
+                        TabPost2Tag.uid == rec.uid)
+                    entry.execute()
+                else:
+                    out_rec = rec
+            return out_rec
+        return None
+
     # Deprived
     @staticmethod
     def get_qian2(qian2):

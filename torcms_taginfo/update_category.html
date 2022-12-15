@@ -1,0 +1,50 @@
+{% extends "../theme/bage.html" %}
+{% block head %}
+
+<title>更新数据分类 - 地球大数据分类与标签演示</title>
+<meta name="keywords" content="更新数据分类,地球大数据分类与标签演示">
+<meta name="description" content="更新数据分类,地球大数据分类与标签演示">
+{% end %}
+ {% block zhuti %}
+<header class="jumbotron subhead" id="overview">
+    <div class="container">
+        <h3 class="lead">更新数据分类</h3>
+    </div>
+</header>
+<div class="container">
+    <div class="col-sm-9">
+        <div class="row">
+              <form method="post" class="form-horizontal" role="form">
+
+                <fieldset>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="old_catid">原分类ID  </label>
+                       <div class="col-sm-10">
+                            <input class="form-control" type="text" id="old_catid" name="old_catid" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="new_catid">新分类ID</label>
+                        <div class="col-sm-10">
+                            <input id="new_catid" name="new_catid" class="form-control">
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="sub1"></label>
+                        <div class="col-sm-10">
+                            <input id="sub1" type="submit" class="btn btn-primary" value="提交"/>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+<br>
+{% end %}
+
