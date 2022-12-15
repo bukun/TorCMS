@@ -66,12 +66,13 @@ kind_arr = ['1', '3', 'm', 's']
 
 for wdir in Path('.').iterdir():
     if wdir.is_dir() and wdir.name.startswith('torcms_'):
-        the_file = f'{wdir.name}.config'
+        the_file = f'{wdir.name}._config'
+        print(the_file)
         _mod = __import__(the_file)
-        router_post = dict(router_post, **_mod.config._router_post)
-        post_type = dict(post_type, **_mod.config._post_type)
-        check_type = dict(check_type, **_mod.config._check_type)
-        post_cfg = dict(post_cfg, **_mod.config._post_cfg)
+        router_post = dict(router_post, **_mod._config._router_post)
+        post_type = dict(post_type, **_mod._config._post_type)
+        check_type = dict(check_type, **_mod._config._check_type)
+        post_cfg = dict(post_cfg, **_mod._config._post_cfg)
         # kind_arr = kind_arr + _mod.config._kind_arr
 
 
