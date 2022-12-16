@@ -6,6 +6,7 @@
 
 import os
 import sys
+
 sys.path.append('..')
 from pathlib import Path
 from torcms.model.category_model import MCategory
@@ -29,6 +30,7 @@ def get_docker_name(the_str):
 
     print(tt)
     return the_str[tt[0]: tt[1]][4: -1]
+
 
 def split_text(inws, in_text):
     '''
@@ -134,6 +136,7 @@ def do_for_chapter(cat_id, ch_path):
         update_category(pp_data['uid'], pp_data)
         idx = idx + 1
 
+
 def get_appfile(uid):
     ws_raw = Path('./static/judocs')
     ws_aim = Path('./static/xnb')
@@ -142,7 +145,6 @@ def get_appfile(uid):
         pass
     else:
         ws_aim.mkdir()
-
 
     wfiles = ws_raw.rglob(f'*{uid}.ipynb')
 
@@ -173,6 +175,7 @@ def get_appfile(uid):
         print(uid)
     return ''
 
+
 def get_meta(catid, idx, uid, docker_name):
     '''
     Get metadata of dataset via ID.
@@ -201,7 +204,7 @@ def get_meta(catid, idx, uid, docker_name):
     pp_data = {}
     pp_data['uid'] = uid
     pp_data['title'] = str(title)[:-1]
-    pp_data['cnt_md'] = str(content).replace('class="container"','')
+    pp_data['cnt_md'] = str(content).replace('class="container"', '')
     pp_data['user_name'] = 'admin'
     pp_data['def_cat_uid'] = catid
     pp_data['gcat0'] = catid
@@ -269,7 +272,6 @@ def bainli(inws):
 
             # 过滤 doctrees/ 目录, 获取html目录中的内容
 
-
             # 根据内容中的H1获取分类名称
             get_cat_name = get_catname(cat_path, 'chapter')
 
@@ -294,11 +296,9 @@ def bainli(inws):
                 Path(os.path.join(wroot, wdir))
             )
 
-
             idx = idx + 1
 
 
 if __name__ == '__main__':
-
     inws = 'torcms_jubook/judocs'
     bainli(inws)
