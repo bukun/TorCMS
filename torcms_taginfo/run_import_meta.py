@@ -4,7 +4,7 @@
 导入数据集的信息
 '''
 import sys
-
+sys.path.append("..")
 from openpyxl import load_workbook
 
 from torcms.model.category_model import MCategory
@@ -21,21 +21,21 @@ import random
 import jieba.analyse
 
 
-from taglib.taginfo import get_tag_by_title
+from torcms_taginfo.taglib.taginfo import get_tag_by_title
 
 logo_cache_dir = './static/cache'
 
-file_userdict = './code_wangjy/def_userdict.txt'
+file_userdict = './torcms_taginfo/code_wangjy/def_userdict.txt'
 jieba.load_userdict(file_userdict)
 
 mask_arr = []
-with open('./doc/mask.txt') as fi:
+with open('./torcms_taginfo/doc/mask.txt') as fi:
     for cnt in fi.readlines():
         cnt = cnt.strip()
         if cnt:
             mask_arr.append(cnt)
 
-the_inws = Path('./code_wangjy')
+the_inws = Path('./torcms_taginfo/code_wangjy')
 for wfile in the_inws.rglob('def_mask*.txt'):
     print(wfile.resolve())
     with open(wfile) as fi:
@@ -268,7 +268,7 @@ def import_meta(kind):
     '''
     导入元数据文件夹，读取元数据。
     '''
-    inw = './code_wangjy/xx_out.xlsx'
+    inw = './torcms_taginfo/code_wangjy/xx_out.xlsx'
 
     wb = load_workbook(inw)
     ws = wb['数据集']
