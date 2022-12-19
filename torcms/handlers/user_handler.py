@@ -187,6 +187,9 @@ class UserHandler(BaseHandler):
             self.json_changeinfo()
         elif url_str == 'j_changepass':
             self.json_changepass()
+        elif url_str == 'batchchangerole':
+            self.json_batchchangerole()
+
         elif url_str == 'login':
             self.login()
         elif url_str == 'changepass':
@@ -454,11 +457,14 @@ class UserHandler(BaseHandler):
                     userinfo=self.userinfo)
 
     @tornado.web.authenticated
-    def __to_show_info__(self):
+    def __to_show_info__(self, userid=''):
         '''
         show the user info
         '''
-        rec = MUser.get_by_uid(self.userinfo.uid)
+        if userid:
+            rec = MUser.get_by_uid(userid)
+        else:
+            rec = MUser.get_by_uid(self.userinfo.uid)
         kwd = {}
 
         if self.is_p:
@@ -467,7 +473,7 @@ class UserHandler(BaseHandler):
             tmpl = 'user/user_info.html'
 
         self.render(tmpl,
-                    userinfo=self.userinfo,
+                    userinfo=rec,
                     extinfo=rec.extinfo,
                     kwd=kwd)
 
@@ -545,7 +551,7 @@ class UserHandler(BaseHandler):
                         kwd=kwd,
                         userinfo=None)
         if form.validate():
-            res_dic = MUser.create_user(post_data,extinfo=extinfo)
+            res_dic = MUser.create_user(post_data, extinfo=extinfo)
             if res_dic['success']:
                 self.redirect('/user/login')
             else:
@@ -641,6 +647,32 @@ class UserHandler(BaseHandler):
             return json.dump(user_create_status, self)
 
         return False
+
+    def json_batchchangerole(self):
+        '''
+        Batch Modify Permission
+        '''
+
+        post_data = self.get_request_arguments()
+
+        name_list = post_data.get("check_value", '')
+
+        username_list = json.loads(name_list)
+        if username_list == []:
+            output = {'changerole': '2','err_info':'Please select a user.'}
+            return json.dump(output, self)
+        # 审核权限
+        authority = '0'
+        for i in self.get_arguments('authority'):
+            authority = bin(int(authority, 2) + int(i, 2))[2:]
+        post_data['authority'] = authority
+        for xg_username in username_list:
+            MUser.update_role(xg_username, post_data)
+        if self.is_p:
+            output = {'changerole': '1'}
+            return json.dump(output, self)
+        else:
+            self.redirect('/user/info')
 
     def __to_register__(self):
         '''
