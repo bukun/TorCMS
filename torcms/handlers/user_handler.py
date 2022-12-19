@@ -417,6 +417,8 @@ class UserHandler(BaseHandler):
         '''
         to find the user
         '''
+        post_data = self.get_request_arguments()
+        type = post_data.get('type', '')
         current_page_number = 1
         if cur_p == '':
             current_page_number = 1
@@ -434,7 +436,10 @@ class UserHandler(BaseHandler):
 
         pager_num = int(MUser.total_number() / CMS_CFG['list_num'])
 
-        kwd = {'pager': '', 'current_page': current_page_number}
+        kwd = {'pager': '',
+               'current_page': current_page_number,
+               'type': type
+               }
 
         if self.is_p:
             tmpl = 'admin/user/puser_find_list.html'
@@ -443,7 +448,7 @@ class UserHandler(BaseHandler):
         self.render(tmpl,
                     cfg=config.CMS_CFG,
                     infos=MUser.query_pager_by_slug(
-                        current_page_num=current_page_number),
+                        current_page_num=current_page_number, type=type),
                     kwd=kwd,
                     view=MUser.get_by_keyword(""),
                     userinfo=self.userinfo)
@@ -495,7 +500,8 @@ class UserHandler(BaseHandler):
         '''
         regist the user.
         '''
-        post_data = self.get_request_arguments()
+
+        post_data, extinfo = self.fetch_user_data()
 
         form = SumForm(self.request.arguments)
         ckname = MUser.get_by_name(post_data['user_name'])
@@ -539,7 +545,7 @@ class UserHandler(BaseHandler):
                         kwd=kwd,
                         userinfo=None)
         if form.validate():
-            res_dic = MUser.create_user(post_data)
+            res_dic = MUser.create_user(post_data,extinfo=extinfo)
             if res_dic['success']:
                 self.redirect('/user/login')
             else:

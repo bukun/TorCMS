@@ -5,32 +5,32 @@
     }
     jQuery().ready(function () {
         $("#user_navigation").accordion();
-        js_show_page('/user_j/info');
+        js_show_page('/user_j/find/');
     });
 </script>
 <ul class="pagination">
     {% if kwd['page_home'] %}
     <li>
-        <a class="{0}" onclick="js_show_page('/user_j/find/list/1')">{{ _('Home') }} </a>
+        <a class="{0}" onclick="js_show_page('/user_j/find/list/1?type={{ kwd['type'] }}')">{{ _('Home') }} </a>
     </li>
     {% end %}
     {% if kwd['page_pre'] %}
     <li>
-        <a class="{0}" onclick="js_show_page('/user_j/find/list/{{ page_current - 1 }}')">{{ _('Previous page') }}</a>
+        <a class="{0}" onclick="js_show_page('/user_j/find/list/{{ page_current - 1 }}?type={{ kwd['type'] }}')">{{ _('Previous page') }}</a>
     </li>
     {% end %}
     {% for page_index in range(0, pager_num ) %}
     <li class="{% if page_current == page_index + 1 %}active{% end %}">
-        <a onclick="js_show_page('/user_j/find/list/{{ page_index + 1 }}')">{{ page_index + 1}}</a></li>
+        <a onclick="js_show_page('/user_j/find/list/{{ page_index + 1 }}?type={{ kwd['type'] }}')">{{ page_index + 1}}</a></li>
     {% end %}
     {% if kwd['page_next'] %}
     <li>
-        <a class="{0}" onclick="js_show_page('/user_j/find/list/{{ page_current +1 }}')">{{ _('Next page') }}</a>
+        <a class="{0}" onclick="js_show_page('/user_j/find/list/{{ page_current + 1 }}?type={{ kwd['type'] }}')">{{ _('Next page') }}</a>
     </li>
     {% end %}
     {% if kwd['page_end'] %}
     <li>
-        <a class="{0}" onclick="js_show_page('/user_j/find/list/{{ pager_num }}')">{{ _('End') }}</a>
+        <a class="{0}" onclick="js_show_page('/user_j/find/list/{{ pager_num }}'?type={{ kwd['type'] }})">{{ _('End') }}</a>
     </li>
     {% end %}
 </ul>

@@ -267,7 +267,7 @@ class MUser():
         Update the role of the usr.
         '''
         role = postdata['role']
-        authority = postdata.get('authority','0')
+        authority = postdata.get('authority', '0')
         entry = TabMember.update(role=role, authority=authority).where(
             TabMember.user_name == u_name)
         try:
@@ -319,7 +319,6 @@ class MUser():
             out_dic['code'] = '11'
             return out_dic
 
-
         if not tools.check_email_valid(post_data['user_email']):
             out_dic['code'] = '21'
             return out_dic
@@ -327,7 +326,6 @@ class MUser():
         if not tools.check_pass_valid(post_data['user_pass']):
             out_dic['code'] = '41'
             return out_dic
-
 
         if MUser.get_by_email(post_data['user_email']):
             out_dic['code'] = '31'
@@ -342,7 +340,7 @@ class MUser():
                 user_name=post_data['user_name'],
                 user_pass=tools.md5(post_data['user_pass']),
                 user_email=post_data['user_email'],
-                role=post_data.get('role','1000'),  # ‘1000' as default role.
+                role=post_data.get('role', '1000'),  # ‘1000' as default role.
                 time_create=tools.timestamp(),
                 time_update=tools.timestamp(),
                 time_reset_passwd=tools.timestamp(),
@@ -362,6 +360,7 @@ class MUser():
         '''
         Get Member by keyword
         '''
+
         return TabMember.select().where(TabMember.user_name.contains(par2))
 
     @staticmethod
@@ -407,12 +406,17 @@ class MUser():
         return TabMember.select().count(None)
 
     @staticmethod
-    def query_pager_by_slug(current_page_num=1):
+    def query_pager_by_slug(current_page_num=1, type=''):
         '''
         Query pager
         '''
-        return TabMember.select().paginate(current_page_num,
-                                           CMS_CFG['list_num'])
+        if type:
+
+            return TabMember.select().where(TabMember.extinfo['ext_type'] == type).paginate(
+                current_page_num, CMS_CFG['list_num'])
+        else:
+            return TabMember.select().paginate(
+                current_page_num, CMS_CFG['list_num'])
 
     @staticmethod
     def query_by_time(recent=90):
@@ -434,8 +438,11 @@ class MUser():
             current_page_num, CMS_CFG['list_num'])
 
     @staticmethod
-    def count_of_certain():
+    def count_of_certain(type=''):
         '''
         '''
         # adding ``None`` to hide ``No value for argument 'database' in method call``
-        return TabMember.select().count(None)
+        if type:
+            return TabMember.select().where(TabMember.extinfo['ext_type'] == type).count(None)
+        else:
+            return TabMember.select().count(None)

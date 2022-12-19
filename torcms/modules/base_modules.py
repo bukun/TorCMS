@@ -906,10 +906,11 @@ class Admin_user_pager(tornado.web.UIModule):
 
     def render(self, *args, **kwargs):
         current = int(args[0])
+        type = kwargs.get('type','')
         # kind
         # current 当前页面
 
-        num_of_cat = MUser.count_of_certain()
+        num_of_cat = MUser.count_of_certain(type=type)
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
@@ -918,6 +919,7 @@ class Admin_user_pager(tornado.web.UIModule):
                     else tmp_page_num + 1)
 
         kwd = get_page_position(current, page_num)
+        kwd['type'] =type
 
         return self.render_string('modules/admin/user_pager.html',
                                   kwd=kwd,

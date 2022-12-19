@@ -24,6 +24,13 @@
         <div class="panel panel-default">
             <div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span> 用户列表</div>
             <div class="panel-body">
+                <p>
+                <a onclick="js_show_page('/user_j/find/')" class="btn btn-default">所有用户<a>
+                <a onclick="js_show_page('/user_j/find/?type=1')" class="btn btn-default">规模经营主体</a>
+                <a onclick="js_show_page('/user_j/find/?type=2')" class="btn btn-default">政府</a>
+                <a onclick="js_show_page('/user_j/find/?type=3')" class="btn btn-default">专家</a>
+                <a onclick="js_show_page('/user_j/find/?type=0')"  class="btn btn-default">农户</a>
+                </p>
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -31,6 +38,7 @@
                         <th>当前权限</th>
                         <th>操作</th>
                         <th>帐号类型</th>
+                        <th>注册时间</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -56,6 +64,8 @@
                             农户
                             {% end %}
                         </td>
+                        <td>{{ datetime.datetime.fromtimestamp(x.time_create).strftime('%Y-%m-%d %H:%M:%S')}}</td>
+
 
                     </tr>
                     {% set ii = ii + 1 %}
@@ -64,7 +74,7 @@
                 </table>
             </div>
         </div>
-        {% module admin_user_pager(kwd['current_page']) %}
+        {% module admin_user_pager(kwd['current_page'],type=kwd['type']) %}
     </div>
 </div>
 
