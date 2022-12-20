@@ -27,7 +27,7 @@ class MReply():
         entry.execute()
 
     @staticmethod
-    def create_reply(post_data):
+    def create_reply(post_data, extinfo=None):
         '''
         Create the reply.
         '''
@@ -42,7 +42,8 @@ class MReply():
             date=datetime.datetime.now(),
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_reply']),
             cnt_html=tools.markdown2html(post_data['cnt_reply']),
-            vote=0)
+            vote=0,
+            extinfo=extinfo)
         return uid
 
     @staticmethod
@@ -52,7 +53,7 @@ class MReply():
         '''
         return TabReply.select().where((TabReply.post_id == postid)
                                        & (TabReply.category != '1')).order_by(
-                                           TabReply.timestamp.desc())
+            TabReply.timestamp.desc())
 
     @staticmethod
     def get_by_zan(reply_id):

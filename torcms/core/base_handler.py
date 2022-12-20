@@ -50,6 +50,32 @@ class BaseHandler(tornado.web.RequestHandler):
             para_dict[key] = self.get_arguments(key)[0]
         return para_dict
 
+    def fetch_post_data(self):
+        '''
+        fetch post accessed data. post_data, and ext_dic.
+        '''
+        post_data = {}
+        ext_dic = {}
+        for key in self.request.arguments:
+            if key.startswith('def_') or key.startswith('ext_'):
+                ext_dic[key] = self.get_argument(key, default='')
+
+            else:
+                post_data[key] = self.get_arguments(key)[0]
+
+        post_data['user_name'] = self.userinfo.user_name
+
+        ext_dic = dict(ext_dic, **self.ext_post_data(postdata=post_data))
+
+        return (post_data, ext_dic)
+
+    def ext_post_data(self, **kwargs):
+        '''
+        The additional information.  for add(), or update().
+        '''
+        _ = kwargs
+        return {}
+
     # pylint: disable=R0201
     def parse_url(self, url_str):
         '''

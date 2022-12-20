@@ -106,6 +106,8 @@
                         <th>当前权限</th>
                         <th>操作</th>
                         <th>帐号类型</th>
+                        <th>手机号码</th>
+                        <th>状态</th>
                         <th>注册时间</th>
                     </tr>
                     </thead>
@@ -133,6 +135,14 @@
                             农户
                             {% end %}
                         </td>
+                        <td>{{ x.extinfo.get('ext_mobile')}}</td>
+                        <td>
+                            {% if x.extinfo.get('ext_status') == '1' %}
+                            开
+                            {% else %}
+                            关
+                            {% end %}
+                        </td>
                         <td>{{ datetime.datetime.fromtimestamp(x.time_create).strftime('%Y-%m-%d %H:%M:%S')}}</td>
 
 
@@ -141,7 +151,9 @@
                     {% end %}
                     </tbody>
                 </table>
-                <div class="col-sm-12" id="batchrole" ><label class="col-sm-1 control-label">批量权限:</label><div class="col-sm-10"> <input class="form-control" id="role" name="role"> </div></div>
+                <div class="col-sm-12" id="batchrole" ><label class="col-sm-1 control-label">批量权限:</label><div class="col-sm-10">
+                    <input class="form-control" id="role" name="role" value="1000">
+                </div></div>
                 <div class="col-sm-12">
                     <Br>
                 <a onclick="allselect()" id="allselect" class="btn btn-primary"  style="display: inline">全选</a>

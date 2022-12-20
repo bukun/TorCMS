@@ -26,7 +26,7 @@ from torcms.handlers.post_list_handler import PostListHandler
 from torcms.handlers.publish_handler import PublishHandler
 from torcms.handlers.rating_handler import RatingHandler
 from torcms.handlers.relation_handler import RelHandler
-from torcms.handlers.reply_handler import ReplyHandler
+from torcms.handlers.reply_handler import ReplyHandler,ReplyAjaxHandler
 from torcms.handlers.search_handler import SearchHandler
 from torcms.handlers.sys_handler import SysHandler
 from torcms.handlers.user_handler import UserHandler, UserPartialHandler
@@ -73,6 +73,7 @@ urls = [
     ("/wiki/(.*)", WikiHandler, {}),
     ("/search/(.*)", SearchHandler, {}),
     ("/reply/(.*)", ReplyHandler, {}),
+    ("/reply_j/(.*)", ReplyAjaxHandler, {}),
     ("/publish/(.*)", PublishHandler, {}),
     ("/collect/(.*)", CollectHandler, {}),
     ('/rel/(.*)', RelHandler, {}),

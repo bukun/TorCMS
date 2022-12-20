@@ -23,11 +23,28 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-sm-3 control-label" for="def_mobile">手机号码</label>
+
+                            <div class="col-sm-9">
+                                <input type="text" name="def_mobile" id="ext_mobile" class="form-control"
+                                       value="{{ userinfo.extinfo.get('ext_mobile','')}}"
+                                       placeholder="请输入手机号码"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-md-3 control-label" for="user_email">电子邮箱</label>
 
                             <div class="col-md-9">
                                 <input type="text" name="user_email" id="user_email" class="form-control"
                                        placeholder="请输入新的电子邮箱"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="user_email">状态：</label>
+
+                            <div class="col-sm-9">
+                                <input  id="ext_status" type="radio" name="ext_status" value="1" {% if userinfo.extinfo.get('ext_status') == '1' %} checked {% end %}> 开
+                                <input  id="ext_status" type="radio" name="ext_status" value="2" {% if userinfo.extinfo.get('ext_status') == '2' %} checked {% end %}> 关
                             </div>
                         </div>
                         <div class="form-group">

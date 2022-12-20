@@ -8,8 +8,9 @@
             user_email: user_email,
             user_pass: user_pass
         }, function (result) {
+            js_show_page('/user_j/find/')
         });
-        $("#user_regist").html("创建用户成功");
+
     }
 
     $().ready(function () {
@@ -121,6 +122,15 @@
                             <div class="col-sm-10">
                                 <input class="form-control" id="user_email" type="email" name="user_email"
                                        placeholder="请输入正确的邮箱地址">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="user_email">状态：</label>
+
+                            <div class="col-sm-10">
+                                <input  id="ext_status" type="radio" name="ext_status" value="1"> 开
+                                <input  id="ext_status" type="radio" name="ext_status" value="2" checked> 关
                             </div>
                         </div>
                         <div class="form-group">

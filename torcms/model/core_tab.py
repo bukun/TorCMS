@@ -369,7 +369,9 @@ class TabReply(BaseModel):
         default='0',
         help_text='0为评论，1为回复',
     )
-
+    extinfo = BinaryJSONField(null=False,
+                              default={},
+                              help_text='Extra data in JSON.')
 
 class TabUser2Reply(BaseModel):
     '''

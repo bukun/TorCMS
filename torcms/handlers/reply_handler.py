@@ -36,17 +36,35 @@ class ReplyHandler(BaseHandler):
             self.delete_com(url_arr[1])
         elif url_arr[0] == 'zan':
             self.zan(url_arr[1])
+        elif url_arr[0] == '_add':
+            self._add()
 
     def post(self, *args, **kwargs):
         url_str = args[0]
         url_arr = self.parse_url(url_str)
 
         if url_arr[0] == 'add':
+            # post reply
             self.add(url_arr[1])
+        elif url_arr[0] == '_add':
+            # question
+            self.json_add()
         elif url_arr[0] == 'add_reply':
             self.add_reply(url_arr[1], url_arr[2])
         elif url_arr[0] == 'modify':
             self.modify(url_arr[1], url_arr[2])
+
+    def _add(self):
+        '''
+        提问
+        '''
+
+        kwd = {
+
+        }
+        self.render('admin/reply_ajax/reply_add.html',
+                    kwd=kwd,
+                    userinfo=self.userinfo)
 
     def list(self, cur_p=''):
         '''
@@ -88,15 +106,24 @@ class ReplyHandler(BaseHandler):
         '''
         reply = MReply.get_by_uid(reply_id)
         logger.info('get_reply: {0}'.format(reply_id))
-
-        self.render('misc/reply/show_reply.html',
-                    reply=reply,
-                    username=reply.user_name,
-                    date=reply.date,
-                    vote=reply.vote,
-                    uid=reply.uid,
-                    userinfo=self.userinfo,
-                    kwd={})
+        if self.is_p:
+            self.render('admin/reply_ajax/show_reply.html',
+                        reply=reply,
+                        username=reply.user_name,
+                        date=reply.date,
+                        vote=reply.vote,
+                        uid=reply.uid,
+                        userinfo=self.userinfo,
+                        kwd={})
+        else:
+            self.render('misc/reply/show_reply.html',
+                        reply=reply,
+                        username=reply.user_name,
+                        date=reply.date,
+                        vote=reply.vote,
+                        uid=reply.uid,
+                        userinfo=self.userinfo,
+                        kwd={})
 
     def get_by_id_comment(self, reply_id):
         '''
@@ -130,7 +157,32 @@ class ReplyHandler(BaseHandler):
             logger.info('add reply result dic: {0}'.format(out_dic))
             return json.dump(out_dic, self)
 
-    # @tornado.web.authenticated
+    def json_add(self):
+        '''
+        Adding reply to a post.
+        '''
+        post_data, ext_data = self.fetch_post_data()
+
+        post_data['user_name'] = self.userinfo.user_name
+        post_data['user_id'] = self.userinfo.uid
+        post_data['post_id'] = '00000'
+        post_data['category'] = '0'
+        replyid = MReply.create_reply(post_data, extinfo=ext_data)
+        if replyid:
+            out_dic = {
+                'uid': replyid,
+                'pinglun': post_data['cnt_reply'],
+                'user_name': post_data['user_name'],
+                'reply_type': post_data['category'],
+                'field': ext_data.get('ext_field'),
+                'thumbnail': ext_data.get('ext_logo'),
+                'video': ext_data.get('ext_file')
+            }
+            logger.info('add reply result dic: {0}'.format(out_dic))
+            return json.dump(out_dic, self)
+
+            # @tornado.web.authenticated
+
     def zan(self, id_reply):
         '''
         先在外部表中更新，然后更新内部表字段的值。
@@ -204,3 +256,13 @@ class ReplyHandler(BaseHandler):
             out_dic = {'pinglun': post_data['cnt_reply'], 'uid': reply}
             logger.info('Modify reply result dic: {0}'.format(out_dic))
             return json.dump(out_dic, self)
+
+
+class ReplyAjaxHandler(ReplyHandler):
+    '''
+    Partially render for user handler.
+    '''
+
+    def initialize(self, **kwargs):
+        super().initialize()
+        self.is_p = True

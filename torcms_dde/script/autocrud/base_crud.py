@@ -5,7 +5,7 @@ Basic configuration for CRUD.
 
 import os
 from pathlib import Path
-from torcms_dde.config import xlsx_src
+from torcms_dde._config import xlsx_src
 
 CRUD_PATH = os.path.abspath('./templates/autogen')
 

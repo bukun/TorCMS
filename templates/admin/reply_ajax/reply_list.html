@@ -1,9 +1,8 @@
-
 <script>
-     function rel_del(reply_id, id_num) {
+    function rel_del(reply_id, id_num) {
 
         id_num = id_num.toString();
-        var AjaxUrl = "/reply/delete/" + reply_id;
+        var AjaxUrl = "/reply_j/delete/" + reply_id;
         $.getJSON(AjaxUrl, function (Json) {
             $("#del_info_" + id_num).html('');
         });
@@ -13,15 +12,20 @@
 <div class="row">
     <div class="col-md-10">
         <div class="panel panel-default">
-            <div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span> 评论列表 (<span style="color: #f00;"> {{infos.count()}} </span>)</div>
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-envelope"></span> 评论列表 (<span
+                    style="color: #f00;"> {{ infos.count() }} </span>)
+                <a onclick="js_show_page('/reply_j/_add')" class="btn btn-default">提问</a>
+            </div>
             <div class="panel-body">
                 <table class="table">
                     <thead>
                     <tr>
 
-                        <th>文章标题</th>
-                        <th>评论内容</th>
-                        <th>时间</th>
+                        <th>问题描述</th>
+                        <th>近期回答</th>
+                        <th>所属领域</th>
+                        <th>提问时间</th>
                         <th>操作</th>
 
                     </tr>
@@ -33,28 +37,38 @@
                     {% for x in infos %}
 
                     <tr id="del_info_{{ ii }}">
-                        <td style="width: 35%">
-                            <a href="/post/{{ x.post_id }}" target="_blank">
-                                {% module reply_post_by_id(x.post_id,x.uid) %}
-                            </a>
-                        </td>
+
                         <td style="width: 35%">
                         <textarea class="form-control">
-                            {{x.cnt_md}}
+                            {{ x.cnt_md }}
                         </textarea>
 
                         </td>
+                        <td style="width: 35%">
 
-                        <td>
-                            <em class="date">{{ str(x.date)[:-15]}}</em>
+                            {{ x.cnt_md }}
+
+
                         </td>
                         <td>
-                            <a href="/post/{{ x.post_id }}" class="trash" target="_blank">
+                            {% if x.extinfo.get('ext_field') == '1' %}
+                            土肥
+                            {% elif x.extinfo.get('ext_field') == '2' %}
+                            植保
+                            {% else %}
+                            育种
+                            {% end %}
+                        </td>
+                        <td>
+                            {{ str(x.date)[:-7] }}
+                        </td>
+                        <td>
+                            <a onclick="js_show_page('/reply_j/get/{{ x.uid }}')" target="_blank">
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 查看
                             </a>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <a   onclick="rel_del('{{ x.uid }}', {{ ii }} );" class="trash" target="_blank">
+                            <a onclick="rel_del('{{ x.uid }}', {{ ii }} );" class="trash" target="_blank">
                                 <span class="glyphicon glyphicon-trash"></span>
                                 删除
                             </a>
@@ -69,7 +83,7 @@
             </div>
 
         </div>
-          {% module admin_reply_pager(kwd['current_page']) %}
+        {% module admin_reply_pager(kwd['current_page']) %}
     </div>
 
 

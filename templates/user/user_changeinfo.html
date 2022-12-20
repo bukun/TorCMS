@@ -26,164 +26,17 @@
                            value="{{userinfo.user_email}}"/>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="def_truename">{{ _('True Name') }}</label>
-
-                <div class="col-sm-10">
-                    <input type="text" name="def_truename" id="def_truename" class="form-control"
-                           value="{{ userinfo.extinfo['def_truename'] if 'def_truename' in userinfo.extinfo else ''}}"
-                           placeholder="Please enter a new True Name."/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="def_gender">{{ _('Gender') }}</label>
-
-                <div class="col-sm-10">
-                    <select id="def_gender" name="def_gender" class="form-control">
-                                <option value="Male"
-                                {% if 'def_gender'in userinfo.extinfo and userinfo.extinfo['def_gender'] == "Male"%} selected {% end %}
-                                >
-                                    {{ _('Male') }}
-                                </option>
-                                <option value="Female"
-                                {% if 'def_gender'in userinfo.extinfo and userinfo.extinfo['def_gender'] == "Female"%} selected {% end %}>
-                                    {{ _('Female') }}
-                                </option>
-                            </select>
-                </div>
-            </div>
 
             <div class="form-group">
-                <label class="col-sm-2 control-label" for="def_birthday">{{ _('Birthday') }}</label>
+                <label class="col-sm-2 control-label" for="ext_mobile">{{ _('Mobile') }}</label>
 
                 <div class="col-sm-10">
-                    <input type="date" name="def_birthday" id="def_birthday" class="form-control"
-                           value="{{ userinfo.extinfo['def_birthday'] if 'def_birthday' in userinfo.extinfo else ''}}"
-                           placeholder="Please enter a new Birthday."/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="def_mobile">{{ _('Mobile') }}</label>
-
-                <div class="col-sm-10">
-                    <input type="text" name="def_mobile" id="def_mobile" class="form-control"
-                           value="{{ userinfo.extinfo['def_mobile'] if 'def_mobile' in userinfo.extinfo else ''}}"
+                    <input type="text" name="ext_mobile" id="ext_mobile" class="form-control"
+                           value="{{ userinfo.extinfo['ext_mobile'] if 'ext_mobile' in userinfo.extinfo else ''}}"
                            placeholder="Please enter a new Mobile."/>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="def_location">{{ _('Location') }}</label>
 
-                <div class="col-sm-10">
-                    <input type="text" name="def_location" id="def_location" class="form-control"
-                           value="{{ userinfo.extinfo['def_location'] if 'def_location' in userinfo.extinfo else ''}}"
-                           placeholder="Please enter a new Location."/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="def_profile">{{ _('Profile') }}</label>
-
-                <div class="col-sm-10">
-                    <input type="text" name="def_profile" id="def_profile" class="form-control"
-                           value="{{ userinfo.extinfo['def_profile'] if 'def_profile' in userinfo.extinfo else ''}}"
-                           placeholder="Please enter a new Profile."/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="up"></label>
-
-                <div class="col-sm-10">
-                        <span id="up"><a href="/entity/_add" target="_blank" class="btn btn-primary btn-sm" role="button">
-                            {{ _('Upload profile photos') }}</a></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="def_postalcode">{{ _('Postalcode') }}</label>
-
-                <div class="col-sm-10">
-                    <input type="text" name="def_postalcode" id="def_postalcode" class="form-control"
-                           value="{{ userinfo.extinfo['def_postalcode'] if 'def_postalcode' in userinfo.extinfo else ''}}"
-                           placeholder="Please enter a new Postalcode."/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="def_certificatetype">{{ _('Certificatetype') }}</label>
-
-                <div class="col-sm-10">
-                    <input type="text" name="def_certificatetype" id="def_certificatetype" class="form-control"
-                           value="{{ userinfo.extinfo['def_certificatetype'] if 'def_certificatetype' in userinfo.extinfo else ''}}"
-                           placeholder="Please enter a new Certificatetype."/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="def_certificate">{{ _('Certificate Number') }}</label>
-
-                <div class="col-sm-10">
-                    <input type="text" name="def_certificate" id="def_certificate" class="form-control"
-                           value="{{ userinfo.extinfo['def_certificate'] if 'def_certificate' in userinfo.extinfo else ''}}"
-                           placeholder="Please enter a new Certificate Number."/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="def_company">{{ _('Company') }}</label>
-
-                <div class="col-sm-10">
-                    <input type="text" name="def_company" id="def_company" class="form-control"
-                           value="{{ userinfo.extinfo['def_company'] if 'def_company' in userinfo.extinfo else ''}}"
-                           placeholder="Please enter a new Company."/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="def_interest">{{ _('Interest') }}</label>
-
-                <div class="col-sm-10">
-                    <input type="text" name="def_interest" id="def_interest" class="form-control"
-                           value="{{ userinfo.extinfo['def_interest'] if 'def_interest' in userinfo.extinfo else ''}}"
-                           placeholder="Please enter a new Interest."/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="def_high">{{ _('High') }}</label>
-
-                <div class="col-sm-10">
-                    <input type="text" name="def_high" id="def_high" class="form-control"
-                           value="{{ userinfo.extinfo['def_high'] if 'def_high' in userinfo.extinfo else ''}}"
-                           placeholder="Please enter a new High."/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="def_weight">{{ _('Weight') }}</label>
-
-                <div class="col-sm-10">
-                    <input type="text" name="def_weight" id="def_weight" class="form-control"
-                           value="{{ userinfo.extinfo['def_weight'] if 'def_weight' in userinfo.extinfo else ''}}"
-                           placeholder="Please enter a new Weight."/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="def_bloodtype">{{ _('Bloodtype') }}</label>
-
-                <div class="col-sm-10">
-                   <select id="def_bloodtype" name="def_bloodtype" class="form-control">
-                                <option value="A"
-                                {% if 'def_bloodtype'in userinfo.extinfo and userinfo.extinfo['def_bloodtype'] == "A"%} selected {% end %}>
-                                    A
-                                </option>
-                                <option value="B"
-                                {% if 'def_bloodtype'in userinfo.extinfo and userinfo.extinfo['def_bloodtype'] == "B"%} selected {% end %}>
-                                    B
-                                </option>
-                                <option value="AB"
-                                {% if 'def_bloodtype'in userinfo.extinfo and userinfo.extinfo['def_bloodtype'] == "AB"%} selected {% end %}>
-                                            AB
-                                        </option>
-                                <option value="O"
-                                {% if 'def_bloodtype'in userinfo.extinfo and userinfo.extinfo['def_bloodtype'] == "O"%} selected {% end %}>
-                                            O
-                                </option>
-                            </select>
-                </div>
-            </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label"></label>
 
