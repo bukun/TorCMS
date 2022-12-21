@@ -89,7 +89,7 @@ class MReply():
         '''
         Query pager
         '''
-        return TabReply.select().paginate(current_page_num,
+        return TabReply.select().where(TabReply.category == '0').paginate(current_page_num,
                                           CMS_CFG['list_num'])
 
     @staticmethod

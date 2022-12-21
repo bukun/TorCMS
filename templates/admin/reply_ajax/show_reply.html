@@ -1,3 +1,33 @@
+<script>
+function comment_it(view_id, reply_id, cid, bid) {
+
+var txt = $("#" + cid).val();
+$.post("/reply/add_reply/" + view_id + '/' + reply_id, {cnt_reply: txt}, function (result) {
+
+var msg_json = $.parseJSON(result);
+$("#reply_comment"+reply_id).load("/reply/get/" + msg_json.uid)
+}), $("#" + cid).val(""), $("#" + cid).attr("disabled", !0), $("#" + bid).attr("disabled", !0)
+}
+function reply_modify(pid,cntid,cate) {
+    var txt = $("#" + cntid).val();
+    txt.length < 1 || ($.post("/reply/modify/" + pid +'/'+ cate, {cnt_reply: txt}, function (result) {
+        var msg_json = $.parseJSON(result);
+        if (cate == 0){
+            $("#reply_cnt" + pid ).html(msg_json.pinglun)
+        }
+        else{
+            $("#comment_id" + pid ).html(msg_json.pinglun)
+        }
+
+    }))
+}
+function reply_del_com(reply_id) {
+    var AjaxUrl = "/reply/delete_com/" + reply_id;
+    $.getJSON(AjaxUrl, function (Json) {
+        1 == Json.del_reply ? $("#" + reply_id).html("") : alert("Delete failed!")
+    })
+}
+</script>
 <div class="row">
     <div class="col-md-10">
         <div class="panel panel-default">
@@ -12,7 +42,8 @@
                         {% module user_profile_by_id(userinfo.uid) %}
                     </div>
                     <div class="col-sm-10">
-                        <div class="reply_title"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp; <strong>
+                        <div class="reply_title">
+                            <span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp; <strong>
                             {{ username }}
                         </strong>
                             <span class="pull-right">
@@ -24,79 +55,86 @@
                                 {% raw unescape(reply.cnt_html) %}
                             </div>
                         </div>
-                    </div>
-                    <p class="bor_bottom">&nbsp;</p>
-                </div>
-                <div id="reply_demo{{reply.uid}}" class="collapse comment">
-                    <form method="post" class="form-horizontal" id="comment_form">
-                        <div class="form-group">
-                            <div class="col-sm-10">
-                                {% if userinfo %}
-                                <textarea rows="5" name="cnt_comment{{reply.uid}}" id="cnt_comment{{reply.uid}}" class="form-control"></textarea>
-                                {% else %}
-                                <textarea rows="5" name="cnt_comment{{reply.uid}}" id="cnt_comment{{reply.uid}}" class="form-control" readonly></textarea>
-                                {% end %}
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-6">
-                                <a id="btn_submit_comment{{reply.uid}}" onclick="comment_it('{{uid}}','{{reply.uid}}','cnt_comment{{reply.uid}}','btn_submit_comment{{reply.uid}}');"
-                                   class="btn btn-primary btn-xs" data-toggle="collapse" data-target="#reply_demo{{reply.uid}}">
-                                    {{ _('Submit') }}
-                                </a>
-                            </div>
-                            <div class="col-sm-6">
-                                <button type="button" class="btn btn-primary btn-xs" data-toggle="collapse" data-target="#reply_demo{{reply.uid}}">Cancel Reply</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div style="padding-left: 50px" id="reply_comment{{reply.uid}}"></div>
-                <div class="comment_list">
-                    {% module comment_list(replyid = reply.uid,userinfo=userinfo) %}
-                </div>
 
-                <div class="modal fade" id="myModal1_{{reply.uid}}" tabindex="-1" role="dialog" aria-labelledby="myModal1_Label" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h4 class="modal-title" id="myModal1_Label">修改评论</h4>
-                            </div>
-                            <div class="modal-body">
-                                <form method="post" class="form-horizontal" id="reply_modify_form">
-                                    <div class="form-group">
-                                        <div class="col-sm-10">
-                                            <h5 class="red"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;
-
-
-                                                支持MarkDown语法（最少10个字符）
-
-                                            </h5>
-
-                                        </div>
+                        <button class="btn btn-primary btn-xs" data-toggle="collapse" data-target="#reply_demo{{reply.uid}}"><span
+                                class="glyphicon glyphicon-share-alt"></span>&nbsp;回复
+                        </button>
+                        <p class="bor_bottom">&nbsp;</p>
+                        <p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
+                        <div id="reply_demo{{reply.uid}}" class="collapse comment">
+                            <form method="post" class="form-horizontal" id="comment_form">
+                                <div class="form-group">
+                                    <div class="col-sm-10">
+                                        {% if userinfo %}
+                                        <textarea rows="5" name="cnt_comment{{reply.uid}}" id="cnt_comment{{reply.uid}}" class="form-control"></textarea>
+                                        {% else %}
+                                        <textarea rows="5" name="cnt_comment{{reply.uid}}" id="cnt_comment{{reply.uid}}" class="form-control" readonly></textarea>
+                                        {% end %}
                                     </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-10">
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-6">
+                                        <a id="btn_submit_comment{{reply.uid}}" onclick="comment_it('00000','{{reply.uid}}','cnt_comment{{reply.uid}}','btn_submit_comment{{reply.uid}}');"
+                                           class="btn btn-primary btn-xs" data-toggle="collapse" data-target="#reply_demo{{reply.uid}}">
+                                            {{ _('Submit') }}
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <button type="button" class="btn btn-primary btn-xs" data-toggle="collapse" data-target="#reply_demo{{reply.uid}}">Cancel Reply</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div style="padding-left: 50px" id="reply_comment{{reply.uid}}"></div>
+                        <div class="comment_list">
+                            {% module comment_list(replyid = reply.uid,userinfo=userinfo) %}
+                        </div>
+
+                        <div class="modal fade" id="myModal1_{{reply.uid}}" tabindex="-1" role="dialog" aria-labelledby="myModal1_Label" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title" id="myModal1_Label">修改评论</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="post" class="form-horizontal" id="reply_modify_form">
+                                            <div class="form-group">
+                                                <div class="col-sm-10">
+                                                    <h5 class="red"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;
+
+
+                                                        支持MarkDown语法（最少10个字符）
+
+                                                    </h5>
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-10">
                                 <textarea rows="5" name="cnt_modify_reply{{reply.uid}}" id="cnt_modify_reply{{reply.uid}}"
                                           class="form-control">
                                      {% module replycnt(replyid = reply.uid) %}
                                 </textarea>
-                                        </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-default btn-xs" data-dismiss="modal">{{ _('Close') }}</button>
+                                            <a onclick="reply_modify('{{reply.uid}}','cnt_modify_reply{{reply.uid}}','0');"
+                                               data-dismiss="modal" class="btn btn-primary btn-xs">{{ _('Submit') }}</a>
+                                        </form>
                                     </div>
-                                    <button type="button" class="btn btn-default btn-xs" data-dismiss="modal">{{ _('Close') }}</button>
-                                    <a onclick="reply_modify('{{reply.uid}}','cnt_modify_reply{{reply.uid}}','0');"
-                                       data-dismiss="modal" class="btn btn-primary btn-xs">{{ _('Submit') }}</a>
-                                </form>
+
+
+                                </div>
                             </div>
-
-
                         </div>
+
+
+                      
                     </div>
+
                 </div>
 
-
-                <p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
             </div>
 
         </div>

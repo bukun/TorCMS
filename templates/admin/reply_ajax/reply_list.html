@@ -67,14 +67,12 @@
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 查看
                             </a>
-{#                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#}
-{#                            <a onclick="rel_del('{{ x.uid }}', {{ ii }} );" class="trash" target="_blank">#}
-{#                                <span class="glyphicon glyphicon-trash"></span>#}
-{#                                删除#}
-{#                            </a>#}
-                            <button class="btn btn-primary btn-xs" data-toggle="collapse" data-target="#reply_demo{{x.uid}}"><span
-                                    class="glyphicon glyphicon-share-alt"></span>&nbsp;{{ _('Reply') }}
-                            </button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <a onclick="rel_del('{{ x.uid }}', {{ ii }} );" class="trash" target="_blank">
+                                <span class="glyphicon glyphicon-trash"></span>
+                                删除
+                            </a>
+
                         </td>
                     </tr>
                     {% set ii = ii + 1 %}
@@ -89,29 +87,4 @@
         {% module admin_reply_pager(kwd['current_page']) %}
     </div>
 
-    <div id="reply_demo{{x.uid}}" class="collapse comment">
-        <form method="post" class="form-horizontal" id="comment_form">
-            <div class="form-group">
-                <div class="col-sm-10">
-                    {% if userinfo %}
-                    <textarea rows="5" name="cnt_comment{{x.uid}}" id="cnt_comment{{x.uid}}" class="form-control"></textarea>
-                    {% else %}
-                    <textarea rows="5" name="cnt_comment{{x.uid}}" id="cnt_comment{{x.uid}}" class="form-control" readonly></textarea>
-                    {% end %}
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-6">
-                    <a id="btn_submit_comment{{x.uid}}" onclick="comment_it('{{x.uid}}','{{x.uid}}','cnt_comment{{x.uid}}','btn_submit_comment{{x.uid}}');"
-                       class="btn btn-primary btn-xs" data-toggle="collapse" data-target="#reply_demo{{x.uid}}">
-                        {{ _('Submit') }}
-                    </a>
-                </div>
-                <div class="col-sm-6">
-                    <button type="button" class="btn btn-primary btn-xs" data-toggle="collapse" data-target="#reply_demo{{x.uid}}">Cancel Reply</button>
-                </div>
-            </div>
-        </form>
-    </div>
-    <div style="padding-left: 50px" id="reply_comment{{x.uid}}"></div>
 </div>

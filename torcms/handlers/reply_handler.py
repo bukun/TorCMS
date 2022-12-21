@@ -227,14 +227,14 @@ class ReplyHandler(BaseHandler):
         '''
         Adding reply
         '''
-        post_data = self.get_request_arguments()
-
+        post_data,ext_data = self.fetch_post_data()
+        print("*" * 50)
         post_data['user_name'] = self.userinfo.user_name
         post_data['user_id'] = self.userinfo.uid
         post_data['post_id'] = post_id
         post_data['category'] = '1'
         # 表里添加回复内容返回存储id
-        replyid = MReply.create_reply(post_data)
+        replyid = MReply.create_reply(post_data,extinfo=ext_data)
         # 在关联表里存储评论id与回复id
         MReplyid.create_replyid(reply_id, replyid)
         if replyid:
