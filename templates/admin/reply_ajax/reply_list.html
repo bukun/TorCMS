@@ -13,8 +13,18 @@
     <div class="col-md-10">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <span class="glyphicon glyphicon-envelope"></span> 评论列表 (<span
-                    style="color: #f00;"> {{ infos.count() }} </span>)
+                <span class="glyphicon glyphicon-envelope"></span>
+                {% if kwd['ext_field'] == '1' %}
+                土肥问答
+                {% elif kwd['ext_field'] == '2' %}
+                植保问答
+
+                {% elif kwd['ext_field'] == '3' %}
+                育种问答
+                {% else %}
+                热门问答
+               {% end %}
+                (<span style="color: #f00;"> {{ infos.count() }} </span>)
                 <a onclick="js_show_page('/reply_j/_add')" class="btn btn-default">提问</a>
             </div>
             <div class="panel-body">
@@ -84,7 +94,7 @@
             </div>
 
         </div>
-        {% module admin_reply_pager(kwd['current_page']) %}
+        {% module admin_reply_pager(kwd['current_page'],ext_field=kwd['ext_field']) %}
     </div>
 
 </div>

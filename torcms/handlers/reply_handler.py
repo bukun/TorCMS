@@ -4,13 +4,21 @@ Handler for reply.
 '''
 
 import json
-
+import datetime
 from config import CMS_CFG
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tools import logger
 from torcms.model.reply2user_model import MReply2User
 from torcms.model.reply_model import MReply
 from torcms.model.replyid_model import MReplyid
+
+
+class DateEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, datetime.datetime):
+            return obj.strftime("%Y-%m-%d %H:%M:%S")
+        else:
+            return json.JSONEncoder.default(self, obj)
 
 
 class ReplyHandler(BaseHandler):
@@ -85,20 +93,48 @@ class ReplyHandler(BaseHandler):
 
         current_page_number = 1 if current_page_number < 1 else current_page_number
 
-        pager_num = int(MReply.total_number() / CMS_CFG['list_num'])
+        postdata = self.get_request_arguments()
+        ext_field = postdata.get('ext_field', '')
+        isjson = postdata.get('isjson', False)
 
         kwd = {
             'pager': '',
             'current_page': current_page_number,
             'title': '单页列表',
-            'num_of_reply': MReply.total_number()
+            'num_of_reply': MReply.total_number(),
+            'ext_field': ext_field
         }
-        self.render(
-            'admin/reply_ajax/reply_list.html',
-            kwd=kwd,
-            view_all=MReply.query_all(),
-            infos=MReply.query_pager(current_page_num=current_page_number),
-            userinfo=self.userinfo)
+        infos = MReply.query_pager(current_page_num=current_page_number, ext_field=ext_field)
+
+        if isjson:
+            list = []
+            for rec in infos:
+                dic = {
+                    'uid': rec.uid,
+                    'cnt_md': rec.cnt_md,
+                    'date': rec.date,
+                    'timestamp': rec.timestamp,
+                    'category': rec.category,
+                    'user_name': rec.user_name,
+                    'vote': rec.vote,
+                    'curp': current_page_number,
+                    'extinfo': rec.extinfo
+                }
+
+                list.append(dic)
+
+            out_dict = {
+                'results': list
+            }
+
+            return json.dump(out_dict, self, cls=DateEncoder, ensure_ascii=False)
+        else:
+            self.render(
+                'admin/reply_ajax/reply_list.html',
+                kwd=kwd,
+                view_all=MReply.query_all(),
+                infos=infos,
+                userinfo=self.userinfo)
 
     def get_by_id(self, reply_id):
         '''
@@ -155,7 +191,7 @@ class ReplyHandler(BaseHandler):
         if replyid:
             out_dic = {'pinglun': post_data['cnt_reply'], 'uid': replyid}
             logger.info('add reply result dic: {0}'.format(out_dic))
-            return json.dump(out_dic, self)
+            return json.dump(out_dic, self, ensure_ascii=False)
 
     def json_add(self):
         '''
@@ -179,7 +215,7 @@ class ReplyHandler(BaseHandler):
                 'video': ext_data.get('ext_file')
             }
             logger.info('add reply result dic: {0}'.format(out_dic))
-            return json.dump(out_dic, self)
+            return json.dump(out_dic, self, ensure_ascii=False)
 
             # @tornado.web.authenticated
 
@@ -200,7 +236,7 @@ class ReplyHandler(BaseHandler):
             output = {'text_zan': 0}
         logger.info('zan dic: {0}'.format(cur_count))
 
-        return json.dump(output, self)
+        return json.dump(output, self, ensure_ascii=False)
 
     def delete(self, del_id):
         '''
@@ -227,20 +263,20 @@ class ReplyHandler(BaseHandler):
         '''
         Adding reply
         '''
-        post_data,ext_data = self.fetch_post_data()
+        post_data, ext_data = self.fetch_post_data()
         print("*" * 50)
         post_data['user_name'] = self.userinfo.user_name
         post_data['user_id'] = self.userinfo.uid
         post_data['post_id'] = post_id
         post_data['category'] = '1'
         # 表里添加回复内容返回存储id
-        replyid = MReply.create_reply(post_data,extinfo=ext_data)
+        replyid = MReply.create_reply(post_data, extinfo=ext_data)
         # 在关联表里存储评论id与回复id
         MReplyid.create_replyid(reply_id, replyid)
         if replyid:
             out_dic = {'pinglun': post_data['cnt_reply'], 'uid': replyid}
             logger.info('add reply result dic: {0}'.format(out_dic))
-            return json.dump(out_dic, self)
+            return json.dump(out_dic, self, ensure_ascii=False)
 
     def modify(self, pid, cat):
         '''
@@ -255,7 +291,7 @@ class ReplyHandler(BaseHandler):
         if reply:
             out_dic = {'pinglun': post_data['cnt_reply'], 'uid': reply}
             logger.info('Modify reply result dic: {0}'.format(out_dic))
-            return json.dump(out_dic, self)
+            return json.dump(out_dic, self, ensure_ascii=False)
 
 
 class ReplyAjaxHandler(ReplyHandler):

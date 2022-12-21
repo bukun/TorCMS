@@ -69,12 +69,15 @@ class MReply():
         return TabReply.delete().where(TabReply.post_id == del_id)
 
     @staticmethod
-    def count_of_certain():
+    def count_of_certain(ext_field):
         '''
         Get the count of certain kind.
         '''
         # adding ``None`` to hide ``No value for argument 'database' in method call``
-        return TabReply.select().count(None)
+        if ext_field:
+            return TabReply.select().where(TabReply.extinfo['ext_field'] == str(ext_field)).count(None)
+        else:
+            return TabReply.select().count(None)
 
     @staticmethod
     def total_number():
@@ -85,12 +88,17 @@ class MReply():
         return TabReply.select().count(None)
 
     @staticmethod
-    def query_pager(current_page_num=1):
+    def query_pager(current_page_num=1, ext_field=''):
         '''
         Query pager
         '''
-        return TabReply.select().where(TabReply.category == '0').paginate(current_page_num,
-                                          CMS_CFG['list_num'])
+        if type:
+            return TabReply.select().where(
+                TabReply.category == '0' and TabReply.extinfo['ext_field'] == ext_field).paginate(current_page_num,
+                                                                                                  CMS_CFG['list_num'])
+        else:
+            return TabReply.select().where(TabReply.category == '0').paginate(current_page_num,
+                                                                              CMS_CFG['list_num'])
 
     @staticmethod
     def modify_by_uid(pid, post_data):

@@ -873,10 +873,11 @@ class Admin_reply_pager(tornado.web.UIModule):
 
     def render(self, *args, **kwargs):
         current = int(args[0])
+        ext_field = kwargs.get('ext_field','')
         # kind
         # current 当前页面
 
-        num_of_cat = MReply.count_of_certain()
+        num_of_cat = MReply.count_of_certain(ext_field)
 
         test_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
@@ -892,7 +893,7 @@ class Admin_reply_pager(tornado.web.UIModule):
             page_num = test_page_num + 1
 
         kwd = get_page_position(current, page_num)
-
+        kwd['ext_field'] = ext_field
         return self.render_string('modules/admin/reply_pager.html',
                                   kwd=kwd,
                                   pager_num=page_num,
