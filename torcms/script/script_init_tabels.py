@@ -232,5 +232,14 @@ def run_migrate(*args):
     except Exception as err:
         print(repr(err))
     ###########################################################################################
+    extinfo_field = BinaryJSONField(null=False,
+                                    default={},
+                                    help_text='Extra data in JSON.')
+    try:
+        migrate.migrate(
+            torcms_migrator.add_column('tabreply', 'extinfo', extinfo_field)
+        )
+    except Exception as err:
+        print(repr(err))
 
     print('Migration finished.')
