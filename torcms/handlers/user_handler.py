@@ -422,6 +422,7 @@ class UserHandler(BaseHandler):
         '''
         post_data = self.get_request_arguments()
         type = post_data.get('type', '')
+        isjson = post_data.get('isjson', False)
         current_page_number = 1
         if cur_p == '':
             current_page_number = 1
@@ -437,21 +438,39 @@ class UserHandler(BaseHandler):
 
         current_page_number = 1 if current_page_number < 1 else current_page_number
 
-        pager_num = int(MUser.total_number() / CMS_CFG['list_num'])
-
+        infos = MUser.query_pager_by_slug(current_page_num=current_page_number, type=type)
         kwd = {'pager': '',
                'current_page': current_page_number,
                'type': type
                }
+        if isjson:
+            list = []
+            for rec in infos:
+                dic = {
+                    'uid': rec.uid,
+                    'user_name': rec.user_name,
+                    'user_email': rec.user_email,
+                    'role': rec.role,
+                    'authority': rec.authority,
+                    'time_login': rec.time_login,
+                    'time_create': rec.time_create,
+                    'extinfo': rec.extinfo
+                }
 
-        if self.is_p:
+                list.append(dic)
+
+            out_dict = {
+                'results': list
+            }
+
+            return json.dump(out_dict, self, ensure_ascii=False)
+        elif self.is_p:
             tmpl = 'admin/user/puser_find_list.html'
         else:
             tmpl = 'user/user_find_list.html'
         self.render(tmpl,
                     cfg=config.CMS_CFG,
-                    infos=MUser.query_pager_by_slug(
-                        current_page_num=current_page_number, type=type),
+                    infos=infos,
                     kwd=kwd,
                     view=MUser.get_by_keyword(""),
                     userinfo=self.userinfo)
@@ -467,7 +486,26 @@ class UserHandler(BaseHandler):
             rec = MUser.get_by_uid(self.userinfo.uid)
         kwd = {}
 
-        if self.is_p:
+        post_data = self.get_request_arguments()
+        isjson = post_data.get('isjson', False)
+        if isjson:
+            dic = {
+                'uid': rec.uid,
+                'user_name': rec.user_name,
+                'user_email': rec.user_email,
+                'role': rec.role,
+                'authority': rec.authority,
+                'time_login': rec.time_login,
+                'time_create': rec.time_create,
+                'extinfo': rec.extinfo
+            }
+
+            out_dict = {
+                'results': dic
+            }
+
+            return json.dump(out_dict, self, ensure_ascii=False)
+        elif self.is_p:
             tmpl = 'admin/user/puser_info.html'
         else:
             tmpl = 'user/user_info.html'
@@ -659,7 +697,7 @@ class UserHandler(BaseHandler):
 
         username_list = json.loads(name_list)
         if username_list == []:
-            output = {'changerole': '2','err_info':'Please select a user.'}
+            output = {'changerole': '2', 'err_info': 'Please select a user.'}
             return json.dump(output, self)
         # 审核权限
         authority = '0'
@@ -1073,10 +1111,10 @@ class UserHandler(BaseHandler):
             'user_name': rec.user_name,
             'user_email': rec.user_email,
             'role': rec.role,
-            # 'extinfo': rec.extinfo,
+            'extinfo': rec.extinfo,
 
         }
-        return json.dump(userinfo, self)
+        return json.dump(userinfo, self, ensure_ascii=False)
 
     def pass_strength(self, pwd):
         '''
