@@ -23,7 +23,7 @@
                 育种问答
                 {% else %}
                 热门问答
-               {% end %}
+                {% end %}
                 (<span style="color: #f00;"> {{ infos.count() }} </span>)
                 <a onclick="js_show_page('/reply_j/_add')" class="btn btn-default">提问</a>
             </div>
@@ -33,7 +33,7 @@
                     <tr>
 
                         <th>问题描述</th>
-                        <th>近期回答</th>
+
                         <th>所属领域</th>
                         <th>提问时间</th>
                         <th>操作</th>
@@ -48,18 +48,13 @@
 
                     <tr id="del_info_{{ ii }}">
 
-                        <td style="width: 35%">
-                        <textarea class="form-control">
-                            {{ x.cnt_md }}
-                        </textarea>
-
-                        </td>
-                        <td style="width: 35%">
+                        <td>
 
                             {{ x.cnt_md }}
 
 
                         </td>
+
                         <td>
                             {% if x.extinfo.get('ext_field') == '1' %}
                             土肥

@@ -56,8 +56,35 @@ function reply_del_com(reply_id) {
                             </div>
                         </div>
 
-                        <button class="btn btn-primary btn-xs" data-toggle="collapse" data-target="#reply_demo{{reply.uid}}"><span
-                                class="glyphicon glyphicon-share-alt"></span>&nbsp;回复
+
+                            <div class="reply_button pull-right">
+                                {% if (userinfo is None) or ( (userinfo) and ( userinfo.uid == reply.user_id )) %}
+                                <span class="glyphicon glyphicon-thumbs-up"></span>
+                                {% else %}
+                                <span class="glyphicon glyphicon-thumbs-up" id="zan_text"
+                                      onclick="reply_zan('{{ reply.uid }}');" style="cursor: pointer"></span>
+                                {% end %}
+                                <span class="red" id="text_zan_{{ reply.uid }}">{{ reply.vote }}</span>
+                                &nbsp;
+
+                                {% if userinfo and userinfo.uid == reply.user_id %}
+                                <button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#myModal1_{{reply.uid}}"><span
+                                        class="glyphicon glyphicon-pencil"></span>&nbsp;{{ _('Modify') }}
+                                </button>
+                                {% end %}
+                                {% if userinfo and ( userinfo.uid == reply.user_id or userinfo.role[2] > '1') %}
+                                <button class="btn btn-xs btn-danger"
+                                        onclick="reply_del('{{ reply.uid }}');">
+                                    <span class=" glyphicon glyphicon-trash"></span>
+                                    {{ _('Delete') }}
+                                </button>
+                                {% end %}
+                                {% if userinfo %}
+                                <button class="btn btn-primary btn-xs" data-toggle="collapse" data-target="#reply_demo{{reply.uid}}"><span
+                                        class="glyphicon glyphicon-share-alt"></span>&nbsp;回复
+                                </button>
+                                {% end %}
+                            </div>
                         </button>
                         <p class="bor_bottom">&nbsp;</p>
                         <p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
@@ -85,8 +112,9 @@ function reply_del_com(reply_id) {
                                 </div>
                             </form>
                         </div>
-                        <div style="padding-left: 50px" id="reply_comment{{reply.uid}}"></div>
+                        <div class="row"  id="reply_comment{{reply.uid}}"></div>
                         <div class="comment_list">
+                            <br><br>
                             {% module comment_list(replyid = reply.uid,userinfo=userinfo) %}
                         </div>
 
