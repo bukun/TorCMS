@@ -17,7 +17,7 @@
 
 <ol class="breadcrumb">
     <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
-    <li>问答管理 </li>
+    <li><a href="/reply/list/1"> 问答管理 </a></li>
     <li class="active">{% if kwd['ext_field'] == '1' %}
         土肥问答
         {% elif kwd['ext_field'] == '2' %}
@@ -89,12 +89,12 @@
                             {{ str(x.date)[:-7] }}
                         </td>
                         <td>
-                            <a href="/reply/get/{{ x.uid }}" target="_blank">
+                            <a href="/reply/more/{{ x.uid }}" >
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 查看
                             </a>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <a onclick="rel_del('{{ x.uid }}', {{ ii }} );" class="trash" target="_blank">
+                            <a onclick="rel_del('{{ x.uid }}', {{ ii }} );" class="trash">
                                 <span class="glyphicon glyphicon-trash"></span>
                                 删除
                             </a>

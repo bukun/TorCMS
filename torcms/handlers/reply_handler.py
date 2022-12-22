@@ -34,6 +34,8 @@ class ReplyHandler(BaseHandler):
         url_arr = self.parse_url(url_str)
         if url_arr[0] == 'get':
             self.get_by_id(url_arr[1])
+        if url_arr[0] == 'more':
+            self.more_by_id(url_arr[1])
         if url_arr[0] == 'list':
             self.list(url_arr[1])
         elif url_arr[0] == 'get_comment':
@@ -43,6 +45,7 @@ class ReplyHandler(BaseHandler):
         elif url_arr[0] == 'delete_com':
             self.delete_com(url_arr[1])
         elif url_arr[0] == 'zan':
+
             self.zan(url_arr[1])
         elif url_arr[0] == '_add':
             self._add()
@@ -78,7 +81,6 @@ class ReplyHandler(BaseHandler):
             self.render('reply/reply_add.html',
                         kwd=kwd,
                         userinfo=self.userinfo)
-
 
     def list(self, cur_p=''):
         '''
@@ -199,6 +201,21 @@ class ReplyHandler(BaseHandler):
                         userinfo=self.userinfo,
                         kwd={})
 
+    def more_by_id(self, reply_id):
+        '''
+        Get the reply by id.
+        '''
+        reply = MReply.get_by_uid(reply_id)
+
+        self.render('reply/show_reply.html',
+                    reply=reply,
+                    username=reply.user_name,
+                    date=reply.date,
+                    vote=reply.vote,
+                    uid=reply.uid,
+                    userinfo=self.userinfo,
+                    kwd={})
+
     def get_by_id_comment(self, reply_id):
         '''
         Get the reply by id.
@@ -297,6 +314,8 @@ class ReplyHandler(BaseHandler):
 
         MReply2User.create_reply(self.userinfo.uid, id_reply)
         cur_count = MReply2User.get_voter_count(id_reply)
+        print("*" * 50)
+        print(cur_count)
         if cur_count:
             MReply.update_vote(id_reply, cur_count)
             output = {'text_zan': cur_count}
