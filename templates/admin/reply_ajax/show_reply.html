@@ -64,7 +64,7 @@ function reply_del_com(reply_id) {
                                 <span class="glyphicon glyphicon-thumbs-up" id="zan_text"
                                       onclick="reply_zan('{{ reply.uid }}');" style="cursor: pointer"></span>
                                 {% end %}
-                                <span class="red" id="text_zan_{{ reply.uid }}">{{ reply.vote }}</span>
+                                <span style="color: #f00" id="text_zan_{{ reply.uid }}">{{ reply.vote }}</span>
                                 &nbsp;
 
                                 {% if userinfo and userinfo.uid == reply.user_id %}
