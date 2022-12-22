@@ -108,7 +108,7 @@
 
 <body>
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container">
+    <div class="col-sm-12">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -120,18 +120,7 @@
         </div>
         <div class="navbar-collapse collapse" id="nava">
             <ul class="nav navbar-nav">
-{#                <li><a href="/page/about_torcms">{{ _('About') }}</a></li>#}
-{#                <li class="dropdown">#}
-{#                    <a href="" class="dropdown-toggle" data-toggle="dropdown">{{ _('Data') }}#}
-{#                        <b class="caret"></b></a>#}
-{#                    <ul class="dropdown-menu">#}
-{#                        <li><a href="/filter/2100">{{ _('Basic geographic') }}</a></li>#}
-{#                        <li><a href="/filter/2200">{{ _('Nature resources') }}</a></li>#}
-{#                    </ul>#}
-{#                </li>#}
 
-{#                <li><a href="/post/">{{ _('News') }}</a></li>#}
-{#                <li><a href="/map/">{{ _('Map') }}</a></li>#}
 
                 {% module widget_menu() %}
 
@@ -140,6 +129,19 @@
                             <a href="/dataset/list" title="数据集列表">Dataset List</a>
 
                         </li>
+
+                <li class="dropdown">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">问答管理
+                        <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/reply/list/1">热门问答</a></li>
+                        <li><a href="/reply/list/1?ext_field=1">土肥问答</a></li>
+                        <li><a href="/reply/list/1?ext_field=2">植保问答</a></li>
+                        <li><a href="/reply/list/1?ext_field=3">育种问答</a></li>
+
+
+                    </ul>
+                </li>
 {#                         <li>#}
 {##}
 {#                            <a href="/download/" title="下载数据">下载数据</a>#}
@@ -151,19 +153,19 @@
 {##}
 {#                        </li>#}
 
-{#                <li class="dropdown">#}
-{#                    <a href="" class="dropdown-toggle" data-toggle="dropdown">{{ _('User') }}#}
-{#                        <b class="caret"></b></a>#}
-{#                    <ul class="dropdown-menu">#}
-{#                        <li><a href="/user_list/user_recent">{{ _('Recent use') }}</a></li>#}
-{#                        <li><a href="/user_list/user_most">{{ _('Most use') }}</a></li>#}
-{#                        <li class="divider"></li>#}
-{#                        <li><a href="/collect/list">{{ _('My collection') }}</a></li>#}
-{#                        <li class="divider"></li>#}
-{#                        <li><a href="/user/info">{{ _('Personal Data') }}</a></li>#}
-{##}
-{#                    </ul>#}
-{#                </li>#}
+                <li class="dropdown">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">{{ _('User') }}
+                        <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/user_list/user_recent">{{ _('Recent use') }}</a></li>
+                        <li><a href="/user_list/user_most">{{ _('Most use') }}</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/collect/list">{{ _('My collection') }}</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/user/info">{{ _('Personal Data') }}</a></li>
+
+                    </ul>
+                </li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">

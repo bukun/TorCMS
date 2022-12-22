@@ -92,7 +92,7 @@ class MReply():
         '''
         Query pager
         '''
-        if type:
+        if ext_field:
             return TabReply.select().where(
                 TabReply.category == '0' and TabReply.extinfo['ext_field'] == ext_field).paginate(current_page_num,
                                                                                                   CMS_CFG['list_num'])

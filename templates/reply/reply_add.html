@@ -1,0 +1,109 @@
+{% autoescape None %}
+{% extends "../theme/bage.html" %}
+{% block head %}
+<script>
+    function reply_add() {
+        var cnt_md = $('#cnt_md').val();
+        var ext_field = $('#ext_field').val();
+        var ext_logo = $('#logo').val();
+        var ext_file = $('#ext_file').val();
+
+        var formData = new FormData();
+        formData.append("cnt_reply", cnt_md);
+        formData.append("ext_field", ext_field);
+        formData.append("ext_logo", ext_logo);
+        formData.append("ext_file", ext_file);
+
+        $.ajax({
+            url: "/reply_j/_add",
+            type: "post",
+            cache: !1,
+            data: formData,
+            dataType: "html",
+            timeout: 1e3,
+            processData: false,
+            contentType: false,
+            error: function () {
+                {#return alert("Delete failed!")#}
+            },
+            success: function (result) {
+                document.location.href = '/reply/list/1?ext_field='+ext_field
+            }
+        })
+    }
+</script>
+{% end %}
+{% block typebody %}
+
+<div class="row" id="changepass">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span> 提问</div>
+            <div class="panel-body">
+
+                <from class="form-horizontal">
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="cnt_md">问题描述</label>
+                            <div class="col-md-9">
+                            <textarea rows=16 class="form-control" id="cnt_md" data-provider="markdown"
+                                      name="cnt_md"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="ext_field">所属领域</label>
+                            <div class="col-md-9">
+                                <select class="form-control" id="ext_field" name="ext_field">
+                                    <option value="1">土肥</option>
+                                    <option value="2">植保</option>
+                                    <option value="3">育种</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="logo">上传图片</label>
+                            <div class="col-md-7">
+                                <input class="form-control" id="logo" name="ext_logo" type="text">
+                            </div>
+                            <div class="col-md-2">
+
+                                <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
+                                    上传图片
+                                </a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="ext_file">上传视频</label>
+                            <div class="col-md-7">
+                                <input class="form-control" id="ext_file" name="ext_file" type="text">
+                            </div>
+                            <div class="col-md-2">
+
+                                <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal_file">
+                                    上传视频
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"></label>
+
+                            <div class="col-md-9">
+                                <a onclick="reply_add()" class="btn btn-primary btn-sm">提交</a>
+
+
+                            </div>
+                        </div>
+                    </fieldset>
+                </from>
+            </div>
+        </div>
+
+
+    </div>
+
+
+</div>
+{% module upload_pic() %}
+{% module upload_file() %}
+{% end %}

@@ -70,9 +70,15 @@ class ReplyHandler(BaseHandler):
         kwd = {
 
         }
-        self.render('admin/reply_ajax/reply_add.html',
-                    kwd=kwd,
-                    userinfo=self.userinfo)
+        if self.is_p:
+            self.render('admin/reply_ajax/reply_add.html',
+                        kwd=kwd,
+                        userinfo=self.userinfo)
+        else:
+            self.render('reply/reply_add.html',
+                        kwd=kwd,
+                        userinfo=self.userinfo)
+
 
     def list(self, cur_p=''):
         '''
@@ -128,9 +134,16 @@ class ReplyHandler(BaseHandler):
             }
 
             return json.dump(out_dict, self, cls=DateEncoder, ensure_ascii=False)
-        else:
+        elif self.is_p:
             self.render(
                 'admin/reply_ajax/reply_list.html',
+                kwd=kwd,
+                view_all=MReply.query_all(),
+                infos=infos,
+                userinfo=self.userinfo)
+        else:
+            self.render(
+                'reply/reply_list.html',
                 kwd=kwd,
                 view_all=MReply.query_all(),
                 infos=infos,
