@@ -87,6 +87,7 @@ function reply_zan(reply_id) {
     var AjaxUrl = "/reply/zan/" + reply_id;
     $.getJSON(AjaxUrl, function (Json) {
         0 == Json.text_zan || $("#text_zan_" + reply_id).html(Json.text_zan)
+
     })
 }
 function reply_del(reply_id) {

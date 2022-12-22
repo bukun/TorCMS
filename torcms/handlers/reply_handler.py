@@ -314,8 +314,7 @@ class ReplyHandler(BaseHandler):
 
         MReply2User.create_reply(self.userinfo.uid, id_reply)
         cur_count = MReply2User.get_voter_count(id_reply)
-        print("*" * 50)
-        print(cur_count)
+
         if cur_count:
             MReply.update_vote(id_reply, cur_count)
             output = {'text_zan': cur_count}

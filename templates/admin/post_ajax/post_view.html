@@ -3,46 +3,7 @@
 <title>{{ view.title }}</title>
 <meta name="description" content="{% module generate_abstract(view.cnt_html) %}">
 <meta name="keywords" content="{{ view.keywords }}">
-<script>
-    function reply_zan(sig, reply_id, id_num) {
-        id_num = id_num.toString();
-        zans = $('#text_zan').val();
-        var AjaxUrl = "/" + sig + "/toreply/zan/" + reply_id;
-        $.getJSON(AjaxUrl, function (Json) {
-            if (Json.text_zan == 0) {
-                // window.location.href = '/user/login';
-            }
-            else {
-                $("#text_zan_" + id_num).html(Json.text_zan);
-            }
-        });
-    }
 
-    function reply_del(sig, reply_id, id_num) {
-        id_num = id_num.toString();
-        var AjaxUrl = "/" + sig + "/toreply/delete_reply/" + reply_id;
-        $.getJSON(AjaxUrl, function (Json) {
-            $("#del_zan_" + id_num).html('');
-        });
-
-    }
-
-
-    function reply_it(sig, view_id) {
-        var txt = $("#cnt_md").val();
-        if (txt.length < 30) {
-            return;
-        }
-        $.post("/" + sig + "/toreply/add/" + view_id, {cnt_md: txt}, function (result) {
-            var msg_json = $.parseJSON(result);
-            $("#pinglun").load('/reply/get/' + msg_json.pinglun);
-        });
-        $('#cnt_md').val('');
-        $('#cnt_md').attr("disabled", true);
-        $('#btn_submit_reply').attr('disabled', true);
-    }
-
-</script>
 
 {% end %}
 
