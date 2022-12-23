@@ -153,7 +153,7 @@ class BaseHandler(tornado.web.RequestHandler):
         '''
         Generat whoosh database.
         '''
-        run_whoosh.gen_whoosh_database(kind_arr=kind_arr, post_type=post_type)
+        run_whoosh.gen_whoosh_database(kind_arr=kind_arr)
 
     def get_host_ip(self):
         """

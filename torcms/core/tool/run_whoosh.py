@@ -21,6 +21,7 @@ except Exception as err:
     ChineseAnalyzer = None
 
 SITE_CFG['LANG'] = SITE_CFG.get('LANG', 'zh')
+WHOOSH_BASE = 'database/whoosh'
 
 # Using jieba lib for Chinese.
 if SITE_CFG['LANG'] == 'zh' and ChineseAnalyzer:
@@ -36,7 +37,6 @@ else:
                         link=ID(unique=True, stored=True),
                         content=TEXT(stored=True, analyzer=StemmingAnalyzer()))
 
-WHOOSH_BASE = 'database/whoosh'
 if os.path.exists(WHOOSH_BASE):
     TOR_IDX = open_dir(WHOOSH_BASE)
 else:
@@ -44,13 +44,13 @@ else:
     TOR_IDX = create_in(WHOOSH_BASE, TOR_SCHEMA)
 
 
-def do_for_app(rand=True, kind='', doc_type=None):
+
+
+def do_for_document(rand=True, kind='', _=None):
     '''
     生成whoosh，根据配置文件中类别。
     '''
 
-    if doc_type is None:
-        doc_type = {}
     if rand:
         recs = MPost.query_random(num=10, kind=kind)
     else:
@@ -59,74 +59,37 @@ def do_for_app(rand=True, kind='', doc_type=None):
     for rec in recs:
         text2 = rec.title + ',' + html2text.html2text(
             tornado.escape.xhtml_unescape(rec.cnt_html))
+
         writer = TOR_IDX.writer()
         writer.update_document(catid='sid' + kind,
                                title=rec.title,
-                               type=doc_type[rec.kind],
+                               type=post_type[rec.kind],
                                link='/{0}/{1}'.format(router_post[rec.kind],
                                                       rec.uid),
                                content=text2)
         writer.commit()
 
 
-# def do_for_app2(writer, rand=True):
-#     '''
-#     生成whoosh，根据数据库中类别。
-#     :param writer:
-#     :param rand:
-#     :return:
-#     '''
+# def do_for_post(rand=True, _=''):
 #     if rand:
-#         recs = MPost.query_random(num = 10, kind = '2')
+#         recs = MPost.query_random(num=10, kind='1')
 #     else:
-#         recs = MPost.query_recent(2)
+#         recs = MPost.query_recent(num=2, kind='1')
 #
 #     for rec in recs:
-#         text2 = rec.title + ',' + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
-#
-#         info = MPost2Catalog.get_entry_catalog(rec.uid)
-#         if info:
-#             pass
-#         else:
-#             continue
-#
-#         catid = info.tag.uid[:2] + '00'
-#
-#         cat_name = ''
-#         if 'def_cat_uid' in rec.extinfo and rec.extinfo['def_cat_uid']:
-#             taginfo = MCategory.get_by_uid(rec.extinfo['def_cat_uid'][:2] + '00')
-#             if taginfo:
-#                 cat_name = taginfo.name
+#         text2 = rec.title + ',' + html2text.html2text(
+#             tornado.escape.xhtml_unescape(rec.cnt_html))
 #         writer.update_document(
 #             title=rec.title,
-#             catid=catid,
-#             type='<span style="color:red;">[{0}]</span>'.format(cat_name),
-#             link='/{0}/{1}'.format(router_post[rec.kind], rec.uid),
-#             content=text2
+#             catid='sid1',
+#             type=post_type['1'],
+#             link='/post/{0}'.format(rec.uid),
+#             content=text2,
 #         )
+#         writer.commit()
 
 
-def do_for_post(rand=True, doc_type=''):
-    if rand:
-        recs = MPost.query_random(num=10, kind='1')
-    else:
-        recs = MPost.query_recent(num=2, kind='1')
-
-    for rec in recs:
-        text2 = rec.title + ',' + html2text.html2text(
-            tornado.escape.xhtml_unescape(rec.cnt_html))
-        writer = TOR_IDX.writer()
-        writer.update_document(
-            title=rec.title,
-            catid='sid1',
-            type=doc_type,
-            link='/post/{0}'.format(rec.uid),
-            content=text2,
-        )
-        writer.commit()
-
-
-def do_for_wiki(rand=True, doc_type=''):
+def do_for_wiki(rand=True, _=''):
     if rand:
         recs = MWiki.query_random(num=10, kind='1')
     else:
@@ -139,13 +102,13 @@ def do_for_wiki(rand=True, doc_type=''):
         writer = TOR_IDX.writer()
         writer.update_document(title=rec.title,
                                catid='sid1',
-                               type=doc_type,
+                               type=post_type['1'],
                                link='/wiki/{0}'.format(rec.title),
                                content=text2)
         writer.commit()
 
 
-def do_for_page(rand=True, doc_type=''):
+def do_for_page(rand=True, _=''):
     if rand:
         recs = MWiki.query_random(num=4, kind='2')
     else:
@@ -154,31 +117,32 @@ def do_for_page(rand=True, doc_type=''):
     for rec in recs:
         text2 = rec.title + ',' + html2text.html2text(
             tornado.escape.xhtml_unescape(rec.cnt_html))
+
         writer = TOR_IDX.writer()
         writer.update_document(title=rec.title,
                                catid='sid1',
-                               type=doc_type,
+                               type=post_type['1'],
                                link='/page/{0}'.format(rec.uid),
                                content=text2)
         writer.commit()
 
 
-def gen_whoosh_database(kind_arr, post_type):
+def gen_whoosh_database(kind_arr):
     '''
     kind_arr, define the `type` except Post, Page, Wiki
     post_type, define the templates for different kind.
     '''
     for switch in [True, False]:
-        do_for_post(rand=switch, doc_type=post_type['1'])
-        do_for_wiki(rand=switch, doc_type=post_type['1'])
-        do_for_page(rand=switch, doc_type=post_type['1'])
+        # do_for_post(rand=switch)
+        do_for_document(rand=switch, kind='1')
+        do_for_wiki(rand=switch)
+        do_for_page(rand=switch)
         for kind in kind_arr:
-            do_for_app(rand=switch, kind=kind, doc_type=post_type)
-    # writer.commit()
+            do_for_document(rand=switch, kind=kind)
 
 
 def run():
     '''
     Run it.
     '''
-    gen_whoosh_database(kind_arr=kind_arr, post_type=post_type)
+    gen_whoosh_database(kind_arr=kind_arr)

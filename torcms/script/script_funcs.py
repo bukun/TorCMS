@@ -50,4 +50,4 @@ def run_whoosh(*args):
     '''
     running whoosh
     '''
-    running_whoosh.gen_whoosh_database(kind_arr=kind_arr, post_type=post_type)
+    running_whoosh.gen_whoosh_database(kind_arr=kind_arr)
