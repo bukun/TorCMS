@@ -31,6 +31,10 @@ class MReply():
         '''
         Create the reply.
         '''
+        if extinfo:
+            pass
+        else:
+            extinfo = {}
         uid = tools.get_uuid()
         TabReply.create(
             uid=uid,
@@ -69,13 +73,15 @@ class MReply():
         return TabReply.delete().where(TabReply.post_id == del_id)
 
     @staticmethod
-    def count_of_certain(ext_field):
+    def count_of_certain(ext_field=None):
         '''
         Get the count of certain kind.
         '''
         # adding ``None`` to hide ``No value for argument 'database' in method call``
         if ext_field:
-            return TabReply.select().where(TabReply.extinfo['ext_field'] == str(ext_field)).count(None)
+            return TabReply.select().where(
+                TabReply.extinfo['ext_field'] == str(ext_field)
+            ).count(None)
         else:
             return TabReply.select().count(None)
 

@@ -14,6 +14,8 @@ import wtforms.validators
 from wtforms.fields import StringField
 from wtforms.validators import DataRequired
 from wtforms_tornado import Form
+# ToDo: 需要进行切换、测试
+# from tornado_wtforms.form import TornadoForm as Form
 
 import config
 from config import CMS_CFG
