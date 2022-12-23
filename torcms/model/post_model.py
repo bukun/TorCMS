@@ -30,9 +30,11 @@ class MPost():
         :param recent: the number of days recent.
         '''
         time_that = int(time.time()) - recent * 24 * 3600
-        return TabPost.select().where((TabPost.time_update > time_that)
-                                      & (TabPost.valid == 1)).order_by(
-            TabPost.view_count.desc()).limit(num)
+        return TabPost.select().where(
+            (TabPost.time_update > time_that) & (TabPost.valid == 1)
+        ).order_by(
+            TabPost.view_count.desc()
+        ).limit(num)
 
     @staticmethod
     def delete(uid):

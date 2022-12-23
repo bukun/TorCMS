@@ -8,7 +8,10 @@ import time
 
 import tornado.web
 from tornado.concurrent import run_on_executor
-from torcms.core.tool import run_whoosh
+
+import torcms.core.tool.whoosh_tool
+# from torcms.core.tool import run_whoosh
+
 from torcms.model.user_model import MUser
 
 from config import kind_arr, post_type
@@ -153,7 +156,7 @@ class BaseHandler(tornado.web.RequestHandler):
         '''
         Generat whoosh database.
         '''
-        run_whoosh.gen_whoosh_database(kind_arr=kind_arr)
+        torcms.core.tool.whoosh_tool.gen_whoosh_database(kind_arr=kind_arr)
 
     def get_host_ip(self):
         """

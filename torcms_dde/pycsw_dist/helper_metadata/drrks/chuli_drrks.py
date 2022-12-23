@@ -2,7 +2,11 @@
 DRRKS本身数据集
 '''
 from pprint import pprint
-import sys; sys.path.append('.')
+import sys;
+
+import torcms.core.tool.whoosh_tool
+
+sys.path.append('.')
 import os
 
 from torcms.model.post_model import MPost
@@ -152,7 +156,7 @@ def walk_dir(the_sig):
             file7z = workdir / wfile.name
             if file7z.exists():
 
-                subprocess.run(['7z', 'x', f'{file7z}'])
+                torcms.core.tool.whoosh_tool.run(['7z', 'x', f'{file7z}'])
                 print('=' * 40)
                 print(wfile)
                 uu = get_geo(workdir)

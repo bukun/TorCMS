@@ -10,3 +10,4 @@ coverage
 pytest-cov
 pycodestyle
 tox
+faker

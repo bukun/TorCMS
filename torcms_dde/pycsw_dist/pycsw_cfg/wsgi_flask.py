@@ -41,6 +41,7 @@ from pycsw.ogc.api.records import API
 from pycsw.ogc.api.util import STATIC
 from pycsw.wsgi import application_dispatcher
 
+import torcms.core.tool.whoosh_tool
 
 APP = Flask(__name__, static_folder=STATIC, static_url_path='/static')
 APP.url_map.strict_slashes = False
@@ -251,6 +252,6 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         port = int(sys.argv[1])
     print(f'Serving on port {port}')
-    APP.run(debug=True, host='0.0.0.0', port=port)
+    torcms.core.tool.whoosh_tool.run(debug=True, host='0.0.0.0', port=port)
 
 
