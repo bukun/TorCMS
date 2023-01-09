@@ -49,63 +49,102 @@
                 <a href="/reply/_add" class="btn btn-primary">提问</a>
             </div>
             <div class="panel-body">
-                <table class="table">
-                    <thead>
-                    <tr>
-
-                        <th>问题描述</th>
-
-                        <th>所属领域</th>
-                        <th>提问时间</th>
-                        <th>操作</th>
-
-                    </tr>
-                    </thead>
-
-                    {% set ii = 0 %}
 
 
-                    {% for x in infos %}
-
-                    <tr id="del_info_{{ ii }}">
-
-                        <td>
-
-                            {{ x.cnt_md }}
+                {% set ii = 0 %}
 
 
-                        </td>
+                {% for x in infos %}
 
-                        <td>
-                            {% if x.extinfo.get('ext_field') == '1' %}
-                            土肥
-                            {% elif x.extinfo.get('ext_field') == '2' %}
-                            植保
-                            {% else %}
-                            育种
-                            {% end %}
-                        </td>
-                        <td>
-                            {{ str(x.date)[:-7] }}
-                        </td>
-                        <td>
-                            <a href="/reply/more/{{ x.uid }}">
-                                <span class="glyphicon glyphicon-eye-open"></span>
-                                查看
+                <div class="row" id="del_info_{{ ii }}">
+
+                    <div class="col-sm-12">
+
+                        <h4>{{ x.cnt_md }}</h4>
+   <br>
+
+                    </div>
+
+
+                    <div class="col-sm-12">
+                        {{ str(x.date)[:-7] }}
+                        <br>
+                        <br>
+                    </div>
+{#                    <div class="col-sm-12">#}
+{#                        <a href="/reply/more/{{ x.uid }}">#}
+{#                            <span class="glyphicon glyphicon-eye-open"></span>#}
+{#                            查看#}
+{#                        </a>#}
+{#                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#}
+{#                        <a onclick="rel_del('{{ x.uid }}', {{ ii }} );">#}
+{#                            <span class="glyphicon glyphicon-trash"></span>#}
+{#                            删除#}
+{#                        </a>#}
+{##}
+{#                    </div>#}
+
+                    <div class="col-sm-12">
+                        {% if (userinfo is None) or ( (userinfo) and ( userinfo.uid == x.user_id )) %}
+                        <span class="glyphicon glyphicon-thumbs-up"></span>
+                        {% else %}
+                        <span class="glyphicon glyphicon-thumbs-up" id="zan_text"
+                              onclick="reply_zan('{{ reply.uid }}');" style="cursor: pointer"></span>
+                        {% end %}
+                        <span style="color: #f00" id="text_zan_{{ x.uid }}">{{ x.vote }}</span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span>
+                                <span class="glyphicon glyphicon-comment"></span>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ x.uid }}">
+                            0 条评论
                             </a>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <a onclick="rel_del('{{ x.uid }}', {{ ii }} );" >
-                                <span class="glyphicon glyphicon-trash"></span>
-                                删除
-                            </a>
+                            </span>
+                         <div id="collapse{{ x.uid }}" class="panel-collapse collapse">
 
-                        </td>
-                    </tr>
-                    {% set ii = ii + 1 %}
-                    {% end %}
+                    <div id="reply_demo{{ x.uid }}" class="comment">
+                        <form method="post" class="form-horizontal" id="comment_form">
+                            <div class="form-group">
 
+                                <div class="col-sm-10">
+                                    {% if userinfo %}
+                                    <textarea rows="1" name="cnt_comment{{ x.uid }}" id="cnt_comment{{ x.uid }}"
+                                              class="form-control"></textarea>
+                                    {% else %}
+                                    <textarea rows="1" name="cnt_comment{{ x.uid }}" id="cnt_comment{{ x.uid }}"
+                                              class="form-control" readonly></textarea>
+                                    {% end %}
+                                </div>
 
-                </table>
+                                <div class="col-sm-2">
+                                    <a id="btn_submit_comment{{ x.uid }}"
+                                       onclick="comment_it('00000','{{ x.uid }}','cnt_comment{{ x.uid }}','btn_submit_comment{{ x.uid }}');"
+                                       class="btn btn-primary btn-xs" data-toggle="collapse"
+                                       data-target="#reply_demo{{ x.uid }}">
+                                        {{ _('Submit') }}
+                                    </a>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+
+                             <div class="panel panel-default">
+            <div class="panel-heading">
+                   0 条评论
+            </div>
+                                 <div class="panel-body">
+                                       <div class="row"  id="reply_comment{{x.uid}}"></div>
+                                     {% module comment_list(replyid = x.uid,userinfo=userinfo) %}
+                                 </div>
+                             </div>
+                </div>
+
+                    </div>
+                </div>
+                <br><br>
+                {% set ii = ii + 1 %}
+                {% end %}
+
 
             </div>
 
@@ -114,4 +153,5 @@
     </div>
 
 </div>
+
 {% end %}
