@@ -113,7 +113,7 @@ class ReplyHandler(BaseHandler):
             'ext_field': ext_field
         }
         infos = MReply.query_pager(current_page_num=current_page_number, ext_field=ext_field)
-
+        info_count = MReply.total_number(ext_field=ext_field)
         if isjson:
             list = []
             for rec in infos:
@@ -142,6 +142,7 @@ class ReplyHandler(BaseHandler):
                 kwd=kwd,
                 view_all=MReply.query_all(),
                 infos=infos,
+                info_count=info_count,
                 userinfo=self.userinfo)
         else:
             self.render(
@@ -149,6 +150,7 @@ class ReplyHandler(BaseHandler):
                 kwd=kwd,
                 view_all=MReply.query_all(),
                 infos=infos,
+                info_count=info_count,
                 userinfo=self.userinfo)
 
     def get_by_id(self, reply_id):

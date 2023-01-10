@@ -20,7 +20,7 @@
     <li><a href="/reply/list/1"> 问答管理 </a></li>
     <li class="active">
         热门问答
-       </li>
+    </li>
 </ol>
 
 <div class="row">
@@ -31,7 +31,7 @@
 
                 热门问答
 
-                (<span style="color: #f00;"> {{ infos.count() }} </span>)
+                (<span style="color: #f00;"> {{ info_count }} </span>)
                 <a href="/reply/_add" class="btn btn-primary">提问</a>
             </div>
             <div class="panel-body">
@@ -134,7 +134,7 @@
             </div>
 
         </div>
-        {% module admin_reply_pager(kwd['current_page'],ext_field=kwd['ext_field']) %}
+        {% module reply_pager(kwd['current_page'],ext_field=kwd['ext_field']) %}
     </div>
 
 </div>
