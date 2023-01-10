@@ -61,28 +61,27 @@
                     <div class="col-sm-12">
 
                         <h4>{{ x.cnt_md }}</h4>
-   <br>
 
                     </div>
 
 
                     <div class="col-sm-12">
-                        {{ str(x.date)[:-7] }}
+                        {% module reply_recent_cnt(x.uid) %}
                         <br>
                         <br>
                     </div>
-{#                    <div class="col-sm-12">#}
-{#                        <a href="/reply/more/{{ x.uid }}">#}
-{#                            <span class="glyphicon glyphicon-eye-open"></span>#}
-{#                            查看#}
-{#                        </a>#}
-{#                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#}
-{#                        <a onclick="rel_del('{{ x.uid }}', {{ ii }} );">#}
-{#                            <span class="glyphicon glyphicon-trash"></span>#}
-{#                            删除#}
-{#                        </a>#}
-{##}
-{#                    </div>#}
+                    {#                    <div class="col-sm-12">#}
+                    {#                        <a href="/reply/more/{{ x.uid }}">#}
+                    {#                            <span class="glyphicon glyphicon-eye-open"></span>#}
+                    {#                            查看#}
+                    {#                        </a>#}
+                    {#                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#}
+                    {#                        <a onclick="rel_del('{{ x.uid }}', {{ ii }} );">#}
+                    {#                            <span class="glyphicon glyphicon-trash"></span>#}
+                    {#                            删除#}
+                    {#                        </a>#}
+                    {##}
+                    {#                    </div>#}
 
                     <div class="col-sm-12">
                         {% if (userinfo is None) or ( (userinfo) and ( userinfo.uid == x.user_id )) %}
@@ -99,45 +98,45 @@
                             {% module reply_count(x.uid) %} 条评论
                             </a>
                             </span>
-                         <div id="collapse{{ x.uid }}" class="panel-collapse collapse">
+                        <div id="collapse{{ x.uid }}" class="panel-collapse collapse">
 
-                    <div id="reply_demo{{ x.uid }}" class="comment">
-                        <form method="post" class="form-horizontal" id="comment_form">
-                            <div class="form-group">
+                            <div id="reply_demo{{ x.uid }}" class="comment">
+                                <form method="post" class="form-horizontal" id="comment_form">
+                                    <div class="form-group">
 
-                                <div class="col-sm-10">
-                                    {% if userinfo %}
-                                    <textarea rows="1" name="cnt_comment{{ x.uid }}" id="cnt_comment{{ x.uid }}"
-                                              class="form-control"></textarea>
-                                    {% else %}
-                                    <textarea rows="1" name="cnt_comment{{ x.uid }}" id="cnt_comment{{ x.uid }}"
-                                              class="form-control" readonly></textarea>
-                                    {% end %}
-                                </div>
+                                        <div class="col-sm-10">
+                                            {% if userinfo %}
+                                            <textarea rows="1" name="cnt_comment{{ x.uid }}" id="cnt_comment{{ x.uid }}"
+                                                      class="form-control"></textarea>
+                                            {% else %}
+                                            <textarea rows="1" name="cnt_comment{{ x.uid }}" id="cnt_comment{{ x.uid }}"
+                                                      class="form-control" readonly></textarea>
+                                            {% end %}
+                                        </div>
 
-                                <div class="col-sm-2">
-                                    <a id="btn_submit_comment{{ x.uid }}"
-                                       onclick="comment_it('00000','{{ x.uid }}','cnt_comment{{ x.uid }}','btn_submit_comment{{ x.uid }}');"
-                                       class="btn btn-primary btn-xs" data-toggle="collapse"
-                                       data-target="#reply_demo{{ x.uid }}">
-                                        {{ _('Submit') }}
-                                    </a>
-                                </div>
+                                        <div class="col-sm-2">
+                                            <a id="btn_submit_comment{{ x.uid }}"
+                                               onclick="comment_it('00000','{{ x.uid }}','cnt_comment{{ x.uid }}','btn_submit_comment{{ x.uid }}');"
+                                               class="btn btn-primary btn-xs" data-toggle="collapse"
+                                               data-target="#reply_demo{{ x.uid }}">
+                                                {{ _('Submit') }}
+                                            </a>
+                                        </div>
 
+                                    </div>
+                                </form>
                             </div>
-                        </form>
-                    </div>
 
-                             <div class="panel panel-default">
-            <div class="panel-heading">
-                   0 条评论
-            </div>
-                                 <div class="panel-body">
-                                       <div class="row"  id="reply_comment{{x.uid}}"></div>
-                                     {% module comment_list(replyid = x.uid,userinfo=userinfo) %}
-                                 </div>
-                             </div>
-                </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    {% module reply_count(x.uid) %} 条评论
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row" id="reply_comment{{ x.uid }}"></div>
+                                    {% module comment_list(replyid = x.uid,userinfo=userinfo) %}
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
                 </div>

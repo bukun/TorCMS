@@ -28,5 +28,9 @@ class MReplyid():
         )
 
     @staticmethod
-    def get_by_rid(rid):
-        return TabReplyid.select().where(TabReplyid.reply0 == rid).order_by(TabReplyid.time_create.desc())
+    def get_by_rid(rid, rec_num=''):
+        if rec_num:
+            return TabReplyid.select().where(TabReplyid.reply0 == rid).order_by(TabReplyid.time_create.desc()).limit(
+                rec_num)
+        else:
+            return TabReplyid.select().where(TabReplyid.reply0 == rid).order_by(TabReplyid.time_create.desc())
