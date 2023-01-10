@@ -75,56 +75,113 @@
     </div>
 </form>
 
-<div id="pinglun"></div>
-<br>
+
 <p><span class="glyphicon glyphicon-th-list"></span> {% if en %}{{ _(' Comment list') }}{% else %} 评论列表 {% end %}
     (<span  class="red"> {{replys.count()}}</span> )</p>
-<p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
 
+<div id="pinglun"></div>
+<br>
 {% for reply in replys %}
 
 <div id="del_zan_{{ reply.uid }}" style="font-size: 14px;">
     <div class="reply_list">
         <div class="row">
-            <div class="col-sm-2">{% module user_profile_by_id(reply.user_id) %}</div>
-            <div class="col-sm-10">
+{#            <div class="col-sm-2">{% module user_profile_by_id(reply.user_id) %}</div>#}
+            <div class="col-sm-12">
                 <div class="reply_title">
-                    <span class="red"> <span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;  {{ reply.user_name }}</span>
-                    <span class="pull-right"><span class=" glyphicon glyphicon-time"></span>&nbsp;
-        {{ str(reply.date).split('.')[0] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                   <span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;  {{ reply.user_name }}
+
                 </div>
 
                 <div class="reply_cnt">
                     <div class="listinfo_content" id="reply_cnt{{ reply.uid }}">
                         {% raw unescape(reply.cnt_html) %}
                     </div>
-                    <div class="reply_button pull-right">
+{#                    <span class=" glyphicon glyphicon-time"></span>&nbsp;#}
+{#        {{ str(reply.date).split('.')[0] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#}
+{#                    <div class="reply_button pull-right">#}
+{#                        {% if (userinfo is None) or ( (userinfo) and ( userinfo.uid == reply.user_id )) %}#}
+{#                        <span class="glyphicon glyphicon-thumbs-up"></span>#}
+{#                        {% else %}#}
+{#                        <span class="glyphicon glyphicon-thumbs-up" id="zan_text"#}
+{#                              onclick="reply_zan('{{ reply.uid }}');" style="cursor: pointer"></span>#}
+{#                        {% end %}#}
+{#                        <span class="red" id="text_zan_{{ reply.uid }}">{{ reply.vote }}</span>#}
+{#                        &nbsp;#}
+{##}
+{#                        {% if userinfo and userinfo.uid == reply.user_id %}#}
+{#                        <button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#myModal1_{{reply.uid}}"><span#}
+{#                                class="glyphicon glyphicon-pencil"></span>&nbsp;{{ _('Modify') }}#}
+{#                        </button>#}
+{#                        {% end %}#}
+{#                        {% if userinfo and ( userinfo.uid == reply.user_id or userinfo.role[2] > '1') %}#}
+{#                        <button class="btn btn-xs btn-danger"#}
+{#                                onclick="reply_del('{{ reply.uid }}');">#}
+{#                            <span class=" glyphicon glyphicon-trash"></span>#}
+{#                            {{ _('Delete') }}#}
+{#                        </button>#}
+{#                        {% end %}#}
+{#                        {% if userinfo %}#}
+{#                        <button class="btn btn-primary btn-xs" data-toggle="collapse" data-target="#reply_demo{{reply.uid}}"><span#}
+{#                                class="glyphicon glyphicon-share-alt"></span>&nbsp;{{ _('Reply') }}#}
+{#                        </button>#}
+{#                        {% end %}#}
+{#                    </div>#}
+                     <div class="row">
                         {% if (userinfo is None) or ( (userinfo) and ( userinfo.uid == reply.user_id )) %}
                         <span class="glyphicon glyphicon-thumbs-up"></span>
                         {% else %}
                         <span class="glyphicon glyphicon-thumbs-up" id="zan_text"
                               onclick="reply_zan('{{ reply.uid }}');" style="cursor: pointer"></span>
                         {% end %}
-                        <span class="red" id="text_zan_{{ reply.uid }}">{{ reply.vote }}</span>
-                        &nbsp;
+                        <span style="color: #f00" id="text_zan_{{ reply.uid }}">{{ reply.vote }}</span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span>
+                                <span class="glyphicon glyphicon-comment"></span>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ reply.uid }}">
+                            {% module reply_count(reply.uid) %} 条评论
+                            </a>
+                            </span>
+                        <div id="collapse{{ reply.uid }}" class="panel-collapse collapse">
 
-                        {% if userinfo and userinfo.uid == reply.user_id %}
-                        <button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#myModal1_{{reply.uid}}"><span
-                                class="glyphicon glyphicon-pencil"></span>&nbsp;{{ _('Modify') }}
-                        </button>
-                        {% end %}
-                        {% if userinfo and ( userinfo.uid == reply.user_id or userinfo.role[2] > '1') %}
-                        <button class="btn btn-xs btn-danger"
-                                onclick="reply_del('{{ reply.uid }}');">
-                            <span class=" glyphicon glyphicon-trash"></span>
-                            {{ _('Delete') }}
-                        </button>
-                        {% end %}
-                        {% if userinfo %}
-                        <button class="btn btn-primary btn-xs" data-toggle="collapse" data-target="#reply_demo{{reply.uid}}"><span
-                                class="glyphicon glyphicon-share-alt"></span>&nbsp;{{ _('Reply') }}
-                        </button>
-                        {% end %}
+                            <div id="reply_demo{{ reply.uid }}" class="comment">
+                                <form method="post" class="form-horizontal" id="comment_form">
+                                    <div class="form-group">
+
+                                        <div class="col-sm-10">
+                                            {% if userinfo %}
+                                            <textarea rows="1" name="cnt_comment{{ reply.uid }}" id="cnt_comment{{ reply.uid }}"
+                                                      class="form-control"></textarea>
+                                            {% else %}
+                                            <textarea rows="1" name="cnt_comment{{ reply.uid }}" id="cnt_comment{{ reply.uid }}"
+                                                      class="form-control" readonly></textarea>
+                                            {% end %}
+                                        </div>
+
+                                        <div class="col-sm-2">
+                                            <a id="btn_submit_comment{{ reply.uid }}"
+                                               onclick="comment_it('00000','{{ reply.uid }}','cnt_comment{{ reply.uid }}','btn_submit_comment{{ reply.uid }}');"
+                                               class="btn btn-primary btn-xs" data-toggle="collapse"
+                                               data-target="#reply_demo{{ reply.uid }}">
+                                                {{ _('Submit') }}
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    {% module reply_count(reply.uid) %} 条评论
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row" id="reply_comment{{ reply.uid }}"></div>
+                                    {% module comment_list(replyid = reply.uid,userinfo=userinfo) %}
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -157,10 +214,10 @@
                         </div>
                     </form>
                 </div>
-        <div style="padding-left: 50px" id="reply_comment{{reply.uid}}"></div>
-        <div class="comment_list">
-            {% module comment_list(replyid = reply.uid,userinfo=userinfo,en=en) %}
-        </div>
+{#        <div style="padding-left: 50px" id="reply_comment{{reply.uid}}"></div>#}
+{#        <div class="comment_list">#}
+{#            {% module comment_list(replyid = reply.uid,userinfo=userinfo,en=en) %}#}
+{#        </div>#}
 
         <div class="modal fade" id="myModal1_{{reply.uid}}" tabindex="-1" role="dialog" aria-labelledby="myModal1_Label" aria-hidden="true">
             <div class="modal-dialog">
@@ -204,7 +261,7 @@
 </div>
 
 
-    <p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
+
 </div>
 
 {% end %}

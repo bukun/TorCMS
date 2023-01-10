@@ -78,7 +78,7 @@ class ReplyHandler(BaseHandler):
                         kwd=kwd,
                         userinfo=self.userinfo)
         else:
-            self.render('reply/reply_add.html',
+            self.render('misc/reply/reply_add.html',
                         kwd=kwd,
                         userinfo=self.userinfo)
 
@@ -145,7 +145,7 @@ class ReplyHandler(BaseHandler):
                 userinfo=self.userinfo)
         else:
             self.render(
-                'reply/reply_list.html',
+                'misc/reply/reply_list.html',
                 kwd=kwd,
                 view_all=MReply.query_all(),
                 infos=infos,
@@ -207,7 +207,7 @@ class ReplyHandler(BaseHandler):
         '''
         reply = MReply.get_by_uid(reply_id)
 
-        self.render('reply/show_reply.html',
+        self.render('misc/reply/show_reply_more.html',
                     reply=reply,
                     username=reply.user_name,
                     date=reply.date,
