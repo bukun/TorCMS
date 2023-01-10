@@ -203,7 +203,12 @@ class Replycnt(tornado.web.UIModule):
         res = MReply.get_by_uid(replyid)
         reply_cnt = res.cnt_md
         return reply_cnt
-
+class Replycount(tornado.web.UIModule):
+    def render(self, *args, **kwargs):
+        commentid = args[0]
+        res = MReplyid.get_by_rid(commentid)
+        reply_count = res.count()
+        return reply_count
 
 class Userprofile(tornado.web.UIModule):
     '''

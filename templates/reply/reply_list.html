@@ -89,14 +89,14 @@
                         <span class="glyphicon glyphicon-thumbs-up"></span>
                         {% else %}
                         <span class="glyphicon glyphicon-thumbs-up" id="zan_text"
-                              onclick="reply_zan('{{ reply.uid }}');" style="cursor: pointer"></span>
+                              onclick="reply_zan('{{ x.uid }}');" style="cursor: pointer"></span>
                         {% end %}
                         <span style="color: #f00" id="text_zan_{{ x.uid }}">{{ x.vote }}</span>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <span>
                                 <span class="glyphicon glyphicon-comment"></span>
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ x.uid }}">
-                            0 条评论
+                            {% module reply_count(x.uid) %} 条评论
                             </a>
                             </span>
                          <div id="collapse{{ x.uid }}" class="panel-collapse collapse">
