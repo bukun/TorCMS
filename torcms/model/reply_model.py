@@ -105,11 +105,13 @@ class MReply():
         '''
         if ext_field:
             return TabReply.select().where(
-                TabReply.category == '0' and TabReply.extinfo['ext_field'] == ext_field).paginate(current_page_num,
-                                                                                                  CMS_CFG['list_num'])
+                TabReply.category == '0' and TabReply.extinfo['ext_field'] == ext_field).order_by(
+                TabReply.timestamp.desc()
+            ).paginate(current_page_num, CMS_CFG['list_num'])
         else:
-            return TabReply.select().where(TabReply.category == '0').paginate(current_page_num,
-                                                                              CMS_CFG['list_num'])
+            return TabReply.select().where(TabReply.category == '0').order_by(
+                TabReply.timestamp.desc()
+            ).paginate(current_page_num, CMS_CFG['list_num'])
 
     @staticmethod
     def modify_by_uid(pid, post_data):
