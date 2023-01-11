@@ -78,7 +78,7 @@ class ReplyHandler(BaseHandler):
                         kwd=kwd,
                         userinfo=self.userinfo)
         else:
-            self.render('reply/reply_add.html',
+            self.render('misc/reply/reply_add.html',
                         kwd=kwd,
                         userinfo=self.userinfo)
 
@@ -113,7 +113,7 @@ class ReplyHandler(BaseHandler):
             'ext_field': ext_field
         }
         infos = MReply.query_pager(current_page_num=current_page_number, ext_field=ext_field)
-
+        info_count = MReply.total_number(ext_field=ext_field)
         if isjson:
             list = []
             for rec in infos:
@@ -142,13 +142,15 @@ class ReplyHandler(BaseHandler):
                 kwd=kwd,
                 view_all=MReply.query_all(),
                 infos=infos,
+                info_count=info_count,
                 userinfo=self.userinfo)
         else:
             self.render(
-                'reply/reply_list.html',
+                'misc/reply/reply_list.html',
                 kwd=kwd,
                 view_all=MReply.query_all(),
                 infos=infos,
+                info_count=info_count,
                 userinfo=self.userinfo)
 
     def get_by_id(self, reply_id):
@@ -207,7 +209,7 @@ class ReplyHandler(BaseHandler):
         '''
         reply = MReply.get_by_uid(reply_id)
 
-        self.render('reply/show_reply.html',
+        self.render('misc/reply/show_reply_more.html',
                     reply=reply,
                     username=reply.user_name,
                     date=reply.date,

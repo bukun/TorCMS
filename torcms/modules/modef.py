@@ -52,6 +52,7 @@ core_modules = {
     'admin_post_pager': base_modules.Admin_Post_pager,
     'admin_page_pager': base_modules.Admin_Page_pager,
     'admin_reply_pager': base_modules.Admin_reply_pager,
+    'reply_pager': base_modules.Reply_pager,
     'admin_user_pager': base_modules.Admin_user_pager,
     'admin_log_pager': base_modules.Admin_log_pager,
     'pageview_count': base_modules.LogPageviewCount,
@@ -100,6 +101,8 @@ core_modules = {
     # Comment
     'comment_list': widget_modules.CommentList,
     'replycnt': widget_modules.Replycnt,
+    'reply_count': widget_modules.Replycount,
+    'reply_recent_cnt': widget_modules.ReplyRecentcnt,
     'user_profile_by_id': widget_modules.Userprofile,
     'post_state': widget_modules.State,
     'check_pager': widget_modules.Check_pager,

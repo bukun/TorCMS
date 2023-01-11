@@ -1,0 +1,41 @@
+
+<ul class="pagination">
+    {% if kwd['page_home'] %}
+    <li>
+        <a href="/reply/list/1?ext_field={{ kwd['ext_field'] }}" class="{0}" >{{ _('Home') }} </a>
+    </li>
+    {% end %}
+
+    {% if kwd['page_pre'] %}
+    <li>
+        <a class="{0}" href="/reply/list/{{ page_current - 1 }}?ext_field={{ kwd['ext_field'] }}">{{ _('Previous page') }}</a>
+    </li>
+    {% end %}
+    {% set cur_num = page_current
+    if cur_num > 5:
+        cur_num = cur_num - 4
+    else:
+        cur_num = 1
+    if pager_num > 10 and cur_num < pager_num - 10:
+        show_num = cur_num + 10
+    else:
+        show_num = pager_num + 1
+    %}
+    {% for page_index in range(cur_num, show_num ) %}
+    <li class="{% if page_current == page_index %}active{% end %}">
+        <a href="/reply/list/{{ page_index }}?ext_field={{ kwd['ext_field'] }}">{{ page_index }}</a></li>
+    {% end %}
+
+
+    {% if kwd['page_next'] %}
+    <li>
+        <a class="{0}" href="/reply/list/{{ page_current + 1 }}?ext_field={{ kwd['ext_field'] }}">{{ _('Next page') }}</a>
+    </li>
+    {% end %}
+
+    {% if kwd['page_end'] %}
+    <li>
+        <a class="{0}" href="/reply/list/{{ pager_num }}?ext_field={{ kwd['ext_field'] }}"> {{ _('End') }}</a>
+    </li>
+    {% end %}
+</ul>

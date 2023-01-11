@@ -1,0 +1,142 @@
+{% autoescape None %}
+{% extends "../../theme/bage.html" %}
+{% block head %}
+<script>
+    function rel_del(reply_id, id_num) {
+
+        id_num = id_num.toString();
+        var AjaxUrl = "/reply_j/delete/" + reply_id;
+        $.getJSON(AjaxUrl, function (Json) {
+            $("#del_info_" + id_num).html('');
+        });
+
+    }
+</script>
+{% end %}
+{% block typebody %}
+
+<ol class="breadcrumb">
+    <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
+    <li><a href="/reply/list/1"> 问答管理 </a></li>
+    <li class="active">
+        热门问答
+    </li>
+</ol>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-envelope"></span>
+
+                热门问答
+
+                (<span style="color: #f00;"> {{ info_count }} </span>)
+                <a href="/reply/_add" class="btn btn-primary">提问</a>
+            </div>
+            <div class="panel-body">
+
+
+                {% set ii = 0 %}
+
+
+                {% for x in infos %}
+
+                <div class="row" id="del_info_{{ ii }}">
+
+                    <div class="col-sm-12">
+
+                        <h4><a href="/reply/more/{{ x.uid }}"> {{ x.cnt_md }}</a></h4>
+
+                    </div>
+
+
+                    <div class="col-sm-12">
+                        {% module reply_recent_cnt(x.uid) %}
+                        <br>
+                        <br>
+                    </div>
+                    {#                    <div class="col-sm-12">#}
+                    {#                        <a href="/reply/more/{{ x.uid }}">#}
+                    {#                            <span class="glyphicon glyphicon-eye-open"></span>#}
+                    {#                            查看#}
+                    {#                        </a>#}
+                    {#                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#}
+                    {#                        <a onclick="rel_del('{{ x.uid }}', {{ ii }} );">#}
+                    {#                            <span class="glyphicon glyphicon-trash"></span>#}
+                    {#                            删除#}
+                    {#                        </a>#}
+                    {##}
+                    {#                    </div>#}
+
+                    <div class="col-sm-12">
+                        {% if (userinfo is None) or ( (userinfo) and ( userinfo.uid == x.user_id )) %}
+                        <span class="glyphicon glyphicon-thumbs-up"></span>
+                        {% else %}
+                        <span class="glyphicon glyphicon-thumbs-up" id="zan_text"
+                              onclick="reply_zan('{{ x.uid }}');" style="cursor: pointer"></span>
+                        {% end %}
+                        <span style="color: #f00" id="text_zan_{{ x.uid }}">{{ x.vote }}</span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span>
+                                <span class="glyphicon glyphicon-comment"></span>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ x.uid }}">
+                            {% module reply_count(x.uid) %} 条评论
+                            </a>
+                            </span>
+                        <div id="collapse{{ x.uid }}" class="panel-collapse collapse">
+
+                            <div id="reply_demo{{ x.uid }}" class="comment">
+                                <form method="post" class="form-horizontal" id="comment_form">
+                                    <div class="form-group">
+
+                                        <div class="col-sm-10">
+                                            {% if userinfo %}
+                                            <textarea rows="1" name="cnt_comment{{ x.uid }}" id="cnt_comment{{ x.uid }}"
+                                                      class="form-control"></textarea>
+                                            {% else %}
+                                            <textarea rows="1" name="cnt_comment{{ x.uid }}" id="cnt_comment{{ x.uid }}"
+                                                      class="form-control" readonly></textarea>
+                                            {% end %}
+                                        </div>
+
+                                        <div class="col-sm-2">
+                                            <a id="btn_submit_comment{{ x.uid }}"
+                                               onclick="comment_it('00000','{{ x.uid }}','cnt_comment{{ x.uid }}','btn_submit_comment{{ x.uid }}');"
+                                               class="btn btn-primary btn-xs" data-toggle="collapse"
+                                               data-target="#reply_demo{{ x.uid }}">
+                                                {{ _('Submit') }}
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    {% module reply_count(x.uid) %} 条评论
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row" id="reply_comment{{ x.uid }}"></div>
+                                    {% module comment_list(replyid = x.uid,userinfo=userinfo) %}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <br><br>
+                {% set ii = ii + 1 %}
+                {% end %}
+
+
+            </div>
+
+        </div>
+        {% module reply_pager(kwd['current_page'],ext_field=kwd['ext_field']) %}
+    </div>
+
+</div>
+
+{% end %}

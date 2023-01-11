@@ -66,7 +66,7 @@ class MReply():
 
     @staticmethod
     def query_all():
-        return TabReply.select().order_by(TabReply.timestamp.desc())
+        return TabReply.select().where(TabReply.category == '0').order_by(TabReply.timestamp.desc())
 
     @staticmethod
     def delete(del_id):
@@ -80,18 +80,23 @@ class MReply():
         # adding ``None`` to hide ``No value for argument 'database' in method call``
         if ext_field:
             return TabReply.select().where(
+                TabReply.category == '0' and
                 TabReply.extinfo['ext_field'] == str(ext_field)
             ).count(None)
         else:
-            return TabReply.select().count(None)
+            return TabReply.select().where(TabReply.category == '0').count(None)
 
     @staticmethod
-    def total_number():
+    def total_number(ext_field=''):
         '''
         Return the number.
         '''
         # adding ``None`` to hide ``No value for argument 'database' in method call``
-        return TabReply.select().count(None)
+        if ext_field:
+            return TabReply.select().where(
+                TabReply.category == '0' and TabReply.extinfo['ext_field'] == ext_field).count(None)
+        else:
+            return TabReply.select().where(TabReply.category == '0').count(None)
 
     @staticmethod
     def query_pager(current_page_num=1, ext_field=''):
@@ -100,11 +105,13 @@ class MReply():
         '''
         if ext_field:
             return TabReply.select().where(
-                TabReply.category == '0' and TabReply.extinfo['ext_field'] == ext_field).paginate(current_page_num,
-                                                                                                  CMS_CFG['list_num'])
+                TabReply.category == '0' and TabReply.extinfo['ext_field'] == ext_field).order_by(
+                TabReply.timestamp.desc()
+            ).paginate(current_page_num, CMS_CFG['list_num'])
         else:
-            return TabReply.select().where(TabReply.category == '0').paginate(current_page_num,
-                                                                              CMS_CFG['list_num'])
+            return TabReply.select().where(TabReply.category == '0').order_by(
+                TabReply.timestamp.desc()
+            ).paginate(current_page_num, CMS_CFG['list_num'])
 
     @staticmethod
     def modify_by_uid(pid, post_data):
