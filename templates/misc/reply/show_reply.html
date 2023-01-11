@@ -7,6 +7,8 @@
         <div class="reply_title"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp; <strong>
             {{ username}}
         </strong>
+            <span class="pull-right"> <span class="glyphicon glyphicon glyphicon-time"></span>&nbsp;&nbsp;
+                &nbsp;&nbsp;{{ str(date).split('.')[0] }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
 
         </div>
@@ -14,8 +16,7 @@
             <div>
                 {% raw unescape(reply.cnt_html) %}
             </div>
-            <span class="glyphicon glyphicon glyphicon-time"></span>&nbsp;&nbsp;
-                &nbsp;&nbsp;{{ str(date).split('.')[0] }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
         </div>
     </div>
     <p class="bor_bottom">&nbsp;</p>

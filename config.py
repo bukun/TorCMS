@@ -37,6 +37,7 @@ email_cfg = {
 router_post = {
     '1': 'post',
     '3': 'info',
+    'q': 'question',
 }
 
 post_type = {
@@ -44,10 +45,13 @@ post_type = {
         '''.format('Document'),
     '3': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>
         '''.format('Infor'),
+    'q': '''<span style="color:red;" class="glyphicon glyphicon-list-alt">[{0}]</span>
+            '''.format('Question'),
 }
 check_type = {
     '1': 'Document',
     '3': 'Infor',
+    'q': 'Question',
 }
 post_cfg = {
     '1': {
@@ -59,10 +63,15 @@ post_cfg = {
         'router': 'info',
         'html': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>'''.format('Data'),
         'checker': '10',  # '10', '100', '1000', '10000'
+    },
+    'q': {
+        'router': 'question',
+        'html': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>'''.format('Question'),
+        'checker': '0',  # '10', '100', '1000', '10000'
     }
 
 }
-kind_arr = ['1', '3', 'm', 's']
+kind_arr = ['1', '3', 'm', 's', 'q']
 
 for wdir in Path('.').iterdir():
     if wdir.is_dir() and wdir.name.startswith('torcms_'):

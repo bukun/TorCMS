@@ -1,0 +1,71 @@
+{% extends "../theme/bage.html" %}
+{% block head %}
+<title>{{ postinfo.title }} 开源地理空间基金会中文分会 开放地理空间实验室</title>
+<meta name="keywords" content="{{ postinfo.title }},开源地理空间基金会中文分会,开放地理空间实验室,开源GIS">
+<meta name="description" content="{% module generate_abstract(postinfo.cnt_html) %},{{ postinfo.title }}">
+
+<script type="text/javascript"
+        src="{{ static_url('syntaxhighlighter_3.0.83/scripts/shCore.js') }}"></script>
+<script type="text/javascript"
+        src="{{ static_url('syntaxhighlighter_3.0.83/scripts/shBrushPython.js') }}"></script>
+<link type="text/css" rel="stylesheet"
+      href="{{ static_url('syntaxhighlighter_3.0.83/styles/shCoreDefault.css') }}"/>
+<script type="text/javascript">SyntaxHighlighter.all(); </script>
+<style>
+    div.syntaxhighlighter .container:before, div.syntaxhighlighter .container:after {
+        content: none;
+    }
+</style>
+<link rel="stylesheet" href="{{ static_url('f2elib/bootstrap-star-rating-master/css/star-rating.css')}}"
+      type="text/css" media="all">
+<script type="text/javascript"
+        src="{{ static_url('f2elib/bootstrap-star-rating-master/js/star-rating.js') }}"></script>
+<style type="text/css">
+    #map {
+        width: 100%;
+        height: 640px;
+    }
+</style>
+{% end %}
+{% block typebody %}
+<script>
+    var post_uid = "{{ postinfo.uid }}";
+    var login = {{ kwd['login'] }};
+</script>
+<ol class="breadcrumb">
+    <li>当前位置: <a href="http://www.osgeo.cn" title="首页">首页</a></li>
+    <li>{% module the_category(postinfo.uid) %}</li>
+    <li class="active"><a href="/question/{{ postinfo.uid }}" title="{{ postinfo.title }}">{{ postinfo.title }}</a></li>
+</ol>
+
+<div class="panel panel-black">
+    <div class="panel-heading">
+        <h2>{{ postinfo.title }}</h2>
+        <span>{{ datetime.datetime.fromtimestamp(postinfo.time_update).strftime('%Y-%m-%d')  }}</span>
+        <span>作者: {{ postinfo.user_name }}</span>
+        <span>浏览: {{ postinfo.view_count }} 次</span>
+         {% if userinfo %}
+            {% module collect(userinfo.uid, postinfo.uid) %}
+            {% end %}
+        {% module widget_editor('question', postinfo.uid, userinfo,review=False,reclass=False) %}
+    </div>
+    <div class="panel-body">
+
+
+            {% module reply_panel(postinfo.uid, userinfo) %}
+
+        <div class="postmeta">
+            <div class="wpyouvote"></div>
+            <div class="clear"></div>
+            <br>
+            <strong>本文链接:</strong>
+            <a href="http://www.osgeo.cn/question/{{postinfo.uid}}" class="underline"> {{ postinfo.title }}</a>
+            <br/>
+            <strong>版权所有:</strong> 非特殊声明均为本站原创文章，转载请注明出处：
+            <a href="http://www.osgeo.cn" class="underline">开源地理空间基金会中文分会</a><br>
+
+        </div>
+    </div>
+
+</div>
+{% end %}

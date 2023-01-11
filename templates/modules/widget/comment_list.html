@@ -8,7 +8,8 @@
                 <div class="reply_title">
                     <span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp; <strong>{{ rec.user_name }}</strong>
 
-
+          <span class="pull-right"><span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;
+                 {{ str(rec.date).split('.')[0] }}</span>
                 </div>
                 <div class="reply_cnt">
                     <div class="listinfo_content" id="comment_id{{ rec.uid }}"> {% raw unescape(rec.cnt_html) %}
@@ -28,8 +29,7 @@
 {#                        {% end %}#}
 {#                    </div>#}
 
-                     <span><span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;
-                 {{ str(rec.date).split('.')[0] }}</span>
+
              </div>
                 </div>
 

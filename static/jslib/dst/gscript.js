@@ -97,7 +97,7 @@ function reply_del(reply_id) {
 }
 function reply_it(view_id) {
     var txt = $("#cnt_reply").val();
-    txt.length < 10 || ($.post("/reply/add/" + view_id, {cnt_reply: txt}, function (result) {
+    txt.length < 1 || ($.post("/reply/add/" + view_id, {cnt_reply: txt}, function (result) {
         var msg_json = $.parseJSON(result);
         $("#pinglun").load("/reply/get/" + msg_json.uid)
     }), $("#cnt_reply").val(""), $("#cnt_reply").attr("disabled", !0), $("#btn_submit_reply").attr("disabled", !0))
@@ -110,7 +110,7 @@ function reply_del_com(reply_id) {
 }
 function comment_it(view_id, reply_id, cid, bid) {
     var txt = $("#" + cid).val();
-    txt.length < 10 || ($.post("/reply/add_reply/" + view_id + '/' + reply_id, {cnt_reply: txt}, function (result) {
+    txt.length < 1 || ($.post("/reply/add_reply/" + view_id + '/' + reply_id, {cnt_reply: txt}, function (result) {
 
         var msg_json = $.parseJSON(result);
         $("#reply_comment"+reply_id).load("/reply/get/" + msg_json.uid)

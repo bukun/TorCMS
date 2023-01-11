@@ -34,11 +34,11 @@
     <div class="form-group">
         <div class="col-sm-10">
             {% if userinfo %}
-            <h5 class="red"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;
+            <h5><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;
                 {% if en %}
-                {{ _('Support for MarkDown syntax ') }}( {{ _(' at least 10 characters ') }})
+                {{ _('Support for MarkDown syntax ') }}
                 {% else %}
-                支持MarkDown语法（最少10个字符）
+                支持MarkDown语法
                 {% end %}
             </h5>
             {% else %}
@@ -76,10 +76,10 @@
 </form>
 
 
-<p><span class="glyphicon glyphicon-th-list"></span> {% if en %}{{ _(' Comment list') }}{% else %} 评论列表 {% end %}
-    (<span  class="red"> {{replys.count()}}</span> )</p>
+<div class="col-sm-12"><span class="glyphicon glyphicon-th-list"></span> {% if en %}{{ _(' Comment list') }}{% else %} 评论列表 {% end %}
+    (<span  class="red"> {{replys.count()}}</span> )</div>
 
-<div id="pinglun"></div>
+<div class="row"  id="pinglun"></div>
 <br>
 {% for reply in replys %}
 
@@ -90,24 +90,17 @@
             <div class="col-sm-12">
                 <div class="reply_title">
                    <span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;  {{ reply.user_name }}
-
+<span class="pull-right"><span class=" glyphicon glyphicon-time"></span>&nbsp;
+ {{ str(reply.date).split('.')[0] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                 </div>
 
                 <div class="reply_cnt">
-                    <div class="listinfo_content" id="reply_cnt{{ reply.uid }}">
+                    <div class="row listinfo_content" id="reply_cnt{{ reply.uid }}">
                         {% raw unescape(reply.cnt_html) %}
                     </div>
-{#                    <span class=" glyphicon glyphicon-time"></span>&nbsp;#}
-{#        {{ str(reply.date).split('.')[0] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#}
+
 {#                    <div class="reply_button pull-right">#}
-{#                        {% if (userinfo is None) or ( (userinfo) and ( userinfo.uid == reply.user_id )) %}#}
-{#                        <span class="glyphicon glyphicon-thumbs-up"></span>#}
-{#                        {% else %}#}
-{#                        <span class="glyphicon glyphicon-thumbs-up" id="zan_text"#}
-{#                              onclick="reply_zan('{{ reply.uid }}');" style="cursor: pointer"></span>#}
-{#                        {% end %}#}
-{#                        <span class="red" id="text_zan_{{ reply.uid }}">{{ reply.vote }}</span>#}
-{#                        &nbsp;#}
+
 {##}
 {#                        {% if userinfo and userinfo.uid == reply.user_id %}#}
 {#                        <button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#myModal1_{{reply.uid}}"><span#}
@@ -121,11 +114,7 @@
 {#                            {{ _('Delete') }}#}
 {#                        </button>#}
 {#                        {% end %}#}
-{#                        {% if userinfo %}#}
-{#                        <button class="btn btn-primary btn-xs" data-toggle="collapse" data-target="#reply_demo{{reply.uid}}"><span#}
-{#                                class="glyphicon glyphicon-share-alt"></span>&nbsp;{{ _('Reply') }}#}
-{#                        </button>#}
-{#                        {% end %}#}
+
 {#                    </div>#}
                      <div class="row">
                         {% if (userinfo is None) or ( (userinfo) and ( userinfo.uid == reply.user_id )) %}
@@ -160,7 +149,7 @@
 
                                         <div class="col-sm-2">
                                             <a id="btn_submit_comment{{ reply.uid }}"
-                                               onclick="comment_it('00000','{{ reply.uid }}','cnt_comment{{ reply.uid }}','btn_submit_comment{{ reply.uid }}');"
+                                               onclick="comment_it('{{ uid }}','{{ reply.uid }}','cnt_comment{{ reply.uid }}','btn_submit_comment{{ reply.uid }}');"
                                                class="btn btn-primary btn-xs" data-toggle="collapse"
                                                data-target="#reply_demo{{ reply.uid }}">
                                                 {{ _('Submit') }}
