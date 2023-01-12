@@ -16,7 +16,7 @@
         content: none;
     }
 </style>
-<link rel="stylesheet" href="{{ static_url('f2elib/bootstrap-star-rating-master/css/star-rating.css')}}"
+<link rel="stylesheet" href="{{ static_url('f2elib/bootstrap-star-rating-master/css/star-rating.css') }}"
       type="text/css" media="all">
 <script type="text/javascript"
         src="{{ static_url('f2elib/bootstrap-star-rating-master/js/star-rating.js') }}"></script>
@@ -41,25 +41,28 @@
 <div class="panel panel-black">
     <div class="panel-heading">
         <h2>{{ postinfo.title }}</h2>
-        <span>{{ datetime.datetime.fromtimestamp(postinfo.time_update).strftime('%Y-%m-%d')  }}</span>
+        <span>{{ datetime.datetime.fromtimestamp(postinfo.time_update).strftime('%Y-%m-%d') }}</span>
         <span>{{ _('Author') }}: {{ postinfo.user_name }}</span>
         <span>{{ _('Browse') }}: {{ postinfo.view_count }} </span>
-         {% if userinfo %}
-            {% module collect(userinfo.uid, postinfo.uid, en=True) %}
-            {% end %}
-        {% module widget_editor('question', postinfo.uid, userinfo,review=False,reclass=False) %}
+        {% if userinfo %}
+        {% module collect(userinfo.uid, postinfo.uid, en=True) %}
+        {% end %}
+
     </div>
     <div class="panel-body">
+        {% if postinfo.logo %}
+        <img src="{{ postinfo.logo }}" class="img-thumbnail">
+        <br>
+        <br>
+        {% end %}
 
-
-            {% module reply_panel(postinfo.uid, userinfo, en=True) %}
+        {% module reply_panel(postinfo.uid, userinfo, en=True) %}
 
         <div class="postmeta">
-            <div class="wpyouvote"></div>
-            <div class="clear"></div>
-            <br>
-           <strong>{{ _('Article link') }}:</strong>
-            <a href="{% module site_url() %}/{{kwd['router']}}/{{postinfo.uid}}" class="underline"> {{ postinfo.title }}</a>
+            
+            <strong>{{ _('Article link') }}:</strong>
+            <a href="{% module site_url() %}/{{ kwd['router'] }}/{{ postinfo.uid }}"
+               class="underline"> {{ postinfo.title }}</a>
             <br/>
             <strong>{{ _('Copyright') }}:</strong> {{ _('Non special statement are original articles, reproduced please indicate the  source') }}
 
