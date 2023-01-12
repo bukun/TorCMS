@@ -107,13 +107,7 @@
 {#                                class="glyphicon glyphicon-pencil"></span>&nbsp;{{ _('Modify') }}#}
 {#                        </button>#}
 {#                        {% end %}#}
-{#                        {% if userinfo and ( userinfo.uid == reply.user_id or userinfo.role[2] > '1') %}#}
-{#                        <button class="btn btn-xs btn-danger"#}
-{#                                onclick="reply_del('{{ reply.uid }}');">#}
-{#                            <span class=" glyphicon glyphicon-trash"></span>#}
-{#                            {{ _('Delete') }}#}
-{#                        </button>#}
-{#                        {% end %}#}
+
 
 {#                    </div>#}
                      <div class="row">
@@ -132,6 +126,14 @@
                             <span id="reply_count_{{ reply.uid }}">{% module reply_count(reply.uid) %}</span> comments
                             </a>
                             </span>
+                         {% if userinfo and ( userinfo.uid == reply.user_id or userinfo.role[2] > '1') %}
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button class="btn btn-xs btn-danger"
+                                onclick="reply_del('{{ reply.uid }}');">
+                            <span class=" glyphicon glyphicon-trash"></span>
+                            {{ _('Delete') }}
+                        </button>
+                        {% end %}
                         <div id="collapse{{ reply.uid }}" class="panel-collapse collapse">
 
                             <div id="reply_demo{{ reply.uid }}" >
