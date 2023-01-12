@@ -30,6 +30,8 @@
 
                         <div style="width: 30px;height: 30px"
                              class="pull-left">{% module user_profile_by_id(x.user_name,user_name=x.user_name) %}</div>&nbsp;&nbsp; {{ x.user_name }}
+                    </div>
+                     <div class="col-sm-12">
                         <h4>
                             <a href="{% module site_url() %}/{{ router }}/{{ x.uid }}"> {{ x.title }}</a>
                         </h4>

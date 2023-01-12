@@ -129,7 +129,7 @@
 
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ reply.uid }}">
                                      <span class="glyphicon glyphicon-comment"></span>
-                            {% module reply_count(reply.uid) %}
+                            <span id="reply_count1_{{ reply.uid }}">{% module reply_count(reply.uid) %}</span>
                             </a>
                             </span>
                         <div id="collapse{{ reply.uid }}" class="panel-collapse collapse">
@@ -163,7 +163,7 @@
 
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    {% module reply_count(reply.uid) %}
+                                    <span id="reply_count1_{{ reply.uid }}">{% module reply_count(reply.uid) %}</span> comments
                                 </div>
                                 <div class="panel-body">
                                     <div class="row" id="reply_comment{{ reply.uid }}"></div>

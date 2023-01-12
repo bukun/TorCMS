@@ -115,7 +115,17 @@ function comment_it(view_id, reply_id, cid, bid) {
         var msg_json = $.parseJSON(result);
         $("#reply_comment"+reply_id).load("/reply/get/" + msg_json.uid)
     }), $("#" + cid).val(""), $("#" + cid).attr("disabled", !0), $("#" + bid).attr("disabled", !0))
+   reply_count(reply_id)
+
 }
+ function reply_count(reply_id) {
+
+       var AjaxUrl = "/reply/count/" + reply_id;
+       $.getJSON(AjaxUrl, function (Json) {
+           0 == Json.reply_count || $("#reply_count_" + reply_id).html(Json.reply_count)
+           0 == Json.reply_count || $("#reply_count1_" + reply_id).html(Json.reply_count)
+       })
+   }
 function reply_modify(pid,cntid,cate) {
     var txt = $("#" + cntid).val();
     txt.length < 1 || ($.post("/reply/modify/" + pid +'/'+ cate, {cnt_reply: txt}, function (result) {

@@ -47,6 +47,9 @@ class ReplyHandler(BaseHandler):
         elif url_arr[0] == 'zan':
 
             self.zan(url_arr[1])
+        elif url_arr[0] == 'count':
+
+            self.reply_count(url_arr[1])
         elif url_arr[0] == '_add':
             self._add()
 
@@ -323,6 +326,20 @@ class ReplyHandler(BaseHandler):
         else:
             output = {'text_zan': 0}
         logger.info('zan dic: {0}'.format(cur_count))
+
+        return json.dump(output, self, ensure_ascii=False)
+
+    def reply_count(self, id_reply):
+        '''
+        回复数量
+        '''
+
+        res = MReplyid.get_by_rid(id_reply)
+        reply_count = res.count()
+        if reply_count:
+            output = {'reply_count': reply_count}
+        else:
+            output = {'reply_count': 0}
 
         return json.dump(output, self, ensure_ascii=False)
 
