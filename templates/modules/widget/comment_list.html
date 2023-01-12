@@ -31,6 +31,15 @@
 
 
              </div>
+                       <div>
+                        {% if (userinfo is None) or ( (userinfo) and ( userinfo.uid == rec.user_id )) %}
+                        <span class="glyphicon glyphicon-thumbs-up"></span>
+                        {% else %}
+                        <span class="glyphicon glyphicon-thumbs-up" id="zan_text"
+                              onclick="reply_zan('{{ rec.uid }}');" style="cursor: pointer"></span>
+                        {% end %}
+                        <span style="color: #f00" id="text_zan_{{ rec.uid }}">{{ rec.vote }}</span>
+                    </div>
                 </div>
 
             </div>

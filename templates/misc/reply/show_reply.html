@@ -1,4 +1,4 @@
-<div id="del_zan_0" style="font-size: 14px;">
+<div id="del_zan_0"  >
 
     <div class="col-sm-12">
         <div class="reply_title"><div style="width: 30px;height: 30px" class="pull-left">{% module user_profile_by_id(reply.user_id) %}</div>&nbsp;&nbsp; <strong>
@@ -9,14 +9,15 @@
 
 
         </div>
-        <div class="reply_cnt">
+
             <div>
                 {% raw unescape(reply.cnt_html) %}
             </div>
 
-        </div>
+
     </div>
     <div class="col-sm-12">
+          <div class="col-sm-12">
                         {% if (userinfo is None) or ( (userinfo) and ( userinfo.uid == reply.user_id )) %}
                         <span class="glyphicon glyphicon-thumbs-up"></span>
                         {% else %}
@@ -25,6 +26,7 @@
                         {% end %}
                         <span style="color: #f00" id="text_zan_{{ reply.uid }}">{{ reply.vote }}</span>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        {% if isreply == '' %}
                         <span>
                                 <span class="glyphicon glyphicon-comment"></span>
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ reply.uid }}">
@@ -71,6 +73,7 @@
                             </div>
                         </div>
 
+{% end %}
                     </div>
 </div>
-
+     </div>
