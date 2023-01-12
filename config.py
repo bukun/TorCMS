@@ -37,7 +37,7 @@ email_cfg = {
 router_post = {
     '1': 'post',
     '3': 'info',
-    'q': 'question',
+    'q': 'topic',
 }
 
 post_type = {
@@ -46,7 +46,7 @@ post_type = {
     '3': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>
         '''.format('Infor'),
     'q': '''<span style="color:red;" class="glyphicon glyphicon-list-alt">[{0}]</span>
-            '''.format('Question'),
+            '''.format('Topic'),
 }
 check_type = {
     '1': 'Document',

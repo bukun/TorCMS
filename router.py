@@ -4,8 +4,8 @@
 Router for extor.
 '''
 from torcms.handlers.referrer_handler import Referrer
-from extor.handlers.question_handler import QuestionHandler
+from extor.handlers.topic_handler import TopicHandler
 urls = [
-    ("/question/(.*)", QuestionHandler, dict(kind='q')),
+    ("/topic/(.*)", TopicHandler, dict(kind='q')),
     ('/referrer/(.*)', Referrer, dict(kind='r')),
 ]  # type: List[int]

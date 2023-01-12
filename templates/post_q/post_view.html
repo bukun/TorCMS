@@ -1,7 +1,7 @@
 {% extends "../theme/bage.html" %}
 {% block head %}
-<title>{{ postinfo.title }} 开源地理空间基金会中文分会 开放地理空间实验室</title>
-<meta name="keywords" content="{{ postinfo.title }},开源地理空间基金会中文分会,开放地理空间实验室,开源GIS">
+<title>{{ postinfo.title }} </title>
+<meta name="keywords" content="{{ postinfo.title }}">
 <meta name="description" content="{% module generate_abstract(postinfo.cnt_html) %},{{ postinfo.title }}">
 
 <script type="text/javascript"
@@ -35,7 +35,7 @@
 <ol class="breadcrumb">
     <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
     <li>{% module the_category(postinfo.uid) %}</li>
-    <li class="active"><a href="/question/{{ postinfo.uid }}" title="{{ postinfo.title }}">{{ postinfo.title }}</a></li>
+    <li class="active"><a href="/topic/{{ postinfo.uid }}" title="{{ postinfo.title }}">{{ postinfo.title }}</a></li>
 </ol>
 
 <div class="panel panel-black">
@@ -59,7 +59,7 @@
         {% module reply_panel(postinfo.uid, userinfo, en=True) %}
 
         <div class="postmeta">
-            
+
             <strong>{{ _('Article link') }}:</strong>
             <a href="{% module site_url() %}/{{ kwd['router'] }}/{{ postinfo.uid }}"
                class="underline"> {{ postinfo.title }}</a>

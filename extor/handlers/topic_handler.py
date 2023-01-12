@@ -1,21 +1,19 @@
 # -*- coding:utf-8 -*-
 
 '''
-地图日志
+
 '''
 
 import tornado.web
 from torcms.handlers.post_handler import PostHandler, update_category, update_label
 from torcms.model.post_model import MPost
 from torcms.model.category_model import MCategory
-from torcms.model.post_hist_model import MPostHist
-from torcms.core.tools import logger
 from config import router_post
 
 
-class QuestionHandler(PostHandler):
+class TopicHandler(PostHandler):
     def initialize(self, **kwargs):
-        super(QuestionHandler, self).initialize()
+        super(TopicHandler, self).initialize()
         self.kind = kwargs.get('kind', 'q')
 
     @tornado.web.authenticated

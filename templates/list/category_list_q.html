@@ -19,7 +19,7 @@
                 {{ kwd['cat_name'] }}
 
                 <span class="pull-right">
-                    <a class="btn btn-primary btn-sm" href="/question/_add">{{ _('Add a question') }}</a>
+                    <a class="btn btn-primary btn-sm" href="/topic/_add">{{ _('Add topic') }}</a>
                 </span>
 
             </div>
@@ -43,6 +43,7 @@
                         {{ str(x.date)[0:19] }}
                     </div>
                 </div>
+                <br><br>
                 {% end %}
             </div>
 
@@ -69,7 +70,7 @@
         <div class="panel panel-black">
             <div class="panel-heading">
                 <h3 class="panel-title">
-                    {{ _('Recent Q&A') }}
+                    {{ _('Recent topics') }}
 
                 </h3>
             </div>
