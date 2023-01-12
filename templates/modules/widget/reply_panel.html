@@ -89,7 +89,7 @@
 {#            <div class="col-sm-2">{% module user_profile_by_id(reply.user_id) %}</div>#}
             <div class="col-sm-12">
                 <div class="reply_title">
-                   <span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;  {{ reply.user_name }}
+                   <div style="width: 30px;height: 30px" class="pull-left">{% module user_profile_by_id(reply.user_id) %}</div>&nbsp;&nbsp;  {{ reply.user_name }}
 <span class="pull-right"><span class=" glyphicon glyphicon-time"></span>&nbsp;
  {{ str(reply.date).split('.')[0] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                 </div>
@@ -128,7 +128,7 @@
                         <span>
                                 <span class="glyphicon glyphicon-comment"></span>
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ reply.uid }}">
-                            {% module reply_count(reply.uid) %} 条评论
+                            {% module reply_count(reply.uid) %}
                             </a>
                             </span>
                         <div id="collapse{{ reply.uid }}" class="panel-collapse collapse">
@@ -162,7 +162,7 @@
 
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    {% module reply_count(reply.uid) %} 条评论
+                                    {% module reply_count(reply.uid) %}
                                 </div>
                                 <div class="panel-body">
                                     <div class="row" id="reply_comment{{ reply.uid }}"></div>

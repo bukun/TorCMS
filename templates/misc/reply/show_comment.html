@@ -1,9 +1,7 @@
 <div class="comment">
-{#    <div class="col-sm-2">#}
-{#        {% module user_profile_by_id(userinfo.uid) %}#}
-{#    </div>#}
+
     <div class="col-sm-12">
-        <div class="reply_title"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp; <strong>{{ username }}</strong>
+        <div class="reply_title"><div style="width: 30px;height: 30px" class="pull-left">{% module user_profile_by_id(reply.user_id) %}</div>&nbsp;&nbsp; <strong>{{ username }}</strong>
         <span class="pull-right">  <span class="glyphicon glyphicon glyphicon-time"></span>
                 &nbsp;&nbsp;{{ str(date).split('.')[0] }}</span>
         </div>

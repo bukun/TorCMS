@@ -63,6 +63,7 @@ core_modules = {
 
     # widget
     'reply_panel': widget_modules.ReplyPanel,
+    'reply_panel_index': widget_modules.ReplyPanelIndex,
     'baidu_share': widget_modules.BaiduShare,
     'widget_search': widget_modules.WidgetSearch,
     'widget_editor': widget_modules.WidgetEditor,

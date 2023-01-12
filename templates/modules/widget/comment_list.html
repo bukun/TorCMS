@@ -6,7 +6,7 @@
 {#            <div class="col-sm-2">{% module user_profile_by_id(rec.user_id) %}</div>#}
             <div class="col-sm-12">
                 <div class="reply_title">
-                    <span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp; <strong>{{ rec.user_name }}</strong>
+                    <div style="width: 30px;height: 30px" class="pull-left">{% module user_profile_by_id(rec.user_id) %}</div>&nbsp;&nbsp; <strong>{{ rec.user_name }}</strong>
 
           <span class="pull-right"><span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;
                  {{ str(rec.date).split('.')[0] }}</span>

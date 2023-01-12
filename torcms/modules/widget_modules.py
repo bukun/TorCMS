@@ -41,6 +41,23 @@ class ReplyPanel(tornado.web.UIModule):
                                   linkify=tornado.escape.linkify,
                                   en=en)
 
+class ReplyPanelIndex(tornado.web.UIModule):
+    '''
+    the reply panel.
+    '''
+
+    def render(self, *args, **kwargs):
+        uid = args[0]
+        userinfo = args[1]
+        en = kwargs.get('en', False)
+
+        return self.render_string('modules/widget/reply_panel_index.html',
+                                  uid=uid,
+                                  replys=MReply.query_by_post(uid,reply_count=1),
+                                  userinfo=userinfo,
+                                  linkify=tornado.escape.linkify,
+                                  en=en)
+
 
 class UserinfoWidget(tornado.web.UIModule, tornado.web.RequestHandler):
     '''
@@ -230,8 +247,11 @@ class Userprofile(tornado.web.UIModule):
 
     def render(self, *args, **kwargs):
         user_id = args[0]
-        rec = MUser.get_by_uid(user_id)
-
+        user_name = kwargs.get('user_name','')
+        if user_name:
+            rec = MUser.get_by_name(user_id)
+        else:
+            rec = MUser.get_by_uid(user_id)
         return self.render_string('modules/widget/user_profile.html', rec=rec)
 
 

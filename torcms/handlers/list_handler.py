@@ -4,7 +4,7 @@ Accessing via category.
 '''
 
 import json
-
+import os
 from html2text import html2text
 
 from config import CMS_CFG, router_post
@@ -141,11 +141,17 @@ class ListHandler(BaseHandler):
         }
 
         # Todo: review the following codes.
+        the_tmpl = './templates/list/category_list_{0}.html'.format(cat_rec.kind)
+
+        if os.path.exists(the_tmpl):
+            list_src = 'list/category_list_{0}.html'.format(cat_rec.kind)
+        else:
+            list_src = 'list/category_list.html'
 
         if self.order:
             tmpl = 'list/catalog_list.html'
         else:
-            tmpl = 'list/category_list.html'
+            tmpl = list_src
 
         infos = MPost2Catalog.query_pager_by_slug(cat_slug,
                                                   current_page_num,

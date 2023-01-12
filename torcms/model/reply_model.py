@@ -51,13 +51,18 @@ class MReply():
         return uid
 
     @staticmethod
-    def query_by_post(postid):
+    def query_by_post(postid, reply_count=''):
         '''
         Get reply list of certain post.
         '''
-        return TabReply.select().where((TabReply.post_id == postid)
-                                       & (TabReply.category != '1')).order_by(
-            TabReply.timestamp.desc())
+        if reply_count:
+            return TabReply.select().where((TabReply.post_id == postid)
+                                           & (TabReply.category != '1')).order_by(
+                TabReply.timestamp.desc()).limit(reply_count)
+        else:
+            return TabReply.select().where((TabReply.post_id == postid)
+                                           & (TabReply.category != '1')).order_by(
+                TabReply.timestamp.desc())
 
     @staticmethod
     def get_by_zan(reply_id):

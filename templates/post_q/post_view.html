@@ -33,7 +33,7 @@
     var login = {{ kwd['login'] }};
 </script>
 <ol class="breadcrumb">
-    <li>当前位置: <a href="http://www.osgeo.cn" title="首页">首页</a></li>
+    <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
     <li>{% module the_category(postinfo.uid) %}</li>
     <li class="active"><a href="/question/{{ postinfo.uid }}" title="{{ postinfo.title }}">{{ postinfo.title }}</a></li>
 </ol>
@@ -42,27 +42,26 @@
     <div class="panel-heading">
         <h2>{{ postinfo.title }}</h2>
         <span>{{ datetime.datetime.fromtimestamp(postinfo.time_update).strftime('%Y-%m-%d')  }}</span>
-        <span>作者: {{ postinfo.user_name }}</span>
-        <span>浏览: {{ postinfo.view_count }} 次</span>
+        <span>{{ _('Author') }}: {{ postinfo.user_name }}</span>
+        <span>{{ _('Browse') }}: {{ postinfo.view_count }} </span>
          {% if userinfo %}
-            {% module collect(userinfo.uid, postinfo.uid) %}
+            {% module collect(userinfo.uid, postinfo.uid, en=True) %}
             {% end %}
         {% module widget_editor('question', postinfo.uid, userinfo,review=False,reclass=False) %}
     </div>
     <div class="panel-body">
 
 
-            {% module reply_panel(postinfo.uid, userinfo) %}
+            {% module reply_panel(postinfo.uid, userinfo, en=True) %}
 
         <div class="postmeta">
             <div class="wpyouvote"></div>
             <div class="clear"></div>
             <br>
-            <strong>本文链接:</strong>
-            <a href="http://www.osgeo.cn/question/{{postinfo.uid}}" class="underline"> {{ postinfo.title }}</a>
+           <strong>{{ _('Article link') }}:</strong>
+            <a href="{% module site_url() %}/{{kwd['router']}}/{{postinfo.uid}}" class="underline"> {{ postinfo.title }}</a>
             <br/>
-            <strong>版权所有:</strong> 非特殊声明均为本站原创文章，转载请注明出处：
-            <a href="http://www.osgeo.cn" class="underline">开源地理空间基金会中文分会</a><br>
+            <strong>{{ _('Copyright') }}:</strong> {{ _('Non special statement are original articles, reproduced please indicate the  source') }}
 
         </div>
     </div>

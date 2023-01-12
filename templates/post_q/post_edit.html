@@ -6,17 +6,10 @@
 <meta name="description" content="{{ postinfo.title }},开源地理空间基金会中文分会实验室，关注开源GIS，开放数据">
 {% end %}
 {% block typebody %}
-<div class="mtop">
-    <ul class="breadcrumb">
-        <li><a href="/" title="首页">首页 </a></li>
-        <li><a href="/question/" title="问答">问答</a></li>
 
-        <li class="active">修改 - {{ postinfo.title }}</li>
-    </ul>
-</div>
 <div class="panel panel-black">
     <div class="panel-heading">
-        修改 - {{ postinfo.title }}
+        {{ _('Modify') }}  - {{ postinfo.title }}
     </div>
     <div class="panel-body">
         <form method="post" class="form-horizontal" role="form" id="form_post">
@@ -27,7 +20,7 @@
                 <input type=hidden name="cnt_md" value="">
 
                 <div class="form-group">
-                    <label for="title" class="col-sm-2 control-label">提问</label>
+                    <label for="title" class="col-sm-2 control-label">{{ _('Content') }}</label>
 
                     <div class="col-sm-10">
 
@@ -37,13 +30,13 @@
 
 
                 <div class="form-group">
-                    <label for="logo" class="col-sm-2 control-label">图片</label>
+                    <label for="logo" class="col-sm-2 control-label">{{ _('Thumbnail') }}</label>
 
                     <div class="col-sm-10">
                         <input id="logo" name="logo" type="text" value="{{ postinfo.logo }}" class="form-control"
                                readonly/>
                         <br>
-                        <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" title="上传图片">上传图片</a>
+                        <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" title="{{ _('Upload thumbnail') }}">{{ _('Upload thumbnail') }}</a>
                     </div>
                 </div>
 
@@ -62,7 +55,7 @@
                     <label for="sub1" class="col-sm-2 control-label"></label>
 
                     <div class="col-sm-10">
-                        <input id="sub1" type="submit" class="btn btn-primary" value="更新"/>
+                        <input id="sub1" type="submit" class="btn btn-primary" value="{{_('Submit')}}"/>
                     </div>
                 </div>
             </fieldset>

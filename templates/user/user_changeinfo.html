@@ -31,12 +31,39 @@
                 <label class="col-sm-2 control-label" for="ext_mobile">{{ _('Mobile') }}</label>
 
                 <div class="col-sm-10">
-                    <input type="text" name="ext_mobile" id="ext_mobile" class="form-control"
-                           value="{{ userinfo.extinfo['ext_mobile'] if 'ext_mobile' in userinfo.extinfo else ''}}"
+                    <input type="text" name="def_mobile" id="ext_mobile" class="form-control"
+                           value="{{ userinfo.extinfo.get('def_mobile','')}}"
                            placeholder="Please enter a new Mobile."/>
                 </div>
             </div>
+<div class="form-group">
+                <label class="col-sm-2 control-label">{{ _('Gender') }}</label>
 
+                <div class="col-sm-10">
+                    <select name="def_gender" id="def_gender" class="form-control">
+                        <option value="Male" {% if userinfo.extinfo.get('def_gender','') == "Male"%} selected {% end %}>{{ _('Male') }}</option>
+                        <option value="Female" {% if userinfo.extinfo.get('def_gender','') == "Female"%} selected {% end %}>{{ _('Female') }}</option>
+                        <option value="Secrecy" {% if userinfo.extinfo.get('def_gender','') == "Secrecy"%} selected {% end %}>{{ _('Secrecy') }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">{{ _('Profile') }}</label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="def_profile" id="def_profile"
+                           value="{{ userinfo.extinfo.get('def_profile','') }}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="up"></label>
+
+                <div class="col-sm-10">
+                        <span id="up"><a href="/entity/_add" target="_blank" class="pure-button" role="button">
+                            {{ _('Upload profile photos') }}</a></span>
+                </div>
+            </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label"></label>
 

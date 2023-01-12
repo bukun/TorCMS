@@ -1,0 +1,84 @@
+{% extends "../theme/bage.html" %}
+{% block headbase %}
+<title>{{ kwd['cat_name'] }} </title>
+{% end %}
+
+
+{% block typebody %}
+
+<div class="row">
+    <div class="col-sm-9">
+        <ol class="breadcrumb">
+           <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
+            <li class="active">{{ kwd['cat_name'] }}</li>
+        </ol>
+
+
+        <div class="panel panel-black">
+            <div class="panel-heading">
+                {{ kwd['cat_name'] }}
+
+                <span class="pull-right">
+                    <a class="btn btn-primary btn-sm" href="/question/_add">{{ _('Add a question') }}</a>
+                </span>
+
+            </div>
+            <div class="panel-body">
+                {% for x in infos %}
+                <div class="row bor_bottom">
+                    <div class="col-sm-12">
+
+                        <div style="width: 30px;height: 30px"
+                             class="pull-left">{% module user_profile_by_id(x.user_name,user_name=x.user_name) %}</div>&nbsp;&nbsp; {{ x.user_name }}
+                        <h4>
+                            <a href="{% module site_url() %}/{{ router }}/{{ x.uid }}"> {{ x.title }}</a>
+                        </h4>
+
+                    </div>
+                    <div class="col-sm-12">
+                        {% module reply_panel_index(x.uid, userinfo) %}
+
+                    </div>
+                    <div class="col-sm-12">
+                        {{ str(x.date)[0:19] }}
+                    </div>
+                </div>
+                {% end %}
+            </div>
+
+        </div>
+        <div>
+            {% module catalog_pager( kwd['cat_slug'], kwd['current_page'] ) %}
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+        <div class="panel panel-black">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    {{ _('Most attention') }}
+                </h3>
+            </div>
+            <ul class="list-group" id="mostall">
+                {% module post_most_view(5,kind=kwd['kind'], with_date = False, with_catalog= False) %}
+            </ul>
+        </div>
+
+
+
+        <div class="panel panel-black">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    {{ _('Recent Q&A') }}
+
+                </h3>
+            </div>
+            <ul class="list-group">
+                {% module post_recent(5, kind=kwd['kind'], with_date = False, with_catalog= False) %}
+            </ul>
+        </div>
+
+    </div>
+
+</div>
+{% end %}

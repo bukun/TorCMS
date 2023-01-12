@@ -51,7 +51,6 @@ post_type = {
 check_type = {
     '1': 'Document',
     '3': 'Infor',
-    'q': 'Question',
 }
 post_cfg = {
     '1': {
@@ -64,11 +63,7 @@ post_cfg = {
         'html': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>'''.format('Data'),
         'checker': '10',  # '10', '100', '1000', '10000'
     },
-    'q': {
-        'router': 'question',
-        'html': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>'''.format('Question'),
-        'checker': '0',  # '10', '100', '1000', '10000'
-    }
+
 
 }
 kind_arr = ['1', '3', 'm', 's', 'q']

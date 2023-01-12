@@ -1,0 +1,15 @@
+
+
+{% for reply in replys %}
+
+
+{#                <div class="reply_title">#}
+{#                    <div style="width: 30px;height: 30px" class="pull-left">{% module user_profile_by_id(reply.user_id) %}</div>&nbsp;&nbsp;  {{ reply.user_name }}#}
+{#                   <span class="pull-right"> <span class=" glyphicon glyphicon-time"></span>&nbsp;#}
+{#        {{ str(reply.date).split('.')[0] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>#}
+{#                </div>#}
+
+
+{% raw unescape(reply.cnt_html) %}
+
+{% end %}
