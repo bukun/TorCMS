@@ -28,7 +28,7 @@
                         <span>
                                 <span class="glyphicon glyphicon-comment"></span>
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ reply.uid }}">
-                            <span id="reply_count_{{ reply.uid }}">{% module reply_count(reply.uid) %}</span> 条评论
+                            <span id="reply_count_{{ reply.uid }}">{% module reply_count(reply.uid) %}</span> comments
                             </a>
                             </span>
                         <div id="collapse{{ reply.uid }}" class="panel-collapse collapse">
@@ -62,7 +62,7 @@
 
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <span id="reply_count1_{{ reply.uid }}">{% module reply_count(reply.uid) %}</span> 条评论
+                                    <span id="reply_count1_{{ reply.uid }}">{% module reply_count(reply.uid) %}</span> comments
                                 </div>
                                 <div class="panel-body">
                                     <div class="row" id="reply_comment{{ reply.uid }}"></div>

@@ -77,7 +77,7 @@
 
 
 <div class="col-sm-12"><span class="glyphicon glyphicon-th-list"></span> {% if en %}{{ _(' Comment list') }}{% else %} 评论列表 {% end %}
-    (<span  class="red"> {{replys.count()}}</span> )</div>
+    (<span id="comment_count"  class="red">{{replys.count()}}</span>)</div>
 
 <div class="row"  id="pinglun"></div>
 <br>
@@ -129,7 +129,7 @@
 
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ reply.uid }}">
                                      <span class="glyphicon glyphicon-comment"></span>
-                            <span id="reply_count1_{{ reply.uid }}">{% module reply_count(reply.uid) %}</span>
+                            <span id="reply_count_{{ reply.uid }}">{% module reply_count(reply.uid) %}</span>
                             </a>
                             </span>
                         <div id="collapse{{ reply.uid }}" class="panel-collapse collapse">

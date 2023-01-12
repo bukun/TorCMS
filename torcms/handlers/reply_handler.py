@@ -45,11 +45,11 @@ class ReplyHandler(BaseHandler):
         elif url_arr[0] == 'delete_com':
             self.delete_com(url_arr[1])
         elif url_arr[0] == 'zan':
-
             self.zan(url_arr[1])
         elif url_arr[0] == 'count':
-
             self.reply_count(url_arr[1])
+        elif url_arr[0] == 'com_count':
+            self.comment_count(url_arr[1])
         elif url_arr[0] == '_add':
             self._add()
 
@@ -340,6 +340,20 @@ class ReplyHandler(BaseHandler):
             output = {'reply_count': reply_count}
         else:
             output = {'reply_count': 0}
+
+        return json.dump(output, self, ensure_ascii=False)
+
+    def comment_count(self, postid):
+        '''
+        评论数量
+        '''
+
+        res = MReply.query_by_post(postid)
+        comment_count = res.count()
+        if comment_count:
+            output = {'comment_count': comment_count}
+        else:
+            output = {'comment_count': 0}
 
         return json.dump(output, self, ensure_ascii=False)
 

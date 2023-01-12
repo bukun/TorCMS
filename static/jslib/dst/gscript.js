@@ -101,6 +101,16 @@ function reply_it(view_id) {
         var msg_json = $.parseJSON(result);
         $("#pinglun").load("/reply/get/" + msg_json.uid)
     }), $("#cnt_reply").val(""), $("#cnt_reply").attr("disabled", !0), $("#btn_submit_reply").attr("disabled", !0))
+    comment_count(view_id)
+}
+
+function comment_count(reply_id) {
+
+    var AjaxUrl = "/reply/com_count/" + reply_id;
+    $.getJSON(AjaxUrl, function (Json) {
+        0 == Json.comment_count || $("#comment_count").html(Json.comment_count)
+
+    })
 }
 function reply_del_com(reply_id) {
     var AjaxUrl = "/reply/delete_com/" + reply_id;
