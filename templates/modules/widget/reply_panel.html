@@ -126,8 +126,9 @@
                         <span style="color: #f00" id="text_zan_{{ reply.uid }}">{{ reply.vote }}</span>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <span>
-                                <span class="glyphicon glyphicon-comment"></span>
+
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ reply.uid }}">
+                                     <span class="glyphicon glyphicon-comment"></span>
                             {% module reply_count(reply.uid) %}
                             </a>
                             </span>
