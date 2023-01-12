@@ -118,12 +118,12 @@ function reply_del_com(reply_id) {
         1 == Json.del_reply ? $("#" + reply_id).html("") : alert("Delete failed!")
     })
 }
-function comment_it(view_id, reply_id, cid, bid) {
+function comment_it(view_id, reply_id, cid, bid,isreply) {
     var txt = $("#" + cid).val();
     txt.length < 1 || ($.post("/reply/add_reply/" + view_id + '/' + reply_id, {cnt_reply: txt}, function (result) {
 
         var msg_json = $.parseJSON(result);
-        $("#reply_comment"+reply_id).load("/reply/get/" + msg_json.uid)
+        $("#reply_comment"+reply_id).load("/reply/get/" + msg_json.uid+"?isreply="+isreply)
     }), $("#" + cid).val(""), $("#" + cid).attr("disabled", !0), $("#" + bid).attr("disabled", !0))
    reply_count(reply_id)
 

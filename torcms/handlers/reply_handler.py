@@ -164,6 +164,7 @@ class ReplyHandler(BaseHandler):
         logger.info('get_reply: {0}'.format(reply_id))
         postdata = self.get_request_arguments()
         isjson = postdata.get('isjson', False)
+        isreply = postdata.get('isreply', '')
         if isjson:
             list = []
 
@@ -194,6 +195,7 @@ class ReplyHandler(BaseHandler):
                         date=reply.date,
                         vote=reply.vote,
                         uid=reply.uid,
+                        isreply=isreply,
                         userinfo=self.userinfo,
                         kwd={})
         else:
@@ -203,6 +205,7 @@ class ReplyHandler(BaseHandler):
                         date=reply.date,
                         vote=reply.vote,
                         uid=reply.uid,
+                        isreply=isreply,
                         userinfo=self.userinfo,
                         kwd={})
 
