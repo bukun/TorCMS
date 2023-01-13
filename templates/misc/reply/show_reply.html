@@ -74,6 +74,14 @@
                         </div>
 
 {% end %}
+                {% if userinfo and ( userinfo.uid == reply.user_id or userinfo.role[2] > '1') %}
+                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button class="btn btn-xs btn-danger"
+                                onclick="reply_del('{{ reply.uid }}');">
+                            <span class=" glyphicon glyphicon-trash"></span>
+                            {{ _('Delete') }}
+                        </button>
+                        {% end %}
                     </div>
 </div>
      </div>
