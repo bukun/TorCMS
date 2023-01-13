@@ -79,14 +79,14 @@
 <div class="col-sm-12"><span class="glyphicon glyphicon-th-list"></span> {% if en %}{{ _(' Comment list') }}{% else %} 评论列表 {% end %}
     (<span id="comment_count"  class="red">{{replys.count()}}</span>)</div>
 
-<div class="row"  id="pinglun"></div>
+<div class="reply_list"><div id="pinglun"></div></div>
 <br>
 {% for reply in replys %}
 
 <div id="del_zan_{{ reply.uid }}" style="font-size: 14px;">
     <div class="reply_list">
         <div class="row">
-{#            <div class="col-sm-2">{% module user_profile_by_id(reply.user_id) %}</div>#}
+ 
             <div class="col-sm-12">
                 <div class="reply_title">
                    <div style="width: 30px;height: 30px" class="pull-left">{% module user_profile_by_id(reply.user_id) %}</div>&nbsp;&nbsp;  <strong>{{ reply.user_name }}</strong>
@@ -95,7 +95,7 @@
                 </div>
 
                 <div class="reply_cnt">
-                    <div class="row listinfo_content" id="reply_cnt{{ reply.uid }}">
+                    <div class="listinfo_content" id="reply_cnt{{ reply.uid }}">
                         {% raw unescape(reply.cnt_html) %}
                     </div>
 
@@ -110,7 +110,7 @@
 
 
 {#                    </div>#}
-                     <div class="row">
+                     <div>
                         {% if (userinfo is None) or ( (userinfo) and ( userinfo.uid == reply.user_id )) %}
                         <span class="glyphicon glyphicon-thumbs-up"></span>
                         {% else %}
