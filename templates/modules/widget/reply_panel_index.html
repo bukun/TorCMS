@@ -1,3 +1,23 @@
+<style>
+
+    .reply_index {
+        font-size: 13px;
+        font-weight: normal;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+
+    }
+
+    .reply_index h1, h2, h3, h4, h5, h6 {
+        font-size: 13px;
+        font-weight: normal;
+
+
+    }
+</style>
 
 
 {% for reply in replys %}
@@ -10,6 +30,10 @@
 {#                </div>#}
 
 
-{% raw unescape(reply.cnt_html) %}
+<div class="reply_index">
+    {% raw unescape(reply.cnt_html) %}
+
+</div>
+
 
 {% end %}
