@@ -3,17 +3,17 @@
 <div id="{{ rec.uid }}">
     <div class="reply_list">
         <div class="row">
-{#            <div class="col-sm-2">{% module user_profile_by_id(rec.user_id) %}</div>#}
+
             <div class="col-sm-12">
                 <div class="reply_title">
                     <div style="width: 30px;height: 30px" class="pull-left">{% module user_profile_by_id(rec.user_id) %}</div>&nbsp;&nbsp; <strong>{{ rec.user_name }}</strong>
 
-          <span class="pull-right"><span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;
+<span class="pull-right"><span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;
                  {{ str(rec.date).split('.')[0] }}</span>
                 </div>
                 <div class="reply_cnt">
                     <div class="listinfo_content" id="comment_id{{ rec.uid }}"> {% raw unescape(rec.cnt_html) %}
-{#                    <div class="reply_button pull-right">#}
+                    <div class="reply_button pull-right">
 {#                        {% if userinfo and userinfo.uid == rec.user_id %}#}
 {#                        <button class="btn btn-xs btn-warning" data-toggle="modal" data-target="#myModal{{rec.uid}}">#}
 {#                            <span class="glyphicon glyphicon-pencil"></span>#}
@@ -21,11 +21,11 @@
 {#                        </button>#}
 {#                        {% end %}#}
 
-{#                    </div>#}
+                    </div>
 
 
              </div>
-                       <div>
+                    <div>
                         {% if (userinfo is None) or ( (userinfo) and ( userinfo.uid == rec.user_id )) %}
                         <span class="glyphicon glyphicon-thumbs-up"></span>
                         {% else %}
@@ -33,8 +33,8 @@
                               onclick="reply_zan('{{ rec.uid }}');" style="cursor: pointer"></span>
                         {% end %}
                         <span style="color: #f00" id="text_zan_{{ rec.uid }}">{{ rec.vote }}</span>
-                             {% if userinfo and ( userinfo.uid == rec.user_id or userinfo.role[2] > '1') %}
-                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                         {% if userinfo and ( userinfo.uid == rec.user_id or userinfo.role[2] > '1') %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <button class="btn btn-xs btn-danger"
                                 onclick="reply_del_com('{{ rec.uid }}');">
                             <span class=" glyphicon glyphicon-trash"></span>

@@ -89,7 +89,7 @@
 {#            <div class="col-sm-2">{% module user_profile_by_id(reply.user_id) %}</div>#}
             <div class="col-sm-12">
                 <div class="reply_title">
-                   <div style="width: 30px;height: 30px" class="pull-left">{% module user_profile_by_id(reply.user_id) %}</div>&nbsp;&nbsp;  {{ reply.user_name }}
+                   <div style="width: 30px;height: 30px" class="pull-left">{% module user_profile_by_id(reply.user_id) %}</div>&nbsp;&nbsp;  <strong>{{ reply.user_name }}</strong>
 <span class="pull-right"><span class=" glyphicon glyphicon-time"></span>&nbsp;
  {{ str(reply.date).split('.')[0] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                 </div>
@@ -168,7 +168,7 @@
                                     <span id="reply_count1_{{ reply.uid }}">{% module reply_count(reply.uid) %}</span> comments
                                 </div>
                                 <div class="panel-body">
-                                    <div class="row" id="reply_comment{{ reply.uid }}"></div>
+                                     <div class="reply_list"><div id="reply_comment{{ reply.uid }}"></div></div>
                                     {% module comment_list(replyid = reply.uid,userinfo=userinfo) %}
                                 </div>
                             </div>
