@@ -1,0 +1,74 @@
+{% set ii = 1 %}
+
+{% for postinfo in post_infos %}
+
+<li class="list-group-item info-list">
+
+    {% set ii = ii + 1 %}
+
+    <div class="row">
+
+        {% if postinfo.logo != '' %}
+
+        <div class="col-sm-3">
+
+            <a href="/{{ kwd['router'] }}/{{ postinfo.uid }}" title="{{ postinfo.title }}">
+
+                <img src="{{ postinfo.logo }}" class="img-thumbnail" alt="{{ postinfo.title }}">
+
+            </a>
+
+        </div>
+
+        <div class="col-sm-9">
+
+            {% else %}
+
+            <div class="col-sm-12">
+
+                {% end %}
+
+                <div class="listinfo_title">
+
+                    <strong><a class="info_title" href="/{{ kwd['router'] }}/{{ postinfo.uid }}"
+                               title="{{ postinfo.title }}">
+
+                        {{ postinfo.title }}
+
+                    </a></strong>
+
+                    {#            {% if userinfo and(userinfo.user_name == postinfo.user_name) %}#}
+                    {##}
+                    {#            <a  href="/{{ kwd['router'] }}/_edit/{{ postinfo.uid }}" style="color: #fff" class="btn btn-xs btn-primary" title="Edit {{ postinfo.title }}">{{ _('Edit') }}</a>#}
+                    {##}
+                    {#            {% end %}#}
+                    <span style="float: right"><a href="/{{ kwd['router'] }}/{{ postinfo.uid }}">{{ _('More') }} > </a>   </span>
+                </div>
+
+                <br>
+                <div class="listinfo_content padt10">
+                    {% if postinfo.extinfo.get('pycsw_abstract') %}
+
+                    {% module generate_abstract(postinfo.extinfo.get('pycsw_abstract',''))[:120] %}...
+                    {% else %}
+                    {% module generate_abstract(postinfo.cnt_html)[:120] %}...
+                    {% end %}
+
+                </div>
+
+                <br>
+
+                <div class="listinfo_extra">
+
+                    {% module post_labels(post_uid = postinfo.uid) %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+</li>
+
+{% end %}
+

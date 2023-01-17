@@ -1,0 +1,284 @@
+{% extends "./tmplinfo.html" %}
+
+{% block head %}
+
+<title>{{ postinfo.title }} </title>
+
+<meta name="keywords" content="{{ postinfo.extinfo.get('keywords','') }},{{ postinfo.title }}">
+
+<meta name="description" content="{% module generate_abstract(postinfo.cnt_html) %}">
+<style>
+    .div_border {
+        border-bottom: 1px dashed #ddd;
+        padding: 5px 0;
+    }
+</style>
+{% end %}
+
+{% block typebody %}
+
+<script>
+
+    var post_uid = "{{ postinfo.uid }}";
+
+    var login = {{ kwd['login'] }};
+
+</script>
+
+<div class="container mainbh mtop">
+
+    <div class="row">
+
+        <div class="col-sm-9">
+
+            <ol class="breadcrumb">
+
+                <li><a href="/" title="{{ _('Home') }}"> {{ _('Home') }}</a></li>
+
+                <li><a href="/filter/{{ pcatinfo.uid }}" title="{{ pcatinfo.name }}">{{ pcatinfo.name }}</a></li>
+
+                <li><a href="/filter/{{ catinfo.uid }}" title="{{ catinfo.name }}">{{ catinfo.name }}</a></li>
+
+                <li>{{ _('Text') }}</li>
+
+            </ol>
+
+            <div class="panel panel-black">
+
+                <div class="panel-heading listinfo_title">
+
+                 {{ postinfo.title }}
+
+                </div>
+
+                <div class="panel-body">
+
+                    <div class="row">
+                            {% if postinfo.logo != ''%}
+                        <div class="col-sm-12 bor_bottom ">
+                            <div class="col-sm-6 ">
+                                <img src="{{ postinfo.logo }}" alt="{{ postinfo.logo }}" class="img-thumbnail">
+                            </div>
+                            <div class="col-sm-6">
+{% if userinfo %}
+                                {% module post_state(postinfo = postinfo,userinfo = userinfo,kind = postinfo.kind) %}
+                                 <br>
+
+                {% module collect(userinfo.uid, postinfo.uid,en=True) %}
+                                                           <br>
+ <br>
+
+                                {% module post_state(postinfo = postinfo,userinfo = userinfo,kind = postinfo.kind) %}
+                {% end %}
+{#            {% module widget_editor(kwd['router'], postinfo.uid, userinfo) %}#}
+
+                                 <p><strong>{{ _('Release time') }}：</strong>{{ datetime.datetime.fromtimestamp(postinfo.time_create).strftime('%Y-%m-%d') }}</p>
+                                <p><strong>{{ _('Browsing times') }}：</strong> {% raw postinfo.view_count %}</p>
+
+                                <p><strong>Tag:</strong><span class="post_label">
+                        {% set iii = 1 %}
+                                    {% if iii > 5 %}
+                                    {% set iii = 1 %}
+                                    {% end %}
+                    {% for x in tag_info %}
+                    <a href="/label/{{postinfo.kind}}/{{ x.tag_uid }}" class="tag{{ iii }}" title="{{ x.tag_name }}">{{ x.tag_name }}</a>
+                    {% set iii = iii + 1 %}
+                    {% end %} </span></p>
+
+
+{% if userinfo %}
+                                {% if 'tag__file_download' in postinfo.extinfo and postinfo.extinfo['tag__file_download'] != '' %}
+                               <p style="float:right;">
+                                   <a class="btn btn-danger btn-sm" title="Download Dataset"
+                                href="{{postinfo.extinfo['tag__file_download'] if 'tag__file_download' in postinfo.extinfo else ''}}" target="_blank">
+                                       <span class="glyphicon glyphicon-download-alt"> </span>
+                                   {{ _('Download Dataset') }}</a></p>
+
+                                {% end %}
+                                {% end %}
+
+                                {% if 'ext_pdf' in postinfo.extinfo and postinfo.extinfo['ext_pdf'] != '' %}
+                                <p>    <a class="btn btn-info btn-sm" title="View Document"
+                                href="{{postinfo.extinfo['ext_pdf'] if 'ext_pdf' in postinfo.extinfo else ''}}" target="_blank">
+                                   <span class="glyphicon glyphicon-new-window"> </span>
+                                    {{ _('View Document') }}</a></p>
+
+                                {% end %}
+
+                            </div>
+
+                        </div>
+
+                        {% else %}
+                        <div class="col-sm-12 bor_bottom">
+                                  {% module post_state(postinfo = postinfo,userinfo = userinfo,kind = postinfo.kind) %}
+                             <br>
+
+                             {% if userinfo %}
+                {% module collect(userinfo.uid, postinfo.uid,en=True) %}
+                             <br>
+                            <br>
+                {% end %}
+{#            {% module widget_editor(kwd['router'] , postinfo.uid, userinfo) %}#}
+
+
+                              <strong>{{ _('Release time') }}：</strong>
+                               <span>{{ datetime.datetime.fromtimestamp(postinfo.time_create).strftime('%Y-%m-%d') }}&nbsp;</span> &nbsp;&nbsp;&nbsp;&nbsp;<strong>{{ _('Browsing times') }}：</strong>
+                                {% raw postinfo.view_count %}&nbsp;&nbsp;&nbsp;&nbsp;
+
+                            <br>
+                            <br>
+                            <p><strong>{{ _('Tag') }}:</strong><span class="post_label">
+                              {% set iii = 1 %}
+                                 {% if iii > 5 %}
+                                    {% set iii = 1 %}
+                                    {% end %}
+                    {% for x in tag_info %}
+                    <a href="/label/{{postinfo.kind}}/{{ x.tag_uid }}" class="tag{{ iii }}" title="{{ x.tag_name }}">{{ x.tag_name }}</a>
+                    {% set iii = iii + 1 %}
+                    {% end %}
+                </span>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                            </p>
+                            {% if userinfo %}
+                              {% if 'tag__file_download' in postinfo.extinfo and postinfo.extinfo['tag__file_download'] != '' %}
+                               <p style="float:right;">
+                                   <a class="btn btn-danger btn-sm" title="Download Dataset"
+                                href="{{postinfo.extinfo['tag__file_download'] if 'tag__file_download' in postinfo.extinfo else ''}}" target="_blank">
+                                       <span class="glyphicon glyphicon-download-alt"> </span>
+                                   {{ _('Download Dataset') }}</a></p>
+
+                                {% end %}
+                                {% end %}
+
+                                {% if 'ext_pdf' in postinfo.extinfo and postinfo.extinfo['ext_pdf'] != '' %}
+                                <p>    <a class="btn btn-info btn-sm" title="View Document"
+                                href="{{postinfo.extinfo['ext_pdf'] if 'ext_pdf' in postinfo.extinfo else ''}}" target="_blank">
+                                   <span class="glyphicon glyphicon-new-window"> </span>
+                                    {{ _('View Document') }}</a></p>
+
+                                {% end %}
+
+                        </div>
+
+                        {% end %}
+
+
+                    </div>
+                    <div id="wiki_cnt" class="col-sm-12 listinfo_content ">
+                        {% raw unescape(postinfo.cnt_html) %}
+                    </div>
+                    <div class="col-sm-12 ">
+                         {% block extrainfo %} {% end %}
+
+
+                        <!--<div class='bor_bottom'> </div>-->
+
+
+                    </div>
+
+
+                    <div class="col-sm-12">
+
+                        <span id="showCnt"></span>
+
+                    </div>
+
+                </div>
+
+                <div class="panel-footer">
+
+                    <div class="row">
+
+                        <div class="col-md-12"
+                             style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap; display: block;">
+
+                            {{ _('Article link') }}： <a href="/{{ kwd['router'] }}/{{ postinfo.uid }}" style="color: #003366"
+                                                        title="{{ postinfo.title }}">{{ postinfo.title }}</a>
+
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-sm-3">
+
+             <div class="panel panel-black">
+            <div class="panel-heading">
+                <b> {{ _('Information evaluation') }}</b>
+            </div>
+            <div class="panel-body" style="font-size: x-small">
+                {% module star_rating(postinfo, userinfo) %}
+            </div>
+        </div>
+          <div class="panel panel-black">
+                <div class="panel-heading">
+                    {{ _('Most attention') }}
+                </div>
+                <ul class="list-group" id="mostall">
+                    {% module post_most_view(5, with_date = False, with_catalog= False,kind=postinfo.kind) %}
+                </ul>
+            </div>
+            <div class="panel panel-black">
+                <div class="panel-heading">
+                    {{ _('Recent articles') }}
+                </div>
+                <ul class="list-group">
+                    {% module post_recent(5, with_date = False, with_catalog= False,kind=postinfo.kind) %}
+                </ul>
+            </div>
+
+        <div class="panel panel-black">
+            <div class="panel-heading"> {% for taginfo in cat_enum %}
+                {% if taginfo.uid.endswith('00') %}
+                {{ taginfo.name }}
+                {% end %}
+                {% end %}
+            </div>
+            <ul class="list-group">
+                {% for taginfo in cat_enum %}
+                {% if not taginfo.uid.endswith('00') %}
+                <li class="list-group-item"><a href="/filter/{{ taginfo.uid }}" title="{{ taginfo.name }}">{{ taginfo.name }}</a></li>
+                {% end %}
+                {% end %}
+            </ul>
+        </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+    function download_excel() {
+
+        $.ajax({
+            url: "/{{ kwd['router'] }}/download_excel/{{ postinfo.uid }}",
+            type: "get",
+            cache: false,
+            data: '',
+            processData: false,
+            contentType: false,
+
+            success: function (data) {
+                var msg_json = $.parseJSON(data);
+                var file_src = msg_json.file_src;
+                window.location.href = file_src
+
+
+            },
+            error: function () {
+            }
+
+        });
+
+
+    }
+</script>
+
+{% end %}

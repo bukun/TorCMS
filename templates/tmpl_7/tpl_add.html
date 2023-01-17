@@ -1,0 +1,185 @@
+{% extends "./tmplinfo.html" %}
+{% block head %}
+
+<title>{{ _('Add Data') }} </title>
+<script>
+      // 提交预约刷新的动作
+    function chuli_kw() {
+        $.ajaxSetup({cache: false});
+        // 预约刷新
+        // 模拟Form提交
+        var myVAriable = $("#tags")[0].value;
+        var stringArray = myVAriable.split(",");
+        var out_str = ''
+        var str_span = ''
+        for (var str in stringArray) {
+            if (stringArray[str] != '') {
+                str_span = '<span class="btn btn-warning btn-sm">' + stringArray[str] + '<span class="glyphicon glyphicon-remove" onclick="del_kw(' + str + ');" style="color: #F00;padding:2px 2px 0 5px"> </span></span>  '
+            } else {
+                str_span = ''
+            }
+            out_str += str_span
+        }
+
+        $('#kwlist').html(out_str);
+
+
+    }
+
+    function del_kw(str1) {
+        $.ajaxSetup({cache: false});
+        var myVAriable = $("#tags")[0].value;
+        var stringArray = myVAriable.split(",");
+        var out_str = ''
+        var tag_str = ''
+        var str_span = ''
+        var tag_span = ''
+        for (var str in stringArray) {
+            if (str == str1) {
+                str_span = ''
+                tag_span = ''
+            } else {
+                if (stringArray[str] != '') {
+                    str_span = '<span class="btn btn-warning btn-sm">' + stringArray[str] + '<span class="glyphicon glyphicon-remove"  onclick="del_kw(' + str + ');" style="color: #F00;padding:2px 2px 0 5px"> </span></span>  '
+                    tag_span = stringArray[str] + ','
+                } else {
+                    str_span = ''
+                    tag_span = ''
+                }
+            }
+
+
+            out_str += str_span
+            tag_str += tag_span
+        }
+
+        $('#kwlist').html(out_str);
+        $("#tags")[0].value = tag_str;
+
+    }
+
+    {#chuli_kw();#}
+     window.onload = chuli_kw;
+</script>
+
+{% end %}
+{% block typebody %}
+<ul class="breadcrumb">
+    <li>{% module BreadcrumbPublish(2) %}</li>
+</ul>
+<div class="panel panel-black">
+    <div class="panel-heading">
+        <b> {{ _('Basic data information') }} : {{ kwd['parentname'] }} > {{ kwd['catname'] }}</b>
+
+    </div>
+
+
+    <div class="panel-body">
+
+
+ <legend>{{ _('Core Metadata fields') }}</legend>
+                     <div class="panel-group" id="accordion">
+
+            <btn data-toggle="collapse" data-parent="#accordion" id="col_btn"
+                 href="#collapseOne" class="btn btn-primary">
+                {{ _('Fill in the core Metadata fields using XLSX file') }}
+            </btn>
+
+            <div id="collapseOne" class="panel-collapse collapse">
+
+                <p class="text-right"><a href="/static/meta_tmpl_20221206.xlsx" class="btn btn-warning btn-sm">
+                    {{ _('Metadata template') }} </a>
+                </p>
+                 {% module upload_excel(kwd['uid'],kwd['router']) %}
+
+            </div>
+
+        </div>
+
+                <form class="form-horizontal" role="form" id="form_add_info" name="form_add_info" method="post"
+              enctype="multipart/form-data">
+
+            <input type="hidden" id="pycsw_file" name="pycsw_file" class="form-control" readonly/>
+
+            <input type='hidden' name="valid" value="0">
+            <input type='hidden' name="uid" value="{% raw kwd['uid'] %}">
+            <input type='hidden' name="gcat0" value="{% raw kwd['gcat0'] %}">
+            <input name="action" value="dopost" type="hidden">
+            <input name="ismember" value="0" type="hidden">
+            <input name="id" value="" type="hidden">
+            <input name="mixcode" value="4c9734774f6b40682d35c0ccee0b0845" type="hidden">
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label"> <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
+</a> {{ _('Title') }} </label>
+                <div class="col-sm-9">
+                    <input type="text" name="title" id="title" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label"><a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
+</a> {{ _('keywords') }} </label>
+                <div class="col-sm-9">
+                    <input id="tags" name="tags" class="form-control" onchange="chuli_kw()">
+                        <br>
+                        <div id="kwlist"></div>
+                </div>
+            </div>
+
+
+
+           <div class="form-group">
+                <label class="col-sm-2 control-label ">
+                   <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
+</a> {{ _('Abstract') }}
+                </label>
+
+                <div class="col-sm-9">
+                    <textarea class="form-control" rows=10 id="cnt_md" name="cnt_md" cols="10"  data-provider="markdown" data-provide="markdown"></textarea>
+                </div>
+            </div>
+
+{% block extrainfo %}{% end %}
+
+
+
+                      <legend>{{ _('Additional information of the dataset') }}</legend>
+
+ <div class="form-group">
+                <label class="col-sm-2 control-label"> {{ _('Thumbnail') }} </label>
+                <div class="col-sm-8">
+                    <input type="text" id="logo" name="logo" class="form-control" readonly/>
+                </div>
+                    <div class="col-sm-2">
+
+
+                        <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal"
+                           title="{{ _('Upload thumbnail') }}">
+
+                            {{ _('Upload thumbnail') }}
+
+                        </a>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label"> </label>
+                <div class="col-sm-9">
+                    <input type="submit" name="post_submit" value="Submit"
+                           class="btn btn-primary btn-sm" role="button"/>
+                </div>
+            </div>
+        </form>
+           
+
+
+
+
+            </div>
+        </div>
+
+ 
+ {% module upload_pic() %}
+ {% module upload_file() %}
+{% end %}
