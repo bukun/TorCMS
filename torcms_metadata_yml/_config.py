@@ -21,4 +21,4 @@ _post_cfg = {
         'checker': '10',  # '10', '100', '1000', '10000'
     }
 }
-xlsx_src='./torcms_metadata_yml/meta_元数据模板20220921.xlsx'
+xlsx_src='./torcms_metadata_yml/meta_元数据模板20230119.xlsx'

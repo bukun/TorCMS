@@ -403,7 +403,7 @@ class MetadataHandler(PostHandler):
         for x in tag_info:
             if x.tag_name not in keywords: keywords = keywords + str(x.tag_name) + ','
 
-        file_src2 = os.path.join('./torcms_metadata/meta_元数据模板20220921.xlsx')
+        file_src2 = os.path.join('./torcms_metadata_yml/meta_元数据模板20230119.xlsx')
         tmp_file = './static/xx_metadata_{0}.xlsx'.format(postid)
         postinfo = MPost.get_by_uid(postid)
         if os.path.exists(tmp_file):

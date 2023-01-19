@@ -15,7 +15,7 @@ class Upload_excel(tornado.web.UIModule):
         uid = args[0]
         router = args[1]
         return self.render_string(
-            '../torcms_metadata/tmpl_modules/upload_excel.html',
+            '../torcms_metadata_yml/tmpl_modules/upload_excel.html',
             uid=uid,
             router=router
         )
@@ -43,7 +43,7 @@ class MetaCategory(tornado.web.UIModule):
             'cur_catid': cur_catid
         }
 
-        return self.render_string('../torcms_metadata/tmpl_modules/meta_catalog.html',
+        return self.render_string('../torcms_metadata_yml/tmpl_modules/meta_catalog.html',
                                   pcatinfo=curinfo,
                                   recs=sub_cats,
                                   kwd=kwd)

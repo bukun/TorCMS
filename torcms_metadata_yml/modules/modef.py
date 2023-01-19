@@ -4,7 +4,7 @@
 define the Core Modules of TorCMS.
 '''
 
-from torcms_metadata.modules import meta_modules
+from torcms_metadata_yml.modules import meta_modules
 
 _modules = {
 
