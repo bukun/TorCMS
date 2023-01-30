@@ -33,13 +33,15 @@ class ReplyPanel(tornado.web.UIModule):
         uid = args[0]
         userinfo = args[1]
         en = kwargs.get('en', False)
+        topic = kwargs.get('topic', False)
 
         return self.render_string('modules/widget/reply_panel.html',
                                   uid=uid,
                                   replys=MReply.query_by_post(uid),
                                   userinfo=userinfo,
                                   linkify=tornado.escape.linkify,
-                                  en=en)
+                                  en=en,
+                                  topic=topic)
 
 class ReplyPanelIndex(tornado.web.UIModule):
     '''
