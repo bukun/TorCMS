@@ -1,22 +1,22 @@
 _router_post = {
-                '7': 'datayml',  # Filter_View
+                'k': 'tutorial',  # Filter_View
 
                 }
 
 _post_type = {
 
-    '7': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>
-        '''.format('Datayml'),
+    'k': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>
+        '''.format('Tutorial'),
 }
 _check_type = {
 
-    '7': 'Datayml',
+    'k': 'Tutorial',
 
 }
 _post_cfg = {
 
-    '7': {
-        'router': 'datayml',
+    'k': {
+        'router': 'tutorial',
         'html': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>'''.format('Data'),
         'checker': '10',  # '10', '100', '1000', '10000'
     }
