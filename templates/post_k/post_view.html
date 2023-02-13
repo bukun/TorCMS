@@ -1,0 +1,126 @@
+{% extends "../theme/base_view.html" %}
+{% block head %}
+<title>{{ postinfo.title }} </title>
+<meta name="keywords" content="{{ postinfo.title }}">
+<meta name="description" content="{% module generate_abstract(postinfo.cnt_html) %},{{ postinfo.title }}">
+
+<script type="text/javascript"
+        src="{{ static_url('syntaxhighlighter_3.0.83/scripts/shCore.js') }}"></script>
+<script type="text/javascript"
+        src="{{ static_url('syntaxhighlighter_3.0.83/scripts/shBrushPython.js') }}"></script>
+<link type="text/css" rel="stylesheet"
+      href="{{ static_url('syntaxhighlighter_3.0.83/styles/shCoreDefault.css') }}"/>
+<script type="text/javascript">SyntaxHighlighter.all(); </script>
+<style>
+    div.syntaxhighlighter .container:before, div.syntaxhighlighter .container:after {
+        content: none;
+    }
+</style>
+<link rel="stylesheet" href="{{ static_url('f2elib/bootstrap-star-rating-master/css/star-rating.css')}}"
+      type="text/css" media="all">
+<script type="text/javascript"
+        src="{{ static_url('f2elib/bootstrap-star-rating-master/js/star-rating.js') }}"></script>
+<style type="text/css">
+    #map {
+        width: 100%;
+        height: 640px;
+    }
+</style>
+{% end %}
+{% block zhuti %}
+<script>
+    var post_uid = "{{ postinfo.uid }}";
+    var login = {{ kwd['login'] }};
+</script>
+<ol class="breadcrumb">
+      <li>Current location: <a href="/">Home</a></li>
+    <li> <a href="/tutorial/" title="Tutorial">Tutorial</a></li>
+    <li>{% module the_category(postinfo.uid,order=True) %}</li>
+    <li class="active"><a href="/post/{{ postinfo.uid }}" title="{{ postinfo.title }}">{{ postinfo.title }}</a></li>
+</ol>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2>{{ postinfo.title }}</h2>
+
+
+    </div>
+    <div class="panel-body">
+        <div>
+              <span>{{ datetime.datetime.fromtimestamp(postinfo.time_update).strftime('%Y-%m-%d')  }}</span>
+        <span>作者: {{ postinfo.user_name }}</span>
+        <span>浏览: {{ postinfo.view_count }} 次</span>
+        {% if userinfo %}
+            {% module collect(userinfo.uid, postinfo.uid,en=True) %}
+            {% end %}
+        {% module widget_editor('tutorial', postinfo.uid, userinfo) %}
+        </div>
+        <div class="entry">
+
+{#            <p>{{postinfo.extinfo}}</p>#}
+
+{#            <p><a href="http://47.104.179.132:6628/t/{{postinfo.extinfo.get('dc_image')}}/{{postinfo.extinfo.get('dc_uid')}}"#}
+{#            target="_blank">#}
+{#                http://47.104.179.132:6628/t/{{postinfo.extinfo.get('dc_image')}}/{{postinfo.extinfo.get('dc_uid')}}#}
+{#            </a></p>#}
+            <p class="summary"><strong>摘要</strong>: {% module generate_abstract(postinfo.cnt_html) %} </p>
+
+
+
+            <div >
+                {% raw unescape(postinfo.cnt_html) %}
+            </div>
+
+        </div>
+        <div class="postmeta">
+            <div class="wpyouvote"></div>
+            <div class="clear"></div>
+            <br>
+            <strong>本文链接:</strong>
+            <a href="/post/{{postinfo.uid}}" class="underline" title="{{ postinfo.title }}"> {{ postinfo.title }}</a>
+            <br/>
+            <strong>版权所有:</strong> 非特殊声明均为本站原创文章，转载请注明出处：
+            <a href="http://www.osgeo.cn" class="underline" title="开源地理空间基金会中文分会">开源地理空间基金会中文分会</a><br>
+        </div>
+    </div>
+    <div class="panel-footer">
+        <div class="row">
+            <div class="col-sm-6">
+                <b>标签 :</b>
+        <span class="post_label">
+            {% set iii = 1 %}
+            {% for x in tag_info %}
+            <a href="/label/{{postinfo.kind}}/{{ x.tag_uid }}" class="tag{{ iii }}" title="{{ x.tag_name }}">{{ x.tag_name }}</a>
+            {% set iii = iii + 1 %}
+            {% end %}
+        </span>
+            </div>
+            <div class="col-sm-6"> {% module baidu_share() %}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="btn btn-primary btn-sm">{% module previous_post_link(postinfo.uid,kind = 'k') %}</div>
+                <div class="btn btn-primary btn-sm fr">{% module next_post_link(postinfo.uid,kind ='k') %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% end %}
+
+{% block right%}
+<div class="panel panel-info">
+	{# 47.104.179.132 #}
+	{# 47.104.222.195 #}
+    <a href={% module jupyter_link(dc_image=postinfo.extinfo['dc_image'],dc_uid = postinfo.extinfo['dc_uid']) %}
+            target="_blank" target="_blank">
+<img src="/static/images/jupyter-geo.jpg" class="img-thumbnail">
+<p style="text-align: center;font-weight: bold;">打开在线实验环境</p>
+</a>
+</div>
+{% module ext_secondary_category_list(catid = catinfo.uid,userinfo = userinfo) %}
+
+
+{% end %}
