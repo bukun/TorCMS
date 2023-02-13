@@ -98,6 +98,7 @@ class ListHandler(BaseHandler):
         '''
         post_data = self.get_request_arguments()
         tag = post_data.get('tag', '')
+        order = post_data.get('order', False)
 
         def get_pager_idx():
             '''
@@ -156,7 +157,7 @@ class ListHandler(BaseHandler):
         infos = MPost2Catalog.query_pager_by_slug(cat_slug,
                                                   current_page_num,
                                                   tag=tag,
-                                                  order=self.order
+                                                  order=order
                                                   )
 
         self.render(tmpl,

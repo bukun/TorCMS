@@ -213,7 +213,10 @@ class MPost2Catalog():
             cat_con = TabPost2Tag.par_id == cat_id
         else:
             cat_con = TabPost2Tag.tag_id == cat_id
-
+        if order:
+            sort_criteria = TabPost.order.asc()
+        else:
+            sort_criteria = TabPost.time_update.desc()
         if tag:
             condition = {'def_tag_arr': [tag]}
             recs = TabPost.select().join(
@@ -221,20 +224,15 @@ class MPost2Catalog():
                 on=((TabPost.uid == TabPost2Tag.post_id) & (TabPost.valid == 1)
                     )).where(cat_con
                              & TabPost.extinfo.contains(condition)).order_by(
-                                 TabPost.time_update.desc()).paginate(
+                sort_criteria).paginate(
                                      current_page_num, CMS_CFG['list_num']).distinct()
-        elif order:
-            recs = TabPost.select().join(
-                TabPost2Tag,
-                on=((TabPost.uid == TabPost2Tag.post_id) &
-                    (TabPost.valid == 1))).where(cat_con).order_by(
-                        TabPost.order.asc()).distinct()
+
         else:
             recs = TabPost.select().join(
                 TabPost2Tag,
                 on=((TabPost.uid == TabPost2Tag.post_id) &
                     (TabPost.valid == 1))).where(cat_con).order_by(
-                        TabPost.time_update.desc()).paginate(
+                        sort_criteria).paginate(
                             current_page_num, CMS_CFG['list_num']).distinct()
 
         return recs

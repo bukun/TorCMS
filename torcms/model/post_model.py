@@ -358,25 +358,33 @@ class MPost():
             & (TabPost.valid == 1)).order_by(sort_criteria).limit(num)
 
     @staticmethod
-    def query_total_cat_recent(cat_id_arr, label=None, num=8, kind='1'):
+    def query_total_cat_recent(cat_id_arr, label=None, num=8, kind='1',order=False):
         '''
         :param cat_id_arr:   list of categories. ['0101', '0102']
         :param label: the additional label
         '''
+
         if label:
             return MPost.__query_with_label(cat_id_arr,
                                             label=label,
                                             num=num,
-                                            kind=kind)
+                                            kind=kind,
+                                            order=order)
         return MPost.query_total_cat_recent_no_label(cat_id_arr,
                                                      num=num,
-                                                     kind=kind)
+                                                     kind=kind,
+                                                     order=order)
 
     @staticmethod
-    def __query_with_label(cat_id_arr, label=None, num=8, kind='1'):
+    def __query_with_label(cat_id_arr, label=None, num=8, kind='1',order=False):
         '''
         :param cat_id_arr:   list of categories. ['0101', '0102']
         '''
+        if order:
+            sort_criteria = TabPost.order.asc()
+        else:
+            sort_criteria = TabPost.time_update.desc()
+
         return TabPost.select().join(
             TabPost2Tag,
             on=(TabPost.uid == TabPost2Tag.post_id
@@ -384,14 +392,17 @@ class MPost():
                          & (TabPost2Tag.tag_id << cat_id_arr)
                          &  # the "<<" operator signifies an "IN" query
                          (TabPost.extinfo['def_tag_arr'].contains(label)
-                          & (TabPost.valid == 1))).order_by(
-            TabPost.time_create.desc()).limit(num)
+                          & (TabPost.valid == 1))).order_by(sort_criteria).limit(num)
 
     @staticmethod
-    def query_total_cat_recent_no_label(cat_id_arr, num=8, kind='1'):
+    def query_total_cat_recent_no_label(cat_id_arr, num=8, kind='1',order=False):
         '''
         :param cat_id_arr:   list of categories. ['0101', '0102']
         '''
+        if order:
+            sort_criteria = TabPost.order.asc()
+        else:
+            sort_criteria = TabPost.time_update.desc()
         return TabPost.select().join(
             TabPost2Tag,
             on=(TabPost.uid == TabPost2Tag.post_id
@@ -399,7 +410,7 @@ class MPost():
                          & (TabPost2Tag.tag_id << cat_id_arr)
                          &  # the "<<" operator signifies an "IN" query
                          (TabPost.valid == 1)).order_by(
-            TabPost.time_create.desc()).limit(num)
+            sort_criteria).limit(num)
 
     @staticmethod
     def query_most(num=8, kind='1'):

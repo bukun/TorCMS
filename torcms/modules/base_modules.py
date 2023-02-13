@@ -299,7 +299,8 @@ class PostCategoryRecent(tornado.web.UIModule):
             recs = MPost.query_total_cat_recent(sub_cat_ids,
                                                 label=label,
                                                 num=num,
-                                                kind=catinfo.kind)
+                                                kind=catinfo.kind,
+                                                order=order)
 
         else:
             recs = MPost.query_cat_recent(cat_id,
