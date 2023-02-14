@@ -1,9 +1,8 @@
 # -*- coding:utf-8 -*-
 
 
-from torcms_metadata.handlers.meta_handler import MetadataHandler
-
+from extor.handlers.meta_ext_handler import MetaExtHander
 _urls = [
-    ("/data/(.*)", MetadataHandler, dict(kind='9')),
 
+    ("/data/(.*)", MetaExtHander, dict(kind='9'))
 ]

@@ -145,7 +145,63 @@
                 </div>
             </div>
      {% block extrainfo %}{% end %}
+ <div class="form-group">
+                    <label for="ext_map_layers" class="col-sm-2 control-label">{{ _('layers') }}</label>
 
+                    <div class="col-sm-10">
+                        <input type="text" id="ext_map_layers" name="ext_map_layers" class="form-control"
+                        value="{{postinfo.extinfo.get('ext_map_layers','')}}">
+                    </div>
+                </div>
+              <div class="form-group">
+                    <label for="ext_map_url" class="col-sm-2 control-label">{{ _('url') }}</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="ext_map_url" name="ext_map_url" class="form-control"
+                         value="{{postinfo.extinfo.get('ext_map_url','https://tile.osgeo.cn/service?')}}" >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ext_lat" class="col-sm-2 control-label">{{ _('lat') }}</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="ext_lat" name="ext_lat" class="form-control"
+                               value="{{postinfo.extinfo.get('ext_lat','')}}" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ext_lon" class="col-sm-2 control-label">{{ _('lon') }}</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="ext_lon" name="ext_lon" class="form-control"
+                               value="{{postinfo.extinfo.get('ext_lon','')}}" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ext_zoom_max" class="col-sm-2 control-label">{{ _('zoom_max') }}</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="ext_zoom_max" name="ext_zoom_max" class="form-control"
+                               value="{{postinfo.extinfo.get('ext_zoom_max','7') }}" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ext_zoom_min" class="col-sm-2 control-label">{{ _('zoom_min') }}</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="ext_zoom_min" name="ext_zoom_min" class="form-control"
+                               value="{{postinfo.extinfo.get('ext_zoom_min','1')}}" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ext_zoom_current" class="col-sm-2 control-label">{{ _('zoom_current') }}</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="ext_zoom_current" name="ext_zoom_current" class="form-control"
+                               value="{{postinfo.extinfo.get('ext_zoom_current','') }}" >
+                    </div>
+                </div>
 
       <legend>{{ _('Additional information of the dataset') }}</legend>
 

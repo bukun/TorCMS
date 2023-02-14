@@ -13,6 +13,105 @@
         padding: 5px 0;
     }
 </style>
+<script>
+    $(document).ready(function () {
+        var post_uid = "{{postinfo.uid}}";
+        var login = {{kwd['login']}};
+        var map_url = "{{postinfo.extinfo.get('ext_map_url','https://tile.osgeo.cn/service?')}}";
+        var map_layers = "{{postinfo.extinfo.get('ext_map_layers','q_cp_imagery_imagery')}}";
+
+
+        var currentX, currentY, currentZoom, geojsonid, map_uid, mapson, vlat, vlon, vmarker, vzoom_current, vzoom_max,
+            vzoom_min;
+        mapson = $("#map_vkz").data("map")
+
+        vlon = mapson.x
+        vlat = mapson.y
+        vzoom_current = mapson.v
+        vzoom_max = mapson.m
+        vzoom_min = mapson.n
+
+
+        function test_fun2() {
+
+
+            var info_map_center = map.getCenter();
+            currentZoom = map.getZoom();
+
+        }
+
+        function test_fun3(e) {
+
+
+            vmarker = e.latlng;
+            currentZoom = map.getZoom();
+
+        }
+
+        function onMapClick(e) {
+            popup.setLatLng(e.latlng)
+                .setContent('Location:' + e.latlng.toString())
+                .openOn(map);
+        }
+
+        //创建地图
+        var map = L.map('map_vkz', {
+            center: [vlat, vlon],
+            crs: L.CRS.EPSG3857,
+            zoom: vzoom_current,
+            maxZoom: vzoom_max,
+            minZoom: vzoom_min,
+            editable: true,
+
+            // 去除放大缩小控件
+            // https://stackoverflow.com/questions/16537326/leafletjs-how-to-remove-the-zoom-control
+            zoomControl: false,
+            layerControl: false,
+            attributionControl: false,
+            // Attribution: false,
+        });
+        var popup = L.popup();
+        map.on('click', onMapClick);
+        map.on('move', test_fun2);
+        map.on('mousemove', test_fun3);
+
+
+        // 天地图地图及标示  osm，osm1.
+        var osm = L.tileLayer('http://t4.tianditu.gov.cn/DataServer?T=vec_w&X={x}&Y={y}&L={z}&tk=57f1b8146ef867f14189f3f4bb1adc1c', {
+            title: '天地图网格图',
+            maxZoom: 18,
+            id: 'mapbox.streets'
+        });
+
+
+        var osm1 = L.tileLayer.chinaProvider("TianDiTu.Normal.Map", {
+            maxZoom: 18,
+            minZoom: 1
+        })
+        var osm2 = L.tileLayer("http://t{s}.tianditu.gov.cn/DataServer?T=eva_w&x={x}&y={y}&l={z}&tk=57f1b8146ef867f14189f3f4bb1adc1c", {
+            subdomains: ['0', '1', '2', '3', '4', '5', '6', '7']
+        })
+        var the_basemap = L.layerGroup([osm1, osm2]);
+
+        the_basemap.addTo(map);
+
+
+        var geomor = L.tileLayer.wms(map_url, {
+            layers: map_layers,
+            format: 'image/png',
+            transparent: true,
+            backgroundColor: '#0f0f0f'
+        }).addTo(map);
+
+        L.control.scale({
+            position: 'bottomright',
+            maxWidth: '100',
+            imperial: false
+        }).addTo(map);
+
+
+    })
+</script>
 {% end %}
 
 {% block typebody %}
@@ -184,6 +283,97 @@
 
                     </div>
 
+                    {% if postinfo.extinfo.get('ext_map_layers') %}
+                    <h3>{{ _('Data Visualization on Map') }}</h3>
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div id="map_vkz" style=" width: 100%; height: 350px; z-index: 1; " tabindex="0"
+                                 data-map='{"i": "{{ postinfo.uid[1:] }}",
+        "x":{{ postinfo.extinfo.get('ext_lon','69') }},
+        "y": {{ postinfo.extinfo.get('ext_lat','32') }},
+        "v": {{ postinfo.extinfo.get('ext_zoom_current','4') }},
+        "m": {{ postinfo.extinfo.get('ext_zoom_max','7') }},
+        "n" : {{ postinfo.extinfo.get('ext_zoom_min','1') }},
+
+        "login": {{ kwd['login'] }}
+        }'></div>
+                        </div>
+                        <div class="col-sm-4">
+
+                            <div id="iga_view_rec_box">
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                        <span class="des">
+                             <b>{{ _('Central point longitude ') }} </b>
+                         </span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        {{ postinfo.extinfo.get('ext_lon','69') }}
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                        <span class="des">
+                            <b>{{ _('Central point latitude ') }} </b>
+                        </span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        {{ postinfo.extinfo.get('ext_lat','32') }}
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                        <span class="des">
+                            <b>{{ _('Max zoom level ') }} </b>
+                        </span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        {{ postinfo.extinfo.get('ext_zoom_max','7') }}
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                        <span class="des">
+                            <b>{{ _('Min zoom level ') }} </b>
+                        </span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        {{ postinfo.extinfo.get('ext_zoom_min','1') }}
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                        <span class="des">
+                             <b>{{ _('Current zoom level ') }} </b>
+                        </span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        {{ postinfo.extinfo.get('ext_zoom_current','4') }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <Br>
+                                        {% if postinfo.extinfo.get('ext_xml') %}
+                                        <a class="btn btn-primary btn-sm" target="_blank"
+                                           onclick="down_xml('{{ postinfo.uid }}');">
+                                            <span class="glyphicon glyphicon-share"></span>
+                                            {{ _('View Metadata') }} ({{ _('in XML format') }})
+                                        </a>
+                                        {% end %}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    {% end %}
+                    <br>
                 </div>
 
                 <div class="panel-footer">
@@ -280,5 +470,25 @@
 
     }
 </script>
+<script>function down_xml(uid) {
 
+    $.ajax({
+        url: "/{{ kwd['router'] }}/_downxml/" + uid,
+        type: "get",
+        data: '',
+        timeout: 1e3,
+        processData: false,
+        contentType: false,
+        error: function () {
+//                    alert("Reload")
+        },
+        success: function (result) {
+            var msg_json = $.parseJSON(result);
+            if (msg_json.down_code == 1) {
+                window.open(msg_json.down_url)
+            }
+        }
+    })
+
+}</script>
 {% end %}
