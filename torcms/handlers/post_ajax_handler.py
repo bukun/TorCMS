@@ -384,11 +384,22 @@ class PostAjaxHandler(PostHandler):
                 'code': '1',
                 'info': 'successful',
                 'uid': postinfo.uid,
-                'logo': postinfo.logo,
-                'time_update': postinfo.time_update,
                 'title': postinfo.title,
                 'cnt_html': tornado.escape.xhtml_unescape(postinfo.cnt_html),
-                'cnt_md': postinfo.cnt_md
+                'cnt_md': postinfo.cnt_md,
+                'user_name': postinfo.user_name,
+                'keywords': postinfo.keywords,
+                'logo': postinfo.logo,
+                'kind': postinfo.kind,
+                'state': postinfo.state,
+                'date': postinfo.date,
+                'time_create': postinfo.time_create,
+                'time_update': postinfo.time_update,
+                'view_count': postinfo.view_count,
+                'rating': postinfo.rating,
+                'valid': postinfo.valid,
+                'order': postinfo.order,
+                'extinfo': postinfo.extinfo
             }
 
             return json.dump(output, self)
@@ -500,7 +511,7 @@ class PostAjaxHandler(PostHandler):
                     'uid': rec.uid,
                     'title': rec.title,
                     'cnt_md': rec.cnt_md,
-                    'cnt_html': rec.cnt_html,
+                    'cnt_html': tornado.escape.xhtml_unescape(rec.cnt_html),
                     'user_name': rec.user_name,
                     'keywords': rec.keywords,
                     'logo': rec.logo,
