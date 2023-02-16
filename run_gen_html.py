@@ -253,12 +253,7 @@ def parse_proxy():
             sec_sig = 'secxx'
 
 
-        rst_out_file = out_rst_dir / f"{ch_sig}" / f'{sec_sig}'/ f'{Path(qfile_path).stem}-{qfile_lyrs}.rst'
-        pp = rst_out_file.parent
-        if pp.exists():
-            pass
-        else:
-            pp.mkdir(parents=True)
+       v
         with open(rst_out_file, 'w') as fo:
             fo.write(wms[qfile_lyrs].title)
             fo.write('\n')

@@ -256,14 +256,15 @@ def parse_proxy():
                     for chunk in r.iter_content(1024):
                         f.write(chunk)
 
-        uid = 'm' + str(cache_sig)[2:]
+        uid = 'v' + str(cache_sig)[2:]
         post_data = {
             'title': wms[qfile_lyrs].title,
             'cnt_md': abstract,
-            'kind': 'm',
-            'gcat0': 'm703',
+            'kind': 'v',
+            'gcat0': 'v101',
             'user_name': 'admin'
         }
+        catid=post_data['gcat0']
         ext_data = {
             'ext_data-maplet': cache_sig,
             'ext_data-x': bnd_box[0],
@@ -273,13 +274,15 @@ def parse_proxy():
             'ext_data-max': bnd_box[4],
             'ext_qfile_path': qfile_path,
             'def_uid': uid,
-            'gcat0': post_data['gcat0'],
-            'def_cat_uid': post_data['gcat0']
+            'gcat0': catid,
+            'def_cat_uid': catid,
+            'def_cat_pid': catid[:2] + '00'
 
         }
 
         MPost.add_or_update_post(uid, post_data, ext_data)
         update_category(uid, post_data)
+        MPost2Catalog.add_record(uid, catid)
 
 
 

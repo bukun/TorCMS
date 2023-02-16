@@ -1,0 +1,17 @@
+{% extends "../theme/bage.html" %}
+{% block head %}
+<title>{{ _('Map visualization') }} </title>
+{% end %}
+{% block typebody %}
+<h1 class="hden">{{ _('Map visualization') }}</h1>
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="panel panel-black">
+            {% module app_catalog_of('v101', slug = True,glyph='glyphicon glyphicon-globe',count=True ) %}
+        </div>
+
+    </div>
+
+</div>
+{% end %}
