@@ -20,8 +20,8 @@ import requests
 import time
 from owslib.wms import WebMapService
 
-out_rst_dir = Path('source/xx_rst')
 
+out_rst_dir = Path('static/map_legend')
 tmpl = open('tmpl_wms.html').read()
 
 TPL_MAPPROXY = '''
@@ -134,28 +134,6 @@ def update_category(uid, post_data):
             MPost2Catalog.remove_relation(uid, cur_info.tag_id)
 
 
-def gen_sec_index():
-    for xx in out_rst_dir.rglob('sec*'):
-        print(xx)
-        rst_list = []
-        for yy in xx.iterdir():
-            if yy.name.startswith('pub'):
-                rst_list.append(yy.name)
-        rst_list.sort()
-        with open(xx / 'index.rst', 'w') as fo:
-            fo.write(xx.name + '\n')
-            fo.write('=' * 80 + '\n')
-            fo.write('\n\n')
-            fo.write('''
-.. toctree::
-   :maxdepth: 1
-
-''')
-
-            for ii in rst_list:
-                fo.write(' ' * 3 + ii + '\n')
-
-
 def trans(bnd_box):
     source = osr.SpatialReference()
     epsg_code = int(bnd_box[-1].split(':')[-1])
@@ -220,52 +198,6 @@ def trans(bnd_box):
     return ((ll.x + ur.x) / 2, (ll.y + ur.y) / 2, zoom_cur, zoom_min, zoom_max)
 
 
-def gen_ch_index():
-    for xx in out_rst_dir.iterdir():
-        rst_list = []
-        if xx.name.startswith('ch'):
-            print(xx)
-        for yy in xx.iterdir():
-            if yy.name.startswith('sec'):
-                rst_list.append(yy.name)
-        rst_list.sort()
-        with open(xx / 'index.rst', 'w') as fo:
-            fo.write(xx.name + '\n')
-            fo.write('=' * 80 + '\n')
-            fo.write('\n\n')
-            fo.write('''
-.. toctree::
-   :maxdepth: 1
-
-''')
-
-            for ii in rst_list:
-                fo.write(' ' * 3 + ii + '/index.rst\n')
-
-
-def gen_index():
-    rst_list = []
-    for xx in out_rst_dir.iterdir():
-
-        if xx.name.startswith('ch'):
-            print(xx)
-            rst_list.append(xx.name)
-
-    with open('source/index.rst', 'w') as fo:
-        fo.write('''giSphinx 地图集项目演示
-===========================
-
-基于Sphinx文档工具发布QGIS制图结果地图。
-
-.. toctree::
-   :maxdepth: 1
-   :numbered: 2
-
-''')
-
-        for ii in rst_list:
-            fo.write(f'   xx_rst/{ii}/index\n')
-
 
 def parse_proxy():
     map_dict = yaml.load(open('xx_demo_mapproxy.yaml'), Loader=yaml.FullLoader)
@@ -301,106 +233,54 @@ def parse_proxy():
         else:
             abstract = '''这里是摘要说明。进行测试。
             '''
-        # print(abstract)
-        # print(dir(wms[qfile_lyrs]))
-        # print(wms_lyr.boundingBox)
-        # print(wms_lyr.dimensions)
 
         bnd_box = trans(wms_lyr.boundingBox)
-        # continue
 
-        # sys.exit()
-
-        ch_sig_arr = re.findall("\/ch\d\d", qfile_path)
-        sec_sig_arr = re.findall("\/sec\d\d", qfile_path)
-
-        if ch_sig_arr:
-            ch_sig = ch_sig_arr[0][1:]
-        else:
-            ch_sig = 'chxx'
-
-        if sec_sig_arr:
-            sec_sig = sec_sig_arr[0][1:]
-        else:
-            sec_sig = 'secxx'
-
-        rst_out_file = out_rst_dir / f"{ch_sig}" / f'{sec_sig}' / f'{Path(qfile_path).stem}-{qfile_lyrs}.rst'
-        pp = rst_out_file.parent
-        if pp.exists():
+        if out_rst_dir.exists():
             pass
         else:
-            pp.mkdir(parents=True)
-        with open(rst_out_file, 'w') as fo:
-            fo.write(wms[qfile_lyrs].title)
-            fo.write('\n')
-            fo.write('=' * 80 + '\n\n')
-            fo.write(abstract)
-            fo.write('\n' * 2)
-            fo.write(f'''
-.. raw:: html
+            out_rst_dir.mkdir(parents=True)
+        legend_img_file = out_rst_dir / f'xx_{cache_sig}.png'
+        if legend_img_file.exists():
+            pass
+        else:
+            req_str = '{}&LAYER={}&FORMAT=image/png&STYLE=default&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&FORMAT=image/png&STYLE=&SLD_VERSION=1.1.0'.format(
+                qfile_url,
+                qfile_lyrs
+            )
+            print('fetching legend ...')
+            print(req_str)
+            r = requests.get(req_str, stream=True)
+            if r.status_code == 200:
+                with open(legend_img_file, 'wb') as f:
+                    for chunk in r.iter_content(1024):
+                        f.write(chunk)
 
-   <div id="map_kd1" data-maplet="{cache_sig}" data-title="{wms[qfile_lyrs].title}" data-x={bnd_box[0]} data-y={bnd_box[1]} data-cur={bnd_box[2]} data-min={bnd_box[3]}  data-max={bnd_box[4]}></div>                    
-''')
-            fo.write('\n' * 2)
+        uid = 'm' + str(cache_sig)[2:]
+        post_data = {
+            'title': wms[qfile_lyrs].title,
+            'cnt_md': abstract,
+            'kind': 'm',
+            'gcat0': 'm703',
+            'user_name': 'admin'
+        }
+        ext_data = {
+            'ext_data-maplet': cache_sig,
+            'ext_data-x': bnd_box[0],
+            'ext_data-y': bnd_box[1],
+            'ext_data-cur': bnd_box[2],
+            'ext_data-min': bnd_box[3],
+            'ext_data-max': bnd_box[4],
+            'ext_qfile_path': qfile_path,
+            'def_uid': uid,
+            'gcat0': post_data['gcat0'],
+            'def_cat_uid': post_data['gcat0']
 
-            fo.write('Legend:\n')
-            fo.write('-' * 80 + '\n')
+        }
 
-            fo.write(f'''
-.. image:: ./xx_{cache_sig}.png
+        MPost.add_or_update_post(uid, post_data, ext_data)
+        update_category(uid, post_data)
 
-''')
-            fo.write('\n' * 2)
-            fo.write('Information:\n')
-            fo.write('-' * 80 + '\n')
-
-            fo.write(f'**Path**: {qfile_path}\n')
-            fo.write('\n' * 2)
-            fo.write(f'**Layer ID**: {cache_sig}\n')
-            fo.write('\n' * 2)
-            fo.write(f'**Center**: {bnd_box[0]}, {bnd_box[1]}\n')
-            fo.write('\n' * 2)
-            fo.write(f'**Zoom**: {bnd_box[2]}\n')
-            uid = 'm' + str(cache_sig)[2:]
-            post_data = {
-                'title': wms[qfile_lyrs].title,
-                'cnt_md': abstract,
-                'kind': 'm',
-                'gcat0': 'm703',
-                'user_name': 'admin'
-            }
-            ext_data = {
-                'ext_data-maplet': cache_sig,
-                'ext_data-x': bnd_box[0],
-                'ext_data-y': bnd_box[1],
-                'ext_data-cur': bnd_box[2],
-                'ext_data-min': bnd_box[3],
-                'ext_data-max': bnd_box[4],
-                'ext_qfile_path': qfile_path,
-                'def_uid': uid,
-                'gcat0': post_data['gcat0'],
-                'def_cat_uid': post_data['gcat0']
-
-            }
-
-            MPost.add_or_update_post(uid, post_data, ext_data)
-            update_category(uid, post_data)
-
-            legend_img_file = pp / f'xx_{cache_sig}.png'
-            if legend_img_file.exists():
-                pass
-            else:
-                req_str = '{}&LAYER={}&FORMAT=image/png&STYLE=default&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&FORMAT=image/png&STYLE=&SLD_VERSION=1.1.0'.format(
-                    qfile_url,
-                    qfile_lyrs
-                )
-                print('fetching legend ...')
-                print(req_str)
-                r = requests.get(req_str, stream=True)
-                if r.status_code == 200:
-                    with open(legend_img_file, 'wb') as f:
-                        for chunk in r.iter_content(1024):
-                            f.write(chunk)
 
 
 if __name__ == '__main__':
