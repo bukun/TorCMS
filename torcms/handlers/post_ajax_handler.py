@@ -499,7 +499,6 @@ class PostAjaxHandler(PostHandler):
                 {
                     'uid': rec.uid,
                     'title': rec.title,
-
                     'cnt_md': rec.cnt_md,
                     'cnt_html': rec.cnt_html,
                     'user_name': rec.user_name,
