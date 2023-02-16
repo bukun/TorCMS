@@ -495,7 +495,28 @@ class PostAjaxHandler(PostHandler):
         rec_arr = []
 
         for rec in recs:
-            rec_arr.append({'title': rec.title, 'uid': rec.uid, 'cnt_md': rec.cnt_md})
+            rec_arr.append(
+                {
+                    'uid': rec.uid,
+                    'title': rec.title,
+
+                    'cnt_md': rec.cnt_md,
+                    'cnt_html': rec.cnt_html,
+                    'user_name': rec.user_name,
+                    'keywords': rec.keywords,
+                    'logo': rec.logo,
+                    'kind': rec.kind,
+                    'state': rec.state,
+                    'date': rec.date,
+                    'time_create': rec.time_create,
+                    'time_update': rec.time_update,
+                    'view_count': rec.view_count,
+                    'rating': rec.rating,
+                    'valid': rec.valid,
+                    'order': rec.order,
+                    'extinfo': rec.extinfo
+                }
+            )
 
         output = {
             'code': '1',
