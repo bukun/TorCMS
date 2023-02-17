@@ -1,3 +1,5 @@
+import sys
+sys.path.append('.')
 from pprint import pprint
 import copy
 from torcms.model.post_model import MPost
@@ -16,13 +18,17 @@ field_dic = {
     'tag_conditionapplyingtoaccessanduse', 'tag_lineage', 'tag_responsiblepartyrole', 'tag_specificationtitle',
     'tag_specificationdate', 'tag_specificationdatetype'
 }
+field_dic2={
+    'tag_record_num','tag_data_citation','tag_contributor_agency','tag_contributor_email','tag_resperson_name','tag_responsible_address',
+    'tag_responsible_postcode','tag_responsible_email','tag_responsible_telephone','tag_country_id','tag_update_user'
+}
 for rec in recs:
     print('=' * 40)
     pprint(rec.extinfo)
     rec_extinfo = copy.deepcopy(rec.extinfo)
     upp = False
     for key in rec.extinfo:
-        if key in field_dic:
+        if key in field_dic2:
             # print(key, rec_extinfo[key])
             new_key = str(key).replace('tag_', 'pycsw_')
             if new_key in rec_extinfo:

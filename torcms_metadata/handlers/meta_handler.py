@@ -101,7 +101,7 @@ def update_label(signature, post_data):
     elif ';' in post_data['tags']:
         tags_arr = [x.strip() for x in post_data['tags'].split(';')]
     else:
-        tags_arr = [x.strip() for x in post_data['tags'].split(' ')]
+        tags_arr = [x.strip() for x in post_data['tags'].split(',')]
 
     for tag_name in tags_arr:
         if tag_name == '':
@@ -284,6 +284,8 @@ class MetadataHandler(PostHandler):
         ext_dic['status'] = 'a0'
 
 
+        # -----------------------------------------------
+
         MPost.add_or_update_post(ext_dic['def_uid'], post_data, extinfo=ext_dic)
         kwargs.pop('uid', None)  # delete `uid` if exists in kwargs
 
@@ -350,6 +352,8 @@ class MetadataHandler(PostHandler):
         ext_dic['def_approved_count'] = approved_count
 
 
+
+        # -----------------------------------------------
 
         cnt_old = tornado.escape.xhtml_unescape(postinfo.cnt_md).strip()
         cnt_new = post_data['cnt_md'].strip()

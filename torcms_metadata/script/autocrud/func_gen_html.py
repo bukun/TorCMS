@@ -101,6 +101,7 @@ def gen_input_view(sig_dic):
         html_str = HTML_TPL_DICT['input_view_link'].format(
             sig_dic['en'], sig_dic['zh'], sig_dic['dic'][1])
 
+
     else:
         html_str = HTML_TPL_DICT['input_view'].format(sig_dic['en'],
                                                       sig_dic['zh'],
@@ -185,14 +186,14 @@ def gen_select_view(sig_dic):
 
     for key, val in dic_tmp.items():
         tmp_str = '''
-
+  
          {{% if postinfo.extinfo.get('{sig_en}','') != ''%}}
           {{% set tmp_var = postinfo.extinfo["{sig_en}"] %}}
           {{% if tmp_var == "{sig_key}" %}}
           {{{{_('{sig_dic}')}}}}
           {{% end %}}
           {{% end %}}
-
+       
          '''.format(sig_en=sig_dic['en'], sig_key=key, sig_dic=val)
         option_str += tmp_str
 
@@ -204,7 +205,8 @@ def gen_select_view(sig_dic):
     {option_str}
     </div></div>
     {{% end %}}
-    '''.format(sig_zh=sig_dic['zh'], option_str=option_str, sig_en=sig_dic['en'])
+    '''.format(sig_zh=sig_dic['zh'], option_str=option_str,sig_en=sig_dic['en'])
+
 
 
 def gen_select_list(sig_dic):
