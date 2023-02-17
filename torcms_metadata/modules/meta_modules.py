@@ -15,7 +15,7 @@ class Upload_excel(tornado.web.UIModule):
         uid = args[0]
         router = args[1]
         return self.render_string(
-            '../torcms_metadata/tmpl_modules/upload_excel.html',
+            '../torcms_metadata/tmpl_modules/meta_upload_excel.html',
             uid=uid,
             router=router
         )
