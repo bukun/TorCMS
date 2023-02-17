@@ -141,6 +141,12 @@ def format_date(indate):
     return indate.strftime('%Y-%m-%d %H:%M:%S')
 
 
+def format_time(intime):
+    timeArray = time.localtime(intime)
+    otherStyleTime = time.strftime("%Y-%m-%d  %H:%M:%S", timeArray)
+    return otherStyleTime
+
+
 def get_uuid():
     '''
     Using python uuid
