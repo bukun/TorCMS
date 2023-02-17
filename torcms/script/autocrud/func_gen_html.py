@@ -272,7 +272,7 @@ def gen_select_view(sig_dic):
     dic_tmp = sig_dic['dic']
     for key, val in dic_tmp.items():
         tmp_str = '''
-         {{% if '{sig_en}' in postinfo.extinfo %}}
+          {{% if postinfo.extinfo.get('{sig_en}','') != ''%}}
           {{% set tmp_var = postinfo.extinfo["{sig_en}"] %}}
           {{% if tmp_var == "{sig_key}" %}}
           {{{{_('{sig_dic}')}}}}
@@ -282,12 +282,14 @@ def gen_select_view(sig_dic):
         option_str += tmp_str
 
     return '''
+    {{% if postinfo.extinfo.get('{sig_en}','') != ''%}}
     <div class="row">
     <div class="col-sm-4"><span class="des"><strong>{{{{_('{sig_zh}')}}}}</strong></span></div>
     <div class="col-sm-8">
     {option_str}
     </div></div>
-    '''.format(sig_zh=sig_dic['zh'], option_str=option_str)
+      {{% end %}}
+    '''.format(sig_zh=sig_dic['zh'], option_str=option_str,sig_en=sig_dic['en'])
 
 
 def gen_file_add(sig_dic):
