@@ -9,8 +9,7 @@ from torcms_dde._config import xlsx_src
 
 CRUD_PATH = os.path.abspath('./templates/autogen')
 
-META_DIR = './torcms_dde'
-META_TAG_DIR = './torcms_dde/database/meta'
+META_TAG_DIR = './database/meta'
 XLSX_FILE = xlsx_src
 
 META_FILE_LIST = []
@@ -18,7 +17,10 @@ META_FILE_LIST = []
 for wfile in Path(META_TAG_DIR).rglob('*.xlsx'):
     if wfile.name.startswith('~'):
         continue
-
+    if wfile.name.startswith('torcms_dde_'):
+        pass
+    else:
+        continue
     META_FILE_LIST.append(wfile)
 
 

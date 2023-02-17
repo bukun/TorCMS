@@ -90,7 +90,6 @@ def gen_input_view(sig_dic):
     '''
     Viewing the HTML text.
     '''
-
     if sig_dic['en'] in ['tag_file_download', 'tag__file_download']:
         html_str = HTML_TPL_DICT['input_view_download'].format(
             sig_zh=sig_dic['zh'], sig_unit=sig_dic['dic'][1])
@@ -101,6 +100,8 @@ def gen_input_view(sig_dic):
     ]:
         html_str = HTML_TPL_DICT['input_view_link'].format(
             sig_dic['en'], sig_dic['zh'], sig_dic['dic'][1])
+
+
     else:
         html_str = HTML_TPL_DICT['input_view'].format(sig_dic['en'],
                                                       sig_dic['zh'],
@@ -182,24 +183,30 @@ def gen_select_view(sig_dic):
     '''
     option_str = ''
     dic_tmp = sig_dic['dic']
+
     for key, val in dic_tmp.items():
         tmp_str = '''
-         {{% if '{sig_en}' in postinfo.extinfo %}}
+  
+         {{% if postinfo.extinfo.get('{sig_en}','') != ''%}}
           {{% set tmp_var = postinfo.extinfo["{sig_en}"] %}}
           {{% if tmp_var == "{sig_key}" %}}
           {{{{_('{sig_dic}')}}}}
           {{% end %}}
           {{% end %}}
+       
          '''.format(sig_en=sig_dic['en'], sig_key=key, sig_dic=val)
         option_str += tmp_str
 
     return '''
+    {{% if postinfo.extinfo.get('{sig_en}','') != ''%}}
     <div class="row">
     <div class="col-sm-4"><span class="des"><strong>{{{{_('{sig_zh}')}}}}</strong></span></div>
     <div class="col-sm-8">
     {option_str}
     </div></div>
-    '''.format(sig_zh=sig_dic['zh'], option_str=option_str)
+    {{% end %}}
+    '''.format(sig_zh=sig_dic['zh'], option_str=option_str,sig_en=sig_dic['en'])
+
 
 
 def gen_select_list(sig_dic):

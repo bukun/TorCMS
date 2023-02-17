@@ -36,12 +36,14 @@ def __get_view_tmpl(tag_key):
     the_view_file_2 = './templates/tmpl_{0}/tpl_view_{1}.html'.format(
         KIND_DICS['kind_' + tag_key.split('_')[-1]],
         tag_key.split('_')[1][:2])
+
     if os.path.exists(the_view_file_4):
         the_view_sig_str = '_{0}'.format(tag_key.split('_')[1])
     elif os.path.exists(the_view_file_2):
         the_view_sig_str = '_{0}'.format(tag_key.split('_')[1][:2])
     else:
         the_view_sig_str = ''
+
     return the_view_sig_str
 
 def generate_html_files(*args):
@@ -157,7 +159,7 @@ def __write_view_tmpl(tag_key, tag_list):
 
         # The admin information should be hidden for user.
         if sig.startswith('_'):
-            tmpl = '''{% if userinfo and userinfo.role[1] > '0' %}''' + tmpl + '''{% end %}'''
+            tmpl = '''{% if userinfo and userinfo.role[1] > '1' %}''' + tmpl + '''{% end %}'''
         view_widget_arr.append(tmpl)
 
     for crud_dic in SWITCH_DICS_Meta:

@@ -38,7 +38,8 @@ router_post = {
     '1': 'post',
     '3': 'info',
     'q': 'topic',
-    'v': 'map-show'
+    'v': 'map-show',
+    'k': 'tutorial'
 }
 
 post_type = {
@@ -50,11 +51,14 @@ post_type = {
             '''.format('Topic'),
     'v': '''<span style="color:red;" class="glyphicon glyphicon-globe">[{0}]</span>
             '''.format('Map visualization'),
+    'k': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>
+        '''.format('Tutorial'),
 }
 check_type = {
     '1': 'Document',
     '3': 'Infor',
     'v': 'Map visualization',
+    'k': 'Tutorial',
 }
 post_cfg = {
     '1': {
@@ -69,13 +73,18 @@ post_cfg = {
     },
     'v': {
         'router': 'info',
-        'html': '''<span style="color:red;" class="glyphicon glyphicon-globe">[{0}]</span>'''.format('Map visualization'),
+        'html': '''<span style="color:red;" class="glyphicon glyphicon-globe">[{0}]</span>'''.format(
+            'Map visualization'),
         'checker': '0',  # '10', '100', '1000', '10000'
     },
-
+    'k': {
+        'router': 'tutorial',
+        'html': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>'''.format('Data'),
+        'checker': '10',  # '10', '100', '1000', '10000'
+    }
 
 }
-kind_arr = ['1', '3', 'm', 's', 'q','v']
+kind_arr = ['1', '3', 'm', 's', 'q', 'v']
 
 for wdir in Path('.').iterdir():
     if wdir.is_dir() and wdir.name.startswith('torcms_'):

@@ -10,4 +10,5 @@ urls = [
     ("/topic/(.*)", TopicHandler, dict(kind='q')),
     ('/referrer/(.*)', Referrer, dict(kind='r')),
     ('/map-show/(.*)', PostHandler, dict(kind='v')),
+    ("/tutorial/(.*)", PostHandler, dict(kind='k')),
 ]  # type: List[int]

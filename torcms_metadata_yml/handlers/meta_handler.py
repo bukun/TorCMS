@@ -193,7 +193,7 @@ class MetadataHandler(PostHandler):
         ii = 1
         for row in sheet.iter_rows(min_row=2):
 
-            if not (row[1].value) or sheet.cell(2, 1).value != 'identifier':
+            if not (row[1].value):
                 continue
             else:
                 pass
