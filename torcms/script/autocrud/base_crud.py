@@ -15,17 +15,17 @@ META_DIR = './database/meta'
 XLSX_FILE_LIST = []
 
 for wfile in Path(META_DIR).rglob('*.xlsx'):
-    if wfile.name.startswith('~'):
+    if wfile.name.startswith('~') or wfile.name.startswith('torcms_'):
         continue
     # XLSX_FILE = os.path.join(META_DIR, wfile)
     XLSX_FILE_LIST.append(wfile)
 
-for wdir in Path('.').iterdir():
-    if wdir.is_dir() and wdir.name.startswith('torcms_'):
-        for wfile in (wdir / 'database' / 'meta').rglob('*.xlsx'):
-            if wfile.name.startswith('~'):
-                continue
-            XLSX_FILE_LIST.append(wfile)
+# for wdir in Path('.').iterdir():
+#     if wdir.is_dir() and wdir.name.startswith('torcms_'):
+#         for wfile in (wdir / 'database' / 'meta').rglob('*.xlsx'):
+#             if wfile.name.startswith('~'):
+#                 continue
+#             XLSX_FILE_LIST.append(wfile)
 
 # The filter key stored in the colomns below.
 RAW_LIST = [

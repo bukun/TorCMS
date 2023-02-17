@@ -9,8 +9,7 @@ from torcms_metadata._config import xlsx_src
 
 CRUD_PATH = os.path.abspath('./templates/autogen')
 
-META_DIR = './torcms_metadata'
-META_TAG_DIR = './torcms_metadata/database/meta'
+META_TAG_DIR = './database/meta'
 XLSX_FILE = xlsx_src
 
 META_FILE_LIST = []
@@ -18,10 +17,12 @@ META_FILE_LIST = []
 for wfile in Path(META_TAG_DIR).rglob('*.xlsx'):
     if wfile.name.startswith('~'):
         continue
+    if wfile.name.startswith('torcms_metadata_'):
+        pass
+    else:
+        continue
 
     META_FILE_LIST.append(wfile)
-
-
 
 # The filter key stored in the colomns below.
 RAW_LIST = [
