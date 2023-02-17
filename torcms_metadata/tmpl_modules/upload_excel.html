@@ -212,6 +212,7 @@
                         processData: false,
                         success: function (data) {
                             var postinfos = $.parseJSON(data);
+
                            if(postinfos.title==null){
                                 $(".uploader__instructions").text("The format of the xlsx is incorrect. Please upload it again.")
                                 $(".js-upload-remove-button").click();
@@ -225,8 +226,9 @@
                                 $('#' + postinfo).val(item_value);
 
 
-                           }
 
+                           }
+                                $('#cnt_md1').val(postinfos['cnt_md']);
                                  $('#col_btn').click();
                                  {#window.location.reload()#}
                             }

@@ -181,13 +181,13 @@ function del_geojson(gson_id) {
         }
     })
 }
-// if ($.ready(), "undefined" == typeof CodeMirror); else if ($("#cnt_md").length > 0)var editor = CodeMirror.fromTextArea(document.getElementById("cnt_md"), {
-//     lineWrapping: !0,
-//     mode: "markdown",
-//     lineNumbers: !0,
-//     theme: "default",
-//     extraKeys: {Enter: "newlineAndIndentContinueMarkdownList"}
-// });
+if ($.ready(), "undefined" == typeof CodeMirror); else if ($("#cnt_md").length > 0)var editor = CodeMirror.fromTextArea(document.getElementById("cnt_md"), {
+    lineWrapping: !0,
+    mode: "markdown",
+    lineNumbers: !0,
+    theme: "default",
+    extraKeys: {Enter: "newlineAndIndentContinueMarkdownList"}
+});
 $("#sub_reset").click(function () {
     $("#form_reset").valid() ? js_update_pass() : alert("Error")
 }), $("#act_collect").click(function () {
