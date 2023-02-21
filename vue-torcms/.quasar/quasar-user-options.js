@@ -15,9 +15,9 @@ import iconSet from 'quasar/icon-set/material-icons'
 
 
 
-import {Notify,Loading,Dialog} from 'quasar'
+import {Notify,Loading,Dialog,Cookies,LocalStorage,SessionStorage} from 'quasar'
 
 
 
-export default { config: {"notify":{"color":"green-5","icon":"check","position":"top","timeout":1500,"actions":[{"icon":"close","color":"white"}]}},iconSet,plugins: {Notify,Loading,Dialog} }
+export default { config: {"notify":{"color":"green-5","icon":"check","position":"top","timeout":1500,"actions":[{"icon":"close","color":"white"}]}},iconSet,plugins: {Notify,Loading,Dialog,Cookies,LocalStorage,SessionStorage} }
 

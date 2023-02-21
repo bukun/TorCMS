@@ -70,10 +70,10 @@ module.exports = configure(function (ctx) {
       // publicPath: '/',
       // analyze: true,
       env: ctx.dev
-        ?{API:JSON.stringify('http://127.0.0.1:6898')}
+        ?{API:JSON.stringify('http://127.0.0.1:8877')}
         :{
 
-        API:JSON.stringify('http://39.100.72.56:6898')
+        API:JSON.stringify('http://39.100.72.56:8877')
         },
 
       // rawDefine: {}
@@ -104,37 +104,37 @@ module.exports = configure(function (ctx) {
       proxy: {
         // proxy all requests starting with /api to jsonplaceholder
         '/user_j': {
-          // target: 'http://39.100.72.56:6898',
-          target: 'http://127.0.0.1:6898',
+          // target: 'http://39.100.72.56:8877',
+          target: 'http://127.0.0.1:8877',
           changeOrigin: true,
 
 
         },
         '/user': {
-          // target: 'http://39.100.72.56:6898',
-          target: 'http://127.0.0.1:6898',
+          // target: 'http://39.100.72.56:8877',
+          target: 'http://127.0.0.1:8877',
           changeOrigin: true,
 
 
         },
 
         '/post_j': {
-          // target: 'http://39.100.72.56:6898',
-          target: 'http://127.0.0.1:6898',
+          // target: 'http://39.100.72.56:8877',
+          target: 'http://127.0.0.1:8877',
           changeOrigin: true,
 
 
         },
         '/list': {
-          // target: 'http://39.100.72.56:6898',
-          target: 'http://127.0.0.1:6898',
+          // target: 'http://39.100.72.56:8877',
+          target: 'http://127.0.0.1:8877',
           changeOrigin: true,
 
 
         },
         '/entity_j': {
-          // target: 'http://39.100.72.56:6898',
-          target: 'http://127.0.0.1:6898',
+          // target: 'http://39.100.72.56:8877',
+          target: 'http://127.0.0.1:8877',
           changeOrigin: true,
 
 
@@ -161,7 +161,9 @@ module.exports = configure(function (ctx) {
       // directives: [],
 
       // Quasar plugins
-      plugins: ['Notify','Loading','Dialog'],
+      plugins: ['Notify','Loading','Dialog',  'Cookies','LocalStorage',
+    'SessionStorage'],
+
 
     },
 

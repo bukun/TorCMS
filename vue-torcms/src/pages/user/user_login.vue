@@ -43,7 +43,7 @@
 </template>
 
 <script>
-
+import { authService} from '../../service/authService'
 
 export default {
   data() {
@@ -77,8 +77,14 @@ export default {
                 path: '/userinfo/info'
 
               })
+
+            authService.setToken(statusCode.data['user_name'])
+
+
+
           } else {
             this.$q.notify(statusCode.data['info'])
+            this.toRegister()
           }
 
         })

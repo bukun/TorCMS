@@ -3,6 +3,7 @@ import axios, {AxiosInstance} from 'axios';
 import {Notify} from 'quasar'
 // import Router from '../router/index';
 
+
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     $axios: AxiosInstance;
