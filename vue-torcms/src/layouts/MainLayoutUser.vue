@@ -27,8 +27,7 @@ import {defineComponent, ref} from 'vue';
 import EssentialLink from 'components/EssentialLink.vue';
 import EssentialHead from 'components/Head.vue';
 
-const linksList = [
-  {
+ let linksList=[{
     title: 'user info',
     caption: 'userinfo',
     icon: 'school',
@@ -46,22 +45,13 @@ const linksList = [
     icon: 'school',
     link: '/#/userinfo/changepass'
   },
-  // {
-  //   title: 'changerole',
-  //   caption: 'changerole',
-  //   icon: 'school',
-  //   link: '/#/userinfo/changerole'
-  // },
-  // {
-  //   title: 'logout',
-  //   caption: 'logout',
-  //   icon: 'school',
-  //   link: '/#/userinfo/logout'
-  // },
+  {
+    title: 'changerole',
+    caption: 'changerole',
+    icon: 'school',
+    link: '/#/userinfo/changerole'
+  }]
 
-
-
-];
 
 export default defineComponent({
   name: 'MainLayout',
@@ -71,16 +61,19 @@ export default defineComponent({
     EssentialLink
   },
 
-  setup() {
-    const leftDrawerOpen = ref(false)
+setup()
+    {
+      const leftDrawerOpen = ref(false)
 
-    return {
-      essentialLinks: linksList,
-      leftDrawerOpen,
-      toggleLeftDrawer() {
-        leftDrawerOpen.value = !leftDrawerOpen.value
+      return {
+        essentialLinks: linksList,
+        leftDrawerOpen,
+        toggleLeftDrawer() {
+          leftDrawerOpen.value = !leftDrawerOpen.value
+        }
       }
-    }
-  }
+    },
+
 });
+
 </script>

@@ -52,6 +52,8 @@
 <script>
 
 
+import {authService} from "../../service";
+
 export default {
   data() {
     return {
@@ -59,7 +61,22 @@ export default {
       model: {}
     };
   },
+    mounted() {
+   this.check_login()
+
+  },
   methods: {
+    check_login() {
+      if (authService.getToken()) {
+
+      } else {
+        this.$router.push({
+          path: '/userinfo/login'
+
+        })
+      }
+    },
+
     onSubmit() {
       let formdata = {
         rawpass: this.model.rawpass,

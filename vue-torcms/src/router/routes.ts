@@ -33,7 +33,7 @@ const routes: RouteRecordRaw[] = [
       {path: 'changerole', component: () => import('pages/user/user_changerole.vue')},
       {path: 'changepass', component: () => import('pages/user/user_changepass.vue')},
       {path: 'changeinfo', component: () => import('pages/user/user_changeinfo.vue')},
-      // {path: 'logout', component: () => import('pages/user/user_logout.vue')},
+
 
 
     ],

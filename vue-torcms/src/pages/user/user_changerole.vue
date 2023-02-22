@@ -26,15 +26,35 @@
 <script>
 
 
+import {authService} from '../../service/authService'
+
 export default {
+
   data() {
     return {
       isPwd: true,
-      model: {}
+      model: {},
+
     };
   },
+  mounted() {
+    this.check_login()
+
+  },
   methods: {
+    check_login() {
+      if (authService.getToken()) {
+
+      } else {
+        this.$router.push({
+          path: '/userinfo/login'
+
+        })
+      }
+    },
     onSubmit() {
+
+
       let formdata = {
         role: this.model.role,
       }

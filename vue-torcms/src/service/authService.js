@@ -6,7 +6,10 @@ const authService = {
   },
   setToken: function(token) {
     LocalStorage.set('user_name', token);
-  }
+  },
+
+
+
 };
 
 export { authService };

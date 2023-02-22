@@ -19,13 +19,17 @@
         <q-btn color="primary" size="sm" label="Modify personal information " @click="toChangeinfo"></q-btn>
         <q-btn color="secondary" size="sm" label="Change password" @click="toChangepass"></q-btn>
         <q-btn color="purple" size="sm" label="Change role" @click="toChangerole"></q-btn>
+        <!--        <q-btn color="blue-grey" size="sm" label="Logout" @click="toLogout"></q-btn>-->
       </div>
     </div>
   </q-page>
 </template>
 
 <script>
-import { authService} from '../../service/authService'
+import {userService} from '../../service/userService'
+import {settingService} from '../../service/settingService'
+import {authService} from "../../service";
+
 export default {
   data() {
     return {
@@ -35,9 +39,20 @@ export default {
     };
   },
   mounted() {
-    this.get_info()
+    this.check_login()
+
   },
   methods: {
+    check_login() {
+      if (authService.getToken()) {
+        this.get_info()
+      } else {
+        this.$router.push({
+          path: '/userinfo/login'
+
+        })
+      }
+    },
 
     get_info() {
       this.$axios({
@@ -46,10 +61,10 @@ export default {
         headers: {'Content-Type': 'application/json'},
         params: {user_name: this.$route.query.user_name}
       }).then(response => {
-          // 在Vue文件之外
 
-          console.log(response);
           if (response.data.user_name) {
+
+            userService.setUserInfo(response)
             this.info = response
             this.user_name = response.data.user_name
           } else {
@@ -82,6 +97,14 @@ export default {
       })
     },
     toLogin() {
+      this.$router.push({
+        path: '/userinfo/login'
+
+      })
+    },
+    toLogout() {
+      userService.logout()
+      settingService.clear()
       this.$router.push({
         path: '/userinfo/login'
 

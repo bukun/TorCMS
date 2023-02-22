@@ -6,7 +6,7 @@ const HEADERS = {
 
 const user = {
   login: function(data) {
-    return api.post('/user/j_login',
+    return api.post('/user_j/login',
       data,
       {
         headers: HEADERS
@@ -14,7 +14,7 @@ const user = {
     );
   },
   logout: function() {
-    return api.get('/user/j_logout',
+    return api.get('/user_j/logout',
       {
         headers: HEADERS
       }

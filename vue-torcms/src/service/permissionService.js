@@ -2,10 +2,10 @@ import { LocalStorage } from 'quasar';
 
 const permissionService = {
   get: function() {
-    return LocalStorage.getItem('permission');
+    return LocalStorage.getItem('role');
   },
   set: function(data) {
-    LocalStorage.set('permission', data);
+    LocalStorage.set('role', data);
   },
   check: function(needPermissions) {
     if (needPermissions && needPermissions.length > 0) {

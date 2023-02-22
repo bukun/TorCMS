@@ -44,6 +44,7 @@
 
 <script>
 import { authService} from '../../service/authService'
+import { userService} from '../../service/userService'
 
 export default {
   data() {
@@ -79,7 +80,6 @@ export default {
               })
 
             authService.setToken(statusCode.data['user_name'])
-
 
 
           } else {
