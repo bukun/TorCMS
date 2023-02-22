@@ -67,6 +67,8 @@ class ReplyHandler(BaseHandler):
             self.add_reply(url_arr[1], url_arr[2])
         elif url_arr[0] == 'modify':
             self.modify(url_arr[1], url_arr[2])
+        elif url_arr[0] == 'get_by_post':
+            self.get_by_post(url_arr[1],num=url_arr[2])
 
     def _add(self):
         '''
@@ -208,6 +210,30 @@ class ReplyHandler(BaseHandler):
                         isreply=isreply,
                         userinfo=self.userinfo,
                         kwd={})
+
+    def get_by_post(self, post_id, **kwargs):
+        num = kwargs.get('num','')
+        list = []
+        reply = MReply.query_by_post(post_id, reply_count=num)
+        dic = {
+            'uid': reply.uid,
+            'cnt_md': reply.cnt_md,
+            'username': reply.user_name,
+            'date': reply.date,
+            'timestamp': reply.timestamp,
+            'category': reply.category,
+            'user_name': reply.user_name,
+            'vote': reply.vote,
+            'extinfo': reply.extinfo
+        }
+
+        list.append(dic)
+
+        out_dict = {
+            'results': list
+        }
+
+        return json.dump(out_dict, self, cls=DateEncoder, ensure_ascii=False)
 
     def more_by_id(self, reply_id):
         '''

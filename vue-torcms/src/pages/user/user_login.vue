@@ -67,10 +67,8 @@ export default {
         params: formdata
       })
         .then(async (statusCode) => {
-          // alert(JSON.stringify(statusCode.data['code']))
-          if (statusCode.data['code'] === '1') {
 
-            console.log(statusCode);
+          if (statusCode.data['code'] === '1') {
 
             this.$q.notify(statusCode.data['info'])
             this.$router.push(
@@ -83,6 +81,7 @@ export default {
 
 
           } else {
+
             this.$q.notify(statusCode.data['info'])
             this.toRegister()
           }

@@ -31,50 +31,15 @@ const linksList = [
     title: '2010年粮食作物播种面积和产量',
     caption: '2010年粮食作物播种面积和产量',
     icon: 'school',
-    link: '/#/post/list/8101'
+    link: '/#/post/list/0100'
   },
   {
     title: '2020年粮食作物播种面积和产量',
     caption: '2020年粮食作物播种面积和产量',
     icon: 'school',
-    link: '/#/post/list/8102'
+    link: '/#/post/list/0200'
   },
-  {
-    title: '2010年规模优势指数',
-    caption: '2010年规模优势指数',
-    icon: 'school',
-    link: '/#/post/list/8201'
-  },
-  {
-    title: '2020年规模优势指数',
-    caption: '2020年规模优势指数',
-    icon: 'school',
-    link: '/#/post/list/8202'
-  },
-  {
-    title: '2010年效率优势指数',
-    caption: '2010年效率优势指数',
-    icon: 'school',
-    link: '/#/post/list/8301'
-  },
-  {
-    title: '2020年效率优势指数',
-    caption: '2020年效率优势指数',
-    icon: 'school',
-    link: '/#/post/list/8302'
-  },
-  {
-    title: '2010年综合优势指数',
-    caption: '2010年综合优势指数',
-    icon: 'school',
-    link: '/#/post/list/8401'
-  },
-  {
-    title: '2020年综合优势指数',
-    caption: '2020年综合优势指数',
-    icon: 'school',
-    link: '/#/post/list/8402'
-  },
+
 
 ];
 
