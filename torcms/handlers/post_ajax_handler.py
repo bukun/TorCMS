@@ -175,7 +175,9 @@ class PostAjaxHandler(PostHandler):
         List posts that recent edited, partially.
         '''
 
-        num = kwargs.get('num', 20)
+        post_data = self.get_request_arguments()
+        num = post_data.get('num', 20)
+
         current_page_number = 1
         if cur_p == '':
             current_page_number = 1
