@@ -191,5 +191,5 @@ HTML_TPL_DICT = {
     'input_view_link': HTML_INPUT_VIEW_link,
     'input_add_download': HTML_INPUT_ADD_DOWNLOAD,
     'input_edit_download': HTML_INPUT_EDIT_DOWNLOAD,
-    'input_view_download': HTML_INPUT_VIEW_DONWLOAD,
+    'input_view_download': '',
 }
