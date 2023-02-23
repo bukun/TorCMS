@@ -28,17 +28,12 @@ const linksList = [
     link: '/#/post/list'
   },
   {
-    title: '2010年粮食作物播种面积和产量',
-    caption: '2010年粮食作物播种面积和产量',
+    title: 'Technology',
+    caption: 'Technology',
     icon: 'school',
     link: '/#/post/list/0100'
   },
-  {
-    title: '2020年粮食作物播种面积和产量',
-    caption: '2020年粮食作物播种面积和产量',
-    icon: 'school',
-    link: '/#/post/list/0200'
-  },
+
 
 
 ];

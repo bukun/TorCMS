@@ -81,42 +81,13 @@ export default {
 
       this.catid = this.$route.params.catid;
       this.pid = pid || this.$route.params.pid;
-      if(this.pid ==='8100'){
-        this.pagetitle = '粮食作物播种面积和产量'
+      if(this.pid ==='0100'){
+        this.pagetitle = 'Technology'
       }
-      else if(this.pid ==='8200'){
-        this.pagetitle = '规模优势指数'
+      else if(this.pid ==='0200'){
+        this.pagetitle = 'Education'
       }
-      else if(this.pid ==='8300'){
-        this.pagetitle = '效率优势指数'
-      }
-      else if(this.pid ==='8400'){
-        this.pagetitle = '综合优势指数'
-      }
-      else if(this.catid ==='8101'){
-        this.pagetitle = '2010年粮食作物播种面积和产量'
-      }
-      else if(this.catid ==='8102'){
-        this.pagetitle = '2020年粮食作物播种面积和产量'
-      }
-      else if(this.catid ==='8201'){
-        this.pagetitle = '2010年规模优势指数'
-      }
-      else if(this.catid ==='8202'){
-        this.pagetitle = '2020年规模优势指数'
-      }
-      else if(this.catid ==='8301'){
-        this.pagetitle = '2010年效率优势指数'
-      }
-      else if(this.catid ==='8302'){
-        this.pagetitle = '2020年效率优势指数'
-      }
-      else if(this.catid ==='8401'){
-        this.pagetitle = '2010年综合优势指数'
-      }
-      else if(this.catid ==='8402'){
-        this.pagetitle = '2020年综合优势指数'
-      }
+
       else {
         this.pagetitle='列表'
       }
@@ -131,7 +102,7 @@ export default {
         url: '/post_j/j_recent',
         method: 'post',
         headers: {'Content-Type': 'application/json'},
-        params: {kind: '9', catid: this.catid,pid:this.pid, offset: this.pagination.offset, limit: this.pagination.limit}
+        params: {kind: '1', catid: this.catid,pid:this.pid, offset: this.pagination.offset, limit: this.pagination.limit}
 
       }).then(response => {
           console.log(response);
