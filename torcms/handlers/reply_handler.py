@@ -214,8 +214,8 @@ class ReplyHandler(BaseHandler):
                         userinfo=self.userinfo,
                         kwd={})
 
-    def get_by_post(self, post_id, **kwargs):
-        num = kwargs.get('num', '')
+    def get_by_post(self, post_id, num=20,**kwargs):
+
         list = []
         reply = MReply.query_by_post(post_id, reply_count=num)
         dic = {
