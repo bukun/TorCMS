@@ -70,10 +70,6 @@ class MReply():
             TabUser2Reply.reply_id == reply_id).count()
 
     @staticmethod
-    def get_by_user(user_id):
-        return TabReply.select().where((TabReply.user_id == user_id) & (TabReply.category == '0'))
-
-    @staticmethod
     def query_all():
         return TabReply.select().where(TabReply.category == '0').order_by(TabReply.timestamp.desc())
 
@@ -82,18 +78,28 @@ class MReply():
         return TabReply.delete().where(TabReply.post_id == del_id)
 
     @staticmethod
-    def count_of_certain(ext_field=None):
+    def count_of_certain(ext_field=None, user_id=None):
         '''
         Get the count of certain kind.
         '''
         # adding ``None`` to hide ``No value for argument 'database' in method call``
-        if ext_field:
-            return TabReply.select().where(
-                TabReply.category == '0' and
-                TabReply.extinfo['ext_field'] == str(ext_field)
-            ).count(None)
+        if user_id:
+            if ext_field:
+                return TabReply.select().where(
+                    (TabReply.category == '0') &
+                    (TabReply.user_id == user_id) &
+                    (TabReply.extinfo['ext_field'] == str(ext_field))
+                ).count(None)
+            else:
+                return TabReply.select().where((TabReply.category == '0') & (TabReply.user_id == user_id)).count(None)
         else:
-            return TabReply.select().where(TabReply.category == '0').count(None)
+            if ext_field:
+                return TabReply.select().where(
+                    (TabReply.category == '0') &
+                    (TabReply.extinfo['ext_field'] == str(ext_field))
+                ).count(None)
+            else:
+                return TabReply.select().where(TabReply.category == '0').count(None)
 
     @staticmethod
     def total_number(ext_field=''):
@@ -108,19 +114,32 @@ class MReply():
             return TabReply.select().where(TabReply.category == '0').count(None)
 
     @staticmethod
-    def query_pager(current_page_num=1, ext_field=''):
+    def query_pager(current_page_num=1, ext_field='', user_id=''):
         '''
         Query pager
         '''
-        if ext_field:
-            return TabReply.select().where(
-                TabReply.category == '0' and TabReply.extinfo['ext_field'] == ext_field).order_by(
-                TabReply.timestamp.desc()
-            ).paginate(current_page_num, CMS_CFG['list_num'])
+        if user_id:
+            cat_con = TabReply.user_id == user_id
+
+            if ext_field:
+                return TabReply.select().where(
+                    (TabReply.category == '0') & (TabReply.extinfo['ext_field'] == ext_field) & cat_con).order_by(
+                    TabReply.timestamp.desc()
+                ).paginate(current_page_num, CMS_CFG['list_num'])
+            else:
+                return TabReply.select().where(cat_con & (TabReply.category == '0')).order_by(
+                    TabReply.timestamp.desc()
+                ).paginate(current_page_num, CMS_CFG['list_num'])
         else:
-            return TabReply.select().where(TabReply.category == '0').order_by(
-                TabReply.timestamp.desc()
-            ).paginate(current_page_num, CMS_CFG['list_num'])
+            if ext_field:
+                return TabReply.select().where(
+                    TabReply.category == '0' and TabReply.extinfo['ext_field'] == ext_field).order_by(
+                    TabReply.timestamp.desc()
+                ).paginate(current_page_num, CMS_CFG['list_num'])
+            else:
+                return TabReply.select().where(TabReply.category == '0').order_by(
+                    TabReply.timestamp.desc()
+                ).paginate(current_page_num, CMS_CFG['list_num'])
 
     @staticmethod
     def modify_by_uid(pid, post_data):

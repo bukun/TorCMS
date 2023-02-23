@@ -83,6 +83,16 @@
 
                      {% module publish_list_menu('publish') %}
                  </li>
+                    <li class="list-group-item">
+            <a href="/entity_download/{% if userinfo %}{{ userinfo.uid }}{% end %}/"
+                   class="btn btn-xs btn-warning" title="My download">
+                    <span class="glyphicon glyphicon-save"></span>
+                    {{ _('My download') }}</a>
+                          <a href="/reply/get_by_user/{{ userinfo.uid }}/"
+                   class="btn btn-xs btn-warning" title="My download">
+                    <span class="glyphicon glyphicon-save"></span>
+                    {{ _('My comments') }}</a>
+                     </li>
                 {% if userinfo and userinfo.role[0] >= '2' %}
                 <li class="list-group-item"><a href="/post/_add" class="btn btn-xs btn-success">
                     <span class="glyphicon glyphicon-list-alt"></span>
@@ -95,10 +105,7 @@
                 {% if userinfo and userinfo.role[0] >= '3' %}
                 <li class="list-group-item">
 
-                    <a href="/entity/" class="btn btn-xs btn-warning">
-                        <span class="glyphicon glyphicon-file"></span>
-                        {{ _('Entity List') }}
-                    </a>
+
                     <a href="/entity_download/" class="btn btn-xs btn-warning">
                         <span class="glyphicon glyphicon-arrow-down"></span>
                         {{ _('Entity Download List') }}
@@ -116,21 +123,7 @@
                         {{ _('Admin') }}
                     </a>
                 </li>
-                <li class="list-group-item">
 
-                    <a href="/entity_download/" class="btn btn-xs btn-primary">
-                        <span class="glyphicon glyphicon-arrow-down"></span>
-                        下载记录
-                    </a>
-                    <a href="/entity_download/{% if userinfo %}{{ userinfo.uid }}{% end %}/"
-                       class="btn btn-xs btn-warning" title="My download">
-                        <span class="glyphicon glyphicon-save"></span>
-                        我的下载</a>
-
-                </li>
-                <li class="list-group-item">
-                    <a href="/referrer/" class="btn btn-xs btn-primary"> 访问来源统计 </a>
-                </li>
 
                 <li class="list-group-item">
                      <b>{{ _('Audit information list') }}</b><br><br>

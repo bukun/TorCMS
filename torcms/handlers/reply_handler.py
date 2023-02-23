@@ -13,6 +13,7 @@ from torcms.model.reply_model import MReply
 from torcms.model.replyid_model import MReplyid
 from torcms.core import tools
 
+
 class DateEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, datetime.datetime):
@@ -53,7 +54,7 @@ class ReplyHandler(BaseHandler):
         elif url_arr[0] == '_add':
             self._add()
         if url_arr[0] == 'get_by_user':
-            self.get_by_user(url_arr[1])
+            self.get_by_user(url_arr[1], cur_p=url_arr[2])
 
     def post(self, *args, **kwargs):
         url_str = args[0]
@@ -70,7 +71,7 @@ class ReplyHandler(BaseHandler):
         elif url_arr[0] == 'modify':
             self.modify(url_arr[1], url_arr[2])
         elif url_arr[0] == 'get_by_post':
-            self.get_by_post(url_arr[1],num=url_arr[2])
+            self.get_by_post(url_arr[1], num=url_arr[2])
 
     def _add(self):
         '''
@@ -214,7 +215,7 @@ class ReplyHandler(BaseHandler):
                         kwd={})
 
     def get_by_post(self, post_id, **kwargs):
-        num = kwargs.get('num','')
+        num = kwargs.get('num', '')
         list = []
         reply = MReply.query_by_post(post_id, reply_count=num)
         dic = {
@@ -292,13 +293,43 @@ class ReplyHandler(BaseHandler):
                         uid=reply.uid,
                         userinfo=self.userinfo,
                         kwd={})
-    def get_by_user(self, user_id):
+
+    def get_by_user(self, user_id, cur_p=''):
         '''
-        Get the reply by id.
+        List the replies.
         '''
-        reply = MReply.get_by_user(user_id)
+        current_page_number = 1
+        if cur_p == '':
+            current_page_number = 1
+        else:
+            try:
+                current_page_number = int(cur_p)
+            except TypeError:
+                current_page_number = 1
+            except Exception as err:
+                print(err.args)
+                print(str(err))
+                print(repr(err))
+
+        current_page_number = 1 if current_page_number < 1 else current_page_number
+
+        postdata = self.get_request_arguments()
+        ext_field = postdata.get('ext_field', '')
+        isjson = postdata.get('isjson', False)
+
+        kwd = {
+            'pager': '',
+            'current_page': current_page_number,
+            'title': '单页列表',
+            'num_of_reply': MReply.total_number(),
+            'ext_field': ext_field
+        }
+        reply = MReply.query_pager(current_page_num=current_page_number, ext_field=ext_field, user_id=user_id)
+
         kwd = {'current_page': 1,
-               'ext_field': ''}
+               'ext_field': '',
+               'user_id': user_id
+               }
         if reply:
             postdata = self.get_request_arguments()
             isjson = postdata.get('isjson', False)

@@ -961,7 +961,41 @@ class Reply_pager(tornado.web.UIModule):
                                   kwd=kwd,
                                   pager_num=page_num,
                                   page_current=current)
+class Reply_user_pager(tornado.web.UIModule):
+    '''
+    pager of kind
+    '''
 
+    def render(self, *args, **kwargs):
+        current = int(args[0])
+        user_id = args[1]
+        ext_field = kwargs.get('ext_field', '')
+        # kind
+        # current 当前页面
+
+        num_of_cat = MReply.count_of_certain(ext_field,user_id=user_id)
+
+        test_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
+
+        '''
+        原代码：
+        page_num = (test_page_num if
+                    abs(test_page_num - num_of_cat / config.CMS_CFG['list_num'])
+                    < 0.1 else test_page_num + 1)
+        '''
+        if abs(test_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1:
+            page_num = test_page_num
+        else:
+            page_num = test_page_num + 1
+
+        kwd = get_page_position(current, page_num)
+        kwd['ext_field'] = ext_field
+        kwd['user_id'] = user_id
+
+        return self.render_string('modules/widget/reply_user_pager.html',
+                                  kwd=kwd,
+                                  pager_num=page_num,
+                                  page_current=current)
 
 class Admin_user_pager(tornado.web.UIModule):
     '''

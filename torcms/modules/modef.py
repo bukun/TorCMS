@@ -55,6 +55,7 @@ core_modules = {
     'admin_page_pager': base_modules.Admin_Page_pager,
     'admin_reply_pager': base_modules.Admin_reply_pager,
     'reply_pager': base_modules.Reply_pager,
+    'reply_user_pager': base_modules.Reply_user_pager,
     'admin_user_pager': base_modules.Admin_user_pager,
     'admin_log_pager': base_modules.Admin_log_pager,
     'pageview_count': base_modules.LogPageviewCount,
