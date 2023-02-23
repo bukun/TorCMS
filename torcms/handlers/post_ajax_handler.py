@@ -489,6 +489,7 @@ class PostAjaxHandler(PostHandler):
         cur_p = post_data.get('cur_p', '')
         with_catalog = post_data.get('with_catalog', True)
         with_date = post_data.get('with_date', True)
+        num = post_data.get('num', 20)
 
         current_page_number = 1
         if cur_p == '':
@@ -505,7 +506,7 @@ class PostAjaxHandler(PostHandler):
 
         current_page_number = 1 if current_page_number < 1 else current_page_number
 
-        recs = MPost.query_recent(num=20, kind=kind)
+        recs = MPost.query_recent(num=num, kind=kind)
         rec_arr = []
 
         for rec in recs:
