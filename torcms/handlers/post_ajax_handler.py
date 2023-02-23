@@ -170,10 +170,12 @@ class PostAjaxHandler(PostHandler):
         }
         self.write(json.dumps(out_json))
 
-    def p_recent(self, kind, cur_p='', with_catalog=True, with_date=True):
+    def p_recent(self, kind, cur_p='', with_catalog=True, with_date=True, **kwargs):
         '''
         List posts that recent edited, partially.
         '''
+
+        num = kwargs.get('num', 20)
         current_page_number = 1
         if cur_p == '':
             current_page_number = 1
@@ -203,7 +205,7 @@ class PostAjaxHandler(PostHandler):
         self.render(
             'admin/post_ajax/post_list.html',
             kwd=kwd,
-            view=MPost.query_recent(num=20, kind=kind),
+            view=MPost.query_recent(num=num, kind=kind),
             infos=MPost.query_pager_by_slug(
                 kind=kind, current_page_num=current_page_number),
             format_date=tools.format_date,

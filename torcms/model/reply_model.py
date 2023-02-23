@@ -70,6 +70,10 @@ class MReply():
             TabUser2Reply.reply_id == reply_id).count()
 
     @staticmethod
+    def get_by_user(user_id):
+        return TabReply.select().where((TabReply.user_id == user_id) & (TabReply.category == '0'))
+
+    @staticmethod
     def query_all():
         return TabReply.select().where(TabReply.category == '0').order_by(TabReply.timestamp.desc())
 

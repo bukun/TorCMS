@@ -11,7 +11,7 @@ from torcms.core.tools import logger
 from torcms.model.reply2user_model import MReply2User
 from torcms.model.reply_model import MReply
 from torcms.model.replyid_model import MReplyid
-
+from torcms.core import tools
 
 class DateEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -52,6 +52,8 @@ class ReplyHandler(BaseHandler):
             self.comment_count(url_arr[1])
         elif url_arr[0] == '_add':
             self._add()
+        if url_arr[0] == 'get_by_user':
+            self.get_by_user(url_arr[1])
 
     def post(self, *args, **kwargs):
         url_str = args[0]
@@ -126,7 +128,7 @@ class ReplyHandler(BaseHandler):
                     'uid': rec.uid,
                     'cnt_md': rec.cnt_md,
                     'date': rec.date,
-                    'timestamp': rec.timestamp,
+                    'timestamp': tools.format_time(rec.timestamp),
                     'category': rec.category,
                     'user_name': rec.user_name,
                     'vote': rec.vote,
@@ -175,7 +177,7 @@ class ReplyHandler(BaseHandler):
                 'cnt_md': reply.cnt_md,
                 'username': reply.user_name,
                 'date': reply.date,
-                'timestamp': reply.timestamp,
+                'timestamp': tools.format_time(reply.timestamp),
                 'category': reply.category,
                 'user_name': reply.user_name,
                 'vote': reply.vote,
@@ -220,7 +222,7 @@ class ReplyHandler(BaseHandler):
             'cnt_md': reply.cnt_md,
             'username': reply.user_name,
             'date': reply.date,
-            'timestamp': reply.timestamp,
+            'timestamp': tools.format_time(reply.timestamp),
             'category': reply.category,
             'user_name': reply.user_name,
             'vote': reply.vote,
@@ -266,7 +268,7 @@ class ReplyHandler(BaseHandler):
                 'cnt_md': reply.cnt_md,
                 'username': reply.user_name,
                 'date': reply.date,
-                'timestamp': reply.timestamp,
+                'timestamp': tools.format_time(reply.timestamp),
                 'category': reply.category,
                 'user_name': reply.user_name,
                 'vote': reply.vote,
@@ -290,6 +292,51 @@ class ReplyHandler(BaseHandler):
                         uid=reply.uid,
                         userinfo=self.userinfo,
                         kwd={})
+    def get_by_user(self, user_id):
+        '''
+        Get the reply by id.
+        '''
+        reply = MReply.get_by_user(user_id)
+        kwd = {'current_page': 1,
+               'ext_field': ''}
+        if reply:
+            postdata = self.get_request_arguments()
+            isjson = postdata.get('isjson', False)
+            if isjson:
+                list = []
+
+                dic = {
+                    'uid': reply.uid,
+                    'cnt_md': reply.cnt_md,
+                    'username': reply.user_name,
+                    'date': reply.date,
+                    'timestamp': tools.format_time(reply.timestamp),
+                    'category': reply.category,
+                    'user_name': reply.user_name,
+                    'vote': reply.vote,
+                    'extinfo': reply.extinfo
+                }
+
+                list.append(dic)
+
+                out_dict = {
+                    'results': list
+                }
+
+                return json.dump(out_dict, self, cls=DateEncoder, ensure_ascii=False)
+
+            else:
+                self.render('misc/reply/user_reply_list.html',
+                            reply=reply,
+                            userinfo=self.userinfo,
+                            kwd=kwd
+                            )
+        else:
+            self.render('misc/reply/user_reply_list.html',
+                        reply='',
+                        userinfo=self.userinfo,
+                        kwd=kwd
+                        )
 
     def add(self, post_id):
         '''
