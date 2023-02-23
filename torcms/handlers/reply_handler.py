@@ -217,23 +217,26 @@ class ReplyHandler(BaseHandler):
     def get_by_post(self, post_id, num='',**kwargs):
 
         list = []
-        reply = MReply.query_by_post(post_id, reply_count=num)
-        if reply:
-            dic = {
-                'uid': reply.uid,
-                'cnt_md': reply.cnt_md,
-                'username': reply.user_name,
-                'date': reply.date,
-                'timestamp': tools.format_time(reply.timestamp),
-                'category': reply.category,
-                'user_name': reply.user_name,
-                'vote': reply.vote,
-                'extinfo': reply.extinfo
-            }
-        else:
-            dic={}    
+        replys = MReply.query_by_post(post_id, reply_count=num)
 
-        list.append(dic)
+        if replys:
+            for reply in replys:
+                dic = {
+                    'uid': reply.uid,
+                    'cnt_md': reply.cnt_md,
+                    'username': reply.user_name,
+                    'date': reply.date,
+                    'timestamp': tools.format_time(reply.timestamp),
+                    'category': reply.category,
+                    'user_name': reply.user_name,
+                    'vote': reply.vote,
+                    'extinfo': reply.extinfo
+                }
+                list.append(dic)
+        else:
+            dic={}
+            list.append(dic)
+
 
         out_dict = {
             'results': list
