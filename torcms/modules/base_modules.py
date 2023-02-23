@@ -730,6 +730,34 @@ class Entity2Pager(tornado.web.UIModule):
                                   page_current=current)
 
 
+class Entity2DownloadCount(tornado.web.UIModule):
+    '''
+    Pager for search result.
+    '''
+
+    def render(self, *args, **kwargs):
+        path = args[0]
+        count = MEntity2User.get_by_path(path).count()
+        return count
+
+
+class EntityGetPost(tornado.web.UIModule):
+    '''
+    根据实体PATH获取Data相关信息
+    '''
+
+    def render(self, *args, **kwargs):
+        path = args[0]
+        try:
+            rec = MPost.query_by_extinfo('tag__file_download', path).get()
+        except:
+            return ''
+        return self.render_string('modules/post/entity_post.html',
+                                  rec=rec
+
+                                  )
+
+
 class UserName(tornado.web.UIModule):
     '''
     Pager for search result.
@@ -874,7 +902,7 @@ class Admin_reply_pager(tornado.web.UIModule):
 
     def render(self, *args, **kwargs):
         current = int(args[0])
-        ext_field = kwargs.get('ext_field','')
+        ext_field = kwargs.get('ext_field', '')
         # kind
         # current 当前页面
 
@@ -900,6 +928,7 @@ class Admin_reply_pager(tornado.web.UIModule):
                                   pager_num=page_num,
                                   page_current=current)
 
+
 class Reply_pager(tornado.web.UIModule):
     '''
     pager of kind
@@ -907,7 +936,7 @@ class Reply_pager(tornado.web.UIModule):
 
     def render(self, *args, **kwargs):
         current = int(args[0])
-        ext_field = kwargs.get('ext_field','')
+        ext_field = kwargs.get('ext_field', '')
         # kind
         # current 当前页面
 
@@ -932,6 +961,8 @@ class Reply_pager(tornado.web.UIModule):
                                   kwd=kwd,
                                   pager_num=page_num,
                                   page_current=current)
+
+
 class Admin_user_pager(tornado.web.UIModule):
     '''
     pager of kind
@@ -939,7 +970,7 @@ class Admin_user_pager(tornado.web.UIModule):
 
     def render(self, *args, **kwargs):
         current = int(args[0])
-        type = kwargs.get('type','')
+        type = kwargs.get('type', '')
         # kind
         # current 当前页面
 
@@ -952,7 +983,7 @@ class Admin_user_pager(tornado.web.UIModule):
                     else tmp_page_num + 1)
 
         kwd = get_page_position(current, page_num)
-        kwd['type'] =type
+        kwd['type'] = type
 
         return self.render_string('modules/admin/user_pager.html',
                                   kwd=kwd,

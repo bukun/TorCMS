@@ -45,6 +45,8 @@ core_modules = {
     'entity_pager': base_modules.EntityPager,
     'entity_download_user': base_modules.Entity2UserPager,
     'entity_download_list': base_modules.Entity2Pager,
+    'entity_download_count' : base_modules.Entity2DownloadCount,
+    'entity_get_post' : base_modules.EntityGetPost,
     'app_title': base_modules.AppTitle,
     'user_name_by_id': base_modules.UserName,
     'reply_post_by_id': base_modules.ReplyPostById,
@@ -108,4 +110,5 @@ core_modules = {
     'post_state': widget_modules.State,
     'check_pager': widget_modules.Check_pager,
     'check_username_pager': widget_modules.Check_username_pager
+
 }
