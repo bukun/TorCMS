@@ -262,16 +262,17 @@ def parse_proxy():
             'cnt_md': abstract,
             'kind': 'v',
             'gcat0': 'v101',
-            'user_name': 'admin'
+            'user_name': 'admin',
+            'valid':1
         }
         catid=post_data['gcat0']
         ext_data = {
             'ext_data-maplet': cache_sig,
-            'ext_data-x': bnd_box[0],
-            'ext_data-y': bnd_box[1],
-            'ext_data-cur': bnd_box[2],
-            'ext_data-min': bnd_box[3],
-            'ext_data-max': bnd_box[4],
+            'ext_lat': bnd_box[0],
+            'ext_lon': bnd_box[1],
+            'ext_zoom_current': bnd_box[2],
+            'ext_zoom_min': bnd_box[3],
+            'ext_zoom_max': bnd_box[4],
             'ext_qfile_path': qfile_path,
             'def_uid': uid,
             'gcat0': catid,

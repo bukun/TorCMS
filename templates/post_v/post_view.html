@@ -116,7 +116,12 @@
                     </div>
 
                     {% if userinfo %}
+                    <span class="pull-right">
+
+                        {% module widget_editor('map-show', postinfo.uid, userinfo) %}
+
                     {% module collect(userinfo.uid, postinfo.uid, en=True) %}
+                              </span>
                     {% end %}
 
                 </div>
@@ -131,12 +136,23 @@
             </div>
         </div>
         <br>
-        <div id="map_kd1" data-maplet="{{ postinfo.extinfo['ext_data-maplet'] }}" data-title="{{postinfo.title}}"
-             data-x="{{ postinfo.extinfo['ext_data-x'] }}" data-y="{{ postinfo.extinfo['ext_data-y'] }}" data-cur="{{ postinfo.extinfo['ext_data-cur'] }}"
-             data-min="{{ postinfo.extinfo['ext_data-min'] }}" data-max={{ postinfo.extinfo['ext_data-max'] }}></div>
+           <div id="map_kd1" data-maplet="{{ postinfo.extinfo['ext_data-maplet'] }}" data-title="{{postinfo.title}}"
+             data-x="{{ postinfo.extinfo['ext_lat'] }}" data-y="{{ postinfo.extinfo['ext_lon'] }}" data-cur="{{ postinfo.extinfo['ext_zoom_current'] }}"
+             data-min="{{ postinfo.extinfo['ext_zoom_min'] }}" data-max={{ postinfo.extinfo['ext_zoom_max'] }}></div>
+
 
         <br>
+<div class="col-sm-12 bor_bottom">
+                <br>
+            <h4 class="list-group-item-heading">{{ _('Map description') }} </h4>
+        </div>
 
+        <div class="col-sm-12 bor_bottom">
+     <br>
+            <div id="wiki_cnt" class="listinfo_content">
+                {% raw unescape(postinfo.cnt_html) %}
+            </div>
+        </div>
         <div class="col-sm-12 bor_bottom">
             <div class="col-sm-8">
             <div id="iga_view_rec_box">
@@ -204,17 +220,7 @@
             </div>
         </div>
 
-        <div class="col-sm-12 bor_bottom">
-                <br>
-            <h4 class="list-group-item-heading">{{ _('Map description') }} </h4>
-        </div>
 
-        <div class="col-sm-12 bor_bottom">
-     <br>
-            <div id="wiki_cnt" class="listinfo_content">
-                {% raw unescape(postinfo.cnt_html) %}
-            </div>
-        </div>
         <div class="col-sm-12">
             {% module reply_panel(postinfo.uid, userinfo, en=True) %}
         </div>
