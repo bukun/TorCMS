@@ -15,6 +15,7 @@ class MPost2Catalog():
     '''
     Database Model for post to catalog.
     '''
+
     @staticmethod
     def just_query_all():
         '''
@@ -120,7 +121,7 @@ class MPost2Catalog():
         recs = TabPost2Tag.select(
             TabPost2Tag.tag_id,
             peewee.fn.COUNT(TabPost2Tag.tag_id).alias('num')).group_by(
-                TabPost2Tag.tag_id)
+            TabPost2Tag.tag_id)
         return recs
 
     @staticmethod
@@ -180,20 +181,31 @@ class MPost2Catalog():
             cat_con = TabPost2Tag.par_id == cat_id
         else:
             cat_con = TabPost2Tag.tag_id == cat_id
-
-
+        #
+        # if tag:
+        #     condition = {'def_tag_arr': [tag]}
+        #     recs = TabPost2Tag.select().join(
+        #         TabPost,
+        #         on=(TabPost.uid == TabPost2Tag.post_id)).where(
+        #         cat_con & (TabPost.valid == 1) & TabPost.extinfo.contains(condition)).distinct()
+        # else:
+        #     recs = TabPost2Tag.select().join(
+        #         TabPost,
+        #         on=(TabPost.uid == TabPost2Tag.post_id)).where(cat_con &
+        #                                                        (TabPost.valid == 1)).distinct()
         if tag:
             condition = {'def_tag_arr': [tag]}
-            recs = TabPost2Tag.select().join(
-                TabPost,
-                on=((TabPost2Tag.post_id == TabPost.uid) & (TabPost.valid == 1)
-                    )).where(cat_con & TabPost.extinfo.contains(condition)).distinct()
-        else:
-            recs = TabPost2Tag.select().join(
-                TabPost,
-                on=((TabPost2Tag.post_id == TabPost.uid) &
-                    (TabPost.valid == 1))).where(cat_con).distinct()
+            recs = TabPost.select().join(
+                TabPost2Tag,
+                on=(TabPost.uid == TabPost2Tag.post_id
+                    )).where(cat_con & (TabPost.valid == 1)
+                             & TabPost.extinfo.contains(condition)).distinct()
 
+        else:
+            recs = TabPost.select().join(
+                TabPost2Tag,
+                on=(TabPost.uid == TabPost2Tag.post_id)).where(
+                cat_con & (TabPost.valid == 1)).distinct()
         return recs.count()
 
     @staticmethod
@@ -221,19 +233,19 @@ class MPost2Catalog():
             condition = {'def_tag_arr': [tag]}
             recs = TabPost.select().join(
                 TabPost2Tag,
-                on=((TabPost.uid == TabPost2Tag.post_id) & (TabPost.valid == 1)
-                    )).where(cat_con
+                on=(TabPost.uid == TabPost2Tag.post_id
+                    )).where(cat_con & (TabPost.valid == 1)
                              & TabPost.extinfo.contains(condition)).order_by(
                 sort_criteria).paginate(
-                                     current_page_num, CMS_CFG['list_num']).distinct()
+                current_page_num, CMS_CFG['list_num']).distinct()
 
         else:
             recs = TabPost.select().join(
                 TabPost2Tag,
-                on=((TabPost.uid == TabPost2Tag.post_id) &
-                    (TabPost.valid == 1))).where(cat_con).order_by(
-                        sort_criteria).paginate(
-                            current_page_num, CMS_CFG['list_num']).distinct()
+                on=(TabPost.uid == TabPost2Tag.post_id)).where(
+                cat_con & (TabPost.valid == 1)).order_by(
+                sort_criteria).paginate(
+                current_page_num, CMS_CFG['list_num']).distinct()
 
         return recs
 
@@ -247,17 +259,17 @@ class MPost2Catalog():
             return TabPost2Tag.select(
                 TabPost2Tag, TabTag.slug.alias('tag_slug'),
                 TabTag.name.alias('tag_name')).join(
-                    TabTag, on=(TabPost2Tag.tag_id == TabTag.uid
-                                )).where((TabPost2Tag.post_id == idd)
-                                         & (TabTag.kind != 'z')).order_by(
-                                             TabPost2Tag.order)
+                TabTag, on=(TabPost2Tag.tag_id == TabTag.uid
+                            )).where((TabPost2Tag.post_id == idd)
+                                     & (TabTag.kind != 'z')).order_by(
+                TabPost2Tag.order)
         return TabPost2Tag.select(
             TabPost2Tag, TabTag.slug.alias('tag_slug'),
             TabTag.name.alias('tag_name')).join(
-                TabTag, on=(TabPost2Tag.tag_id == TabTag.uid
-                            )).where((TabTag.kind == kind)
-                                     & (TabPost2Tag.post_id == idd)).order_by(
-                                         TabPost2Tag.order)
+            TabTag, on=(TabPost2Tag.tag_id == TabTag.uid
+                        )).where((TabTag.kind == kind)
+                                 & (TabPost2Tag.post_id == idd)).order_by(
+            TabPost2Tag.order)
 
     @staticmethod
     def query_by_id(idd):
