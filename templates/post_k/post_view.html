@@ -34,7 +34,7 @@
 </script>
 <ol class="breadcrumb">
       <li>Current location: <a href="/">Home</a></li>
-    <li> <a href="/tutorial/" title="Tutorial">Tutorial</a></li>
+      <li><a href="/{{router}}/" title="{{post_type}}">{{post_type}}</a></li>
     <li>{% module the_category(postinfo.uid,order=True) %}</li>
     <li class="active"><a href="/post/{{ postinfo.uid }}" title="{{ postinfo.title }}">{{ postinfo.title }}</a></li>
 </ol>

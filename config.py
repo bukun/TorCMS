@@ -73,19 +73,18 @@ post_cfg = {
     },
     'v': {
         'router': 'info',
-        'html': '''<span style="color:red;" class="glyphicon glyphicon-globe">[{0}]</span>'''.format(
-            'Map visualization'),
+        'html': '''<span style="color:red;" class="glyphicon glyphicon-globe">[{0}]</span>'''.format('Map visualization'),
         'checker': '0',  # '10', '100', '1000', '10000'
     },
     'k': {
         'router': 'tutorial',
-        'html': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>'''.format('Data'),
+        'html': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>'''.format('Tutorial'),
         'checker': '10',  # '10', '100', '1000', '10000'
     }
 
 }
 kind_arr = ['1', '3', 'm', 's', 'q', 'v']
-
+APP_MASK = ['g_drr', '9_todo_new', '9_todo_new5']
 for wdir in Path('.').iterdir():
     if wdir.is_dir() and wdir.name.startswith('torcms_'):
         the_file = f'{wdir.name}._config'

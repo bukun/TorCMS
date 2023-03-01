@@ -9,6 +9,7 @@
 
 <ol class="breadcrumb">
    <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
+        <li><a href="/{{router}}/" title="{{post_type}}">{{post_type}}</a></li>
     <li>{% module the_category(postinfo.uid) %}</li>
     <li class="active">{{ _('Text') }}</li>
 </ol>

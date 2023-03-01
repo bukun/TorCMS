@@ -5,9 +5,7 @@
 {% block content %}
 <ol class="breadcrumb">
     <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
-    <li class="active"><a href="{% if router == 'info'%} /filter/{{catinfo.uid}}  {% else %}/{{ router }}/{% end %}" title="{{ router }}">
-        {% if router == 'post' %} {{ _('Document') }} {% elif router=='map'%} {{ _('Maps') }} {% elif router =='app'%} {{ _('App') }} {% else %}   {{router}}  {% end %}
-    </a></li>
+        <li><a href="/{{router}}/" title="{{post_type}}">{{post_type}}</a></li>
     <li class="active">{{ kwd['cat_name'] }}</li>
 </ol>
 <div class="panel panel-black">
