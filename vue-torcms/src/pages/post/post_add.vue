@@ -23,14 +23,9 @@
 
         ></q-input>
 
-        <div class="row">
-          <div class="col-8">
 
-            <q-uploader label="上传" accept=".jpg,.png" @added="file_selected"/>
-            <q-btn @click="uploadFile">Upload</q-btn>
 
-          </div>
-        </div>
+
 
 
         <div v-for="(parItem,index) in pcatArr" :key="index" class="row">
@@ -82,7 +77,50 @@
 
         ></q-input>
 
+  <div>
+      <q-toggle v-model="enableBigFile" label="开启大文件上传模式" />
 
+      <div v-show="!enableBigFile" class="q-py-md">
+        <q-file v-model="normalFile" label="请选择文件（普通上传）">
+          <template v-slot:prepend>
+            <q-icon name="attach_file" />
+          </template>
+          <template v-slot:after>
+            <q-btn round dense flat icon="cloud_upload" @click="onSubmitClick" />
+          </template>
+        </q-file>
+      </div>
+
+      <div v-show="enableBigFile" class="q-py-md">
+        <q-file v-model="bigFile" @input="bigFileAdded" label="请选择文件（大文件上传）">
+          <template v-slot:prepend>
+            <q-icon name="attach_file" />
+          </template>
+          <template v-slot:after>
+            <q-btn round dense flat icon="cloud_upload" @click="onBigSubmitClick" />
+          </template>
+        </q-file>
+      </div>
+
+      <div v-if="fileInfo.url" class="q-py-md">
+        <a target="_blank" :href="fileInfo.url">查看文件</a>
+      </div>
+<!--
+      <div v-if="fileInfo.url" class="q-py-md">
+        <q-img
+          :src="fileInfo.url"
+          spinner-color="white"
+          style="height: 144px; width: 144px;border: 1px solid gray"
+        />
+      </div>
+
+      <div v-if="fileInfo.url" class="q-py-md">
+        <q-video
+          :src="fileInfo.url"
+          style="height: 256px; width: 144px; border: 1px solid gray"
+        />
+      </div> -->
+  </div>
         <div>
           <q-btn label="Submit" type="submit" color="primary"></q-btn>
           <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm"></q-btn>
@@ -96,24 +134,31 @@
 
 </template>
 <script>//dataList存储后台数据
-
+import { fileService } from '../../../src/service';
 
 export default {
+   props: {
+    value: {
+      required: true
+    }
+  },
   data() {
     return {
-      file_model: {},
-      selected_file: '',
-      check_if_document_upload: false,
-      toolbar: false,
+
       model: {},
       sub_options: [],
       sub2_options: [],
       pcatArr: [{guid: 'gcat0', puid: 'pcat0'}],
       pcatArr1: [{guid: 'gcat0', puid: 'pcat0'}, {guid: 'gcat1', puid: 'pcat1'}, {guid: 'gcat2', puid: 'pcat2'},
         {guid: 'gcat3', puid: 'pcat3'}, {guid: 'gcat4', puid: 'pcat4'}],
-      files: null,
-      uploadProgress: [],
-      uploading: null,
+
+enableBigFile: false,
+      normalFile: null,
+      bigFile: null,
+      chunkSize: 20971520, //20MB
+
+      chunkInfo: {},
+      fileInfo: {}
     };
   },
   mounted() {
@@ -134,6 +179,7 @@ export default {
         gcat3: this.model.gcat3,
         gcat4: this.model.gcat4,
         logo: '',
+
       }
 
       this.$axios({
@@ -229,46 +275,133 @@ export default {
         });
     },
 
-    file_selected(file) {
-      this.selected_file = file[0];
-      this.check_if_document_upload=true
+       init() {
+      console.info('CFile->init');
+      this.fileInfo.url = this.value;
     },
 
-    uploadFile() {
+    async onSubmitClick() {
+      console.info('CFile->onSubmitClick');
 
-      let formdata = {
-        file: this.selected_file,
-        kind: '1'
-
+      if (!this.normalFile) {
+        this.$q.notify({
+          message: '请选择文件！',
+          type: 'warning'
+        });
+        return;
       }
-      alert(JSON.stringify(formdata))
-      this.$axios({
-        url: '/entity_j/img_upload',
-        method: 'post',
-        headers: {'Content-Type': 'application/json'},
-        params: formdata
-      })
-        .then(async (statusCode) => {
 
-          console.log(statusCode);
-          // statusCode =JSON.stringify(statusCode)
-          // alert(JSON.stringify(statusCode.data['code']))
-          if (statusCode.data['path_save']) {
-            this.$q.notify('Added successfully')
-            this.model.logo = statusCode.data['path_save']
+      this.$q.loading.show({
+        message: '上传中'
+      });
+
+      try {
+        let form = new FormData()
+        form.append('file', this.normalFile);
+        alert(this.normalFile)
+        this.fileInfo = await fileService.upload(form, (e)=> {
+          console.info(e);
+        });
+        this.$q.loading.hide();
+        this.$emit('input', this.fileInfo);
+      } catch (error) {
+        this.$q.loading.hide();
+        console.error(error);
+      }
+    },
+
+    bigFileAdded(f) {
+      console.info('CFile->fileAdded');
+
+      if (!f) {
+        console.info('CFile->cancel');
+        return;
+      }
+
+      this.$q.loading.show({
+        message: '文件准备中'
+      });
+
+
+    },
+
+    getChunks() {
+      const size = this.bigFile.size;
+      const chunkSize = this.chunkSize;
+      const chunks = Math.ceil( size / chunkSize);
+
+      return chunks;
+    },
+
+    uploadWithBlock(chunk) {
+      const size = this.bigFile.size;
+      const chunkSize = this.chunkSize;
+      const chunks = this.getChunks();
+
+      const start = chunk * chunkSize;
+      const end = ((start + chunkSize) >= size) ? size : start + chunkSize;
+
+      //切割文件
+      const chunkFile = this.bigFile.slice(start,end);
+
+      let form = new FormData();
+      form.append('file', chunkFile);
+      form.append('name', this.bigFile.name);
+
+      form.append('size', this.bigFile.size);
+      form.append('chunks', chunks);
+      form.append('chunk', chunk);
+
+      return fileService.bigUpload(form, (e)=> {
+        //console.info(e);
+      });
+    },
+
+    checkFinished(datas) {
+      for (let i = 0; i < datas.length; ++i) {
+         let data = datas[i];
+         if (data.isFinished) {
+            console.info('CFile->checkFinished');
+            this.fileInfo = data;
+            this.$emit('input', this.fileInfo);
             this.$q.loading.hide();
-            this.toolbar = false
-          } else {
-            this.$q.notify('Upload failed')
-          }
-        })
-        .catch(function (error) { // 请求失败处理
-          this.$q.notify('failed')
-          console.log('Error for res: ');
+         }
+      }
+    },
 
-        })
+    async onBigSubmitClick() {
+      console.info('CFile->onBigSubmitClick');
+
+      if (!this.bigFile) {
+        this.$q.notify({
+          message: '请选择文件！',
+          type: 'warning'
+        });
+        return;
+      }
 
 
+      this.$q.loading.show({
+        message: '上传中'
+      });
+
+      try {
+        let chunks = this.getChunks();
+
+        let reqs = [];
+        for (let i = 0; i < chunks; ++i) {
+          reqs.push(this.uploadWithBlock(i));
+        }
+
+        await Promise.all(reqs)
+        .then((datas) => {
+          console.info(datas);
+          this.checkFinished(datas);
+        });
+      } catch (error) {
+        this.$q.loading.hide();
+        console.error(error);
+      }
     }
 
 

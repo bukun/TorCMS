@@ -7,7 +7,7 @@ import json
 import os
 from html2text import html2text
 
-from config import CMS_CFG, router_post
+from config import CMS_CFG, router_post,post_type
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
 from torcms.model.catalog_model import MCatalog
@@ -167,7 +167,9 @@ class ListHandler(BaseHandler):
                     html2text=html2text,
                     cfg=CMS_CFG,
                     kwd=kwd,
-                    router=router_post[cat_rec.kind])
+                    router=router_post[cat_rec.kind],
+                    post_type=post_type[cat_rec.kind],
+                    )
 
 
 class TagListHandler(BaseHandler):
