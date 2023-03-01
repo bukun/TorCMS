@@ -187,12 +187,12 @@ class MPost2Catalog():
             recs = TabPost2Tag.select().join(
                 TabPost,
                 on=((TabPost2Tag.post_id == TabPost.uid) & (TabPost.valid == 1)
-                    )).where(cat_con & TabPost.extinfo.contains(condition))
+                    )).where(cat_con & TabPost.extinfo.contains(condition)).distinct()
         else:
             recs = TabPost2Tag.select().join(
                 TabPost,
                 on=((TabPost2Tag.post_id == TabPost.uid) &
-                    (TabPost.valid == 1))).where(cat_con)
+                    (TabPost.valid == 1))).where(cat_con).distinct()
 
         return recs.count()
 
