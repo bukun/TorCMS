@@ -14,7 +14,7 @@ import tornado.gen
 import tornado.ioloop
 import tornado.web
 
-from config import router_post
+from config import router_post,post_type
 from torcms.core import privilege, tools
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tool.sqlite_helper import MAcces
@@ -446,7 +446,10 @@ class PostHandler(BaseHandler):
             tag_info=filter(lambda x: not x.tag_name.startswith('_'),
                             MPost2Label.get_by_uid(postinfo.uid).objects()),
             recent_apps=recent_apps,
-            cat_enum=cat_enum1)
+            cat_enum=cat_enum1,
+            router=router_post[catinfo.kind],
+            post_type=post_type[catinfo.kind],
+        )
 
     def _the_view_kwd(self, postinfo):
         '''
