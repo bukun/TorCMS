@@ -319,7 +319,7 @@ class MPost():
             (TabPost.valid == 1)
         ).order_by(
             TabPost.time_create.desc()
-        )
+        ).distinct()
 
     @staticmethod
     def query_cat_recent_with_label(cat_id,
