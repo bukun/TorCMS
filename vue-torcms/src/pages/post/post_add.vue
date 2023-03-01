@@ -275,134 +275,135 @@ enableBigFile: false,
         });
     },
 
-       init() {
-      console.info('CFile->init');
-      this.fileInfo.url = this.value;
-    },
-
-    async onSubmitClick() {
-      console.info('CFile->onSubmitClick');
-
-      if (!this.normalFile) {
-        this.$q.notify({
-          message: '请选择文件！',
-          type: 'warning'
-        });
-        return;
-      }
-
-      this.$q.loading.show({
-        message: '上传中'
-      });
-
-      try {
-        let form = new FormData()
-        form.append('file', this.normalFile);
-        alert(this.normalFile)
-        this.fileInfo = await fileService.upload(form, (e)=> {
-          console.info(e);
-        });
-        this.$q.loading.hide();
-        this.$emit('input', this.fileInfo);
-      } catch (error) {
-        this.$q.loading.hide();
-        console.error(error);
-      }
-    },
-
-    bigFileAdded(f) {
-      console.info('CFile->fileAdded');
-
-      if (!f) {
-        console.info('CFile->cancel');
-        return;
-      }
-
-      this.$q.loading.show({
-        message: '文件准备中'
-      });
-
-
-    },
-
-    getChunks() {
-      const size = this.bigFile.size;
-      const chunkSize = this.chunkSize;
-      const chunks = Math.ceil( size / chunkSize);
-
-      return chunks;
-    },
-
-    uploadWithBlock(chunk) {
-      const size = this.bigFile.size;
-      const chunkSize = this.chunkSize;
-      const chunks = this.getChunks();
-
-      const start = chunk * chunkSize;
-      const end = ((start + chunkSize) >= size) ? size : start + chunkSize;
-
-      //切割文件
-      const chunkFile = this.bigFile.slice(start,end);
-
-      let form = new FormData();
-      form.append('file', chunkFile);
-      form.append('name', this.bigFile.name);
-
-      form.append('size', this.bigFile.size);
-      form.append('chunks', chunks);
-      form.append('chunk', chunk);
-
-      return fileService.bigUpload(form, (e)=> {
-        //console.info(e);
-      });
-    },
-
-    checkFinished(datas) {
-      for (let i = 0; i < datas.length; ++i) {
-         let data = datas[i];
-         if (data.isFinished) {
-            console.info('CFile->checkFinished');
-            this.fileInfo = data;
-            this.$emit('input', this.fileInfo);
-            this.$q.loading.hide();
-         }
-      }
-    },
-
-    async onBigSubmitClick() {
-      console.info('CFile->onBigSubmitClick');
-
-      if (!this.bigFile) {
-        this.$q.notify({
-          message: '请选择文件！',
-          type: 'warning'
-        });
-        return;
-      }
-
-
-      this.$q.loading.show({
-        message: '上传中'
-      });
-
-      try {
-        let chunks = this.getChunks();
-
-        let reqs = [];
-        for (let i = 0; i < chunks; ++i) {
-          reqs.push(this.uploadWithBlock(i));
-        }
-
-        await Promise.all(reqs)
-        .then((datas) => {
-          console.info(datas);
-          this.checkFinished(datas);
-        });
-      } catch (error) {
-        this.$q.loading.hide();
-        console.error(error);
-      }
-    }
+    //    init() {
+    //   console.info('CFile->init');
+    //   this.fileInfo.url = this.value;
+    // },
+    //
+    // async onSubmitClick() {
+    //   console.info('CFile->onSubmitClick');
+    //
+    //   if (!this.normalFile) {
+    //     this.$q.notify({
+    //       message: '请选择文件！',
+    //       type: 'warning'
+    //     });
+    //     return;
+    //   }
+    //
+    //   this.$q.loading.show({
+    //     message: '上传中'
+    //   });
+    //
+    //   try {
+    //     let form = new FormData()
+    //     form.append('file', this.normalFile);
+    //     alert(this.normalFile)
+    //     alert(JSON.stringify(this.normalFile))
+    //     this.fileInfo = await fileService.upload(form, (e)=> {
+    //       console.info(e);
+    //     });
+    //     this.$q.loading.hide();
+    //     this.$emit('input', this.fileInfo);
+    //   } catch (error) {
+    //     this.$q.loading.hide();
+    //     console.error(error);
+    //   }
+    // },
+    //
+    // bigFileAdded(f) {
+    //   console.info('CFile->fileAdded');
+    //
+    //   if (!f) {
+    //     console.info('CFile->cancel');
+    //     return;
+    //   }
+    //
+    //   this.$q.loading.show({
+    //     message: '文件准备中'
+    //   });
+    //
+    //
+    // },
+    //
+    // getChunks() {
+    //   const size = this.bigFile.size;
+    //   const chunkSize = this.chunkSize;
+    //   const chunks = Math.ceil( size / chunkSize);
+    //
+    //   return chunks;
+    // },
+    //
+    // uploadWithBlock(chunk) {
+    //   const size = this.bigFile.size;
+    //   const chunkSize = this.chunkSize;
+    //   const chunks = this.getChunks();
+    //
+    //   const start = chunk * chunkSize;
+    //   const end = ((start + chunkSize) >= size) ? size : start + chunkSize;
+    //
+    //   //切割文件
+    //   const chunkFile = this.bigFile.slice(start,end);
+    //
+    //   let form = new FormData();
+    //   form.append('file', chunkFile);
+    //   form.append('name', this.bigFile.name);
+    //
+    //   form.append('size', this.bigFile.size);
+    //   form.append('chunks', chunks);
+    //   form.append('chunk', chunk);
+    //
+    //   return fileService.bigUpload(form, (e)=> {
+    //     //console.info(e);
+    //   });
+    // },
+    //
+    // checkFinished(datas) {
+    //   for (let i = 0; i < datas.length; ++i) {
+    //      let data = datas[i];
+    //      if (data.isFinished) {
+    //         console.info('CFile->checkFinished');
+    //         this.fileInfo = data;
+    //         this.$emit('input', this.fileInfo);
+    //         this.$q.loading.hide();
+    //      }
+    //   }
+    // },
+    //
+    // async onBigSubmitClick() {
+    //   console.info('CFile->onBigSubmitClick');
+    //
+    //   if (!this.bigFile) {
+    //     this.$q.notify({
+    //       message: '请选择文件！',
+    //       type: 'warning'
+    //     });
+    //     return;
+    //   }
+    //
+    //
+    //   this.$q.loading.show({
+    //     message: '上传中'
+    //   });
+    //
+    //   try {
+    //     let chunks = this.getChunks();
+    //
+    //     let reqs = [];
+    //     for (let i = 0; i < chunks; ++i) {
+    //       reqs.push(this.uploadWithBlock(i));
+    //     }
+    //
+    //     await Promise.all(reqs)
+    //     .then((datas) => {
+    //       console.info(datas);
+    //       this.checkFinished(datas);
+    //     });
+    //   } catch (error) {
+    //     this.$q.loading.hide();
+    //     console.error(error);
+    //   }
+    // }
 
 
 

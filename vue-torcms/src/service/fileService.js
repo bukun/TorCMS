@@ -1,4 +1,4 @@
-import { file } from "../api";
+import { file } from '../api/file';
 
 const fileService = {
   upload: async function (fileObj, progressCallback) {
