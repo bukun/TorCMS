@@ -5,7 +5,7 @@ Basic for handler
 
 import socket
 import time
-
+import requests
 import tornado.web
 from tornado.concurrent import run_on_executor
 
@@ -171,6 +171,12 @@ class BaseHandler(tornado.web.RequestHandler):
         finally:
             socker.close()
         return local_ip
+
+    def get_ip(self):
+        response = requests.get('https://api64.ipify.org?format=json').json()
+        return response['ip']
+
+
 
     def show404(self, kwd=None):
         '''
