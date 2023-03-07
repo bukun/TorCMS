@@ -53,6 +53,8 @@
     <div class="panel-body">
         <div class="entry">
             <div class="entrycontent">
+
+                 {% if html_diff_arr %}
                 {% for diff_dic in html_diff_arr %}
                 {% if userinfo and userinfo.role[2] >= '1' %}
                 <div class="bg-info"><a href="/post_man/restore/{{ diff_dic['hist_uid'] }}"
@@ -63,6 +65,10 @@
                 {% raw (diff_dic['html_diff']) %}
                 <p></p>
                 {% end %}
+                {% else %}
+                {{ _('No modification record.') }}
+                {% end %}
+
             </div>
         </div>
     </div>
