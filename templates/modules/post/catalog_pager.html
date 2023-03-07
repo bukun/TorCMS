@@ -1,13 +1,18 @@
 <ul class="pagination">
+    {%  if kwd.get('tag')  %}
+     {% set tag = "?tag={}".format(kwd.get('tag')) %}
+    {% else %}
+    {% set tag = '' %}
+    {% end %}
     {% if kwd['page_home'] %}
     <li>
-        <a class="{0}" href="/list/{{ cat_slug }}/1?tag={{ kwd.get('tag') }}">{{ _('Home') }} </a>
+        <a class="{0}" href="/list/{{ cat_slug }}/1{{ tag }}" >{{ _('Home') }} </a>
     </li>
     {% end %}
 
     {% if kwd['page_pre'] %}
     <li>
-        <a class="{0}" href="/list/{{ cat_slug }}/{{ page_current - 1 }}?tag={{ kwd.get('tag') }}  ">{{ _('Previous page') }}</a>
+        <a class="{0}" href="/list/{{ cat_slug }}/{{ page_current - 1 }}{{ tag }}  ">{{ _('Previous page') }}</a>
     </li>
     {% end %}
     {% set cur_num = page_current
@@ -23,18 +28,18 @@
     %}
     {% for page_index in range(cur_num, show_num ) %}
     <li class="{% if page_current == page_index %}active{% end %}">
-        <a href="/list/{{ cat_slug }}/{{ page_index }}?tag={{ kwd.get('tag') }}  ">{{ page_index }}</a></li>
+        <a href="/list/{{ cat_slug }}/{{ page_index }}{{ tag }} ">{{ page_index }}</a></li>
     {% end %}
 
     {% if kwd['page_next'] %}
     <li>
-        <a class="{0}" href="/list/{{ cat_slug }}/{{ page_current +1 }}?tag={{ kwd.get('tag') }}  ">{{ _('Next page') }}</a>
+        <a class="{0}" href="/list/{{ cat_slug }}/{{ page_current +1 }}{{ tag }} ">{{ _('Next page') }}</a>
     </li>
     {% end %}
 
     {% if kwd['page_end'] %}
     <li>
-        <a class="{0}" href="/list/{{ cat_slug }}/{{ pager_num }}?tag={{ kwd.get('tag') }}"> {{ _('End') }}</a>
+        <a class="{0}" href="/list/{{ cat_slug }}/{{ pager_num }}{{ tag }}"> {{ _('End') }}</a>
     </li>
     {% end %}
 
@@ -57,7 +62,7 @@
                     $("#fyts").val("Exceed the data page");
                     return;
                 }
-                window.location.href = "/list/{{cat_slug}}/" + curPage + "?tag={{ kwd['tag'] if 'tag' in kwd else '' }}";
+                window.location.href = "/list/{{cat_slug}}/" + curPage + tag;
             });
         </script>
     </div>
