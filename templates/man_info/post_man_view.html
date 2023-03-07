@@ -57,9 +57,23 @@
                  {% if html_diff_arr %}
                 {% for diff_dic in html_diff_arr %}
                 {% if userinfo and userinfo.role[2] >= '1' %}
-                <div class="bg-info"><a href="/post_man/restore/{{ diff_dic['hist_uid'] }}"
-                                        class="btn btn-xs btn-warning">{{ _('Restore') }}</a>
-                    <a href="/post_man/delete/{{ diff_dic['hist_uid'] }}" class="btn btn-xs btn-danger">{{ _('Delete') }}</a>
+                <div class="bg-info">
+                     <a href="/post_man/restore/{{ diff_dic['hist_uid'] }}" class="btn btn-sm btn-danger" title="Restore">
+                        {{ _('Restore') }}
+                    </a>
+                    <a href="/post_man/delete/{{ diff_dic['hist_uid'] }}" class="btn btn-sm btn-danger" title="Delete">
+                        {{ _('Delete') }}
+                    </a>
+                    <span style="color:#0000FF; padding:0 10px">
+                        {{ _('Author') }} : {{ diff_dic['hist_user'] }}
+                    </span>
+                    <span style="color:#f00">
+                       {{ _('Modify time') }} :  {{ datetime.datetime.fromtimestamp(diff_dic['hist_time']).strftime('%Y - %m - %d （%H : %M : %S）') }}&nbsp;
+
+                    </span>
+                    <span style="color:#0000FF">
+                       {{ _('Updated number of words') }} :  {{ diff_dic['up_words_num'] }}&nbsp;
+                    </span>
                 </div>
                 {% end %}
                 {% raw (diff_dic['html_diff']) %}
