@@ -188,7 +188,7 @@ class PostHistoryHandler(EditHistoryHander):
             pass
         else:
             return
-
+        kwd = {}
         hist_recs = MPostHist.query_by_postid(uid, limit=5)
         html_diff_arr = []
         if hist_recs:
@@ -209,18 +209,16 @@ class PostHistoryHandler(EditHistoryHander):
                     'hist_time': hist_time,
                     'up_words_num': up_words_num
                 })
-            kwd = {}
 
-            self.render('man_info/post_man_view.html',
-                        userinfo=self.userinfo,
-                        view=postinfo,
-                        postinfo=postinfo,
-                        html_diff_arr=html_diff_arr,
-                        router=router_post[postinfo.kind],
-                        kwd=kwd)
-        else:
-            self.redirect('/{0}/{1}'.format(router_post[postinfo.kind],
-                                            postinfo.uid))
+
+        self.render('man_info/post_man_view.html',
+                    userinfo=self.userinfo,
+                    view=postinfo,
+                    postinfo=postinfo,
+                    html_diff_arr=html_diff_arr,
+                    router=router_post[postinfo.kind],
+                    kwd=kwd)
+
 
     @tornado.web.authenticated
     def restore(self, hist_uid):
