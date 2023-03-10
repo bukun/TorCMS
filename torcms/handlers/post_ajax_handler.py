@@ -121,9 +121,18 @@ class PostAjaxHandler(PostHandler):
     def initialize(self, **kwargs):
         super().initialize()
 
+    def set_default_headers(self):
+        print("setting headers!!!")
+        self.set_header("Access-Control-Allow-Origin", "*")
+        self.set_header("Access-Control-Allow-Headers", "x-requested-with")
+        self.set_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
+
+
     def get(self, *args, **kwargs):
         url_str = args[0]
         url_arr = self.parse_url(args[0])
+        print(url_str)
+        print(url_arr)
         if url_arr[0] in ['_delete', 'delete']:
             self.j_delete(url_arr[1])
 
