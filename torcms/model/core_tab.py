@@ -260,9 +260,9 @@ class TabMember(BaseModel):
     post 权限类型由二进制的 '1', '10', '100', '1000', ... 声明 ，成员的 authority 则根据二进制相加的结果来声明多种 post 的审核权限
     '''
     authority = peewee.CharField(null=False,
-                            default='0',
-                            help_text='Member authority for checking',
-                            max_length='8')
+                                 default='0',
+                                 help_text='Member authority for checking',
+                                 max_length='8')
     time_reset_passwd = peewee.IntegerField(null=False, default=0)
     time_login = peewee.IntegerField(null=False, default=0)
     time_create = peewee.IntegerField(null=False, default=0)
@@ -372,6 +372,7 @@ class TabReply(BaseModel):
     extinfo = BinaryJSONField(null=False,
                               default={},
                               help_text='Extra data in JSON.')
+
 
 class TabUser2Reply(BaseModel):
     '''
@@ -620,9 +621,64 @@ class TabReferrer(BaseModel):
     terminal = peewee.CharField(null=False, help_text='终端')
     userip = peewee.CharField(null=False, unique=True, help_text='用户端ip')
     # usercity = peewee.CharField(null=False, help_text='用户端城市', )
-    kind = peewee.CharField(null=False,
-                            max_length=1,
-                            default='1',
-                            help_text='')
+    kind = peewee.CharField(null=False, max_length=1, default='1', help_text='')
     time_create = peewee.IntegerField()
     time_update = peewee.IntegerField()
+
+
+# 以下准备实现RBAC，
+# 参考： https://blog.csdn.net/fksfdh/article/details/106204317
+class TabStaff(BaseModel):
+    '''
+    后台人员表，名称使用 Staff.
+    '''
+    uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='')
+    name = peewee.CharField(null=False, index=True, unique=True, max_length=255, help_text='User Name')
+    email = peewee.CharField(null=False, unique=True, max_length=255, help_text='User Email')
+    passwd = peewee.CharField(null=False, max_length=255, help_text='User Password')
+    time_reset_passwd = peewee.IntegerField(null=False, default=0)
+    time_login = peewee.IntegerField(null=False, default=0)
+    time_create = peewee.IntegerField(null=False, default=0)
+    time_update = peewee.IntegerField(null=False, default=0)
+    time_email = peewee.IntegerField(null=False, default=0, help_text='Time auto send email.')
+    failed_count = peewee.IntegerField(null=False, default=0, help_text='record the times for trying login.')
+    time_failed = peewee.IntegerField(null=False, default=0, help_text='timestamp for login failed.')
+    extinfo = BinaryJSONField(null=False, default={}, help_text='Extra data in JSON.')
+
+
+class TabRole(BaseModel):
+    '''
+    后台人员分组表，或角色表
+    角色和组两个概念可能会让人混淆，在这里做个区分：角色赋予的是主体，主体可以是用户，也可以是组；角色是权限的集合；组是用户的集合
+    '''
+    uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='')
+    name = peewee.CharField(null=False, index=True, unique=True, max_length=255, help_text='分组名称')
+    status = peewee.IntegerField(null=False, default=0, help_text='角色状态.0=禁用,1=启用')
+    time_create = peewee.IntegerField(null=False, default=0)
+    time_update = peewee.IntegerField(null=False, default=0)
+
+
+class TabPermission(BaseModel):
+    '''
+    后台人员权限表
+    '''
+    uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='')
+    name = peewee.CharField(null=False, index=True, unique=True, max_length=255, help_text='权限名称')
+    controller = peewee.CharField(null=False, max_length=255, help_text='控件器')
+    action = peewee.CharField(null=False, max_length=255, help_text='执行动作')
+    pid = peewee.CharField(null=False, max_length=36,  help_text='parent id')
+    status = peewee.IntegerField(null=False, default=0, help_text='角色状态.0=禁用,1=启用')
+
+class TabStaff2Role(BaseModel):
+    '''
+    人员、角色关联表
+    '''
+    admin_id = peewee.CharField(null=False, max_length=36, help_text='后台人员id')
+    group_id = peewee.CharField(null=False, max_length=36, help_text='后台人员角色id')
+
+class TabRole2Permission(BaseModel):
+    '''
+    角色、权限关联表
+    '''
+    group_id = peewee.CharField(null=False, max_length=36, help_text='后台人员角色id')
+    permission_id = peewee.CharField(null=False, max_length=36,  help_text='后台人员id')
