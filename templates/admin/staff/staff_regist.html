@@ -1,0 +1,127 @@
+
+<div class="row" id="showCnt">
+    <div class="col-md-10">
+        <div class="panel panel-default">
+            <div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span> 创建管理员</div>
+            <div class="panel-body" id="staff_regist">
+                <form id="form_staffregist" class="form-horizontal">
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="name">用户名： </label>
+
+                            <div class="col-sm-10">
+                                <input class="form-control" id='name' type="text" name="name"
+                                       placeholder="用户名必须是字母或字母数字组合（字母）">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="passwd">密码：</label>
+
+                            <div class="col-sm-10">
+                                <input class="form-control" id="passwd" type="password" name="passwd"
+                                       placeholder="密码至少6位，最多20位">
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="passwd2">确认密码：</label>
+
+                            <div class="col-sm-10">
+                                <input class="form-control" id="passwd2" type="password" name="passwd2"
+                                       placeholder="请再次输入密码">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="email">邮箱：</label>
+
+                            <div class="col-sm-10">
+                                <input class="form-control" id="email" type="email" name="email"
+                                       placeholder="请输入正确的邮箱地址">
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="sub1"></label>
+
+                            <div class="col-sm-10">
+                                <button   class="btn btn-primary" onclick="staff_add();">{{ _('Submit') }}</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+
+
+    $().ready(function () {
+        $("#form_staffregist").validate(
+            {
+                rules: {
+                    name: {
+                        required: true,
+                        rangelength: [5, 16]
+                    },
+                    passwd: {
+                        required: true,
+                        rangelength: [6, 20]
+                    },
+                    passwd2: {
+                        required: true,
+                        equalTo: "#passwd"
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    }
+                },
+                messages: {
+                    name: {
+                        required: "<span class='red'>请输入用户名</span>",
+                        rangelength: "<span class='red'>用户名至少3位，最多19位</span>"
+                    },
+
+                    passwd: {
+                        required: "<span class='red'>请输入密码</span>",
+                        rangelength: "<span class='red'>密码至少6位，最多20位 </span>"
+                    },
+                    passwd2: {
+                        required: "<span class='red'>请输入确认密码</span>",
+                        equalTo: "<span class='red'>请再次确认密码</span>"
+                    },
+                    email: {
+                        required: "<span class='red'>请输入邮箱</span>",
+                        email: "<span class='red'>请输入正确的邮箱地址</span>"
+                    }
+                }
+            }
+        );
+    });
+    function staff_add() {
+
+        var name = $("#name").val();
+        var email = $("#email").val();
+        var passwd = $("#passwd").val();
+
+        $.post("/staff/regist", {
+            name: name,
+            email: email,
+            passwd: passwd
+        }, function (result) {
+            js_show_page('/staff/find/')
+
+        });
+
+    }
+</script>
+

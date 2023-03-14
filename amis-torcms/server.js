@@ -17,6 +17,16 @@ app.use('/pages', express.static('pages'));
 app.use('/sdk', express.static('sdk'));
 app.use('/yaml', express.static('yaml'));
 
+const axios = require("axios");
+const R = axios.create({
+    baseURL: 'http://127.0.0.1:5555/',
+})
+app.post('/LLogin', async (req, res) => {
+    await R.post('user_j/login',req.body).then(response => {
+        res.json(response.data)
+    })
+
+});
 function AuthMiddleware(req, res, next) {
     if (req.url.startsWith('/login')) {
         next()

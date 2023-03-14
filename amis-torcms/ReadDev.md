@@ -13,6 +13,10 @@ amis 实战教程-1-环境搭建/登录功能实现
 
 1. 安装 nodejs,npm,git,python,nginx
 
+**nginx安装：**
+    sudo su
+    apt-get install nginx
+
 按照自己的操作系统自行百度/谷歌
 
 2. nginx 转发解决跨域
@@ -28,11 +32,11 @@ amis 实战教程-1-环境搭建/登录功能实现
     # 通过浏览器访问的端口
     listen 6796;    
     # 转发至 TorCMS 端口
-    location /api/ {
+    location /api/ { 
       proxy_http_version 1.1;
       proxy_set_header Upgrade $http_upgrade;
       proxy_set_header Connection $http_upgrade;
-      proxy_pass http://127.0.0.1:8000/api/;
+      proxy_pass http://127.0.0.1:5555/api/;
     }    
     # 转发至 Amis 的端口
     location / {

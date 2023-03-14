@@ -42,7 +42,7 @@
                 type: 'form',
                 mode: 'horizontal',
                 api: {
-                    url: '/api/v1/login',
+                    url: '/LLogin',
                     method: 'post',
                     adaptor: function (payload, response) {
                         if (payload.status === 0) {
@@ -61,12 +61,12 @@
                     {
                         label: '用户名',
                         type: 'input-text',
-                        name: 'username'
+                        name: 'user_name'
                     },
                     {
                         label: '密码',
                         type: 'input-password',
-                        name: 'password'
+                        name: 'user_pass'
                     }
                 ]
             }

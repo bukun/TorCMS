@@ -34,6 +34,8 @@ from torcms.handlers.user_info_list_handler import UserListHandler
 from torcms.handlers.wiki_handler import WikiHandler
 from torcms.handlers.wiki_history_manager import WikiHistoryHandler
 from torcms.handlers.check_handler import CheckHandler
+from torcms.handlers.staff_handler import StaffHandler
+from torcms.handlers.permission_handler import PermissionHandler
 
 urls = [
     ('/_rating/(.*)', RatingHandler, {}),
@@ -86,5 +88,7 @@ urls = [
     ('/comment/(.*)', CommentHandler, {}),
     ('/classify/(.*)', ClassifyHandler, {}),
     ("/check/(.*)", CheckHandler, dict()),
+    ("/staff/(.*)", StaffHandler, {}),
+    ("/permission/(.*)", PermissionHandler, {}),
     ("/", IndexHandler, {})
 ]

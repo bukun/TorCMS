@@ -1,0 +1,162 @@
+<script>
+    function per_add() {
+        var name = $("#name").val();
+        var controller = $("#controller").val();
+        var action = $("#action").val();
+        var pid = $("#pid").val();
+        var status = $("#status").val();
+        $.post("/permission/_add", {
+            name: name,
+            controller: controller,
+            action: action,
+            pid: pid,
+            status: status
+        }, function (result) {
+        });
+        $("#addinfo").html("添加成功");
+    }
+
+
+    function per_del(reply_id, id_num) {
+
+        id_num = id_num.toString();
+        var AjaxUrl = "/permission/delete/" + reply_id;
+        $.getJSON(AjaxUrl, function (Json) {
+            $("#del_per_" + id_num).html('');
+        });
+
+    }
+
+    function per_update(update_id, id_num) {
+        id_num = id_num.toString();
+
+        var name1 = $("#name_" + id_num).val();
+        var controller1 = $("#controller_" + id_num).val();
+        var action1 = $("#action_" + id_num).val();
+        var pid1 = $("#pid_" + id_num).val();
+        var status1 = $("#status_" + id_num).val();
+        $.post("/permission/_edit/" + update_id, {
+            name: name1,
+            controller: controller1,
+            action: action1,
+            pid: pid1,
+            status: status1
+        }, function (result) {
+
+            $("#del_per").html('');
+
+        });
+
+    }
+</script>
+
+
+<div class="row">
+    <div class="col-md-10">
+        <div class="panel panel-default">
+            <div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span> 权限管理</div>
+            <div class="panel-body" id="addinfo">
+                <form class="form-horizontal" id="form_add">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>权限名称</th>
+                            <th>控件器</th>
+                            <th>执行动作</th>
+                            <th>parent id</th>
+                            <th>角色状态</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tr>
+                            <td>
+                                <input id="name" type="text" name="name" class="form-control">
+                            </td>
+                            <td>
+                                <input id="controller" name="controller" type="text" class="form-control">
+                            </td>
+                            <td>
+                                <input id="action" name="action" type="text" class="form-control">
+
+                            </td>
+                            <td>
+                                <input id="pid" name="pid" type="text" class="form-control">
+                            </td>
+
+                            <td>
+                                <input id="status" name="status" type="text" class="form-control">
+                            </td>
+                            <td>
+                                <button onclick="per_add();" class="btn btn-primary btn-md">添加</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+
+
+                <Br>
+                {% set ii = 0 %}
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+
+                        <th>权限名称</th>
+                        <th>控件器</th>
+                        <th>执行动作</th>
+                        <th>parent id</th>
+                        <th>角色状态</th>
+                        <th colspan="2">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for x in view %}
+                    <form class="form-horizontal" id="form_post">
+                        <tr id="del_per_{{ ii }}">
+
+
+                            <td>
+                                <input id="name_{{ ii }}" type="text" name="name" value="{{ x.name }}"
+                                       class="form-control">
+                            </td>
+                            <td>
+                                <input id="controller_{{ ii }}" type="text" name="controller" value="{{ x.controller }}"
+                                       class="form-control">
+                            </td>
+                            <td>
+                                <input id="pid_{{ ii }}" name="pid" value="{{ x.pid }}" type="text"
+                                       class="form-control"/>
+
+                            </td>
+                            <td>
+                                <input id="action_{{ ii }}" type="text" name="action" value="{{ x.action }}"
+                                       class="form-control">
+                            </td>
+                            <td>
+                                <input id="status_{{ ii }}" type="text" name="status" value="{{ x.status }}"
+                                       class="form-control">
+                            </td>
+                            <td>
+                                <a onclick="per_update('{{ x.uid }}', {{ ii }} );">
+                                    <span class="glyphicon glyphicon-pencil"></span> 更新
+                                </a>
+                            </td>
+                            <td>
+                                <a class="trash" onclick="per_del('{{ x.uid }}', {{ ii }} );">
+                                    <span class="glyphicon glyphicon-trash"></span> 删除
+                                </a>
+                            </td>
+
+                        </tr>
+                    </form>
+                    {% set ii = ii + 1 %}
+                    {% end %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

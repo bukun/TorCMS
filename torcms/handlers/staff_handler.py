@@ -1,7 +1,6 @@
 # -*- coding:utf-8 -*-
 '''
-Handler for user.
-ToDo: 太多硬编码。需要处理。
+Handler for staff. 
 '''
 
 import datetime
@@ -13,9 +12,7 @@ import tornado.web
 import wtforms.validators
 from wtforms.fields import StringField
 from wtforms.validators import DataRequired
-from wtforms_tornado import Form
-# ToDo: 需要进行切换、测试
-# from tornado_wtforms.form import TornadoForm as Form
+from wtforms_tornado import Form 
 
 import config
 from config import CMS_CFG
@@ -23,8 +20,8 @@ from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tool.send_email import send_mail
 from torcms.core.tools import logger
-from torcms.model.user_model import MUser
-from flask import Flask, request, jsonify, make_response
+from torcms.model.staff_model import MStaff
+
 
 def check_regist_info(post_data):
     '''
@@ -32,9 +29,9 @@ def check_regist_info(post_data):
     Return the status code dict.
 
     The first char of 'code' stands for the different field.
-    '1' for user_name
-    '2' for user_email
-    '3' for user_pass
+    '1' for name
+    '2' for email
+    '3' for passwd
     '4' for user_role
     The seconde char of 'code' stands for different status.
     '1' for invalide
@@ -42,15 +39,15 @@ def check_regist_info(post_data):
     '''
     user_create_status = {'success': False, 'code': '00'}
 
-    if not tools.check_username_valid(post_data['user_name']):
+    if not tools.check_username_valid(post_data['name']):
         user_create_status['code'] = '11'
-    elif not tools.check_email_valid(post_data['user_email']):
+    elif not tools.check_email_valid(post_data['email']):
         user_create_status['code'] = '21'
-    elif not tools.check_pass_valid(post_data['user_pass']):
+    elif not tools.check_pass_valid(post_data['passwd']):
         user_create_status['code'] = '41'
-    elif MUser.get_by_name(post_data['user_name']):
+    elif MStaff.get_by_name(post_data['name']):
         user_create_status['code'] = '12'
-    elif MUser.get_by_email(post_data['user_email']):
+    elif MStaff.get_by_email(post_data['email']):
         user_create_status['code'] = '22'
     else:
         user_create_status['success'] = True
@@ -63,9 +60,9 @@ def check_modify_info(post_data):
     '''
     user_create_status = {'success': False, 'code': '00'}
 
-    if not tools.check_email_valid(post_data['user_email']):
+    if not tools.check_email_valid(post_data['email']):
         user_create_status['code'] = '21'
-    elif MUser.get_by_email(post_data['user_email']):
+    elif MStaff.get_by_email(post_data['email']):
         user_create_status['code'] = '22'
     else:
         user_create_status['success'] = True
@@ -78,7 +75,7 @@ def check_valid_pass(postdata):
     '''
     _ = postdata
     user_create_status = {'success': False, 'code': '00'}
-    if not tools.check_pass_valid(postdata['user_pass']):
+    if not tools.check_pass_valid(postdata['passwd']):
         user_create_status['code'] = '41'
     else:
         user_create_status['success'] = True
@@ -89,14 +86,14 @@ class SumForm(Form):
     '''
     WTForm for user.
     '''
-    user_name = StringField('user_name',
+    name = StringField('name',
                             validators=[DataRequired()],
                             default='')
-    user_pass = StringField('user_pass',
+    passwd = StringField('passwd',
                             validators=[DataRequired()],
                             default='')
-    user_email = StringField(
-        'user_email',
+    email = StringField(
+        'email',
         validators=[DataRequired(), wtforms.validators.Email()],
         default='')
 
@@ -105,8 +102,8 @@ class SumFormInfo(Form):
     '''
     WTForm for user.
     '''
-    user_email = StringField(
-        'user_email', validators=[DataRequired(),
+    email = StringField(
+        'email', validators=[DataRequired(),
                                   wtforms.validators.Email()])
 
 
@@ -114,10 +111,10 @@ class SumFormPass(Form):
     '''
     WTForm for user password.
     '''
-    user_pass = StringField('user_pass', validators=[DataRequired()])
+    passwd = StringField('passwd', validators=[DataRequired()])
 
 
-class UserHandler(BaseHandler):
+class StaffHandler(BaseHandler):
     '''
     Handler for user.
     '''
@@ -132,9 +129,8 @@ class UserHandler(BaseHandler):
         url_arr = self.parse_url(url_str)
 
         dict_get = {
-            'regist': (lambda: self.redirect('/user/info'))
-            if self.get_current_user() else self.__to_register__,
-            'j_regist':
+            
+            'regist':
                 self.j_register,
             'login':
                 self.__to_login__,
@@ -219,9 +215,9 @@ class UserHandler(BaseHandler):
 
         post_data = self.get_request_arguments()
 
-        usercheck = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
+        usercheck = MStaff.check_user(self.userinfo.uid, post_data['rawpass'])
         if usercheck == 1:
-            MUser.update_pass(self.userinfo.uid, post_data['user_pass'])
+            MStaff.update_pass(self.userinfo.uid, post_data['passwd'])
             output = {'changepass ': usercheck}
         else:
             output = {'changepass ': 0}
@@ -235,10 +231,10 @@ class UserHandler(BaseHandler):
 
         post_data, def_dic = self.fetch_post_data()
 
-        usercheck = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
+        usercheck = MStaff.check_user(self.userinfo.uid, post_data['rawpass'])
         if usercheck == 1:
-            MUser.update_info(self.userinfo.uid,
-                              post_data['user_email'],
+            MStaff.update_info(self.userinfo.uid,
+                              post_data['email'],
                               extinfo=def_dic)
             output = {'changeinfo ': usercheck}
         else:
@@ -258,7 +254,7 @@ class UserHandler(BaseHandler):
             else:
                 post_data[key] = self.get_arguments(key)[0]
 
-        post_data['user_name'] = self.userinfo.user_name
+        post_data['name'] = self.userinfo.name
 
         ext_dic = dict(ext_dic, **self.ext_post_data(postdata=post_data))
 
@@ -295,13 +291,13 @@ class UserHandler(BaseHandler):
         '''
         post_data = self.get_request_arguments()
 
-        usercheck_num = MUser.check_user(self.userinfo.uid,
+        usercheck_num = MStaff.check_user(self.userinfo.uid,
                                          post_data['rawpass'])
 
-        if not tools.check_pass_valid(post_data['user_pass']):
+        if not tools.check_pass_valid(post_data['passwd']):
             kwd = {
                 'info': '密码过于简单，至少包含1个大写字母，1个小写字母和1个数字。',
-                'link': '/user/regist',
+                'link': '/staff/regist',
             }
             self.set_status(400)
             self.render('misc/html/404.html',
@@ -313,12 +309,12 @@ class UserHandler(BaseHandler):
             pass
 
         if usercheck_num == 1:
-            MUser.update_pass(self.userinfo.uid, post_data['user_pass'])
-            self.redirect('/user/info')
+            MStaff.update_pass(self.userinfo.uid, post_data['passwd'])
+            self.redirect('/staff/info')
         else:
             kwd = {
                 'info': '原密码输入错误，请重新输入',
-                'link': '/user/changepass',
+                'link': '/staff/changepass',
             }
             self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
@@ -330,17 +326,17 @@ class UserHandler(BaseHandler):
 
         post_data, def_dic = self.fetch_post_data()
 
-        usercheck_num = MUser.check_user(self.userinfo.uid,
+        usercheck_num = MStaff.check_user(self.userinfo.uid,
                                          post_data['rawpass'])
         if usercheck_num == 1:
-            MUser.update_info(self.userinfo.uid,
-                              post_data['user_email'],
+            MStaff.update_info(self.userinfo.uid,
+                              post_data['email'],
                               extinfo=def_dic)
-            self.redirect(('/user/info'))
+            self.redirect(('/staff/info'))
         else:
             kwd = {
                 'info': '密码输入错误。',
-                'link': '/user/changeinfo',
+                'link': '/staff/changeinfo',
             }
             self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
@@ -357,12 +353,12 @@ class UserHandler(BaseHandler):
             authority = bin(int(authority, 2) + int(i, 2))[2:]
         post_data['authority'] = authority
 
-        MUser.update_role(xg_username, post_data)
+        MStaff.update_role(xg_username, post_data)
         if self.is_p:
             output = {'changerole': '1'}
             return json.dump(output, self)
         else:
-            self.redirect('/user/info')
+            self.redirect('/staff/info')
 
     @tornado.web.authenticated
     def __logout__(self):
@@ -379,10 +375,9 @@ class UserHandler(BaseHandler):
         to change the password.
         '''
 
-        if self.is_p:
-            tmpl = 'admin/user/puser_changepass.html'
-        else:
-            tmpl = 'user/user_changepass.html'
+
+        tmpl = 'admin/staff/staff_changepass.html'
+
         self.render(tmpl,
                     userinfo=self.userinfo,
                     kwd={})
@@ -392,10 +387,9 @@ class UserHandler(BaseHandler):
         '''
         to change the user info.
         '''
-        if self.is_p:
-            tmpl = 'admin/user/puser_changeinfo.html'
-        else:
-            tmpl = 'user/user_changeinfo.html'
+
+        tmpl = 'admin/staff/staff_changeinfo.html'
+
         self.render(tmpl,
                     userinfo=self.userinfo,
                     kwd={})
@@ -412,8 +406,8 @@ class UserHandler(BaseHandler):
                 post_authority = {}
         except:
             post_authority = {}
-        self.render('user/user_changerole.html',
-                    userinfo=MUser.get_by_name(xg_username),
+        self.render('staff/user_changerole.html',
+                    userinfo=MStaff.get_by_name(xg_username),
                     post_authority=post_authority,
                     kwd={})
 
@@ -440,7 +434,7 @@ class UserHandler(BaseHandler):
 
         current_page_number = 1 if current_page_number < 1 else current_page_number
 
-        infos = MUser.query_pager_by_slug(current_page_num=current_page_number, type=type)
+        infos = MStaff.query_pager_by_slug(current_page_num=current_page_number, type=type)
         kwd = {'pager': '',
                'current_page': current_page_number,
                'type': type
@@ -450,8 +444,8 @@ class UserHandler(BaseHandler):
             for rec in infos:
                 dic = {
                     'uid': rec.uid,
-                    'user_name': rec.user_name,
-                    'user_email': rec.user_email,
+                    'name': rec.name,
+                    'email': rec.email,
                     'role': rec.role,
                     'authority': rec.authority,
                     'time_login': rec.time_login,
@@ -466,15 +460,14 @@ class UserHandler(BaseHandler):
             }
 
             return json.dump(out_dict, self, ensure_ascii=False)
-        elif self.is_p:
-            tmpl = 'admin/user/puser_find_list.html'
-        else:
-            tmpl = 'user/user_find_list.html'
+
+        tmpl = 'admin/staff/staff_find_list.html'
+
         self.render(tmpl,
                     cfg=config.CMS_CFG,
                     infos=infos,
                     kwd=kwd,
-                    view=MUser.get_by_keyword(""),
+                    view=MStaff.get_by_keyword(""),
                     userinfo=self.userinfo)
 
     @tornado.web.authenticated
@@ -483,9 +476,9 @@ class UserHandler(BaseHandler):
         show the user info
         '''
         if userid:
-            rec = MUser.get_by_uid(userid)
+            rec = MStaff.get_by_uid(userid)
         else:
-            rec = MUser.get_by_uid(self.userinfo.uid)
+            rec = MStaff.get_by_uid(self.userinfo.uid)
         kwd = {}
 
         post_data = self.get_request_arguments()
@@ -493,8 +486,8 @@ class UserHandler(BaseHandler):
         if isjson:
             dic = {
                 'uid': rec.uid,
-                'user_name': rec.user_name,
-                'user_email': rec.user_email,
+                'name': rec.name,
+                'email': rec.email,
                 'role': rec.role,
                 'authority': rec.authority,
                 'time_login': rec.time_login,
@@ -507,10 +500,8 @@ class UserHandler(BaseHandler):
             }
 
             return json.dump(out_dict, self, ensure_ascii=False)
-        elif self.is_p:
-            tmpl = 'admin/user/puser_info.html'
-        else:
-            tmpl = 'user/user_info.html'
+
+        tmpl = 'admin/staff/staff_info.html'
 
         self.render(tmpl,
                     userinfo=rec,
@@ -521,7 +512,7 @@ class UserHandler(BaseHandler):
         '''
         to reset the password.
         '''
-        self.render('user/user_reset_password.html',
+        self.render('staff/user_reset_password.html',
                     userinfo=self.userinfo,
                     kwd={})
 
@@ -540,7 +531,7 @@ class UserHandler(BaseHandler):
                 'ad': False,
                 'pass_encrypt': CMS_CFG.get('pass_encrypt', ',')
             }
-            self.render('user/user_login.html', kwd=kwd, userinfo=None)
+            self.render('staff/user_login.html', kwd=kwd, userinfo=None)
 
     def __register__(self):
         '''
@@ -550,12 +541,12 @@ class UserHandler(BaseHandler):
         post_data, extinfo = self.fetch_user_data()
 
         form = SumForm(self.request.arguments)
-        ckname = MUser.get_by_name(post_data['user_name'])
-        ckemail = MUser.get_by_email(post_data['user_email'])
-        if not tools.check_pass_valid(post_data['user_pass']):
+        ckname = MStaff.get_by_name(post_data['name'])
+        ckemail = MStaff.get_by_email(post_data['email'])
+        if not tools.check_pass_valid(post_data['passwd']):
             kwd = {
                 'info': '密码过于简单，至少包含1个大写字母，1个小写字母和1个数字。',
-                'link': '/user/regist',
+                'link': '/staff/regist',
             }
             self.set_status(400)
             self.render('misc/html/404.html',
@@ -571,7 +562,7 @@ class UserHandler(BaseHandler):
         else:
             kwd = {
                 'info': '用户名已存在，请更换用户名。',
-                'link': '/user/regist',
+                'link': '/staff/regist',
             }
             self.set_status(400)
             self.render('misc/html/404.html',
@@ -583,7 +574,7 @@ class UserHandler(BaseHandler):
         else:
             kwd = {
                 'info': '邮箱已经存在，请更换邮箱。',
-                'link': '/user/regist',
+                'link': '/staff/regist',
             }
             self.set_status(400)
             self.render('misc/html/404.html',
@@ -591,13 +582,13 @@ class UserHandler(BaseHandler):
                         kwd=kwd,
                         userinfo=None)
         if form.validate():
-            res_dic = MUser.create_user(post_data, extinfo=extinfo)
+            res_dic = MStaff.create_user(post_data, extinfo=extinfo)
             if res_dic['success']:
-                self.redirect('/user/login')
+                self.redirect('/staff/login')
             else:
                 kwd = {
                     'info': '注册不成功',
-                    'link': '/user/regist',
+                    'link': '/staff/regist',
                 }
                 self.set_status(400)
                 self.render('misc/html/404.html',
@@ -608,7 +599,7 @@ class UserHandler(BaseHandler):
         else:
             kwd = {
                 'info': '注册不成功',
-                'link': '/user/regist',
+                'link': '/staff/regist',
             }
             self.set_status(400)
             self.render('misc/html/404.html',
@@ -630,7 +621,7 @@ class UserHandler(BaseHandler):
         form = SumForm(self.request.arguments)
 
         if form.validate():
-            user_create_status = MUser.create_user(post_data, extinfo=extinfo)
+            user_create_status = MStaff.create_user(post_data, extinfo=extinfo)
             logger.info('user_register_status: {0}'.format(user_create_status))
             return json.dump(user_create_status, self)
         return json.dump(user_create_status, self)
@@ -642,10 +633,10 @@ class UserHandler(BaseHandler):
 
         post_data = self.get_request_arguments()
 
-        is_user_passed = MUser.check_user(self.userinfo.uid,
+        is_passwded = MStaff.check_user(self.userinfo.uid,
                                           post_data['rawpass'])
 
-        if is_user_passed == 1:
+        if is_passwded == 1:
 
             user_create_status = check_modify_info(post_data)
             if not user_create_status['success']:
@@ -654,8 +645,8 @@ class UserHandler(BaseHandler):
             form_info = SumFormInfo(self.request.arguments)
 
             if form_info.validate():
-                user_create_status = MUser.update_info(self.userinfo.uid,
-                                                       post_data['user_email']
+                user_create_status = MStaff.update_info(self.userinfo.uid,
+                                                       post_data['email']
                                                        )
                 return json.dump(user_create_status, self)
             return json.dump(user_create_status, self)
@@ -669,7 +660,7 @@ class UserHandler(BaseHandler):
         # user_create_status = {'success': False, 'code': '00'} # Not used currently.
         post_data = self.get_request_arguments()
 
-        check_usr_status = MUser.check_user(self.userinfo.uid,
+        check_usr_status = MStaff.check_user(self.userinfo.uid,
                                             post_data['rawpass'])
 
         if check_usr_status == 1:
@@ -681,7 +672,7 @@ class UserHandler(BaseHandler):
             form_pass = SumFormPass(self.request.arguments)
 
             if form_pass.validate():
-                MUser.update_pass(self.userinfo.uid, post_data['user_pass'])
+                MStaff.update_pass(self.userinfo.uid, post_data['passwd'])
                 return json.dump(user_create_status, self)
 
             return json.dump(user_create_status, self)
@@ -707,12 +698,12 @@ class UserHandler(BaseHandler):
             authority = bin(int(authority, 2) + int(i, 2))[2:]
         post_data['authority'] = authority
         for xg_username in username_list:
-            MUser.update_role(xg_username, post_data)
+            MStaff.update_role(xg_username, post_data)
         if self.is_p:
             output = {'changerole': '1'}
             return json.dump(output, self)
         else:
-            self.redirect('/user/info')
+            self.redirect('/staff/info')
 
     def __to_register__(self):
         '''
@@ -721,7 +712,7 @@ class UserHandler(BaseHandler):
         kwd = {
             'pager': '',
         }
-        self.render('user/user_regist.html',
+        self.render('staff/user_regist.html',
                     cfg=config.CMS_CFG,
                     userinfo=None,
                     kwd=kwd)
@@ -733,7 +724,7 @@ class UserHandler(BaseHandler):
         kwd = {
             'pager': '',
         }
-        self.render('admin/user/puser_regist.html',
+        self.render('admin/staff/staff_regist.html',
                     cfg=config.CMS_CFG,
                     userinfo=None,
                     kwd=kwd)
@@ -748,18 +739,15 @@ class UserHandler(BaseHandler):
         '''
         user login.
         '''
-
-
         post_data = self.get_request_arguments()
-        print("*" * 50)
-        print(post_data)
+
         if 'next' in post_data:
             next_url = post_data['next']
         else:
             next_url = '/'
 
-        u_name = post_data['user_name']
-        u_pass = post_data['user_pass']
+        u_name = post_data['name']
+        u_pass = post_data['passwd']
         encryption = post_data.get('encryption', '0')
 
         if encryption == '1':
@@ -776,12 +764,12 @@ class UserHandler(BaseHandler):
 
         check_email = re.compile(r'^\w+@(\w+\.)+(com|cn|net)$')
 
-        result = MUser.check_user_by_name(u_name, u_pass)
+        result = MStaff.check_user_by_name(u_name, u_pass)
         # 根据用户名进行验证，如果不存在，则作为E-mail来获取用户名进行验证
         if result == -1 and check_email.search(u_name):
-            user_x = MUser.get_by_email(u_name)
+            user_x = MStaff.get_by_email(u_name)
             if user_x:
-                result = MUser.check_user_by_name(user_x.user_name, u_pass)
+                result = MStaff.check_user_by_name(user_x.name, u_pass)
 
         # Todo: the `kwd` should remove from the codes.
         if result == 1:
@@ -791,83 +779,72 @@ class UserHandler(BaseHandler):
                 expires_days=None,
                 expires=time.time() + 60 * CMS_CFG.get('expires_minutes', 15)
             )
-            MUser.update_success_info(u_name)
+            MStaff.update_success_info(u_name)
             if self.is_p:
-                user_login_status = {'success': True, 'code': '1', 'info': 'Login successful', 'user_name': u_name}
+                user_login_status = {'success': True, 'code': '1', 'info': 'Login successful', 'name': u_name}
                 return json.dump(user_login_status, self)
             else:
                 self.redirect(next_url)
         elif result == 0:
             self.set_status(401)
 
-            MUser.update_failed_info(u_name)
+            MStaff.update_failed_info(u_name)
             if self.is_p:
                 user_login_status = {'success': False, 'code': '0',
                                      'info': 'Wrong username or password. Please try again.',
-                                     'user_name': u_name}
+                                     'name': u_name}
                 return json.dump(user_login_status, self)
             else:
-                self.render('user/user_relogin.html',
+                self.render('staff/user_relogin.html',
                             cfg=config.CMS_CFG,
                             kwd={
                                 'info': 'Wrong username or password. Please try again.',
                                 'code': '0',
-                                'link': '/user/login',
+                                'link': '/staff/login',
                             },
                             userinfo=self.userinfo)
         elif result == 2:
             self.set_status(401)
 
-            MUser.update_failed_info(u_name)
+            MStaff.update_failed_info(u_name)
             if self.is_p:
                 user_login_status = {'success': False, 'code': '2',
                                      'info': 'Too many faild times. Please try again later.',
-                                     'user_name': u_name}
+                                     'name': u_name}
                 return json.dump(user_login_status, self)
             else:
-                self.render('user/user_relogin.html',
+                self.render('staff/user_relogin.html',
                             cfg=config.CMS_CFG,
                             kwd={
                                 'info': 'Too many faild times. Please try again later.',
                                 'code': '2',
-                                'link': '/user/login',
+                                'link': '/staff/login',
                             },
                             userinfo=self.userinfo)
         elif result == -1:
             self.set_status(401)
             if self.is_p:
                 user_login_status = {'success': False, 'code': '-1', 'info': 'Wrong username or password.',
-                                     'user_name': u_name}
+                                     'name': u_name}
                 return json.dump(user_login_status, self)
             else:
-                self.render('user/user_relogin.html',
+                self.render('staff/user_relogin.html',
                             cfg=config.CMS_CFG,
                             kwd={
                                 'info': 'Wrong username or password.',
                                 'code': -1,
-                                'link': '/user/login',
+                                'link': '/staff/login',
                             },
                             userinfo=self.userinfo)
         else:
             self.set_status(305)
             if self.is_p:
-                user_login_status = {'success': True, 'code': '1', 'info': '305', 'user_name': u_name}
+                user_login_status = {'success': True, 'code': '1', 'info': '305', 'name': u_name}
                 return json.dump(user_login_status, self)
             else:
                 self.redirect("{0}".format(next_url))
 
-    def p_to_find(self, ):
-        '''
-        To find, pager.
-        '''
-        kwd = {
-            'pager': '',
-        }
-        self.render('user/user_find_list.html',
-                    kwd=kwd,
-                    view=MUser.get_by_keyword(""),
-                    cfg=config.CMS_CFG,
-                    userinfo=self.userinfo)
+
 
     def find(self, keyword=None, cur_p=''):
         '''
@@ -881,14 +858,13 @@ class UserHandler(BaseHandler):
             'title': '查找结果',
         }
 
-        if self.is_p:
-            tmpl = 'admin/user/puser_find_list.html'
-        else:
-            tmpl = 'user/user_find_list.html'
+
+        tmpl = 'admin/staff/staff_find_list.html'
+
 
         self.render(tmpl,
                     kwd=kwd,
-                    view=MUser.get_by_keyword(keyword),
+                    view=MStaff.get_by_keyword(keyword),
                     cfg=config.CMS_CFG,
                     userinfo=self.userinfo)
 
@@ -917,7 +893,7 @@ class UserHandler(BaseHandler):
         current_month = datetime.datetime.now().month
 
         # 获取当年，1月到当前月份注册信息
-        recs = MUser.query_by_time(current_month * 30)
+        recs = MStaff.query_by_time(current_month * 30)
 
         for rec in recs:
             current_mon = time.strftime("%m", time.localtime(rec.time_create))
@@ -965,15 +941,15 @@ class UserHandler(BaseHandler):
             kwd = {
                 'pager': '',
                 'title': '查找结果',
-                'user_count': MUser.total_number(),
+                'user_count': MStaff.total_number(),
                 'month_arr': month_arr,
                 'num_arr': num_arr,
             }
 
-            self.render('user/user_list.html',
+            self.render('admin/staff/staff_list.html',
                         recs=recs,
                         kwd=kwd,
-                        view=MUser.query_by_time(),
+                        view=MStaff.query_by_time(),
                         cfg=config.CMS_CFG,
                         userinfo=self.userinfo)
 
@@ -982,7 +958,7 @@ class UserHandler(BaseHandler):
         delete user by ID.
         '''
         if self.is_p:
-            if MUser.delete(user_id):
+            if MStaff.delete(user_id):
                 output = {'del_category': 1}
             else:
                 output = {
@@ -992,9 +968,9 @@ class UserHandler(BaseHandler):
             return json.dump(output, self)
 
         else:
-            is_deleted = MUser.delete(user_id)
+            is_deleted = MStaff.delete(user_id)
             if is_deleted:
-                self.redirect('/user/find')
+                self.redirect('/staff/find')
 
     def post_find(self):
         '''
@@ -1011,13 +987,13 @@ class UserHandler(BaseHandler):
         post_data = self.get_request_arguments()
 
         if 'email' in post_data:
-            userinfo = MUser.get_by_email(post_data['email'])
+            userinfo = MStaff.get_by_email(post_data['email'])
 
             if tools.timestamp() - userinfo.time_reset_passwd < 70:
                 self.set_status(400)
                 kwd = {
                     'info': '两次重置密码时间应该大于1分钟',
-                    'link': '/user/reset-password',
+                    'link': '/staff/reset-password',
                 }
                 self.render('misc/html/404.html',
                             kwd=kwd,
@@ -1026,10 +1002,10 @@ class UserHandler(BaseHandler):
 
             if userinfo:
                 timestamp = tools.timestamp()
-                passwd = userinfo.user_pass
-                username = userinfo.user_name
+                passwd = userinfo.passwd
+                username = userinfo.name
                 hash_str = tools.md5(username + str(timestamp) + passwd)
-                url_reset = '{0}/user/reset-passwd?u={1}&t={2}&p={3}'.format(
+                url_reset = '{0}/staff/reset-passwd?u={1}&t={2}&p={3}'.format(
                     config.SITE_CFG['site_url'], username, timestamp, hash_str)
                 email_cnt = '''<div>请查看下面的信息，并<span style="color:red">谨慎操作</span>：</div>
                 <div>您在"{0}"网站（{1}）申请了密码重置，如果确定要进行密码重置，请打开下面链接：</div>
@@ -1038,10 +1014,10 @@ class UserHandler(BaseHandler):
                     config.SMTP_CFG['name'], config.SITE_CFG['site_url'],
                     url_reset)
 
-                if send_mail([userinfo.user_email],
+                if send_mail([userinfo.email],
                              "{0}|密码重置".format(config.SMTP_CFG['name']),
                              email_cnt):
-                    MUser.update_time_reset_passwd(username, timestamp)
+                    MStaff.update_time_reset_passwd(username, timestamp)
                     self.set_status(200)
                     logger.info('password has been reset.')
                     return True
@@ -1059,7 +1035,7 @@ class UserHandler(BaseHandler):
         '''
         post_data = self.get_request_arguments()
 
-        userinfo = MUser.get_by_name(post_data['u'])
+        userinfo = MStaff.get_by_name(post_data['u'])
 
         sub_timestamp = int(post_data['t'])
         cur_timestamp = tools.timestamp()
@@ -1068,19 +1044,19 @@ class UserHandler(BaseHandler):
         else:
             kwd = {
                 'info': '密码重置已超时！',
-                'link': '/user/reset-password',
+                'link': '/staff/reset-password',
             }
             self.set_status(400)
             self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
-        hash_str = tools.md5(userinfo.user_name + post_data['t'] +
-                             userinfo.user_pass)
+        hash_str = tools.md5(userinfo.name + post_data['t'] +
+                             userinfo.passwd)
         if hash_str == post_data['p']:
             pass
         else:
             kwd = {
                 'info': '密码重置验证出错！',
-                'link': '/user/reset-password',
+                'link': '/staff/reset-password',
             }
             self.set_status(400)
             self.render(
@@ -1090,13 +1066,13 @@ class UserHandler(BaseHandler):
             )
 
         new_passwd = tools.get_uu8d()
-        MUser.update_pass(userinfo.uid, new_passwd)
+        MStaff.update_pass(userinfo.uid, new_passwd)
         kwd = {
-            'user_name': userinfo.user_name,
+            'name': userinfo.name,
             'new_pass': new_passwd,
         }
         self.render(
-            'user/user_show_pass.html',
+            'staff/user_show_pass.html',
             cfg=config.CMS_CFG,
             kwd=kwd,
             userinfo=self.userinfo,
@@ -1108,14 +1084,13 @@ class UserHandler(BaseHandler):
         show the user info
         '''
         post_data = self.get_request_arguments()
-        user_name = post_data.get('user_name', '')
-        rec = MUser.get_by_uid(self.userinfo.uid)
-        # rec = MUser.get_by_name(user_name)
+        name = post_data.get('name', '')
+        rec = MStaff.get_by_uid(self.userinfo.uid)
+        # rec = MStaff.get_by_name(name)
 
         userinfo = {
-            'user_name': rec.user_name,
-            'user_email': rec.user_email,
-            'role': rec.role,
+            'name': rec.name,
+            'email': rec.email, 
             'extinfo': rec.extinfo,
 
         }
@@ -1161,13 +1136,4 @@ class UserHandler(BaseHandler):
         pass_strength_status = {'intensity': intensity}
         return json.dump(pass_strength_status, self)
 
-
-class UserPartialHandler(UserHandler):
-    '''
-    Partially render for user handler.
-    For website background.
-    '''
-
-    def initialize(self, **kwargs):
-        super().initialize()
-        self.is_p = True
+ 

@@ -1,0 +1,66 @@
+<script>
+    function category_del(reply_id, id_num) {
+        id_num = id_num.toString();
+        var AjaxUrl = "/staff/delete_user/" + reply_id;
+        $.getJSON(AjaxUrl, function (Json) {
+            $("#del_category_" + id_num).html('');
+        });
+
+        $("#del_category_" + id_num).html('');
+    }
+
+
+</script>
+<style>
+    .btn_hidden{
+        display: none;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-10">
+
+        <div class="panel panel-default">
+            <div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span> 管理员列表</div>
+            <div class="panel-body">
+
+                <table class="table table-striped"  id="checkboxs">
+                    <thead>
+                    <tr>
+
+                        <th>用户名</th>
+
+                        <th>操作</th>
+
+                        <th>注册时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% set ii = 0 %}
+                    {% for x in view %}
+                    <tr id="del_category_{{ ii }}">
+
+                        <td><a onclick="js_show_page('/staff/info/{{ x.uid }}')"> {{x.name}}</a></td>
+
+                        <td> &nbsp;
+                            <a class="trash" onclick="category_del('{{ x.uid }}', {{ ii }} );"><span
+                                    class="glyphicon glyphicon-trash"></span> 删除</a></td>
+
+                        <td>{{ datetime.datetime.fromtimestamp(x.time_create).strftime('%Y-%m-%d %H:%M:%S')}}</td>
+
+
+                    </tr>
+                    {% set ii = ii + 1 %}
+                    {% end %}
+                    </tbody>
+                </table>
+
+                </div>
+
+
+            </div>
+        </div>
+{#        {% module admin_user_pager(kwd['current_page'],type=kwd['type']) %}#}
+    </div>
+
+

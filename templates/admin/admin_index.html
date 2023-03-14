@@ -18,6 +18,7 @@
         <ul class="nav menu">
             <li class="active"><a onclick="js_show_page('/user_j/info')"> <span class="glyphicon glyphicon-user"></span>
                 用户信息</a></li>
+
             <li><a onclick="js_show_page('/user_j/info')"><span class="glyphicon glyphicon-cog"></span>用户状态</a></li>
 
             <li><a onclick="js_show_page('/user_j/changepass')"><span class="glyphicon glyphicon-pencil"></span>修改密码</a>
@@ -28,8 +29,13 @@
 
             <li><a onclick="js_show_page('/user_j/j_regist')"><span class="glyphicon glyphicon glyphicon-user"></span>创建用户</a>
             </li>
-            <li><a onclick="js_show_page('/user_j/find/')"><span class="glyphicon glyphicon glyphicon-user"></span>查看所有用户</a>
-            </li>
+            <li><a onclick="js_show_page('/user_j/find/')"><span class="glyphicon glyphicon glyphicon-user"></span>查看所有用户</a></li>
+
+            <li role="presentation" class="divider"></li>
+            <li><a onclick="js_show_page('/staff/regist')"><span class="glyphicon glyphicon-cog"></span>创建管理员</a></li>
+            <li><a onclick="js_show_page('/staff/find/')"><span class="glyphicon glyphicon-cog"></span>管理员列表</a></li>
+            <li role="presentation" class="divider"></li>
+            <li><a onclick="js_show_page('/permission/list')"><span class="glyphicon glyphicon-cog"></span>权限管理</a></li>
 
 {#            <li><a onclick="js_show_page('/user/logout')"><span class="glyphicon glyphicon-log-out"></span>注销</a></li>#}
 
@@ -43,23 +49,11 @@
                 </a>
                 <ul class="children collapse" id="sub-item-1">
                     <li>
-                        <a onclick="js_show_page('/user_j/find/?type=0')"><span
-                                class="glyphicon glyphicon-share-alt"></span> 农户</a>
+                        <a onclick="js_show_page('/user_j/find/')"><span
+                                class="glyphicon glyphicon-share-alt"></span> 所有用户</a>
                     </li>
 
 
-                    <li>
-                        <a onclick="js_show_page('/user_j/find/?type=1')"><span
-                                class="glyphicon glyphicon-share-alt"></span> 规模经营主体</a>
-                    </li>
-                    <li>
-                        <a onclick="js_show_page('/user_j/find/?type=2')"><span
-                                class="glyphicon glyphicon-share-alt"></span> 政府</a>
-                    </li>
-                    <li>
-                        <a onclick="js_show_page('/user_j/find/?type=3')"><span
-                                class="glyphicon glyphicon-share-alt"></span> 专家</a>
-                    </li>
 
 
                 </ul>

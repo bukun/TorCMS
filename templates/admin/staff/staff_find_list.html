@@ -1,0 +1,172 @@
+<script>
+    function staff_del(reply_id, id_num) {
+        id_num = id_num.toString();
+        var AjaxUrl = "/staff/delete_user/" + reply_id;
+        $.getJSON(AjaxUrl, function (Json) {
+            $("#del_staff_" + id_num).html('');
+        });
+
+        $("#del_staff_" + id_num).html('');
+    }
+    function update_role(update_id, id_num) {
+        id_num = id_num.toString();
+        var role = $("#role" + id_num).val();
+        $.post("/user_j/changerole/" + update_id, {role: role}, function (result) {
+
+            $("#del_staff").html('');
+
+        });
+    }
+    var checkbox=document.getElementById('checkboxs');
+    var checked=checkbox.getElementsByTagName('input');
+
+    function allselect(){
+
+        for(i=0;i<checked.length;i++){
+            checked[i].checked=true
+        }
+
+        document.getElementById("allselect").style.display = 'none'
+        document.getElementById("unselect").style.display = 'inline'
+    }
+    function unselect(){
+
+        for(i=0;i<checked.length;i++){
+            checked[i].checked=false
+        }
+        document.getElementById("allselect").style.display = 'inline'
+        document.getElementById("unselect").style.display = 'none'
+    }
+    function batchchangerole(){
+        {#document.getElementById("batchrole").style.display = 'block'#}
+        var batch_role = $("#role").val();
+        var checked= $("table input[type=checkbox]:checked");
+
+        var check_value = new Array();
+        for(i=0;i<checked.length;i++){
+            if(checked[i].checked){
+                check_value.push(checked[i].value)
+            }
+        }
+        var formData = new FormData();
+        formData.append("check_value", JSON.stringify(check_value));
+        formData.append("role", batch_role);
+        $.ajax({
+            url: "/staff/batchchangerole",
+            type: "post",
+            cache: !1,
+            data: formData,
+            dataType: "html",
+            timeout: 1e3,
+            processData: false,
+            contentType: false,
+            error: function () {
+                {#return alert("Delete failed!")#}
+            },
+            success: function (result) {
+                var result = $.parseJSON(result);
+
+                if(result['changerole'] == '1'){
+                js_show_page('/staff/find/?type={{ kwd['type'] }}')
+                }
+                else{
+
+                    $("#errinfo").html(result['err_info'])
+                }
+
+            }
+        })
+
+    }
+
+
+</script>
+<style>
+    .btn_hidden{
+        display: none;
+    }
+</style>
+<div class="row">
+    <div class="col-md-10">
+        <div class="panel panel-default">
+            <div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span> 用户列表</div>
+            <div class="panel-body">
+                <div>
+                <a onclick="js_show_page('/staff/find/')" class="btn btn-default">所有用户</a>
+                <a onclick="js_show_page('/staff/find/?type=1')" class="btn btn-default">规模经营主体</a>
+                <a onclick="js_show_page('/staff/find/?type=2')" class="btn btn-default">政府</a>
+                <a onclick="js_show_page('/staff/find/?type=3')" class="btn btn-default">专家</a>
+                <a onclick="js_show_page('/staff/find/?type=0')"  class="btn btn-default">农户</a>
+                </div>
+                <table class="table table-striped"  id="checkboxs">
+                    <thead>
+                    <tr>
+                        <th>选择</th>
+                        <th>用户名</th>
+
+                        <th>操作</th>
+                        <th>帐号类型</th>
+                        <th>手机号码</th>
+                        <th>状态</th>
+                        <th>注册时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% set ii = 0 %}
+                    {% for x in infos %}
+                    <tr id="del_staff_{{ ii }}">
+                        <td><input type="checkbox" value="{{ x.name }}"></td>
+                        <td><a onclick="js_show_page('/staff/info/{{ x.uid }}')"> {{x.name}}</a></td>
+
+                        <td><a onclick="update_role('{{x.name}}', {{ ii }} );"><span
+                                class="glyphicon glyphicon-pencil"></span> 修改权限</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <a class="trash" onclick="staff_del('{{ x.uid }}', {{ ii }} );"><span
+                                    class="glyphicon glyphicon-trash"></span> 删除用户</a></td>
+                        <td>
+
+                            {% if x.extinfo.get('ext_type') == '1' %}
+                            规模经营主体
+                            {% elif  x.extinfo.get('ext_type') == '2' %}
+                            政府
+                            {% elif x.extinfo.get('ext_type') == '3' %}
+                            专家
+                            {% else %}
+                            农户
+                            {% end %}
+                        </td>
+                        <td>{{ x.extinfo.get('ext_mobile')}}</td>
+                        <td>
+                            {% if x.extinfo.get('ext_status') == '1' %}
+                            开
+                            {% else %}
+                            关
+                            {% end %}
+                        </td>
+                        <td>{{ datetime.datetime.fromtimestamp(x.time_create).strftime('%Y-%m-%d %H:%M:%S')}}</td>
+
+
+                    </tr>
+                    {% set ii = ii + 1 %}
+                    {% end %}
+                    </tbody>
+                </table>
+                <div class="col-sm-12" id="batchrole" ><label class="col-sm-1 control-label">批量权限:</label><div class="col-sm-10">
+                    <input class="form-control" id="role" name="role" value="1000">
+                </div></div>
+                <div class="col-sm-12">
+                    <Br>
+                <a onclick="allselect()" id="allselect" class="btn btn-primary"  style="display: inline">全选</a>
+                <a onclick="unselect()" id="unselect" class="btn btn-primary" style="display: none" >取消全选</a>
+                <a onclick="batchchangerole()" class="btn btn-primary" style="display: inline">批量修改权限</a>
+                    <br>
+                    <br>
+                    <div class="col-sm-12" style="color: #f00;font-weight: bold" id="errinfo"></div>
+                </div>
+
+
+            </div>
+        </div>
+        {% module admin_user_pager(kwd['current_page'],type=kwd['type']) %}
+    </div>
+</div>
+
