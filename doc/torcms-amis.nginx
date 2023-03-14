@@ -1,0 +1,15 @@
+server {
+    # To browser.
+    listen 6796;
+    # TorCMS port.
+    location /api/ {
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection $http_upgrade;
+      proxy_pass http://127.0.0.1:8000/api/;
+    }
+    # Amis port.
+    location / {
+      proxy_pass http://127.0.0.1:3000;
+    }
+}

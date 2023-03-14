@@ -1,0 +1,12 @@
+type: page
+title: 时间
+body:
+  type: service
+  dataProvider: |
+    const timer = setInterval(() => {
+     setData({date: new Date().toString()})
+    }, 1000);
+    return () => { clearInterval(timer) }
+  body:
+    type: tpl
+    tpl: ${date}
