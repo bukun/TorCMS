@@ -16,8 +16,10 @@
             "url": "index",
             "schema": {
               "type": "page",
-              "title": "页面A",
-              "body": "页面A"
+              "initApi": "/api/test/ts",
+              "body": "展示内容： ${body}",
+              "title": "展示标题：${title}"
+
             },
             "children": [
               {
@@ -109,9 +111,10 @@
             }
           },
           {
-            "label": "外部链接",
-            "link": "http://baidu.gitee.io/amis"
+            "label": "AMIS文档",
+            "link": "https://aisuda.bce.baidu.com/amis/zh-CN/docs/index"
           },
+
           {
             "label": "部门管理",
             "schemaApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/service/form?tpl=tpl3"

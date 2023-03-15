@@ -36,8 +36,12 @@ from torcms.handlers.wiki_history_manager import WikiHistoryHandler
 from torcms.handlers.check_handler import CheckHandler
 from torcms.handlers.staff_handler import StaffHandler
 from torcms.handlers.permission_handler import PermissionHandler
-
+from torcms.api.login import UserApi
+from torcms.api.test import TestApi
 urls = [
+    ('/api/login/(.*)', UserApi, {}),
+    ('/api/test/(.*)', TestApi, {}),
+
     ('/_rating/(.*)', RatingHandler, {}),
     ('/post_man/(.*)', PostHistoryHandler, {}),
     ('/meta_man/(.*)', PostHistoryHandler, {}),
