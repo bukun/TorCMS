@@ -34,8 +34,8 @@ class MLog():
         Query pager
         '''
         return TabLog.select().where(TabLog.user_id == userid).order_by(
-            TabLog.time_create.desc()).paginate(current_page_num,
-                                                CMS_CFG['list_num'])
+            TabLog.time_create.desc()
+        ).paginate(current_page_num, CMS_CFG['list_num'])
 
     @staticmethod
     def get_all(num=200):
@@ -50,8 +50,7 @@ class MLog():
         '''
         查询所有登录用户的访问记录
         '''
-        return TabLog.select().where(TabLog.user_id != '').distinct(
-            TabLog.user_id).order_by(TabLog.user_id)
+        return TabLog.select().where(TabLog.user_id != '').distinct(TabLog.user_id).order_by(TabLog.user_id)
 
     @staticmethod
     def query_all(current_page_num=1):
@@ -59,8 +58,8 @@ class MLog():
         查询所有未登录用户的访问记录
         '''
         return TabLog.select().where(TabLog.user_id == '').order_by(
-            TabLog.time_out.desc()).paginate(current_page_num,
-                                             CMS_CFG['list_num'])
+            TabLog.time_out.desc()
+        ).paginate(current_page_num, CMS_CFG['list_num'])
 
     @staticmethod
     def query_all_pageview(current_page_num=1):
@@ -68,15 +67,15 @@ class MLog():
         查询所有页面（current_url），分页
         '''
         return TabLog.select().distinct(TabLog.current_url).order_by(
-            TabLog.current_url).paginate(current_page_num, CMS_CFG['list_num'])
+            TabLog.current_url
+        ).paginate(current_page_num, CMS_CFG['list_num'])
 
     @staticmethod
     def query_all_current_url():
         '''
         查询所有页面（current_url）
         '''
-        return TabLog.select().distinct(TabLog.current_url).order_by(
-            TabLog.current_url)
+        return TabLog.select().distinct(TabLog.current_url).order_by(TabLog.current_url)
 
     @staticmethod
     def count_of_current_url(current_url):
@@ -102,9 +101,7 @@ class MLog():
 
     @staticmethod
     def count_of_certain_pageview():
-        recs = TabLog.select().distinct(TabLog.current_url).order_by(
-            TabLog.current_url)
-
+        recs = TabLog.select().distinct(TabLog.current_url).order_by(TabLog.current_url)
         return recs.count()
 
     @staticmethod
