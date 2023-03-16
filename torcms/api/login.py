@@ -12,6 +12,7 @@ from wtforms_tornado import Form
 # from tornado_wtforms.form import TornadoForm as Form
 
 import config
+from datetime import datetime
 from config import CMS_CFG
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
@@ -489,33 +490,43 @@ class UserApi(BaseHandler):
         print(data)
         print("=" * 50)
 
-
         u_name = data['username']
-        # u_pass = post_data['user_pass']
-        encryption = data.get('encryption', '0')
+        u_pass = data['password']
 
-        self.set_secure_cookie(
-            "user",
-            u_name,
-            expires_days=None,
-            expires=time.time() + 60 * CMS_CFG.get('expires_minutes', 15)
-        )
-        # resp.set_cookie("amisToken", , max_age=3600)
-        from datetime import datetime
-        now = datetime.now()
-        self.set_secure_cookie(
-            "amisToken",
+        check_email = re.compile(r'^\w+@(\w+\.)+(com|cn|net)$')
 
-            datetime.strftime(now, "%Y-%m-%d %H:%M:%S"),
-            expires_days=None,
-            expires=time.time() + 60 * CMS_CFG.get('expires_minutes', 15)
-        )
+        result = MUser.check_user_by_name(u_name, u_pass)
+        # 根据用户名进行验证，如果不存在，则作为E-mail来获取用户名进行验证
+        if result == -1 and check_email.search(u_name):
+            user_x = MUser.get_by_email(u_name)
+            if user_x:
+                result = MUser.check_user_by_name(user_x.user_name, u_pass)
 
-        self.set_status(200)
-        user_login_status = {'success': True, 'code': '1', 'info': 'Login successful',
-        'status': 0,
-                             'username': u_name}
-        return json.dump( {'data': user_login_status, 'status': 0} , self)
+        # Todo: the `kwd` should remove from the codes.
+        if result == 1:
+            self.set_secure_cookie(
+                "user",
+                u_name,
+                expires_days=None,
+                expires=time.time() + 60 * CMS_CFG.get('expires_minutes', 15)
+            )
+
+            now = datetime.now()
+            self.set_secure_cookie(
+                "amisToken",
+
+                datetime.strftime(now, "%Y-%m-%d %H:%M:%S"),
+                expires_days=None,
+                expires=time.time() + 60 * CMS_CFG.get('expires_minutes', 15)
+            )
+
+            MUser.update_success_info(u_name)
+
+
+            self.set_status(200)
+            user_login_status = {'success': True, 'code': '1', 'info': 'Login successful',
+            'status': 0,  'username': u_name}
+            return json.dump( {'data': user_login_status, 'status': 0} , self)
 
     def p_to_find(self, ):
         '''
