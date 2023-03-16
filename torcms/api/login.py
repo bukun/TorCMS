@@ -88,31 +88,8 @@ class UserApi(BaseHandler):
 
         if url_str == 'regist':
             self.__register__()
-        elif url_str == 'j_regist':
-            self.json_register()
-        elif url_str == 'j_changeinfo':
-            self.json_changeinfo()
-        elif url_str == 'j_changepass':
-            self.json_changepass()
-        elif url_str == 'batchchangerole':
-            self.json_batchchangerole()
-
         elif url_str == 'login':
             self.login()
-        elif url_str == 'changepass':
-            self.__change_password__()
-        elif url_str == 'changeinfo':
-            self.__change_info__()
-        elif url_str == 'find':
-            self.post_find()
-        elif url_str == 'reset-password':
-            self.reset_password()
-        elif url_arr[0] == 'changepass':
-            self.p_changepassword()
-        elif url_arr[0] == 'changeinfo':
-            self.p_changeinfo()
-        elif url_arr[0] == 'find':
-            self.find(url_arr[1])
         elif url_arr[0] == 'changerole':
             self.__change_role__(url_arr[1])
 
@@ -517,10 +494,28 @@ class UserApi(BaseHandler):
         # u_pass = post_data['user_pass']
         encryption = data.get('encryption', '0')
 
+        self.set_secure_cookie(
+            "user",
+            u_name,
+            expires_days=None,
+            expires=time.time() + 60 * CMS_CFG.get('expires_minutes', 15)
+        )
+        # resp.set_cookie("amisToken", , max_age=3600)
+        from datetime import datetime
+        now = datetime.now()
+        self.set_secure_cookie(
+            "amisToken",
+
+            datetime.strftime(now, "%Y-%m-%d %H:%M:%S"),
+            expires_days=None,
+            expires=time.time() + 60 * CMS_CFG.get('expires_minutes', 15)
+        )
 
         self.set_status(200)
-        user_login_status = {'success': True, 'code': '1', 'info': 'Login successful', 'username': u_name}
-        return json.dump(user_login_status, self)
+        user_login_status = {'success': True, 'code': '1', 'info': 'Login successful',
+        'status': 0,
+                             'username': u_name}
+        return json.dump( {'data': user_login_status, 'status': 0} , self)
 
     def p_to_find(self, ):
         '''

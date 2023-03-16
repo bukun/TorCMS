@@ -42,11 +42,11 @@
                 type: 'form',
                 mode: 'horizontal',
                 api: {
-
                      url: '/api/login/login',
-//                     url: '/api/v1/login',
                     method: 'post',
                     adaptor: function (payload, response) {
+
+                         // console.log(payload.data)
                         if (payload.status === 0) {
                             let newDate = new Date();//获取当前的时间对象
                             let nowTimeStamp = newDate.getTime();//获取当前时间对象的时间戳
