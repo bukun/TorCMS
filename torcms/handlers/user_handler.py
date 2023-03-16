@@ -24,7 +24,7 @@ from torcms.core.base_handler import BaseHandler
 from torcms.core.tool.send_email import send_mail
 from torcms.core.tools import logger
 from torcms.model.user_model import MUser
-from flask import Flask, request, jsonify, make_response
+
 
 def check_regist_info(post_data):
     '''
@@ -748,7 +748,6 @@ class UserHandler(BaseHandler):
         '''
         user login.
         '''
-
 
         post_data = self.get_request_arguments()
         print("*" * 50)

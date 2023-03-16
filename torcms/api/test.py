@@ -1,15 +1,9 @@
 import datetime
 import json
-import re
+
 import time
 
 import tornado.web
-import wtforms.validators
-from wtforms.fields import StringField
-from wtforms.validators import DataRequired
-from wtforms_tornado import Form
-# ToDo: 需要进行切换、测试
-# from tornado_wtforms.form import TornadoForm as Form
 
 import config
 from config import CMS_CFG
@@ -18,7 +12,7 @@ from torcms.core.base_handler import BaseHandler
 from torcms.core.tool.send_email import send_mail
 from torcms.core.tools import logger
 from torcms.model.user_model import MUser
-from flask import Flask, request, jsonify, make_response
+
 
 
 class TestApi(BaseHandler):
