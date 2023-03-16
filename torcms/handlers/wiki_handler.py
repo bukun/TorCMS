@@ -108,8 +108,7 @@ class WikiHandler(BaseHandler):
         Update the wiki.
         '''
         postinfo = MWiki.get_by_uid(uid)
-        if self.check_post_role(
-        )['EDIT'] or postinfo.user_name == self.get_current_user():
+        if self.check_post_role()['EDIT'] or postinfo.user_name == self.get_current_user():
             pass
         else:
             return False

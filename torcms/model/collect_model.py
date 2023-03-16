@@ -13,6 +13,7 @@ class MCollect():
     '''
     Model for collection.
     '''
+
     @staticmethod
     def query_recent(user_id, num=10):
         '''
@@ -21,10 +22,10 @@ class MCollect():
         return TabCollect.select(
             TabCollect, TabPost.uid.alias('post_uid'),
             TabPost.title.alias('post_title'),
-            TabPost.view_count.alias('post_view_count')).where(
-                TabCollect.user_id == user_id).join(
-                    TabPost, on=(TabCollect.post_id == TabPost.uid)).order_by(
-                        TabCollect.timestamp.desc()).limit(num)
+            TabPost.view_count.alias('post_view_count')
+        ).where(TabCollect.user_id == user_id).join(
+            TabPost, on=(TabCollect.post_id == TabPost.uid)
+        ).order_by(TabCollect.timestamp.desc()).limit(num)
 
     #
     # def query_most(self, num):
@@ -36,8 +37,7 @@ class MCollect():
         Get the collection.
         '''
         try:
-            return TabCollect.get((TabCollect.user_id == user_id)
-                                  & (TabCollect.post_id == app_id))
+            return TabCollect.get((TabCollect.user_id == user_id) & (TabCollect.post_id == app_id))
         except Exception as err:
             print(repr(err))
             return None
@@ -50,9 +50,10 @@ class MCollect():
         return TabCollect.select(
             TabCollect, TabPost.uid.alias('post_uid'),
             TabPost.title.alias('post_title'),
-            TabPost.view_count.alias('post_view_count')).where(
-                TabCollect.user_id == user_id).join(
-                    TabPost, on=(TabCollect.post_id == TabPost.uid)).count()
+            TabPost.view_count.alias('post_view_count')
+        ).where(TabCollect.user_id == user_id).join(
+            TabPost, on=(TabCollect.post_id == TabPost.uid)
+        ).count()
 
     @staticmethod
     def query_pager_by_all(user_id, current_page_num=1):
@@ -60,11 +61,13 @@ class MCollect():
         recs = TabCollect.select(
             TabCollect, TabPost.uid.alias('post_uid'),
             TabPost.title.alias('post_title'), TabPost.kind.alias('post_kind'),
-            TabPost.view_count.alias('post_view_count')).where(
-                TabCollect.user_id == user_id).join(
-                    TabPost, on=(TabCollect.post_id == TabPost.uid)).order_by(
-                        TabCollect.timestamp.desc()).paginate(
-                            current_page_num, CMS_CFG['list_num'])
+            TabPost.view_count.alias('post_view_count')
+        ).where(
+            TabCollect.user_id == user_id).join(
+            TabPost, on=(TabCollect.post_id == TabPost.uid)
+        ).order_by(
+            TabCollect.timestamp.desc()
+        ).paginate(current_page_num, CMS_CFG['list_num'])
         return recs
 
     @staticmethod
@@ -108,8 +111,8 @@ class MCollect():
         recs = TabCollect.select(
             TabCollect, TabPost.uid.alias('post_uid'),
             TabPost.title.alias('post_title'), TabPost.kind.alias('post_kind'),
-            TabPost.view_count.alias('post_view_count')).where(
-                (TabCollect.user_id == user_id) & (TabPost.kind == kind)).join(
-                    TabPost, on=(TabCollect.post_id == TabPost.uid)).order_by(
-                        TabCollect.timestamp.desc()).limit(num)
+            TabPost.view_count.alias('post_view_count')
+        ).where((TabCollect.user_id == user_id) & (TabPost.kind == kind)).join(
+            TabPost, on=(TabCollect.post_id == TabPost.uid)
+        ).order_by(TabCollect.timestamp.desc()).limit(num)
         return recs

@@ -366,3 +366,13 @@ class TabRole2Permission(BaseModel):
     '''
     role = peewee.ForeignKeyField(TabRole, backref='role', help_text='后台角色id')
     permission = peewee.ForeignKeyField(TabPermission, backref='permission', help_text='后台权限id')
+
+if __name__ == '__main__':
+    from pprint import pprint
+    user = TabMember()
+    # print(user.dirty_fields)
+    for x in user.dirty_fields:
+        print('=' * 40)
+        print(x)
+        print(x.name, x.field_type, x.index)
+        pprint(dir(x))
