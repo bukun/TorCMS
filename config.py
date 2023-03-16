@@ -84,7 +84,9 @@ post_cfg = {
 
 }
 kind_arr = ['1', '3', 'm', 's', 'q', 'v']
+
 APP_MASK = ['g_drr', '9_todo_new', '9_todo_new5']
+
 for wdir in Path('.').iterdir():
     if wdir.is_dir() and wdir.name.startswith('torcms_'):
         the_file = f'{wdir.name}._config'
@@ -101,7 +103,6 @@ class WidgetMenu(tornado.web.UIModule):
     '''
     Get page info by page_id.
     '''
-
     def render(self, *args, **kwargs):
         '''
         '''

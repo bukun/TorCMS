@@ -24,13 +24,16 @@ class MReplyid():
             uid=uid,
             reply0=pid,
             reply1=rid,
-            time_create=tools.timestamp(),
+            time_create=tools.timestamp()
         )
 
     @staticmethod
     def get_by_rid(rid, rec_num=''):
         if rec_num:
-            return TabReplyid.select().where(TabReplyid.reply0 == rid).order_by(TabReplyid.time_create.desc()).limit(
-                rec_num)
+            return TabReplyid.select().where(
+                TabReplyid.reply0 == rid
+            ).order_by(TabReplyid.time_create.desc()).limit(rec_num)
         else:
-            return TabReplyid.select().where(TabReplyid.reply0 == rid).order_by(TabReplyid.time_create.desc())
+            return TabReplyid.select().where(
+                TabReplyid.reply0 == rid
+            ).order_by(TabReplyid.time_create.desc())

@@ -49,7 +49,7 @@ class TabPost(BaseModel):
     valid = peewee.IntegerField(null=False, default=1, help_text='Whether the infor would show.')
     cnt_md = peewee.TextField()
     cnt_html = peewee.TextField()
-    kind = peewee.CharField(null=False, max_length=1, default='1', help_text='Post type. According to defined.')
+    kind = peewee.CharField(null=False, max_length=1, default='1', help_text='app type')
     state = peewee.CharField(null=False, max_length=4, default='0000', help_text='state for post. 发布/审核状态.')
     rating = peewee.FloatField(null=False, default=5, help_text='Rating of the post.')
     memo = peewee.TextField(null=False, default='', help_text='Memo')
@@ -115,8 +115,8 @@ class TabMember(BaseModel):
     user_name = peewee.CharField(null=False, index=True, unique=True, max_length=255, help_text='User Name')
     user_email = peewee.CharField(null=False, unique=True, max_length=255, help_text='User Email')
     user_pass = peewee.CharField(null=False, max_length=255, help_text='User Password')
-    is_active = peewee.SmallIntegerField(null=False, help_text='',default=0)
-    is_staff = peewee.SmallIntegerField(null=False, help_text='if 1 then could access backend',default=0)
+    is_active = peewee.SmallIntegerField(null=False, help_text='', default=0)
+    is_staff = peewee.SmallIntegerField(null=False, help_text='if 1 then could access backend', default=0)
     role = peewee.CharField(null=False, default='1000', help_text='Member Privilege', max_length='4')
     '''
     进行审核的权限，与 role 配合使用。
@@ -336,6 +336,7 @@ class TabRole(BaseModel):
     uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='')
     name = peewee.CharField(null=False, index=True, unique=True, max_length=255, help_text='分组名称')
     status = peewee.IntegerField(null=False, default=0, help_text='角色状态.0=禁用,1=启用')
+    pid = peewee.CharField(null=False, max_length=36, help_text='parent id')
     time_create = peewee.IntegerField(null=False, default=0)
     time_update = peewee.IntegerField(null=False, default=0)
 
@@ -343,13 +344,20 @@ class TabRole(BaseModel):
 class TabPermission(BaseModel):
     '''
     后台人员权限表
+    action, 缺省的值如下：
+    * assign_group:分组
+    * assign_role:赋权限
+    * can_view:查看
+    * can_add:添加
+    * can_edit:编辑
+    * can_delete:删除
+    * can_review:复查
+    * can_verify:审核
     '''
     uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='')
     name = peewee.CharField(null=False, index=True, unique=True, max_length=255, help_text='权限名称')
-    controller = peewee.CharField(null=False, max_length=255, help_text='控件器')
-    action = peewee.CharField(null=False, max_length=255, help_text='执行动作')
-    pid = peewee.CharField(null=False, max_length=36, help_text='parent id')
-    status = peewee.IntegerField(null=False, default=0, help_text='角色状态.0=禁用,1=启用')
+    action = peewee.CharField(null=False, max_length=255, help_text='允许动作,字符串编码')
+    controller = peewee.CharField(null=False, max_length=255, help_text='控制器')
 
 
 class TabStaff2Role(BaseModel):
@@ -366,9 +374,12 @@ class TabRole2Permission(BaseModel):
     '''
     role = peewee.ForeignKeyField(TabRole, backref='role', help_text='后台角色id')
     permission = peewee.ForeignKeyField(TabPermission, backref='permission', help_text='后台权限id')
+    kind = peewee.CharField(null=False, max_length=1, default='1', help_text='app type')
+
 
 if __name__ == '__main__':
     from pprint import pprint
+
     user = TabMember()
     # print(user.dirty_fields)
     for x in user.dirty_fields:

@@ -196,3 +196,32 @@ def auth_check(method):
             self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
     return wrapper
+
+
+def permission(method, kind = '', action = ''):
+    '''
+    使用RBAC方式进行权限校验。
+    '''
+
+    def wrapper(self, *args, **kwargs):
+        '''
+        wrapper.
+        '''
+        if self.current_user:
+            if is_prived(self.userinfo.role, ROLE_CFG['check']):
+                return method(self, *args, **kwargs)
+            else:
+                kwd = {
+                    'info': 'No role',
+                }
+                self.render('misc/html/404.html',
+                            kwd=kwd,
+                            userinfo=self.userinfo)
+
+        else:
+            kwd = {
+                'info': 'No role',
+            }
+            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
+
+    return wrapper

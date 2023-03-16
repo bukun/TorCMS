@@ -300,6 +300,12 @@ class MUser():
     @staticmethod
     def create_user(post_data, extinfo=None):
         '''
+        post_data = {
+        'user_name': 'tester',
+        'user_pass': 'Gg12345678',
+        'user_email': 'tester@qq.com',
+        'role': '3300'
+        }
         Create the user.
         The code used if `False`.
         11: invalid username.
@@ -446,3 +452,58 @@ class MUser():
             return TabMember.select().where(TabMember.extinfo['ext_type'] == type).count(None)
         else:
             return TabMember.select().count(None)
+
+    @staticmethod
+    def has_perm(user_id, kind='', action=''):
+        '''
+        检查在APP中是否有某权限
+        '''
+        userinfo = MUser.get_by_uid(user_id)
+        if userinfo and userinfo.is_stuff():
+            pass
+        else:
+            return False
+
+        return False
+
+    @staticmethod
+    def has_perms(user_id, kind='', actions=[]):
+        '''
+        检查在APP中是否有某一些权限
+        '''
+        userinfo = MUser.get_by_uid(user_id)
+        if userinfo and userinfo.is_stuff():
+            pass
+        else:
+            return False
+
+        return False
+
+    @staticmethod
+    def assign_role(user_id, role_id):
+        userinfo = MUser.get_by_uid(user_id)
+        if userinfo and userinfo.is_stuff():
+            pass
+        else:
+            return False
+
+        return False
+
+
+if __name__ == '__main__':
+    post_data = {
+        'user_name': 'xx_tester',
+        'user_pass': 'Gg12345678',
+        'user_email': 'tester@qq.com',
+        'role': '3300'
+    }
+    info = MUser.create_user(post_data, extinfo={})
+    print(info)
+
+    info = MUser.get_by_name(post_data['user_name'])
+    print(info)
+    print(info.is_staff)
+    print(info.role)
+
+    print(f'Delete: {info.user_name}')
+    MUser.delete(info.uid)
