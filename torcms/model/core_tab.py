@@ -232,49 +232,28 @@ class TabMember(BaseModel):
     2: for management
     3:
     '''
-    uid = peewee.CharField(null=False,
-                           index=True,
-                           unique=True,
-                           primary_key=True,
-                           max_length=36,
-                           help_text='')
-    user_name = peewee.CharField(null=False,
-                                 index=True,
-                                 unique=True,
-                                 max_length=255,
-                                 help_text='User Name')
-    user_email = peewee.CharField(null=False,
-                                  unique=True,
-                                  max_length=255,
-                                  help_text='User Email')
-    user_pass = peewee.CharField(null=False,
-                                 max_length=255,
-                                 help_text='User Password')
-    role = peewee.CharField(null=False,
-                            default='1000',
-                            help_text='Member Privilege',
-                            max_length='4')
+    uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='')
+    user_name = peewee.CharField(null=False, index=True, unique=True, max_length=255, help_text='User Name')
+    user_email = peewee.CharField(null=False, unique=True, max_length=255, help_text='User Email')
+    user_pass = peewee.CharField(null=False, max_length=255, help_text='User Password')
+    is_active = peewee.SmallIntegerField(null=False, help_text='')
+    is_staff = peewee.SmallIntegerField(null=False, help_text='if 1 then could access backend')
+    role = peewee.CharField(null=False, default='1000', help_text='Member Privilege', max_length='4')
     '''
     进行审核的权限，与 role 配合使用。
-    role 声明是否有权限，    authority 声明对哪些 post 有权限。
+    role 声明是否有权限， authority 声明对哪些 post 有权限。
     post 权限类型由二进制的 '1', '10', '100', '1000', ... 声明 ，成员的 authority 则根据二进制相加的结果来声明多种 post 的审核权限
+    ToDo: 设计有问题。应该将采用RBAC进行解耦。
     '''
-    authority = peewee.CharField(null=False,
-                                 default='0',
-                                 help_text='Member authority for checking',
-                                 max_length='8')
+    authority = peewee.CharField(null=False, default='0', help_text='Member authority for checking', max_length='8')
     time_reset_passwd = peewee.IntegerField(null=False, default=0)
     time_login = peewee.IntegerField(null=False, default=0)
     time_create = peewee.IntegerField(null=False, default=0)
     time_update = peewee.IntegerField(null=False, default=0)
-    time_email = peewee.IntegerField(null=False,
-                                     default=0,
-                                     help_text='Time auto send email.')
+    time_email = peewee.IntegerField(null=False, default=0, help_text='Time auto send email.')
     failed_times = peewee.IntegerField(null=False, default=0, help_text='record the times for trying login.')
     time_failed = peewee.IntegerField(null=False, default=0, help_text='timestamp for login failed.')
-    extinfo = BinaryJSONField(null=False,
-                              default={},
-                              help_text='Extra data in JSON.')
+    extinfo = BinaryJSONField(null=False, default={}, help_text='Extra data in JSON.')
 
 
 class TabEntity(BaseModel):
@@ -406,21 +385,9 @@ class TabCollect(BaseModel):
     '''
     用户收藏
     '''
-    uid = peewee.CharField(max_length=36,
-                           null=False,
-                           unique=True,
-                           help_text='',
-                           primary_key=True)
-    post_id = peewee.TextField(
-        null=False,
-        help_text='',
-    )
-    user_id = peewee.CharField(
-        null=False,
-        index=True,
-        max_length=36,
-        help_text='',
-    )
+    uid = peewee.CharField(max_length=36, null=False, unique=True, help_text='', primary_key=True)
+    post_id = peewee.TextField(null=False, help_text='' )
+    user_id = peewee.CharField(null=False, index=True, max_length=36, help_text='' )
     timestamp = peewee.IntegerField()
 
 
@@ -428,11 +395,7 @@ class TabEvaluation(BaseModel):
     '''
     用户评价
     '''
-    uid = peewee.CharField(max_length=36,
-                           null=False,
-                           unique=True,
-                           help_text='',
-                           primary_key=True)
+    uid = peewee.CharField(max_length=36, null=False, unique=True, help_text='', primary_key=True)
     post_id = peewee.TextField(
         null=False,
         help_text='',
@@ -628,22 +591,24 @@ class TabReferrer(BaseModel):
 
 # 以下准备实现RBAC，
 # 参考： https://blog.csdn.net/fksfdh/article/details/106204317
-class TabStaff(BaseModel):
-    '''
-    后台人员表，名称使用 Staff.
-    '''
-    uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='')
-    name = peewee.CharField(null=False, index=True, unique=True, max_length=255, help_text='User Name')
-    email = peewee.CharField(null=False, unique=True, max_length=255, help_text='User Email')
-    passwd = peewee.CharField(null=False, max_length=255, help_text='User Password')
-    time_reset_passwd = peewee.IntegerField(null=False, default=0)
-    time_login = peewee.IntegerField(null=False, default=0)
-    time_create = peewee.IntegerField(null=False, default=0)
-    time_update = peewee.IntegerField(null=False, default=0)
-    time_email = peewee.IntegerField(null=False, default=0, help_text='Time auto send email.')
-    failed_count = peewee.IntegerField(null=False, default=0, help_text='record the times for trying login.')
-    time_failed = peewee.IntegerField(null=False, default=0, help_text='timestamp for login failed.')
-    extinfo = BinaryJSONField(null=False, default={}, help_text='Extra data in JSON.')
+
+# 此表去掉， 使用 TabUser表即可。
+# class TabStaff(BaseModel):
+#     '''
+#     后台人员表，名称使用 Staff.
+#     '''
+#     uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='')
+#     name = peewee.CharField(null=False, index=True, unique=True, max_length=255, help_text='User Name')
+#     email = peewee.CharField(null=False, unique=True, max_length=255, help_text='User Email')
+#     passwd = peewee.CharField(null=False, max_length=255, help_text='User Password')
+#     time_reset_passwd = peewee.IntegerField(null=False, default=0)
+#     time_login = peewee.IntegerField(null=False, default=0)
+#     time_create = peewee.IntegerField(null=False, default=0)
+#     time_update = peewee.IntegerField(null=False, default=0)
+#     time_email = peewee.IntegerField(null=False, default=0, help_text='Time auto send email.')
+#     failed_count = peewee.IntegerField(null=False, default=0, help_text='record the times for trying login.')
+#     time_failed = peewee.IntegerField(null=False, default=0, help_text='timestamp for login failed.')
+#     extinfo = BinaryJSONField(null=False, default={}, help_text='Extra data in JSON.')
 
 
 class TabRole(BaseModel):
@@ -666,19 +631,21 @@ class TabPermission(BaseModel):
     name = peewee.CharField(null=False, index=True, unique=True, max_length=255, help_text='权限名称')
     controller = peewee.CharField(null=False, max_length=255, help_text='控件器')
     action = peewee.CharField(null=False, max_length=255, help_text='执行动作')
-    pid = peewee.CharField(null=False, max_length=36,  help_text='parent id')
+    pid = peewee.CharField(null=False, max_length=36, help_text='parent id')
     status = peewee.IntegerField(null=False, default=0, help_text='角色状态.0=禁用,1=启用')
+
 
 class TabStaff2Role(BaseModel):
     '''
     人员、角色关联表
     '''
-    admin_id = peewee.CharField(null=False, max_length=36, help_text='后台人员id')
+    staff_id = peewee.CharField(null=False, max_length=36, help_text='后台人员id')
     group_id = peewee.CharField(null=False, max_length=36, help_text='后台人员角色id')
+
 
 class TabRole2Permission(BaseModel):
     '''
     角色、权限关联表
     '''
     group_id = peewee.CharField(null=False, max_length=36, help_text='后台人员角色id')
-    permission_id = peewee.CharField(null=False, max_length=36,  help_text='后台人员id')
+    permission_id = peewee.CharField(null=False, max_length=36, help_text='后台人员id')
