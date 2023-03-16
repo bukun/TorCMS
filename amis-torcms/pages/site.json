@@ -52,11 +52,12 @@
             ]
           },
           {
-            "label": "页面B",
+            "label": "用户管理",
+            
             "schema": {
               "type": "page",
-              "title": "页面B",
-              "body": "页面B"
+              "title": "${title}",
+              "body": "${body}"
             }
           },
           {

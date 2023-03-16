@@ -14,9 +14,9 @@
     {
       "title": "",
       "type": "form",
-      "redirect": "/api/user_j/info",
+      "redirect": "/api/user/info",
       "name": "sample-edit-form",
-      "api": "/api/user_j/info",
+      "api": "/api/user/info",
       "controls": [
         {
           "type": "text",

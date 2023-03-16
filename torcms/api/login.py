@@ -369,36 +369,25 @@ class UserApi(BaseHandler):
             rec = MUser.get_by_uid(userid)
         else:
             rec = MUser.get_by_uid(self.userinfo.uid)
-        kwd = {}
 
-        post_data = self.get_request_arguments()
-        isjson = post_data.get('isjson', False)
-        if isjson:
-            dic = {
-                'uid': rec.uid,
-                'user_name': rec.user_name,
-                'user_email': rec.user_email,
-                'role': rec.role,
-                'authority': rec.authority,
-                'time_login': rec.time_login,
-                'time_create': rec.time_create,
-                'extinfo': rec.extinfo
-            }
 
-            out_dict = {
-                'results': dic
-            }
+        dic = {
+            'uid': rec.uid,
+            'user_name': rec.user_name,
+            'user_email': rec.user_email,
+            'role': rec.role,
+            'authority': rec.authority,
+            'time_login': rec.time_login,
+            'time_create': rec.time_create,
+            'extinfo': rec.extinfo
+        }
 
-            return json.dump(out_dict, self, ensure_ascii=False)
-        elif self.is_p:
-            tmpl = 'admin/user/puser_info.html'
-        else:
-            tmpl = 'user/user_info.html'
+        out_dict = {
+            'results': dic
+        }
 
-        self.render(tmpl,
-                    userinfo=rec,
-                    extinfo=rec.extinfo,
-                    kwd=kwd)
+        return json.dump(out_dict, self, ensure_ascii=False)
+
 
     def __to_reset_password__(self):
         '''
