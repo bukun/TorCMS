@@ -371,19 +371,26 @@ class UserApi(BaseHandler):
             rec = MUser.get_by_uid(self.userinfo.uid)
 
 
-        dic = {
-            'uid': rec.uid,
-            'user_name': rec.user_name,
-            'user_email': rec.user_email,
-            'role': rec.role,
-            'authority': rec.authority,
-            'time_login': rec.time_login,
-            'time_create': rec.time_create,
-            'extinfo': rec.extinfo
+        dic=[
+    {
+
+        "uid":  rec.uid,
+        "user_name":rec.user_name,
+        'user_email': rec.user_email,
+        'role': rec.role,
+        'authority': rec.authority,
+        'time_login': rec.time_login,
+        'time_create': rec.time_create,
+        'extinfo': rec.extinfo
         }
 
+
+
+
+        ]
         out_dict = {
-            'results': dic
+            'title': '用户信息',
+            'userinfo_table': dic
         }
 
         return json.dump(out_dict, self, ensure_ascii=False)
@@ -557,86 +564,35 @@ class UserApi(BaseHandler):
         '''
         find by keyword.
         '''
-
-        month_arr = []
-        count_arr = []
-        num_arr = []
-
-        jan_arr = []
-        feb_arr = []
-        mar_arr = []
-        apr_arr = []
-        may_arr = []
-        jun_arr = []
-        jul_arr = []
-        aug_arr = []
-        sep_arr = []
-        oct_arr = []
-        nov_arr = []
-        dec_arr = []
-
-        current_month = datetime.datetime.now().month
-
-        # 获取当年，1月到当前月份注册信息
-        recs = MUser.query_by_time(current_month * 30)
-
+        dics=[]
+        recs= MUser.query_all(limit=100000)
         for rec in recs:
-            current_mon = time.strftime("%m", time.localtime(rec.time_create))
-            if current_mon == '01':
-                jan_arr.append(rec)
-            elif current_mon == '02':
-                feb_arr.append(rec)
-            elif current_mon == '03':
-                mar_arr.append(rec)
-            elif current_mon == '04':
-                apr_arr.append(rec)
-            elif current_mon == '05':
-                may_arr.append(rec)
-            elif current_mon == '06':
-                jun_arr.append(rec)
-            elif current_mon == '07':
-                jul_arr.append(rec)
-            elif current_mon == '08':
-                aug_arr.append(rec)
-            elif current_mon == '09':
-                sep_arr.append(rec)
-            elif current_mon == '10':
-                oct_arr.append(rec)
-            elif current_mon == '11':
-                nov_arr.append(rec)
-            elif current_mon == '12':
-                dec_arr.append(rec)
-            count_arr.append(len(jan_arr))
-            count_arr.append(len(feb_arr))
-            count_arr.append(len(mar_arr))
-            count_arr.append(len(apr_arr))
-            count_arr.append(len(may_arr))
-            count_arr.append(len(jun_arr))
-            count_arr.append(len(jul_arr))
-            count_arr.append(len(aug_arr))
-            count_arr.append(len(sep_arr))
-            count_arr.append(len(oct_arr))
-            count_arr.append(len(nov_arr))
-            count_arr.append(len(dec_arr))
+            dic = {
 
-            for mon in range(0, current_month):
-                month_arr.append(mon + 1)
-                num_arr.append(count_arr[mon])
+                    "uid": rec.uid,
+                    "user_name": rec.user_name,
+                    'user_email': rec.user_email,
+                    'role': rec.role,
+                    'authority': rec.authority,
+                    'time_login': rec.time_login,
+                    'time_create': rec.time_create,
+                    'extinfo': rec.extinfo
+                }
+            dics.append(dic)
 
-            kwd = {
-                'pager': '',
-                'title': '查找结果',
-                'user_count': MUser.total_number(),
-                'month_arr': month_arr,
-                'num_arr': num_arr,
-            }
 
-            self.render('user/user_list.html',
-                        recs=recs,
-                        kwd=kwd,
-                        view=MUser.query_by_time(),
-                        cfg=config.CMS_CFG,
-                        userinfo=self.userinfo)
+        out_dict = {
+            'title': '用户列表',
+            'userlist_table': dics
+        }
+
+        return json.dump(out_dict, self, ensure_ascii=False)
+
+
+
+
+
+
 
     def __delete_user__(self, user_id):
         '''

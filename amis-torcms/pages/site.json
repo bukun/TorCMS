@@ -53,13 +53,132 @@
           },
           {
             "label": "用户管理",
-            
+            "url": "index",
             "schema": {
               "type": "page",
-              "title": "${title}",
-              "body": "${body}"
-            }
+              "initApi": "/api/user/info",
+             "title": "${title}",
+              "body": [
+
+                {
+                  "type": "table",
+                  "className": "m-t",
+                  "source": "${userinfo_table}",
+                  "columns": [
+
+                    {
+                      "name": "user_name",
+                      "label": "用户名",
+                      "type": "text"
+                    },
+                    {
+                      "name":"user_email",
+                     "label": "邮箱",
+                      "type": "text"
+                    },
+                    {
+                      "name": "role",
+                      "label": "权限",
+                      "type": "text"
+                    },
+
+                    {
+                      "name": "time_create",
+                      "type": "date",
+                      "label": "注册时间"
+                    }
+                  ]
+                }
+              ]
+            },
+            "children": [
+              {
+                "label": "用户列表",
+                "url": "",
+                "schema": {
+                   "initApi": "/api/user/list",
+                  "type": "page",
+                  "title":"${title}",
+                  "body": [
+
+                {
+                  "type": "table",
+                  "className": "m-t",
+                  "source": "${userlist_table}",
+                  "columns": [
+                    {
+                      "name": "user_name",
+                      "label": "用户名",
+                      "type": "text"
+                    },
+                    {
+                      "name":"user_email",
+                     "label": "邮箱",
+                      "type": "text"
+                    },
+                    {
+                      "name": "role",
+                      "label": "权限",
+                      "type": "text"
+                    },
+
+                    {
+                      "name": "time_create",
+                      "type": "date",
+                      "label": "注册时间"
+                    }
+                  ]
+                }
+              ]
+                }
+              },
+              {
+                "label": "用户信息",
+                "url": "",
+                "schema": {
+                  "initApi": "/api/user/info",
+                  "type": "page",
+                  "title":"${title}",
+                  "body": [
+
+                {
+                  "type": "table",
+                  "className": "m-t",
+                  "source": "${userinfo_table}",
+                  "columns": [
+                    {
+                      "name": "user_name",
+                      "label": "用户名",
+                      "type": "text"
+                    },
+                    {
+                      "name": "role",
+                      "label": "权限",
+                      "type": "text"
+                    },
+
+                    {
+                      "name": "time_create",
+                      "type": "date",
+                      "label": "注册时间"
+                    }
+                  ]
+                }
+              ]
+                }
+              },
+              {
+                "label": "页面A-3",
+                "url": "3",
+                "schema": {
+                  "type": "page",
+                  "title": "页面A-3",
+                  "body": "页面A-3"
+                }
+              }
+            ]
           },
+
           {
             "label": "页面C",
             "schema": {
