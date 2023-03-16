@@ -39,7 +39,8 @@ from torcms.api.login import UserApi
 from torcms.api.test import TestApi
 urls = [
 
-    ('/api/login/(.*)', UserApi, {}),
+    ('/api/user/(.*)', UserApi, {}),
+
     ('/api/test/(.*)', TestApi, {}),
 
     ('/_rating/(.*)', RatingHandler, {}),
