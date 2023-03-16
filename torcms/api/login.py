@@ -22,6 +22,81 @@ from torcms.model.user_model import MUser
 from flask import Flask, request, jsonify, make_response
 
 
+def check_regist_info(post_data):
+    '''
+    check data for user regist.
+    Return the status code dict.
+
+    The first char of 'code' stands for the different field.
+    '1' for user_name
+    '2' for user_email
+    '3' for user_pass
+    '4' for user_role
+    The seconde char of 'code' stands for different status.
+    '1' for invalide
+    '2' for already exists.
+    '''
+    user_create_status = {'success': False, 'code': '00'}
+
+    if not tools.check_username_valid(post_data['user_name']):
+        user_create_status['code'] = '11'
+    elif not tools.check_email_valid(post_data['user_email']):
+        user_create_status['code'] = '21'
+    elif not tools.check_pass_valid(post_data['user_pass']):
+        user_create_status['code'] = '41'
+    elif MUser.get_by_name(post_data['user_name']):
+        user_create_status['code'] = '12'
+    elif MUser.get_by_email(post_data['user_email']):
+        user_create_status['code'] = '22'
+    else:
+        user_create_status['success'] = True
+    return user_create_status
+
+
+def check_modify_info(post_data):
+    '''
+    check data for user infomation modification.
+    '''
+    user_create_status = {'success': False, 'code': '00'}
+
+    if not tools.check_email_valid(post_data['user_email']):
+        user_create_status['code'] = '21'
+    elif MUser.get_by_email(post_data['user_email']):
+        user_create_status['code'] = '22'
+    else:
+        user_create_status['success'] = True
+    return user_create_status
+
+
+def check_valid_pass(postdata):
+    '''
+     对用户密码进行有效性检查。
+    '''
+    _ = postdata
+    user_create_status = {'success': False, 'code': '00'}
+    if not tools.check_pass_valid(postdata['user_pass']):
+        user_create_status['code'] = '41'
+    else:
+        user_create_status['success'] = True
+    return user_create_status
+
+
+class SumForm(Form):
+    '''
+    WTForm for user.
+    '''
+    user_name = StringField('user_name',
+                            validators=[DataRequired()],
+                            default='')
+    user_pass = StringField('user_pass',
+                            validators=[DataRequired()],
+                            default='')
+    user_email = StringField(
+        'user_email',
+        validators=[DataRequired(), wtforms.validators.Email()],
+        default='')
+
+
 class UserApi(BaseHandler):
     '''
     Handler for user.
@@ -37,30 +112,17 @@ class UserApi(BaseHandler):
         url_arr = self.parse_url(url_str)
 
         dict_get = {
-            'regist': (lambda: self.redirect('/user/info'))
-            if self.get_current_user() else self.__to_register__,
-            'j_regist':
-                self.j_register,
-            'login':
-                self.__to_login__,
+
             'info':
                 self.__to_show_info__,
             'j_info':
                 self.json_info,
             'logout':
                 self.__logout__,
-            'reset-password':
-                self.__to_reset_password__,
-            'changepass':
-                self.__change_pass__,
-            'changeinfo':
-                self.__to_change_info__,
+
             'reset-passwd':
                 self.gen_passwd,
-            'changerole':
-                self.__to_change_role__,
-            'find':
-                self.find,
+
             'delete_user':
                 self.__delete_user__,
             'list':
@@ -88,11 +150,30 @@ class UserApi(BaseHandler):
         print('Post')
 
         if url_str == 'regist':
-            self.__register__()
+            self.register()
         elif url_str == 'login':
             self.login()
         elif url_arr[0] == 'changerole':
             self.__change_role__(url_arr[1])
+
+    def register(self):
+        '''
+        user regist.
+        '''
+        post_data = json.loads(self.request.body)
+
+
+        user_create_status = check_regist_info(post_data)
+        if not user_create_status['success']:
+            return json.dump(user_create_status, self)
+
+        form = SumForm(self.request.arguments)
+
+        if form.validate():
+            user_create_status = MUser.create_user(post_data)
+            logger.info('user_register_status: {0}'.format(user_create_status))
+            return json.dump(user_create_status, self)
+        return json.dump(user_create_status, self)
 
     @tornado.web.authenticated
     def p_changepassword(self):
@@ -172,62 +253,6 @@ class UserApi(BaseHandler):
         return {}
 
     @tornado.web.authenticated
-    def __change_password__(self):
-        '''
-        Change password
-        '''
-        post_data = self.get_request_arguments()
-
-        usercheck_num = MUser.check_user(self.userinfo.uid,
-                                         post_data['rawpass'])
-
-        if not tools.check_pass_valid(post_data['user_pass']):
-            kwd = {
-                'info': '密码过于简单，至少包含1个大写字母，1个小写字母和1个数字。',
-                'link': '/user/regist',
-            }
-            self.set_status(400)
-            self.render('misc/html/404.html',
-                        cfg=config.CMS_CFG,
-                        kwd=kwd,
-                        userinfo=None)
-
-        else:
-            pass
-
-        if usercheck_num == 1:
-            MUser.update_pass(self.userinfo.uid, post_data['user_pass'])
-            self.redirect('/user/info')
-        else:
-            kwd = {
-                'info': '原密码输入错误，请重新输入',
-                'link': '/user/changepass',
-            }
-            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
-
-    @tornado.web.authenticated
-    def __change_info__(self):
-        '''
-        Change the user info
-        '''
-
-        post_data, def_dic = self.fetch_post_data()
-
-        usercheck_num = MUser.check_user(self.userinfo.uid,
-                                         post_data['rawpass'])
-        if usercheck_num == 1:
-            MUser.update_info(self.userinfo.uid,
-                              post_data['user_email'],
-                              extinfo=def_dic)
-            self.redirect(('/user/info'))
-        else:
-            kwd = {
-                'info': '密码输入错误。',
-                'link': '/user/changeinfo',
-            }
-            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
-
-    @tornado.web.authenticated
     def __change_role__(self, xg_username):
         '''
         Change th user rule
@@ -241,11 +266,9 @@ class UserApi(BaseHandler):
         post_data['authority'] = authority
 
         MUser.update_role(xg_username, post_data)
-        if self.is_p:
-            output = {'changerole': '1'}
-            return json.dump(output, self)
-        else:
-            self.redirect('/user/info')
+
+        output = {'changerole': '1'}
+        return json.dump(output, self)
 
     @tornado.web.authenticated
     def __logout__(self):
@@ -255,50 +278,6 @@ class UserApi(BaseHandler):
         self.clear_all_cookies()
         print('log out')
         self.redirect('/')
-
-    @tornado.web.authenticated
-    def __change_pass__(self):
-        '''
-        to change the password.
-        '''
-
-        if self.is_p:
-            tmpl = 'admin/user/puser_changepass.html'
-        else:
-            tmpl = 'user/user_changepass.html'
-        self.render(tmpl,
-                    userinfo=self.userinfo,
-                    kwd={})
-
-    @tornado.web.authenticated
-    def __to_change_info__(self):
-        '''
-        to change the user info.
-        '''
-        if self.is_p:
-            tmpl = 'admin/user/puser_changeinfo.html'
-        else:
-            tmpl = 'user/user_changeinfo.html'
-        self.render(tmpl,
-                    userinfo=self.userinfo,
-                    kwd={})
-
-    @tornado.web.authenticated
-    def __to_change_role__(self, xg_username):
-        '''
-        to change the user role
-        '''
-        try:
-            if config.post_cfg:
-                post_authority = config.post_cfg
-            else:
-                post_authority = {}
-        except:
-            post_authority = {}
-        self.render('user/user_changerole.html',
-                    userinfo=MUser.get_by_name(xg_username),
-                    post_authority=post_authority,
-                    kwd={})
 
     @tornado.web.authenticated
     def __to_find__(self, cur_p=''):
@@ -328,37 +307,27 @@ class UserApi(BaseHandler):
                'current_page': current_page_number,
                'type': type
                }
-        if isjson:
-            list = []
-            for rec in infos:
-                dic = {
-                    'uid': rec.uid,
-                    'user_name': rec.user_name,
-                    'user_email': rec.user_email,
-                    'role': rec.role,
-                    'authority': rec.authority,
-                    'time_login': rec.time_login,
-                    'time_create': rec.time_create,
-                    'extinfo': rec.extinfo
-                }
 
-                list.append(dic)
-
-            out_dict = {
-                'results': list
+        list = []
+        for rec in infos:
+            dic = {
+                'uid': rec.uid,
+                'user_name': rec.user_name,
+                'user_email': rec.user_email,
+                'role': rec.role,
+                'authority': rec.authority,
+                'time_login': rec.time_login,
+                'time_create': rec.time_create,
+                'extinfo': rec.extinfo
             }
 
-            return json.dump(out_dict, self, ensure_ascii=False)
-        elif self.is_p:
-            tmpl = 'admin/user/puser_find_list.html'
-        else:
-            tmpl = 'user/user_find_list.html'
-        self.render(tmpl,
-                    cfg=config.CMS_CFG,
-                    infos=infos,
-                    kwd=kwd,
-                    view=MUser.get_by_keyword(""),
-                    userinfo=self.userinfo)
+            list.append(dic)
+
+        out_dict = {
+            'results': list
+        }
+
+        return json.dump(out_dict, self, ensure_ascii=False)
 
     @tornado.web.authenticated
     def __to_show_info__(self, userid=''):
@@ -370,22 +339,18 @@ class UserApi(BaseHandler):
         else:
             rec = MUser.get_by_uid(self.userinfo.uid)
 
+        dic = [
+            {
 
-        dic=[
-    {
-
-        "uid":  rec.uid,
-        "user_name":rec.user_name,
-        'user_email': rec.user_email,
-        'role': rec.role,
-        'authority': rec.authority,
-        'time_login': rec.time_login,
-        'time_create': rec.time_create,
-        'extinfo': rec.extinfo
-        }
-
-
-
+                "uid": rec.uid,
+                "user_name": rec.user_name,
+                'user_email': rec.user_email,
+                'role': rec.role,
+                'authority': rec.authority,
+                'time_login': rec.time_login,
+                'time_create': rec.time_create,
+                'extinfo': rec.extinfo
+            }
 
         ]
         out_dict = {
@@ -394,32 +359,6 @@ class UserApi(BaseHandler):
         }
 
         return json.dump(out_dict, self, ensure_ascii=False)
-
-
-    def __to_reset_password__(self):
-        '''
-        to reset the password.
-        '''
-        self.render('user/user_reset_password.html',
-                    userinfo=self.userinfo,
-                    kwd={})
-
-    def __to_login__(self):
-        '''
-        to login.
-        '''
-        next_url = self.get_argument("next", "/")
-
-        if self.get_current_user():
-            self.redirect(next_url)
-        else:
-            kwd = {
-                'pager': '',
-                'next_url': next_url,
-                'ad': False,
-                'pass_encrypt': CMS_CFG.get('pass_encrypt', ',')
-            }
-            self.render('user/user_login.html', kwd=kwd, userinfo=None)
 
     def json_batchchangerole(self):
         '''
@@ -447,30 +386,6 @@ class UserApi(BaseHandler):
         else:
             self.redirect('/user/info')
 
-    def __to_register__(self):
-        '''
-        to register.
-        '''
-        kwd = {
-            'pager': '',
-        }
-        self.render('user/user_regist.html',
-                    cfg=config.CMS_CFG,
-                    userinfo=None,
-                    kwd=kwd)
-
-    def j_register(self):
-        '''
-        to register.
-        '''
-        kwd = {
-            'pager': '',
-        }
-        self.render('admin/user/puser_regist.html',
-                    cfg=config.CMS_CFG,
-                    userinfo=None,
-                    kwd=kwd)
-
     def parseint(self, stringss):
         return int(''.join([x for x in stringss if x.isdigit()]))
 
@@ -486,8 +401,8 @@ class UserApi(BaseHandler):
         print(data)
         print("=" * 50)
 
-        u_name = data['username']
-        u_pass = data['password']
+        u_name = data['user_name']
+        u_pass = data['user_pass']
 
         check_email = re.compile(r'^\w+@(\w+\.)+(com|cn|net)$')
 
@@ -518,68 +433,30 @@ class UserApi(BaseHandler):
 
             MUser.update_success_info(u_name)
 
-
             self.set_status(200)
             user_login_status = {'success': True, 'code': '1', 'info': 'Login successful',
-            'status': 0,  'username': u_name}
-            return json.dump( {'data': user_login_status, 'status': 0} , self)
-
-    def p_to_find(self, ):
-        '''
-        To find, pager.
-        '''
-        kwd = {
-            'pager': '',
-        }
-        self.render('user/user_find_list.html',
-                    kwd=kwd,
-                    view=MUser.get_by_keyword(""),
-                    cfg=config.CMS_CFG,
-                    userinfo=self.userinfo)
-
-    def find(self, keyword=None, cur_p=''):
-        '''
-        find by keyword.
-        '''
-        if not keyword:
-            self.__to_find__(cur_p)
-
-        kwd = {
-            'pager': '',
-            'title': '查找结果',
-        }
-
-        if self.is_p:
-            tmpl = 'admin/user/puser_find_list.html'
-        else:
-            tmpl = 'user/user_find_list.html'
-
-        self.render(tmpl,
-                    kwd=kwd,
-                    view=MUser.get_by_keyword(keyword),
-                    cfg=config.CMS_CFG,
-                    userinfo=self.userinfo)
+                                 'status': 0, 'username': u_name}
+            return json.dump({'data': user_login_status, 'status': 0}, self)
 
     def __user_list__(self):
         '''
         find by keyword.
         '''
-        dics=[]
-        recs= MUser.query_all(limit=100000)
+        dics = []
+        recs = MUser.query_all(limit=100000)
         for rec in recs:
             dic = {
 
-                    "uid": rec.uid,
-                    "user_name": rec.user_name,
-                    'user_email': rec.user_email,
-                    'role': rec.role,
-                    'authority': rec.authority,
-                    'time_login': rec.time_login,
-                    'time_create': rec.time_create,
-                    'extinfo': rec.extinfo
-                }
+                "uid": rec.uid,
+                "user_name": rec.user_name,
+                'user_email': rec.user_email,
+                'role': rec.role,
+                'authority': rec.authority,
+                'time_login': rec.time_login,
+                'time_create': rec.time_create,
+                'extinfo': rec.extinfo
+            }
             dics.append(dic)
-
 
         out_dict = {
             'title': '用户列表',
@@ -588,37 +465,19 @@ class UserApi(BaseHandler):
 
         return json.dump(out_dict, self, ensure_ascii=False)
 
-
-
-
-
-
-
     def __delete_user__(self, user_id):
         '''
         delete user by ID.
         '''
-        if self.is_p:
-            if MUser.delete(user_id):
-                output = {'del_category': 1}
-            else:
-                output = {
-                    'del_category': 0,
-                }
 
-            return json.dump(output, self)
-
+        if MUser.delete(user_id):
+            output = {'del_category': 1}
         else:
-            is_deleted = MUser.delete(user_id)
-            if is_deleted:
-                self.redirect('/user/find')
+            output = {
+                'del_category': 0,
+            }
 
-    def post_find(self):
-        '''
-        Do find user.
-        '''
-        keyword = self.get_argument('keyword', default='')
-        self.find(keyword)
+        return json.dump(output, self)
 
     def reset_password(self):
         '''
