@@ -54,7 +54,6 @@ def run_init_tables(*args):
     create_table(TabReferrer)
     create_table(TabCorrelation)
 
-    # create_table(TabStaff)
     create_table(TabRole)
     create_table(TabPermission)
     create_table(TabRole2Permission)
