@@ -198,30 +198,25 @@ def auth_check(method):
     return wrapper
 
 
-def permission(method, kind = '', action = ''):
+def permission( action = ''):
     '''
-    使用RBAC方式进行权限校验。
+    使用RBAC方式进行鉴权。
+    带参数的函数装饰器，需要两层嵌套
+    参考：https://zhuanlan.zhihu.com/p/269012332
     '''
-
-    def wrapper(self, *args, **kwargs):
-        '''
-        wrapper.
-        '''
-        if self.current_user:
-            if is_prived(self.userinfo.role, ROLE_CFG['check']):
-                return method(self, *args, **kwargs)
+    def wrapper( func):
+        def deco(self, *args, **kwargs):
+            if self.kind and action:
+                print(self.kind, action)
             else:
-                kwd = {
-                    'info': 'No role',
-                }
-                self.render('misc/html/404.html',
-                            kwd=kwd,
-                            userinfo=self.userinfo)
+                return False
+            print(self.info)
+            # if self.current_user:
+            #     if is_prived(self.userinfo.role, ROLE_CFG['check']):
+            #         # 真正执行函数的地方
+            #         return func(self, *args, **kwargs)
 
-        else:
-            kwd = {
-                'info': 'No role',
-            }
-            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
-
+        return deco
     return wrapper
+
+

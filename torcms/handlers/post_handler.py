@@ -790,3 +790,6 @@ class PostHandler(BaseHandler):
         update_category(post_uid, post_data)
         self.redirect('/{0}/{1}'.format(router_post[post_data['kcat']],
                                         post_uid))
+
+
+
