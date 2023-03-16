@@ -12,7 +12,8 @@ from torcms.model.core_tab import (TabCollect, TabEntity, TabEntity2User,
                                    TabPost, TabPost2Tag, TabPostHist,
                                    TabRating, TabReferrer, TabRel, TabReply,
                                    TabReplyid, TabTag, TabUsage, TabUser2Reply,
-                                   TabWiki, TabWikiHist, TabCorrelation,TabStaff,TabRole,TabPermission,TabRole2Permission,TabStaff2Role)
+                                   TabWiki, TabWikiHist, TabCorrelation, TabRole,
+                                   TabPermission, TabRole2Permission, TabStaff2Role)
 
 
 def create_table(the_table):
@@ -53,7 +54,7 @@ def run_init_tables(*args):
     create_table(TabReferrer)
     create_table(TabCorrelation)
 
-    create_table(TabStaff)
+    # create_table(TabStaff)
     create_table(TabRole)
     create_table(TabPermission)
     create_table(TabRole2Permission)
@@ -87,21 +88,35 @@ def run_migrate(*args):
 
     ###########################################################################################
     authority_field = migrate.CharField(null=False,
-                                  default='0',
-                                  help_text='Member authority for checking',
-                                  max_length='8')
+                                        default='0',
+                                        help_text='Member authority for checking',
+                                        max_length='8')
     try:
         migrate.migrate(
             torcms_migrator.add_column('tabmember', 'authority', authority_field)
         )
     except Exception as err:
         print(repr(err))
+    ###########################################################################################
+    is_active_field = migrate.SmallIntegerField(null=False, help_text='')
+    try:
+        migrate.migrate(
+            torcms_migrator.add_column('tabmember', 'is_active', is_active_field)
+        )
+    except Exception as err:
+        print(repr(err))
+    ###########################################################################################
+    is_staff_field = migrate.SmallIntegerField(null=False, help_text='')
+    try:
+        migrate.migrate(
+            torcms_migrator.add_column('tabmember', 'is_staff', is_staff_field)
+        )
+    except Exception as err:
+        print(repr(err))
 
     ###########################################################################################
-    state_field = migrate.CharField(null=False,
-                                    max_length=4,
-                                    default='0000',
-                                    help_text='state for post. 发布/审核状态.')
+    # state for post. 发布/审核状态.
+    state_field = migrate.CharField(null=False, max_length=4, default='0000', help_text='')
     try:
         migrate.migrate(
             torcms_migrator.add_column('tabpost', 'state', state_field)
