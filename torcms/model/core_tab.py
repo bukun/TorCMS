@@ -115,8 +115,8 @@ class TabMember(BaseModel):
     user_name = peewee.CharField(null=False, index=True, unique=True, max_length=255, help_text='User Name')
     user_email = peewee.CharField(null=False, unique=True, max_length=255, help_text='User Email')
     user_pass = peewee.CharField(null=False, max_length=255, help_text='User Password')
-    is_active = peewee.SmallIntegerField(null=False, help_text='')
-    is_staff = peewee.SmallIntegerField(null=False, help_text='if 1 then could access backend')
+    is_active = peewee.SmallIntegerField(null=False, help_text='',default=0)
+    is_staff = peewee.SmallIntegerField(null=False, help_text='if 1 then could access backend',default=0)
     role = peewee.CharField(null=False, default='1000', help_text='Member Privilege', max_length='4')
     '''
     进行审核的权限，与 role 配合使用。

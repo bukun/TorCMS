@@ -97,7 +97,7 @@ def run_migrate(*args):
     except Exception as err:
         print(repr(err))
     ###########################################################################################
-    is_active_field = migrate.SmallIntegerField(null=False, help_text='')
+    is_active_field = migrate.SmallIntegerField(null=False, help_text='',default=0)
     try:
         migrate.migrate(
             torcms_migrator.add_column('tabmember', 'is_active', is_active_field)
@@ -105,7 +105,7 @@ def run_migrate(*args):
     except Exception as err:
         print(repr(err))
     ###########################################################################################
-    is_staff_field = migrate.SmallIntegerField(null=False, help_text='')
+    is_staff_field = migrate.SmallIntegerField(null=False, help_text='',default=0)
     try:
         migrate.migrate(
             torcms_migrator.add_column('tabmember', 'is_staff', is_staff_field)
@@ -263,27 +263,6 @@ def run_migrate(*args):
         print(repr(err))
 
     print('Migration finished.')
-    ###########################################################################################
-    is_active = migrate.SmallIntegerField(null=False, help_text='')
 
-    try:
-        migrate.migrate(
-            torcms_migrator.add_column('tabmember', 'is_active', is_active)
-        )
-    except Exception as err:
-        print(repr(err))
-
-    print('Migration finished.')
-    ###########################################################################################
-    is_staff = migrate.SmallIntegerField(null=False, help_text='if 1 then could access backend')
-
-    try:
-        migrate.migrate(
-            torcms_migrator.add_column('tabmember', 'is_staff', is_staff)
-        )
-    except Exception as err:
-        print(repr(err))
-
-    print('Migration finished.')
 
 
