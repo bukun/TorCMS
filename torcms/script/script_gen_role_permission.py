@@ -80,10 +80,10 @@ def gen_xlsx_category():
 
             MRole.add_or_update(uid, post_data)
 
-            role_permission_association(uid, sheet_ranges, row_num, kind_sig)
+            role_permission_relation(uid, sheet_ranges, row_num, kind_sig)
 
 
-def role_permission_association(role_uid, work_sheet, row_num, kind_sig):
+def role_permission_relation(role_uid, work_sheet, row_num, kind_sig):
     for col_idx in FILTER_COLUMNS:
 
         cell_val = work_sheet['{0}{1}'.format(col_idx, row_num)].value

@@ -5,8 +5,7 @@ Reply of users.
 import time
 
 from torcms.core import tools
-from torcms.model.core_tab import TabRole, TabPermission,TabRole2Permission
-
+from torcms.model.core_tab import TabRole, TabPermission, TabRole2Permission
 
 
 class MRole2Permission():
@@ -18,7 +17,30 @@ class MRole2Permission():
         return TabRole2Permission.select()
 
     @staticmethod
-    def add_or_update(role_uid, per_id,kind_sig='1'):
+    def query_by_permission(per_id):
+        '''
+        Query records by permission.
+        '''
+        return TabRole2Permission.select().where(TabRole2Permission.permission == per_id)
+
+    @staticmethod
+    def query_by_role(role_id):
+        '''
+        Query records by role.
+        '''
+        return TabRole2Permission.select().where(TabRole2Permission.role == role_id)
+
+    @staticmethod
+    def remove_relation(role_id, per_id):
+        '''
+        Delete the record of Role 2 Permission.
+        '''
+        entry = TabRole2Permission.delete().where(
+            (TabRole2Permission.role == role_id) & (TabRole2Permission.permission == per_id))
+        entry.execute()
+
+    @staticmethod
+    def add_or_update(role_uid, per_id, kind_sig='1'):
 
         record = TabRole2Permission.select().where(
             (TabRole2Permission.role == role_uid)
@@ -33,6 +55,3 @@ class MRole2Permission():
                 permission=per_id,
                 kind=kind_sig
             )
-
-
-

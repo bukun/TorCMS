@@ -9,7 +9,8 @@ from torcms.script.autocrud.base_crud import FILTER_COLUMNS
 from torcms.model.role2permission_model import MRole2Permission
 from torcms.model.permission_model import MPermission
 from torcms.model.role_model import MRole
-
+from torcms.model.user_model import MUser
+from torcms.model.role2
 
 def run_gen_category(*args):
     '''
@@ -37,6 +38,8 @@ def run_gen_category(*args):
         print(rec.role)
         print(rec.permission)
         print(rec.kind)
+
+
 
 
 if __name__ == '__main__':

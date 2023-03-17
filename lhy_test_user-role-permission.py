@@ -14,9 +14,7 @@ class Create_Data(object):
         print(self.data_total)
 
     def deal_postgresql(self):
-        # 写入mysql
 
-        # SQL 插入语句
         for val in self.data_total:
             post_data = {
                 'user_name': val[0],
@@ -30,4 +28,4 @@ class Create_Data(object):
 if __name__ == '__main__':
     data = Create_Data()
 
-    data.deal_postgresql()
+    # data.deal_postgresql()
