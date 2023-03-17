@@ -10,6 +10,7 @@ class MPermission():
     '''
     For friends links.
     '''
+
     @staticmethod
     def get_counts():
         '''
@@ -19,11 +20,11 @@ class MPermission():
         return TabPermission.select().count(None)
 
     @staticmethod
-    def query_all(limit_num=50):
+    def query_all():
         '''
         Return some of the records. Not all.
         '''
-        return TabPermission.select().limit(limit_num)
+        return TabPermission.select()
 
     @staticmethod
     def get_by_uid(uid):
@@ -44,12 +45,11 @@ class MPermission():
         '''
         Updat the link.
         '''
+        raw_rec = TabPermission.get(TabPermission.uid == uid)
         entry = TabPermission.update(
             name=post_data['name'],
-            controller=post_data['controller'],
-            action=post_data['action'],
-            pid=post_data['pid'],
-            status=post_data['status'],
+            controller=post_data.get('controller', raw_rec.controller),
+            action=post_data.get('action', raw_rec.action)
 
         ).where(TabPermission.uid == uid)
         try:
@@ -60,21 +60,18 @@ class MPermission():
             return False
 
     @staticmethod
-    def create_link(id, post_data):
+    def add_or_update(uid, post_data):
         '''
-        Add record in link.
+        Add record in permission.
         '''
-        if MPermission.get_by_uid(id):
-            return False
-     
-        TabPermission.create(name=post_data['name'],
-                       controller=post_data['controller'],
-                       action=post_data['action'],
-                       pid=post_data['pid'],
-                       status=post_data['status'],
-                       uid=id)
-        return id
-
-    @staticmethod
-    def query_link():
-        return TabPermission.select()
+        perinfo = MPermission.get_by_uid(uid)
+        if perinfo:
+            MPermission.update(uid, post_data)
+        else:
+            TabPermission.create(
+                uid=uid,
+                name=post_data['name'],
+                controller=post_data.get('controller', '0'),
+                action=post_data.get('action', '0')
+            )
+        return uid

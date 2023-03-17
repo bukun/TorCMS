@@ -8,7 +8,8 @@ from torcms.model.core_tab import (TabCollect, TabEntity, TabEntity2User,
                                    TabPost, TabPost2Tag, TabPostHist,
                                    TabRating, TabReferrer, TabRel, TabReply,
                                    TabReplyid, TabTag, TabUsage, TabUser2Reply,
-                                   TabWiki, TabWikiHist, TabCorrelation)
+                                   TabWiki, TabWikiHist, TabCorrelation, TabRole,
+                                   TabPermission, TabRole2Permission, TabStaff2Role)
 
 
 def drop_the_table(table_name):
@@ -48,3 +49,7 @@ def run_drop_tables(_):
     drop_the_table(TabEntity2User)
     drop_the_table(TabReplyid)
     drop_the_table(TabCorrelation)
+    drop_the_table(TabStaff2Role)
+    drop_the_table(TabRole2Permission)
+    drop_the_table(TabPermission)
+    drop_the_table(TabRole)

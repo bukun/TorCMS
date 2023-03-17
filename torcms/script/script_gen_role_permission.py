@@ -2,13 +2,11 @@
 '''
 Genereting catetory.
 '''
-import os
 
-import yaml
 from openpyxl.reader.excel import load_workbook
 
-from torcms.model.category_model import MCategory
-
+from torcms.script.autocrud.base_crud import FILTER_COLUMNS
+from torcms.model.role2permission_model import MRole2Permission
 from torcms.model.permission_model import MPermission
 from torcms.model.role_model import MRole
 
@@ -17,65 +15,84 @@ XLSX_FILE = './database/role_perm.xlsx'
 
 def gen_xlsx_category():
     '''
-    Genereting catetory from xlsx file.
+    Genereting role,permission from xlsx file.
     '''
 
-    # 在分类中排序
-    order_index = 1
-
-    all_cate_arr = []
-
     for sheet_ranges in load_workbook(filename=XLSX_FILE):
-        kind_sig = sheet_ranges.get_sheet_names()
-        print(kind_sig)
+        kind_sig = str(sheet_ranges['A1'].value).strip()
+        # permission 入库
+        for col_idx in FILTER_COLUMNS:
+            cell_val = sheet_ranges['{0}1'.format(col_idx)].value
+            if cell_val and cell_val != '':
+                puid = kind_sig + cell_val.split(":")[0]
+                ppdata = {
+                    'name': cell_val.split(":")[1]
+                }
 
-    #     for row_num in range(3, 10000):
-    #
-    #         # 父类
-    #         a_cell_val = sheet_ranges['A{0}'.format(row_num)].value
-    #         b_cell_val = sheet_ranges['B{0}'.format(row_num)].value
-    #         c_cell_val = sheet_ranges['C{0}'.format(row_num)].value
-    #
-    #         if a_cell_val or b_cell_val or c_cell_val:
-    #             pass
-    #         else:
-    #             break
-    #
-    #         if a_cell_val and a_cell_val != '':
-    #             cell_arr = a_cell_val.strip()
-    #             p_uid = cell_arr[1:]  # 所有以 t 开头
-    #             t_slug = sheet_ranges['C{0}'.format(row_num)].value.strip()
-    #             t_title = sheet_ranges['D{0}'.format(row_num)].value.strip()
-    #             u_uid = p_uid + (4 - len(p_uid)) * '0'
-    #             pp_uid = '0000'
-    #         elif b_cell_val and b_cell_val != '':
-    #             cell_arr = b_cell_val
-    #             c_iud = cell_arr[1:]
-    #             t_slug = sheet_ranges['C{0}'.format(row_num)].value.strip()
-    #             t_title = sheet_ranges['D{0}'.format(row_num)].value.strip()
-    #             if len(c_iud) == 4:
-    #                 u_uid = c_iud
-    #             else:
-    #                 u_uid = '{0}{1}'.format(p_uid, c_iud)
-    #             pp_uid = p_uid + (4 - len(p_uid)) * '0'
-    #         else:
-    #             continue
-    #
-    #         post_data = {
-    #             'name': t_title,
-    #             'slug': t_slug,
-    #             'order': order_index,
-    #             'uid': u_uid,
-    #             'pid': pp_uid,
-    #             'kind': kind_sig,
-    #         }
-    #         all_cate_arr.append(post_data)
-    #         MCategory.add_or_update(u_uid, post_data)
-    #         order_index += 1
-    # return all_cate_arr
+                MPermission.add_or_update(puid, ppdata)
+
+        for row_num in range(3, 10000):
+
+            # role入库
+            a_cell_val = sheet_ranges['A{0}'.format(row_num)].value
+            b_cell_val = sheet_ranges['B{0}'.format(row_num)].value
+            c_cell_val = sheet_ranges['C{0}'.format(row_num)].value
+            d_cell_val = sheet_ranges['D{0}'.format(row_num)].value
+
+            if a_cell_val and a_cell_val != '':
+                cell_arr = a_cell_val.strip()
+                uid = kind_sig + cell_arr.split(":")[0]
+                name = cell_arr.split(":")[1]
+                pid = '0000'
+                auid = uid
+                aname = name
+
+            elif b_cell_val and b_cell_val != '':
+                cell_arr = b_cell_val
+                uid = kind_sig + cell_arr.split(":")[0]
+                pid = auid
+                name = aname + cell_arr.split(":")[1]
+                buid = uid
+                bname = name
+
+            elif c_cell_val and c_cell_val != '':
+                cell_arr = c_cell_val
+                uid = kind_sig + cell_arr.split(":")[0]
+                pid = buid
+                name = bname + cell_arr.split(":")[1]
+                cuid = uid
+                cname = name
+            elif d_cell_val and d_cell_val != '':
+                cell_arr = d_cell_val
+                uid = kind_sig + cell_arr.split(":")[0]
+                pid = cuid
+                name = cname + cell_arr.split(":")[1]
 
 
+            else:
+                continue
 
+            post_data = {
+                'name': name,
+                'uid': uid,
+                'pid': pid
+            }
+
+            MRole.add_or_update(uid, post_data)
+
+            role_permission_association(uid, sheet_ranges, row_num, kind_sig)
+
+
+def role_permission_association(role_uid, work_sheet, row_num, kind_sig):
+    for col_idx in FILTER_COLUMNS:
+
+        cell_val = work_sheet['{0}{1}'.format(col_idx, row_num)].value
+
+        if cell_val in [1, '1']:
+            cel_val = work_sheet['{0}1'.format(col_idx)].value.strip()
+            per_uid = kind_sig + cel_val.split(":")[0]
+
+            MRole2Permission.add_or_update(role_uid, per_uid, kind_sig=kind_sig)
 
 
 def run_gen_role_permission(*args):
@@ -84,5 +101,6 @@ def run_gen_role_permission(*args):
     '''
     gen_xlsx_category()
 
+
 if __name__ == '__main__':
-    run_gen_role_permission()
+    gen_xlsx_category()

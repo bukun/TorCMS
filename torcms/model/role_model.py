@@ -21,11 +21,11 @@ class MRole():
         return TabRole.select().count(None)
 
     @staticmethod
-    def query_all(limit_num=50):
+    def query_all():
         '''
         Return some of the records. Not all.
         '''
-        return TabRole.select().limit(limit_num)
+        return TabRole.select()
 
     @staticmethod
     def get_by_uid(uid):
@@ -69,7 +69,7 @@ class MRole():
                 uid=uid,
                 name=post_data['name'],
                 pid=post_data['pid'],
-                status=post_data[0],
+                status=post_data.get('status', 0),
                 time_create=tools.timestamp(),
                 time_update=tools.timestamp(),
 
