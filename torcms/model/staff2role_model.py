@@ -4,7 +4,7 @@
 from torcms.model.core_tab import TabStaff2Role
 
 
-class MRole2Permission():
+class MStaff2Role():
     @staticmethod
     def query_all():
         '''

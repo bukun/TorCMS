@@ -13,16 +13,16 @@ class Create_Data(object):
              fake.date_time(tzinfo=None)] for x in range(100)]
         print(self.data_total)
 
-    def deal_postgresql(self):
-
-        for val in self.data_total:
-            post_data = {
-                'user_name': val[0],
-                'user_email': val[4],
-                'user_pass': val[0],
-            }
-
-            MUser.create_user(post_data)
+    # def deal_postgresql(self):
+    #
+    #     for val in self.data_total:
+    #         post_data = {
+    #             'user_name': val[0],
+    #             'user_email': val[4],
+    #             'user_pass': val[0],
+    #         }
+    #
+    #         MUser.create_user(post_data)
 
 
 if __name__ == '__main__':
