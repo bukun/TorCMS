@@ -773,8 +773,9 @@ class PostHandler(BaseHandler):
                     json_cnt=json_cnt,
                     kwd=kwd)
 
+    # @privilege.auth_edit
     @tornado.web.authenticated
-    @privilege.auth_edit
+    @privilege.app_can_edit
     def _change_kind(self, post_uid):
         '''
         To modify the category of the post, and kind.

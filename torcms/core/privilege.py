@@ -112,6 +112,35 @@ def auth_edit(method):
     return wrapper
 
 
+
+def app_can_edit(method):
+    '''
+    role for edit.
+    '''
+
+    def wrapper(self, *args, **kwargs):
+        '''
+        wrapper.
+        '''
+        if self.current_user:
+            pass
+            '''
+            kind = self.kind
+            f'{kind}_can_edit'
+            '''
+
+            # 'can_edit'
+
+
+        else:
+            kwd = {
+                'info': 'No role',
+            }
+            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
+
+    return wrapper
+
+
 def auth_delete(method):
     '''
     role for delete.
