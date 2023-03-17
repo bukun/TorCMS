@@ -3,9 +3,7 @@
 Genereting catetory.
 '''
 
-from openpyxl.reader.excel import load_workbook
 
-from torcms.script.autocrud.base_crud import FILTER_COLUMNS
 from torcms.model.role2permission_model import MRole2Permission
 from torcms.model.permission_model import MPermission
 from torcms.model.role_model import MRole

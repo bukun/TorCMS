@@ -7,7 +7,7 @@ import time
 from config import CMS_CFG
 from torcms.core import tools
 from torcms.model.core_tab import TabMember
-
+from torcms.model.staff2role_model import MStaff2Role
 
 class MUser():
     '''
@@ -347,6 +347,8 @@ class MUser():
                 user_pass=tools.md5(post_data['user_pass']),
                 user_email=post_data['user_email'],
                 role=post_data.get('role', '1000'),  # ‘1000' as default role.
+                is_active=post_data.get('is_active', 0),
+                is_staff=post_data.get('is_staff', 0),
                 time_create=tools.timestamp(),
                 time_update=tools.timestamp(),
                 time_reset_passwd=tools.timestamp(),
@@ -483,7 +485,7 @@ class MUser():
     def assign_role(user_id, role_id):
         userinfo = MUser.get_by_uid(user_id)
         if userinfo and userinfo.is_stuff():
-            pass
+            MStaff2Role.add_or_update(user_id,role_id)
         else:
             return False
 
