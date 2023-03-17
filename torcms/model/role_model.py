@@ -4,12 +4,14 @@ For Roles
 '''
 from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import TabRole
+from torcms.core import tools
 
 
 class MRole():
     '''
     For friends links.
     '''
+
     @staticmethod
     def get_counts():
         '''
@@ -44,4 +46,32 @@ class MRole():
         '''
         Updat the link.
         '''
-        return False
+        raw_rec = TabRole.get(TabRole.uid == uid)
+        entry = TabRole.update(
+            name=post_data.get('name', raw_rec.name),
+            pid=post_data.get('pid', raw_rec.pid),
+            status=post_data.get('status', 0),
+            time_create=tools.timestamp(),
+            time_update=tools.timestamp(),
+        ).where(TabRole.uid == uid)
+        entry.execute()
+
+    @staticmethod
+    def add_or_update(uid, post_data):
+        '''
+        Add or update the data by the given ID of post.
+        '''
+        catinfo = MRole.get_by_uid(uid)
+        if catinfo:
+            MRole.update(uid, post_data)
+        else:
+            TabRole.create(
+                uid=uid,
+                name=post_data['name'],
+                pid=post_data['pid'],
+                status=post_data[0],
+                time_create=tools.timestamp(),
+                time_update=tools.timestamp(),
+
+            )
+        return uid
