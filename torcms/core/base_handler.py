@@ -32,13 +32,14 @@ class BaseHandler(tornado.web.RequestHandler):
         super().initialize()
         if self.get_current_user():
             self.userinfo = MUser.get_by_name(self.get_current_user())
-            if self.userinfo:
-                self.set_secure_cookie(
-                    "user",
-                    self.userinfo.user_name,
-                    expires_days=None,
-                    expires=time.time() + 60 * CMS_CFG.get('expires_minutes', 15)
-                )
+            # 此处有问题，导致无法logout
+            # if self.userinfo:
+            #     self.set_secure_cookie(
+            #         "user",
+            #         self.userinfo.user_name,
+            #         expires_days=None,
+            #         expires=time.time() + 60 * CMS_CFG.get('expires_minutes', 15)
+            #     )
         else:
             self.userinfo = None
         self.is_p = False  # True, if partially rendered.

@@ -288,8 +288,7 @@ class PostHandler(BaseHandler):
         else:
             self.show404()
 
-    @tornado.web.authenticated
-    @privilege.auth_add
+    @privilege.permission(action='can_add')
     def _to_add(self, **kwargs):
         '''
         Used for info1.
@@ -314,8 +313,7 @@ class PostHandler(BaseHandler):
 
                         })
 
-    @tornado.web.authenticated
-    @privilege.auth_edit
+    @privilege.permission(action='can_edit')
     def _to_edit(self, infoid):
         '''
         render the HTML page for post editing.
@@ -553,8 +551,7 @@ class PostHandler(BaseHandler):
         return (post_data, ext_dic)
 
     @tornado.web.authenticated
-    @privilege.auth_add
-    # @tornado.web.asynchronous
+    @privilege.permission(action='can_add')
     @tornado.gen.coroutine
     def add(self, **kwargs):
         '''

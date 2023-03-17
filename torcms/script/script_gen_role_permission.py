@@ -2,15 +2,23 @@
 '''
 Genereting catetory.
 '''
+import sys
 
 from openpyxl.reader.excel import load_workbook
 
 from torcms.script.autocrud.base_crud import FILTER_COLUMNS
 from torcms.model.role2permission_model import MRole2Permission
+from torcms.model.staff2role_model import MStaff2Role
 from torcms.model.permission_model import MPermission
 from torcms.model.role_model import MRole
+from torcms.model.user_model import MUser
+from pathlib import Path
 
 XLSX_FILE = './database/role_perm.xlsx'
+if Path(XLSX_FILE).exists():
+    pass
+else:
+    XLSX_FILE = '../../database/role_perm.xlsx'
 
 
 def gen_xlsx_category():
@@ -25,6 +33,7 @@ def gen_xlsx_category():
             cell_val = sheet_ranges['{0}1'.format(col_idx)].value
             if cell_val and cell_val != '':
                 puid = kind_sig + cell_val.split(":")[0]
+                print(puid)
                 ppdata = {
                     'name': cell_val.split(":")[1]
                 }
@@ -77,13 +86,25 @@ def gen_xlsx_category():
                 'uid': uid,
                 'pid': pid
             }
+            print(post_data)
 
             MRole.add_or_update(uid, post_data)
+            user_data = {
+                'user_name': f'user_{uid}',
+                'user_pass': 'Gg123456',
+                'user_email': f'user_{uid}@qq.com',
+            }
+            print(user_data)
+            tt = MUser.create_user(user_data)
+            if tt['code'] == '31':
+                user_uid = tt['uid']
+            print(tt)
 
-            role_permission_relation(uid, sheet_ranges, row_num, kind_sig)
+
+            role_permission_relation(uid, user_uid, sheet_ranges, row_num, kind_sig)
 
 
-def role_permission_relation(role_uid, work_sheet, row_num, kind_sig):
+def role_permission_relation(role_uid, user_uid, work_sheet, row_num, kind_sig):
     for col_idx in FILTER_COLUMNS:
 
         cell_val = work_sheet['{0}{1}'.format(col_idx, row_num)].value
@@ -93,6 +114,7 @@ def role_permission_relation(role_uid, work_sheet, row_num, kind_sig):
             per_uid = kind_sig + cel_val.split(":")[0]
 
             MRole2Permission.add_or_update(role_uid, per_uid, kind_sig=kind_sig)
+            MStaff2Role.add_or_update(user_uid, role_uid)
 
 
 def run_gen_role_permission(*args):
@@ -101,6 +123,8 @@ def run_gen_role_permission(*args):
     '''
     gen_xlsx_category()
 
+def test_script():
+    gen_xlsx_category()
 
 if __name__ == '__main__':
     gen_xlsx_category()

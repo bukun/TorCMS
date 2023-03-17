@@ -4,6 +4,7 @@
 '''
 
 from config import ROLE_CFG
+from torcms.model.staff2role_model import MStaff2Role
 
 
 def is_prived(usr_rule, def_rule):
@@ -112,35 +113,6 @@ def auth_edit(method):
     return wrapper
 
 
-
-def app_can_edit(method):
-    '''
-    role for edit.
-    '''
-
-    def wrapper(self, *args, **kwargs):
-        '''
-        wrapper.
-        '''
-        if self.current_user:
-            pass
-            '''
-            kind = self.kind
-            f'{kind}_can_edit'
-            '''
-
-            # 'can_edit'
-
-
-        else:
-            kwd = {
-                'info': 'No role',
-            }
-            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
-
-    return wrapper
-
-
 def auth_delete(method):
     '''
     role for delete.
@@ -179,6 +151,7 @@ def auth_admin(method):
         '''
         wrapper.
         '''
+
         if self.current_user:
             if is_prived(self.userinfo.role, ROLE_CFG['admin']):
                 return method(self, *args, **kwargs)
@@ -227,25 +200,57 @@ def auth_check(method):
     return wrapper
 
 
-def permission( action = ''):
+def permission(action=''):
     '''
-    使用RBAC方式进行鉴权。
-    带参数的函数装饰器，需要两层嵌套
-    参考：https://zhuanlan.zhihu.com/p/269012332
+    通用的鉴权装饰器。使用RBAC方式进行鉴权。
+    带参数的函数装饰器，需要两层嵌套。参考：https://zhuanlan.zhihu.com/p/269012332
     '''
-    def wrapper( func):
+
+    def wrapper(func):
         def deco(self, *args, **kwargs):
-            if self.kind and action:
-                print(self.kind, action)
+            print('Need role: ', f'_per_{self.kind}{action}')
+            if self.current_user:
+                if self.userinfo.extinfo.get(f'_per_{self.kind}{action}', 0) == 1:
+                    # 真正执行函数的地方
+                    func(self, *args, **kwargs)
+
+                else:
+                    kwd = {
+                        'info': 'No role',
+                    }
+                    self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
             else:
-                return False
-            print(self.info)
-            # if self.current_user:
-            #     if is_prived(self.userinfo.role, ROLE_CFG['check']):
-            #         # 真正执行函数的地方
-            #         return func(self, *args, **kwargs)
+                kwd = {
+                    'info': 'No role',
+                }
+                self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
         return deco
+
     return wrapper
 
 
+def app_can_edit(method):
+    '''
+    role for edit.
+    '''
+
+    def wrapper(self, *args, **kwargs):
+        '''
+        wrapper.
+        '''
+        if self.current_user:
+            if self.userinfo.extinfo.get(f'_per_{self.kind}can_edit', 0) == 1:
+                return method(self, *args, **kwargs)
+            else:
+                kwd = {
+                    'info': 'No role',
+                }
+                self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
+        else:
+            kwd = {
+                'info': 'No role',
+            }
+            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
+
+    return wrapper

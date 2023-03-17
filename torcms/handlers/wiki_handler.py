@@ -135,8 +135,7 @@ class WikiHandler(BaseHandler):
     def to_edit(self, id_rec):
         wiki_rec = MWiki.get_by_uid(id_rec)
         # 用户具有管理权限，或文章是用户自己发布的。
-        if self.check_post_role(
-        )['EDIT'] or wiki_rec.user_name == self.get_current_user():
+        if self.check_post_role()['EDIT'] or wiki_rec.user_name == self.get_current_user():
             pass
         else:
             return False

@@ -9,6 +9,7 @@ from torcms.core import tools
 from torcms.model.core_tab import TabMember
 from torcms.model.staff2role_model import MStaff2Role
 
+
 class MUser():
     '''
     Model for user.
@@ -197,11 +198,8 @@ class MUser():
             cur_extinfo[key] = extinfo[key]
 
         try:
-            entry = TabMember.update(
-                user_email=newemail,
-                extinfo=cur_extinfo).where(TabMember.uid == user_id)
+            entry = TabMember.update(user_email=newemail, extinfo=cur_extinfo).where(TabMember.uid == user_id)
             entry.execute()
-
             out_dic['success'] = True
         except Exception as err:
             print(repr(err))
@@ -278,10 +276,41 @@ class MUser():
             return False
 
     @staticmethod
+    def update_permissions(u_name):
+        '''
+        更新用户权限
+        '''
+        userinfo = MUser.get_by_name(u_name)
+        cur_extinfo = userinfo.extinfo
+
+        # 已有权限置 0
+        for key in cur_extinfo:
+            if key.startswith('_per_'):
+                cur_extinfo[key] = 0
+        perms = MStaff2Role.query_permissions(userinfo.uid)
+        # 重新分配权限
+        for key in perms:
+            print(key)
+            print(key['permission'])
+            cur_extinfo[f"_per_{key['permission']}"] = 1
+
+        entry = TabMember.update(extinfo=cur_extinfo).where(TabMember.uid == userinfo.uid)
+        entry.execute()
+
+    @staticmethod
     def update_success_info(u_name):
         '''
         Update the login time for user.
         '''
+        # Update permisson
+
+        # cur_info = MUser.get_by_uid(user_id)
+        # cur_extinfo = cur_info.extinfo
+        # for key in extinfo:
+        #     cur_extinfo[key] = extinfo[key]
+
+        MUser.update_permissions(u_name)
+
         # First, record the time that logged in.
         entry = TabMember.update(time_login=tools.timestamp()).where(
             TabMember.user_name == u_name)
@@ -335,6 +364,7 @@ class MUser():
 
         if MUser.get_by_email(post_data['user_email']):
             out_dic['code'] = '31'
+            out_dic['uid'] = MUser.get_by_email(post_data['user_email']).uid
             return out_dic
 
         if extinfo is None:
@@ -485,7 +515,7 @@ class MUser():
     def assign_role(user_id, role_id):
         userinfo = MUser.get_by_uid(user_id)
         if userinfo and userinfo.is_stuff():
-            MStaff2Role.add_or_update(user_id,role_id)
+            MStaff2Role.add_or_update(user_id, role_id)
         else:
             return False
 
