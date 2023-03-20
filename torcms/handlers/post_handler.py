@@ -603,7 +603,7 @@ class PostHandler(BaseHandler):
 
     # @tornado.web.asynchronous
     @tornado.web.authenticated
-    @privilege.auth_edit
+    @privilege.permission(action='can_edit')
     @tornado.gen.coroutine
     def update(self, uid):
         '''

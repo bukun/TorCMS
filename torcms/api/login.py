@@ -162,15 +162,13 @@ class UserApi(BaseHandler):
         post_data = json.loads(self.request.body)
 
         user_create_status = check_regist_info(post_data)
+
         if not user_create_status['success']:
             return json.dump(user_create_status, self)
 
-        form = SumForm(self.request.arguments)
+        user_create_status = MUser.create_user(post_data)
 
-        if form.validate():
-            user_create_status = MUser.create_user(post_data)
-            logger.info('user_register_status: {0}'.format(user_create_status))
-            return json.dump(user_create_status, self)
+        logger.info('user_register_status: {0}'.format(user_create_status))
         return json.dump(user_create_status, self)
 
     @tornado.web.authenticated

@@ -170,6 +170,7 @@
                       "type": "form",
                       "mode": "horizontal",
                       "api": "/api/user/regist",
+
                       "body": [
                         {
                           "label": "用户名",
@@ -178,12 +179,12 @@
                         },
                         {
                           "label": "密码",
-                          "type": "input-text",
+                          "type": "input-password",
                           "name": "user_pass"
                         },
                         {
                           "label": "确认密码",
-                          "type": "input-text",
+                          "type": "input-password",
                           "name": "user_pass2"
                         },
                         {
@@ -195,6 +196,8 @@
                       ]
                     }
                   ]
+
+
                 }
               }
             ]

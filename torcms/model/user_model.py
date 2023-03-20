@@ -20,7 +20,7 @@ class MUser():
         '''
         Return some of the records. Not all.
         '''
-        return TabMember.select().limit(limit)
+        return TabMember.select().order_by(TabMember.time_create.desc()).limit(limit)
 
     @staticmethod
     def get_by_uid(uid):
