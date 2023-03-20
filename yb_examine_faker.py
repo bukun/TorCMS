@@ -112,7 +112,7 @@ def import_meta():
         ext_dic = {}
         post_data = {}
 
-        post_data['valid'] = 1
+        post_data['valid'] = 0
         post_data['title'] = f.company_prefix()
         post_data['cnt_md'] = f.text()
         post_data['user_name'] = 'admin'
