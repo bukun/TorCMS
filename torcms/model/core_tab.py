@@ -377,6 +377,7 @@ class TabRole2Permission(BaseModel):
     kind = peewee.CharField(null=False, max_length=1, default='1', help_text='app type')
 
 
+
 if __name__ == '__main__':
     from pprint import pprint
 
