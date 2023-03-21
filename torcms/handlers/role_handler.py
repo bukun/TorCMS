@@ -11,10 +11,10 @@ import tornado.web
 from config import CMS_CFG
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
-from torcms.model.permission_model import MPermission
+from torcms.model.role_model import MRole
 
 
-class PermissionHandler(BaseHandler):
+class RoleHandler(BaseHandler):
     '''
     Handler for links.
     '''
@@ -60,18 +60,19 @@ class PermissionHandler(BaseHandler):
         Recent links.
         '''
         dics = []
-        recs = MPermission.query_all()
+        recs = MRole.query_all()
         for rec in recs:
             dic = {
                 "uid": rec.uid,
                 "name": rec.name,
-                'action': rec.action,
-                'controller': rec.controller
+                'status': rec.status,
+                'time_create': tools.format_time(rec.time_create),
+                'time_update': tools.format_time(rec.time_update)
             }
             dics.append(dic)
         out_dict = {
-            'title': '权限列表',
-            'perlist_table': dics
+            'title': '分组/角色列表',
+            'rolelist_table': dics
         }
 
         return json.dump(out_dict, self, ensure_ascii=False)
@@ -84,7 +85,8 @@ class PermissionHandler(BaseHandler):
 
         post_data = json.loads(self.request.body)
 
-        if MPermission.update(uid, post_data):
+
+        if MRole.update(uid, post_data):
             output = {
                 'addinfo ': 1,
             }
@@ -103,10 +105,10 @@ class PermissionHandler(BaseHandler):
         post_data = json.loads(self.request.body)
 
         cur_uid = tools.get_uudd(2)
-        while MPermission.get_by_uid(cur_uid):
+        while MRole.get_by_uid(cur_uid):
             cur_uid = tools.get_uudd(2)
 
-        if MPermission.add_or_update(cur_uid, post_data):
+        if MRole.add_or_update(cur_uid, post_data):
             output = {
                 'addinfo ': 1,
             }
@@ -122,7 +124,7 @@ class PermissionHandler(BaseHandler):
         Delete a link by id.
         '''
 
-        if MPermission.delete(del_id):
+        if MRole.delete(del_id):
             output = {'del_link': 1}
         else:
             output = {'del_link': 0}
