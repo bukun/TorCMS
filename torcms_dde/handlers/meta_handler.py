@@ -242,7 +242,7 @@ class MetadataHandler(PostHandler):
         return (post_data, ext_dic)
 
     @tornado.web.authenticated
-    @privilege.auth_add
+    @privilege.permission(action='can_add')
     # @tornado.web.asynchronous
     @tornado.gen.coroutine
     def add(self, **kwargs):
@@ -307,7 +307,7 @@ class MetadataHandler(PostHandler):
         self.redirect('/{0}/{1}'.format(router_post[self.kind], uid))
 
     @tornado.web.authenticated
-    @privilege.auth_edit
+    @privilege.permission(action='can_edit')
     @tornado.gen.coroutine
     def update(self, uid):
         '''

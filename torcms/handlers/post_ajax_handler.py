@@ -225,7 +225,7 @@ class PostAjaxHandler(PostHandler):
         )
 
     @tornado.web.authenticated
-    @privilege.auth_delete
+    @privilege.permission(action='can_delete')
     def j_delete(self, *args):
         '''
         Delete the post, but return the JSON.
@@ -251,7 +251,7 @@ class PostAjaxHandler(PostHandler):
         return json.dump(output, self)
 
     @tornado.web.authenticated
-    @privilege.auth_delete
+    @privilege.permission(action='can_delete')
     def j_nullify(self, *args):
         '''
         update valid, but return the JSON.

@@ -47,7 +47,7 @@ class UpdateCategoryHandler(BaseHandler):
                     kwd={})
 
     @tornado.web.authenticated
-    @privilege.auth_add
+    @privilege.permission(action='can_add')
     def del_category(self, uid):
         '''
         Add new page.
@@ -57,7 +57,7 @@ class UpdateCategoryHandler(BaseHandler):
         self.redirect('/')
 
     @tornado.web.authenticated
-    @privilege.auth_add
+    @privilege.permission(action='can_add')
     def update_category(self):
         '''
         Add new page.

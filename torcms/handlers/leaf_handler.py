@@ -55,7 +55,7 @@ class LeafHandler(PostHandler):
             self.show404()
 
     @tornado.web.authenticated
-    @privilege.auth_edit
+    @privilege.permission(action='can_edit')
     def update_order(self, uid, order):
         '''
         update the order of the posts.

@@ -249,7 +249,7 @@ class PostHandler(BaseHandler):
         return cat_id
 
     @tornado.web.authenticated
-    @privilege.auth_add
+    @privilege.permission(action='can_add')
     def _to_add_with_category(self, catid):
         '''
         Used for info2.
@@ -287,6 +287,7 @@ class PostHandler(BaseHandler):
             self._to_add(uid=uid)
         else:
             self.show404()
+
 
     @privilege.permission(action='can_add')
     def _to_add(self, **kwargs):
@@ -681,7 +682,7 @@ class PostHandler(BaseHandler):
         self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], uid))
 
     @tornado.web.authenticated
-    @privilege.auth_delete
+    @privilege.permission(action='can_delete')
     def _delete(self, *args, **kwargs):
         '''
         delete the post.
@@ -770,7 +771,7 @@ class PostHandler(BaseHandler):
                     json_cnt=json_cnt,
                     kwd=kwd)
 
-    # @privilege.auth_edit
+    # @privilege.permission(action='can_edit')
     @tornado.web.authenticated
     @privilege.app_can_edit
     def _change_kind(self, post_uid):

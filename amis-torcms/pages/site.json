@@ -73,11 +73,7 @@
                       "label": "邮箱",
                       "type": "text"
                     },
-                    {
-                      "name": "role",
-                      "label": "权限",
-                      "type": "text"
-                    },
+
                     {
                       "name": "time_create",
                       "type": "date",
@@ -111,11 +107,7 @@
                           "label": "邮箱",
                           "type": "text"
                         },
-                        {
-                          "name": "role",
-                          "label": "权限",
-                          "type": "text"
-                        },
+
                         {
                           "name": "time_create",
                           "type": "date",
@@ -145,8 +137,8 @@
                           "type": "text"
                         },
                         {
-                          "name": "role",
-                          "label": "权限",
+                          "name": "user_email",
+                          "label": "邮箱",
                           "type": "text"
                         },
                         {
@@ -203,7 +195,7 @@
             ]
           },
           {
-            "label": "页面C",
+            "label": "权限管理",
             "schema": {
               "type": "page",
               "title": "页面C",
@@ -242,23 +234,7 @@
           }
         ]
       },
-      {
-        "label": "分组2",
-        "children": [
-          {
-            "label": "用户管理",
-            "schema": {
-              "type": "page",
-              "title": "用户管理",
-              "body": "页面C"
-            }
-          },
-          {
-            "label": "部门管理",
-            "schemaApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/service/form?tpl=tpl3"
-          }
-        ]
-      },
+
       {
         "label": "参考信息",
         "children": [

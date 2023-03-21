@@ -177,7 +177,7 @@ class WikiHandler(BaseHandler):
 
     # @tornado.web.asynchronous
     @tornado.web.authenticated
-    @privilege.auth_add
+    @privilege.permission(action='can_add')
     @tornado.gen.coroutine
     def add(self, title=''):
         '''

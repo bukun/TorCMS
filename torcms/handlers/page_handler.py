@@ -76,7 +76,7 @@ class PageHandler(BaseHandler):
             self.to_add(slug)
 
     @tornado.web.authenticated
-    @privilege.auth_add
+    @privilege.permission(action='can_add')
     def to_add(self, citiao):
         '''
         To Add page.
@@ -116,7 +116,7 @@ class PageHandler(BaseHandler):
             return False
 
     @tornado.web.authenticated
-    @privilege.auth_edit
+    @privilege.permission(action='can_edit')
     def update(self, slug):
         '''
         Update the page.
@@ -142,7 +142,7 @@ class PageHandler(BaseHandler):
         self.redirect('/page/{0}'.format(post_data['slug']))
 
     @tornado.web.authenticated
-    @privilege.auth_edit
+    @privilege.permission(action='can_edit')
     def to_modify(self, uid):
         '''
         Try to modify the page.
@@ -191,7 +191,7 @@ class PageHandler(BaseHandler):
                     cfg=CMS_CFG)
 
     @tornado.web.authenticated
-    @privilege.auth_add
+    @privilege.permission(action='can_add')
     def add_page(self, slug):
         '''
         Add new page.
