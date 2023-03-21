@@ -177,7 +177,7 @@ class UserApi(BaseHandler):
         Changing password.
         '''
 
-        post_data = self.get_request_arguments()
+        post_data = json.loads(self.request.body)
 
         usercheck = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
         if usercheck == 1:
@@ -253,7 +253,7 @@ class UserApi(BaseHandler):
         '''
         Change th user rule
         '''
-        post_data = self.get_request_arguments()
+        post_data = json.loads(self.request.body)
 
         # 审核权限
         authority = '0'
@@ -280,7 +280,7 @@ class UserApi(BaseHandler):
         '''
         to find the user
         '''
-        post_data = self.get_request_arguments()
+        post_data = json.loads(self.request.body)
         type = post_data.get('type', '')
         isjson = post_data.get('isjson', False)
         current_page_number = 1
@@ -361,7 +361,7 @@ class UserApi(BaseHandler):
         Batch Modify Permission
         '''
 
-        post_data = self.get_request_arguments()
+        post_data = json.loads(self.request.body)
 
         name_list = post_data.get("check_value", '')
 
@@ -480,7 +480,7 @@ class UserApi(BaseHandler):
         Do reset password
         :return: None
         '''
-        post_data = self.get_request_arguments()
+        post_data = json.loads(self.request.body)
 
         if 'email' in post_data:
             userinfo = MUser.get_by_email(post_data['email'])
@@ -529,7 +529,7 @@ class UserApi(BaseHandler):
         '''
         reseting password
         '''
-        post_data = self.get_request_arguments()
+        post_data = json.loads(self.request.body)
 
         userinfo = MUser.get_by_name(post_data['u'])
 
@@ -579,7 +579,7 @@ class UserApi(BaseHandler):
         '''
         show the user info
         '''
-        post_data = self.get_request_arguments()
+        post_data = json.loads(self.request.body)
         user_name = post_data.get('user_name', '')
         rec = MUser.get_by_uid(self.userinfo.uid)
         # rec = MUser.get_by_name(user_name)

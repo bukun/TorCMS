@@ -4,55 +4,16 @@
   "data": {
     "pages": [
       {
-        "label": "Home",
+        "label": "admin",
         "url": "/",
-        "redirect": "/index/1"
+        "redirect": "/user/1"
       },
       {
         "label": "示例",
         "children": [
           {
-            "label": "页面A",
-            "url": "index",
-            "schema": {
-              "type": "page",
-              "initApi": "/api/test/ts",
-              "body": "展示内容： ${body}",
-              "title": "展示标题：${title}"
-            },
-            "children": [
-              {
-                "label": "页面A-1",
-                "url": "1",
-                "schema": {
-                  "type": "page",
-                  "title": "页面A-1",
-                  "body": "页面A-1"
-                }
-              },
-              {
-                "label": "页面A-2",
-                "url": "2",
-                "schema": {
-                  "type": "page",
-                  "title": "页面A-2",
-                  "body": "页面A-2"
-                }
-              },
-              {
-                "label": "页面A-3",
-                "url": "3",
-                "schema": {
-                  "type": "page",
-                  "title": "页面A-3",
-                  "body": "页面A-3"
-                }
-              }
-            ]
-          },
-          {
             "label": "用户管理",
-            "url": "index",
+            "url": "user",
             "schema": {
               "type": "page",
               "initApi": "/api/user/info",
@@ -73,7 +34,6 @@
                       "label": "邮箱",
                       "type": "text"
                     },
-
                     {
                       "name": "time_create",
                       "type": "date",
@@ -86,7 +46,8 @@
             "children": [
               {
                 "label": "用户列表",
-                "url": "",
+                "icon": "fa fa-list",
+                "url": "1",
                 "schema": {
                   "initApi": "/api/user/list",
                   "type": "page",
@@ -107,7 +68,6 @@
                           "label": "邮箱",
                           "type": "text"
                         },
-
                         {
                           "name": "time_create",
                           "type": "date",
@@ -120,7 +80,7 @@
               },
               {
                 "label": "用户信息",
-                "url": "",
+                "url": "2",
                 "schema": {
                   "initApi": "/api/user/info",
                   "type": "page",
@@ -153,54 +113,138 @@
               },
               {
                 "label": "添加用户",
-                "url": "",
+                "icon": "fa fa-plus",
+                "url": "3",
                 "schema": {
-                  "type": "page",
                   "title": "添加用户",
+                  "redirect": "/user/1",
+                  "type": "form",
+                  "mode": "horizontal",
+                  "api": "/api/user/regist",
                   "body": [
                     {
-                      "type": "form",
-                      "mode": "horizontal",
-                      "api": "/api/user/regist",
-
-                      "body": [
-                        {
-                          "label": "用户名",
-                          "type": "input-text",
-                          "name": "user_name"
-                        },
-                        {
-                          "label": "密码",
-                          "type": "input-password",
-                          "name": "user_pass"
-                        },
-                        {
-                          "label": "确认密码",
-                          "type": "input-password",
-                          "name": "user_pass2"
-                        },
-                        {
-                          "label": "Email",
-                          "type": "input-email",
-                          "placeholder": "请输入邮箱地址",
-                          "name": "user_email"
-                        }
-                      ]
+                      "label": "用户名",
+                      "type": "input-text",
+                      "name": "user_name"
+                    },
+                    {
+                      "label": "密码",
+                      "type": "input-password",
+                      "name": "user_pass"
+                    },
+                    {
+                      "label": "确认密码",
+                      "type": "input-password",
+                      "name": "user_pass2"
+                    },
+                    {
+                      "label": "Email",
+                      "type": "input-email",
+                      "placeholder": "请输入邮箱地址",
+                      "name": "user_email"
                     }
                   ]
-
-
                 }
               }
             ]
           },
           {
             "label": "权限管理",
+            "url": "permission",
             "schema": {
               "type": "page",
-              "title": "页面C",
-              "body": "页面C"
-            }
+              "initApi": "/api/permission/list",
+              "title": "${title}",
+              "body": [
+                {
+                  "type": "table",
+                  "className": "m-t",
+                  "source": "${perlist_table}",
+                  "columns": [
+                    {
+                      "name": "name",
+                      "label": "权限名称",
+                      "type": "text"
+                    },
+                    {
+                      "name": "action",
+                      "label": "允许动作",
+                      "type": "text"
+                    },
+                    {
+                      "name": "controller",
+                      "type": "text",
+                      "label": "控制器"
+                    }
+                  ]
+                }
+              ]
+            },
+            "children": [
+              {
+                "label": "权限列表",
+                "icon": "fa fa-list",
+                "url": "1",
+                "schema": {
+                  "initApi": "/api/permission/list",
+                  "type": "page",
+                  "title": "${title}",
+                  "body": [
+                    {
+                      "type": "table",
+                      "className": "m-t",
+                      "source": "${perlist_table}",
+                      "columns": [
+                        {
+                          "name": "name",
+                          "label": "权限名称",
+                          "type": "text"
+                        },
+                        {
+                          "name": "action",
+                          "label": "允许动作",
+                          "type": "text"
+                        },
+                        {
+                          "name": "controller",
+                          "type": "text",
+                          "label": "控制器"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "label": "添加权限",
+                "url": "2",
+                "icon": "fa fa-plus",
+                "schema": {
+                  "type": "form",
+                  "mode": "horizontal",
+                  "redirect": "/permission/1",
+                  "api": "/api/permission/_add",
+                  "title": "添加权限",
+                  "body": [
+                    {
+                      "name": "name",
+                      "label": "权限名称",
+                      "type": "input-text"
+                    },
+                    {
+                      "name": "action",
+                      "label": "允许动作",
+                      "type": "input-text"
+                    },
+                    {
+                      "name": "controller",
+                      "type": "input-text",
+                      "label": "控制器"
+                    }
+                  ]
+                }
+              }
+            ]
           },
           {
             "label": "列表示例",
@@ -234,7 +278,6 @@
           }
         ]
       },
-
       {
         "label": "参考信息",
         "children": [

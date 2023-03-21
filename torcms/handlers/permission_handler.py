@@ -25,10 +25,10 @@ class PermissionHandler(BaseHandler):
     def get(self, *args, **kwargs):
         url_str = args[0]
         url_arr = self.parse_url(url_str)
- 
+
         if url_str == 'list':
-            self.recent() 
-        elif url_arr[0] in ['delete', '_delete']:
+            self.recent()
+        elif url_arr[0] == 'delete':
             self.delete_by_id(url_arr[1])
         else:
             kwd = {
@@ -50,7 +50,7 @@ class PermissionHandler(BaseHandler):
         if url_arr[0] == '_edit':
             self.update(url_arr[1])
 
-        elif url_arr[0] =='_add':
+        elif url_arr[0] == '_add':
             self.per_add()
         else:
             self.redirect('misc/html/404.html')
@@ -59,34 +59,33 @@ class PermissionHandler(BaseHandler):
         '''
         Recent links.
         '''
-        kwd = {
-            'pager': '',
-            'title': '最近文档',
+        dics = []
+        recs = MPermission.query_all()
+        for rec in recs:
+            dic = {
+                "uid": rec.uid,
+                "name": rec.name,
+                'action': rec.action,
+                'controller': rec.controller
+            }
+            dics.append(dic)
+        out_dict = {
+            'title': '权限列表',
+            'perlist_table': dics
         }
 
-        
-        self.render('admin/permission/list.html',
-                    kwd=kwd,
-                    view=MPermission.query_link(),
-                    format_date=tools.format_date,
-                    userinfo=self.userinfo)
-       
-
- 
+        return json.dump(out_dict, self, ensure_ascii=False)
 
     @tornado.web.authenticated
     def update(self, uid):
         '''
         Update the link.
         '''
-        if self.userinfo.role[1] >= '3':
-            pass
-        else:
-            return False
-        post_data = self.get_request_arguments()
+
+        post_data = json.loads(self.request.body)
 
         post_data['user_name'] = self.get_current_user()
- 
+
         if MPermission.update(uid, post_data):
             output = {
                 'addinfo ': 1,
@@ -96,28 +95,20 @@ class PermissionHandler(BaseHandler):
                 'addinfo ': 0,
             }
         return json.dump(output, self)
-        
-
- 
 
     @tornado.web.authenticated
     def per_add(self):
         '''
         user add link.
         '''
-        if self.check_post_role()['ADD']:
-            pass
-        else:
-            return False
-        post_data = self.get_request_arguments()
 
-        post_data['user_name'] = self.get_current_user()
+        post_data = json.loads(self.request.body)
 
         cur_uid = tools.get_uudd(2)
         while MPermission.get_by_uid(cur_uid):
             cur_uid = tools.get_uudd(2)
 
-        if MPermission.create_link(cur_uid, post_data):
+        if MPermission.add_or_update(cur_uid, post_data):
             output = {
                 'addinfo ': 1,
             }
@@ -127,23 +118,14 @@ class PermissionHandler(BaseHandler):
             }
         return json.dump(output, self)
 
- 
-
     @tornado.web.authenticated
     def delete_by_id(self, del_id):
         '''
         Delete a link by id.
         '''
-        if self.check_post_role()['DELETE']:
-            pass
-        else:
-            return False
-       
+
         if MPermission.delete(del_id):
             output = {'del_link': 1}
         else:
             output = {'del_link': 0}
         return json.dump(output, self)
-        
-
- 

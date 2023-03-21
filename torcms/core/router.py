@@ -40,6 +40,7 @@ from torcms.api.test import TestApi
 urls = [
 
     ('/api/user/(.*)', UserApi, {}),
+    ('/api/permission/(.*)', PermissionHandler, {}),
 
     ('/api/test/(.*)', TestApi, {}),
 
