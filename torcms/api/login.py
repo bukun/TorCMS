@@ -19,7 +19,7 @@ from torcms.core.base_handler import BaseHandler
 from torcms.core.tool.send_email import send_mail
 from torcms.core.tools import logger
 from torcms.model.user_model import MUser
-
+from torcms.model.staff2role_model import MStaff2Role
 
 def check_regist_info(post_data):
     '''
@@ -122,8 +122,6 @@ class UserApi(BaseHandler):
             'reset-passwd':
                 self.gen_passwd,
 
-            'delete_user':
-                self.__delete_user__,
             'list':
                 self.__user_list__,
             'pass_strength':
@@ -152,6 +150,8 @@ class UserApi(BaseHandler):
             self.register()
         elif url_str == 'login':
             self.login()
+        elif url_arr[0] == '_delete':
+            self.delete_user(url_arr[1]),
         elif url_arr[0] == 'changerole':
             self.__change_role__(url_arr[1])
 
@@ -160,14 +160,19 @@ class UserApi(BaseHandler):
         user regist.
         '''
         post_data = json.loads(self.request.body)
-
+        role=post_data['role']
+        print("*" * 50)
+        print(role)
         user_create_status = check_regist_info(post_data)
 
         if not user_create_status['success']:
             return json.dump(user_create_status, self)
 
         user_create_status = MUser.create_user(post_data)
-
+        # user_id=user_create_status.get('uid','')
+        print(user_create_status)
+        # if user_id:
+        #     role_add_status=MStaff2Role.add_or_update(user_id,role)
         logger.info('user_register_status: {0}'.format(user_create_status))
         return json.dump(user_create_status, self)
 
@@ -493,16 +498,16 @@ class UserApi(BaseHandler):
 
         return json.dump(out_dict, self, ensure_ascii=False)
 
-    def __delete_user__(self, user_id):
+    def delete_user(self, user_id):
         '''
         delete user by ID.
         '''
 
         if MUser.delete(user_id):
-            output = {'del_category': 1}
+            output = {'del_user': 1}
         else:
             output = {
-                'del_category': 0,
+                'del_user': 0,
             }
 
         return json.dump(output, self)

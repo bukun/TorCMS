@@ -24,25 +24,16 @@
               "required": true
             },
             {
-              "type": "divider"
-            },
-            {
               "name": "status",
               "label": "状态",
               "type": "input-text",
               "required": true
             },
             {
-              "type": "divider"
-            },
-            {
               "name": "pid",
               "label": "parent id",
               "type": "input-text",
               "required": true
-            },
-            {
-              "type": "divider"
             }
           ]
         }
@@ -222,15 +213,9 @@
                           "type": "input-text"
                         },
                         {
-                          "type": "divider"
-                        },
-                        {
                           "name": "status",
                           "label": "状态",
                           "type": "input-text"
-                        },
-                        {
-                          "type": "divider"
                         },
                         {
                           "name": "pid",

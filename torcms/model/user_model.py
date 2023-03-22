@@ -8,6 +8,7 @@ from config import CMS_CFG
 from torcms.core import tools
 from torcms.model.core_tab import TabMember
 from torcms.model.staff2role_model import MStaff2Role
+from torcms.model.abc_model import MHelper
 
 
 class MUser():
@@ -371,6 +372,7 @@ class MUser():
             extinfo = {}
 
         try:
+
             TabMember.create(
                 uid=tools.get_uuid(),
                 user_name=post_data['user_name'],
@@ -388,6 +390,7 @@ class MUser():
             )
 
             out_dic['success'] = True
+
         except Exception as err:
             print(repr(err))
             out_dic['code'] = '91'
@@ -427,13 +430,12 @@ class MUser():
         '''
         Delele the  user in the database by `user_id`.
         '''
-        try:
-            del_count = TabMember.delete().where(TabMember.uid == user_id)
-            del_count.execute()
-            return True
-        except Exception as err:
-            print(repr(err))
-            return False
+
+        staff_recs = MStaff2Role.query_by_staff(user_id)
+        for staff_rec in staff_recs:
+            MStaff2Role.remove_relation(user_id, staff_rec.role)
+
+        return MHelper.delete(TabMember, user_id)
 
     @staticmethod
     def total_number():
@@ -444,14 +446,14 @@ class MUser():
         return TabMember.select().count(None)
 
     @staticmethod
-    def query_pager_by_slug(current_page_num=1, type='',num=CMS_CFG['list_num']):
+    def query_pager_by_slug(current_page_num=1, type='', num=CMS_CFG['list_num']):
         '''
         Query pager
         '''
         if type:
 
             return TabMember.select().where(TabMember.extinfo['ext_type'] == type).paginate(
-                current_page_num,num)
+                current_page_num, num)
         else:
             return TabMember.select().paginate(
                 current_page_num, num)

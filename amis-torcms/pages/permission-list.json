@@ -23,23 +23,14 @@
               "type": "input-text"
             },
             {
-              "type": "divider"
-            },
-            {
               "name": "action",
               "label": "允许动作",
               "type": "input-text"
             },
             {
-              "type": "divider"
-            },
-            {
               "name": "controller",
               "type": "input-text",
               "label": "控制器"
-            },
-            {
-              "type": "divider"
             }
           ]
         }
@@ -198,15 +189,9 @@
                           "type": "input-text"
                         },
                         {
-                          "type": "divider"
-                        },
-                        {
                           "name": "action",
                           "label": "允许动作",
                           "type": "input-text"
-                        },
-                        {
-                          "type": "divider"
                         },
                         {
                           "name": "controller",

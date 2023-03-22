@@ -23,15 +23,9 @@
               "name": "user_name"
             },
             {
-              "type": "divider"
-            },
-            {
               "label": "密码",
               "type": "input-password",
               "name": "user_pass"
-            },
-            {
-              "type": "divider"
             },
             {
               "label": "确认密码",
@@ -39,13 +33,25 @@
               "name": "user_pass2"
             },
             {
-              "type": "divider"
-            },
-            {
               "label": "Email",
               "type": "input-email",
               "placeholder": "请输入邮箱地址",
               "name": "user_email"
+            },
+            {
+              "type": "select",
+              "name": "role",
+              "label": "分组/角色",
+              "options": [
+                {
+                  "label": "黑龙江省鸡东县",
+                  "value": "1role_jd"
+                },
+                {
+                  "label": "研究所哈区",
+                  "value": "1role5"
+                }
+              ]
             }
           ]
         }
