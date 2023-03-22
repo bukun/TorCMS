@@ -1,13 +1,13 @@
 {
   "type": "page",
-  "title": "分组/角色管理列表",
+  "title": "权限列表",
   "remark": null,
   "name": "page-demo",
   "toolbar": [
     {
       "type": "button",
       "actionType": "link",
-      "link": "/role/add",
+      "link": "/permission/add",
       "label": "新增",
       "primary": true
     }
@@ -16,7 +16,7 @@
     {
       "type": "crud",
       "name": "sample",
-      "api": "/api/role/list",
+      "api": "/api/permission/list",
       "bulkActions": [
         {
           "label": "批量修改",
@@ -28,7 +28,7 @@
             "name": "sample-bulk-edit",
             "body": {
               "type": "form",
-              "api": "/api/role/batch_edit",
+              "api": "/api/permission/batch_edit",
               "controls": [
                 {
                   "type": "text",
@@ -44,7 +44,7 @@
           "type": "button",
           "level": "danger",
           "actionType": "ajax",
-          "api": "/api/role/batch_edit",
+          "api": "/api/permission/batch_edit",
           "confirmText": "确定要批量删除?"
         }
       ],
@@ -56,25 +56,19 @@
         },
         {
           "name": "name",
-          "label": "分组/角色名称",
+          "label": "权限名称",
           "type": "text"
         },
         {
-          "name": "status",
-          "label": "状态",
+          "name": "action",
+          "label": "允许动作",
           "type": "text"
         },
         {
-          "name": "pid",
-          "label": "parent id",
+          "name": "controller",
+          "label": "控制器",
           "type": "text"
         },
-         {
-          "name": "time_create",
-          "label": "time_create",
-          "type": "text"
-        },
-
         {
           "type": "operation",
           "label": "操作",
@@ -88,14 +82,14 @@
                   "label": "查看",
                   "level": "primary",
                   "actionType": "link",
-                  "link": "/role/get/${uid}"
+                  "link": "/permission/get/${uid}"
                 },
                 {
                   "type": "button",
                   "label": "修改",
                   "level": "info",
                   "actionType": "link",
-                  "link": "/role/edit/${uid}"
+                  "link": "/permission/edit/${uid}"
                 },
                 {
                   "type": "button",
@@ -103,7 +97,7 @@
                   "level": "danger",
                   "actionType": "ajax",
                   "confirmText": "您确认要删除?",
-                  "api": "/api/role/_delete/$uid"
+                  "api": "/api/permission/_delete/$uid"
                 }
               ]
             }

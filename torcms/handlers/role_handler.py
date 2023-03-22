@@ -28,8 +28,8 @@ class RoleHandler(BaseHandler):
 
         if url_str == 'list':
             self.recent()
-        # if len(url_arr) == 1:
-        #     self.get_by_id(url_arr[0])
+        elif url_arr[0] == 'get':
+            self.get_by_id(url_arr[1])
         elif url_arr[0] == '_delete':
             self.delete_by_id(url_arr[1])
         else:

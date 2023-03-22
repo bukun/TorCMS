@@ -6,36 +6,36 @@
     {
       "type": "button",
       "actionType": "link",
-      "link": "/role/list",
+      "link": "/permission/list",
       "label": "返回列表"
     }
   ],
   "body": [
     {
       "type": "form",
-      "initApi": "/api/role/_edit/${params.id}",
-      "api": "/api/role/_edit/${params.id}",
-      "redirect": "/role/list",
+      "initApi": "/api/permission/_edit/${params.id}",
+      "api": "/api/permission/_edit/${params.id}",
+      "redirect": "/permission/list",
       "controls": [
         {
           "name": "name",
-          "label": "分组/角色名称",
+          "label": "权限名称",
           "type": "text"
         },
         {
           "type": "divider"
         },
         {
-          "name": "status",
-          "label": "状态",
+          "name": "action",
+          "label": "允许动作",
           "type": "text"
         },
         {
           "type": "divider"
         },
         {
-          "name": "pid",
-          "label": "parent id",
+          "name": "controller",
+          "label": "控制器",
           "type": "text"
         }
       ]

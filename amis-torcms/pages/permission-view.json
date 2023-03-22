@@ -1,0 +1,41 @@
+{
+  "type": "page",
+  "title": "权限详情 ${params.id}",
+  "remark": null,
+  "toolbar": [
+    {
+      "type": "button",
+      "actionType": "link",
+      "link": "/permission/list",
+      "label": "返回列表"
+    }
+  ],
+  "body": [
+    {
+      "type": "form",
+      "api": "/api/permission/get/${params.id}",
+      "body": [
+        {
+          "name": "uid",
+          "label": "uid",
+          "type": "text"
+        },
+        {
+          "name": "name",
+          "label": "权限名称",
+          "type": "text"
+        },
+        {
+          "name": "action",
+          "label": "允许动作",
+          "type": "text"
+        },
+        {
+          "name": "controller",
+          "label": "控制器",
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}

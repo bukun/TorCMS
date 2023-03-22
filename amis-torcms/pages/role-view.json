@@ -13,7 +13,7 @@
   "body": [
     {
       "type": "form",
-      "initApi": "/api/role/${params.id}",
+      "api": "/api/role/get/${params.id}",
       "body": [
         {
           "name": "uid",

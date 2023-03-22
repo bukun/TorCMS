@@ -150,211 +150,34 @@
           },
           {
             "label": "权限管理",
-            "url": "permission",
-            "schema": {
-              "type": "page",
-              "initApi": "/api/permission/list",
-              "title": "${title}",
-              "body": [
-                {
-                  "type": "table",
-                  "className": "m-t",
-                  "source": "${perlist_table}",
-                  "columns": [
-                    {
-                      "name": "name",
-                      "label": "权限名称",
-                      "type": "text"
-                    },
-                    {
-                      "name": "action",
-                      "label": "允许动作",
-                      "type": "text"
-                    },
-                    {
-                      "name": "controller",
-                      "label": "控制器",
-                      "type": "text"
-                    }
-                  ]
-                }
-              ]
-            },
+            "url": "/permission",
+            "rewrite": "/permission/list",
+            "icon": "fa fa-cube",
             "children": [
               {
-                "label": "权限列表",
+                "label": "列表",
+                "url": "/permission/list",
                 "icon": "fa fa-list",
-                "url": "list",
-                "schema": {
-                  "initApi": "/api/permission/list",
-                  "type": "page",
-                  "title": "${title}",
-                  "body": [
-                    {
-                      "type": "table",
-                      "className": "m-t",
-                      "source": "${perlist_table}",
-                      "columns": [
-                        {
-                          "name": "name",
-                          "label": "权限名称",
-                          "type": "text"
-                        },
-                        {
-                          "name": "action",
-                          "label": "允许动作",
-                          "type": "text"
-                        },
-                        {
-                          "name": "controller",
-                          "label": "控制器",
-                          "type": "text"
-                        }
-                      ]
-                    }
-                  ]
-                }
+                "schemaApi": "get:/pages/permission-list.json"
               },
               {
-                "label": "添加权限",
-                "url": "add",
+                "label": "新增",
+                "url": "/permission/add",
                 "icon": "fa fa-plus",
-                "schema": {
-                  "type": "form",
-                  "mode": "horizontal",
-                  "redirect": "/permission/1",
-                  "api": "/api/permission/_add",
-                  "title": "添加权限",
-                  "body": [
-                    {
-                      "name": "name",
-                      "label": "权限名称",
-                      "type": "input-text"
-                    },
-                    {
-                      "name": "action",
-                      "label": "允许动作",
-                      "type": "input-text"
-                    },
-                    {
-                      "name": "controller",
-                      "type": "input-text",
-                      "label": "控制器"
-                    }
-                  ]
-                }
+                "schemaApi": "get:/pages/permission-add.json"
+              },
+              {
+                "label": "查看",
+                "url": "/permission/get/:id",
+                "schemaApi": "get:/pages/permission-view.json"
+              },
+              {
+                "label": "修改",
+                "url": "/permission/edit/:id",
+                "schemaApi": "get:/pages/permission-edit.json"
               }
             ]
           },
-          {
-            "label": "分组/角色管理",
-            "url": "roled",
-            "schema": {
-              "type": "page",
-              "initApi": "/api/role/list",
-              "title": "${title}",
-              "body": [
-                {
-                  "type": "table",
-                  "className": "m-t",
-                  "source": "${rolelist_table}",
-                  "columns": [
-                    {
-                      "name": "uid",
-                      "label": "uid",
-                      "type": "text"
-                    },
-                    {
-                      "name": "name",
-                      "label": "分组/角色名称",
-                      "type": "text"
-                    },
-                    {
-                      "name": "status",
-                      "label": "状态",
-                      "type": "text"
-                    },
-                    {
-                      "name": "pid",
-                      "label": "parent id",
-                      "type": "text"
-                    }
-                  ]
-                }
-              ]
-            },
-            "children": [
-              {
-                "label": "分组/角色列表",
-                "icon": "fa fa-list",
-                "url": "list",
-                "schema": {
-                  "initApi": "/api/role/list",
-                  "type": "page",
-                  "title": "${title}",
-                  "body": [
-                    {
-                      "type": "table",
-                      "className": "m-t",
-                      "source": "${rolelist_table}",
-                      "columns": [
-                        {
-                          "name": "uid",
-                          "label": "uid",
-                          "type": "text"
-                        },
-                        {
-                          "name": "name",
-                          "label": "分组/角色名称",
-                          "type": "text"
-                        },
-                        {
-                          "name": "status",
-                          "label": "状态",
-                          "type": "text"
-                        },
-                        {
-                          "name": "pid",
-                          "label": "parent id",
-                          "type": "text"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              },
-              {
-                "label": "添加分组/角色",
-                "url": "add",
-                "icon": "fa fa-plus",
-                "schema": {
-                  "type": "form",
-                  "mode": "horizontal",
-                  "redirect": "/role/list",
-                  "api": "/api/role/_add",
-                  "title": "添加分组/角色",
-                  "body": [
-                    {
-                      "name": "name",
-                      "label": "分组/角色名称",
-                      "type": "input-text"
-                    },
-                    {
-                      "name": "status",
-                      "label": "状态",
-                      "type": "input-text"
-                    },
-                    {
-                      "name": "pid",
-                      "label": "parent id",
-                      "type": "input-text"
-                    }
-                  ]
-                }
-              }
-            ]
-          },
-
           {
             "label": "分组/角色管理",
             "url": "/role",
@@ -375,7 +198,7 @@
               },
               {
                 "label": "查看",
-                "url": "/role/:id",
+                "url": "/role/get/:id",
                 "schemaApi": "get:/pages/role-view.json"
               },
               {
