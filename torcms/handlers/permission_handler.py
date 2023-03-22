@@ -28,7 +28,7 @@ class PermissionHandler(BaseHandler):
 
         if url_str == 'list':
             self.recent()
-        elif url_arr[0] == 'delete':
+        elif url_arr[0] == '_delete':
             self.delete_by_id(url_arr[1])
         else:
             kwd = {

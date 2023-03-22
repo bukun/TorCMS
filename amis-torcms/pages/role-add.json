@@ -1,0 +1,48 @@
+{
+  "type": "page",
+  "title": "新增",
+  "remark": null,
+  "toolbar": [
+    {
+      "type": "button",
+      "actionType": "link",
+      "link": "/role/list",
+      "label": "返回列表"
+    }
+  ],
+  "body": [
+    {
+      "title": "",
+      "type": "form",
+      "redirect": "/role/list",
+      "name": "sample-edit-form",
+      "api": "/api/role/_add",
+      "controls": [
+        {
+          "name": "name",
+          "label": "分组/角色名称",
+          "type": "input-text",
+          "required": true
+        },
+        {
+          "type": "divider"
+        },
+        {
+          "name": "status",
+          "label": "状态",
+          "type": "input-text",
+          "required": true
+        },
+        {
+          "type": "divider"
+        },
+        {
+          "name": "pid",
+          "label": "parent id",
+          "type": "input-text",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

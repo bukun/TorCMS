@@ -1,13 +1,13 @@
 {
   "type": "page",
-  "title": "列表",
+  "title": "分组/角色管理列表",
   "remark": null,
   "name": "page-demo",
   "toolbar": [
     {
       "type": "button",
       "actionType": "link",
-      "link": "/crud/new",
+      "link": "/role/add",
       "label": "新增",
       "primary": true
     }
@@ -16,27 +16,7 @@
     {
       "type": "crud",
       "name": "sample",
-      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
-      "filter": {
-        "title": "",
-        "mode": "inline",
-        "wrapWithPanel": false,
-        "submitText": "",
-        "controls": [
-          {
-            "type": "text",
-            "name": "keywords",
-            "placeholder": "通过关键字搜索",
-            "addOn": {
-              "label": "搜索",
-              "type": "submit",
-              "className": "btn-success"
-            },
-            "clearable": true
-          }
-        ],
-        "className": "m-b-sm"
-      },
+      "api": "/api/role/list",
       "bulkActions": [
         {
           "label": "批量修改",
@@ -48,7 +28,7 @@
             "name": "sample-bulk-edit",
             "body": {
               "type": "form",
-              "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/bulkUpdate2",
+              "api": "/api/role/batch_edit",
               "controls": [
                 {
                   "type": "text",
@@ -64,40 +44,37 @@
           "type": "button",
           "level": "danger",
           "actionType": "ajax",
-          "api": "delete:https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/$ids",
+          "api": "/api/role/batch_edit",
           "confirmText": "确定要批量删除?"
         }
       ],
       "columns": [
         {
-          "name": "engine",
-          "label": "Rendering engine",
-          "sortable": true
+          "name": "uid",
+          "label": "uid",
+          "type": "text"
         },
         {
-          "name": "id",
-          "label": "ID",
-          "width": 20,
-          "sortable": true
+          "name": "name",
+          "label": "分组/角色名称",
+          "type": "text"
         },
         {
-          "name": "browser",
-          "label": "Browser",
-          "sortable": true
+          "name": "status",
+          "label": "状态",
+          "type": "text"
         },
         {
-          "name": "platform",
-          "label": "Platform(s)",
-          "sortable": true
+          "name": "pid",
+          "label": "parent id",
+          "type": "text"
         },
-        {
-          "name": "version",
-          "label": "Engine version"
+         {
+          "name": "time_create",
+          "label": "time_create",
+          "type": "text"
         },
-        {
-          "name": "grade",
-          "label": "CSS grade"
-        },
+
         {
           "type": "operation",
           "label": "操作",
@@ -111,14 +88,14 @@
                   "label": "查看",
                   "level": "primary",
                   "actionType": "link",
-                  "link": "/crud/${id}"
+                  "link": "/role/${uid}"
                 },
                 {
                   "type": "button",
                   "label": "修改",
                   "level": "info",
                   "actionType": "link",
-                  "link": "/crud/${id}/edit"
+                  "link": "/role/edit/${uid}"
                 },
                 {
                   "type": "button",
@@ -126,7 +103,7 @@
                   "level": "danger",
                   "actionType": "ajax",
                   "confirmText": "您确认要删除?",
-                  "api": "delete:https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/$id"
+                  "api": "/api/role/_delete/$uid"
                 }
               ]
             }

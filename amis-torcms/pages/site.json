@@ -6,7 +6,7 @@
       {
         "label": "admin",
         "url": "/",
-        "redirect": "/user/1"
+        "redirect": "/user/list"
       },
       {
         "label": "示例",
@@ -47,7 +47,7 @@
               {
                 "label": "用户列表",
                 "icon": "fa fa-list",
-                "url": "1",
+                "url": "list",
                 "schema": {
                   "initApi": "/api/user/list",
                   "type": "page",
@@ -80,7 +80,7 @@
               },
               {
                 "label": "用户信息",
-                "url": "2",
+                "url": "info",
                 "schema": {
                   "initApi": "/api/user/info",
                   "type": "page",
@@ -114,10 +114,10 @@
               {
                 "label": "添加用户",
                 "icon": "fa fa-plus",
-                "url": "3",
+                "url": "add",
                 "schema": {
                   "title": "添加用户",
-                  "redirect": "/user/1",
+                  "redirect": "/user/list",
                   "type": "form",
                   "mode": "horizontal",
                   "api": "/api/user/regist",
@@ -184,7 +184,7 @@
               {
                 "label": "权限列表",
                 "icon": "fa fa-list",
-                "url": "1",
+                "url": "list",
                 "schema": {
                   "initApi": "/api/permission/list",
                   "type": "page",
@@ -217,7 +217,7 @@
               },
               {
                 "label": "添加权限",
-                "url": "2",
+                "url": "add",
                 "icon": "fa fa-plus",
                 "schema": {
                   "type": "form",
@@ -248,7 +248,7 @@
           },
           {
             "label": "分组/角色管理",
-            "url": "role",
+            "url": "roled",
             "schema": {
               "type": "page",
               "initApi": "/api/role/list",
@@ -287,7 +287,7 @@
               {
                 "label": "分组/角色列表",
                 "icon": "fa fa-list",
-                "url": "1",
+                "url": "list",
                 "schema": {
                   "initApi": "/api/role/list",
                   "type": "page",
@@ -325,12 +325,12 @@
               },
               {
                 "label": "添加分组/角色",
-                "url": "2",
+                "url": "add",
                 "icon": "fa fa-plus",
                 "schema": {
                   "type": "form",
                   "mode": "horizontal",
-                  "redirect": "/role/1",
+                  "redirect": "/role/list",
                   "api": "/api/role/_add",
                   "title": "添加分组/角色",
                   "body": [
@@ -354,33 +354,34 @@
               }
             ]
           },
+
           {
-            "label": "列表示例",
-            "url": "/crud",
-            "rewrite": "/crud/list",
+            "label": "分组/角色管理",
+            "url": "/role",
+            "rewrite": "/role/list",
             "icon": "fa fa-cube",
             "children": [
               {
                 "label": "列表",
-                "url": "/crud/list",
+                "url": "/role/list",
                 "icon": "fa fa-list",
-                "schemaApi": "get:/pages/crud-list.json"
+                "schemaApi": "get:/pages/role-list.json"
               },
               {
                 "label": "新增",
-                "url": "/crud/new",
+                "url": "/role/add",
                 "icon": "fa fa-plus",
-                "schemaApi": "get:/pages/crud-new.json"
+                "schemaApi": "get:/pages/role-add.json"
               },
               {
                 "label": "查看",
-                "url": "/crud/:id",
-                "schemaApi": "get:/pages/crud-view.json"
+                "url": "/role/:id",
+                "schemaApi": "get:/pages/role-view.json"
               },
               {
                 "label": "修改",
-                "url": "/crud/:id/edit",
-                "schemaApi": "get:/pages/crud-edit.json"
+                "url": "/role/edit/:id",
+                "schemaApi": "get:/pages/role-edit.json"
               }
             ]
           }

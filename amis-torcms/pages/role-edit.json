@@ -1,0 +1,43 @@
+{
+  "type": "page",
+  "title": "修改 ${params.id}",
+  "remark": null,
+  "toolbar": [
+    {
+      "type": "button",
+      "actionType": "link",
+      "link": "/role/list",
+      "label": "返回列表"
+    }
+  ],
+  "body": [
+    {
+      "type": "form",
+      "initApi": "/api/role/_edit/$id",
+      "api": "/api/role/_edit/$id",
+      "redirect": "/role/list",
+      "controls": [
+        {
+          "name": "uid",
+          "label": "uid",
+          "type": "text"
+        },
+        {
+          "name": "name",
+          "label": "分组/角色名称",
+          "type": "text"
+        },
+        {
+          "name": "status",
+          "label": "状态",
+          "type": "text"
+        },
+        {
+          "name": "pid",
+          "label": "parent id",
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}

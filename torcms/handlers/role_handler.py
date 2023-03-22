@@ -28,7 +28,9 @@ class RoleHandler(BaseHandler):
 
         if url_str == 'list':
             self.recent()
-        elif url_arr[0] == 'delete':
+        # if len(url_arr) == 1:
+        #     self.get_by_id(url_arr[0])
+        elif url_arr[0] == '_delete':
             self.delete_by_id(url_arr[1])
         else:
             kwd = {
@@ -66,6 +68,7 @@ class RoleHandler(BaseHandler):
                 "uid": rec.uid,
                 "name": rec.name,
                 'status': rec.status,
+                'pid':rec.pid,
                 'time_create': tools.format_time(rec.time_create),
                 'time_update': tools.format_time(rec.time_update)
             }
@@ -73,6 +76,24 @@ class RoleHandler(BaseHandler):
         out_dict = {
             'title': '分组/角色列表',
             'rolelist_table': dics
+        }
+
+        return json.dump(out_dict, self, ensure_ascii=False)
+    def get_by_id(self,uid):
+        rec = MRole.get_by_uid(uid)
+        dic = {
+            "uid": rec.uid,
+            "name": rec.name,
+            'status': rec.status,
+            'pid': rec.pid,
+            'time_create': tools.format_time(rec.time_create),
+            'time_update': tools.format_time(rec.time_update)
+        }
+
+
+        out_dict = {
+            'title': '分组/角色列表',
+            'rolelist_table': dic
         }
 
         return json.dump(out_dict, self, ensure_ascii=False)

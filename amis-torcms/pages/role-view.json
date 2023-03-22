@@ -1,0 +1,51 @@
+{
+  "type": "page",
+  "title": "分组/权限详情 ${params.id}",
+  "remark": null,
+  "toolbar": [
+    {
+      "type": "button",
+      "actionType": "link",
+      "link": "/role/list",
+      "label": "返回列表"
+    }
+  ],
+  "body": [
+    {
+      "type": "form",
+      "initApi": "/api/role/${params.id}",
+      "body": [
+        {
+          "name": "uid",
+          "label": "uid",
+          "type": "static"
+        },
+        {
+          "name": "name",
+          "label": "分组/角色名称",
+          "type": "static"
+        },
+        {
+          "name": "status",
+          "label": "状态",
+          "type": "static"
+        },
+        {
+          "name": "pid",
+          "label": "parent id",
+          "type": "static"
+        },
+        {
+          "name": "time_create",
+          "label": "创建时间",
+          "type": "static"
+        },
+        {
+          "name": "time_update",
+          "label": "更新时间",
+          "type": "static"
+        }
+      ]
+    }
+  ]
+}
