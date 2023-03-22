@@ -13,7 +13,7 @@
   "body": [
     {
       "type": "form",
-      "initApi": "/api/role/_edit/${params.id}",
+
       "api": "/api/role/_edit/${params.id}",
       "redirect": "/role/list",
       "controls": [

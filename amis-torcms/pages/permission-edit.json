@@ -13,7 +13,6 @@
   "body": [
     {
       "type": "form",
-      "initApi": "/api/permission/_edit/${params.id}",
       "api": "/api/permission/_edit/${params.id}",
       "redirect": "/permission/list",
       "controls": [

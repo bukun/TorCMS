@@ -32,8 +32,8 @@
               "controls": [
                 {
                   "type": "text",
-                  "name": "engine",
-                  "label": "Engine"
+                  "name": "status",
+                  "label": "状态"
                 }
               ]
             }
