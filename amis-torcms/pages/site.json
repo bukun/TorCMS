@@ -13,138 +13,15 @@
         "children": [
           {
             "label": "用户管理",
-            "url": "user",
-            "schema": {
-              "type": "page",
-              "initApi": "/api/user/info",
-              "title": "${title}",
-              "body": [
-                {
-                  "type": "table",
-                  "className": "m-t",
-                  "source": "${userinfo_table}",
-                  "columns": [
-                    {
-                      "name": "user_name",
-                      "label": "用户名",
-                      "type": "text"
-                    },
-                    {
-                      "name": "user_email",
-                      "label": "邮箱",
-                      "type": "text"
-                    },
-                    {
-                      "name": "time_create",
-                      "type": "date",
-                      "label": "注册时间"
-                    }
-                  ]
-                }
-              ]
-            },
+            "url": "/user",
+            "rewrite": "/user/list",
+            "icon": "fa fa-cube",
             "children": [
               {
-                "label": "用户列表",
+                "label": "列表",
+                "url": "/user/list",
                 "icon": "fa fa-list",
-                "url": "list",
-                "schema": {
-                  "initApi": "/api/user/list",
-                  "type": "page",
-                  "title": "${title}",
-                  "body": [
-                    {
-                      "type": "table",
-                      "className": "m-t",
-                      "source": "${userlist_table}",
-                      "columns": [
-                        {
-                          "name": "user_name",
-                          "label": "用户名",
-                          "type": "text"
-                        },
-                        {
-                          "name": "user_email",
-                          "label": "邮箱",
-                          "type": "text"
-                        },
-                        {
-                          "name": "time_create",
-                          "type": "date",
-                          "label": "注册时间"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              },
-              {
-                "label": "用户信息",
-                "url": "info",
-                "schema": {
-                  "initApi": "/api/user/info",
-                  "type": "page",
-                  "title": "${title}",
-                  "body": [
-                    {
-                      "type": "table",
-                      "className": "m-t",
-                      "source": "${userinfo_table}",
-                      "columns": [
-                        {
-                          "name": "user_name",
-                          "label": "用户名",
-                          "type": "text"
-                        },
-                        {
-                          "name": "user_email",
-                          "label": "邮箱",
-                          "type": "text"
-                        },
-                        {
-                          "name": "time_create",
-                          "type": "date",
-                          "label": "注册时间"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              },
-              {
-                "label": "添加用户",
-                "icon": "fa fa-plus",
-                "url": "add",
-                "schema": {
-                  "title": "添加用户",
-                  "redirect": "/user/list",
-                  "type": "form",
-                  "mode": "horizontal",
-                  "api": "/api/user/regist",
-                  "body": [
-                    {
-                      "label": "用户名",
-                      "type": "input-text",
-                      "name": "user_name"
-                    },
-                    {
-                      "label": "密码",
-                      "type": "input-password",
-                      "name": "user_pass"
-                    },
-                    {
-                      "label": "确认密码",
-                      "type": "input-password",
-                      "name": "user_pass2"
-                    },
-                    {
-                      "label": "Email",
-                      "type": "input-email",
-                      "placeholder": "请输入邮箱地址",
-                      "name": "user_email"
-                    }
-                  ]
-                }
+                "schemaApi": "get:/pages/user-list.json"
               }
             ]
           },

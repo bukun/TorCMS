@@ -343,12 +343,13 @@ class UserApi(BaseHandler):
                 'user_email': rec.user_email,
                 'role': rec.role,
                 'authority': rec.authority,
-                'time_login': rec.time_login,
-                'time_create': rec.time_create,
+                'time_login': tools.format_time(rec.time_login),
+                'time_create': tools.format_time(rec.time_create),
                 'extinfo': rec.extinfo
             }
 
         ]
+
         out_dict = {
             'title': '用户信息',
             'userinfo_table': dic
@@ -438,8 +439,36 @@ class UserApi(BaseHandler):
         '''
         find by keyword.
         '''
+
+        post_data = self.request.arguments  # {'page': [b'1'], 'perPage': [b'10']}
+        page = int(str(post_data['page'][0])[2:-1])
+        perPage = int(str(post_data['perPage'][0])[2:-1])
+
+        def get_pager_idx():
+            '''
+            Get the pager index.
+            '''
+
+            current_page_number = 1
+            if page == '':
+                current_page_number = 1
+            else:
+                try:
+                    current_page_number = int(page)
+                except TypeError:
+                    current_page_number = 1
+                except Exception as err:
+                    print(err.args)
+                    print(str(err))
+                    print(repr(err))
+
+            current_page_number = 1 if current_page_number < 1 else current_page_number
+            return current_page_number
+
         dics = []
-        recs = MUser.query_all(limit=100000)
+        current_page_num = get_pager_idx()
+        recs = MUser.query_pager_by_slug(current_page_num, num=perPage)
+        counts = MUser.count_of_certain()
         for rec in recs:
             dic = {
 
@@ -453,10 +482,13 @@ class UserApi(BaseHandler):
                 'extinfo': rec.extinfo
             }
             dics.append(dic)
-
         out_dict = {
-            'title': '用户列表',
-            'userlist_table': dics
+            "ok": True,
+            "status": 0,
+            "msg": "ok",
+            'data': {"count": counts,
+                     "rows": dics
+                     }
         }
 
         return json.dump(out_dict, self, ensure_ascii=False)

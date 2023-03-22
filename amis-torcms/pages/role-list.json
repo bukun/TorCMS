@@ -57,8 +57,6 @@
       "keepItemSelectionOnPageChange": true,
       "maxKeepItemSelectionLength": 11,
       "labelTpl": "${uid} ${name}",
-      "orderBy": "uid",
-      "orderDir": "asc",
       "name": "sample",
       "api": "/api/role/list",
       "bulkActions": [
@@ -160,7 +158,6 @@
                   "type": "button",
                   "label": "查看",
                   "level": "primary",
-
                   "icon": "fa fa-eye",
                   "actionType": "dialog",
                   "tooltip": "查看",
@@ -191,12 +188,12 @@
                         },
                         {
                           "name": "time_create",
-                          "label": "time_create",
+                          "label": "创建时间",
                           "type": "static"
                         },
                         {
                           "name": "time_update",
-                          "label": "time_update",
+                          "label": "更新时间",
                           "type": "static"
                         }
                       ]
@@ -207,7 +204,6 @@
                   "type": "button",
                   "label": "修改",
                   "level": "info",
-
                   "icon": "fa fa-pencil",
                   "tooltip": "编辑",
                   "actionType": "drawer",

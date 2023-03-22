@@ -93,7 +93,7 @@ class RoleHandler(BaseHandler):
         current_page_num = get_pager_idx()
         dics = []
         recs = MRole.query_all(current_page_num, perPage)
-        counts=MRole.get_counts()
+        counts = MRole.get_counts()
         for rec in recs:
             dic = {
                 "uid": rec.uid,

@@ -444,17 +444,17 @@ class MUser():
         return TabMember.select().count(None)
 
     @staticmethod
-    def query_pager_by_slug(current_page_num=1, type=''):
+    def query_pager_by_slug(current_page_num=1, type='',num=CMS_CFG['list_num']):
         '''
         Query pager
         '''
         if type:
 
             return TabMember.select().where(TabMember.extinfo['ext_type'] == type).paginate(
-                current_page_num, CMS_CFG['list_num'])
+                current_page_num,num)
         else:
             return TabMember.select().paginate(
-                current_page_num, CMS_CFG['list_num'])
+                current_page_num, num)
 
     @staticmethod
     def query_by_time(recent=90):

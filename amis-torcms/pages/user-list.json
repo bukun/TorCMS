@@ -1,6 +1,6 @@
 {
   "type": "page",
-  "title": "权限列表",
+  "title": "用户列表",
   "remark": null,
   "name": "page-demo",
   "toolbar": [
@@ -14,32 +14,38 @@
         "title": "新增",
         "body": {
           "type": "form",
-          "name": "permission-edit-form",
-          "api": "post:/api/permission/_add",
+          "name": "user-edit-form",
+          "api": "post:/api/user/regist",
           "body": [
             {
-              "name": "name",
-              "label": "权限名称",
-              "type": "input-text"
-            },
-            {
-              "type": "divider"
-            },
-            {
-              "name": "action",
-              "label": "允许动作",
-              "type": "input-text"
-            },
-            {
-              "type": "divider"
-            },
-            {
-              "name": "controller",
+              "label": "用户名",
               "type": "input-text",
-              "label": "控制器"
+              "name": "user_name"
             },
             {
               "type": "divider"
+            },
+            {
+              "label": "密码",
+              "type": "input-password",
+              "name": "user_pass"
+            },
+            {
+              "type": "divider"
+            },
+            {
+              "label": "确认密码",
+              "type": "input-password",
+              "name": "user_pass2"
+            },
+            {
+              "type": "divider"
+            },
+            {
+              "label": "Email",
+              "type": "input-email",
+              "placeholder": "请输入邮箱地址",
+              "name": "user_email"
             }
           ]
         }
@@ -54,7 +60,7 @@
       "perPage": 15,
       "keepItemSelectionOnPageChange": true,
       "maxKeepItemSelectionLength": 11,
-      "api": "/api/permission/list",
+      "api": "/api/user/list",
       "bulkActions": [
         {
           "label": "批量修改",
@@ -66,7 +72,7 @@
             "name": "sample-bulk-edit",
             "body": {
               "type": "form",
-              "api": "/api/permission/batch_edit",
+              "api": "/api/user/batch_edit",
               "controls": [
                 {
                   "type": "text",
@@ -82,7 +88,7 @@
           "type": "button",
           "level": "danger",
           "actionType": "ajax",
-          "api": "/api/permission/batch_edit",
+          "api": "/api/user/batch_edit",
           "confirmText": "确定要批量删除?"
         }
       ],
@@ -113,24 +119,19 @@
       ],
       "columns": [
         {
-          "name": "uid",
-          "label": "uid",
+          "name": "user_name",
+          "label": "用户名",
           "type": "text"
         },
         {
-          "name": "name",
-          "label": "权限名称",
+          "name": "user_email",
+          "label": "邮箱",
           "type": "text"
         },
         {
-          "name": "action",
-          "label": "允许动作",
-          "type": "text"
-        },
-        {
-          "name": "controller",
-          "label": "控制器",
-          "type": "text"
+          "name": "time_create",
+          "type": "date",
+          "label": "注册时间"
         },
         {
           "type": "operation",
@@ -153,24 +154,19 @@
                       "type": "form",
                       "body": [
                         {
-                          "name": "uid",
-                          "label": "uid",
+                          "name": "user_name",
+                          "label": "用户名",
                           "type": "static"
                         },
                         {
-                          "name": "name",
-                          "label": "权限名称",
+                          "name": "user_email",
+                          "label": "邮箱",
                           "type": "static"
                         },
                         {
-                          "name": "action",
-                          "label": "允许动作",
-                          "type": "static"
-                        },
-                        {
-                          "name": "controller",
-                          "label": "控制器",
-                          "type": "static"
+                          "name": "time_create",
+                          "type": "static",
+                          "label": "注册时间"
                         }
                       ]
                     }
@@ -189,29 +185,22 @@
                     "title": "编辑",
                     "body": {
                       "type": "form",
-                      "name": "permission-edit-form",
-                      "api": "/api/permission/_edit/${uid}",
+                      "name": "user-edit-form",
+                      "api": "/api/user/_edit/${uid}",
                       "body": [
                         {
-                          "name": "name",
-                          "label": "权限名称",
-                          "type": "input-text"
+                          "label": "用户名",
+                          "type": "input-text",
+                          "name": "user_name"
                         },
                         {
                           "type": "divider"
                         },
                         {
-                          "name": "action",
-                          "label": "允许动作",
-                          "type": "input-text"
-                        },
-                        {
-                          "type": "divider"
-                        },
-                        {
-                          "name": "controller",
-                          "label": "控制器",
-                          "type": "input-text"
+                          "label": "Email",
+                          "type": "input-email",
+                          "placeholder": "请输入邮箱地址",
+                          "name": "user_email"
                         }
                       ]
                     }
@@ -223,7 +212,7 @@
                   "level": "danger",
                   "actionType": "ajax",
                   "confirmText": "您确认要删除?",
-                  "api": "/api/permission/_delete/$uid"
+                  "api": "/api/user/_delete/$uid"
                 }
               ]
             }
