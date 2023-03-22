@@ -21,11 +21,12 @@ class MRole():
         return TabRole.select().count(None)
 
     @staticmethod
-    def query_all():
+    def query_all(current_page_num, perPage):
         '''
         Return some of the records. Not all.
         '''
-        return TabRole.select().order_by(TabRole.time_create.desc())
+        return TabRole.select().order_by(TabRole.time_create.desc()).paginate(
+            current_page_num, perPage)
 
     @staticmethod
     def get_by_uid(uid):

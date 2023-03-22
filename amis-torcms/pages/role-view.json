@@ -12,38 +12,40 @@
   ],
   "body": [
     {
-      "type": "form",
+      "type": "crud",
+      "title": "",
       "api": "/api/role/get/${params.id}",
-      "body": [
+      "columnsTogglable": false,
+      "columns": [
         {
           "name": "uid",
           "label": "uid",
-          "type": "static"
+          "type": "text"
         },
         {
           "name": "name",
           "label": "分组/角色名称",
-          "type": "static"
+          "type": "text"
         },
         {
           "name": "status",
           "label": "状态",
-          "type": "static"
+          "type": "text"
         },
         {
           "name": "pid",
           "label": "parent id",
-          "type": "static"
+          "type": "text"
         },
         {
           "name": "time_create",
-          "label": "创建时间",
-          "type": "static"
+          "label": "time_create",
+          "type": "text"
         },
         {
           "name": "time_update",
-          "label": "更新时间",
-          "type": "static"
+          "label": "time_update",
+          "type": "text"
         }
       ]
     }

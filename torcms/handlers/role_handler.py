@@ -27,7 +27,7 @@ class RoleHandler(BaseHandler):
         url_arr = self.parse_url(url_str)
 
         if url_str == 'list':
-            self.recent()
+            self.recent(url_str)
         elif url_arr[0] == 'get':
             self.get_by_id(url_arr[1])
 
@@ -57,12 +57,39 @@ class RoleHandler(BaseHandler):
         else:
             self.redirect('misc/html/404.html')
 
-    def recent(self):
+    def recent(self, url_str):
         '''
         Recent links.
         '''
+
+        post_data = self.request.arguments  # {'page': [b'1'], 'perPage': [b'10']}
+        page = int(str(post_data['page'][0])[2:-1])
+        perPage = int(str(post_data['perPage'][0])[2:-1])
+
+        def get_pager_idx():
+            '''
+            Get the pager index.
+            '''
+
+            current_page_number = 1
+            if page == '':
+                current_page_number = 1
+            else:
+                try:
+                    current_page_number = int(page)
+                except TypeError:
+                    current_page_number = 1
+                except Exception as err:
+                    print(err.args)
+                    print(str(err))
+                    print(repr(err))
+
+            current_page_number = 1 if current_page_number < 1 else current_page_number
+            return current_page_number
+
+        current_page_num = get_pager_idx()
         dics = []
-        recs = MRole.query_all()
+        recs = MRole.query_all(current_page_num, perPage)
         for rec in recs:
             dic = {
                 "uid": rec.uid,
@@ -82,18 +109,19 @@ class RoleHandler(BaseHandler):
 
     def get_by_id(self, uid):
         rec = MRole.get_by_uid(uid)
-        dic = {
+
+        dic = [{
             "uid": rec.uid,
             "name": rec.name,
             'status': rec.status,
             'pid': rec.pid,
             'time_create': tools.format_time(rec.time_create),
             'time_update': tools.format_time(rec.time_update)
-        }
+        }]
 
         out_dict = {
             'title': '分组/角色详情',
-            'rolelist_table': dic
+            'rolemore_table': dic
         }
 
         return json.dump(out_dict, self, ensure_ascii=False)

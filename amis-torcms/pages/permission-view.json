@@ -12,9 +12,11 @@
   ],
   "body": [
     {
-      "type": "form",
+      "type": "crud",
+      "title": "",
       "api": "/api/permission/get/${params.id}",
-      "body": [
+      "columnsTogglable": false,
+      "columns": [
         {
           "name": "uid",
           "label": "uid",

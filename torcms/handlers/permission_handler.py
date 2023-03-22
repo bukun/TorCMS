@@ -60,17 +60,16 @@ class PermissionHandler(BaseHandler):
 
     def get_by_id(self, uid):
         rec = MPermission.get_by_uid(uid)
-        dic = {
+        dic = [{
             "uid": rec.uid,
             "name": rec.name,
             'action': rec.action,
-            'controller': rec.controller,
-
-        }
+            'controller': rec.controller
+        }]
 
         out_dict = {
             'title': '权限详情',
-            'rolelist_table': dic
+            'permore_table': dic
         }
 
         return json.dump(out_dict, self, ensure_ascii=False)
@@ -79,8 +78,34 @@ class PermissionHandler(BaseHandler):
         '''
         Recent links.
         '''
+        post_data = self.request.arguments  # {'page': [b'1'], 'perPage': [b'10']}
+        page = int(str(post_data['page'][0])[2:-1])
+        perPage = int(str(post_data['perPage'][0])[2:-1])
+
+        def get_pager_idx():
+            '''
+            Get the pager index.
+            '''
+
+            current_page_number = 1
+            if page == '':
+                current_page_number = 1
+            else:
+                try:
+                    current_page_number = int(page)
+                except TypeError:
+                    current_page_number = 1
+                except Exception as err:
+                    print(err.args)
+                    print(str(err))
+                    print(repr(err))
+
+            current_page_number = 1 if current_page_number < 1 else current_page_number
+            return current_page_number
+
+        current_page_num = get_pager_idx()
         dics = []
-        recs = MPermission.query_all()
+        recs = MPermission.query_all(page, perPage)
         for rec in recs:
             dic = {
                 "uid": rec.uid,
