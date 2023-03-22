@@ -5,6 +5,8 @@ For Roles
 from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import TabRole
 from torcms.core import tools
+from torcms.model.role2permission_model import MRole2Permission
+from torcms.model.staff2role_model import MStaff2Role
 
 
 class MRole():
@@ -40,6 +42,14 @@ class MRole():
         '''
         Delete by uid
         '''
+        per_recs = MRole2Permission.query_by_role(uid)
+        for role_rec in per_recs:
+            MRole2Permission.remove_relation(uid, role_rec.permission)
+
+        staff_recs=MStaff2Role.query_by_role(uid)
+        for staff_rec in staff_recs:
+            MStaff2Role.remove_relation(staff_rec.staff,uid)
+
         return MHelper.delete(TabRole, uid)
 
     @staticmethod
