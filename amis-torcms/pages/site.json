@@ -159,22 +159,6 @@
                 "url": "/permission/list",
                 "icon": "fa fa-list",
                 "schemaApi": "get:/pages/permission-list.json"
-              },
-              {
-                "label": "新增",
-                "url": "/permission/add",
-                "icon": "fa fa-plus",
-                "schemaApi": "get:/pages/permission-add.json"
-              },
-              {
-                "label": "查看",
-                "url": "/permission/get/:id",
-                "schemaApi": "get:/pages/permission-view.json"
-              },
-              {
-                "label": "修改",
-                "url": "/permission/edit/:id",
-                "schemaApi": "get:/pages/permission-edit.json"
               }
             ]
           },
@@ -189,22 +173,6 @@
                 "url": "/role/list",
                 "icon": "fa fa-list",
                 "schemaApi": "get:/pages/role-list.json"
-              },
-              {
-                "label": "新增",
-                "url": "/role/add",
-                "icon": "fa fa-plus",
-                "schemaApi": "get:/pages/role-add.json"
-              },
-              {
-                "label": "查看",
-                "url": "/role/get/:id",
-                "schemaApi": "get:/pages/role-view.json"
-              },
-              {
-                "label": "修改",
-                "url": "/role/edit/:id",
-                "schemaApi": "get:/pages/role-edit.json"
               }
             ]
           }

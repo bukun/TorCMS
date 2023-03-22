@@ -1,16 +1,49 @@
 {
   "type": "page",
   "title": "权限列表",
-
   "remark": null,
   "name": "page-demo",
   "toolbar": [
     {
       "type": "button",
-      "actionType": "link",
-      "link": "/permission/add",
       "label": "新增",
-      "primary": true
+      "primary": true,
+      "actionType": "dialog",
+      "icon": "fa fa-plus pull-left",
+      "dialog": {
+        "title": "新增",
+        "body": {
+          "type": "form",
+          "name": "permission-edit-form",
+          "api": "post:/api/permission/_add",
+          "body": [
+            {
+              "name": "name",
+              "label": "权限名称",
+              "type": "input-text"
+            },
+            {
+              "type": "divider"
+            },
+            {
+              "name": "action",
+              "label": "允许动作",
+              "type": "input-text"
+            },
+            {
+              "type": "divider"
+            },
+            {
+              "name": "controller",
+              "type": "input-text",
+              "label": "控制器"
+            },
+            {
+              "type": "divider"
+            }
+          ]
+        }
+      }
     }
   ],
   "body": [
@@ -21,7 +54,6 @@
       "perPage": 15,
       "keepItemSelectionOnPageChange": true,
       "maxKeepItemSelectionLength": 11,
-
       "orderBy": "id",
       "orderDir": "asc",
       "api": "/api/permission/list",
@@ -57,32 +89,30 @@
         }
       ],
       "headerToolbar": [
-
-      "bulkActions",
-      {
-        "type": "tpl",
-        "tpl": "当前有 ${count} 条数据。",
-        "className": "v-middle"
-      },
-
-      {
-        "type": "columns-toggler",
-        "align": "right"
-      },
-      {
-        "type": "drag-toggler",
-        "align": "right"
-      },
-      {
-        "type": "pagination",
-        "align": "right"
-      }
-    ],
-    "footerToolbar": [
-      "statistics",
-      "switch-per-page",
-      "pagination"
-    ],
+        "bulkActions",
+        {
+          "type": "tpl",
+          "tpl": "当前有 ${count} 条数据。",
+          "className": "v-middle"
+        },
+        {
+          "type": "columns-toggler",
+          "align": "right"
+        },
+        {
+          "type": "drag-toggler",
+          "align": "right"
+        },
+        {
+          "type": "pagination",
+          "align": "right"
+        }
+      ],
+      "footerToolbar": [
+        "statistics",
+        "switch-per-page",
+        "pagination"
+      ],
       "columns": [
         {
           "name": "uid",
@@ -116,15 +146,78 @@
                   "type": "button",
                   "label": "查看",
                   "level": "primary",
-                  "actionType": "link",
-                  "link": "/permission/get/${uid}"
+                  "icon": "fa fa-eye",
+                  "actionType": "dialog",
+                  "tooltip": "查看",
+                  "dialog": {
+                    "title": "查看",
+                    "body": {
+                      "type": "form",
+                      "body": [
+                        {
+                          "name": "uid",
+                          "label": "uid",
+                          "type": "static"
+                        },
+                        {
+                          "name": "name",
+                          "label": "权限名称",
+                          "type": "static"
+                        },
+                        {
+                          "name": "action",
+                          "label": "允许动作",
+                          "type": "static"
+                        },
+                        {
+                          "name": "controller",
+                          "label": "控制器",
+                          "type": "static"
+                        }
+                      ]
+                    }
+                  }
                 },
                 {
                   "type": "button",
                   "label": "修改",
                   "level": "info",
-                  "actionType": "link",
-                  "link": "/permission/edit/${uid}"
+                  "icon": "fa fa-pencil",
+                  "tooltip": "编辑",
+                  "actionType": "drawer",
+                  "drawer": {
+                    "position": "left",
+                    "size": "lg",
+                    "title": "编辑",
+                    "body": {
+                      "type": "form",
+                      "name": "permission-edit-form",
+                      "api": "/api/permission/_edit/${uid}",
+                      "body": [
+                        {
+                          "name": "name",
+                          "label": "权限名称",
+                          "type": "input-text"
+                        },
+                        {
+                          "type": "divider"
+                        },
+                        {
+                          "name": "action",
+                          "label": "允许动作",
+                          "type": "input-text"
+                        },
+                        {
+                          "type": "divider"
+                        },
+                        {
+                          "name": "controller",
+                          "label": "控制器",
+                          "type": "input-text"
+                        }
+                      ]
+                    }
+                  }
                 },
                 {
                   "type": "button",

@@ -5,11 +5,48 @@
   "name": "page-demo",
   "toolbar": [
     {
-      "type": "button",
-      "actionType": "link",
-      "link": "/role/add",
       "label": "新增",
-      "primary": true
+      "primary": true,
+      "type": "button",
+      "actionType": "dialog",
+      "icon": "fa fa-plus pull-left",
+      "dialog": {
+        "title": "新增",
+        "body": {
+          "type": "form",
+          "name": "role-edit-form",
+          "api": "post:/api/role/_add",
+          "body": [
+            {
+              "name": "name",
+              "label": "分组/角色名称",
+              "type": "input-text",
+              "required": true
+            },
+            {
+              "type": "divider"
+            },
+            {
+              "name": "status",
+              "label": "状态",
+              "type": "input-text",
+              "required": true
+            },
+            {
+              "type": "divider"
+            },
+            {
+              "name": "pid",
+              "label": "parent id",
+              "type": "input-text",
+              "required": true
+            },
+            {
+              "type": "divider"
+            }
+          ]
+        }
+      }
     }
   ],
   "body": [
@@ -19,8 +56,8 @@
       "perPage": 15,
       "keepItemSelectionOnPageChange": true,
       "maxKeepItemSelectionLength": 11,
-
-      "orderBy": "id",
+      "labelTpl": "${uid} ${name}",
+      "orderBy": "uid",
       "orderDir": "asc",
       "name": "sample",
       "api": "/api/role/list",
@@ -35,20 +72,17 @@
             "name": "sample-bulk-edit",
             "body": {
               "type": "form",
-              "api": "/api/role/batch_edit/${ids|raw}",
+              "api": "/api/role/batch_edit",
               "controls": [
+                {
+                  "type": "hidden",
+                  "name": "uid"
+                },
                 {
                   "type": "text",
                   "name": "status",
                   "label": "状态"
-                },
-                 {
-                  "type": "text",
-                  "name": "ids",
-                  "label": "ids"
-
                 }
-
               ]
             }
           }
@@ -64,32 +98,30 @@
       ],
       "filterTogglable": true,
       "headerToolbar": [
-
-      "bulkActions",
-      {
-        "type": "tpl",
-        "tpl": "当前有 ${count} 条数据。",
-        "className": "v-middle"
-      },
-
-      {
-        "type": "columns-toggler",
-        "align": "right"
-      },
-      {
-        "type": "drag-toggler",
-        "align": "right"
-      },
-      {
-        "type": "pagination",
-        "align": "right"
-      }
-    ],
-    "footerToolbar": [
-      "statistics",
-      "switch-per-page",
-      "pagination"
-    ],
+        "bulkActions",
+        {
+          "type": "tpl",
+          "tpl": "当前有 ${count} 条数据。",
+          "className": "v-middle"
+        },
+        {
+          "type": "columns-toggler",
+          "align": "right"
+        },
+        {
+          "type": "drag-toggler",
+          "align": "right"
+        },
+        {
+          "type": "pagination",
+          "align": "right"
+        }
+      ],
+      "footerToolbar": [
+        "statistics",
+        "switch-per-page",
+        "pagination"
+      ],
       "columns": [
         {
           "name": "uid",
@@ -111,12 +143,11 @@
           "label": "parent id",
           "type": "text"
         },
-         {
+        {
           "name": "time_create",
           "label": "time_create",
           "type": "text"
         },
-
         {
           "type": "operation",
           "label": "操作",
@@ -129,19 +160,95 @@
                   "type": "button",
                   "label": "查看",
                   "level": "primary",
-                  "actionType": "link",
-                  "link": "/role/get/${uid}"
+
+                  "icon": "fa fa-eye",
+                  "actionType": "dialog",
+                  "tooltip": "查看",
+                  "dialog": {
+                    "title": "查看",
+                    "body": {
+                      "type": "form",
+                      "body": [
+                        {
+                          "name": "uid",
+                          "label": "uid",
+                          "type": "static"
+                        },
+                        {
+                          "name": "name",
+                          "label": "分组/角色名称",
+                          "type": "static"
+                        },
+                        {
+                          "name": "status",
+                          "label": "状态",
+                          "type": "static"
+                        },
+                        {
+                          "name": "pid",
+                          "label": "parent id",
+                          "type": "static"
+                        },
+                        {
+                          "name": "time_create",
+                          "label": "time_create",
+                          "type": "static"
+                        },
+                        {
+                          "name": "time_update",
+                          "label": "time_update",
+                          "type": "static"
+                        }
+                      ]
+                    }
+                  }
                 },
                 {
                   "type": "button",
                   "label": "修改",
                   "level": "info",
-                  "actionType": "link",
-                  "link": "/role/edit/${uid}"
+
+                  "icon": "fa fa-pencil",
+                  "tooltip": "编辑",
+                  "actionType": "drawer",
+                  "drawer": {
+                    "position": "left",
+                    "size": "lg",
+                    "title": "编辑",
+                    "body": {
+                      "type": "form",
+                      "name": "role-edit-form",
+                      "api": "/api/role/_edit/${uid}",
+                      "body": [
+                        {
+                          "name": "name",
+                          "label": "分组/角色名称",
+                          "type": "input-text"
+                        },
+                        {
+                          "type": "divider"
+                        },
+                        {
+                          "name": "status",
+                          "label": "状态",
+                          "type": "input-text"
+                        },
+                        {
+                          "type": "divider"
+                        },
+                        {
+                          "name": "pid",
+                          "label": "parent id",
+                          "type": "input-text"
+                        }
+                      ]
+                    }
+                  }
                 },
                 {
                   "type": "button",
                   "label": "删除",
+                  "icon": "fa fa-times text-danger",
                   "level": "danger",
                   "actionType": "ajax",
                   "confirmText": "您确认要删除?",
@@ -166,3 +273,7 @@
     }
   ]
 }
+
+
+
+
