@@ -28,8 +28,9 @@ class PermissionHandler(BaseHandler):
 
         if url_str == 'list':
             self.recent()
-        elif url_arr[0] == '_delete':
-            self.delete_by_id(url_arr[1])
+        elif url_arr[0] == 'get':
+            self.get_by_id(url_arr[1])
+
         else:
             kwd = {
                 'info': '页面未找到',
@@ -52,8 +53,27 @@ class PermissionHandler(BaseHandler):
 
         elif url_arr[0] == '_add':
             self.per_add()
+        elif url_arr[0] == '_delete':
+            self.delete_by_id(url_arr[1])
         else:
             self.redirect('misc/html/404.html')
+
+    def get_by_id(self, uid):
+        rec = MPermission.get_by_uid(uid)
+        dic = {
+            "uid": rec.uid,
+            "name": rec.name,
+            'action': rec.action,
+            'controller': rec.controller,
+
+        }
+
+        out_dict = {
+            'title': '权限详情',
+            'rolelist_table': dic
+        }
+
+        return json.dump(out_dict, self, ensure_ascii=False)
 
     def recent(self):
         '''

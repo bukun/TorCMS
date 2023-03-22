@@ -30,8 +30,7 @@ class RoleHandler(BaseHandler):
             self.recent()
         elif url_arr[0] == 'get':
             self.get_by_id(url_arr[1])
-        elif url_arr[0] == '_delete':
-            self.delete_by_id(url_arr[1])
+
         else:
             kwd = {
                 'info': '页面未找到',
@@ -51,7 +50,8 @@ class RoleHandler(BaseHandler):
 
         if url_arr[0] == '_edit':
             self.update(url_arr[1])
-
+        elif url_arr[0] == '_delete':
+            self.delete_by_id(url_arr[1])
         elif url_arr[0] == '_add':
             self.per_add()
         else:
@@ -68,7 +68,7 @@ class RoleHandler(BaseHandler):
                 "uid": rec.uid,
                 "name": rec.name,
                 'status': rec.status,
-                'pid':rec.pid,
+                'pid': rec.pid,
                 'time_create': tools.format_time(rec.time_create),
                 'time_update': tools.format_time(rec.time_update)
             }
@@ -79,7 +79,8 @@ class RoleHandler(BaseHandler):
         }
 
         return json.dump(out_dict, self, ensure_ascii=False)
-    def get_by_id(self,uid):
+
+    def get_by_id(self, uid):
         rec = MRole.get_by_uid(uid)
         dic = {
             "uid": rec.uid,
@@ -90,9 +91,8 @@ class RoleHandler(BaseHandler):
             'time_update': tools.format_time(rec.time_update)
         }
 
-
         out_dict = {
-            'title': '分组/角色列表',
+            'title': '分组/角色详情',
             'rolelist_table': dic
         }
 
@@ -105,7 +105,6 @@ class RoleHandler(BaseHandler):
         '''
 
         post_data = json.loads(self.request.body)
-
 
         if MRole.update(uid, post_data):
             output = {
