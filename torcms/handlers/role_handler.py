@@ -54,6 +54,9 @@ class RoleHandler(BaseHandler):
             self.delete_by_id(url_arr[1])
         elif url_arr[0] == '_add':
             self.per_add()
+        elif url_arr[0] == 'batch_edit':
+            self.batch_edit()
+
         else:
             self.redirect('misc/html/404.html')
 
@@ -90,6 +93,7 @@ class RoleHandler(BaseHandler):
         current_page_num = get_pager_idx()
         dics = []
         recs = MRole.query_all(current_page_num, perPage)
+        counts=MRole.get_counts()
         for rec in recs:
             dic = {
                 "uid": rec.uid,
@@ -99,10 +103,15 @@ class RoleHandler(BaseHandler):
                 'time_create': tools.format_time(rec.time_create),
                 'time_update': tools.format_time(rec.time_update)
             }
+
             dics.append(dic)
         out_dict = {
-            'title': '分组/角色列表',
-            'rolelist_table': dics
+            "ok": True,
+            "status": 0,
+            "msg": "ok",
+            'data': {"count": counts,
+                     "rows": dics
+                     }
         }
 
         return json.dump(out_dict, self, ensure_ascii=False)
@@ -143,6 +152,27 @@ class RoleHandler(BaseHandler):
                 'addinfo ': 0,
             }
         return json.dump(output, self)
+
+    @tornado.web.authenticated
+    def batch_edit(self):
+        '''
+        Update the link.
+        '''
+
+        post_data = json.loads(self.request.body)
+        aa = self.request.arguments
+        print("*" * 50)
+        print(post_data)
+        print(aa)
+        # if MRole.update(uid, post_data):
+        #     output = {
+        #         'addinfo ': 1,
+        #     }
+        # else:
+        #     output = {
+        #         'addinfo ': 0,
+        #     }
+        # return json.dump(output, self)
 
     @tornado.web.authenticated
     def per_add(self):

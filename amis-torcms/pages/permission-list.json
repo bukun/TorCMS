@@ -1,6 +1,7 @@
 {
   "type": "page",
   "title": "权限列表",
+
   "remark": null,
   "name": "page-demo",
   "toolbar": [
@@ -16,6 +17,13 @@
     {
       "type": "crud",
       "name": "sample",
+      "draggable": true,
+      "perPage": 15,
+      "keepItemSelectionOnPageChange": true,
+      "maxKeepItemSelectionLength": 11,
+
+      "orderBy": "id",
+      "orderDir": "asc",
       "api": "/api/permission/list",
       "bulkActions": [
         {
@@ -48,6 +56,33 @@
           "confirmText": "确定要批量删除?"
         }
       ],
+      "headerToolbar": [
+
+      "bulkActions",
+      {
+        "type": "tpl",
+        "tpl": "当前有 ${count} 条数据。",
+        "className": "v-middle"
+      },
+
+      {
+        "type": "columns-toggler",
+        "align": "right"
+      },
+      {
+        "type": "drag-toggler",
+        "align": "right"
+      },
+      {
+        "type": "pagination",
+        "align": "right"
+      }
+    ],
+    "footerToolbar": [
+      "statistics",
+      "switch-per-page",
+      "pagination"
+    ],
       "columns": [
         {
           "name": "uid",

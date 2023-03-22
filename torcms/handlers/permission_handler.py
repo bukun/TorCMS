@@ -105,7 +105,8 @@ class PermissionHandler(BaseHandler):
 
         current_page_num = get_pager_idx()
         dics = []
-        recs = MPermission.query_all(page, perPage)
+        recs = MPermission.query_all(current_page_num, perPage)
+        counts = MPermission.get_counts()
         for rec in recs:
             dic = {
                 "uid": rec.uid,
@@ -115,8 +116,13 @@ class PermissionHandler(BaseHandler):
             }
             dics.append(dic)
         out_dict = {
-            'title': '权限列表',
-            'perlist_table': dics
+
+            "ok": True,
+            "status": 0,
+            "msg": "ok",
+            'data': {"count": counts,
+                     "rows": dics
+                     }
         }
 
         return json.dump(out_dict, self, ensure_ascii=False)

@@ -15,6 +15,13 @@
   "body": [
     {
       "type": "crud",
+      "draggable": true,
+      "perPage": 15,
+      "keepItemSelectionOnPageChange": true,
+      "maxKeepItemSelectionLength": 11,
+
+      "orderBy": "id",
+      "orderDir": "asc",
       "name": "sample",
       "api": "/api/role/list",
       "bulkActions": [
@@ -28,13 +35,20 @@
             "name": "sample-bulk-edit",
             "body": {
               "type": "form",
-              "api": "/api/role/batch_edit",
+              "api": "/api/role/batch_edit/${ids|raw}",
               "controls": [
                 {
                   "type": "text",
                   "name": "status",
                   "label": "状态"
+                },
+                 {
+                  "type": "text",
+                  "name": "ids",
+                  "label": "ids"
+
                 }
+
               ]
             }
           }
@@ -48,6 +62,34 @@
           "confirmText": "确定要批量删除?"
         }
       ],
+      "filterTogglable": true,
+      "headerToolbar": [
+
+      "bulkActions",
+      {
+        "type": "tpl",
+        "tpl": "当前有 ${count} 条数据。",
+        "className": "v-middle"
+      },
+
+      {
+        "type": "columns-toggler",
+        "align": "right"
+      },
+      {
+        "type": "drag-toggler",
+        "align": "right"
+      },
+      {
+        "type": "pagination",
+        "align": "right"
+      }
+    ],
+    "footerToolbar": [
+      "statistics",
+      "switch-per-page",
+      "pagination"
+    ],
       "columns": [
         {
           "name": "uid",
