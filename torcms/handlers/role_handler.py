@@ -199,8 +199,13 @@ class RoleHandler(BaseHandler):
         '''
 
         post_data = json.loads(self.request.body)
+        per_dics = post_data.get('permission', '').split(",")
 
         if MRole.update(uid, post_data):
+            if per_dics:
+                for per in per_dics:
+                    MRole2Permission.add_or_update(uid, per)
+
             output = {
                 'addinfo ': 1,
             }
@@ -238,11 +243,8 @@ class RoleHandler(BaseHandler):
         '''
 
         post_data = json.loads(self.request.body)
-
-
         per_dics = post_data.get('permission', '').split(",")
-        print("*" * 50)
-        print(per_dics)
+
         cur_uid = tools.get_uudd(2)
         while MRole.get_by_uid(cur_uid):
             cur_uid = tools.get_uudd(2)

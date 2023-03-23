@@ -80,6 +80,7 @@ class MRole():
             time_update=tools.timestamp(),
         ).where(TabRole.uid == uid)
         entry.execute()
+        return uid
 
     @staticmethod
     def add_or_update(uid, post_data):
