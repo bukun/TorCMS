@@ -168,6 +168,7 @@ class UserApi(BaseHandler):
 
         for role in roles:
             MStaff2Role.add_or_update(post_data['uid'], role)
+        MUser.update_permissions(post_data['user_name'])
         user_edit_role = {
             'success': 'true'
         }

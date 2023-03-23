@@ -453,7 +453,7 @@ class MUser():
         '''
         if type:
 
-            return TabMember.select().where(TabMember.extinfo['ext_type'] == type).paginate(
+            return TabMember.select().where(TabMember.extinfo['ext_type'] == type).order_by(TabMember.time_create.desc()).paginate(
                 current_page_num, num)
         else:
             return TabMember.select().paginate(

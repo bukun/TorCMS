@@ -26,20 +26,6 @@
             ]
           },
           {
-            "label": "权限管理",
-            "url": "/permission",
-            "rewrite": "/permission/list",
-            "icon": "fa fa-cube",
-            "children": [
-              {
-                "label": "列表",
-                "url": "/permission/list",
-                "icon": "fa fa-list",
-                "schemaApi": "get:/pages/permission-list.json"
-              }
-            ]
-          },
-          {
             "label": "分组/角色管理",
             "url": "/role",
             "rewrite": "/role/list",
@@ -50,6 +36,20 @@
                 "url": "/role/list",
                 "icon": "fa fa-list",
                 "schemaApi": "get:/pages/role-list.json"
+              }
+            ]
+          },
+          {
+            "label": "权限管理",
+            "url": "/permission",
+            "rewrite": "/permission/list",
+            "icon": "fa fa-cube",
+            "children": [
+              {
+                "label": "列表",
+                "url": "/permission/list",
+                "icon": "fa fa-list",
+                "schemaApi": "get:/pages/permission-list.json"
               }
             ]
           }

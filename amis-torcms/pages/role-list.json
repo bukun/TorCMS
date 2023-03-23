@@ -244,6 +244,7 @@
                           "label": "更新时间",
                           "type": "static"
                         }
+
                       ]
                     }
                   }
@@ -274,11 +275,15 @@
                           "label": "状态",
                           "type": "input-text"
                         },
-                        {
-                          "name": "pid",
-                          "label": "parent id",
-                          "type": "input-text"
-                        },
+                       {
+              "name": "pid",
+              "id": "pid",
+              "label": "parent",
+              "mode": "row",
+              "type": "chained-select",
+              "source": "/api/role/getpid?level=1&maxLevel=1",
+              "required": true
+            },
                             {
               "label": "选择权限",
               "id": "transfer-receiver",
