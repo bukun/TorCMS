@@ -31,11 +31,25 @@ class MRole():
             current_page_num, perPage)
 
     @staticmethod
+    def getpid():
+        '''
+        Return some of the records. Not all.
+        '''
+        return TabRole.select()
+
+    @staticmethod
     def get_by_uid(uid):
         '''
         Get a link by ID.
         '''
         return MHelper.get_by_uid(TabRole, uid)
+
+    @staticmethod
+    def get_by_pid(pid):
+
+        recs = TabRole.select().where(TabRole.pid == pid)
+
+        return recs
 
     @staticmethod
     def delete(uid):
@@ -46,9 +60,9 @@ class MRole():
         for role_rec in per_recs:
             MRole2Permission.remove_relation(uid, role_rec.permission)
 
-        staff_recs=MStaff2Role.query_by_role(uid)
+        staff_recs = MStaff2Role.query_by_role(uid)
         for staff_rec in staff_recs:
-            MStaff2Role.remove_relation(staff_rec.staff,uid)
+            MStaff2Role.remove_relation(staff_rec.staff, uid)
 
         return MHelper.delete(TabRole, uid)
 

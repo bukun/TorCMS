@@ -27,9 +27,14 @@ class RoleHandler(BaseHandler):
         url_arr = self.parse_url(url_str)
 
         if url_str == 'list':
-            self.recent(url_str)
+            self.recent()
         elif url_arr[0] == 'get':
             self.get_by_id(url_arr[1])
+        elif url_arr[0] == 'chainedOptions':
+            self.chainedOptions()
+        elif url_arr[0] == 'getpid':
+            self.getpid()
+
 
         else:
             kwd = {
@@ -60,7 +65,58 @@ class RoleHandler(BaseHandler):
         else:
             self.redirect('misc/html/404.html')
 
-    def recent(self, url_str):
+    def getpid(self):
+
+        dics = []
+        recs = MRole.getpid()
+
+        for rec in recs:
+            dic = {
+                "label": rec.name,
+                "value": rec.uid
+
+            }
+
+            dics.append(dic)
+        out_dict = {
+            "ok": True,
+            "status": 0,
+            'data': dics
+
+        }
+
+        return json.dump(out_dict, self, ensure_ascii=False)
+
+    def chainedOptions(self):
+        '''
+        Recent links.
+        '''
+
+        post_data = self.request.arguments  # {'page': [b'1'], 'perPage': [b'10']}
+        parentId = str(post_data['parentId'][0])[2:-1]
+        if parentId == '':
+            parentId = '0000'
+        dics = []
+        recs = MRole.get_by_pid(parentId)
+
+        for rec in recs:
+            dic = {
+                "label": rec.name,
+                "value": rec.uid
+
+            }
+
+            dics.append(dic)
+        out_dict = {
+            "ok": True,
+            "status": 0,
+            'data': dics
+
+        }
+
+        return json.dump(out_dict, self, ensure_ascii=False)
+
+    def recent(self):
         '''
         Recent links.
         '''

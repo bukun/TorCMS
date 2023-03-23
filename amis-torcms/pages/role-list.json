@@ -29,12 +29,108 @@
               "type": "input-text",
               "required": true
             },
+
             {
               "name": "pid",
+              "id": "pid",
               "label": "parent id",
-              "type": "input-text",
+              "mode": "row",
+              "type": "chained-select",
+              "source": "/api/role/getpid?level=1&maxLevel=1",
               "required": true
+
+            },
+
+            {
+          "name": "transferEvent1",
+          "id": "transferEvent1",
+          "type": "action",
+          "label": "全选功能",
+          "level": "primary",
+          "className": "mr-3 mb-3",
+          "debugger": true,
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "actionType": "selectAll",
+                  "componentId": "transfer-receiver"
+                }
+              ]
             }
+          }
+        },
+        {
+          "name": "transferEvent2",
+          "id": "transferEvent2",
+          "type": "action",
+          "label": "清空功能",
+          "level": "primary",
+          "className": "mr-3 mb-3",
+          "debugger": true,
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "actionType": "clear",
+                  "componentId": "transfer-receiver"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "transferEvent2",
+          "id": "transferEvent2",
+          "type": "action",
+          "label": "重置功能",
+          "level": "primary",
+          "className": "mr-3 mb-3",
+          "debugger": true,
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "actionType": "reset",
+                  "componentId": "transfer-receiver"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "action",
+          "actionType": "reload",
+          "label": "刷新 reload",
+          "level": "primary",
+          "className": "mr-3 mb-3",
+          "target": "transfer"
+        },
+        {
+          "label": "穿梭器",
+          "id": "transfer-receiver",
+          "type": "transfer",
+          "name": "transfer",
+          "debugger": true,
+          "resetValue": "c",
+          "source": "/amis/api/mock2/form/getTreeOptions",
+          "onEvent": {
+            "change": {
+              "actions": [
+                {
+                  "actionType": "toast",
+                  "args": {
+                    "msgType": "info",
+                    "msg": "${transfer|json}"
+                  }
+                }
+              ]
+            }
+          }
+        }
+
+
+
           ]
         }
       }

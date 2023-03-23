@@ -39,19 +39,13 @@
               "name": "user_email"
             },
             {
-              "type": "select",
-              "name": "role",
+              "name": "ext_role",
+              "id": "ext_role",
               "label": "分组/角色",
-              "options": [
-                {
-                  "label": "黑龙江省鸡东县",
-                  "value": "1role_jd"
-                },
-                {
-                  "label": "研究所哈区",
-                  "value": "1role5"
-                }
-              ]
+              "mode": "row",
+              "type": "chained-select",
+              "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=1"
+
             }
           ]
         }
@@ -171,8 +165,13 @@
                         },
                         {
                           "name": "time_create",
-                          "type": "static",
+                          "type": "date",
                           "label": "注册时间"
+                        },
+                        {
+                          "name": "extinfo",
+                          "type": "json",
+                          "label": "extinfo"
                         }
                       ]
                     }

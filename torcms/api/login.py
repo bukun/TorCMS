@@ -21,6 +21,7 @@ from torcms.core.tools import logger
 from torcms.model.user_model import MUser
 from torcms.model.staff2role_model import MStaff2Role
 
+
 def check_regist_info(post_data):
     '''
     check data for user regist.
@@ -160,19 +161,28 @@ class UserApi(BaseHandler):
         user regist.
         '''
         post_data = json.loads(self.request.body)
-        role=post_data['role']
-        print("*" * 50)
-        print(role)
+        roles = post_data['ext_role'].split(",")
+        extinfo = {}
+
+        ii = 0
+        for role in roles:
+            extinfo['ext_role_' + str(ii)] = role
+            ii = ii + 1
+
         user_create_status = check_regist_info(post_data)
 
         if not user_create_status['success']:
             return json.dump(user_create_status, self)
 
-        user_create_status = MUser.create_user(post_data)
-        # user_id=user_create_status.get('uid','')
-        print(user_create_status)
-        # if user_id:
-        #     role_add_status=MStaff2Role.add_or_update(user_id,role)
+
+        user_create_status = MUser.create_user(post_data, extinfo=extinfo)
+        user_id=user_create_status.get('uid','')
+
+        if user_id:
+            for role in roles:
+                MStaff2Role.add_or_update(user_id,role)
+
+
         logger.info('user_register_status: {0}'.format(user_create_status))
         return json.dump(user_create_status, self)
 

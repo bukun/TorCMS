@@ -2,6 +2,8 @@
 
 from peewee import JOIN
 from torcms.model.core_tab import TabStaff2Role, TabRole, TabRole2Permission, TabMember
+
+
 # from torcms.model.user_model import MUser
 
 
@@ -35,7 +37,8 @@ class MStaff2Role():
 
         query = TabStaff2Role.select(
             TabStaff2Role.id, TabRole.uid, TabRole2Permission.permission_id
-        ).join(TabRole, JOIN.LEFT_OUTER).join(TabRole2Permission, JOIN.LEFT_OUTER).where(TabStaff2Role.staff == staff_id)
+        ).join(TabRole, JOIN.LEFT_OUTER).join(TabRole2Permission, JOIN.LEFT_OUTER).where(
+            TabStaff2Role.staff == staff_id)
         return query.dicts()
 
     @staticmethod
@@ -64,7 +67,6 @@ class MStaff2Role():
         if query and query.count() > 0:
             return True
         return False
-
 
     @staticmethod
     def query_by_role(role_id):
@@ -99,6 +101,7 @@ class MStaff2Role():
                 staff=staff_id
             )
 
+
 if __name__ == '__main__':
     # uid = 'a99c7bfd-c4b5-11ed-bd91-f58b67e41619'
     userinfo = TabMember.get(user_name='user_1role5')
@@ -109,7 +112,6 @@ if __name__ == '__main__':
     for x in uu:
         print(x)
         # print(x.id, x.tabuser.uid , dir(x))
-
 
     tt = MStaff2Role.check_permissions(uid, '1can_add')
     tt = MStaff2Role.check_permissions(uid, '1can_af')
