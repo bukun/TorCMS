@@ -66,10 +66,18 @@
               "api": "/api/user/batch_edit",
               "controls": [
                 {
-                  "type": "text",
-                  "name": "engine",
-                  "label": "Engine"
-                }
+                  "name": "ids",
+                  "type": "hidden"
+                },
+                {
+                          "name": "ext_role",
+                          "id": "ext_role",
+                          "label": "分组/角色",
+                          "mode": "row",
+                          "type": "chained-select",
+
+                          "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4"
+                        }
               ]
             }
           }
@@ -206,7 +214,6 @@
                           "label": "分组/角色",
                           "mode": "row",
                           "type": "chained-select",
-                          "width": "300px",
                           "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4"
                         }
                       ]
