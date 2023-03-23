@@ -37,15 +37,6 @@
               "type": "input-email",
               "placeholder": "请输入邮箱地址",
               "name": "user_email"
-            },
-            {
-              "name": "ext_role",
-              "id": "ext_role",
-              "label": "分组/角色",
-              "mode": "row",
-              "type": "chained-select",
-              "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=1"
-
             }
           ]
         }
@@ -154,6 +145,11 @@
                       "type": "form",
                       "body": [
                         {
+                          "name": "uid",
+                          "label": "uid",
+                          "type": "static"
+                        },
+                        {
                           "name": "user_name",
                           "label": "用户名",
                           "type": "static"
@@ -179,33 +175,39 @@
                 },
                 {
                   "type": "button",
-                  "label": "修改",
+                  "label": "修改用户角色",
                   "level": "info",
                   "icon": "fa fa-pencil",
-                  "tooltip": "编辑",
+                  "tooltip": "修改用户角色",
                   "actionType": "drawer",
                   "drawer": {
                     "position": "left",
                     "size": "lg",
-                    "title": "编辑",
+                    "title": "修改用户角色",
                     "body": {
                       "type": "form",
                       "name": "user-edit-form",
                       "api": "/api/user/_edit/${uid}",
                       "body": [
                         {
+                          "type": "hidden",
+                          "name": "uid"
+                        },
+                        {
                           "label": "用户名",
-                          "type": "input-text",
+                          "type": "static",
                           "name": "user_name"
                         },
+
+
                         {
-                          "type": "divider"
-                        },
-                        {
-                          "label": "Email",
-                          "type": "input-email",
-                          "placeholder": "请输入邮箱地址",
-                          "name": "user_email"
+                          "name": "ext_role",
+                          "id": "ext_role",
+                          "label": "分组/角色",
+                          "mode": "row",
+                          "type": "chained-select",
+                          "width": "300px",
+                          "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4"
                         }
                       ]
                     }

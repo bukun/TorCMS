@@ -145,43 +145,46 @@ class UserApi(BaseHandler):
         _ = kwargs
         url_str = args[0]
         url_arr = self.parse_url(url_str)
-        print('Post')
 
         if url_str == 'regist':
             self.register()
         elif url_str == 'login':
             self.login()
+        elif url_arr[0] == '_edit':
+            # 修改用户角色
+            self.user_edit_role(url_arr[1])
         elif url_arr[0] == '_delete':
             self.delete_user(url_arr[1]),
         elif url_arr[0] == 'changerole':
             self.__change_role__(url_arr[1])
+
+    def user_edit_role(self, uid):
+        '''
+        Modify user infomation.
+        '''
+
+        post_data = json.loads(self.request.body)
+        roles = post_data['ext_role'].split(",")
+
+        for role in roles:
+            MStaff2Role.add_or_update(post_data['uid'], role)
+        user_edit_role = {
+            'success': 'true'
+        }
+        return json.dump(user_edit_role, self)
 
     def register(self):
         '''
         user regist.
         '''
         post_data = json.loads(self.request.body)
-        roles = post_data['ext_role'].split(",")
-        extinfo = {}
-
-        ii = 0
-        for role in roles:
-            extinfo['ext_role_' + str(ii)] = role
-            ii = ii + 1
 
         user_create_status = check_regist_info(post_data)
 
         if not user_create_status['success']:
             return json.dump(user_create_status, self)
 
-
-        user_create_status = MUser.create_user(post_data, extinfo=extinfo)
-        user_id=user_create_status.get('uid','')
-
-        if user_id:
-            for role in roles:
-                MStaff2Role.add_or_update(user_id,role)
-
+        user_create_status = MUser.create_user(post_data)
 
         logger.info('user_register_status: {0}'.format(user_create_status))
         return json.dump(user_create_status, self)
@@ -551,9 +554,9 @@ class UserApi(BaseHandler):
                 url_reset = '{0}/user/reset-passwd?u={1}&t={2}&p={3}'.format(
                     config.SITE_CFG['site_url'], username, timestamp, hash_str)
                 email_cnt = '''<div>请查看下面的信息，并<span style="color:red">谨慎操作</span>：</div>
-                <div>您在"{0}"网站（{1}）申请了密码重置，如果确定要进行密码重置，请打开下面链接：</div>
-                <div><a href={2}>{2}</a></div>
-                <div>如果无法确定本信息的有效性，请忽略本邮件。</div>'''.format(
+                    <div>您在"{0}"网站（{1}）申请了密码重置，如果确定要进行密码重置，请打开下面链接：</div>
+                    <div><a href={2}>{2}</a></div>
+                    <div>如果无法确定本信息的有效性，请忽略本邮件。</div>'''.format(
                     config.SMTP_CFG['name'], config.SITE_CFG['site_url'],
                     url_reset)
 

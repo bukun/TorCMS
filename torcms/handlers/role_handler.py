@@ -12,6 +12,7 @@ from config import CMS_CFG
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
 from torcms.model.role_model import MRole
+from torcms.model.role2permission_model import MRole2Permission
 
 
 class RoleHandler(BaseHandler):
@@ -58,7 +59,7 @@ class RoleHandler(BaseHandler):
         elif url_arr[0] == '_delete':
             self.delete_by_id(url_arr[1])
         elif url_arr[0] == '_add':
-            self.per_add()
+            self.role_add()
         elif url_arr[0] == 'batch_edit':
             self.batch_edit()
 
@@ -68,7 +69,7 @@ class RoleHandler(BaseHandler):
     def getpid(self):
 
         dics = []
-        recs = MRole.getpid()
+        recs = MRole.query_all()
 
         for rec in recs:
             dic = {
@@ -148,7 +149,7 @@ class RoleHandler(BaseHandler):
 
         current_page_num = get_pager_idx()
         dics = []
-        recs = MRole.query_all(current_page_num, perPage)
+        recs = MRole.query_all_pager(current_page_num, perPage)
         counts = MRole.get_counts()
         for rec in recs:
             dic = {
@@ -231,18 +232,26 @@ class RoleHandler(BaseHandler):
         # return json.dump(output, self)
 
     @tornado.web.authenticated
-    def per_add(self):
+    def role_add(self):
         '''
         user add link.
         '''
 
         post_data = json.loads(self.request.body)
 
+
+        per_dics = post_data.get('permission', '').split(",")
+        print("*" * 50)
+        print(per_dics)
         cur_uid = tools.get_uudd(2)
         while MRole.get_by_uid(cur_uid):
             cur_uid = tools.get_uudd(2)
-
-        if MRole.add_or_update(cur_uid, post_data):
+        role_uid = MRole.add_or_update(cur_uid, post_data)
+        if role_uid:
+            if per_dics:
+                for per in per_dics:
+                    print(per)
+                    MRole2Permission.add_or_update(role_uid, per)
             output = {
                 'addinfo ': 1,
             }

@@ -23,7 +23,7 @@ class MRole():
         return TabRole.select().count(None)
 
     @staticmethod
-    def query_all(current_page_num, perPage):
+    def query_all_pager(current_page_num, perPage):
         '''
         Return some of the records. Not all.
         '''
@@ -31,7 +31,7 @@ class MRole():
             current_page_num, perPage)
 
     @staticmethod
-    def getpid():
+    def query_all():
         '''
         Return some of the records. Not all.
         '''

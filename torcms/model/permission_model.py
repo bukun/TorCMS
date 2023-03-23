@@ -20,7 +20,7 @@ class MPermission():
         return TabPermission.select().count(None)
 
     @staticmethod
-    def query_all(current_page_num, perPage):
+    def query_all_parger(current_page_num, perPage):
         '''
         Return some of the records. Not all.
         '''
@@ -32,6 +32,13 @@ class MPermission():
         Get a link by ID.
         '''
         return MHelper.get_by_uid(TabPermission, uid)
+
+    @staticmethod
+    def query_all():
+        '''
+        Get a link by ID.
+        '''
+        return TabPermission.select()
 
     @staticmethod
     def delete(uid):
