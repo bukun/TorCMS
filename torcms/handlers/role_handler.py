@@ -12,6 +12,7 @@ from config import CMS_CFG
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
 from torcms.model.role_model import MRole
+from torcms.model.role2permission_model import MRole2Permission
 
 
 class RoleHandler(BaseHandler):
@@ -27,9 +28,14 @@ class RoleHandler(BaseHandler):
         url_arr = self.parse_url(url_str)
 
         if url_str == 'list':
-            self.recent(url_str)
+            self.recent()
         elif url_arr[0] == 'get':
             self.get_by_id(url_arr[1])
+        elif url_arr[0] == 'chainedOptions':
+            self.chainedOptions()
+        elif url_arr[0] == 'getpid':
+            self.getpid()
+
 
         else:
             kwd = {
@@ -53,14 +59,65 @@ class RoleHandler(BaseHandler):
         elif url_arr[0] == '_delete':
             self.delete_by_id(url_arr[1])
         elif url_arr[0] == '_add':
-            self.per_add()
+            self.role_add()
         elif url_arr[0] == 'batch_edit':
             self.batch_edit()
 
         else:
             self.redirect('misc/html/404.html')
 
-    def recent(self, url_str):
+    def getpid(self):
+
+        dics = []
+        recs = MRole.query_all()
+
+        for rec in recs:
+            dic = {
+                "label": rec.name,
+                "value": rec.uid
+
+            }
+
+            dics.append(dic)
+        out_dict = {
+            "ok": True,
+            "status": 0,
+            'data': dics
+
+        }
+
+        return json.dump(out_dict, self, ensure_ascii=False)
+
+    def chainedOptions(self):
+        '''
+        Recent links.
+        '''
+
+        post_data = self.request.arguments  # {'page': [b'1'], 'perPage': [b'10']}
+        parentId = str(post_data['parentId'][0])[2:-1]
+        if parentId == '':
+            parentId = '0000'
+        dics = []
+        recs = MRole.get_by_pid(parentId)
+
+        for rec in recs:
+            dic = {
+                "label": rec.name,
+                "value": rec.uid
+
+            }
+
+            dics.append(dic)
+        out_dict = {
+            "ok": True,
+            "status": 0,
+            'data': dics
+
+        }
+
+        return json.dump(out_dict, self, ensure_ascii=False)
+
+    def recent(self):
         '''
         Recent links.
         '''
@@ -92,7 +149,7 @@ class RoleHandler(BaseHandler):
 
         current_page_num = get_pager_idx()
         dics = []
-        recs = MRole.query_all(current_page_num, perPage)
+        recs = MRole.query_all_pager(current_page_num, perPage)
         counts = MRole.get_counts()
         for rec in recs:
             dic = {
@@ -142,8 +199,13 @@ class RoleHandler(BaseHandler):
         '''
 
         post_data = json.loads(self.request.body)
+        per_dics = post_data.get('permission', '').split(",")
 
         if MRole.update(uid, post_data):
+            if per_dics:
+                for per in per_dics:
+                    MRole2Permission.add_or_update(uid, per)
+
             output = {
                 'addinfo ': 1,
             }
@@ -175,18 +237,23 @@ class RoleHandler(BaseHandler):
         # return json.dump(output, self)
 
     @tornado.web.authenticated
-    def per_add(self):
+    def role_add(self):
         '''
         user add link.
         '''
 
         post_data = json.loads(self.request.body)
+        per_dics = post_data.get('permission', '').split(",")
 
         cur_uid = tools.get_uudd(2)
         while MRole.get_by_uid(cur_uid):
             cur_uid = tools.get_uudd(2)
-
-        if MRole.add_or_update(cur_uid, post_data):
+        role_uid = MRole.add_or_update(cur_uid, post_data)
+        if role_uid:
+            if per_dics:
+                for per in per_dics:
+                    print(per)
+                    MRole2Permission.add_or_update(role_uid, per)
             output = {
                 'addinfo ': 1,
             }

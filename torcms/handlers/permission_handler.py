@@ -30,6 +30,8 @@ class PermissionHandler(BaseHandler):
             self.recent()
         elif url_arr[0] == 'get':
             self.get_by_id(url_arr[1])
+        elif url_arr[0] == 'getall':
+            self.getall()
 
         else:
             kwd = {
@@ -57,6 +59,35 @@ class PermissionHandler(BaseHandler):
             self.delete_by_id(url_arr[1])
         else:
             self.redirect('misc/html/404.html')
+
+    def getall(self):
+
+        recs = MPermission.query_all()
+        dics = []
+        for rec in recs:
+            dic = {
+                "label": rec.name,
+                "value": rec.uid,
+            }
+
+            dics.append(dic)
+
+        out_dict = {
+            "ok": True,
+            "status": 0,
+            "msg": "ok",
+            'data': {
+                "options": [
+                    {
+                        "label": "选择权限",
+                        "value": "a",
+                        "children": dics
+                    }
+                ]
+            }
+        }
+
+        return json.dump(out_dict, self, ensure_ascii=False)
 
     def get_by_id(self, uid):
         rec = MPermission.get_by_uid(uid)
@@ -105,7 +136,7 @@ class PermissionHandler(BaseHandler):
 
         current_page_num = get_pager_idx()
         dics = []
-        recs = MPermission.query_all(current_page_num, perPage)
+        recs = MPermission.query_all_parger(current_page_num, perPage)
         counts = MPermission.get_counts()
         for rec in recs:
             dic = {

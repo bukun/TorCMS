@@ -372,9 +372,9 @@ class MUser():
             extinfo = {}
 
         try:
-
+            uid = tools.get_uuid()
             TabMember.create(
-                uid=tools.get_uuid(),
+                uid=uid,
                 user_name=post_data['user_name'],
                 user_pass=tools.md5(post_data['user_pass']),
                 user_email=post_data['user_email'],
@@ -390,6 +390,7 @@ class MUser():
             )
 
             out_dic['success'] = True
+            out_dic['uid'] = uid
 
         except Exception as err:
             print(repr(err))
@@ -452,7 +453,7 @@ class MUser():
         '''
         if type:
 
-            return TabMember.select().where(TabMember.extinfo['ext_type'] == type).paginate(
+            return TabMember.select().where(TabMember.extinfo['ext_type'] == type).order_by(TabMember.time_create.desc()).paginate(
                 current_page_num, num)
         else:
             return TabMember.select().paginate(
