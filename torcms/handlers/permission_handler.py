@@ -80,7 +80,7 @@ class PermissionHandler(BaseHandler):
                 "options": [
                     {
                         "label": "选择权限",
-                        "value": "a",
+                        "value": "",
                         "children": dics
                     }
                 ]

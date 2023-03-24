@@ -151,6 +151,7 @@ class RoleHandler(BaseHandler):
         dics = []
         recs = MRole.query_all_pager(current_page_num, perPage)
         counts = MRole.get_counts()
+
         for rec in recs:
             dic = {
                 "uid": rec.uid,
@@ -160,6 +161,20 @@ class RoleHandler(BaseHandler):
                 'time_create': tools.format_time(rec.time_create),
                 'time_update': tools.format_time(rec.time_update)
             }
+            childrens = MRole.get_by_pid(rec.uid)
+            chid_dics = []
+            for children in childrens:
+                chid_rec = {
+                    "uid": children.uid,
+                    "name": children.name,
+                    'status': children.status,
+                    'pid': children.pid,
+                    'time_create': tools.format_time(children.time_create),
+                    'time_update': tools.format_time(children.time_update)
+                }
+                chid_dics.append(chid_rec)
+            if chid_dics:
+                dic['children'] = chid_dics
 
             dics.append(dic)
         out_dict = {
@@ -202,7 +217,9 @@ class RoleHandler(BaseHandler):
         per_dics = post_data.get('permission', '').split(",")
 
         recs = MRole.get_by_uid(uid)
+
         for rec in recs:
+            print(rec.uid)
             MRole2Permission.remove_relation(uid, rec.permission)
 
         if MRole.update(uid, post_data):
