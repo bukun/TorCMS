@@ -14,7 +14,7 @@ from wtforms_tornado import Form
 import config
 from datetime import datetime
 from config import CMS_CFG
-from torcms.core import tools
+from torcms.core import privilege, tools
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tool.send_email import send_mail
 from torcms.core.tools import logger
@@ -105,6 +105,7 @@ class UserApi(BaseHandler):
     def initialize(self, **kwargs):
         super().initialize()
         self.is_p = False
+        # self.kind ='u'
 
     def get(self, *args, **kwargs):
 
@@ -158,6 +159,7 @@ class UserApi(BaseHandler):
         elif url_arr[0] == 'changerole':
             self.__change_role__(url_arr[1])
 
+    # @privilege.permission(action='assign_role')
     def user_edit_role(self):
         '''
         Modify user infomation.
