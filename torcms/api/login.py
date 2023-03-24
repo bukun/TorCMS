@@ -182,7 +182,7 @@ class UserApi(BaseHandler):
             if post_data[key] in the_roles_arr:
                 continue
 
-            the_roles_arr.append(post_data[key] + ' ' * (4 - len(post_data[key])))
+            the_roles_arr.append(post_data[key])
 
         for index, idx_catid in enumerate(the_roles_arr):
             roles = idx_catid.split(",")
@@ -193,6 +193,7 @@ class UserApi(BaseHandler):
         for cur_role in current_roles:
             if cur_role.role not in the_roles_arr:
                 MStaff2Role.remove_relation(user_id, cur_role.role)
+
         extinfo = {
             "roles": the_roles_arr
         }
