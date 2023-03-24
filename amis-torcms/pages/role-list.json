@@ -184,11 +184,17 @@
           "label": "状态",
           "type": "text"
         },
+
         {
-          "name": "pid",
-          "label": "parent id",
-          "type": "text"
-        },
+              "name": "pid",
+              "id": "pid",
+              "label": "parent",
+              "mode": "row",
+              "type": "chained-select",
+              "source": "/api/role/getpid?level=1&maxLevel=1",
+              "required": true
+            },
+
         {
           "name": "time_create",
           "label": "time_create",

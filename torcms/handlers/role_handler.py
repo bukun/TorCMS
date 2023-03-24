@@ -201,6 +201,10 @@ class RoleHandler(BaseHandler):
         post_data = json.loads(self.request.body)
         per_dics = post_data.get('permission', '').split(",")
 
+        recs = MRole.get_by_uid(uid)
+        for rec in recs:
+            MRole2Permission.remove_relation(uid, rec.permission)
+
         if MRole.update(uid, post_data):
             if per_dics:
                 for per in per_dics:
