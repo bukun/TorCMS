@@ -277,6 +277,7 @@ class TestMUser():
         }
         MUser.create_user(pdata)
         bb = MUser.create_user(pdata)
+        bb.pop('uid')
         assert bb == {'code': '31', 'success': False}
         self.uu.delete_by_user_name(pdata['user_name'])
 
