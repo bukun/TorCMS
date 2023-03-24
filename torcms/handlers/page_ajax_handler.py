@@ -107,10 +107,13 @@ class PageAjaxHandler(PageHandler):
             'page_count': MWiki.get_counts(),
         }
 
-        self.render('admin/page_ajax/page_list.html',
-                    postrecs=MWiki.query_pager_by_kind(
-                        kind=kind, current_page_num=current_page_number),
-                    kwd=kwd)
+        self.render(
+            'admin/page_ajax/page_list.html',
+            postrecs=MWiki.query_pager_by_kind(
+                kind=kind, current_page_num=current_page_number
+            ),
+            kwd=kwd,
+        )
 
     @tornado.web.authenticated
     def p_to_add(self):
@@ -132,28 +135,19 @@ class PageAjaxHandler(PageHandler):
         slug = post_data['slug'].strip()
         title = post_data['title'].strip()
         if len(title) < 2:
-            output = {
-                'info': 'Title cannot be less than 2 characters',
-                'code': '0'
-            }
+            output = {'info': 'Title cannot be less than 2 characters', 'code': '0'}
 
             return json.dump(output, self)
 
         if MWiki.get_by_uid(slug):
             self.set_status(400)
-            output = {
-                'info': 'slug already exists',
-                'code': '-1'
-            }
+            output = {'info': 'slug already exists', 'code': '-1'}
 
             return json.dump(output, self)
         else:
             MWiki.create_page(slug, post_data)
             tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
-            output = {
-                'info': 'Added successfully',
-                'code': '1'
-            }
+            output = {'info': 'Added successfully', 'code': '1'}
 
             return json.dump(output, self)
 
@@ -178,21 +172,15 @@ class PageAjaxHandler(PageHandler):
                     'time_update': rec_page.time_update,
                     'title': rec_page.title,
                     'cnt_html': tornado.escape.xhtml_unescape(rec_page.cnt_html),
-                    'cnt_md': rec_page.cnt_md
+                    'cnt_md': rec_page.cnt_md,
                 }
 
                 return json.dump(out_json, self)
             else:
-                out_json = {
-                    'code': '0',
-                    'info': 'Page not found'
-                }
+                out_json = {'code': '0', 'info': 'Page not found'}
                 return json.dump(out_json, self)
         else:
-            out_json = {
-                'code': '-1',
-                'info': 'Page not found'
-            }
+            out_json = {'code': '-1', 'info': 'Page not found'}
             return json.dump(out_json, self)
 
     def json_list(self):
@@ -205,11 +193,7 @@ class PageAjaxHandler(PageHandler):
         for rec in recs:
             rec_arr.append({'title': rec.title, 'slug': rec.uid, 'cnt_md': rec.cnt_md})
 
-        out_json = {
-            'code': '1',
-            'info': 'success',
-            'recs': rec_arr
-        }
+        out_json = {'code': '1', 'info': 'success', 'recs': rec_arr}
         return json.dump(out_json, self)
 
     @tornado.web.authenticated
@@ -229,16 +213,11 @@ class PageAjaxHandler(PageHandler):
         if cnt_old == cnt_new:
             pass
         else:
-            MWikiHist.create_wiki_history(MWiki.get_by_uid(slug),
-                                          self.userinfo)
+            MWikiHist.create_wiki_history(MWiki.get_by_uid(slug), self.userinfo)
 
         MWiki.update(slug, post_data)
 
         # tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
 
-        out_json = {
-            'code': '1',
-            'info': 'success',
-            'uid': slug
-        }
+        out_json = {'code': '1', 'info': 'success', 'uid': slug}
         return json.dump(out_json, self)

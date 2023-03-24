@@ -39,9 +39,7 @@ def auth_view(method):
                 kwd = {
                     'info': 'No role',
                 }
-                self.render('misc/html/404.html',
-                            kwd=kwd,
-                            userinfo=self.userinfo)
+                self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
         else:
             kwd = {
@@ -70,9 +68,7 @@ def auth_add(method):
                 kwd = {
                     'info': 'No role',
                 }
-                self.render('misc/html/404.html',
-                            kwd=kwd,
-                            userinfo=self.userinfo)
+                self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
         else:
             kwd = {
@@ -100,9 +96,7 @@ def auth_edit(method):
                 kwd = {
                     'info': 'No role',
                 }
-                self.render('misc/html/404.html',
-                            kwd=kwd,
-                            userinfo=self.userinfo)
+                self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
         else:
             kwd = {
@@ -129,9 +123,7 @@ def auth_delete(method):
                 kwd = {
                     'info': 'No role',
                 }
-                self.render('misc/html/404.html',
-                            kwd=kwd,
-                            userinfo=self.userinfo)
+                self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
         else:
             kwd = {
@@ -159,9 +151,7 @@ def auth_admin(method):
                 kwd = {
                     'info': 'No role',
                 }
-                self.render('misc/html/404.html',
-                            kwd=kwd,
-                            userinfo=self.userinfo)
+                self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
         else:
             kwd = {
                 'info': 'No role',
@@ -187,9 +177,7 @@ def auth_check(method):
                 kwd = {
                     'info': 'No role',
                 }
-                self.render('misc/html/404.html',
-                            kwd=kwd,
-                            userinfo=self.userinfo)
+                self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
         else:
             kwd = {

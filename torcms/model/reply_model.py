@@ -13,7 +13,7 @@ from torcms.model.core_tab import TabReply, TabUser2Reply
 from torcms.model.replyid_model import TabReplyid
 
 
-class MReply():
+class MReply:
     @staticmethod
     def get_by_uid(uid):
         recs = TabReply.select().where(TabReply.uid == uid)
@@ -47,7 +47,8 @@ class MReply():
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_reply']),
             cnt_html=tools.markdown2html(post_data['cnt_reply']),
             vote=0,
-            extinfo=extinfo)
+            extinfo=extinfo,
+        )
         return uid
 
     @staticmethod
@@ -56,22 +57,30 @@ class MReply():
         Get reply list of certain post.
         '''
         if reply_count:
-            return TabReply.select().where((TabReply.post_id == postid)
-                                           & (TabReply.category != '1')).order_by(
-                TabReply.timestamp.desc()).limit(reply_count)
+            return (
+                TabReply.select()
+                .where((TabReply.post_id == postid) & (TabReply.category != '1'))
+                .order_by(TabReply.timestamp.desc())
+                .limit(reply_count)
+            )
         else:
-            return TabReply.select().where((TabReply.post_id == postid)
-                                           & (TabReply.category != '1')).order_by(
-                TabReply.timestamp.desc())
+            return (
+                TabReply.select()
+                .where((TabReply.post_id == postid) & (TabReply.category != '1'))
+                .order_by(TabReply.timestamp.desc())
+            )
 
     @staticmethod
     def get_by_zan(reply_id):
-        return TabUser2Reply.select().where(
-            TabUser2Reply.reply_id == reply_id).count()
+        return TabUser2Reply.select().where(TabUser2Reply.reply_id == reply_id).count()
 
     @staticmethod
     def query_all():
-        return TabReply.select().where(TabReply.category == '0').order_by(TabReply.timestamp.desc())
+        return (
+            TabReply.select()
+            .where(TabReply.category == '0')
+            .order_by(TabReply.timestamp.desc())
+        )
 
     @staticmethod
     def delete(del_id):
@@ -85,19 +94,31 @@ class MReply():
         # adding ``None`` to hide ``No value for argument 'database' in method call``
         if user_id:
             if ext_field:
-                return TabReply.select().where(
-                    (TabReply.category == '0') &
-                    (TabReply.user_id == user_id) &
-                    (TabReply.extinfo['ext_field'] == str(ext_field))
-                ).count(None)
+                return (
+                    TabReply.select()
+                    .where(
+                        (TabReply.category == '0')
+                        & (TabReply.user_id == user_id)
+                        & (TabReply.extinfo['ext_field'] == str(ext_field))
+                    )
+                    .count(None)
+                )
             else:
-                return TabReply.select().where((TabReply.category == '0') & (TabReply.user_id == user_id)).count(None)
+                return (
+                    TabReply.select()
+                    .where((TabReply.category == '0') & (TabReply.user_id == user_id))
+                    .count(None)
+                )
         else:
             if ext_field:
-                return TabReply.select().where(
-                    (TabReply.category == '0') &
-                    (TabReply.extinfo['ext_field'] == str(ext_field))
-                ).count(None)
+                return (
+                    TabReply.select()
+                    .where(
+                        (TabReply.category == '0')
+                        & (TabReply.extinfo['ext_field'] == str(ext_field))
+                    )
+                    .count(None)
+                )
             else:
                 return TabReply.select().where(TabReply.category == '0').count(None)
 
@@ -108,8 +129,14 @@ class MReply():
         '''
         # adding ``None`` to hide ``No value for argument 'database' in method call``
         if ext_field:
-            return TabReply.select().where(
-                TabReply.category == '0' and TabReply.extinfo['ext_field'] == ext_field).count(None)
+            return (
+                TabReply.select()
+                .where(
+                    TabReply.category == '0'
+                    and TabReply.extinfo['ext_field'] == ext_field
+                )
+                .count(None)
+            )
         else:
             return TabReply.select().where(TabReply.category == '0').count(None)
 
@@ -122,24 +149,41 @@ class MReply():
             cat_con = TabReply.user_id == user_id
 
             if ext_field:
-                return TabReply.select().where(
-                    (TabReply.category == '0') & (TabReply.extinfo['ext_field'] == ext_field) & cat_con).order_by(
-                    TabReply.timestamp.desc()
-                ).paginate(current_page_num, CMS_CFG['list_num'])
+                return (
+                    TabReply.select()
+                    .where(
+                        (TabReply.category == '0')
+                        & (TabReply.extinfo['ext_field'] == ext_field)
+                        & cat_con
+                    )
+                    .order_by(TabReply.timestamp.desc())
+                    .paginate(current_page_num, CMS_CFG['list_num'])
+                )
             else:
-                return TabReply.select().where(cat_con & (TabReply.category == '0')).order_by(
-                    TabReply.timestamp.desc()
-                ).paginate(current_page_num, CMS_CFG['list_num'])
+                return (
+                    TabReply.select()
+                    .where(cat_con & (TabReply.category == '0'))
+                    .order_by(TabReply.timestamp.desc())
+                    .paginate(current_page_num, CMS_CFG['list_num'])
+                )
         else:
             if ext_field:
-                return TabReply.select().where(
-                    TabReply.category == '0' and TabReply.extinfo['ext_field'] == ext_field).order_by(
-                    TabReply.timestamp.desc()
-                ).paginate(current_page_num, CMS_CFG['list_num'])
+                return (
+                    TabReply.select()
+                    .where(
+                        TabReply.category == '0'
+                        and TabReply.extinfo['ext_field'] == ext_field
+                    )
+                    .order_by(TabReply.timestamp.desc())
+                    .paginate(current_page_num, CMS_CFG['list_num'])
+                )
             else:
-                return TabReply.select().where(TabReply.category == '0').order_by(
-                    TabReply.timestamp.desc()
-                ).paginate(current_page_num, CMS_CFG['list_num'])
+                return (
+                    TabReply.select()
+                    .where(TabReply.category == '0')
+                    .order_by(TabReply.timestamp.desc())
+                    .paginate(current_page_num, CMS_CFG['list_num'])
+                )
 
     @staticmethod
     def modify_by_uid(pid, post_data):

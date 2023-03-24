@@ -35,11 +35,14 @@ def echo_html_fenye_str(rec_num, fenye_num):
 
         if fenye_num > 1:
             pager_home = '''<li class="{0}" name='fenye' onclick='change(this);'
-              value='{1}'><a>First Page</a></li>'''.format('', 1)
+              value='{1}'><a>First Page</a></li>'''.format(
+                '', 1
+            )
 
             pager_pre = ''' <li class="{0}" name='fenye' onclick='change(this);'
               value='{1}'><a>Previous Page</a></li>'''.format(
-                '', fenye_num - 1)
+                '', fenye_num - 1
+            )
         if fenye_num > 5:
             cur_num = fenye_num - 4
         else:
@@ -58,14 +61,20 @@ def echo_html_fenye_str(rec_num, fenye_num):
                 checkstr = ''
 
             tmp_str_df = '''<li class="{0}" name='fenye' onclick='change(this);'
-              value='{1}'><a>{1}</a></li>'''.format(checkstr, num)
+              value='{1}'><a>{1}</a></li>'''.format(
+                checkstr, num
+            )
 
             pager_mid += tmp_str_df
         if fenye_num < pagination_num:
             pager_next = '''<li class="{0}" name='fenye' onclick='change(this);'
-              value='{1}'><a>Next Page</a></li>'''.format('', fenye_num + 1)
+              value='{1}'><a>Next Page</a></li>'''.format(
+                '', fenye_num + 1
+            )
             pager_last = '''<li class="{0}" name='fenye' onclick='change(this);'
-              value='{1}'><a>End Page</a></li>'''.format('', pagination_num)
+              value='{1}'><a>End Page</a></li>'''.format(
+                '', pagination_num
+            )
 
         fenye_str += pager_home + pager_pre + pager_mid + pager_next + pager_last
         fenye_str += '</ul>'
@@ -114,9 +123,7 @@ class FilterHandler(BaseHandler):
     def gen_redis_kw(self):
         condition = {}
         if self.get_current_user() and self.userinfo:
-            redis_kw = redisvr.smembers(
-                CMS_CFG['redis_kw'] + self.userinfo.user_name
-            )
+            redis_kw = redisvr.smembers(CMS_CFG['redis_kw'] + self.userinfo.user_name)
         else:
             redis_kw = []
 
@@ -176,18 +183,19 @@ class FilterHandler(BaseHandler):
             logger.info(f'TorCMS:: post handler: {condition}')
 
         if url_arr[1] == 'con':
-            infos = MPost.query_list_pager(condition,
-                                           fenye_num,
-                                           kind=catinfo.kind,
-                                           sort_option=sort_option)
+            infos = MPost.query_list_pager(
+                condition, fenye_num, kind=catinfo.kind, sort_option=sort_option
+            )
             self.echo_html_list_str(sig, infos, catinfo)
         elif url_arr[1] == 'num':
-            allinfos = MPost.query_under_condition(condition,
-                                                   kind=catinfo.kind,
-                                                   sort_option=sort_option)
-            self.write(tornado.escape.xhtml_unescape(
-                echo_html_fenye_str(allinfos.count(), fenye_num)
-            ))
+            allinfos = MPost.query_under_condition(
+                condition, kind=catinfo.kind, sort_option=sort_option
+            )
+            self.write(
+                tornado.escape.xhtml_unescape(
+                    echo_html_fenye_str(allinfos.count(), fenye_num)
+                )
+            )
 
     def get_info_num(self, url_str):
         '''
@@ -245,12 +253,14 @@ class FilterHandler(BaseHandler):
             'router': router_post[catinfo.kind],
         }
 
-        self.render('autogen/infolist/infolist_{0}.html'.format(catid),
-                    userinfo=self.userinfo,
-                    kwd=kwd,
-                    html2text=html2text,
-                    post_infos=infos,
-                    widget_info=kwd)
+        self.render(
+            'autogen/infolist/infolist_{0}.html'.format(catid),
+            userinfo=self.userinfo,
+            kwd=kwd,
+            html2text=html2text,
+            post_infos=infos,
+            widget_info=kwd,
+        )
 
     def list(self, catid):
         '''
@@ -269,7 +279,6 @@ class FilterHandler(BaseHandler):
         else:
             kwd = {
                 'title': '',
-
                 'info': '404. Can not find the category!',
             }
             self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
@@ -283,7 +292,8 @@ class FilterHandler(BaseHandler):
             condition['parentid'] = [parent_id]
             catname = MCategory.get_by_uid(sig).name
             bread_crumb_nav_str += '<li><a href="/list/{0}">{1}</a></li>'.format(
-                sig, catname)
+                sig, catname
+            )
             bread_title = '{0}'.format(catname)
 
         else:
@@ -294,10 +304,12 @@ class FilterHandler(BaseHandler):
             parent_catname = MCategory.get_by_uid(parent_id).name
             catname = MCategory.get_by_uid(sig).name
             bread_crumb_nav_str += '<li><a href="/list/{0}">{1}</a></li>'.format(
-                parent_id, parent_catname)
+                parent_id, parent_catname
+            )
 
             bread_crumb_nav_str += '<li><a href="/list/{0}">{1}</a></li>'.format(
-                sig, catname)
+                sig, catname
+            )
             bread_title += '{0} - '.format(parent_catname)
             bread_title += '{0}'.format(catname)
 
@@ -311,24 +323,24 @@ class FilterHandler(BaseHandler):
             'parentlist': MCategory.get_parent_list(),
             'condition': condition,
             'catname': catname,
-            'rec_num': num
+            'rec_num': num,
         }
 
         # cat_rec = MCategory.get_by_uid(catid)
         if self.get_current_user() and self.userinfo:
-            redis_kw = redisvr.smembers(
-                CMS_CFG['redis_kw'] + self.userinfo.user_name
-            )
+            redis_kw = redisvr.smembers(CMS_CFG['redis_kw'] + self.userinfo.user_name)
         else:
             redis_kw = []
         kw_condition_arr = []
         for the_key in redis_kw:
             kw_condition_arr.append(the_key.decode('utf-8'))
-        self.render('autogen/list/list_{0}.html'.format(catid),
-                    userinfo=self.userinfo,
-                    kwd=kwd,
-                    widget_info=kwd,
-                    condition_arr=kw_condition_arr,
-                    cat_enum=MCategory.get_qian2(parent_id[:2]),
-                    pcatinfo=pcatinfo,
-                    catinfo=catinfo)
+        self.render(
+            'autogen/list/list_{0}.html'.format(catid),
+            userinfo=self.userinfo,
+            kwd=kwd,
+            widget_info=kwd,
+            condition_arr=kw_condition_arr,
+            cat_enum=MCategory.get_qian2(parent_id[:2]),
+            pcatinfo=pcatinfo,
+            catinfo=catinfo,
+        )

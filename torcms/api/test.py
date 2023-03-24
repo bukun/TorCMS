@@ -14,7 +14,6 @@ from torcms.core.tools import logger
 from torcms.model.user_model import MUser
 
 
-
 class TestApi(BaseHandler):
     '''
     Handler for user.
@@ -33,12 +32,9 @@ class TestApi(BaseHandler):
             output = {
                 "status": 0,
                 "msg": "ok",
-
                 "data": {
                     "count": 171,
-
                     "rows": [
-
                         {
                             "engine": "Trident - jh5be4",
                             "browser": "Internet Explorer 4.0",
@@ -46,10 +42,8 @@ class TestApi(BaseHandler):
                             "version": "4",
                             "grade": "X",
                             "badgeText": "默认",
-
-                            "id": 1
+                            "id": 1,
                         },
-
                         {
                             "engine": "Trident - wb898o",
                             "browser": "Internet Explorer 5.0",
@@ -57,94 +51,78 @@ class TestApi(BaseHandler):
                             "version": "5",
                             "grade": "C",
                             "badgeText": "危险",
-                            "id": 2
+                            "id": 2,
                         },
-
                         {
                             "engine": "Trident - 9xkkjg",
                             "browser": "Internet Explorer 5.5",
                             "platform": "Win 95+",
                             "version": "5.5",
                             "grade": "A",
-                            "id": 3
+                            "id": 3,
                         },
-
                         {
                             "engine": "Trident - kq0gwl",
                             "browser": "Internet Explorer 6",
                             "platform": "Win 98+",
                             "version": "6",
                             "grade": "A",
-                            "id": 4
+                            "id": 4,
                         },
-
                         {
                             "engine": "Trident - icv9j",
                             "browser": "Internet Explorer 7",
                             "platform": "Win XP SP2+",
                             "version": "7",
                             "grade": "A",
-                            "id": 5
+                            "id": 5,
                         },
-
                         {
                             "engine": "Trident - jgujxu",
                             "browser": "AOL browser (AOL desktop)",
                             "platform": "Win XP",
                             "version": "6",
                             "grade": "A",
-                            "id": 6
+                            "id": 6,
                         },
-
                         {
                             "engine": "Gecko - ffab62",
                             "browser": "Firefox 1.0",
                             "platform": "Win 98+ / OSX.2+",
                             "version": "1.7",
                             "grade": "A",
-                            "id": 7
+                            "id": 7,
                         },
-
                         {
                             "engine": "Gecko - bw15f",
                             "browser": "Firefox 1.5",
                             "platform": "Win 98+ / OSX.2+",
                             "version": "1.8",
                             "grade": "A",
-                            "id": 8
+                            "id": 8,
                         },
-
                         {
                             "engine": "Gecko - 868jr2",
                             "browser": "Firefox 2.0",
                             "platform": "Win 98+ / OSX.2+",
                             "version": "1.8",
                             "grade": "A",
-                            "id": 9
+                            "id": 9,
                         },
-
                         {
                             "engine": "Gecko - 1hjm89",
                             "browser": "Firefox 3.0",
                             "platform": "Win 2k+ / OSX.3+",
                             "version": "1.9",
                             "grade": "A",
-                            "id": 10
-                        }
-                    ]
-                }
+                            "id": 10,
+                        },
+                    ],
+                },
             }
 
         elif url_arr[0] == 'bb':
-            output = {
-"status": 0,
-"msg": "",
-
-"data": {
-"type": "tpl",
-"tpl": "简单点好。"
-}
-}
+            output = {"status": 0, "msg": "", "data": {"type": "tpl", "tpl": "简单点好。"}}
         else:
             output = {'title': '测试标题', 'body': '测试内容'}
         print(output)
@@ -216,9 +194,9 @@ class TestApi(BaseHandler):
 
         usercheck = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
         if usercheck == 1:
-            MUser.update_info(self.userinfo.uid,
-                              post_data['user_email'],
-                              extinfo=def_dic)
+            MUser.update_info(
+                self.userinfo.uid, post_data['user_email'], extinfo=def_dic
+            )
             output = {'changeinfo ': usercheck}
         else:
             output = {'changeinfo ': 0}
@@ -274,8 +252,7 @@ class TestApi(BaseHandler):
         '''
         post_data = self.get_request_arguments()
 
-        usercheck_num = MUser.check_user(self.userinfo.uid,
-                                         post_data['rawpass'])
+        usercheck_num = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
 
         if not tools.check_pass_valid(post_data['user_pass']):
             kwd = {
@@ -283,10 +260,9 @@ class TestApi(BaseHandler):
                 'link': '/user/regist',
             }
             self.set_status(400)
-            self.render('misc/html/404.html',
-                        cfg=config.CMS_CFG,
-                        kwd=kwd,
-                        userinfo=None)
+            self.render(
+                'misc/html/404.html', cfg=config.CMS_CFG, kwd=kwd, userinfo=None
+            )
 
         else:
             pass
@@ -309,12 +285,11 @@ class TestApi(BaseHandler):
 
         post_data, def_dic = self.fetch_post_data()
 
-        usercheck_num = MUser.check_user(self.userinfo.uid,
-                                         post_data['rawpass'])
+        usercheck_num = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
         if usercheck_num == 1:
-            MUser.update_info(self.userinfo.uid,
-                              post_data['user_email'],
-                              extinfo=def_dic)
+            MUser.update_info(
+                self.userinfo.uid, post_data['user_email'], extinfo=def_dic
+            )
             self.redirect(('/user/info'))
         else:
             kwd = {
@@ -362,9 +337,7 @@ class TestApi(BaseHandler):
             tmpl = 'admin/user/puser_changepass.html'
         else:
             tmpl = 'user/user_changepass.html'
-        self.render(tmpl,
-                    userinfo=self.userinfo,
-                    kwd={})
+        self.render(tmpl, userinfo=self.userinfo, kwd={})
 
     @tornado.web.authenticated
     def __to_change_info__(self):
@@ -375,9 +348,7 @@ class TestApi(BaseHandler):
             tmpl = 'admin/user/puser_changeinfo.html'
         else:
             tmpl = 'user/user_changeinfo.html'
-        self.render(tmpl,
-                    userinfo=self.userinfo,
-                    kwd={})
+        self.render(tmpl, userinfo=self.userinfo, kwd={})
 
     @tornado.web.authenticated
     def __to_change_role__(self, xg_username):
@@ -391,10 +362,12 @@ class TestApi(BaseHandler):
                 post_authority = {}
         except:
             post_authority = {}
-        self.render('user/user_changerole.html',
-                    userinfo=MUser.get_by_name(xg_username),
-                    post_authority=post_authority,
-                    kwd={})
+        self.render(
+            'user/user_changerole.html',
+            userinfo=MUser.get_by_name(xg_username),
+            post_authority=post_authority,
+            kwd={},
+        )
 
     @tornado.web.authenticated
     def __to_find__(self, cur_p=''):
@@ -419,11 +392,10 @@ class TestApi(BaseHandler):
 
         current_page_number = 1 if current_page_number < 1 else current_page_number
 
-        infos = MUser.query_pager_by_slug(current_page_num=current_page_number, type=type)
-        kwd = {'pager': '',
-               'current_page': current_page_number,
-               'type': type
-               }
+        infos = MUser.query_pager_by_slug(
+            current_page_num=current_page_number, type=type
+        )
+        kwd = {'pager': '', 'current_page': current_page_number, 'type': type}
         if isjson:
             list = []
             for rec in infos:
@@ -435,26 +407,26 @@ class TestApi(BaseHandler):
                     'authority': rec.authority,
                     'time_login': rec.time_login,
                     'time_create': rec.time_create,
-                    'extinfo': rec.extinfo
+                    'extinfo': rec.extinfo,
                 }
 
                 list.append(dic)
 
-            out_dict = {
-                'results': list
-            }
+            out_dict = {'results': list}
 
             return json.dump(out_dict, self, ensure_ascii=False)
         elif self.is_p:
             tmpl = 'admin/user/puser_find_list.html'
         else:
             tmpl = 'user/user_find_list.html'
-        self.render(tmpl,
-                    cfg=config.CMS_CFG,
-                    infos=infos,
-                    kwd=kwd,
-                    view=MUser.get_by_keyword(""),
-                    userinfo=self.userinfo)
+        self.render(
+            tmpl,
+            cfg=config.CMS_CFG,
+            infos=infos,
+            kwd=kwd,
+            view=MUser.get_by_keyword(""),
+            userinfo=self.userinfo,
+        )
 
     @tornado.web.authenticated
     def __to_show_info__(self, userid=''):
@@ -478,12 +450,10 @@ class TestApi(BaseHandler):
                 'authority': rec.authority,
                 'time_login': rec.time_login,
                 'time_create': rec.time_create,
-                'extinfo': rec.extinfo
+                'extinfo': rec.extinfo,
             }
 
-            out_dict = {
-                'results': dic
-            }
+            out_dict = {'results': dic}
 
             return json.dump(out_dict, self, ensure_ascii=False)
         elif self.is_p:
@@ -491,18 +461,13 @@ class TestApi(BaseHandler):
         else:
             tmpl = 'user/user_info.html'
 
-        self.render(tmpl,
-                    userinfo=rec,
-                    extinfo=rec.extinfo,
-                    kwd=kwd)
+        self.render(tmpl, userinfo=rec, extinfo=rec.extinfo, kwd=kwd)
 
     def __to_reset_password__(self):
         '''
         to reset the password.
         '''
-        self.render('user/user_reset_password.html',
-                    userinfo=self.userinfo,
-                    kwd={})
+        self.render('user/user_reset_password.html', userinfo=self.userinfo, kwd={})
 
     def __to_login__(self):
         '''
@@ -517,7 +482,7 @@ class TestApi(BaseHandler):
                 'pager': '',
                 'next_url': next_url,
                 'ad': False,
-                'pass_encrypt': CMS_CFG.get('pass_encrypt', ',')
+                'pass_encrypt': CMS_CFG.get('pass_encrypt', ','),
             }
             self.render('user/user_login.html', kwd=kwd, userinfo=None)
 
@@ -554,10 +519,7 @@ class TestApi(BaseHandler):
         kwd = {
             'pager': '',
         }
-        self.render('user/user_regist.html',
-                    cfg=config.CMS_CFG,
-                    userinfo=None,
-                    kwd=kwd)
+        self.render('user/user_regist.html', cfg=config.CMS_CFG, userinfo=None, kwd=kwd)
 
     def j_register(self):
         '''
@@ -566,10 +528,9 @@ class TestApi(BaseHandler):
         kwd = {
             'pager': '',
         }
-        self.render('admin/user/puser_regist.html',
-                    cfg=config.CMS_CFG,
-                    userinfo=None,
-                    kwd=kwd)
+        self.render(
+            'admin/user/puser_regist.html', cfg=config.CMS_CFG, userinfo=None, kwd=kwd
+        )
 
     def parseint(self, stringss):
         return int(''.join([x for x in stringss if x.isdigit()]))
@@ -591,21 +552,28 @@ class TestApi(BaseHandler):
         encryption = data.get('encryption', '0')
 
         self.set_status(200)
-        user_login_status = {'success': True, 'code': '1', 'info': 'Login successful', 'username': u_name}
+        user_login_status = {
+            'success': True,
+            'code': '1',
+            'info': 'Login successful',
+            'username': u_name,
+        }
         return json.dump(user_login_status, self)
 
-    def p_to_find(self, ):
+    def p_to_find(self):
         '''
         To find, pager.
         '''
         kwd = {
             'pager': '',
         }
-        self.render('user/user_find_list.html',
-                    kwd=kwd,
-                    view=MUser.get_by_keyword(""),
-                    cfg=config.CMS_CFG,
-                    userinfo=self.userinfo)
+        self.render(
+            'user/user_find_list.html',
+            kwd=kwd,
+            view=MUser.get_by_keyword(""),
+            cfg=config.CMS_CFG,
+            userinfo=self.userinfo,
+        )
 
     def find(self, keyword=None, cur_p=''):
         '''
@@ -624,11 +592,13 @@ class TestApi(BaseHandler):
         else:
             tmpl = 'user/user_find_list.html'
 
-        self.render(tmpl,
-                    kwd=kwd,
-                    view=MUser.get_by_keyword(keyword),
-                    cfg=config.CMS_CFG,
-                    userinfo=self.userinfo)
+        self.render(
+            tmpl,
+            kwd=kwd,
+            view=MUser.get_by_keyword(keyword),
+            cfg=config.CMS_CFG,
+            userinfo=self.userinfo,
+        )
 
     def __user_list__(self):
         '''
@@ -708,12 +678,14 @@ class TestApi(BaseHandler):
                 'num_arr': num_arr,
             }
 
-            self.render('user/user_list.html',
-                        recs=recs,
-                        kwd=kwd,
-                        view=MUser.query_by_time(),
-                        cfg=config.CMS_CFG,
-                        userinfo=self.userinfo)
+            self.render(
+                'user/user_list.html',
+                recs=recs,
+                kwd=kwd,
+                view=MUser.query_by_time(),
+                cfg=config.CMS_CFG,
+                userinfo=self.userinfo,
+            )
 
     def __delete_user__(self, user_id):
         '''
@@ -757,9 +729,7 @@ class TestApi(BaseHandler):
                     'info': '两次重置密码时间应该大于1分钟',
                     'link': '/user/reset-password',
                 }
-                self.render('misc/html/404.html',
-                            kwd=kwd,
-                            userinfo=self.userinfo)
+                self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
                 return False
 
             if userinfo:
@@ -768,17 +738,20 @@ class TestApi(BaseHandler):
                 username = userinfo.user_name
                 hash_str = tools.md5(username + str(timestamp) + passwd)
                 url_reset = '{0}/user/reset-passwd?u={1}&t={2}&p={3}'.format(
-                    config.SITE_CFG['site_url'], username, timestamp, hash_str)
+                    config.SITE_CFG['site_url'], username, timestamp, hash_str
+                )
                 email_cnt = '''<div>请查看下面的信息，并<span style="color:red">谨慎操作</span>：</div>
                 <div>您在"{0}"网站（{1}）申请了密码重置，如果确定要进行密码重置，请打开下面链接：</div>
                 <div><a href={2}>{2}</a></div>
                 <div>如果无法确定本信息的有效性，请忽略本邮件。</div>'''.format(
-                    config.SMTP_CFG['name'], config.SITE_CFG['site_url'],
-                    url_reset)
+                    config.SMTP_CFG['name'], config.SITE_CFG['site_url'], url_reset
+                )
 
-                if send_mail([userinfo.user_email],
-                             "{0}|密码重置".format(config.SMTP_CFG['name']),
-                             email_cnt):
+                if send_mail(
+                    [userinfo.user_email],
+                    "{0}|密码重置".format(config.SMTP_CFG['name']),
+                    email_cnt,
+                ):
                     MUser.update_time_reset_passwd(username, timestamp)
                     self.set_status(200)
                     logger.info('password has been reset.')
@@ -811,8 +784,7 @@ class TestApi(BaseHandler):
             self.set_status(400)
             self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
-        hash_str = tools.md5(userinfo.user_name + post_data['t'] +
-                             userinfo.user_pass)
+        hash_str = tools.md5(userinfo.user_name + post_data['t'] + userinfo.user_pass)
         if hash_str == post_data['p']:
             pass
         else:
@@ -855,7 +827,6 @@ class TestApi(BaseHandler):
             'user_email': rec.user_email,
             'role': rec.role,
             'extinfo': rec.extinfo,
-
         }
         return json.dump(userinfo, self, ensure_ascii=False)
 
@@ -891,8 +862,12 @@ class TestApi(BaseHandler):
                         break
             break
         for i in range(len(pwd)):
-            if ('null' <= pwdlist[i] < '0') or ('9' < pwdlist[i] <= '@') or ('Z' < pwdlist[i] <= '`') or (
-                    'z' < pwdlist[i] <= '~'):
+            if (
+                ('null' <= pwdlist[i] < '0')
+                or ('9' < pwdlist[i] <= '@')
+                or ('Z' < pwdlist[i] <= '`')
+                or ('z' < pwdlist[i] <= '~')
+            ):
                 intensity += 2
                 break
 

@@ -11,7 +11,7 @@ from torcms.model.staff2role_model import MStaff2Role
 from torcms.model.abc_model import MHelper
 
 
-class MUser():
+class MUser:
     '''
     Model for user.
     '''
@@ -51,7 +51,8 @@ class MUser():
         Set the time that send E-mail to user.
         '''
         entry = TabMember.update(
-            time_email=tools.timestamp(), ).where(TabMember.uid == uid)
+            time_email=tools.timestamp(),
+        ).where(TabMember.uid == uid)
         entry.execute()
 
     @staticmethod
@@ -102,7 +103,8 @@ class MUser():
             # 如果距离上次登录失败超过1小时，则重置
             # Set the failed times to 0.
             entry2 = TabMember.update(failed_times=0).where(
-                TabMember.user_name == user_name)
+                TabMember.user_name == user_name
+            )
             try:
                 entry2.execute()
             except Exception as err:
@@ -141,7 +143,8 @@ class MUser():
         out_dic = {'success': False, 'code': '00'}
 
         entry = TabMember.update(user_pass=tools.md5(newpass)).where(
-            TabMember.uid == user_id)
+            TabMember.uid == user_id
+        )
         entry.execute()
 
         out_dic['success'] = True
@@ -157,7 +160,8 @@ class MUser():
         out_dic = {'success': False, 'code': '00'}
 
         entry = TabMember.update(user_name=user_name).where(
-            TabMember.user_email == user_email)
+            TabMember.user_email == user_email
+        )
         entry.execute()
 
         out_dic['success'] = True
@@ -176,7 +180,8 @@ class MUser():
         time_now = tools.timestamp()
         return TabMember.select().where(
             ((time_now - TabMember.time_login) > 7776000)
-            & ((time_now - TabMember.time_email) > 10368000))
+            & ((time_now - TabMember.time_email) > 10368000)
+        )
 
     @staticmethod
     def update_info(user_id, newemail, extinfo=None):
@@ -199,7 +204,9 @@ class MUser():
             cur_extinfo[key] = extinfo[key]
 
         try:
-            entry = TabMember.update(user_email=newemail, extinfo=cur_extinfo).where(TabMember.uid == user_id)
+            entry = TabMember.update(user_email=newemail, extinfo=cur_extinfo).where(
+                TabMember.uid == user_id
+            )
             entry.execute()
             out_dic['success'] = True
         except Exception as err:
@@ -220,7 +227,9 @@ class MUser():
             cur_extinfo[key] = extinfo[key]
 
         try:
-            entry = TabMember.update(extinfo=cur_extinfo).where(TabMember.uid == user_id)
+            entry = TabMember.update(extinfo=cur_extinfo).where(
+                TabMember.uid == user_id
+            )
             entry.execute()
             out_dic['success'] = True
         except Exception as err:
@@ -234,8 +243,9 @@ class MUser():
         '''
         Update the time when user reset passwd.
         '''
-        entry = TabMember.update(time_reset_passwd=the_time, ).where(
-            TabMember.user_name == user_name)
+        entry = TabMember.update(
+            time_reset_passwd=the_time,
+        ).where(TabMember.user_name == user_name)
         try:
             entry.execute()
             return True
@@ -260,7 +270,8 @@ class MUser():
 
         #  Second: upate failed times.
         entry = TabMember.update(failed_times=old_time + 1).where(
-            TabMember.user_name == user_name)
+            TabMember.user_name == user_name
+        )
         try:
             entry.execute()
             # return True
@@ -269,10 +280,9 @@ class MUser():
             return False
 
         # Third: Set timestamp that failed.
-        entry2 = TabMember.update(
-            time_failed=tools.timestamp()
-        ).where(
-            TabMember.user_name == user_name)
+        entry2 = TabMember.update(time_failed=tools.timestamp()).where(
+            TabMember.user_name == user_name
+        )
         try:
             entry2.execute()
 
@@ -289,7 +299,8 @@ class MUser():
         role = postdata['role']
         authority = postdata.get('authority', '0')
         entry = TabMember.update(role=role, authority=authority).where(
-            TabMember.user_name == u_name)
+            TabMember.user_name == u_name
+        )
         try:
             entry.execute()
             return True
@@ -316,7 +327,9 @@ class MUser():
             print(key['permission'])
             cur_extinfo[f"_per_{key['permission']}"] = 1
 
-        entry = TabMember.update(extinfo=cur_extinfo).where(TabMember.uid == userinfo.uid)
+        entry = TabMember.update(extinfo=cur_extinfo).where(
+            TabMember.uid == userinfo.uid
+        )
         entry.execute()
 
     @staticmethod
@@ -335,12 +348,12 @@ class MUser():
 
         # First, record the time that logged in.
         entry = TabMember.update(time_login=tools.timestamp()).where(
-            TabMember.user_name == u_name)
+            TabMember.user_name == u_name
+        )
         entry.execute()
 
         # Second , set the failed times to 0.
-        entry2 = TabMember.update(failed_times=0).where(
-            TabMember.user_name == u_name)
+        entry2 = TabMember.update(failed_times=0).where(TabMember.user_name == u_name)
         try:
             entry2.execute()
         except Exception as err:
@@ -439,8 +452,7 @@ class MUser():
         Delete user in the database by `user_name`.
         '''
         try:
-            del_count = TabMember.delete().where(
-                TabMember.user_name == user_name)
+            del_count = TabMember.delete().where(TabMember.user_name == user_name)
             del_count.execute()
             return True
         except Exception as err:
@@ -474,12 +486,14 @@ class MUser():
         '''
         if type:
 
-            return TabMember.select().where(TabMember.extinfo['ext_type'] == type).order_by(
-                TabMember.time_create.desc()).paginate(
-                current_page_num, num)
+            return (
+                TabMember.select()
+                .where(TabMember.extinfo['ext_type'] == type)
+                .order_by(TabMember.time_create.desc())
+                .paginate(current_page_num, num)
+            )
         else:
-            return TabMember.select().paginate(
-                current_page_num, num)
+            return TabMember.select().paginate(current_page_num, num)
 
     @staticmethod
     def query_by_time(recent=90):
@@ -488,25 +502,33 @@ class MUser():
         '''
         time_that = int(time.time()) - recent * 24 * 3600
 
-        return TabMember.select().where(
-            TabMember.time_create > time_that).order_by(
-            TabMember.time_create.desc())
+        return (
+            TabMember.select()
+            .where(TabMember.time_create > time_that)
+            .order_by(TabMember.time_create.desc())
+        )
 
     @staticmethod
     def query_pager_by_time(current_page_num=1):
         '''
         Query pager
         '''
-        return TabMember.select().where(TabMember.time_create).paginate(
-            current_page_num, CMS_CFG['list_num'])
+        return (
+            TabMember.select()
+            .where(TabMember.time_create)
+            .paginate(current_page_num, CMS_CFG['list_num'])
+        )
 
     @staticmethod
     def count_of_certain(type=''):
-        '''
-        '''
+        ''' '''
         # adding ``None`` to hide ``No value for argument 'database' in method call``
         if type:
-            return TabMember.select().where(TabMember.extinfo['ext_type'] == type).count(None)
+            return (
+                TabMember.select()
+                .where(TabMember.extinfo['ext_type'] == type)
+                .count(None)
+            )
         else:
             return TabMember.select().count(None)
 
@@ -552,7 +574,7 @@ if __name__ == '__main__':
         'user_name': 'xx_tester',
         'user_pass': 'Gg12345678',
         'user_email': 'tester@qq.com',
-        'role': '3300'
+        'role': '3300',
     }
     info = MUser.create_user(post_data, extinfo={})
     print(info)

@@ -9,7 +9,7 @@ from torcms.model.role2permission_model import MRole2Permission
 from torcms.model.staff2role_model import MStaff2Role
 
 
-class MRole():
+class MRole:
     '''
     For friends links.
     '''
@@ -27,8 +27,12 @@ class MRole():
         '''
         Return some of the records. Not all.
         '''
-        return TabRole.select().where(TabRole.pid=='0000').order_by(TabRole.time_create.desc()).paginate(
-            current_page_num, perPage)
+        return (
+            TabRole.select()
+            .where(TabRole.pid == '0000')
+            .order_by(TabRole.time_create.desc())
+            .paginate(current_page_num, perPage)
+        )
 
     @staticmethod
     def query_all():
@@ -98,6 +102,5 @@ class MRole():
                 status=post_data.get('status', 0),
                 time_create=tools.timestamp(),
                 time_update=tools.timestamp(),
-
             )
         return uid

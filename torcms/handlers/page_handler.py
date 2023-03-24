@@ -24,6 +24,7 @@ class PageHandler(BaseHandler):
     '''
     Page ( with unique slug) handler.
     '''
+
     executor = ThreadPoolExecutor(2)
 
     def initialize(self, **kwargs):
@@ -87,9 +88,7 @@ class PageHandler(BaseHandler):
                 'slug': citiao,
                 'pager': '',
             }
-            self.render('wiki_page/page_add.html',
-                        kwd=kwd,
-                        userinfo=self.userinfo)
+            self.render('wiki_page/page_add.html', kwd=kwd, userinfo=self.userinfo)
         else:
             logger.info(' ' * 4 + 'Slug contains special characters')
             kwd = {
@@ -133,8 +132,7 @@ class PageHandler(BaseHandler):
         if cnt_old == cnt_new:
             pass
         else:
-            MWikiHist.create_wiki_history(MWiki.get_by_uid(slug),
-                                          self.userinfo)
+            MWikiHist.create_wiki_history(MWiki.get_by_uid(slug), self.userinfo)
 
         MWiki.update(slug, post_data)
         tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
@@ -151,11 +149,13 @@ class PageHandler(BaseHandler):
         kwd = {
             'pager': '',
         }
-        self.render('wiki_page/page_edit.html',
-                    postinfo=MWiki.get_by_uid(uid),
-                    kwd=kwd,
-                    cfg=CMS_CFG,
-                    userinfo=self.userinfo)
+        self.render(
+            'wiki_page/page_edit.html',
+            postinfo=MWiki.get_by_uid(uid),
+            kwd=kwd,
+            cfg=CMS_CFG,
+            userinfo=self.userinfo,
+        )
 
     @privilege.auth_view
     def view(self, rec):
@@ -166,13 +166,15 @@ class PageHandler(BaseHandler):
             'pager': '',
         }
         MWiki.view_count_plus(rec.uid)
-        self.render('wiki_page/page_view.html',
-                    postinfo=rec,
-                    kwd=kwd,
-                    author=rec.user_name,
-                    format_date=tools.format_date,
-                    userinfo=self.userinfo,
-                    cfg=CMS_CFG)
+        self.render(
+            'wiki_page/page_view.html',
+            postinfo=rec,
+            kwd=kwd,
+            author=rec.user_name,
+            format_date=tools.format_date,
+            userinfo=self.userinfo,
+            cfg=CMS_CFG,
+        )
 
     def list(self):
         '''
@@ -182,13 +184,15 @@ class PageHandler(BaseHandler):
             'pager': '',
             'title': '单页列表',
         }
-        self.render('wiki_page/page_list.html',
-                    kwd=kwd,
-                    view=MWiki.query_recent(),
-                    view_all=MWiki.query_all(),
-                    format_date=tools.format_date,
-                    userinfo=self.userinfo,
-                    cfg=CMS_CFG)
+        self.render(
+            'wiki_page/page_list.html',
+            kwd=kwd,
+            view=MWiki.query_recent(),
+            view_all=MWiki.query_all(),
+            format_date=tools.format_date,
+            userinfo=self.userinfo,
+            cfg=CMS_CFG,
+        )
 
     @tornado.web.authenticated
     @privilege.permission(action='can_add')
@@ -202,10 +206,7 @@ class PageHandler(BaseHandler):
         post_data['user_name'] = self.userinfo.user_name
         title = post_data['title'].strip()
         if len(title) < 2:
-            kwd = {
-                'info': 'Title cannot be less than 2 characters',
-                'link': '/'
-            }
+            kwd = {'info': 'Title cannot be less than 2 characters', 'link': '/'}
             self.render('misc/html/404.html', userinfo=self.userinfo, kwd=kwd)
 
         if MWiki.get_by_uid(slug):

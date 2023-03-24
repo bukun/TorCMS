@@ -22,12 +22,11 @@ class StaticHandler(BaseHandler):
             'pager': '',
         }
         static_html_file = 'templates/static_pages/{0}'.format(url_str)
-        if os.path.exists(static_html_file) and os.path.isfile(
-                static_html_file):
+        if os.path.exists(static_html_file) and os.path.isfile(static_html_file):
             kwd['info'] = ''
-            self.render('static_pages/{0}'.format(url_str),
-                        kwd=kwd,
-                        userinfo=self.userinfo)
+            self.render(
+                'static_pages/{0}'.format(url_str), kwd=kwd, userinfo=self.userinfo
+            )
         else:
             kwd['info'] = '404! Page not found.'
             self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)

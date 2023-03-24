@@ -8,7 +8,7 @@ from torcms.model.label_model import MPost2Label
 from torcms.model.post2catalog_model import MPost2Catalog as MInfor2Catalog
 
 
-class MCorrelation():
+class MCorrelation:
     @staticmethod
     def add_relation(postid, relid, kind, order):
         '''
@@ -58,9 +58,7 @@ class MCorrelation():
         except Exception as err:
             print(repr(err))
             return False
-        entry = TabRel.update(
-            count=postinfo.count + weight
-        ).where(
+        entry = TabRel.update(count=postinfo.count + weight).where(
             (TabRel.post_f_id == app_f) & (TabRel.post_t_id == app_t)
         )
         entry.execute()
@@ -71,23 +69,25 @@ class MCorrelation():
         The the related infors.
         '''
 
-        recs = TabCorrelation.select().where(
-            (TabCorrelation.post_id == app_id) &
-            (TabCorrelation.kind == kind)
-        ).distinct(TabCorrelation.rel_id).order_by(
-            TabCorrelation.rel_id
-        ).limit(num)
+        recs = (
+            TabCorrelation.select()
+            .where((TabCorrelation.post_id == app_id) & (TabCorrelation.kind == kind))
+            .distinct(TabCorrelation.rel_id)
+            .order_by(TabCorrelation.rel_id)
+            .limit(num)
+        )
         return recs
 
 
-class MRelation():
+class MRelation:
     @staticmethod
     def add_relation(app_f, app_t, weight=1):
         '''
         Adding relation between two posts.
         '''
-        recs = TabRel.select().where((TabRel.post_f_id == app_f)
-                                     & (TabRel.post_t_id == app_t))
+        recs = TabRel.select().where(
+            (TabRel.post_f_id == app_f) & (TabRel.post_t_id == app_t)
+        )
         if recs.count() > 1:
             for record in recs:
                 MRelation.delete(record.uid)
@@ -120,9 +120,7 @@ class MRelation():
         except Exception as err:
             print(repr(err))
             return False
-        entry = TabRel.update(
-            count=postinfo.count + weight
-        ).where(
+        entry = TabRel.update(count=postinfo.count + weight).where(
             (TabRel.post_f_id == app_f) & (TabRel.post_t_id == app_t)
         )
         entry.execute()
@@ -134,8 +132,10 @@ class MRelation():
         如有标签按标签推荐，如无标签按分类推荐
         '''
 
-        tag_info = filter(lambda x: not x.tag_name.startswith('_'),
-                          MPost2Label.get_by_uid(app_id).objects())
+        tag_info = filter(
+            lambda x: not x.tag_name.startswith('_'),
+            MPost2Label.get_by_uid(app_id).objects(),
+        )
 
         info_tag = MInfor2Catalog.get_first_category(app_id)
 
@@ -145,61 +145,73 @@ class MRelation():
 
         if len(tag_arr) > 0:
 
-            recs = TabPost2Tag.select(
-                TabPost2Tag, TabPost.title.alias('post_title'),
-                TabPost.valid.alias('post_valid')).join(
-                TabPost,
-                on=(TabPost2Tag.post_id == TabPost.uid
-                    )).where((TabPost2Tag.tag_id << tag_arr)
-                             & (TabPost.uid != app_id)
-                             & (TabPost.kind == kind)
-                             & (TabPost.valid == 1)).distinct(
-                TabPost2Tag.post_id).order_by(
-                TabPost2Tag.post_id).limit(num)
-            if recs.count() == 0:
-                recs = TabPost2Tag.select(
+            recs = (
+                TabPost2Tag.select(
                     TabPost2Tag,
                     TabPost.title.alias('post_title'),
-                    TabPost.valid.alias('post_valid')
-                ).join(
-                    TabPost, on=(TabPost2Tag.post_id == TabPost.uid)
-                ).where(
-                    (TabPost.uid != app_id) &
-                    (TabPost2Tag.tag_id == info_tag.tag_id) &
-                    (TabPost.kind == kind) &
-                    (TabPost.valid == 1)
-                ).order_by(
-                    peewee.fn.Random()
-                ).limit(num)
+                    TabPost.valid.alias('post_valid'),
+                )
+                .join(TabPost, on=(TabPost2Tag.post_id == TabPost.uid))
+                .where(
+                    (TabPost2Tag.tag_id << tag_arr)
+                    & (TabPost.uid != app_id)
+                    & (TabPost.kind == kind)
+                    & (TabPost.valid == 1)
+                )
+                .distinct(TabPost2Tag.post_id)
+                .order_by(TabPost2Tag.post_id)
+                .limit(num)
+            )
+            if recs.count() == 0:
+                recs = (
+                    TabPost2Tag.select(
+                        TabPost2Tag,
+                        TabPost.title.alias('post_title'),
+                        TabPost.valid.alias('post_valid'),
+                    )
+                    .join(TabPost, on=(TabPost2Tag.post_id == TabPost.uid))
+                    .where(
+                        (TabPost.uid != app_id)
+                        & (TabPost2Tag.tag_id == info_tag.tag_id)
+                        & (TabPost.kind == kind)
+                        & (TabPost.valid == 1)
+                    )
+                    .order_by(peewee.fn.Random())
+                    .limit(num)
+                )
 
         else:
             if info_tag:
-                recs = TabPost2Tag.select(
-                    TabPost2Tag,
-                    TabPost.title.alias('post_title'),
-                    TabPost.valid.alias('post_valid')
-                ).join(
-                    TabPost, on=(TabPost2Tag.post_id == TabPost.uid)
-                ).where(
-                    (TabPost.uid != app_id) &
-                    (TabPost2Tag.tag_id == info_tag.tag_id) &
-                    (TabPost.kind == kind) &
-                    (TabPost.valid == 1)
-                ).order_by(
-                    peewee.fn.Random()
-                ).limit(num)
+                recs = (
+                    TabPost2Tag.select(
+                        TabPost2Tag,
+                        TabPost.title.alias('post_title'),
+                        TabPost.valid.alias('post_valid'),
+                    )
+                    .join(TabPost, on=(TabPost2Tag.post_id == TabPost.uid))
+                    .where(
+                        (TabPost.uid != app_id)
+                        & (TabPost2Tag.tag_id == info_tag.tag_id)
+                        & (TabPost.kind == kind)
+                        & (TabPost.valid == 1)
+                    )
+                    .order_by(peewee.fn.Random())
+                    .limit(num)
+                )
             else:
-                recs = TabPost2Tag.select(
-                    TabPost2Tag,
-                    TabPost.title.alias('post_title'),
-                    TabPost.valid.alias('post_valid')
-                ).join(
-                    TabPost, on=(TabPost2Tag.post_id == TabPost.uid)
-                ).where(
-                    (TabPost.uid != app_id) &
-                    (TabPost.kind == kind) &
-                    (TabPost.valid == 1)
-                ).order_by(
-                    peewee.fn.Random()
-                ).limit(num)
+                recs = (
+                    TabPost2Tag.select(
+                        TabPost2Tag,
+                        TabPost.title.alias('post_title'),
+                        TabPost.valid.alias('post_valid'),
+                    )
+                    .join(TabPost, on=(TabPost2Tag.post_id == TabPost.uid))
+                    .where(
+                        (TabPost.uid != app_id)
+                        & (TabPost.kind == kind)
+                        & (TabPost.valid == 1)
+                    )
+                    .order_by(peewee.fn.Random())
+                    .limit(num)
+                )
         return recs

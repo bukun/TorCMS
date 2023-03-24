@@ -34,18 +34,16 @@ class ShowPage(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-        '''
-        '''
+        ''' '''
         page_id = kwargs['page_id']
         userinfo = kwargs.get('userinfo', None)
         count = kwargs.get('count', 0)
         page = MWiki.get_by_uid(page_id)
         kwd = {'uid': page_id, 'count': count}
         if page:
-            out_str = self.render_string('modules/post/show_page.html',
-                                         postinfo=page,
-                                         userinfo=userinfo,
-                                         kwd=kwd)
+            out_str = self.render_string(
+                'modules/post/show_page.html', postinfo=page, userinfo=userinfo, kwd=kwd
+            )
         else:
             out_str = '<a href="/page/{0}">{0}</a>'.format(page_id)
         return out_str
@@ -64,8 +62,10 @@ class PostLabels(tornado.web.UIModule):
 
             postinfo = MPost.get_by_uid(post_uid)
             kind = postinfo.kind
-            tag_info = filter(lambda x: not x.tag_name.startswith('_'),
-                              MPost2Label.get_by_uid(postinfo.uid).objects())
+            tag_info = filter(
+                lambda x: not x.tag_name.startswith('_'),
+                MPost2Label.get_by_uid(postinfo.uid).objects(),
+            )
             outstr = self.join_tags(kind, tag_info)
         else:
             outstr = ''
@@ -76,10 +76,9 @@ class PostLabels(tornado.web.UIModule):
         outstr = '<span class="post_label">'
         tmpl_str = '<a href="/label/{kind}/{tag_uid}" class="app_label tag{index}">{tag_name}</a>'
         for tag in tag_info:
-            outstr += tmpl_str.format(tag_uid=tag.tag_id,
-                                      kind=kind,
-                                      tag_name=tag.tag_name,
-                                      index=idx)
+            outstr += tmpl_str.format(
+                tag_uid=tag.tag_id, kind=kind, tag_name=tag.tag_name, index=idx
+            )
             idx += 1
         outstr = outstr + '</span>'
         return outstr
@@ -133,12 +132,14 @@ class PostMostView(tornado.web.UIModule):
             'with_catalog': kwargs.get('with_catalog', True),
             'router': config.router_post[kind],
             'kind': kind,
-            'glyph': kwargs.get('glyph', '')
+            'glyph': kwargs.get('glyph', ''),
         }
 
-        return self.render_string('modules/post/post_list.html',
-                                  recs=MPost.query_most(num=num, kind=kind),
-                                  kwd=kwd)
+        return self.render_string(
+            'modules/post/post_list.html',
+            recs=MPost.query_most(num=num, kind=kind),
+            kwd=kwd,
+        )
 
 
 class PostRandom(tornado.web.UIModule):
@@ -150,11 +151,13 @@ class PostRandom(tornado.web.UIModule):
         kwd = {
             'with_date': with_date,
             'with_catalog': with_catalog,
-            'router': config.router_post[kind]
+            'router': config.router_post[kind],
         }
-        return self.render_string('modules/post/post_list.html',
-                                  recs=MPost.query_random(num=num, kind=kind),
-                                  kwd=kwd)
+        return self.render_string(
+            'modules/post/post_list.html',
+            recs=MPost.query_random(num=num, kind=kind),
+            kwd=kwd,
+        )
 
 
 class PostCatRandom(tornado.web.UIModule):
@@ -170,9 +173,8 @@ class PostCatRandom(tornado.web.UIModule):
         }
         return self.render_string(
             'modules/post/post_list.html',
-            recs=MPost.query_cat_random(cat_id,
-                                        limit=num),
-            kwd=kwd
+            recs=MPost.query_cat_random(cat_id, limit=num),
+            kwd=kwd,
         )
 
 
@@ -187,9 +189,11 @@ class PostRecentMostView(tornado.web.UIModule):
             'with_catalog': with_catalog,
             'router': config.router_post['1'],
         }
-        return self.render_string('modules/post/post_list.html',
-                                  recs=MPost.query_recent_most(num, recent),
-                                  kwd=kwd)
+        return self.render_string(
+            'modules/post/post_list.html',
+            recs=MPost.query_recent_most(num, recent),
+            kwd=kwd,
+        )
 
 
 class CategoryOf(tornado.web.UIModule):
@@ -201,7 +205,8 @@ class CategoryOf(tornado.web.UIModule):
         uid_with_str = args[0]
         return self.render_string(
             'modules/post/catalog_of.html',
-            recs=MCategory.query_uid_starts_with(uid_with_str))
+            recs=MCategory.query_uid_starts_with(uid_with_str),
+        )
 
 
 class PostCategoryOf(tornado.web.UIModule):
@@ -228,18 +233,19 @@ class PostCategoryOf(tornado.web.UIModule):
             'order': kwargs.get('order', False),
             'with_title': kwargs.get('with_title', True),
             'router': router_post[kind],
-            'kind': kind
+            'kind': kind,
         }
         if slug:
-            return self.render_string('modules/post/post_catalog_slug.html',
-                                      pcatinfo=curinfo,
-                                      recs=sub_cats,
-                                      kwd=kwd)
+            return self.render_string(
+                'modules/post/post_catalog_slug.html',
+                pcatinfo=curinfo,
+                recs=sub_cats,
+                kwd=kwd,
+            )
         else:
-            return self.render_string('modules/info/catalog_of.html',
-                                      pcatinfo=curinfo,
-                                      recs=cat_dic,
-                                      kwd=kwd)
+            return self.render_string(
+                'modules/info/catalog_of.html', pcatinfo=curinfo, recs=cat_dic, kwd=kwd
+            )
 
 
 class PostRecent(tornado.web.UIModule):
@@ -254,11 +260,13 @@ class PostRecent(tornado.web.UIModule):
             'with_catalog': kwargs.get('with_catalog', True),
             'router': config.router_post[kind],
             'kind': kind,
-            'glyph': kwargs.get('glyph', '')
+            'glyph': kwargs.get('glyph', ''),
         }
-        return self.render_string('modules/post/post_list.html',
-                                  recs=MPost.query_recent(num, kind=kind),
-                                  kwd=kwd)
+        return self.render_string(
+            'modules/post/post_list.html',
+            recs=MPost.query_recent(num, kind=kind),
+            kwd=kwd,
+        )
 
 
 class LinkList(tornado.web.UIModule):
@@ -269,8 +277,7 @@ class LinkList(tornado.web.UIModule):
     def render(self, *args, **kwargs):
         num = kwargs['num'] if 'num' in kwargs else 10
         return self.render_string(
-            'modules/post/link_list.html',
-            recs=MLink.query_link(num)
+            'modules/post/link_list.html', recs=MLink.query_link(num)
         )
 
 
@@ -296,18 +303,14 @@ class PostCategoryRecent(tornado.web.UIModule):
         if catinfo.pid == '0000':
             subcats = MCategory.query_sub_cat(cat_id)
             sub_cat_ids = [x.uid for x in subcats]
-            recs = MPost.query_total_cat_recent(sub_cat_ids,
-                                                label=label,
-                                                num=num,
-                                                kind=catinfo.kind,
-                                                order=order)
+            recs = MPost.query_total_cat_recent(
+                sub_cat_ids, label=label, num=num, kind=catinfo.kind, order=order
+            )
 
         else:
-            recs = MPost.query_cat_recent(cat_id,
-                                          label=label,
-                                          num=num,
-                                          kind=catinfo.kind,
-                                          order=order)
+            recs = MPost.query_cat_recent(
+                cat_id, label=label, num=num, kind=catinfo.kind, order=order
+            )
 
         kwd = {
             'with_catalog': with_catalog,
@@ -318,11 +321,9 @@ class PostCategoryRecent(tornado.web.UIModule):
             'spa': is_spa,
             'order': order,
             'kind': catinfo.kind,
-            'post_uid': post_uid
+            'post_uid': post_uid,
         }
-        return self.render_string('modules/post/post_list.html',
-                                  recs=recs,
-                                  kwd=kwd)
+        return self.render_string('modules/post/post_list.html', recs=recs, kwd=kwd)
 
 
 class ShowoutRecent(tornado.web.UIModule):
@@ -345,11 +346,11 @@ class ShowoutRecent(tornado.web.UIModule):
             'height': height,
         }
 
-        return self.render_string('modules/post/showout_list.html',
-                                  recs=MPost.query_cat_recent(cat_id,
-                                                              num=num,
-                                                              kind=kind),
-                                  kwd=kwd)
+        return self.render_string(
+            'modules/post/showout_list.html',
+            recs=MPost.query_cat_recent(cat_id, num=num, kind=kind),
+            kwd=kwd,
+        )
 
 
 class SiteUrl(tornado.web.UIModule):
@@ -400,8 +401,7 @@ class ListCategories(tornado.web.UIModule):
         recs = MPost.query_cat_recent(cat_id, num=list_num)
         out_str = ''
         for rec in recs:
-            tmp_str = '''<li><a href="/{0}">{1}</a></li>'''.format(
-                rec.title, rec.title)
+            tmp_str = '''<li><a href="/{0}">{1}</a></li>'''.format(rec.title, rec.title)
             out_str += tmp_str
         return out_str
 
@@ -414,8 +414,9 @@ class GenerateAbstract(tornado.web.UIModule):
     def render(self, *args, **kwargs):
         html_str = args[0]
         count = kwargs.get('count', 130)
-        tmp_str = bs4.BeautifulSoup(tornado.escape.xhtml_unescape(html_str),
-                                    "html.parser")
+        tmp_str = bs4.BeautifulSoup(
+            tornado.escape.xhtml_unescape(html_str), "html.parser"
+        )
         return tmp_str.get_text()[:count] + '...'
 
 
@@ -441,10 +442,10 @@ class PostTags(tornado.web.UIModule):
         kind = args[1]
         out_str = ''
         idx = 1
-        for tag_info in MPost2Catalog.query_by_entity_uid(uid,
-                                                          kind=kind).objects():
+        for tag_info in MPost2Catalog.query_by_entity_uid(uid, kind=kind).objects():
             tmp_str = '<a href="/list/{0}" class="tag{1}">{2}</a>'.format(
-                tag_info.tag_slug, idx, tag_info.tag_name)
+                tag_info.tag_slug, idx, tag_info.tag_name
+            )
             out_str += tmp_str
             idx += 1
         return out_str
@@ -459,10 +460,10 @@ class MapTags(tornado.web.UIModule):
         uid = args[0]
         out_str = ''
         idx = 1
-        for tag_info in MPost2Catalog.query_by_entity_uid(uid,
-                                                          kind='m').objects():
+        for tag_info in MPost2Catalog.query_by_entity_uid(uid, kind='m').objects():
             tmp_str = '<a href="/list/{0}" class="tag{1}">{2}</a>'.format(
-                tag_info.tag_slug, idx, tag_info.tag_name)
+                tag_info.tag_slug, idx, tag_info.tag_name
+            )
             out_str += tmp_str
             idx += 1
         return out_str
@@ -481,23 +482,26 @@ class CategoryPager(tornado.web.UIModule):
         tag = kwargs['tag'] if 'tag' in kwargs else ""
 
         cat_rec = MCategory.get_by_slug(cat_slug)
-        num_of_cat = MPost2Catalog.count_of_certain_category(cat_rec.uid,
-                                                             tag=tag)
+        num_of_cat = MPost2Catalog.count_of_certain_category(cat_rec.uid, tag=tag)
 
         pager_cnt = int(num_of_cat / config.CMS_CFG['list_num'])
 
-        page_num = (pager_cnt
-                    if abs(pager_cnt - num_of_cat / config.CMS_CFG['list_num']) < 0.1
-                    else pager_cnt + 1)
+        page_num = (
+            pager_cnt
+            if abs(pager_cnt - num_of_cat / config.CMS_CFG['list_num']) < 0.1
+            else pager_cnt + 1
+        )
 
         kwd = get_page_position(current, page_num)
         kwd['tag'] = tag
 
-        return self.render_string('modules/post/catalog_pager.html',
-                                  kwd=kwd,
-                                  cat_slug=cat_slug,
-                                  pager_num=page_num,
-                                  page_current=current)
+        return self.render_string(
+            'modules/post/catalog_pager.html',
+            kwd=kwd,
+            cat_slug=cat_slug,
+            pager_num=page_num,
+            page_current=current,
+        )
 
 
 class CollectPager(tornado.web.UIModule):
@@ -515,16 +519,20 @@ class CollectPager(tornado.web.UIModule):
 
         pager_count = int(the_count / config.CMS_CFG['list_num'])
 
-        page_num = (pager_count
-                    if abs(pager_count - the_count / config.CMS_CFG['list_num']) < 0.1
-                    else pager_count + 1)
+        page_num = (
+            pager_count
+            if abs(pager_count - the_count / config.CMS_CFG['list_num']) < 0.1
+            else pager_count + 1
+        )
 
         kwd = get_page_position(current, page_num)
 
-        return self.render_string('modules/post/collect_pager.html',
-                                  kwd=kwd,
-                                  pager_num=page_num,
-                                  page_current=current)
+        return self.render_string(
+            'modules/post/collect_pager.html',
+            kwd=kwd,
+            pager_num=page_num,
+            page_current=current,
+        )
 
 
 class InfoLabelPager(tornado.web.UIModule):
@@ -539,17 +547,21 @@ class InfoLabelPager(tornado.web.UIModule):
         cat_rec = MPost.query_by_tagname(tag_slug)
 
         pager_count = int(cat_rec.count() / config.CMS_CFG['list_num'])
-        page_num = (pager_count
-                    if abs(pager_count - cat_rec.count() / config.CMS_CFG['list_num']) < 0.1
-                    else pager_count + 1)
+        page_num = (
+            pager_count
+            if abs(pager_count - cat_rec.count() / config.CMS_CFG['list_num']) < 0.1
+            else pager_count + 1
+        )
 
         kwd = get_page_position(current, page_num)
 
-        return self.render_string('modules/post/info_label_pager.html',
-                                  kwd=kwd,
-                                  cat_slug=tag_slug,
-                                  pager_num=page_num,
-                                  page_current=current)
+        return self.render_string(
+            'modules/post/info_label_pager.html',
+            kwd=kwd,
+            cat_slug=tag_slug,
+            pager_num=page_num,
+            page_current=current,
+        )
 
 
 class LabelPager(tornado.web.UIModule):
@@ -563,21 +575,27 @@ class LabelPager(tornado.web.UIModule):
         current = int(args[2])
 
         pager_count = int(
-            MPost2Label.total_number(tag_slug, kind) /
-            config.CMS_CFG['list_num'])
+            MPost2Label.total_number(tag_slug, kind) / config.CMS_CFG['list_num']
+        )
         page_num = (
             pager_count
-            if abs(pager_count - MPost2Label.total_number(tag_slug, kind) / config.CMS_CFG['list_num']) < 0.1
+            if abs(
+                pager_count
+                - MPost2Label.total_number(tag_slug, kind) / config.CMS_CFG['list_num']
+            )
+            < 0.1
             else pager_count + 1
         )
         kwd = get_page_position(current, page_num)
 
-        return self.render_string('modules/post/label_pager.html',
-                                  kwd=kwd,
-                                  cat_slug=tag_slug,
-                                  pager_num=page_num,
-                                  page_current=current,
-                                  kind=kind)
+        return self.render_string(
+            'modules/post/label_pager.html',
+            kwd=kwd,
+            cat_slug=tag_slug,
+            pager_num=page_num,
+            page_current=current,
+            kind=kind,
+        )
 
 
 class TagPager(tornado.web.UIModule):
@@ -591,17 +609,21 @@ class TagPager(tornado.web.UIModule):
         taginfo = MCategory.get_by_slug(tag_slug)
         num_of_tag = MPost2Catalog.count_of_certain_category(taginfo.uid)
         pager_count = int(math_ceil(num_of_tag / config.CMS_CFG['list_num']))
-        page_num = (pager_count
-                    if abs(pager_count - num_of_tag / config.CMS_CFG['list_num']) < 0.1
-                    else pager_count + 1)
+        page_num = (
+            pager_count
+            if abs(pager_count - num_of_tag / config.CMS_CFG['list_num']) < 0.1
+            else pager_count + 1
+        )
 
         kwd = get_page_position(current, page_num)
 
-        return self.render_string('modules/post/tag_pager.html',
-                                  kwd=kwd,
-                                  cat_slug=tag_slug,
-                                  pager_num=page_num,
-                                  page_current=current)
+        return self.render_string(
+            'modules/post/tag_pager.html',
+            kwd=kwd,
+            cat_slug=tag_slug,
+            pager_num=page_num,
+            page_current=current,
+        )
 
 
 class SearchPager(tornado.web.UIModule):
@@ -616,15 +638,21 @@ class SearchPager(tornado.web.UIModule):
         current = int(args[2])
         res_all = ysearch.get_all_num(tag_slug, catid=catid)
         pager_count = int(res_all / config.CMS_CFG['list_num'])
-        page_num = pager_count if abs(pager_count - res_all / config.CMS_CFG['list_num']) < 0.1 else pager_count + 1
+        page_num = (
+            pager_count
+            if abs(pager_count - res_all / config.CMS_CFG['list_num']) < 0.1
+            else pager_count + 1
+        )
         kwd = get_page_position(current, page_num)
 
-        return self.render_string('modules/post/search_pager.html',
-                                  kwd=kwd,
-                                  cat_slug=tag_slug,
-                                  catid=catid,
-                                  pager_num=page_num,
-                                  page_current=current)
+        return self.render_string(
+            'modules/post/search_pager.html',
+            kwd=kwd,
+            cat_slug=tag_slug,
+            catid=catid,
+            pager_num=page_num,
+            page_current=current,
+        )
 
 
 class AppTitle(tornado.web.UIModule):
@@ -636,8 +664,7 @@ class AppTitle(tornado.web.UIModule):
         uid = args[0]
         rec = MPost.get_by_uid(uid=uid)
 
-        return self.render_string('modules/info/app_title.html',
-                                  rec=rec)
+        return self.render_string('modules/info/app_title.html', rec=rec)
 
 
 class EntityList(tornado.web.UIModule):
@@ -654,12 +681,9 @@ class EntityList(tornado.web.UIModule):
         current_page_number = 1 if current_page_number < 1 else current_page_number
         kwd = {'current_page': current_page_number}
 
-        recs = MEntity.get_by_kind(kind=kind,
-                                   current_page_num=current_page_number)
+        recs = MEntity.get_by_kind(kind=kind, current_page_num=current_page_number)
 
-        return self.render_string('modules/post/entity_list.html',
-                                  kwd=kwd,
-                                  rec=recs)
+        return self.render_string('modules/post/entity_list.html', kwd=kwd, rec=recs)
 
 
 class EntityPager(tornado.web.UIModule):
@@ -671,15 +695,20 @@ class EntityPager(tornado.web.UIModule):
         current = int(args[0])
 
         pager_count = int(MEntity.total_number() / config.CMS_CFG['list_num'])
-        page_num = (pager_count
-                    if abs(pager_count - MEntity.total_number() / config.CMS_CFG['list_num']) < 0.1
-                    else pager_count + 1)
+        page_num = (
+            pager_count
+            if abs(pager_count - MEntity.total_number() / config.CMS_CFG['list_num'])
+            < 0.1
+            else pager_count + 1
+        )
         kwd = get_page_position(current, page_num)
 
-        return self.render_string('modules/post/entity_pager.html',
-                                  kwd=kwd,
-                                  pager_num=page_num,
-                                  page_current=current)
+        return self.render_string(
+            'modules/post/entity_pager.html',
+            kwd=kwd,
+            pager_num=page_num,
+            page_current=current,
+        )
 
 
 class Entity2UserPager(tornado.web.UIModule):
@@ -692,11 +721,18 @@ class Entity2UserPager(tornado.web.UIModule):
         user_id = kwargs.get('userid', None)
 
         pager_count = int(
-            MEntity2User.total_number_by_user(user_id) /
-            config.CMS_CFG['list_num'])
-        page_num = (pager_count
-                    if abs(pager_count - MEntity2User.total_number_by_user(user_id) / config.CMS_CFG['list_num']) < 0.1
-                    else pager_count + 1)
+            MEntity2User.total_number_by_user(user_id) / config.CMS_CFG['list_num']
+        )
+        page_num = (
+            pager_count
+            if abs(
+                pager_count
+                - MEntity2User.total_number_by_user(user_id)
+                / config.CMS_CFG['list_num']
+            )
+            < 0.1
+            else pager_count + 1
+        )
         kwd = get_page_position(current, page_num)
 
         return self.render_string(
@@ -704,7 +740,8 @@ class Entity2UserPager(tornado.web.UIModule):
             kwd=kwd,
             user_id=user_id,
             pager_num=page_num,
-            page_current=current)
+            page_current=current,
+        )
 
 
 class Entity2Pager(tornado.web.UIModule):
@@ -716,18 +753,24 @@ class Entity2Pager(tornado.web.UIModule):
         current = int(args[0])
         user_id = kwargs.get('userid', None)
 
-        pager_count = int(MEntity2User.total_number() /
-                          config.CMS_CFG['list_num'])
-        page_num = (pager_count
-                    if abs(pager_count - MEntity2User.total_number() / config.CMS_CFG['list_num']) < 0.1
-                    else pager_count + 1)
+        pager_count = int(MEntity2User.total_number() / config.CMS_CFG['list_num'])
+        page_num = (
+            pager_count
+            if abs(
+                pager_count - MEntity2User.total_number() / config.CMS_CFG['list_num']
+            )
+            < 0.1
+            else pager_count + 1
+        )
         kwd = get_page_position(current, page_num)
 
-        return self.render_string('modules/post/entity_download_pager.html',
-                                  kwd=kwd,
-                                  user_id=user_id,
-                                  pager_num=page_num,
-                                  page_current=current)
+        return self.render_string(
+            'modules/post/entity_download_pager.html',
+            kwd=kwd,
+            user_id=user_id,
+            pager_num=page_num,
+            page_current=current,
+        )
 
 
 class Entity2DownloadCount(tornado.web.UIModule):
@@ -752,10 +795,7 @@ class EntityGetPost(tornado.web.UIModule):
             rec = MPost.query_by_extinfo('tag__file_download', path).get()
         except:
             return ''
-        return self.render_string('modules/post/entity_post.html',
-                                  rec=rec
-
-                                  )
+        return self.render_string('modules/post/entity_post.html', rec=rec)
 
 
 class UserName(tornado.web.UIModule):
@@ -801,7 +841,8 @@ class CategoryBySlug(tornado.web.UIModule):
 
         else:
             tmp_str = '<li><a href="/catalog/{0}">{1}</a></li><li class="active">{2}</li>'.format(
-                par.slug, par.name, rec.name)
+                par.slug, par.name, rec.name
+            )
         return tmp_str
 
 
@@ -815,9 +856,9 @@ class Collect(tornado.web.UIModule):
         post_id = args[1]
         en = kwargs.get('en', False)
         user_collect = MCollect.get_by_signature(user_id, post_id)
-        return self.render_string('modules/widget/collect.html',
-                                  user_collect=user_collect,
-                                  en=en)
+        return self.render_string(
+            'modules/widget/collect.html', user_collect=user_collect, en=en
+        )
 
 
 class UserCollect(tornado.web.UIModule):
@@ -834,9 +875,9 @@ class UserCollect(tornado.web.UIModule):
 
         all_cats = MCollect.query_pager_by_userid(user_id, kind, num).objects()
         kwd = {'with_tag': with_tag, 'glyph': glyph}
-        return self.render_string('modules/widget/user_collect.html',
-                                  recs=all_cats,
-                                  kwd=kwd)
+        return self.render_string(
+            'modules/widget/user_collect.html', recs=all_cats, kwd=kwd
+        )
 
 
 class Admin_Post_pager(tornado.web.UIModule):
@@ -854,17 +895,21 @@ class Admin_Post_pager(tornado.web.UIModule):
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
-        page_num = (tmp_page_num
-                    if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
-                    else tmp_page_num + 1)
+        page_num = (
+            tmp_page_num
+            if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
+            else tmp_page_num + 1
+        )
 
         kwd = get_page_position(current, page_num)
 
-        return self.render_string('modules/admin/post_pager.html',
-                                  kwd=kwd,
-                                  pager_num=page_num,
-                                  kind=kind,
-                                  page_current=current)
+        return self.render_string(
+            'modules/admin/post_pager.html',
+            kwd=kwd,
+            pager_num=page_num,
+            kind=kind,
+            page_current=current,
+        )
 
 
 class Admin_Page_pager(tornado.web.UIModule):
@@ -882,17 +927,21 @@ class Admin_Page_pager(tornado.web.UIModule):
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
-        page_num = (tmp_page_num
-                    if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
-                    else tmp_page_num + 1)
+        page_num = (
+            tmp_page_num
+            if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
+            else tmp_page_num + 1
+        )
 
         kwd = get_page_position(current, page_num)
 
-        return self.render_string('modules/admin/page_pager.html',
-                                  kwd=kwd,
-                                  pager_num=page_num,
-                                  kind=kind,
-                                  page_current=current)
+        return self.render_string(
+            'modules/admin/page_pager.html',
+            kwd=kwd,
+            pager_num=page_num,
+            kind=kind,
+            page_current=current,
+        )
 
 
 class Admin_reply_pager(tornado.web.UIModule):
@@ -923,10 +972,12 @@ class Admin_reply_pager(tornado.web.UIModule):
 
         kwd = get_page_position(current, page_num)
         kwd['ext_field'] = ext_field
-        return self.render_string('modules/admin/reply_pager.html',
-                                  kwd=kwd,
-                                  pager_num=page_num,
-                                  page_current=current)
+        return self.render_string(
+            'modules/admin/reply_pager.html',
+            kwd=kwd,
+            pager_num=page_num,
+            page_current=current,
+        )
 
 
 class Reply_pager(tornado.web.UIModule):
@@ -957,10 +1008,14 @@ class Reply_pager(tornado.web.UIModule):
 
         kwd = get_page_position(current, page_num)
         kwd['ext_field'] = ext_field
-        return self.render_string('modules/widget/reply_pager.html',
-                                  kwd=kwd,
-                                  pager_num=page_num,
-                                  page_current=current)
+        return self.render_string(
+            'modules/widget/reply_pager.html',
+            kwd=kwd,
+            pager_num=page_num,
+            page_current=current,
+        )
+
+
 class Reply_user_pager(tornado.web.UIModule):
     '''
     pager of kind
@@ -973,7 +1028,7 @@ class Reply_user_pager(tornado.web.UIModule):
         # kind
         # current 当前页面
 
-        num_of_cat = MReply.count_of_certain(ext_field,user_id=user_id)
+        num_of_cat = MReply.count_of_certain(ext_field, user_id=user_id)
 
         test_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
@@ -992,10 +1047,13 @@ class Reply_user_pager(tornado.web.UIModule):
         kwd['ext_field'] = ext_field
         kwd['user_id'] = user_id
 
-        return self.render_string('modules/widget/reply_user_pager.html',
-                                  kwd=kwd,
-                                  pager_num=page_num,
-                                  page_current=current)
+        return self.render_string(
+            'modules/widget/reply_user_pager.html',
+            kwd=kwd,
+            pager_num=page_num,
+            page_current=current,
+        )
+
 
 class Admin_user_pager(tornado.web.UIModule):
     '''
@@ -1012,17 +1070,21 @@ class Admin_user_pager(tornado.web.UIModule):
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
-        page_num = (tmp_page_num
-                    if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
-                    else tmp_page_num + 1)
+        page_num = (
+            tmp_page_num
+            if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
+            else tmp_page_num + 1
+        )
 
         kwd = get_page_position(current, page_num)
         kwd['type'] = type
 
-        return self.render_string('modules/admin/user_pager.html',
-                                  kwd=kwd,
-                                  pager_num=page_num,
-                                  page_current=current)
+        return self.render_string(
+            'modules/admin/user_pager.html',
+            kwd=kwd,
+            pager_num=page_num,
+            page_current=current,
+        )
 
 
 def get_page_position(current, page_num):
@@ -1052,17 +1114,21 @@ class Admin_log_pager(tornado.web.UIModule):
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
-        page_num = (tmp_page_num
-                    if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
-                    else tmp_page_num + 1)
+        page_num = (
+            tmp_page_num
+            if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
+            else tmp_page_num + 1
+        )
 
         kwd = get_page_position(current, page_num)
 
-        return self.render_string('modules/admin/log_admin_pager.html',
-                                  kwd=kwd,
-                                  user_id=user_id,
-                                  pager_num=page_num,
-                                  page_current=current)
+        return self.render_string(
+            'modules/admin/log_admin_pager.html',
+            kwd=kwd,
+            user_id=user_id,
+            pager_num=page_num,
+            page_current=current,
+        )
 
 
 class LogPager(tornado.web.UIModule):
@@ -1078,17 +1144,21 @@ class LogPager(tornado.web.UIModule):
 
         pager_count = int(the_count / config.CMS_CFG['list_num'])
 
-        page_num = (pager_count
-                    if abs(pager_count - the_count / config.CMS_CFG['list_num']) < 0.1
-                    else pager_count + 1)
+        page_num = (
+            pager_count
+            if abs(pager_count - the_count / config.CMS_CFG['list_num']) < 0.1
+            else pager_count + 1
+        )
 
         kwd = get_page_position(current, page_num)
 
-        return self.render_string('modules/admin/log_pager.html',
-                                  kwd=kwd,
-                                  user_id=user_id,
-                                  pager_num=page_num,
-                                  page_current=current)
+        return self.render_string(
+            'modules/admin/log_pager.html',
+            kwd=kwd,
+            user_id=user_id,
+            pager_num=page_num,
+            page_current=current,
+        )
 
 
 class LogPageviewPager(tornado.web.UIModule):
@@ -1103,16 +1173,20 @@ class LogPageviewPager(tornado.web.UIModule):
 
         pager_count = int(the_count / config.CMS_CFG['list_num'])
 
-        page_num = (pager_count
-                    if abs(pager_count - the_count / config.CMS_CFG['list_num']) < 0.1
-                    else pager_count + 1)
+        page_num = (
+            pager_count
+            if abs(pager_count - the_count / config.CMS_CFG['list_num']) < 0.1
+            else pager_count + 1
+        )
 
         kwd = get_page_position(current, page_num)
 
-        return self.render_string('modules/admin/log_pageview_pager.html',
-                                  kwd=kwd,
-                                  pager_num=page_num,
-                                  page_current=current)
+        return self.render_string(
+            'modules/admin/log_pageview_pager.html',
+            kwd=kwd,
+            pager_num=page_num,
+            page_current=current,
+        )
 
 
 class LogPageviewCount(tornado.web.UIModule):
@@ -1134,10 +1208,12 @@ class InfoNullify(tornado.web.UIModule):
         info_router = kwargs.get('router', '')
         url = kwargs.get('url', '')
 
-        return self.render_string('modules/post/info_nullify.html',
-                                  info_uid=info_uid,
-                                  info_router=info_router,
-                                  url=url)
+        return self.render_string(
+            'modules/post/info_nullify.html',
+            info_uid=info_uid,
+            info_router=info_router,
+            url=url,
+        )
 
 
 class Nullify_pager(tornado.web.UIModule):
@@ -1152,16 +1228,20 @@ class Nullify_pager(tornado.web.UIModule):
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
-        page_num = (tmp_page_num
-                    if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
-                    else tmp_page_num + 1)
+        page_num = (
+            tmp_page_num
+            if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
+            else tmp_page_num + 1
+        )
 
         kwd = get_page_position(current, page_num)
 
-        return self.render_string('modules/post/nullify_pager.html',
-                                  kwd=kwd,
-                                  pager_num=page_num,
-                                  page_current=current)
+        return self.render_string(
+            'modules/post/nullify_pager.html',
+            kwd=kwd,
+            pager_num=page_num,
+            page_current=current,
+        )
 
 
 class Comment_pager(tornado.web.UIModule):
@@ -1176,16 +1256,20 @@ class Comment_pager(tornado.web.UIModule):
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
-        page_num = (tmp_page_num
-                    if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
-                    else tmp_page_num + 1)
+        page_num = (
+            tmp_page_num
+            if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
+            else tmp_page_num + 1
+        )
 
         kwd = get_page_position(current, page_num)
 
-        return self.render_string('modules/post/comment_pager.html',
-                                  kwd=kwd,
-                                  pager_num=page_num,
-                                  page_current=current)
+        return self.render_string(
+            'modules/post/comment_pager.html',
+            kwd=kwd,
+            pager_num=page_num,
+            page_current=current,
+        )
 
 
 class Comment_num(tornado.web.UIModule):

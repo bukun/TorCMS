@@ -24,17 +24,21 @@ WHOOSH_BASE = 'database/whoosh'
 
 # Using jieba lib for Chinese.
 if SITE_CFG.get('LANG', 'zh') == 'zh' and ChineseAnalyzer:
-    TOR_SCHEMA = Schema(title=TEXT(stored=True, analyzer=ChineseAnalyzer()),
-                        catid=TEXT(stored=True),
-                        type=TEXT(stored=True),
-                        link=ID(unique=True, stored=True),
-                        content=TEXT(stored=True, analyzer=ChineseAnalyzer()))
+    TOR_SCHEMA = Schema(
+        title=TEXT(stored=True, analyzer=ChineseAnalyzer()),
+        catid=TEXT(stored=True),
+        type=TEXT(stored=True),
+        link=ID(unique=True, stored=True),
+        content=TEXT(stored=True, analyzer=ChineseAnalyzer()),
+    )
 else:
-    TOR_SCHEMA = Schema(title=TEXT(stored=True, analyzer=StemmingAnalyzer()),
-                        catid=TEXT(stored=True),
-                        type=TEXT(stored=True),
-                        link=ID(unique=True, stored=True),
-                        content=TEXT(stored=True, analyzer=StemmingAnalyzer()))
+    TOR_SCHEMA = Schema(
+        title=TEXT(stored=True, analyzer=StemmingAnalyzer()),
+        catid=TEXT(stored=True),
+        type=TEXT(stored=True),
+        link=ID(unique=True, stored=True),
+        content=TEXT(stored=True, analyzer=StemmingAnalyzer()),
+    )
 
 if os.path.exists(WHOOSH_BASE):
     TOR_IDX = open_dir(WHOOSH_BASE)
@@ -55,7 +59,7 @@ def singleton(cls, *args, **kwargs):
 
 
 @singleton
-class YunSearch():
+class YunSearch:
     '''
     For searching in whoosh database.
     '''
@@ -91,11 +95,10 @@ class YunSearch():
         else:
             queryit = And([Term("catid", catid), queryit])
         try:
-            queryres = self.whbase.searcher().search(queryit,
-                                                     limit=page_index *
-                                                           doc_per_page)
-            return queryres[(page_index - 1) * doc_per_page:page_index *
-                                                            doc_per_page]
+            queryres = self.whbase.searcher().search(
+                queryit, limit=page_index * doc_per_page
+            )
+            return queryres[(page_index - 1) * doc_per_page : page_index * doc_per_page]
         finally:
             pass
 
@@ -111,16 +114,20 @@ def do_for_document(rand=True, kind='', _=None):
         recs = MPost.query_recent(num=2, kind=kind)
 
     for rec in recs:
-        text2 = rec.title + ',' + html2text.html2text(
-            tornado.escape.xhtml_unescape(rec.cnt_html))
+        text2 = (
+            rec.title
+            + ','
+            + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
+        )
 
         writer = TOR_IDX.writer()
-        writer.update_document(catid='sid' + kind,
-                               title=rec.title,
-                               type=post_type[rec.kind],
-                               link='/{0}/{1}'.format(router_post[rec.kind],
-                                                      rec.uid),
-                               content=text2)
+        writer.update_document(
+            catid='sid' + kind,
+            title=rec.title,
+            type=post_type[rec.kind],
+            link='/{0}/{1}'.format(router_post[rec.kind], rec.uid),
+            content=text2,
+        )
         writer.commit()
 
 
@@ -131,15 +138,20 @@ def do_for_wiki(rand=True, _=''):
         recs = MWiki.query_recent(num=2, kind='1')
 
     for rec in recs:
-        text2 = rec.title + ',' + html2text.html2text(
-            tornado.escape.xhtml_unescape(rec.cnt_html))
+        text2 = (
+            rec.title
+            + ','
+            + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
+        )
 
         writer = TOR_IDX.writer()
-        writer.update_document(title=rec.title,
-                               catid='sid1',
-                               type=post_type['1'],
-                               link='/wiki/{0}'.format(rec.title),
-                               content=text2)
+        writer.update_document(
+            title=rec.title,
+            catid='sid1',
+            type=post_type['1'],
+            link='/wiki/{0}'.format(rec.title),
+            content=text2,
+        )
         writer.commit()
 
 
@@ -150,15 +162,20 @@ def do_for_page(rand=True, _=''):
         recs = MWiki.query_recent(num=2, kind='2')
 
     for rec in recs:
-        text2 = rec.title + ',' + html2text.html2text(
-            tornado.escape.xhtml_unescape(rec.cnt_html))
+        text2 = (
+            rec.title
+            + ','
+            + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
+        )
 
         writer = TOR_IDX.writer()
-        writer.update_document(title=rec.title,
-                               catid='sid1',
-                               type=post_type['1'],
-                               link='/page/{0}'.format(rec.uid),
-                               content=text2)
+        writer.update_document(
+            title=rec.title,
+            catid='sid1',
+            type=post_type['1'],
+            link='/page/{0}'.format(rec.uid),
+            content=text2,
+        )
         writer.commit()
 
 

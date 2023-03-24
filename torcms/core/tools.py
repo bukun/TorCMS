@@ -24,13 +24,13 @@ logging.basicConfig(
     format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
     datefmt='%m-%d %H:%M',
     filename='xx_torcms.log',
-    filemode='w')
+    filemode='w',
+)
 # 定义一个Handler打印INFO及以上级别的日志到sys.stderr
 stream_handler = logging.StreamHandler()
 stream_handler.setLevel(logging.INFO)
 # 设置日志打印格式
-logger_formatter = logging.Formatter(
-    '%(name)-12s: %(levelname)-8s %(message)s')
+logger_formatter = logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s')
 stream_handler.setFormatter(logger_formatter)
 # 将定义好的console日志handler添加到root logger
 logging.getLogger('').addHandler(stream_handler)
@@ -57,11 +57,9 @@ def diff_table(rawinfo, newinfo):
     :param newinfo:
     :return:
     '''
-    return HtmlDiff.make_table(HtmlDiff(),
-                               rawinfo.split('\n'),
-                               newinfo.split('\n'),
-                               context=True,
-                               numlines=1)
+    return HtmlDiff.make_table(
+        HtmlDiff(), rawinfo.split('\n'), newinfo.split('\n'), context=True, numlines=1
+    )
 
 
 def check_username_valid(username):
@@ -176,10 +174,7 @@ def get_uu4d_v2():
     '''
     # sel_arr = [x for x in 'ghijklmnopqrstuvwxyz']
 
-    return func_rand_arr(
-        list('ghijklmnopqrstuvwxyz'),
-        4
-    )
+    return func_rand_arr(list('ghijklmnopqrstuvwxyz'), 4)
 
 
 def get_uu4d():
@@ -187,10 +182,7 @@ def get_uu4d():
     Get ID of 4 digit.
     '''
 
-    return func_rand_arr(
-        list('0123456789abcdef'),
-        4
-    )
+    return func_rand_arr(list('0123456789abcdef'), 4)
 
 
 def get_uu5d():
@@ -198,10 +190,7 @@ def get_uu5d():
     Get ID of 5 digit.
     '''
 
-    return func_rand_arr(
-        list('0123456789abcdef'),
-        5
-    )
+    return func_rand_arr(list('0123456789abcdef'), 5)
 
 
 def get_uudd(lenth):
@@ -220,10 +209,7 @@ def get_uu6d():
     Get ID of 6 digit.
     '''
 
-    return func_rand_arr(
-        list('0123456789abcdef'),
-        6
-    )
+    return func_rand_arr(list('0123456789abcdef'), 6)
 
 
 def markdown2html(markdown_text):
@@ -239,8 +225,8 @@ def markdown2html(markdown_text):
             'markdown.extensions.extra',
             'markdown.extensions.toc',
             'markdown.extensions.codehilite',
-            'markdown.extensions.meta'
-        ]
+            'markdown.extensions.meta',
+        ],
     )
     han_biaodians = ['。', '，', '；', '、', '！', '？']
     for han_biaodian in han_biaodians:
@@ -255,6 +241,7 @@ class ConfigDefault(object):
     ``DB_CFG`` 的配置：这个是用于 Travis 。如果没有配置，则使用 Travis 的设置。
     一般应用中都是要进行配置的。
     '''
+
     SMTP_CFG = {
         'name': 'TorCMS',
         'host': "",
@@ -333,13 +320,15 @@ def get_cfg():
     else:
         site_cfg['DEBUG'] = False
 
-    db_con = PostgresqlExtDatabase(db_cfg['db'],
-                                   user=db_cfg.get('user', db_cfg['db']),
-                                   password=db_cfg['pass'],
-                                   host=db_cfg.get('host', '127.0.0.1'),
-                                   port=db_cfg.get('port', '5432'),
-                                   # autocommit=True,
-                                   autorollback=True)
+    db_con = PostgresqlExtDatabase(
+        db_cfg['db'],
+        user=db_cfg.get('user', db_cfg['db']),
+        password=db_cfg['pass'],
+        host=db_cfg.get('host', '127.0.0.1'),
+        port=db_cfg.get('port', '5432'),
+        # autocommit=True,
+        autorollback=True,
+    )
 
     if 'REDIS_CFG' in cfg_var:
         redis_cfg = cfg.REDIS_CFG

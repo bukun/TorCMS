@@ -8,7 +8,7 @@ from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import TabReferrer
 
 
-class MReferrer():
+class MReferrer:
     @staticmethod
     def get_by_uid(uid):
         '''

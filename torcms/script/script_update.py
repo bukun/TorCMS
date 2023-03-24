@@ -100,40 +100,46 @@ def update_view_count():
     print('更新近24小时')
     for uid in post_ids:
         CUR.execute(
-            "select count(*) from tabaccess where post_id = '{}' and uid >= {}"
-            .format(uid, ts1d))
+            "select count(*) from tabaccess where post_id = '{}' and uid >= {}".format(
+                uid, ts1d
+            )
+        )
         the_count = CUR.fetchone()[0]
         # print(the_count)
 
         cur.execute(
-            "update tabpost set access_1d = {} where uid = '{}'".format(
-                the_count, uid))
+            "update tabpost set access_1d = {} where uid = '{}'".format(the_count, uid)
+        )
         # 每次提交。不然似乎导致数据库锁住，长时间无响应。
         DB_CON.commit()
 
     print('更新近7日')
     for uid in post_ids:
         CUR.execute(
-            "select count(*) from tabaccess where post_id = '{}' and uid >= {}"
-            .format(uid, ts7d))
+            "select count(*) from tabaccess where post_id = '{}' and uid >= {}".format(
+                uid, ts7d
+            )
+        )
         the_count = CUR.fetchone()[0]
 
         cur.execute(
-            "update tabpost set access_7d = {} where uid = '{}'".format(
-                the_count, uid))
+            "update tabpost set access_7d = {} where uid = '{}'".format(the_count, uid)
+        )
         # 每次提交。不然似乎导致数据库锁住，长时间无响应。
         DB_CON.commit()
 
     print('更新近30日')
     for uid in post_ids:
         CUR.execute(
-            "select count(*) from tabaccess where post_id = '{}' and uid >= {}"
-            .format(uid, ts30d))
+            "select count(*) from tabaccess where post_id = '{}' and uid >= {}".format(
+                uid, ts30d
+            )
+        )
         the_count = CUR.fetchone()[0]
 
         cur.execute(
-            "update tabpost set access_30d = {} where uid = '{}'".format(
-                the_count, uid))
+            "update tabpost set access_30d = {} where uid = '{}'".format(the_count, uid)
+        )
         # 每次提交。不然似乎导致数据库锁住，长时间无响应。
         DB_CON.commit()
 

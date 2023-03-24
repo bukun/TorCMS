@@ -7,10 +7,11 @@ from torcms.model.category_model import MCategory
 from torcms.model.core_tab import TabPost, TabPost2Tag, TabTag
 
 
-class MCatalog():
+class MCatalog:
     '''
     Model for catalog list.
     '''
+
     def __init__(self):
         super().__init__()
 
@@ -30,10 +31,12 @@ class MCatalog():
         else:
             cat_con = TabPost2Tag.tag_id == cat_id
 
-        recs = TabPost.select().join(
-            TabPost2Tag,
-            on=(TabPost.uid == TabPost2Tag.post_id)).where(cat_con).order_by(
-                TabPost.time_update.desc())
+        recs = (
+            TabPost.select()
+            .join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id))
+            .where(cat_con)
+            .order_by(TabPost.time_update.desc())
+        )
 
         return recs
 
@@ -43,6 +46,5 @@ class MCatalog():
         查询大类记录
         '''
 
-        recs = TabTag.select().where(TabTag.uid.endswith('00')).order_by(
-            TabTag.uid)
+        recs = TabTag.select().where(TabTag.uid.endswith('00')).order_by(TabTag.uid)
         return recs

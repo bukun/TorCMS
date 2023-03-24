@@ -9,7 +9,7 @@ from torcms.core import tools
 from torcms.model.core_tab import TabRating
 
 
-class MRating():
+class MRating:
     '''
     Rating for post.
     '''
@@ -20,13 +20,16 @@ class MRating():
 
     @staticmethod
     def query_average_rating(postid, limit=1000):
-        return TabRating.select(
-            peewee.fn.Avg(TabRating.rating).over(
-                order_by=[TabRating.timestamp.desc()]
+        return (
+            TabRating.select(
+                peewee.fn.Avg(TabRating.rating).over(
+                    order_by=[TabRating.timestamp.desc()]
+                )
             )
-        ).where(
-            TabRating.post_id == postid
-        ).limit(limit).scalar()
+            .where(TabRating.post_id == postid)
+            .limit(limit)
+            .scalar()
+        )
 
     @staticmethod
     def get_rating(postid, userid):
@@ -34,7 +37,9 @@ class MRating():
         Get the rating of certain post and user.
         '''
         try:
-            recs = TabRating.select().where((TabRating.post_id == postid) & (TabRating.user_id == userid))
+            recs = TabRating.select().where(
+                (TabRating.post_id == postid) & (TabRating.user_id == userid)
+            )
         except Exception as err:
             print(repr(err))
             return False
@@ -49,7 +54,9 @@ class MRating():
         Update the rating of certain post and user.
         The record will be created if no record exists.
         '''
-        rating_recs = TabRating.select().where((TabRating.post_id == postid) & (TabRating.user_id == userid))
+        rating_recs = TabRating.select().where(
+            (TabRating.post_id == postid) & (TabRating.user_id == userid)
+        )
         if rating_recs.count() > 0:
             MRating.__update_rating(rating_recs.get().uid, rating)
         else:

@@ -36,7 +36,6 @@ class RoleHandler(BaseHandler):
         elif url_arr[0] == 'getpid':
             self.getpid()
 
-
         else:
             kwd = {
                 'info': '页面未找到',
@@ -68,26 +67,14 @@ class RoleHandler(BaseHandler):
 
     def getpid(self):
 
-        dics = [{
-            "label": "无",
-            "value": "0000"
-        }]
+        dics = [{"label": "无", "value": "0000"}]
         recs = MRole.query_all()
 
         for rec in recs:
-            dic = {
-                "label": rec.name,
-                "value": rec.uid
-
-            }
+            dic = {"label": rec.name, "value": rec.uid}
 
             dics.append(dic)
-        out_dict = {
-            "ok": True,
-            "status": 0,
-            'data': dics
-
-        }
+        out_dict = {"ok": True, "status": 0, 'data': dics}
 
         return json.dump(out_dict, self, ensure_ascii=False)
 
@@ -104,19 +91,10 @@ class RoleHandler(BaseHandler):
         recs = MRole.get_by_pid(parentId)
 
         for rec in recs:
-            dic = {
-                "label": rec.name,
-                "value": rec.uid
-
-            }
+            dic = {"label": rec.name, "value": rec.uid}
 
             dics.append(dic)
-        out_dict = {
-            "ok": True,
-            "status": 0,
-            'data': dics
-
-        }
+        out_dict = {"ok": True, "status": 0, 'data': dics}
 
         return json.dump(out_dict, self, ensure_ascii=False)
 
@@ -162,7 +140,7 @@ class RoleHandler(BaseHandler):
                 'status': rec.status,
                 'pid': rec.pid,
                 'time_create': tools.format_time(rec.time_create),
-                'time_update': tools.format_time(rec.time_update)
+                'time_update': tools.format_time(rec.time_update),
             }
             childrens1 = MRole.get_by_pid(rec.uid)
             chid_dics1 = []
@@ -174,7 +152,7 @@ class RoleHandler(BaseHandler):
                     'status': children1.status,
                     'pid': children1.pid,
                     'time_create': tools.format_time(children1.time_create),
-                    'time_update': tools.format_time(children1.time_update)
+                    'time_update': tools.format_time(children1.time_update),
                 }
 
                 childrens2 = MRole.get_by_pid(children1.uid)
@@ -186,7 +164,7 @@ class RoleHandler(BaseHandler):
                         'status': child2.status,
                         'pid': child2.pid,
                         'time_create': tools.format_time(child2.time_create),
-                        'time_update': tools.format_time(child2.time_update)
+                        'time_update': tools.format_time(child2.time_update),
                     }
 
                     chid_dics2.append(chid2_rec)
@@ -202,9 +180,7 @@ class RoleHandler(BaseHandler):
             "ok": True,
             "status": 0,
             "msg": "ok",
-            'data': {"count": counts,
-                     "rows": dics
-                     }
+            'data': {"count": counts, "rows": dics},
         }
 
         return json.dump(out_dict, self, ensure_ascii=False)
@@ -212,19 +188,18 @@ class RoleHandler(BaseHandler):
     def get_by_id(self, uid):
         rec = MRole.get_by_uid(uid)
 
-        dic = [{
-            "uid": rec.uid,
-            "name": rec.name,
-            'status': rec.status,
-            'pid': rec.pid,
-            'time_create': tools.format_time(rec.time_create),
-            'time_update': tools.format_time(rec.time_update)
-        }]
+        dic = [
+            {
+                "uid": rec.uid,
+                "name": rec.name,
+                'status': rec.status,
+                'pid': rec.pid,
+                'time_create': tools.format_time(rec.time_create),
+                'time_update': tools.format_time(rec.time_update),
+            }
+        ]
 
-        out_dict = {
-            'title': '分组/角色详情',
-            'rolemore_table': dic
-        }
+        out_dict = {'title': '分组/角色详情', 'rolemore_table': dic}
 
         return json.dump(out_dict, self, ensure_ascii=False)
 

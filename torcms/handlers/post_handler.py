@@ -14,7 +14,7 @@ import tornado.gen
 import tornado.ioloop
 import tornado.web
 
-from config import router_post,check_type
+from config import router_post, check_type
 from torcms.core import privilege, tools
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tool.sqlite_helper import MAcces
@@ -138,6 +138,7 @@ class PostHandler(BaseHandler):
     '''
     The basic HTML Page handler.
     '''
+
     executor = ThreadPoolExecutor(2)
 
     def initialize(self, **kwargs):
@@ -205,9 +206,13 @@ class PostHandler(BaseHandler):
             tmpl = f'tmpl_{self.kind}/tpl_index.html'
         else:
             tmpl = f'post_{self.kind}/post_index.html'
-        self.render(tmpl,
-                    userinfo=self.userinfo,
-                    kwd={'uid': '', })
+        self.render(
+            tmpl,
+            userinfo=self.userinfo,
+            kwd={
+                'uid': '',
+            },
+        )
 
     def _gen_uid(self):
         '''
@@ -229,8 +234,11 @@ class PostHandler(BaseHandler):
 
         cat_id = self.__get_cat_id(rec)
 
-        logger.info('For templates: catid: {0},  filter_view: {1}'.format(
-            cat_id, self.filter_view))
+        logger.info(
+            'For templates: catid: {0},  filter_view: {1}'.format(
+                cat_id, self.filter_view
+            )
+        )
 
         if cat_id and self.filter_view:
             tmpl = 'autogen/view/view_{0}.html'.format(cat_id)
@@ -263,12 +271,12 @@ class PostHandler(BaseHandler):
             'gcat0': catid,
             'parentname': MCategory.get_by_uid(catinfo.pid).name,
             'catname': MCategory.get_by_uid(catid).name,
-            'router': router_post[self.kind]
+            'router': router_post[self.kind],
         }
 
-        self.render('autogen/add/add_{0}.html'.format(catid),
-                    userinfo=self.userinfo,
-                    kwd=kwd)
+        self.render(
+            'autogen/add/add_{0}.html'.format(catid), userinfo=self.userinfo, kwd=kwd
+        )
 
     def _view_or_add(self, uid):
         '''
@@ -281,13 +289,13 @@ class PostHandler(BaseHandler):
             else:
                 self.redirect(
                     '/{0}/{1}'.format(router_post[postinfo.kind], postinfo.uid),
-                    permanent=True)
+                    permanent=True,
+                )
 
         elif self.userinfo:
             self._to_add(uid=uid)
         else:
             self.show404()
-
 
     @privilege.permission(action='can_add')
     def _to_add(self, **kwargs):
@@ -306,13 +314,14 @@ class PostHandler(BaseHandler):
                 uid = kwargs['uid']
             else:
                 uid = ''
-            self.render('post_{0}/post_add.html'.format(self.kind),
-                        tag_infos=MCategory.query_all(by_order=True, kind=self.kind),
-                        userinfo=self.userinfo,
-                        kwd={
-                            'uid': uid,
-
-                        })
+            self.render(
+                'post_{0}/post_add.html'.format(self.kind),
+                tag_infos=MCategory.query_all(by_order=True, kind=self.kind),
+                userinfo=self.userinfo,
+                kwd={
+                    'uid': uid,
+                },
+            )
 
     @privilege.permission(action='can_edit')
     def _to_edit(self, infoid):
@@ -350,10 +359,8 @@ class PostHandler(BaseHandler):
             'catname': '',
             'parentlist': MCategory.get_parent_list(),
             'userip': self.request.remote_ip,
-            'extinfo': json.dumps(postinfo.extinfo,
-                                  indent=2,
-                                  ensure_ascii=False),
-            'router': router_post[postinfo.kind]
+            'extinfo': json.dumps(postinfo.extinfo, indent=2, ensure_ascii=False),
+            'router': router_post[postinfo.kind],
         }
 
         if self.filter_view:
@@ -363,20 +370,21 @@ class PostHandler(BaseHandler):
 
         logger.info('Meta template: {0}'.format(tmpl))
 
-        self.render(tmpl,
-                    kwd=kwd,
-                    postinfo=postinfo,
-                    catinfo=catinfo,
-                    pcatinfo=p_catinfo,
-                    userinfo=self.userinfo,
-                    cat_enum=MCategory.get_qian2(catid[:2]),
-                    tag_infos=MCategory.query_all(by_order=True,
-                                                  kind=self.kind),
-                    tag_infos2=MCategory.query_all(by_order=True,
-                                                   kind=self.kind),
-                    app2tag_info=MPost2Catalog.query_by_entity_uid(
-                        infoid, kind=self.kind).objects(),
-                    app2label_info=MPost2Label.get_by_uid(infoid).objects())
+        self.render(
+            tmpl,
+            kwd=kwd,
+            postinfo=postinfo,
+            catinfo=catinfo,
+            pcatinfo=p_catinfo,
+            userinfo=self.userinfo,
+            cat_enum=MCategory.get_qian2(catid[:2]),
+            tag_infos=MCategory.query_all(by_order=True, kind=self.kind),
+            tag_infos2=MCategory.query_all(by_order=True, kind=self.kind),
+            app2tag_info=MPost2Catalog.query_by_entity_uid(
+                infoid, kind=self.kind
+            ).objects(),
+            app2label_info=MPost2Label.get_by_uid(infoid).objects(),
+        )
 
     def _gen_last_current_relation(self, post_id):
         '''
@@ -417,16 +425,16 @@ class PostHandler(BaseHandler):
         MAcces.add(postinfo.uid)
 
         if self.get_current_user() and self.userinfo:
-            MUsage.add_or_update(self.userinfo.uid, postinfo.uid,
-                                 postinfo.kind)
+            MUsage.add_or_update(self.userinfo.uid, postinfo.uid, postinfo.kind)
 
         self.set_cookie('user_pass', kwd['cookie_str'])
 
         tmpl = self.ext_tmpl_view(postinfo)
 
         if self.userinfo:
-            recent_apps = MUsage.query_recent(self.userinfo.uid, postinfo.kind,
-                                              6).objects()[1:]
+            recent_apps = MUsage.query_recent(
+                self.userinfo.uid, postinfo.kind, 6
+            ).objects()[1:]
         else:
             recent_apps = []
         logger.info('The Info Template: {0}'.format(tmpl))
@@ -442,8 +450,10 @@ class PostHandler(BaseHandler):
             rand_recs=rand_recs,
             subcats=MCategory.query_sub_cat(p_catinfo.uid) if p_catinfo else '',
             ad_switch=random.randint(1, 18),
-            tag_info=filter(lambda x: not x.tag_name.startswith('_'),
-                            MPost2Label.get_by_uid(postinfo.uid).objects()),
+            tag_info=filter(
+                lambda x: not x.tag_name.startswith('_'),
+                MPost2Label.get_by_uid(postinfo.uid).objects(),
+            ),
             recent_apps=recent_apps,
             cat_enum=cat_enum1,
             router=router_post[catinfo.kind],
@@ -470,7 +480,7 @@ class PostHandler(BaseHandler):
             'parentlist': MCategory.get_parent_list(),
             'parentname': '',
             'catname': '',
-            'router': router_post[postinfo.kind]
+            'router': router_post[postinfo.kind],
         }
         return kwd
 
@@ -484,16 +494,15 @@ class PostHandler(BaseHandler):
             cat_uid = cat_rec.tag_id
             cat_uid_arr.append(cat_uid)
         logger.info('info category: {0}'.format(cat_uid_arr))
-        rel_recs = MRelation.get_app_relations(uid, 8,
-                                               kind=self.kind).objects()
+        rel_recs = MRelation.get_app_relations(uid, 8, kind=self.kind).objects()
 
         logger.info('rel_recs count: {0}'.format(rel_recs.count()))
         if cat_uid_arr:
-            rand_recs = MPost.query_cat_random(cat_uid_arr[0],
-                                               limit=4 - rel_recs.count() + 4)
+            rand_recs = MPost.query_cat_random(
+                cat_uid_arr[0], limit=4 - rel_recs.count() + 4
+            )
         else:
-            rand_recs = MPost.query_random(num=4 - rel_recs.count() + 4,
-                                           kind=self.kind)
+            rand_recs = MPost.query_random(num=4 - rel_recs.count() + 4, kind=self.kind)
         return rand_recs, rel_recs
 
     def _add_relation(self, f_uid, t_uid):
@@ -532,7 +541,11 @@ class PostHandler(BaseHandler):
         post_data = {}
         ext_dic = {}
         for key in self.request.arguments:
-            if key.startswith('ext_') or key.startswith('tag_') or key.startswith('_tag_'):
+            if (
+                key.startswith('ext_')
+                or key.startswith('tag_')
+                or key.startswith('_tag_')
+            ):
                 ext_dic[key] = self.get_argument(key, default='')
             else:
                 post_data[key] = self.get_arguments(key)[0]
@@ -544,8 +557,7 @@ class PostHandler(BaseHandler):
 
         if 'tags' in post_data:
             ext_dic['def_tag_arr'] = [
-                x.strip()
-                for x in post_data['tags'].strip().strip(',').split(',')
+                x.strip() for x in post_data['tags'].strip().strip(',').split(',')
             ]
         ext_dic = dict(ext_dic, **self.ext_post_data(postdata=post_data))
 
@@ -568,10 +580,7 @@ class PostHandler(BaseHandler):
         title = post_data['title'].strip()
 
         if len(title) < 2:
-            kwd = {
-                'info': 'Title cannot be less than 2 characters',
-                'link': '/'
-            }
+            kwd = {'info': 'Title cannot be less than 2 characters', 'link': '/'}
             self.render('misc/html/404.html', userinfo=self.userinfo, kwd=kwd)
 
         if 'valid' in post_data:
@@ -664,7 +673,12 @@ class PostHandler(BaseHandler):
         if postinfo.state[1] == '2':
             approved_state_arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
             if len(approved_state_arr) > approved_count:
-                pstate = postinfo.state[0] + '1' + str(approved_state_arr[approved_count]) + '0'
+                pstate = (
+                    postinfo.state[0]
+                    + '1'
+                    + str(approved_state_arr[approved_count])
+                    + '0'
+                )
             else:
                 pstate = postinfo.state[0] + '190'
             MPost.update_state(uid, pstate)
@@ -743,9 +757,11 @@ class PostHandler(BaseHandler):
         return {}
 
     def _add_download_entity(self, ext_dic):
-        download_url = (ext_dic['tag_file_download'].strip().lower()
-                        if ('tag_file_download' in ext_dic)
-                        else '')
+        download_url = (
+            ext_dic['tag_file_download'].strip().lower()
+            if ('tag_file_download' in ext_dic)
+            else ''
+        )
         the_entity = MEntity.get_id_by_impath(download_url)
         if the_entity:
             return True
@@ -761,15 +777,19 @@ class PostHandler(BaseHandler):
             pass
         else:
             self.redirect('/')
-        postinfo = MPost.get_by_uid(post_uid, )
+        postinfo = MPost.get_by_uid(
+            post_uid,
+        )
         json_cnt = json.dumps(postinfo.extinfo, indent=True)
         kwd = {}
-        self.render('man_info/post_kind.html',
-                    postinfo=postinfo,
-                    sig_dic=router_post,
-                    userinfo=self.userinfo,
-                    json_cnt=json_cnt,
-                    kwd=kwd)
+        self.render(
+            'man_info/post_kind.html',
+            postinfo=postinfo,
+            sig_dic=router_post,
+            userinfo=self.userinfo,
+            json_cnt=json_cnt,
+            kwd=kwd,
+        )
 
     # @privilege.permission(action='can_edit')
     @tornado.web.authenticated
@@ -787,8 +807,4 @@ class PostHandler(BaseHandler):
         # self.update_category(post_uid)
 
         update_category(post_uid, post_data)
-        self.redirect('/{0}/{1}'.format(router_post[post_data['kcat']],
-                                        post_uid))
-
-
-
+        self.redirect('/{0}/{1}'.format(router_post[post_data['kcat']], post_uid))

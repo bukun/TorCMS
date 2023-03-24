@@ -26,7 +26,7 @@ from torcms.handlers.post_list_handler import PostListHandler
 from torcms.handlers.publish_handler import PublishHandler
 from torcms.handlers.rating_handler import RatingHandler
 from torcms.handlers.relation_handler import RelHandler
-from torcms.handlers.reply_handler import ReplyHandler,ReplyAjaxHandler
+from torcms.handlers.reply_handler import ReplyHandler, ReplyAjaxHandler
 from torcms.handlers.search_handler import SearchHandler
 from torcms.handlers.sys_handler import SysHandler
 from torcms.handlers.user_handler import UserHandler, UserPartialHandler
@@ -38,14 +38,12 @@ from torcms.handlers.permission_handler import PermissionHandler
 from torcms.handlers.role_handler import RoleHandler
 from torcms.api.login import UserApi
 from torcms.api.test import TestApi
-urls = [
 
+urls = [
     ('/api/user/(.*)', UserApi, {}),
     ('/api/permission/(.*)', PermissionHandler, {}),
     ('/api/role/(.*)', RoleHandler, {}),
-
     ('/api/test/(.*)', TestApi, {}),
-
     ('/_rating/(.*)', RatingHandler, {}),
     ('/post_man/(.*)', PostHistoryHandler, {}),
     ('/meta_man/(.*)', PostHistoryHandler, {}),
@@ -56,18 +54,14 @@ urls = [
     ("/entity/(.*)", EntityHandler, {}),
     ("/entity_j/(.*)", EntityAjaxHandler, {}),
     ("/entity_download/(.*)", Entity2UserHandler, {}),
-
     # For listing items.
     ("/list/(.*)", ListHandler, {}),
     ("/post/(.*)", PostHandler, dict(kind='1')),
-
     # For listing ordered items.
     ("/catalog/(.*)", CatalogHandler, {}),
     ("/leaf/(.*)", LeafHandler, dict(kind='6')),
-
     # For filter listing.
     ("/filter/(.*)", FilterHandler, {}),
-
     # CRUD, for information via filter.
     ("/info/(.*)", PostHandler, dict(kind='3', filter_view=True)),
     ("/label/(.*)", LabelHandler, {}),
@@ -97,5 +91,5 @@ urls = [
     ('/classify/(.*)', ClassifyHandler, {}),
     ("/check/(.*)", CheckHandler, dict()),
     ("/permission/(.*)", PermissionHandler, {}),
-    ("/", IndexHandler, {})
+    ("/", IndexHandler, {}),
 ]

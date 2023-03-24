@@ -7,15 +7,17 @@ from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import TabWikiHist
 
 
-class MWikiHist():
+class MWikiHist:
     @staticmethod
     def get_last(postid):
         '''
         Get the last wiki in history.
         '''
-        recs = TabWikiHist.select().where(
-            TabWikiHist.wiki_id == postid).order_by(
-                TabWikiHist.time_update.desc())
+        recs = (
+            TabWikiHist.select()
+            .where(TabWikiHist.wiki_id == postid)
+            .order_by(TabWikiHist.time_update.desc())
+        )
 
         return None if recs.count() == 0 else recs.get()
 
@@ -41,9 +43,12 @@ class MWikiHist():
 
     @staticmethod
     def query_by_wikiid(postid, limit=5):
-        recs = TabWikiHist.select().where(
-            TabWikiHist.wiki_id == postid).order_by(
-                TabWikiHist.time_update.desc()).limit(limit)
+        recs = (
+            TabWikiHist.select()
+            .where(TabWikiHist.wiki_id == postid)
+            .order_by(TabWikiHist.time_update.desc())
+            .limit(limit)
+        )
         return recs
 
     @staticmethod
@@ -54,6 +59,6 @@ class MWikiHist():
             wiki_id=raw_data.uid,
             user_name=user_info.user_name,
             cnt_md=raw_data.cnt_md,
-            time_update=tools.timestamp()
+            time_update=tools.timestamp(),
         )
         return entry.uid

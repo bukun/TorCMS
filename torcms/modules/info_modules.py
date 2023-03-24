@@ -47,12 +47,14 @@ class InfoCategory(tornado.web.UIModule):
 
         else:
             tmpl = 'modules/info/catalog_of.html'
-        return self.render_string(tmpl,
-                                  pcatinfo=curinfo,
-                                  sub_cats=sub_cats,
-                                  recs=sub_cats,
-                                  with_title=with_title,
-                                  kwd=kwd)
+        return self.render_string(
+            tmpl,
+            pcatinfo=curinfo,
+            sub_cats=sub_cats,
+            recs=sub_cats,
+            with_title=with_title,
+            kwd=kwd,
+        )
 
 
 class InforUserMost(tornado.web.UIModule):
@@ -74,14 +76,10 @@ class InforUserMost(tornado.web.UIModule):
         glyph = kwargs.get('glyph', '')
 
         all_cats = MUsage.query_most(user_name, kind, num).objects()
-        kwd = {
-            'with_tag': with_tag,
-            'router': router_post[kind],
-            'glyph': glyph
-        }
-        return self.render_string('modules/info/list_user_equation.html',
-                                  recs=all_cats,
-                                  kwd=kwd)
+        kwd = {'with_tag': with_tag, 'router': router_post[kind], 'glyph': glyph}
+        return self.render_string(
+            'modules/info/list_user_equation.html', recs=all_cats, kwd=kwd
+        )
 
 
 class InfoMostUsed(tornado.web.UIModule):
@@ -99,16 +97,11 @@ class InfoMostUsed(tornado.web.UIModule):
         glyph = kwargs.get('glyph', '')
 
         if userinfo:
-            html_str = self.render_user(kind,
-                                        num,
-                                        with_tag=with_tag,
-                                        user_id=userinfo.uid,
-                                        glyph=glyph)
+            html_str = self.render_user(
+                kind, num, with_tag=with_tag, user_id=userinfo.uid, glyph=glyph
+            )
         else:
-            html_str = self.render_it(kind,
-                                      num,
-                                      with_tag=with_tag,
-                                      glyph=glyph)
+            html_str = self.render_it(kind, num, with_tag=with_tag, glyph=glyph)
         return html_str
 
     def render_it(self, *args, **kwargs):
@@ -124,14 +117,10 @@ class InfoMostUsed(tornado.web.UIModule):
         glyph = kwargs.get('glyph', '')
 
         all_cats = MPost.query_most(kind=kind, num=num).objects()
-        kwd = {
-            'with_tag': with_tag,
-            'router': router_post[kind],
-            'glyph': glyph
-        }
-        return self.render_string('modules/info/list_equation.html',
-                                  recs=all_cats,
-                                  kwd=kwd)
+        kwd = {'with_tag': with_tag, 'router': router_post[kind], 'glyph': glyph}
+        return self.render_string(
+            'modules/info/list_equation.html', recs=all_cats, kwd=kwd
+        )
 
     def render_user(self, *args, **kwargs):
         '''
@@ -148,14 +137,10 @@ class InfoMostUsed(tornado.web.UIModule):
         glyph = kwargs.get('glyph', '')
 
         all_cats = MUsage.query_most(user_id, kind, num).objects()
-        kwd = {
-            'with_tag': with_tag,
-            'router': router_post[kind],
-            'glyph': glyph
-        }
-        return self.render_string('modules/info/list_user_equation.html',
-                                  recs=all_cats,
-                                  kwd=kwd)
+        kwd = {'with_tag': with_tag, 'router': router_post[kind], 'glyph': glyph}
+        return self.render_string(
+            'modules/info/list_user_equation.html', recs=all_cats, kwd=kwd
+        )
 
 
 class InfoRecentUsed(tornado.web.UIModule):
@@ -173,16 +158,11 @@ class InfoRecentUsed(tornado.web.UIModule):
         glyph = kwargs.get('glyph', '')
 
         if userinfo:
-            html_str = self.render_user(kind,
-                                        num,
-                                        with_tag=with_tag,
-                                        user_id=userinfo.uid,
-                                        glyph=glyph)
+            html_str = self.render_user(
+                kind, num, with_tag=with_tag, user_id=userinfo.uid, glyph=glyph
+            )
         else:
-            html_str = self.render_it(kind,
-                                      num,
-                                      with_tag=with_tag,
-                                      glyph=glyph)
+            html_str = self.render_it(kind, num, with_tag=with_tag, glyph=glyph)
         return html_str
 
     def render_it(self, kind, num, with_tag=False, glyph=''):
@@ -190,14 +170,10 @@ class InfoRecentUsed(tornado.web.UIModule):
         render, no user logged in
         '''
         all_cats = MPost.query_recent(num, kind=kind)
-        kwd = {
-            'with_tag': with_tag,
-            'router': router_post[kind],
-            'glyph': glyph
-        }
-        return self.render_string('modules/info/list_equation.html',
-                                  recs=all_cats,
-                                  kwd=kwd)
+        kwd = {'with_tag': with_tag, 'router': router_post[kind], 'glyph': glyph}
+        return self.render_string(
+            'modules/info/list_equation.html', recs=all_cats, kwd=kwd
+        )
 
     def render_user(self, *args, **kwargs):
         '''
@@ -221,14 +197,10 @@ class InfoRecentUsed(tornado.web.UIModule):
         )
 
         all_cats = MUsage.query_recent(user_id, kind, num).objects()
-        kwd = {
-            'with_tag': with_tag,
-            'router': router_post[kind],
-            'glyph': glyph
-        }
-        return self.render_string('modules/info/list_user_equation.html',
-                                  recs=all_cats,
-                                  kwd=kwd)
+        kwd = {'with_tag': with_tag, 'router': router_post[kind], 'glyph': glyph}
+        return self.render_string(
+            'modules/info/list_user_equation.html', recs=all_cats, kwd=kwd
+        )
 
 
 class InfoRandom(tornado.web.UIModule):
@@ -245,9 +217,9 @@ class InfoRandom(tornado.web.UIModule):
 
         all_cats = MPost.query_random(num=num, kind=kind)
         kwd = {'router': router_post[kind], 'glyph': glyph}
-        return self.render_string('modules/info/list_equation.html',
-                                  recs=all_cats,
-                                  kwd=kwd)
+        return self.render_string(
+            'modules/info/list_equation.html', recs=all_cats, kwd=kwd
+        )
 
 
 class RecentAccess(tornado.web.UIModule):
@@ -264,9 +236,7 @@ class RecentAccess(tornado.web.UIModule):
         recs = MPost.query_access(kind, sig)
 
         kwd = {'router': router_post[kind], 'with_tag': '', 'glyph': glyph}
-        return self.render_string('modules/info/list_equation.html',
-                                  recs=recs,
-                                  kwd=kwd)
+        return self.render_string('modules/info/list_equation.html', recs=recs, kwd=kwd)
 
 
 class RelateDoc(tornado.web.UIModule):
@@ -284,9 +254,11 @@ class RelateDoc(tornado.web.UIModule):
         for rec in recs:
             postinfo = MPost.get_by_uid(rec.rel_id)
             postinfo_arr.append(postinfo)
-        return self.render_string('modules/post/relate_doc.html',
-                                  postinfo_arr=postinfo_arr,
-                                  router_post=router_post)
+        return self.render_string(
+            'modules/post/relate_doc.html',
+            postinfo_arr=postinfo_arr,
+            router_post=router_post,
+        )
 
 
 class InfoTags(tornado.web.UIModule):
@@ -302,8 +274,9 @@ class InfoTags(tornado.web.UIModule):
         iii = 1
         for tag_info in MPost2Catalog.query_by_entity_uid(uid).objects():
             tmp_str = '''<a data-inline="true" href="/list/{0}"
-             class="tag{1}">{2}</a>'''.format(tag_info.tag_slug, iii,
-                                              tag_info.tag_name)
+             class="tag{1}">{2}</a>'''.format(
+                tag_info.tag_slug, iii, tag_info.tag_name
+            )
             out_str += tmp_str
             iii += 1
         return out_str
@@ -392,8 +365,7 @@ class RelPost2app(tornado.web.UIModule):
         }
         rel_recs = MRelation.get_app_relations(uid, num, kind=kind).objects()
 
-        rand_recs = MPost.query_random(num=num - rel_recs.count() + 2,
-                                       kind=kind)
+        rand_recs = MPost.query_random(num=num - rel_recs.count() + 2, kind=kind)
 
         return self.render_string(
             'modules/info/relation_post2app.html',
@@ -424,13 +396,14 @@ class RelApp2post(tornado.web.UIModule):
         }
         rel_recs = MRelation.get_app_relations(uid, num, kind=kind).objects()
 
-        rand_recs = MPost.query_random(num=num - rel_recs.count() + 2,
-                                       kind=kind)
+        rand_recs = MPost.query_random(num=num - rel_recs.count() + 2, kind=kind)
 
-        return self.render_string('modules/info/relation_app2post.html',
-                                  relations=rel_recs,
-                                  rand_recs=rand_recs,
-                                  kwd=kwd)
+        return self.render_string(
+            'modules/info/relation_app2post.html',
+            relations=rel_recs,
+            rand_recs=rand_recs,
+            kwd=kwd,
+        )
 
 
 class ParentName(tornado.web.UIModule):
@@ -466,8 +439,7 @@ class BreadcrumbPublish(tornado.web.UIModule):
         kwd = {
             'sig': sig,
         }
-        return self.render_string('modules/info/breadcrumb_publish.html',
-                                  kwd=kwd)
+        return self.render_string('modules/info/breadcrumb_publish.html', kwd=kwd)
 
 
 class InfoList(tornado.web.UIModule):
@@ -503,4 +475,5 @@ class InfoList(tornado.web.UIModule):
             'infor/infolist/infolist_{0}.html'.format(list_type),
             kwd=kwd,
             html2text=html2text,
-            post_info=info)
+            post_info=info,
+        )

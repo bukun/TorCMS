@@ -68,14 +68,16 @@ class CategoryAjaxHandler(BaseHandler):
             'pager': '',
             'title': '最近文档',
             'kind': kind,
-            'router': config.router_post[kind]
+            'router': config.router_post[kind],
         }
-        self.render('admin/{0}/category_list.html'.format(self.tmpl_router),
-                    kwd=kwd,
-                    view=MCategory.query_all(kind),
-                    format_date=tools.format_date,
-                    userinfo=self.userinfo,
-                    cfg=config.CMS_CFG)
+        self.render(
+            'admin/{0}/category_list.html'.format(self.tmpl_router),
+            kwd=kwd,
+            view=MCategory.query_all(kind),
+            format_date=tools.format_date,
+            userinfo=self.userinfo,
+            cfg=config.CMS_CFG,
+        )
 
     @tornado.web.authenticated
     def add(self):

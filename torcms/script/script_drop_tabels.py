@@ -3,13 +3,33 @@
 删除所有的表。
 '''
 
-from torcms.model.core_tab import (TabCollect, TabEntity, TabEntity2User,
-                                   TabEvaluation, TabLink, TabLog, TabMember,
-                                   TabPost, TabPost2Tag, TabPostHist,
-                                   TabRating, TabReferrer, TabRel, TabReply,
-                                   TabReplyid, TabTag, TabUsage, TabUser2Reply,
-                                   TabWiki, TabWikiHist, TabCorrelation, TabRole,
-                                   TabPermission, TabRole2Permission, TabStaff2Role)
+from torcms.model.core_tab import (
+    TabCollect,
+    TabEntity,
+    TabEntity2User,
+    TabEvaluation,
+    TabLink,
+    TabLog,
+    TabMember,
+    TabPost,
+    TabPost2Tag,
+    TabPostHist,
+    TabRating,
+    TabReferrer,
+    TabRel,
+    TabReply,
+    TabReplyid,
+    TabTag,
+    TabUsage,
+    TabUser2Reply,
+    TabWiki,
+    TabWikiHist,
+    TabCorrelation,
+    TabRole,
+    TabPermission,
+    TabRole2Permission,
+    TabStaff2Role,
+)
 
 
 def drop_the_table(table_name):

@@ -13,7 +13,7 @@ from torcms.model.core_tab import TabPost, TabUsage
 from torcms.model.post2catalog_model import MPost2Catalog as MInfor2Catalog
 
 
-class MUsage():
+class MUsage:
     '''
     Handle the usage of the info.
     '''
@@ -35,31 +35,40 @@ class MUsage():
 
     @staticmethod
     def query_recent(user_id, kind, num=10):
-        return TabUsage.select(
-            TabUsage, TabPost.title.alias('post_title')
-        ).join(
-            TabPost, on=(TabUsage.post_id == TabPost.uid)
-        ).where(
-            (TabUsage.user_id == user_id) & (TabUsage.kind == kind) & (TabPost.valid == 1)
-        ).order_by(TabUsage.timestamp.desc()).limit(num)
+        return (
+            TabUsage.select(TabUsage, TabPost.title.alias('post_title'))
+            .join(TabPost, on=(TabUsage.post_id == TabPost.uid))
+            .where(
+                (TabUsage.user_id == user_id)
+                & (TabUsage.kind == kind)
+                & (TabPost.valid == 1)
+            )
+            .order_by(TabUsage.timestamp.desc())
+            .limit(num)
+        )
 
     @staticmethod
     def query_recent_by_cat(user_id, cat_id, num):
-        return TabUsage.select().where(
-            (TabUsage.tag_id == cat_id) & (TabUsage.user_id == user_id)
-        ).order_by(
-            TabUsage.timestamp.desc()
-        ).limit(num)
+        return (
+            TabUsage.select()
+            .where((TabUsage.tag_id == cat_id) & (TabUsage.user_id == user_id))
+            .order_by(TabUsage.timestamp.desc())
+            .limit(num)
+        )
 
     @staticmethod
     def query_most(user_id, kind, num):
-        return TabUsage.select(
-            TabUsage, TabPost.title.alias('post_title')
-        ).join(
-            TabPost, on=(TabUsage.post_id == TabPost.uid)
-        ).where(
-            (TabUsage.user_id == user_id) & (TabUsage.kind == kind) & (TabPost.valid == 1)
-        ).order_by(TabUsage.count.desc()).limit(num)
+        return (
+            TabUsage.select(TabUsage, TabPost.title.alias('post_title'))
+            .join(TabPost, on=(TabUsage.post_id == TabPost.uid))
+            .where(
+                (TabUsage.user_id == user_id)
+                & (TabUsage.kind == kind)
+                & (TabPost.valid == 1)
+            )
+            .order_by(TabUsage.count.desc())
+            .limit(num)
+        )
 
     @staticmethod
     def query_by_signature(user_id, sig):

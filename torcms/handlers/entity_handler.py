@@ -21,25 +21,23 @@ from torcms.model.post_model import MPost
 
 ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif', 'tif', 'bmp']
 
-ALLOWED_EXTENSIONS_PDF = [
-    'pdf', 'doc', 'docx', 'zip', 'rar', 'ppt', '7z', 'xlsx'
-]
+ALLOWED_EXTENSIONS_PDF = ['pdf', 'doc', 'docx', 'zip', 'rar', 'ppt', '7z', 'xlsx']
 
 
 def allowed_file(filename):
     '''
     Allowed files
     '''
-    return '.' in filename and filename.rsplit(
-        '.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 def allowed_file_pdf(filename):
     '''
     Allowed PDF files
     '''
-    return '.' in filename and filename.rsplit(
-        '.', 1)[1].lower() in ALLOWED_EXTENSIONS_PDF
+    return (
+        '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS_PDF
+    )
 
 
 class EntityHandler(BaseHandler):
@@ -102,11 +100,13 @@ class EntityHandler(BaseHandler):
 
         kwd = {'current_page': current_page_number}
         recs = MEntity.get_all_pager(current_page_num=current_page_number)
-        self.render('misc/entity/entity_list.html',
-                    imgs=recs,
-                    cfg=config.CMS_CFG,
-                    kwd=kwd,
-                    userinfo=self.userinfo)
+        self.render(
+            'misc/entity/entity_list.html',
+            imgs=recs,
+            cfg=config.CMS_CFG,
+            kwd=kwd,
+            userinfo=self.userinfo,
+        )
 
     def down(self, down_uid):
         '''
@@ -116,10 +116,8 @@ class EntityHandler(BaseHandler):
         for key in self.request.arguments:
             post_data[key] = self.get_arguments(key)[0]
 
-        down_url1 = MPost.get_by_uid(down_uid).extinfo.get(
-            'tag__file_download', '')
-        down_url2 = MPost.get_by_uid(down_uid).extinfo.get(
-            'tag_file_download', '')
+        down_url1 = MPost.get_by_uid(down_uid).extinfo.get('tag__file_download', '')
+        down_url2 = MPost.get_by_uid(down_uid).extinfo.get('tag_file_download', '')
 
         if down_url1:
             down_url = down_url1
@@ -140,17 +138,12 @@ class EntityHandler(BaseHandler):
             userip = self.get_location()
 
             if ment_id:
-                MEntity2User.create_entity2user(ment_id, self.userinfo.uid,
-                                                userip)
+                MEntity2User.create_entity2user(ment_id, self.userinfo.uid, userip)
             else:
-                MEntity.create_entity(uid='',
-                                      path=down_url,
-                                      desc='',
-                                      kind=kind)
+                MEntity.create_entity(uid='', path=down_url, desc='', kind=kind)
                 ment_id = MEntity.get_id_by_impath(down_url)
                 if ment_id:
-                    MEntity2User.create_entity2user(ment_id, self.userinfo.uid,
-                                                    userip)
+                    MEntity2User.create_entity2user(ment_id, self.userinfo.uid, userip)
 
             output = {'down_code': 1, 'down_url': down_url}
 
@@ -163,14 +156,13 @@ class EntityHandler(BaseHandler):
         '''
         To add the entity.
         '''
-        kwd = {
-            'pager': '',
-            'err_info': ''
-        }
-        self.render('misc/entity/entity_add.html',
-                    cfg=config.CMS_CFG,
-                    kwd=kwd,
-                    userinfo=self.userinfo)
+        kwd = {'pager': '', 'err_info': ''}
+        self.render(
+            'misc/entity/entity_add.html',
+            cfg=config.CMS_CFG,
+            kwd=kwd,
+            userinfo=self.userinfo,
+        )
 
     @tornado.web.authenticated
     def add_entity(self):
@@ -206,10 +198,12 @@ class EntityHandler(BaseHandler):
                 'pager': '',
                 'err_info': '* The formats of uploadable files are: png, jpg, jpeg, gif, tif, bmp',
             }
-            self.render('misc/entity/entity_add.html',
-                        cfg=config.CMS_CFG,
-                        kwd=kwd,
-                        userinfo=self.userinfo)
+            self.render(
+                'misc/entity/entity_add.html',
+                cfg=config.CMS_CFG,
+                kwd=kwd,
+                userinfo=self.userinfo,
+            )
             # return False
 
         _, hou = os.path.splitext(filename)
@@ -246,7 +240,8 @@ class EntityHandler(BaseHandler):
             signature,
             path_save,
             post_data['desc'] if 'desc' in post_data else '',
-            kind=post_data['kind'] if 'kind' in post_data else '1')
+            kind=post_data['kind'] if 'kind' in post_data else '1',
+        )
         if self.entity_ajax is False:
             self.redirect('/entity/{0}_m.jpg'.format(sig_save))
         else:
@@ -271,12 +266,14 @@ class EntityHandler(BaseHandler):
         else:
             kwd = {
                 'pager': '',
-                'err_info': '* The formats of uploadable files are: pdf, doc, docx, zip, rar, ppt, 7z, xlsx'
+                'err_info': '* The formats of uploadable files are: pdf, doc, docx, zip, rar, ppt, 7z, xlsx',
             }
-            self.render('misc/entity/entity_add.html',
-                        cfg=config.CMS_CFG,
-                        kwd=kwd,
-                        userinfo=self.userinfo)
+            self.render(
+                'misc/entity/entity_add.html',
+                cfg=config.CMS_CFG,
+                kwd=kwd,
+                userinfo=self.userinfo,
+            )
             # return False
 
         _, hou = os.path.splitext(filename)
@@ -296,7 +293,8 @@ class EntityHandler(BaseHandler):
             signature,
             path_save,
             img_desc,
-            kind=post_data['kind'] if 'kind' in post_data else '2')
+            kind=post_data['kind'] if 'kind' in post_data else '2',
+        )
         if self.entity_ajax is False:
             self.redirect('/entity/{0}{1}'.format(sig_save, hou.lower()))
         else:
@@ -320,16 +318,19 @@ class EntityHandler(BaseHandler):
             cur_uid,
             img_path,
             img_desc,
-            kind=post_data['kind'] if 'kind' in post_data else '3')
+            kind=post_data['kind'] if 'kind' in post_data else '3',
+        )
         kwd = {
             'pager': '',
             'kind': post_data['kind'] if 'kind' in post_data else '3',
         }
-        self.render('misc/entity/entity_view.html',
-                    filename=img_path,
-                    cfg=config.CMS_CFG,
-                    kwd=kwd,
-                    userinfo=self.userinfo)
+        self.render(
+            'misc/entity/entity_view.html',
+            filename=img_path,
+            cfg=config.CMS_CFG,
+            kwd=kwd,
+            userinfo=self.userinfo,
+        )
 
     @tornado.web.authenticated
     def view(self, outfilename):
@@ -350,14 +351,13 @@ class EntityHandler(BaseHandler):
         from flask import Flask, request
         from werkzeug import secure_filename
 
-
-
         for fname in request.files:
             f = request.files.get(fname)
             print(f)
             f.save('./uploads/%s' % secure_filename(fname))
 
         return 'Okay!'
+
 
 class EntityAjaxHandler(EntityHandler):
     '''

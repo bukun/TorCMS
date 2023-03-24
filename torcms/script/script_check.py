@@ -75,17 +75,20 @@ def check200():
             the_url0 = '{site_url}/{kind_url}/{uid}'.format(
                 site_url=config.SITE_CFG['site_url'],
                 kind_url=config.router_post[post.kind],
-                uid=post.uid)
+                uid=post.uid,
+            )
 
             the_url = '{site_url}/{kind_url}/_edit/{uid}'.format(
                 site_url=config.SITE_CFG['site_url'],
                 kind_url=config.router_post[post.kind],
-                uid=post.uid)
+                uid=post.uid,
+            )
 
             the_url2 = '{site_url}/{kind_url}/_edit_kind/{uid}'.format(
                 site_url=config.SITE_CFG['site_url'],
                 kind_url=config.router_post[post.kind],
-                uid=post.uid)
+                uid=post.uid,
+            )
 
             req = requests.get(the_url0)
 
@@ -104,8 +107,8 @@ def check200():
 
     time_local = time.localtime(timestamp())
     with open(
-            'xx_err_200_{d}.html'.format(
-                d=str(time.strftime("%Y_%m_%d", time_local))), 'w') as fileo:
+        'xx_err_200_{d}.html'.format(d=str(time.strftime("%Y_%m_%d", time_local))), 'w'
+    ) as fileo:
         fileo.write(HTML_TMPL.format(cnt=tstr))
     print('Checking 200 finished.')
 
@@ -146,24 +149,30 @@ def check_tag():
                 if catinfo:
                     p_catinfo = MCategory.get_by_uid(catinfo.pid)
 
-            if post.extinfo.get('def_cat_pid') and post.extinfo.get(
-                    'gcat0') and p_catinfo:
+            if (
+                post.extinfo.get('def_cat_pid')
+                and post.extinfo.get('gcat0')
+                and p_catinfo
+            ):
 
                 pass
             else:
                 the_url0 = '{site_url}/{kind_url}/{uid}'.format(
                     site_url=config.SITE_CFG['site_url'],
                     kind_url=config.router_post[post.kind],
-                    uid=post.uid)
+                    uid=post.uid,
+                )
 
                 the_url = '{site_url}/{kind_url}/_edit/{uid}'.format(
                     site_url=config.SITE_CFG['site_url'],
                     kind_url=config.router_post[post.kind],
-                    uid=post.uid)
+                    uid=post.uid,
+                )
                 the_url2 = '{site_url}/{kind_url}/_edit_kind/{uid}'.format(
                     site_url=config.SITE_CFG['site_url'],
                     kind_url=config.router_post[post.kind],
-                    uid=post.uid)
+                    uid=post.uid,
+                )
                 req = requests.get(the_url0)
 
                 if req.status_code == 200:
@@ -181,8 +190,8 @@ def check_tag():
 
     time_local = time.localtime(timestamp())
     with open(
-            'xx_err_tag_{d}.html'.format(
-                d=str(time.strftime("%Y_%m_%d", time_local))), 'w') as fileo:
+        'xx_err_tag_{d}.html'.format(d=str(time.strftime("%Y_%m_%d", time_local))), 'w'
+    ) as fileo:
         fileo.write(HTML_TMPL.format(cnt=tstr))
     print('Checking 200 finished.')
 

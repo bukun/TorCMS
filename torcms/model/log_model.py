@@ -8,7 +8,7 @@ from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import TabLog
 
 
-class MLog():
+class MLog:
     '''
     Log for user action.
     '''
@@ -19,13 +19,15 @@ class MLog():
         Insert new record.
         '''
         uid = tools.get_uuid()
-        TabLog.create(uid=uid,
-                      current_url=data_dic['url'],
-                      refer_url=data_dic['refer'],
-                      user_id=data_dic['user_id'],
-                      time_create=data_dic['timein'],
-                      time_out=data_dic['timeOut'],
-                      time=data_dic['timeon'])
+        TabLog.create(
+            uid=uid,
+            current_url=data_dic['url'],
+            refer_url=data_dic['refer'],
+            user_id=data_dic['user_id'],
+            time_create=data_dic['timein'],
+            time_out=data_dic['timeOut'],
+            time=data_dic['timeon'],
+        )
         return uid
 
     @staticmethod
@@ -33,9 +35,12 @@ class MLog():
         '''
         Query pager
         '''
-        return TabLog.select().where(TabLog.user_id == userid).order_by(
-            TabLog.time_create.desc()
-        ).paginate(current_page_num, CMS_CFG['list_num'])
+        return (
+            TabLog.select()
+            .where(TabLog.user_id == userid)
+            .order_by(TabLog.time_create.desc())
+            .paginate(current_page_num, CMS_CFG['list_num'])
+        )
 
     @staticmethod
     def get_all(num=200):
@@ -50,25 +55,36 @@ class MLog():
         '''
         查询所有登录用户的访问记录
         '''
-        return TabLog.select().where(TabLog.user_id != '').distinct(TabLog.user_id).order_by(TabLog.user_id)
+        return (
+            TabLog.select()
+            .where(TabLog.user_id != '')
+            .distinct(TabLog.user_id)
+            .order_by(TabLog.user_id)
+        )
 
     @staticmethod
     def query_all(current_page_num=1):
         '''
         查询所有未登录用户的访问记录
         '''
-        return TabLog.select().where(TabLog.user_id == '').order_by(
-            TabLog.time_out.desc()
-        ).paginate(current_page_num, CMS_CFG['list_num'])
+        return (
+            TabLog.select()
+            .where(TabLog.user_id == '')
+            .order_by(TabLog.time_out.desc())
+            .paginate(current_page_num, CMS_CFG['list_num'])
+        )
 
     @staticmethod
     def query_all_pageview(current_page_num=1):
         '''
         查询所有页面（current_url），分页
         '''
-        return TabLog.select().distinct(TabLog.current_url).order_by(
-            TabLog.current_url
-        ).paginate(current_page_num, CMS_CFG['list_num'])
+        return (
+            TabLog.select()
+            .distinct(TabLog.current_url)
+            .order_by(TabLog.current_url)
+            .paginate(current_page_num, CMS_CFG['list_num'])
+        )
 
     @staticmethod
     def query_all_current_url():
@@ -118,5 +134,9 @@ class MLog():
 
     @staticmethod
     def get_by_url(current_url):
-        recs = TabLog.select().where(TabLog.current_url == current_url).distinct(TabLog.current_url)
+        recs = (
+            TabLog.select()
+            .where(TabLog.current_url == current_url)
+            .distinct(TabLog.current_url)
+        )
         return recs

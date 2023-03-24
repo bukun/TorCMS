@@ -9,7 +9,7 @@ from torcms.core import tools
 from torcms.model.core_tab import TabCollect, TabPost
 
 
-class MCollect():
+class MCollect:
     '''
     Model for collection.
     '''
@@ -19,13 +19,18 @@ class MCollect():
         '''
         Collection of recent.
         '''
-        return TabCollect.select(
-            TabCollect, TabPost.uid.alias('post_uid'),
-            TabPost.title.alias('post_title'),
-            TabPost.view_count.alias('post_view_count')
-        ).where(TabCollect.user_id == user_id).join(
-            TabPost, on=(TabCollect.post_id == TabPost.uid)
-        ).order_by(TabCollect.timestamp.desc()).limit(num)
+        return (
+            TabCollect.select(
+                TabCollect,
+                TabPost.uid.alias('post_uid'),
+                TabPost.title.alias('post_title'),
+                TabPost.view_count.alias('post_view_count'),
+            )
+            .where(TabCollect.user_id == user_id)
+            .join(TabPost, on=(TabCollect.post_id == TabPost.uid))
+            .order_by(TabCollect.timestamp.desc())
+            .limit(num)
+        )
 
     #
     # def query_most(self, num):
@@ -37,7 +42,9 @@ class MCollect():
         Get the collection.
         '''
         try:
-            return TabCollect.get((TabCollect.user_id == user_id) & (TabCollect.post_id == app_id))
+            return TabCollect.get(
+                (TabCollect.user_id == user_id) & (TabCollect.post_id == app_id)
+            )
         except Exception as err:
             print(repr(err))
             return None
@@ -47,27 +54,34 @@ class MCollect():
         '''
         Get the cound of views.
         '''
-        return TabCollect.select(
-            TabCollect, TabPost.uid.alias('post_uid'),
-            TabPost.title.alias('post_title'),
-            TabPost.view_count.alias('post_view_count')
-        ).where(TabCollect.user_id == user_id).join(
-            TabPost, on=(TabCollect.post_id == TabPost.uid)
-        ).count()
+        return (
+            TabCollect.select(
+                TabCollect,
+                TabPost.uid.alias('post_uid'),
+                TabPost.title.alias('post_title'),
+                TabPost.view_count.alias('post_view_count'),
+            )
+            .where(TabCollect.user_id == user_id)
+            .join(TabPost, on=(TabCollect.post_id == TabPost.uid))
+            .count()
+        )
 
     @staticmethod
     def query_pager_by_all(user_id, current_page_num=1):
 
-        recs = TabCollect.select(
-            TabCollect, TabPost.uid.alias('post_uid'),
-            TabPost.title.alias('post_title'), TabPost.kind.alias('post_kind'),
-            TabPost.view_count.alias('post_view_count')
-        ).where(
-            TabCollect.user_id == user_id).join(
-            TabPost, on=(TabCollect.post_id == TabPost.uid)
-        ).order_by(
-            TabCollect.timestamp.desc()
-        ).paginate(current_page_num, CMS_CFG['list_num'])
+        recs = (
+            TabCollect.select(
+                TabCollect,
+                TabPost.uid.alias('post_uid'),
+                TabPost.title.alias('post_title'),
+                TabPost.kind.alias('post_kind'),
+                TabPost.view_count.alias('post_view_count'),
+            )
+            .where(TabCollect.user_id == user_id)
+            .join(TabPost, on=(TabCollect.post_id == TabPost.uid))
+            .order_by(TabCollect.timestamp.desc())
+            .paginate(current_page_num, CMS_CFG['list_num'])
+        )
         return recs
 
     @staticmethod
@@ -80,7 +94,8 @@ class MCollect():
 
         if rec:
             entry = TabCollect.update(timestamp=int(time.time())).where(
-                TabCollect.uid == rec.uid)
+                TabCollect.uid == rec.uid
+            )
             entry.execute()
         else:
             TabCollect.create(
@@ -99,8 +114,7 @@ class MCollect():
         rec = MCollect.get_by_signature(user_id, app_id)
 
         if rec:
-            entry = TabCollect.delete().where(
-                TabCollect.uid == rec.uid)
+            entry = TabCollect.delete().where(TabCollect.uid == rec.uid)
             entry.execute()
         else:
             return None
@@ -108,11 +122,17 @@ class MCollect():
     @staticmethod
     def query_pager_by_userid(user_id, kind, num=10):
 
-        recs = TabCollect.select(
-            TabCollect, TabPost.uid.alias('post_uid'),
-            TabPost.title.alias('post_title'), TabPost.kind.alias('post_kind'),
-            TabPost.view_count.alias('post_view_count')
-        ).where((TabCollect.user_id == user_id) & (TabPost.kind == kind)).join(
-            TabPost, on=(TabCollect.post_id == TabPost.uid)
-        ).order_by(TabCollect.timestamp.desc()).limit(num)
+        recs = (
+            TabCollect.select(
+                TabCollect,
+                TabPost.uid.alias('post_uid'),
+                TabPost.title.alias('post_title'),
+                TabPost.kind.alias('post_kind'),
+                TabPost.view_count.alias('post_view_count'),
+            )
+            .where((TabCollect.user_id == user_id) & (TabPost.kind == kind))
+            .join(TabPost, on=(TabCollect.post_id == TabPost.uid))
+            .order_by(TabCollect.timestamp.desc())
+            .limit(num)
+        )
         return recs

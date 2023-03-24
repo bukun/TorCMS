@@ -9,10 +9,11 @@ from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import TabPostHist
 
 
-class MPostHist():
+class MPostHist:
     '''
     For Post history
     '''
+
     @staticmethod
     def get_by_uid(uid):
         '''
@@ -51,9 +52,12 @@ class MPostHist():
         '''
         Query history of certian records.
         '''
-        recs = TabPostHist.select().where(
-            TabPostHist.post_id == postid).order_by(
-                TabPostHist.time_update.desc()).limit(limit)
+        recs = (
+            TabPostHist.select()
+            .where(TabPostHist.post_id == postid)
+            .order_by(TabPostHist.time_update.desc())
+            .limit(limit)
+        )
         return recs
 
     @staticmethod
@@ -61,9 +65,12 @@ class MPostHist():
         '''
         Get the last one of the records.
         '''
-        recs = TabPostHist.select().where(
-            TabPostHist.post_id == postid).order_by(
-                TabPostHist.time_update.desc()).limit(limit)
+        recs = (
+            TabPostHist.select()
+            .where(TabPostHist.post_id == postid)
+            .order_by(TabPostHist.time_update.desc())
+            .limit(limit)
+        )
         if recs.count():
             return recs.get()
         return None

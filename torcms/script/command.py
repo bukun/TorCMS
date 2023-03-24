@@ -44,8 +44,7 @@ def entry(argv):
             print('         check: (检查网站问题)')
             print('        update: (更新访问次数等)')
             print('          dump: (备份数据库)')
-            print('\033[31m', '        reset: (Danger! drop all tables!)',
-                  '\033[0m')
+            print('\033[31m', '        reset: (Danger! drop all tables!)', '\033[0m')
 
             sys.exit()
         elif opt == "-i":

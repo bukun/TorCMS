@@ -53,11 +53,13 @@ class ClassifyHandler(BaseHandler):
             postnum = MClassify.count_of_classify(i.uid)
             arr_num.append(postnum)
 
-        self.render('static_pages/classify/index.html',
-                    postinfo=postinfo,
-                    postcount=MClassify.count_of_certain(),
-                    userinfo=self.userinfo,
-                    cfg=CMS_CFG,
-                    kwd=kwd,
-                    arr_num=arr_num,
-                    router_post=router_post)
+        self.render(
+            'static_pages/classify/index.html',
+            postinfo=postinfo,
+            postcount=MClassify.count_of_certain(),
+            userinfo=self.userinfo,
+            cfg=CMS_CFG,
+            kwd=kwd,
+            arr_num=arr_num,
+            router_post=router_post,
+        )

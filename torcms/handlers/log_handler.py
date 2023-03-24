@@ -15,6 +15,7 @@ class LogHandler(BaseHandler):
     '''
     Log handler.
     '''
+
     executor = ThreadPoolExecutor(2)
 
     def initialize(self, **kwargs):
@@ -34,8 +35,8 @@ class LogHandler(BaseHandler):
         # elif len(url_arr) == 2:
         #     if url_arr[0] == 'pageview':
         #         self.pageview(url_arr[1])
-            # else:
-            #     self.user_log_list(url_arr[0], url_arr[1])
+        # else:
+        #     self.user_log_list(url_arr[0], url_arr[1])
         else:
             self.render('misc/html/404.html', userinfo=self.userinfo, kwd={})
 
@@ -99,21 +100,23 @@ class LogHandler(BaseHandler):
         }
 
         if self.is_p:
-            self.render('admin/log_ajax/user_list.html',
-                        kwd=kwd,
-                        user_list=MLog.query_all_user(),
-                        no_user_list=MLog.query_all(
-                            current_page_num=current_page_number),
-                        format_date=tools.format_date,
-                        userinfo=self.userinfo)
+            self.render(
+                'admin/log_ajax/user_list.html',
+                kwd=kwd,
+                user_list=MLog.query_all_user(),
+                no_user_list=MLog.query_all(current_page_num=current_page_number),
+                format_date=tools.format_date,
+                userinfo=self.userinfo,
+            )
         else:
-            self.render('misc/log/user_list.html',
-                        kwd=kwd,
-                        user_list=MLog.query_all_user(),
-                        no_user_list=MLog.query_all(
-                            current_page_num=current_page_number),
-                        format_date=tools.format_date,
-                        userinfo=self.userinfo)
+            self.render(
+                'misc/log/user_list.html',
+                kwd=kwd,
+                user_list=MLog.query_all_user(),
+                no_user_list=MLog.query_all(current_page_num=current_page_number),
+                format_date=tools.format_date,
+                userinfo=self.userinfo,
+            )
 
     def user_log_list(self, userid, cur_p=''):
         '''
@@ -144,19 +147,25 @@ class LogHandler(BaseHandler):
         }
 
         if self.is_p:
-            self.render('admin/log_ajax/user_log_list.html',
-                        kwd=kwd,
-                        infos=MLog.query_pager_by_user(
-                            userid, current_page_num=current_page_number),
-                        format_date=tools.format_date,
-                        userinfo=self.userinfo)
+            self.render(
+                'admin/log_ajax/user_log_list.html',
+                kwd=kwd,
+                infos=MLog.query_pager_by_user(
+                    userid, current_page_num=current_page_number
+                ),
+                format_date=tools.format_date,
+                userinfo=self.userinfo,
+            )
         else:
-            self.render('misc/log/user_log_list.html',
-                        kwd=kwd,
-                        infos=MLog.query_pager_by_user(
-                            userid, current_page_num=current_page_number),
-                        format_date=tools.format_date,
-                        userinfo=self.userinfo)
+            self.render(
+                'misc/log/user_log_list.html',
+                kwd=kwd,
+                infos=MLog.query_pager_by_user(
+                    userid, current_page_num=current_page_number
+                ),
+                format_date=tools.format_date,
+                userinfo=self.userinfo,
+            )
 
     def pageview(self, cur_p=''):
         '''
@@ -192,23 +201,27 @@ class LogHandler(BaseHandler):
             postnum = MLog.count_of_current_url(i.current_url)
             arr_num.append(postnum)
 
-        self.render('misc/log/pageview.html',
-                    kwd=kwd,
-                    # infos=MLog.query_all_pageview(
-                    #     current_page_num=current_page_number),
-                    postinfo=postinfo,
-                    arr_num=arr_num,
-                    format_date=tools.format_date,
-                    userinfo=self.userinfo)
+        self.render(
+            'misc/log/pageview.html',
+            kwd=kwd,
+            # infos=MLog.query_all_pageview(
+            #     current_page_num=current_page_number),
+            postinfo=postinfo,
+            arr_num=arr_num,
+            format_date=tools.format_date,
+            userinfo=self.userinfo,
+        )
 
     def search(self, **kwargs):
         post_data = self.get_request_arguments()
         url = post_data.get('url')
         res = MLog.get_by_url(url)
-        self.render('misc/log/pageview_search.html',
-                    res=res,
-                    format_date=tools.format_date,
-                    userinfo=self.userinfo)
+        self.render(
+            'misc/log/pageview_search.html',
+            res=res,
+            format_date=tools.format_date,
+            userinfo=self.userinfo,
+        )
 
 
 class LogPartialHandler(LogHandler):

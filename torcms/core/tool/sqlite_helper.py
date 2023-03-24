@@ -9,7 +9,7 @@ import time
 from torcms.core.tools import ts_helper
 
 
-class MAcces():
+class MAcces:
     '''
     Handle the usage of the info.
     '''
@@ -36,14 +36,16 @@ class MAcces():
         try:
             cursor.execute(
                 'CREATE TABLE TabAccess (uid BIGINT PRIMARY KEY NOT NULL ,'
-                'post_id VARCHAR(5));')
+                'post_id VARCHAR(5));'
+            )
         except Exception as err:
             print(repr(err))
 
         try:
             cursor.execute(
                 'CREATE TABLE TabPost (post_id VARCHAR(5) PRIMARY KEY NOT NULL ,'
-                'count_1d integer , count_7d integer, count_30d integer );')
+                'count_1d integer , count_7d integer, count_30d integer );'
+            )
         except Exception as err:
             print(repr(err))
 
@@ -52,8 +54,7 @@ class MAcces():
         cursor.execute(del_cmd)
         conn.commit()
 
-        cursor.execute(
-            "select * from TabPost where post_id = '{}'".format(post_id))
+        cursor.execute("select * from TabPost where post_id = '{}'".format(post_id))
         rec = cursor.fetchone()
         print(rec)
         if rec:

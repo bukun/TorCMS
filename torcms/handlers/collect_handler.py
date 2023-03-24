@@ -48,8 +48,7 @@ class CollectHandler(BaseHandler):
         '''
         Add or update the category.
         '''
-        logger.info('Collect info: user-{0}, uid-{1}'.format(
-            self.userinfo.uid, app_id))
+        logger.info('Collect info: user-{0}, uid-{1}'.format(self.userinfo.uid, app_id))
         MCollect.add_or_update(self.userinfo.uid, app_id)
         out_dic = {'success': True}
         return json.dump(out_dic, self)
@@ -59,8 +58,9 @@ class CollectHandler(BaseHandler):
         '''
         Add or update the category.
         '''
-        logger.info('Collect info: user-{0}, uid-{1}'.format(
-            self.userinfo.uid, post_id))
+        logger.info(
+            'Collect info: user-{0}, uid-{1}'.format(self.userinfo.uid, post_id)
+        )
         MCollect.remove_collect(self.userinfo.uid, post_id)
         out_dic = {'success': True}
         return json.dump(out_dic, self)
@@ -91,9 +91,12 @@ class CollectHandler(BaseHandler):
 
         kwd = {'current_page': current_page_number}
 
-        self.render('misc/collect/list.html',
-                    recs_collect=MCollect.query_pager_by_all(
-                        self.userinfo.uid, current_page_number).objects(),
-                    userinfo=self.userinfo,
-                    cfg=CMS_CFG,
-                    kwd=kwd)
+        self.render(
+            'misc/collect/list.html',
+            recs_collect=MCollect.query_pager_by_all(
+                self.userinfo.uid, current_page_number
+            ).objects(),
+            userinfo=self.userinfo,
+            cfg=CMS_CFG,
+            kwd=kwd,
+        )

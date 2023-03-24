@@ -15,6 +15,7 @@ class Referrer(BaseHandler):
     '''
     The basic HTML Page handler.
     '''
+
     executor = ThreadPoolExecutor(2)
 
     def initialize(self, **kwargs):
@@ -48,12 +49,14 @@ class Referrer(BaseHandler):
         The default page of POST.
         '''
         postinfo = MReferrer.query_all()
-        self.render('post_{0}/post_index.html'.format(self.kind),
-                    userinfo=self.userinfo,
-                    postinfo=postinfo,
-                    kwd={
-                        'uid': '',
-                    })
+        self.render(
+            'post_{0}/post_index.html'.format(self.kind),
+            userinfo=self.userinfo,
+            postinfo=postinfo,
+            kwd={
+                'uid': '',
+            },
+        )
 
     def _gen_uid(self):
         '''
@@ -83,8 +86,7 @@ class Referrer(BaseHandler):
 
         if 'tags' in post_data:
             ext_dic['def_tag_arr'] = [
-                x.strip()
-                for x in post_data['tags'].strip().strip(',').split(',')
+                x.strip() for x in post_data['tags'].strip().strip(',').split(',')
             ]
         ext_dic = dict(ext_dic, **self.ext_post_data(postdata=post_data))
 

@@ -18,35 +18,83 @@ class TabProcess(BaseModel):
     '''
     流程
     '''
-    uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='')
-    name = peewee.CharField(null=False, index=True, unique=True, max_length=255, help_text='名称')
+
+    uid = peewee.CharField(
+        null=False,
+        index=True,
+        unique=True,
+        primary_key=True,
+        max_length=36,
+        help_text='',
+    )
+    name = peewee.CharField(
+        null=False, index=True, unique=True, max_length=255, help_text='名称'
+    )
 
 
 class TabState(BaseModel):
-    uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='')
+    uid = peewee.CharField(
+        null=False,
+        index=True,
+        unique=True,
+        primary_key=True,
+        max_length=36,
+        help_text='',
+    )
     process = peewee.ForeignKeyField(TabProcess, backref='process', help_text='')
-    name = peewee.CharField(null=False, index=True, unique=True, max_length=255, help_text='名称')
-    state_type = peewee.CharField(null=False, index=True, unique=True, max_length=255, help_text='名称')
+    name = peewee.CharField(
+        null=False, index=True, unique=True, max_length=255, help_text='名称'
+    )
+    state_type = peewee.CharField(
+        null=False, index=True, unique=True, max_length=255, help_text='名称'
+    )
     description = peewee.TextField()
 
 
 class TabTransition(BaseModel):
-    uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='')
+    uid = peewee.CharField(
+        null=False,
+        index=True,
+        unique=True,
+        primary_key=True,
+        max_length=36,
+        help_text='',
+    )
     process = peewee.ForeignKeyField(TabProcess, backref='process', help_text='')
-    current_state = peewee.ForeignKeyField(TabState, backref='current_state', help_text='')
+    current_state = peewee.ForeignKeyField(
+        TabState, backref='current_state', help_text=''
+    )
     next_state = peewee.ForeignKeyField(TabState, backref='next_state', help_text='')
 
 
 class TabAction(BaseModel):
-    uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='')
+    uid = peewee.CharField(
+        null=False,
+        index=True,
+        unique=True,
+        primary_key=True,
+        max_length=36,
+        help_text='',
+    )
     process = peewee.ForeignKeyField(TabProcess, backref='process', help_text='')
-    action_type = peewee.CharField(null=False, index=True, unique=True, max_length=255, help_text='名称')
-    name = peewee.CharField(null=False, index=True, unique=True, max_length=255, help_text='名称')
+    action_type = peewee.CharField(
+        null=False, index=True, unique=True, max_length=255, help_text='名称'
+    )
+    name = peewee.CharField(
+        null=False, index=True, unique=True, max_length=255, help_text='名称'
+    )
     description = peewee.TextField()
 
 
 class TabRequest(BaseModel):
-    uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='')
+    uid = peewee.CharField(
+        null=False,
+        index=True,
+        unique=True,
+        primary_key=True,
+        max_length=36,
+        help_text='',
+    )
     process = peewee.ForeignKeyField(TabProcess, backref='process', help_text='')
     post = peewee.ForeignKeyField(TabPost, backref='post')
     user = peewee.ForeignKeyField(TabMember, backref='user')
@@ -54,15 +102,24 @@ class TabRequest(BaseModel):
 
 
 class TabRequestAction(BaseModel):
-    uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='')
+    uid = peewee.CharField(
+        null=False,
+        index=True,
+        unique=True,
+        primary_key=True,
+        max_length=36,
+        help_text='',
+    )
     request = peewee.ForeignKeyField(TabRequest, backref='request', help_text='')
     action = peewee.ForeignKeyField(TabAction, backref='action', help_text='')
-    transition = peewee.ForeignKeyField(TabTransition, backref='transition', help_text='')
+    transition = peewee.ForeignKeyField(
+        TabTransition, backref='transition', help_text=''
+    )
     is_active = peewee.BooleanField(null=False, default=False)
     is_complete = peewee.BooleanField(null=False, default=False)
 
 
-class MProcess():
+class MProcess:
     def __init__(self):
         try:
             TabProcess.create_table()
@@ -70,10 +127,7 @@ class MProcess():
             print(repr(err))
 
     def create(self, id, name):
-        TabProcess.create(
-            uid=id,
-            name=name
-        )
+        TabProcess.create(uid=id, name=name)
 
     def create_or_update(self, id, name):
         tt = TabProcess.select().where(TabProcess.uid == id)
@@ -85,7 +139,7 @@ class MProcess():
             # self.create(id, name)
 
 
-class MState():
+class MState:
     def __init__(self):
         try:
             TabState.create_table()
@@ -105,8 +159,9 @@ class MState():
             process='1',
             name=info['name'],
             state_type=info['state_type'],
-            description=''
+            description='',
         )
+
     def create_or_update(self, info):
         tt = TabState.select().where(TabState.state_type == info['state_type'])
         if tt.count() > 0:
@@ -114,6 +169,7 @@ class MState():
             pass
         else:
             self.create(info)
+
     def query_all(self):
         return TabState.select()
 
@@ -127,14 +183,11 @@ if __name__ == '__main__':
         ['started', '开始'],
         ['denied', '回退'],
         ['complated', '完成'],
-        ['cancceled', '取消']
+        ['cancceled', '取消'],
     ]
 
     for statinfo in state_arr:
-        info = {
-            'state_type': statinfo[0],
-            'name': statinfo[1]
-        }
+        info = {'state_type': statinfo[0], 'name': statinfo[1]}
         uu.create_or_update(info)
     all_state = uu.query_all().dicts()
     [print(x) for x in all_state]

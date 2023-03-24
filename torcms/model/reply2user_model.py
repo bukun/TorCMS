@@ -9,7 +9,7 @@ from torcms.model.core_tab import TabReply, TabUser2Reply
 from torcms.model.replyid_model import TabReplyid
 
 
-class MReply2User():
+class MReply2User:
     @staticmethod
     def update(uid, post_data, update_time=False):
         pass
@@ -18,8 +18,8 @@ class MReply2User():
     def create_reply(user_id, reply_id):
 
         record = TabUser2Reply.select().where(
-            (TabUser2Reply.reply_id == reply_id)
-            & (TabUser2Reply.user_id == user_id))
+            (TabUser2Reply.reply_id == reply_id) & (TabUser2Reply.user_id == user_id)
+        )
 
         if record.count() > 0:
             pass
@@ -33,15 +33,13 @@ class MReply2User():
 
     @staticmethod
     def get_voter_count(reply_id):
-        return TabUser2Reply.select().where(
-            TabUser2Reply.reply_id == reply_id).count()
+        return TabUser2Reply.select().where(TabUser2Reply.reply_id == reply_id).count()
 
     @staticmethod
     def delete(uid):
         try:
 
-            del_count2 = TabUser2Reply.delete().where(
-                TabUser2Reply.reply_id == uid)
+            del_count2 = TabUser2Reply.delete().where(TabUser2Reply.reply_id == uid)
             del_count2.execute()
 
             del_count = TabReply.delete().where(TabReply.uid == uid)

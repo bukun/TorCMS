@@ -69,19 +69,25 @@ class LinkHandler(BaseHandler):
         }
 
         if self.is_p:
-            self.render('admin/link_ajax/link_list.html',
-                        kwd=kwd,
-                        view=MLink.query_link(20),
-                        format_date=tools.format_date,
-                        userinfo=self.userinfo)
+            self.render(
+                'admin/link_ajax/link_list.html',
+                kwd=kwd,
+                view=MLink.query_link(20),
+                format_date=tools.format_date,
+                userinfo=self.userinfo,
+            )
         else:
-            self.render('misc/link/link_list.html',
-                        kwd=kwd,
-                        view=MLink.query_link(20),
-                        format_date=tools.format_date,
-                        userinfo=self.userinfo)
+            self.render(
+                'misc/link/link_list.html',
+                kwd=kwd,
+                view=MLink.query_link(20),
+                format_date=tools.format_date,
+                userinfo=self.userinfo,
+            )
 
-    def to_add_link(self, ):
+    def to_add_link(
+        self,
+    ):
         '''
         To add link
         '''
@@ -137,10 +143,12 @@ class LinkHandler(BaseHandler):
         else:
             return False
 
-        self.render('misc/link/link_edit.html',
-                    kwd={},
-                    postinfo=MLink.get_by_uid(uid),
-                    userinfo=self.userinfo)
+        self.render(
+            'misc/link/link_edit.html',
+            kwd={},
+            postinfo=MLink.get_by_uid(uid),
+            userinfo=self.userinfo,
+        )
 
     @tornado.web.authenticated
     def viewit(self, post_id):

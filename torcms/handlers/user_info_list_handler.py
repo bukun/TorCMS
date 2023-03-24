@@ -23,7 +23,7 @@ class UserListHandler(BaseHandler):
             'recent': self.to_find,
             'app': self.list_app,
             'user_recent': self.user_recent,
-            'user_most': self.user_most
+            'user_most': self.user_most,
         }
         dict_get.get(url_str, self.show404)()
 
@@ -38,9 +38,7 @@ class UserListHandler(BaseHandler):
         List the apps.
         '''
         kwd = {'pager': '', 'title': ''}
-        self.render('user/info_list/list_app.html',
-                    kwd=kwd,
-                    userinfo=self.userinfo)
+        self.render('user/info_list/list_app.html', kwd=kwd, userinfo=self.userinfo)
 
     @tornado.web.authenticated
     def user_most(self):
@@ -51,10 +49,12 @@ class UserListHandler(BaseHandler):
             'pager': '',
             'title': '',
         }
-        self.render('user/info_list/user_most.html',
-                    kwd=kwd,
-                    user_name=self.get_current_user(),
-                    userinfo=self.userinfo)
+        self.render(
+            'user/info_list/user_most.html',
+            kwd=kwd,
+            user_name=self.get_current_user(),
+            userinfo=self.userinfo,
+        )
 
     @tornado.web.authenticated
     def user_recent(self):
@@ -62,10 +62,12 @@ class UserListHandler(BaseHandler):
         User used recently.
         '''
         kwd = {'pager': '', 'title': ''}
-        self.render('user/info_list/user_recent.html',
-                    kwd=kwd,
-                    user_name=self.get_current_user(),
-                    userinfo=self.userinfo)
+        self.render(
+            'user/info_list/user_recent.html',
+            kwd=kwd,
+            user_name=self.get_current_user(),
+            userinfo=self.userinfo,
+        )
 
     def to_find(self):
         '''
@@ -73,10 +75,9 @@ class UserListHandler(BaseHandler):
         list the infors.
         '''
         kwd = {'pager': ''}
-        self.render('user/info_list/most.html',
-                    topmenu='',
-                    userinfo=self.userinfo,
-                    kwd=kwd)
+        self.render(
+            'user/info_list/most.html', topmenu='', userinfo=self.userinfo, kwd=kwd
+        )
 
     def list_recent(self):
         '''
@@ -87,11 +88,13 @@ class UserListHandler(BaseHandler):
             'pager': '',
             'title': '',
         }
-        self.render('user/info_list/list.html',
-                    kwd=kwd,
-                    rand_eqs=MPost.query_random(),
-                    recs=recs,
-                    userinfo=self.userinfo)
+        self.render(
+            'user/info_list/list.html',
+            kwd=kwd,
+            rand_eqs=MPost.query_random(),
+            recs=recs,
+            userinfo=self.userinfo,
+        )
 
     def find(self):
         '''
@@ -108,7 +111,9 @@ class UserListHandler(BaseHandler):
             'pager': '',
             'title': 'Searching Result',
         }
-        self.render('user/info_list/find_list.html',
-                    userinfo=self.userinfo,
-                    kwd=kwd,
-                    recs=MPost.get_by_keyword(keyword))
+        self.render(
+            'user/info_list/find_list.html',
+            userinfo=self.userinfo,
+            kwd=kwd,
+            recs=MPost.get_by_keyword(keyword),
+        )

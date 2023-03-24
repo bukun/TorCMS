@@ -25,8 +25,10 @@ class AdminHandler(BaseHandler):
 
     @tornado.web.authenticated
     def index(self):
-        self.render('admin/admin_index.html',
-                    userinfo=self.userinfo,
-                    kwd={},
-                    cfg=config.CMS_CFG,
-                    router_post=config.router_post)
+        self.render(
+            'admin/admin_index.html',
+            userinfo=self.userinfo,
+            kwd={},
+            cfg=config.CMS_CFG,
+            router_post=config.router_post,
+        )

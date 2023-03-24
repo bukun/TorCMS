@@ -11,7 +11,7 @@ from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import TabEntity, TabEntity2User, TabMember
 
 
-class MEntity2User():
+class MEntity2User:
     '''
     For file entities. Just like pdf, zipfile, docx, etc.
     '''
@@ -22,13 +22,15 @@ class MEntity2User():
 
     @staticmethod
     def get_by_path(path):
-        recs = TabEntity2User.select(
-            TabEntity2User,
-            TabEntity.path.alias('entity_path'),
-            TabEntity.kind.alias('entity_kind'),
-        ).join(TabEntity,
-               on=(TabEntity2User.entity_id == TabEntity.uid)).where(
-            TabEntity.path == path)
+        recs = (
+            TabEntity2User.select(
+                TabEntity2User,
+                TabEntity.path.alias('entity_path'),
+                TabEntity.kind.alias('entity_kind'),
+            )
+            .join(TabEntity, on=(TabEntity2User.entity_id == TabEntity.uid))
+            .where(TabEntity.path == path)
+        )
         return recs
 
     @staticmethod
@@ -37,29 +39,33 @@ class MEntity2User():
 
     @staticmethod
     def get_all_pager(current_page_num=1):
-        recs = TabEntity2User.select(
-            TabEntity2User, TabEntity.path.alias('entity_path'),
-            TabEntity.kind.alias('entity_kind')).join(
-            TabEntity,
-            on=(TabEntity2User.entity_id == TabEntity.uid)).join(
-            TabMember,
-            on=(TabEntity2User.user_id == TabMember.uid)).order_by(
-            TabEntity2User.timestamp.desc()).paginate(
-            current_page_num, CMS_CFG['list_num'])
+        recs = (
+            TabEntity2User.select(
+                TabEntity2User,
+                TabEntity.path.alias('entity_path'),
+                TabEntity.kind.alias('entity_kind'),
+            )
+            .join(TabEntity, on=(TabEntity2User.entity_id == TabEntity.uid))
+            .join(TabMember, on=(TabEntity2User.user_id == TabMember.uid))
+            .order_by(TabEntity2User.timestamp.desc())
+            .paginate(current_page_num, CMS_CFG['list_num'])
+        )
         return recs
 
     @staticmethod
     def get_all_pager_by_username(userid, current_page_num=1):
-        recs = TabEntity2User.select(
-            TabEntity2User,
-            TabEntity.path.alias('entity_path'),
-            TabEntity.kind.alias('entity_kind'),
-        ).join(TabEntity, on=(TabEntity2User.entity_id == TabEntity.uid)).join(
-            TabMember, on=(TabEntity2User.user_id == TabMember.uid)).where(
-            TabEntity2User.user_id == userid).order_by(
-            TabEntity2User.timestamp.desc(),
-            TabEntity2User.entity_id).paginate(current_page_num,
-                                               CMS_CFG['list_num'])
+        recs = (
+            TabEntity2User.select(
+                TabEntity2User,
+                TabEntity.path.alias('entity_path'),
+                TabEntity.kind.alias('entity_kind'),
+            )
+            .join(TabEntity, on=(TabEntity2User.entity_id == TabEntity.uid))
+            .join(TabMember, on=(TabEntity2User.user_id == TabMember.uid))
+            .where(TabEntity2User.user_id == userid)
+            .order_by(TabEntity2User.timestamp.desc(), TabEntity2User.entity_id)
+            .paginate(current_page_num, CMS_CFG['list_num'])
+        )
         return recs
 
     @staticmethod
@@ -68,11 +74,13 @@ class MEntity2User():
         create entity2user record in the database.
         '''
 
-        TabEntity2User.create(uid=tools.get_uuid(),
-                              entity_id=enti_uid,
-                              user_id=user_id,
-                              user_ip=user_ip,
-                              timestamp=time.time())
+        TabEntity2User.create(
+            uid=tools.get_uuid(),
+            entity_id=enti_uid,
+            user_id=user_id,
+            user_ip=user_ip,
+            timestamp=time.time(),
+        )
 
     @staticmethod
     def total_number():
@@ -83,21 +91,25 @@ class MEntity2User():
 
     @staticmethod
     def total_number_by_user(userid):
-        return TabEntity2User.select().where(
-            TabEntity2User.user_id == userid).count()
+        return TabEntity2User.select().where(TabEntity2User.user_id == userid).count()
 
     @staticmethod
     def total_number_by_year(year):
         down_year = int(time.mktime(time.strptime(year, "%Y")))
         next_year = str(int(year) + 1)
-        return TabEntity2User.select().where(
-            (TabEntity2User.timestamp >= down_year) & (
-                    TabEntity2User.timestamp < int(time.mktime(time.strptime(next_year, "%Y")))
+        return (
+            TabEntity2User.select()
+            .where(
+                (TabEntity2User.timestamp >= down_year)
+                & (
+                    TabEntity2User.timestamp
+                    < int(time.mktime(time.strptime(next_year, "%Y")))
+                )
             )
-        ).count()
+            .count()
+        )
 
     @staticmethod
     def delete_by_uid(entity_uid):
-        delete = TabEntity2User.delete().where(
-            TabEntity2User.entity_id == entity_uid)
+        delete = TabEntity2User.delete().where(TabEntity2User.entity_id == entity_uid)
         delete.execute()

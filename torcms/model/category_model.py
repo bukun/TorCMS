@@ -7,7 +7,7 @@ from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import TabPost, TabPost2Tag, TabTag
 
 
-class MCategory():
+class MCategory:
     '''
     Model for category
     '''
@@ -54,8 +54,9 @@ class MCategory():
         '''
         Geo the record by post and catalog.
         '''
-        recs = TabPost2Tag.select().where((TabPost2Tag.post_id == post_id)
-                                          & (TabPost2Tag.tag_id == catalog_id))
+        recs = TabPost2Tag.select().where(
+            (TabPost2Tag.post_id == post_id) & (TabPost2Tag.tag_id == catalog_id)
+        )
 
         if recs.count() == 1:
             return recs.get()
@@ -64,8 +65,7 @@ class MCategory():
             out_rec = None
             for rec in recs:
                 if out_rec:
-                    entry = TabPost2Tag.delete().where(
-                        TabPost2Tag.uid == rec.uid)
+                    entry = TabPost2Tag.delete().where(TabPost2Tag.uid == rec.uid)
                     entry.execute()
                 else:
                     out_rec = rec
@@ -80,20 +80,25 @@ class MCategory():
         :param qian2: 分类id的前两位
         :return: 数组，包含了找到的分类
         '''
-        return TabTag.select().where(TabTag.uid.startswith(qian2)).order_by(
-            TabTag.order)
+        return (
+            TabTag.select().where(TabTag.uid.startswith(qian2)).order_by(TabTag.order)
+        )
 
     @staticmethod
     def get_parent_list(kind='1'):
-        return TabTag.select().where(
-            (TabTag.kind == kind) & (TabTag.uid.endswith('00'))
-        ).order_by(TabTag.uid)
+        return (
+            TabTag.select()
+            .where((TabTag.kind == kind) & (TabTag.uid.endswith('00')))
+            .order_by(TabTag.uid)
+        )
 
     @staticmethod
     def query_kind_cat(kind_sig):
-        return TabTag.select().where(
-            (TabTag.kind == kind_sig) & (TabTag.pid == '0000')
-        ).order_by(TabTag.order)
+        return (
+            TabTag.select()
+            .where((TabTag.kind == kind_sig) & (TabTag.pid == '0000'))
+            .order_by(TabTag.order)
+        )
 
     @staticmethod
     def query_sub_cat(pid):
@@ -102,8 +107,7 @@ class MCategory():
     @staticmethod
     def query_pcat(**kwargs):
         _ = kwargs
-        return TabTag.select().where(TabTag.pid == '0000').order_by(
-            TabTag.order)
+        return TabTag.select().where(TabTag.pid == '0000').order_by(TabTag.order)
 
     @staticmethod
     def query_uid_starts_with(qian2):
@@ -115,14 +119,13 @@ class MCategory():
         Qeury all the categories, order by count or defined order.
         '''
         if by_count:
-            recs = TabTag.select().where(TabTag.kind == kind).order_by(
-                TabTag.count.desc())
+            recs = (
+                TabTag.select().where(TabTag.kind == kind).order_by(TabTag.count.desc())
+            )
         elif by_order:
-            recs = TabTag.select().where(TabTag.kind == kind).order_by(
-                TabTag.order)
+            recs = TabTag.select().where(TabTag.kind == kind).order_by(TabTag.order)
         else:
-            recs = TabTag.select().where(TabTag.kind == kind).order_by(
-                TabTag.uid)
+            recs = TabTag.select().where(TabTag.kind == kind).order_by(TabTag.uid)
         return recs
 
     @staticmethod
@@ -130,8 +133,12 @@ class MCategory():
         '''
         Query the posts count of certain category.
         '''
-        return TabTag.select().where(TabTag.kind == kind).order_by(
-            TabTag.count.desc()).limit(limit_num)
+        return (
+            TabTag.select()
+            .where(TabTag.kind == kind)
+            .order_by(TabTag.count.desc())
+            .limit(limit_num)
+        )
 
     @staticmethod
     def get_by_slug(slug):
@@ -150,11 +157,10 @@ class MCategory():
         '''
 
         entry2 = TabTag.update(
-            count=TabPost2Tag.select().join(
-                TabPost, on=(TabPost.uid == TabPost2Tag.post_id)
-            ).where(
-                (TabPost.valid == 1) & (TabPost2Tag.tag_id == cat_id)
-            ).count()
+            count=TabPost2Tag.select()
+            .join(TabPost, on=(TabPost.uid == TabPost2Tag.post_id))
+            .where((TabPost.valid == 1) & (TabPost2Tag.tag_id == cat_id))
+            .count()
         ).where(TabTag.uid == cat_id)
         entry2.execute()
 

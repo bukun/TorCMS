@@ -34,9 +34,7 @@ def gen_xlsx_category():
             if cell_val and cell_val != '':
                 puid = kind_sig + cell_val.split(":")[0]
                 print(puid)
-                ppdata = {
-                    'name': cell_val.split(":")[1]
-                }
+                ppdata = {'name': cell_val.split(":")[1]}
 
                 MPermission.add_or_update(puid, ppdata)
 
@@ -77,15 +75,10 @@ def gen_xlsx_category():
                 pid = cuid
                 name = cname + cell_arr.split(":")[1]
 
-
             else:
                 continue
 
-            post_data = {
-                'name': name,
-                'uid': uid,
-                'pid': pid
-            }
+            post_data = {'name': name, 'uid': uid, 'pid': pid}
             print(post_data)
 
             MRole.add_or_update(uid, post_data)
@@ -99,7 +92,6 @@ def gen_xlsx_category():
             if tt['code'] == '31':
                 user_uid = tt['uid']
             print(tt)
-
 
             role_permission_relation(uid, user_uid, sheet_ranges, row_num, kind_sig)
 
@@ -123,8 +115,10 @@ def run_gen_role_permission(*args):
     '''
     gen_xlsx_category()
 
+
 def test_script():
     gen_xlsx_category()
+
 
 if __name__ == '__main__':
     gen_xlsx_category()

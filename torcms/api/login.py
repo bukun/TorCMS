@@ -8,6 +8,7 @@ import wtforms.validators
 from wtforms.fields import StringField
 from wtforms.validators import DataRequired
 from wtforms_tornado import Form
+
 # ToDo: 需要进行切换、测试
 # from tornado_wtforms.form import TornadoForm as Form
 
@@ -70,7 +71,7 @@ def check_modify_info(post_data):
 
 def check_valid_pass(postdata):
     '''
-     对用户密码进行有效性检查。
+    对用户密码进行有效性检查。
     '''
     _ = postdata
     user_create_status = {'success': False, 'code': '00'}
@@ -85,16 +86,14 @@ class SumForm(Form):
     '''
     WTForm for user.
     '''
-    user_name = StringField('user_name',
-                            validators=[DataRequired()],
-                            default='')
-    user_pass = StringField('user_pass',
-                            validators=[DataRequired()],
-                            default='')
+
+    user_name = StringField('user_name', validators=[DataRequired()], default='')
+    user_pass = StringField('user_pass', validators=[DataRequired()], default='')
     user_email = StringField(
         'user_email',
         validators=[DataRequired(), wtforms.validators.Email()],
-        default='')
+        default='',
+    )
 
 
 class UserApi(BaseHandler):
@@ -113,21 +112,12 @@ class UserApi(BaseHandler):
         url_arr = self.parse_url(url_str)
 
         dict_get = {
-
-            'info':
-                self.__to_show_info__,
-            'j_info':
-                self.json_info,
-            'logout':
-                self.__logout__,
-
-            'reset-passwd':
-                self.gen_passwd,
-
-            'list':
-                self.__user_list__,
-            'pass_strength':
-                self.pass_strength,
+            'info': self.__to_show_info__,
+            'j_info': self.json_info,
+            'logout': self.__logout__,
+            'reset-passwd': self.gen_passwd,
+            'list': self.__user_list__,
+            'pass_strength': self.pass_strength,
         }
 
         if len(url_arr) == 1:
@@ -196,15 +186,11 @@ class UserApi(BaseHandler):
             if cur_role.role not in the_roles_arr:
                 MStaff2Role.remove_relation(user_id, cur_role.role)
 
-        extinfo = {
-            "roles": the_roles_arr
-        }
+        extinfo = {"roles": the_roles_arr}
         MUser.update_extinfo(user_id, extinfo)
         MUser.update_permissions(post_data['user_name'])
 
-        user_edit_role = {
-            'success': 'true'
-        }
+        user_edit_role = {'success': 'true'}
         return json.dump(user_edit_role, self)
 
     def register(self):
@@ -249,9 +235,9 @@ class UserApi(BaseHandler):
 
         usercheck = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
         if usercheck == 1:
-            MUser.update_info(self.userinfo.uid,
-                              post_data['user_email'],
-                              extinfo=def_dic)
+            MUser.update_info(
+                self.userinfo.uid, post_data['user_email'], extinfo=def_dic
+            )
             output = {'changeinfo ': usercheck}
         else:
             output = {'changeinfo ': 0}
@@ -350,11 +336,10 @@ class UserApi(BaseHandler):
 
         current_page_number = 1 if current_page_number < 1 else current_page_number
 
-        infos = MUser.query_pager_by_slug(current_page_num=current_page_number, type=type)
-        kwd = {'pager': '',
-               'current_page': current_page_number,
-               'type': type
-               }
+        infos = MUser.query_pager_by_slug(
+            current_page_num=current_page_number, type=type
+        )
+        kwd = {'pager': '', 'current_page': current_page_number, 'type': type}
 
         list = []
         for rec in infos:
@@ -366,14 +351,12 @@ class UserApi(BaseHandler):
                 'authority': rec.authority,
                 'time_login': rec.time_login,
                 'time_create': rec.time_create,
-                'extinfo': rec.extinfo
+                'extinfo': rec.extinfo,
             }
 
             list.append(dic)
 
-        out_dict = {
-            'results': list
-        }
+        out_dict = {'results': list}
 
         return json.dump(out_dict, self, ensure_ascii=False)
 
@@ -389,7 +372,6 @@ class UserApi(BaseHandler):
 
         dic = [
             {
-
                 "uid": rec.uid,
                 "user_name": rec.user_name,
                 'user_email': rec.user_email,
@@ -397,15 +379,11 @@ class UserApi(BaseHandler):
                 'authority': rec.authority,
                 'time_login': tools.format_time(rec.time_login),
                 'time_create': tools.format_time(rec.time_create),
-                'extinfo': rec.extinfo
+                'extinfo': rec.extinfo,
             }
-
         ]
 
-        out_dict = {
-            'title': '用户信息',
-            'userinfo_table': dic
-        }
+        out_dict = {'title': '用户信息', 'userinfo_table': dic}
 
         return json.dump(out_dict, self, ensure_ascii=False)
 
@@ -468,23 +446,27 @@ class UserApi(BaseHandler):
                 "user",
                 u_name,
                 expires_days=None,
-                expires=time.time() + 60 * CMS_CFG.get('expires_minutes', 15)
+                expires=time.time() + 60 * CMS_CFG.get('expires_minutes', 15),
             )
 
             now = datetime.now()
             self.set_secure_cookie(
                 "amisToken",
-
                 datetime.strftime(now, "%Y-%m-%d %H:%M:%S"),
                 expires_days=None,
-                expires=time.time() + 60 * CMS_CFG.get('expires_minutes', 15)
+                expires=time.time() + 60 * CMS_CFG.get('expires_minutes', 15),
             )
 
             MUser.update_success_info(u_name)
 
             self.set_status(200)
-            user_login_status = {'success': True, 'code': '1', 'info': 'Login successful',
-                                 'status': 0, 'username': u_name}
+            user_login_status = {
+                'success': True,
+                'code': '1',
+                'info': 'Login successful',
+                'status': 0,
+                'username': u_name,
+            }
             return json.dump({'data': user_login_status, 'status': 0}, self)
 
     def __user_list__(self):
@@ -523,7 +505,6 @@ class UserApi(BaseHandler):
         counts = MUser.count_of_certain()
         for rec in recs:
             dic = {
-
                 "uid": rec.uid,
                 "user_name": rec.user_name,
                 'user_email': rec.user_email,
@@ -531,16 +512,14 @@ class UserApi(BaseHandler):
                 'authority': rec.authority,
                 'time_login': rec.time_login,
                 'time_create': rec.time_create,
-                'extinfo': rec.extinfo
+                'extinfo': rec.extinfo,
             }
             dics.append(dic)
         out_dict = {
             "ok": True,
             "status": 0,
             "msg": "ok",
-            'data': {"count": counts,
-                     "rows": dics
-                     }
+            'data': {"count": counts, "rows": dics},
         }
 
         return json.dump(out_dict, self, ensure_ascii=False)
@@ -575,9 +554,7 @@ class UserApi(BaseHandler):
                     'info': '两次重置密码时间应该大于1分钟',
                     'link': '/user/reset-password',
                 }
-                self.render('misc/html/404.html',
-                            kwd=kwd,
-                            userinfo=self.userinfo)
+                self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
                 return False
 
             if userinfo:
@@ -586,17 +563,20 @@ class UserApi(BaseHandler):
                 username = userinfo.user_name
                 hash_str = tools.md5(username + str(timestamp) + passwd)
                 url_reset = '{0}/user/reset-passwd?u={1}&t={2}&p={3}'.format(
-                    config.SITE_CFG['site_url'], username, timestamp, hash_str)
+                    config.SITE_CFG['site_url'], username, timestamp, hash_str
+                )
                 email_cnt = '''<div>请查看下面的信息，并<span style="color:red">谨慎操作</span>：</div>
                     <div>您在"{0}"网站（{1}）申请了密码重置，如果确定要进行密码重置，请打开下面链接：</div>
                     <div><a href={2}>{2}</a></div>
                     <div>如果无法确定本信息的有效性，请忽略本邮件。</div>'''.format(
-                    config.SMTP_CFG['name'], config.SITE_CFG['site_url'],
-                    url_reset)
+                    config.SMTP_CFG['name'], config.SITE_CFG['site_url'], url_reset
+                )
 
-                if send_mail([userinfo.user_email],
-                             "{0}|密码重置".format(config.SMTP_CFG['name']),
-                             email_cnt):
+                if send_mail(
+                    [userinfo.user_email],
+                    "{0}|密码重置".format(config.SMTP_CFG['name']),
+                    email_cnt,
+                ):
                     MUser.update_time_reset_passwd(username, timestamp)
                     self.set_status(200)
                     logger.info('password has been reset.')
@@ -629,8 +609,7 @@ class UserApi(BaseHandler):
             self.set_status(400)
             self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
-        hash_str = tools.md5(userinfo.user_name + post_data['t'] +
-                             userinfo.user_pass)
+        hash_str = tools.md5(userinfo.user_name + post_data['t'] + userinfo.user_pass)
         if hash_str == post_data['p']:
             pass
         else:
@@ -673,7 +652,6 @@ class UserApi(BaseHandler):
             'user_email': rec.user_email,
             'role': rec.role,
             'extinfo': rec.extinfo,
-
         }
         return json.dump(userinfo, self, ensure_ascii=False)
 
@@ -709,8 +687,12 @@ class UserApi(BaseHandler):
                         break
             break
         for i in range(len(pwd)):
-            if ('null' <= pwdlist[i] < '0') or ('9' < pwdlist[i] <= '@') or ('Z' < pwdlist[i] <= '`') or (
-                    'z' < pwdlist[i] <= '~'):
+            if (
+                ('null' <= pwdlist[i] < '0')
+                or ('9' < pwdlist[i] <= '@')
+                or ('Z' < pwdlist[i] <= '`')
+                or ('z' < pwdlist[i] <= '~')
+            ):
                 intensity += 2
                 break
 

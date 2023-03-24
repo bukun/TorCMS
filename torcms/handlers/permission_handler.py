@@ -76,32 +76,23 @@ class PermissionHandler(BaseHandler):
             "ok": True,
             "status": 0,
             "msg": "ok",
-            'data': {
-                "options": [
-                    {
-                        "label": "选择权限",
-                        "value": "",
-                        "children": dics
-                    }
-                ]
-            }
+            'data': {"options": [{"label": "选择权限", "value": "", "children": dics}]},
         }
 
         return json.dump(out_dict, self, ensure_ascii=False)
 
     def get_by_id(self, uid):
         rec = MPermission.get_by_uid(uid)
-        dic = [{
-            "uid": rec.uid,
-            "name": rec.name,
-            'action': rec.action,
-            'controller': rec.controller
-        }]
+        dic = [
+            {
+                "uid": rec.uid,
+                "name": rec.name,
+                'action': rec.action,
+                'controller': rec.controller,
+            }
+        ]
 
-        out_dict = {
-            'title': '权限详情',
-            'permore_table': dic
-        }
+        out_dict = {'title': '权限详情', 'permore_table': dic}
 
         return json.dump(out_dict, self, ensure_ascii=False)
 
@@ -143,17 +134,14 @@ class PermissionHandler(BaseHandler):
                 "uid": rec.uid,
                 "name": rec.name,
                 'action': rec.action,
-                'controller': rec.controller
+                'controller': rec.controller,
             }
             dics.append(dic)
         out_dict = {
-
             "ok": True,
             "status": 0,
             "msg": "ok",
-            'data': {"count": counts,
-                     "rows": dics
-                     }
+            'data': {"count": counts, "rows": dics},
         }
 
         return json.dump(out_dict, self, ensure_ascii=False)

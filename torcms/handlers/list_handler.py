@@ -7,7 +7,7 @@ import json
 import os
 from html2text import html2text
 
-from config import CMS_CFG, router_post,check_type
+from config import CMS_CFG, router_post, check_type
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
 from torcms.model.catalog_model import MCatalog
@@ -126,8 +126,7 @@ class ListHandler(BaseHandler):
         if not cat_rec:
             return False
 
-        num_of_cat = MPost2Catalog.count_of_certain_category(cat_rec.uid,
-                                                             tag=tag)
+        num_of_cat = MPost2Catalog.count_of_certain_category(cat_rec.uid, tag=tag)
 
         page_num = int(num_of_cat / CMS_CFG['list_num']) + 1
         cat_name = cat_rec.name
@@ -138,7 +137,7 @@ class ListHandler(BaseHandler):
             'router': router_post[cat_rec.kind],
             'current_page': current_page_num,
             'kind': cat_rec.kind,
-            'tag': tag
+            'tag': tag,
         }
 
         # Todo: review the following codes.
@@ -154,22 +153,21 @@ class ListHandler(BaseHandler):
         else:
             tmpl = list_src
 
-        infos = MPost2Catalog.query_pager_by_slug(cat_slug,
-                                                  current_page_num,
-                                                  tag=tag,
-                                                  order=order
-                                                  )
+        infos = MPost2Catalog.query_pager_by_slug(
+            cat_slug, current_page_num, tag=tag, order=order
+        )
 
-        self.render(tmpl,
-                    catinfo=cat_rec,
-                    infos=infos,
-                    userinfo=self.userinfo,
-                    html2text=html2text,
-                    cfg=CMS_CFG,
-                    kwd=kwd,
-                    router=router_post[cat_rec.kind],
-                    post_type=check_type[cat_rec.kind],
-                    )
+        self.render(
+            tmpl,
+            catinfo=cat_rec,
+            infos=infos,
+            userinfo=self.userinfo,
+            html2text=html2text,
+            cfg=CMS_CFG,
+            kwd=kwd,
+            router=router_post[cat_rec.kind],
+            post_type=check_type[cat_rec.kind],
+        )
 
 
 class TagListHandler(BaseHandler):

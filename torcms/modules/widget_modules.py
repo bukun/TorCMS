@@ -35,13 +35,16 @@ class ReplyPanel(tornado.web.UIModule):
         en = kwargs.get('en', False)
         topic = kwargs.get('topic', False)
 
-        return self.render_string('modules/widget/reply_panel.html',
-                                  uid=uid,
-                                  replys=MReply.query_by_post(uid),
-                                  userinfo=userinfo,
-                                  linkify=tornado.escape.linkify,
-                                  en=en,
-                                  topic=topic)
+        return self.render_string(
+            'modules/widget/reply_panel.html',
+            uid=uid,
+            replys=MReply.query_by_post(uid),
+            userinfo=userinfo,
+            linkify=tornado.escape.linkify,
+            en=en,
+            topic=topic,
+        )
+
 
 class ReplyPanelIndex(tornado.web.UIModule):
     '''
@@ -53,12 +56,14 @@ class ReplyPanelIndex(tornado.web.UIModule):
         userinfo = args[1]
         en = kwargs.get('en', False)
 
-        return self.render_string('modules/widget/reply_panel_index.html',
-                                  uid=uid,
-                                  replys=MReply.query_by_post(uid,reply_count=1),
-                                  userinfo=userinfo,
-                                  linkify=tornado.escape.linkify,
-                                  en=en)
+        return self.render_string(
+            'modules/widget/reply_panel_index.html',
+            uid=uid,
+            replys=MReply.query_by_post(uid, reply_count=1),
+            userinfo=userinfo,
+            linkify=tornado.escape.linkify,
+            en=en,
+        )
 
 
 class UserinfoWidget(tornado.web.UIModule, tornado.web.RequestHandler):
@@ -68,11 +73,12 @@ class UserinfoWidget(tornado.web.UIModule, tornado.web.RequestHandler):
 
     def render(self, *args, **kwargs):
         # is_logged = kwargs.get('userinfo', False)
-        is_logged = True if ('userinfo' in kwargs
-                             and kwargs['userinfo']) else False
-        return self.render_string('modules/widget/loginfo.html',
-                                  userinfo=kwargs['userinfo'],
-                                  is_logged=is_logged)
+        is_logged = True if ('userinfo' in kwargs and kwargs['userinfo']) else False
+        return self.render_string(
+            'modules/widget/loginfo.html',
+            userinfo=kwargs['userinfo'],
+            is_logged=is_logged,
+        )
 
 
 class WidgetEditor(tornado.web.UIModule):
@@ -99,11 +105,11 @@ class WidgetEditor(tornado.web.UIModule):
             'delete': delete,
             'nullify': nullify,
             'reclass': reclass,
-            'url': url
+            'url': url,
         }
-        return self.render_string('modules/widget/widget_editor.html',
-                                  kwd=kwd,
-                                  userinfo=userinfo)
+        return self.render_string(
+            'modules/widget/widget_editor.html', kwd=kwd, userinfo=userinfo
+        )
 
 
 class WidgetSearch(tornado.web.UIModule):
@@ -185,12 +191,12 @@ class Navigation_menu(tornado.web.UIModule):
             'router': config.router_post[kind],
             'kind': kind,
             'filter_view': filter_view,
-            'slug': slug
+            'slug': slug,
         }
 
-        return self.render_string('modules/widget/nav_menu.html',
-                                  pcatinfo=curinfo,
-                                  kwd=kwd)
+        return self.render_string(
+            'modules/widget/nav_menu.html', pcatinfo=curinfo, kwd=kwd
+        )
 
 
 class CommentList(tornado.web.UIModule):
@@ -210,10 +216,9 @@ class CommentList(tornado.web.UIModule):
                 pass
             else:
                 datas.append(rec)
-        return self.render_string('modules/widget/comment_list.html',
-                                  userinfo=userinfo,
-                                  recs=datas,
-                                  en=en)
+        return self.render_string(
+            'modules/widget/comment_list.html', userinfo=userinfo, recs=datas, en=en
+        )
 
 
 class Replycnt(tornado.web.UIModule):
@@ -249,7 +254,7 @@ class Userprofile(tornado.web.UIModule):
 
     def render(self, *args, **kwargs):
         user_id = args[0]
-        user_name = kwargs.get('user_name','')
+        user_name = kwargs.get('user_name', '')
         if user_name:
             rec = MUser.get_by_name(user_id)
         else:
@@ -267,13 +272,11 @@ class State(tornado.web.UIModule):
         kwd = {
             'router': config.router_post[kind],
             'kind': kind,
-            'post_authority': post_authority
+            'post_authority': post_authority,
         }
-        return self.render_string('modules/post/state.html',
-                                  postinfo=postinfo,
-                                  userinfo=userinfo,
-                                  kwd=kwd
-                                  )
+        return self.render_string(
+            'modules/post/state.html', postinfo=postinfo, userinfo=userinfo, kwd=kwd
+        )
 
 
 class Check_pager(tornado.web.UIModule):
@@ -290,24 +293,27 @@ class Check_pager(tornado.web.UIModule):
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
-        page_num = (tmp_page_num if
-                    abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num'])
-                    < 0.1 else tmp_page_num + 1)
+        page_num = (
+            tmp_page_num
+            if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
+            else tmp_page_num + 1
+        )
 
         kwd = {
             'page_home': current > 1,
             'page_end': current < page_num,
             'page_pre': current > 1,
             'page_next': current < page_num,
-            'kind': kind
-
+            'kind': kind,
         }
 
-        return self.render_string('modules/post/check_pager.html',
-                                  kwd=kwd,
-                                  pager_num=page_num,
-                                  page_current=current,
-                                  state=state)
+        return self.render_string(
+            'modules/post/check_pager.html',
+            kwd=kwd,
+            pager_num=page_num,
+            page_current=current,
+            state=state,
+        )
 
 
 class Check_username_pager(tornado.web.UIModule):
@@ -325,22 +331,25 @@ class Check_username_pager(tornado.web.UIModule):
 
         tmp_page_num = int(num_of_cat / config.CMS_CFG['list_num'])
 
-        page_num = (tmp_page_num if
-                    abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num'])
-                    < 0.1 else tmp_page_num + 1)
+        page_num = (
+            tmp_page_num
+            if abs(tmp_page_num - num_of_cat / config.CMS_CFG['list_num']) < 0.1
+            else tmp_page_num + 1
+        )
 
         kwd = {
             'page_home': current > 1,
             'page_end': current < page_num,
             'page_pre': current > 1,
             'page_next': current < page_num,
-            'kind': kind
-
+            'kind': kind,
         }
 
-        return self.render_string('modules/post/check_username_pager.html',
-                                  kwd=kwd,
-                                  pager_num=page_num,
-                                  page_current=current,
-                                  state=state,
-                                  username=username)
+        return self.render_string(
+            'modules/post/check_username_pager.html',
+            kwd=kwd,
+            pager_num=page_num,
+            page_current=current,
+            state=state,
+            username=username,
+        )

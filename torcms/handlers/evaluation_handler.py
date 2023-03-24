@@ -43,7 +43,7 @@ class EvaluationHandler(BaseHandler):
 
         out_dic = {
             'eval0': MEvaluation.app_evaluation_count(app_id, 0),
-            'eval1': MEvaluation.app_evaluation_count(app_id, 1)
+            'eval1': MEvaluation.app_evaluation_count(app_id, 1),
         }
 
         return json.dump(out_dic, self)

@@ -77,8 +77,7 @@ class LabelHandler(BaseHandler):
 
         current_page_number = 1 if current_page_number < 1 else current_page_number
 
-        pager_num = int(
-            MPost2Label.total_number(tag_slug, kind) / CMS_CFG['list_num'])
+        pager_num = int(MPost2Label.total_number(tag_slug, kind) / CMS_CFG['list_num'])
         tag_info = MLabel.get_by_slug(tag_slug)
         if tag_info:
             tag_name = tag_info.name
@@ -90,7 +89,7 @@ class LabelHandler(BaseHandler):
             'title': tag_name,
             'current_page': current_page_number,
             'router': router_post[kind],
-            'kind': kind
+            'kind': kind,
         }
 
         the_list_file = './templates/list/label_{kind}.html'.format(kind=kind)
@@ -101,16 +100,16 @@ class LabelHandler(BaseHandler):
         else:
             tmpl = 'list/label.html'
 
-        self.render(tmpl,
-                    infos=MPost2Label.query_pager_by_slug(
-                        tag_slug,
-                        kind=kind,
-                        current_page_num=current_page_number),
-                    kwd=kwd,
-                    userinfo=self.userinfo,
-                    pager=self.gen_pager(kind, tag_slug, pager_num,
-                                         current_page_number),
-                    cfg=CMS_CFG)
+        self.render(
+            tmpl,
+            infos=MPost2Label.query_pager_by_slug(
+                tag_slug, kind=kind, current_page_num=current_page_number
+            ),
+            kwd=kwd,
+            userinfo=self.userinfo,
+            pager=self.gen_pager(kind, tag_slug, pager_num, current_page_number),
+            cfg=CMS_CFG,
+        )
 
     def gen_pager(self, kind, cat_slug, page_num, current):
         '''
@@ -122,23 +121,29 @@ class LabelHandler(BaseHandler):
             return ''
 
         pager_shouye = '''<li class="{0}">   <a href="/label/{1}/{2}">&lt;&lt; 首页</a>
-        </li>'''.format('hidden' if current <= 1 else '', kind, cat_slug)
+        </li>'''.format(
+            'hidden' if current <= 1 else '', kind, cat_slug
+        )
 
         pager_pre = '''<li class="{0}"><a href="/label/{1}/{2}/{3}">&lt; 前页</a>
-        </li>'''.format('hidden' if current <= 1 else '', kind, cat_slug,
-                        current - 1)
+        </li>'''.format(
+            'hidden' if current <= 1 else '', kind, cat_slug, current - 1
+        )
         pager_mid = ''
         for ind in range(0, page_num):
             tmp_mid = '''<li class="{0}"><a  href="/label/{1}/{2}/{3}">{3}</a>
-            </li>'''.format('active' if ind + 1 == current else '', kind,
-                            cat_slug, ind + 1)
+            </li>'''.format(
+                'active' if ind + 1 == current else '', kind, cat_slug, ind + 1
+            )
             pager_mid += tmp_mid
         pager_next = '''<li class=" {0}"><a  href="/label/{1}/{2}/{3}">后页 &gt;</a>
-        </li>'''.format('hidden' if current >= page_num else '', kind,
-                        cat_slug, current + 1)
+        </li>'''.format(
+            'hidden' if current >= page_num else '', kind, cat_slug, current + 1
+        )
         pager_last = '''<li class=" {0}"><a href="/label/{1}/{2}/{3}">末页&gt;&gt;</a>
-        </li>'''.format('hidden' if current >= page_num else '', kind,
-                        cat_slug, page_num)
+        </li>'''.format(
+            'hidden' if current >= page_num else '', kind, cat_slug, page_num
+        )
         pager = pager_shouye + pager_pre + pager_mid + pager_next + pager_last
         return pager
 
@@ -164,10 +169,14 @@ class InfoTagHandler(BaseHandler):
 
         if len(url_arr) == 1:
 
-            self.redirect('/label/{kind}/{slug}'.format(slug=url_arr[0],
-                                                        kind=self.kind))
+            self.redirect(
+                '/label/{kind}/{slug}'.format(slug=url_arr[0], kind=self.kind)
+            )
 
         elif len(url_arr) == 2:
 
-            self.redirect('/label/{kind}/{slug}/{page}'.format(
-                slug=url_arr[0], kind=self.kind, page=url_arr[1]))
+            self.redirect(
+                '/label/{kind}/{slug}/{page}'.format(
+                    slug=url_arr[0], kind=self.kind, page=url_arr[1]
+                )
+            )

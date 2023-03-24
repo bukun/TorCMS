@@ -7,7 +7,7 @@ from torcms.model.core_tab import TabStaff2Role, TabRole, TabRole2Permission, Ta
 # from torcms.model.user_model import MUser
 
 
-class MStaff2Role():
+class MStaff2Role:
     @staticmethod
     def query_all():
         '''
@@ -35,10 +35,14 @@ class MStaff2Role():
         #          .join(Favorite, JOIN.LEFT_OUTER)  # Joins tweet -> favorite.
         #          .group_by(User.username))
 
-        query = TabStaff2Role.select(
-            TabStaff2Role.id, TabRole.uid, TabRole2Permission.permission_id
-        ).join(TabRole, JOIN.LEFT_OUTER).join(TabRole2Permission, JOIN.LEFT_OUTER).where(
-            TabStaff2Role.staff == staff_id)
+        query = (
+            TabStaff2Role.select(
+                TabStaff2Role.id, TabRole.uid, TabRole2Permission.permission_id
+            )
+            .join(TabRole, JOIN.LEFT_OUTER)
+            .join(TabRole2Permission, JOIN.LEFT_OUTER)
+            .where(TabStaff2Role.staff == staff_id)
+        )
         return query.dicts()
 
     @staticmethod
@@ -59,10 +63,16 @@ class MStaff2Role():
         else:
             return False
 
-        query = TabStaff2Role.select(
-            TabStaff2Role.id, TabRole.uid, TabRole2Permission.permission_id
-        ).join(TabRole, JOIN.LEFT_OUTER).join(TabRole2Permission, JOIN.LEFT_OUTER).where(
-            (TabStaff2Role.staff == staff_id) & (TabRole2Permission.permission_id == action)
+        query = (
+            TabStaff2Role.select(
+                TabStaff2Role.id, TabRole.uid, TabRole2Permission.permission_id
+            )
+            .join(TabRole, JOIN.LEFT_OUTER)
+            .join(TabRole2Permission, JOIN.LEFT_OUTER)
+            .where(
+                (TabStaff2Role.staff == staff_id)
+                & (TabRole2Permission.permission_id == action)
+            )
         )
         if query and query.count() > 0:
             return True
@@ -81,13 +91,16 @@ class MStaff2Role():
         Delete the record of Staff 2 Role.
         '''
         entry = TabStaff2Role.delete().where(
-            (TabStaff2Role.role == role_id) & (TabStaff2Role.staff == staff_id))
+            (TabStaff2Role.role == role_id) & (TabStaff2Role.staff == staff_id)
+        )
         entry.execute()
 
     @staticmethod
     def add_or_update(staff_id, role_id):
         print('aa')
-        record = TabStaff2Role.select().where((TabStaff2Role.staff == staff_id) & (TabStaff2Role.role == role_id))
+        record = TabStaff2Role.select().where(
+            (TabStaff2Role.staff == staff_id) & (TabStaff2Role.role == role_id)
+        )
         print('bb')
 
         if record.count() > 0:
@@ -96,10 +109,7 @@ class MStaff2Role():
 
         else:
             print('dd')
-            TabStaff2Role.create(
-                role=role_id,
-                staff=staff_id
-            )
+            TabStaff2Role.create(role=role_id, staff=staff_id)
 
 
 if __name__ == '__main__':

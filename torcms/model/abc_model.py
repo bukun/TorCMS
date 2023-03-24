@@ -4,10 +4,11 @@ The Base of Model
 '''
 
 
-class MHelper():
+class MHelper:
     '''
     Common used function for most Model. Using Model as the first parameter.
     '''
+
     @staticmethod
     def get_by_uid(model, uid):
         recs = model.select().where(model.uid == uid)

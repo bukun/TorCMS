@@ -10,6 +10,7 @@ import tornado.web
 from tornado.concurrent import run_on_executor
 
 import torcms.core.tool.whoosh_tool
+
 # from torcms.core.tool import run_whoosh
 
 from torcms.model.user_model import MUser
@@ -94,12 +95,7 @@ class BaseHandler(tornado.web.RequestHandler):
         '''
         check the user role for docs.
         '''
-        priv_dic = {
-            'ADD': False,
-            'EDIT': False,
-            'DELETE': False,
-            'ADMIN': False
-        }
+        priv_dic = {'ADD': False, 'EDIT': False, 'DELETE': False, 'ADMIN': False}
         if self.userinfo:
             if self.userinfo.role[1] > '0':
                 priv_dic['ADD'] = True
@@ -184,7 +180,7 @@ class BaseHandler(tornado.web.RequestHandler):
             "ip": ip_address,
             "city": response.get("city"),
             "region": response.get("region"),
-            "country": response.get("country_name")
+            "country": response.get("country_name"),
         }
         return location_data
 

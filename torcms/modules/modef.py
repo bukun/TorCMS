@@ -3,8 +3,13 @@
 定义模块的名称，作为调用的名称
 '''
 
-from torcms.modules import (base_modules, catalog_modules, category_modules,
-                            info_modules, widget_modules)
+from torcms.modules import (
+    base_modules,
+    catalog_modules,
+    category_modules,
+    info_modules,
+    widget_modules,
+)
 
 core_modules = {
     'previous_post_link': base_modules.PreviousPostLink,
@@ -45,8 +50,8 @@ core_modules = {
     'entity_pager': base_modules.EntityPager,
     'entity_download_user': base_modules.Entity2UserPager,
     'entity_download_list': base_modules.Entity2Pager,
-    'entity_download_count' : base_modules.Entity2DownloadCount,
-    'entity_get_post' : base_modules.EntityGetPost,
+    'entity_download_count': base_modules.Entity2DownloadCount,
+    'entity_get_post': base_modules.EntityGetPost,
     'app_title': base_modules.AppTitle,
     'user_name_by_id': base_modules.UserName,
     'reply_post_by_id': base_modules.ReplyPostById,
@@ -63,7 +68,6 @@ core_modules = {
     'nullify_pager': base_modules.Nullify_pager,
     'comment_num': base_modules.Comment_num,
     'comment_pager': base_modules.Comment_pager,
-
     # widget
     'reply_panel': widget_modules.ReplyPanel,
     'reply_panel_index': widget_modules.ReplyPanelIndex,
@@ -76,7 +80,6 @@ core_modules = {
     'upload_pic': widget_modules.UploadPicture,
     'upload_file': widget_modules.UploadFile,
     'nav_menu': widget_modules.Navigation_menu,
-
     # Infor
     'app_catalog_of': info_modules.InfoCategory,
     'parentname': info_modules.ParentName,
@@ -94,7 +97,6 @@ core_modules = {
     'info_count': info_modules.InfoCount,
     'recent_access': info_modules.RecentAccess,
     'relate_doc': info_modules.RelateDoc,
-
     # Category
     'category_menu': category_modules.CategoryMenu,
     'category_name': category_modules.CategoryName,
@@ -110,6 +112,5 @@ core_modules = {
     'user_profile_by_id': widget_modules.Userprofile,
     'post_state': widget_modules.State,
     'check_pager': widget_modules.Check_pager,
-    'check_username_pager': widget_modules.Check_username_pager
-
+    'check_username_pager': widget_modules.Check_username_pager,
 }

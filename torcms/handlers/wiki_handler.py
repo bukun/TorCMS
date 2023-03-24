@@ -24,6 +24,7 @@ class WikiHandler(BaseHandler):
     '''
     Handler for wiki, and page.
     '''
+
     executor = ThreadPoolExecutor(2)
 
     def initialize(self, **kwargs):
@@ -66,11 +67,13 @@ class WikiHandler(BaseHandler):
             'pager': '',
             'title': 'Recent Pages',
         }
-        self.render('wiki_page/wiki_list.html',
-                    view=MWiki.query_recent(),
-                    format_date=tools.format_date,
-                    kwd=kwd,
-                    userinfo=self.userinfo)
+        self.render(
+            'wiki_page/wiki_list.html',
+            view=MWiki.query_recent(),
+            format_date=tools.format_date,
+            kwd=kwd,
+            userinfo=self.userinfo,
+        )
 
     def refresh(self):
         '''
@@ -80,11 +83,13 @@ class WikiHandler(BaseHandler):
             'pager': '',
             'title': '最近文档',
         }
-        self.render('wiki_page/wiki_list.html',
-                    view=MWiki.query_dated(16),
-                    format_date=tools.format_date,
-                    kwd=kwd,
-                    userinfo=self.userinfo)
+        self.render(
+            'wiki_page/wiki_list.html',
+            view=MWiki.query_dated(16),
+            format_date=tools.format_date,
+            kwd=kwd,
+            userinfo=self.userinfo,
+        )
 
     def view_or_add(self, title):
         '''
@@ -108,7 +113,10 @@ class WikiHandler(BaseHandler):
         Update the wiki.
         '''
         postinfo = MWiki.get_by_uid(uid)
-        if self.check_post_role()['EDIT'] or postinfo.user_name == self.get_current_user():
+        if (
+            self.check_post_role()['EDIT']
+            or postinfo.user_name == self.get_current_user()
+        ):
             pass
         else:
             return False
@@ -128,14 +136,16 @@ class WikiHandler(BaseHandler):
         # cele_gen_whoosh.delay()
         tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
 
-        self.redirect('/wiki/{0}'.format(
-            tornado.escape.url_escape(post_data['title'])))
+        self.redirect('/wiki/{0}'.format(tornado.escape.url_escape(post_data['title'])))
 
     @tornado.web.authenticated
     def to_edit(self, id_rec):
         wiki_rec = MWiki.get_by_uid(id_rec)
         # 用户具有管理权限，或文章是用户自己发布的。
-        if self.check_post_role()['EDIT'] or wiki_rec.user_name == self.get_current_user():
+        if (
+            self.check_post_role()['EDIT']
+            or wiki_rec.user_name == self.get_current_user()
+        ):
             pass
         else:
             return False
@@ -143,10 +153,12 @@ class WikiHandler(BaseHandler):
         kwd = {
             'pager': '',
         }
-        self.render('wiki_page/wiki_edit.html',
-                    kwd=kwd,
-                    postinfo=wiki_rec,
-                    userinfo=self.userinfo)
+        self.render(
+            'wiki_page/wiki_edit.html',
+            kwd=kwd,
+            postinfo=wiki_rec,
+            userinfo=self.userinfo,
+        )
 
     @privilege.auth_view
     def view(self, view):
@@ -158,10 +170,9 @@ class WikiHandler(BaseHandler):
             'editable': self.editable(),
         }
         MWiki.update_view_count(view.uid)
-        self.render('wiki_page/wiki_view.html',
-                    postinfo=view,
-                    kwd=kwd,
-                    userinfo=self.userinfo)
+        self.render(
+            'wiki_page/wiki_view.html', postinfo=view, kwd=kwd, userinfo=self.userinfo
+        )
 
     def to_add(self, title):
         kwd = {
@@ -194,10 +205,7 @@ class WikiHandler(BaseHandler):
         post_data['user_name'] = self.get_current_user()
 
         if len(post_data['title'].strip()) < 2:
-            kwd = {
-                'info': 'Title cannot be less than 2 characters',
-                'link': '/'
-            }
+            kwd = {'info': 'Title cannot be less than 2 characters', 'link': '/'}
             self.render('misc/html/404.html', userinfo=self.userinfo, kwd=kwd)
 
         if MWiki.get_by_wiki(post_data['title']):
@@ -208,5 +216,4 @@ class WikiHandler(BaseHandler):
         tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
         # cele_gen_whoosh.delay()
 
-        self.redirect('/wiki/{0}'.format(
-            tornado.escape.url_escape(post_data['title'])))
+        self.redirect('/wiki/{0}'.format(tornado.escape.url_escape(post_data['title'])))

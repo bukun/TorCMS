@@ -6,10 +6,11 @@ from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import TabLink
 
 
-class MLink():
+class MLink:
     '''
     For friends links.
     '''
+
     @staticmethod
     def get_counts():
         '''
@@ -69,11 +70,13 @@ class MLink():
         except Exception as err:
             print(repr(err))
             the_order = 999
-        TabLink.create(name=post_data['name'],
-                       link=post_data['link'],
-                       order=the_order,
-                       logo=post_data['logo'] if 'logo' in post_data else '',
-                       uid=id_link)
+        TabLink.create(
+            name=post_data['name'],
+            link=post_data['link'],
+            order=the_order,
+            logo=post_data['logo'] if 'logo' in post_data else '',
+            uid=id_link,
+        )
         return id_link
 
     @staticmethod

@@ -85,7 +85,6 @@ def gen_html_dic():
         else:
             return False
 
-
         for wk_sheet in WORK_BOOK:
             for column in FILTER_COLUMNS:
                 kkey, kval = __write_filter_dic(wk_sheet, column)
@@ -114,7 +113,6 @@ def gen_array_crud():
             return False
 
         papa_id = 0
-
 
         for work_sheet in WORK_BOOK:
             kind_sig = str(work_sheet['A1'].value).strip()
@@ -157,6 +155,5 @@ def __get_switch_arr(work_sheet, row_num):
         cell_val = work_sheet['{0}{1}'.format(col_idx, row_num)].value
         if cell_val in [1, '1']:
             # Appending the slug name of the switcher.
-            u_dic.append(
-                work_sheet['{0}1'.format(col_idx)].value.strip().split(',')[0])
+            u_dic.append(work_sheet['{0}1'.format(col_idx)].value.strip().split(',')[0])
     return u_dic

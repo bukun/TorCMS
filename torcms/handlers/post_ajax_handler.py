@@ -127,7 +127,6 @@ class PostAjaxHandler(PostHandler):
         self.set_header("Access-Control-Allow-Headers", "x-requested-with")
         self.set_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
 
-
     def get(self, *args, **kwargs):
         url_str = args[0]
         url_arr = self.parse_url(args[0])
@@ -175,7 +174,7 @@ class PostAjaxHandler(PostHandler):
             'uid': postinfo.uid,
             'time_update': postinfo.time_update,
             'title': postinfo.title,
-            'cnt_html': tornado.escape.xhtml_unescape(postinfo.cnt_html)
+            'cnt_html': tornado.escape.xhtml_unescape(postinfo.cnt_html),
         }
         self.write(json.dumps(out_json))
 
@@ -218,7 +217,8 @@ class PostAjaxHandler(PostHandler):
             kwd=kwd,
             view=MPost.query_recent(num=num, kind=kind),
             infos=MPost.query_pager_by_slug(
-                kind=kind, current_page_num=current_page_number),
+                kind=kind, current_page_num=current_page_number
+            ),
             format_date=tools.format_date,
             userinfo=self.userinfo,
             cfg=CMS_CFG,
@@ -242,7 +242,7 @@ class PostAjaxHandler(PostHandler):
                 'del_info': 1,
                 'cat_slug': tslug.slug,
                 'cat_id': tslug.uid,
-                'kind': current_infor.kind
+                'kind': current_infor.kind,
             }
         else:
             output = {
@@ -268,7 +268,7 @@ class PostAjaxHandler(PostHandler):
                 'nullify_info': 1,
                 'cat_slug': tslug.slug,
                 'cat_id': tslug.uid,
-                'kind': current_infor.kind
+                'kind': current_infor.kind,
             }
         else:
             output = {
@@ -317,10 +317,7 @@ class PostAjaxHandler(PostHandler):
         title = post_data['title'].strip()
 
         if len(title) < 2:
-            output = {
-                'info': 'Title cannot be less than 2 characters',
-                'code': '0'
-            }
+            output = {'info': 'Title cannot be less than 2 characters', 'code': '0'}
             return json.dump(output, self)
 
         if 'valid' in post_data:
@@ -332,10 +329,7 @@ class PostAjaxHandler(PostHandler):
         if 'gcat0' in post_data:
             pass
         else:
-            output = {
-                'info': 'Please select a category',
-                'code': '-1'
-            }
+            output = {'info': 'Please select a category', 'code': '-1'}
             return json.dump(output, self)
         ext_dic['def_uid'] = uid  # 此 key 用于更新文档时在历史记录中跟踪原 uid .
         ext_dic['gcat0'] = post_data['gcat0']
@@ -354,11 +348,7 @@ class PostAjaxHandler(PostHandler):
         # cele_gen_whoosh.delay()
 
         tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
-        output = {
-            'info': 'Added successfully',
-            'code': '1',
-            'uid': uid
-        }
+        output = {'info': 'Added successfully', 'code': '1', 'uid': uid}
         return json.dump(output, self)
 
     def __parse_post_data(self):
@@ -368,7 +358,11 @@ class PostAjaxHandler(PostHandler):
         post_data = {}
         ext_dic = {}
         for key in self.request.arguments:
-            if key.startswith('ext_') or key.startswith('tag_') or key.startswith('_tag_'):
+            if (
+                key.startswith('ext_')
+                or key.startswith('tag_')
+                or key.startswith('_tag_')
+            ):
                 ext_dic[key] = self.get_argument(key, default='')
             else:
                 post_data[key] = self.get_arguments(key)[0]
@@ -380,8 +374,7 @@ class PostAjaxHandler(PostHandler):
 
         if 'tags' in post_data:
             ext_dic['def_tag_arr'] = [
-                x.strip()
-                for x in post_data['tags'].strip().strip(',').split(',')
+                x.strip() for x in post_data['tags'].strip().strip(',').split(',')
             ]
         ext_dic = dict(ext_dic, **self.ext_post_data(postdata=post_data))
 
@@ -411,15 +404,12 @@ class PostAjaxHandler(PostHandler):
                 'rating': postinfo.rating,
                 'valid': postinfo.valid,
                 'order': postinfo.order,
-                'extinfo': postinfo.extinfo
+                'extinfo': postinfo.extinfo,
             }
 
             return json.dump(output, self)
         else:
-            output = {
-                'code': '0',
-                'info': 'failed'
-            }
+            output = {'code': '0', 'info': 'failed'}
             return json.dump(output, self)
 
     @tornado.web.authenticated
@@ -442,10 +432,7 @@ class PostAjaxHandler(PostHandler):
         if 'gcat0' in post_data:
             pass
         else:
-            output = {
-                'info': 'Please select a category',
-                'code': '-1'
-            }
+            output = {'info': 'Please select a category', 'code': '-1'}
             return json.dump(output, self)
 
         if 'valid' in post_data:
@@ -483,7 +470,6 @@ class PostAjaxHandler(PostHandler):
             'code': '1',
             'info': 'successful',
             'uid': postinfo.uid,
-
         }
 
         return json.dump(output, self)
@@ -536,7 +522,7 @@ class PostAjaxHandler(PostHandler):
                     'rating': rec.rating,
                     'valid': rec.valid,
                     'order': rec.order,
-                    'extinfo': rec.extinfo
+                    'extinfo': rec.extinfo,
                 }
             )
 
@@ -545,7 +531,6 @@ class PostAjaxHandler(PostHandler):
             'info': 'successful',
             'recs': rec_arr,
             'current_page_number': current_page_number,
-
         }
 
         return json.dump(output, self)

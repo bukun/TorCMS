@@ -18,5 +18,6 @@ class BaseModel(peewee.Model):
         '''
         meta
         '''
+
         # pylint: disable=no-value-for-parameter
         database = config.DB_CON

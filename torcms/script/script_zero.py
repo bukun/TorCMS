@@ -25,7 +25,9 @@ CREATE DATABASE {db} OWNER {db} ;
 GRANT ALL PRIVILEGES ON DATABASE {db} to {db} ;
 \c {db} ;
 create extension hstore;
-    '''.format(db=DB_CFG['db'], passwd=DB_CFG['pass'])
+    '''.format(
+        db=DB_CFG['db'], passwd=DB_CFG['pass']
+    )
 
     with open('xx_create_db.sql', 'w') as fo:
         fo.write(the_str)

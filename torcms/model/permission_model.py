@@ -6,7 +6,7 @@ from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import TabPermission
 
 
-class MPermission():
+class MPermission:
     '''
     For friends links.
     '''
@@ -56,8 +56,7 @@ class MPermission():
         entry = TabPermission.update(
             name=post_data['name'],
             controller=post_data.get('controller', raw_rec.controller),
-            action=post_data.get('action', raw_rec.action)
-
+            action=post_data.get('action', raw_rec.action),
         ).where(TabPermission.uid == uid)
         try:
             entry.execute()
@@ -79,6 +78,6 @@ class MPermission():
                 uid=uid,
                 name=post_data['name'],
                 controller=post_data.get('controller', '0'),
-                action=post_data.get('action', '0')
+                action=post_data.get('action', '0'),
             )
         return uid

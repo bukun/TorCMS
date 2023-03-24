@@ -61,4 +61,5 @@ class NullifyInfoHandler(BaseHandler):
             userinfo=self.userinfo,
             cfg=CMS_CFG,
             kwd=kwd,
-            router_post=router_post)
+            router_post=router_post,
+        )

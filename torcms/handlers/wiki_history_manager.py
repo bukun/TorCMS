@@ -58,10 +58,12 @@ class WikiHistoryHandler(EditHistoryHander):
         else:
             return False
         kwd = {}
-        self.render('man_info/wiki_man_edit.html',
-                    userinfo=self.userinfo,
-                    postinfo=MWiki.get_by_uid(postid),
-                    kwd=kwd)
+        self.render(
+            'man_info/wiki_man_edit.html',
+            userinfo=self.userinfo,
+            postinfo=MWiki.get_by_uid(postid),
+            kwd=kwd,
+        )
 
     @tornado.web.authenticated
     def delete(self, uid):
@@ -106,21 +108,24 @@ class WikiHistoryHandler(EditHistoryHander):
                 post_words_num = len((postinfo.cnt_md).strip())
                 up_words_num = post_words_num - hist_words_num
 
-                html_diff_arr.append({
-                    'hist_uid': hist_rec.uid,
-                    'html_diff': infobox,
-                    'hist_user': hist_user,
-                    'hist_time': hist_time,
-                    'up_words_num': up_words_num
-                })
+                html_diff_arr.append(
+                    {
+                        'hist_uid': hist_rec.uid,
+                        'html_diff': infobox,
+                        'hist_user': hist_user,
+                        'hist_time': hist_time,
+                        'up_words_num': up_words_num,
+                    }
+                )
 
         kwd = {}
-        self.render('man_info/wiki_man_view.html',
-                    userinfo=self.userinfo,
-                    postinfo=postinfo,
-                    html_diff_arr=html_diff_arr,
-                    kwd=kwd)
-
+        self.render(
+            'man_info/wiki_man_view.html',
+            userinfo=self.userinfo,
+            postinfo=postinfo,
+            html_diff_arr=html_diff_arr,
+            kwd=kwd,
+        )
 
     @tornado.web.authenticated
     def restore(self, hist_uid):
@@ -141,15 +146,13 @@ class WikiHistoryHandler(EditHistoryHander):
         cur_cnt = tornado.escape.xhtml_unescape(postinfo.cnt_md)
         old_cnt = tornado.escape.xhtml_unescape(histinfo.cnt_md)
 
-        MWiki.update_cnt(histinfo.wiki_id, {
-            'cnt_md': old_cnt,
-            'user_name': self.userinfo.user_name
-        })
+        MWiki.update_cnt(
+            histinfo.wiki_id, {'cnt_md': old_cnt, 'user_name': self.userinfo.user_name}
+        )
 
-        MWikiHist.update_cnt(histinfo.uid, {
-            'cnt_md': cur_cnt,
-            'user_name': postinfo.user_name
-        })
+        MWikiHist.update_cnt(
+            histinfo.uid, {'cnt_md': cur_cnt, 'user_name': postinfo.user_name}
+        )
 
         if postinfo.kind == '1':
             self.redirect('/wiki/{0}'.format(postinfo.title))

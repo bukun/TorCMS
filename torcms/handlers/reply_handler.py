@@ -78,17 +78,13 @@ class ReplyHandler(BaseHandler):
         提问
         '''
 
-        kwd = {
-
-        }
+        kwd = {}
         if self.is_p:
-            self.render('admin/reply_ajax/reply_add.html',
-                        kwd=kwd,
-                        userinfo=self.userinfo)
+            self.render(
+                'admin/reply_ajax/reply_add.html', kwd=kwd, userinfo=self.userinfo
+            )
         else:
-            self.render('misc/reply/reply_add.html',
-                        kwd=kwd,
-                        userinfo=self.userinfo)
+            self.render('misc/reply/reply_add.html', kwd=kwd, userinfo=self.userinfo)
 
     def list(self, cur_p=''):
         '''
@@ -118,9 +114,11 @@ class ReplyHandler(BaseHandler):
             'current_page': current_page_number,
             'title': '单页列表',
             'num_of_reply': MReply.total_number(),
-            'ext_field': ext_field
+            'ext_field': ext_field,
         }
-        infos = MReply.query_pager(current_page_num=current_page_number, ext_field=ext_field)
+        infos = MReply.query_pager(
+            current_page_num=current_page_number, ext_field=ext_field
+        )
         info_count = MReply.total_number(ext_field=ext_field)
         if isjson:
             list = []
@@ -134,14 +132,12 @@ class ReplyHandler(BaseHandler):
                     'user_name': rec.user_name,
                     'vote': rec.vote,
                     'curp': current_page_number,
-                    'extinfo': rec.extinfo
+                    'extinfo': rec.extinfo,
                 }
 
                 list.append(dic)
 
-            out_dict = {
-                'results': list
-            }
+            out_dict = {'results': list}
 
             return json.dump(out_dict, self, cls=DateEncoder, ensure_ascii=False)
         elif self.is_p:
@@ -151,7 +147,8 @@ class ReplyHandler(BaseHandler):
                 view_all=MReply.query_all(),
                 infos=infos,
                 info_count=info_count,
-                userinfo=self.userinfo)
+                userinfo=self.userinfo,
+            )
         else:
             self.render(
                 'misc/reply/reply_list.html',
@@ -159,7 +156,8 @@ class ReplyHandler(BaseHandler):
                 view_all=MReply.query_all(),
                 infos=infos,
                 info_count=info_count,
-                userinfo=self.userinfo)
+                userinfo=self.userinfo,
+            )
 
     def get_by_id(self, reply_id):
         '''
@@ -182,39 +180,41 @@ class ReplyHandler(BaseHandler):
                 'category': reply.category,
                 'user_name': reply.user_name,
                 'vote': reply.vote,
-                'extinfo': reply.extinfo
+                'extinfo': reply.extinfo,
             }
 
             list.append(dic)
 
-            out_dict = {
-                'results': list
-            }
+            out_dict = {'results': list}
 
             return json.dump(out_dict, self, cls=DateEncoder, ensure_ascii=False)
 
         elif self.is_p:
-            self.render('admin/reply_ajax/show_reply.html',
-                        reply=reply,
-                        username=reply.user_name,
-                        date=reply.date,
-                        vote=reply.vote,
-                        uid=reply.uid,
-                        isreply=isreply,
-                        userinfo=self.userinfo,
-                        kwd={})
+            self.render(
+                'admin/reply_ajax/show_reply.html',
+                reply=reply,
+                username=reply.user_name,
+                date=reply.date,
+                vote=reply.vote,
+                uid=reply.uid,
+                isreply=isreply,
+                userinfo=self.userinfo,
+                kwd={},
+            )
         else:
-            self.render('misc/reply/show_reply.html',
-                        reply=reply,
-                        username=reply.user_name,
-                        date=reply.date,
-                        vote=reply.vote,
-                        uid=reply.uid,
-                        isreply=isreply,
-                        userinfo=self.userinfo,
-                        kwd={})
+            self.render(
+                'misc/reply/show_reply.html',
+                reply=reply,
+                username=reply.user_name,
+                date=reply.date,
+                vote=reply.vote,
+                uid=reply.uid,
+                isreply=isreply,
+                userinfo=self.userinfo,
+                kwd={},
+            )
 
-    def get_by_post(self, post_id, num='',**kwargs):
+    def get_by_post(self, post_id, num='', **kwargs):
 
         list = []
         replys = MReply.query_by_post(post_id, reply_count=num)
@@ -230,17 +230,14 @@ class ReplyHandler(BaseHandler):
                     'category': reply.category,
                     'user_name': reply.user_name,
                     'vote': reply.vote,
-                    'extinfo': reply.extinfo
+                    'extinfo': reply.extinfo,
                 }
                 list.append(dic)
         else:
-            dic={}
+            dic = {}
             list.append(dic)
 
-
-        out_dict = {
-            'results': list
-        }
+        out_dict = {'results': list}
 
         return json.dump(out_dict, self, cls=DateEncoder, ensure_ascii=False)
 
@@ -250,14 +247,16 @@ class ReplyHandler(BaseHandler):
         '''
         reply = MReply.get_by_uid(reply_id)
 
-        self.render('misc/reply/show_reply_more.html',
-                    reply=reply,
-                    username=reply.user_name,
-                    date=reply.date,
-                    vote=reply.vote,
-                    uid=reply.uid,
-                    userinfo=self.userinfo,
-                    kwd={})
+        self.render(
+            'misc/reply/show_reply_more.html',
+            reply=reply,
+            username=reply.user_name,
+            date=reply.date,
+            vote=reply.vote,
+            uid=reply.uid,
+            userinfo=self.userinfo,
+            kwd={},
+        )
 
     def get_by_id_comment(self, reply_id):
         '''
@@ -279,26 +278,26 @@ class ReplyHandler(BaseHandler):
                 'category': reply.category,
                 'user_name': reply.user_name,
                 'vote': reply.vote,
-                'extinfo': reply.extinfo
+                'extinfo': reply.extinfo,
             }
 
             list.append(dic)
 
-            out_dict = {
-                'results': list
-            }
+            out_dict = {'results': list}
 
             return json.dump(out_dict, self, cls=DateEncoder, ensure_ascii=False)
 
         else:
-            self.render('misc/reply/show_comment.html',
-                        reply=reply,
-                        username=reply.user_name,
-                        date=reply.date,
-                        vote=reply.vote,
-                        uid=reply.uid,
-                        userinfo=self.userinfo,
-                        kwd={})
+            self.render(
+                'misc/reply/show_comment.html',
+                reply=reply,
+                username=reply.user_name,
+                date=reply.date,
+                vote=reply.vote,
+                uid=reply.uid,
+                userinfo=self.userinfo,
+                kwd={},
+            )
 
     def get_by_user(self, user_id, cur_p=''):
         '''
@@ -328,14 +327,13 @@ class ReplyHandler(BaseHandler):
             'current_page': current_page_number,
             'title': '单页列表',
             'num_of_reply': MReply.total_number(),
-            'ext_field': ext_field
+            'ext_field': ext_field,
         }
-        reply = MReply.query_pager(current_page_num=current_page_number, ext_field=ext_field, user_id=user_id)
+        reply = MReply.query_pager(
+            current_page_num=current_page_number, ext_field=ext_field, user_id=user_id
+        )
 
-        kwd = {'current_page': 1,
-               'ext_field': '',
-               'user_id': user_id
-               }
+        kwd = {'current_page': 1, 'ext_field': '', 'user_id': user_id}
         if reply:
             postdata = self.get_request_arguments()
             isjson = postdata.get('isjson', False)
@@ -351,29 +349,29 @@ class ReplyHandler(BaseHandler):
                     'category': reply.category,
                     'user_name': reply.user_name,
                     'vote': reply.vote,
-                    'extinfo': reply.extinfo
+                    'extinfo': reply.extinfo,
                 }
 
                 list.append(dic)
 
-                out_dict = {
-                    'results': list
-                }
+                out_dict = {'results': list}
 
                 return json.dump(out_dict, self, cls=DateEncoder, ensure_ascii=False)
 
             else:
-                self.render('misc/reply/user_reply_list.html',
-                            reply=reply,
-                            userinfo=self.userinfo,
-                            kwd=kwd
-                            )
+                self.render(
+                    'misc/reply/user_reply_list.html',
+                    reply=reply,
+                    userinfo=self.userinfo,
+                    kwd=kwd,
+                )
         else:
-            self.render('misc/reply/user_reply_list.html',
-                        reply='',
-                        userinfo=self.userinfo,
-                        kwd=kwd
-                        )
+            self.render(
+                'misc/reply/user_reply_list.html',
+                reply='',
+                userinfo=self.userinfo,
+                kwd=kwd,
+            )
 
     def add(self, post_id):
         '''
@@ -391,7 +389,7 @@ class ReplyHandler(BaseHandler):
                 'pinglun': post_data['cnt_reply'],
                 'uid': replyid,
                 'user_name': post_data['user_name'],
-                'category': post_data['category']
+                'category': post_data['category'],
             }
             logger.info('add reply result dic: {0}'.format(out_dic))
             return json.dump(out_dic, self, ensure_ascii=False)
@@ -415,7 +413,7 @@ class ReplyHandler(BaseHandler):
                 'category': post_data['category'],
                 'ext_field': ext_data.get('ext_field'),
                 'thumbnail': ext_data.get('ext_logo'),
-                'video': ext_data.get('ext_file')
+                'video': ext_data.get('ext_file'),
             }
             logger.info('add reply result dic: {0}'.format(out_dic))
             return json.dump(out_dic, self, ensure_ascii=False)
@@ -510,7 +508,7 @@ class ReplyHandler(BaseHandler):
                 'pinglun': post_data['cnt_reply'],
                 'uid': replyid,
                 'user_name': post_data['user_name'],
-                'category': post_data['category']
+                'category': post_data['category'],
             }
             logger.info('add reply result dic: {0}'.format(out_dic))
             return json.dump(out_dic, self, ensure_ascii=False)
@@ -530,7 +528,7 @@ class ReplyHandler(BaseHandler):
                 'pinglun': post_data['cnt_reply'],
                 'uid': reply,
                 'user_name': post_data['user_name'],
-                'category': post_data['category']
+                'category': post_data['category'],
             }
             logger.info('Modify reply result dic: {0}'.format(out_dic))
             return json.dump(out_dic, self, ensure_ascii=False)

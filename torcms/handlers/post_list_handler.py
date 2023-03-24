@@ -85,11 +85,13 @@ class PostListHandler(BaseHandler):
             else:
                 outrecs.append(postinfo)
                 idx += 1
-        self.render('list/errcat.html',
-                    kwd={},
-                    norecs=outrecs,
-                    errrecs=errrecs,
-                    userinfo=self.userinfo)
+        self.render(
+            'list/errcat.html',
+            kwd={},
+            norecs=outrecs,
+            errrecs=errrecs,
+            userinfo=self.userinfo,
+        )
 
     def refresh(self):
         '''
@@ -99,10 +101,12 @@ class PostListHandler(BaseHandler):
             'pager': '',
             'title': '',
         }
-        self.render('list/post_list.html',
-                    kwd=kwd,
-                    userinfo=self.userinfo,
-                    view=MPost.query_dated(10),
-                    postrecs=MPost.query_dated(10),
-                    format_date=tools.format_date,
-                    cfg=CMS_CFG)
+        self.render(
+            'list/post_list.html',
+            kwd=kwd,
+            userinfo=self.userinfo,
+            view=MPost.query_dated(10),
+            postrecs=MPost.query_dated(10),
+            format_date=tools.format_date,
+            cfg=CMS_CFG,
+        )
