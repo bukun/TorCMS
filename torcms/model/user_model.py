@@ -209,6 +209,27 @@ class MUser():
         return out_dic
 
     @staticmethod
+    def update_extinfo(user_id, extinfo):
+
+        out_dic = {'success': False, 'code': '00'}
+        print("-" * 50)
+        print(extinfo)
+        cur_info = MUser.get_by_uid(user_id)
+        cur_extinfo = cur_info.extinfo
+        for key in extinfo:
+            cur_extinfo[key] = extinfo[key]
+
+        try:
+            entry = TabMember.update(extinfo=cur_extinfo).where(TabMember.uid == user_id)
+            entry.execute()
+            out_dic['success'] = True
+        except Exception as err:
+            print(repr(err))
+            out_dic['code'] = '91'
+
+        return out_dic
+
+    @staticmethod
     def update_time_reset_passwd(user_name, the_time):
         '''
         Update the time when user reset passwd.
@@ -453,7 +474,8 @@ class MUser():
         '''
         if type:
 
-            return TabMember.select().where(TabMember.extinfo['ext_type'] == type).order_by(TabMember.time_create.desc()).paginate(
+            return TabMember.select().where(TabMember.extinfo['ext_type'] == type).order_by(
+                TabMember.time_create.desc()).paginate(
                 current_page_num, num)
         else:
             return TabMember.select().paginate(

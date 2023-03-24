@@ -152,23 +152,53 @@ class UserApi(BaseHandler):
             self.login()
         elif url_arr[0] == '_edit':
             # 修改用户角色
-            self.user_edit_role(url_arr[1])
+            self.user_edit_role()
         elif url_arr[0] == '_delete':
             self.delete_user(url_arr[1]),
         elif url_arr[0] == 'changerole':
             self.__change_role__(url_arr[1])
 
-    def user_edit_role(self, uid):
+    def user_edit_role(self):
         '''
         Modify user infomation.
         '''
 
         post_data = json.loads(self.request.body)
-        roles = post_data['ext_role'].split(",")
+        user_id = post_data['uid']
+        if 'ext_role0' in post_data:
+            pass
+        else:
+            return False
 
-        for role in roles:
-            MStaff2Role.add_or_update(post_data['uid'], role)
+        the_roles_arr = []
+
+        def_roles_arr = ['ext_role{0}'.format(x) for x in range(10)]
+        for key in def_roles_arr:
+            if key not in post_data:
+                continue
+            if post_data[key] == '' or post_data[key] == '0':
+                continue
+
+            if post_data[key] in the_roles_arr:
+                continue
+
+            the_roles_arr.append(post_data[key] + ' ' * (4 - len(post_data[key])))
+
+        for index, idx_catid in enumerate(the_roles_arr):
+            roles = idx_catid.split(",")
+            for role in roles:
+                MStaff2Role.add_or_update(user_id, role)
+
+        current_roles = MStaff2Role.query_by_staff(user_id).objects()
+        for cur_role in current_roles:
+            if cur_role.role not in the_roles_arr:
+                MStaff2Role.remove_relation(user_id, cur_role.role)
+        extinfo = {
+            "roles": the_roles_arr
+        }
+        MUser.update_extinfo(user_id, extinfo)
         MUser.update_permissions(post_data['user_name'])
+
         user_edit_role = {
             'success': 'true'
         }
