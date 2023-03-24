@@ -68,7 +68,10 @@ class RoleHandler(BaseHandler):
 
     def getpid(self):
 
-        dics = []
+        dics = [{
+            "label": "无",
+            "value": "0000"
+        }]
         recs = MRole.query_all()
 
         for rec in recs:
@@ -161,20 +164,38 @@ class RoleHandler(BaseHandler):
                 'time_create': tools.format_time(rec.time_create),
                 'time_update': tools.format_time(rec.time_update)
             }
-            childrens = MRole.get_by_pid(rec.uid)
-            chid_dics = []
-            for children in childrens:
-                chid_rec = {
-                    "uid": children.uid,
-                    "name": children.name,
-                    'status': children.status,
-                    'pid': children.pid,
-                    'time_create': tools.format_time(children.time_create),
-                    'time_update': tools.format_time(children.time_update)
+            childrens1 = MRole.get_by_pid(rec.uid)
+            chid_dics1 = []
+            for children1 in childrens1:
+
+                chid1_rec = {
+                    "uid": children1.uid,
+                    "name": children1.name,
+                    'status': children1.status,
+                    'pid': children1.pid,
+                    'time_create': tools.format_time(children1.time_create),
+                    'time_update': tools.format_time(children1.time_update)
                 }
-                chid_dics.append(chid_rec)
-            if chid_dics:
-                dic['children'] = chid_dics
+
+                childrens2 = MRole.get_by_pid(children1.uid)
+                chid_dics2 = []
+                for child2 in childrens2:
+                    chid2_rec = {
+                        "uid": child2.uid,
+                        "name": child2.name,
+                        'status': child2.status,
+                        'pid': child2.pid,
+                        'time_create': tools.format_time(child2.time_create),
+                        'time_update': tools.format_time(child2.time_update)
+                    }
+
+                    chid_dics2.append(chid2_rec)
+                if chid_dics2:
+                    chid1_rec['children'] = chid_dics2
+
+                chid_dics1.append(chid1_rec)
+            if chid_dics1:
+                dic['children'] = chid_dics1
 
             dics.append(dic)
         out_dict = {
@@ -216,10 +237,9 @@ class RoleHandler(BaseHandler):
         post_data = json.loads(self.request.body)
         per_dics = post_data.get('permission', '').split(",")
 
-        recs = MRole.get_by_uid(uid)
+        recs = MRole2Permission.query_by_role(uid)
 
         for rec in recs:
-            print(rec.uid)
             MRole2Permission.remove_relation(uid, rec.permission)
 
         if MRole.update(uid, post_data):

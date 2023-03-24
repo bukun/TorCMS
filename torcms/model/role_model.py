@@ -27,7 +27,7 @@ class MRole():
         '''
         Return some of the records. Not all.
         '''
-        return TabRole.select().order_by(TabRole.time_create.desc()).paginate(
+        return TabRole.select().where(TabRole.pid=='0000').order_by(TabRole.time_create.desc()).paginate(
             current_page_num, perPage)
 
     @staticmethod
