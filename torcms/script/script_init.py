@@ -16,7 +16,7 @@ from .script_gen_role_permission import run_gen_role_permission
 from pathlib import Path
 
 XLSX_FILE = './database/role_perm.xlsx'
-XLSX_FILE1 = '../../database/role_perm.xlsx'
+
 
 
 def run_init(*args):
@@ -36,7 +36,7 @@ def run_init(*args):
 
     run_init_tables()
 
-    if Path(XLSX_FILE).exists() or Path(XLSX_FILE).exists():
+    if Path(XLSX_FILE).exists():
         run_gen_role_permission()
 
     run_gen_category()
