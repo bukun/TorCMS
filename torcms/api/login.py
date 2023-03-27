@@ -21,7 +21,6 @@ from torcms.core.tool.send_email import send_mail
 from torcms.core.tools import logger
 from torcms.model.user_model import MUser
 from torcms.model.staff2role_model import MStaff2Role
-from torcms.model.permission_model import MPermission
 from torcms.model.role2permission_model import MRole2Permission
 
 
@@ -106,7 +105,7 @@ class UserApi(BaseHandler):
     def initialize(self, **kwargs):
         super().initialize()
         self.is_p = False
-        # self.kind ='u'
+        self.kind = 'u'
 
     def get(self, *args, **kwargs):
 
@@ -534,6 +533,9 @@ class UserApi(BaseHandler):
         '''
         delete user by ID.
         '''
+        del_recs = MStaff2Role.query_by_staff(user_id)
+        for del_rec in del_recs:
+            MStaff2Role.remove_relation(del_rec.staff, del_rec.row)
 
         if MUser.delete(user_id):
             output = {'del_user': 1}

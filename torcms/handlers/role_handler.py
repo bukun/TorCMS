@@ -284,6 +284,9 @@ class RoleHandler(BaseHandler):
         '''
         Delete a link by id.
         '''
+        del_roles = MRole2Permission.query_by_role(del_id)
+        for del_role in del_roles:
+            MRole2Permission.remove_relation(del_role.role, del_role.permission)
 
         if MRole.delete(del_id):
             output = {'del_link': 1}

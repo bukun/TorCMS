@@ -12,7 +12,7 @@ from config import CMS_CFG
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
 from torcms.model.permission_model import MPermission
-
+from torcms.model.role2permission_model import MRole2Permission
 
 class PermissionHandler(BaseHandler):
     '''
@@ -172,9 +172,9 @@ class PermissionHandler(BaseHandler):
 
         post_data = json.loads(self.request.body)
 
-        cur_uid = tools.get_uudd(2)
+        cur_uid = post_data.get('uid', tools.get_uudd(4))
         while MPermission.get_by_uid(cur_uid):
-            cur_uid = tools.get_uudd(2)
+            cur_uid = tools.get_uudd(4)
 
         if MPermission.add_or_update(cur_uid, post_data):
             output = {
@@ -191,6 +191,9 @@ class PermissionHandler(BaseHandler):
         '''
         Delete a link by id.
         '''
+        del_roles=MRole2Permission.query_by_permission(del_id)
+        for del_role in del_roles:
+            MRole2Permission.remove_relation(del_role.role,del_role.permission)
 
         if MPermission.delete(del_id):
             output = {'del_link': 1}

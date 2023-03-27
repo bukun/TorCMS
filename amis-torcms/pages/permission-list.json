@@ -18,6 +18,11 @@
           "api": "post:/api/permission/_add",
           "body": [
             {
+              "name": "uid",
+              "label": "uid",
+              "type": "input-text"
+            },
+            {
               "name": "name",
               "label": "权限名称",
               "type": "input-text"
@@ -183,6 +188,7 @@
                       "name": "permission-edit-form",
                       "api": "/api/permission/_edit/${uid}",
                       "body": [
+
                         {
                           "name": "name",
                           "label": "权限名称",
