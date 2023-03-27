@@ -150,7 +150,7 @@ class UserApi(BaseHandler):
         elif url_arr[0] == 'changerole':
             self.__change_role__(url_arr[1])
 
-    # @privilege.permission(action='assign_role')
+    @privilege.permission(action='assign_role')
     def user_edit_role(self):
         '''
         Modify user infomation.
@@ -214,6 +214,7 @@ class UserApi(BaseHandler):
         logger.info('user_register_status: {0}'.format(user_create_status))
         return json.dump(user_create_status, self)
 
+    @privilege.permission(action='assign_role')
     @tornado.web.authenticated
     def p_changepassword(self):
         '''
@@ -230,6 +231,7 @@ class UserApi(BaseHandler):
             output = {'changepass ': 0}
         return json.dump(output, self)
 
+    @privilege.permission(action='assign_role')
     @tornado.web.authenticated
     def p_changeinfo(self):
         '''
@@ -291,6 +293,7 @@ class UserApi(BaseHandler):
         _ = kwargs
         return {}
 
+    @privilege.permission(action='assign_role')
     @tornado.web.authenticated
     def __change_role__(self, xg_username):
         '''
@@ -365,6 +368,7 @@ class UserApi(BaseHandler):
 
         return json.dump(out_dict, self, ensure_ascii=False)
 
+    @privilege.permission(action='assign_role')
     @tornado.web.authenticated
     def __to_show_info__(self, userid=''):
         '''
@@ -392,6 +396,7 @@ class UserApi(BaseHandler):
 
         return json.dump(out_dict, self, ensure_ascii=False)
 
+    @privilege.permission(action='assign_role')
     def json_batchchangerole(self):
         '''
         Batch Modify Permission
@@ -474,6 +479,7 @@ class UserApi(BaseHandler):
             }
             return json.dump({'data': user_login_status, 'status': 0}, self)
 
+    @privilege.permission(action='assign_role')
     def __user_list__(self):
         '''
         find by keyword.
@@ -529,6 +535,7 @@ class UserApi(BaseHandler):
 
         return json.dump(out_dict, self, ensure_ascii=False)
 
+    @privilege.permission(action='assign_role')
     def delete_user(self, user_id):
         '''
         delete user by ID.
