@@ -2,7 +2,7 @@
 '''
 针对增删改查的权限进行处理。
 '''
-
+import json
 from config import ROLE_CFG
 from torcms.model.staff2role_model import MStaff2Role
 
@@ -206,15 +206,21 @@ def permission(action=''):
                     func(self, *args, **kwargs)
                 else:
                     kwd = {
-                        'info': 'No role',
+                        "ok":False,
+                        "status":404,
+                        "msg":"没有权限"
                     }
-                    self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
+                    # self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
+                    return json.dump(kwd, self)
             else:
-                kwd = {
-                    'info': 'No role',
-                }
-                self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
+                kwd = {
+                    "ok":False,
+                    "status":404,
+                    "msg":"没有权限"
+                }
+                # self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
+                return json.dump(kwd, self)
         return deco
 
     return wrapper
