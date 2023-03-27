@@ -200,6 +200,5 @@ def run():
     kind_arr = []
     for key, value in post_cfg.items():
         kind_arr.append(key)
-    print("*" * 50)
-    print(kind_arr)
+ 
     gen_whoosh_database(kind_arr=kind_arr)
