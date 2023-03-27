@@ -12,7 +12,7 @@ from whoosh.index import create_in, open_dir
 
 from torcms.model.post_model import MPost
 from torcms.model.wiki_model import MWiki
-from config import post_type, router_post, kind_arr, SITE_CFG
+from config import post_cfg, router_post, SITE_CFG
 
 try:
     from jieba.analyse import ChineseAnalyzer
@@ -98,7 +98,7 @@ class YunSearch:
             queryres = self.whbase.searcher().search(
                 queryit, limit=page_index * doc_per_page
             )
-            return queryres[(page_index - 1) * doc_per_page : page_index * doc_per_page]
+            return queryres[(page_index - 1) * doc_per_page: page_index * doc_per_page]
         finally:
             pass
 
@@ -115,16 +115,16 @@ def do_for_document(rand=True, kind='', _=None):
 
     for rec in recs:
         text2 = (
-            rec.title
-            + ','
-            + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
+                rec.title
+                + ','
+                + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
         )
 
         writer = TOR_IDX.writer()
         writer.update_document(
             catid='sid' + kind,
             title=rec.title,
-            type=post_type[rec.kind],
+            type=post_cfg[rec.kind]['html'],
             link='/{0}/{1}'.format(router_post[rec.kind], rec.uid),
             content=text2,
         )
@@ -139,16 +139,16 @@ def do_for_wiki(rand=True, _=''):
 
     for rec in recs:
         text2 = (
-            rec.title
-            + ','
-            + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
+                rec.title
+                + ','
+                + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
         )
 
         writer = TOR_IDX.writer()
         writer.update_document(
             title=rec.title,
             catid='sid1',
-            type=post_type['1'],
+            type=post_cfg['1']['html'],
             link='/wiki/{0}'.format(rec.title),
             content=text2,
         )
@@ -163,16 +163,16 @@ def do_for_page(rand=True, _=''):
 
     for rec in recs:
         text2 = (
-            rec.title
-            + ','
-            + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
+                rec.title
+                + ','
+                + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
         )
 
         writer = TOR_IDX.writer()
         writer.update_document(
             title=rec.title,
             catid='sid1',
-            type=post_type['1'],
+            type=post_cfg['1']['html'],
             link='/page/{0}'.format(rec.uid),
             content=text2,
         )
@@ -197,4 +197,9 @@ def run():
     '''
     Run it.
     '''
+    kind_arr = []
+    for key, value in post_cfg.items():
+        kind_arr.append(key)
+    print("*" * 50)
+    print(kind_arr)
     gen_whoosh_database(kind_arr=kind_arr)

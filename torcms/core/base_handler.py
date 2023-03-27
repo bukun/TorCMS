@@ -15,8 +15,7 @@ import torcms.core.tool.whoosh_tool
 
 from torcms.model.user_model import MUser
 
-from config import kind_arr, post_type
-from config import CMS_CFG
+from config import post_cfg
 
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -153,6 +152,9 @@ class BaseHandler(tornado.web.RequestHandler):
         '''
         Generat whoosh database.
         '''
+        kind_arr = []
+        for key, value in post_cfg.items():
+            kind_arr.append(key)
         torcms.core.tool.whoosh_tool.gen_whoosh_database(kind_arr=kind_arr)
 
     def get_host_ip(self):

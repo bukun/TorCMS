@@ -14,7 +14,7 @@ import tornado.gen
 import tornado.ioloop
 import tornado.web
 
-from config import router_post, check_type
+from config import router_post, post_cfg
 from torcms.core import privilege, tools
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tool.sqlite_helper import MAcces
@@ -457,7 +457,7 @@ class PostHandler(BaseHandler):
             recent_apps=recent_apps,
             cat_enum=cat_enum1,
             router=router_post[catinfo.kind],
-            post_type=check_type[catinfo.kind],
+            post_type=post_cfg[catinfo.kind].get('show', post_cfg[catinfo.kind].get('router')),
         )
 
     def _the_view_kwd(self, postinfo):
@@ -542,9 +542,9 @@ class PostHandler(BaseHandler):
         ext_dic = {}
         for key in self.request.arguments:
             if (
-                key.startswith('ext_')
-                or key.startswith('tag_')
-                or key.startswith('_tag_')
+                    key.startswith('ext_')
+                    or key.startswith('tag_')
+                    or key.startswith('_tag_')
             ):
                 ext_dic[key] = self.get_argument(key, default='')
             else:
@@ -674,10 +674,10 @@ class PostHandler(BaseHandler):
             approved_state_arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
             if len(approved_state_arr) > approved_count:
                 pstate = (
-                    postinfo.state[0]
-                    + '1'
-                    + str(approved_state_arr[approved_count])
-                    + '0'
+                        postinfo.state[0]
+                        + '1'
+                        + str(approved_state_arr[approved_count])
+                        + '0'
                 )
             else:
                 pstate = postinfo.state[0] + '190'

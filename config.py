@@ -29,35 +29,6 @@ email_cfg = {
 
 router_post = {"1": "post", "3": "info", "q": "topic", "v": "map-show", "k": "tutorial"}
 
-post_type = {
-    "1": """<span style="color:green;" class="glyphicon glyphicon-list-alt">[{0}]</span>
-        """.format(
-        "Document"
-    ),
-    "3": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>
-        """.format(
-        "Data"
-    ),
-    "q": """<span style="color:red;" class="glyphicon glyphicon-list-alt">[{0}]</span>
-            """.format(
-        "Topic"
-    ),
-    "v": """<span style="color:red;" class="glyphicon glyphicon-globe">[{0}]</span>
-            """.format(
-        "Map visualization"
-    ),
-    "k": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>
-        """.format(
-        "Tutorial"
-    ),
-}
-check_type = {
-    "1": "Document",
-    "3": "Infor",
-    "v": "Map visualization",
-    "k": "Tutorial",
-}
-
 post_cfg = {
     "1": {
         "router": "post",
@@ -65,6 +36,7 @@ post_cfg = {
             "Document"
         ),
         "checker": "1",
+        "show": "Document"
     },
     "3": {
         "router": "info",
@@ -72,6 +44,7 @@ post_cfg = {
             "Data"
         ),
         "checker": "10",  # '10', '100', '1000', '10000'
+        "show": "Data"
     },
     "v": {
         "router": "info",
@@ -79,6 +52,7 @@ post_cfg = {
             "Map visualization"
         ),
         "checker": "0",  # '10', '100', '1000', '10000'
+        "show": "Map visualization"
     },
     "k": {
         "router": "tutorial",
@@ -86,9 +60,9 @@ post_cfg = {
             "Tutorial"
         ),
         "checker": "10",  # '10', '100', '1000', '10000'
+        "show": "Tutorial"
     },
 }
-kind_arr = ["1", "3", "m", "s", "q", "v"]
 
 APP_MASK = ["g_drr", "9_todo_new", "9_todo_new5"]
 
@@ -98,10 +72,7 @@ for wdir in Path(".").iterdir():
         print(the_file)
         _mod = __import__(the_file)
         router_post = dict(router_post, **_mod._config._router_post)
-        post_type = dict(post_type, **_mod._config._post_type)
-        check_type = dict(check_type, **_mod._config._check_type)
         post_cfg = dict(post_cfg, **_mod._config._post_cfg)
-        # kind_arr = kind_arr + _mod.config._kind_arr
 
 
 class WidgetMenu(tornado.web.UIModule):
@@ -115,8 +86,8 @@ class WidgetMenu(tornado.web.UIModule):
 
         tmpl = '<li><a href="/{}/">{}</a></li>'
 
-        for key in check_type:
-            out_str = out_str + tmpl.format(router_post[key], check_type[key])
+        for key in post_cfg:
+            out_str = out_str + tmpl.format(router_post[key], post_cfg[key].get('show',post_cfg[key].get('router')))
 
         return out_str
 
@@ -131,10 +102,10 @@ class PublishListMenu(tornado.web.UIModule):
         str = args[0]
         out_str = ""
 
-        tmpl = ' <a href="/check/{}?kind={}" class="btn btn-xs btn-success">{}</a>'
+        tmpl = '<a href="/check/{}?kind={}" class="btn btn-xs btn-success">{}</a>'
 
-        for key in check_type:
-            out_str = out_str + tmpl.format(str, key, check_type[key])
+        for key in post_cfg:
+            out_str = out_str + tmpl.format(str, key, post_cfg[key].get('show',post_cfg[key].get('router')))
 
         return out_str
 

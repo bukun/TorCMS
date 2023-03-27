@@ -1,7 +1,7 @@
 _router_post = {
-                't': 'dataset',  # Filter_View
+    't': 'dataset',  # Filter_View
 
-                }
+}
 
 _post_type = {
 
@@ -19,5 +19,6 @@ _post_cfg = {
         'router': 'dataset',
         'html': '''<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>'''.format('Taginfo'),
         'checker': '10',  # '10', '100', '1000', '10000'
+        'show': 'Taginfo'
     }
 }

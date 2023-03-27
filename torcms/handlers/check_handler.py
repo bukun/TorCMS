@@ -7,7 +7,7 @@ import json
 import tornado.gen
 import tornado.web
 import config
-from config import router_post, check_type
+from config import router_post, post_cfg
 from torcms.core import privilege
 from torcms.core.base_handler import BaseHandler
 from torcms.model.post_model import MPost
@@ -71,7 +71,7 @@ class CheckHandler(BaseHandler):
             'config_num': config.CMS_CFG['list_num'],
             'kind': kind,
             'router': router_post[kind],
-            'post_type': check_type[kind],
+            'post_type': post_cfg[kind].get('show', post_cfg[kind].get('router')),
         }
 
         res = MPost.query_by_state(state, kind, current_page_num)
@@ -121,7 +121,7 @@ class CheckHandler(BaseHandler):
             'config_num': config.CMS_CFG['list_num'],
             'kind': kind,
             'router': router_post[kind],
-            'post_type': check_type[kind],
+            'post_type': post_cfg[kind].get('show', post_cfg[kind].get('router')),
         }
 
         res = MPost.query_by_username(

@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "amis": "^1.9.1-beta.30",
+    "react": "^16.14.0",
     "yamljs": "^0.3.0"
   }
 }

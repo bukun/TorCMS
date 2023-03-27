@@ -14,9 +14,7 @@ amis 实战教程-1-环境搭建/登录功能实现
 1. 安装 nodejs,npm,git,python,nginx
 
 **nginx安装：**
-    sudo su
-
-    apt-get install nginx
+    sudo apt-get install nginx
 
 按照自己的操作系统自行百度/谷歌
 
@@ -42,7 +40,7 @@ amis 实战教程-1-环境搭建/登录功能实现
     # 转发至 Amis 的端口
     location / {
       proxy_pass http://127.0.0.1:3000;
-    }
+    }   
     }
 
 重新启动 
