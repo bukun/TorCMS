@@ -21,6 +21,8 @@ from torcms.core.tool.send_email import send_mail
 from torcms.core.tools import logger
 from torcms.model.user_model import MUser
 from torcms.model.staff2role_model import MStaff2Role
+from torcms.model.permission_model import MPermission
+from torcms.model.role2permission_model import MRole2Permission
 
 
 def check_regist_info(post_data):
@@ -163,7 +165,7 @@ class UserApi(BaseHandler):
             return False
 
         the_roles_arr = []
-
+        extinfo = {}
         def_roles_arr = ['ext_role{0}'.format(x) for x in range(10)]
         for key in def_roles_arr:
             if key not in post_data:
@@ -180,13 +182,17 @@ class UserApi(BaseHandler):
             roles = idx_catid.split(",")
             for role in roles:
                 MStaff2Role.add_or_update(user_id, role)
+                pers = MRole2Permission.query_by_role(role)
+                for per in pers:
+                    extinfo['_per_' + str(per.permission)] = 1
 
         current_roles = MStaff2Role.query_by_staff(user_id).objects()
         for cur_role in current_roles:
             if cur_role.role not in the_roles_arr:
                 MStaff2Role.remove_relation(user_id, cur_role.role)
 
-        extinfo = {"roles": the_roles_arr}
+        extinfo['roles'] = the_roles_arr
+
         MUser.update_extinfo(user_id, extinfo)
         MUser.update_permissions(post_data['user_name'])
 
@@ -573,9 +579,9 @@ class UserApi(BaseHandler):
                 )
 
                 if send_mail(
-                    [userinfo.user_email],
-                    "{0}|密码重置".format(config.SMTP_CFG['name']),
-                    email_cnt,
+                        [userinfo.user_email],
+                        "{0}|密码重置".format(config.SMTP_CFG['name']),
+                        email_cnt,
                 ):
                     MUser.update_time_reset_passwd(username, timestamp)
                     self.set_status(200)
@@ -688,10 +694,10 @@ class UserApi(BaseHandler):
             break
         for i in range(len(pwd)):
             if (
-                ('null' <= pwdlist[i] < '0')
-                or ('9' < pwdlist[i] <= '@')
-                or ('Z' < pwdlist[i] <= '`')
-                or ('z' < pwdlist[i] <= '~')
+                    ('null' <= pwdlist[i] < '0')
+                    or ('9' < pwdlist[i] <= '@')
+                    or ('Z' < pwdlist[i] <= '`')
+                    or ('z' < pwdlist[i] <= '~')
             ):
                 intensity += 2
                 break

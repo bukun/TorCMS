@@ -323,6 +323,7 @@ class MUser:
         perms = MStaff2Role.query_permissions(userinfo.uid)
         # 重新分配权限
         for key in perms:
+            print("-" * 50)
             print(key)
             print(key['permission'])
             cur_extinfo[f"_per_{key['permission']}"] = 1
