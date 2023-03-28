@@ -9,7 +9,7 @@ import tornado.escape
 import tornado.web
 
 from config import CMS_CFG
-from torcms.core import tools
+from torcms.core import privilege
 from torcms.core.base_handler import BaseHandler
 from torcms.model.permission_model import MPermission
 from torcms.model.role2permission_model import MRole2Permission
@@ -151,6 +151,7 @@ class PermissionHandler(BaseHandler):
 
         return json.dump(out_dict, self, ensure_ascii=False)
 
+    @privilege.permission(action='assign_role')
     @tornado.web.authenticated
     def update(self, uid):
         '''
@@ -173,6 +174,7 @@ class PermissionHandler(BaseHandler):
             }
         return json.dump(output, self)
 
+    @privilege.permission(action='assign_role')
     @tornado.web.authenticated
     def per_add(self):
         '''
@@ -197,6 +199,7 @@ class PermissionHandler(BaseHandler):
             }
         return json.dump(output, self)
 
+    @privilege.permission(action='assign_role')
     @tornado.web.authenticated
     def delete_by_id(self, del_id):
         '''
