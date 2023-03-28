@@ -172,9 +172,8 @@ class PermissionHandler(BaseHandler):
 
         post_data = json.loads(self.request.body)
 
-        cur_uid = post_data.get('uid', tools.get_uudd(4))
-        while MPermission.get_by_uid(cur_uid):
-            cur_uid = tools.get_uudd(4)
+        cur_uid = post_data.get('uid')
+
 
         if MPermission.add_or_update(cur_uid, post_data):
             output = {

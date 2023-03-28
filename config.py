@@ -94,7 +94,14 @@ class WidgetMenu(tornado.web.UIModule):
         tmpl = '<li><a href="/{}/">{}</a></li>'
 
         for key in post_cfg:
-            out_str = out_str + tmpl.format(post_cfg[key]['router'], post_cfg[key].get('show',post_cfg[key].get('router')))
+            if post_cfg[key]['router'] == 'topic':
+                tmpl = '<li><a href="/list/{}">{}</a></li>'
+            else:
+                tmpl = '<li><a href="/{}/">{}</a></li>'
+            out_str = out_str + tmpl.format(
+                post_cfg[key]['router'],
+                post_cfg[key].get('show', post_cfg[key].get('router'))
+            )
 
         return out_str
 
@@ -112,7 +119,7 @@ class PublishListMenu(tornado.web.UIModule):
         tmpl = '<a href="/check/{}?kind={}" class="btn btn-xs btn-success">{}</a>'
 
         for key in post_cfg:
-            out_str = out_str + tmpl.format(str, key, post_cfg[key].get('show',post_cfg[key].get('router')))
+            out_str = out_str + tmpl.format(str, key, post_cfg[key].get('show', post_cfg[key].get('router')))
 
         return out_str
 
