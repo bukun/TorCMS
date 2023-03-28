@@ -137,10 +137,10 @@ class RoleHandler(BaseHandler):
             dic = {
                 "uid": rec.uid,
                 "name": rec.name,
-                'status': rec.status,
-                'pid': rec.pid,
-                'time_create': tools.format_time(rec.time_create),
-                'time_update': tools.format_time(rec.time_update),
+                "status": rec.status,
+                "pid": rec.pid,
+                "time_create": tools.format_time(rec.time_create),
+                "time_update": tools.format_time(rec.time_update),
             }
             childrens1 = MRole.get_by_pid(rec.uid)
             chid_dics1 = []
@@ -149,10 +149,10 @@ class RoleHandler(BaseHandler):
                 chid1_rec = {
                     "uid": children1.uid,
                     "name": children1.name,
-                    'status': children1.status,
-                    'pid': children1.pid,
-                    'time_create': tools.format_time(children1.time_create),
-                    'time_update': tools.format_time(children1.time_update),
+                    "status": children1.status,
+                    "pid": children1.pid,
+                    "time_create": tools.format_time(children1.time_create),
+                    "time_update": tools.format_time(children1.time_update),
                 }
 
                 childrens2 = MRole.get_by_pid(children1.uid)
@@ -161,10 +161,10 @@ class RoleHandler(BaseHandler):
                     chid2_rec = {
                         "uid": child2.uid,
                         "name": child2.name,
-                        'status': child2.status,
-                        'pid': child2.pid,
-                        'time_create': tools.format_time(child2.time_create),
-                        'time_update': tools.format_time(child2.time_update),
+                        "status": child2.status,
+                        "pid": child2.pid,
+                        "time_create": tools.format_time(child2.time_create),
+                        "time_update": tools.format_time(child2.time_update),
                     }
 
                     chid_dics2.append(chid2_rec)
@@ -180,7 +180,7 @@ class RoleHandler(BaseHandler):
             "ok": True,
             "status": 0,
             "msg": "ok",
-            'data': {"count": counts, "rows": dics},
+            "data": {"count": counts, "rows": dics},
         }
 
         return json.dump(out_dict, self, ensure_ascii=False)
@@ -192,14 +192,14 @@ class RoleHandler(BaseHandler):
             {
                 "uid": rec.uid,
                 "name": rec.name,
-                'status': rec.status,
-                'pid': rec.pid,
-                'time_create': tools.format_time(rec.time_create),
-                'time_update': tools.format_time(rec.time_update),
+                "status": rec.status,
+                "pid": rec.pid,
+                "time_create": tools.format_time(rec.time_create),
+                "time_update": tools.format_time(rec.time_update),
             }
         ]
 
-        out_dict = {'title': '分组/角色详情', 'rolemore_table': dic}
+        out_dict = {"title": "分组/角色详情", "rolemore_table": dic}
 
         return json.dump(out_dict, self, ensure_ascii=False)
 
@@ -223,11 +223,15 @@ class RoleHandler(BaseHandler):
                     MRole2Permission.add_or_update(uid, per)
 
             output = {
-                'addinfo ': 1,
+                "ok": True,
+                "status": 0,
+                "msg": "更新分组/角色成功"
             }
         else:
             output = {
-                'addinfo ': 0,
+                "ok": False,
+                "status": 404,
+                "msg": "更新分组/角色失败"
             }
         return json.dump(output, self)
 
@@ -271,11 +275,15 @@ class RoleHandler(BaseHandler):
                     print(per)
                     MRole2Permission.add_or_update(role_uid, per)
             output = {
-                'addinfo ': 1,
+                "ok": True,
+                "status": 0,
+                "msg": "添加/更新分组/角色成功"
             }
         else:
             output = {
-                'addinfo ': 0,
+                "ok": False,
+                "status": 404,
+                "msg": "添加/更新分组/角色失败"
             }
         return json.dump(output, self)
 
@@ -289,7 +297,13 @@ class RoleHandler(BaseHandler):
             MRole2Permission.remove_relation(del_role.role, del_role.permission)
 
         if MRole.delete(del_id):
-            output = {'del_link': 1}
+            output = {
+                "ok": True,
+                "status": 0,
+                "msg": "删除分组/角色成功"}
         else:
-            output = {'del_link': 0}
+            output = {
+                "ok": False,
+                "status": 404,
+                "msg": "删除分组/角色失败"}
         return json.dump(output, self)

@@ -14,6 +14,7 @@ from torcms.core.base_handler import BaseHandler
 from torcms.model.permission_model import MPermission
 from torcms.model.role2permission_model import MRole2Permission
 
+
 class PermissionHandler(BaseHandler):
     '''
     Handler for links.
@@ -76,7 +77,7 @@ class PermissionHandler(BaseHandler):
             "ok": True,
             "status": 0,
             "msg": "ok",
-            'data': {"options": [{"label": "选择权限", "value": "", "children": dics}]},
+            "data": {"options": [{"label": "选择权限", "value": "", "children": dics}]},
         }
 
         return json.dump(out_dict, self, ensure_ascii=False)
@@ -87,12 +88,16 @@ class PermissionHandler(BaseHandler):
             {
                 "uid": rec.uid,
                 "name": rec.name,
-                'action': rec.action,
-                'controller': rec.controller,
+                "action": rec.action,
+                "controller": rec.controller,
             }
         ]
 
-        out_dict = {'title': '权限详情', 'permore_table': dic}
+        out_dict = {"ok": True,
+                    "status": 0,
+                    "title": '权限详情',
+                    "permore_table": dic
+                    }
 
         return json.dump(out_dict, self, ensure_ascii=False)
 
@@ -133,15 +138,15 @@ class PermissionHandler(BaseHandler):
             dic = {
                 "uid": rec.uid,
                 "name": rec.name,
-                'action': rec.action,
-                'controller': rec.controller,
+                "action": rec.action,
+                "controller": rec.controller,
             }
             dics.append(dic)
         out_dict = {
             "ok": True,
             "status": 0,
             "msg": "ok",
-            'data': {"count": counts, "rows": dics},
+            "data": {"count": counts, "rows": dics},
         }
 
         return json.dump(out_dict, self, ensure_ascii=False)
@@ -156,11 +161,15 @@ class PermissionHandler(BaseHandler):
 
         if MPermission.update(uid, post_data):
             output = {
-                'addinfo ': 1,
+                "ok": True,
+                "status": 0,
+                "msg": "更新权限成功"
             }
         else:
             output = {
-                'addinfo ': 0,
+                "ok": False,
+                "status": 404,
+                "msg": "更新权限失败"
             }
         return json.dump(output, self)
 
@@ -174,14 +183,17 @@ class PermissionHandler(BaseHandler):
 
         cur_uid = post_data.get('uid')
 
-
         if MPermission.add_or_update(cur_uid, post_data):
             output = {
-                'addinfo ': 1,
+                "ok": True,
+                "status": 0,
+                "msg": "添加/更新权限成功"
             }
         else:
             output = {
-                'addinfo ': 0,
+                "ok": False,
+                "status": 404,
+                "msg": "添加/更新权限失败"
             }
         return json.dump(output, self)
 
@@ -190,12 +202,20 @@ class PermissionHandler(BaseHandler):
         '''
         Delete a link by id.
         '''
-        del_roles=MRole2Permission.query_by_permission(del_id)
+        del_roles = MRole2Permission.query_by_permission(del_id)
         for del_role in del_roles:
-            MRole2Permission.remove_relation(del_role.role,del_role.permission)
+            MRole2Permission.remove_relation(del_role.role, del_role.permission)
 
         if MPermission.delete(del_id):
-            output = {'del_link': 1}
+            output = {
+                "ok": True,
+                "status": 0,
+                "msg": "删除权限成功"
+            }
         else:
-            output = {'del_link': 0}
+            output = {
+                "ok": False,
+                "status": 0,
+                "msg": "删除权限失败"
+            }
         return json.dump(output, self)

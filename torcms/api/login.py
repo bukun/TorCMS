@@ -192,10 +192,19 @@ class UserApi(BaseHandler):
 
         extinfo['roles'] = the_roles_arr
 
-        MUser.update_extinfo(user_id, extinfo)
+        out_dic = MUser.update_extinfo(user_id, extinfo)
+
+        if not out_dic['success']:
+            user_edit_role = {
+                "ok": False,
+                "status": 404,
+                "msg": "更新失败"
+            }
+            return json.dump(user_edit_role, self)
+
         MUser.update_permissions(post_data['user_name'])
 
-        user_edit_role = {'success': 'true'}
+        user_edit_role = {'ok': True, 'status': 200, 'msg': "更新成功"}
         return json.dump(user_edit_role, self)
 
     def register(self):
@@ -204,15 +213,35 @@ class UserApi(BaseHandler):
         '''
         post_data = json.loads(self.request.body)
 
-        user_create_status = check_regist_info(post_data)
+        user_check_status = check_regist_info(post_data)
 
-        if not user_create_status['success']:
-            return json.dump(user_create_status, self)
+        if not user_check_status['success']:
+            if user_check_status['code'] == '12':
+                msg = "用户名已存在"
+            elif user_check_status['code'] == '22':
+                msg = "邮箱已存在"
+            elif user_check_status['code'] == '21':
+                msg = "请输入正确的邮箱地址"
+            elif user_check_status['code'] == '41':
+                msg = "密码6-19位，需包含大小写字母"
+            else:
+                msg = '注册失败'
+            user_check_status = {
+                "ok": False,
+                "status": 404,
+                "msg": msg
+            }
+            return json.dump(user_check_status, self)
 
         user_create_status = MUser.create_user(post_data)
-
-        logger.info('user_register_status: {0}'.format(user_create_status))
-        return json.dump(user_create_status, self)
+        if user_create_status['success']:
+            user_create_status = {
+                "ok": True,
+                "status": 0,
+                "msg": "注册成功"
+            }
+            logger.info('user_register_status: {0}'.format(user_create_status))
+            return json.dump(user_create_status, self)
 
     @privilege.permission(action='assign_role')
     @tornado.web.authenticated
@@ -226,9 +255,15 @@ class UserApi(BaseHandler):
         usercheck = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
         if usercheck == 1:
             MUser.update_pass(self.userinfo.uid, post_data['user_pass'])
-            output = {'changepass ': usercheck}
+            output = {
+                "ok": True,
+                "status": 0,
+                "msg": "重置密码成功",
+                'changepass ': usercheck}
         else:
-            output = {'changepass ': 0}
+            output = {"ok": False,
+                      "status": 404,
+                      "msg": "重置密码失败"}
         return json.dump(output, self)
 
     @privilege.permission(action='assign_role')
@@ -245,9 +280,13 @@ class UserApi(BaseHandler):
             MUser.update_info(
                 self.userinfo.uid, post_data['user_email'], extinfo=def_dic
             )
-            output = {'changeinfo ': usercheck}
+            output = {"ok": True,
+                      "status": 0,
+                      "msg": "修改用户信息成功", 'changeinfo ': usercheck}
         else:
-            output = {'changeinfo ': 0}
+            output = {"ok": False,
+                      "status": 404,
+                      "msg": "修改用户信息失败"}
         return json.dump(output, self)
 
     def fetch_post_data(self):
@@ -309,7 +348,9 @@ class UserApi(BaseHandler):
 
         MUser.update_role(xg_username, post_data)
 
-        output = {'changerole': '1'}
+        output = {"ok": True,
+                  "status": 0,
+                  "msg": "修改用户权限成功"}
         return json.dump(output, self)
 
     @tornado.web.authenticated
@@ -408,7 +449,9 @@ class UserApi(BaseHandler):
 
         username_list = json.loads(name_list)
         if username_list == []:
-            output = {'changerole': '2', 'err_info': 'Please select a user.'}
+            output = {"ok": False,
+                      "status": 404,
+                      "msg": "请至少选择一个用户"}
             return json.dump(output, self)
         # 审核权限
         authority = '0'
@@ -417,11 +460,11 @@ class UserApi(BaseHandler):
         post_data['authority'] = authority
         for xg_username in username_list:
             MUser.update_role(xg_username, post_data)
-        if self.is_p:
-            output = {'changerole': '1'}
-            return json.dump(output, self)
-        else:
-            self.redirect('/user/info')
+
+        output = {"ok": True,
+                  "status": 0,
+                  "msg": "批量修改成功"}
+        return json.dump(output, self)
 
     def parseint(self, stringss):
         return int(''.join([x for x in stringss if x.isdigit()]))
@@ -434,9 +477,6 @@ class UserApi(BaseHandler):
         user login.
         '''
         data = json.loads(self.request.body)
-        print("=" * 50)
-        print(data)
-        print("=" * 50)
 
         u_name = data['user_name']
         u_pass = data['user_pass']
@@ -450,7 +490,6 @@ class UserApi(BaseHandler):
             if user_x:
                 result = MUser.check_user_by_name(user_x.user_name, u_pass)
 
-        # Todo: the `kwd` should remove from the codes.
         if result == 1:
             self.set_secure_cookie(
                 "user",
@@ -471,13 +510,20 @@ class UserApi(BaseHandler):
 
             self.set_status(200)
             user_login_status = {
-                'success': True,
+                'ok': True,
                 'code': '1',
-                'info': 'Login successful',
+                'msg': '登录成功',
                 'status': 0,
                 'username': u_name,
             }
             return json.dump({'data': user_login_status, 'status': 0}, self)
+        else:
+            user_login_status = {
+                "ok": False,
+                "status": 404,
+                "msg": "帐号或密码错误，登录失败"
+            }
+            return json.dump(user_login_status, self)
 
     @privilege.permission(action='assign_role')
     def __user_list__(self):
@@ -545,10 +591,14 @@ class UserApi(BaseHandler):
             MStaff2Role.remove_relation(del_rec.staff, del_rec.row)
 
         if MUser.delete(user_id):
-            output = {'del_user': 1}
+            output = {"ok": True,
+                      "status": 0,
+                      "msg": "删除用户成功"}
         else:
             output = {
-                'del_user': 0,
+                "ok": False,
+                "status": 404,
+                "msg": "删除用户失败"
             }
 
         return json.dump(output, self)
