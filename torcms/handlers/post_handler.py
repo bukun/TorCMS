@@ -14,7 +14,7 @@ import tornado.gen
 import tornado.ioloop
 import tornado.web
 
-from config import router_post, post_cfg
+from config import post_cfg
 from torcms.core import privilege, tools
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tool.sqlite_helper import MAcces
@@ -271,7 +271,7 @@ class PostHandler(BaseHandler):
             'gcat0': catid,
             'parentname': MCategory.get_by_uid(catinfo.pid).name,
             'catname': MCategory.get_by_uid(catid).name,
-            'router': router_post[self.kind],
+            'router': post_cfg[self.kind]['router'],
         }
 
         self.render(
@@ -288,7 +288,7 @@ class PostHandler(BaseHandler):
                 self.viewinfo(postinfo)
             else:
                 self.redirect(
-                    '/{0}/{1}'.format(router_post[postinfo.kind], postinfo.uid),
+                    '/{0}/{1}'.format(post_cfg[postinfo.kind]['router'], postinfo.uid),
                     permanent=True,
                 )
 
@@ -360,7 +360,7 @@ class PostHandler(BaseHandler):
             'parentlist': MCategory.get_parent_list(),
             'userip': self.request.remote_ip,
             'extinfo': json.dumps(postinfo.extinfo, indent=2, ensure_ascii=False),
-            'router': router_post[postinfo.kind],
+            'router': post_cfg[postinfo.kind]['router'],
         }
 
         if self.filter_view:
@@ -456,7 +456,7 @@ class PostHandler(BaseHandler):
             ),
             recent_apps=recent_apps,
             cat_enum=cat_enum1,
-            router=router_post[catinfo.kind],
+            router=post_cfg[catinfo.kind]['router'],
             post_type=post_cfg[catinfo.kind].get('show', post_cfg[catinfo.kind].get('router')),
         )
 
@@ -480,7 +480,7 @@ class PostHandler(BaseHandler):
             'parentlist': MCategory.get_parent_list(),
             'parentname': '',
             'catname': '',
-            'router': router_post[postinfo.kind],
+            'router': post_cfg[postinfo.kind]['router'],
         }
         return kwd
 
@@ -609,7 +609,7 @@ class PostHandler(BaseHandler):
 
         # cele_gen_whoosh.delay()
         tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
-        self.redirect('/{0}/{1}'.format(router_post[self.kind], uid))
+        self.redirect('/{0}/{1}'.format(post_cfg[self.kind]['router'], uid))
 
     # @tornado.web.asynchronous
     @tornado.web.authenticated
@@ -693,7 +693,7 @@ class PostHandler(BaseHandler):
         logger.info('post kind:' + self.kind)
         # cele_gen_whoosh.delay()
         tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
-        self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], uid))
+        self.redirect('/{0}/{1}'.format(post_cfg[postinfo.kind]['router'], uid))
 
     @tornado.web.authenticated
     @privilege.permission(action='can_delete')
@@ -711,7 +711,7 @@ class PostHandler(BaseHandler):
 
             MCategory.update_count(current_infor.extinfo['def_cat_uid'])
 
-            if router_post[self.kind] == 'info':
+            if post_cfg[self.kind]['router'] == 'info':
                 url = "filter"
                 id_dk8 = current_infor.extinfo['def_cat_uid']
 
@@ -722,7 +722,7 @@ class PostHandler(BaseHandler):
             self.redirect('/{0}/{1}'.format(url, id_dk8))
 
         else:
-            self.redirect('/{0}/{1}'.format(router_post[self.kind], uid))
+            self.redirect('/{0}/{1}'.format(post_cfg[self.kind]['router'], uid))
 
     def _chuli_cookie_relation(self, app_id):
         '''
@@ -785,7 +785,7 @@ class PostHandler(BaseHandler):
         self.render(
             'man_info/post_kind.html',
             postinfo=postinfo,
-            sig_dic=router_post,
+            sig_dic=post_cfg,
             userinfo=self.userinfo,
             json_cnt=json_cnt,
             kwd=kwd,
@@ -807,4 +807,4 @@ class PostHandler(BaseHandler):
         # self.update_category(post_uid)
 
         update_category(post_uid, post_data)
-        self.redirect('/{0}/{1}'.format(router_post[post_data['kcat']], post_uid))
+        self.redirect('/{0}/{1}'.format(post_cfg[post_data['kcat']['router']], post_uid))

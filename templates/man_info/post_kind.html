@@ -20,7 +20,7 @@
                         <select onchange="g_load_kindcat()" class="form-control" name="kcat" id="kcat">
                             <option>Please Select</option>
                             {% for k, v in sig_dic.items() %}
-                            <option value="{{k}}">{{v}}
+                            <option value="{{k}}">{{v['router']}}
                             </option>
                             {% end %}
                         </select>

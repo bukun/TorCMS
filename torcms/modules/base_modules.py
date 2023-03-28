@@ -24,7 +24,6 @@ from torcms.model.reply2user_model import MReply2User
 from torcms.model.reply_model import MReply
 from torcms.model.user_model import MUser
 from torcms.model.wiki_model import MWiki
-from config import router_post
 import config
 
 
@@ -96,7 +95,7 @@ class PreviousPostLink(tornado.web.UIModule):
         if prev_record:
             kwd = {
                 'uid': prev_record.uid,
-                'router': config.router_post[kind],
+                'router': config.post_cfg[kind]['router'],
             }
             return self.render_string('modules/post/pre_page.html', kwd=kwd)
         return self.render_string('modules/post/last_page.html')
@@ -114,7 +113,7 @@ class NextPostLink(tornado.web.UIModule):
         if next_record:
             kwd = {
                 'uid': next_record.uid,
-                'router': config.router_post[kind],
+                'router': config.post_cfg[kind]['router'],
             }
             return self.render_string('modules/post/next_page.html', kwd=kwd)
         return self.render_string('modules/post/newest_page.html')
@@ -130,7 +129,7 @@ class PostMostView(tornado.web.UIModule):
         kwd = {
             'with_date': kwargs.get('with_date', True),
             'with_catalog': kwargs.get('with_catalog', True),
-            'router': config.router_post[kind],
+            'router': config.post_cfg[kind]['router'],
             'kind': kind,
             'glyph': kwargs.get('glyph', ''),
         }
@@ -151,7 +150,7 @@ class PostRandom(tornado.web.UIModule):
         kwd = {
             'with_date': with_date,
             'with_catalog': with_catalog,
-            'router': config.router_post[kind],
+            'router': config.post_cfg[kind]['router'],
         }
         return self.render_string(
             'modules/post/post_list.html',
@@ -169,7 +168,7 @@ class PostCatRandom(tornado.web.UIModule):
         kwd = {
             'with_date': with_date,
             'with_catalog': with_catalog,
-            'router': config.router_post['1'],
+            'router': config.post_cfg['1']['router'],
         }
         return self.render_string(
             'modules/post/post_list.html',
@@ -187,7 +186,7 @@ class PostRecentMostView(tornado.web.UIModule):
         kwd = {
             'with_date': with_date,
             'with_catalog': with_catalog,
-            'router': config.router_post['1'],
+            'router': config.post_cfg['1']['router'],
         }
         return self.render_string(
             'modules/post/post_list.html',
@@ -232,7 +231,7 @@ class PostCategoryOf(tornado.web.UIModule):
             'glyph': kwargs.get('glyph', ''),
             'order': kwargs.get('order', False),
             'with_title': kwargs.get('with_title', True),
-            'router': router_post[kind],
+            'router': config.post_cfg[kind]['router'],
             'kind': kind,
         }
         if slug:
@@ -258,7 +257,7 @@ class PostRecent(tornado.web.UIModule):
         kwd = {
             'with_date': kwargs.get('with_date', True),
             'with_catalog': kwargs.get('with_catalog', True),
-            'router': config.router_post[kind],
+            'router': config.post_cfg[kind]['router'],
             'kind': kind,
             'glyph': kwargs.get('glyph', ''),
         }
@@ -316,7 +315,7 @@ class PostCategoryRecent(tornado.web.UIModule):
             'with_catalog': with_catalog,
             'with_category': with_catalog,
             'with_date': with_date,
-            'router': config.router_post[catinfo.kind],
+            'router': config.post_cfg[catinfo.kind]['router'],
             'glyph': glyph,
             'spa': is_spa,
             'order': order,

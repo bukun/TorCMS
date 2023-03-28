@@ -18,7 +18,7 @@
         {% for x in postinfo %}
         <li class="list-group-item">
 
-            <span style="color:green;"><b>[ {{router_post[x.kind]}} ]</b></span>
+            <span style="color:green;"><b>[ {{router_post[x.kind]['router']}} ]</b></span>
 
             <a href="/post/{{x.uid}}" title="{{ x.title }}"> {{ x.title }} </a>
             <!--<span style="color:red;"><b>( {{x.rating}} )</b></span>-->

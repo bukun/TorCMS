@@ -7,7 +7,7 @@ import config
 import tornado.web
 from torcms.model.category_model import MCategory
 from torcms.model.post_model import MPost
-from config import router_post
+from config import post_cfg
 
 
 class Upload_excel(tornado.web.UIModule):
@@ -39,7 +39,7 @@ class MetaCategory(tornado.web.UIModule):
             'with_title': kwargs.get('with_title', True),
             'cat_id': uid_with_str,
             'accid': kwargs.get('accid', ''),
-            'router': router_post[kind],
+            'router': post_cfg[kind]['router'],
             'cur_catid': cur_catid
         }
 

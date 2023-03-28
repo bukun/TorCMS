@@ -1,6 +1,3 @@
-_router_post = {'s': 'app',
-
-                }
 
 _post_cfg = {
     's': {

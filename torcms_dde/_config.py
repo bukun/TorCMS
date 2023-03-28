@@ -1,7 +1,4 @@
-_router_post = {
-    'd': 'directory',  # Filter_View
 
-}
 
 _post_cfg = {
 

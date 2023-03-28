@@ -12,7 +12,7 @@ from whoosh.index import create_in, open_dir
 
 from torcms.model.post_model import MPost
 from torcms.model.wiki_model import MWiki
-from config import post_cfg, router_post, SITE_CFG
+from config import post_cfg, SITE_CFG
 
 try:
     from jieba.analyse import ChineseAnalyzer
@@ -125,7 +125,7 @@ def do_for_document(rand=True, kind='', _=None):
             catid='sid' + kind,
             title=rec.title,
             type=post_cfg[rec.kind]['html'],
-            link='/{0}/{1}'.format(router_post[rec.kind], rec.uid),
+            link='/{0}/{1}'.format(post_cfg[rec.kind]['router'], rec.uid),
             content=text2,
         )
         writer.commit()

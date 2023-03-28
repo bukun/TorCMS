@@ -1,5 +1,5 @@
 import config
-from config import CMS_CFG, router_post
+from config import CMS_CFG, post_cfg
 from torcms.core.base_handler import BaseHandler
 from torcms.model.comment_model import MComment
 
@@ -56,5 +56,5 @@ class CommentHandler(BaseHandler):
             userinfo=self.userinfo,
             cfg=CMS_CFG,
             kwd=kwd,
-            router_post=router_post,
+            router_post=post_cfg,
         )

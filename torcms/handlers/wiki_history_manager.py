@@ -6,7 +6,6 @@ History handler for wiki, and page.
 import tornado.escape
 import tornado.web
 
-from config import router_post
 from torcms.core.tools import diff_table
 from torcms.model.wiki_hist_model import MWikiHist
 from torcms.model.wiki_model import MWiki

@@ -5,7 +5,7 @@ Check the difference of modification.
 import datetime
 import os
 
-from config import SITE_CFG, SMTP_CFG, post_emails, router_post
+from config import SITE_CFG, SMTP_CFG, post_emails, post_cfg
 from torcms.core import tools
 from torcms.core.tool.send_email import send_mail
 from torcms.core.tools import diff_table
@@ -26,7 +26,7 @@ def __get_diff_recent():
     '''
     diff_str = ''
 
-    for key in router_post:
+    for key in post_cfg.keys():
         recent_posts = MPost.query_recent_edited(
             tools.timestamp() - TIME_LIMIT, kind=key
         )
@@ -133,7 +133,7 @@ def __get_post_review(email_cnt, idx):
     '''
     Review for posts.
     '''
-    for key in router_post:
+    for key in post_cfg.keys():
         recent_posts = MPost.query_recent_edited(
             tools.timestamp() - TIME_LIMIT, kind=key
         )
@@ -159,7 +159,7 @@ def __get_post_review(email_cnt, idx):
                 idx,
                 editor_name,
                 recent_post.title,
-                os.path.join(SITE_CFG['site_url'], router_post[key], recent_post.uid),
+                os.path.join(SITE_CFG['site_url'], post_cfg[key]['router'], recent_post.uid),
             )
             email_cnt = email_cnt + foo_str
             idx = idx + 1
@@ -183,7 +183,7 @@ def __get_comment_list():
             idx,
             recent_post.title,
             os.path.join(
-                SITE_CFG['site_url'], router_post[recent_post.kind], recent_post.uid
+                SITE_CFG['site_url'], post_cfg[recent_post.kind]['router'], recent_post.uid
             ),
         )
         comment_cnt = comment_cnt + foo_str

@@ -8,7 +8,7 @@ from abc import ABCMeta, abstractmethod
 import tornado.escape
 import tornado.web
 
-from config import router_post
+from config import post_cfg
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tools import diff_table
 from torcms.model.post_hist_model import MPostHist
@@ -138,7 +138,7 @@ class PostHistoryHandler(EditHistoryHander):
         else:
             MPostHist.create_post_history(cur_info, self.userinfo)
             MPost.update_cnt(uid, post_data)
-        self.redirect('/{0}/{1}'.format(router_post[cur_info.kind], uid))
+        self.redirect('/{0}/{1}'.format(post_cfg[cur_info.kind]['router'], uid))
 
     @tornado.web.authenticated
     def to_edit(self, postid):
@@ -222,7 +222,7 @@ class PostHistoryHandler(EditHistoryHander):
             view=postinfo,
             postinfo=postinfo,
             html_diff_arr=html_diff_arr,
-            router=router_post[postinfo.kind],
+            router=post_cfg[postinfo.kind]['router'],
             kwd=kwd,
         )
 
@@ -249,4 +249,4 @@ class PostHistoryHandler(EditHistoryHander):
         MPostHist.update_cnt(
             histinfo.uid, {'cnt_md': cur_cnt, 'user_name': postinfo.user_name}
         )
-        self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], postinfo.uid))
+        self.redirect('/{0}/{1}'.format(post_cfg[postinfo.kind]['router'], postinfo.uid))

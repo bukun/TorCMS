@@ -4,7 +4,7 @@ Generating sitemap.
 '''
 import os
 
-from config import SITE_CFG, router_post
+from config import SITE_CFG, post_cfg
 from torcms.model.post_model import MPost
 from torcms.model.wiki_model import MWiki
 
@@ -15,12 +15,12 @@ def gen_post_map(file_name, ext_url=''):
     :return: None
     '''
     with open(file_name, 'a') as fout:
-        for kind_key in router_post:
+        for kind_key in post_cfg.keys():
             recent_posts = MPost.query_all(kind=kind_key, limit=1000000)
             for recent_post in recent_posts:
                 url = os.path.join(
                     SITE_CFG['site_url'],
-                    router_post[recent_post.kind],
+                    post_cfg[recent_post.kind]['router'],
                     ext_url,
                     recent_post.uid,
                 )

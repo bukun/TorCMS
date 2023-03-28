@@ -10,7 +10,7 @@ import tornado.web
 from torcms.core.base_handler import BaseHandler
 from torcms.core.torcms_redis import redisvr
 from torcms.model.label_model import MLabel, MPost2Label
-from config import CMS_CFG, router_post
+from config import CMS_CFG, post_cfg
 
 
 class LabelHandler(BaseHandler):
@@ -88,7 +88,7 @@ class LabelHandler(BaseHandler):
             'tag_slug': tag_slug,
             'title': tag_name,
             'current_page': current_page_number,
-            'router': router_post[kind],
+            'router': post_cfg[kind]['router'],
             'kind': kind,
         }
 

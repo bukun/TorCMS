@@ -6,7 +6,7 @@ Tornado Modules for infor.
 import tornado.web
 from html2text import html2text
 
-from config import router_post
+from config import post_cfg
 from torcms.core.tools import logger
 from torcms.model.category_model import MCategory
 from torcms.model.label_model import MPost2Label
@@ -76,7 +76,7 @@ class InforUserMost(tornado.web.UIModule):
         glyph = kwargs.get('glyph', '')
 
         all_cats = MUsage.query_most(user_name, kind, num).objects()
-        kwd = {'with_tag': with_tag, 'router': router_post[kind], 'glyph': glyph}
+        kwd = {'with_tag': with_tag, 'router': post_cfg[kind]['router'], 'glyph': glyph}
         return self.render_string(
             'modules/info/list_user_equation.html', recs=all_cats, kwd=kwd
         )
@@ -117,7 +117,7 @@ class InfoMostUsed(tornado.web.UIModule):
         glyph = kwargs.get('glyph', '')
 
         all_cats = MPost.query_most(kind=kind, num=num).objects()
-        kwd = {'with_tag': with_tag, 'router': router_post[kind], 'glyph': glyph}
+        kwd = {'with_tag': with_tag, 'router': post_cfg[kind]['router'], 'glyph': glyph}
         return self.render_string(
             'modules/info/list_equation.html', recs=all_cats, kwd=kwd
         )
@@ -137,7 +137,7 @@ class InfoMostUsed(tornado.web.UIModule):
         glyph = kwargs.get('glyph', '')
 
         all_cats = MUsage.query_most(user_id, kind, num).objects()
-        kwd = {'with_tag': with_tag, 'router': router_post[kind], 'glyph': glyph}
+        kwd = {'with_tag': with_tag, 'router': post_cfg[kind]['router'], 'glyph': glyph}
         return self.render_string(
             'modules/info/list_user_equation.html', recs=all_cats, kwd=kwd
         )
@@ -170,7 +170,7 @@ class InfoRecentUsed(tornado.web.UIModule):
         render, no user logged in
         '''
         all_cats = MPost.query_recent(num, kind=kind)
-        kwd = {'with_tag': with_tag, 'router': router_post[kind], 'glyph': glyph}
+        kwd = {'with_tag': with_tag, 'router': post_cfg[kind]['router'], 'glyph': glyph}
         return self.render_string(
             'modules/info/list_equation.html', recs=all_cats, kwd=kwd
         )
@@ -197,7 +197,7 @@ class InfoRecentUsed(tornado.web.UIModule):
         )
 
         all_cats = MUsage.query_recent(user_id, kind, num).objects()
-        kwd = {'with_tag': with_tag, 'router': router_post[kind], 'glyph': glyph}
+        kwd = {'with_tag': with_tag, 'router': post_cfg[kind]['router'], 'glyph': glyph}
         return self.render_string(
             'modules/info/list_user_equation.html', recs=all_cats, kwd=kwd
         )
@@ -216,7 +216,7 @@ class InfoRandom(tornado.web.UIModule):
         glyph = kwargs.get('glyph', '')
 
         all_cats = MPost.query_random(num=num, kind=kind)
-        kwd = {'router': router_post[kind], 'glyph': glyph}
+        kwd = {'router': post_cfg[kind]['router'], 'glyph': glyph}
         return self.render_string(
             'modules/info/list_equation.html', recs=all_cats, kwd=kwd
         )
@@ -235,7 +235,7 @@ class RecentAccess(tornado.web.UIModule):
 
         recs = MPost.query_access(kind, sig)
 
-        kwd = {'router': router_post[kind], 'with_tag': '', 'glyph': glyph}
+        kwd = {'router': post_cfg[kind]['router'], 'with_tag': '', 'glyph': glyph}
         return self.render_string('modules/info/list_equation.html', recs=recs, kwd=kwd)
 
 
@@ -257,7 +257,7 @@ class RelateDoc(tornado.web.UIModule):
         return self.render_string(
             'modules/post/relate_doc.html',
             postinfo_arr=postinfo_arr,
-            router_post=router_post,
+            router_post=post_cfg,
         )
 
 

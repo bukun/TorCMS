@@ -5,11 +5,10 @@ import os
 import uuid
 import openpyxl
 import openpyxl.styles
-from config import CMS_CFG, router_post
+from config import post_cfg
 from torcms.handlers.post_handler import PostHandler
 from torcms.core.tools import logger
 from torcms.model.post_model import MPost
-from openpyxl import load_workbook
 from torcms.core import privilege
 from torcms.model.category_model import MCategory
 from torcms.model.post2catalog_model import MPost2Catalog
@@ -305,7 +304,7 @@ class MetadataHandler(PostHandler):
             wb.save(file_src)
 
         tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
-        self.redirect('/{0}/{1}'.format(router_post[self.kind], uid))
+        self.redirect('/{0}/{1}'.format(post_cfg[self.kind]['router'], uid))
 
     @tornado.web.authenticated
     @privilege.permission(action='can_edit')
@@ -395,7 +394,7 @@ class MetadataHandler(PostHandler):
 
         logger.info('post kind:' + self.kind)
         tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
-        self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], postinfo.uid))
+        self.redirect('/{0}/{1}'.format(post_cfg[postinfo.kind]['router'], postinfo.uid))
 
     def download_xlsx(self, postid):
         '''

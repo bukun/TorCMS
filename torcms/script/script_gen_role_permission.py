@@ -21,7 +21,7 @@ else:
     XLSX_FILE = '../../database/role_perm.xlsx'
 
 
-def gen_xlsx_category():
+def gen_xlsx_role_permission():
     '''
     Genereting role,permission from xlsx file.
     '''
@@ -113,12 +113,12 @@ def run_gen_role_permission(*args):
     '''
     to run
     '''
-    gen_xlsx_category()
+    gen_xlsx_role_permission()
 
 
 def test_script():
-    gen_xlsx_category()
+    gen_xlsx_role_permission()
 
 
 if __name__ == '__main__':
-    gen_xlsx_category()
+    gen_xlsx_role_permission()

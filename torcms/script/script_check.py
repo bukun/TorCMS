@@ -10,7 +10,7 @@ import requests
 
 # from torcms.model.wiki_model import MWiki
 import config
-from config import router_post
+from config import post_cfg
 from torcms.core.tools import timestamp
 from torcms.model.category_model import MCategory
 from torcms.model.post2catalog_model import MPost2Catalog
@@ -69,24 +69,24 @@ def check200():
 
     tstr = ''
     idx = 1
-    for kind in config.router_post.keys():
+    for kind in config.post_cfg.keys():
         posts = MPost.query_all(kind=kind, limit=20000)
         for post in posts:
             the_url0 = '{site_url}/{kind_url}/{uid}'.format(
                 site_url=config.SITE_CFG['site_url'],
-                kind_url=config.router_post[post.kind],
+                kind_url=config.post_cfg[post.kind]['router'],
                 uid=post.uid,
             )
 
             the_url = '{site_url}/{kind_url}/_edit/{uid}'.format(
                 site_url=config.SITE_CFG['site_url'],
-                kind_url=config.router_post[post.kind],
+                kind_url=config.post_cfg[post.kind]['router'],
                 uid=post.uid,
             )
 
             the_url2 = '{site_url}/{kind_url}/_edit_kind/{uid}'.format(
                 site_url=config.SITE_CFG['site_url'],
-                kind_url=config.router_post[post.kind],
+                kind_url=config.post_cfg[post.kind]['router'],
                 uid=post.uid,
             )
 
@@ -117,7 +117,7 @@ def check_kind():
     '''
     对 post 与 对应类型的 kind 进行检查
     '''
-    for kindv in router_post:
+    for kindv in post_cfg.keys():
         for rec_cat in MCategory.query_all(kind=kindv):
             catid = rec_cat.uid
             catinfo = MCategory.get_by_uid(catid)
@@ -136,7 +136,7 @@ def check_tag():
     print('Checking tag error: ')
     tstr = ''
     idx = 1
-    for kind in config.router_post.keys():
+    for kind in config.post_cfg.keys():
         posts = MPost.query_all(kind=kind, limit=20000)
 
         for post in posts:
@@ -159,18 +159,18 @@ def check_tag():
             else:
                 the_url0 = '{site_url}/{kind_url}/{uid}'.format(
                     site_url=config.SITE_CFG['site_url'],
-                    kind_url=config.router_post[post.kind],
+                    kind_url=config.post_cfg[post.kind]['router'],
                     uid=post.uid,
                 )
 
                 the_url = '{site_url}/{kind_url}/_edit/{uid}'.format(
                     site_url=config.SITE_CFG['site_url'],
-                    kind_url=config.router_post[post.kind],
+                    kind_url=config.post_cfg[post.kind]['router'],
                     uid=post.uid,
                 )
                 the_url2 = '{site_url}/{kind_url}/_edit_kind/{uid}'.format(
                     site_url=config.SITE_CFG['site_url'],
-                    kind_url=config.router_post[post.kind],
+                    kind_url=config.post_cfg[post.kind]['router'],
                     uid=post.uid,
                 )
                 req = requests.get(the_url0)

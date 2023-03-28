@@ -27,7 +27,7 @@ email_cfg = {
         """,
 }
 
-router_post = {"1": "post", "3": "info", "q": "topic", "v": "map-show", "k": "tutorial"}
+# router_post = {"1": "post", "3": "info", "q": "topic", "v": "map-show", "k": "tutorial"}
 
 post_cfg = {
     "1": {
@@ -41,13 +41,13 @@ post_cfg = {
     "3": {
         "router": "info",
         "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
-            "Data"
+            "Info"
         ),
-        "checker": "10",  # '10', '100', '1000', '10000'
-        "show": "Data"
+        "checker": "0",  # '10', '100', '1000', '10000'
+        "show": "Info"
     },
     "v": {
-        "router": "info",
+        "router": "map-show",
         "html": """<span style="color:red;" class="glyphicon glyphicon-globe">[{0}]</span>""".format(
             "Map visualization"
         ),
@@ -59,8 +59,16 @@ post_cfg = {
         "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
             "Tutorial"
         ),
-        "checker": "10",  # '10', '100', '1000', '10000'
+        "checker": "0",  # '10', '100', '1000', '10000'
         "show": "Tutorial"
+    },
+    "q": {
+        "router": "topic",
+        "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
+            "Topic"
+        ),
+        "checker": "0",  # '10', '100', '1000', '10000'
+        "show": "Topic"
     },
 }
 
@@ -71,7 +79,6 @@ for wdir in Path(".").iterdir():
         the_file = f"{wdir.name}._config"
         print(the_file)
         _mod = __import__(the_file)
-        router_post = dict(router_post, **_mod._config._router_post)
         post_cfg = dict(post_cfg, **_mod._config._post_cfg)
 
 
@@ -87,7 +94,7 @@ class WidgetMenu(tornado.web.UIModule):
         tmpl = '<li><a href="/{}/">{}</a></li>'
 
         for key in post_cfg:
-            out_str = out_str + tmpl.format(router_post[key], post_cfg[key].get('show',post_cfg[key].get('router')))
+            out_str = out_str + tmpl.format(post_cfg[key]['router'], post_cfg[key].get('show',post_cfg[key].get('router')))
 
         return out_str
 

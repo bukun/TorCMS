@@ -38,7 +38,7 @@
                 {% for ia in postinfo %}
 
                 {% if ia.kind !='h'%}
-                <td>{{aa}}. {{ia.name}} <span class="red">( {{router_post[ia.kind]}} )</span></td>
+                <td>{{aa}}. {{ia.name}} <span class="red">( {{router_post[ia.kind]['router']}} )</span></td>
                 <td>{{arr_num[aa]}} </td>
 
                 {% end %}

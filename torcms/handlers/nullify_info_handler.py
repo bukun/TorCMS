@@ -4,7 +4,7 @@ Handler for `valid==0`.
 ToDo: fix it.
 '''
 
-from config import CMS_CFG, router_post
+from config import CMS_CFG, post_cfg
 from torcms.core.base_handler import BaseHandler
 from torcms.model.nullify_info_model import MNullifyInfo
 
@@ -61,5 +61,5 @@ class NullifyInfoHandler(BaseHandler):
             userinfo=self.userinfo,
             cfg=CMS_CFG,
             kwd=kwd,
-            router_post=router_post,
+            router_post=post_cfg,
         )

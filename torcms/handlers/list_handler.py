@@ -7,7 +7,7 @@ import json
 import os
 from html2text import html2text
 
-from config import CMS_CFG, router_post, post_cfg
+from config import CMS_CFG, post_cfg
 from torcms.core.base_handler import BaseHandler
 from torcms.model.category_model import MCategory
 from torcms.model.post2catalog_model import MPost2Catalog
@@ -132,7 +132,7 @@ class ListHandler(BaseHandler):
             'cat_name': cat_name,
             'cat_slug': cat_slug,
             'title': cat_name,
-            'router': router_post[cat_rec.kind],
+            'router': post_cfg[cat_rec.kind]['router'],
             'current_page': current_page_num,
             'kind': cat_rec.kind,
             'tag': tag,
@@ -163,7 +163,7 @@ class ListHandler(BaseHandler):
             html2text=html2text,
             cfg=CMS_CFG,
             kwd=kwd,
-            router=router_post[cat_rec.kind],
+            router=post_cfg[cat_rec.kind]['router'],
             post_type=post_cfg[cat_rec.kind].get('show', post_cfg[cat_rec.kind].get('router')),
         )
 

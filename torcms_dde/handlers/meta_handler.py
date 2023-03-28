@@ -5,11 +5,10 @@ import os
 import uuid
 import openpyxl
 import openpyxl.styles
-from config import CMS_CFG, router_post
+from config import post_cfg
 from torcms.handlers.post_handler import PostHandler
 from torcms.core.tools import logger
 from torcms.model.post_model import MPost
-from openpyxl import load_workbook
 from torcms.core import privilege
 from torcms.model.category_model import MCategory
 from torcms.model.post2catalog_model import MPost2Catalog
@@ -181,7 +180,6 @@ class MetadataHandler(PostHandler):
         else:
             self.show404()
 
-
     def chuli_meta(self, metafile):
         try:
             wb = load_workbook(str(metafile))
@@ -283,8 +281,6 @@ class MetadataHandler(PostHandler):
         ext_dic['def_cat_uid'] = post_data['gcat0']
         ext_dic['status'] = 'a0'
 
-
-
         MPost.add_or_update_post(ext_dic['def_uid'], post_data, extinfo=ext_dic)
         kwargs.pop('uid', None)  # delete `uid` if exists in kwargs
 
@@ -304,7 +300,7 @@ class MetadataHandler(PostHandler):
             wb.save(file_src)
 
         tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
-        self.redirect('/{0}/{1}'.format(router_post[self.kind], uid))
+        self.redirect('/{0}/{1}'.format(post_cfg[self.kind]['router'], uid))
 
     @tornado.web.authenticated
     @privilege.permission(action='can_edit')
@@ -350,8 +346,6 @@ class MetadataHandler(PostHandler):
 
         ext_dic['def_approved_count'] = approved_count
 
-
-
         cnt_old = tornado.escape.xhtml_unescape(postinfo.cnt_md).strip()
         cnt_new = post_data['cnt_md'].strip()
         if cnt_old == cnt_new:
@@ -392,7 +386,7 @@ class MetadataHandler(PostHandler):
 
         logger.info('post kind:' + self.kind)
         tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
-        self.redirect('/{0}/{1}'.format(router_post[postinfo.kind], postinfo.uid))
+        self.redirect('/{0}/{1}'.format(post_cfg[postinfo.kind]['router'], postinfo.uid))
 
     def download_xlsx(self, postid):
         '''
@@ -535,4 +529,3 @@ class MetadataHandler(PostHandler):
         '''
         ALLOWED_EXTENSIONS_PDF = ['xlsx']
         return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS_PDF
-

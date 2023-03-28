@@ -10,7 +10,7 @@ import tornado.escape
 from urllib.parse import unquote
 from html2text import html2text
 
-from config import CMS_CFG, router_post
+from config import CMS_CFG, post_cfg
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tools import logger
 from torcms.core.torcms_redis import redisvr
@@ -250,7 +250,7 @@ class FilterHandler(BaseHandler):
             'imgname': imgname,
             'zhiding': zhiding_str,
             'tuiguang': tuiguang_str,
-            'router': router_post[catinfo.kind],
+            'router': post_cfg[catinfo.kind]['router'],
         }
 
         self.render(

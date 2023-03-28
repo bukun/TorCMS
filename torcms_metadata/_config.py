@@ -1,7 +1,3 @@
-_router_post = {
-    '9': 'data',  # Filter_View
-
-}
 
 _post_cfg = {
 

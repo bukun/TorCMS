@@ -6,7 +6,7 @@ The web page for publish, with category.
 import tornado
 import tornado.web
 
-from config import router_post
+from config import post_cfg
 from torcms.core.base_handler import BaseHandler
 from torcms.model.category_model import MCategory
 
@@ -59,7 +59,7 @@ class PublishHandler(BaseHandler):
             <a href="/{0}/_cat_add/{1}" class="btn btn-primary"
             style="display: inline-block;margin:3px;" >{2}</a>
             '''.format(
-                router_post[catinfo.kind], rec.uid, rec.name
+                post_cfg[catinfo.kind]['router'], rec.uid, rec.name
             )
         outstr += '</ul>'
         return outstr
@@ -108,5 +108,5 @@ class PublishHandler(BaseHandler):
         else:
             catinfo = MCategory.get_by_uid(fatherid)
             self.redirect(
-                '/{1}/_cat_add/{0}'.format(fatherid, router_post[catinfo.kind])
+                '/{1}/_cat_add/{0}'.format(fatherid, post_cfg[catinfo.kind]['router'])
             )

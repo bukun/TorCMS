@@ -50,7 +50,7 @@ def run_drop_tables(_):
 
     drop_the_table(TabPost)
     drop_the_table(TabTag)
-    drop_the_table(TabMember)
+
     drop_the_table(TabWiki)
     drop_the_table(TabLink)
     drop_the_table(TabEntity)
@@ -73,3 +73,4 @@ def run_drop_tables(_):
     drop_the_table(TabRole2Permission)
     drop_the_table(TabPermission)
     drop_the_table(TabRole)
+    drop_the_table(TabMember)

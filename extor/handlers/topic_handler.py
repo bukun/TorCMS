@@ -8,7 +8,7 @@ import tornado.web
 from torcms.handlers.post_handler import PostHandler, update_category, update_label
 from torcms.model.post_model import MPost
 from torcms.model.category_model import MCategory
-from config import router_post
+from config import post_cfg
 
 
 class TopicHandler(PostHandler):
@@ -90,7 +90,7 @@ class TopicHandler(PostHandler):
 
         # cele_gen_whoosh.delay()
         tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
-        self.redirect('/{0}/{1}'.format(router_post[self.kind], uid))
+        self.redirect('/{0}/{1}'.format(post_cfg[self.kind]['router'], uid))
 
     def __parse_post_data(self):
         '''

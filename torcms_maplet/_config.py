@@ -1,6 +1,3 @@
-_router_post = {
-    'm': 'map',
-}
 
 _post_cfg = {
     'm': {

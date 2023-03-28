@@ -1,6 +1,3 @@
-_router_post = {
-    'g': 'datayml',  # Filter_View
-}
 
 _post_cfg = {
     'g': {
