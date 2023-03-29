@@ -203,7 +203,7 @@ class RoleHandler(BaseHandler):
 
         return json.dump(out_dict, self, ensure_ascii=False)
 
-    @privilege.permission(action='assign_role')
+    @privilege.permission(action='assign_group')
     @tornado.web.authenticated
     def update(self, uid):
         '''
@@ -236,7 +236,7 @@ class RoleHandler(BaseHandler):
             }
         return json.dump(output, self)
 
-    @privilege.permission(action='assign_role')
+    @privilege.permission(action='assign_group')
     @tornado.web.authenticated
     def batch_edit(self):
         '''
@@ -258,7 +258,7 @@ class RoleHandler(BaseHandler):
         #     }
         # return json.dump(output, self)
 
-    @privilege.permission(action='assign_role')
+    @privilege.permission(action='assign_group')
     @tornado.web.authenticated
     def role_add(self):
         '''
@@ -290,7 +290,7 @@ class RoleHandler(BaseHandler):
             }
         return json.dump(output, self)
 
-    @privilege.permission(action='assign_role')
+    @privilege.permission(action='assign_group')
     @tornado.web.authenticated
     def delete_by_id(self, del_id):
         '''
