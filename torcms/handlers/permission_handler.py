@@ -22,6 +22,7 @@ class PermissionHandler(BaseHandler):
 
     def initialize(self, **kwargs):
         super().initialize()
+        self.kind='u'
 
     def get(self, *args, **kwargs):
         url_str = args[0]

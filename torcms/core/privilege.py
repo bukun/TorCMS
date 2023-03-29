@@ -210,7 +210,6 @@ def permission(action=''):
                         "status":404,
                         "msg":"没有权限"
                     }
-                    # self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
                     return json.dump(kwd, self)
             else:
 
@@ -219,7 +218,6 @@ def permission(action=''):
                     "status":404,
                     "msg":"没有权限"
                 }
-                # self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
                 return json.dump(kwd, self)
         return deco
 

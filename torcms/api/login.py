@@ -9,7 +9,6 @@ from wtforms.fields import StringField
 from wtforms.validators import DataRequired
 from wtforms_tornado import Form
 
-
 import config
 from datetime import datetime
 from config import CMS_CFG
@@ -409,7 +408,6 @@ class UserApi(BaseHandler):
 
         return json.dump(out_dict, self, ensure_ascii=False)
 
-
     @tornado.web.authenticated
     def __to_show_info__(self, userid=''):
         '''
@@ -472,7 +470,7 @@ class UserApi(BaseHandler):
     def fromCharCOde(self, passstr, *b):
         return chr(passstr % 65536) + "".join([chr(i % 65536) for i in b])
 
-    @privilege.permission(action='assign_role')
+
     def login(self):
         '''
         user login.
@@ -593,7 +591,8 @@ class UserApi(BaseHandler):
         if MUser.delete(user_id):
             output = {"ok": True,
                       "status": 0,
-                      "msg": "删除用户成功"}
+                      "msg": "删除用户成功"
+                      }
         else:
             output = {
                 "ok": False,
