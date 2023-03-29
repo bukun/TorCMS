@@ -50,6 +50,7 @@
       "perPage": 15,
       "keepItemSelectionOnPageChange": true,
       "maxKeepItemSelectionLength": 11,
+      "labelTpl": "${uid} ${name}",
       "api": "/api/permission/list",
       "bulkActions": [
         {

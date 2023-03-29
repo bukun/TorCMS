@@ -65,11 +65,11 @@
                 </a>
                 <ul class="children collapse" id="sub-item-2">
 
-                        {% for kind in router_post %}
+                        {% for kind in router_post.keys() %}
 
                     <li>
                         <a onclick="js_show_page('/category_j/{{kind}}/list')"><span
-                                class="glyphicon glyphicon-share-alt"></span>{{router_post[kind]}}</a>
+                                class="glyphicon glyphicon-share-alt"></span>{{router_post[kind]['show']}}</a>
                     </li>
                     {% end %}
 

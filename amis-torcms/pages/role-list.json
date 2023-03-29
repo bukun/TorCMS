@@ -106,7 +106,7 @@
       "keepItemSelectionOnPageChange": true,
       "maxKeepItemSelectionLength": 11,
       "labelTpl": "${uid} ${name}",
-      "name": "sample",
+
       "api": "/api/role/list",
       "expandConfig": {
       "expand": "all"
@@ -126,7 +126,7 @@
               "controls": [
                 {
                   "type": "hidden",
-                  "name": "uid"
+                  "name": "ids"
                 },
                 {
                   "type": "text",
@@ -176,12 +176,14 @@
         {
           "name": "uid",
           "label": "uid",
-          "type": "text"
+          "type": "text",
+          "toggled": true
         },
         {
           "name": "name",
           "label": "分组/角色名称",
-          "type": "text"
+          "type": "text",
+          "toggled": true
         },
         {
           "name": "status",
