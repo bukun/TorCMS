@@ -201,7 +201,7 @@ class UserApi(BaseHandler):
 
         MUser.update_permissions(post_data['user_name'])
 
-        user_edit_role = {'ok': True, 'status': 200, 'msg': "更新成功"}
+        user_edit_role = {'ok': True, 'status': 0}
         return json.dump(user_edit_role, self)
 
     def register(self):
@@ -346,8 +346,7 @@ class UserApi(BaseHandler):
         MUser.update_role(xg_username, post_data)
 
         output = {"ok": True,
-                  "status": 0,
-                  "msg": "修改用户权限成功"}
+                  "status": 0}
         return json.dump(output, self)
 
     @tornado.web.authenticated
