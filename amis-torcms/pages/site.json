@@ -71,6 +71,17 @@
             "schemaApi": "get:/yaml/time.yaml"
           }
         ]
+      },
+      {
+        "label": "注销登录",
+        "children": [
+
+          {
+            "label": "注销登录",
+            "api": "get:/api/login/logout"
+          }
+
+        ]
       }
     ]
   }

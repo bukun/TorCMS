@@ -9,8 +9,6 @@ from wtforms.fields import StringField
 from wtforms.validators import DataRequired
 from wtforms_tornado import Form
 
-# ToDo: 需要进行切换、测试
-# from tornado_wtforms.form import TornadoForm as Form
 
 import config
 from datetime import datetime
@@ -359,8 +357,10 @@ class UserApi(BaseHandler):
         user logout.
         '''
         self.clear_all_cookies()
-        print('log out')
-        self.redirect('/')
+        output = {"ok": True,
+                  "status": 0,
+                  "msg": "注销登录成功"}
+        return json.dump(output, self)
 
     @tornado.web.authenticated
     def __to_find__(self, cur_p=''):
@@ -409,7 +409,7 @@ class UserApi(BaseHandler):
 
         return json.dump(out_dict, self, ensure_ascii=False)
 
-    @privilege.permission(action='assign_role')
+
     @tornado.web.authenticated
     def __to_show_info__(self, userid=''):
         '''
@@ -472,6 +472,7 @@ class UserApi(BaseHandler):
     def fromCharCOde(self, passstr, *b):
         return chr(passstr % 65536) + "".join([chr(i % 65536) for i in b])
 
+    @privilege.permission(action='assign_role')
     def login(self):
         '''
         user login.
@@ -525,7 +526,6 @@ class UserApi(BaseHandler):
             }
             return json.dump(user_login_status, self)
 
-    @privilege.permission(action='assign_role')
     def __user_list__(self):
         '''
         find by keyword.
