@@ -188,7 +188,7 @@ class Navigation_menu(tornado.web.UIModule):
 
         kwd = {
             'title': title,
-            'router': config.router_post[kind],
+            'router': config.post_cfg[kind]['router'],
             'kind': kind,
             'filter_view': filter_view,
             'slug': slug,
@@ -270,7 +270,7 @@ class State(tornado.web.UIModule):
         post_authority = config.post_cfg[kind]['checker']
 
         kwd = {
-            'router': config.router_post[kind],
+            'router': config.post_cfg[kind]['router'],
             'kind': kind,
             'post_authority': post_authority,
         }

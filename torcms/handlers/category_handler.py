@@ -68,7 +68,7 @@ class CategoryAjaxHandler(BaseHandler):
             'pager': '',
             'title': '最近文档',
             'kind': kind,
-            'router': config.router_post[kind],
+            'router': config.post_cfg[kind]['router'],
         }
         self.render(
             'admin/{0}/category_list.html'.format(self.tmpl_router),

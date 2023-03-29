@@ -30,5 +30,5 @@ class AdminHandler(BaseHandler):
             userinfo=self.userinfo,
             kwd={},
             cfg=config.CMS_CFG,
-            router_post=config.router_post,
+            router_post=config.post_cfg,
         )

@@ -210,7 +210,7 @@ class PostAjaxHandler(PostHandler):
             'kind': kind,
             'current_page': current_page_number,
             'post_count': MPost.get_counts(),
-            'router': config.router_post[kind],
+            'router': config.post_cfg[kind]['router'],
         }
         self.render(
             'admin/post_ajax/post_list.html',
