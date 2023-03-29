@@ -62,7 +62,7 @@
           "actionType": "dialog",
           "level": "primary",
           "dialog": {
-            "title": "批量编辑",
+            "title": "批量修改",
             "name": "sample-bulk-edit",
             "body": {
               "type": "form",
@@ -73,14 +73,13 @@
                   "type": "hidden"
                 },
                 {
-                          "name": "ext_role",
-                          "id": "ext_role",
-                          "label": "分组/角色",
-                          "mode": "row",
-                          "type": "chained-select",
-
-                          "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4"
-                        }
+                  "name": "ext_role",
+                  "id": "ext_role",
+                  "label": "分组/角色",
+                  "mode": "row",
+                  "type": "chained-select",
+                  "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4"
+                }
               ]
             }
           }
@@ -209,8 +208,6 @@
                           "type": "static",
                           "name": "user_name"
                         },
-
-
                         {
                           "name": "ext_role0",
                           "id": "ext_role0",

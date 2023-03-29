@@ -106,11 +106,10 @@
       "keepItemSelectionOnPageChange": true,
       "maxKeepItemSelectionLength": 11,
       "labelTpl": "${uid} ${name}",
-
       "api": "/api/role/list",
       "expandConfig": {
-      "expand": "all"
-    },
+        "expand": "all"
+      },
       "bulkActions": [
         {
           "label": "批量修改",
@@ -118,7 +117,7 @@
           "actionType": "dialog",
           "level": "primary",
           "dialog": {
-            "title": "批量编辑",
+            "title": "批量修改",
             "name": "sample-bulk-edit",
             "body": {
               "type": "form",
@@ -126,12 +125,76 @@
               "controls": [
                 {
                   "type": "hidden",
-                  "name": "ids"
+                  "name": "uid"
                 },
                 {
-                  "type": "text",
                   "name": "status",
-                  "label": "状态"
+                  "label": "状态",
+                  "type": "input-text"
+                },
+                {
+                  "name": "pid",
+                  "id": "pid",
+                  "label": "parent",
+                  "mode": "row",
+                  "type": "chained-select",
+                  "source": "/api/role/getpid?level=1&maxLevel=1",
+                  "required": true
+                },
+                {
+                  "label": "选择权限",
+                  "id": "transfer-receiver",
+                  "type": "transfer",
+                  "required": true,
+                  "name": "permission",
+                  "debugger": true,
+                  "source": "/api/permission/getall"
+                },
+                {
+                  "name": "transferEvent1",
+                  "id": "transferEvent1",
+                  "type": "action",
+                  "label": "全选功能",
+                  "level": "primary",
+                  "className": "mr-3 mb-3",
+                  "debugger": true,
+                  "onEvent": {
+                    "click": {
+                      "actions": [
+                        {
+                          "actionType": "selectAll",
+                          "componentId": "transfer-receiver"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "transferEvent2",
+                  "id": "transferEvent2",
+                  "type": "action",
+                  "label": "清空功能",
+                  "level": "primary",
+                  "className": "mr-3 mb-3",
+                  "debugger": true,
+                  "onEvent": {
+                    "click": {
+                      "actions": [
+                        {
+                          "actionType": "clear",
+                          "componentId": "transfer-receiver"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "type": "action",
+                  "actionType": "reload",
+                  "label": "刷新 reload",
+                  "level": "primary",
+                  "className": "mr-3 mb-3",
+                  "target": "transfer"
                 }
               ]
             }

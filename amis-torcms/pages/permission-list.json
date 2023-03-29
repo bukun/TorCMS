@@ -66,10 +66,15 @@
               "api": "/api/permission/batch_edit",
               "controls": [
                 {
-                  "type": "text",
-                  "name": "engine",
-                  "label": "Engine"
-                }
+          "name": "action",
+          "label": "允许动作",
+          "type": "text"
+        },
+        {
+          "name": "controller",
+          "label": "控制器",
+          "type": "text"
+        }
               ]
             }
           }
