@@ -89,11 +89,8 @@ def gen_xlsx_role_permission():
             }
             print(user_data)
             tt = MUser.create_user(user_data)
-            if tt['code'] == '31':
-                user_uid = tt['uid']
-            print(tt)
-
-            role_permission_relation(uid, user_uid, sheet_ranges, row_num, kind_sig)
+            if tt.get('uid'):
+                role_permission_relation(uid, tt['uid'], sheet_ranges, row_num, kind_sig)
 
 
 def role_permission_relation(role_uid, user_uid, work_sheet, row_num, kind_sig):

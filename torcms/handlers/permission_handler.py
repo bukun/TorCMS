@@ -175,7 +175,7 @@ class PermissionHandler(BaseHandler):
             }
         return json.dump(output, self)
 
-    @privilege.permission(action='assign_role')
+    # @privilege.permission(action='assign_role')
     @tornado.web.authenticated
     def per_add(self):
         '''
