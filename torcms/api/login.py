@@ -197,12 +197,12 @@ class UserApi(BaseHandler):
                 "status": 404,
                 "msg": "更新失败"
             }
-            return json.dump(user_edit_role, self)
+            return json.dump(user_edit_role, self, ensure_ascii=False)
 
         MUser.update_permissions(post_data['user_name'])
 
         user_edit_role = {'ok': True, 'status': 0}
-        return json.dump(user_edit_role, self)
+        return json.dump(user_edit_role, self, ensure_ascii=False)
 
     def register(self):
         '''
@@ -228,7 +228,7 @@ class UserApi(BaseHandler):
                 "status": 404,
                 "msg": msg
             }
-            return json.dump(user_check_status, self)
+            return json.dump(user_check_status, self, ensure_ascii=False)
 
         user_create_status = MUser.create_user(post_data)
         if user_create_status['success']:
@@ -238,7 +238,7 @@ class UserApi(BaseHandler):
                 "msg": "注册成功"
             }
             logger.info('user_register_status: {0}'.format(user_create_status))
-            return json.dump(user_create_status, self)
+            return json.dump(user_create_status, self, ensure_ascii=False)
 
     @privilege.permission(action='assign_role')
     @tornado.web.authenticated
@@ -261,7 +261,7 @@ class UserApi(BaseHandler):
             output = {"ok": False,
                       "status": 404,
                       "msg": "重置密码失败"}
-        return json.dump(output, self)
+        return json.dump(output, self, ensure_ascii=False)
 
     @privilege.permission(action='assign_role')
     @tornado.web.authenticated
@@ -284,7 +284,7 @@ class UserApi(BaseHandler):
             output = {"ok": False,
                       "status": 404,
                       "msg": "修改用户信息失败"}
-        return json.dump(output, self)
+        return json.dump(output, self, ensure_ascii=False)
 
     def fetch_post_data(self):
         '''
@@ -347,7 +347,7 @@ class UserApi(BaseHandler):
 
         output = {"ok": True,
                   "status": 0}
-        return json.dump(output, self)
+        return json.dump(output, self, ensure_ascii=False)
 
     @tornado.web.authenticated
     def __logout__(self):
@@ -358,7 +358,7 @@ class UserApi(BaseHandler):
         output = {"ok": True,
                   "status": 0,
                   "msg": "注销登录成功"}
-        return json.dump(output, self)
+        return json.dump(output, self, ensure_ascii=False)
 
     @tornado.web.authenticated
     def __to_find__(self, cur_p=''):
@@ -449,7 +449,7 @@ class UserApi(BaseHandler):
             output = {"ok": False,
                       "status": 404,
                       "msg": "请至少选择一个用户"}
-            return json.dump(output, self)
+            return json.dump(output, self, ensure_ascii=False)
         # 审核权限
         authority = '0'
         for i in self.get_arguments('authority'):
@@ -461,14 +461,13 @@ class UserApi(BaseHandler):
         output = {"ok": True,
                   "status": 0,
                   "msg": "批量修改成功"}
-        return json.dump(output, self)
+        return json.dump(output, self, ensure_ascii=False)
 
     def parseint(self, stringss):
         return int(''.join([x for x in stringss if x.isdigit()]))
 
     def fromCharCOde(self, passstr, *b):
         return chr(passstr % 65536) + "".join([chr(i % 65536) for i in b])
-
 
     def login(self):
         '''
@@ -521,7 +520,7 @@ class UserApi(BaseHandler):
                 "status": 404,
                 "msg": "帐号或密码错误，登录失败"
             }
-            return json.dump(user_login_status, self)
+            return json.dump(user_login_status, self, ensure_ascii=False)
 
     def __user_list__(self):
         '''
@@ -599,7 +598,7 @@ class UserApi(BaseHandler):
                 "msg": "删除用户失败"
             }
 
-        return json.dump(output, self)
+        return json.dump(output, self, ensure_ascii=False)
 
     def reset_password(self):
         '''
@@ -760,4 +759,4 @@ class UserApi(BaseHandler):
                 break
 
         pass_strength_status = {'intensity': intensity}
-        return json.dump(pass_strength_status, self)
+        return json.dump(pass_strength_status, self, ensure_ascii=False)

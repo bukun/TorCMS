@@ -125,8 +125,9 @@
               "controls": [
                 {
                   "type": "hidden",
-                  "name": "uid"
-                },
+                  "name": "uids",
+                  "value": "${uid}"
+              },
                 {
                   "name": "status",
                   "label": "状态",
@@ -340,12 +341,14 @@
                         {
                           "name": "name",
                           "label": "分组/角色名称",
-                          "type": "input-text"
+                          "type": "input-text",
+                          "value": "${name}"
                         },
                         {
                           "name": "status",
                           "label": "状态",
-                          "type": "input-text"
+                          "type": "input-text",
+                          "value": "${status}"
                         },
                         {
                           "name": "pid",
@@ -354,7 +357,8 @@
                           "mode": "row",
                           "type": "chained-select",
                           "source": "/api/role/getpid?level=1&maxLevel=1",
-                          "required": true
+                          "required": true,
+                          "value": "${pid}"
                         },
                         {
                           "label": "选择权限",
@@ -363,7 +367,8 @@
                           "required": true,
                           "name": "permission",
                           "debugger": true,
-                          "source": "/api/permission/getall"
+                          "source": "/api/permission/getall",
+                          "value": "${permission}"
                         },
                         {
                           "name": "transferEvent1",
