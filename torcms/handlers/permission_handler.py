@@ -22,7 +22,7 @@ class PermissionHandler(BaseHandler):
 
     def initialize(self, **kwargs):
         super().initialize()
-        self.kind='u'
+        self.kind = 'u'
 
     def get(self, *args, **kwargs):
         url_str = args[0]
@@ -173,7 +173,7 @@ class PermissionHandler(BaseHandler):
                 "status": 404,
                 "msg": "更新权限失败"
             }
-        return json.dump(output, self)
+        return json.dump(output, self, ensure_ascii=False)
 
     # @privilege.permission(action='assign_role')
     @tornado.web.authenticated
@@ -198,7 +198,7 @@ class PermissionHandler(BaseHandler):
                 "status": 404,
                 "msg": "添加/更新权限失败"
             }
-        return json.dump(output, self)
+        return json.dump(output, self, ensure_ascii=False)
 
     @privilege.permission(action='assign_role')
     @tornado.web.authenticated
@@ -222,4 +222,4 @@ class PermissionHandler(BaseHandler):
                 "status": 0,
                 "msg": "删除权限失败"
             }
-        return json.dump(output, self)
+        return json.dump(output, self, ensure_ascii=False)

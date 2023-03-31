@@ -22,7 +22,7 @@ class RoleHandler(BaseHandler):
 
     def initialize(self, **kwargs):
         super().initialize()
-        self.kind='u'
+        self.kind = 'u'
 
     def get(self, *args, **kwargs):
         url_str = args[0]
@@ -181,7 +181,7 @@ class RoleHandler(BaseHandler):
             "ok": True,
             "status": 0,
             "msg": "ok",
-            "data": {"count": counts, "rows": dics},
+            "data": {"count": counts, "rows": dics, "uids": ''},
         }
 
         return json.dump(out_dict, self, ensure_ascii=False)
@@ -235,7 +235,7 @@ class RoleHandler(BaseHandler):
                 "status": 404,
                 "msg": "更新分组/角色失败"
             }
-        return json.dump(output, self)
+        return json.dump(output, self, ensure_ascii=False)
 
     @privilege.permission(action='assign_group')
     @tornado.web.authenticated
@@ -289,7 +289,7 @@ class RoleHandler(BaseHandler):
                 "status": 404,
                 "msg": "添加/更新分组/角色失败"
             }
-        return json.dump(output, self)
+        return json.dump(output, self, ensure_ascii=False)
 
     @privilege.permission(action='assign_group')
     @tornado.web.authenticated
@@ -311,4 +311,4 @@ class RoleHandler(BaseHandler):
                 "ok": False,
                 "status": 404,
                 "msg": "删除分组/角色失败"}
-        return json.dump(output, self)
+        return json.dump(output, self, ensure_ascii=False)

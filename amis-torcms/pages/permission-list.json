@@ -198,17 +198,20 @@
                         {
                           "name": "name",
                           "label": "权限名称",
-                          "type": "input-text"
+                          "type": "input-text",
+                          "value": "${name}"
                         },
                         {
                           "name": "action",
                           "label": "允许动作",
-                          "type": "input-text"
+                          "type": "input-text",
+                          "value": "${action}"
                         },
                         {
                           "name": "controller",
                           "label": "控制器",
-                          "type": "input-text"
+                          "type": "input-text",
+                          "value": "${controller}"
                         }
                       ]
                     }

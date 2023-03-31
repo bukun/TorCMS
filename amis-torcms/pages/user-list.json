@@ -206,7 +206,8 @@
                         {
                           "label": "用户名",
                           "type": "static",
-                          "name": "user_name"
+                          "name": "user_name",
+                          "value": "${user_name}"
                         },
                         {
                           "name": "ext_role0",
@@ -214,7 +215,8 @@
                           "label": "分组/角色",
                           "mode": "row",
                           "type": "chained-select",
-                          "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4"
+                          "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
+                          "value": "${ext_role0}"
                         },
                         {
                           "name": "ext_role1",
@@ -222,7 +224,8 @@
                           "label": "分组/角色",
                           "mode": "row",
                           "type": "chained-select",
-                          "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4"
+                          "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
+                          "value": "${ext_role1}"
                         }
                       ]
                     }
