@@ -127,7 +127,7 @@
                   "type": "hidden",
                   "name": "uids",
                   "value": "${uid}"
-              },
+                },
                 {
                   "name": "status",
                   "label": "状态",
@@ -255,17 +255,21 @@
           "type": "text"
         },
         {
-          "name": "pid",
-          "id": "pid",
-          "label": "parent",
-          "mode": "row",
-          "type": "chained-select",
-          "source": "/api/role/getpid?level=1&maxLevel=1",
-          "required": true
+          "name": "pid_name",
+          "label": "上一级",
+          "type": "text",
+          "value": "${pid_name}"
+
+        },
+        {
+          "name": "permission",
+          "label": "权限",
+          "type": "json",
+          "value": "${permission}"
         },
         {
           "name": "time_create",
-          "label": "time_create",
+          "label": "创建时间",
           "type": "text"
         },
         {
@@ -307,6 +311,12 @@
                           "name": "pid",
                           "label": "parent id",
                           "type": "static"
+                        },
+                        {
+                          "name": "permission",
+                          "label": "permission",
+                          "type": "json",
+                          "value": "${permission}"
                         },
                         {
                           "name": "time_create",

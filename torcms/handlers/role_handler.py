@@ -13,6 +13,7 @@ from torcms.core import tools, privilege
 from torcms.core.base_handler import BaseHandler
 from torcms.model.role_model import MRole
 from torcms.model.role2permission_model import MRole2Permission
+from torcms.model.permission_model import MPermission
 
 
 class RoleHandler(BaseHandler):
@@ -135,38 +136,17 @@ class RoleHandler(BaseHandler):
         counts = MRole.get_counts()
 
         for rec in recs:
-            dic = {
-                "uid": rec.uid,
-                "name": rec.name,
-                "status": rec.status,
-                "pid": rec.pid,
-                "time_create": tools.format_time(rec.time_create),
-                "time_update": tools.format_time(rec.time_update),
-            }
+            dic = self.get_recs_dic(rec)
+
             childrens1 = MRole.get_by_pid(rec.uid)
             chid_dics1 = []
             for children1 in childrens1:
-
-                chid1_rec = {
-                    "uid": children1.uid,
-                    "name": children1.name,
-                    "status": children1.status,
-                    "pid": children1.pid,
-                    "time_create": tools.format_time(children1.time_create),
-                    "time_update": tools.format_time(children1.time_update),
-                }
+                chid1_rec = self.get_recs_dic(children1)
 
                 childrens2 = MRole.get_by_pid(children1.uid)
                 chid_dics2 = []
                 for child2 in childrens2:
-                    chid2_rec = {
-                        "uid": child2.uid,
-                        "name": child2.name,
-                        "status": child2.status,
-                        "pid": child2.pid,
-                        "time_create": tools.format_time(child2.time_create),
-                        "time_update": tools.format_time(child2.time_update),
-                    }
+                    chid2_rec = self.get_recs_dic(child2)
 
                     chid_dics2.append(chid2_rec)
                 if chid_dics2:
@@ -181,10 +161,55 @@ class RoleHandler(BaseHandler):
             "ok": True,
             "status": 0,
             "msg": "ok",
-            "data": {"count": counts, "rows": dics, "uids": ''},
+            "data": {"count": counts, "rows": dics},
         }
 
         return json.dump(out_dict, self, ensure_ascii=False)
+
+    def get_recs_dic(self, rec):
+        rec = {
+            "uid": rec.uid,
+            "name": rec.name,
+            "status": rec.status,
+            "pid": rec.pid,
+            "time_create": tools.format_time(rec.time_create),
+            "time_update": tools.format_time(rec.time_update),
+            "permission": self.get_permission(rec.uid),
+            "pid_name": self.get_pid_name(rec.pid)
+        }
+        return rec
+
+    def get_child(self, uid):
+        childrens1 = MRole.get_by_pid(uid)
+
+        for children1 in childrens1:
+            chid1_rec = {
+                "uid": children1.uid,
+                "name": children1.name,
+                "status": children1.status,
+                "pid": children1.pid,
+                "time_create": tools.format_time(children1.time_create),
+                "time_update": tools.format_time(children1.time_update),
+                "permission": self.get_permission(children1.uid),
+                "pid_name": self.get_pid_name(children1.pid)
+            }
+        return chid1_rec
+
+    def get_permission(self, uid):
+        pers = MRole2Permission.query_permission_by_role(uid)
+
+        per_arr = []
+        for per in pers:
+            per_arr.append(per)
+        return per_arr
+
+    def get_pid_name(self, uid):
+        pid_rec = MRole.get_by_uid(uid)
+        if pid_rec:
+            pid_name = pid_rec.name
+        else:
+            pid_name = uid
+        return pid_name
 
     def get_by_id(self, uid):
         rec = MRole.get_by_uid(uid)
@@ -212,7 +237,7 @@ class RoleHandler(BaseHandler):
         '''
 
         post_data = json.loads(self.request.body)
-        per_dics = post_data.get('permission', '').split(",")
+        per_dics = post_data.get('permission','').split(",")
 
         recs = MRole2Permission.query_by_role(uid)
 
@@ -267,7 +292,7 @@ class RoleHandler(BaseHandler):
         '''
 
         post_data = json.loads(self.request.body)
-        per_dics = post_data.get('permission', '').split(",")
+        per_dics = post_data.get('permission','').split(",")
 
         cur_uid = tools.get_uudd(2)
         while MRole.get_by_uid(cur_uid):

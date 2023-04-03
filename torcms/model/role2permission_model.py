@@ -3,7 +3,7 @@
 Reply of users.
 '''
 import time
-
+from peewee import JOIN
 from torcms.core import tools
 from torcms.model.core_tab import TabRole, TabPermission, TabRole2Permission
 
@@ -24,6 +24,19 @@ class MRole2Permission:
         return TabRole2Permission.select().where(
             TabRole2Permission.permission == per_id
         )
+
+    @staticmethod
+    def query_permission_by_role(role_id):
+        query = (
+            TabRole2Permission.select(
+                TabPermission.uid, TabPermission.name, TabPermission.action, TabPermission.controller
+            )
+            .join(TabPermission, JOIN.INNER)
+            .switch(TabRole2Permission)
+            .join(TabRole, JOIN.INNER)
+            .where(TabRole2Permission.role == role_id)
+        )
+        return query.dicts()
 
     @staticmethod
     def query_by_role(role_id):

@@ -130,6 +130,11 @@
           "type": "text"
         },
         {
+                          "name": "extinfo",
+                          "type": "json",
+                          "label": "extinfo"
+                        },
+        {
           "name": "time_create",
           "type": "date",
           "label": "注册时间"
