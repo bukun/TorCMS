@@ -54,7 +54,7 @@ class MPermission:
         '''
         raw_rec = TabPermission.get(TabPermission.uid == uid)
         entry = TabPermission.update(
-            name=post_data['name'],
+            name=post_data['name', raw_rec.name],
             controller=post_data.get('controller', raw_rec.controller),
             action=post_data.get('action', raw_rec.action),
         ).where(TabPermission.uid == uid)
@@ -65,6 +65,22 @@ class MPermission:
             print(repr(err))
             return False
 
+    @staticmethod
+    def update_action(uid, post_data):
+        '''
+        Updat the link.
+        '''
+        raw_rec = TabPermission.get(TabPermission.uid == uid)
+        entry = TabPermission.update(
+            controller=post_data.get('controller', raw_rec.controller),
+            action=post_data.get('action', raw_rec.action),
+        ).where(TabPermission.uid == uid)
+        try:
+            entry.execute()
+            return True
+        except Exception as err:
+            print(repr(err))
+            return False
     @staticmethod
     def add_or_update(uid, post_data):
         '''

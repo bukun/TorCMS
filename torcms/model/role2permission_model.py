@@ -66,5 +66,6 @@ class MRole2Permission:
 
         if record.count() > 0:
             pass
+
         else:
             TabRole2Permission.create(role=role_uid, permission=per_id, kind=kind_sig)

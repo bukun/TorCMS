@@ -4,16 +4,11 @@ Handler for links.
 '''
 
 import json
-
-import tornado.escape
 import tornado.web
-
-from config import CMS_CFG
 from torcms.core import tools, privilege
 from torcms.core.base_handler import BaseHandler
 from torcms.model.role_model import MRole
 from torcms.model.role2permission_model import MRole2Permission
-from torcms.model.permission_model import MPermission
 
 
 class RoleHandler(BaseHandler):
@@ -63,6 +58,8 @@ class RoleHandler(BaseHandler):
             self.role_add()
         elif url_arr[0] == 'batch_edit':
             self.batch_edit()
+        elif url_arr[0] == 'batch_delete':
+            self.batch_delete(url_arr[1])
 
         else:
             self.redirect('misc/html/404.html')
@@ -179,25 +176,9 @@ class RoleHandler(BaseHandler):
         }
         return rec
 
-    def get_child(self, uid):
-        childrens1 = MRole.get_by_pid(uid)
-
-        for children1 in childrens1:
-            chid1_rec = {
-                "uid": children1.uid,
-                "name": children1.name,
-                "status": children1.status,
-                "pid": children1.pid,
-                "time_create": tools.format_time(children1.time_create),
-                "time_update": tools.format_time(children1.time_update),
-                "permission": self.get_permission(children1.uid),
-                "pid_name": self.get_pid_name(children1.pid)
-            }
-        return chid1_rec
-
     def get_permission(self, uid):
         pers = MRole2Permission.query_permission_by_role(uid)
-
+        # 移除相关处理
         per_arr = []
         for per in pers:
             per_arr.append(per)
@@ -237,7 +218,7 @@ class RoleHandler(BaseHandler):
         '''
 
         post_data = json.loads(self.request.body)
-        per_dics = post_data.get('permission','').split(",")
+        per_dics = post_data.get("permission", "").split(",")
 
         recs = MRole2Permission.query_by_role(uid)
 
@@ -270,19 +251,32 @@ class RoleHandler(BaseHandler):
         '''
 
         post_data = json.loads(self.request.body)
-        aa = self.request.arguments
-        print("*" * 50)
-        print(post_data)
-        print(aa)
-        # if MRole.update(uid, post_data):
-        #     output = {
-        #         'addinfo ': 1,
-        #     }
-        # else:
-        #     output = {
-        #         'addinfo ': 0,
-        #     }
-        # return json.dump(output, self)
+
+        ids = post_data.get("ids", "").split(",")
+        per_dics = post_data.get("permission", "").split(",")
+        for uid in ids:
+            recs = MRole2Permission.query_by_role(uid)
+
+            for rec in recs:
+                MRole2Permission.remove_relation(uid, rec.permission)
+
+            if MRole.update(uid, post_data):
+                if per_dics:
+                    for per in per_dics:
+                        MRole2Permission.add_or_update(uid, per)
+
+                output = {
+                    "ok": True,
+                    "status": 0,
+                    "msg": "批量更新分组/角色成功"
+                }
+            else:
+                output = {
+                    "ok": False,
+                    "status": 404,
+                    "msg": "批量更新分组/角色失败"
+                }
+        return json.dump(output, self, ensure_ascii=False)
 
     @privilege.permission(action='assign_group')
     @tornado.web.authenticated
@@ -292,7 +286,7 @@ class RoleHandler(BaseHandler):
         '''
 
         post_data = json.loads(self.request.body)
-        per_dics = post_data.get('permission','').split(",")
+        per_dics = post_data.get("permission", "").split(",")
 
         cur_uid = tools.get_uudd(2)
         while MRole.get_by_uid(cur_uid):
@@ -336,4 +330,29 @@ class RoleHandler(BaseHandler):
                 "ok": False,
                 "status": 404,
                 "msg": "删除分组/角色失败"}
+        return json.dump(output, self, ensure_ascii=False)
+
+    @privilege.permission(action='assign_group')
+    @tornado.web.authenticated
+    def batch_delete(self, del_id):
+        '''
+        Delete a link by id.
+        '''
+
+        del_uids = del_id.split(",")
+        for del_id in del_uids:
+            del_roles = MRole2Permission.query_by_role(del_id)
+            for del_role in del_roles:
+                MRole2Permission.remove_relation(del_role.role, del_role.permission)
+
+            if MRole.delete(del_id):
+                output = {
+                    "ok": True,
+                    "status": 0,
+                    "msg": "删除分组/角色成功"}
+            else:
+                output = {
+                    "ok": False,
+                    "status": 404,
+                    "msg": "删除分组/角色失败"}
         return json.dump(output, self, ensure_ascii=False)

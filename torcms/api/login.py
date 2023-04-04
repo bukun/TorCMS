@@ -144,8 +144,13 @@ class UserApi(BaseHandler):
             self.user_edit_role()
         elif url_arr[0] == '_delete':
             self.delete_user(url_arr[1]),
+
         elif url_arr[0] == 'changerole':
             self.__change_role__(url_arr[1])
+        elif url_arr[0] == 'batch_edit':
+            self.batch_edit()
+        elif url_arr[0] == 'batch_delete':
+            self.batch_delete(url_arr[1])
 
     @privilege.permission(action='assign_role')
     def user_edit_role(self):
@@ -204,6 +209,68 @@ class UserApi(BaseHandler):
         user_edit_role = {'ok': True, 'status': 0}
         return json.dump(user_edit_role, self, ensure_ascii=False)
 
+    @privilege.permission(action='assign_group')
+    @tornado.web.authenticated
+    def batch_edit(self):
+        '''
+        Update the link.
+        '''
+
+        post_data = json.loads(self.request.body)
+
+        ids = post_data.get("ids", "").split(",")
+        for uid in ids:
+
+            user_id = uid
+            userinfo = MUser.get_by_uid(user_id)
+            if 'ext_role0' in post_data:
+                pass
+            else:
+                return False
+
+            the_roles_arr = []
+            extinfo = {}
+            def_roles_arr = ['ext_role{0}'.format(x) for x in range(10)]
+            for key in def_roles_arr:
+                if key not in post_data:
+                    continue
+                if post_data[key] == '' or post_data[key] == '0':
+                    continue
+
+                if post_data[key] in the_roles_arr:
+                    continue
+
+                the_roles_arr.append(post_data[key])
+
+            for index, idx_catid in enumerate(the_roles_arr):
+                roles = idx_catid.split(",")
+                for role in roles:
+                    MStaff2Role.add_or_update(user_id, role)
+                    pers = MRole2Permission.query_by_role(role)
+                    for per in pers:
+                        extinfo['_per_' + str(per.permission)] = 1
+
+            current_roles = MStaff2Role.query_by_staff(user_id).objects()
+            for cur_role in current_roles:
+                if cur_role.role not in the_roles_arr:
+                    MStaff2Role.remove_relation(user_id, cur_role.role)
+
+            extinfo['roles'] = the_roles_arr
+
+            out_dic = MUser.update_extinfo(user_id, extinfo)
+
+            if not out_dic['success']:
+                user_edit_role = {
+                    "ok": False,
+                    "status": 404,
+                    "msg": "更新失败"
+                }
+                continue
+
+            MUser.update_permissions(userinfo.user_name)
+
+            user_edit_role = {'ok': True, 'status': 0}
+        return json.dump(user_edit_role, self, ensure_ascii=False)
     def register(self):
         '''
         user regist.
@@ -597,6 +664,33 @@ class UserApi(BaseHandler):
                 "status": 404,
                 "msg": "删除用户失败"
             }
+
+        return json.dump(output, self, ensure_ascii=False)
+
+    @privilege.permission(action='assign_group')
+    @tornado.web.authenticated
+    def batch_delete(self, del_id):
+        '''
+        Delete a link by id.
+        '''
+
+        del_uids = del_id.split(",")
+        for user_id in del_uids:
+            del_recs = MStaff2Role.query_by_staff(user_id)
+            for del_rec in del_recs:
+                MStaff2Role.remove_relation(del_rec.staff, del_rec.row)
+
+            if MUser.delete(user_id):
+                output = {"ok": True,
+                          "status": 0,
+                          "msg": "删除用户成功"
+                          }
+            else:
+                output = {
+                    "ok": False,
+                    "status": 404,
+                    "msg": "删除用户失败"
+                }
 
         return json.dump(output, self, ensure_ascii=False)
 

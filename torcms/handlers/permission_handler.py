@@ -4,11 +4,7 @@ Handler for links.
 '''
 
 import json
-
-import tornado.escape
 import tornado.web
-
-from config import CMS_CFG
 from torcms.core import privilege
 from torcms.core.base_handler import BaseHandler
 from torcms.model.permission_model import MPermission
@@ -59,6 +55,10 @@ class PermissionHandler(BaseHandler):
             self.per_add()
         elif url_arr[0] == '_delete':
             self.delete_by_id(url_arr[1])
+        elif url_arr[0] == 'batch_edit':
+            self.batch_edit()
+        elif url_arr[0] == 'batch_delete':
+            self.batch_delete(url_arr[1])
         else:
             self.redirect('misc/html/404.html')
 
@@ -177,6 +177,31 @@ class PermissionHandler(BaseHandler):
 
     # @privilege.permission(action='assign_role')
     @tornado.web.authenticated
+    def batch_edit(self):
+        '''
+        Update the link.
+        '''
+
+        post_data = json.loads(self.request.body)
+
+        ids = post_data.get("ids", "").split(",")
+        for uid in ids:
+            if MPermission.update_action(uid, post_data):
+                output = {
+                    "ok": True,
+                    "status": 0,
+                    "msg": "更新权限成功"
+                }
+            else:
+                output = {
+                    "ok": False,
+                    "status": 404,
+                    "msg": "更新权限失败"
+                }
+        return json.dump(output, self, ensure_ascii=False)
+
+    @privilege.permission(action='assign_role')
+    @tornado.web.authenticated
     def per_add(self):
         '''
         user add link.
@@ -222,4 +247,31 @@ class PermissionHandler(BaseHandler):
                 "status": 0,
                 "msg": "删除权限失败"
             }
+        return json.dump(output, self, ensure_ascii=False)
+
+    @privilege.permission(action='assign_role')
+    @tornado.web.authenticated
+    def batch_delete(self, del_id):
+        '''
+        Delete a link by id.
+        '''
+
+        del_uids = del_id.split(",")
+        for del_id in del_uids:
+            del_roles = MRole2Permission.query_by_permission(del_id)
+            for del_role in del_roles:
+                MRole2Permission.remove_relation(del_role.role, del_role.permission)
+
+            if MPermission.delete(del_id):
+                output = {
+                    "ok": True,
+                    "status": 0,
+                    "msg": "删除权限成功"
+                }
+            else:
+                output = {
+                    "ok": False,
+                    "status": 0,
+                    "msg": "删除权限失败"
+                }
         return json.dump(output, self, ensure_ascii=False)

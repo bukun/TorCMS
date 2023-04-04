@@ -104,12 +104,13 @@
       "draggable": true,
       "perPage": 15,
       "keepItemSelectionOnPageChange": true,
-      "maxKeepItemSelectionLength": 11,
+      "maxKeepItemSelectionLength": 10,
       "labelTpl": "${uid} ${name}",
       "api": "/api/role/list",
       "expandConfig": {
         "expand": "all"
       },
+      "primaryField": "uid",
       "bulkActions": [
         {
           "label": "批量修改",
@@ -122,11 +123,10 @@
             "body": {
               "type": "form",
               "api": "/api/role/batch_edit",
-              "controls": [
+              "body": [
                 {
                   "type": "hidden",
-                  "name": "uids",
-                  "value": "${uid}"
+                  "name": "ids"
                 },
                 {
                   "name": "status",
@@ -206,7 +206,7 @@
           "type": "button",
           "level": "danger",
           "actionType": "ajax",
-          "api": "/api/role/batch_edit",
+          "api": "/api/role/batch_delete/${ids|raw}",
           "confirmText": "确定要批量删除?"
         }
       ],
@@ -259,7 +259,6 @@
           "label": "上一级",
           "type": "text",
           "value": "${pid_name}"
-
         },
         {
           "name": "permission",

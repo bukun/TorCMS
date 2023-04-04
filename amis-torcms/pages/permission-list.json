@@ -52,6 +52,7 @@
       "maxKeepItemSelectionLength": 11,
       "labelTpl": "${uid} ${name}",
       "api": "/api/permission/list",
+      "primaryField": "uid",
       "bulkActions": [
         {
           "label": "批量修改",
@@ -66,15 +67,19 @@
               "api": "/api/permission/batch_edit",
               "controls": [
                 {
-          "name": "action",
-          "label": "允许动作",
-          "type": "text"
-        },
-        {
-          "name": "controller",
-          "label": "控制器",
-          "type": "text"
-        }
+                  "type": "hidden",
+                  "name": "ids"
+                },
+                {
+                  "name": "action",
+                  "label": "允许动作",
+                  "type": "text"
+                },
+                {
+                  "name": "controller",
+                  "label": "控制器",
+                  "type": "text"
+                }
               ]
             }
           }
@@ -84,7 +89,7 @@
           "type": "button",
           "level": "danger",
           "actionType": "ajax",
-          "api": "/api/permission/batch_edit",
+          "api": "/api/permission/batch_delete/${ids|raw}",
           "confirmText": "确定要批量删除?"
         }
       ],
@@ -194,7 +199,6 @@
                       "name": "permission-edit-form",
                       "api": "/api/permission/_edit/${uid}",
                       "body": [
-
                         {
                           "name": "name",
                           "label": "权限名称",
