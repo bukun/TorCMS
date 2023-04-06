@@ -246,8 +246,7 @@
                           "label": "分组/角色",
                           "mode": "row",
                           "type": "chained-select",
-                          "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
-                          "required": true
+                          "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4"
                         },
                         {
                           "name": "ext_role1",
