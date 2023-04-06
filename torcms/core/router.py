@@ -34,8 +34,8 @@ from torcms.handlers.user_info_list_handler import UserListHandler
 from torcms.handlers.wiki_handler import WikiHandler
 from torcms.handlers.wiki_history_manager import WikiHistoryHandler
 from torcms.handlers.check_handler import CheckHandler
-from torcms.handlers.permission_handler import PermissionHandler
-from torcms.handlers.role_handler import RoleHandler
+from torcms.api.permission_handler import PermissionHandler
+from torcms.api.role_handler import RoleHandler
 from torcms.api.login import UserApi
 from torcms.api.test import TestApi
 

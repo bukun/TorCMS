@@ -179,6 +179,11 @@ class UserApi(BaseHandler):
 
             the_roles_arr.append(post_data[key])
 
+        current_roles = MStaff2Role.query_by_staff(user_id).objects()
+        for cur_role in current_roles:
+            if cur_role.role not in the_roles_arr:
+                MStaff2Role.remove_relation(user_id, cur_role.role)
+
         for index, idx_catid in enumerate(the_roles_arr):
             roles = idx_catid.split(",")
             for role in roles:
@@ -186,11 +191,6 @@ class UserApi(BaseHandler):
                 pers = MRole2Permission.query_by_role(role)
                 for per in pers:
                     extinfo['_per_' + str(per.permission)] = 1
-
-        current_roles = MStaff2Role.query_by_staff(user_id).objects()
-        for cur_role in current_roles:
-            if cur_role.role not in the_roles_arr:
-                MStaff2Role.remove_relation(user_id, cur_role.role)
 
         extinfo['roles'] = the_roles_arr
 
@@ -242,6 +242,11 @@ class UserApi(BaseHandler):
 
                 the_roles_arr.append(post_data[key])
 
+            current_roles = MStaff2Role.query_by_staff(user_id).objects()
+            for cur_role in current_roles:
+                if cur_role.role not in the_roles_arr:
+                    MStaff2Role.remove_relation(user_id, cur_role.role)
+
             for index, idx_catid in enumerate(the_roles_arr):
                 roles = idx_catid.split(",")
                 for role in roles:
@@ -249,11 +254,6 @@ class UserApi(BaseHandler):
                     pers = MRole2Permission.query_by_role(role)
                     for per in pers:
                         extinfo['_per_' + str(per.permission)] = 1
-
-            current_roles = MStaff2Role.query_by_staff(user_id).objects()
-            for cur_role in current_roles:
-                if cur_role.role not in the_roles_arr:
-                    MStaff2Role.remove_relation(user_id, cur_role.role)
 
             extinfo['roles'] = the_roles_arr
 
@@ -271,6 +271,7 @@ class UserApi(BaseHandler):
 
             user_edit_role = {'ok': True, 'status': 0}
         return json.dump(user_edit_role, self, ensure_ascii=False)
+
     def register(self):
         '''
         user regist.
@@ -628,11 +629,11 @@ class UserApi(BaseHandler):
                 "uid": rec.uid,
                 "user_name": rec.user_name,
                 'user_email': rec.user_email,
-                'role': rec.role,
                 'authority': rec.authority,
-                'time_login': rec.time_login,
-                'time_create': rec.time_create,
+                'time_login': tools.format_time(rec.time_login),
+                'time_create': tools.format_time(rec.time_create),
                 'extinfo': rec.extinfo,
+                'staff_roles': self.get_role_by_uid(rec.uid),
             }
             dics.append(dic)
         out_dict = {
@@ -643,6 +644,16 @@ class UserApi(BaseHandler):
         }
 
         return json.dump(out_dict, self, ensure_ascii=False)
+
+    def get_role_by_uid(self, user_id):
+
+        pers = MStaff2Role.get_role_by_uid(user_id)
+
+        per_arr = []
+        for per in pers:
+            per_arr.append(per['name'])
+
+        return per_arr
 
     @privilege.permission(action='assign_role')
     def delete_user(self, user_id):

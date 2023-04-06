@@ -80,7 +80,8 @@
                   "mode": "row",
                   "type": "chained-select",
                   "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4"
-                }, {
+                },
+                {
                   "name": "ext_role1",
                   "id": "ext_role1",
                   "label": "分组/角色",
@@ -138,14 +139,21 @@
           "type": "text"
         },
         {
+          "name": "staff_roles",
+          "label": "角色",
+          "type": "text",
+          "value": "${staff_roles}"
+        },
+        {
           "name": "extinfo",
           "type": "json",
           "label": "extinfo"
         },
         {
           "name": "time_create",
-          "type": "date",
-          "label": "注册时间"
+          "type": "text",
+          "label": "注册时间",
+          "value": "${time_create}"
         },
         {
           "type": "operation",
@@ -183,9 +191,16 @@
                           "type": "static"
                         },
                         {
+                          "name": "staff_roles",
+                          "label": "角色",
+                          "type": "static",
+                          "value": "${staff_roles}"
+                        },
+                        {
                           "name": "time_create",
-                          "type": "date",
-                          "label": "注册时间"
+                          "type": "static",
+                          "label": "注册时间",
+                          "value": "${time_create}"
                         },
                         {
                           "name": "extinfo",
