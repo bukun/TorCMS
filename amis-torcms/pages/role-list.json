@@ -376,8 +376,8 @@
                           "required": true,
                           "name": "permission",
                           "debugger": true,
-                          "source": "/api/permission/getall",
-                          "value": "${permission}"
+                          "source": "/api/permission/getall"
+
                         },
                         {
                           "name": "transferEvent1",

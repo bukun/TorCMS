@@ -218,29 +218,47 @@ class RoleHandler(BaseHandler):
         '''
 
         post_data = json.loads(self.request.body)
-        per_dics = post_data.get("permission", "").split(",")
-
-        recs = MRole2Permission.query_by_role(uid)
-
-        for rec in recs:
+        per_dics = post_data.get("permission").split(",")
+        per_recs = MRole2Permission.query_by_role(uid)
+        print("*" * 50)
+        print(per_dics)
+        for rec in per_recs:
             MRole2Permission.remove_relation(uid, rec.permission)
 
         if MRole.update(uid, post_data):
             if per_dics:
                 for per in per_dics:
-                    MRole2Permission.add_or_update(uid, per)
+                    if per:
+                        MRole2Permission.add_or_update(uid, per)
+
+                role_recs = MRole.get_by_pid(uid)
+                if role_recs:
+                    for role_rec in role_recs:
+
+                        per_recs = MRole2Permission.query_by_role(role_rec.uid)
+
+                        for rec1 in per_recs:
+
+                            if str(rec1.permission) in per_dics:
+                                print(rec1.permission)
+                                continue
+                            else:
+                                MRole2Permission.remove_relation(role_rec.uid, rec1.permission)
 
             output = {
                 "ok": True,
                 "status": 0,
                 "msg": "更新分组/角色成功"
             }
+
+
         else:
             output = {
                 "ok": False,
                 "status": 404,
                 "msg": "更新分组/角色失败"
             }
+
         return json.dump(output, self, ensure_ascii=False)
 
     @privilege.permission(action='assign_group')
@@ -265,11 +283,26 @@ class RoleHandler(BaseHandler):
                     for per in per_dics:
                         MRole2Permission.add_or_update(uid, per)
 
+                role_recs = MRole.get_by_pid(uid)
+                if role_recs:
+                    for role_rec in role_recs:
+
+                        per_recs = MRole2Permission.query_by_role(role_rec.uid)
+
+                        for rec1 in per_recs:
+
+                            if str(rec1.permission) in per_dics:
+                                print(rec1.permission)
+                                continue
+                            else:
+                                MRole2Permission.remove_relation(role_rec.uid, rec1.permission)
+
                 output = {
                     "ok": True,
                     "status": 0,
-                    "msg": "批量更新分组/角色成功"
+                    "msg": "更新分组/角色成功"
                 }
+
             else:
                 output = {
                     "ok": False,
