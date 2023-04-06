@@ -52,6 +52,20 @@
                 "schemaApi": "get:/pages/permission-list.json"
               }
             ]
+          },
+           {
+            "label": "数据管理",
+            "url": "/data",
+            "rewrite": "/data/list",
+            "icon": "fa fa-cube",
+            "children": [
+              {
+                "label": "列表",
+                "url": "/data/list",
+                "icon": "fa fa-list",
+                "schemaApi": "get:/pages/data-list.json"
+              }
+            ]
           }
         ]
       },
