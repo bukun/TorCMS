@@ -88,6 +88,14 @@
                   "mode": "row",
                   "type": "chained-select",
                   "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4"
+                },
+                {
+                  "name": "ext_role3",
+                  "id": "ext_role3",
+                  "label": "分组/角色",
+                  "mode": "row",
+                  "type": "chained-select",
+                  "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4"
                 }
               ]
             }
@@ -143,11 +151,6 @@
           "label": "角色",
           "type": "text",
           "value": "${staff_roles}"
-        },
-        {
-          "name": "extinfo",
-          "type": "json",
-          "label": "extinfo"
         },
         {
           "name": "time_create",
@@ -244,7 +247,7 @@
                           "mode": "row",
                           "type": "chained-select",
                           "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
-                          "value": "${ext_role0}"
+                          "required": true
                         },
                         {
                           "name": "ext_role1",
@@ -252,8 +255,15 @@
                           "label": "分组/角色",
                           "mode": "row",
                           "type": "chained-select",
-                          "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
-                          "value": "${ext_role1}"
+                          "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4"
+                        },
+                        {
+                          "name": "ext_role3",
+                          "id": "ext_role3",
+                          "label": "分组/角色",
+                          "mode": "row",
+                          "type": "chained-select",
+                          "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4"
                         }
                       ]
                     }

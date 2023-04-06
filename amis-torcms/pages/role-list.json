@@ -367,8 +367,7 @@
                           "mode": "row",
                           "type": "chained-select",
                           "source": "/api/role/getpid?level=1&maxLevel=1",
-                          "required": true,
-                          "value": "${pid}"
+                          "required": true
                         },
                         {
                           "label": "选择权限",
