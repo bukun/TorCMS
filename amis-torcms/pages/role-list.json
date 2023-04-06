@@ -44,7 +44,7 @@
               "type": "transfer",
               "name": "permission",
               "debugger": true,
-              "source": "/api/permission/getall"
+              "source": "/api/permission/getall/0000"
             },
             {
               "name": "transferEvent1",
@@ -149,7 +149,7 @@
                   "required": true,
                   "name": "permission",
                   "debugger": true,
-                  "source": "/api/permission/getall"
+                  "source": "/api/permission/getall/${pid}"
                 },
                 {
                   "name": "transferEvent1",
@@ -263,7 +263,7 @@
         {
           "name": "permission",
           "label": "权限",
-          "type": "json",
+          "type": "text",
           "value": "${permission}"
         },
         {
@@ -308,13 +308,14 @@
                         },
                         {
                           "name": "pid",
-                          "label": "parent id",
-                          "type": "static"
+                          "label": "上一级",
+                          "type": "static",
+                          "value": "${pid_name}"
                         },
                         {
                           "name": "permission",
-                          "label": "permission",
-                          "type": "json",
+                          "label": "权限",
+                          "type": "static",
                           "value": "${permission}"
                         },
                         {
@@ -376,7 +377,7 @@
                           "required": true,
                           "name": "permission",
                           "debugger": true,
-                          "source": "/api/permission/getall"
+                          "source": "/api/permission/getall/${pid}"
 
                         },
                         {

@@ -29,7 +29,7 @@ class PermissionHandler(BaseHandler):
         elif url_arr[0] == 'get':
             self.get_by_id(url_arr[1])
         elif url_arr[0] == 'getall':
-            self.getall()
+            self.getall(url_arr[1])
 
         else:
             kwd = {
@@ -62,14 +62,18 @@ class PermissionHandler(BaseHandler):
         else:
             self.redirect('misc/html/404.html')
 
-    def getall(self):
+    def getall(self, role_id):
+        if role_id == '0000':
+            recs = MPermission.query_all().dicts()
+        else:
+            recs = MRole2Permission.query_permission_by_role(role_id)
 
-        recs = MPermission.query_all()
         dics = []
+
         for rec in recs:
             dic = {
-                "label": rec.name,
-                "value": rec.uid,
+                "label": rec['name'],
+                "value": rec['uid'],
             }
 
             dics.append(dic)

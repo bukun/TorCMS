@@ -178,10 +178,9 @@ class RoleHandler(BaseHandler):
 
     def get_permission(self, uid):
         pers = MRole2Permission.query_permission_by_role(uid)
-        # 移除相关处理
         per_arr = []
         for per in pers:
-            per_arr.append(per)
+            per_arr.append(per['name'])
         return per_arr
 
     def get_pid_name(self, uid):
@@ -189,7 +188,7 @@ class RoleHandler(BaseHandler):
         if pid_rec:
             pid_name = pid_rec.name
         else:
-            pid_name = uid
+            pid_name = '无'
         return pid_name
 
     def get_by_id(self, uid):
