@@ -54,7 +54,7 @@ class MPermission:
         '''
         raw_rec = TabPermission.get(TabPermission.uid == uid)
         entry = TabPermission.update(
-            name=post_data['name', raw_rec.name],
+            name=post_data['name'],
             controller=post_data.get('controller', raw_rec.controller),
             action=post_data.get('action', raw_rec.action),
         ).where(TabPermission.uid == uid)
