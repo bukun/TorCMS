@@ -33,7 +33,7 @@ def gen_xlsx_role_permission():
             cell_val = sheet_ranges['{0}1'.format(col_idx)].value
             if cell_val and cell_val != '':
                 puid = kind_sig + cell_val.split(":")[0]
-                print(puid)
+
                 ppdata = {'name': cell_val.split(":")[1]}
 
                 MPermission.add_or_update(puid, ppdata)
@@ -79,7 +79,7 @@ def gen_xlsx_role_permission():
                 continue
 
             post_data = {'name': name, 'uid': uid, 'pid': pid}
-            print(post_data)
+
 
             MRole.add_or_update(uid, post_data)
             user_data = {
@@ -87,7 +87,6 @@ def gen_xlsx_role_permission():
                 'user_pass': 'Gg123456',
                 'user_email': f'user_{uid}@qq.com',
             }
-            print(user_data)
             tt = MUser.create_user(user_data)
             if tt.get('uid'):
                 role_permission_relation(uid, tt['uid'], sheet_ranges, row_num, kind_sig)
