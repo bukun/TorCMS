@@ -65,10 +65,10 @@ post_cfg = {
     "q": {
         "router": "topic",
         "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
-            "Topic"
+            "Topics"
         ),
         "checker": "0",  # '10', '100', '1000', '10000'
-        "show": "Topic"
+        "show": "Topics"
     },
 }
 

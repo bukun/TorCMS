@@ -13,12 +13,17 @@ META_DIR = './database/meta'
 # XLSX_FILE = './database/meta/info_tags.xlsx'
 
 XLSX_FILE_LIST = []
+XLSX_CATEGORY_FILE_LIST = []
 
 for wfile in Path(META_DIR).rglob('*.xlsx'):
-    if wfile.name.startswith('~') or wfile.name.startswith('torcms_'):
+    if wfile.name.startswith('~') or wfile.name.startswith('torcms'):
         continue
-    # XLSX_FILE = os.path.join(META_DIR, wfile)
     XLSX_FILE_LIST.append(wfile)
+
+for wfile in Path(META_DIR).rglob('*.xlsx'):
+    if wfile.name.startswith('~'):
+        continue
+    XLSX_CATEGORY_FILE_LIST.append(wfile)
 
 # for wdir in Path('.').iterdir():
 #     if wdir.is_dir() and wdir.name.startswith('torcms_'):

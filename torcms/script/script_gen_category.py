@@ -9,14 +9,14 @@ from openpyxl.reader.excel import load_workbook
 
 from torcms.model.category_model import MCategory
 
-from .autocrud.base_crud import XLSX_FILE_LIST
+from .autocrud.base_crud import XLSX_CATEGORY_FILE_LIST
 
 
 def gen_xlsx_category():
     '''
     Genereting catetory from xlsx file.
     '''
-    for XLSX_FILE in XLSX_FILE_LIST:
+    for XLSX_FILE in XLSX_CATEGORY_FILE_LIST:
         if XLSX_FILE.exists():
             pass
         else:
