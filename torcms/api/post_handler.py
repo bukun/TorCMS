@@ -78,6 +78,8 @@ class ApiPostHandler(PostHandler):
         current_page_num = get_pager_idx()
 
         recs = MPost.query_pager_by_slug(kind, current_page_num, perPage)
+        # 分类筛选用以下方法
+        # recs = MPost.query_list_pager(kind, current_page_num, perPage)
         counts = MPost.total_number(kind)
         rec_arr = []
 
