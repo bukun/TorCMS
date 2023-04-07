@@ -102,7 +102,7 @@
           "type": "button",
           "level": "danger",
           "actionType": "ajax",
-          "api": "/api/role/batch_delete/${ids|raw}",
+          "api": "/api/post/batch_delete/${ids|raw}",
           "confirmText": "确定要批量删除?"
         }
       ],

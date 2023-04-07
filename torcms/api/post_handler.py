@@ -5,11 +5,11 @@ import json
 
 import tornado.escape
 import tornado.web
-
+from config import post_cfg
 from torcms.core import privilege, tools
 from torcms.handlers.post_handler import PostHandler
 from torcms.model.post_model import MPost
-from config import post_cfg
+from torcms.model.category_model import MCategory
 
 
 class ApiPostHandler(PostHandler):
@@ -24,21 +24,35 @@ class ApiPostHandler(PostHandler):
     def get(self, *args, **kwargs):
         url_str = args[0]
         url_arr = self.parse_url(args[0])
-        print("-" * 50)
-        print(url_str)
-        print(url_arr)
+
         if url_arr[0] == 'list':
             self.list(url_arr[1])
+
+    def post(self, *args, **kwargs):
+        url_str = args[0]
+
+        if url_str == '':
+            return
+        url_arr = self.parse_url(url_str)
+
+        if url_arr[0] == '_edit':
+            self.update(url_arr[1])
+        elif url_arr[0] == '_delete':
+            self.delete(url_arr[1])
+
+        # elif url_arr[0] == 'batch_edit':
+        #     self.batch_edit()
+        elif url_arr[0] == 'batch_delete':
+            self.batch_delete(url_arr[1])
+
+        else:
+            self.redirect('misc/html/404.html')
 
     def list(self, kind):
 
         post_data = self.request.arguments  # {'page': [b'1'], 'perPage': [b'10']}
         page = int(str(post_data['page'][0])[2:-1])
         perPage = int(str(post_data['perPage'][0])[2:-1])
-
-        # kind = post_data.get('kind', 1)
-        # with_catalog = post_data.get('with_catalog', True)
-        # with_date = post_data.get('with_date', True)
 
         def get_pager_idx():
             '''
@@ -96,4 +110,55 @@ class ApiPostHandler(PostHandler):
             "msg": "ok",
             "data": {"count": counts, "rows": rec_arr}
         }
+        return json.dump(output, self, ensure_ascii=False)
+
+    @tornado.web.authenticated
+    @privilege.permission(action='can_delete')
+    def delete(self, del_id):
+        '''
+        Delete the post, but return the JSON.
+        '''
+
+        current_infor = MPost.get_by_uid(del_id)
+        is_deleted = MPost.delete(del_id)
+        MCategory.update_count(current_infor.extinfo['def_cat_uid'])
+        if is_deleted:
+            output = {
+                "ok": True,
+                "status": 0,
+                "msg": "删除成功"
+            }
+        else:
+            output = {
+                "ok": True,
+                "status": 0,
+                "msg": "删除失败"
+            }
+        return json.dump(output, self, ensure_ascii=False)
+
+    @privilege.permission(action='can_delete')
+    @tornado.web.authenticated
+    def batch_delete(self, del_id):
+        '''
+        Delete a link by id.
+        '''
+
+        del_uids = del_id.split(",")
+        for del_id in del_uids:
+            current_infor = MPost.get_by_uid(del_id)
+            is_deleted = MPost.delete(del_id)
+            MCategory.update_count(current_infor.extinfo['def_cat_uid'])
+            if is_deleted:
+                output = {
+                    "ok": True,
+                    "status": 0,
+                    "msg": "删除成功"
+                }
+            else:
+                output = {
+                    "ok": True,
+                    "status": 0,
+                    "msg": "删除失败"
+                }
+
         return json.dump(output, self, ensure_ascii=False)
