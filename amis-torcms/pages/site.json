@@ -60,7 +60,7 @@
             "icon": "fa fa-cube",
             "children": [
               {
-                "label": "列表",
+                "label": "数据列表",
                 "url": "/data/list",
                 "icon": "fa fa-list",
                 "schemaApi": "get:/pages/data-list.json"

@@ -9,6 +9,7 @@ import tornado.web
 from torcms.core import privilege, tools
 from torcms.handlers.post_handler import PostHandler
 from torcms.model.post_model import MPost
+from config import post_cfg
 
 
 class ApiPostHandler(PostHandler):
@@ -26,11 +27,10 @@ class ApiPostHandler(PostHandler):
         print("-" * 50)
         print(url_str)
         print(url_arr)
-        if url_str == 'list':
-            self.list()
+        if url_arr[0] == 'list':
+            self.list(url_arr[1])
 
-
-    def list(self):
+    def list(self, kind):
 
         post_data = self.request.arguments  # {'page': [b'1'], 'perPage': [b'10']}
         page = int(str(post_data['page'][0])[2:-1])
@@ -61,10 +61,10 @@ class ApiPostHandler(PostHandler):
             current_page_number = 1 if current_page_number < 1 else current_page_number
             return current_page_number
 
-        num = get_pager_idx()
+        current_page_num = get_pager_idx()
 
-        recs = MPost.query_recent(num=num, kind='1')
-        counts = recs.count()
+        recs = MPost.query_pager_by_slug(kind, current_page_num, perPage)
+        counts = MPost.total_number(kind)
         rec_arr = []
 
         for rec in recs:
@@ -86,6 +86,7 @@ class ApiPostHandler(PostHandler):
                     "valid": rec.valid,
                     "order": rec.order,
                     "extinfo": rec.extinfo,
+                    "router": post_cfg[kind]['router']
                 }
             )
 

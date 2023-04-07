@@ -11,7 +11,7 @@
       "keepItemSelectionOnPageChange": true,
       "maxKeepItemSelectionLength": 10,
       "labelTpl": "${uid} ${title}",
-      "api": "/api/post/list",
+      "api": "/api/post/list/9",
       "expandConfig": {
         "expand": "all"
       },
@@ -47,7 +47,6 @@
                   "source": "/api/role/getpid?level=1&maxLevel=1",
                   "required": true
                 },
-
                 {
                   "name": "transferEvent1",
                   "id": "transferEvent1",
@@ -207,7 +206,6 @@
                           "label": "创建时间",
                           "type": "text"
                         },
-
                         {
                           "name": "time_update",
                           "label": "更新时间",
@@ -217,7 +215,6 @@
                     }
                   }
                 },
-
                 {
                   "type": "button",
                   "label": "删除",
@@ -225,7 +222,7 @@
                   "level": "danger",
                   "actionType": "ajax",
                   "confirmText": "您确认要删除?",
-                  "api": "/api/role/_delete/$uid"
+                  "api": "/api/post/_delete/$uid"
                 }
               ]
             }

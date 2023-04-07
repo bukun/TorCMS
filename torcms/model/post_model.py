@@ -413,8 +413,8 @@ class MPost:
                 (TabPost.kind == kind)
                 & (TabPost2Tag.tag_id << cat_id_arr)
                 & (  # the "<<" operator signifies an "IN" query
-                    TabPost.extinfo['def_tag_arr'].contains(label)
-                    & (TabPost.valid == 1)
+                        TabPost.extinfo['def_tag_arr'].contains(label)
+                        & (TabPost.valid == 1)
                 )
             )
             .order_by(sort_criteria)
@@ -821,7 +821,7 @@ class MPost:
         else:
             list_num = CMS_CFG['list_num']
 
-        return recs[(int(idx) - 1) * int(list_num) : int(idx) * int(list_num)]
+        return recs[(int(idx) - 1) * int(list_num): int(idx) * int(list_num)]
 
     @staticmethod
     def count_of_certain_kind(kind):
@@ -845,7 +845,7 @@ class MPost:
         )
 
     @staticmethod
-    def query_pager_by_slug(kind, current_page_num=1):
+    def query_pager_by_slug(kind, current_page_num=1, perpage=CMS_CFG['list_num']):
         '''
         Query pager
         '''
@@ -853,7 +853,7 @@ class MPost:
             TabPost.select()
             .where((TabPost.kind == kind) & (TabPost.valid == 1))
             .order_by(TabPost.time_create.desc())
-            .paginate(current_page_num, CMS_CFG['list_num'])
+            .paginate(current_page_num, perpage)
         )
 
     @staticmethod
