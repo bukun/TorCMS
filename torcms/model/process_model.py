@@ -85,6 +85,17 @@ class TabAction(BaseModel):
     )
     description = peewee.TextField()
 
+class TabTransitionAction(BaseModel):
+    uid = peewee.CharField(
+        null=False,
+        index=True,
+        unique=True,
+        primary_key=True,
+        max_length=36,
+        help_text='',
+    )
+    transition = peewee.ForeignKeyField(TabTransition, backref='transition', help_text='')
+    action = peewee.ForeignKeyField(TabAction, backref='action', help_text='')
 
 class TabRequest(BaseModel):
     uid = peewee.CharField(
@@ -145,6 +156,7 @@ class MState:
             TabState.create_table()
         except Exception as err:
             print(repr(err))
+
 
     def create(self, info):
         uid = tools.get_uuid()
