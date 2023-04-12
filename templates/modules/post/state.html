@@ -1,10 +1,10 @@
 <script>
     function tjstate(sid) {
-        {#alert(sid)#}
-        var url = "/{{ kwd.get('router') }}/update_state/{{postinfo.uid}}/" + sid;
+
+        var url = "/api/post/submit_state/{{postinfo.uid}}/" + sid;
 
         var recstate = document.getElementById("recstate");
-        var shcz = document.getElementById("shcz");
+
 
         $.ajax({
             type: 'POST',
@@ -14,12 +14,13 @@
 
                 if (m.state == 'start') {
                     recstate.innerHTML = '<strong>{{ _('Audit status') }}:</strong> <span>{{ _('To be reviewed') }} <a class="btn btn-warning btn-xs"  onclick="tjstate(\'cancelled\')">{{  _("cancelled")  }}</a>&nbsp'
-                    shcz.innerHTML = '{% if userinfo and userinfo.role[2]>="1" and (len(userinfo.authority) >= len(kwd['post_authority'])) %}   <span><a class="btn btn-success btn-xs" onclick="tjstate(\'complete\')">{{  _("complete")  }}</a>&nbsp' +
-                        '<a class="btn btn-danger btn-xs" onclick="tjstate(\'denied\')">{{  _("denied")  }}</a></span>{% end %}';
+
+                }else{
+                    recstate.innerHTML = '<a href="/{{ kwd.get('router') }}/_edit/{{ postinfo.uid }}" class="btn btn-warning btn-xs">Edit</a> <a class="btn btn-danger btn-xs" onclick="tjstate(\'start\')">{{  _("Submit for review")  }}</a>'
                 }
             },
             error: function (err) {
-                alert('提交失败');
+                alert('Submission failed');
             }
         });
 
@@ -28,7 +29,7 @@
 
 </script>
 
-<div class="row">
+<div class="col-sm-12">
 
     {% if userinfo %}
 
@@ -36,34 +37,20 @@
 
         {% if userinfo.user_name == postinfo.user_name %}
 
-
                 <a href="/{{ kwd.get('router') }}/_edit/{{ postinfo.uid }}" class="btn btn-warning btn-xs">{{ _('Edit') }}</a>
                 <a class="btn btn-danger btn-xs" onclick="tjstate('start')">{{  _("Submit for review")  }}</a>
 
         {% else %}
             {% if postinfo.state[1] == '0' %}
-               <strong>{{ _('Audit status') }}:</strong> <span>{{  _("Editing")  }} </span>
+               <strong>{{ _('Audit status') }}:</strong> <span>{{  _("Waiting for review")  }} </span>
 
             {% end %}
         {% end %}
 
 
-
-
     </div>
-
-    <div id="shcz" class="col-sm-5">
-        {% if userinfo.role[2]>='1' %}
-        {% if postinfo.state[1] =='1' and (len(userinfo.authority) >= len(kwd['post_authority'])) %}
-
-            {% if userinfo.authority[-len(kwd['post_authority'])] == kwd['post_authority'][0] %}
-                <a class="btn btn-xs btn-success" onclick="tjstate('{{ postinfo.state[0] }}2{{ postinfo.state[2] }}0')">{{  _("Approved")  }}</a>
-                <a class="btn btn-danger btn-xs" onclick="tjstate('{{ postinfo.state[0] }}3{{ postinfo.state[2] }}0')">{{  _("Audit failed")  }}</a>
-            {% end %}
-
-        {% end %}
-        {% end %}
-
-    </div>
+{% for action in action_arr %}
+<a class="btn btn-primary btn-sm" onclick="tjaction('start')">{{ action }}</a>
+    {% end %}
     {% end %}
 </div>

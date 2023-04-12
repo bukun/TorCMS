@@ -156,9 +156,45 @@
           "type": "text"
         },
         {
+          "name": "state_request_id",
+          "label": "state_request_id",
+          "type": "text",
+          "value": "${state_request_id}"
+        },
+        {
           "name": "time_create",
           "label": "创建时间",
           "type": "text"
+        },
+        {
+          "type": "operation",
+          "label": "审核",
+          "width": "",
+          "buttons": [
+            {
+              "type": "button-group",
+              "buttons": [
+                {
+                  "type": "button",
+                  "label": "通过",
+                  "icon": "fa fa-check text-success",
+                  "level": "success",
+                  "actionType": "ajax",
+                  "api": "/api/post/submit_state/${state_request_id}/${cur_user_id}"
+                },
+                {
+                  "type": "button",
+                  "label": "拒绝",
+                  "icon": "fa fa-times text-danger",
+                  "level": "danger",
+                  "actionType": "ajax",
+                  "api": "/"
+                }
+              ]
+            }
+          ],
+          "placeholder": "-",
+          "fixed": "right"
         },
         {
           "type": "operation",

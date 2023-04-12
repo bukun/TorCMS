@@ -15,7 +15,7 @@
             "label": "用户管理",
             "url": "/user",
             "rewrite": "/user/list",
-            "icon": "fa fa-cube",
+            "icon": "fa fa-users",
             "children": [
               {
                 "label": "列表",
@@ -43,7 +43,7 @@
             "label": "权限管理",
             "url": "/permission",
             "rewrite": "/permission/list",
-            "icon": "fa fa-cube",
+            "icon": "fa fa-gear",
             "children": [
               {
                 "label": "列表",
@@ -57,7 +57,7 @@
             "label": "数据管理",
             "url": "/data",
             "rewrite": "/data/list",
-            "icon": "fa fa-cube",
+            "icon": "fa fa-database",
             "children": [
               {
                 "label": "数据列表",

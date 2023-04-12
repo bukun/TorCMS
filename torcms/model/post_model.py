@@ -851,7 +851,7 @@ class MPost:
         '''
         return (
             TabPost.select()
-            .where((TabPost.kind == kind) & (TabPost.valid == 1))
+            .where((TabPost.kind == kind) & (TabPost.valid == 0))
             .order_by(TabPost.time_create.desc())
             .paginate(current_page_num, perpage)
         )

@@ -626,8 +626,8 @@ class UserApi(BaseHandler):
         counts = MUser.count_of_certain()
         for rec in recs:
             dic = {
-                "uid": rec.uid,
-                "user_name": rec.user_name,
+                'uid': rec.uid,
+                'user_name': rec.user_name,
                 'user_email': rec.user_email,
                 'authority': rec.authority,
                 'time_login': tools.format_time(rec.time_login),

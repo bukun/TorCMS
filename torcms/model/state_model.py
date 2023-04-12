@@ -5,6 +5,7 @@ For friends links.
 from torcms.model.abc_model import MHelper
 from torcms.model.process_model import TabState, TabProcess, TabTransition, TabRequest, TabAction, TabRequestAction, \
     TabTransitionAction
+from torcms.model.core_tab import TabMember, TabPost
 from peewee import JOIN
 from torcms.core import tools
 
@@ -50,18 +51,16 @@ class MProcess:
 class MTransition:
 
     @staticmethod
-    def create(pro_id, cur_state, next_states):
+    def create(pro_id, cur_state, next_state):
         try:
-
-            for next_state in next_states:
-                uid = tools.get_uuid()
-                TabTransition.create(
-                    uid=uid,
-                    process=pro_id,
-                    current_state=cur_state,
-                    next_state=next_state
-                )
-            return True
+            uid = tools.get_uuid()
+            rec = TabTransition.create(
+                uid=uid,
+                process=pro_id,
+                current_state=cur_state,
+                next_state=next_state
+            )
+            return rec
         except Exception as err:
             print(repr(err))
             return False
@@ -77,11 +76,8 @@ class MTransition:
     @staticmethod
     def query_by_state(state):
         query = (
-            TabTransition.select(
-                TabTransition.uid
-            )
+            TabTransition.select(TabTransition.uid)
             .join(TabState, JOIN.INNER)
-
             .where(TabState.name == state)
         )
         return query.dicts()
@@ -101,7 +97,7 @@ class MRequestAction:
                 action=action_id,
                 transition=transition_id,
                 is_active=True,
-                is_completed=False
+                is_complete=False
             )
             return True
         except Exception as err:
@@ -111,6 +107,32 @@ class MRequestAction:
     @staticmethod
     def query_all():
         return TabRequestAction.select()
+
+    @staticmethod
+    def update_by_action(action_id, is_active, is_complete):
+
+        try:
+
+            TabRequestAction.update(
+                is_active=is_active,
+                is_complete=is_complete
+            ).where(TabRequestAction.request == action_id)
+            return True
+        except Exception as err:
+            print(repr(err))
+            return False
+
+    @staticmethod
+    def query_by_postid(post_id):
+        query = (
+            TabRequestAction.select(TabTransition.process, TabTransition.current_state)
+            .join(TabRequest, JOIN.INNER)
+            .switch(TabRequestAction)
+            .join(TabTransition, JOIN.INNER)
+            .where((TabRequest.post == post_id) & (TabRequestAction.is_active == True))
+
+        )
+        return query.dicts()
 
 
 class MRequest:
@@ -135,22 +157,39 @@ class MRequest:
     def query_all():
         return TabRequest.select()
 
+    @staticmethod
+    def get_id_by_username(post_id, user_name):
+
+        query = (
+            TabRequest.select(TabRequest.uid)
+            .join(TabPost, JOIN.INNER)
+            .switch(TabRequest)
+            .join(TabMember, JOIN.INNER)
+            .where((TabMember.user_name == user_name) & (TabPost.uid == post_id))
+        )
+        return query.get()
+
 
 class MAction:
 
     @staticmethod
-    def create(pro_id, action):
-        try:
+    def create(pro_id, action, action_arr):
 
-            uid = tools.get_uuid()
-            TabAction.create(
-                uid=uid,
-                process=pro_id,
-                name=action.get('name'),
-                action_type=action.get('action_type'),
-                description=action.get('description')
-            )
-            return True
+        try:
+            rec = MAction.query_by_name(action.get('name'))
+            if rec.count() > 0:
+                pass
+            else:
+                uid = tools.get_uuid()
+                TabAction.create(
+                    uid=uid,
+                    process=pro_id,
+                    name=action.get('name'),
+                    action_type=action.get('action_type'),
+                    description=action.get('description')
+                )
+                action_arr.append(uid)
+            return action_arr
         except Exception as err:
             print(repr(err))
             return False
@@ -158,6 +197,10 @@ class MAction:
     @staticmethod
     def query_all():
         return TabAction.select()
+
+    @staticmethod
+    def query_by_name(name):
+        return TabAction.select().where(TabAction.name == name)
 
     @staticmethod
     def query_by_proid(pro_id):
