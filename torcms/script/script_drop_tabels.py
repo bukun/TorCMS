@@ -78,6 +78,7 @@ def run_drop_tables(_):
 
     drop_the_table(TabRequestAction)
     drop_the_table(TabTransitionAction)
+    drop_the_table(TabStateAction)
     drop_the_table(TabTransition)
     drop_the_table(TabAction)
     drop_the_table(TabState)

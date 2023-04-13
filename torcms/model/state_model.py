@@ -4,7 +4,7 @@ For friends links.
 '''
 from torcms.model.abc_model import MHelper
 from torcms.model.process_model import TabState, TabProcess, TabTransition, TabRequest, TabAction, TabRequestAction, \
-    TabTransitionAction
+    TabTransitionAction, TabStateAction
 from torcms.model.core_tab import TabMember, TabPost
 from peewee import JOIN
 from torcms.core import tools
@@ -170,15 +170,43 @@ class MRequest:
         return query.get()
 
 
+class MStateAction:
+    @staticmethod
+    def create(state, action):
+
+        try:
+
+            uid = tools.get_uuid()
+            TabStateAction.create(
+                uid=uid,
+                state=state,
+                action=action
+            )
+
+            return True
+        except Exception as err:
+            print(repr(err))
+            return False
+
+    @staticmethod
+    def query_by_state(state):
+
+        return TabStateAction.select().where(TabStateAction.state == state)
+
+    @staticmethod
+    def query_all():
+        return TabStateAction.select()
+
+
 class MAction:
 
     @staticmethod
-    def create(pro_id, action, action_arr):
+    def create(pro_id, action):
 
         try:
             rec = MAction.query_by_name(action.get('name'))
             if rec.count() > 0:
-                pass
+                uid = rec.get().uid
             else:
                 uid = tools.get_uuid()
                 TabAction.create(
@@ -188,8 +216,8 @@ class MAction:
                     action_type=action.get('action_type'),
                     description=action.get('description')
                 )
-                action_arr.append(uid)
-            return action_arr
+
+            return uid
         except Exception as err:
             print(repr(err))
             return False
@@ -240,7 +268,7 @@ class MState:
         Get a link by ID.
         '''
         res = TabState.select().where(TabState.name == state_name)
-        return res.uid
+        return res.get().uid
 
     @staticmethod
     def query_all():
@@ -274,7 +302,7 @@ class MState:
             return False
 
     @staticmethod
-    def create(post_data, state_arr):
+    def create(post_data):
         '''
         Add record in permission.
         '''
@@ -290,8 +318,8 @@ class MState:
                 description=post_data.get('description')
             )
 
-            state_arr[name] = uid
-            return state_arr
+            # state_arr[name] = uid
+            return uid
         except Exception as err:
             print(repr(err))
             return False

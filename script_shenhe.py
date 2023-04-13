@@ -1,15 +1,35 @@
 from torcms.model.process_model import TabProcess, TabState, TabAction, TabRequest, TabTransition, TabRequestAction, \
     TabMember
-from torcms.model.state_model import MState, MTransition, MTransitionAction, MAction, MRequest, MProcess, MRequestAction
+from torcms.model.state_model import MState, MTransition, MTransitionAction, MAction, MRequest, MProcess, MRequestAction,MStateAction
 
 
 def test():
+        process = MProcess.query_all().dicts()
+        print("*" * 50)
+        print("process")
+        [print(x) for x in process]
+        print("process")
+        print("-" * 50)
 
         states=MState.query_all().dicts()
         print("*" * 50)
         print("Tabstate")
         [print(x) for x in states]
         print("Tabstate")
+        print("-" * 50)
+
+        action = MAction.query_all().dicts()
+        print("*" * 50)
+        print("action")
+        [print(x) for x in action]
+        print("action")
+        print("-" * 50)
+
+        stateaction = MStateAction.query_all().dicts()
+        print("*" * 50)
+        print("stateaction")
+        [print(x) for x in stateaction]
+        print("stateaction")
         print("-" * 50)
 
         trans = MTransition.query_all().dicts()
@@ -26,12 +46,6 @@ def test():
         print("TransitionAction")
         print("-" * 50)
 
-        action = MAction.query_all().dicts()
-        print("*" * 50)
-        print("action")
-        [print(x) for x in action]
-        print("action")
-        print("-" * 50)
 
         request = MRequest.query_all().dicts()
         print("*" * 50)
@@ -40,12 +54,7 @@ def test():
         print("request")
         print("-" * 50)
 
-        process = MProcess.query_all().dicts()
-        print("*" * 50)
-        print("process")
-        [print(x) for x in process]
-        print("process")
-        print("-" * 50)
+
 
         RequestAction = MRequestAction.query_all().dicts()
         print("*" * 50)

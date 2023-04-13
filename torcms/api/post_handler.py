@@ -11,7 +11,8 @@ from torcms.handlers.post_handler import PostHandler
 from torcms.model.post_model import MPost
 from torcms.model.category_model import MCategory
 from torcms.model.user_model import MUser
-from torcms.model.state_model import MState, MProcess, MTransition, MRequest, MAction, MRequestAction, MTransitionAction
+from torcms.model.state_model import MState, MProcess, MTransition, MRequest, MAction, MRequestAction, \
+    MTransitionAction, MStateAction
 
 
 class ApiPostHandler(PostHandler):
@@ -81,8 +82,8 @@ class ApiPostHandler(PostHandler):
              },
             {"name": "cancelled", "state_type": "cancelled",
              "description": "取消:表示此状态下的任何请求已被取消的状态（例如，工作已开始但尚未完成）",
-             "action": [{"name": "restart", "action_type": "restart",
-                         "description": "操作人将将请求移回到进程中的“开始”状态"}]
+             "action": [
+                 {"name": "restart", "action_type": "restart", "description": "操作人将将请求移回到进程中的“开始”状态"}]
 
              }
         ]
@@ -96,7 +97,7 @@ class ApiPostHandler(PostHandler):
 
         # state
         state_get_dics = {}
-        cur_action_arr = []
+
         for state_dic in state_init_dics:
             post_data = {
                 "process": pro_id,
@@ -105,11 +106,12 @@ class ApiPostHandler(PostHandler):
                 "description": state_dic['description'] + '_{0}'.format(post_id)
             }
 
-            state_get_dics = MState.create(post_data, state_get_dics)
-            if state_get_dics:
+            state_uid = MState.create(post_data)
+
+            if state_uid:
                 pass
             else:
-                return False
+                continue
 
             # Action
             for action_dic in state_dic['action']:
@@ -117,22 +119,23 @@ class ApiPostHandler(PostHandler):
                     "process": pro_id,
                     "name": action_dic['name'] + '_{0}'.format(post_id),
                     "action_type": action_dic['action_type'] + '_{0}'.format(post_id),
-                    "description": action_dic['description']  + '_{0}'.format(post_id)
+                    "description": action_dic['description'] + '_{0}'.format(post_id)
                 }
 
-                cur_action_arr = MAction.create(pro_id, action, cur_action_arr)
+                act_id = MAction.create(pro_id, action)
 
-
+                MStateAction.create(state_uid, act_id)
 
         # request
         request_id = MRequest.create(pro_id, post_id, self.userinfo.uid)
 
         # Transition
-        cur_state_id = state_get_dics['{0}_{1}'.format(state, post_id)]
-        state_start_id = state_get_dics['start_{0}'.format(post_id)]
-        state_com_id = state_get_dics['complete_{0}'.format(post_id)]
-        state_denied_id = state_get_dics['denied_{0}'.format(post_id)]
-        state_cancelled_id = state_get_dics['cancelled_{0}'.format(post_id)]
+
+        cur_state_id = MState.query_by_name('{0}_{1}'.format(state, post_id))
+        state_start_id = MState.query_by_name('start_{0}'.format(post_id))
+        state_com_id = MState.query_by_name('complete_{0}'.format(post_id))
+        state_denied_id = MState.query_by_name('denied_{0}'.format(post_id))
+        state_cancelled_id = MState.query_by_name('cancelled_{0}'.format(post_id))
 
         if state == 'start':
             next_static = {state_com_id, state_denied_id, state_cancelled_id}
@@ -151,8 +154,12 @@ class ApiPostHandler(PostHandler):
                 # TransitionAction
                 # MTransitionAction.create(trans_id, cur_act_id)
                 # RequestActions
-                for cur_act_id in cur_action_arr:
-                    istrans = MRequestAction.create(request_id, cur_act_id, trans_rec.uid)
+                cur_action = MStateAction.query_by_state(cur_state_id)
+                for cur_act in cur_action:
+                    MRequestAction.create(request_id, cur_act.action, trans_rec.uid)
+                act_recs = MStateAction.query_by_state(next_state)
+                for act_rec in act_recs:
+                    istrans = MRequestAction.create(request_id, act_rec.action, trans_rec.uid)
 
         # 以上创建步骤已完成
 
