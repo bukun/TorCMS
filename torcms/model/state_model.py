@@ -60,7 +60,7 @@ class MTransition:
                 current_state=cur_state,
                 next_state=next_state
             )
-            return rec
+            return rec.uid
         except Exception as err:
             print(repr(err))
             return False
@@ -322,7 +322,7 @@ class MState:
                 description=post_data.get('description')
             )
 
-            # state_arr[name] = uid
+
             return uid
         except Exception as err:
             print(repr(err))
