@@ -205,17 +205,21 @@ class ApiPostHandler(PostHandler):
         rec_arr = []
 
         for rec in recs:
-            request_rec = MRequest.get_id_by_username(rec.uid, rec.user_name)
+            request_rec = ''
+            # request_rec = MRequest.get_id_by_username(rec.uid, rec.user_name)
 
             # 审核状态#
             exe_actions = MRequestAction.query_by_postid(rec.uid)
-            print("*" * 50)
 
+            action_arr = []
             for exe_action in exe_actions:
                 action_arr = []
-                act_recs = MAction.query_by_proid(exe_action['process'])
+                act_recs = MStateAction.query_by_state(exe_action['current_state'])
+
                 for act_rec in act_recs:
-                    action_arr.append({act_rec.uid: act_rec.name})
+                    act = MAction.query_by_id(act_rec.action).get()
+
+                    action_arr.append(act.name)
             # 审核状态#
 
             rec_arr.append(
@@ -238,7 +242,7 @@ class ApiPostHandler(PostHandler):
                     "extinfo": rec.extinfo,
                     "router": post_cfg[kind]['router'],
                     "cur_user_id": self.userinfo.uid,
-                    "state_request_id": request_rec.uid,
+                    "state_request_id": 'request_rec.uid',
                     "action_arr": action_arr
                 }
             )
