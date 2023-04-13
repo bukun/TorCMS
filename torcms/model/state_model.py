@@ -30,6 +30,15 @@ class MTransitionAction:
     def query_all():
         return TabTransitionAction.select()
 
+    @staticmethod
+    def query_by_action(pro_id, state_id):
+        query = (
+            TabTransitionAction.select(TabTransitionAction.transition,TabTransitionAction.action)
+                .join(TabTransition, JOIN.INNER)
+                .where((TabTransition.process == pro_id) & (TabTransition.current_state == state_id))
+        )
+        return query.dicts()
+
 
 class MProcess:
 
@@ -77,8 +86,8 @@ class MTransition:
     def query_by_state(state):
         query = (
             TabTransition.select(TabTransition.uid)
-            .join(TabState, JOIN.INNER)
-            .where(TabState.name == state)
+                .join(TabState, JOIN.INNER)
+                .where(TabState.name == state)
         )
         return query.dicts()
 
@@ -126,10 +135,10 @@ class MRequestAction:
     def query_by_postid(post_id):
         query = (
             TabRequestAction.select(TabTransition.process, TabTransition.current_state)
-            .join(TabRequest, JOIN.INNER)
-            .switch(TabRequestAction)
-            .join(TabTransition, JOIN.INNER)
-            .where((TabRequest.post == post_id) & (TabRequestAction.is_active == True))
+                .join(TabRequest, JOIN.INNER)
+                .switch(TabRequestAction)
+                .join(TabTransition, JOIN.INNER)
+                .where((TabRequest.post == post_id) & (TabRequestAction.is_active == True))
 
         )
         return query.dicts()
@@ -162,10 +171,10 @@ class MRequest:
 
         query = (
             TabRequest.select(TabRequest.uid)
-            .join(TabPost, JOIN.INNER)
-            .switch(TabRequest)
-            .join(TabMember, JOIN.INNER)
-            .where((TabMember.user_name == user_name) & (TabPost.uid == post_id))
+                .join(TabPost, JOIN.INNER)
+                .switch(TabRequest)
+                .join(TabMember, JOIN.INNER)
+                .where((TabMember.user_name == user_name) & (TabPost.uid == post_id))
         )
         return query.get()
 
@@ -190,8 +199,12 @@ class MStateAction:
 
     @staticmethod
     def query_by_state(state):
-
-        return TabStateAction.select().where(TabStateAction.state == state)
+        query = (
+            TabStateAction.select(TabAction.uid, TabAction.name, TabStateAction.state)
+                .join(TabAction, JOIN.INNER)
+                .where(TabStateAction.state == state)
+        )
+        return query.dicts()
 
     @staticmethod
     def query_all():
@@ -321,7 +334,6 @@ class MState:
                 state_type=post_data.get('state_type'),
                 description=post_data.get('description')
             )
-
 
             return uid
         except Exception as err:

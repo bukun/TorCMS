@@ -272,9 +272,17 @@ class State(tornado.web.UIModule):
             MTransitionAction,MStateAction
 
         # request_rec = MRequest.get_id_by_username(postinfo.uid, postinfo.user_name)
-
+        pro_rec = MProcess.query_all()
+        for pro in pro_rec:
+            pro_id = pro.uid
         # 审核状态#
         exe_actions = MRequestAction.query_by_postid(postinfo.uid)
+        act_dic={
+            "pro_id":pro_id
+        }
+        MRequest.create(pro_id,postinfo.uid,userinfo.uid)
+
+
 
         action_arr = []
         for exe_action in exe_actions:

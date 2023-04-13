@@ -1,7 +1,7 @@
 <script>
-    function tjstate(sid) {
+    function tjstate(pro_id, state_id) {
 
-        var url = "/api/post/submit_state/{{postinfo.uid}}/" + sid;
+        var url = "/api/post/submit_state/{{postinfo.uid}}/" + pro_id + "/" + state_id;
 
         var recstate = document.getElementById("recstate");
 
@@ -11,13 +11,12 @@
             url: url,
             success: function (rs) {
                 var m = eval("(" + rs + ")");
-
-                if (m.state == 'start') {
-                    recstate.innerHTML = '<strong>{{ _('Audit status') }}:</strong> <span>{{ _('To be reviewed') }} <a class="btn btn-warning btn-xs"  onclick="tjstate(\'cancelled\')">{{  _("cancelled")  }}</a>&nbsp'
-
-                } else {
-                    recstate.innerHTML = '<a href="/{{ kwd.get('router') }}/_edit/{{ postinfo.uid }}" class="btn btn-warning btn-xs">Edit</a> <a class="btn btn-danger btn-xs" onclick="tjstate(\'start\')">{{  _("Submit for review")  }}</a>'
+                var btn_arr = ''
+                for (var act in m.act_recs) {
+                    btn_arr += '<a class="btn btn-warning btn-xs"  onclick="tjaction(' +
+                        m.act_recs[act]['act_uid'] + ',' + m.act_recs[act]['state'] + ')">' + m.act_recs[act]['act_name'] + '</a>&nbsp'
                 }
+                recstate.innerHTML = btn_arr
             },
             error: function (err) {
                 alert('Submission failed');
@@ -43,7 +42,8 @@
         {% if userinfo.user_name == postinfo.user_name %}
 
         <a href="/{{ kwd.get('router') }}/_edit/{{ postinfo.uid }}" class="btn btn-warning btn-xs">{{ _('Edit') }}</a>
-        <a class="btn btn-danger btn-xs" onclick="tjstate('start')">{{ _("Submit for review") }}</a>
+        <a class="btn btn-danger btn-xs"
+           onclick="tjstate('6e6bbc82-d9f5-11ed-a7ca-1183026cd4c2','6e6bbc83-d9f5-11ed-a7ca-1183026cd4c2')">{{ _("Submit for review") }}</a>
 
         {% else %}
         {% if postinfo.state[1] == '0' %}
