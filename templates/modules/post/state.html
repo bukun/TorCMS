@@ -49,8 +49,9 @@
 
 
     </div>
+
 {% for action in action_arr %}
-<a class="btn btn-primary btn-sm" onclick="tjaction('start')">{{ action }}</a>
+<a class="btn btn-primary btn-sm" onclick="tjaction('start')">{{ str(action)[:-6] }}</a>
     {% end %}
     {% end %}
 </div>

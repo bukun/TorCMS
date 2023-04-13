@@ -231,6 +231,10 @@ class MAction:
         return TabAction.select().where(TabAction.name == name)
 
     @staticmethod
+    def query_by_id(id):
+        return TabAction.select().where(TabAction.uid == id)
+
+    @staticmethod
     def query_by_proid(pro_id):
         return TabAction.select().where(TabAction.process == pro_id)
 
