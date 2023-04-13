@@ -276,7 +276,7 @@ class State(tornado.web.UIModule):
         # 审核状态#
         exe_actions = MRequestAction.query_by_postid(postinfo.uid)
 
-
+        action_arr = []
         for exe_action in exe_actions:
             action_arr = []
             act_recs=MStateAction.query_by_state(exe_action['current_state'])

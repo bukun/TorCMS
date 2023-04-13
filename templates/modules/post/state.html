@@ -15,7 +15,7 @@
                 if (m.state == 'start') {
                     recstate.innerHTML = '<strong>{{ _('Audit status') }}:</strong> <span>{{ _('To be reviewed') }} <a class="btn btn-warning btn-xs"  onclick="tjstate(\'cancelled\')">{{  _("cancelled")  }}</a>&nbsp'
 
-                }else{
+                } else {
                     recstate.innerHTML = '<a href="/{{ kwd.get('router') }}/_edit/{{ postinfo.uid }}" class="btn btn-warning btn-xs">Edit</a> <a class="btn btn-danger btn-xs" onclick="tjstate(\'start\')">{{  _("Submit for review")  }}</a>'
                 }
             },
@@ -32,26 +32,30 @@
 <div class="col-sm-12">
 
     {% if userinfo %}
+    {% if action_arr %}
+    {% for action in action_arr %}
+    <a class="btn btn-warning btn-sm" onclick="tjaction('start')">{{ str(action)[:-6] }}</a>
+    {% end %}
+    {% else %}
 
-    <div id="recstate" class="col-sm-7" >
+    <div id="recstate" class="col-sm-7">
 
         {% if userinfo.user_name == postinfo.user_name %}
 
-                <a href="/{{ kwd.get('router') }}/_edit/{{ postinfo.uid }}" class="btn btn-warning btn-xs">{{ _('Edit') }}</a>
-                <a class="btn btn-danger btn-xs" onclick="tjstate('start')">{{  _("Submit for review")  }}</a>
+        <a href="/{{ kwd.get('router') }}/_edit/{{ postinfo.uid }}" class="btn btn-warning btn-xs">{{ _('Edit') }}</a>
+        <a class="btn btn-danger btn-xs" onclick="tjstate('start')">{{ _("Submit for review") }}</a>
 
         {% else %}
-            {% if postinfo.state[1] == '0' %}
-               <strong>{{ _('Audit status') }}:</strong> <span>{{  _("Waiting for review")  }} </span>
+        {% if postinfo.state[1] == '0' %}
+        <strong>{{ _('Audit status') }}:</strong> <span>{{ _("Waiting for review") }} </span>
 
-            {% end %}
+        {% end %}
         {% end %}
 
 
     </div>
 
-{% for action in action_arr %}
-<a class="btn btn-primary btn-sm" onclick="tjaction('start')">{{ str(action)[:-6] }}</a>
+
     {% end %}
     {% end %}
 </div>
