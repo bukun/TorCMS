@@ -6,7 +6,7 @@ https://segmentfault.com/a/1190000019161083
 import peewee
 
 from torcms.core.base_model import BaseModel
-from torcms.model.core_tab import TabPost, TabMember
+from torcms.model.core_tab import TabPost, TabMember,TabRole
 
 from config import CMS_CFG
 from torcms.core import tools
@@ -41,12 +41,12 @@ class TabState(BaseModel):
         max_length=36,
         help_text='',
     )
-    process = peewee.ForeignKeyField(TabProcess, backref='process', help_text='')
+    process = peewee.ForeignKeyField(TabRole, backref='process', help_text='')
     name = peewee.CharField(
-        null=False, index=True, unique=True, max_length=255, help_text='名称'
+        null=False, index=True, max_length=255, help_text='名称'
     )
     state_type = peewee.CharField(
-        null=False, index=True, unique=True, max_length=255, help_text='名称'
+        null=False, index=True, max_length=255, help_text='名称'
     )
     description = peewee.TextField()
 
@@ -60,7 +60,7 @@ class TabTransition(BaseModel):
         max_length=36,
         help_text='',
     )
-    process = peewee.ForeignKeyField(TabProcess, backref='process', help_text='')
+    process = peewee.ForeignKeyField(TabRole, backref='process', help_text='')
     current_state = peewee.ForeignKeyField(
         TabState, backref='current_state', help_text=''
     )
@@ -76,7 +76,7 @@ class TabAction(BaseModel):
         max_length=36,
         help_text='',
     )
-    process = peewee.ForeignKeyField(TabProcess, backref='process', help_text='')
+    process = peewee.ForeignKeyField(TabRole, backref='process', help_text='')
     action_type = peewee.CharField(
         null=False, index=True, unique=True, max_length=255, help_text='名称'
     )
@@ -117,7 +117,7 @@ class TabRequest(BaseModel):
         max_length=36,
         help_text='',
     )
-    process = peewee.ForeignKeyField(TabProcess, backref='process', help_text='')
+    process = peewee.ForeignKeyField(TabRole, backref='process', help_text='')
     post = peewee.ForeignKeyField(TabPost, backref='post')
     user = peewee.ForeignKeyField(TabMember, backref='user')
     time_create = peewee.IntegerField()

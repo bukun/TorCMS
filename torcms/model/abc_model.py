@@ -26,3 +26,16 @@ class MHelper:
         except Exception as err:
             print(repr(err))
             return False
+
+    @staticmethod
+    def query_all_parger(model, current_page_num, perPage):
+
+        return model.select().paginate(current_page_num, perPage)
+
+    @staticmethod
+    def get_counts(model):
+        '''
+        The count in table.
+        '''
+        # adding ``None`` to hide ``No value for argument 'database' in method call``
+        return model.select().count(None)

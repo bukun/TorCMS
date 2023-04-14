@@ -14,7 +14,7 @@
                 var btn_arr = ''
                 for (var act in m.act_recs) {
                     btn_arr += '<a class="btn btn-warning btn-xs"  onclick="tjaction(' +
-                        m.act_recs[act]['act_uid'] + ',' + m.act_recs[act]['state'] + ')">' + m.act_recs[act]['act_name'] + '</a>&nbsp'
+                        m.act_recs[act]['act_uid'] + ',' +state_id+',' + pro_id+','+m.request_id+')">' + m.act_recs[act]['act_name'] + '</a>&nbsp'
                 }
                 recstate.innerHTML = btn_arr
             },
@@ -25,7 +25,38 @@
 
     }
 
+ function tjaction(act_id,state_id, pro_id,request_id) {
 
+        var url = "/api/post/submit_action";
+
+        var recstate = document.getElementById("recstate");
+        var action_data = new FormData();
+
+        action_data.append("state_id", state_id);
+        action_data.append("request_id", request_id);
+        action_data.append("user_id", "{{userinfo.uid}}");
+
+        action_data.append("post_id", "{{postinfo.uid}}");
+        action_data.append("act_id", act_id);
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: action_data,
+            timeout: 1e3,
+            processData: false,
+            contentType: false,
+            success: function (rs) {
+                var m = eval("(" + rs + ")");
+                alert(m);
+
+            },
+            error: function (err) {
+                alert('Submission failed');
+            }
+        });
+
+    }
 </script>
 
 <div class="col-sm-12">
@@ -43,7 +74,7 @@
 
         <a href="/{{ kwd.get('router') }}/_edit/{{ postinfo.uid }}" class="btn btn-warning btn-xs">{{ _('Edit') }}</a>
         <a class="btn btn-danger btn-xs"
-           onclick="tjstate('6e6bbc82-d9f5-11ed-a7ca-1183026cd4c2','6e6bbc83-d9f5-11ed-a7ca-1183026cd4c2')">{{ _("Submit for review") }}</a>
+           onclick="tjstate('5c41aff8-da5e-11ed-aa11-f5cb9a222181','5c41aff9-da5e-11ed-aa11-f5cb9a222181')">{{ _("Submit for review") }}</a>
 
         {% else %}
         {% if postinfo.state[1] == '0' %}

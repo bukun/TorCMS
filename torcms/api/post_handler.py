@@ -47,6 +47,8 @@ class ApiPostHandler(PostHandler):
         #     self.batch_edit()
         elif url_arr[0] == 'submit_state':
             self.submit_state(url_arr[1], url_arr[2], url_arr[3])
+        elif url_arr[0] == 'submit_action':
+            self.submit_action()
 
         elif url_arr[0] == 'batch_delete':
             self.batch_delete(url_arr[1])
@@ -54,6 +56,40 @@ class ApiPostHandler(PostHandler):
         else:
             self.redirect('misc/html/404.html')
 
+    def submit_action(self):
+
+        post_data = {}
+        for key in self.request.arguments:
+            post_data[key] = self.get_arguments(key)[0]
+
+        request_id = post_data['request_id']
+        state_id = post_data['state_id']
+        post_id = post_data['post_id']
+        user_id = post_data['user_id']
+        act_id = post_data['act_id']
+        pro_id = post_data['pro_id']
+
+
+        # 更新操作动态
+        MRequestAction.update_by_action(act_id, request_id)
+
+
+        # 查询该请求中该转换的所有动作是否都为True
+        trans=MRequestAction.query_by_action_request(act_id,request_id)
+
+        #转到下一状态
+        MTransition.query_by_state(state_id)
+
+
+
+        for is_active in isactives:
+            print(is_active.uid, is_active.action, is_active.is_active, is_active.is_complete)
+        istrans = True
+        output = {'state': state_id, 'trans_id': trans_id}
+        if istrans:
+            return json.dump(output, self)
+        else:
+            return False
     def submit_state(self, post_id, pro_id,state_id):
         request_id = MRequest.create(pro_id, post_id, self.userinfo.uid)
         cur_actions=MTransitionAction.query_by_action(pro_id,state_id)
@@ -69,7 +105,7 @@ class ApiPostHandler(PostHandler):
             act_arr.append(act_dic)
         # 以上创建步骤已完成
         istrans = True
-        output = {'act_recs': act_arr}
+        output = {'act_recs': act_arr,"request_id":request_id}
 
         if istrans:
             return json.dump(output, self)

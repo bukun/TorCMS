@@ -69,10 +69,7 @@ def run_drop_tables(_):
     drop_the_table(TabEntity2User)
     drop_the_table(TabReplyid)
     drop_the_table(TabCorrelation)
-    drop_the_table(TabStaff2Role)
-    drop_the_table(TabRole2Permission)
-    drop_the_table(TabPermission)
-    drop_the_table(TabRole)
+
 
 
 
@@ -86,3 +83,7 @@ def run_drop_tables(_):
     drop_the_table(TabProcess)
     drop_the_table(TabMember)
     drop_the_table(TabPost)
+    drop_the_table(TabStaff2Role)
+    drop_the_table(TabRole2Permission)
+    drop_the_table(TabPermission)
+    drop_the_table(TabRole)

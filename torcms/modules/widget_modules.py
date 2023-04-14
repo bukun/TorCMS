@@ -277,10 +277,6 @@ class State(tornado.web.UIModule):
             pro_id = pro.uid
         # 审核状态#
         exe_actions = MRequestAction.query_by_postid(postinfo.uid)
-        act_dic={
-            "pro_id":pro_id
-        }
-        MRequest.create(pro_id,postinfo.uid,userinfo.uid)
 
 
 
@@ -291,7 +287,7 @@ class State(tornado.web.UIModule):
 
             for act_rec in act_recs:
 
-                act=MAction.query_by_id(act_rec.action).get()
+                act=MAction.query_by_id(act_rec.action)
 
                 action_arr.append(act.name)
         # 审核状态#

@@ -53,6 +53,35 @@
               }
             ]
           },
+
+          {
+            "label": "状态管理",
+            "url": "/state",
+            "rewrite": "/state/list",
+            "icon": "fa fa-gear",
+            "children": [
+              {
+                "label": "列表",
+                "url": "/state/list",
+                "icon": "fa fa-list",
+                "schemaApi": "get:/pages/state-list.json"
+              }
+            ]
+          },
+           {
+            "label": "动作管理",
+            "url": "/action",
+            "rewrite": "/action/list",
+            "icon": "fa fa-gear",
+            "children": [
+              {
+                "label": "列表",
+                "url": "/action/list",
+                "icon": "fa fa-list",
+                "schemaApi": "get:/pages/action-list.json"
+              }
+            ]
+          },
            {
             "label": "数据管理",
             "url": "/data",
