@@ -7,7 +7,7 @@ import json
 import tornado.web
 from torcms.core import tools, privilege
 from torcms.core.base_handler import BaseHandler
-from torcms.model.state_model import MAction, MStateAction, MTransition, MRequestAction
+from torcms.model.state_model import MAction, MTransition, MRequestAction, MTransitionAction
 from torcms.model.role_model import MRole
 
 
@@ -242,6 +242,120 @@ class ActionHandler(BaseHandler):
 
     @privilege.permission(action='assign_group')
     @tornado.web.authenticated
+    def update(self, uid):
+        '''
+        Update the link.
+        '''
+
+        post_data = json.loads(self.request.body)
+
+        if 'ext_role0' in post_data:
+            pass
+        else:
+            return False
+
+        the_roles_arr = []
+        def_roles_arr = ['ext_role{0}'.format(x) for x in range(10)]
+        for key in def_roles_arr:
+            if key not in post_data:
+                continue
+            if post_data[key] == '' or post_data[key] == '0':
+                continue
+
+            if post_data[key] in the_roles_arr:
+                continue
+
+            the_roles_arr.append(post_data[key])
+
+        for process in the_roles_arr:
+
+            rec = MAction.query_by_uid(uid).get()
+            exis_rec = MAction.query_by_pro_name(process, rec.name)
+
+            if exis_rec.count() > 0:
+                output = {
+                    "ok": False,
+                    "status": 404,
+                    "msg": "该流程下已存在当前状态，修改失败"
+                }
+            else:
+
+                post_data["process"] = process
+                if MAction.update_process(uid, post_data):
+                    output = {
+                        "ok": True,
+                        "status": 0,
+                        "msg": "更新流程成功"
+                    }
+
+                else:
+                    output = {
+                        "ok": False,
+                        "status": 404,
+                        "msg": "更新流程失败"
+                    }
+
+        return json.dump(output, self, ensure_ascii=False)
+
+    @privilege.permission(action='assign_group')
+    @tornado.web.authenticated
+    def batch_edit(self):
+        '''
+        Update the link.
+        '''
+
+        post_data = json.loads(self.request.body)
+
+        ids = post_data.get("ids", "").split(",")
+        if 'ext_role0' in post_data:
+            pass
+        else:
+            return False
+
+        the_roles_arr = []
+        def_roles_arr = ['ext_role{0}'.format(x) for x in range(10)]
+        for key in def_roles_arr:
+            if key not in post_data:
+                continue
+            if post_data[key] == '' or post_data[key] == '0':
+                continue
+
+            if post_data[key] in the_roles_arr:
+                continue
+
+            the_roles_arr.append(post_data[key])
+        for uid in ids:
+            for process in the_roles_arr:
+                rec = MAction.query_by_uid(uid).get()
+                exis_rec = MAction.query_by_pro_name(process, rec.name)
+
+                if exis_rec.count() > 0:
+                    output = {
+                        "ok": False,
+                        "status": 404,
+                        "msg": "该流程下已存在当前状态，修改失败"
+                    }
+                else:
+
+                    post_data["process"] = process
+                    if MAction.update_process(uid, post_data):
+                        output = {
+                            "ok": True,
+                            "status": 0,
+                            "msg": "更新流程成功"
+                        }
+
+                    else:
+                        output = {
+                            "ok": False,
+                            "status": 404,
+                            "msg": "更新流程失败"
+                        }
+
+        return json.dump(output, self, ensure_ascii=False)
+
+    @privilege.permission(action='assign_group')
+    @tornado.web.authenticated
     def add(self):
         '''
         user add link.
@@ -268,42 +382,45 @@ class ActionHandler(BaseHandler):
             the_roles_arr.append(post_data[key])
 
         for process in the_roles_arr:
+
             post_data["process"] = process
-            exis_recs=MAction.query_by_proid(process)
-            for exis_rec in exis_recs:
-                if exis_rec.name == post_data['name']:
+            exis_rec = MAction.query_by_pro_name(process, post_data['name'])
+            if exis_rec.count() > 0:
+
+                output = {
+                    "ok": False,
+                    "status": 404,
+                    "msg": "该流程下已存在当前动作，添加失败"
+                }
+
+            else:
+
+                state_uid = MAction.create(process, post_data)
+                if state_uid:
+
+                    output = {
+                        "ok": True,
+                        "status": 0,
+                        "msg": "添加动作成功"
+                    }
+                else:
                     output = {
                         "ok": False,
                         "status": 404,
-                        "msg": "该流程下已存在该动作，添加失败"
+                        "msg": "添加动作失败"
                     }
-                else:
 
-                    state_uid = MAction.create(process, post_data)
-                    if state_uid:
-
-                        output = {
-                            "ok": True,
-                            "status": 0,
-                            "msg": "添加状态成功"
-                        }
-                    else:
-                        output = {
-                            "ok": False,
-                            "status": 404,
-                            "msg": "添加状态失败"
-                        }
-            return json.dump(output, self, ensure_ascii=False)
+        return json.dump(output, self, ensure_ascii=False)
 
     @privilege.permission(action='assign_group')
-    def delete(self, state_id):
+    def delete(self, action_id):
         '''
         delete user by ID.
         '''
-        MActionAction.delete_by_state(state_id)
-        MTransition.delete_by_state(state_id)
+        MTransitionAction.delete_by_actid(action_id)
+        MRequestAction.delete_by_actid(action_id)
 
-        if MAction.delete(state_id):
+        if MAction.delete(action_id):
             output = {"ok": True,
                       "status": 0,
                       "msg": "删除状态成功"
@@ -319,17 +436,17 @@ class ActionHandler(BaseHandler):
 
     @privilege.permission(action='assign_group')
     @tornado.web.authenticated
-    def batch_delete(self, state_ids):
+    def batch_delete(self, act_ids):
         '''
         Delete a link by id.
         '''
 
-        del_uids = state_ids.split(",")
-        for state_id in del_uids:
-            MActionAction.delete_by_state(state_id)
-            MTransition.delete_by_state(state_id)
+        del_uids = act_ids.split(",")
+        for action_id in del_uids:
+            MTransitionAction.delete_by_actid(action_id)
+            MRequestAction.delete_by_actid(action_id)
 
-            if MAction.delete(state_id):
+            if MAction.delete(action_id):
                 output = {"ok": True,
                           "status": 0,
                           "msg": "删除状态成功"

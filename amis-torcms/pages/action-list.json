@@ -18,6 +18,33 @@
           "api": "post:/api/action/_add",
           "body": [
             {
+              "name": "name",
+              "label": "动作名称",
+              "type": "input-text",
+              "required": true
+            },
+            {
+              "name": "action_type",
+              "label": "动作类型",
+              "type": "input-text",
+              "required": true
+            },
+            {
+              "name": "description",
+              "label": "动作说明",
+              "type": "input-text"
+            },
+            {
+              "name": "state",
+              "id": "state",
+              "type": "select",
+              "label": "所属状态",
+              "source": "/api/state/chainedOptions",
+              "clearable": true,
+              "searchable": true,
+              "required": true
+            },
+            {
               "name": "ext_role0",
               "id": "ext_role0",
               "label": "流程：分组/角色",
@@ -41,23 +68,6 @@
               "mode": "row",
               "type": "chained-select",
               "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4"
-            },
-            {
-              "name": "name",
-              "label": "动作名称",
-              "type": "input-text",
-              "required": true
-            },
-            {
-              "name": "action_type",
-              "label": "动作类型",
-              "type": "input-text",
-              "required": true
-            },
-            {
-              "name": "description",
-              "label": "动作说明",
-              "type": "input-text"
             }
           ]
         }
@@ -94,7 +104,6 @@
                   "type": "hidden",
                   "name": "ids"
                 },
-
                 {
                   "name": "ext_role0",
                   "id": "ext_role0",
@@ -119,6 +128,24 @@
                   "mode": "row",
                   "type": "chained-select",
                   "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4"
+                },
+                {
+                  "name": "state",
+                  "id": "state",
+                  "label": "所属状态",
+                  "mode": "row",
+                  "type": "chained-select",
+                  "source": "/api/state/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
+                  "required": true
+                },
+                {
+                  "name": "select",
+                  "type": "select",
+                  "label": "动态选项",
+                  "source": "/api/state/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
+                  "description": "通过接口一口气拉取选项",
+                  "clearable": true,
+                  "searchable": true
                 }
               ]
             }
@@ -165,6 +192,12 @@
           "label": "流程：分组/角色",
           "type": "text",
           "value": "${process}"
+        },
+        {
+          "name": "process",
+          "label": "所属状态",
+          "type": "text",
+          "value": "${state}"
         },
         {
           "name": "name",
@@ -228,6 +261,15 @@
                           "mode": "row",
                           "type": "chained-select",
                           "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4"
+                        },
+                        {
+                          "name": "state",
+                          "id": "state",
+                          "label": "所属状态",
+                          "mode": "row",
+                          "type": "chained-select",
+                          "source": "/api/state/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
+                          "required": true
                         },
                         {
                           "name": "name",

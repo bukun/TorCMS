@@ -26,7 +26,8 @@ class StateHandler(BaseHandler):
 
         if url_str == 'list':
             self.list()
-
+        elif url_arr[0] == 'chainedOptions':
+            self.chainedOptions()
         else:
             kwd = {
                 'info': '页面未找到',
@@ -58,7 +59,23 @@ class StateHandler(BaseHandler):
 
         else:
             self.redirect('misc/html/404.html')
+    def chainedOptions(self):
+        '''
+        Recent links.
+        '''
 
+        post_data = self.request.arguments  # {'page': [b'1'], 'perPage': [b'10']}
+        process = str(post_data['pro'][0])[2:-1]
+        dics = []
+        recs = MState.query_by_pro_id(process)
+
+        for rec in recs:
+            dic = {"label": rec.name, "value": rec.uid}
+
+            dics.append(dic)
+        out_dict = {"ok": True, "status": 0, 'data': dics}
+
+        return json.dump(out_dict, self, ensure_ascii=False)
     def list(self):
         '''
         Recent links.
@@ -258,6 +275,7 @@ class StateHandler(BaseHandler):
         for process in the_roles_arr:
 
             post_data["process"] = process
+
             exis_rec = MState.query_by_pro_name(process, post_data['name'])
             if exis_rec.count() > 0:
 
@@ -268,8 +286,8 @@ class StateHandler(BaseHandler):
                 }
 
             else:
-
-                state_uid = MState.create(post_data)
+                pro_rec = MRole.get_by_uid(process)
+                state_uid = MState.create(post_data,pro_rec.name)
                 if state_uid:
 
                     output = {

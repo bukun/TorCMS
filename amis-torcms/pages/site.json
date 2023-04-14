@@ -61,10 +61,16 @@
             "icon": "fa fa-gear",
             "children": [
               {
-                "label": "列表",
+                "label": "状态列表",
                 "url": "/state/list",
                 "icon": "fa fa-list",
                 "schemaApi": "get:/pages/state-list.json"
+              },
+              {
+                "label": "状态转换",
+                "url": "/state/transition",
+                "icon": "fa fa-list",
+                "schemaApi": "get:/pages/transition-list.json"
               }
             ]
           },

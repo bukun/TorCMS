@@ -39,6 +39,31 @@ class MTransitionAction:
         )
         return query.dicts()
 
+    @staticmethod
+    def delete_by_actid(action_id):
+        entry = TabTransitionAction.delete().where(
+            TabTransitionAction.action == action_id
+        )
+        try:
+            entry.execute()
+            return True
+        except Exception as err:
+            print(repr(err))
+            return False
+
+    @staticmethod
+    def delete_by_trans(trans_id):
+        entry = TabTransitionAction.delete().where(
+            TabTransitionAction.transition == trans_id
+        )
+
+        try:
+            entry.execute()
+            return True
+        except Exception as err:
+            print(repr(err))
+            return False
+
 
 class MProcess:
 
@@ -112,6 +137,21 @@ class MTransition:
         return TabTransition.select().where(TabTransition.process == pro_id)
 
     @staticmethod
+    def query_by_uid(uid):
+        '''
+        Get a link by ID.
+        '''
+        return TabTransition.select().where(TabTransition.uid == uid)
+
+    @staticmethod
+    def query_by_cur_next(pro_id, cur_state, next_state):
+        return TabTransition.select().where(
+            (TabTransition.process == pro_id) &
+            (TabTransition.current_state == cur_state) &
+            (TabTransition.next_state == next_state)
+        )
+
+    @staticmethod
     def query_by_proid_state(pro_id, state_id):
         return TabTransition.select().where(
             (TabTransition.process == pro_id) & (TabTransition.current_state == state_id))
@@ -137,6 +177,23 @@ class MTransition:
         except Exception as err:
             print(repr(err))
             return False
+
+    @staticmethod
+    def delete(uid):
+        '''
+        Delete by uid
+        '''
+        return MHelper.delete(TabTransition, uid)
+    @staticmethod
+    def query_all_parger(current_page_num, perPage):
+        return MHelper.query_all_parger(TabTransition, current_page_num, perPage)
+
+    @staticmethod
+    def get_counts():
+        '''
+        The count in table.
+        '''
+        return MHelper.get_counts(TabTransition)
 
 
 class MRequestAction:
@@ -199,7 +256,30 @@ class MRequestAction:
         )
         return query.dicts()
 
+    @staticmethod
+    def delete_by_actid(action_id):
+        entry = TabRequestAction.delete().where(
+            TabRequestAction.action == action_id
+        )
+        try:
+            entry.execute()
+            return True
+        except Exception as err:
+            print(repr(err))
+            return False
 
+    @staticmethod
+    def delete_by_trans(trans_id):
+        entry = TabRequestAction.delete().where(
+            TabRequestAction.transition == trans_id
+        )
+
+        try:
+            entry.execute()
+            return True
+        except Exception as err:
+            print(repr(err))
+            return False
 class MRequest:
 
     @staticmethod
@@ -320,6 +400,10 @@ class MAction:
         return TabAction.select().where(TabAction.process == pro_id)
 
     @staticmethod
+    def query_by_pro_name(pro_id, name):
+        return TabAction.select().where((TabAction.process == pro_id) & (TabAction.name == name))
+
+    @staticmethod
     def get_counts():
         '''
         The count in table.
@@ -333,6 +417,13 @@ class MAction:
         Return some of the records. Not all.
         '''
         return MHelper.query_all_parger(TabAction, current_page_num, perPage)
+
+    @staticmethod
+    def delete(uid):
+        '''
+        Delete by uid
+        '''
+        return MHelper.delete(TabAction, uid)
 
 
 class MState:
@@ -363,11 +454,12 @@ class MState:
         return TabState.select().where(TabState.process == pro_id)
 
     @staticmethod
-    def query_by_pro_name(pro_id,name):
+    def query_by_pro_name(pro_id, name):
         '''
         Get a link by ID.
         '''
-        return TabState.select().where((TabState.process == pro_id)&(TabState.name == name))
+        return TabState.select().where((TabState.process == pro_id) & (TabState.name == name))
+
     @staticmethod
     def query_by_uid(uid):
         '''
@@ -434,7 +526,7 @@ class MState:
             return False
 
     @staticmethod
-    def create(post_data):
+    def create(post_data, pro_name):
         '''
         Add record in permission.
         '''
@@ -442,13 +534,13 @@ class MState:
         try:
 
             uid = tools.get_uuid()
-            name = post_data.get('name')
+
             TabState.create(
                 uid=uid,
                 process=post_data.get('process'),
-                name=name,
-                state_type=post_data.get('state_type'),
-                description=post_data.get('description', '')
+                name=pro_name + '_' + post_data.get('name'),
+                state_type=pro_name + '_' + post_data.get('state_type'),
+                description=pro_name + '_' + post_data.get('description', '')
             )
 
             return uid

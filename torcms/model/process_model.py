@@ -43,10 +43,10 @@ class TabState(BaseModel):
     )
     process = peewee.ForeignKeyField(TabRole, backref='process', help_text='')
     name = peewee.CharField(
-        null=False, index=True, max_length=255, help_text='名称'
+        null=False, index=True, unique=True, max_length=255, help_text='名称'
     )
     state_type = peewee.CharField(
-        null=False, index=True, max_length=255, help_text='名称'
+        null=False, index=True, unique=True, max_length=255, help_text='名称'
     )
     description = peewee.TextField()
 
