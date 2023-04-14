@@ -362,53 +362,43 @@ class ActionHandler(BaseHandler):
         '''
 
         post_data = json.loads(self.request.body)
-        if 'ext_role0' in post_data:
+        if 'transition' in post_data:
             pass
         else:
             return False
 
         the_roles_arr = []
 
-        def_roles_arr = ['ext_role{0}'.format(x) for x in range(10)]
-        for key in def_roles_arr:
-            if key not in post_data:
-                continue
-            if post_data[key] == '' or post_data[key] == '0':
-                continue
 
-            if post_data[key] in the_roles_arr:
-                continue
+        transition=post_data["transition"]
+        MTransition.query_by_uid()
+        exis_rec = MAction.query_by_pro_name(transition, post_data['name'])
 
-            the_roles_arr.append(post_data[key])
+        if exis_rec.count() > 0:
 
-        for process in the_roles_arr:
+            output = {
+                "ok": False,
+                "status": 404,
+                "msg": "该流程下已存在当前动作，添加失败"
+            }
 
-            post_data["process"] = process
-            exis_rec = MAction.query_by_pro_name(process, post_data['name'])
-            if exis_rec.count() > 0:
+        else:
 
+            act_uid = MAction.create(process, post_data)
+            MTransitionAction.create(transition, act_uid)
+            if act_uid:
+
+                output = {
+                    "ok": True,
+                    "status": 0,
+                    "msg": "添加动作成功"
+                }
+            else:
                 output = {
                     "ok": False,
                     "status": 404,
-                    "msg": "该流程下已存在当前动作，添加失败"
+                    "msg": "添加动作失败"
                 }
-
-            else:
-
-                state_uid = MAction.create(process, post_data)
-                if state_uid:
-
-                    output = {
-                        "ok": True,
-                        "status": 0,
-                        "msg": "添加动作成功"
-                    }
-                else:
-                    output = {
-                        "ok": False,
-                        "status": 404,
-                        "msg": "添加动作失败"
-                    }
 
         return json.dump(output, self, ensure_ascii=False)
 

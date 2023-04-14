@@ -68,9 +68,14 @@ class TransitionHandler(BaseHandler):
         recs = MTransition.query_all()
 
         for rec in recs:
-            dic = {"label": rec.name, "value": rec.uid}
+            cur_state = MState.query_by_uid(rec.current_state).get()
+            next_state = MState.query_by_uid(rec.next_state).get()
+            trans_name = cur_state.name + ' - ' + next_state.name
+
+            dic = {"label": trans_name, "value": rec.uid}
 
             dics.append(dic)
+
         out_dict = {"ok": True, "status": 0, 'data': dics}
 
         return json.dump(out_dict, self, ensure_ascii=False)
