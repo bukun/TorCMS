@@ -63,9 +63,9 @@ class TransitionHandler(BaseHandler):
         '''
 
         post_data = self.request.arguments  # {'page': [b'1'], 'perPage': [b'10']}
-
+        parentId = str(post_data['process'][0])[2:-1]
         dics = []
-        recs = MTransition.query_all()
+        recs = MTransition.query_by_proid(parentId)
 
         for rec in recs:
             cur_state = MState.query_by_uid(rec.current_state).get()

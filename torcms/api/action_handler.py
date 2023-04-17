@@ -7,7 +7,7 @@ import json
 import tornado.web
 from torcms.core import tools, privilege
 from torcms.core.base_handler import BaseHandler
-from torcms.model.state_model import MAction, MTransition, MRequestAction, MTransitionAction
+from torcms.model.state_model import MAction, MTransition, MRequestAction, MTransitionAction, MState
 from torcms.model.role_model import MRole
 
 
@@ -96,12 +96,19 @@ class ActionHandler(BaseHandler):
 
         for rec in recs:
             process = MRole.get_by_uid(rec.process)
+            trans_rec = MTransition.query_by_action(rec.uid, rec.process).get()
+
+            cur_state = MState.query_by_uid(trans_rec.current_state).get()
+            next_state = MState.query_by_uid(trans_rec.next_state).get()
+            trans_name = cur_state.name + ' - ' + next_state.name
+
             dic = {
                 "uid": rec.uid,
                 "name": rec.name,
                 "action_type": rec.action_type,
                 "description": rec.description,
                 "process": process.name,
+                "transition": trans_name
             }
 
             dics.append(dic)
@@ -362,16 +369,14 @@ class ActionHandler(BaseHandler):
         '''
 
         post_data = json.loads(self.request.body)
-        if 'transition' in post_data:
+        if 'transition' in post_data and 'process' in post_data:
             pass
         else:
             return False
 
-        the_roles_arr = []
+        transition = post_data["transition"]
+        process = post_data["process"]
 
-
-        transition=post_data["transition"]
-        MTransition.query_by_uid()
         exis_rec = MAction.query_by_pro_name(transition, post_data['name'])
 
         if exis_rec.count() > 0:
@@ -385,19 +390,26 @@ class ActionHandler(BaseHandler):
         else:
 
             act_uid = MAction.create(process, post_data)
-            MTransitionAction.create(transition, act_uid)
             if act_uid:
+                trans_uid = MTransitionAction.create(transition, act_uid)
+                if trans_uid:
 
+                    output = {
+                        "ok": True,
+                        "status": 0,
+                        "msg": "该流程下已存在当前动作，添加失败"
+                    }
+                else:
+                    output = {
+                        "ok": False,
+                        "status": 404,
+                        "msg": "添加动作失败"
+                    }
+            else:
                 output = {
                     "ok": True,
                     "status": 0,
-                    "msg": "添加动作成功"
-                }
-            else:
-                output = {
-                    "ok": False,
-                    "status": 404,
-                    "msg": "添加动作失败"
+                    "msg": "当前动作已存在,添加动作失败"
                 }
 
         return json.dump(output, self, ensure_ascii=False)

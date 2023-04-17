@@ -92,7 +92,7 @@ class ApiPostHandler(PostHandler):
             return False
     def submit_state(self, post_id, pro_id,state_id):
         request_id = MRequest.create(pro_id, post_id, self.userinfo.uid)
-        cur_actions=MTransitionAction.query_by_action(pro_id,state_id)
+        cur_actions=MTransitionAction.query_by_action_state(pro_id,state_id)
         for cur_act in cur_actions:
 
             MRequestAction.create(request_id, cur_act['action'], cur_act['transition'])

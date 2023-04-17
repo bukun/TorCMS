@@ -34,7 +34,7 @@
               "label": "动作说明",
               "type": "input-text"
             },
-             {
+            {
               "name": "process",
               "id": "process",
               "label": "流程：分组/角色",
@@ -48,12 +48,11 @@
               "id": "transition",
               "type": "select",
               "label": "所属转换",
-              "source": "/api/transition/chainedOptions?pro=${process}",
+              "source": "/api/transition/chainedOptions?process=${process}",
               "clearable": true,
               "searchable": true,
               "required": true
             }
-
           ]
         }
       }
@@ -116,10 +115,12 @@
           "value": "${process}"
         },
         {
-          "name": "process",
-          "label": "所属状态",
+          "name": "transition",
+          "id": "transition",
           "type": "text",
-          "value": "${state}"
+          "label": "所属转换",
+          "value": "${transition}"
+
         },
         {
           "name": "name",

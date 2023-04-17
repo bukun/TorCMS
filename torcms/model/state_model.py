@@ -27,11 +27,22 @@ class MTransitionAction:
             return False
 
     @staticmethod
+    def query_by_uid(uid):
+        '''
+        Get a link by ID.
+        '''
+        return TabTransitionAction.select().where(TabTransition.uid == uid)
+
+    @staticmethod
+    def query_by_actid(act_id):
+        return TabTransitionAction.select().where(TabTransitionAction.action == act_id)
+
+    @staticmethod
     def query_all():
         return TabTransitionAction.select()
 
     @staticmethod
-    def query_by_action(pro_id, state_id):
+    def query_by_action_state(pro_id, state_id):
         query = (
             TabTransitionAction.select(TabTransitionAction.transition, TabTransitionAction.action)
             .join(TabTransition, JOIN.INNER)
@@ -133,6 +144,16 @@ class MTransition:
         return TabTransition.select()
 
     @staticmethod
+    def query_by_action(action_id, pro_id):
+        query = (
+            TabTransition.select(TabTransition.current_state, TabTransition.next_state)
+            .join(TabTransitionAction, JOIN.INNER)
+            .where((TabTransitionAction.action == action_id) & (TabTransition.process == pro_id))
+
+        )
+        return query
+
+    @staticmethod
     def query_by_proid(pro_id):
         return TabTransition.select().where(TabTransition.process == pro_id)
 
@@ -184,6 +205,7 @@ class MTransition:
         Delete by uid
         '''
         return MHelper.delete(TabTransition, uid)
+
     @staticmethod
     def query_all_parger(current_page_num, perPage):
         return MHelper.query_all_parger(TabTransition, current_page_num, perPage)
@@ -280,6 +302,8 @@ class MRequestAction:
         except Exception as err:
             print(repr(err))
             return False
+
+
 class MRequest:
 
     @staticmethod
@@ -367,7 +391,7 @@ class MAction:
         try:
             rec = MAction.query_by_name(action.get('name'))
             if rec.count() > 0:
-                uid = rec.get().uid
+               return False
             else:
                 uid = tools.get_uuid()
                 TabAction.create(
