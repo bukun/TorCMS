@@ -36,6 +36,8 @@
               "mode": "row",
               "type": "chained-select",
               "source": "/api/role/getpid?level=1&maxLevel=1",
+              "clearable": true,
+              "searchable": true,
               "required": true
             },
             {
@@ -113,12 +115,12 @@
       "primaryField": "uid",
       "bulkActions": [
         {
-          "label": "批量修改",
+          "label": "批量编辑",
           "type": "button",
           "actionType": "dialog",
           "level": "primary",
           "dialog": {
-            "title": "批量修改",
+            "title": "批量编辑",
             "name": "sample-bulk-edit",
             "body": {
               "type": "form",
@@ -140,6 +142,8 @@
                   "mode": "row",
                   "type": "chained-select",
                   "source": "/api/role/getpid?level=1&maxLevel=1",
+                  "clearable": true,
+                  "searchable": true,
                   "required": true
                 },
                 {
@@ -367,6 +371,8 @@
                           "mode": "row",
                           "type": "chained-select",
                           "source": "/api/role/getpid?level=1&maxLevel=1",
+                          "clearable": true,
+                          "searchable": true,
                           "required": true
                         },
                         {
@@ -377,7 +383,6 @@
                           "name": "permission",
                           "debugger": true,
                           "source": "/api/permission/getall/${pid}"
-
                         },
                         {
                           "name": "transferEvent1",

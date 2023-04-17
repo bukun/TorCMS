@@ -41,6 +41,8 @@
               "mode": "row",
               "type": "chained-select",
               "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
+              "clearable": true,
+              "searchable": true,
               "required": true
             },
             {
@@ -72,6 +74,47 @@
       },
       "primaryField": "uid",
       "bulkActions": [
+        {
+          "label": "批量编辑",
+          "type": "button",
+          "actionType": "dialog",
+          "level": "primary",
+          "dialog": {
+            "title": "批量编辑",
+            "name": "sample-bulk-edit",
+            "body": {
+              "type": "form",
+              "api": "/api/action/batch_edit",
+              "controls": [
+                {
+                  "type": "hidden",
+                  "name": "ids"
+                },
+                {
+                  "name": "process",
+                  "id": "process",
+                  "label": "流程：分组/角色",
+                  "mode": "row",
+                  "type": "chained-select",
+                  "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
+                  "required": true,
+                  "clearable": true,
+                  "searchable": true
+                },
+                {
+                  "name": "transition",
+                  "id": "transition",
+                  "type": "select",
+                  "label": "所属转换",
+                  "source": "/api/transition/chainedOptions?process=${process}",
+                  "clearable": true,
+                  "searchable": true,
+                  "required": true
+                }
+              ]
+            }
+          }
+        },
         {
           "label": "批量删除",
           "type": "button",
@@ -120,7 +163,6 @@
           "type": "text",
           "label": "所属转换",
           "value": "${transition}"
-
         },
         {
           "name": "name",
@@ -180,11 +222,20 @@
                           "value": "${description}"
                         },
                         {
+                          "name": "process",
+                          "id": "process",
+                          "label": "流程：分组/角色",
+                          "mode": "row",
+                          "type": "chained-select",
+                          "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
+                          "required": true
+                        },
+                        {
                           "name": "transition",
                           "id": "transition",
                           "type": "select",
                           "label": "所属转换",
-                          "source": "/api/transition/chainedOptions",
+                          "source": "/api/transition/chainedOptions?process=${process}",
                           "clearable": true,
                           "searchable": true,
                           "required": true

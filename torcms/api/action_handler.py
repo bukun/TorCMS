@@ -123,246 +123,6 @@ class ActionHandler(BaseHandler):
 
     @privilege.permission(action='assign_group')
     @tornado.web.authenticated
-    def update(self, uid):
-        '''
-        Update the link.
-        '''
-
-        post_data = json.loads(self.request.body)
-
-        if 'ext_role0' in post_data:
-            pass
-        else:
-            return False
-
-        the_roles_arr = []
-        def_roles_arr = ['ext_role{0}'.format(x) for x in range(10)]
-        for key in def_roles_arr:
-            if key not in post_data:
-                continue
-            if post_data[key] == '' or post_data[key] == '0':
-                continue
-
-            if post_data[key] in the_roles_arr:
-                continue
-
-            the_roles_arr.append(post_data[key])
-
-        for process in the_roles_arr:
-            recs = MAction.query_by_pro_id(process)
-            for rec in recs:
-
-                if rec.name == post_data['name']:
-                    output = {
-                        "ok": False,
-                        "status": 404,
-                        "msg": "该流程下已存在当前状态，修改失败"
-                    }
-
-                    return json.dump(output, self, ensure_ascii=False)
-                else:
-                    post_data["process"] = process
-
-                    if MAction.update(uid, post_data):
-
-                        output = {
-                            "ok": True,
-                            "status": 0,
-                            "msg": "更新状态成功"
-                        }
-
-
-                    else:
-                        output = {
-                            "ok": False,
-                            "status": 404,
-                            "msg": "更新状态失败"
-                        }
-
-                return json.dump(output, self, ensure_ascii=False)
-
-    @privilege.permission(action='assign_group')
-    @tornado.web.authenticated
-    def batch_edit(self):
-        '''
-        Update the link.
-        '''
-
-        post_data = json.loads(self.request.body)
-
-        ids = post_data.get("ids", "").split(",")
-        for uid in ids:
-
-            if 'ext_role0' in post_data:
-                pass
-            else:
-                return False
-
-            the_roles_arr = []
-            def_roles_arr = ['ext_role{0}'.format(x) for x in range(10)]
-            for key in def_roles_arr:
-                if key not in post_data:
-                    continue
-                if post_data[key] == '' or post_data[key] == '0':
-                    continue
-
-                if post_data[key] in the_roles_arr:
-                    continue
-
-                the_roles_arr.append(post_data[key])
-
-            for process in the_roles_arr:
-                recs = MAction.query_by_pro_id(process)
-                exis_rec = MAction.query_by_uid(uid).get()
-
-                for rec in recs:
-
-                    if rec.name == exis_rec.name:
-                        output = {
-                            "ok": False,
-                            "status": 404,
-                            "msg": "该流程下已存在当前状态，修改失败"
-                        }
-
-
-                    else:
-
-                        post_data["process"] = process
-
-                        if MAction.update_process(uid, post_data):
-
-                            output = {
-                                "ok": True,
-                                "status": 0,
-                                "msg": "更新流程成功"
-                            }
-
-
-                        else:
-                            output = {
-                                "ok": False,
-                                "status": 404,
-                                "msg": "更新流程失败"
-                            }
-
-        return json.dump(output, self, ensure_ascii=False)
-
-    @privilege.permission(action='assign_group')
-    @tornado.web.authenticated
-    def update(self, uid):
-        '''
-        Update the link.
-        '''
-
-        post_data = json.loads(self.request.body)
-
-        if 'ext_role0' in post_data:
-            pass
-        else:
-            return False
-
-        the_roles_arr = []
-        def_roles_arr = ['ext_role{0}'.format(x) for x in range(10)]
-        for key in def_roles_arr:
-            if key not in post_data:
-                continue
-            if post_data[key] == '' or post_data[key] == '0':
-                continue
-
-            if post_data[key] in the_roles_arr:
-                continue
-
-            the_roles_arr.append(post_data[key])
-
-        for process in the_roles_arr:
-
-            rec = MAction.query_by_uid(uid).get()
-            exis_rec = MAction.query_by_pro_name(process, rec.name)
-
-            if exis_rec.count() > 0:
-                output = {
-                    "ok": False,
-                    "status": 404,
-                    "msg": "该流程下已存在当前状态，修改失败"
-                }
-            else:
-
-                post_data["process"] = process
-                if MAction.update_process(uid, post_data):
-                    output = {
-                        "ok": True,
-                        "status": 0,
-                        "msg": "更新流程成功"
-                    }
-
-                else:
-                    output = {
-                        "ok": False,
-                        "status": 404,
-                        "msg": "更新流程失败"
-                    }
-
-        return json.dump(output, self, ensure_ascii=False)
-
-    @privilege.permission(action='assign_group')
-    @tornado.web.authenticated
-    def batch_edit(self):
-        '''
-        Update the link.
-        '''
-
-        post_data = json.loads(self.request.body)
-
-        ids = post_data.get("ids", "").split(",")
-        if 'ext_role0' in post_data:
-            pass
-        else:
-            return False
-
-        the_roles_arr = []
-        def_roles_arr = ['ext_role{0}'.format(x) for x in range(10)]
-        for key in def_roles_arr:
-            if key not in post_data:
-                continue
-            if post_data[key] == '' or post_data[key] == '0':
-                continue
-
-            if post_data[key] in the_roles_arr:
-                continue
-
-            the_roles_arr.append(post_data[key])
-        for uid in ids:
-            for process in the_roles_arr:
-                rec = MAction.query_by_uid(uid).get()
-                exis_rec = MAction.query_by_pro_name(process, rec.name)
-
-                if exis_rec.count() > 0:
-                    output = {
-                        "ok": False,
-                        "status": 404,
-                        "msg": "该流程下已存在当前状态，修改失败"
-                    }
-                else:
-
-                    post_data["process"] = process
-                    if MAction.update_process(uid, post_data):
-                        output = {
-                            "ok": True,
-                            "status": 0,
-                            "msg": "更新流程成功"
-                        }
-
-                    else:
-                        output = {
-                            "ok": False,
-                            "status": 404,
-                            "msg": "更新流程失败"
-                        }
-
-        return json.dump(output, self, ensure_ascii=False)
-
-    @privilege.permission(action='assign_group')
-    @tornado.web.authenticated
     def add(self):
         '''
         user add link.
@@ -377,7 +137,7 @@ class ActionHandler(BaseHandler):
         transition = post_data["transition"]
         process = post_data["process"]
 
-        exis_rec = MAction.query_by_pro_name(transition, post_data['name'])
+        exis_rec = MAction.query_by_pro_actname(transition, post_data['name'])
 
         if exis_rec.count() > 0:
 
@@ -397,13 +157,13 @@ class ActionHandler(BaseHandler):
                     output = {
                         "ok": True,
                         "status": 0,
-                        "msg": "该流程下已存在当前动作，添加失败"
+                        "msg": "添加成功"
                     }
                 else:
                     output = {
                         "ok": False,
                         "status": 404,
-                        "msg": "添加动作失败"
+                        "msg": "该转换下已存在当前动作，添加失败"
                     }
             else:
                 output = {
@@ -411,6 +171,103 @@ class ActionHandler(BaseHandler):
                     "status": 0,
                     "msg": "当前动作已存在,添加动作失败"
                 }
+
+        return json.dump(output, self, ensure_ascii=False)
+
+    @privilege.permission(action='assign_group')
+    @tornado.web.authenticated
+    def update(self, uid):
+        '''
+        Update the link.
+        '''
+
+        post_data = json.loads(self.request.body)
+
+        if 'transition' in post_data and 'process' in post_data:
+            pass
+        else:
+            return False
+
+        transition = post_data["transition"]
+        process = post_data["process"]
+
+        exis_rec = MAction.query_by_pro_actname(transition, post_data['name'])
+        trans_extis_rec = MTransitionAction.query_by_trans_act(transition, uid)
+        if exis_rec.count() > 0:
+
+            output = {
+                "ok": False,
+                "status": 404,
+                "msg": "该流程下已存在当前动作，修改失败"
+            }
+        elif trans_extis_rec.count() > 0:
+            output = {
+                "ok": False,
+                "status": 404,
+                "msg": "该转换下已存在当前动作，修改失败"
+            }
+
+        else:
+
+            if MAction.update(uid, post_data) and MAction.update_process(process, uid):
+                MTransitionAction.create(transition, uid)
+                output = {
+                    "ok": True,
+                    "status": 0,
+                    "msg": "更新动作成功"
+                }
+
+
+            else:
+                output = {
+                    "ok": False,
+                    "status": 404,
+                    "msg": "更新动作失败"
+                }
+
+        return json.dump(output, self, ensure_ascii=False)
+
+    @privilege.permission(action='assign_group')
+    @tornado.web.authenticated
+    def batch_edit(self):
+        '''
+        Update the link.
+        '''
+
+        post_data = json.loads(self.request.body)
+
+        ids = post_data.get("ids", "").split(",")
+        for uid in ids:
+
+            transition = post_data["transition"]
+            process = post_data["process"]
+
+            trans_extis_rec = MTransitionAction.query_by_trans_act(transition, uid)
+
+            if trans_extis_rec.count() > 0:
+                output = {
+                    "ok": False,
+                    "status": 404,
+                    "msg": "该转换下已存在当前动作，修改失败"
+                }
+
+            else:
+
+                if MAction.update_process(process, uid) and MTransitionAction.update(transition, uid):
+
+                    output = {
+                        "ok": True,
+                        "status": 0,
+                        "msg": "更新流程，转换成功"
+                    }
+
+
+                else:
+                    output = {
+                        "ok": False,
+                        "status": 404,
+                        "msg": "更新流程，转换失败"
+                    }
 
         return json.dump(output, self, ensure_ascii=False)
 
@@ -425,13 +282,13 @@ class ActionHandler(BaseHandler):
         if MAction.delete(action_id):
             output = {"ok": True,
                       "status": 0,
-                      "msg": "删除状态成功"
+                      "msg": "删除动作成功"
                       }
         else:
             output = {
                 "ok": False,
                 "status": 404,
-                "msg": "删除状态失败"
+                "msg": "删除动作失败"
             }
 
         return json.dump(output, self, ensure_ascii=False)
@@ -451,13 +308,13 @@ class ActionHandler(BaseHandler):
             if MAction.delete(action_id):
                 output = {"ok": True,
                           "status": 0,
-                          "msg": "删除状态成功"
+                          "msg": "删除动作成功"
                           }
             else:
                 output = {
                     "ok": False,
                     "status": 404,
-                    "msg": "删除状态失败"
+                    "msg": "删除动作失败"
                 }
 
         return json.dump(output, self, ensure_ascii=False)

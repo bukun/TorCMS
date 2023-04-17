@@ -24,6 +24,8 @@
               "mode": "row",
               "type": "chained-select",
               "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
+              "clearable": true,
+              "searchable": true,
               "required": true
             },
             {

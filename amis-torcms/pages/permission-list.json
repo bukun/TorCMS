@@ -55,7 +55,7 @@
       "primaryField": "uid",
       "bulkActions": [
         {
-          "label": "批量修改",
+          "label": "批量编辑",
           "type": "button",
           "actionType": "dialog",
           "level": "primary",

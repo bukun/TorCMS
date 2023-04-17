@@ -14,17 +14,41 @@ class MTransitionAction:
 
     @staticmethod
     def create(transition_id, action_id):
+        rec = MTransitionAction.query_by_trans_act(transition_id, action_id)
+        if rec.count() > 0:
+            return False
+        else:
+
+            try:
+                uid = tools.get_uuid()
+                TabTransitionAction.create(
+                    uid=uid,
+                    transition=transition_id,
+                    action=action_id
+                )
+                return uid
+            except Exception as err:
+                print(repr(err))
+                return False
+
+    @staticmethod
+    def update(transition_id, action_id):
+
+        entry = TabTransitionAction.update(
+            transition=transition_id
+
+        ).where(TabTransitionAction.action == action_id)
         try:
-            uid = tools.get_uuid()
-            TabTransitionAction.create(
-                uid=uid,
-                transition=transition_id,
-                action=action_id
-            )
-            return uid
+            entry.execute()
+            return True
         except Exception as err:
             print(repr(err))
             return False
+
+    @staticmethod
+    def query_by_trans_act(trans_id, act_id):
+        return TabTransitionAction.select().where(
+            (TabTransitionAction.transition == trans_id) & (TabTransitionAction.action == act_id))
 
     @staticmethod
     def query_by_uid(uid):
@@ -66,6 +90,19 @@ class MTransitionAction:
     def delete_by_trans(trans_id):
         entry = TabTransitionAction.delete().where(
             TabTransitionAction.transition == trans_id
+        )
+
+        try:
+            entry.execute()
+            return True
+        except Exception as err:
+            print(repr(err))
+            return False
+
+    @staticmethod
+    def delete_by_trans_act(trans_id, act_id):
+        entry = TabTransitionAction.delete().where(
+            (TabTransitionAction.transition == trans_id) & (TabTransitionAction.action == act_id)
         )
 
         try:
@@ -387,12 +424,11 @@ class MAction:
 
     @staticmethod
     def create(pro_id, action):
-
-        try:
-            rec = MAction.query_by_name(action.get('name'))
-            if rec.count() > 0:
-               return False
-            else:
+        rec = MAction.query_by_name(action.get('name'))
+        if rec.count() > 0:
+            return False
+        else:
+            try:
                 uid = tools.get_uuid()
                 TabAction.create(
                     uid=uid,
@@ -402,7 +438,44 @@ class MAction:
                     description=action.get('description')
                 )
 
-            return uid
+                return uid
+            except Exception as err:
+                print(repr(err))
+                return False
+
+    @staticmethod
+    def update(uid, post_data):
+        '''
+        Updat the link.
+        '''
+        raw_rec = TabAction.get(TabAction.uid == uid)
+        entry = TabAction.update(
+            process=post_data.get('process', raw_rec.process),
+            name=post_data.get('name', raw_rec.name),
+            action_type=post_data.get('action_type', raw_rec.action_type),
+            description=post_data.get('description', raw_rec.description)
+
+        ).where(TabAction.uid == uid)
+        try:
+            entry.execute()
+            return True
+        except Exception as err:
+            print(repr(err))
+            return False
+
+    @staticmethod
+    def update_process(process, uid):
+        '''
+        Updat the link.
+        '''
+
+        entry = TabAction.update(
+            process=process
+
+        ).where(TabAction.uid == uid)
+        try:
+            entry.execute()
+            return True
         except Exception as err:
             print(repr(err))
             return False
@@ -424,8 +497,8 @@ class MAction:
         return TabAction.select().where(TabAction.process == pro_id)
 
     @staticmethod
-    def query_by_pro_name(pro_id, name):
-        return TabAction.select().where((TabAction.process == pro_id) & (TabAction.name == name))
+    def query_by_pro_actname(pro_id, act_name):
+        return TabAction.select().where((TabAction.process == pro_id) & (TabAction.name == act_name))
 
     @staticmethod
     def get_counts():
@@ -478,7 +551,7 @@ class MState:
         return TabState.select().where(TabState.process == pro_id)
 
     @staticmethod
-    def query_by_pro_name(pro_id, name):
+    def query_by_pro_statename(pro_id, name):
         '''
         Get a link by ID.
         '''

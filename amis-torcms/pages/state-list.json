@@ -79,7 +79,7 @@
       "primaryField": "uid",
       "bulkActions": [
         {
-          "label": "批量修改",
+          "label": "批量编辑",
           "type": "button",
           "actionType": "dialog",
           "level": "primary",
@@ -101,6 +101,8 @@
                   "mode": "row",
                   "type": "chained-select",
                   "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
+                  "clearable": true,
+                  "searchable": true,
                   "required": true
                 },
                 {
@@ -109,7 +111,9 @@
                   "label": "流程：分组/角色",
                   "mode": "row",
                   "type": "chained-select",
-                  "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4"
+                  "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
+                  "clearable": true,
+                  "searchable": true
                 },
                 {
                   "name": "ext_role2",
@@ -117,7 +121,9 @@
                   "label": "流程：分组/角色",
                   "mode": "row",
                   "type": "chained-select",
-                  "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4"
+                  "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
+                  "clearable": true,
+                  "searchable": true
                 }
               ]
             }
@@ -211,6 +217,8 @@
                           "mode": "row",
                           "type": "chained-select",
                           "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
+                          "clearable": true,
+                          "searchable": true,
                           "required": true
                         },
                         {
@@ -219,7 +227,9 @@
                           "label": "流程：分组/角色",
                           "mode": "row",
                           "type": "chained-select",
-                          "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4"
+                          "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
+                          "clearable": true,
+                          "searchable": true
                         },
                         {
                           "name": "ext_role2",
@@ -227,7 +237,9 @@
                           "label": "流程：分组/角色",
                           "mode": "row",
                           "type": "chained-select",
-                          "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4"
+                          "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
+                          "clearable": true,
+                          "searchable": true
                         },
                         {
                           "name": "name",

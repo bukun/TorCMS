@@ -133,8 +133,7 @@ class TransitionHandler(BaseHandler):
             "msg": "ok",
             "data": {"count": counts, "rows": dics}
         }
-        print("*" * 50)
-        print(out_dict)
+
         return json.dump(out_dict, self, ensure_ascii=False)
 
     @privilege.permission(action='assign_group')
