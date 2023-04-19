@@ -5,7 +5,7 @@ For friends links.
 from torcms.model.abc_model import MHelper
 from torcms.model.process_model import TabState, TabTransition, TabRequest, TabAction, TabRequestAction, \
     TabTransitionAction
-from torcms.model.core_tab import TabMember, TabPost
+from torcms.model.core_tab import TabMember, TabPost,TabRole
 from peewee import JOIN
 from torcms.core import tools
 
@@ -74,6 +74,18 @@ class MTransitionAction:
         )
         return query.dicts()
 
+    @staticmethod
+    def query_by_process(role_id):
+        query = (
+            TabTransitionAction.select(TabAction.uid,TabAction.name)
+            .join(TabTransition, JOIN.INNER)
+            .switch(TabTransition)
+            .join(TabRole,JOIN.INNER)
+            .switch(TabTransitionAction)
+            .join(TabAction)
+            .where(TabTransition.process == role_id)
+        )
+        return query.dicts()
     @staticmethod
     def delete_by_actid(action_id):
         entry = TabTransitionAction.delete().where(
@@ -367,13 +379,16 @@ class MRequest:
     def get_id_by_username(post_id, user_name):
 
         query = (
-            TabRequest.select(TabRequest.uid)
+            TabRequest.select(TabRequest.uid,TabRequest.process)
             .join(TabPost, JOIN.INNER)
             .switch(TabRequest)
             .join(TabMember, JOIN.INNER)
             .where((TabMember.user_name == user_name) & (TabPost.uid == post_id))
         )
-        return query.get()
+        if query.count() >0:
+            return query.get()
+        else:
+            return None
 
 #
 # class MStateAction:

@@ -11,10 +11,11 @@
             url: url,
             success: function (rs) {
                 var m = eval("(" + rs + ")");
+
                 var btn_arr = ''
-                for (var act in m.act_recs) {
+                for (var act in m.act_arr) {
                     btn_arr += '<a class="btn btn-warning btn-xs"  onclick="tjaction(' +
-                        m.act_recs[act]['act_uid'] + ',' +state_id+',' + pro_id+','+m.request_id+')">' + m.act_recs[act]['act_name'] + '</a>&nbsp'
+                        m.act_arr[act]['act_uid'] + ','+m.request_id+')">' +m.act_arr[act]['act_name'] + '</a>&nbsp'
                 }
                 recstate.innerHTML = btn_arr
             },
@@ -25,7 +26,7 @@
 
     }
 
- function tjaction(act_id,state_id, pro_id,request_id) {
+ function tjaction(act_id,request_id) {
 
         var url = "/api/post/submit_action";
 
@@ -64,7 +65,7 @@
     {% if userinfo %}
     {% if action_arr %}
     {% for action in action_arr %}
-    <a class="btn btn-warning btn-sm" onclick="tjaction('start')">{{ str(action)[:-6] }}</a>
+    <a class="btn btn-warning btn-sm" onclick="tjaction('{{ action['act_uid'] }}')">{{ action['act_name'] }}</a>
     {% end %}
     {% else %}
 

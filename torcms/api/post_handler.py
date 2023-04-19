@@ -100,21 +100,25 @@ class ApiPostHandler(PostHandler):
 
         # 根据当前角色返回相应状态ID#
         states=MState.query_by_pro_id(role['uid'])
+        state_arr=[]
+        for state in states:
+            state_name = state.name
+            state_arr.append(state_name)
 
-        # cur_actions=MTransitionAction.query_by_action_state(role['uid'],state_id)
-        # for cur_act in cur_actions:
-        #
-        #     MRequestAction.create(request_id, cur_act['action'], cur_act['transition'])
+            cur_actions=MTransitionAction.query_by_action_state(role['uid'],state.uid)
+            for cur_act in cur_actions:
 
-        # act_recs = MStateAction.query_by_state(state_id)
-        #
-        # act_arr = []
-        # for act in act_recs:
-        #     act_dic = {"act_name": act['name'], "act_uid": act['uid'], "state": act['state']}
-        #     act_arr.append(act_dic)
+                MRequestAction.create(request_id, cur_act['action'], cur_act['transition'])
+
+        act_recs=MTransitionAction.query_by_process(role['uid'])
+
+        act_arr = []
+        for act in act_recs:
+            act_dic = {"act_name": act['name'], "act_uid": act['uid']}
+            act_arr.append(act_dic)
         # 以上创建步骤已完成
         istrans = True
-        output = {'act_recs': act_arr,"request_id":request_id}
+        output = {'act_arr': act_arr,"request_id":request_id}
 
         if istrans:
             return json.dump(output, self)
