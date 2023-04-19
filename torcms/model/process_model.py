@@ -129,25 +129,25 @@ class TabRequestAction(BaseModel):
     is_active = peewee.BooleanField(null=False, default=False)
     is_complete = peewee.BooleanField(null=False, default=False)
 
-
-class MProcess:
-    def __init__(self):
-        try:
-            TabProcess.create_table()
-        except Exception as err:
-            print(repr(err))
-
-    def create(self, id, name):
-        TabProcess.create(uid=id, name=name)
-
-    def create_or_update(self, id, name):
-        tt = TabProcess.select().where(TabProcess.uid == id)
-        print(tt.count())
-        if tt.count():
-            pass
-        else:
-            pass
-            # self.create(id, name)
+#
+# class MProcess:
+#     def __init__(self):
+#         try:
+#             TabProcess.create_table()
+#         except Exception as err:
+#             print(repr(err))
+#
+#     def create(self, id, name):
+#         TabProcess.create(uid=id, name=name)
+#
+#     def create_or_update(self, id, name):
+#         tt = TabProcess.select().where(TabProcess.uid == id)
+#         print(tt.count())
+#         if tt.count():
+#             pass
+#         else:
+#             pass
+#             # self.create(id, name)
 
 
 class MState:
@@ -186,20 +186,3 @@ class MState:
         return TabState.select()
 
 
-if __name__ == '__main__':
-    uu = MState()
-    tt = MProcess()
-    tt.create_or_update('1', 'Post')
-
-    state_arr = [
-        ['started', '开始'],
-        ['denied', '回退'],
-        ['complated', '完成'],
-        ['cancceled', '取消'],
-    ]
-
-    for statinfo in state_arr:
-        info = {'state_type': statinfo[0], 'name': statinfo[1]}
-        uu.create_or_update(info)
-    all_state = uu.query_all().dicts()
-    [print(x) for x in all_state]
