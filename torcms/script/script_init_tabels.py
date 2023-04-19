@@ -109,6 +109,42 @@ def run_migrate(*args):
     except Exception as err:
         print(repr(err))
 
+
+    ###############################################################################################
+    try:
+        conn = config.DB_CON
+        cur = conn.cursor()
+        cur.execute(
+            '''alter table tablink alter column link type character varying(255)'''
+        )
+        print("    Table tablink altered successfully")
+        conn.commit()
+    except Exception as err:
+        print(repr(err))
+
+    ###############################################################################################
+    try:
+        conn = config.DB_CON
+        cur = conn.cursor()
+        cur.execute(
+            '''alter table tabpost alter column user_name type character varying(255)'''
+        )
+        print("    Table TabPost altered successfully")
+        conn.commit()
+    except Exception as err:
+        print(repr(err))
+    ###############################################################################################
+    try:
+        conn = config.DB_CON
+        cur = conn.cursor()
+        cur.execute(
+            '''alter table tabwiki alter column user_name type character varying(255)'''
+        )
+        print("    Table TabWiki altered successfully")
+        conn.commit()
+    except Exception as err:
+        print(repr(err))
+
     print('Begin migrate ...')
 
     torcms_migrator = migrate.PostgresqlMigrator(config.DB_CON)
@@ -284,3 +320,6 @@ def run_migrate(*args):
         print(repr(err))
 
     print('Migration finished.')
+
+
+

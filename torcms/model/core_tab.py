@@ -67,7 +67,7 @@ class TabPost(BaseModel):
     date = peewee.DateTimeField(null=False, help_text='')
     time_create = peewee.IntegerField()
     user_name = peewee.CharField(
-        null=False, default='', max_length=36, help_text='UserName'
+        null=False, default='', max_length=255, help_text='UserName'
     )
     time_update = peewee.IntegerField()
     view_count = peewee.IntegerField(default=0)
@@ -105,7 +105,7 @@ class TabWiki(BaseModel):
     title = peewee.CharField(null=False, unique=True, index=True, help_text='Title')
     date = peewee.DateTimeField()
     time_create = peewee.IntegerField()
-    user_name = peewee.CharField(null=False, max_length=36, help_text='UserName')
+    user_name = peewee.CharField(null=False, max_length=255, help_text='UserName')
     time_update = peewee.IntegerField()
     view_count = peewee.IntegerField()
     cnt_md = peewee.TextField()
