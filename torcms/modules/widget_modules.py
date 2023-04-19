@@ -268,28 +268,44 @@ class State(tornado.web.UIModule):
         userinfo = kwargs.get('userinfo', '')
         kind = kwargs.get('kind', '9')
         post_authority = config.post_cfg[kind]['checker']
-        from torcms.model.state_model import MState, MProcess, MTransition, MRequest, MAction, MRequestAction, \
-            MTransitionAction,MStateAction
+
+        kwd = {
+            'router': config.post_cfg[kind]['router'],
+            'kind': kind,
+            'post_authority': post_authority,
+        }
+        return self.render_string(
+            'modules/post/state.html', postinfo=postinfo, userinfo=userinfo, kwd=kwd
+        )
+
+class State1(tornado.web.UIModule):
+    def render(self, *args, **kwargs):
+        postinfo = kwargs.get('postinfo', '')
+        userinfo = kwargs.get('userinfo', '')
+        kind = kwargs.get('kind', '9')
+        post_authority = config.post_cfg[kind]['checker']
+        from torcms.model.state_model import MState, MTransition, MRequest, MAction, MRequestAction, \
+            MTransitionAction
 
         # request_rec = MRequest.get_id_by_username(postinfo.uid, postinfo.user_name)
-        pro_rec = MProcess.query_all()
-        for pro in pro_rec:
-            pro_id = pro.uid
-        # 审核状态#
-        exe_actions = MRequestAction.query_by_postid(postinfo.uid)
+        # pro_rec = MProcess.query_all()
+        # for pro in pro_rec:
+        #     pro_id = pro.uid
+        # # 审核状态#
+        # exe_actions = MRequestAction.query_by_postid(postinfo.uid)
 
 
 
         action_arr = []
-        for exe_action in exe_actions:
-            action_arr = []
-            act_recs=MStateAction.query_by_state(exe_action['current_state'])
-
-            for act_rec in act_recs:
-
-                act=MAction.query_by_id(act_rec.action)
-
-                action_arr.append(act.name)
+        # for exe_action in exe_actions:
+        #     action_arr = []
+        #     act_recs=MStateAction.query_by_state(exe_action['current_state'])
+        #
+        #     for act_rec in act_recs:
+        #
+        #         act=MAction.query_by_id(act_rec.action)
+        #
+        #         action_arr.append(act.name)
         # 审核状态#
 
         kwd = {

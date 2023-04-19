@@ -1,7 +1,7 @@
 <script>
-    function tjstate(pro_id, state_id) {
+    function tjstate() {
 
-        var url = "/api/post/submit_state/{{postinfo.uid}}/" + pro_id + "/" + state_id;
+        var url = "/api/post/submit_state/{{postinfo.uid}}";
 
         var recstate = document.getElementById("recstate");
 
@@ -74,7 +74,7 @@
 
         <a href="/{{ kwd.get('router') }}/_edit/{{ postinfo.uid }}" class="btn btn-warning btn-xs">{{ _('Edit') }}</a>
         <a class="btn btn-danger btn-xs"
-           onclick="tjstate('5c41aff8-da5e-11ed-aa11-f5cb9a222181','5c41aff9-da5e-11ed-aa11-f5cb9a222181')">{{ _("Submit for review") }}</a>
+           onclick="tjstate()">{{ _("Submit for review") }}</a>
 
         {% else %}
         {% if postinfo.state[1] == '0' %}

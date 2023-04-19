@@ -17,7 +17,7 @@ from torcms.model.post_hist_model import MPostHist
 from openpyxl import load_workbook
 from openpyxl.worksheet.datavalidation import DataValidation
 from torcms.model.entity_model import MEntity
-from torcms.model.state_model import MState, MProcess, MTransition, MRequest, MAction, MRequestAction, MTransitionAction
+
 
 
 def update_category(uid, post_data):
@@ -171,8 +171,7 @@ class MetadataHandler(PostHandler):
             self.upload_excel()
         elif url_arr[0] == '_edit_kind':
             self._change_kind(url_arr[1])
-        elif url_arr[0] == 'update_state':
-            self.update_state(url_arr[1], url_arr[2])
+
         elif url_arr[0] in ['_cat_add']:
             self.add(catid=url_arr[1])
         elif len(url_arr) == 1 and len(url_str) >= 4:
@@ -183,112 +182,7 @@ class MetadataHandler(PostHandler):
         else:
             self.show404()
 
-    def update_state(self, post_id, state):
 
-        state_init_dics = [
-            {"name": "start", "state_type": "start",
-             "description": "开始审核:每个进程只应该一个。此状态是创建新请求时所处的状态"},
-            {"name": "complete", "state_type": "complete",
-             "description": "完成:表示此状态下的任何请求已正常完成的状态"},
-            {"name": "denied", "state_type": "denied",
-             "description": "拒绝:表示此状态下的任何请求已被拒绝的状态（例如，从未开始且不会被处理）"},
-            {"name": "cancelled", "state_type": "cancelled",
-             "description": "取消:表示此状态下的任何请求已被取消的状态（例如，工作已开始但尚未完成）"}
-        ]
-
-        # process
-        pro_id = MProcess.create(state + '_' + post_id)
-        if pro_id:
-            pass
-        else:
-            return False
-
-        # state
-        state_get_dics = {}
-        for state_dic in state_init_dics:
-            post_data = {
-                "process": pro_id,
-                "name": state_dic['name'] + '_{0}'.format(post_id),
-                "state_type": state_dic['state_type'] + '_{0}'.format(post_id),
-                "description": state_dic['description'] + '_{0}'.format(post_id)
-            }
-
-            state_get_dics = MState.create(post_data, state_get_dics)
-
-        if state_get_dics:
-            pass
-        else:
-            return False
-
-        # Transition
-        cur_state_id = state_get_dics['{0}_{1}'.format(state, post_id)]
-        state_start_id = state_get_dics['start_{0}'.format(post_id)]
-        state_com_id = state_get_dics['complete_{0}'.format(post_id)]
-        state_denied_id = state_get_dics['denied_{0}'.format(post_id)]
-        state_cancelled_id = state_get_dics['cancelled_{0}'.format(post_id)]
-
-        if state == 'start':
-            next_static = {state_com_id, state_denied_id, state_cancelled_id}
-        elif state == 'denied':
-            next_static = {state_start_id}
-        elif state == 'cancelled':
-            next_static = {state_com_id, state_denied_id}
-        else:
-            next_static = {}
-
-        istrans = False
-        if next_static:
-            istrans = MTransition.create(pro_id, cur_state_id, next_static)
-
-        if istrans:
-            pass
-        else:
-            return False
-
-        # Action
-        actions = [
-            {"name": "approve", "action_type": "approve", "description": "操作人将请求应移至下一个状态"},
-            {"name": "resolve", "action_type": "resolve", "description": "操作人将将请求一直移动到Completed状态"},
-            {"name": "deny", "action_type": "deny", "description": "操作人将请求应移至上一个状态"},
-            {"name": "restart", "action_type": "restart", "description": "操作人将将请求移回到进程中的“开始”状态"},
-            {"name": "cancel", "action_type": "cancel", "description": "操作人将请求应在此过程中移至“已取消”状态"}
-        ]
-
-        isaction = False
-        for state_dic in actions:
-            action = {
-                "process": pro_id,
-                "name": state_dic['name'] + '_{0}'.format(post_id),
-                "action_type": state_dic['action_type'] + '_{0}'.format(post_id),
-                "description": state_dic['description'] + '_{0}'.format(post_id)
-            }
-
-            isaction = MAction.create(pro_id, action)
-
-        if isaction:
-            pass
-        else:
-            return False
-
-        # request
-        request_id = MRequest.create(pro_id, post_id, self.userinfo.uid)
-
-        # TransitionAction
-        action_dics = MAction.query_by_proid(pro_id)
-        trans_dics = MTransition.query_by_proid(pro_id)
-        isreaction = False
-        for act_dic in action_dics:
-            for trans_dic in trans_dics:
-                MTransitionAction.create(trans_dic.uid, act_dic.uid)
-
-                # RequestActions
-                isreaction = MRequestAction.create(request_id, act_dic.uid, trans_dic.uid)
-
-        output = {'state': state}
-        if isreaction:
-            return json.dump(output, self)
-        else:
-            return False
 
     def chuli_meta(self, metafile):
         try:

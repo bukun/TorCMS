@@ -1,104 +1,128 @@
-from torcms.model.process_model import TabProcess, TabState, TabAction, TabRequest, TabTransition, TabRequestAction, \
-    TabMember
-from torcms.model.state_model import MState, MTransition, MTransitionAction, MAction, MRequest, MProcess, \
-    MRequestAction, MStateAction
+from torcms.model.process_model import *
 
 
 def test():
-    state_init_dics = [
-        {"name": "start", "state_type": "start",
-         "description": "开始审核:每个进程只应该一个。此状态是创建新请求时所处的状态",
-         "action": [
-             {"name": "approve", "action_type": "approve", "description": "操作人将请求应移至下一个状态"},
-             {"name": "deny", "action_type": "deny", "description": "操作人将请求应移至上一个状态"},
-             {"name": "cancel", "action_type": "cancel", "description": "操作人将请求应在此过程中移至“已取消”状态"}
-         ]
-         },
-
-        {"name": "complete", "state_type": "complete",
-         "description": "完成:表示此状态下的任何请求已正常完成的状态",
-         "action": []
-         },
-        {"name": "denied", "state_type": "denied",
-         "description": "拒绝:表示此状态下的任何请求已被拒绝的状态（例如，从未开始且不会被处理）",
-         "action": [
-             {"name": "deny", "action_type": "deny", "description": "操作人将请求应移至上一个状态"},
-         ]
-         },
-        {"name": "cancelled", "state_type": "cancelled",
-         "description": "取消:表示此状态下的任何请求已被取消的状态（例如，工作已开始但尚未完成）",
-         "action": [
-             {"name": "cancel", "action_type": "cancel", "description": "操作人将请求应在此过程中移至“已取消”状态"}
-         ]
-
-         }
+    Tabstate = [
+        {'uid': 'cb072884-de4e-11ed-9d76-2544c8d60402', 'process': 'uadministrators', 'name': '管理_开始审核',
+         'state_type': '管理_开始审核', 'description': '管理_开始审核'},
+        {'uid': 'd3e39294-de4e-11ed-9d76-2544c8d60402', 'process': 'uadministrators', 'name': '管理_完成审核',
+         'state_type': '管理_完成审核', 'description': '管理_完成审核'},
+        {'uid': 'd957ac2e-de4e-11ed-9d76-2544c8d60402', 'process': 'uadministrators', 'name': '管理_拒绝审核',
+         'state_type': '管理_拒绝审核', 'description': '管理_拒绝审核'},
+        {'uid': 'fe7432e8-de4e-11ed-9d76-2544c8d60402', 'process': '1editor', 'name': '编辑_开始审核',
+         'state_type': '编辑_开始审核', 'description': '编辑_开始审核'},
+        {'uid': '06a263fe-de4f-11ed-9d76-2544c8d60402', 'process': '1editor', 'name': '编辑_完成审核',
+         'state_type': '编辑_完成审核', 'description': '编辑_完成审核'},
+        {'uid': '0f78610e-de4f-11ed-9d76-2544c8d60402', 'process': '1editor', 'name': '编辑_拒绝审核',
+         'state_type': '编辑_拒绝审核', 'description': '编辑_拒绝审核'},
+        {'uid': '8e935de0-de4f-11ed-9d76-2544c8d60402', 'process': '1editor', 'name': '编辑_取消审核',
+         'state_type': '编辑_取消审核', 'description': '编辑_取消审核'},
+        {'uid': '8e935de1-de4f-11ed-9d76-2544c8d60402', 'process': 'uadministrators', 'name': '管理_取消审核',
+         'state_type': '管理_取消审核', 'description': '管理_取消审核'}
     ]
 
-    # process
+    action = [
+        {'uid': '3687c848-de4f-11ed-9d76-2544c8d60402', 'process': '1editor', 'action_type': '通过审核',
+         'name': '通过审核', 'description': '通过审核'},
+        {'uid': '3f38c5c8-de4f-11ed-9d76-2544c8d60402', 'process': '1editor', 'action_type': '拒绝审核',
+         'name': '拒绝审核', 'description': '拒绝审核'},
+        {'uid': '569bf320-de4f-11ed-9d76-2544c8d60402', 'process': 'uadministrators', 'action_type': '管理通过',
+         'name': '管理通过', 'description': '管理通过'},
+        {'uid': '6149df3a-de4f-11ed-9d76-2544c8d60402', 'process': 'uadministrators', 'action_type': '管理拒绝',
+         'name': '管理拒绝', 'description': '管理拒绝'},
+        {'uid': 'a89f4b72-de4f-11ed-9d76-2544c8d60402', 'process': '1editor', 'action_type': '取消审核',
+         'name': '取消审核', 'description': '取消审核'},
+        {'uid': 'b58449dc-de4f-11ed-9d76-2544c8d60402', 'process': 'uadministrators', 'action_type': '管理取消',
+         'name': '管理取消', 'description': '管理取消'}
+    ]
 
-    pro_id = MProcess.create('部门审核')
-    if pro_id:
-        pass
-    else:
-        return False
+    Tabtransition = [
+        {'uid': '168d9b8a-de4f-11ed-9d76-2544c8d60402', 'process': '1editor',
+         'current_state': 'fe7432e8-de4e-11ed-9d76-2544c8d60402', 'next_state': '06a263fe-de4f-11ed-9d76-2544c8d60402'},
+        {'uid': '1b942b76-de4f-11ed-9d76-2544c8d60402', 'process': '1editor',
+         'current_state': 'fe7432e8-de4e-11ed-9d76-2544c8d60402', 'next_state': '0f78610e-de4f-11ed-9d76-2544c8d60402'},
+        {'uid': '2632b570-de4f-11ed-9d76-2544c8d60402', 'process': 'uadministrators',
+         'current_state': 'cb072884-de4e-11ed-9d76-2544c8d60402', 'next_state': 'd3e39294-de4e-11ed-9d76-2544c8d60402'},
+        {'uid': '29d73264-de4f-11ed-9d76-2544c8d60402', 'process': 'uadministrators',
+         'current_state': 'cb072884-de4e-11ed-9d76-2544c8d60402', 'next_state': 'd957ac2e-de4e-11ed-9d76-2544c8d60402'},
+        {'uid': '962395f2-de4f-11ed-9d76-2544c8d60402', 'process': '1editor',
+         'current_state': 'fe7432e8-de4e-11ed-9d76-2544c8d60402', 'next_state': '8e935de0-de4f-11ed-9d76-2544c8d60402'},
+        {'uid': '9a29745a-de4f-11ed-9d76-2544c8d60402', 'process': 'uadministrators',
+         'current_state': 'cb072884-de4e-11ed-9d76-2544c8d60402', 'next_state': '8e935de1-de4f-11ed-9d76-2544c8d60402'}
+    ]
 
-    # state
-    state_get_dics = {}
+    TransitionAction = [
+        {'uid': '3687c849-de4f-11ed-9d76-2544c8d60402', 'transition': '168d9b8a-de4f-11ed-9d76-2544c8d60402',
+         'action': '3687c848-de4f-11ed-9d76-2544c8d60402'},
+        {'uid': '3f38c5c9-de4f-11ed-9d76-2544c8d60402', 'transition': '1b942b76-de4f-11ed-9d76-2544c8d60402',
+         'action': '3f38c5c8-de4f-11ed-9d76-2544c8d60402'},
+        {'uid': '569bf321-de4f-11ed-9d76-2544c8d60402', 'transition': '2632b570-de4f-11ed-9d76-2544c8d60402',
+         'action': '569bf320-de4f-11ed-9d76-2544c8d60402'},
+        {'uid': '6149df3b-de4f-11ed-9d76-2544c8d60402', 'transition': '29d73264-de4f-11ed-9d76-2544c8d60402',
+         'action': '6149df3a-de4f-11ed-9d76-2544c8d60402'},
+        {'uid': 'a89f4b73-de4f-11ed-9d76-2544c8d60402', 'transition': '962395f2-de4f-11ed-9d76-2544c8d60402',
+         'action': 'a89f4b72-de4f-11ed-9d76-2544c8d60402'},
+        {'uid': 'b58449dd-de4f-11ed-9d76-2544c8d60402', 'transition': '9a29745a-de4f-11ed-9d76-2544c8d60402',
+         'action': 'b58449dc-de4f-11ed-9d76-2544c8d60402'}
+    ]
 
-    for state_dic in state_init_dics:
-        post_data = {
-            "process": pro_id,
-            "name": state_dic['name'],
-            "state_type": state_dic['state_type'],
-            "description": state_dic['description']
-        }
+    for state in Tabstate:
 
-        state_uid = MState.create(post_data)
+        try:
 
-        if state_uid:
-            pass
-        else:
-            continue
+            TabState.create(
+                uid=state['uid'],
+                process=state['process'],
+                name=state['name'],
+                state_type=state['state_type'],
+                description=state['description']
+            )
 
-        # Action
-        for action_dic in state_dic['action']:
-            action = {
-                "process": pro_id,
-                "name": action_dic['name'],
-                "action_type": action_dic['action_type'],
-                "description": action_dic['description']
-            }
+            return True
+        except Exception as err:
+            print(repr(err))
+            return False
 
-            act_id = MAction.create(pro_id, action)
-            MStateAction.create(state_uid, act_id)
+    for act in action:
+        try:
+            TabAction.create(
+                uid=act['uid'],
+                process=act['process'],
+                name=act['name'],
+                action_type=act['action_type'],
+                description=act['description']
+            )
 
-    state_start_id = MState.query_by_name('start')
-    state_com_id = MState.query_by_name('complete')
-    state_denied_id = MState.query_by_name('denied')
-    state_cancelled_id = MState.query_by_name('cancelled')
-    com_action = MAction.query_by_name('approve')
-    den_action = MAction.query_by_name('deny')
-    can_action = MAction.query_by_name('cancel')
-    for state_dic in state_init_dics:
-        if state_dic['name'] == 'start':
-            next_static = [{"state": state_com_id, "action": com_action},
-                           {"state": state_denied_id, "action": den_action},
-                           {"state": state_cancelled_id, "action": can_action}]
+            return True
+        except Exception as err:
+            print(repr(err))
+            return False
 
-        elif state_dic['name'] == 'cancelled':
-            next_static = [{"state": state_com_id, "action": com_action},
-                           {"state": state_denied_id, "action": den_action}]
-        else:
-            next_static = {}
+    for tran in Tabtransition:
+        try:
+            rec = TabTransition.create(
+                uid=tran['uid'],
+                process=tran['pro_id'],
+                current_state=tran['cur_state'],
+                next_state=tran['next_state']
+            )
+            return rec.uid
+        except Exception as err:
+            print(repr(err))
+            return False
 
-        cur_state_id = MState.query_by_name(state_dic['name'])
-        if next_static:
+    for tran_action in TransitionAction:
+        try:
 
-            for next_state in next_static:
-                trans_id = MTransition.create(pro_id, cur_state_id, next_state['state'])
-
-                # TransitionAction
-                MTransitionAction.create(trans_id, next_state['action'])
+            TabTransitionAction.create(
+                uid=tran_action['uid'],
+                transition=tran_action['transition'],
+                action=tran_action['action_id']
+            )
+            return True
+        except Exception as err:
+            print(repr(err))
+            return False
 
 
 if __name__ == '__main__':

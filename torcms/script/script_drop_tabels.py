@@ -71,23 +71,18 @@ def run_drop_tables(_):
     drop_the_table(TabCorrelation)
 
 
-
-
     drop_the_table(TabRequestAction)
     drop_the_table(TabTransitionAction)
-    drop_the_table(TabStateAction)
     drop_the_table(TabTransition)
-    drop_the_table(TabAction)
-    drop_the_table(TabState)
-    drop_the_table(TabRequest)
-    drop_the_table(TabProcess)
-
-
     drop_the_table(TabStaff2Role)
     drop_the_table(TabRole2Permission)
     drop_the_table(TabPermission)
-    drop_the_table(TabRole)
 
+    drop_the_table(TabRequest)
+    drop_the_table(TabState)
+    drop_the_table(TabAction)
 
     drop_the_table(TabPost)
     drop_the_table(TabMember)
+    # drop_the_table(TabProcess)
+    drop_the_table(TabRole)

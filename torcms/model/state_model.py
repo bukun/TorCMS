@@ -3,8 +3,8 @@
 For friends links.
 '''
 from torcms.model.abc_model import MHelper
-from torcms.model.process_model import TabState, TabProcess, TabTransition, TabRequest, TabAction, TabRequestAction, \
-    TabTransitionAction, TabStateAction
+from torcms.model.process_model import TabState, TabTransition, TabRequest, TabAction, TabRequestAction, \
+    TabTransitionAction
 from torcms.model.core_tab import TabMember, TabPost
 from peewee import JOIN
 from torcms.core import tools
@@ -112,51 +112,51 @@ class MTransitionAction:
             print(repr(err))
             return False
 
-
-class MProcess:
-
-    @staticmethod
-    def create(name):
-        try:
-            uid = tools.get_uuid()
-            TabProcess.create(uid=uid, name=name)
-            return uid
-        except Exception as err:
-            print(repr(err))
-            return False
-
-    @staticmethod
-    def query_all():
-        return TabProcess.select()
-
-    @staticmethod
-    def query_all_parger(current_page_num, perPage):
-        return MHelper.query_all_parger(TabProcess, current_page_num, perPage)
-
-    @staticmethod
-    def get_counts():
-        '''
-        The count in table.
-        '''
-        # adding ``None`` to hide ``No value for argument 'database' in method call``
-        return MHelper.get_counts(TabProcess)
-
-    @staticmethod
-    def update(uid, post_data):
-        '''
-        Updat the link.
-        '''
-        raw_rec = TabProcess.get(TabProcess.uid == uid)
-        entry = TabProcess.update(
-            name=post_data.get('name', raw_rec.name)
-
-        ).where(TabProcess.uid == uid)
-        try:
-            entry.execute()
-            return True
-        except Exception as err:
-            print(repr(err))
-            return False
+#
+# class MProcess:
+#
+#     @staticmethod
+#     def create(name):
+#         try:
+#             uid = tools.get_uuid()
+#             TabProcess.create(uid=uid, name=name)
+#             return uid
+#         except Exception as err:
+#             print(repr(err))
+#             return False
+#
+#     @staticmethod
+#     def query_all():
+#         return TabProcess.select()
+#
+#     @staticmethod
+#     def query_all_parger(current_page_num, perPage):
+#         return MHelper.query_all_parger(TabProcess, current_page_num, perPage)
+#
+#     @staticmethod
+#     def get_counts():
+#         '''
+#         The count in table.
+#         '''
+#         # adding ``None`` to hide ``No value for argument 'database' in method call``
+#         return MHelper.get_counts(TabProcess)
+#
+#     @staticmethod
+#     def update(uid, post_data):
+#         '''
+#         Updat the link.
+#         '''
+#         raw_rec = TabProcess.get(TabProcess.uid == uid)
+#         entry = TabProcess.update(
+#             name=post_data.get('name', raw_rec.name)
+#
+#         ).where(TabProcess.uid == uid)
+#         try:
+#             entry.execute()
+#             return True
+#         except Exception as err:
+#             print(repr(err))
+#             return False
 
 
 class MTransition:
@@ -375,50 +375,50 @@ class MRequest:
         )
         return query.get()
 
-
-class MStateAction:
-    @staticmethod
-    def create(state, action):
-
-        try:
-
-            uid = tools.get_uuid()
-            TabStateAction.create(
-                uid=uid,
-                state=state,
-                action=action
-            )
-
-            return True
-        except Exception as err:
-            print(repr(err))
-            return False
-
-    @staticmethod
-    def query_by_state(state):
-        query = (
-            TabStateAction.select(TabAction.uid, TabAction.name, TabStateAction.state)
-            .join(TabAction, JOIN.INNER)
-            .where(TabStateAction.state == state)
-        )
-        return query.dicts()
-
-    @staticmethod
-    def query_all():
-        return TabStateAction.select()
-
-    @staticmethod
-    def delete_by_state(state_id):
-        entry = TabStateAction.delete().where(
-            TabStateAction.state == state_id
-        )
-        try:
-            entry.execute()
-            return True
-        except Exception as err:
-            print(repr(err))
-            return False
-
+#
+# class MStateAction:
+#     @staticmethod
+#     def create(state, action):
+#
+#         try:
+#
+#             uid = tools.get_uuid()
+#             TabStateAction.create(
+#                 uid=uid,
+#                 state=state,
+#                 action=action
+#             )
+#
+#             return True
+#         except Exception as err:
+#             print(repr(err))
+#             return False
+#
+#     @staticmethod
+#     def query_by_state(state):
+#         query = (
+#             TabStateAction.select(TabAction.uid, TabAction.name, TabStateAction.state)
+#             .join(TabAction, JOIN.INNER)
+#             .where(TabStateAction.state == state)
+#         )
+#         return query.dicts()
+#
+#     @staticmethod
+#     def query_all():
+#         return TabStateAction.select()
+#
+#     @staticmethod
+#     def delete_by_state(state_id):
+#         entry = TabStateAction.delete().where(
+#             TabStateAction.state == state_id
+#         )
+#         try:
+#             entry.execute()
+#             return True
+#         except Exception as err:
+#             print(repr(err))
+#             return False
+#
 
 class MAction:
 

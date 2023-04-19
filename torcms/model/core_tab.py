@@ -47,7 +47,7 @@ class TabLink(BaseModel):
         max_length=4,
         help_text='',
     )
-    link = peewee.CharField(null=False, max_length=36, help_text='')
+    link = peewee.CharField(null=False, max_length=255, help_text='')
     name = peewee.CharField(null=False, max_length=255, help_text='')
     logo = peewee.CharField(null=False, max_length=255, help_text='')
     order = peewee.IntegerField()

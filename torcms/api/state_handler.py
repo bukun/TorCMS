@@ -7,7 +7,7 @@ import json
 import tornado.web
 from torcms.core import tools, privilege
 from torcms.core.base_handler import BaseHandler
-from torcms.model.state_model import MState, MStateAction, MTransition
+from torcms.model.state_model import MState,  MTransition
 from torcms.model.role_model import MRole
 
 
@@ -309,7 +309,6 @@ class StateHandler(BaseHandler):
         '''
         delete user by ID.
         '''
-        MStateAction.delete_by_state(state_id)
         MTransition.delete_by_state(state_id)
 
         if MState.delete(state_id):
@@ -335,7 +334,6 @@ class StateHandler(BaseHandler):
 
         del_uids = state_ids.split(",")
         for state_id in del_uids:
-            MStateAction.delete_by_state(state_id)
             MTransition.delete_by_state(state_id)
 
             if MState.delete(state_id):

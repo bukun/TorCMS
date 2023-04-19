@@ -11,8 +11,9 @@ from torcms.handlers.post_handler import PostHandler
 from torcms.model.post_model import MPost
 from torcms.model.category_model import MCategory
 from torcms.model.user_model import MUser
-from torcms.model.state_model import MState, MProcess, MTransition, MRequest, MAction, MRequestAction, \
-    MTransitionAction, MStateAction
+from torcms.model.staff2role_model import MStaff2Role
+from torcms.model.state_model import MState,  MTransition, MRequest, MAction, MRequestAction, \
+    MTransitionAction
 
 
 class ApiPostHandler(PostHandler):
@@ -46,7 +47,7 @@ class ApiPostHandler(PostHandler):
         # elif url_arr[0] == 'batch_edit':
         #     self.batch_edit()
         elif url_arr[0] == 'submit_state':
-            self.submit_state(url_arr[1], url_arr[2], url_arr[3])
+            self.submit_state(url_arr[1])
         elif url_arr[0] == 'submit_action':
             self.submit_action()
 
@@ -82,27 +83,35 @@ class ApiPostHandler(PostHandler):
 
 
 
-        for is_active in isactives:
-            print(is_active.uid, is_active.action, is_active.is_active, is_active.is_complete)
+        # for is_active in isactives:
+        #     print(is_active.uid, is_active.action, is_active.is_active, is_active.is_complete)
         istrans = True
-        output = {'state': state_id, 'trans_id': trans_id}
+        output = {'state': state_id, 'trans_id': ""}
         if istrans:
             return json.dump(output, self)
         else:
             return False
-    def submit_state(self, post_id, pro_id,state_id):
-        request_id = MRequest.create(pro_id, post_id, self.userinfo.uid)
-        cur_actions=MTransitionAction.query_by_action_state(pro_id,state_id)
-        for cur_act in cur_actions:
+    def submit_state(self, post_id):
 
-            MRequestAction.create(request_id, cur_act['action'], cur_act['transition'])
+        #返回当前登录用户的角色相关信息
+        role=MStaff2Role.get_role_by_uid(self.userinfo.uid).get()
 
-        act_recs = MStateAction.query_by_state(state_id)
+        request_id = MRequest.create(role['uid'], post_id, self.userinfo.uid)
 
-        act_arr = []
-        for act in act_recs:
-            act_dic = {"act_name": act['name'], "act_uid": act['uid'], "state": act['state']}
-            act_arr.append(act_dic)
+        # 根据当前角色返回相应状态ID#
+        states=MState.query_by_pro_id(role['uid'])
+
+        # cur_actions=MTransitionAction.query_by_action_state(role['uid'],state_id)
+        # for cur_act in cur_actions:
+        #
+        #     MRequestAction.create(request_id, cur_act['action'], cur_act['transition'])
+
+        # act_recs = MStateAction.query_by_state(state_id)
+        #
+        # act_arr = []
+        # for act in act_recs:
+        #     act_dic = {"act_name": act['name'], "act_uid": act['uid'], "state": act['state']}
+        #     act_arr.append(act_dic)
         # 以上创建步骤已完成
         istrans = True
         output = {'act_recs': act_arr,"request_id":request_id}
