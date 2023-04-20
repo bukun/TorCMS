@@ -296,7 +296,7 @@ class State(tornado.web.UIModule):
 
 
             for act in act_recs:
-                act_dic = {"act_name": act['name'], "act_uid": act['uid']}
+                act_dic = {"act_name": act['name'], "act_uid": act['uid'],"request_id":request_rec.uid}
                 act_arr.append(act_dic)
 
 

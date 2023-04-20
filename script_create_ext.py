@@ -65,11 +65,8 @@ def test():
         {'uid': 'b58449dd-de4f-11ed-9d76-2544c8d60402', 'transition': '9a29745a-de4f-11ed-9d76-2544c8d60402',
          'action': 'b58449dc-de4f-11ed-9d76-2544c8d60402'}
     ]
-
-    for state in Tabstate:
-
-        try:
-
+    try:
+        for state in Tabstate:
             TabState.create(
                 uid=state['uid'],
                 process=state['process'],
@@ -77,14 +74,13 @@ def test():
                 state_type=state['state_type'],
                 description=state['description']
             )
+        return True
+    except Exception as err:
+        print(repr(err))
+        pass
 
-            return True
-        except Exception as err:
-            print(repr(err))
-            return False
-
-    for act in action:
-        try:
+    try:
+        for act in action:
             TabAction.create(
                 uid=act['uid'],
                 process=act['process'],
@@ -92,37 +88,35 @@ def test():
                 action_type=act['action_type'],
                 description=act['description']
             )
+        return True
+    except Exception as err:
+        print(repr(err))
+        pass
 
-            return True
-        except Exception as err:
-            print(repr(err))
-            return False
-
-    for tran in Tabtransition:
-        try:
-            rec = TabTransition.create(
+    try:
+        for tran in Tabtransition:
+            TabTransition.create(
                 uid=tran['uid'],
-                process=tran['pro_id'],
-                current_state=tran['cur_state'],
+                process=tran['process'],
+                current_state=tran['current_state'],
                 next_state=tran['next_state']
             )
-            return rec.uid
-        except Exception as err:
-            print(repr(err))
-            return False
+        return True
+    except Exception as err:
+        print(repr(err))
+        pass
 
-    for tran_action in TransitionAction:
-        try:
-
+    try:
+        for tran_action in TransitionAction:
             TabTransitionAction.create(
                 uid=tran_action['uid'],
                 transition=tran_action['transition'],
-                action=tran_action['action_id']
+                action=tran_action['action']
             )
-            return True
-        except Exception as err:
-            print(repr(err))
-            return False
+        return True
+    except Exception as err:
+        print(repr(err))
+        return False
 
 
 if __name__ == '__main__':

@@ -33,7 +33,7 @@
         var recstate = document.getElementById("recstate");
         var action_data = new FormData();
 
-        action_data.append("state_id", state_id);
+        {#action_data.append("state_id", state_id);#}
         action_data.append("request_id", request_id);
         action_data.append("user_id", "{{userinfo.uid}}");
 
@@ -49,8 +49,12 @@
             contentType: false,
             success: function (rs) {
                 var m = eval("(" + rs + ")");
-                alert(m);
-
+                var btn_arr = ''
+                for (var act in m.act_arr) {
+                    btn_arr += '<a class="btn btn-warning btn-xs"  onclick="tjaction(' +
+                        m.act_arr[act]['act_uid'] + ','+m.request_id+')">' +m.act_arr[act]['act_name'] + '</a>&nbsp'
+                }
+                recstate.innerHTML = btn_arr
             },
             error: function (err) {
                 alert('Submission failed');
@@ -65,7 +69,7 @@
     {% if userinfo %}
     {% if action_arr %}
     {% for action in action_arr %}
-    <a class="btn btn-warning btn-sm" onclick="tjaction('{{ action['act_uid'] }}')">{{ action['act_name'] }}</a>
+    <a class="btn btn-warning btn-sm" onclick="tjaction('{{ action['act_uid'] }},{{ action['request_id'] }}')">{{ action['act_name'] }}</a>
     {% end %}
     {% else %}
 

@@ -33,7 +33,10 @@ class MStaff2Role:
             .join(TabMember, JOIN.INNER)
             .where(TabStaff2Role.staff == staff_id)
         )
-        return query.dicts()
+        if query.count()>0:
+            return query.dicts()
+        else:
+            return None
 
     @staticmethod
     def query_permissions(staff_id):

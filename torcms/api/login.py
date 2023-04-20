@@ -650,8 +650,9 @@ class UserApi(BaseHandler):
         pers = MStaff2Role.get_role_by_uid(user_id)
 
         per_arr = []
-        for per in pers:
-            per_arr.append(per['name'])
+        if pers:
+            for per in pers:
+                per_arr.append(per['name'])
 
         return per_arr
 

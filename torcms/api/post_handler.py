@@ -12,7 +12,7 @@ from torcms.model.post_model import MPost
 from torcms.model.category_model import MCategory
 from torcms.model.user_model import MUser
 from torcms.model.staff2role_model import MStaff2Role
-from torcms.model.state_model import MState,  MTransition, MRequest, MAction, MRequestAction, \
+from torcms.model.state_model import MState, MTransition, MRequest, MAction, MRequestAction, \
     MTransitionAction
 
 
@@ -64,61 +64,56 @@ class ApiPostHandler(PostHandler):
             post_data[key] = self.get_arguments(key)[0]
 
         request_id = post_data['request_id']
-        state_id = post_data['state_id']
         post_id = post_data['post_id']
         user_id = post_data['user_id']
         act_id = post_data['act_id']
-        pro_id = post_data['pro_id']
 
+        # 提交的Action与其中一个（is_active = true）的活动RequestActions匹配，设置 is_active = false 和 is_completed = true
+        reqact = MRequestAction.query_by_action_request(act_id, request_id)
 
-        # 更新操作动态
-        MRequestAction.update_by_action(act_id, request_id)
-
+        if reqact.is_active == True:
+            # 更新操作动态
+            MRequestAction.update_by_action(act_id, request_id)
 
         # 查询该请求中该转换的所有动作是否都为True
-        trans=MRequestAction.query_by_action_request(act_id,request_id)
+        istrues=MRequestAction.query_by_request_trans(request_id,reqact.transition)
+        if istrues.is_active == True:
+            # 转到下一状态
+            trans=MTransition.query_by_uid(reqact.transition)
+            state = MState.query_by_uid(trans.next_state)
 
-        #转到下一状态
-        MTransition.query_by_state(state_id)
+            self.submit_state(post_id)
 
-
-
-        # for is_active in isactives:
-        #     print(is_active.uid, is_active.action, is_active.is_active, is_active.is_complete)
-        istrans = True
-        output = {'state': state_id, 'trans_id': ""}
-        if istrans:
-            return json.dump(output, self)
-        else:
-            return False
     def submit_state(self, post_id):
 
-        #返回当前登录用户的角色相关信息
-        role=MStaff2Role.get_role_by_uid(self.userinfo.uid).get()
+        # 返回当前登录用户的角色相关信息
+        role = MStaff2Role.get_role_by_uid(self.userinfo.uid).get()
+        if role:
+            request_id = MRequest.create(role['uid'], post_id, self.userinfo.uid)
 
-        request_id = MRequest.create(role['uid'], post_id, self.userinfo.uid)
+            # 根据当前角色返回相应状态ID#
+            states = MState.query_by_pro_id(role['uid'])
+            state_arr = []
+            for state in states:
+                state_name = state.name
+                state_arr.append(state_name)
 
-        # 根据当前角色返回相应状态ID#
-        states=MState.query_by_pro_id(role['uid'])
-        state_arr=[]
-        for state in states:
-            state_name = state.name
-            state_arr.append(state_name)
+                cur_actions = MTransitionAction.query_by_action_state(role['uid'], state.uid)
+                for cur_act in cur_actions:
+                    MRequestAction.create(request_id, cur_act['action'], cur_act['transition'])
 
-            cur_actions=MTransitionAction.query_by_action_state(role['uid'],state.uid)
-            for cur_act in cur_actions:
+            act_recs = MTransitionAction.query_by_process(role['uid'])
 
-                MRequestAction.create(request_id, cur_act['action'], cur_act['transition'])
-
-        act_recs=MTransitionAction.query_by_process(role['uid'])
-
-        act_arr = []
-        for act in act_recs:
-            act_dic = {"act_name": act['name'], "act_uid": act['uid']}
-            act_arr.append(act_dic)
+            act_arr = []
+            for act in act_recs:
+                act_dic = {"act_name": act['name'], "act_uid": act['uid']}
+                act_arr.append(act_dic)
+        else:
+            act_arr=[]
+            request_id=''
         # 以上创建步骤已完成
         istrans = True
-        output = {'act_arr': act_arr,"request_id":request_id}
+        output = {'act_arr': act_arr, "request_id": request_id}
 
         if istrans:
             return json.dump(output, self)
