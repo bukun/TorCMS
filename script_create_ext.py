@@ -66,7 +66,7 @@ def test():
                 state_type=state['state_type'],
                 description=state['description']
             )
-        return True
+        pass
     except Exception as err:
         print(repr(err))
         pass
@@ -80,7 +80,7 @@ def test():
                 action_type=act['action_type'],
                 description=act['description']
             )
-        return True
+        pass
     except Exception as err:
         print(repr(err))
         pass
@@ -93,7 +93,7 @@ def test():
                 current_state=tran['current_state'],
                 next_state=tran['next_state']
             )
-        return True
+        pass
     except Exception as err:
         print(repr(err))
         pass
@@ -105,7 +105,7 @@ def test():
                 transition=tran_action['transition'],
                 action=tran_action['action']
             )
-        return True
+        pass
     except Exception as err:
         print(repr(err))
         return False
