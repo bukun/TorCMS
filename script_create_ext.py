@@ -30,7 +30,9 @@ def test():
         {'uid': '3034c8c0-df2a-11ed-b87f-898a446d722a', 'process': 'uadministrators', 'action_type': '完成',
          'name': '完成', 'description': '完成'},
         {'uid': 'f4d03b70-df29-11ed-b87f-898a446d722a', 'process': 'uadministrators', 'action_type': '通过',
-         'name': '通过', 'description': '通过'}
+         'name': '通过', 'description': '通过'},
+        {'uid': '265a4642-df50-11ed-b87f-898a446d722a', 'process': '1editor', 'action_type': '提交审核',
+         'name': '提交审核', 'description': '提交审核'}
 
     ]
 
@@ -42,7 +44,11 @@ def test():
         {'uid': '8563c63a-df29-11ed-b87f-898a446d722a', 'process': 'uadministrators',
          'current_state': '3e2a0b6c-df24-11ed-b87f-898a446d722a', 'next_state': 'bcf0b7be-df26-11ed-b87f-898a446d722a'},
         {'uid': '8a900678-df29-11ed-b87f-898a446d722a', 'process': 'uadministrators',
-         'current_state': '3e2a0b6c-df24-11ed-b87f-898a446d722a', 'next_state': 'c1e51ada-df26-11ed-b87f-898a446d722a'}
+         'current_state': '3e2a0b6c-df24-11ed-b87f-898a446d722a', 'next_state': 'c1e51ada-df26-11ed-b87f-898a446d722a'},
+        {'uid': 'eb453d56-df44-11ed-b87f-898a446d722a', 'process': '1editor',
+         'current_state': '2fa8c1dc-df24-11ed-b87f-898a446d722a', 'next_state': '35b69234-df24-11ed-b87f-898a446d722a'},
+        {'uid': 'd6f3e3ba-df4f-11ed-b87f-898a446d722a', 'process': '1editor',
+         'current_state': '2fa8c1dc-df24-11ed-b87f-898a446d722a', 'next_state': '3e2a0b6c-df24-11ed-b87f-898a446d722a'}
 
     ]
 
@@ -54,7 +60,9 @@ def test():
         {'uid': '08dca39d-df2a-11ed-b87f-898a446d722a', 'transition': '8a900678-df29-11ed-b87f-898a446d722a',
          'action': '08dca39c-df2a-11ed-b87f-898a446d722a'},
         {'uid': '3034c8c1-df2a-11ed-b87f-898a446d722a', 'transition': '8563c63a-df29-11ed-b87f-898a446d722a',
-         'action': '3034c8c0-df2a-11ed-b87f-898a446d722a'}
+         'action': '3034c8c0-df2a-11ed-b87f-898a446d722a'},
+        {'uid': '265a4643-df50-11ed-b87f-898a446d722a', 'transition': 'd6f3e3ba-df4f-11ed-b87f-898a446d722a',
+         'action': '265a4642-df50-11ed-b87f-898a446d722a'}
 
     ]
     try:

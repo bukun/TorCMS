@@ -88,6 +88,7 @@ class RoleHandler(BaseHandler):
             parentId = '0000'
         dics = []
         recs = MRole.get_by_pid(parentId)
+        
 
         for rec in recs:
             dic = {"label": rec.name, "value": rec.uid}

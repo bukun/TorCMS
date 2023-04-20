@@ -43,7 +43,7 @@
               "id": "next_state",
               "type": "select",
               "label": "下一状态",
-              "source": "/api/state/chainedOptions?pro=${process}",
+              "source": "/api/state/chainedOptions",
               "clearable": true,
               "searchable": true,
               "required": true

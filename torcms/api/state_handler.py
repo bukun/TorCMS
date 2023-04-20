@@ -66,9 +66,12 @@ class StateHandler(BaseHandler):
         '''
 
         post_data = self.request.arguments  # {'page': [b'1'], 'perPage': [b'10']}
-        process = str(post_data['pro'][0])[2:-1]
+        if 'pro' in post_data:
+            process = str(post_data.get('pro')[0])[2:-1]
+            recs = MState.query_by_pro_id(process)
+        else:
+            recs = MState.query_all()
         dics = []
-        recs = MState.query_by_pro_id(process)
 
         for rec in recs:
             dic = {"label": rec.name, "value": rec.uid}

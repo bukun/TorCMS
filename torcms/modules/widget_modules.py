@@ -293,8 +293,6 @@ class State(tornado.web.UIModule):
         if request_rec:
             act_recs = MTransitionAction.query_by_process(request_rec.process)
 
-
-
             for act in act_recs:
                 act_dic = {"act_name": act['name'], "act_uid": act['uid'],"request_id":request_rec.uid}
                 act_arr.append(act_dic)
@@ -302,8 +300,6 @@ class State(tornado.web.UIModule):
 
         # # # 审核状态#
         # exe_actions = MRequestAction.query_by_postid(postinfo.uid)
-
-
 
 
         # 审核状态#

@@ -83,7 +83,7 @@
 
         {% else %}
 
-{#        <strong>{{ _('Audit status') }}:</strong> <span>{{ _("Waiting for review") }} </span>#}
+        <strong>{{ _('Audit status') }}:</strong> <span>{{ _("Waiting for review") }} </span>
 
         {% for action in action_arr %}
         <a class="btn btn-warning btn-sm" onclick="tjaction('{{ action['act_uid'] }},{{ action['request_id'] }}')">{{ action['act_name'] }}</a>

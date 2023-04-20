@@ -81,7 +81,6 @@ def gen_xlsx_role_permission():
 
             post_data = {'name': name, 'uid': uid, 'pid': pid}
 
-
             MRole.add_or_update(uid, post_data)
             user_data = {
                 'user_name': f'user_{uid}',
@@ -117,10 +116,37 @@ def test_script():
     gen_xlsx_role_permission()
 
 
-if __name__ == '__main__':
-    gen_xlsx_role_permission()
-    per_arr=[]
-    aa = {'1': {'router': 'post', 'html': '<span style="color:green;" class="glyphicon glyphicon-list-alt">[Document]</span>', 'checker': '1', 'show': 'Document'}, '3': {'router': 'info', 'html': '<span style="color:blue;" class="glyphicon glyphicon-list-alt">[Info]</span>', 'checker': '0', 'show': 'Info'}, 'v': {'router': 'map-show', 'html': '<span style="color:red;" class="glyphicon glyphicon-globe">[Map visualization]</span>', 'checker': '0', 'show': 'Map visualization'}, 'k': {'router': 'tutorial', 'html': '<span style="color:blue;" class="glyphicon glyphicon-list-alt">[Tutorial]</span>', 'checker': '0', 'show': 'Tutorial'}, 'q': {'router': 'topic', 'html': '<span style="color:blue;" class="glyphicon glyphicon-list-alt">[Topics]</span>', 'checker': '0', 'show': 'Topics'}, 's': {'router': 'app', 'html': '<span style="color:green;" class="glyphicon glyphicon-list-alt">[App]</span>', 'checker': '0', 'show': 'App'}, 'd': {'router': 'directory', 'html': '<span style="color:blue;" class="glyphicon glyphicon-list-alt">[Directory]</span>', 'checker': '0', 'show': 'Directory'}, '9': {'router': 'data', 'html': '<span style="color:blue;" class="glyphicon glyphicon-list-alt">[Data]</span>', 'checker': '10', 'show': 'Data'}, 'g': {'router': 'postgis', 'html': '<span style="color:blue;" class="glyphicon glyphicon-list-alt">[postgis]</span>', 'checker': '10', 'show': 'postgis'}, 't': {'router': 'dataset', 'html': '<span style="color:blue;" class="glyphicon glyphicon-list-alt">[Taginfo]</span>', 'checker': '10', 'show': 'Taginfo'}, 'm': {'router': 'map', 'html': '<span style="color:green;" class="glyphicon glyphicon-list-alt">[Map]</span>', 'checker': '0', 'show': 'Map'}, '7': {'router': 'datayml', 'html': '<span style="color:blue;" class="glyphicon glyphicon-list-alt">[Datayml]</span>', 'checker': '10', 'show': 'Datayml'}}
+def create_test_role():
+    per_arr = []
+    aa = {'1': {'router': 'post',
+                'html': '<span style="color:green;" class="glyphicon glyphicon-list-alt">[Document]</span>',
+                'checker': '1', 'show': 'Document'}, '3': {'router': 'info',
+                                                           'html': '<span style="color:blue;" class="glyphicon glyphicon-list-alt">[Info]</span>',
+                                                           'checker': '0', 'show': 'Info'}, 'v': {'router': 'map-show',
+                                                                                                  'html': '<span style="color:red;" class="glyphicon glyphicon-globe">[Map visualization]</span>',
+                                                                                                  'checker': '0',
+                                                                                                  'show': 'Map visualization'},
+          'k': {'router': 'tutorial',
+                'html': '<span style="color:blue;" class="glyphicon glyphicon-list-alt">[Tutorial]</span>',
+                'checker': '0', 'show': 'Tutorial'}, 'q': {'router': 'topic',
+                                                           'html': '<span style="color:blue;" class="glyphicon glyphicon-list-alt">[Topics]</span>',
+                                                           'checker': '0', 'show': 'Topics'},
+          's': {'router': 'app', 'html': '<span style="color:green;" class="glyphicon glyphicon-list-alt">[App]</span>',
+                'checker': '0', 'show': 'App'}, 'd': {'router': 'directory',
+                                                      'html': '<span style="color:blue;" class="glyphicon glyphicon-list-alt">[Directory]</span>',
+                                                      'checker': '0', 'show': 'Directory'}, '9': {'router': 'data',
+                                                                                                  'html': '<span style="color:blue;" class="glyphicon glyphicon-list-alt">[Data]</span>',
+                                                                                                  'checker': '10',
+                                                                                                  'show': 'Data'},
+          'g': {'router': 'postgis',
+                'html': '<span style="color:blue;" class="glyphicon glyphicon-list-alt">[postgis]</span>',
+                'checker': '10', 'show': 'postgis'}, 't': {'router': 'dataset',
+                                                           'html': '<span style="color:blue;" class="glyphicon glyphicon-list-alt">[Taginfo]</span>',
+                                                           'checker': '10', 'show': 'Taginfo'},
+          'm': {'router': 'map', 'html': '<span style="color:green;" class="glyphicon glyphicon-list-alt">[Map]</span>',
+                'checker': '0', 'show': 'Map'}, '7': {'router': 'datayml',
+                                                      'html': '<span style="color:blue;" class="glyphicon glyphicon-list-alt">[Datayml]</span>',
+                                                      'checker': '10', 'show': 'Datayml'}}
     for kind in aa.keys():
         print("*" * 50)
         print(kind)
@@ -170,4 +196,11 @@ if __name__ == '__main__':
         per_arr.append(per_dic_d)
 
     for per in per_arr:
+
         MPermission.add_or_update(per['uid'], per['per_data'])
+        MRole2Permission.add_or_update('1editor', per['uid'], kind_sig=per['kind'])
+
+
+if __name__ == '__main__':
+    gen_xlsx_role_permission()
+    create_test_role()

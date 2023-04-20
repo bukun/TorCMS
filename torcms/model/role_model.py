@@ -49,6 +49,12 @@ class MRole:
         return MHelper.get_by_uid(TabRole, uid)
 
     @staticmethod
+    def get_by_name(name):
+        recs = TabRole.select().where(TabRole.name == name)
+
+        return recs
+
+    @staticmethod
     def get_by_pid(pid):
 
         recs = TabRole.select().where(TabRole.pid == pid)

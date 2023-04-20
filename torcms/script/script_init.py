@@ -12,7 +12,7 @@ from .script_funcs import run_create_admin, run_whoosh
 from .script_gen_category import run_gen_category
 from .script_init_tabels import run_init_tables
 from .script_zero import run_zero
-from .script_gen_role_permission import run_gen_role_permission
+from .script_gen_role_permission import run_gen_role_permission,create_test_role
 from pathlib import Path
 
 XLSX_FILE = './database/role_perm.xlsx'
@@ -38,6 +38,8 @@ def run_init(*args):
 
     if Path(XLSX_FILE).exists():
         run_gen_role_permission()
+        create_test_role()
+
 
     run_gen_category()
     run_create_admin()
