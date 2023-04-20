@@ -3,67 +3,59 @@ from torcms.model.process_model import *
 
 def test():
     Tabstate = [
-        {'uid': 'cb072884-de4e-11ed-9d76-2544c8d60402', 'process': 'uadministrators', 'name': '管理_开始审核',
-         'state_type': '管理_开始审核', 'description': '管理_开始审核'},
-        {'uid': 'd3e39294-de4e-11ed-9d76-2544c8d60402', 'process': 'uadministrators', 'name': '管理_完成审核',
-         'state_type': '管理_完成审核', 'description': '管理_完成审核'},
-        {'uid': 'd957ac2e-de4e-11ed-9d76-2544c8d60402', 'process': 'uadministrators', 'name': '管理_拒绝审核',
-         'state_type': '管理_拒绝审核', 'description': '管理_拒绝审核'},
-        {'uid': 'fe7432e8-de4e-11ed-9d76-2544c8d60402', 'process': '1editor', 'name': '编辑_开始审核',
+        {'uid': '2fa8c1dc-df24-11ed-b87f-898a446d722a', 'process': '1editor', 'name': '编辑_开始审核',
          'state_type': '编辑_开始审核', 'description': '编辑_开始审核'},
-        {'uid': '06a263fe-de4f-11ed-9d76-2544c8d60402', 'process': '1editor', 'name': '编辑_完成审核',
-         'state_type': '编辑_完成审核', 'description': '编辑_完成审核'},
-        {'uid': '0f78610e-de4f-11ed-9d76-2544c8d60402', 'process': '1editor', 'name': '编辑_拒绝审核',
-         'state_type': '编辑_拒绝审核', 'description': '编辑_拒绝审核'},
-        {'uid': '8e935de0-de4f-11ed-9d76-2544c8d60402', 'process': '1editor', 'name': '编辑_取消审核',
+        {'uid': '35b69234-df24-11ed-b87f-898a446d722a', 'process': '1editor', 'name': '编辑_取消审核',
          'state_type': '编辑_取消审核', 'description': '编辑_取消审核'},
-        {'uid': '8e935de1-de4f-11ed-9d76-2544c8d60402', 'process': 'uadministrators', 'name': '管理_取消审核',
-         'state_type': '管理_取消审核', 'description': '管理_取消审核'}
+
+        {'uid': '535ade26-df24-11ed-b87f-898a446d722a', 'process': 'uadministrators', 'name': '管理_拒绝',
+         'state_type': '管理_拒绝', 'description': '管理_拒绝'},
+        {'uid': 'bcf0b7be-df26-11ed-b87f-898a446d722a', 'process': 'uadministrators', 'name': '管理_完成',
+         'state_type': '管理_完成', 'description': '管理_完成'},
+        {'uid': 'c1e51ada-df26-11ed-b87f-898a446d722a', 'process': 'uadministrators', 'name': '管理_取消',
+         'state_type': '管理_取消', 'description': '管理_取消'},
+        {'uid': 'de8c9f00-df26-11ed-b87f-898a446d722a', 'process': 'uadministrators', 'name': '管理_通过',
+         'state_type': '管理_通过', 'description': '管理_通过'},
+        {'uid': '3e2a0b6c-df24-11ed-b87f-898a446d722a', 'process': 'uadministrators', 'name': '管理_开始',
+         'state_type': '管理_开始', 'description': '管理_开始'},
+
+
     ]
 
     action = [
-        {'uid': '3687c848-de4f-11ed-9d76-2544c8d60402', 'process': '1editor', 'action_type': '通过审核',
-         'name': '通过审核', 'description': '通过审核'},
-        {'uid': '3f38c5c8-de4f-11ed-9d76-2544c8d60402', 'process': '1editor', 'action_type': '拒绝审核',
-         'name': '拒绝审核', 'description': '拒绝审核'},
-        {'uid': '569bf320-de4f-11ed-9d76-2544c8d60402', 'process': 'uadministrators', 'action_type': '管理通过',
-         'name': '管理通过', 'description': '管理通过'},
-        {'uid': '6149df3a-de4f-11ed-9d76-2544c8d60402', 'process': 'uadministrators', 'action_type': '管理拒绝',
-         'name': '管理拒绝', 'description': '管理拒绝'},
-        {'uid': 'a89f4b72-de4f-11ed-9d76-2544c8d60402', 'process': '1editor', 'action_type': '取消审核',
-         'name': '取消审核', 'description': '取消审核'},
-        {'uid': 'b58449dc-de4f-11ed-9d76-2544c8d60402', 'process': 'uadministrators', 'action_type': '管理取消',
-         'name': '管理取消', 'description': '管理取消'}
+        {'uid': '0113c550-df2a-11ed-b87f-898a446d722a', 'process': 'uadministrators', 'action_type': '拒绝',
+         'name': '拒绝', 'description': '拒绝'},
+        {'uid': '08dca39c-df2a-11ed-b87f-898a446d722a', 'process': 'uadministrators', 'action_type': '取消',
+         'name': '取消', 'description': '取消'},
+        {'uid': '3034c8c0-df2a-11ed-b87f-898a446d722a', 'process': 'uadministrators', 'action_type': '完成',
+         'name': '完成', 'description': '完成'},
+        {'uid': 'f4d03b70-df29-11ed-b87f-898a446d722a', 'process': 'uadministrators', 'action_type': '通过',
+         'name': '通过', 'description': '通过'}
+
     ]
 
     Tabtransition = [
-        {'uid': '168d9b8a-de4f-11ed-9d76-2544c8d60402', 'process': '1editor',
-         'current_state': 'fe7432e8-de4e-11ed-9d76-2544c8d60402', 'next_state': '06a263fe-de4f-11ed-9d76-2544c8d60402'},
-        {'uid': '1b942b76-de4f-11ed-9d76-2544c8d60402', 'process': '1editor',
-         'current_state': 'fe7432e8-de4e-11ed-9d76-2544c8d60402', 'next_state': '0f78610e-de4f-11ed-9d76-2544c8d60402'},
-        {'uid': '2632b570-de4f-11ed-9d76-2544c8d60402', 'process': 'uadministrators',
-         'current_state': 'cb072884-de4e-11ed-9d76-2544c8d60402', 'next_state': 'd3e39294-de4e-11ed-9d76-2544c8d60402'},
-        {'uid': '29d73264-de4f-11ed-9d76-2544c8d60402', 'process': 'uadministrators',
-         'current_state': 'cb072884-de4e-11ed-9d76-2544c8d60402', 'next_state': 'd957ac2e-de4e-11ed-9d76-2544c8d60402'},
-        {'uid': '962395f2-de4f-11ed-9d76-2544c8d60402', 'process': '1editor',
-         'current_state': 'fe7432e8-de4e-11ed-9d76-2544c8d60402', 'next_state': '8e935de0-de4f-11ed-9d76-2544c8d60402'},
-        {'uid': '9a29745a-de4f-11ed-9d76-2544c8d60402', 'process': 'uadministrators',
-         'current_state': 'cb072884-de4e-11ed-9d76-2544c8d60402', 'next_state': '8e935de1-de4f-11ed-9d76-2544c8d60402'}
+        {'uid': '7bb3e41c-df29-11ed-b87f-898a446d722a', 'process': 'uadministrators',
+         'current_state': '3e2a0b6c-df24-11ed-b87f-898a446d722a', 'next_state': 'de8c9f00-df26-11ed-b87f-898a446d722a'},
+        {'uid': '80f868da-df29-11ed-b87f-898a446d722a', 'process': 'uadministrators',
+         'current_state': '3e2a0b6c-df24-11ed-b87f-898a446d722a', 'next_state': '535ade26-df24-11ed-b87f-898a446d722a'},
+        {'uid': '8563c63a-df29-11ed-b87f-898a446d722a', 'process': 'uadministrators',
+         'current_state': '3e2a0b6c-df24-11ed-b87f-898a446d722a', 'next_state': 'bcf0b7be-df26-11ed-b87f-898a446d722a'},
+        {'uid': '8a900678-df29-11ed-b87f-898a446d722a', 'process': 'uadministrators',
+         'current_state': '3e2a0b6c-df24-11ed-b87f-898a446d722a', 'next_state': 'c1e51ada-df26-11ed-b87f-898a446d722a'}
+
     ]
 
     TransitionAction = [
-        {'uid': '3687c849-de4f-11ed-9d76-2544c8d60402', 'transition': '168d9b8a-de4f-11ed-9d76-2544c8d60402',
-         'action': '3687c848-de4f-11ed-9d76-2544c8d60402'},
-        {'uid': '3f38c5c9-de4f-11ed-9d76-2544c8d60402', 'transition': '1b942b76-de4f-11ed-9d76-2544c8d60402',
-         'action': '3f38c5c8-de4f-11ed-9d76-2544c8d60402'},
-        {'uid': '569bf321-de4f-11ed-9d76-2544c8d60402', 'transition': '2632b570-de4f-11ed-9d76-2544c8d60402',
-         'action': '569bf320-de4f-11ed-9d76-2544c8d60402'},
-        {'uid': '6149df3b-de4f-11ed-9d76-2544c8d60402', 'transition': '29d73264-de4f-11ed-9d76-2544c8d60402',
-         'action': '6149df3a-de4f-11ed-9d76-2544c8d60402'},
-        {'uid': 'a89f4b73-de4f-11ed-9d76-2544c8d60402', 'transition': '962395f2-de4f-11ed-9d76-2544c8d60402',
-         'action': 'a89f4b72-de4f-11ed-9d76-2544c8d60402'},
-        {'uid': 'b58449dd-de4f-11ed-9d76-2544c8d60402', 'transition': '9a29745a-de4f-11ed-9d76-2544c8d60402',
-         'action': 'b58449dc-de4f-11ed-9d76-2544c8d60402'}
+        {'uid': 'f4d03b71-df29-11ed-b87f-898a446d722a', 'transition': '7bb3e41c-df29-11ed-b87f-898a446d722a',
+         'action': 'f4d03b70-df29-11ed-b87f-898a446d722a'},
+        {'uid': '0113c551-df2a-11ed-b87f-898a446d722a', 'transition': '80f868da-df29-11ed-b87f-898a446d722a',
+         'action': '0113c550-df2a-11ed-b87f-898a446d722a'},
+        {'uid': '08dca39d-df2a-11ed-b87f-898a446d722a', 'transition': '8a900678-df29-11ed-b87f-898a446d722a',
+         'action': '08dca39c-df2a-11ed-b87f-898a446d722a'},
+        {'uid': '3034c8c1-df2a-11ed-b87f-898a446d722a', 'transition': '8563c63a-df29-11ed-b87f-898a446d722a',
+         'action': '3034c8c0-df2a-11ed-b87f-898a446d722a'}
+
     ]
     try:
         for state in Tabstate:

@@ -7,7 +7,7 @@ import json
 import tornado.web
 from torcms.core import tools, privilege
 from torcms.core.base_handler import BaseHandler
-from torcms.model.state_model import MState,  MTransition
+from torcms.model.state_model import MState, MTransition
 from torcms.model.role_model import MRole
 
 
@@ -59,6 +59,7 @@ class StateHandler(BaseHandler):
 
         else:
             self.redirect('misc/html/404.html')
+
     def chainedOptions(self):
         '''
         Recent links.
@@ -76,6 +77,7 @@ class StateHandler(BaseHandler):
         out_dict = {"ok": True, "status": 0, 'data': dics}
 
         return json.dump(out_dict, self, ensure_ascii=False)
+
     def list(self):
         '''
         Recent links.
@@ -160,10 +162,10 @@ class StateHandler(BaseHandler):
 
         for process in the_roles_arr:
 
-            rec = MState.query_by_uid(uid).get()
-            exis_rec = MState.query_by_pro_statename(process, rec.name)
+            exis_rec = MState.query_by_pro_statename(process, post_data['name'])
 
             if exis_rec.count() > 0:
+
                 output = {
                     "ok": False,
                     "status": 404,
@@ -172,18 +174,19 @@ class StateHandler(BaseHandler):
             else:
 
                 post_data["process"] = process
-                if MState.update_process(uid, post_data):
+
+                if MState.update(uid, post_data):
                     output = {
                         "ok": True,
                         "status": 0,
-                        "msg": "更新流程成功"
+                        "msg": "更新状态成功"
                     }
 
                 else:
                     output = {
                         "ok": False,
                         "status": 404,
-                        "msg": "更新流程失败"
+                        "msg": "更新状态失败"
                     }
 
         return json.dump(output, self, ensure_ascii=False)
@@ -278,6 +281,8 @@ class StateHandler(BaseHandler):
 
             exis_rec = MState.query_by_pro_statename(process, post_data['name'])
             if exis_rec.count() > 0:
+                print("*" * 50)
+                print(exis_rec.count())
 
                 output = {
                     "ok": False,
@@ -287,7 +292,7 @@ class StateHandler(BaseHandler):
 
             else:
                 pro_rec = MRole.get_by_uid(process)
-                state_uid = MState.create(post_data,pro_rec.name)
+                state_uid = MState.create(post_data, pro_rec.name)
                 if state_uid:
 
                     output = {

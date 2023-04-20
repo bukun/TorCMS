@@ -89,6 +89,7 @@ class ApiPostHandler(PostHandler):
         # 返回当前登录用户的角色相关信息
         role = MStaff2Role.get_role_by_uid(self.userinfo.uid).get()
         if role:
+
             request_id = MRequest.create(role['uid'], post_id, self.userinfo.uid)
 
             # 根据当前角色返回相应状态ID#
@@ -109,7 +110,7 @@ class ApiPostHandler(PostHandler):
                 act_dic = {"act_name": act['name'], "act_uid": act['uid']}
                 act_arr.append(act_dic)
         else:
-            act_arr=[]
+            act_arr=[{"act_name": "Waiting for review", "act_uid": ""}]
             request_id=''
         # 以上创建步骤已完成
         istrans = True

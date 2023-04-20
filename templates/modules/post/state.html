@@ -35,7 +35,7 @@
 
         {#action_data.append("state_id", state_id);#}
         action_data.append("request_id", request_id);
-        action_data.append("user_id", "{{userinfo.uid}}");
+        action_data.append("user_id", "{{userinfo}}");
 
         action_data.append("post_id", "{{postinfo.uid}}");
         action_data.append("act_id", act_id);
@@ -82,10 +82,15 @@
            onclick="tjstate()">{{ _("Submit for review") }}</a>
 
         {% else %}
-        {% if postinfo.state[1] == '0' %}
-        <strong>{{ _('Audit status') }}:</strong> <span>{{ _("Waiting for review") }} </span>
 
+{#        <strong>{{ _('Audit status') }}:</strong> <span>{{ _("Waiting for review") }} </span>#}
+
+        {% for action in action_arr %}
+        <a class="btn btn-warning btn-sm" onclick="tjaction('{{ action['act_uid'] }},{{ action['request_id'] }}')">{{ action['act_name'] }}</a>
         {% end %}
+
+
+
         {% end %}
 
 

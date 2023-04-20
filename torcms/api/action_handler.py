@@ -192,7 +192,7 @@ class ActionHandler(BaseHandler):
         process = post_data["process"]
 
         exis_rec = MAction.query_by_pro_actname(transition, post_data['name'])
-        trans_extis_rec = MTransitionAction.query_by_trans_act(transition, uid)
+        # trans_extis_rec = MTransitionAction.query_by_trans_act(transition, uid)
         if exis_rec.count() > 0:
 
             output = {
@@ -200,12 +200,12 @@ class ActionHandler(BaseHandler):
                 "status": 404,
                 "msg": "该流程下已存在当前动作，修改失败"
             }
-        elif trans_extis_rec.count() > 0:
-            output = {
-                "ok": False,
-                "status": 404,
-                "msg": "该转换下已存在当前动作，修改失败"
-            }
+        # elif trans_extis_rec.count() > 0:
+        #     output = {
+        #         "ok": False,
+        #         "status": 404,
+        #         "msg": "该转换下已存在当前动作，修改失败"
+        #     }
 
         else:
 
