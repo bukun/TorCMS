@@ -14,9 +14,10 @@
 
                 var btn_arr = ''
                 for (var act in m.act_arr) {
-                    btn_arr += '<a class="btn btn-warning btn-xs"  onclick="tjaction(' +
-                        m.act_arr[act]['act_uid'] + ','+m.request_id+')">' +m.act_arr[act]['act_name'] + '</a>&nbsp'
+                    btn_arr += '<a class="btn btn-warning btn-xs"  onclick="tjaction(' + m.act_arr[act]['act_uid'] + ','+m.request_id+')">' +m.act_arr[act]['act_name'] + '</a>&nbsp'
+
                 }
+
                 recstate.innerHTML = btn_arr
             },
             error: function (err) {
@@ -69,7 +70,7 @@
     {% if userinfo %}
     {% if action_arr %}
     {% for action in action_arr %}
-    <a class="btn btn-warning btn-sm" onclick="tjaction('{{ action['act_uid'] }},{{ action['request_id'] }}')">{{ action['act_name'] }}</a>
+    <a class="btn btn-warning btn-sm" onclick="tjaction('{{ action['act_uid'] }}','{{ action['request_id'] }}')">{{ action['act_name'] }}</a>
     {% end %}
     {% else %}
 
@@ -86,7 +87,7 @@
         <strong>{{ _('Audit status') }}:</strong> <span>{{ _("Waiting for review") }} </span>
 
         {% for action in action_arr %}
-        <a class="btn btn-warning btn-sm" onclick="tjaction('{{ action['act_uid'] }},{{ action['request_id'] }}')">{{ action['act_name'] }}</a>
+        <a class="btn btn-warning btn-sm" onclick="tjaction('{{ action['act_uid'] }}','{{ action['request_id'] }}')">{{ action['act_name'] }}</a>
         {% end %}
 
 

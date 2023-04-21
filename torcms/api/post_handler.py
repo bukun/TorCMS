@@ -69,20 +69,24 @@ class ApiPostHandler(PostHandler):
         act_id = post_data['act_id']
 
         # 提交的Action与其中一个（is_active = true）的活动RequestActions匹配，设置 is_active = false 和 is_completed = true
-        reqact = MRequestAction.query_by_action_request(act_id, request_id)
+        reqact = MRequestAction.query_by_action_request(act_id, request_id).get()
 
-        if reqact.is_active == True:
+        print("*" * 50)
+        if reqact.is_active:
             # 更新操作动态
+            print("gengxin")
             MRequestAction.update_by_action(act_id, request_id)
 
-        # 查询该请求中该转换的所有动作是否都为True
-        istrues=MRequestAction.query_by_request_trans(request_id,reqact.transition)
-        if istrues.is_active == True:
-            # 转到下一状态
-            trans=MTransition.query_by_uid(reqact.transition)
-            state = MState.query_by_uid(trans.next_state)
 
-            self.submit_state(post_id)
+        # 查询该请求中该转换的所有动作是否都为True
+        istrues=MRequestAction.query_by_request_trans(request_id,reqact.transition).get()
+
+        if istrues.is_active:
+            # 转到下一状态
+            trans=MTransition.query_by_uid(reqact.transition).get()
+            state = MState.query_by_uid(trans.next_state).get()
+            print(state.name)
+            # self.submit_state(post_id)
 
     def submit_state(self, post_id):
 
@@ -164,14 +168,14 @@ class ApiPostHandler(PostHandler):
             exe_actions = MRequestAction.query_by_postid(rec.uid)
 
             action_arr = []
-            for exe_action in exe_actions:
-                action_arr = []
-                act_recs = MStateAction.query_by_state(exe_action['current_state'])
-
-                for act_rec in act_recs:
-                    act = MAction.query_by_id(act_rec.action).get()
-
-                    action_arr.append(act.name)
+            # for exe_action in exe_actions:
+            #     action_arr = []
+            #     act_recs = MStateAction.query_by_state(exe_action['current_state'])
+            #
+            #     for act_rec in act_recs:
+            #         act = MAction.query_by_id(act_rec.action).get()
+            #
+            #         action_arr.append(act.name)
             # 审核状态#
 
             rec_arr.append(

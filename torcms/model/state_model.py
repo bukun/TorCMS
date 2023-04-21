@@ -310,7 +310,7 @@ class MRequestAction:
 
     @staticmethod
     def query_by_request_trans(request_id, trans_id):
-        TabRequestAction.select().where(
+        return TabRequestAction.select().where(
             (TabRequestAction.request == request_id) & (TabRequestAction.transition == trans_id))
 
     @staticmethod
