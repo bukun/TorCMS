@@ -79,14 +79,38 @@ class ApiPostHandler(PostHandler):
 
 
         # 查询该请求中该转换的所有动作是否都为True
-        istrues=MRequestAction.query_by_request_trans(request_id,reqact.transition).get()
+        istrues = MRequestAction.query_by_request_trans(request_id, reqact.transition).get()
 
-        if istrues.is_active:
+        if istrues.is_complete:
+
+            # 禁用该请求下其它动作
+            MRequestAction.update_order_by_action(act_id,request_id)
             # 转到下一状态
-            trans=MTransition.query_by_uid(reqact.transition).get()
-            state = MState.query_by_uid(trans.next_state).get()
+            trans = MTransition.get_by_uid(reqact.transition).get()
+            state = MState.get_by_uid(trans.next_state).get()
+
+            print(trans.uid)
             print(state.name)
-            # self.submit_state(post_id)
+            if state.state_type.endswith('complete'):
+                MPost.update_valid(post_id)
+            else:
+                act_recs = MTransitionAction.query_by_process(state.process)
+                print("1 " * 50)
+
+                act_arr = []
+                for act in act_recs:
+                    print(act['name'])
+                    act_dic = {"act_name": act['name'], "act_uid": act['uid']}
+                    act_arr.append(act_dic)
+                print(act_arr)
+
+                output = {'act_arr': act_arr, "request_id": request_id}
+
+                return json.dump(output, self)
+
+        # else:
+        #     output = {'act_arr': '', "request_id": request_id}
+        #     # self.submit_state(post_id)
 
     def submit_state(self, post_id):
 
@@ -114,8 +138,8 @@ class ApiPostHandler(PostHandler):
                 act_dic = {"act_name": act['name'], "act_uid": act['uid']}
                 act_arr.append(act_dic)
         else:
-            act_arr=[{"act_name": "Waiting for review", "act_uid": ""}]
-            request_id=''
+            act_arr = [{"act_name": "Waiting for review", "act_uid": ""}]
+            request_id = ''
         # 以上创建步骤已完成
         istrans = True
         output = {'act_arr': act_arr, "request_id": request_id}

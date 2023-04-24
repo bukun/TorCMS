@@ -223,7 +223,7 @@ class StateHandler(BaseHandler):
             the_roles_arr.append(post_data[key])
         for uid in ids:
             for process in the_roles_arr:
-                rec = MState.query_by_uid(uid).get()
+                rec = MState.get_by_uid(uid).get()
                 exis_rec = MState.query_by_pro_statename(process, rec.name)
 
                 if exis_rec.count() > 0:

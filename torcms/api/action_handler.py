@@ -98,8 +98,8 @@ class ActionHandler(BaseHandler):
             process = MRole.get_by_uid(rec.process)
             trans_rec = MTransition.query_by_action(rec.uid, rec.process).get()
 
-            cur_state = MState.query_by_uid(trans_rec.current_state).get()
-            next_state = MState.query_by_uid(trans_rec.next_state).get()
+            cur_state = MState.get_by_uid(trans_rec.current_state).get()
+            next_state = MState.get_by_uid(trans_rec.next_state).get()
             trans_name = cur_state.name + ' - ' + next_state.name
 
             dic = {

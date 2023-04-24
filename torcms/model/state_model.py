@@ -51,7 +51,7 @@ class MTransitionAction:
             (TabTransitionAction.transition == trans_id) & (TabTransitionAction.action == act_id))
 
     @staticmethod
-    def query_by_uid(uid):
+    def get_by_uid(uid):
         '''
         Get a link by ID.
         '''
@@ -73,6 +73,8 @@ class MTransitionAction:
             .where((TabTransition.process == pro_id) & (TabTransition.current_state == state_id))
         )
         return query.dicts()
+
+
 
     @staticmethod
     def query_by_process(role_id):
@@ -209,7 +211,7 @@ class MTransition:
         return TabTransition.select().where(TabTransition.process == pro_id)
 
     @staticmethod
-    def query_by_uid(uid):
+    def get_by_uid(uid):
         '''
         Get a link by ID.
         '''
@@ -297,12 +299,27 @@ class MRequestAction:
     @staticmethod
     def update_by_action(action_id, request_id):
 
-        try:
+        entry = TabRequestAction.update(
+            is_active=False,
+            is_complete=True
+        ).where((TabRequestAction.request == request_id) & (TabRequestAction.action == action_id))
 
-            TabRequestAction.update(
-                is_active=False,
-                is_complete=True
-            ).where((TabRequestAction.request == request_id) & (TabRequestAction.action == action_id))
+        try:
+            entry.execute()
+            return True
+        except Exception as err:
+            print(repr(err))
+            return False
+
+    @staticmethod
+    def update_order_by_action(action_id, request_id):
+
+        entry = TabRequestAction.update(
+            is_active=False
+        ).where((TabRequestAction.request == request_id) & (TabRequestAction.action != action_id))
+
+        try:
+            entry.execute()
             return True
         except Exception as err:
             print(repr(err))
@@ -487,6 +504,14 @@ class MAction:
             return False
 
     @staticmethod
+    def query_by_trans(trans_id):
+        query = (
+            TabAction.select()
+            .join(TabTransitionAction, JOIN.INNER)
+            .where(TabTransitionAction.transition== trans_id)
+        )
+        return query.dicts()
+    @staticmethod
     def update_process(process, uid):
         '''
         Updat the link.
@@ -512,7 +537,7 @@ class MAction:
         return TabAction.select().where(TabAction.name == name)
 
     @staticmethod
-    def query_by_id(id):
+    def get_by_id(id):
         return TabAction.select().where(TabAction.uid == id)
 
     @staticmethod
@@ -581,7 +606,7 @@ class MState:
         return TabState.select().where((TabState.process == pro_id) & (TabState.name == name))
 
     @staticmethod
-    def query_by_uid(uid):
+    def get_by_uid(uid):
         '''
         Get a link by ID.
         '''

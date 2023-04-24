@@ -14,7 +14,7 @@
 
                 var btn_arr = ''
                 for (var act in m.act_arr) {
-                    btn_arr += '<a class="btn btn-warning btn-xs"  onclick="tjaction(' + m.act_arr[act]['act_uid'] + ','+m.request_id+')">' +m.act_arr[act]['act_name'] + '</a>&nbsp'
+                    btn_arr += '<a class="btn btn-warning btn-xs"  onclick="tjaction(' + m.act_arr[act]['act_uid'] + ',' + m.request_id + ')">' + m.act_arr[act]['act_name'] + '</a>&nbsp'
 
                 }
 
@@ -27,7 +27,7 @@
 
     }
 
- function tjaction(act_id,request_id) {
+    function tjaction(act_id, request_id) {
 
         var url = "/api/post/submit_action";
 
@@ -50,11 +50,14 @@
             contentType: false,
             success: function (rs) {
                 var m = eval("(" + rs + ")");
+
                 var btn_arr = ''
                 for (var act in m.act_arr) {
+
                     btn_arr += '<a class="btn btn-warning btn-xs"  onclick="tjaction(' +
-                        m.act_arr[act]['act_uid'] + ','+m.request_id+')">' +m.act_arr[act]['act_name'] + '</a>&nbsp'
+                        m.act_arr[act]['act_uid'] + ',' + m.request_id + ')">' + m.act_arr[act]['act_name'] + '</a>&nbsp'
                 }
+
                 recstate.innerHTML = btn_arr
             },
             error: function (err) {
@@ -68,14 +71,15 @@
 <div class="col-sm-12">
 
     {% if userinfo %}
-    {% if action_arr %}
-    {% for action in action_arr %}
-    <a class="btn btn-warning btn-sm" onclick="tjaction('{{ action['act_uid'] }}','{{ action['request_id'] }}')">{{ action['act_name'] }}</a>
-    {% end %}
-    {% else %}
+
 
     <div id="recstate" class="col-sm-7">
-
+        {% if action_arr %}
+        {% for action in action_arr %}
+        <a class="btn btn-warning btn-xs"
+           onclick="tjaction('{{ action['act_uid'] }}','{{ action['request_id'] }}')">{{ action['act_name'] }}</a>
+        {% end %}
+        {% else %}
         {% if userinfo.user_name == postinfo.user_name %}
 
         <a href="/{{ kwd.get('router') }}/_edit/{{ postinfo.uid }}" class="btn btn-warning btn-xs">{{ _('Edit') }}</a>
@@ -87,17 +91,15 @@
         <strong>{{ _('Audit status') }}:</strong> <span>{{ _("Waiting for review") }} </span>
 
         {% for action in action_arr %}
-        <a class="btn btn-warning btn-sm" onclick="tjaction('{{ action['act_uid'] }}','{{ action['request_id'] }}')">{{ action['act_name'] }}</a>
+        <a class="btn btn-warning btn-xs"
+           onclick="tjaction('{{ action['act_uid'] }}','{{ action['request_id'] }}')">{{ action['act_name'] }}</a>
         {% end %}
 
-
-
         {% end %}
-
+        {% end %}
 
     </div>
 
 
-    {% end %}
     {% end %}
 </div>
