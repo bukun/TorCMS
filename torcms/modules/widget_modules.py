@@ -12,7 +12,9 @@ from torcms.model.reply_model import MReply
 from torcms.model.replyid_model import MReplyid
 from torcms.model.user_model import MUser
 from torcms.model.post_model import MPost
-
+from torcms.model.state_model import MState, MTransition, MRequest, MAction, MRequestAction, \
+    MTransitionAction
+from torcms.model.staff2role_model import MStaff2Role
 
 class BaiduShare(tornado.web.UIModule):
     '''
@@ -284,8 +286,7 @@ class State(tornado.web.UIModule):
         userinfo = kwargs.get('userinfo', '')
         kind = kwargs.get('kind', '9')
         post_authority = config.post_cfg[kind]['checker']
-        from torcms.model.state_model import MState, MTransition, MRequest, MAction, MRequestAction, \
-            MTransitionAction
+
         #
 
         request_rec = MRequest.get_id_by_username(postinfo.uid, postinfo.user_name)
@@ -299,24 +300,47 @@ class State(tornado.web.UIModule):
             trans = MTransition.get_by_uid(istrues.transition).get()
             if istrues.is_complete:
 
-
+                # 禁用该请求下其它动作
+                # MRequestAction.update_by_action_reqs(act_id, istrues.request)
                 # 转到下一状态
-
+                trans = MTransition.get_by_uid(istrues.transition).get()
                 state = MState.get_by_uid(trans.next_state).get()
 
                 print(trans.uid)
-                print(state.state_type)
+
                 if state.state_type.endswith('complete'):
                     MPost.update_valid(postinfo.uid)
-                else:
-                    act_recs = MTransitionAction.query_by_process(state.process)
-                    print("1 " * 50)
-                    request_id = MRequest.create(state.process, postinfo.uid, userinfo.uid)
 
-                    for act in act_recs:
-                        print(act['name'])
-                        act_dic = {"act_name": act['name'], "act_uid": act['uid'], "request_id": request_id}
-                        act_arr.append(act_dic)
+                else:
+                    # 返回当前登录用户的角色相关信息
+                    role = MStaff2Role.get_role_by_uid(userinfo.uid).get()
+                    if role:
+
+                        request_id = MRequest.create(role['uid'], postinfo.uid, userinfo.uid)
+
+                        # 根据当前角色返回相应状态ID#
+                        states = MState.query_by_pro_id(role['uid'])
+                        state_arr = []
+                        for state in states:
+                            state_name = state.name
+                            state_arr.append(state_name)
+
+                            cur_actions = MTransitionAction.query_by_action_state(role['uid'], state.uid)
+                            for cur_act in cur_actions:
+                                MRequestAction.create(request_id, cur_act['action'], cur_act['transition'])
+
+                        act_recs = MTransitionAction.query_by_process(role['uid'])
+
+                        act_arr = []
+                        for act in act_recs:
+                            act_dic = {"act_name": act['name'], "act_uid": act['uid'], "request_id":  request_id}
+                            act_arr.append(act_dic)
+                    else:
+                        act_arr = [{"act_name": "Waiting for review", "act_uid": "", "request_id":  ''}]
+                        request_id = ''
+                    # 以上创建步骤已完成
+
+
             else:
 
                 state = MState.get_by_uid(trans.current_state).get()
@@ -335,14 +359,6 @@ class State(tornado.web.UIModule):
                         act_arr.append(act_dic)
 
 
-
-
-
-        # # # 审核状态#
-        # exe_actions = MRequestAction.query_by_postid(postinfo.uid)
-
-
-        # 审核状态#
 
         kwd = {
             'router': config.post_cfg[kind]['router'],

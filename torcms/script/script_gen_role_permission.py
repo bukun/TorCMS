@@ -86,6 +86,7 @@ def gen_xlsx_role_permission():
                 'user_name': f'user_{uid}',
                 'user_pass': 'Gg123456',
                 'user_email': f'user_{uid}@qq.com',
+                'role': '3333',
             }
             tt = MUser.create_user(user_data)
             if tt.get('uid'):

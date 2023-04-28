@@ -84,59 +84,59 @@ class ApiPostHandler(PostHandler):
             MRequestAction.update_by_action(act_id, request_id)
 
 
-
-
-
         # 查询该请求中该转换的所有动作是否都为True
         istrues = MRequestAction.query_by_request_trans(request_id, reqact.transition).get()
         print(istrues)
         if istrues.is_complete:
 
             # 禁用该请求下其它动作
-            MRequestAction.update_order_by_action(act_id, request_id)
+            MRequestAction.update_by_action_reqs(act_id, request_id)
             # 转到下一状态
             trans = MTransition.get_by_uid(reqact.transition).get()
             state = MState.get_by_uid(trans.next_state).get()
 
 
-
-
             print(trans.uid)
 
             if state.state_type.endswith('complete'):
+                print("完成"* 5)
+                print("完成")
                 MPost.update_valid(post_id)
-                self.redirect('/{0}/{1}'.format(post_cfg[self.kind]['router'],post_id))
+                output = {'act_arr': '', "request_id": request_id}
+                return json.dump(output, self)
             else:
-                self.submit_state(post_id)
-                # # 创建新请求
-                # new_request_id = MRequest.create(cur_pro.process, post_id, self.userinfo.uid)
-                # # 创建新的请求动作
-                # cur_actions = MTransitionAction.query_by_action_state(cur_pro.process, state.uid)
-                # print("s" * 50)
-                # print(cur_actions)
-                # for cur_act in cur_actions:
-                #     print("/" * 50)
-                #     print(cur_act['action'])
-                #     print(cur_act['transition'])
-                #     MRequestAction.create(new_request_id, cur_act['action'], cur_act['transition'])
-                #
-                # act_recs = MTransitionAction.query_by_process(cur_pro.process)
-                # print("1 " * 50)
-                #
-                # act_arr = []
-                # for act in act_recs:
-                #
-                #     act_dic = {"act_name": act['name'], "act_uid": act['uid']}
-                #     act_arr.append(act_dic)
-                # print(act_arr)
-                #
-                # output = {'act_arr': act_arr, "request_id": new_request_id}
-                #
-                # return json.dump(output, self)
 
-        # else:
-        #     output = {'act_arr': '', "request_id": request_id}
-        #     # self.submit_state(post_id)
+                # 创建新请求
+                new_request_id = MRequest.create(cur_pro.process, post_id, self.userinfo.uid)
+                # 创建新的请求动作
+                cur_actions = MTransitionAction.query_by_action_state(cur_pro.process, state.uid)
+                print("s" * 50)
+                print(cur_actions)
+                for cur_act in cur_actions:
+                    print("/" * 50)
+                    print(cur_act['action'])
+                    print(cur_act['transition'])
+                    MRequestAction.create(new_request_id, cur_act['action'], cur_act['transition'])
+
+                act_recs = MTransitionAction.query_by_process(cur_pro.process)
+                print("1 " * 50)
+
+                act_arr = []
+                for act in act_recs:
+
+                    act_dic = {"act_name": act['name'], "act_uid": act['uid']}
+                    act_arr.append(act_dic)
+                print(act_arr)
+
+                output = {'act_arr': act_arr, "request_id": new_request_id}
+
+                return json.dump(output, self)
+
+        else:
+            output = {'act_arr': '', "request_id": request_id}
+            return json.dump(output, self)
+            # self.submit_state(post_id)
+
 
     def submit_state(self, post_id):
 
@@ -167,13 +167,12 @@ class ApiPostHandler(PostHandler):
             act_arr = [{"act_name": "Waiting for review", "act_uid": ""}]
             request_id = ''
         # 以上创建步骤已完成
-        istrans = True
+
         output = {'act_arr': act_arr, "request_id": request_id}
 
-        if istrans:
-            return json.dump(output, self)
-        else:
-            return False
+
+        return json.dump(output, self)
+
 
     def list(self, kind):
 

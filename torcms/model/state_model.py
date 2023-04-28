@@ -314,7 +314,7 @@ class MRequestAction:
             return False
 
     @staticmethod
-    def update_order_by_action(action_id, request_id):
+    def update_by_action_reqs(action_id, request_id):
 
         entry = TabRequestAction.update(
             is_active=False
