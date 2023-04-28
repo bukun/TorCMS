@@ -287,15 +287,55 @@ class State(tornado.web.UIModule):
         from torcms.model.state_model import MState, MTransition, MRequest, MAction, MRequestAction, \
             MTransitionAction
         #
-        act_arr = []
+
         request_rec = MRequest.get_id_by_username(postinfo.uid, postinfo.user_name)
-
+        print("*" * 50)
+        # print(request_rec.uid)
+        # 查询该请求中该转换的所有动作是否都为True
+        act_arr = []
         if request_rec:
-            act_recs = MTransitionAction.query_by_process(request_rec.process)
+            istrues = MRequestAction.query_by_request(request_rec.uid).get()
 
-            for act in act_recs:
-                act_dic = {"act_name": act['name'], "act_uid": act['uid'],"request_id":request_rec.uid}
-                act_arr.append(act_dic)
+            trans = MTransition.get_by_uid(istrues.transition).get()
+            if istrues.is_complete:
+
+
+                # 转到下一状态
+
+                state = MState.get_by_uid(trans.next_state).get()
+
+                print(trans.uid)
+                print(state.state_type)
+                if state.state_type.endswith('complete'):
+                    MPost.update_valid(postinfo.uid)
+                else:
+                    act_recs = MTransitionAction.query_by_process(state.process)
+                    print("1 " * 50)
+                    request_id = MRequest.create(state.process, postinfo.uid, userinfo.uid)
+
+                    for act in act_recs:
+                        print(act['name'])
+                        act_dic = {"act_name": act['name'], "act_uid": act['uid'], "request_id": request_id}
+                        act_arr.append(act_dic)
+            else:
+
+                state = MState.get_by_uid(trans.current_state).get()
+
+                print(trans.uid)
+                print(state.state_type)
+                if state.state_type.endswith('complete'):
+                    MPost.update_valid(postinfo.uid)
+                else:
+                    act_recs = MTransitionAction.query_by_process(state.process)
+                    print("1 " * 50)
+
+                    for act in act_recs:
+                        print(act['name'])
+                        act_dic = {"act_name": act['name'], "act_uid": act['uid'], "request_id":  istrues.request}
+                        act_arr.append(act_dic)
+
+
+
 
 
         # # # 审核状态#

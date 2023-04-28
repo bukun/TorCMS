@@ -55,7 +55,9 @@ class MTransitionAction:
         '''
         Get a link by ID.
         '''
-        return TabTransitionAction.select().where(TabTransition.uid == uid)
+        return TabTransitionAction.select().where(TabTransitionAction.uid == uid)
+
+
 
     @staticmethod
     def query_by_actid(act_id):
@@ -331,6 +333,12 @@ class MRequestAction:
             (TabRequestAction.request == request_id) & (TabRequestAction.transition == trans_id))
 
     @staticmethod
+    def query_by_request(req_uid):
+        '''
+        Get a link by ID.
+        '''
+        return TabRequestAction.select().where(TabRequestAction.request == req_uid)
+    @staticmethod
     def query_by_action(act_id):
         return TabRequestAction.select().where(TabRequestAction.action == act_id)
 
@@ -537,8 +545,8 @@ class MAction:
         return TabAction.select().where(TabAction.name == name)
 
     @staticmethod
-    def get_by_id(id):
-        return TabAction.select().where(TabAction.uid == id)
+    def get_by_id(uid):
+        return TabAction.select().where(TabAction.uid == uid)
 
     @staticmethod
     def query_by_proid(pro_id):
