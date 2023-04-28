@@ -281,27 +281,27 @@ class Userprofile(tornado.web.UIModule):
 #         )
 
 class State(tornado.web.UIModule):
+    '''
+    todo：点击通过，拒绝，取消后应该提示已通过，已取消，已拒绝
+    '''
     def render(self, *args, **kwargs):
         postinfo = kwargs.get('postinfo', '')
         userinfo = kwargs.get('userinfo', '')
         kind = kwargs.get('kind', '9')
         post_authority = config.post_cfg[kind]['checker']
 
-        #
-
+        ##查询当前用户的请求
         request_rec = MRequest.get_id_by_username(postinfo.uid, postinfo.user_name)
-        print("*" * 50)
-        # print(request_rec.uid)
-        # 查询该请求中该转换的所有动作是否都为True
+
+
         act_arr = []
         if request_rec:
+
+            # 查询该请求中该转换的所有动作是否都为True
             istrues = MRequestAction.query_by_request(request_rec.uid).get()
 
-            trans = MTransition.get_by_uid(istrues.transition).get()
             if istrues.is_complete:
 
-                # 禁用该请求下其它动作
-                # MRequestAction.update_by_action_reqs(act_id, istrues.request)
                 # 转到下一状态
                 trans = MTransition.get_by_uid(istrues.transition).get()
                 state = MState.get_by_uid(trans.next_state).get()
@@ -312,6 +312,7 @@ class State(tornado.web.UIModule):
                     MPost.update_valid(postinfo.uid)
 
                 else:
+
                     # 返回当前登录用户的角色相关信息
                     role = MStaff2Role.get_role_by_uid(userinfo.uid).get()
                     if role:
@@ -339,22 +340,24 @@ class State(tornado.web.UIModule):
                         act_arr = [{"act_name": "Waiting for review", "act_uid": "", "request_id":  ''}]
                         request_id = ''
                     # 以上创建步骤已完成
-
+                    print("+" * 50)
+                    print(act_arr)
 
             else:
-
+                #根据当前转换获取下一步状态
+                trans = MTransition.get_by_uid(istrues.transition).get()
                 state = MState.get_by_uid(trans.current_state).get()
 
-                print(trans.uid)
-                print(state.state_type)
+
                 if state.state_type.endswith('complete'):
                     MPost.update_valid(postinfo.uid)
                 else:
+                    #根据状态的流程（角色）获取相关动作
                     act_recs = MTransitionAction.query_by_process(state.process)
-                    print("1 " * 50)
+
 
                     for act in act_recs:
-                        print(act['name'])
+
                         act_dic = {"act_name": act['name'], "act_uid": act['uid'], "request_id":  istrues.request}
                         act_arr.append(act_dic)
 

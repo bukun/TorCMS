@@ -146,7 +146,7 @@
 
                 <div class="panel-heading listinfo_title">
 
-                 {{ postinfo.title }}{{ postinfo.valid }}
+                 {{ postinfo.title }}
 
                 </div>
 
@@ -160,9 +160,10 @@
                             </div>
                             <div class="col-sm-6">
 {% if userinfo %}
+                                  {% if postinfo.valid != 1 %}
                                 {% module post_state(postinfo = postinfo,userinfo = userinfo,kind = postinfo.kind) %}
                                  <br>
-
+{% end %}
                 {% module collect(userinfo.uid, postinfo.uid,en=True) %}
                                                            <br>
  <br>
@@ -210,9 +211,11 @@
 
                         {% else %}
                         <div class="col-sm-12 bor_bottom">
+                            {% if postinfo.valid != 1 %}
                                   {% module post_state(postinfo = postinfo,userinfo = userinfo,kind = postinfo.kind) %}
-                             <br>
 
+                             <br>
+ {% end %}
                              {% if userinfo %}
                 {% module collect(userinfo.uid, postinfo.uid,en=True) %}
                              <br>
