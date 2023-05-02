@@ -24,15 +24,14 @@ class MStaff2Role:
 
     @staticmethod
     def get_role_by_uid(staff_id):
-        query = (
-            TabStaff2Role.select(
+        query = TabStaff2Role.select(
                 TabRole.uid, TabRole.name, TabRole.status, TabRole.pid
-            )
-            .join(TabRole, JOIN.INNER)
-            .switch(TabStaff2Role)
-            .join(TabMember, JOIN.INNER)
-            .where(TabStaff2Role.staff == staff_id)
-        )
+            ) .join(TabRole, JOIN.INNER) .switch(
+            TabStaff2Role) .join(TabMember, JOIN.INNER) .where(TabStaff2Role.staff == staff_id)
+        # query = TabStaff2Role.select(
+        #     ).where(TabStaff2Role.staff == staff_id)
+
+
         if query.count()>0:
             return query.dicts()
         else:

@@ -127,14 +127,14 @@ Get the HTML for modules
 ::
 
     $ cd TorCMS
-    $ git clone https://github.com/bukun/torcms_f2elib.git static/f2elib
+    $ git clone --depth=1 https://github.com/bukun/torcms_f2elib.git static/f2elib
 
 
 or using the same f2elib via Gitee:
 
 ::
 
-    $ git clone https://gitee.com/bukun/torcms_f2elib.git static/f2elib
+    $ git clone --depth=1 https://gitee.com/bukun/torcms_f2elib.git static/f2elib
 
 Edit the configiure.
 -----------------------
@@ -288,24 +288,10 @@ Then, upload to the website.
     twine upload dist/torcms-version.tar.gz
 
 
-In Chinese
-=========================
-
-本 CMS 是使用Python 3.4，Tornado Web框架， Peewee，开发的。
-此CMS系统原本用于 `云算笔记 <http://www.yunsuan.org>`__ 、
-`开放地理空间实验室 <http://lab.osgeo.cn>`__ （现合并到 `OSGeo中国中心 <http://www.osgeo.cn>`__ ）等网站，
-后来慢慢将 CMS 从中抽取出来。
-
-在网站设计方面，提出了文档（Post）、信息（Infor）两种对等的模型进行信息的组织。
-这两种模型结构相似，分别用与网站的内容管理，以及应用管理。
-其中应用管理，使用了PostgreSQL的JSON扩展，可以设计为App、分类信息、商城应用等。
-这些可以在下面的应用中看一下。
-
-网站的文档，除了Post之外，还有Page、Wiki，针对不同的目的作为文档使用。
 
 
-应用
-------------------------
+Application
+========================================
 
 -  http://www.osgeo.cn (OSGeo中国中心)
 -  http://www.wds-china.org (世界数据系统中国)

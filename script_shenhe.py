@@ -1,4 +1,5 @@
-from torcms.model.state_model import MState, MTransition, MTransitionAction, MAction, MRequest, MRequestAction
+from torcms.model.state_model import MState, MTransition, MTransitionAction, MAction, \
+    MRequest, MRequestAction
 
 
 def test():
