@@ -141,7 +141,11 @@ class ApiPostHandler(PostHandler):
     def submit_state(self, post_id):
 
         # 返回当前登录用户的角色相关信息
-        role = MStaff2Role.get_role_by_uid(self.userinfo.uid).get()
+        print(self.userinfo.uid)
+        print(post_id)
+        ttinfo = MStaff2Role.get_role_by_uid(self.userinfo.uid)
+        print(ttinfo)
+        role = ttinfo.get()
         if role:
 
             request_id = MRequest.create(role['uid'], post_id, self.userinfo.uid)
