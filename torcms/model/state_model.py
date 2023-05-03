@@ -3,7 +3,8 @@
 For friends links.
 '''
 from torcms.model.abc_model import MHelper
-from torcms.model.process_model import TabState, TabTransition, TabRequest, TabAction, TabRequestAction, \
+from torcms.model.process_model import TabState, TabTransition, TabRequest, TabAction, \
+    TabRequestAction, \
     TabTransitionAction
 from torcms.model.core_tab import TabMember, TabPost, TabRole
 from peewee import JOIN
@@ -48,7 +49,8 @@ class MTransitionAction:
     @staticmethod
     def query_by_trans_act(trans_id, act_id):
         return TabTransitionAction.select().where(
-            (TabTransitionAction.transition == trans_id) & (TabTransitionAction.action == act_id))
+            (TabTransitionAction.transition == trans_id) &
+            (TabTransitionAction.action == act_id))
 
     @staticmethod
     def get_by_uid(uid):
@@ -56,8 +58,6 @@ class MTransitionAction:
         Get a link by ID.
         '''
         return TabTransitionAction.select().where(TabTransitionAction.uid == uid)
-
-
 
     @staticmethod
     def query_by_actid(act_id):
@@ -70,13 +70,13 @@ class MTransitionAction:
     @staticmethod
     def query_by_action_state(pro_id, state_id):
         query = (
-            TabTransitionAction.select(TabTransitionAction.transition, TabTransitionAction.action)
+            TabTransitionAction.select(TabTransitionAction.transition,
+                                       TabTransitionAction.action)
             .join(TabTransition, JOIN.INNER)
-            .where((TabTransition.process == pro_id) & (TabTransition.current_state == state_id))
+            .where((TabTransition.process == pro_id) & (
+                        TabTransition.current_state == state_id))
         )
         return query.dicts()
-
-
 
     @staticmethod
     def query_by_process(role_id):
@@ -119,7 +119,8 @@ class MTransitionAction:
     @staticmethod
     def delete_by_trans_act(trans_id, act_id):
         entry = TabTransitionAction.delete().where(
-            (TabTransitionAction.transition == trans_id) & (TabTransitionAction.action == act_id)
+            (TabTransitionAction.transition == trans_id) & (
+                        TabTransitionAction.action == act_id)
         )
 
         try:
@@ -203,7 +204,8 @@ class MTransition:
         query = (
             TabTransition.select(TabTransition.current_state, TabTransition.next_state)
             .join(TabTransitionAction, JOIN.INNER)
-            .where((TabTransitionAction.action == action_id) & (TabTransition.process == pro_id))
+            .where((TabTransitionAction.action == action_id) & (
+                        TabTransition.process == pro_id))
 
         )
         return query
@@ -230,7 +232,8 @@ class MTransition:
     @staticmethod
     def query_by_proid_state(pro_id, state_id):
         return TabTransition.select().where(
-            (TabTransition.process == pro_id) & (TabTransition.current_state == state_id))
+            (TabTransition.process == pro_id) & (
+                        TabTransition.current_state == state_id))
 
     @staticmethod
     def query_by_state(state):
@@ -244,7 +247,8 @@ class MTransition:
     @staticmethod
     def delete_by_state(state_id):
         entry = TabTransition.delete().where(
-            (TabTransition.current_state == state_id) or (TabTransition.next_state == state_id)
+            (TabTransition.current_state == state_id) or (
+                        TabTransition.next_state == state_id)
         )
 
         try:
@@ -304,7 +308,8 @@ class MRequestAction:
         entry = TabRequestAction.update(
             is_active=False,
             is_complete=True
-        ).where((TabRequestAction.request == request_id) & (TabRequestAction.action == action_id))
+        ).where((TabRequestAction.request == request_id) & (
+                    TabRequestAction.action == action_id))
 
         try:
             entry.execute()
@@ -318,7 +323,8 @@ class MRequestAction:
 
         entry = TabRequestAction.update(
             is_active=False
-        ).where((TabRequestAction.request == request_id) & (TabRequestAction.action != action_id))
+        ).where((TabRequestAction.request == request_id) & (
+                    TabRequestAction.action != action_id))
 
         try:
             entry.execute()
@@ -330,7 +336,8 @@ class MRequestAction:
     @staticmethod
     def query_by_request_trans(request_id, trans_id):
         return TabRequestAction.select().where(
-            (TabRequestAction.request == request_id) & (TabRequestAction.transition == trans_id))
+            (TabRequestAction.request == request_id) & (
+                        TabRequestAction.transition == trans_id))
 
     @staticmethod
     def query_by_request(req_uid):
@@ -338,6 +345,7 @@ class MRequestAction:
         Get a link by ID.
         '''
         return TabRequestAction.select().where(TabRequestAction.request == req_uid)
+
     @staticmethod
     def query_by_action(act_id):
         return TabRequestAction.select().where(TabRequestAction.action == act_id)
@@ -345,7 +353,8 @@ class MRequestAction:
     @staticmethod
     def query_by_action_request(act_id, request_id):
         return TabRequestAction.select().where(
-            (TabRequestAction.action == act_id) & (TabRequestAction.request == request_id))
+            (TabRequestAction.action == act_id) & (
+                        TabRequestAction.request == request_id))
 
     @staticmethod
     def query_by_postid(post_id):
@@ -516,9 +525,10 @@ class MAction:
         query = (
             TabAction.select()
             .join(TabTransitionAction, JOIN.INNER)
-            .where(TabTransitionAction.transition== trans_id)
+            .where(TabTransitionAction.transition == trans_id)
         )
         return query.dicts()
+
     @staticmethod
     def update_process(process, uid):
         '''
@@ -554,7 +564,8 @@ class MAction:
 
     @staticmethod
     def query_by_pro_actname(pro_id, act_name):
-        return TabAction.select().where((TabAction.process == pro_id) & (TabAction.name == act_name))
+        return TabAction.select().where(
+            (TabAction.process == pro_id) & (TabAction.name == act_name))
 
     @staticmethod
     def get_counts():
@@ -611,7 +622,8 @@ class MState:
         '''
         Get a link by ID.
         '''
-        return TabState.select().where((TabState.process == pro_id) & (TabState.name == name))
+        return TabState.select().where(
+            (TabState.process == pro_id) & (TabState.name == name))
 
     @staticmethod
     def get_by_uid(uid):

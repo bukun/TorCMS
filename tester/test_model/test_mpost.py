@@ -28,6 +28,17 @@ class TestMPost():
         self.post_id2 = '89898'
         self.slug = 'huio'
         self.fake = Faker(locale="zh_CN")
+    def tearDown(self):
+        print("function teardown")
+
+        self.mpost.delete(self.uid)
+        MCategory.delete(self.tag_id)
+        self.mpost.delete(self.post_id2)
+        self.mpost.delete(self.post_id)
+        MPost2Catalog.remove_relation(self.post_id, self.tag_id)
+        tt = MLabel.get_by_slug(self.slug)
+        if tt:
+            MLabel.delete(tt.uid)
 
     def test_insert(self):
         raw_count = self.mpost.get_counts()
@@ -802,14 +813,3 @@ class TestMPost():
 
         assert tf
 
-    def tearDown(self):
-        print("function teardown")
-
-        self.mpost.delete(self.uid)
-        MCategory.delete(self.tag_id)
-        self.mpost.delete(self.post_id2)
-        self.mpost.delete(self.post_id)
-        MPost2Catalog.remove_relation(self.post_id, self.tag_id)
-        tt = MLabel.get_by_slug(self.slug)
-        if tt:
-            MLabel.delete(tt.uid)

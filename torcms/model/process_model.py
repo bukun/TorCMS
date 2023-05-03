@@ -14,22 +14,22 @@ from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import TabLog
 
 
-# class TabProcess(BaseModel):
-#     '''
-#     流程
-#     '''
-#
-#     uid = peewee.CharField(
-#         null=False,
-#         index=True,
-#         unique=True,
-#         primary_key=True,
-#         max_length=36,
-#         help_text='',
-#     )
-#     name = peewee.CharField(
-#         null=False, index=True, unique=True, max_length=255, help_text='名称'
-#     )
+class TabProcess(BaseModel):
+    '''
+    流程
+    '''
+
+    uid = peewee.CharField(
+        null=False,
+        index=True,
+        unique=True,
+        primary_key=True,
+        max_length=36,
+        help_text='',
+    )
+    name = peewee.CharField(
+        null=False, index=True, unique=True, max_length=255, help_text='名称'
+    )
 
 
 class TabState(BaseModel):
@@ -186,3 +186,27 @@ class MState:
         return TabState.select()
 
 
+class MProcess:
+    def __init__(self):
+        try:
+            TabProcess.create_table()
+        except Exception as err:
+            print(repr(err))
+
+    def create(self, post_id):
+        uid = tools.get_uuid()
+        '''
+        process = peewee.ForeignKeyField(TabProcess, backref='process', help_text='')
+        name = peewee.CharField(null=False, index=True, unique=True, max_length=255, help_text='名称')
+        state_type = peewee.CharField(null=False, index=True, unique=True, max_length=255, help_text='名称')
+        description = peewee.TextField()
+        '''
+        tt = TabProcess.create(
+            uid=uid,
+            name = post_id,
+        )
+        return tt
+
+    def delete_by_uid(self, id):
+        query = TabProcess.delete().where(TabProcess.uid == id)
+        query.execute()
