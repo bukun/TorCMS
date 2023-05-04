@@ -18,7 +18,7 @@
             "icon": "fa fa-users",
             "children": [
               {
-                "label": "列表",
+                "label": "用户列表",
                 "url": "/user/list",
                 "icon": "fa fa-list",
                 "schemaApi": "get:/pages/user-list.json"
@@ -32,7 +32,7 @@
             "icon": "fa fa-cube",
             "children": [
               {
-                "label": "列表",
+                "label": "分组/角色列表",
                 "url": "/role/list",
                 "icon": "fa fa-list",
                 "schemaApi": "get:/pages/role-list.json"
@@ -46,10 +46,24 @@
             "icon": "fa fa-gear",
             "children": [
               {
-                "label": "列表",
+                "label": "权限列表",
                 "url": "/permission/list",
                 "icon": "fa fa-list",
                 "schemaApi": "get:/pages/permission-list.json"
+              }
+            ]
+          },
+          {
+            "label": "流程管理",
+            "url": "/process",
+            "rewrite": "/process/list",
+            "icon": "fa fa-gear",
+            "children": [
+              {
+                "label": "流程列表",
+                "url": "/process/list",
+                "icon": "fa fa-list",
+                "schemaApi": "get:/pages/process-list.json"
               }
             ]
           },
@@ -81,7 +95,7 @@
             "icon": "fa fa-gear",
             "children": [
               {
-                "label": "列表",
+                "label": "动作列表",
                 "url": "/action/list",
                 "icon": "fa fa-list",
                 "schemaApi": "get:/pages/action-list.json"

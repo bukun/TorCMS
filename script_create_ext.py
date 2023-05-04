@@ -32,23 +32,30 @@ def test():
         {'uid': 'f4d03b70-df29-11ed-b87f-898a446d722a', 'process': 'uadministrators', 'action_type': 'approve',
          'name': '通过', 'description': '操作人将请求应移至下一个状态'},
         {'uid': '265a4642-df50-11ed-b87f-898a446d722a', 'process': '1editor', 'action_type': 'restart',
-         'name': '提交审核', 'description': '操作人将将请求移回到进程中的“开始”状态'}
+         'name': '提交审核', 'description': '操作人将将请求移回到进程中的“开始”状态'},
+        {'uid': '0b4bdcc0-ea19-11ed-af58-07be5fc7ff5d', 'process': '1editor', 'action_type': '编辑取消',
+         'name': '编辑取消', 'description': '编辑取消'}
 
     ]
 
     Tabtransition = [
-        {'uid': '7bb3e41c-df29-11ed-b87f-898a446d722a', 'process': 'uadministrators',
-         'current_state': '3e2a0b6c-df24-11ed-b87f-898a446d722a', 'next_state': 'de8c9f00-df26-11ed-b87f-898a446d722a'},
-        {'uid': '80f868da-df29-11ed-b87f-898a446d722a', 'process': 'uadministrators',
-         'current_state': '3e2a0b6c-df24-11ed-b87f-898a446d722a', 'next_state': '535ade26-df24-11ed-b87f-898a446d722a'},
-        {'uid': '8563c63a-df29-11ed-b87f-898a446d722a', 'process': 'uadministrators',
-         'current_state': '3e2a0b6c-df24-11ed-b87f-898a446d722a', 'next_state': 'bcf0b7be-df26-11ed-b87f-898a446d722a'},
-        {'uid': '8a900678-df29-11ed-b87f-898a446d722a', 'process': 'uadministrators',
-         'current_state': '3e2a0b6c-df24-11ed-b87f-898a446d722a', 'next_state': 'c1e51ada-df26-11ed-b87f-898a446d722a'},
-        {'uid': 'eb453d56-df44-11ed-b87f-898a446d722a', 'process': '1editor',
-         'current_state': '2fa8c1dc-df24-11ed-b87f-898a446d722a', 'next_state': '35b69234-df24-11ed-b87f-898a446d722a'},
-        {'uid': 'd6f3e3ba-df4f-11ed-b87f-898a446d722a', 'process': '1editor',
-         'current_state': '2fa8c1dc-df24-11ed-b87f-898a446d722a', 'next_state': '3e2a0b6c-df24-11ed-b87f-898a446d722a'}
+    {'uid': '7bb3e41c-df29-11ed-b87f-898a446d722a', 'process': 'uadministrators',
+     'current_state': '3e2a0b6c-df24-11ed-b87f-898a446d722a', 'next_state': 'de8c9f00-df26-11ed-b87f-898a446d722a'},
+    {'uid': '80f868da-df29-11ed-b87f-898a446d722a', 'process': 'uadministrators',
+     'current_state': '3e2a0b6c-df24-11ed-b87f-898a446d722a', 'next_state': '535ade26-df24-11ed-b87f-898a446d722a'},
+    {'uid': '8563c63a-df29-11ed-b87f-898a446d722a', 'process': 'uadministrators',
+     'current_state': '3e2a0b6c-df24-11ed-b87f-898a446d722a', 'next_state': 'bcf0b7be-df26-11ed-b87f-898a446d722a'},
+    {'uid': '8a900678-df29-11ed-b87f-898a446d722a', 'process': 'uadministrators',
+     'current_state': '3e2a0b6c-df24-11ed-b87f-898a446d722a', 'next_state': 'c1e51ada-df26-11ed-b87f-898a446d722a'},
+    {'uid': 'eb453d56-df44-11ed-b87f-898a446d722a', 'process': '1editor',
+     'current_state': '2fa8c1dc-df24-11ed-b87f-898a446d722a', 'next_state': '35b69234-df24-11ed-b87f-898a446d722a'},
+    {'uid': 'd6f3e3ba-df4f-11ed-b87f-898a446d722a', 'process': '1editor',
+     'current_state': '2fa8c1dc-df24-11ed-b87f-898a446d722a', 'next_state': '3e2a0b6c-df24-11ed-b87f-898a446d722a'},
+    {'uid': 'e3e3d3ac-e597-11ed-97ca-1f2eef5a84c4', 'process': 'uadministrators',
+     'current_state': 'c1e51ada-df26-11ed-b87f-898a446d722a', 'next_state': '2fa8c1dc-df24-11ed-b87f-898a446d722a'},
+    {'uid': 'ec1fd688-e597-11ed-97ca-1f2eef5a84c4', 'process': 'uadministrators',
+     'current_state': '535ade26-df24-11ed-b87f-898a446d722a', 'next_state': '2fa8c1dc-df24-11ed-b87f-898a446d722a'}
+
 
     ]
 
@@ -62,7 +69,9 @@ def test():
         {'uid': '3034c8c1-df2a-11ed-b87f-898a446d722a', 'transition': '8563c63a-df29-11ed-b87f-898a446d722a',
          'action': '3034c8c0-df2a-11ed-b87f-898a446d722a'},
         {'uid': '265a4643-df50-11ed-b87f-898a446d722a', 'transition': 'd6f3e3ba-df4f-11ed-b87f-898a446d722a',
-         'action': '265a4642-df50-11ed-b87f-898a446d722a'}
+         'action': '265a4642-df50-11ed-b87f-898a446d722a'},
+        {'uid': '0b4bdcc1-ea19-11ed-af58-07be5fc7ff5d', 'transition': 'eb453d56-df44-11ed-b87f-898a446d722a',
+         'action': '0b4bdcc0-ea19-11ed-af58-07be5fc7ff5d'}
 
     ]
     try:

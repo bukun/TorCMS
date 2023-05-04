@@ -1,5 +1,5 @@
-from torcms.model.state_model import MState, MTransition, MTransitionAction, MAction, \
-    MRequest, MRequestAction
+from torcms.model.process_model import MState, MTransition, MTransitionAction, MAction, \
+    MRequest, MRequestAction,MProcess
 
 
 def test():
@@ -57,6 +57,13 @@ def test():
     print("RequestAction")
     [print(x) for x in RequestAction]
     print("RequestAction")
+    print("-" * 50)
+
+    process = MProcess.query_all().dicts()
+    print("*" * 50)
+    print("process")
+    [print(x) for x in process]
+    print("process")
     print("-" * 50)
 
 

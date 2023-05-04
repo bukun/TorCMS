@@ -7,8 +7,8 @@ import json
 import tornado.web
 from torcms.core import tools, privilege
 from torcms.core.base_handler import BaseHandler
-from torcms.model.process_model import MTransitionAction, MTransition, MState, MRequestAction
-from torcms.model.role_model import MRole
+from torcms.model.process_model import MTransitionAction, MTransition, MState, MRequestAction,MProcess
+
 
 
 class TransitionHandler(BaseHandler):
@@ -116,7 +116,7 @@ class TransitionHandler(BaseHandler):
         counts = MTransition.get_counts()
 
         for rec in recs:
-            process = MRole.get_by_uid(rec.process)
+            process = MProcess.get_by_uid(rec.process).get()
             cur_state = MState.get_by_uid(rec.current_state).get()
             next_state = MState.get_by_uid(rec.next_state).get()
             dic = {

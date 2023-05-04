@@ -44,4 +44,4 @@ def run_init(*args):
     run_gen_category()
     run_create_admin()
     run_whoosh()
-    test()
+

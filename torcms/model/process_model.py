@@ -262,6 +262,12 @@ class MProcess:
             return False
 
     @staticmethod
+    def get_by_uid(uid):
+        '''
+        Get a link by ID.
+        '''
+        return TabProcess.select().where(TabProcess.uid == uid)
+    @staticmethod
     def query_all():
         return TabProcess.select()
 
