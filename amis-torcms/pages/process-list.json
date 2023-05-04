@@ -79,47 +79,8 @@
           "label": "名称",
           "type": "text",
           "toggled": true
-        },
-        {
-          "type": "operation",
-          "label": "操作",
-          "width": "",
-          "buttons": [
-            {
-              "type": "button-group",
-              "buttons": [
-                {
-                  "type": "button",
-                  "label": "编辑",
-                  "level": "info",
-                  "icon": "fa fa-pencil",
-                  "tooltip": "编辑",
-                  "actionType": "drawer",
-                  "drawer": {
-                    "position": "left",
-                    "size": "lg",
-                    "title": "编辑",
-                    "body": {
-                      "type": "form",
-                      "name": "role-edit-form",
-                      "api": "/api/process/_edit/${uid}",
-                      "body": [
-                        {
-                          "name": "name",
-                          "label": "名称",
-                          "type": "input-text",
-                          "value": "${name}"
-                        }
-                      ]
-                    }
-                  }
-                }
-              ]
-            }
-          ],
-          "placeholder": "-",
-          "fixed": "right"
         }
+
       ],
       "affixHeader": true,
       "columnsTogglable": "auto",

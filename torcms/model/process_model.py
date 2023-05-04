@@ -826,7 +826,7 @@ class MState:
             return False
 
     @staticmethod
-    def create(post_data, pro_name):
+    def create(post_data):
         '''
         Add record in permission.
         '''
@@ -838,9 +838,9 @@ class MState:
             TabState.create(
                 uid=uid,
                 process=post_data.get('process'),
-                name=pro_name + '_' + post_data.get('name'),
-                state_type=pro_name + '_' + post_data.get('state_type'),
-                description=pro_name + '_' + post_data.get('description', '')
+                name=post_data.get('name'),
+                state_type= post_data.get('state_type'),
+                description= post_data.get('description', '')
             )
 
             return uid
