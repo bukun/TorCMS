@@ -7,7 +7,7 @@ import json
 import tornado.web
 from torcms.core import tools, privilege
 from torcms.core.base_handler import BaseHandler
-from torcms.model.state_model import MAction, MTransition, MRequestAction, MTransitionAction, MState
+from torcms.model.process_model import MAction, MTransition, MRequestAction, MTransitionAction, MState
 from torcms.model.role_model import MRole
 
 

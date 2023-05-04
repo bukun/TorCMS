@@ -12,7 +12,7 @@ from torcms.model.reply_model import MReply
 from torcms.model.replyid_model import MReplyid
 from torcms.model.user_model import MUser
 from torcms.model.post_model import MPost
-from torcms.model.state_model import MState, MTransition, MRequest, MAction, MRequestAction, \
+from torcms.model.process_model import MState, MTransition, MRequest, MAction, MRequestAction, \
     MTransitionAction
 from torcms.model.staff2role_model import MStaff2Role
 
@@ -264,119 +264,119 @@ class Userprofile(tornado.web.UIModule):
         return self.render_string('modules/widget/user_profile.html', rec=rec)
 
 
-# class State(tornado.web.UIModule):
-#     def render(self, *args, **kwargs):
-#         postinfo = kwargs.get('postinfo', '')
-#         userinfo = kwargs.get('userinfo', '')
-#         kind = kwargs.get('kind', '9')
-#         post_authority = config.post_cfg[kind]['checker']
-#
-#         kwd = {
-#             'router': config.post_cfg[kind]['router'],
-#             'kind': kind,
-#             'post_authority': post_authority,
-#         }
-#         return self.render_string(
-#             'modules/post/state.html', postinfo=postinfo, userinfo=userinfo, kwd=kwd
-#         )
-
 class State(tornado.web.UIModule):
-    '''
-    todo：点击通过，拒绝，取消后应该提示已通过，已取消，已拒绝
-    '''
     def render(self, *args, **kwargs):
         postinfo = kwargs.get('postinfo', '')
         userinfo = kwargs.get('userinfo', '')
         kind = kwargs.get('kind', '9')
         post_authority = config.post_cfg[kind]['checker']
 
-        ##查询当前用户的请求
-        request_rec = MRequest.get_id_by_username(postinfo.uid, postinfo.user_name)
-
-
-        act_arr = []
-        if request_rec:
-
-            # 查询该请求中该转换的所有动作是否都为True
-            istrues = MRequestAction.query_by_request(request_rec.uid).get()
-
-            if istrues.is_complete:
-
-                # 转到下一状态
-                trans = MTransition.get_by_uid(istrues.transition).get()
-                state = MState.get_by_uid(trans.next_state).get()
-
-                print(trans.uid)
-
-                if state.state_type.endswith('complete'):
-                    MPost.update_valid(postinfo.uid)
-
-                else:
-
-                    # 返回当前登录用户的角色相关信息
-                    role = MStaff2Role.get_role_by_uid(userinfo.uid).get()
-                    if role:
-
-                        request_id = MRequest.create(role['uid'], postinfo.uid, userinfo.uid)
-
-                        # 根据当前角色返回相应状态ID#
-                        states = MState.query_by_pro_id(role['uid'])
-                        state_arr = []
-                        for state in states:
-                            state_name = state.name
-                            state_arr.append(state_name)
-
-                            cur_actions = MTransitionAction.query_by_action_state(role['uid'], state.uid)
-                            for cur_act in cur_actions:
-                                MRequestAction.create(request_id, cur_act['action'], cur_act['transition'])
-
-                        act_recs = MTransitionAction.query_by_process(role['uid'])
-
-                        act_arr = []
-                        for act in act_recs:
-                            act_dic = {"act_name": act['name'], "act_uid": act['uid'], "request_id":  request_id}
-                            act_arr.append(act_dic)
-                    else:
-                        act_arr = [{"act_name": "Waiting for review", "act_uid": "", "request_id":  ''}]
-                        request_id = ''
-                    # 以上创建步骤已完成
-                    print("+" * 50)
-                    print(act_arr)
-
-            else:
-                #根据当前转换获取下一步状态
-                trans = MTransition.get_by_uid(istrues.transition).get()
-                state = MState.get_by_uid(trans.current_state).get()
-
-
-                if state.state_type.endswith('complete'):
-                    MPost.update_valid(postinfo.uid)
-                else:
-                    #根据状态的流程（角色）获取相关动作
-                    act_recs = MTransitionAction.query_by_process(state.process)
-
-
-                    for act in act_recs:
-
-                        act_dic = {"act_name": act['name'], "act_uid": act['uid'], "request_id":  istrues.request}
-                        act_arr.append(act_dic)
-
-
-
         kwd = {
             'router': config.post_cfg[kind]['router'],
             'kind': kind,
             'post_authority': post_authority,
         }
-
         return self.render_string(
-            'modules/post/state.html',
-            postinfo=postinfo,
-            userinfo=userinfo,
-            kwd=kwd,
-            action_arr=act_arr
+            'modules/post/state.html', postinfo=postinfo, userinfo=userinfo, kwd=kwd
         )
-
+#
+# class State(tornado.web.UIModule):
+#     '''
+#     todo：点击通过，拒绝，取消后应该提示已通过，已取消，已拒绝
+#     '''
+#     def render(self, *args, **kwargs):
+#         postinfo = kwargs.get('postinfo', '')
+#         userinfo = kwargs.get('userinfo', '')
+#         kind = kwargs.get('kind', '9')
+#         post_authority = config.post_cfg[kind]['checker']
+#
+#         ##查询当前用户的请求
+#         request_rec = MRequest.get_id_by_username(postinfo.uid, postinfo.user_name)
+#
+#
+#         act_arr = []
+#         if request_rec:
+#
+#             # 查询该请求中该转换的所有动作是否都为True
+#             istrues = MRequestAction.query_by_request(request_rec.uid).get()
+#
+#             if istrues.is_complete:
+#
+#                 # 转到下一状态
+#                 trans = MTransition.get_by_uid(istrues.transition).get()
+#                 state = MState.get_by_uid(trans.next_state).get()
+#
+#                 print(trans.uid)
+#
+#                 if state.state_type.endswith('complete'):
+#                     MPost.update_valid(postinfo.uid)
+#
+#                 else:
+#
+#                     # 返回当前登录用户的角色相关信息
+#                     role = MStaff2Role.get_role_by_uid(userinfo.uid).get()
+#                     if role:
+#
+#                         request_id = MRequest.create(role['uid'], postinfo.uid, userinfo.uid)
+#
+#                         # 根据当前角色返回相应状态ID#
+#                         states = MState.query_by_pro_id(role['uid'])
+#                         state_arr = []
+#                         for state in states:
+#                             state_name = state.name
+#                             state_arr.append(state_name)
+#
+#                             cur_actions = MTransitionAction.query_by_action_state(role['uid'], state.uid)
+#                             for cur_act in cur_actions:
+#                                 MRequestAction.create(request_id, cur_act['action'], cur_act['transition'])
+#
+#                         act_recs = MTransitionAction.query_by_process(role['uid'])
+#
+#                         act_arr = []
+#                         for act in act_recs:
+#                             act_dic = {"act_name": act['name'], "act_uid": act['uid'], "request_id":  request_id}
+#                             act_arr.append(act_dic)
+#                     else:
+#                         act_arr = [{"act_name": "Waiting for review", "act_uid": "", "request_id":  ''}]
+#                         request_id = ''
+#                     # 以上创建步骤已完成
+#                     print("+" * 50)
+#                     print(act_arr)
+#
+#             else:
+#                 #根据当前转换获取下一步状态
+#                 trans = MTransition.get_by_uid(istrues.transition).get()
+#                 state = MState.get_by_uid(trans.current_state).get()
+#
+#
+#                 if state.state_type.endswith('complete'):
+#                     MPost.update_valid(postinfo.uid)
+#                 else:
+#                     #根据状态的流程（角色）获取相关动作
+#                     act_recs = MTransitionAction.query_by_process(state.process)
+#
+#
+#                     for act in act_recs:
+#
+#                         act_dic = {"act_name": act['name'], "act_uid": act['uid'], "request_id":  istrues.request}
+#                         act_arr.append(act_dic)
+#
+#
+#
+#         kwd = {
+#             'router': config.post_cfg[kind]['router'],
+#             'kind': kind,
+#             'post_authority': post_authority,
+#         }
+#
+#         return self.render_string(
+#             'modules/post/state.html',
+#             postinfo=postinfo,
+#             userinfo=userinfo,
+#             kwd=kwd,
+#             action_arr=act_arr
+#         )
+#
 
 class Check_pager(tornado.web.UIModule):
     '''

@@ -7,7 +7,7 @@
 # import tornado.web
 # from torcms.core import tools, privilege
 # from torcms.core.base_handler import BaseHandler
-# from torcms.model.state_model import MProcess
+# from torcms.model.process_model import MProcess
 #
 #
 # class ProcessHandler(BaseHandler):

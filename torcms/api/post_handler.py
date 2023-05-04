@@ -12,7 +12,7 @@ from torcms.model.post_model import MPost
 from torcms.model.category_model import MCategory
 from torcms.model.user_model import MUser
 from torcms.model.staff2role_model import MStaff2Role
-from torcms.model.state_model import MState, MTransition, MRequest, MAction, MRequestAction, \
+from torcms.model.process_model import MState, MTransition, MRequest, MAction, MRequestAction, \
     MTransitionAction
 
 
