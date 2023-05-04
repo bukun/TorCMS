@@ -294,6 +294,18 @@ class MProcess:
             print(repr(err))
             return False
 
+    @staticmethod
+    def delete_by_uid(uid):
+        entry = TabProcess.delete().where(
+            TabProcess.uid == uid
+        )
+        try:
+            entry.execute()
+            return True
+        except Exception as err:
+            print(repr(err))
+            return False
+
 
 class MTransition:
 

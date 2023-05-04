@@ -8,11 +8,12 @@ from torcms.model.category_model import MCategory
 from torcms.model.label_model import MLabel, MPost2Label
 from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
-from torcms.model.process_model import MProcess
-
-
+from torcms.model.process_model import MProcess, MState, MTransition, MRequest, MAction, MRequestAction, \
+    MTransitionAction, TabProcess, TabAction, TabTransition, TabRequest, TabState, TabTransitionAction, TabRole, \
+    TabRequestAction
 
 from faker import Faker
+
 
 class TestMProcess():
     def setup_method(self):
@@ -31,9 +32,15 @@ class TestMProcess():
         self.slug = 'huio'
         self.insert()
         self.mprocess = MProcess()
-        self.state=MState()
+        self.mstate = MState()
+        self.mtrans = MTransition()
+        self.mrequest = MRequest()
+        self.maction = MAction()
+        self.mreqaction = MRequestAction()
+        self.mtransaction = MTransitionAction()
         self.fake = Faker(locale="zh_CN")
-    def tearDown(self, process_id = ''):
+
+    def tearDown(self, process_id=''):
         print("function teardown")
 
         self.mpost.delete(self.uid)
@@ -62,15 +69,6 @@ class TestMProcess():
         }
         self.mpost.add_or_update(self.uid, post_data)
 
-
-    def test_insert_2(self):
-        '''Wiki insert: Test invalid title'''
-        tt = self.mprocess.create(self.uid)
-
-        self.tearDown(tt)
-        print(tt)
-        assert tt
-
     def test_create(self):
         '''
         创建状态TabState，动作TabAction，转换Tabtransition，转换动作TransitionAction
@@ -82,16 +80,17 @@ class TestMProcess():
              'state_type': 'editor_cancelled', 'description': '编辑_取消审核'},
 
             {'uid': '535ade26-df24-11ed-b87f-898a446d722a', 'process': 'uadministrators', 'name': '管理_拒绝',
-             'state_type': 'admin_denied', 'description': '表示此状态下的任何请求已被拒绝的状态（例如，从未开始且不会被处理）'},
+             'state_type': 'admin_denied',
+             'description': '表示此状态下的任何请求已被拒绝的状态（例如，从未开始且不会被处理）'},
             {'uid': 'bcf0b7be-df26-11ed-b87f-898a446d722a', 'process': 'uadministrators', 'name': '管理_完成',
              'state_type': 'admin_complete', 'description': '表示此状态下的任何请求已正常完成的状态'},
             {'uid': 'c1e51ada-df26-11ed-b87f-898a446d722a', 'process': 'uadministrators', 'name': '管理_取消',
-             'state_type': 'admin_cancelled', 'description': '表示此状态下的任何请求已被取消的状态（例如，工作已开始但尚未完成）。'},
+             'state_type': 'admin_cancelled',
+             'description': '表示此状态下的任何请求已被取消的状态（例如，工作已开始但尚未完成）。'},
             {'uid': 'de8c9f00-df26-11ed-b87f-898a446d722a', 'process': 'uadministrators', 'name': '管理_正常',
              'state_type': 'admin_normal', 'description': '没有特殊名称的常规状态'},
             {'uid': '3e2a0b6c-df24-11ed-b87f-898a446d722a', 'process': 'uadministrators', 'name': '管理_开始',
              'state_type': 'admin_start', 'description': '每个进程只应该一个。此状态是创建新请求时所处的状态'},
-
 
         ]
 
@@ -111,17 +110,23 @@ class TestMProcess():
 
         Tabtransition = [
             {'uid': '7bb3e41c-df29-11ed-b87f-898a446d722a', 'process': 'uadministrators',
-             'current_state': '3e2a0b6c-df24-11ed-b87f-898a446d722a', 'next_state': 'de8c9f00-df26-11ed-b87f-898a446d722a'},
+             'current_state': '3e2a0b6c-df24-11ed-b87f-898a446d722a',
+             'next_state': 'de8c9f00-df26-11ed-b87f-898a446d722a'},
             {'uid': '80f868da-df29-11ed-b87f-898a446d722a', 'process': 'uadministrators',
-             'current_state': '3e2a0b6c-df24-11ed-b87f-898a446d722a', 'next_state': '535ade26-df24-11ed-b87f-898a446d722a'},
+             'current_state': '3e2a0b6c-df24-11ed-b87f-898a446d722a',
+             'next_state': '535ade26-df24-11ed-b87f-898a446d722a'},
             {'uid': '8563c63a-df29-11ed-b87f-898a446d722a', 'process': 'uadministrators',
-             'current_state': '3e2a0b6c-df24-11ed-b87f-898a446d722a', 'next_state': 'bcf0b7be-df26-11ed-b87f-898a446d722a'},
+             'current_state': '3e2a0b6c-df24-11ed-b87f-898a446d722a',
+             'next_state': 'bcf0b7be-df26-11ed-b87f-898a446d722a'},
             {'uid': '8a900678-df29-11ed-b87f-898a446d722a', 'process': 'uadministrators',
-             'current_state': '3e2a0b6c-df24-11ed-b87f-898a446d722a', 'next_state': 'c1e51ada-df26-11ed-b87f-898a446d722a'},
+             'current_state': '3e2a0b6c-df24-11ed-b87f-898a446d722a',
+             'next_state': 'c1e51ada-df26-11ed-b87f-898a446d722a'},
             {'uid': 'eb453d56-df44-11ed-b87f-898a446d722a', 'process': '1editor',
-             'current_state': '2fa8c1dc-df24-11ed-b87f-898a446d722a', 'next_state': '35b69234-df24-11ed-b87f-898a446d722a'},
+             'current_state': '2fa8c1dc-df24-11ed-b87f-898a446d722a',
+             'next_state': '35b69234-df24-11ed-b87f-898a446d722a'},
             {'uid': 'd6f3e3ba-df4f-11ed-b87f-898a446d722a', 'process': '1editor',
-             'current_state': '2fa8c1dc-df24-11ed-b87f-898a446d722a', 'next_state': '3e2a0b6c-df24-11ed-b87f-898a446d722a'}
+             'current_state': '2fa8c1dc-df24-11ed-b87f-898a446d722a',
+             'next_state': '3e2a0b6c-df24-11ed-b87f-898a446d722a'}
 
         ]
 
@@ -190,3 +195,11 @@ class TestMProcess():
         except Exception as err:
             print(repr(err))
             return False
+
+    def test_insert_2(self):
+        '''Wiki insert: Test invalid title'''
+        tt = self.mprocess.create(self.uid)
+
+        self.tearDown(tt)
+        print(tt)
+        assert tt
