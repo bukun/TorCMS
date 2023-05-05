@@ -8,6 +8,7 @@ from torcms.model.category_model import MCategory
 from torcms.model.label_model import MLabel, MPost2Label
 from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
+from torcms.handlers.post_handler import update_label,update_category
 from torcms.model.process_model import MProcess, MState, MTransition, MRequest, MAction, MRequestAction, \
     MTransitionAction, TabProcess, TabAction, TabTransition, TabRequest, TabState, TabTransitionAction, TabRole, \
     TabRequestAction
@@ -30,7 +31,7 @@ class TestMProcess():
         self.tag_id = '2342'
         self.post_id2 = '89898'
         self.slug = 'huio'
-        self.insert()
+        self.test_insert()
         self.mprocess = MProcess()
         self.mstate = MState()
         self.mtrans = MTransition()
@@ -57,20 +58,25 @@ class TestMProcess():
         if tt:
             MLabel.delete(tt.uid)
 
-    def insert(self):
+    def test_insert(self):
 
         post_data = {
             'title': self.post_title,
             'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
             'user_name': 'Tome',
             'view_count': 1,
-            'logo': '/static/',
+            'logo': '',
             'keywords': 'sdf',
             'def_cat_uid': '9101',
             'gcat0': '9101',
-            'def_cat_pid': '9100'
+            'def_cat_pid': '9100',
+            'valid': 1,
+            'kind': '9'
         }
+
         self.mpost.add_or_update(self.uid, post_data)
+        update_category(self.uid, post_data)
+
 
     def test_insert_2(self):
         '''创建流程，根据post_id: self.uid'''
@@ -97,7 +103,6 @@ class TestMProcess():
              'state_type': 'editor_start_{0}'.format(post_id), 'description': '编辑_开始审核'.format(post_id)},
             {'process': process_id, 'name': '编辑_取消审核_{0}'.format(post_id),
              'state_type': 'editor_cancelled_{0}'.format(post_id), 'description': '编辑_取消审核_{0}'.format(post_id)},
-
             {'process': process_id, 'name': '管理_拒绝_{0}'.format(post_id),
              'state_type': 'admin_denied_{0}'.format(post_id),
              'description': '表示此状态下的任何请求已被拒绝的状态(例如，从未开始且不会被处理)_{0}'.format(post_id)},
@@ -141,7 +146,7 @@ class TestMProcess():
             {'process': process_id, 'action_type': 'restart_{0}'.format(post_id),
              'name': '提交审核_{0}'.format(post_id),
              'description': '操作人将将请求移回到进程中的“开始”状态_{0}'.format(post_id)},
-            {'process': process_id, 'action_type': '编辑取消_{0}'.format(post_id),
+            {'process': process_id, 'action_type': 'editor_cancelled_{0}'.format(post_id),
              'name': '编辑取消_{0}'.format(post_id), 'description': '编辑取消_{0}'.format(post_id)}
 
         ]

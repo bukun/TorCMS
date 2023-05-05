@@ -84,5 +84,5 @@ def run_drop_tables(_):
 
     drop_the_table(TabPost)
     drop_the_table(TabMember)
-    # drop_the_table(TabProcess)
+    drop_the_table(TabProcess)
     drop_the_table(TabRole)
