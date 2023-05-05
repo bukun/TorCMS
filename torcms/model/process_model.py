@@ -690,6 +690,10 @@ class MAction:
         return TabAction.select().where(TabAction.name == name)
 
     @staticmethod
+    def get_by_action_type(action_type):
+        return TabAction.select().where(TabAction.action_type == action_type)
+
+    @staticmethod
     def get_by_id(uid):
         return TabAction.select().where(TabAction.uid == uid)
 
