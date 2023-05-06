@@ -25,6 +25,8 @@ class ProcessHandler(BaseHandler):
 
         if url_str == 'list':
             self.list()
+        elif url_arr[0] == 'chainedOptions':
+            self.chainedOptions()
 
         else:
             kwd = {
@@ -101,6 +103,22 @@ class ProcessHandler(BaseHandler):
             "msg": "ok",
             "data": {"count": counts, "rows": dics},
         }
+
+        return json.dump(out_dict, self, ensure_ascii=False)
+
+    def chainedOptions(self):
+        '''
+        Recent links.
+        '''
+
+        dics = []
+        recs = MProcess.query_all()
+
+        for rec in recs:
+            dic = {"label": rec.name, "value": rec.uid}
+
+            dics.append(dic)
+        out_dict = {"ok": True, "status": 0, 'data': dics}
 
         return json.dump(out_dict, self, ensure_ascii=False)
 

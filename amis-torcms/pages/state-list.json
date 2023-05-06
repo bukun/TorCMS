@@ -18,29 +18,26 @@
           "api": "post:/api/state/_add",
           "body": [
             {
-              "name": "ext_role0",
-              "id": "ext_role0",
-              "label": "流程：分组/角色",
-              "mode": "row",
-              "type": "chained-select",
-              "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
+              "name": "ext_process0",
+              "id": "ext_process0",
+              "label": "流程", 
+              "type": "select",
+              "source": "/api/process/chainedOptions",
               "required": true
             },
             {
-              "name": "ext_role1",
-              "id": "ext_role1",
-              "label": "流程：分组/角色",
-              "mode": "row",
-              "type": "chained-select",
-              "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4"
+              "name": "ext_process1",
+              "id": "ext_process1",
+              "label": "流程", 
+              "type": "select",
+              "source": "/api/process/chainedOptions"
             },
             {
-              "name": "ext_role2",
-              "id": "ext_role2",
-              "label": "流程：分组/角色",
-              "mode": "row",
-              "type": "chained-select",
-              "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4"
+              "name": "ext_process2",
+              "id": "ext_process2",
+              "label": "流程", 
+              "type": "select",
+              "source": "/api/process/chainedOptions"
             },
             {
               "name": "name",
@@ -95,33 +92,30 @@
                   "name": "ids"
                 },
                 {
-                  "name": "ext_role0",
-                  "id": "ext_role0",
-                  "label": "流程：分组/角色",
-                  "mode": "row",
-                  "type": "chained-select",
-                  "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
+                  "name": "ext_process0",
+                  "id": "ext_process0",
+                  "label": "流程", 
+                  "type": "select",
+                  "source": "/api/process/chainedOptions",
                   "clearable": true,
                   "searchable": true,
                   "required": true
                 },
                 {
-                  "name": "ext_role1",
-                  "id": "ext_role1",
-                  "label": "流程：分组/角色",
-                  "mode": "row",
-                  "type": "chained-select",
-                  "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
+                  "name": "ext_process1",
+                  "id": "ext_process1",
+                  "label": "流程", 
+                  "type": "select",
+                  "source": "/api/process/chainedOptions",
                   "clearable": true,
                   "searchable": true
                 },
                 {
-                  "name": "ext_role2",
-                  "id": "ext_role2",
-                  "label": "流程：分组/角色",
-                  "mode": "row",
-                  "type": "chained-select",
-                  "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
+                  "name": "ext_process2",
+                  "id": "ext_process2",
+                  "label": "流程", 
+                  "type": "select",
+                  "source": "/api/process/chainedOptions",
                   "clearable": true,
                   "searchable": true
                 }
@@ -167,7 +161,7 @@
       "columns": [
         {
           "name": "process",
-          "label": "流程：分组/角色",
+          "label": "流程",
           "type": "text",
           "value": "${process}"
         },
@@ -211,33 +205,30 @@
                       "api": "/api/state/_edit/${uid}",
                       "body": [
                         {
-                          "name": "ext_role0",
-                          "id": "ext_role0",
-                          "label": "流程：分组/角色",
-                          "mode": "row",
-                          "type": "chained-select",
-                          "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
+                          "name": "ext_process0",
+                          "id": "ext_process0",
+                          "label": "流程", 
+                          "type": "select",
+                          "source": "/api/process/chainedOptions",
                           "clearable": true,
                           "searchable": true,
                           "required": true
                         },
                         {
-                          "name": "ext_role1",
-                          "id": "ext_role1",
-                          "label": "流程：分组/角色",
-                          "mode": "row",
-                          "type": "chained-select",
-                          "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
+                          "name": "ext_process1",
+                          "id": "ext_process1",
+                          "label": "流程", 
+                          "type": "select",
+                          "source": "/api/process/chainedOptions",
                           "clearable": true,
                           "searchable": true
                         },
                         {
-                          "name": "ext_role2",
-                          "id": "ext_role2",
-                          "label": "流程：分组/角色",
-                          "mode": "row",
-                          "type": "chained-select",
-                          "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
+                          "name": "ext_process2",
+                          "id": "ext_process2",
+                          "label": "流程", 
+                          "type": "select",
+                          "source": "/api/process/chainedOptions",
                           "clearable": true,
                           "searchable": true
                         },

@@ -37,10 +37,9 @@
             {
               "name": "process",
               "id": "process",
-              "label": "流程：分组/角色",
-              "mode": "row",
-              "type": "chained-select",
-              "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
+              "label": "流程",
+              "type": "select",
+              "source": "/api/process/chainedOptions",
               "clearable": true,
               "searchable": true,
               "required": true
@@ -93,10 +92,9 @@
                 {
                   "name": "process",
                   "id": "process",
-                  "label": "流程：分组/角色",
-                  "mode": "row",
-                  "type": "chained-select",
-                  "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
+                  "label": "流程",
+                  "type": "select",
+                  "source": "/api/process/chainedOptions",
                   "required": true,
                   "clearable": true,
                   "searchable": true
@@ -153,7 +151,7 @@
       "columns": [
         {
           "name": "process",
-          "label": "流程：分组/角色",
+          "label": "流程",
           "type": "text",
           "value": "${process}"
         },
@@ -224,10 +222,9 @@
                         {
                           "name": "process",
                           "id": "process",
-                          "label": "流程：分组/角色",
-                          "mode": "row",
-                          "type": "chained-select",
-                          "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
+                          "label": "流程",
+                          "type": "select",
+                          "source": "/api/process/chainedOptions",
                           "required": true
                         },
                         {

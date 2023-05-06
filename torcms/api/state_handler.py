@@ -144,13 +144,13 @@ class StateHandler(BaseHandler):
 
         post_data = json.loads(self.request.body)
 
-        if 'ext_role0' in post_data:
+        if 'ext_process0' in post_data:
             pass
         else:
             return False
 
         the_roles_arr = []
-        def_roles_arr = ['ext_role{0}'.format(x) for x in range(10)]
+        def_roles_arr = ['ext_process{0}'.format(x) for x in range(10)]
         for key in def_roles_arr:
             if key not in post_data:
                 continue
@@ -203,13 +203,13 @@ class StateHandler(BaseHandler):
         post_data = json.loads(self.request.body)
 
         ids = post_data.get("ids", "").split(",")
-        if 'ext_role0' in post_data:
+        if 'ext_process0' in post_data:
             pass
         else:
             return False
 
         the_roles_arr = []
-        def_roles_arr = ['ext_role{0}'.format(x) for x in range(10)]
+        def_roles_arr = ['ext_process{0}'.format(x) for x in range(10)]
         for key in def_roles_arr:
             if key not in post_data:
                 continue
@@ -258,14 +258,14 @@ class StateHandler(BaseHandler):
         '''
 
         post_data = json.loads(self.request.body)
-        if 'ext_role0' in post_data:
+        if 'ext_process0' in post_data:
             pass
         else:
             return False
 
         the_roles_arr = []
 
-        def_roles_arr = ['ext_role{0}'.format(x) for x in range(10)]
+        def_roles_arr = ['ext_process{0}'.format(x) for x in range(10)]
         for key in def_roles_arr:
             if key not in post_data:
                 continue
