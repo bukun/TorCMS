@@ -345,7 +345,7 @@ class MTransition:
                     TabTransition.process == pro_id))
 
         )
-        if query.count()>0:
+        if query.count() > 0:
             return query
         else:
             return None
@@ -386,17 +386,22 @@ class MTransition:
 
     @staticmethod
     def delete_by_state(state_id):
-        entry = TabTransition.delete().where(
+        recs = TabTransition.select().where(
             (TabTransition.current_state == state_id) or (
                     TabTransition.next_state == state_id)
         )
+        for rec in recs:
+            MTransitionAction.delete_by_trans(rec.uid)
+            MRequestAction.delete_by_trans(rec.uid)
 
-        try:
-            entry.execute()
-            return True
-        except Exception as err:
-            print(repr(err))
-            return False
+            entry = TabTransition.delete().where(TabTransition.uid == rec.uid)
+
+            try:
+                entry.execute()
+                return True
+            except Exception as err:
+                print(repr(err))
+                return False
 
     @staticmethod
     def delete(uid):

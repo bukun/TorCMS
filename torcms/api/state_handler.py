@@ -315,6 +315,10 @@ class StateHandler(BaseHandler):
     def delete(self, state_id):
         '''
         delete user by ID.
+        transaction delete by trans
+        requestaction delete by trans
+        trans delete by state
+        state delete by state
         '''
         MTransition.delete_by_state(state_id)
 
