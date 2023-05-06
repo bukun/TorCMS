@@ -219,6 +219,10 @@ class TestMProcess():
         # assert trans_act
 
     def test_create_request(self, process_id='', post_id=''):
+        '''
+        创建请求以及请求对应状态的相关动作
+        '''
+
         # 获取“开始”状态ID
         if post_id:
             state_type = 'start_{0}'.format(post_id)
@@ -228,9 +232,8 @@ class TestMProcess():
                 req_id = MRequest.create(process_id, self.uid, self.user_id, cur_state.uid)
                 # trans_id=MTransition.query_by_state(cur_state.name)
 
-                #创建请求操作
+                # 创建请求操作
                 cur_actions = MTransitionAction.get_by_action_state(process_id, cur_state.uid)
                 for cur_act in cur_actions:
                     MRequestAction.create(req_id, cur_act['action'], cur_act['transition'])
-
-
+    
