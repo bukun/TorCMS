@@ -152,7 +152,7 @@ class TransitionHandler(BaseHandler):
             return False
 
         process = post_data["process"]
-        exis_rec = MTransition.query_by_cur_next(process, cur_state, next_state)
+        exis_rec = MTransition.get_by_cur_next(process, cur_state, next_state)
         if exis_rec.count() > 0:
 
             output = {

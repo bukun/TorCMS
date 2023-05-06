@@ -8,6 +8,7 @@ from torcms.model.category_model import MCategory
 from torcms.model.label_model import MLabel, MPost2Label
 from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
+from torcms.model.user_model import MUser
 from torcms.handlers.post_handler import update_label, update_category
 from torcms.model.process_model import MProcess, MState, MTransition, MRequest, MAction, MRequestAction, \
     MTransitionAction, TabProcess, TabAction, TabTransition, TabRequest, TabState, TabTransitionAction, TabRole, \
@@ -18,6 +19,7 @@ from faker import Faker
 
 class TestMProcess():
     def setup_method(self):
+
         print('setup 方法执行于本类中每条用例之前')
         self.mpost = MPost()
         self.m2c = MPost2Catalog()
@@ -40,6 +42,7 @@ class TestMProcess():
         self.mreqaction = MRequestAction()
         self.mtransaction = MTransitionAction()
         self.state_arr = {}
+        self.user_id = MUser.get_by_name('admin').uid
         self.fake = Faker(locale="zh_CN")
 
     def tearDown(self, process_id=''):
@@ -81,7 +84,6 @@ class TestMProcess():
         '''创建流程，根据post_id: self.uid'''
         process_id = self.mprocess.create(self.uid)
         if process_id:
-
             # 创建动作
             self.test_create_action(process_id, self.uid)
 
@@ -90,6 +92,10 @@ class TestMProcess():
 
             # 创建状态转换
             self.test_create_trans(process_id, self.state_arr, self.uid)
+            print(self.user_id)
+
+            # 创建请求
+            self.test_create_request(process_id, self.uid)
 
         # self.tearDown(process_id)
         # print(process_id)
@@ -119,14 +125,11 @@ class TestMProcess():
 
         ]
 
-
         for state_data in state_datas:
             state_uid = MState.create(state_data)
-            self.state_arr[state_data['state_type']]= state_uid
+            self.state_arr[state_data['state_type']] = state_uid
 
         assert self.state_arr
-
-
 
     def test_create_action(self, process_id='', post_id=''):
         '''
@@ -156,7 +159,6 @@ class TestMProcess():
             action_uids.append(act_uid)
         assert action_uids
 
-
     def test_create_trans(self, process_id='', state_arr={}, post_id=''):
         '''
          转换Tabtransition
@@ -173,8 +175,6 @@ class TestMProcess():
             act_resolve = MAction.get_by_action_type(resolve).get().uid
             act_restart = MAction.get_by_action_type(restart).get().uid
             act_approve = MAction.get_by_action_type(approve).get().uid
-
-
 
             trans = [
                 # 状态：“开始”对应的“拒绝”，“完成”，“取消”
@@ -217,3 +217,14 @@ class TestMProcess():
 
         trans_act = MTransitionAction.create(trans_id, actid)
         # assert trans_act
+
+    def test_create_request(self, process_id='', post_id=''):
+        # 获取“开始”状态ID
+        if post_id:
+            state_type = 'start_{0}'.format(post_id)
+            cur_state = MState.get_by_state_type(state_type)
+            if cur_state:
+                # 创建请求
+                req_id = MRequest.create(process_id, self.uid, self.user_id, cur_state.uid)
+
+        # MRequestAction.create(req_id, action_id, transition_id)

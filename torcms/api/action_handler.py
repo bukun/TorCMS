@@ -7,8 +7,7 @@ import json
 import tornado.web
 from torcms.core import tools, privilege
 from torcms.core.base_handler import BaseHandler
-from torcms.model.process_model import MAction, MTransition, MRequestAction, MTransitionAction, MState,MProcess
-
+from torcms.model.process_model import MAction, MTransition, MRequestAction, MTransitionAction, MState, MProcess
 
 
 class ActionHandler(BaseHandler):
@@ -137,7 +136,7 @@ class ActionHandler(BaseHandler):
         transition = post_data["transition"]
         process = post_data["process"]
 
-        exis_rec = MAction.query_by_pro_actname(transition, post_data['name'])
+        exis_rec = MAction.get_by_pro_actname(transition, post_data['name'])
 
         if exis_rec.count() > 0:
 
@@ -191,7 +190,7 @@ class ActionHandler(BaseHandler):
         transition = post_data["transition"]
         process = post_data["process"]
 
-        exis_rec = MAction.query_by_pro_actname(transition, post_data['name'])
+        exis_rec = MAction.get_by_pro_actname(transition, post_data['name'])
         # trans_extis_rec = MTransitionAction.query_by_trans_act(transition, uid)
         if exis_rec.count() > 0:
 
@@ -242,7 +241,7 @@ class ActionHandler(BaseHandler):
             transition = post_data["transition"]
             process = post_data["process"]
 
-            trans_extis_rec = MTransitionAction.query_by_trans_act(transition, uid)
+            trans_extis_rec = MTransitionAction.get_by_trans_act(transition, uid)
 
             if trans_extis_rec.count() > 0:
                 output = {

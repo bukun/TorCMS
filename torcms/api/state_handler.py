@@ -165,7 +165,7 @@ class StateHandler(BaseHandler):
 
         for process in the_roles_arr:
 
-            exis_rec = MState.query_by_pro_statename(process, post_data['name'])
+            exis_rec = MState.get_by_pro_statename(process, post_data['name'])
 
             if exis_rec.count() > 0:
 
@@ -224,7 +224,7 @@ class StateHandler(BaseHandler):
         for uid in ids:
             for process in the_roles_arr:
                 rec = MState.get_by_uid(uid).get()
-                exis_rec = MState.query_by_pro_statename(process, rec.name)
+                exis_rec = MState.get_by_pro_statename(process, rec.name)
 
                 if exis_rec.count() > 0:
                     output = {
@@ -282,7 +282,7 @@ class StateHandler(BaseHandler):
 
             post_data["process"] = process
 
-            exis_rec = MState.query_by_pro_statename(process, post_data['name'])
+            exis_rec = MState.get_by_pro_statename(process, post_data['name'])
             if exis_rec.count() > 0:
                 print("*" * 50)
                 print(exis_rec.count())
@@ -294,8 +294,8 @@ class StateHandler(BaseHandler):
                 }
 
             else:
-                pro_rec = MProcess.get_by_uid(process)
-                state_uid = MState.create(post_data, pro_rec.name)
+
+                state_uid = MState.create(post_data)
                 if state_uid:
 
                     output = {

@@ -106,6 +106,7 @@ class TabRequest(BaseModel):
         help_text='',
     )
     process = peewee.ForeignKeyField(TabProcess, backref='process', help_text='')
+    current_state = peewee.ForeignKeyField(TabState, backref='cur_state', help_text='')
     post = peewee.ForeignKeyField(TabPost, backref='post')
     user = peewee.ForeignKeyField(TabMember, backref='user')
     time_create = peewee.IntegerField()
@@ -133,7 +134,7 @@ class MTransitionAction:
 
     @staticmethod
     def create(transition_id, action_id):
-        rec = MTransitionAction.query_by_trans_act(transition_id, action_id)
+        rec = MTransitionAction.get_by_trans_act(transition_id, action_id)
         if rec.count() > 0:
             return False
         else:
@@ -165,7 +166,7 @@ class MTransitionAction:
             return False
 
     @staticmethod
-    def query_by_trans_act(trans_id, act_id):
+    def get_by_trans_act(trans_id, act_id):
         return TabTransitionAction.select().where(
             (TabTransitionAction.transition == trans_id) &
             (TabTransitionAction.action == act_id))
@@ -186,7 +187,7 @@ class MTransitionAction:
         return TabTransitionAction.select()
 
     @staticmethod
-    def query_by_action_state(pro_id, state_id):
+    def get_by_action_state(pro_id, state_id):
         query = (
             TabTransitionAction.select(TabTransitionAction.transition,
                                        TabTransitionAction.action)
@@ -267,6 +268,7 @@ class MProcess:
         Get a link by ID.
         '''
         return TabProcess.select().where(TabProcess.uid == uid)
+
     @staticmethod
     def query_all():
         return TabProcess.select()
@@ -357,7 +359,7 @@ class MTransition:
         return TabTransition.select().where(TabTransition.uid == uid)
 
     @staticmethod
-    def query_by_cur_next(pro_id, cur_state, next_state):
+    def get_by_cur_next(pro_id, cur_state, next_state):
         return TabTransition.select().where(
             (TabTransition.process == pro_id) &
             (TabTransition.current_state == cur_state) &
@@ -367,8 +369,8 @@ class MTransition:
     @staticmethod
     def query_by_proid_state(pro_id, state_id):
         return TabTransition.select().where(
-            (TabTransition.process == pro_id) & (
-                    TabTransition.current_state == state_id))
+            (TabTransition.process == pro_id) &
+            (TabTransition.current_state == state_id))
 
     @staticmethod
     def query_by_state(state):
@@ -486,7 +488,7 @@ class MRequestAction:
         return TabRequestAction.select().where(TabRequestAction.action == act_id)
 
     @staticmethod
-    def query_by_action_request(act_id, request_id):
+    def get_by_action_request(act_id, request_id):
         return TabRequestAction.select().where(
             (TabRequestAction.action == act_id) & (
                     TabRequestAction.request == request_id))
@@ -532,7 +534,7 @@ class MRequestAction:
 class MRequest:
 
     @staticmethod
-    def create(pro_id, post_id, user_id):
+    def create(pro_id, post_id, user_id, cur_state_id):
         try:
             uid = tools.get_uuid()
             TabRequest.create(
@@ -540,6 +542,7 @@ class MRequest:
                 process=pro_id,
                 post=post_id,
                 user=user_id,
+                current_state=cur_state_id,
                 time_create=tools.timestamp()
             )
             return uid
@@ -616,7 +619,7 @@ class MAction:
 
     @staticmethod
     def create(pro_id, action):
-        rec = MAction.query_by_name(action.get('name'))
+        rec = MAction.get_by_name(action.get('name'))
         if rec.count() > 0:
             return False
         else:
@@ -686,7 +689,7 @@ class MAction:
         return TabAction.select()
 
     @staticmethod
-    def query_by_name(name):
+    def get_by_name(name):
         return TabAction.select().where(TabAction.name == name)
 
     @staticmethod
@@ -702,7 +705,7 @@ class MAction:
         return TabAction.select().where(TabAction.process == pro_id)
 
     @staticmethod
-    def query_by_pro_actname(pro_id, act_name):
+    def get_by_pro_actname(pro_id, act_name):
         return TabAction.select().where(
             (TabAction.process == pro_id) & (TabAction.name == act_name))
 
@@ -757,7 +760,7 @@ class MState:
         return TabState.select().where(TabState.process == pro_id)
 
     @staticmethod
-    def query_by_pro_statename(pro_id, name):
+    def get_by_pro_statename(pro_id, name):
         '''
         Get a link by ID.
         '''
@@ -772,12 +775,23 @@ class MState:
         return TabState.select().where(TabState.uid == uid)
 
     @staticmethod
-    def query_by_name(state_name):
+    def get_by_name(state_name):
         '''
         Get a link by ID.
         '''
         res = TabState.select().where(TabState.name == state_name)
         return res.get().uid
+
+    @staticmethod
+    def get_by_state_type(state_type):
+        '''
+        Get a link by ID.
+        '''
+        res = TabState.select().where(TabState.state_type == state_type)
+        if res.count() > 0:
+            return res.get()
+        else:
+            return None
 
     @staticmethod
     def query_all():
@@ -843,8 +857,8 @@ class MState:
                 uid=uid,
                 process=post_data.get('process'),
                 name=post_data.get('name'),
-                state_type= post_data.get('state_type'),
-                description= post_data.get('description', '')
+                state_type=post_data.get('state_type'),
+                description=post_data.get('description', '')
             )
 
             return uid

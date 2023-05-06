@@ -75,7 +75,7 @@ class ApiPostHandler(PostHandler):
         cur_pro = MAction.get_by_id(act_id).get()
 
         # 提交的Action与其中一个（is_active = true）的活动RequestActions匹配，设置 is_active = false 和 is_completed = true
-        reqact = MRequestAction.query_by_action_request(act_id, request_id).get()
+        reqact = MRequestAction.get_by_action_request(act_id, request_id).get()
         print("*" * 50)
 
         if reqact.is_active:
@@ -106,10 +106,10 @@ class ApiPostHandler(PostHandler):
                 return json.dump(output, self)
             else:
 
-                # 创建新请求
+                # 创建新请求 #state_id需要传递
                 new_request_id = MRequest.create(cur_pro.process, post_id, self.userinfo.uid)
                 # 创建新的请求动作
-                cur_actions = MTransitionAction.query_by_action_state(cur_pro.process, state.uid)
+                cur_actions = MTransitionAction.get_by_action_state(cur_pro.process, state.uid)
                 print("s" * 50)
                 print(cur_actions)
                 for cur_act in cur_actions:
@@ -147,7 +147,7 @@ class ApiPostHandler(PostHandler):
         print(ttinfo)
         role = ttinfo.get()
         if role:
-
+            # state_id需要传递
             request_id = MRequest.create(role['uid'], post_id, self.userinfo.uid)
 
             # 根据当前角色返回相应状态ID#
@@ -157,7 +157,7 @@ class ApiPostHandler(PostHandler):
                 state_name = state.name
                 state_arr.append(state_name)
 
-                cur_actions = MTransitionAction.query_by_action_state(role['uid'], state.uid)
+                cur_actions = MTransitionAction.get_by_action_state(role['uid'], state.uid)
                 for cur_act in cur_actions:
                     MRequestAction.create(request_id, cur_act['action'], cur_act['transition'])
 
