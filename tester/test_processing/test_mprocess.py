@@ -226,5 +226,11 @@ class TestMProcess():
             if cur_state:
                 # 创建请求
                 req_id = MRequest.create(process_id, self.uid, self.user_id, cur_state.uid)
+                # trans_id=MTransition.query_by_state(cur_state.name)
 
-        # MRequestAction.create(req_id, action_id, transition_id)
+                #创建请求操作
+                cur_actions = MTransitionAction.get_by_action_state(process_id, cur_state.uid)
+                for cur_act in cur_actions:
+                    MRequestAction.create(req_id, cur_act['action'], cur_act['transition'])
+
+
