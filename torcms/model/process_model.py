@@ -187,7 +187,7 @@ class MTransitionAction:
         return TabTransitionAction.select()
 
     @staticmethod
-    def get_by_action_state(pro_id, state_id):
+    def query_by_pro_state(pro_id, state_id):
         query = (
             TabTransitionAction.select(TabTransitionAction.transition,
                                        TabTransitionAction.action)
@@ -345,7 +345,10 @@ class MTransition:
                     TabTransition.process == pro_id))
 
         )
-        return query
+        if query.count()>0:
+            return query
+        else:
+            return None
 
     @staticmethod
     def query_by_proid(pro_id):
@@ -489,9 +492,13 @@ class MRequestAction:
 
     @staticmethod
     def get_by_action_request(act_id, request_id):
-        return TabRequestAction.select().where(
-            (TabRequestAction.action == act_id) & (
-                    TabRequestAction.request == request_id))
+        rec = TabRequestAction.select().where(
+            (TabRequestAction.action == act_id) &
+            (TabRequestAction.request == request_id))
+        if rec.count() > 0:
+            return rec.get()
+        else:
+            return None
 
     @staticmethod
     def query_by_postid(post_id):
@@ -563,6 +570,19 @@ class MRequest:
             .switch(TabRequest)
             .join(TabMember, JOIN.INNER)
             .where((TabMember.user_name == user_name) & (TabPost.uid == post_id))
+        )
+        if query.count() > 0:
+            return query.get()
+        else:
+            return None
+
+    @staticmethod
+    def get_by_pro_state(pro_id, state_id):
+
+        query = (
+            TabRequest.select()
+
+            .where((TabRequest.process == pro_id) & (TabRequest.current_state == state_id))
         )
         if query.count() > 0:
             return query.get()
@@ -694,7 +714,11 @@ class MAction:
 
     @staticmethod
     def get_by_action_type(action_type):
-        return TabAction.select().where(TabAction.action_type == action_type)
+        rec = TabAction.select().where(TabAction.action_type == action_type)
+        if rec.count() > 0:
+            return rec.get()
+        else:
+            return None
 
     @staticmethod
     def get_by_id(uid):

@@ -7,8 +7,7 @@ import json
 import tornado.web
 from torcms.core import tools, privilege
 from torcms.core.base_handler import BaseHandler
-from torcms.model.process_model import MState, MTransition,MProcess
-
+from torcms.model.process_model import MState, MTransition, MProcess
 
 
 class StateHandler(BaseHandler):

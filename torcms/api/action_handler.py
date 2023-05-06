@@ -95,22 +95,23 @@ class ActionHandler(BaseHandler):
 
         for rec in recs:
             process = MProcess.get_by_uid(rec.process).get()
-            trans_rec = MTransition.query_by_action(rec.uid, rec.process).get()
+            trans_rec = MTransition.query_by_action(rec.uid, rec.process)
 
-            cur_state = MState.get_by_uid(trans_rec.current_state).get()
-            next_state = MState.get_by_uid(trans_rec.next_state).get()
-            trans_name = cur_state.name + ' - ' + next_state.name
+            if trans_rec:
+                cur_state = MState.get_by_uid(trans_rec.get().current_state).get()
+                next_state = MState.get_by_uid(trans_rec.get().next_state).get()
+                trans_name = cur_state.name + ' - ' + next_state.name
 
-            dic = {
-                "uid": rec.uid,
-                "name": rec.name,
-                "action_type": rec.action_type,
-                "description": rec.description,
-                "process": process.name,
-                "transition": trans_name
-            }
+                dic = {
+                    "uid": rec.uid,
+                    "name": rec.name,
+                    "action_type": rec.action_type,
+                    "description": rec.description,
+                    "process": process.name,
+                    "transition": trans_name
+                }
 
-            dics.append(dic)
+                dics.append(dic)
         out_dict = {
             "ok": True,
             "status": 0,

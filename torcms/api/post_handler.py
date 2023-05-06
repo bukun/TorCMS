@@ -109,7 +109,7 @@ class ApiPostHandler(PostHandler):
                 # 创建新请求 #state_id需要传递
                 new_request_id = MRequest.create(cur_pro.process, post_id, self.userinfo.uid)
                 # 创建新的请求动作
-                cur_actions = MTransitionAction.get_by_action_state(cur_pro.process, state.uid)
+                cur_actions = MTransitionAction.query_by_pro_state(cur_pro.process, state.uid)
                 print("s" * 50)
                 print(cur_actions)
                 for cur_act in cur_actions:
@@ -157,7 +157,7 @@ class ApiPostHandler(PostHandler):
                 state_name = state.name
                 state_arr.append(state_name)
 
-                cur_actions = MTransitionAction.get_by_action_state(role['uid'], state.uid)
+                cur_actions = MTransitionAction.query_by_pro_state(role['uid'], state.uid)
                 for cur_act in cur_actions:
                     MRequestAction.create(request_id, cur_act['action'], cur_act['transition'])
 

@@ -80,9 +80,14 @@ class TestMProcess():
         self.mpost.add_or_update(self.uid, post_data)
         update_category(self.uid, post_data)
 
-    def test_insert_2(self):
+    def test_insert_2(self, state_id='', post_id=''):
         '''创建流程，根据post_id: self.uid'''
-        process_id = self.mprocess.create(self.uid)
+        if post_id:
+            post_id = post_id
+        else:
+            post_id = self.uid
+        pro_name = post_id + state_id
+        process_id = self.mprocess.create(pro_name)
         if process_id:
             # 创建动作
             self.test_create_action(process_id, self.uid)
@@ -170,11 +175,11 @@ class TestMProcess():
             restart = 'restart_' + post_id
             approve = 'approve_' + post_id
 
-            act_deny = MAction.get_by_action_type(deny).get().uid
-            act_cancel = MAction.get_by_action_type(cancel).get().uid
-            act_resolve = MAction.get_by_action_type(resolve).get().uid
-            act_restart = MAction.get_by_action_type(restart).get().uid
-            act_approve = MAction.get_by_action_type(approve).get().uid
+            act_deny = MAction.get_by_action_type(deny).uid
+            act_cancel = MAction.get_by_action_type(cancel).uid
+            act_resolve = MAction.get_by_action_type(resolve).uid
+            act_restart = MAction.get_by_action_type(restart).uid
+            act_approve = MAction.get_by_action_type(approve).uid
 
             trans = [
                 # 状态：“开始”对应的“拒绝”，“完成”，“取消”
@@ -202,13 +207,12 @@ class TestMProcess():
             ]
 
             for tran in trans:
-                print(tran)
                 tran_id = MTransition.create(process_id, tran['current_state'], tran['next_state'])
 
                 # 创建转换动作
                 self.test_create_transaction(tran_id, tran['act_id'])
 
-            assert True
+            # assert True
 
     def test_create_transaction(self, trans_id='', actid=''):
         '''
@@ -233,7 +237,57 @@ class TestMProcess():
                 # trans_id=MTransition.query_by_state(cur_state.name)
 
                 # 创建请求操作
-                cur_actions = MTransitionAction.get_by_action_state(process_id, cur_state.uid)
+                cur_actions = MTransitionAction.query_by_pro_state(process_id, cur_state.uid)
                 for cur_act in cur_actions:
                     MRequestAction.create(req_id, cur_act['action'], cur_act['transition'])
-    
+
+                # 进行请求操作
+                self.test_request_action(process_id, cur_state.uid)
+
+    def test_request_action(self, process_id='', cur_state_id=''):
+        '''
+        进行请求操作
+        '''
+
+        request_id = MRequest.get_by_pro_state(process_id, cur_state_id)
+        post_id = self.uid
+        user_id = self.user_id
+        act_type = 'approve_{0}'.format(post_id)
+        cur_act = MAction.get_by_action_type(act_type)
+        print("1" * 50)
+        print(request_id)
+        if cur_act:
+            print("2" * 50)
+            print(cur_act.uid)
+            print(request_id)
+            # 提交的Action与其中一个（is_active = true）的活动RequestActions匹配，设置 is_active = false 和 is_completed = true
+            reqact = MRequestAction.get_by_action_request(cur_act.uid, request_id)
+            print("3" * 50)
+            if reqact:
+                if reqact.is_active:
+                    # 更新操作动态
+                    print("gengxin")
+                    MRequestAction.update_by_action(cur_act.uid, request_id)
+                # 查询该请求中该转换的所有动作是否都为True
+                istrues = MRequestAction.query_by_request_trans(request_id, reqact.transition).get()
+                print(istrues)
+                if istrues.is_complete:
+                    # 禁用该请求下其它动作
+                    MRequestAction.update_by_action_reqs(cur_act.uid, request_id)
+                    # 转到下一状态
+                    trans = MTransition.get_by_uid(reqact.transition).get()
+                    new_state = MState.get_by_uid(trans.next_state).get()
+                    if new_state.state_type.startswith('normal_'):
+                        print("完成" * 5)
+                        MPost.update_valid(post_id)
+
+                    else:
+                        act_arr = []
+                        acts = MTransitionAction.query_by_pro_state(process_id, new_state.uid)
+                        for act in acts:
+                            act_arr.append({'trans': act['transition'], 'act': act['action']})
+                        dics = {'new_state_id': new_state.uid, 'new_actarr': act_arr}
+                        print("4" * 50)
+                        print(dics)
+                        self.test_insert_2(new_state.uid, post_id)
+
