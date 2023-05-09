@@ -211,11 +211,11 @@
 
                         {% else %}
                         <div class="col-sm-12 bor_bottom">
-                            {% if postinfo.valid != 1 %}
+
                                   {% module post_state(postinfo = postinfo,userinfo = userinfo,kind = postinfo.kind) %}
 
                              <br>
- {% end %}
+
                              {% if userinfo %}
                 {% module collect(userinfo.uid, postinfo.uid,en=True) %}
                              <br>

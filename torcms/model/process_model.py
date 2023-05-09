@@ -172,6 +172,10 @@ class MTransitionAction:
             (TabTransitionAction.action == act_id))
 
     @staticmethod
+    def get_by_trans(trans_id):
+        return TabTransitionAction.select().where(TabTransitionAction.transition == trans_id)
+
+    @staticmethod
     def get_by_uid(uid):
         '''
         Get a link by ID.
@@ -262,6 +266,14 @@ class MProcess:
             print(repr(err))
             return False
 
+
+
+    @staticmethod
+    def query_by_name(name):
+        '''
+        Get a link by name.
+        '''
+        return TabProcess.select().where(TabProcess.name.startswith(name))
     @staticmethod
     def get_by_uid(uid):
         '''
@@ -390,8 +402,13 @@ class MTransition:
             (TabTransition.current_state == state_id) or (
                     TabTransition.next_state == state_id)
         )
+        print("*" * 50)
+        print(recs.count())
         for rec in recs:
-            MTransitionAction.delete_by_trans(rec.uid)
+            tran_act = MTransitionAction.get_by_trans(rec.uid).get()
+            MAction.delete(tran_act.action)
+            MTransitionAction.delete_by_trans(tran_act.uid)
+
             MRequestAction.delete_by_trans(rec.uid)
 
             entry = TabTransition.delete().where(TabTransition.uid == rec.uid)
@@ -401,7 +418,7 @@ class MTransition:
                 return True
             except Exception as err:
                 print(repr(err))
-                return False
+                pass
 
     @staticmethod
     def delete(uid):
@@ -594,7 +611,15 @@ class MRequest:
         else:
             return None
 
+    @staticmethod
+    def get_by_pro(pro_id):
 
+        query = TabRequest.select().where(TabRequest.process == pro_id)
+
+        if query.count() > 0:
+            return query.get()
+        else:
+            return None
 #
 # class MStateAction:
 #     @staticmethod

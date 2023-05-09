@@ -317,8 +317,10 @@ class StateHandler(BaseHandler):
         delete user by ID.
         transaction delete by trans
         requestaction delete by trans
+        action delete by trans
         trans delete by state
         state delete by state
+
         '''
         MTransition.delete_by_state(state_id)
 
