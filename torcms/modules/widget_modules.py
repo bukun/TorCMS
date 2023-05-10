@@ -349,16 +349,18 @@ class State(tornado.web.UIModule):
         # post_authority = config.post_cfg[kind]['checker']
 
 
-        #根据post查询最新
+        #根据post查询最新流程
         cur_pro=MProcess.query_by_name(postinfo.uid)
+        print("4" * 50)
+
+
+
 
         if cur_pro.count() > 0:
             process_id=cur_pro.get().uid
 
             ##查询当前用户的请求
             request_rec = MRequest.get_by_pro(process_id)
-
-
 
             act_arr = []
             if request_rec:
@@ -372,8 +374,19 @@ class State(tornado.web.UIModule):
                     act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": request_rec.uid}
                     act_arr.append(act_dic)
             else:
-                cur_state_id=''
 
+
+                cur_state_id = MState.get_by_state_type('normal_' + postinfo.uid)
+                print("*" * 50)
+                print(cur_state_id)
+                act_recs = MTransitionAction.query_by_pro_state(process_id, cur_state_id)
+                act_arr = []
+                for act in act_recs:
+                    act_rec = MAction.get_by_id(act['action']).get()
+
+                    print(act_rec.name)
+                    act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": ''}
+                    act_arr.append(act_dic)
 
 
         else:
@@ -388,10 +401,21 @@ class State(tornado.web.UIModule):
 
             # 创建状态转换
             self.test_create_trans(process_id, state_dic, postinfo.uid)
+            cur_state_id=MState.get_by_state_type('normal_' + postinfo.uid)
+            print("*" * 50)
+            print(cur_state_id)
+            act_recs=MTransitionAction.query_by_pro_state(process_id, cur_state_id)
+            act_arr = []
+            for act in act_recs:
 
+                act_rec = MAction.get_by_id(act['action']).get()
+
+                print(act_rec.name)
+                act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": ''}
+                act_arr.append(act_dic)
 
             # 创建请求
-            act_arr,cur_state_id=self.test_create_request(process_id, postinfo.uid,userinfo.uid)
+            # act_arr,cur_state_id=self.test_create_request(process_id, postinfo.uid,userinfo.uid)
 
         kwd = {
             'router': config.post_cfg[kind]['router'],
@@ -405,7 +429,8 @@ class State(tornado.web.UIModule):
             userinfo=userinfo,
             kwd=kwd,
             action_arr=act_arr,
-            cur_state_id=cur_state_id
+            cur_state_id=cur_state_id,
+            process_id=process_id
         )
 
     def test_create_state(self, process_id, post_id):
@@ -448,9 +473,6 @@ class State(tornado.web.UIModule):
             {'action_type': 'cancel_{0}'.format(post_id),
              'name': '取消_{0}'.format(post_id),
              'description': '操作人将请求应在此过程中移至“已取消”状态_{0}'.format(post_id)},
-            {'action_type': 'resolve_{0}'.format(post_id),
-             'name': '完成_{0}'.format(post_id),
-             'description': '操作人将将请求一直移动到Completed状态_{0}'.format(post_id)},
             {'action_type': 'approve_{0}'.format(post_id),
              'name': '通过_{0}'.format(post_id), 'description': '操作人将请求应移至下一个状态_{0}'.format(post_id)},
             {'action_type': 'restart_{0}'.format(post_id),
@@ -472,17 +494,19 @@ class State(tornado.web.UIModule):
         if post_id:
             deny = 'deny_' + post_id
             cancel = 'cancel_' + post_id
-            resolve = 'resolve_' + post_id
             restart = 'restart_' + post_id
             approve = 'approve_' + post_id
 
             act_deny = MAction.get_by_action_type(deny).uid
             act_cancel = MAction.get_by_action_type(cancel).uid
-            act_resolve = MAction.get_by_action_type(resolve).uid
             act_restart = MAction.get_by_action_type(restart).uid
             act_approve = MAction.get_by_action_type(approve).uid
 
             trans = [
+                # 状态：“正常”对应的“开始”
+                {'current_state': state_dic['normal_{}'.format(post_id)],
+                 'next_state': state_dic['start_{}'.format(post_id)], 'act_id': act_restart},
+
                 # 状态：“开始”对应的“拒绝”，“完成”，“取消”
                 {'current_state': state_dic['start_{}'.format(post_id)],
                  'next_state': state_dic['denied_{}'.format(post_id)], 'act_id': act_deny},
@@ -490,10 +514,6 @@ class State(tornado.web.UIModule):
                  'next_state': state_dic['complete_{}'.format(post_id)], 'act_id': act_approve},
                 {'current_state': state_dic['start_{}'.format(post_id)],
                  'next_state': state_dic['cancelled_{}'.format(post_id)], 'act_id': act_cancel},
-
-                # 状态：“完成”对应的“正常”
-                {'current_state': state_dic['complete_{}'.format(post_id)],
-                 'next_state': state_dic['normal_{}'.format(post_id)], 'act_id': act_resolve},
 
                 # 状态：“取消”对应的“拒绝”，“完成”
                 {'current_state': state_dic['cancelled_{}'.format(post_id)],

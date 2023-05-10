@@ -57,6 +57,28 @@ class ApiPostHandler(PostHandler):
         else:
             self.redirect('misc/html/404.html')
 
+    def create_request(self, process_id, post_id, user_id):
+        '''
+        创建请求以及请求对应状态的相关动作
+        '''
+
+        # 获取“开始”状态ID
+
+        state_type = 'start_{0}'.format(post_id)
+        cur_state = MState.get_by_state_type(state_type)
+        if cur_state:
+            # 创建请求
+            req_id = MRequest.create(process_id, post_id, user_id, cur_state.uid)
+
+            # 创建请求操作
+            cur_actions = MTransitionAction.query_by_pro_state(process_id, cur_state.uid)
+            act_arr = []
+            for cur_act in cur_actions:
+                MRequestAction.create(req_id, cur_act['action'], cur_act['transition'])
+                act = MAction.get_by_id(cur_act['action']).get()
+                if act.action_type.startswith('restart'):
+                    act_arr.append({"act_name": act.name, "act_uid": cur_act['action'], "request_id": req_id})
+            return act_arr, cur_state.uid
     def submit_action(self):
 
         post_data = {}
@@ -67,73 +89,80 @@ class ApiPostHandler(PostHandler):
         post_id = post_data['post_id']
         user_id = post_data['user_id']
         act_id = post_data['act_id']
+        state_id = post_data['state_id']
+        process_id = post_data['process_id']
+
         print("-" * 50)
+        ##
         print(act_id)
         print(request_id)
+        if request_id:
 
-        # 根据当前动作获取流程（role/process）ID
-        cur_pro = MAction.get_by_id(act_id).get()
+            # 提交的Action与其中一个（is_active = true）的活动RequestActions匹配，设置 is_active = false 和 is_completed = true
+            reqact = MRequestAction.get_by_action_request(act_id, request_id).get()
+            print("*" * 50)
 
-        # 提交的Action与其中一个（is_active = true）的活动RequestActions匹配，设置 is_active = false 和 is_completed = true
-        reqact = MRequestAction.get_by_action_request(act_id, request_id).get()
-        print("*" * 50)
-
-        if reqact.is_active:
-            # 更新操作动态
-            print("gengxin")
-            MRequestAction.update_by_action(act_id, request_id)
+            if reqact.is_active:
+                # 更新操作动态
+                print("gengxin")
+                MRequestAction.update_by_action(act_id, request_id)
 
 
-        # 查询该请求中该转换的所有动作是否都为True
-        istrues = MRequestAction.query_by_request_trans(request_id, reqact.transition).get()
-        print(istrues)
-        if istrues.is_complete:
+            # 查询该请求中该转换的所有动作是否都为True
+            istrues = MRequestAction.query_by_request_trans(request_id, reqact.transition).get()
+            print(istrues)
+            if istrues.is_complete:
 
-            # 禁用该请求下其它动作
-            MRequestAction.update_by_action_reqs(act_id, request_id)
-            # 转到下一状态
-            trans = MTransition.get_by_uid(reqact.transition).get()
-            state = MState.get_by_uid(trans.next_state).get()
+                # 禁用该请求下其它动作
+                MRequestAction.update_by_action_reqs(act_id, request_id)
+                # 转到下一状态
+                trans = MTransition.get_by_uid(reqact.transition).get()
+                new_state = MState.get_by_uid(trans.next_state).get()
 
 
-            print(trans.uid)
+                print(trans.uid)
 
-            if state.state_type.endswith('complete'):
-                print("完成"* 5)
-                print("完成")
-                MPost.update_valid(post_id)
-                output = {'act_arr': '', "request_id": request_id}
-                return json.dump(output, self)
+                if new_state.state_type.endswith('complete'):
+                    print("完成"* 5)
+                    print("完成")
+                    MPost.update_valid(post_id)
+                    output = {'act_arr': '', "request_id": request_id}
+                    return json.dump(output, self)
+                else:
+
+                    # 创建新请求 #state_id需要传递
+                    new_request_id = MRequest.create(process_id, post_id, self.userinfo.uid,new_state.uid)
+                    # 创建新的请求动作
+                    cur_actions = MTransitionAction.query_by_pro_state(process_id, new_state.uid)
+                    print("s" * 50)
+                    print(cur_actions)
+                    for cur_act in cur_actions:
+                        print("/" * 50)
+                        print(cur_act['action'])
+                        print(cur_act['transition'])
+                        MRequestAction.create(new_request_id, cur_act['action'], cur_act['transition'])
+
+                    act_recs = MTransitionAction.query_by_process(process_id)
+                    print("1 " * 50)
+
+                    act_arr = []
+                    for act in act_recs:
+
+                        act_dic = {"act_name": act['name'], "act_uid": act['uid']}
+                        act_arr.append(act_dic)
+                    print(act_arr)
+
+                    output = {'act_arr': act_arr, "request_id": new_request_id,"cur_state":new_state.uid}
+
+                    return json.dump(output, self)
+
             else:
-
-                # 创建新请求 #state_id需要传递
-                new_request_id = MRequest.create(cur_pro.process, post_id, self.userinfo.uid)
-                # 创建新的请求动作
-                cur_actions = MTransitionAction.query_by_pro_state(cur_pro.process, state.uid)
-                print("s" * 50)
-                print(cur_actions)
-                for cur_act in cur_actions:
-                    print("/" * 50)
-                    print(cur_act['action'])
-                    print(cur_act['transition'])
-                    MRequestAction.create(new_request_id, cur_act['action'], cur_act['transition'])
-
-                act_recs = MTransitionAction.query_by_process(cur_pro.process)
-                print("1 " * 50)
-
-                act_arr = []
-                for act in act_recs:
-
-                    act_dic = {"act_name": act['name'], "act_uid": act['uid']}
-                    act_arr.append(act_dic)
-                print(act_arr)
-
-                output = {'act_arr': act_arr, "request_id": new_request_id}
-
+                output = {'act_arr': '', "request_id": request_id,"cur_state":state_id}
                 return json.dump(output, self)
-
         else:
-            output = {'act_arr': '', "request_id": request_id}
+            act_arr, cur_state_id = self.create_request(process_id, post_id, user_id)
+
+            output = {'act_arr': act_arr, "request_id": request_id,"cur_state":cur_state_id}
             return json.dump(output, self)
             # self.submit_state(post_id)
 

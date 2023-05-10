@@ -34,35 +34,75 @@
 
     }
 
+    function tjaction(act_id, request_id) {
 
+        var url = "/api/post/submit_action";
+
+        var recstate = document.getElementById("recstate");
+        var action_data = new FormData();
+        {##}
+        action_data.append("state_id", "{{ cur_state_id }}");
+        action_data.append("user_id", "{{userinfo}}");
+        action_data.append("post_id", "{{postinfo.uid}}");
+        action_data.append("process_id", "{{ process_id }}");
+
+        action_data.append("request_id", request_id);
+        action_data.append("act_id", act_id);
+
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: action_data,
+            timeout: 1e3,
+            processData: false,
+            contentType: false,
+            success: function (rs) {
+                var m = eval("(" + rs + ")");
+
+                var btn_arr = ''
+                for (var act in m.act_arr) {
+                    alert(m.act_arr)
+                    btn_arr += '<a class="btn btn-warning btn-xs"  onclick="tjaction(' +
+                        m.act_arr[act]['act_uid'] + ',' + m.request_id + ')">' + m.act_arr[act]['act_name'] + '</a>&nbsp'
+                }
+
+                recstate.innerHTML = btn_arr
+            },
+            error: function (err) {
+                alert('Submission failed');
+            }
+        });
+
+    }
 </script>
 
 <div class="row">
 
-
+<div class="col-sm-5">
     {% for action in action_arr %}
         <a class="btn btn-warning btn-xs"
            onclick="tjaction('{{ action['act_uid'] }}','{{ action['request_id'] }}')">{{ action['act_name'] }}</a>
         {% end %}
-
+</div>
     {% if userinfo %}
 
-    <div id="recstate" class="col-sm-7" >
-
-
-            {% if postinfo.state[1] == '0' %}
-               <strong>{{ _('Audit status') }}:</strong> <span>{{  _("Editing")  }} </span>
-            {% elif postinfo.state[1] =='1' %}
-               <strong>{{ _('Audit status') }}:</strong> <span>{{  _("To be reviewed")  }} </span>
-            {% elif postinfo.state[1] =='3' %}
-                <strong>{{ _('Audit status') }}:</strong> <span style="color: #f00">{{  _("Audit failed")  }} </span>
-            {% end %}
-
-
-
-
-
-    </div>
+{#    <div id="recstate" class="col-sm-7" >#}
+{##}
+{##}
+{#            {% if postinfo.state[1] == '0' %}#}
+{#               <strong>{{ _('Audit status') }}:</strong> <span>{{  _("Editing")  }} </span>#}
+{#            {% elif postinfo.state[1] =='1' %}#}
+{#               <strong>{{ _('Audit status') }}:</strong> <span>{{  _("To be reviewed")  }} </span>#}
+{#            {% elif postinfo.state[1] =='3' %}#}
+{#                <strong>{{ _('Audit status') }}:</strong> <span style="color: #f00">{{  _("Audit failed")  }} </span>#}
+{#            {% end %}#}
+{##}
+{##}
+{##}
+{##}
+{##}
+{#    </div>#}
 
 
     {% end %}
