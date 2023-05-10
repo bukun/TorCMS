@@ -182,6 +182,10 @@ class TestMProcess():
             act_approve = MAction.get_by_action_type(approve).uid
 
             trans = [
+                # 状态：“正常”对应的“开始”
+                {'current_state': state_arr['normal_{}'.format(post_id)],
+                 'next_state': state_arr['start_{}'.format(post_id)], 'act_id': act_restart},
+
                 # 状态：“开始”对应的“拒绝”，“完成”，“取消”
                 {'current_state': state_arr['start_{}'.format(post_id)],
                  'next_state': state_arr['denied_{}'.format(post_id)], 'act_id': act_deny},
@@ -190,9 +194,6 @@ class TestMProcess():
                 {'current_state': state_arr['start_{}'.format(post_id)],
                  'next_state': state_arr['cancelled_{}'.format(post_id)], 'act_id': act_cancel},
 
-                # 状态：“完成”对应的“正常”
-                {'current_state': state_arr['complete_{}'.format(post_id)],
-                 'next_state': state_arr['normal_{}'.format(post_id)], 'act_id': act_resolve},
 
                 # 状态：“取消”对应的“拒绝”，“完成”
                 {'current_state': state_arr['cancelled_{}'.format(post_id)],
