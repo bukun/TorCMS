@@ -1,38 +1,4 @@
 <script>
-    function tjstate(sid) {
-        {#alert(sid)#}
-        var url = "/post_j/update_state/{{postinfo.uid}}/" + sid;
-
-        var recstate = document.getElementById("recstate");
-        var shcz = document.getElementById("shcz");
-
-        $.ajax({
-            type: 'POST',
-            url: url,
-            success: function (rs) {
-                var m = eval("(" + rs + ")");
-
-                if (m.state[1] == '1') {
-                    recstate.innerHTML = '<strong>{{ _('Audit status') }}:</strong> <span>{{ _('To be reviewed') }} <a class="btn btn-warning btn-xs"  onclick="tjstate(\'{{postinfo.state[0]}}0{{ postinfo.state[2] }}0\')">{{  _("Undo submission")  }}</a>&nbsp'
-                    shcz.innerHTML = '{% if userinfo and userinfo.role[2]>="1" and (len(userinfo.authority) >= len(kwd['post_authority'])) %}   <span><a class="btn btn-success btn-xs" onclick="tjstate(\'{{postinfo.state[0]}}2{{ postinfo.state[2] }}0\')">{{  _("Approved")  }}</a>&nbsp' +
-                        '<a class="btn btn-danger btn-xs" onclick="tjstate(\'{{postinfo.state[0]}}3{{ postinfo.state[2] }}0\')">{{  _("Audit failed")  }}</a></span>{% end %}';
-                } else if (m.state[1] == '3') {
-                    recstate.innerHTML = '<strong>{{ _('Audit status') }}:</strong> <span style="color: #f00">{{  _("Audit failed")  }}</span> {% if userinfo and userinfo.user_name == postinfo.user_name %} <a href="/{{ kwd.get('router') }}/_edit/{{ postinfo.uid }}" class="btn btn-warning btn-xs">Edit</a>{% end %} '
-                    shcz.innerHTML = ' ';
-                } else if (m.state[1] == '2') {
-                    recstate.innerHTML = '<strong>{{ _('Audit status') }}:</strong> <span style="color: green">{{  _("Approved")  }}</span> <a href="/{{ kwd.get('router') }}/_edit/{{ postinfo.uid }}" class="btn btn-warning btn-xs">{{ _('Edit') }}</a>'
-                    shcz.innerHTML = '';
-                } else if (m.state[1] == '0') {
-                    recstate.innerHTML = '<a href="/{{ kwd.get('router') }}/_edit/{{ postinfo.uid }}" class="btn btn-warning btn-xs">Edit</a> <a class="btn btn-danger btn-xs" onclick="tjstate(\'{{postinfo.state[0]}}1{{ postinfo.state[2] }}0\')">{{  _("Submit for review")  }}</a>'
-                    shcz.innerHTML = '';
-                }
-            },
-            error: function (err) {
-                {#alert('提交失败');#}
-            }
-        });
-
-    }
 
     function tjaction(act_id, request_id) {
 
@@ -79,7 +45,7 @@
 
 <div class="row">
 
-<div class="col-sm-5">
+<div  id="recstate" class="col-sm-5">
     {% for action in action_arr %}
         <a class="btn btn-warning btn-xs"
            onclick="tjaction('{{ action['act_uid'] }}','{{ action['request_id'] }}')">{{ action['act_name'] }}</a>

@@ -266,14 +266,13 @@ class MProcess:
             print(repr(err))
             return False
 
-
-
     @staticmethod
     def query_by_name(name):
         '''
         Get a link by name.
         '''
         return TabProcess.select().where(TabProcess.name.startswith(name))
+
     @staticmethod
     def get_by_uid(uid):
         '''
@@ -497,9 +496,13 @@ class MRequestAction:
 
     @staticmethod
     def query_by_request_trans(request_id, trans_id):
-        return TabRequestAction.select().where(
-            (TabRequestAction.request == request_id) & (
-                    TabRequestAction.transition == trans_id))
+        rec = TabRequestAction.select().where(
+            (TabRequestAction.request == request_id) &
+            (TabRequestAction.transition == trans_id))
+        if rec.count() > 0:
+            return rec.get()
+        else:
+            return None
 
     @staticmethod
     def query_by_request(req_uid):
@@ -620,6 +623,8 @@ class MRequest:
             return query.get()
         else:
             return None
+
+
 #
 # class MStateAction:
 #     @staticmethod
