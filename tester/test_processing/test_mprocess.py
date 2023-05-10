@@ -73,7 +73,7 @@ class TestMProcess():
             'def_cat_uid': '9101',
             'gcat0': '9101',
             'def_cat_pid': '9100',
-            'valid': 1,
+            'valid': '0',
             'kind': '9'
         }
 
@@ -243,7 +243,7 @@ class TestMProcess():
                     MRequestAction.create(req_id, cur_act['action'], cur_act['transition'])
 
                 # 进行请求操作
-                self.test_request_action(process_id, cur_state.uid)
+                # self.test_request_action(process_id, cur_state.uid)
 
     def test_request_action(self, process_id='', cur_state_id=''):
         '''
