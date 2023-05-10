@@ -327,6 +327,15 @@ class State(tornado.web.UIModule):
                             act_rec=MAction.get_by_id(act['action']).get()
                             act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": request_rec.uid}
                             act_arr.append(act_dic)
+                else:
+                    act_recs = MTransitionAction.query_by_pro_state(process_id, cur_state_id)
+
+                    for act in act_recs:
+                        print("1" * 50)
+                        print(act)
+                        act_rec = MAction.get_by_id(act['action']).get()
+                        act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": request_rec.uid}
+                        act_arr.append(act_dic)
             else:
 
 
