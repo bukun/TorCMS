@@ -120,7 +120,7 @@ class ApiPostHandler(PostHandler):
 
 
 
-                    if new_state.state_type.endswith('complete'):
+                    if new_state.state_type.startswith('complete'):
                         print("1.3 " * 50)
                         MPost.update_valid(post_id)
                         output = {'act_arr': '', "request_id": ''}

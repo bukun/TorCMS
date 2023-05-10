@@ -351,8 +351,9 @@ class State(tornado.web.UIModule):
 
         #根据post查询最新流程
         cur_pro=MProcess.query_by_name(postinfo.uid)
-        print("4" * 50)
 
+
+        print("3" * 50)
 
 
 
@@ -364,6 +365,7 @@ class State(tornado.web.UIModule):
 
             act_arr = []
             if request_rec:
+                print(request_rec.uid)
                 cur_state_id = request_rec.current_state
                 act_recs = MTransitionAction.query_by_pro_state(process_id,cur_state_id)
 

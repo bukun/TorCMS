@@ -617,7 +617,7 @@ class MRequest:
     @staticmethod
     def get_by_pro(pro_id):
 
-        query = TabRequest.select().where(TabRequest.process == pro_id)
+        query = TabRequest.select().where(TabRequest.process == pro_id).order_by(TabRequest.time_create.desc())
 
         if query.count() > 0:
             return query.get()
