@@ -282,64 +282,6 @@ class Userprofile(tornado.web.UIModule):
 #
 
 
-#######################################################################
-#         for act in act_recs:
-#             act_dic = {"act_name": act['name'], "act_uid": act['uid'], "request_id": istrues.request}
-#             act_arr.append(act_dic)
-# # 查询该请求中该转换的所有动作是否都为True
-# istrues = MRequestAction.query_by_request(request_rec.uid).get()
-#
-# if istrues.is_complete:
-#
-#     # 转到下一状态
-#     trans = MTransition.get_by_uid(istrues.transition).get()
-#     state = MState.get_by_uid(trans.next_state).get()
-#
-#     print(trans.uid)
-#
-#     if state.state_type.endswith('complete'):
-#         MPost.update_valid(postinfo.uid)
-#     else:
-#
-#         # 返回当前登录用户的角色相关信息
-#         request_id = MRequest.create(role['uid'], postinfo.uid, userinfo.uid)
-#
-#         # 根据当前角色返回相应状态ID#
-#         states = MState.query_by_pro_id(role['uid'])
-#         state_arr = []
-#         for state in states:
-#             state_name = state.name
-#             state_arr.append(state_name)
-#
-#             cur_actions = MTransitionAction.query_by_pro_state(role['uid'], state.uid)
-#             for cur_act in cur_actions:
-#                 MRequestAction.create(request_id, cur_act['action'], cur_act['transition'])
-#
-#         act_recs = MTransitionAction.query_by_process(role['uid'])
-#
-#         act_arr = []
-#         for act in act_recs:
-#             act_dic = {"act_name": act['name'], "act_uid": act['uid'], "request_id": request_id}
-#             act_arr.append(act_dic)
-#
-#
-# else:
-#     # 根据当前转换获取下一步状态
-#     trans = MTransition.get_by_uid(istrues.transition).get()
-#     state = MState.get_by_uid(trans.current_state).get()
-#
-#     if state.state_type.endswith('complete'):
-#         MPost.update_valid(postinfo.uid)
-#     else:
-#         # 根据状态的流程（角色）获取相关动作
-#         act_recs = MTransitionAction.query_by_process(state.process)
-#
-#         for act in act_recs:
-#             act_dic = {"act_name": act['name'], "act_uid": act['uid'], "request_id": istrues.request}
-#             act_arr.append(act_dic)
-
-
-#######################################################################
 class State(tornado.web.UIModule):
 
     def render(self, *args, **kwargs):
@@ -367,14 +309,24 @@ class State(tornado.web.UIModule):
             if request_rec:
                 print(request_rec.uid)
                 cur_state_id = request_rec.current_state
-                act_recs = MTransitionAction.query_by_pro_state(process_id,cur_state_id)
+                cur_state=MState.get_by_uid(cur_state_id).get()
+                print(cur_state.state_type)
+                act_id = MAction.get_by_action_type('approve_'+postinfo.uid)
+                req_act=MRequestAction.get_by_action_request(act_id,request_rec.uid)
+                if req_act:
+                    if req_act.is_complete:
+                        pass
 
-                for act in act_recs:
-                    print("1" * 50)
-                    print(act)
-                    act_rec=MAction.get_by_id(act['action']).get()
-                    act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": request_rec.uid}
-                    act_arr.append(act_dic)
+
+                    else:
+                        act_recs = MTransitionAction.query_by_pro_state(process_id,cur_state_id)
+
+                        for act in act_recs:
+                            print("1" * 50)
+                            print(act)
+                            act_rec=MAction.get_by_id(act['action']).get()
+                            act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": request_rec.uid}
+                            act_arr.append(act_dic)
             else:
 
 
@@ -523,9 +475,9 @@ class State(tornado.web.UIModule):
                 {'current_state': state_dic['cancelled_{}'.format(post_id)],
                  'next_state': state_dic['complete_{}'.format(post_id)], 'act_id': act_approve},
 
-                # 状态：“拒绝”对应的“开始”
+                # 状态：“拒绝”对应的“正常”
                 {'current_state': state_dic['denied_{}'.format(post_id)],
-                 'next_state': state_dic['start_{}'.format(post_id)], 'act_id': act_restart},
+                 'next_state': state_dic['normal_{}'.format(post_id)], 'act_id': act_restart},
 
             ]
 

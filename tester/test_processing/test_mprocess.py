@@ -201,9 +201,9 @@ class TestMProcess():
                 {'current_state': state_arr['cancelled_{}'.format(post_id)],
                  'next_state': state_arr['complete_{}'.format(post_id)], 'act_id': act_approve},
 
-                # 状态：“拒绝”对应的“开始”
+                # 状态：“拒绝”对应的“正常”
                 {'current_state': state_arr['denied_{}'.format(post_id)],
-                 'next_state': state_arr['start_{}'.format(post_id)], 'act_id': act_restart},
+                 'next_state': state_arr['normal_{}'.format(post_id)], 'act_id': act_restart},
 
             ]
 
