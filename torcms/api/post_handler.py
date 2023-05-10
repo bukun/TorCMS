@@ -94,10 +94,12 @@ class ApiPostHandler(PostHandler):
 
         act_arr = []
         if request_id:
-            print("1" * 50)
+            print("1-" * 50)
+            print(act_id)
+            print(request_id)
 
             # 提交的Action与其中一个（is_active = true）的活动RequestActions匹配，设置 is_active = false 和 is_completed = true
-            reqact = MRequestAction.get_by_action_request(act_id, request_id).get()
+            reqact = MRequestAction.get_by_action_request(act_id, request_id)
 
 
             if reqact.is_active:
@@ -153,7 +155,7 @@ class ApiPostHandler(PostHandler):
                     output = {'act_arr':act_arr, "request_id": request_id,"cur_state":state_id}
                     return json.dump(output, self)
         else:
-            print("2" * 50)
+            print("2-" * 50)
             ##
 
             act_arr, cur_state_id = self.create_request(process_id, post_id, user_id)
