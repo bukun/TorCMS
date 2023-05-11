@@ -139,8 +139,8 @@ class ApiPostHandler(PostHandler):
                         for cur_act in cur_actions:
                             MRequestAction.create(new_request_id, cur_act['action'], cur_act['transition'])
                             act = MAction.get_by_id(cur_act['action']).get()
-                            if act.action_type.startswith('restart'):
-                                act_arr.append({"act_name": act.name, "act_uid": cur_act['action'], "request_id": new_request_id})
+                            # if act.action_type.startswith('restart'):
+                            act_arr.append({"act_name": act.name, "act_uid": cur_act['action'], "request_id": new_request_id})
                         print(act_arr)
                         output = {'act_arr': act_arr, "request_id": new_request_id,"cur_state":new_state.uid}
 
@@ -148,13 +148,22 @@ class ApiPostHandler(PostHandler):
 
                 else:
 
-                    print("1.5 " * 50)
+                    print("1.6 " * 50)
                     act=MAction.get_by_id(istrues.action).get()
                     act_arr.append({"act_name": act.name, "act_uid": act.uid, "request_id": request_id})
 
 
                     output = {'act_arr':act_arr, "request_id": request_id,"cur_state":state_id}
                     return json.dump(output, self)
+            else:
+
+                print("1.5 " * 50)
+                act = MAction.get_by_id(istrues.action).get()
+                act_arr.append({"act_name": act.name, "act_uid": act.uid, "request_id": request_id})
+
+                output = {'act_arr': act_arr, "request_id": request_id, "cur_state": state_id}
+                return json.dump(output, self)
+
         else:
             print("2-" * 50)
             ##
@@ -165,45 +174,6 @@ class ApiPostHandler(PostHandler):
             return json.dump(output, self)
             # self.submit_state(post_id)
 
-
-    # def submit_state(self, post_id):
-    #
-    #     # 返回当前登录用户的角色相关信息
-    #     print(self.userinfo.uid)
-    #     print(post_id)
-    #     ttinfo = MStaff2Role.get_role_by_uid(self.userinfo.uid)
-    #     print(ttinfo)
-    #     role = ttinfo.get()
-    #     if role:
-    #         # state_id需要传递
-    #         request_id = MRequest.create(role['uid'], post_id, self.userinfo.uid)
-    #
-    #         # 根据当前角色返回相应状态ID#
-    #         states = MState.query_by_pro_id(role['uid'])
-    #         state_arr = []
-    #         for state in states:
-    #             state_name = state.name
-    #             state_arr.append(state_name)
-    #
-    #             cur_actions = MTransitionAction.query_by_pro_state(role['uid'], state.uid)
-    #             for cur_act in cur_actions:
-    #                 MRequestAction.create(request_id, cur_act['action'], cur_act['transition'])
-    #
-    #         act_recs = MTransitionAction.query_by_process(role['uid'])
-    #
-    #         act_arr = []
-    #         for act in act_recs:
-    #             act_dic = {"act_name": act['name'], "act_uid": act['uid']}
-    #             act_arr.append(act_dic)
-    #     else:
-    #         act_arr = [{"act_name": "Waiting for review", "act_uid": ""}]
-    #         request_id = ''
-    #     # 以上创建步骤已完成
-    #
-    #     output = {'act_arr': act_arr, "request_id": request_id}
-    #
-    #
-    #     return json.dump(output, self)
 
 
     def list(self, kind):

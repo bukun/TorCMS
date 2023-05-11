@@ -317,7 +317,6 @@ class State(tornado.web.UIModule):
                     if req_act.is_complete:
                         pass
 
-
                     else:
                         act_recs = MTransitionAction.query_by_pro_state(process_id,cur_state_id)
 
