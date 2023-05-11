@@ -13,7 +13,7 @@ from torcms.model.category_model import MCategory
 from torcms.model.user_model import MUser
 from torcms.model.staff2role_model import MStaff2Role
 from torcms.model.process_model import MState, MTransition, MRequest, MAction, MRequestAction, \
-    MTransitionAction
+    MTransitionAction, MProcess
 
 
 class ApiPostHandler(PostHandler):
@@ -46,10 +46,11 @@ class ApiPostHandler(PostHandler):
 
         # elif url_arr[0] == 'batch_edit':
         #     self.batch_edit()
-        # elif url_arr[0] == 'submit_state':
-        #     self.submit_state(url_arr[1])
+
         elif url_arr[0] == 'submit_action':
             self.submit_action()
+        elif url_arr[0] == 'amis_submit_action':
+            self.amis_submit_action()
 
         elif url_arr[0] == 'batch_delete':
             self.batch_delete(url_arr[1])
@@ -79,6 +80,7 @@ class ApiPostHandler(PostHandler):
                 if act.action_type.startswith('restart'):
                     act_arr.append({"act_name": act.name, "act_uid": cur_act['action'], "request_id": req_id})
             return act_arr, cur_state.uid
+
     def submit_action(self):
 
         post_data = {}
@@ -101,12 +103,10 @@ class ApiPostHandler(PostHandler):
             # 提交的Action与其中一个（is_active = true）的活动RequestActions匹配，设置 is_active = false 和 is_completed = true
             reqact = MRequestAction.get_by_action_request(act_id, request_id)
 
-
             if reqact.is_active:
                 # 更新操作动态
                 print("gengxin")
                 MRequestAction.update_by_action(act_id, request_id)
-
 
             # 查询该请求中该转换的所有动作是否都为True
             istrues = MRequestAction.query_by_request_trans(request_id, reqact.transition)
@@ -119,8 +119,6 @@ class ApiPostHandler(PostHandler):
                     # 转到下一状态
                     trans = MTransition.get_by_uid(reqact.transition).get()
                     new_state = MState.get_by_uid(trans.next_state).get()
-
-
 
                     if new_state.state_type.startswith('complete'):
                         print("1.3 " * 50)
@@ -140,20 +138,20 @@ class ApiPostHandler(PostHandler):
                             MRequestAction.create(new_request_id, cur_act['action'], cur_act['transition'])
                             act = MAction.get_by_id(cur_act['action']).get()
                             # if act.action_type.startswith('restart'):
-                            act_arr.append({"act_name": act.name, "act_uid": cur_act['action'], "request_id": new_request_id})
+                            act_arr.append(
+                                {"act_name": act.name, "act_uid": cur_act['action'], "request_id": new_request_id})
                         print(act_arr)
-                        output = {'act_arr': act_arr, "request_id": new_request_id,"cur_state":new_state.uid}
+                        output = {'act_arr': act_arr, "request_id": new_request_id, "cur_state": new_state.uid}
 
                         return json.dump(output, self)
 
                 else:
 
                     print("1.6 " * 50)
-                    act=MAction.get_by_id(istrues.action).get()
+                    act = MAction.get_by_id(istrues.action).get()
                     act_arr.append({"act_name": act.name, "act_uid": act.uid, "request_id": request_id})
 
-
-                    output = {'act_arr':act_arr, "request_id": request_id,"cur_state":state_id}
+                    output = {'act_arr': act_arr, "request_id": request_id, "cur_state": state_id}
                     return json.dump(output, self)
             else:
 
@@ -170,11 +168,99 @@ class ApiPostHandler(PostHandler):
 
             act_arr, cur_state_id = self.create_request(process_id, post_id, user_id)
 
-            output = {'act_arr': act_arr, "request_id": request_id,"cur_state":cur_state_id}
+            output = {'act_arr': act_arr, "request_id": request_id, "cur_state": cur_state_id}
             return json.dump(output, self)
-            # self.submit_state(post_id)
 
 
+    def amis_submit_action(self):
+
+        post_data = {}
+        for key in self.request.arguments:
+            post_data[key] = self.get_arguments(key)[0]
+
+        request_id = post_data['request_id']
+        post_id = post_data['post_id']
+        user_id = post_data['user_id']
+        act_id = post_data['act_id']
+        state_id = post_data['state_id']
+        process_id = post_data['process_id']
+
+        act_arr = []
+        if request_id:
+            print("1-" * 50)
+            print(act_id)
+            print(request_id)
+
+            # 提交的Action与其中一个（is_active = true）的活动RequestActions匹配，设置 is_active = false 和 is_completed = true
+            reqact = MRequestAction.get_by_action_request(act_id, request_id)
+
+            if reqact.is_active:
+                # 更新操作动态
+                print("gengxin")
+                MRequestAction.update_by_action(act_id, request_id)
+
+            # 查询该请求中该转换的所有动作是否都为True
+            istrues = MRequestAction.query_by_request_trans(request_id, reqact.transition)
+
+            if istrues:
+                if istrues.is_complete:
+                    print("1.2 " * 50)
+                    # 禁用该请求下其它动作
+                    MRequestAction.update_by_action_reqs(act_id, request_id)
+                    # 转到下一状态
+                    trans = MTransition.get_by_uid(reqact.transition).get()
+                    new_state = MState.get_by_uid(trans.next_state).get()
+
+                    if new_state.state_type.startswith('complete'):
+                        print("1.3 " * 50)
+                        MPost.update_valid(post_id)
+
+                        output = {'act_arr': '', "request_id": ''}
+                        return json.dump(output, self)
+                    else:
+                        print("1.4 " * 50)
+                        # 创建请求
+                        new_request_id = MRequest.create(process_id, post_id, user_id, new_state.uid)
+
+                        # 创建请求操作
+                        cur_actions = MTransitionAction.query_by_pro_state(process_id, new_state.uid)
+
+                        for cur_act in cur_actions:
+                            MRequestAction.create(new_request_id, cur_act['action'], cur_act['transition'])
+                            act = MAction.get_by_id(cur_act['action']).get()
+                            # if act.action_type.startswith('restart'):
+                            act_arr.append(
+                                {"act_name": act.name, "act_uid": cur_act['action'], "request_id": new_request_id})
+                        print(act_arr)
+                        output = {'act_arr': act_arr, "request_id": new_request_id, "cur_state": new_state.uid}
+
+                        return json.dump(output, self)
+
+                else:
+
+                    print("1.6 " * 50)
+                    act = MAction.get_by_id(istrues.action).get()
+                    act_arr.append({"act_name": act.name, "act_uid": act.uid, "request_id": request_id})
+
+                    output = {'act_arr': act_arr, "request_id": request_id, "cur_state": state_id}
+                    return json.dump(output, self)
+            else:
+
+                print("1.5 " * 50)
+                act = MAction.get_by_id(istrues.action).get()
+                act_arr.append({"act_name": act.name, "act_uid": act.uid, "request_id": request_id})
+
+                output = {'act_arr': act_arr, "request_id": request_id, "cur_state": state_id}
+                return json.dump(output, self)
+
+        else:
+            print("2-" * 50)
+            ##
+
+            act_arr, cur_state_id = self.create_request(process_id, post_id, user_id)
+
+            output = {'act_arr': act_arr, "request_id": request_id, "cur_state": cur_state_id}
+            return json.dump(output, self)
 
     def list(self, kind):
 
@@ -212,22 +298,47 @@ class ApiPostHandler(PostHandler):
         rec_arr = []
 
         for rec in recs:
-            request_rec = ''
-            # request_rec = MRequest.get_id_by_username(rec.uid, rec.user_name)
+            cur_pro = MProcess.query_by_name(rec.uid)
 
-            # 审核状态#
-            exe_actions = MRequestAction.query_by_postid(rec.uid)
 
-            action_arr = []
-            # for exe_action in exe_actions:
-            #     action_arr = []
-            #     act_recs = MStateAction.query_by_state(exe_action['current_state'])
-            #
-            #     for act_rec in act_recs:
-            #         act = MAction.query_by_id(act_rec.action).get()
-            #
-            #         action_arr.append(act.name)
-            # 审核状态#
+
+            act_arr = []
+            if cur_pro.count() > 0:
+                process_id = cur_pro.get().uid
+
+                ##查询当前用户的请求
+                request_rec = MRequest.get_by_pro(process_id)
+
+                if request_rec:
+                    print(request_rec.uid)
+                    cur_state_id = request_rec.current_state
+                    cur_state = MState.get_by_uid(cur_state_id).get()
+                    print(cur_state.state_type)
+                    act_id = MAction.get_by_action_type('approve_' + rec.uid)
+                    req_act = MRequestAction.get_by_action_request(act_id, request_rec.uid)
+                    if req_act:
+                        if req_act.is_complete:
+                            pass
+
+                        else:
+                            act_recs = MTransitionAction.query_by_pro_state(process_id, cur_state_id)
+
+                            for act in act_recs:
+                                print("1" * 50)
+                                print(act)
+                                act_rec = MAction.get_by_id(act['action']).get()
+                                act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid,
+                                           "request_id": request_rec.uid,"cur_state_id":  cur_state.uid, "process_id": process_id}
+                                act_arr.append(act_dic)
+                    else:
+                        act_recs = MTransitionAction.query_by_pro_state(process_id, cur_state_id)
+
+                        for act in act_recs:
+
+                            act_rec = MAction.get_by_id(act['action']).get()
+                            act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id":  request_rec.uid,
+                                       "cur_state_id": cur_state.uid, "process_id": process_id}
+                            act_arr.append(act_dic)
 
             rec_arr.append(
                 {
@@ -249,18 +360,18 @@ class ApiPostHandler(PostHandler):
                     "extinfo": rec.extinfo,
                     "router": post_cfg[kind]['router'],
                     "cur_user_id": self.userinfo.uid,
-                    "state_request_id": 'request_rec.uid',
-                    "action_arr": action_arr
+                    "action_arr": act_arr
+
                 }
             )
 
-        output = {
-            "ok": True,
-            "status": 0,
-            "msg": "ok",
-            "data": {"count": counts, "rows": rec_arr}
-        }
-        return json.dump(output, self, ensure_ascii=False)
+            output = {
+                "ok": True,
+                "status": 0,
+                "msg": "ok",
+                "data": {"count": counts, "rows": rec_arr}
+            }
+            return json.dump(output, self, ensure_ascii=False)
 
     @tornado.web.authenticated
     @privilege.permission(action='can_delete')

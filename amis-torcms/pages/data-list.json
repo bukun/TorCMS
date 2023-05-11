@@ -3,6 +3,7 @@
   "title": "数据管理列表",
   "remark": null,
   "name": "page-demo",
+  "data": "${action_arr}",
   "body": [
     {
       "type": "crud",
@@ -157,40 +158,67 @@
           "label": "编辑者",
           "type": "text"
         },
-        {
-          "name": "state_request_id",
-          "label": "state_request_id",
-          "type": "text",
-          "value": "${state_request_id}"
-        },
+
         {
           "name": "time_create",
           "label": "创建时间",
           "type": "text"
         },
         {
-          "type": "operation",
           "label": "审核",
-          "width": "",
+          "type": "operation",
+          "name": "action_arr",
           "buttons": [
             {
               "type": "button-group",
               "buttons": [
                 {
-                  "type": "button",
-                  "label": "通过",
-                  "icon": "fa fa-check text-success",
-                  "level": "success",
-                  "actionType": "ajax",
-                  "api": "/api/post/submit_state/${state_request_id}/${cur_user_id}"
-                },
-                {
-                  "type": "button",
-                  "label": "拒绝",
-                  "icon": "fa fa-times text-danger",
-                  "level": "danger",
-                  "actionType": "ajax",
-                  "api": "/"
+                  "type": "each",
+                  "name": "arr",
+                  "items": {
+                    "type": "button",
+                    "id": "<%= data.act_uid %>",
+                    "label": "<%= data.act_name %>",
+                    "level": "primary",
+                    "confirmText": "确认要发出这个请求？",
+                    "onEvent": {
+                      "click": {
+                        "actions": [
+                          {
+                            "actionType": "ajax",
+                            "args": {
+                              "api": {
+                                "url": "/api/post/amis_submit_action",
+                                "method": "get",
+                                "responseData": {
+                                  "state_id":"<%= data.cur_state_id %>",
+                                  "user_id": "${cur_user_id}",
+                                  "post_id": "${uid}",
+                                  "process_id": "<%= data.process_id %>",
+                                  "request_id": "<%= data.request_id %>",
+                                  "act_id": "<%= data.act_uid %>"
+                                }
+                              },
+                              "messages": {
+                                "success": "成功了！欧耶${data.act_name}",
+                                "failed": "失败了呢。。"
+                              }
+                            },
+                            "data": {
+                              "data":"${action_arr}"
+                            }
+                          },
+                          {
+                            "actionType": "toast",
+                            "expression": "${event.data.responseResult.responseStatus === 0}",
+                            "args": {
+                              "msg": "${event.data.responseResult|json}"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
                 }
               ]
             }
@@ -198,6 +226,7 @@
           "placeholder": "-",
           "fixed": "right"
         },
+
         {
           "type": "operation",
           "label": "操作",
@@ -229,7 +258,6 @@
                           "type": "static",
                           "toggled": true
                         },
-
                         {
                           "name": "user_name",
                           "label": "编辑者",
@@ -245,7 +273,7 @@
                           "label": "更新时间",
                           "type": "static"
                         },
-                         {
+                        {
                           "name": "cnt_md",
                           "label": "内容",
                           "type": "markdown"
