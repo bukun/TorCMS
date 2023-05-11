@@ -226,28 +226,29 @@
                         {
                           "name": "title",
                           "label": "标题",
-                          "type": "text",
+                          "type": "static",
                           "toggled": true
                         },
-                        {
-                          "name": "cnt_md",
-                          "label": "内容",
-                          "type": "markdown"
-                        },
+
                         {
                           "name": "user_name",
                           "label": "编辑者",
-                          "type": "text"
+                          "type": "static"
                         },
                         {
                           "name": "time_create",
                           "label": "创建时间",
-                          "type": "text"
+                          "type": "static"
                         },
                         {
                           "name": "time_update",
                           "label": "更新时间",
                           "type": "static"
+                        },
+                         {
+                          "name": "cnt_md",
+                          "label": "内容",
+                          "type": "markdown"
                         }
                       ]
                     }

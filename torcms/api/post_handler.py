@@ -208,7 +208,7 @@ class ApiPostHandler(PostHandler):
         recs = MPost.query_pager_by_slug(kind, current_page_num, perPage)
         # 分类筛选用以下方法
         # recs = MPost.query_list_pager(kind, current_page_num, perPage)
-        counts = MPost.total_number(kind)
+        counts = recs.count()
         rec_arr = []
 
         for rec in recs:
