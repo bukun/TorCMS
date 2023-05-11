@@ -174,9 +174,8 @@ class ApiPostHandler(PostHandler):
 
     def amis_submit_action(self):
 
-        post_data = {}
-        for key in self.request.arguments:
-            post_data[key] = self.get_arguments(key)[0]
+
+        post_data = json.loads(self.request.body)
 
         request_id = post_data['request_id']
         post_id = post_data['post_id']
