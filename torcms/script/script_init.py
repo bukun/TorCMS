@@ -14,7 +14,7 @@ from .script_init_tabels import run_init_tables
 from .script_zero import run_zero
 from .script_gen_role_permission import run_gen_role_permission,create_test_role
 from pathlib import Path
-from script_create_ext import test
+ 
 XLSX_FILE = './database/role_perm.xlsx'
 
 
