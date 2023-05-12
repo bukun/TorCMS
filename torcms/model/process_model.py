@@ -401,8 +401,7 @@ class MTransition:
             (TabTransition.current_state == state_id) or (
                     TabTransition.next_state == state_id)
         )
-        print("*" * 50)
-        print(recs.count())
+
         for rec in recs:
             tran_act = MTransitionAction.get_by_trans(rec.uid).get()
             MAction.delete(tran_act.action)

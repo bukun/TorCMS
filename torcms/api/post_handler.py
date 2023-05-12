@@ -172,11 +172,13 @@ class ApiPostHandler(PostHandler):
             return json.dump(output, self)
 
 
-    def amis_submit_action(self):
-
-
+    def amis_submit_action(self,**kwargs):
+        #
+        print("w" * 50)
+        # post_data = self.request.arguments  #
         post_data = json.loads(self.request.body)
-
+        print(post_data)
+        print(post_data.get("request_id"))
         request_id = post_data['request_id']
         post_id = post_data['post_id']
         user_id = post_data['user_id']
@@ -323,11 +325,10 @@ class ApiPostHandler(PostHandler):
                             act_recs = MTransitionAction.query_by_pro_state(process_id, cur_state_id)
 
                             for act in act_recs:
-                                print("1" * 50)
-                                print(act)
+
                                 act_rec = MAction.get_by_id(act['action']).get()
                                 act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid,
-                                           "request_id": request_rec.uid,"cur_state_id":  cur_state.uid, "process_id": process_id}
+                                           "request_id": request_rec.uid,"state_id":  cur_state.uid, "process_id": process_id}
                                 act_arr.append(act_dic)
                     else:
                         act_recs = MTransitionAction.query_by_pro_state(process_id, cur_state_id)
@@ -336,7 +337,7 @@ class ApiPostHandler(PostHandler):
 
                             act_rec = MAction.get_by_id(act['action']).get()
                             act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id":  request_rec.uid,
-                                       "cur_state_id": cur_state.uid, "process_id": process_id}
+                                       "state_id": cur_state.uid, "process_id": process_id}
                             act_arr.append(act_dic)
 
             rec_arr.append(

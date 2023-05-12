@@ -3,7 +3,7 @@
   "title": "数据管理列表",
   "remark": null,
   "name": "page-demo",
-  "data": "${action_arr}",
+
   "body": [
     {
       "type": "crud",
@@ -189,23 +189,36 @@
                             "args": {
                               "api": {
                                 "url": "/api/post/amis_submit_action",
-                                "method": "get",
-                                "responseData": {
-                                  "state_id":"<%= data.cur_state_id %>",
+                                "method": "post",
+                                "data": {
+                                "state_id":"${state_id}",
                                   "user_id": "${cur_user_id}",
                                   "post_id": "${uid}",
-                                  "process_id": "<%= data.process_id %>",
-                                  "request_id": "<%= data.request_id %>",
-                                  "act_id": "<%= data.act_uid %>"
+                                  "process_id": "${ process_id }",
+                                  "request_id": "${ request_id }",
+                                  "act_id": "${act_uid }"
+                            },
+                                "responseData": {
+                                  "state_id":"${state_id}",
+                                  "user_id": "${cur_user_id}",
+                                  "post_id": "${uid}",
+                                  "process_id": "${ process_id }",
+                                  "request_id": "${ request_id }",
+                                  "act_id": "${act_uid }"
                                 }
                               },
                               "messages": {
-                                "success": "成功了！欧耶${data.act_name}",
-                                "failed": "失败了呢。。"
+                                "success": "审核成功！",
+                                "failed": "审核失败！"
                               }
                             },
                             "data": {
-                              "data":"${action_arr}"
+                              "state_id":"${state_id}",
+                                  "user_id": "${cur_user_id}",
+                                  "post_id": "${uid}",
+                                  "process_id": "${ process_id }",
+                                  "request_id": "${ request_id }",
+                                  "act_id": "${act_uid }"
                             }
                           },
                           {
