@@ -3,7 +3,6 @@
   "title": "数据管理列表",
   "remark": null,
   "name": "page-demo",
-
   "body": [
     {
       "type": "crud",
@@ -158,7 +157,6 @@
           "label": "编辑者",
           "type": "text"
         },
-
         {
           "name": "time_create",
           "label": "创建时间",
@@ -191,15 +189,7 @@
                                 "url": "/api/post/amis_submit_action",
                                 "method": "post",
                                 "data": {
-                                "state_id":"${state_id}",
-                                  "user_id": "${cur_user_id}",
-                                  "post_id": "${uid}",
-                                  "process_id": "${ process_id }",
-                                  "request_id": "${ request_id }",
-                                  "act_id": "${act_uid }"
-                            },
-                                "responseData": {
-                                  "state_id":"${state_id}",
+                                  "state_id": "${state_id}",
                                   "user_id": "${cur_user_id}",
                                   "post_id": "${uid}",
                                   "process_id": "${ process_id }",
@@ -211,14 +201,6 @@
                                 "success": "审核成功！",
                                 "failed": "审核失败！"
                               }
-                            },
-                            "data": {
-                              "state_id":"${state_id}",
-                                  "user_id": "${cur_user_id}",
-                                  "post_id": "${uid}",
-                                  "process_id": "${ process_id }",
-                                  "request_id": "${ request_id }",
-                                  "act_id": "${act_uid }"
                             }
                           },
                           {
@@ -239,7 +221,6 @@
           "placeholder": "-",
           "fixed": "right"
         },
-
         {
           "type": "operation",
           "label": "操作",
