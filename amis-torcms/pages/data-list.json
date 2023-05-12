@@ -202,12 +202,13 @@
                                 "failed": "审核失败！"
                               }
                             }
+
                           },
                           {
                             "actionType": "toast",
                             "expression": "${event.data.responseResult.responseStatus === 0}",
                             "args": {
-                              "msg": "${event.data.responseResult|json}"
+                              "action_arr": "${event.data.responseResult|json}"
                             }
                           }
                         ]

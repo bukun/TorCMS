@@ -78,7 +78,7 @@ class ApiPostHandler(PostHandler):
                 MRequestAction.create(req_id, cur_act['action'], cur_act['transition'])
                 act = MAction.get_by_id(cur_act['action']).get()
                 if act.action_type.startswith('restart'):
-                    act_arr.append({"act_name": act.name, "act_uid": cur_act['action'], "request_id": req_id})
+                    act_arr.append({"act_name": act.name, "act_uid": cur_act['action'], "request_id": req_id,"state_id": cur_state.uid, "process_id": process_id})
             return act_arr, cur_state.uid
 
     def submit_action(self):
@@ -169,16 +169,15 @@ class ApiPostHandler(PostHandler):
             act_arr, cur_state_id = self.create_request(process_id, post_id, user_id)
 
             output = {'act_arr': act_arr, "request_id": request_id, "cur_state": cur_state_id}
+
             return json.dump(output, self)
 
+    @privilege.permission(action='assign_group')
+    @tornado.web.authenticated
+    def amis_submit_action(self, **kwargs):
 
-    def amis_submit_action(self,**kwargs):
-        #
-        print("w" * 50)
-        # post_data = self.request.arguments  #
         post_data = json.loads(self.request.body)
-        print(post_data)
-        print(post_data.get("request_id"))
+
         request_id = post_data['request_id']
         post_id = post_data['post_id']
         user_id = post_data['user_id']
@@ -216,7 +215,12 @@ class ApiPostHandler(PostHandler):
                         print("1.3 " * 50)
                         MPost.update_valid(post_id)
 
-                        output = {'act_arr': '', "request_id": ''}
+                        output = {"responseStatus": 0,
+                                  "responseData": {
+                                      'act_arr': ''
+                                  },
+                                  "responseMsg": "ok"
+                                  }
                         return json.dump(output, self)
                     else:
                         print("1.4 " * 50)
@@ -231,27 +235,45 @@ class ApiPostHandler(PostHandler):
                             act = MAction.get_by_id(cur_act['action']).get()
                             # if act.action_type.startswith('restart'):
                             act_arr.append(
-                                {"act_name": act.name, "act_uid": cur_act['action'], "request_id": new_request_id})
+                                {"act_name": act.name, "act_uid": cur_act['action'], "request_id": new_request_id, "cur_state": new_state.uid,"process_id": process_id})
                         print(act_arr)
-                        output = {'act_arr': act_arr, "request_id": new_request_id, "cur_state": new_state.uid}
 
+                        output = {"responseStatus": 0,
+                                  "responseData": {
+                                      'act_arr': act_arr
+                                  },
+                                  "responseMsg": "ok"
+                                  }
                         return json.dump(output, self)
 
                 else:
 
                     print("1.6 " * 50)
                     act = MAction.get_by_id(istrues.action).get()
-                    act_arr.append({"act_name": act.name, "act_uid": act.uid, "request_id": request_id})
+                    act_arr.append({"act_name": act.name, "act_uid": act.uid, "request_id": request_id, "cur_state": state_id,"process_id": process_id})
 
-                    output = {'act_arr': act_arr, "request_id": request_id, "cur_state": state_id}
+
+                    output = {"responseStatus": 0,
+                              "responseData": {
+                                  'act_arr': act_arr
+                              },
+                              "responseMsg": "ok"
+                              }
                     return json.dump(output, self)
             else:
 
                 print("1.5 " * 50)
                 act = MAction.get_by_id(istrues.action).get()
-                act_arr.append({"act_name": act.name, "act_uid": act.uid, "request_id": request_id})
+                act_arr.append({"act_name": act.name, "act_uid": act.uid, "request_id": request_id, "cur_state": state_id,"process_id": process_id})
 
-                output = {'act_arr': act_arr, "request_id": request_id, "cur_state": state_id}
+
+
+                output = {"responseStatus": 0,
+                          "responseData": {
+                              'act_arr': act_arr
+                          },
+                          "responseMsg": "ok"
+                          }
                 return json.dump(output, self)
 
         else:
@@ -260,9 +282,18 @@ class ApiPostHandler(PostHandler):
 
             act_arr, cur_state_id = self.create_request(process_id, post_id, user_id)
 
-            output = {'act_arr': act_arr, "request_id": request_id, "cur_state": cur_state_id}
+
+            output = {"responseStatus": 0,
+                      "responseData": {
+                          'act_arr': act_arr
+                      },
+                      "responseMsg": "ok"
+                      }
+
             return json.dump(output, self)
 
+    @privilege.permission(action='assign_group')
+    @tornado.web.authenticated
     def list(self, kind):
 
         post_data = self.request.arguments  # {'page': [b'1'], 'perPage': [b'10']}
@@ -301,8 +332,6 @@ class ApiPostHandler(PostHandler):
         for rec in recs:
             cur_pro = MProcess.query_by_name(rec.uid)
 
-
-
             act_arr = []
             if cur_pro.count() > 0:
                 process_id = cur_pro.get().uid
@@ -325,18 +354,17 @@ class ApiPostHandler(PostHandler):
                             act_recs = MTransitionAction.query_by_pro_state(process_id, cur_state_id)
 
                             for act in act_recs:
-
                                 act_rec = MAction.get_by_id(act['action']).get()
                                 act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid,
-                                           "request_id": request_rec.uid,"state_id":  cur_state.uid, "process_id": process_id}
+                                           "request_id": request_rec.uid, "state_id": cur_state.uid,
+                                           "process_id": process_id}
                                 act_arr.append(act_dic)
                     else:
                         act_recs = MTransitionAction.query_by_pro_state(process_id, cur_state_id)
 
                         for act in act_recs:
-
                             act_rec = MAction.get_by_id(act['action']).get()
-                            act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id":  request_rec.uid,
+                            act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": request_rec.uid,
                                        "state_id": cur_state.uid, "process_id": process_id}
                             act_arr.append(act_dic)
 
