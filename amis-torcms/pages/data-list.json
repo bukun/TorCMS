@@ -11,6 +11,7 @@
       "keepItemSelectionOnPageChange": true,
       "maxKeepItemSelectionLength": 10,
       "labelTpl": "${uid} ${title}",
+      "initApi": "/api/post/list/9",
       "api": "/api/post/list/9",
       "expandConfig": {
         "expand": "all"
@@ -166,6 +167,7 @@
           "label": "审核",
           "type": "operation",
           "name": "action_arr",
+          "id": "act_button",
           "buttons": [
             {
               "type": "button-group",
@@ -201,15 +203,12 @@
                                 "success": "审核成功！",
                                 "failed": "审核失败！"
                               }
-                            }
-
+                            },
+                            "outputVar": "var1"
                           },
+
                           {
-                            "actionType": "toast",
-                            "expression": "${event.data.responseResult.responseStatus === 0}",
-                            "args": {
-                              "action_arr": "${event.data.responseResult|json}"
-                            }
+                            "actionType": "refresh"
                           }
                         ]
                       }
