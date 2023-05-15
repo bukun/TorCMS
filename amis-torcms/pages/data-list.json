@@ -206,7 +206,10 @@
                             },
                             "outputVar": "var1"
                           },
-
+                          {
+                            "actionType": "setValue",
+                            "args": {"act_arr": "${event.data.var1|json"}
+                          },
                           {
                             "actionType": "refresh"
                           }

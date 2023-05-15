@@ -399,7 +399,7 @@ class ApiPostHandler(PostHandler):
                 "msg": "ok",
                 "data": {"count": counts, "rows": rec_arr}
             }
-            return json.dump(output, self, ensure_ascii=False)
+        return json.dump(output, self, ensure_ascii=False)
 
     @tornado.web.authenticated
     @privilege.permission(action='can_delete')
