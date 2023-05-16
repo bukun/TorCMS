@@ -109,7 +109,7 @@
             "icon": "fa fa-database",
             "children": [
               {
-                "label": "数据列表",
+                "label": "待审核数据列表",
                 "url": "/data/list",
                 "icon": "fa fa-list",
                 "schemaApi": "get:/pages/data-list.json"
