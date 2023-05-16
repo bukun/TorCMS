@@ -320,7 +320,7 @@ class ApiPostHandler(PostHandler):
         # recs = MPost.query_list_pager(kind, current_page_num, perPage)
         counts = recs.count()
         rec_arr = []
-
+     
         for rec in recs:
             cur_pro = MProcess.query_by_name(rec.uid)
 
@@ -361,37 +361,38 @@ class ApiPostHandler(PostHandler):
                                 act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": request_rec.uid,
                                            "state_id": cur_state.uid, "process_id": process_id}
                                 act_arr.append(act_dic)
+            if act_arr:
+                rec_arr.append(
+                    {
+                        "uid": rec.uid,
+                        "title": rec.title,
+                        "cnt_md": rec.cnt_md,
+                        "cnt_html": tornado.escape.xhtml_unescape(rec.cnt_html),
+                        "user_name": rec.user_name,
+                        "keywords": rec.keywords,
+                        "logo": rec.logo,
+                        "kind": rec.kind,
+                        "state": rec.state,
+                        "time_create": tools.format_time(rec.time_create),
+                        "time_update": tools.format_time(rec.time_update),
+                        "view_count": rec.view_count,
+                        "rating": rec.rating,
+                        "valid": rec.valid,
+                        "order": rec.order,
+                        "extinfo": rec.extinfo,
+                        "router": post_cfg[kind]['router'],
+                        "cur_user_id": self.userinfo.uid,
+                        "action_arr": act_arr
 
-            rec_arr.append(
-                {
-                    "uid": rec.uid,
-                    "title": rec.title,
-                    "cnt_md": rec.cnt_md,
-                    "cnt_html": tornado.escape.xhtml_unescape(rec.cnt_html),
-                    "user_name": rec.user_name,
-                    "keywords": rec.keywords,
-                    "logo": rec.logo,
-                    "kind": rec.kind,
-                    "state": rec.state,
-                    "time_create": tools.format_time(rec.time_create),
-                    "time_update": tools.format_time(rec.time_update),
-                    "view_count": rec.view_count,
-                    "rating": rec.rating,
-                    "valid": rec.valid,
-                    "order": rec.order,
-                    "extinfo": rec.extinfo,
-                    "router": post_cfg[kind]['router'],
-                    "cur_user_id": self.userinfo.uid,
-                    "action_arr": act_arr
+                    }
+                )
 
-                }
-            )
 
             output = {
                 "ok": True,
                 "status": 0,
                 "msg": "ok",
-                "data": {"count": counts, "rows": rec_arr}
+                "data": {"count": len(rec_arr), "rows": rec_arr}
             }
         return json.dump(output, self, ensure_ascii=False)
 
