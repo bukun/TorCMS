@@ -30,8 +30,7 @@
                 var btn_arr = ''
                 for (var act in m.act_arr) {
 
-                    btn_arr += '<a class="btn btn-warning btn-xs"  onclick="tjaction(' +
-                        m.act_arr[act]['act_uid'] + ',' + m.request_id + ')">' + m.act_arr[act]['act_name'] + '</a>&nbsp'
+                    btn_arr += '等待审核'
                 }
 
                 recstate.innerHTML = btn_arr
@@ -47,10 +46,14 @@
 <div class="row">
 
 <div  id="recstate" class="col-sm-5">
+    {% if postinfo.valid == 0 and action_arr %}
     {% for action in action_arr %}
         <a class="btn btn-warning btn-xs"
            onclick="tjaction('{{ action['act_uid'] }}','{{ action['request_id'] }}')">{{ action['act_name'] }}</a>
         {% end %}
+    {% else %}
+    Waiting for Review
+    {% end %}
 </div>
     {% if userinfo %}
 

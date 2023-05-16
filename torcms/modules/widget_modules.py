@@ -324,8 +324,9 @@ class State(tornado.web.UIModule):
                             print("1" * 50)
                             print(act)
                             act_rec=MAction.get_by_id(act['action']).get()
-                            act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": request_rec.uid}
-                            act_arr.append(act_dic)
+                            if act_rec.action_type.startswith('restart'):
+                                act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": request_rec.uid}
+                                act_arr.append(act_dic)
                 else:
                     act_recs = MTransitionAction.query_by_pro_state(process_id, cur_state_id)
 
@@ -333,8 +334,9 @@ class State(tornado.web.UIModule):
                         print("1" * 50)
                         print(act)
                         act_rec = MAction.get_by_id(act['action']).get()
-                        act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": request_rec.uid}
-                        act_arr.append(act_dic)
+                        if act_rec.action_type.startswith('restart'):
+                            act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": request_rec.uid}
+                            act_arr.append(act_dic)
             else:
 
 
@@ -347,8 +349,11 @@ class State(tornado.web.UIModule):
                     act_rec = MAction.get_by_id(act['action']).get()
 
                     print(act_rec.name)
-                    act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": ''}
-                    act_arr.append(act_dic)
+                    if act_rec.action_type.startswith('restart'):
+                        act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": ''}
+                        act_arr.append(act_dic)
+
+
 
 
         else:
@@ -371,10 +376,10 @@ class State(tornado.web.UIModule):
             for act in act_recs:
 
                 act_rec = MAction.get_by_id(act['action']).get()
-
-                print(act_rec.name)
-                act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": ''}
-                act_arr.append(act_dic)
+                if act_rec.action_type.startswith('restart'):
+                    print(act_rec.name)
+                    act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": ''}
+                    act_arr.append(act_dic)
 
             # 创建请求
             # act_arr,cur_state_id=self.test_create_request(process_id, postinfo.uid,userinfo.uid)

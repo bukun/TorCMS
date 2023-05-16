@@ -137,8 +137,8 @@ class ApiPostHandler(PostHandler):
                         for cur_act in cur_actions:
                             MRequestAction.create(new_request_id, cur_act['action'], cur_act['transition'])
                             act = MAction.get_by_id(cur_act['action']).get()
-                            # if act.action_type.startswith('restart'):
-                            act_arr.append(
+                            if act.action_type.startswith('restart'):
+                                act_arr.append(
                                 {"act_name": act.name, "act_uid": cur_act['action'], "request_id": new_request_id})
                         print(act_arr)
                         output = {'act_arr': act_arr, "request_id": new_request_id, "cur_state": new_state.uid}
@@ -148,19 +148,11 @@ class ApiPostHandler(PostHandler):
                 else:
 
                     print("1.6 " * 50)
-                    act = MAction.get_by_id(istrues.action).get()
-                    act_arr.append({"act_name": act.name, "act_uid": act.uid, "request_id": request_id})
+                    # act = MAction.get_by_id(istrues.action).get()
+                    act_arr.append({"act_name":"等待审核", "act_uid":"", "request_id": request_id})
 
                     output = {'act_arr': act_arr, "request_id": request_id, "cur_state": state_id}
                     return json.dump(output, self)
-            else:
-
-                print("1.5 " * 50)
-                act = MAction.get_by_id(act_id).get()
-                act_arr.append({"act_name": act.name, "act_uid": act.uid, "request_id": request_id})
-
-                output = {'act_arr': act_arr, "request_id": request_id, "cur_state": state_id}
-                return json.dump(output, self)
 
         else:
             print("2-" * 50)
@@ -355,18 +347,20 @@ class ApiPostHandler(PostHandler):
 
                             for act in act_recs:
                                 act_rec = MAction.get_by_id(act['action']).get()
-                                act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid,
-                                           "request_id": request_rec.uid, "state_id": cur_state.uid,
-                                           "process_id": process_id}
-                                act_arr.append(act_dic)
+                                if not act_rec.action_type.startswith('restart'):
+                                    act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid,
+                                               "request_id": request_rec.uid, "state_id": cur_state.uid,
+                                               "process_id": process_id}
+                                    act_arr.append(act_dic)
                     else:
                         act_recs = MTransitionAction.query_by_pro_state(process_id, cur_state_id)
 
                         for act in act_recs:
                             act_rec = MAction.get_by_id(act['action']).get()
-                            act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": request_rec.uid,
-                                       "state_id": cur_state.uid, "process_id": process_id}
-                            act_arr.append(act_dic)
+                            if not act_rec.action_type.startswith('restart'):
+                                act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": request_rec.uid,
+                                           "state_id": cur_state.uid, "process_id": process_id}
+                                act_arr.append(act_dic)
 
             rec_arr.append(
                 {
