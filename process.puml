@@ -11,13 +11,13 @@ left to right direction
 编辑者 --> 发布数据Post
 发布数据Post --> 查询流程
 rectangle 查询流程{
-    (查询流程) --> (返回相关动作):<<流程存在，返回相关动作>>
+    (查询流程) --> (创建动作Action):<<流程存在，返回相关动作>>
     (查询流程) --> (创建流程Process):<<流程不存在，创建新流程Process>>
     (创建流程Process) --> (创建动作Action):<<Process.uid>>
     (创建流程Process) --> (创建状态State):<<Process.uid, Post.uid>>
     (创建状态State) --> (创建状态转换Transition):<<Process.uid, State.current_state,State.next_state, Post.uid>>
     (创建状态转换Transition) --> (创建转换动作TransitionAction):<<Transition.uid,Action.uid>>
-    (创建转换动作TransitionAction)  --> (返回相关动作)
+    (创建转换动作TransitionAction)  --> (创建动作Action):<<返回相关动作>>
 }
 
 rectangle 创建状态State{
@@ -46,9 +46,9 @@ rectangle 创建转换动作TransitionAction{
 
 
 rectangle 返回相关动作{
-    (提交审核) --> (编辑者):<<编辑者操作>>
-    (取消审核) --> (编辑者):<<编辑者操作>>
-    (通过审核) --> (管理员):<<管理员操作>>
-    (拒绝审核) --> (管理员):<<管理员操作>>
+    (编辑者) --> (提交审核) :<<编辑者操作>>
+    (编辑者) --> (取消审核) :<<编辑者操作>>
+    (管理员) --> (通过审核)  :<<管理员操作>>
+    (管理员) --> (拒绝审核):<<管理员操作>>
 }
 @enduml

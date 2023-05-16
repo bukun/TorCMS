@@ -1,0 +1,41 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+!pragma teoz true
+
+
+title 审核流程:请求流程
+left to right direction
+
+
+管理员 --> 审核数据
+编辑者 --> (提交审核):<<request.uid, post.uid, user.uid, act.uid, state.uid, process.uid>>
+  
+
+rectangle 提交审核{
+    (提交审核) --> (创建请求Request):<<状态为开始状态：process.uid, post.uid, user.uid，cur_state.uid>>
+    (创建请求Request) --> (创建请求动作RequestAction):<<process.uid,cur_state.uid >>
+    (创建请求动作RequestAction) --> (返回相关动作)
+    (提交审核) --> (查询RequestAction):<<请求存在：提交的Action与其中一个（is_active = true）的活动RequestActions匹配>>
+    (查询RequestAction) --> (更新RequestAction):<<设置 is_active = false 和 is_completed = true>>
+    (查询RequestAction) --> (返回相关动作):<<is_complete为False,返回相关动作>>
+    (查询RequestAction) --> (转到下一状态):<<is_complete为True禁用该请求下其它动作,转到下一状态>>
+    (转到下一状态) --> (更新数据valid=1):<<state_type为complete，更新数据valid=1>>
+    (转到下一状态) --> (创建请求Request):<<根据process.uid,cur_state.uid查询TransitionAction中动作>>
+}
+
+
+
+rectangle 返回相关动作{
+    (编辑者) --> (提交审核) :<<编辑者操作>>
+    (编辑者) --> (取消审核) :<<编辑者操作>>
+    (管理员) --> (通过审核) :<<管理员操作>>
+    (管理员) --> (拒绝审核):<<管理员操作>>
+    (通过审核) --> (查询RequestAction):<<管理员操作>>
+    (拒绝审核) --> (查询RequestAction):<<管理员操作>>
+    (取消审核) --> (查询RequestAction):<<编辑者操作>>
+
+
+
+
+}
+@enduml

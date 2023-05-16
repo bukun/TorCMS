@@ -156,7 +156,7 @@ class ApiPostHandler(PostHandler):
             else:
 
                 print("1.5 " * 50)
-                act = MAction.get_by_id(istrues.action).get()
+                act = MAction.get_by_id(act_id).get()
                 act_arr.append({"act_name": act.name, "act_uid": act.uid, "request_id": request_id})
 
                 output = {'act_arr': act_arr, "request_id": request_id, "cur_state": state_id}
@@ -263,7 +263,7 @@ class ApiPostHandler(PostHandler):
             else:
 
                 print("1.5 " * 50)
-                act = MAction.get_by_id(istrues.action).get()
+                act = MAction.get_by_id(act_id).get()
                 act_arr.append({"act_name": act.name, "act_uid": act.uid, "request_id": request_id, "cur_state": state_id,"process_id": process_id})
 
 
