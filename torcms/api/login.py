@@ -537,6 +537,8 @@ class UserApi(BaseHandler):
     def fromCharCOde(self, passstr, *b):
         return chr(passstr % 65536) + "".join([chr(i % 65536) for i in b])
 
+
+
     def login(self):
         '''
         user login.
@@ -549,6 +551,7 @@ class UserApi(BaseHandler):
         check_email = re.compile(r'^\w+@(\w+\.)+(com|cn|net)$')
 
         result = MUser.check_user_by_name(u_name, u_pass)
+
         # 根据用户名进行验证，如果不存在，则作为E-mail来获取用户名进行验证
         if result == -1 and check_email.search(u_name):
             user_x = MUser.get_by_email(u_name)
@@ -556,6 +559,19 @@ class UserApi(BaseHandler):
                 result = MUser.check_user_by_name(user_x.user_name, u_pass)
 
         if result == 1:
+            userinfo=MUser.get_by_name(u_name)
+            if u_name in ['admin', 'lihy0']:
+               pass
+            elif userinfo.extinfo.get(f'_per_{self.kind}{"assign_role"}', 0) == 1:
+                pass
+            else:
+                kwd = {
+                    "ok": False,
+                    "status": 404,
+                    "msg": "没有权限"
+                }
+                return json.dump(kwd, self, ensure_ascii=False)
+
             self.set_secure_cookie(
                 "user",
                 u_name,
@@ -572,6 +588,7 @@ class UserApi(BaseHandler):
             )
 
             MUser.update_success_info(u_name)
+
 
             self.set_status(200)
             user_login_status = {
