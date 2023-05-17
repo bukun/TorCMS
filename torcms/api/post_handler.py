@@ -150,12 +150,6 @@ class ApiPostHandler(PostHandler):
 
                             return json.dump(output, self)
 
-                    else:
-
-                        print("1.6 " * 50)
-
-                        output = {'act_arr': act_arr, "request_id": request_id, "cur_state": state_id}
-                        return json.dump(output, self)
 
         else:
             print("2-" * 50)
@@ -228,11 +222,10 @@ class ApiPostHandler(PostHandler):
                             for cur_act in cur_actions:
                                 MRequestAction.create(new_request_id, cur_act['action'], cur_act['transition'])
                                 act = MAction.get_by_id(cur_act['action']).get()
-                                # if act.action_type.startswith('restart'):
+
                                 act_arr.append(
                                     {"act_name": act.name, "act_uid": cur_act['action'], "request_id": new_request_id,
                                      "cur_state": new_state.uid, "process_id": process_id})
-                            print(act_arr)
 
                             output = {"responseStatus": 0,
                                       "responseData": {
@@ -241,22 +234,6 @@ class ApiPostHandler(PostHandler):
                                       "responseMsg": "ok"
                                       }
                             return json.dump(output, self)
-
-                    else:
-
-                        print("1.16 " * 50)
-                        act = MAction.get_by_id(istrues.action).get()
-                        act_arr.append(
-                            {"act_name": act.name, "act_uid": act.uid, "request_id": request_id, "cur_state": state_id,
-                             "process_id": process_id})
-
-                        output = {"responseStatus": 0,
-                                  "responseData": {
-                                      'act_arr': act_arr
-                                  },
-                                  "responseMsg": "ok"
-                                  }
-                        return json.dump(output, self)
 
     @privilege.permission(action='assign_group')
     @tornado.web.authenticated
