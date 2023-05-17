@@ -65,16 +65,7 @@
         "expand": "all"
       },
       "primaryField": "uid",
-      "bulkActions": [
-        {
-          "label": "批量删除",
-          "type": "button",
-          "level": "danger",
-          "actionType": "ajax",
-          "api": "/api/transition/batch_delete/${ids|raw}",
-          "confirmText": "确定要批量删除?"
-        }
-      ],
+
       "filterTogglable": true,
       "headerToolbar": [
         "bulkActions",
@@ -119,29 +110,8 @@
           "label": "下一状态",
           "type": "text",
           "required": true
-        },
-        {
-          "type": "operation",
-          "label": "操作",
-          "width": "",
-          "buttons": [
-            {
-              "type": "button-group",
-              "buttons": [
-                {
-                  "type": "button",
-                  "label": "删除",
-                  "level": "danger",
-                  "actionType": "ajax",
-                  "confirmText": "您确认要删除?",
-                  "api": "/api/transition/_delete/$uid"
-                }
-              ]
-            }
-          ],
-          "placeholder": "-",
-          "fixed": "right"
         }
+
       ],
       "affixHeader": true,
       "columnsTogglable": "auto",
