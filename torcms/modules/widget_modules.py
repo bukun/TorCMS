@@ -294,51 +294,23 @@ class State(tornado.web.UIModule):
         #根据post查询最新流程
         cur_pro=MProcess.query_by_name(postinfo.uid)
 
-
-        print("3" * 50)
-
-
-
         if cur_pro.count() > 0:
             process_id=cur_pro.get().uid
 
-            ##查询当前用户的请求
+            ##查询流程的最新请求
             request_rec = MRequest.get_by_pro(process_id)
-
             act_arr = []
             if request_rec:
-                print(request_rec.uid)
                 cur_state_id = request_rec.current_state
-                cur_state=MState.get_by_uid(cur_state_id).get()
-                print(cur_state.state_type)
-                act_id = MAction.get_by_action_type('approve_'+postinfo.uid)
-                req_act=MRequestAction.get_by_action_request(act_id,request_rec.uid)
-                if req_act:
-                    if req_act.is_complete:
-                        pass
+                act_recs = MTransitionAction.query_by_pro_state(process_id, cur_state_id)
+                for act in act_recs:
+                    act_rec = MAction.get_by_id(act['action']).get()
+                    if act_rec.action_type.startswith('restart'):
+                        act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": request_rec.uid}
 
-                    else:
-                        act_recs = MTransitionAction.query_by_pro_state(process_id,cur_state_id)
-
-                        for act in act_recs:
-                            print("1" * 50)
-                            print(act)
-                            act_rec=MAction.get_by_id(act['action']).get()
-                            if act_rec.action_type.startswith('restart'):
-                                act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": request_rec.uid}
-                                act_arr.append(act_dic)
-                else:
-                    act_recs = MTransitionAction.query_by_pro_state(process_id, cur_state_id)
-
-                    for act in act_recs:
-                        print("1" * 50)
-                        print(act)
-                        act_rec = MAction.get_by_id(act['action']).get()
-                        if act_rec.action_type.startswith('restart'):
-                            act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": request_rec.uid}
-                            act_arr.append(act_dic)
+                        act_arr.append(act_dic)
+                print(act_arr)
             else:
-
 
                 cur_state_id = MState.get_by_state_type('normal_' + postinfo.uid)
                 print("*" * 50)
@@ -488,9 +460,9 @@ class State(tornado.web.UIModule):
                 {'current_state': state_dic['cancelled_{}'.format(post_id)],
                  'next_state': state_dic['complete_{}'.format(post_id)], 'act_id': act_approve},
 
-                # 状态：“拒绝”对应的“正常”
+                # 状态：“拒绝”对应的“开始”
                 {'current_state': state_dic['denied_{}'.format(post_id)],
-                 'next_state': state_dic['normal_{}'.format(post_id)], 'act_id': act_restart},
+                 'next_state': state_dic['start_{}'.format(post_id)], 'act_id': act_restart},
 
             ]
 

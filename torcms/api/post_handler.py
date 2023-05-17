@@ -108,51 +108,55 @@ class ApiPostHandler(PostHandler):
                 print("gengxin")
                 MRequestAction.update_by_action(act_id, request_id)
 
-            # 查询该请求中该转换的所有动作是否都为True
-            istrues = MRequestAction.query_by_request_trans(request_id, reqact.transition)
+                # 查询该请求中该转换的所有动作是否都为True
+                istrues = MRequestAction.query_by_request_trans(request_id, reqact.transition)
 
-            if istrues:
-                if istrues.is_complete:
-                    print("1.2 " * 50)
-                    # 禁用该请求下其它动作
-                    MRequestAction.update_by_action_reqs(act_id, request_id)
-                    # 转到下一状态
-                    trans = MTransition.get_by_uid(reqact.transition).get()
-                    new_state = MState.get_by_uid(trans.next_state).get()
+                if istrues:
+                    if istrues.is_complete:
+                        print("1.2 " * 50)
+                        # 禁用该请求下其它动作
+                        MRequestAction.update_by_action_reqs(act_id, request_id)
+                        # 转到下一状态
+                        trans = MTransition.get_by_uid(reqact.transition).get()
+                        new_state = MState.get_by_uid(trans.next_state).get()
 
-                    if new_state.state_type.startswith('complete'):
-                        print("1.3 " * 50)
-                        MPost.update_valid(post_id)
+                        print(trans.current_state)
+                        print(trans.next_state)
 
-                        output = {'act_arr': '', "request_id": ''}
-                        return json.dump(output, self)
-                    else:
-                        print("1.4 " * 50)
-                        # 创建请求
-                        new_request_id = MRequest.create(process_id, post_id, user_id, new_state.uid)
+                        if new_state.state_type.startswith('complete'):
+                            print("1.3 " * 50)
+                            MPost.update_valid(post_id)
 
-                        # 创建请求操作
-                        cur_actions = MTransitionAction.query_by_pro_state(process_id, new_state.uid)
+                            output = {'act_arr': '', "request_id": ''}
+                            return json.dump(output, self)
+                        else:
+                            print("1.4 " * 50)
+                            print(new_state.name)
+                            # 创建请求
+                            new_request_id = MRequest.create(process_id, post_id, user_id, new_state.uid)
 
-                        for cur_act in cur_actions:
-                            MRequestAction.create(new_request_id, cur_act['action'], cur_act['transition'])
-                            act = MAction.get_by_id(cur_act['action']).get()
-                            if act.action_type.startswith('restart'):
+                            # 创建请求操作
+                            cur_actions = MTransitionAction.query_by_pro_state(process_id, new_state.uid)
+
+                            for cur_act in cur_actions:
+                                MRequestAction.create(new_request_id, cur_act['action'], cur_act['transition'])
+                                act = MAction.get_by_id(cur_act['action']).get()
+
                                 act_arr.append(
                                 {"act_name": act.name, "act_uid": cur_act['action'], "request_id": new_request_id})
-                        print(act_arr)
-                        output = {'act_arr': act_arr, "request_id": new_request_id, "cur_state": new_state.uid}
+                            print(act_arr)
+                            output = {'act_arr': act_arr, "request_id": new_request_id, "cur_state": new_state.uid}
 
+                            return json.dump(output, self)
+
+                    else:
+
+                        print("1.6 " * 50)
+
+
+
+                        output = {'act_arr': act_arr, "request_id": request_id, "cur_state": state_id}
                         return json.dump(output, self)
-
-                else:
-
-                    print("1.6 " * 50)
-                    # act = MAction.get_by_id(istrues.action).get()
-                    act_arr.append({"act_name":"等待审核", "act_uid":"", "request_id": request_id})
-
-                    output = {'act_arr': act_arr, "request_id": request_id, "cur_state": state_id}
-                    return json.dump(output, self)
 
         else:
             print("2-" * 50)
@@ -191,44 +195,59 @@ class ApiPostHandler(PostHandler):
                 print("gengxin")
                 MRequestAction.update_by_action(act_id, request_id)
 
-            # 查询该请求中该转换的所有动作是否都为True
-            istrues = MRequestAction.query_by_request_trans(request_id, reqact.transition)
+                # 查询该请求中该转换的所有动作是否都为True
+                istrues = MRequestAction.query_by_request_trans(request_id, reqact.transition)
 
-            if istrues:
-                if istrues.is_complete:
-                    print("1.2 " * 50)
-                    # 禁用该请求下其它动作
-                    MRequestAction.update_by_action_reqs(act_id, request_id)
-                    # 转到下一状态
-                    trans = MTransition.get_by_uid(reqact.transition).get()
-                    new_state = MState.get_by_uid(trans.next_state).get()
+                if istrues:
+                    if istrues.is_complete:
+                        print("1.12 " * 50)
+                        # 禁用该请求下其它动作
+                        MRequestAction.update_by_action_reqs(act_id, request_id)
+                        # 转到下一状态
+                        trans = MTransition.get_by_uid(reqact.transition).get()
+                        new_state = MState.get_by_uid(trans.next_state).get()
 
-                    if new_state.state_type.startswith('complete'):
-                        print("1.3 " * 50)
-                        MPost.update_valid(post_id)
+                        if new_state.state_type.startswith('complete'):
+                            print("1.13 " * 50)
+                            MPost.update_valid(post_id)
 
-                        output = {"responseStatus": 0,
-                                  "responseData": {
-                                      'act_arr': ''
-                                  },
-                                  "responseMsg": "ok"
-                                  }
-                        return json.dump(output, self)
+                            output = {"responseStatus": 0,
+                                      "responseData": {
+                                          'act_arr': ''
+                                      },
+                                      "responseMsg": "ok"
+                                      }
+                            return json.dump(output, self)
+                        else:
+                            print("1.14 " * 50)
+                            # 创建请求
+                            new_request_id = MRequest.create(process_id, post_id, user_id, new_state.uid)
+
+                            # 创建请求操作
+                            cur_actions = MTransitionAction.query_by_pro_state(process_id, new_state.uid)
+
+                            for cur_act in cur_actions:
+                                MRequestAction.create(new_request_id, cur_act['action'], cur_act['transition'])
+                                act = MAction.get_by_id(cur_act['action']).get()
+                                # if act.action_type.startswith('restart'):
+                                act_arr.append(
+                                    {"act_name": act.name, "act_uid": cur_act['action'], "request_id": new_request_id, "cur_state": new_state.uid,"process_id": process_id})
+                            print(act_arr)
+
+                            output = {"responseStatus": 0,
+                                      "responseData": {
+                                          'act_arr': act_arr
+                                      },
+                                      "responseMsg": "ok"
+                                      }
+                            return json.dump(output, self)
+
                     else:
-                        print("1.4 " * 50)
-                        # 创建请求
-                        new_request_id = MRequest.create(process_id, post_id, user_id, new_state.uid)
 
-                        # 创建请求操作
-                        cur_actions = MTransitionAction.query_by_pro_state(process_id, new_state.uid)
+                        print("1.16 " * 50)
+                        act = MAction.get_by_id(istrues.action).get()
+                        act_arr.append({"act_name": act.name, "act_uid": act.uid, "request_id": request_id, "cur_state": state_id,"process_id": process_id})
 
-                        for cur_act in cur_actions:
-                            MRequestAction.create(new_request_id, cur_act['action'], cur_act['transition'])
-                            act = MAction.get_by_id(cur_act['action']).get()
-                            # if act.action_type.startswith('restart'):
-                            act_arr.append(
-                                {"act_name": act.name, "act_uid": cur_act['action'], "request_id": new_request_id, "cur_state": new_state.uid,"process_id": process_id})
-                        print(act_arr)
 
                         output = {"responseStatus": 0,
                                   "responseData": {
@@ -237,12 +256,12 @@ class ApiPostHandler(PostHandler):
                                   "responseMsg": "ok"
                                   }
                         return json.dump(output, self)
-
                 else:
 
-                    print("1.6 " * 50)
-                    act = MAction.get_by_id(istrues.action).get()
+                    print("1.15 " * 50)
+                    act = MAction.get_by_id(act_id).get()
                     act_arr.append({"act_name": act.name, "act_uid": act.uid, "request_id": request_id, "cur_state": state_id,"process_id": process_id})
+
 
 
                     output = {"responseStatus": 0,
@@ -252,21 +271,6 @@ class ApiPostHandler(PostHandler):
                               "responseMsg": "ok"
                               }
                     return json.dump(output, self)
-            else:
-
-                print("1.5 " * 50)
-                act = MAction.get_by_id(act_id).get()
-                act_arr.append({"act_name": act.name, "act_uid": act.uid, "request_id": request_id, "cur_state": state_id,"process_id": process_id})
-
-
-
-                output = {"responseStatus": 0,
-                          "responseData": {
-                              'act_arr': act_arr
-                          },
-                          "responseMsg": "ok"
-                          }
-                return json.dump(output, self)
 
         else:
             print("2-" * 50)
