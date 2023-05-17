@@ -324,7 +324,7 @@ class ApiPostHandler(PostHandler):
         # recs = MPost.query_list_pager(kind, current_page_num, perPage)
         counts = recs.count()
         rec_arr = []
-     
+
         for rec in recs:
             cur_pro = MProcess.query_by_name(rec.uid)
 
@@ -392,12 +392,12 @@ class ApiPostHandler(PostHandler):
                 )
 
 
-            output = {
-                "ok": True,
-                "status": 0,
-                "msg": "ok",
-                "data": {"count": len(rec_arr), "rows": rec_arr}
-            }
+        output = {
+            "ok": True,
+            "status": 0,
+            "msg": "ok",
+            "data": {"count": len(rec_arr), "rows": rec_arr}
+        }
         return json.dump(output, self, ensure_ascii=False)
 
     @tornado.web.authenticated
