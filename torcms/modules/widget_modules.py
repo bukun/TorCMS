@@ -360,14 +360,14 @@ class State(tornado.web.UIModule):
             # 创建流程
             process_id=MProcess.create(postinfo.uid)
             # 创建动作
-            self.test_create_action(process_id, postinfo.uid)
+            self.create_action(process_id, postinfo.uid)
 
 
             # 创建状态
-            state_dic=self.test_create_state(process_id, postinfo.uid)
+            state_dic=self.create_state(process_id, postinfo.uid)
 
             # 创建状态转换
-            self.test_create_trans(process_id, state_dic, postinfo.uid)
+            self.create_trans(process_id, state_dic, postinfo.uid)
             cur_state_id=MState.get_by_state_type('normal_' + postinfo.uid)
             print("*" * 50)
             print(cur_state_id)
@@ -400,7 +400,7 @@ class State(tornado.web.UIModule):
             process_id=process_id
         )
 
-    def test_create_state(self, process_id, post_id):
+    def create_state(self, process_id, post_id):
         '''
         创建状态TabState
         '''
@@ -429,7 +429,7 @@ class State(tornado.web.UIModule):
             state_dic[state_data['state_type']] = state_uid
 
         return state_dic
-    def test_create_action(self, process_id, post_id):
+    def create_action(self, process_id, post_id):
         '''
         创建动作TabAction
         '''
@@ -454,7 +454,7 @@ class State(tornado.web.UIModule):
             action_uids.append(act_uid)
         assert action_uids
 
-    def test_create_trans(self, process_id, state_dic, post_id):
+    def create_trans(self, process_id, state_dic, post_id):
         '''
          转换Tabtransition
         '''
@@ -498,11 +498,11 @@ class State(tornado.web.UIModule):
                 tran_id = MTransition.create(process_id, tran['current_state'], tran['next_state'])
 
                 # 创建转换动作
-                self.test_create_transaction(tran_id, tran['act_id'])
+                self.create_transaction(tran_id, tran['act_id'])
 
             # assert True
 
-    def test_create_transaction(self, trans_id, actid):
+    def create_transaction(self, trans_id, actid):
         '''
        转换动作TransitionAction
         '''
