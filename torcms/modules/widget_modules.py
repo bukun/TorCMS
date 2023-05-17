@@ -13,8 +13,9 @@ from torcms.model.replyid_model import MReplyid
 from torcms.model.user_model import MUser
 from torcms.model.post_model import MPost
 from torcms.model.process_model import MState, MTransition, MRequest, MAction, MRequestAction, \
-    MTransitionAction,MProcess
+    MTransitionAction, MProcess
 from torcms.model.staff2role_model import MStaff2Role
+
 
 class BaiduShare(tornado.web.UIModule):
     '''
@@ -290,12 +291,11 @@ class State(tornado.web.UIModule):
         kind = kwargs.get('kind', '9')
         # post_authority = config.post_cfg[kind]['checker']
 
-
-        #根据post查询最新流程
-        cur_pro=MProcess.query_by_name(postinfo.uid)
+        # 根据post查询最新流程
+        cur_pro = MProcess.query_by_name(postinfo.uid)
 
         if cur_pro.count() > 0:
-            process_id=cur_pro.get().uid
+            process_id = cur_pro.get().uid
 
             ##查询流程的最新请求
             request_rec = MRequest.get_by_pro(process_id)
@@ -309,7 +309,7 @@ class State(tornado.web.UIModule):
                         act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": request_rec.uid}
 
                         act_arr.append(act_dic)
-                print(act_arr)
+
             else:
 
                 cur_state_id = MState.get_by_state_type('normal_' + postinfo.uid)
@@ -330,20 +330,19 @@ class State(tornado.web.UIModule):
 
         else:
             # 创建流程
-            process_id=MProcess.create(postinfo.uid)
+            process_id = MProcess.create(postinfo.uid)
             # 创建动作
             self.create_action(process_id, postinfo.uid)
 
-
             # 创建状态
-            state_dic=self.create_state(process_id, postinfo.uid)
+            state_dic = self.create_state(process_id, postinfo.uid)
 
             # 创建状态转换
             self.create_trans(process_id, state_dic, postinfo.uid)
-            cur_state_id=MState.get_by_state_type('normal_' + postinfo.uid)
+            cur_state_id = MState.get_by_state_type('normal_' + postinfo.uid)
             print("*" * 50)
             print(cur_state_id)
-            act_recs=MTransitionAction.query_by_pro_state(process_id, cur_state_id)
+            act_recs = MTransitionAction.query_by_pro_state(process_id, cur_state_id)
             act_arr = []
             for act in act_recs:
 
@@ -395,12 +394,13 @@ class State(tornado.web.UIModule):
              'description': '没有特殊名称的常规状态_{0}'.format(post_id)},
 
         ]
-        state_dic= {}
+        state_dic = {}
         for state_data in state_datas:
             state_uid = MState.create(state_data)
             state_dic[state_data['state_type']] = state_uid
 
         return state_dic
+
     def create_action(self, process_id, post_id):
         '''
         创建动作TabAction
@@ -482,7 +482,7 @@ class State(tornado.web.UIModule):
         trans_act = MTransitionAction.create(trans_id, actid)
         # assert trans_act
 
-    def test_create_request(self, process_id, post_id,user_id):
+    def test_create_request(self, process_id, post_id, user_id):
         '''
         创建请求以及请求对应状态的相关动作
         '''
@@ -495,18 +495,17 @@ class State(tornado.web.UIModule):
             # 创建请求
             req_id = MRequest.create(process_id, post_id, user_id, cur_state.uid)
 
-
             # 创建请求操作
             cur_actions = MTransitionAction.query_by_pro_state(process_id, cur_state.uid)
-            act_arr=[]
+            act_arr = []
             for cur_act in cur_actions:
                 MRequestAction.create(req_id, cur_act['action'], cur_act['transition'])
-                act=MAction.get_by_id(cur_act['action']).get()
+                act = MAction.get_by_id(cur_act['action']).get()
                 if act.action_type.startswith('restart'):
                     act_arr.append({"act_name": act.name, "act_uid": cur_act['action'], "request_id": req_id})
-            return act_arr,cur_state.uid
+            return act_arr, cur_state.uid
 
-    def test_request_action(self, process_id, cur_state_id,post_id):
+    def test_request_action(self, process_id, cur_state_id, post_id):
         '''
         进行请求操作
         '''
