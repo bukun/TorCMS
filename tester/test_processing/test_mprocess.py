@@ -33,6 +33,7 @@ class TestMProcess():
         self.tag_id = '2342'
         self.post_id2 = '89898'
         self.slug = 'huio'
+        self.user_id = MUser.get_by_name('admin').uid
         self.state_dic = {}
         self.mprocess = MProcess()
         self.mstate = MState()
@@ -44,7 +45,6 @@ class TestMProcess():
 
         self.test_create_process()
 
-        self.user_id = MUser.get_by_name('admin').uid
         self.fake = Faker(locale="zh_CN")
 
     def tearDown(self, process_id=''):
@@ -236,51 +236,63 @@ class TestMProcess():
                 for cur_act in cur_actions:
                     MRequestAction.create(req_id, cur_act['action'], cur_act['transition'])
 
-                # 进行请求操作
-                # self.test_request_action(process_id, cur_state.uid)
+                    # 进行请求操作
+                    self.test_request_action(req_id, process_id, post_id, cur_act['action'])
 
-    def test_request_action(self, process_id='', cur_state_id=''):
+    def test_request_action(self, request_id='', process_id='', post_id='', act_id=''):
         '''
         进行请求操作
         '''
 
-        request_id = MRequest.get_by_pro_state(process_id, cur_state_id)
-        post_id = self.uid
-        user_id = self.user_id
-        act_type = 'approve_{0}'.format(process_id)
-        cur_act = MAction.get_by_action_type(act_type)
-        print("1" * 50)
-        print(request_id)
-        if cur_act:
-            print("2" * 50)
-            print(cur_act.uid)
+        act_arr = []
+        if request_id:
+            print("1-" * 50)
+            print(act_id)
             print(request_id)
+
             # 提交的Action与其中一个（is_active = true）的活动RequestActions匹配，设置 is_active = false 和 is_completed = true
-            reqact = MRequestAction.get_by_action_request(cur_act.uid, request_id)
-            print("3" * 50)
-            if reqact:
-                if reqact.is_active:
-                    # 更新操作动态
-                    print("gengxin")
-                    MRequestAction.update_by_action(cur_act.uid, request_id)
-                    # 查询该请求中该转换的所有动作是否都为True
-                    istrues = MRequestAction.query_by_request_trans(request_id, reqact.transition).get()
-                    print(istrues)
+            reqact = MRequestAction.get_by_action_request(act_id, request_id)
+
+            if reqact.is_active:
+                # 更新操作动态
+                print("gengxin")
+                MRequestAction.update_by_action(act_id, request_id)
+
+                # 查询该请求中该转换的所有动作是否都为True
+                istrues = MRequestAction.query_by_request_trans(request_id, reqact.transition)
+
+                if istrues:
                     if istrues.is_complete:
+                        print("1.2 " * 50)
                         # 禁用该请求下其它动作
-                        MRequestAction.update_by_action_reqs(cur_act.uid, request_id)
+                        MRequestAction.update_by_action_reqs(act_id, request_id)
                         # 转到下一状态
                         trans = MTransition.get_by_uid(reqact.transition).get()
                         new_state = MState.get_by_uid(trans.next_state).get()
-                        if new_state.state_type.startswith('normal_'):
-                            print("完成" * 5)
+
+                        print(trans.current_state)
+                        print(trans.next_state)
+
+                        if new_state.state_type.startswith('complete'):
+                            print("1.3 " * 50)
                             MPost.update_valid(post_id)
 
+                            output = {'act_arr': '', "request_id": ''}
+
                         else:
-                            act_arr = []
-                            acts = MTransitionAction.query_by_pro_state(process_id, new_state.uid)
-                            for act in acts:
-                                act_arr.append({'trans': act['transition'], 'act': act['action']})
-                            dics = {'new_state_id': new_state.uid, 'new_actarr': act_arr}
-                            print("4" * 50)
-                            print(dics)
+                            print("1.4 " * 50)
+                            print(new_state.name)
+                            # 创建请求
+                            new_request_id = MRequest.create(process_id, post_id, self.user_id, new_state.uid)
+
+                            # 创建请求操作
+                            cur_actions = MTransitionAction.query_by_pro_state(process_id, new_state.uid)
+
+                            for cur_act in cur_actions:
+                                MRequestAction.create(new_request_id, cur_act['action'], cur_act['transition'])
+                                act = MAction.get_by_id(cur_act['action']).get()
+
+                                act_arr.append(
+                                    {"act_name": act.name, "act_uid": cur_act['action'], "request_id": new_request_id})
+                            print(act_arr)
+                            output = {'act_arr': act_arr, "request_id": new_request_id, "cur_state": new_state.uid}
