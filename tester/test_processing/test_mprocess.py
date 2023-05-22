@@ -92,7 +92,7 @@ class TestMProcess():
         '''
         # 创建Post
         self.test_insert()
-        process_name = '数据审核'
+        process_name = '数据审核' + self.uid
         process_id = self.mprocess.create(process_name)
         if process_id:
             # 创建动作
@@ -276,8 +276,8 @@ class TestMProcess():
                         if new_state.state_type.startswith('complete'):
                             print("1.3 " * 50)
                             MPost.update_valid(post_id)
-
-                            output = {'act_arr': '', "request_id": ''}
+                            post_rec = MPost.get_by_uid(post_id)
+                            assert post_rec.valid == 1
 
                         else:
                             print("1.4 " * 50)
@@ -296,3 +296,4 @@ class TestMProcess():
                                     {"act_name": act.name, "act_uid": cur_act['action'], "request_id": new_request_id})
                             print(act_arr)
                             output = {'act_arr': act_arr, "request_id": new_request_id, "cur_state": new_state.uid}
+                            assert output
