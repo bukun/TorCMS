@@ -40,7 +40,7 @@ class TabState(BaseModel):
     )
     process = peewee.ForeignKeyField(TabProcess, backref='process', help_text='')
     name = peewee.CharField(
-        null=False, index=True, unique=True, max_length=255, help_text='名称'
+        null=False, index=True, max_length=255, help_text='名称'
     )
     state_type = peewee.CharField(
         null=False, index=True, unique=True, max_length=255, help_text='名称'
@@ -78,7 +78,7 @@ class TabAction(BaseModel):
         null=False, index=True, unique=True, max_length=255, help_text='名称'
     )
     name = peewee.CharField(
-        null=False, index=True, unique=True, max_length=255, help_text='名称'
+        null=False, index=True,  max_length=255, help_text='名称'
     )
     description = peewee.TextField()
 
@@ -584,6 +584,15 @@ class MRequest:
     @staticmethod
     def query_all():
         return TabRequest.select()
+
+    @staticmethod
+    def query_by_postid(post_id):
+        recs=TabRequest.select().where(TabRequest.post == post_id).order_by(TabRequest.time_create.desc())
+        if recs.count() > 0:
+            return recs.get()
+        else:
+            return None
+
 
     @staticmethod
     def get_id_by_username(post_id, user_name):
