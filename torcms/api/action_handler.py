@@ -102,7 +102,10 @@ class ActionHandler(BaseHandler):
                 for trans_rec in trans_recs:
                     cur_state = MState.get_by_uid(trans_rec.current_state).get()
                     next_state = MState.get_by_uid(trans_rec.next_state).get()
-                    trans_name = ' ['+cur_state.name + ' - ' + next_state.name+'] '
+                    cur_state_pro = MProcess.get_by_uid(cur_state.process).get()
+                    next_state_pro = MProcess.get_by_uid(next_state.process).get()
+
+                    trans_name = ' ( '+cur_state.name+' ['+cur_state_pro.name+'] - ' + next_state.name+' ['+next_state_pro.name+'] ) '
                     trans_arr.append(trans_name)
                 dic = {
                     "uid": rec.uid,

@@ -78,7 +78,7 @@ class TabAction(BaseModel):
         null=False, index=True, unique=True, max_length=255, help_text='名称'
     )
     name = peewee.CharField(
-        null=False, index=True,  max_length=255, help_text='名称'
+        null=False, index=True, max_length=255, help_text='名称'
     )
     description = peewee.TextField()
 
@@ -587,12 +587,11 @@ class MRequest:
 
     @staticmethod
     def query_by_postid(post_id):
-        recs=TabRequest.select().where(TabRequest.post == post_id).order_by(TabRequest.time_create.desc())
+        recs = TabRequest.select().where(TabRequest.post == post_id).order_by(TabRequest.time_create.desc())
         if recs.count() > 0:
             return recs.get()
         else:
             return None
-
 
     @staticmethod
     def get_id_by_username(post_id, user_name):
@@ -682,24 +681,21 @@ class MAction:
 
     @staticmethod
     def create(pro_id, action):
-        rec = MAction.get_by_name(action.get('name'))
-        if rec.count() > 0:
-            return False
-        else:
-            try:
-                uid = tools.get_uuid()
-                TabAction.create(
-                    uid=uid,
-                    process=pro_id,
-                    name=action.get('name'),
-                    action_type=action.get('action_type'),
-                    description=action.get('description')
-                )
 
-                return uid
-            except Exception as err:
-                print(repr(err))
-                return False
+        try:
+            uid = tools.get_uuid()
+            TabAction.create(
+                uid=uid,
+                process=pro_id,
+                name=action.get('name'),
+                action_type=action.get('action_type') + '_' + pro_id,
+                description=action.get('description')
+            )
+
+            return uid
+        except Exception as err:
+            print(repr(err))
+            return False
 
     @staticmethod
     def update(uid, post_data):
@@ -924,7 +920,7 @@ class MState:
                 uid=uid,
                 process=post_data.get('process'),
                 name=post_data.get('name'),
-                state_type=post_data.get('state_type'),
+                state_type=str(post_data.get('state_type')) + '_' + str(post_data.get('process')),
                 description=post_data.get('description', '')
             )
 

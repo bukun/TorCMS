@@ -73,7 +73,8 @@ class StateHandler(BaseHandler):
         dics = []
 
         for rec in recs:
-            dic = {"label": rec.name, "value": rec.uid}
+            cur_pro = MProcess.get_by_uid(rec.process).get()
+            dic = {"label": str(rec.name)+' ['+ str(cur_pro.name) +'] ', "value": rec.uid}
 
             dics.append(dic)
         out_dict = {"ok": True, "status": 0, 'data': dics}
@@ -149,20 +150,20 @@ class StateHandler(BaseHandler):
         else:
             return False
 
-        the_roles_arr = []
-        def_roles_arr = ['ext_process{0}'.format(x) for x in range(10)]
-        for key in def_roles_arr:
+        the_pro_arr = []
+        ext_pro_arr = ['ext_process{0}'.format(x) for x in range(10)]
+        for key in ext_pro_arr:
             if key not in post_data:
                 continue
             if post_data[key] == '' or post_data[key] == '0':
                 continue
 
-            if post_data[key] in the_roles_arr:
+            if post_data[key] in the_pro_arr:
                 continue
 
-            the_roles_arr.append(post_data[key])
+            the_pro_arr.append(post_data[key])
 
-        for process in the_roles_arr:
+        for process in the_pro_arr:
 
             exis_rec = MState.get_by_pro_statename(process, post_data['name'])
 
@@ -208,20 +209,20 @@ class StateHandler(BaseHandler):
         else:
             return False
 
-        the_roles_arr = []
-        def_roles_arr = ['ext_process{0}'.format(x) for x in range(10)]
-        for key in def_roles_arr:
+        the_pro_arr = []
+        ext_pro_arr = ['ext_process{0}'.format(x) for x in range(10)]
+        for key in ext_pro_arr:
             if key not in post_data:
                 continue
             if post_data[key] == '' or post_data[key] == '0':
                 continue
 
-            if post_data[key] in the_roles_arr:
+            if post_data[key] in the_pro_arr:
                 continue
 
-            the_roles_arr.append(post_data[key])
+            the_pro_arr.append(post_data[key])
         for uid in ids:
-            for process in the_roles_arr:
+            for process in the_pro_arr:
                 rec = MState.get_by_uid(uid).get()
                 exis_rec = MState.get_by_pro_statename(process, rec.name)
 
@@ -263,28 +264,27 @@ class StateHandler(BaseHandler):
         else:
             return False
 
-        the_roles_arr = []
+        the_pro_arr = []
 
-        def_roles_arr = ['ext_process{0}'.format(x) for x in range(10)]
-        for key in def_roles_arr:
+        ext_pro_arr = ['ext_process{0}'.format(x) for x in range(10)]
+        for key in ext_pro_arr:
             if key not in post_data:
                 continue
             if post_data[key] == '' or post_data[key] == '0':
                 continue
 
-            if post_data[key] in the_roles_arr:
+            if post_data[key] in the_pro_arr:
                 continue
 
-            the_roles_arr.append(post_data[key])
+            the_pro_arr.append(post_data[key])
 
-        for process in the_roles_arr:
+        for process in the_pro_arr:
 
             post_data["process"] = process
 
             exis_rec = MState.get_by_pro_statename(process, post_data['name'])
             if exis_rec.count() > 0:
-                print("*" * 50)
-                print(exis_rec.count())
+               
 
                 output = {
                     "ok": False,

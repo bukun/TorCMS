@@ -170,15 +170,6 @@ class ApiPostHandler(PostHandler):
                             return json.dump(output, self)
 
 
-        # else:
-        #     print("2-" * 50)
-        #     ##
-        #
-        #     act_arr, cur_state_id = self.create_request(process_id, post_id, user_id)
-        #
-        #     output = {'act_arr': act_arr, "request_id": request_id, "cur_state": cur_state_id}
-        #
-        #     return json.dump(output, self)
 
     @privilege.permission(action='assign_group')
     @tornado.web.authenticated

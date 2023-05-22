@@ -33,7 +33,7 @@ class TestMProcess():
         self.tag_id = '2342'
         self.post_id2 = '89898'
         self.slug = 'huio'
-        self.state_arr = {}
+        self.state_dic = {}
         self.mprocess = MProcess()
         self.mstate = MState()
         self.mtrans = MTransition()
@@ -43,7 +43,7 @@ class TestMProcess():
         self.mtransaction = MTransitionAction()
 
         self.test_create_process()
-        self.state_arr = {}
+
         self.user_id = MUser.get_by_name('admin').uid
         self.fake = Faker(locale="zh_CN")
 
@@ -102,7 +102,7 @@ class TestMProcess():
             self.test_create_state(process_id)
 
             # 创建状态转换
-            self.test_create_trans(process_id, self.state_arr)
+            self.test_create_trans(process_id, self.state_dic)
 
             # 创建请求
             self.test_create_request(process_id, self.uid)
@@ -113,29 +113,25 @@ class TestMProcess():
         '''
 
         state_datas = [
-            {'process': process_id, 'name': '开始',
-             'state_type': 'start_{0}'.format(process_id),
+            {'name': '开始', 'state_type': 'start',
              'description': '每个进程只应该一个。此状态是创建新请求时所处的状态'},
-            {'process': process_id, 'name': '拒绝',
-             'state_type': 'denied_{0}'.format(process_id),
+            {'name': '拒绝', 'state_type': 'denied',
              'description': '表示此状态下的任何请求已被拒绝的状态(例如，从未开始且不会被处理)'},
-            {'process': process_id, 'name': '完成',
-             'state_type': 'complete_{0}'.format(process_id),
+            {'name': '完成', 'state_type': 'complete',
              'description': '表示此状态下的任何请求已正常完成的状态'},
-            {'process': process_id, 'name': '取消',
-             'state_type': 'cancelled_{0}'.format(process_id),
+            {'name': '取消', 'state_type': 'cancelled',
              'description': '表示此状态下的任何请求已被取消的状态(例如，工作已开始但尚未完成)'},
-            {'process': process_id, 'name': '正常',
-             'state_type': 'normal_{0}'.format(process_id),
+            {'name': '正常', 'state_type': 'normal',
              'description': '没有特殊名称的常规状态'},
 
         ]
 
         for state_data in state_datas:
+            state_data['process'] = process_id
             state_uid = MState.create(state_data)
-            self.state_arr[state_data['state_type']] = state_uid
+            self.state_dic[state_data['state_type']] = state_uid
 
-        assert self.state_arr
+        assert self.state_dic
 
     def test_create_action(self, process_id=''):
         '''
@@ -143,15 +139,15 @@ class TestMProcess():
         '''
 
         action_datas = [
-            {'action_type': 'deny_{0}'.format(process_id),
+            {'action_type': 'deny',
              'name': '拒绝', 'description': '操作人将请求应移至上一个状态'},
-            {'action_type': 'cancel_{0}'.format(process_id),
+            {'action_type': 'cancel',
              'name': '取消', 'description': '操作人将请求应在此过程中移至“已取消”状态'},
-            {'action_type': 'resolve_{0}'.format(process_id),
+            {'action_type': 'resolve',
              'name': '完成', 'description': '操作人将将请求一直移动到Completed状态'},
-            {'action_type': 'approve_{0}'.format(process_id),
+            {'action_type': 'approve',
              'name': '通过', 'description': '操作人将请求应移至下一个状态'},
-            {'action_type': 'restart_{0}'.format(process_id),
+            {'action_type': 'restart',
              'name': '提交审核', 'description': '操作人将将请求移回到进程中的“开始”状态'},
 
         ]
@@ -169,38 +165,37 @@ class TestMProcess():
         if process_id:
             deny = 'deny_' + process_id
             cancel = 'cancel_' + process_id
-            resolve = 'resolve_' + process_id
             restart = 'restart_' + process_id
             approve = 'approve_' + process_id
 
             act_deny = MAction.get_by_action_type(deny).uid
             act_cancel = MAction.get_by_action_type(cancel).uid
-            act_resolve = MAction.get_by_action_type(resolve).uid
+
             act_restart = MAction.get_by_action_type(restart).uid
             act_approve = MAction.get_by_action_type(approve).uid
 
             trans = [
                 # 状态：“正常”对应的“开始”
-                {'current_state': state_dic['normal_{}'.format(process_id)],
-                 'next_state': state_dic['start_{}'.format(process_id)], 'act_id': act_restart},
+                {'current_state': state_dic['normal'],
+                 'next_state': state_dic['start'], 'act_id': act_restart},
 
                 # 状态：“开始”对应的“拒绝”，“完成”，“取消”
-                {'current_state': state_dic['start_{}'.format(process_id)],
-                 'next_state': state_dic['denied_{}'.format(process_id)], 'act_id': act_deny},
-                {'current_state': state_dic['start_{}'.format(process_id)],
-                 'next_state': state_dic['complete_{}'.format(process_id)], 'act_id': act_approve},
-                {'current_state': state_dic['start_{}'.format(process_id)],
-                 'next_state': state_dic['cancelled_{}'.format(process_id)], 'act_id': act_cancel},
+                {'current_state': state_dic['start'],
+                 'next_state': state_dic['denied'], 'act_id': act_deny},
+                {'current_state': state_dic['start'],
+                 'next_state': state_dic['complete'], 'act_id': act_approve},
+                {'current_state': state_dic['start'],
+                 'next_state': state_dic['cancelled'], 'act_id': act_cancel},
 
                 # 状态：“取消”对应的“拒绝”，“完成”
-                {'current_state': state_dic['cancelled_{}'.format(process_id)],
-                 'next_state': state_dic['denied_{}'.format(process_id)], 'act_id': act_deny},
-                {'current_state': state_dic['cancelled_{}'.format(process_id)],
-                 'next_state': state_dic['complete_{}'.format(process_id)], 'act_id': act_approve},
+                {'current_state': state_dic['cancelled'],
+                 'next_state': state_dic['denied'], 'act_id': act_deny},
+                {'current_state': state_dic['cancelled'],
+                 'next_state': state_dic['complete'], 'act_id': act_approve},
 
                 # 状态：“拒绝”对应的“开始”
-                {'current_state': state_dic['denied_{}'.format(process_id)],
-                 'next_state': state_dic['start_{}'.format(process_id)], 'act_id': act_restart},
+                {'current_state': state_dic['denied'],
+                 'next_state': state_dic['start'], 'act_id': act_restart},
 
             ]
 
@@ -227,7 +222,7 @@ class TestMProcess():
 
         # 获取“开始”状态ID
         if process_id:
-            state_type = 'start' + process_id
+            state_type = 'start_' + process_id
             cur_state = MState.get_by_state_type(state_type)
             if cur_state:
                 print("/" * 50)
