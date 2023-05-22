@@ -15,7 +15,6 @@ from torcms.model.process_model import MProcess, MState, MTransition, MRequest, 
     TabRequestAction
 
 from faker import Faker
-from operator import *
 
 class TestMProcess():
     def setup_method(self):
@@ -82,9 +81,7 @@ class TestMProcess():
         self.mpost.add_or_update(self.uid, post_data)
         update_category(self.uid, post_data)
 
-        # self.tearDown(process_id)
-        # print(process_id)
-        # assert process_id
+
 
     def test_create_process(self):
         '''
@@ -107,6 +104,7 @@ class TestMProcess():
             # 创建请求
             self.test_create_request(process_id, self.uid)
 
+        
     def test_create_state(self, process_id=''):
         '''
         创建状态TabState
@@ -307,5 +305,4 @@ class TestMProcess():
                             print("~" * 50)
                             print(act_arr)
                             print(new_act_arr)
-                            assert eq(act_arr, new_act_arr) == 1
-                            # assert act_arr == new_act_arr
+                            assert act_arr == new_act_arr
