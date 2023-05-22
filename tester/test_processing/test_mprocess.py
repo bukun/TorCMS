@@ -15,7 +15,7 @@ from torcms.model.process_model import MProcess, MState, MTransition, MRequest, 
     TabRequestAction
 
 from faker import Faker
-
+from operator import *
 
 class TestMProcess():
     def setup_method(self):
@@ -292,8 +292,20 @@ class TestMProcess():
                                 MRequestAction.create(new_request_id, cur_act['action'], cur_act['transition'])
                                 act = MAction.get_by_id(cur_act['action']).get()
 
-                                act_arr.append(
-                                    {"act_name": act.name, "act_uid": cur_act['action'], "request_id": new_request_id})
+                                act_arr.append({"act_name": act.name})
+
+                            if new_state.name == '正常':
+                                new_act_arr = [{"act_name": "提交审核"}]
+                            elif new_state.name=='开始':
+                                new_act_arr = [{"act_name": "拒绝"},{"act_name": "通过"},{"act_name": "取消"}]
+                            elif new_state.name=='拒绝':
+                                new_act_arr =  [{"act_name": "提交审核"}]
+                            elif new_state.name=='取消':
+                                new_act_arr =  [{"act_name": "拒绝"},{"act_name": "通过"}]
+                            else:
+                                new_act_arr=[]
+                            print("~" * 50)
                             print(act_arr)
-                            output = {'act_arr': act_arr, "request_id": new_request_id, "cur_state": new_state.uid}
-                            assert output
+                            print(new_act_arr)
+                            assert eq(act_arr, new_act_arr) == 1
+                            # assert act_arr == new_act_arr
