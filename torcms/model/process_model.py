@@ -202,15 +202,15 @@ class MTransitionAction:
         return query.dicts()
 
     @staticmethod
-    def query_by_process(role_id):
+    def query_by_process(pro_id):
         query = (
-            TabTransitionAction.select(TabAction.uid, TabAction.name)
+            TabTransitionAction.select(TabAction.uid, TabAction.name,TabTransitionAction.transition)
             .join(TabTransition, JOIN.INNER)
             .switch(TabTransition)
             .join(TabProcess, JOIN.INNER)
             .switch(TabTransitionAction)
             .join(TabAction)
-            .where(TabTransition.process == role_id)
+            .where(TabTransition.process == pro_id)
         )
         return query.dicts()
 
@@ -627,9 +627,16 @@ class MRequest:
         query = TabRequest.select().where(TabRequest.process == pro_id).order_by(TabRequest.time_create.desc())
 
         if query.count() > 0:
-            return query.get()
+            return query
         else:
             return None
+
+    @staticmethod
+    def delete(uid):
+        '''
+        Delete by uid
+        '''
+        return MHelper.delete(TabRequest, uid)
 
 
 #

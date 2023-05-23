@@ -16,6 +16,7 @@ from torcms.model.process_model import MProcess, MState, MTransition, MRequest, 
 
 from faker import Faker
 
+
 class TestMProcess():
     def setup_method(self):
 
@@ -41,7 +42,7 @@ class TestMProcess():
         self.maction = MAction()
         self.mreqaction = MRequestAction()
         self.mtransaction = MTransitionAction()
-
+        self.muser = MUser()
         self.test_create_process()
 
         self.fake = Faker(locale="zh_CN")
@@ -49,18 +50,44 @@ class TestMProcess():
     def tearDown(self, process_id=''):
         print("function teardown")
 
+        trans = self.mtrans.query_by_proid(process_id)
+        print(trans.count())
+        for tran in trans:
+            print("*" * 50)
+            print(tran.uid)
+
+            self.mreqaction.delete_by_trans(tran.uid)
+            self.mtransaction.delete_by_trans(tran.uid)
+            self.mtrans.delete(tran.uid)
+
+        req_recs = self.mrequest.get_by_pro(process_id)
+        for req_rec in req_recs:
+            print(req_rec.uid)
+            self.mrequest.delete(req_rec.uid)
+
+        act_recs = MAction.query_by_proid(process_id)
+        for act in act_recs:
+            self.maction.delete(act.uid)
+
+        states = self.mstate.query_by_pro_id(process_id)
+        for state in states:
+            self.mstate.delete(state.uid)
+
+        self.mprocess.delete_by_uid(process_id)
+
         self.mpost.delete(self.uid)
+
         MCategory.delete(self.tag_id)
         self.mpost.delete(self.post_id2)
         self.mpost.delete(self.post_id)
 
-        if process_id:
-            self.mprocess.delete_by_uid(process_id)
 
         MPost2Catalog.remove_relation(self.post_id, self.tag_id)
         tt = MLabel.get_by_slug(self.slug)
         if tt:
             MLabel.delete(tt.uid)
+
+
 
     def test_insert(self):
 
@@ -104,7 +131,7 @@ class TestMProcess():
             # 创建请求
             self.test_create_request(process_id, self.uid)
 
-        
+            self.tearDown(process_id)
     def test_create_state(self, process_id=''):
         '''
         创建状态TabState
