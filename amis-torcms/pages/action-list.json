@@ -53,6 +53,14 @@
               "clearable": true,
               "searchable": true,
               "required": true
+            },
+            {
+              "label": "选择权限",
+              "id": "transfer-receiver",
+              "type": "transfer",
+              "name": "permission",
+              "debugger": true,
+              "source": "/api/permission/getall/0000"
             }
           ]
         }
@@ -150,17 +158,23 @@
       ],
       "columns": [
         {
+          "name": "uid",
+          "label": "uid",
+          "type": "text",
+          "value": "${uid}"
+        },
+        {
           "name": "process",
           "label": "流程",
           "type": "text",
           "value": "${process}"
         },
         {
-          "name": "transition",
-          "id": "transition",
+          "name": "transition_arr",
+
           "type": "text",
           "label": "所属转换",
-          "value": "${transition}"
+          "value": "${transition_arr}"
         },
         {
           "name": "name",
@@ -176,6 +190,13 @@
           "name": "description",
           "label": "动作说明",
           "type": "text"
+        },
+        {
+          "name": "permission",
+          "id": "permission",
+          "type": "text",
+          "label": "所属权限",
+          "value": "${permission}"
         },
         {
           "type": "operation",
@@ -228,7 +249,7 @@
                           "required": true
                         },
                         {
-                          "name": "transition",
+                          "name": "transition_arr",
                           "id": "transition",
                           "type": "select",
                           "label": "所属转换",
@@ -236,6 +257,14 @@
                           "clearable": true,
                           "searchable": true,
                           "required": true
+                        },
+                        {
+                          "label": "选择权限",
+                          "id": "transfer-receiver",
+                          "type": "transfer",
+                          "name": "permission",
+                          "debugger": true,
+                          "source": "/api/permission/getall/0000"
                         }
                       ]
                     }

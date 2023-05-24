@@ -6,7 +6,7 @@ https://segmentfault.com/a/1190000019161083
 import peewee
 from torcms.core.base_model import BaseModel
 from torcms.model.abc_model import MHelper
-from torcms.model.core_tab import TabMember, TabPost, TabRole
+from torcms.model.core_tab import TabMember, TabPost, TabRole, TabPermission
 from peewee import JOIN
 from torcms.core import tools
 
@@ -81,6 +81,19 @@ class TabAction(BaseModel):
         null=False, index=True, max_length=255, help_text='名称'
     )
     description = peewee.TextField()
+
+
+class TabPermissionAction(BaseModel):
+    uid = peewee.CharField(
+        null=False,
+        index=True,
+        unique=True,
+        primary_key=True,
+        max_length=36,
+        help_text='',
+    )
+    permission = peewee.ForeignKeyField(TabPermission, backref='permission', help_text='')
+    action = peewee.ForeignKeyField(TabAction, backref='action', help_text='')
 
 
 class TabTransitionAction(BaseModel):
@@ -204,7 +217,7 @@ class MTransitionAction:
     @staticmethod
     def query_by_process(pro_id):
         query = (
-            TabTransitionAction.select(TabAction.uid, TabAction.name,TabTransitionAction.transition)
+            TabTransitionAction.select(TabAction.uid, TabAction.name, TabTransitionAction.transition)
             .join(TabTransition, JOIN.INNER)
             .switch(TabTransition)
             .join(TabProcess, JOIN.INNER)
@@ -350,7 +363,7 @@ class MTransition:
     @staticmethod
     def query_by_action(action_id, pro_id):
         query = (
-            TabTransition.select(TabTransition.current_state, TabTransition.next_state)
+            TabTransition.select(TabTransition.uid, TabTransition.current_state, TabTransition.next_state)
             .join(TabTransitionAction, JOIN.INNER)
             .where((TabTransitionAction.action == action_id) & (
                     TabTransition.process == pro_id))
@@ -403,20 +416,52 @@ class MTransition:
         )
 
         for rec in recs:
-            tran_act = MTransitionAction.get_by_trans(rec.uid).get()
-            MAction.delete(tran_act.action)
-            MTransitionAction.delete_by_trans(tran_act.uid)
 
-            MRequestAction.delete_by_trans(rec.uid)
+            tran_acts = MTransitionAction.get_by_trans(rec.uid)
+
+            for tract in tran_acts:
+                try:
+                    MPermissionAction.delete_by_action(tract.action)
+                    pass
+                except Exception as err:
+                    print(repr(err))
+                    pass
+
+                try:
+                    MRequestAction.delete_by_trans(rec.uid)
+                    pass
+                except Exception as err:
+                    print(repr(err))
+                    pass
+
+                try:
+                    MTransitionAction.delete_by_trans(tract.transition)
+                    pass
+                except Exception as err:
+                    print(repr(err))
+                    pass
+
+                try:
+                    MAction.delete(tract.action)
+                    pass
+                except Exception as err:
+                    print(repr(err))
+                    pass
 
             entry = TabTransition.delete().where(TabTransition.uid == rec.uid)
-
             try:
                 entry.execute()
-                return True
+                pass
             except Exception as err:
                 print(repr(err))
                 pass
+
+        try:
+            MRequest.delete_by_state(state_id)
+            pass
+        except Exception as err:
+            print(repr(err))
+            pass
 
     @staticmethod
     def delete(uid):
@@ -638,51 +683,88 @@ class MRequest:
         '''
         return MHelper.delete(TabRequest, uid)
 
+    @staticmethod
+    def delete_by_state(state_id):
+        entry = TabRequest.delete().where(
+            TabRequest.current_state == state_id
+        )
 
-#
-# class MStateAction:
-#     @staticmethod
-#     def create(state, action):
-#
-#         try:
-#
-#             uid = tools.get_uuid()
-#             TabStateAction.create(
-#                 uid=uid,
-#                 state=state,
-#                 action=action
-#             )
-#
-#             return True
-#         except Exception as err:
-#             print(repr(err))
-#             return False
-#
-#     @staticmethod
-#     def query_by_state(state):
-#         query = (
-#             TabStateAction.select(TabAction.uid, TabAction.name, TabStateAction.state)
-#             .join(TabAction, JOIN.INNER)
-#             .where(TabStateAction.state == state)
-#         )
-#         return query.dicts()
-#
-#     @staticmethod
-#     def query_all():
-#         return TabStateAction.select()
-#
-#     @staticmethod
-#     def delete_by_state(state_id):
-#         entry = TabStateAction.delete().where(
-#             TabStateAction.state == state_id
-#         )
-#         try:
-#             entry.execute()
-#             return True
-#         except Exception as err:
-#             print(repr(err))
-#             return False
-#
+        try:
+            entry.execute()
+            return True
+        except Exception as err:
+            print(repr(err))
+            return False
+
+
+class MPermissionAction:
+    @staticmethod
+    def create(per, action):
+
+        try:
+            uid = tools.get_uuid()
+            TabPermissionAction.create(
+                uid=uid,
+                permission=per,
+                action=action
+            )
+            return True
+        except Exception as err:
+            print(repr(err))
+            return False
+
+    @staticmethod
+    def query_by_permission(permission_id):
+        query = (
+            TabPermissionAction.select(TabAction.uid, TabAction.name, TabPermissionAction.permission)
+            .join(TabAction, JOIN.INNER)
+            .where(TabPermissionAction.permission == permission_id)
+        )
+        return query.dicts()
+
+    @staticmethod
+    def query_per_by_action(act_id):
+        query = (
+            TabPermissionAction.select(TabPermission.name)
+            .join(TabPermission, JOIN.INNER)
+            .switch(TabPermissionAction)
+            .join(TabAction, JOIN.INNER)
+            .where(TabPermissionAction.action == act_id)
+        )
+        return query.dicts()
+
+    @staticmethod
+    def query_by_action(act_id):
+
+        return TabPermissionAction.select().where(TabPermissionAction.action == act_id)
+
+    @staticmethod
+    def query_all():
+        return TabPermissionAction.select()
+
+    @staticmethod
+    def remove_relation(act_id, per_id):
+        '''
+        Delete the record of Role 2 Permission.
+        '''
+        entry = TabPermissionAction.delete().where(
+            (TabPermissionAction.action == act_id)
+            & (TabPermissionAction.permission == per_id)
+        )
+        entry.execute()
+
+    @staticmethod
+    def delete_by_action(act_id):
+        entry = TabPermissionAction.delete().where(
+            TabPermissionAction.action == act_id
+        )
+        try:
+            entry.execute()
+            return True
+        except Exception as err:
+            print(repr(err))
+            return False
+
 
 class MAction:
 
@@ -778,6 +860,11 @@ class MAction:
     def get_by_pro_actname(pro_id, act_name):
         return TabAction.select().where(
             (TabAction.process == pro_id) & (TabAction.name == act_name))
+
+    @staticmethod
+    def get_by_pro_act(pro_id, act_id):
+        return TabAction.select().where(
+            (TabAction.process == pro_id) & (TabAction.uid == act_id))
 
     @staticmethod
     def get_counts():

@@ -9,10 +9,10 @@ from torcms.model.label_model import MLabel, MPost2Label
 from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
 from torcms.model.user_model import MUser
+from torcms.model.role_model import MRole
 from torcms.handlers.post_handler import update_label, update_category
 from torcms.model.process_model import MProcess, MState, MTransition, MRequest, MAction, MRequestAction, \
-    MTransitionAction, TabProcess, TabAction, TabTransition, TabRequest, TabState, TabTransitionAction, TabRole, \
-    TabRequestAction
+    MTransitionAction, MPermissionAction
 
 from faker import Faker
 
@@ -43,6 +43,8 @@ class TestMProcess():
         self.mreqaction = MRequestAction()
         self.mtransaction = MTransitionAction()
         self.muser = MUser()
+        self.mrole = MRole()
+        self.mper_action = MPermissionAction()
         self.test_create_process()
 
         self.fake = Faker(locale="zh_CN")
@@ -81,13 +83,10 @@ class TestMProcess():
         self.mpost.delete(self.post_id2)
         self.mpost.delete(self.post_id)
 
-
         MPost2Catalog.remove_relation(self.post_id, self.tag_id)
         tt = MLabel.get_by_slug(self.slug)
         if tt:
             MLabel.delete(tt.uid)
-
-
 
     def test_insert(self):
 
@@ -107,8 +106,6 @@ class TestMProcess():
 
         self.mpost.add_or_update(self.uid, post_data)
         update_category(self.uid, post_data)
-
-
 
     def test_create_process(self):
         '''
@@ -131,7 +128,8 @@ class TestMProcess():
             # 创建请求
             self.test_create_request(process_id, self.uid)
 
-            self.tearDown(process_id)
+            # self.tearDown(process_id)
+
     def test_create_state(self, process_id=''):
         '''
         创建状态TabState
@@ -164,15 +162,15 @@ class TestMProcess():
         '''
 
         action_datas = [
-            {'action_type': 'deny',
+            {'action_type': 'deny', 'role': 'ucan_verify',
              'name': '拒绝', 'description': '操作人将请求应移至上一个状态'},
-            {'action_type': 'cancel',
+            {'action_type': 'cancel', 'role': 'ucan_verify',
              'name': '取消', 'description': '操作人将请求应在此过程中移至“已取消”状态'},
-            {'action_type': 'resolve',
+            {'action_type': 'resolve', 'role': 'ucan_verify',
              'name': '完成', 'description': '操作人将将请求一直移动到Completed状态'},
-            {'action_type': 'approve',
+            {'action_type': 'approve', 'role': 'ucan_verify',
              'name': '通过', 'description': '操作人将请求应移至下一个状态'},
-            {'action_type': 'restart',
+            {'action_type': 'restart', 'role': '9can_edit',
              'name': '提交审核', 'description': '操作人将将请求移回到进程中的“开始”状态'},
 
         ]
@@ -181,6 +179,11 @@ class TestMProcess():
         for act in action_datas:
             act_uid = MAction.create(process_id, act)
             action_uids.append(act_uid)
+            print("*" * 50)
+            print(act['role'])
+            if act_uid:
+                self.mper_action.create(act['role'], act_uid)
+
         assert action_uids
 
     def test_create_trans(self, process_id='', state_dic={}):
@@ -321,14 +324,14 @@ class TestMProcess():
 
                             if new_state.name == '正常':
                                 new_act_arr = [{"act_name": "提交审核"}]
-                            elif new_state.name=='开始':
-                                new_act_arr = [{"act_name": "拒绝"},{"act_name": "通过"},{"act_name": "取消"}]
-                            elif new_state.name=='拒绝':
-                                new_act_arr =  [{"act_name": "提交审核"}]
-                            elif new_state.name=='取消':
-                                new_act_arr =  [{"act_name": "拒绝"},{"act_name": "通过"}]
+                            elif new_state.name == '开始':
+                                new_act_arr = [{"act_name": "拒绝"}, {"act_name": "通过"}, {"act_name": "取消"}]
+                            elif new_state.name == '拒绝':
+                                new_act_arr = [{"act_name": "提交审核"}]
+                            elif new_state.name == '取消':
+                                new_act_arr = [{"act_name": "拒绝"}, {"act_name": "通过"}]
                             else:
-                                new_act_arr=[]
+                                new_act_arr = []
                             print("~" * 50)
                             print(act_arr)
                             print(new_act_arr)

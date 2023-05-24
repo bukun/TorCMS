@@ -1,5 +1,5 @@
 from torcms.model.process_model import MState, MTransition, MTransitionAction, MAction, \
-    MRequest, MRequestAction,MProcess
+    MRequest, MRequestAction,MProcess,MPermissionAction
 
 
 def test():
@@ -64,6 +64,13 @@ def test():
     print("process")
     [print(x) for x in process]
     print("process")
+    print("-" * 50)
+
+    permissionaction = MPermissionAction.query_all().dicts()
+    print("*" * 50)
+    print("permissionaction")
+    [print(x) for x in permissionaction]
+    print("permissionaction")
     print("-" * 50)
 
 

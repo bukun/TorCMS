@@ -35,7 +35,7 @@ from torcms.model.core_tab import (
     TabStaff2Role,
 )
 
-from torcms.model.process_model import (TabState,TabTransition,TabAction,TabRequest,TabRequestAction,TabTransitionAction,TabProcess)
+from torcms.model.process_model import (TabState,TabTransition,TabAction,TabRequest,TabRequestAction,TabTransitionAction,TabProcess,TabPermissionAction)
 def create_table(the_table):
     '''
     Create a certain table.
@@ -83,6 +83,7 @@ def run_init_tables(*args):
     create_table(TabState)
     create_table(TabTransition)
     create_table(TabAction)
+    create_table(TabPermissionAction)
     create_table(TabRequest)
     create_table(TabRequestAction)
     create_table(TabTransitionAction)
