@@ -7,7 +7,8 @@ import json
 import tornado.web
 from torcms.core import tools, privilege
 from torcms.core.base_handler import BaseHandler
-from torcms.model.process_model import MAction, MTransition, MRequestAction, MTransitionAction, MState, MProcess
+from torcms.model.process_model import MAction, MTransition, MRequestAction, MTransitionAction, MState, MProcess, \
+    MPermissionAction
 
 
 class ActionHandler(BaseHandler):
@@ -91,16 +92,29 @@ class ActionHandler(BaseHandler):
         current_page_num = get_pager_idx()
         dics = []
         recs = MAction.query_all_parger(current_page_num, perPage)
-        counts = MAction.get_counts()
+
 
         for rec in recs:
             process = MProcess.get_by_uid(rec.process).get()
-            trans_rec = MTransition.query_by_action(rec.uid, rec.process)
+            trans_recs = MTransition.query_by_action(rec.uid, rec.process)
+            per_recs = MPermissionAction.query_per_by_action(rec.uid)
+            per_arr = []
+            for per in per_recs:
+                per_arr.append(per['name'])
+            if trans_recs:
+                trans_arr = []
+                trans_id_arr = []
 
-            if trans_rec:
-                cur_state = MState.get_by_uid(trans_rec.get().current_state).get()
-                next_state = MState.get_by_uid(trans_rec.get().next_state).get()
-                trans_name = cur_state.name + ' - ' + next_state.name
+                for trans_rec in trans_recs:
+                    cur_state = MState.get_by_uid(trans_rec.current_state).get()
+                    next_state = MState.get_by_uid(trans_rec.next_state).get()
+                    cur_state_pro = MProcess.get_by_uid(cur_state.process).get()
+                    next_state_pro = MProcess.get_by_uid(next_state.process).get()
+
+                    trans_name = cur_state.name +' ['+cur_state_pro.name+'] - ' + next_state.name + ' ['+next_state_pro.name+']'
+                    trans_arr.append(trans_name)
+                    trans_id_arr.append(trans_rec.uid)
+
 
                 dic = {
                     "uid": rec.uid,
@@ -108,7 +122,9 @@ class ActionHandler(BaseHandler):
                     "action_type": rec.action_type,
                     "description": rec.description,
                     "process": process.name,
-                    "transition": trans_name
+                    "transition": trans_id_arr,
+                    "transition_arr": trans_arr,
+                    "permission": per_arr
                 }
 
                 dics.append(dic)
@@ -116,7 +132,7 @@ class ActionHandler(BaseHandler):
             "ok": True,
             "status": 0,
             "msg": "ok",
-            "data": {"count": counts, "rows": dics},
+            "data": {"count":len(dics), "rows": dics},
         }
 
         return json.dump(out_dict, self, ensure_ascii=False)
@@ -129,7 +145,7 @@ class ActionHandler(BaseHandler):
         '''
 
         post_data = json.loads(self.request.body)
-        if 'transition' in post_data and 'process' in post_data:
+        if 'transition' in post_data and 'process' in post_data and 'permission' in post_data:
             pass
         else:
             return False
@@ -148,10 +164,12 @@ class ActionHandler(BaseHandler):
             }
 
         else:
-
+            per_dics = post_data.get("permission", "").split(",")
             act_uid = MAction.create(process, post_data)
             if act_uid:
                 trans_uid = MTransitionAction.create(transition, act_uid)
+                for per in per_dics:
+                    MPermissionAction.create(per, act_uid)
                 if trans_uid:
 
                     output = {
@@ -189,10 +207,12 @@ class ActionHandler(BaseHandler):
             return False
 
         transition = post_data["transition"]
+        print("*" * 50)
+        print(transition)
         process = post_data["process"]
 
-        exis_rec = MAction.get_by_pro_actname(transition, post_data['name'])
-        # trans_extis_rec = MTransitionAction.query_by_trans_act(transition, uid)
+        exis_rec = MAction.get_by_pro_act(transition, uid)
+        # trans_extis_rec = MTransitionAction.get_by_trans_act(transition, uid)
         if exis_rec.count() > 0:
 
             output = {
@@ -200,21 +220,40 @@ class ActionHandler(BaseHandler):
                 "status": 404,
                 "msg": "该流程下已存在当前动作，修改失败"
             }
-        # elif trans_extis_rec.count() > 0:
-        #     output = {
-        #         "ok": False,
-        #         "status": 404,
-        #         "msg": "该转换下已存在当前动作，修改失败"
-        #     }
+
 
         else:
+            per_dics = post_data.get("permission", "").split(",")
 
-            if MAction.update(uid, post_data) and MAction.update_process(process, uid):
-                MTransitionAction.create(transition, uid)
+
+
+
+            if MAction.update(uid, post_data):
+
                 output = {
                     "ok": True,
                     "status": 0,
                     "msg": "更新动作成功"
+                }
+
+            elif MAction.update_process(process, uid) and MTransitionAction.create(transition, uid):
+                output = {
+                    "ok": True,
+                    "status": 0,
+                    "msg": "更新流程，所属转换成功"
+                }
+            elif per_dics:
+                peract_recs = MPermissionAction.query_by_action(uid)
+                for rec in peract_recs:
+                    MPermissionAction.remove_relation(uid, rec.permission)
+
+                for per in per_dics:
+                    MPermissionAction.create(per, uid)
+
+                output = {
+                    "ok": True,
+                    "status": 0,
+                    "msg": "更新所属权限成功"
                 }
 
 
@@ -226,6 +265,7 @@ class ActionHandler(BaseHandler):
                 }
 
         return json.dump(output, self, ensure_ascii=False)
+
 
     @privilege.permission(action='assign_group')
     @tornado.web.authenticated
@@ -271,6 +311,7 @@ class ActionHandler(BaseHandler):
 
         return json.dump(output, self, ensure_ascii=False)
 
+
     @privilege.permission(action='assign_group')
     def delete(self, action_id):
         '''
@@ -278,6 +319,7 @@ class ActionHandler(BaseHandler):
         '''
         MTransitionAction.delete_by_actid(action_id)
         MRequestAction.delete_by_actid(action_id)
+        MPermissionAction.delete_by_action(action_id)
 
         if MAction.delete(action_id):
             output = {"ok": True,
@@ -293,6 +335,7 @@ class ActionHandler(BaseHandler):
 
         return json.dump(output, self, ensure_ascii=False)
 
+
     @privilege.permission(action='assign_group')
     @tornado.web.authenticated
     def batch_delete(self, act_ids):
@@ -304,6 +347,7 @@ class ActionHandler(BaseHandler):
         for action_id in del_uids:
             MTransitionAction.delete_by_actid(action_id)
             MRequestAction.delete_by_actid(action_id)
+            MPermissionAction.delete_by_action(action_id)
 
             if MAction.delete(action_id):
                 output = {"ok": True,

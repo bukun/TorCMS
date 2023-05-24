@@ -46,6 +46,8 @@ class ApiPostHandler(PostHandler):
 
         # elif url_arr[0] == 'batch_edit':
         #     self.batch_edit()
+        elif url_arr[0] == 'submit_process':
+            self.submit_process()
 
         elif url_arr[0] == 'submit_action':
             self.submit_action()
@@ -57,6 +59,23 @@ class ApiPostHandler(PostHandler):
 
         else:
             self.redirect('misc/html/404.html')
+    def submit_process(self):
+
+        post_data = {}
+        for key in self.request.arguments:
+            post_data[key] = self.get_arguments(key)[0]
+
+        process_id = post_data['process_id']
+        post_id = post_data['post_id']
+        user_id = post_data['user_id']
+        print("-" * 50)
+        act_arr, cur_state_id = self.create_request(process_id, post_id, user_id)
+        print(act_arr)
+        output = {'act_arr': act_arr}
+
+
+        return json.dump(output, self)
+
 
     def create_request(self, process_id, post_id, user_id):
         '''
@@ -65,7 +84,7 @@ class ApiPostHandler(PostHandler):
 
         # 获取“开始”状态ID
 
-        state_type = 'start_{0}'.format(post_id)
+        state_type = 'start_{0}'.format(process_id)
         cur_state = MState.get_by_state_type(state_type)
         if cur_state:
             # 创建请求
@@ -151,15 +170,6 @@ class ApiPostHandler(PostHandler):
                             return json.dump(output, self)
 
 
-        else:
-            print("2-" * 50)
-            ##
-
-            act_arr, cur_state_id = self.create_request(process_id, post_id, user_id)
-
-            output = {'act_arr': act_arr, "request_id": request_id, "cur_state": cur_state_id}
-
-            return json.dump(output, self)
 
     @privilege.permission(action='assign_group')
     @tornado.web.authenticated
@@ -273,52 +283,49 @@ class ApiPostHandler(PostHandler):
         rec_arr = []
 
         for rec in recs:
-            cur_pro = MProcess.query_by_name(rec.uid)
+            print("9" * 50)
+            print(rec.uid)
+            ##查询当前流程的请求
+            request_rec = MRequest.query_by_postid(rec.uid)
 
-            act_arr = []
-            if cur_pro.count() > 0:
-                process_id = cur_pro.get().uid
+            if request_rec:
+                act_recs = MTransitionAction.query_by_pro_state(request_rec.process, request_rec.current_state)
+                act_arr = []
+                for act in act_recs:
 
-                ##查询当前流程的请求
-                request_rec = MRequest.get_by_pro(process_id)
+                    act_rec = MAction.get_by_id(act['action']).get()
 
-                if request_rec:
-                    print(request_rec.uid)
-                    cur_state_id = request_rec.current_state
-                    cur_state = MState.get_by_uid(cur_state_id).get()
-                    act_recs = MTransitionAction.query_by_pro_state(process_id, cur_state_id)
+                    if not act_rec.action_type.startswith('restart'):
+                        act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": request_rec.uid,
+                                   "state_id": request_rec.current_state_id, "process_id": request_rec.process_id}
+                        act_arr.append(act_dic)
 
-                    for act in act_recs:
-                        act_rec = MAction.get_by_id(act['action']).get()
-                        if not act_rec.action_type.startswith('restart'):
-                            act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": request_rec.uid,
-                                       "state_id": cur_state.uid, "process_id": process_id}
-                            act_arr.append(act_dic)
-            if act_arr:
-                rec_arr.append(
-                    {
-                        "uid": rec.uid,
-                        "title": rec.title,
-                        "cnt_md": rec.cnt_md,
-                        "cnt_html": tornado.escape.xhtml_unescape(rec.cnt_html),
-                        "user_name": rec.user_name,
-                        "keywords": rec.keywords,
-                        "logo": rec.logo,
-                        "kind": rec.kind,
-                        "state": rec.state,
-                        "time_create": tools.format_time(rec.time_create),
-                        "time_update": tools.format_time(rec.time_update),
-                        "view_count": rec.view_count,
-                        "rating": rec.rating,
-                        "valid": rec.valid,
-                        "order": rec.order,
-                        "extinfo": rec.extinfo,
-                        "router": post_cfg[kind]['router'],
-                        "cur_user_id": self.userinfo.uid,
-                        "action_arr": act_arr
 
-                    }
-                )
+                if act_arr:
+                    rec_arr.append(
+                        {
+                            "uid": rec.uid,
+                            "title": rec.title,
+                            "cnt_md": rec.cnt_md,
+                            "cnt_html": tornado.escape.xhtml_unescape(rec.cnt_html),
+                            "user_name": rec.user_name,
+                            "keywords": rec.keywords,
+                            "logo": rec.logo,
+                            "kind": rec.kind,
+                            "state": rec.state,
+                            "time_create": tools.format_time(rec.time_create),
+                            "time_update": tools.format_time(rec.time_update),
+                            "view_count": rec.view_count,
+                            "rating": rec.rating,
+                            "valid": rec.valid,
+                            "order": rec.order,
+                            "extinfo": rec.extinfo,
+                            "router": post_cfg[kind]['router'],
+                            "cur_user_id": self.userinfo.uid,
+                            "action_arr": act_arr
+
+                        }
+                    )
 
         output = {
             "ok": True,

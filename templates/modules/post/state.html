@@ -1,16 +1,16 @@
 <script>
 
-    function tjaction(act_id, request_id) {
+    function tjaction(act_id, request_id, state_id, pro_id) {
 
         var url = "/api/post/submit_action";
 
         var recstate = document.getElementById("recstate");
         var action_data = new FormData();
         {##}
-        action_data.append("state_id", "{{ cur_state_id }}");
+        action_data.append("state_id", state_id);
         action_data.append("user_id", "{{userinfo}}");
         action_data.append("post_id", "{{postinfo.uid}}");
-        action_data.append("process_id", "{{ process_id }}");
+        action_data.append("process_id", pro_id);
 
         action_data.append("request_id", request_id);
         action_data.append("act_id", act_id);
@@ -26,36 +26,81 @@
             success: function (rs) {
 
                 var m = eval("(" + rs + ")");
-
-
                 recstate.innerHTML = 'Waiting for Review'
             },
             error: function (err) {
-                alert('Submission failed');
+                {#alert('Submission failed');#}
             }
         });
+
+    }
+
+    function tjprocess() {
+
+        var url = "/api/post/submit_process";
+        var process = $("#process").val();
+
+        var recstate = document.getElementById("recstate");
+        var action_data = new FormData();
+
+        action_data.append("user_id", "{{userinfo}}");
+        action_data.append("post_id", "{{postinfo.uid}}");
+        action_data.append("process_id", process);
+
+
+        $.ajax({
+                type: 'POST',
+                url: url,
+                data: action_data,
+                timeout: 1e3,
+                processData: false,
+                contentType: false,
+                success: function (rs) {
+
+                    recstate.innerHTML = 'Waiting for Review'
+
+                },
+                error: function (err) {
+                    {#alert('Submission failed');#}
+                }
+            }
+        );
+
 
     }
 </script>
 
 
-   {% if userinfo %}
-    {% if postinfo.valid==0 %}
+{% if userinfo %}
+{% if postinfo.valid==0 %}
 <div class="row">
-<div  id="recstate" class="col-sm-5">
+    <div id="recstate" class="col-sm-5">
 
-    {% if action_arr %}
-    {% for action in action_arr %}
+        {% if action_arr %}
+        {% for action in action_arr %}
         <a class="btn btn-warning btn-xs"
-           onclick="tjaction('{{ action['act_uid'] }}','{{ action['request_id'] }}')">{{ action['act_name'] }}</a>
+           onclick="tjaction('{{ action['act_uid'] }}','{{ action['request_id'] }}','{{ action['state_id'] }}','{{ action['process_id'] }}')">{{ action['act_name'] }}</a>
         {% end %}
-    {% else %}
-    Waiting for Review
-    {% end %}
-</div>
+        {% elif process %}
+
+        <form id="tjprocess" class="form-horizontal">
+            <select class="form-select" name="process" id="process">
+                {% for pro in process %}
+                <option value="{{ pro.uid }}">{{ pro.name }}</option>
+                {% end %}
+            </select>
+
+            <button onclick="tjprocess();" class="btn btn-primary btn-sm">{{ _("Submit for review") }}</button>
+
+        </form>
+
+        {% else %}
+        {{ _('Waiting for Review') }}
+        {% end %}
     </div>
-     {% end %}
-     {% end %}
+</div>
+{% end %}
+{% end %}
 
 
 

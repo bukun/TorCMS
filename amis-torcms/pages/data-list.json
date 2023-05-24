@@ -178,7 +178,7 @@
                   "items": {
                     "type": "button",
                     "id": "<%= data.act_uid %>",
-                    "label": "<%= data.act_name %>",
+                    "label": "<%= data.act_name %> ",
                     "level": "primary",
                     "confirmText": "确认要发出这个请求？",
                     "onEvent": {

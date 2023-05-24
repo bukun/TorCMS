@@ -53,6 +53,14 @@
               "clearable": true,
               "searchable": true,
               "required": true
+            },
+            {
+              "label": "选择权限",
+              "id": "transfer-receiver",
+              "type": "transfer",
+              "name": "permission",
+              "debugger": true,
+              "source": "/api/permission/getall/0000"
             }
           ]
         }
@@ -72,7 +80,56 @@
         "expand": "all"
       },
       "primaryField": "uid",
-
+      "bulkActions": [
+        {
+          "label": "批量编辑",
+          "type": "button",
+          "actionType": "dialog",
+          "level": "primary",
+          "dialog": {
+            "title": "批量编辑",
+            "name": "sample-bulk-edit",
+            "body": {
+              "type": "form",
+              "api": "/api/action/batch_edit",
+              "controls": [
+                {
+                  "type": "hidden",
+                  "name": "ids"
+                },
+                {
+                  "name": "process",
+                  "id": "process",
+                  "label": "流程",
+                  "type": "select",
+                  "source": "/api/process/chainedOptions",
+                  "required": true,
+                  "clearable": true,
+                  "searchable": true
+                },
+                {
+                  "name": "transition",
+                  "id": "transition",
+                  "type": "select",
+                  "label": "所属转换",
+                  "source": "/api/transition/chainedOptions?process=${process}",
+                  "clearable": true,
+                  "searchable": true,
+                  "required": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "批量删除",
+          "type": "button",
+          "level": "danger",
+          "actionType": "ajax",
+          "api": "/api/action/batch_delete/${ids|raw}",
+          "confirmText": "确定要批量删除?"
+        }
+      ],
       "filterTogglable": true,
       "headerToolbar": [
         "bulkActions",
@@ -101,17 +158,23 @@
       ],
       "columns": [
         {
+          "name": "uid",
+          "label": "uid",
+          "type": "text",
+          "value": "${uid}"
+        },
+        {
           "name": "process",
           "label": "流程",
           "type": "text",
           "value": "${process}"
         },
         {
-          "name": "transition",
-          "id": "transition",
+          "name": "transition_arr",
+
           "type": "text",
           "label": "所属转换",
-          "value": "${transition}"
+          "value": "${transition_arr}"
         },
         {
           "name": "name",
@@ -127,8 +190,100 @@
           "name": "description",
           "label": "动作说明",
           "type": "text"
+        },
+        {
+          "name": "permission",
+          "id": "permission",
+          "type": "text",
+          "label": "所属权限",
+          "value": "${permission}"
+        },
+        {
+          "type": "operation",
+          "label": "操作",
+          "width": "",
+          "buttons": [
+            {
+              "type": "button-group",
+              "buttons": [
+                {
+                  "type": "button",
+                  "label": "编辑",
+                  "level": "info",
+                  "icon": "fa fa-pencil",
+                  "tooltip": "编辑",
+                  "actionType": "drawer",
+                  "drawer": {
+                    "position": "left",
+                    "size": "lg",
+                    "title": "编辑",
+                    "body": {
+                      "type": "form",
+                      "name": "role-edit-form",
+                      "api": "/api/action/_edit/${uid}",
+                      "body": [
+                        {
+                          "name": "name",
+                          "label": "动作名称",
+                          "type": "input-text",
+                          "value": "${name}"
+                        },
+                        {
+                          "name": "action_type",
+                          "label": "动作类型",
+                          "type": "input-text",
+                          "value": "${action_type}"
+                        },
+                        {
+                          "name": "description",
+                          "label": "动作说明",
+                          "type": "input-text",
+                          "value": "${description}"
+                        },
+                        {
+                          "name": "process",
+                          "id": "process",
+                          "label": "流程",
+                          "type": "select",
+                          "source": "/api/process/chainedOptions",
+                          "required": true
+                        },
+                        {
+                          "name": "transition_arr",
+                          "id": "transition",
+                          "type": "select",
+                          "label": "所属转换",
+                          "source": "/api/transition/chainedOptions?process=${process}",
+                          "clearable": true,
+                          "searchable": true,
+                          "required": true
+                        },
+                        {
+                          "label": "选择权限",
+                          "id": "transfer-receiver",
+                          "type": "transfer",
+                          "name": "permission",
+                          "debugger": true,
+                          "source": "/api/permission/getall/0000"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "type": "button",
+                  "label": "删除",
+                  "level": "danger",
+                  "actionType": "ajax",
+                  "confirmText": "您确认要删除?",
+                  "api": "/api/action/_delete/$uid"
+                }
+              ]
+            }
+          ],
+          "placeholder": "-",
+          "fixed": "right"
         }
-
       ],
       "affixHeader": true,
       "columnsTogglable": "auto",

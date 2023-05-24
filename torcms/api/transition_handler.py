@@ -69,7 +69,10 @@ class TransitionHandler(BaseHandler):
         for rec in recs:
             cur_state = MState.get_by_uid(rec.current_state).get()
             next_state = MState.get_by_uid(rec.next_state).get()
-            trans_name = cur_state.name + ' - ' + next_state.name
+            cur_state_pro = MProcess.get_by_uid(cur_state.process).get()
+            next_state_pro = MProcess.get_by_uid(next_state.process).get()
+
+            trans_name = cur_state.name +' ['+cur_state_pro.name+'] - ' + next_state.name + ' ['+next_state_pro.name+']'
 
             dic = {"label": trans_name, "value": rec.uid}
 
@@ -118,10 +121,13 @@ class TransitionHandler(BaseHandler):
             process = MProcess.get_by_uid(rec.process).get()
             cur_state = MState.get_by_uid(rec.current_state).get()
             next_state = MState.get_by_uid(rec.next_state).get()
+
+            cur_state_pro=MProcess.get_by_uid(cur_state.process).get()
+            next_state_pro=MProcess.get_by_uid(next_state.process).get()
             dic = {
                 "uid": rec.uid,
-                "current_state": cur_state.name,
-                "next_state": next_state.name,
+                "current_state": cur_state.name + ' ['+cur_state_pro.name+'] ',
+                "next_state": next_state.name+ ' ['+next_state_pro.name+'] ',
                 "process": process.name,
             }
 
