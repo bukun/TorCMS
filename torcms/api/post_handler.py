@@ -13,7 +13,7 @@ from torcms.model.category_model import MCategory
 from torcms.model.user_model import MUser
 from torcms.model.staff2role_model import MStaff2Role
 from torcms.model.process_model import MState, MTransition, MRequest, MAction, MRequestAction, \
-    MTransitionAction, MProcess
+    MTransitionAction, MProcess, MPermissionAction
 
 
 class ApiPostHandler(PostHandler):
@@ -59,6 +59,7 @@ class ApiPostHandler(PostHandler):
 
         else:
             self.redirect('misc/html/404.html')
+
     def submit_process(self):
 
         post_data = {}
@@ -73,9 +74,7 @@ class ApiPostHandler(PostHandler):
         print(act_arr)
         output = {'act_arr': act_arr}
 
-
         return json.dump(output, self)
-
 
     def create_request(self, process_id, post_id, user_id):
         '''
@@ -168,8 +167,6 @@ class ApiPostHandler(PostHandler):
                             output = {'act_arr': act_arr, "request_id": new_request_id, "cur_state": new_state.uid}
 
                             return json.dump(output, self)
-
-
 
     @privilege.permission(action='assign_group')
     @tornado.web.authenticated
@@ -295,11 +292,21 @@ class ApiPostHandler(PostHandler):
 
                     act_rec = MAction.get_by_id(act['action']).get()
 
-                    if not act_rec.action_type.startswith('restart'):
-                        act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": request_rec.uid,
-                                   "state_id": request_rec.current_state_id, "process_id": request_rec.process_id}
-                        act_arr.append(act_dic)
+                    # 当前登录用户具有的权限
+                    perms = MStaff2Role.query_permissions(self.userinfo.uid)
 
+                    # 当前动作需要的权限
+                    per_act_recs = MPermissionAction.query_by_action(act_rec.uid)
+                    cur_user_per = []
+                    for key in perms:
+                        cur_user_per.append(key['permission'])
+
+                    for per_act in per_act_recs:
+
+                        if str(per_act.permission) in cur_user_per:
+                            act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": request_rec.uid,
+                                       "state_id": request_rec.current_state_id, "process_id": request_rec.process_id}
+                            act_arr.append(act_dic)
 
                 if act_arr:
                     rec_arr.append(

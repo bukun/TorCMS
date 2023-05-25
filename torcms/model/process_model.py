@@ -738,6 +738,8 @@ class MPermissionAction:
 
         return TabPermissionAction.select().where(TabPermissionAction.action == act_id)
 
+
+
     @staticmethod
     def query_all():
         return TabPermissionAction.select()
