@@ -16,18 +16,10 @@ class TestMAction():
         self.maction = MAction()
         self.mper_action = MPermissionAction()
 
-        self.process_id = self.init_process()
+        self.process_id = self.mprocess.create('test数据审核' + self.uid)
 
         self.fake = Faker(locale="zh_CN")
 
-    def init_process(self):
-        '''
-        创建流程TabProcess
-        '''
-
-        process_name = '数据审核' + self.uid
-        process_id = self.mprocess.create(process_name)
-        return process_id
 
     def test_create_action(self):
         '''
@@ -58,6 +50,7 @@ class TestMAction():
         recs = self.maction.query_by_proid(self.process_id)
         for rec in recs:
             assert rec.uid in action_uids
+
 
     def text_update_action(self):
         post_data1 = {
@@ -174,6 +167,7 @@ class TestMAction():
     def tearDown(self):
         print("function teardown")
 
+
         act_recs = MAction.query_by_proid(self.process_id)
 
         for act in act_recs:
@@ -181,3 +175,14 @@ class TestMAction():
             self.maction.delete(act.uid)
 
         self.mprocess.delete_by_uid(self.process_id)
+
+        pro_recs=self.mprocess.query_all()
+        for pro in pro_recs:
+            if pro.name.startswith('test数据审核'):
+                act_recs = MAction.query_by_proid(pro.uid)
+
+                for act in act_recs:
+                    self.mper_action.delete_by_action(act.uid)
+                    self.maction.delete(act.uid)
+
+                self.mprocess.delete_by_uid(pro.uid)

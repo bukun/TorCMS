@@ -1,7 +1,5 @@
 # -*- coding:utf-8 -*-
 from torcms.core import tools
-from torcms.model.user_model import MUser
-from torcms.model.role_model import MRole
 from torcms.model.process_model import MProcess, MState, MTransition, MRequest, MAction, MRequestAction, \
     MTransitionAction, MPermissionAction
 
@@ -22,9 +20,7 @@ class TestMstate():
         self.maction = MAction()
         self.mreqaction = MRequestAction()
         self.mtransaction = MTransitionAction()
-        self.muser = MUser()
-        self.mrole = MRole()
-        self.mper_action = MPermissionAction()
+
         self.state_dic = {}
         self.process_id = self.init_process()
 
@@ -35,7 +31,7 @@ class TestMstate():
         创建流程TabProcess
         '''
 
-        process_name = '数据审核' + self.uid
+        process_name = 'test数据审核' + self.uid
         process_id = self.mprocess.create(process_name)
         return process_id
 
@@ -160,8 +156,8 @@ class TestMstate():
 
     def test_get_by_state_type(self):
         self.test_create_state()
-        act_type = 'denied_' + self.process_id
-        pp = self.mstate.get_by_state_type(act_type)
+        state_type = 'denied_' + self.process_id
+        pp = self.mstate.get_by_state_type(state_type)
         TF = False
         print('9' * 50)
         print(pp.name)
@@ -198,9 +194,19 @@ class TestMstate():
             pass
         else:
             process_id = self.process_id
-        act_recs = self.mstate.query_by_pro_id(process_id)
+        state_recs = self.mstate.query_by_pro_id(process_id)
 
-        for act in act_recs:
-            self.mstate.delete(act.uid)
+        for state in state_recs:
+            self.mstate.delete(state.uid)
 
         self.mprocess.delete_by_uid(process_id)
+
+        pro_recs = self.mprocess.query_all()
+        for pro in pro_recs:
+            if pro.name.startswith('test数据审核'):
+                state_recs = self.mstate.query_by_pro_id(pro.uid)
+
+                for state in state_recs:
+                    self.mstate.delete(state.uid)
+
+                self.mprocess.delete_by_uid(pro.uid)
