@@ -1,0 +1,183 @@
+# -*- coding:utf-8 -*-
+from torcms.core import tools
+from torcms.model.process_model import MProcess, MAction, MPermissionAction
+
+from faker import Faker
+
+
+class TestMAction():
+    def setup_method(self):
+
+        print('setup 方法执行于本类中每条用例之前')
+
+        self.uid = tools.get_uu4d()
+
+        self.mprocess = MProcess()
+        self.maction = MAction()
+        self.mper_action = MPermissionAction()
+
+        self.process_id = self.init_process()
+
+        self.fake = Faker(locale="zh_CN")
+
+    def init_process(self):
+        '''
+        创建流程TabProcess
+        '''
+
+        process_name = '数据审核' + self.uid
+        process_id = self.mprocess.create(process_name)
+        return process_id
+
+    def test_create_action(self):
+        '''
+        创建动作TabAction
+        '''
+
+        action_datas = [
+            {'action_type': 'deny', 'role': 'ucan_verify',
+             'name': '拒绝', 'description': '操作人将请求应移至上一个状态'},
+            {'action_type': 'cancel', 'role': 'ucan_verify',
+             'name': '取消', 'description': '操作人将请求应在此过程中移至“已取消”状态'},
+
+            {'action_type': 'approve', 'role': 'ucan_verify',
+             'name': '通过', 'description': '操作人将请求应移至下一个状态'},
+            {'action_type': 'restart', 'role': '9can_edit',
+             'name': '提交审核', 'description': '操作人将将请求移回到进程中的“开始”状态'},
+
+        ]
+
+        action_uids = []
+        for act in action_datas:
+            act_uid = MAction.create(self.process_id, act)
+            action_uids.append(act_uid)
+
+            if act_uid:
+                # 动作与权限关联
+                self.mper_action.create(act['role'], act_uid)
+        recs = self.maction.query_by_proid(self.process_id)
+        for rec in recs:
+            assert rec.uid in action_uids
+
+    def text_update_action(self):
+        post_data1 = {
+            'process': 'adf',
+            'name': 'asdf',
+            'action_type': 'asdf',
+            'description': 'afd'
+        }
+        recs = self.maction.query_by_proid(self.process_id)
+        for rec in recs:
+            uu = self.maction.update(rec.uid, post_data1)
+            assert uu == False
+
+        post_data2 = {
+            'process': self.process_id,
+            'name': 'asdf',
+            'action_type': 'asdf',
+            'description': 'afd'
+        }
+        recs = self.maction.query_by_proid(self.process_id)
+        for rec in recs:
+            uu = self.maction.update(rec.uid, post_data2)
+            assert uu == False
+
+        post_data3 = {
+            'process': self.process_id,
+            'name': '',
+            'action_type': '',
+            'description': 'afd'
+        }
+        recs = self.maction.query_by_proid(self.process_id)
+        for rec in recs:
+            uu = self.maction.update(rec.uid, post_data3)
+            assert uu == True
+
+        post_data4 = {
+            'process': self.process_id,
+            'name': '',
+            'action_type': 'adf',
+            'description': ''
+        }
+        recs = self.maction.query_by_proid(self.process_id)
+        for rec in recs:
+            uu = self.maction.update(rec.uid, post_data4)
+            assert uu == False
+
+        post_data5 = {
+            'process': self.process_id,
+            'name': '',
+            'action_type': 'adf' + self.uid,
+            'description': ''
+        }
+        recs = self.maction.query_by_proid(self.process_id)
+        for rec in recs:
+            uu = self.maction.update(rec.uid, post_data5)
+            assert uu == True
+
+        self.tearDown()
+
+    def test_query_all(self):
+        self.test_create_action()
+
+        pp = self.maction.query_all()
+        TF = False
+        for i in pp:
+
+            if i.name in ['拒绝', '取消', '通过', '提交审核']:
+                TF = True
+        self.tearDown()
+        assert TF
+
+    def test_query_by_proid(self):
+        self.test_create_action()
+
+        pp = self.maction.query_by_proid(self.process_id)
+        TF = False
+
+        if pp.count() == 4:
+            TF = True
+        self.tearDown()
+        assert TF
+
+    def test_get_by_name(self):
+        self.test_create_action()
+
+        pp = self.maction.get_by_name('取消').get()
+        TF = False
+        if pp.action_type.startswith('cancel'):
+            TF = True
+        self.tearDown()
+        assert TF
+
+    def test_get_by_action_type(self):
+        self.test_create_action()
+        act_type = 'deny_' + self.process_id
+        pp = self.maction.get_by_action_type(act_type).get()
+        TF = False
+
+        if pp.name == '拒绝':
+            TF = True
+        self.tearDown()
+        assert TF
+
+    def test_get_by_pro_actname(self):
+        self.test_create_action()
+        pp = self.maction.get_by_pro_actname(self.process_id, '通过').get()
+        TF = False
+
+        if pp.action_type == 'approve_' + self.process_id:
+            TF = True
+        self.tearDown()
+        assert TF
+
+    def tearDown(self):
+        print("function teardown")
+
+        act_recs = MAction.query_by_proid(self.process_id)
+
+        for act in act_recs:
+            self.mper_action.delete_by_action(act.uid)
+            self.maction.delete(act.uid)
+
+        self.mprocess.delete_by_uid(self.process_id)

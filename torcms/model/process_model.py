@@ -939,7 +939,7 @@ class MState:
         Get a link by ID.
         '''
         res = TabState.select().where(TabState.name == state_name)
-        return res.get().uid
+        return res
 
     @staticmethod
     def get_by_state_type(state_type):
