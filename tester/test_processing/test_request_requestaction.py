@@ -215,6 +215,14 @@ class TestMProcess():
 
                     # 进行请求操作
                     self.test_request_action(req_id, self.process_id, self.uid, cur_act['action'])
+
+            req_rec = self.mrequest.get_by_pro(self.process_id).get()
+            assert req_rec.post_id == self.uid
+
+            req_rec2 = self.mrequest.get_by_pro_state(self.process_id, cur_state.uid)
+            assert req_rec2.user_id== self.user_id
+            req_rec3 = self.mrequest.query_by_postid(self.uid)
+            assert req_rec3.process_id == self.process_id
             self.tearDown(self.process_id)
 
     def test_request_action(self, request_id='', process_id='', post_id='', act_id=''):
