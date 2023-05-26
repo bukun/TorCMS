@@ -35,6 +35,7 @@ class TestMProcess():
         self.slug = 'huio'
         self.user_id = MUser.get_by_name('admin').uid
         self.state_dic = {}
+        self.process_id = ''
         self.mprocess = MProcess()
         self.mstate = MState()
         self.mtrans = MTransition()
@@ -45,11 +46,11 @@ class TestMProcess():
         self.muser = MUser()
         self.mrole = MRole()
         self.mper_action = MPermissionAction()
-        self.test_create_process()
+        self.init_process()
 
         self.fake = Faker(locale="zh_CN")
 
-    def test_insert(self):
+    def init_post(self):
 
         post_data = {
             'title': self.post_title,
@@ -68,30 +69,26 @@ class TestMProcess():
         self.mpost.add_or_update(self.uid, post_data)
         update_category(self.uid, post_data)
 
-    def test_create_process(self):
+    def init_process(self):
         '''
         创建流程TabProcess
         '''
         # 创建Post
-        self.test_insert()
+        self.init_post()
         process_name = 'test数据审核' + self.uid
         process_id = self.mprocess.create(process_name)
         if process_id:
+            self.process_id = process_id
             # 创建动作
-            self.test_create_action(process_id)
+            self.init_action(process_id)
 
             # 创建状态
-            self.test_create_state(process_id)
+            self.init_state(process_id)
 
             # 创建状态转换
-            self.test_create_trans(process_id, self.state_dic)
+            self.init_trans(process_id, self.state_dic)
 
-            # 创建请求
-            self.test_create_request(process_id, self.uid)
-
-            # self.tearDown(process_id)
-
-    def test_create_state(self, process_id=''):
+    def init_state(self, process_id=''):
         '''
         创建状态TabState
         '''
@@ -117,7 +114,7 @@ class TestMProcess():
 
         assert self.state_dic
 
-    def test_create_action(self, process_id=''):
+    def init_action(self, process_id=''):
         '''
         创建动作TabAction
         '''
@@ -145,7 +142,7 @@ class TestMProcess():
 
         assert action_uids
 
-    def test_create_trans(self, process_id='', state_dic={}):
+    def init_trans(self, process_id='', state_dic={}):
         '''
          转换Tabtransition
         '''
@@ -195,29 +192,30 @@ class TestMProcess():
 
             # assert True
 
-    def test_create_request(self, process_id='', post_id=''):
+    def test_create_request(self):
         '''
         创建请求以及请求对应状态的相关动作
         '''
 
         # 获取“开始”状态ID
-        if process_id:
-            state_type = 'start_' + process_id
+        if self.process_id:
+            state_type = 'start_' + self.process_id
             cur_state = MState.get_by_state_type(state_type)
             if cur_state:
                 print("/" * 50)
                 print(cur_state)
                 # 创建请求
-                req_id = MRequest.create(process_id, post_id, self.user_id, cur_state.uid)
+                req_id = MRequest.create(self.process_id, self.uid, self.user_id, cur_state.uid)
                 # trans_id=MTransition.query_by_state(cur_state.name)
                 print(req_id)
                 # 创建请求操作
-                cur_actions = MTransitionAction.query_by_pro_state(process_id, cur_state.uid)
+                cur_actions = MTransitionAction.query_by_pro_state(self.process_id, cur_state.uid)
                 for cur_act in cur_actions:
                     MRequestAction.create(req_id, cur_act['action'], cur_act['transition'])
 
                     # 进行请求操作
-                    self.test_request_action(req_id, process_id, post_id, cur_act['action'])
+                    self.test_request_action(req_id, self.process_id, self.uid, cur_act['action'])
+            self.tearDown(self.process_id)
 
     def test_request_action(self, request_id='', process_id='', post_id='', act_id=''):
         '''
