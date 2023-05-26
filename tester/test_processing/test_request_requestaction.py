@@ -220,7 +220,7 @@ class TestMProcess():
             assert req_rec.post_id == self.uid
 
             req_rec2 = self.mrequest.get_by_pro_state(self.process_id, cur_state.uid)
-            assert req_rec2.user_id== self.user_id
+            assert req_rec2.user_id == self.user_id
             req_rec3 = self.mrequest.query_by_postid(self.uid)
             assert req_rec3.process_id == self.process_id
             self.tearDown(self.process_id)
@@ -294,6 +294,7 @@ class TestMProcess():
                             print(act_arr)
                             print(new_act_arr)
                             assert act_arr == new_act_arr
+                            
 
     def tearDown(self, process_id=''):
         print("function teardown")
