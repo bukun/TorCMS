@@ -206,8 +206,8 @@ class MTransitionAction:
     @staticmethod
     def query_by_pro_state(pro_id, state_id):
         query = (
-            TabTransitionAction.select(TabTransitionAction.transition,
-                                       TabTransitionAction.action)
+            TabTransitionAction.select(
+                TabTransitionAction.transition, TabTransitionAction.action)
             .join(TabTransition, JOIN.INNER)
             .where((TabTransition.process == pro_id) & (
                     TabTransition.current_state == state_id))
@@ -737,8 +737,6 @@ class MPermissionAction:
     def query_by_action(act_id):
 
         return TabPermissionAction.select().where(TabPermissionAction.action == act_id)
-
-
 
     @staticmethod
     def query_all():

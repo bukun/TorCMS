@@ -8,7 +8,7 @@ from torcms.model.process_model import MProcess, MState, MTransition, MRequest, 
 from faker import Faker
 
 
-class TestMstate():
+class TestMtransition():
     def setup_method(self):
 
         print('setup 方法执行于本类中每条用例之前')
@@ -27,6 +27,7 @@ class TestMstate():
         self.mper_action = MPermissionAction()
         self.state_dic = {}
         self.process_id = self.init_process()
+        self.init_data()
 
         self.fake = Faker(locale="zh_CN")
 
@@ -39,10 +40,12 @@ class TestMstate():
         process_id = self.mprocess.create(process_name)
         return process_id
 
-    def test_create_state(self):
+    def init_data(self):
         '''
-        创建状态TabState
+        初始化流程TabProcess，状态，动作
         '''
+
+        # 创建状态TabState
 
         state_datas = [
             {'name': '开始', 'state_type': 'start',
@@ -60,137 +63,164 @@ class TestMstate():
 
         for state_data in state_datas:
             state_data['process'] = self.process_id
-            state_uid = MState.create(state_data)
+            state_uid = self.mstate.create(state_data)
             self.state_dic[state_data['state_type']] = state_uid
 
-            uu = self.mstate.get_by_state_type(state_data['state_type'] + '_' + self.process_id)
+        # 创建动作TabAction
 
-            assert uu.uid == state_uid
+        action_datas = [
+            {'action_type': 'deny', 'role': 'ucan_verify',
+             'name': '拒绝', 'description': '操作人将请求应移至上一个状态'},
+            {'action_type': 'cancel', 'role': 'ucan_verify',
+             'name': '取消', 'description': '操作人将请求应在此过程中移至“已取消”状态'},
+            {'action_type': 'approve', 'role': 'ucan_verify',
+             'name': '通过', 'description': '操作人将请求应移至下一个状态'},
+            {'action_type': 'restart', 'role': '9can_edit',
+             'name': '提交审核', 'description': '操作人将将请求移回到进程中的“开始”状态'},
 
-    def text_update_state(self):
-        post_data1 = {
-            'process': 'adf',
-            'name': 'asdf',
-            'state_type': 'asdf',
-            'description': 'afd'
-        }
-        recs = self.mstate.get_by_name('开始')
-        for rec in recs:
-            uu = self.mstate.update(rec.uid, post_data1)
-            assert uu == False
+        ]
 
-        post_data2 = {
-            'process': self.process_id,
-            'name': 'asdf',
-            'state_type': 'asdf',
-            'description': 'afd'
-        }
-        rec = self.mstate.get_by_name('开始')
+        action_uids = []
+        for act in action_datas:
+            act_uid = self.maction.create(self.process_id, act)
+            action_uids.append(act_uid)
+            print("*" * 50)
+            print(act['role'])
+            if act_uid:
+                self.mper_action.create(act['role'], act_uid)
 
-        uu = self.mstate.update(rec.uid, post_data2)
-        assert uu == False
+        assert action_uids
 
-        post_data3 = {
-            'process': self.process_id,
-            'name': '',
-            'state_type': '',
-            'description': 'afd'
-        }
-        recs = self.mstate.query_by_pro_id(self.process_id)
-        for rec in recs:
-            uu = self.mstate.update(rec.uid, post_data3)
-            assert uu == True
+    def test_create_transition(self):
+        '''
+         转换Tabtransition
+        '''
 
-        post_data4 = {
-            'process': self.process_id,
-            'name': '',
-            'state_type': 'adf',
-            'description': ''
-        }
-        recs = self.mstate.query_by_pro_id(self.process_id)
-        for rec in recs:
-            uu = self.mstate.update(rec.uid, post_data4)
-            assert uu == False
+        deny = 'deny_' + self.process_id
+        cancel = 'cancel_' + self.process_id
+        restart = 'restart_' + self.process_id
+        approve = 'approve_' + self.process_id
 
-        post_data5 = {
-            'process': self.process_id,
-            'name': '',
-            'state_type': 'adf' + self.uid,
-            'description': ''
-        }
-        recs = self.mstate.query_by_pro_id(self.process_id)
-        for rec in recs:
-            uu = self.mstate.update(rec.uid, post_data5)
-            assert uu == True
+        act_deny = self.maction.get_by_action_type(deny).uid
+        act_cancel = self.maction.get_by_action_type(cancel).uid
 
-        self.tearDown()
+        act_restart = self.maction.get_by_action_type(restart).uid
+        act_approve = self.maction.get_by_action_type(approve).uid
 
-    def test_query_all(self):
-        self.test_create_state()
+        trans = [
+            # 状态：“正常”对应的“开始”
+            {'current_state': self.state_dic['normal'],
+             'next_state': self.state_dic['start'], 'act_id': act_restart},
 
-        pp = self.mstate.query_all()
-        TF = False
-        for i in pp:
+            # 状态：“开始”对应的“拒绝”，“完成”，“取消”
+            {'current_state': self.state_dic['start'],
+             'next_state': self.state_dic['denied'], 'act_id': act_deny},
+            {'current_state': self.state_dic['start'],
+             'next_state': self.state_dic['complete'], 'act_id': act_approve},
+            {'current_state': self.state_dic['start'],
+             'next_state': self.state_dic['cancelled'], 'act_id': act_cancel},
 
-            if i.name in ['开始', '拒绝', '完成', '取消', '正常']:
-                TF = True
-        self.tearDown()
-        assert TF
+            # 状态：“取消”对应的“拒绝”，“完成”
+            {'current_state': self.state_dic['cancelled'],
+             'next_state': self.state_dic['denied'], 'act_id': act_deny},
+            {'current_state': self.state_dic['cancelled'],
+             'next_state': self.state_dic['complete'], 'act_id': act_approve},
 
-    def test_query_by_proid(self):
-        self.test_create_state()
+            # 状态：“拒绝”对应的“开始”
+            {'current_state': self.state_dic['denied'],
+             'next_state': self.state_dic['start'], 'act_id': act_restart},
 
-        pp = self.mstate.query_by_pro_id(self.process_id)
+        ]
+
+        for tran in trans:
+            tran_id = MTransition.create(self.process_id, tran['current_state'], tran['next_state'])
+
+            # 创建转换动作
+            self.mtransaction.create(tran_id, tran['act_id'])
+
+    def test_trans_query_all(self):
+
+        pp = self.mtrans.query_all()
+
         TF = False
 
-        if pp.count() == 5:
+        if pp.count() > 0:
             TF = True
         self.tearDown()
         assert TF
 
-    def test_get_by_name(self):
-        self.test_create_state()
+    def test_query_by_proid(self):
+        self.test_create_transition()
 
-        pp = self.mstate.get_by_name('取消').get()
+        pp = self.mtrans.query_by_proid(self.process_id)
         TF = False
-        if pp.state_type.startswith('cancelled'):
+
+        if pp.count() == 7:
+            TF = True
+        self.tearDown()
+        assert TF
+
+    def test_query_by_proid_state(self):
+        self.test_create_transition()
+        state_id = self.mstate.get_by_pro_statename(self.process_id, '拒绝')
+        pp = self.mtrans.query_by_proid_state(self.process_id, state_id)
+        TF = False
+        if pp.count() == 1:
             TF = True
         self.tearDown()
         assert TF
 
     def test_get_by_state_type(self):
-        self.test_create_state()
-        state_type = 'denied_' + self.process_id
-        pp = self.mstate.get_by_state_type(state_type)
+        self.test_create_transition()
+        cur_state = self.mstate.get_by_pro_statename(self.process_id, '开始')
+        next_state = self.mstate.get_by_pro_statename(self.process_id, '拒绝')
+        pp = self.mtrans.get_by_cur_next(self.process_id, cur_state, next_state)
         TF = False
-        print('9' * 50)
-        print(pp.name)
-        if pp.name == '拒绝':
+
+        if pp.count() == 1:
             TF = True
         self.tearDown()
         assert TF
 
-    def test_get_by_pro_statename(self):
-        self.test_create_state()
-        pp = self.mstate.get_by_pro_statename(self.process_id, '完成').get()
+    def test_get_by_state_type2(self):
+        self.test_create_transition()
+        cur_state = self.mstate.get_by_pro_statename(self.process_id, '取消')
+        next_state = self.mstate.get_by_pro_statename(self.process_id, '开始')
+        pp = self.mtrans.get_by_cur_next(self.process_id, cur_state, next_state)
         TF = False
 
-        if pp.state_type == 'complete_' + self.process_id:
+        if pp.count() == 0:
             TF = True
         self.tearDown()
         assert TF
 
-    def test_update_process(self):
-        process_id = self.mprocess.create('test_pro' + self.uid)
+    def test_query_by_action(self):
+        self.test_create_transition()
+        act_id = self.maction.get_by_action_type('restart_' + self.process_id)
+        pp = self.mtrans.query_by_action(act_id, self.process_id)
+        TF = False
 
-        self.test_create_state()
-        post_data = {'process': process_id}
-        state_id = self.state_dic['complete']
-        self.mstate.update_process(state_id, post_data)
-        state_rec = self.mstate.get_by_uid(state_id).get()
+        if pp.count() == 2:
+            TF = True
 
-        assert state_rec.process_id == process_id
-        self.tearDown(process_id)
+        self.tearDown()
+        assert TF
+
+    def test_tranaction_query_all(self):
+        self.test_create_transition()
+        trans_arr = []
+        trans_recs = self.mtrans.query_by_proid(self.process_id)
+        for tran in trans_recs:
+            trans_arr.append(tran.transition)
+        pp = self.mtransaction.query_all()
+        TF = False
+        for i in pp:
+
+            if i.uid in trans_arr:
+                TF = True
+        self.tearDown()
+        assert TF
+
 
     def tearDown(self, process_id=''):
         print("function teardown")
@@ -198,9 +228,43 @@ class TestMstate():
             pass
         else:
             process_id = self.process_id
+
+        trans = self.mtrans.query_by_proid(process_id)
+
+        for tran in trans:
+            self.mtransaction.delete_by_trans(tran.uid)
+            self.mtrans.delete(tran.uid)
+
+        act_recs = MAction.query_by_proid(self.process_id)
+
+        for act in act_recs:
+            self.mper_action.delete_by_action(act.uid)
+            self.maction.delete(act.uid)
+
         state_recs = self.mstate.query_by_pro_id(process_id)
 
         for state in state_recs:
             self.mstate.delete(state.uid)
 
         self.mprocess.delete_by_uid(process_id)
+
+        pro_recs = self.mprocess.query_all()
+        for pro in pro_recs:
+            if pro.name.startswith('test数据审核'):
+                trans = self.mtrans.query_by_proid(pro.uid)
+                for tran in trans:
+                    self.mtransaction.delete_by_trans(tran.uid)
+                    self.mtrans.delete(tran.uid)
+
+                act_recs = MAction.query_by_proid(pro.uid)
+
+                for act in act_recs:
+                    self.mper_action.delete_by_action(act.uid)
+                    self.maction.delete(act.uid)
+
+                state_recs = self.mstate.query_by_pro_id(pro.uid)
+
+                for state in state_recs:
+                    self.mstate.delete(state.uid)
+
+                self.mprocess.delete_by_uid(pro.uid)

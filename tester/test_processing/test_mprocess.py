@@ -49,45 +49,6 @@ class TestMProcess():
 
         self.fake = Faker(locale="zh_CN")
 
-    def tearDown(self, process_id=''):
-        print("function teardown")
-
-        trans = self.mtrans.query_by_proid(process_id)
-        print(trans.count())
-        for tran in trans:
-            print("*" * 50)
-            print(tran.uid)
-
-            self.mreqaction.delete_by_trans(tran.uid)
-            self.mtransaction.delete_by_trans(tran.uid)
-            self.mtrans.delete(tran.uid)
-
-        req_recs = self.mrequest.get_by_pro(process_id)
-        for req_rec in req_recs:
-            print(req_rec.uid)
-            self.mrequest.delete(req_rec.uid)
-
-        act_recs = MAction.query_by_proid(process_id)
-        for act in act_recs:
-            self.maction.delete(act.uid)
-
-        states = self.mstate.query_by_pro_id(process_id)
-        for state in states:
-            self.mstate.delete(state.uid)
-
-        self.mprocess.delete_by_uid(process_id)
-
-        self.mpost.delete(self.uid)
-
-        MCategory.delete(self.tag_id)
-        self.mpost.delete(self.post_id2)
-        self.mpost.delete(self.post_id)
-
-        MPost2Catalog.remove_relation(self.post_id, self.tag_id)
-        tt = MLabel.get_by_slug(self.slug)
-        if tt:
-            MLabel.delete(tt.uid)
-
     def test_insert(self):
 
         post_data = {
@@ -113,7 +74,7 @@ class TestMProcess():
         '''
         # 创建Post
         self.test_insert()
-        process_name = '数据审核' + self.uid
+        process_name = 'test数据审核' + self.uid
         process_id = self.mprocess.create(process_name)
         if process_id:
             # 创建动作
@@ -166,8 +127,6 @@ class TestMProcess():
              'name': '拒绝', 'description': '操作人将请求应移至上一个状态'},
             {'action_type': 'cancel', 'role': 'ucan_verify',
              'name': '取消', 'description': '操作人将请求应在此过程中移至“已取消”状态'},
-            {'action_type': 'resolve', 'role': 'ucan_verify',
-             'name': '完成', 'description': '操作人将将请求一直移动到Completed状态'},
             {'action_type': 'approve', 'role': 'ucan_verify',
              'name': '通过', 'description': '操作人将请求应移至下一个状态'},
             {'action_type': 'restart', 'role': '9can_edit',
@@ -231,17 +190,10 @@ class TestMProcess():
                 tran_id = MTransition.create(process_id, tran['current_state'], tran['next_state'])
 
                 # 创建转换动作
-                self.test_create_transaction(tran_id, tran['act_id'])
+
+                MTransitionAction.create(tran_id, tran['act_id'])
 
             # assert True
-
-    def test_create_transaction(self, trans_id='', actid=''):
-        '''
-       转换动作TransitionAction
-        '''
-
-        trans_act = MTransitionAction.create(trans_id, actid)
-        # assert trans_act
 
     def test_create_request(self, process_id='', post_id=''):
         '''
@@ -336,3 +288,82 @@ class TestMProcess():
                             print(act_arr)
                             print(new_act_arr)
                             assert act_arr == new_act_arr
+
+    def tearDown(self, process_id=''):
+        print("function teardown")
+        trans = self.mtrans.query_by_proid(process_id)
+        print(trans.count())
+        for tran in trans:
+            print("*" * 50)
+            print(tran.uid)
+
+            self.mreqaction.delete_by_trans(tran.uid)
+            self.mtransaction.delete_by_trans(tran.uid)
+            self.mtrans.delete(tran.uid)
+
+        req_recs = self.mrequest.get_by_pro(process_id)
+        for req_rec in req_recs:
+            print(req_rec.uid)
+            self.mrequest.delete(req_rec.uid)
+
+        act_recs = MAction.query_by_proid(process_id)
+        for act in act_recs:
+            self.mper_action.delete_by_action(act.uid)
+            self.maction.delete(act.uid)
+
+        states = self.mstate.query_by_pro_id(process_id)
+        for state in states:
+            self.mstate.delete(state.uid)
+
+        self.mprocess.delete_by_uid(process_id)
+
+        self.mpost.delete(self.uid)
+
+        MCategory.delete(self.tag_id)
+        self.mpost.delete(self.post_id2)
+        self.mpost.delete(self.post_id)
+
+        MPost2Catalog.remove_relation(self.post_id, self.tag_id)
+        tt = MLabel.get_by_slug(self.slug)
+        if tt:
+            MLabel.delete(tt.uid)
+
+        pro_recs = self.mprocess.query_all()
+        for pro in pro_recs:
+            if pro.name.startswith('test数据审核'):
+                trans = self.mtrans.query_by_proid(pro.uid)
+                print(trans.count())
+                for tran in trans:
+                    print("*" * 50)
+                    print(tran.uid)
+
+                    self.mreqaction.delete_by_trans(tran.uid)
+                    self.mtransaction.delete_by_trans(tran.uid)
+                    self.mtrans.delete(tran.uid)
+
+                req_recs = self.mrequest.get_by_pro(pro.uid)
+                for req_rec in req_recs:
+                    print(req_rec.uid)
+                    self.mrequest.delete(req_rec.uid)
+
+                act_recs = MAction.query_by_proid(pro.uid)
+                for act in act_recs:
+                    self.mper_action.delete_by_action(act.uid)
+                    self.maction.delete(act.uid)
+
+                states = self.mstate.query_by_pro_id(pro.uid)
+                for state in states:
+                    self.mstate.delete(state.uid)
+
+                self.mprocess.delete_by_uid(pro.uid)
+
+                self.mpost.delete(self.uid)
+
+                MCategory.delete(self.tag_id)
+                self.mpost.delete(self.post_id2)
+                self.mpost.delete(self.post_id)
+
+                MPost2Catalog.remove_relation(self.post_id, self.tag_id)
+                tt = MLabel.get_by_slug(self.slug)
+                if tt:
+                    MLabel.delete(tt.uid)

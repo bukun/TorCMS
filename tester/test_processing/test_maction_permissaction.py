@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 from torcms.core import tools
 from torcms.model.process_model import MProcess, MAction, MPermissionAction
+from torcms.model.permission_model import MPermission
 
 from faker import Faker
 
@@ -15,11 +16,20 @@ class TestMAction():
         self.mprocess = MProcess()
         self.maction = MAction()
         self.mper_action = MPermissionAction()
+        self.mpermission = MPermission()
 
-        self.process_id = self.mprocess.create('test数据审核' + self.uid)
+        self.process_id = self.init_process()
 
         self.fake = Faker(locale="zh_CN")
 
+    def init_process(self):
+        '''
+        创建流程TabProcess
+        '''
+
+        process_name = 'test数据审核' + self.uid
+        process_id = self.mprocess.create(process_name)
+        return process_id
 
     def test_create_action(self):
         '''
@@ -50,7 +60,6 @@ class TestMAction():
         recs = self.maction.query_by_proid(self.process_id)
         for rec in recs:
             assert rec.uid in action_uids
-
 
     def text_update_action(self):
         post_data1 = {
@@ -164,9 +173,21 @@ class TestMAction():
         self.tearDown()
         assert TF
 
+    def test_query_per_by_action(self):
+        act_id = self.maction.get_by_action_type('deny' + self.process_id)
+        rec_name = self.mper_action.query_per_by_action(act_id)
+        per_rec = self.mpermission.get_by_uid('ucan_verify')
+        assert rec_name == per_rec.name
+
+        recs = self.mper_action.query_by_permission('ucan_verify')
+        assert recs == ['拒绝', '取消', '通过']
+
+        self.mper_action.remove_relation(act_id, per_rec.uid)
+        recs = self.mper_action.query_by_permission('ucan_verify')
+        assert recs == ['取消', '通过']
+
     def tearDown(self):
         print("function teardown")
-
 
         act_recs = MAction.query_by_proid(self.process_id)
 
@@ -176,7 +197,7 @@ class TestMAction():
 
         self.mprocess.delete_by_uid(self.process_id)
 
-        pro_recs=self.mprocess.query_all()
+        pro_recs = self.mprocess.query_all()
         for pro in pro_recs:
             if pro.name.startswith('test数据审核'):
                 act_recs = MAction.query_by_proid(pro.uid)
