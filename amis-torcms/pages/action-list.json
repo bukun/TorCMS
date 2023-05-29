@@ -60,6 +60,7 @@
               "type": "transfer",
               "name": "permission",
               "debugger": true,
+              "required": true,
               "source": "/api/permission/getall/0000"
             }
           ]
@@ -108,7 +109,7 @@
                   "searchable": true
                 },
                 {
-                  "name": "transition",
+                  "name": "transition_arr",
                   "id": "transition",
                   "type": "select",
                   "label": "所属转换",
@@ -171,7 +172,6 @@
         },
         {
           "name": "transition_arr",
-
           "type": "text",
           "label": "所属转换",
           "value": "${transition_arr}"
@@ -244,7 +244,7 @@
                     }
                   }
                 },
-                 {
+                {
                   "type": "button",
                   "label": "更新流程",
                   "level": "info",
@@ -260,7 +260,6 @@
                       "name": "role-edit-form",
                       "api": "/api/action/_edit_process/${uid}",
                       "body": [
-
                         {
                           "name": "process",
                           "id": "process",
@@ -269,8 +268,8 @@
                           "source": "/api/process/chainedOptions",
                           "required": true
                         },
-                            {
-                          "name": "transition",
+                        {
+                          "name": "transition_arr",
                           "id": "transition",
                           "type": "select",
                           "label": "所属转换",
@@ -279,14 +278,11 @@
                           "searchable": true,
                           "required": true
                         }
-
-
                       ]
                     }
                   }
                 },
-
-                 {
+                {
                   "type": "button",
                   "label": "更新权限",
                   "level": "info",
@@ -302,7 +298,6 @@
                       "name": "role-edit-form",
                       "api": "/api/action/_edit_per/${uid}",
                       "body": [
-
                         {
                           "label": "选择权限",
                           "id": "transfer-receiver",

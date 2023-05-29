@@ -223,7 +223,7 @@ class TestMProcess():
             assert req_rec2.user_id == self.user_id
             req_rec3 = self.mrequest.query_by_postid(self.uid)
             assert req_rec3.process_id == self.process_id
-            self.tearDown(self.process_id)
+            # self.tearDown(self.process_id)
 
     def test_request_action(self, request_id='', process_id='', post_id='', act_id=''):
         '''
