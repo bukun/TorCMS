@@ -7,7 +7,8 @@ import json
 import tornado.web
 from torcms.core import tools, privilege
 from torcms.core.base_handler import BaseHandler
-from torcms.model.process_model import MProcess
+from torcms.model.process_model import MProcess, MTransition, MTransitionAction, MPermissionAction, MAction, \
+    MRequestAction, MRequest, MState
 
 
 class ProcessHandler(BaseHandler):
@@ -50,7 +51,10 @@ class ProcessHandler(BaseHandler):
 
         elif url_arr[0] == '_add':
             self.add()
-
+        elif url_arr[0] == '_delete':
+            self.delete(url_arr[1])
+        elif url_arr[0] == 'batch_delete':
+            self.batch_delete(url_arr[1])
 
         else:
             self.redirect('misc/html/404.html')
@@ -172,4 +176,164 @@ class ProcessHandler(BaseHandler):
                 "status": 404,
                 "msg": "添加流程失败"
             }
+        return json.dump(output, self, ensure_ascii=False)
+
+    @privilege.permission(action='assign_group')
+    @tornado.web.authenticated
+    def delete(self, process_id):
+        '''
+        Delete a link by id.
+        '''
+        trans = MTransition.query_by_proid(process_id)
+
+        for tran in trans:
+
+            try:
+                MRequestAction.delete_by_trans(tran.uid)
+                pass
+            except Exception as err:
+                print(repr(err))
+                pass
+            try:
+                MTransitionAction.delete_by_trans(tran.uid)
+                pass
+            except Exception as err:
+                print(repr(err))
+                pass
+            try:
+                MTransition.delete(tran.uid)
+                pass
+            except Exception as err:
+                print(repr(err))
+                pass
+
+        req_recs = MRequest.get_by_pro(process_id)
+        if req_recs:
+            for req_rec in req_recs:
+                print(req_rec.uid)
+                try:
+                    MRequest.delete(req_rec.uid)
+                    pass
+                except Exception as err:
+                    print(repr(err))
+                    pass
+
+        act_recs = MAction.query_by_proid(process_id)
+        if act_recs:
+            for act in act_recs:
+                try:
+                    MPermissionAction.delete_by_action(act.uid)
+                    pass
+                except Exception as err:
+                    print(repr(err))
+                    pass
+                try:
+                    MAction.delete(act.uid)
+                    pass
+                except Exception as err:
+                    print(repr(err))
+                    pass
+
+        states = MState.query_by_pro_id(process_id)
+        if states:
+            for state in states:
+                try:
+                    MState.delete(state.uid)
+                    pass
+                except Exception as err:
+                    print(repr(err))
+                    pass
+
+        if MProcess.delete_by_uid(process_id):
+            output = {
+                "ok": True,
+                "status": 0,
+                "msg": "删除流程成功"}
+        else:
+            output = {
+                "ok": False,
+                "status": 404,
+                "msg": "删除流程失败"}
+        return json.dump(output, self, ensure_ascii=False)
+
+    @privilege.permission(action='assign_group')
+    @tornado.web.authenticated
+    def batch_delete(self, del_id):
+        '''
+        Delete a link by id.
+        '''
+
+        del_uids = del_id.split(",")
+        for process_id in del_uids:
+            trans = MTransition.query_by_proid(process_id)
+
+            for tran in trans:
+
+                try:
+                    MRequestAction.delete_by_trans(tran.uid)
+                    pass
+                except Exception as err:
+                    print(repr(err))
+                    pass
+                try:
+                    MTransitionAction.delete_by_trans(tran.uid)
+                    pass
+                except Exception as err:
+                    print(repr(err))
+                    pass
+                try:
+                    MTransition.delete(tran.uid)
+                    pass
+                except Exception as err:
+                    print(repr(err))
+                    pass
+
+            req_recs = MRequest.get_by_pro(process_id)
+            if req_recs:
+                for req_rec in req_recs:
+                    print(req_rec.uid)
+                    try:
+                        MRequest.delete(req_rec.uid)
+                        pass
+                    except Exception as err:
+                        print(repr(err))
+                        pass
+
+            act_recs = MAction.query_by_proid(process_id)
+            if act_recs:
+                for act in act_recs:
+                    try:
+                        MPermissionAction.delete_by_action(act.uid)
+                        pass
+                    except Exception as err:
+                        print(repr(err))
+                        pass
+                    try:
+                        MAction.delete(act.uid)
+                        pass
+                    except Exception as err:
+                        print(repr(err))
+                        pass
+
+            states = MState.query_by_pro_id(process_id)
+            if states:
+                for state in states:
+                    try:
+                        MState.delete(state.uid)
+                        pass
+                    except Exception as err:
+                        print(repr(err))
+                        pass
+
+            if MProcess.delete_by_uid(process_id):
+                output = {
+                    "ok": True,
+                    "status": 0,
+                    "msg": "删除流程成功"}
+            else:
+                output = {
+                    "ok": False,
+                    "status": 404,
+                    "msg": "删除流程失败"}
+
         return json.dump(output, self, ensure_ascii=False)
