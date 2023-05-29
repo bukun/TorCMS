@@ -46,49 +46,30 @@ class TestMProcess():
         self.muser = MUser()
         self.mrole = MRole()
         self.mper_action = MPermissionAction()
-        self.init_process()
 
         self.fake = Faker(locale="zh_CN")
 
-    def init_post(self):
-
-        post_data = {
-            'title': self.post_title,
-            'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
-            'user_name': 'Tome',
-            'view_count': 1,
-            'logo': '',
-            'keywords': 'sdf',
-            'def_cat_uid': '9101',
-            'gcat0': '9101',
-            'def_cat_pid': '9100',
-            'valid': '0',
-            'kind': '9'
-        }
-
-        self.mpost.add_or_update(self.uid, post_data)
-        update_category(self.uid, post_data)
-
-    def init_process(self):
+    def test_process(self):
         '''
         创建流程TabProcess
         '''
         # 创建Post
-        self.init_post()
+
         process_name = 'test数据审核' + self.uid
         process_id = self.mprocess.create(process_name)
         if process_id:
             self.process_id = process_id
             # 创建动作
-            self.init_action(process_id)
+            self.test_action(process_id)
 
             # 创建状态
-            self.init_state(process_id)
+            self.test_state(process_id)
 
             # 创建状态转换
-            self.init_trans(process_id, self.state_dic)
+            self.test_trans(process_id, self.state_dic)
+        self.tearDown(process_id)
 
-    def init_state(self, process_id=''):
+    def test_state(self, process_id=''):
         '''
         创建状态TabState
         '''
@@ -114,7 +95,7 @@ class TestMProcess():
 
         assert self.state_dic
 
-    def init_action(self, process_id=''):
+    def test_action(self, process_id=''):
         '''
         创建动作TabAction
         '''
@@ -142,7 +123,7 @@ class TestMProcess():
 
         assert action_uids
 
-    def init_trans(self, process_id='', state_dic={}):
+    def test_trans(self, process_id='', state_dic={}):
         '''
          转换Tabtransition
         '''
@@ -192,109 +173,6 @@ class TestMProcess():
 
             # assert True
 
-    def test_create_request(self):
-        '''
-        创建请求以及请求对应状态的相关动作
-        '''
-
-        # 获取“开始”状态ID
-        if self.process_id:
-            state_type = 'start_' + self.process_id
-            cur_state = MState.get_by_state_type(state_type)
-            if cur_state:
-                print("/" * 50)
-                print(cur_state)
-                # 创建请求
-                req_id = MRequest.create(self.process_id, self.uid, self.user_id, cur_state.uid)
-                # trans_id=MTransition.query_by_state(cur_state.name)
-                print(req_id)
-                # 创建请求操作
-                cur_actions = MTransitionAction.query_by_pro_state(self.process_id, cur_state.uid)
-                for cur_act in cur_actions:
-                    MRequestAction.create(req_id, cur_act['action'], cur_act['transition'])
-
-                    # 进行请求操作
-                    self.test_request_action(req_id, self.process_id, self.uid, cur_act['action'])
-
-            req_rec = self.mrequest.get_by_pro(self.process_id).get()
-            assert req_rec.post_id == self.uid
-
-            req_rec2 = self.mrequest.get_by_pro_state(self.process_id, cur_state.uid)
-            assert req_rec2.user_id == self.user_id
-            req_rec3 = self.mrequest.query_by_postid(self.uid)
-            assert req_rec3.process_id == self.process_id
-            self.tearDown(self.process_id)
-
-    def test_request_action(self, request_id='', process_id='', post_id='', act_id=''):
-        '''
-        进行请求操作
-        '''
-
-        act_arr = []
-        if request_id:
-            print("1-" * 50)
-            print(act_id)
-            print(request_id)
-
-            # 提交的Action与其中一个（is_active = true）的活动RequestActions匹配，设置 is_active = false 和 is_completed = true
-            reqact = MRequestAction.get_by_action_request(act_id, request_id)
-
-            if reqact.is_active:
-                # 更新操作动态
-                print("gengxin")
-                MRequestAction.update_by_action(act_id, request_id)
-
-                # 查询该请求中该转换的所有动作是否都为True
-                istrues = MRequestAction.query_by_request_trans(request_id, reqact.transition)
-
-                if istrues:
-                    if istrues.is_complete:
-                        print("1.2 " * 50)
-                        # 禁用该请求下其它动作
-                        MRequestAction.update_by_action_reqs(act_id, request_id)
-                        # 转到下一状态
-                        trans = MTransition.get_by_uid(reqact.transition).get()
-                        new_state = MState.get_by_uid(trans.next_state).get()
-
-                        print(trans.current_state)
-                        print(trans.next_state)
-
-                        if new_state.state_type.startswith('complete'):
-                            print("1.3 " * 50)
-                            MPost.update_valid(post_id)
-                            post_rec = MPost.get_by_uid(post_id)
-                            assert post_rec.valid == 1
-
-                        else:
-                            print("1.4 " * 50)
-                            print(new_state.name)
-                            # 创建请求
-                            new_request_id = MRequest.create(process_id, post_id, self.user_id, new_state.uid)
-
-                            # 创建请求操作
-                            cur_actions = MTransitionAction.query_by_pro_state(process_id, new_state.uid)
-
-                            for cur_act in cur_actions:
-                                MRequestAction.create(new_request_id, cur_act['action'], cur_act['transition'])
-                                act = MAction.get_by_id(cur_act['action']).get()
-
-                                act_arr.append({"act_name": act.name})
-
-                            if new_state.name == '正常':
-                                new_act_arr = [{"act_name": "提交审核"}]
-                            elif new_state.name == '开始':
-                                new_act_arr = [{"act_name": "拒绝"}, {"act_name": "通过"}, {"act_name": "取消"}]
-                            elif new_state.name == '拒绝':
-                                new_act_arr = [{"act_name": "提交审核"}]
-                            elif new_state.name == '取消':
-                                new_act_arr = [{"act_name": "拒绝"}, {"act_name": "通过"}]
-                            else:
-                                new_act_arr = []
-                            print("~" * 50)
-                            print(act_arr)
-                            print(new_act_arr)
-                            assert act_arr == new_act_arr
-
     def tearDown(self, process_id=''):
         print("function teardown")
         trans = self.mtrans.query_by_proid(process_id)
@@ -303,7 +181,6 @@ class TestMProcess():
             print("*" * 50)
             print(tran.uid)
 
-            self.mreqaction.delete_by_trans(tran.uid)
             self.mtransaction.delete_by_trans(tran.uid)
             self.mtrans.delete(tran.uid)
 
@@ -344,11 +221,10 @@ class TestMProcess():
                     print("*" * 50)
                     print(tran.uid)
 
-                    self.mreqaction.delete_by_trans(tran.uid)
                     self.mtransaction.delete_by_trans(tran.uid)
                     self.mtrans.delete(tran.uid)
 
-                req_recs = self.mrequest.get_by_pro(pro.uid)
+                req_recs = self.mrequest.get_by_pro(process_id)
                 if req_recs:
                     for req_rec in req_recs:
                         print(req_rec.uid)

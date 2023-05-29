@@ -174,6 +174,7 @@ class TestMAction():
         assert TF
 
     def test_query_per_by_action(self):
+        self.test_create_action()
         act_id = self.maction.get_by_action_type('deny' + self.process_id)
         rec_name = self.mper_action.query_per_by_action(act_id)
         per_rec = self.mpermission.get_by_uid('ucan_verify')
@@ -185,7 +186,7 @@ class TestMAction():
         self.mper_action.remove_relation(act_id, per_rec.uid)
         recs = self.mper_action.query_by_permission('ucan_verify')
         assert recs == ['取消', '通过']
-
+        self.tearDown()
     def tearDown(self):
         print("function teardown")
 

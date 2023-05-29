@@ -95,7 +95,7 @@ class TestMtransition():
                     pp = True
             assert pp
 
-            self.tearDown()
+        self.tearDown()
 
     def tearDown(self, process_id=''):
         print("function teardown")
