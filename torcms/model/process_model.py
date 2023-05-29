@@ -412,11 +412,12 @@ class MTransition:
     @staticmethod
     def delete_by_state(state_id):
         recs = TabTransition.select().where(
-            (TabTransition.current_state == state_id) or (
-                    TabTransition.next_state == state_id)
+            (TabTransition.next_state == state_id) or (
+                    TabTransition.current_state == state_id)
         )
 
         for rec in recs:
+
 
             tran_acts = MTransitionAction.get_by_trans(rec.uid)
 
