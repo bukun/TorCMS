@@ -252,7 +252,6 @@ class MTransitionAction:
             print(repr(err))
             return False
 
-
     @staticmethod
     def remove_relation(trans_id, act_id):
         entry = TabTransitionAction.delete().where(
@@ -411,13 +410,50 @@ class MTransition:
 
     @staticmethod
     def delete_by_state(state_id):
-        recs = TabTransition.select().where(
-            (TabTransition.next_state == state_id) or (
-                    TabTransition.current_state == state_id)
-        )
+        recs1 = TabTransition.select().where(TabTransition.next_state == state_id
+                                             )
+        recs2 = TabTransition.select().where(TabTransition.current_state == state_id)
+        for rec in recs1:
 
-        for rec in recs:
+            tran_acts = MTransitionAction.get_by_trans(rec.uid)
 
+            for tract in tran_acts:
+                try:
+                    MPermissionAction.delete_by_action(tract.action)
+                    pass
+                except Exception as err:
+                    print(repr(err))
+                    pass
+
+                try:
+                    MRequestAction.delete_by_trans(rec.uid)
+                    pass
+                except Exception as err:
+                    print(repr(err))
+                    pass
+
+                try:
+                    MTransitionAction.delete_by_trans(tract.transition)
+                    pass
+                except Exception as err:
+                    print(repr(err))
+                    pass
+
+                try:
+                    MAction.delete(tract.action)
+                    pass
+                except Exception as err:
+                    print(repr(err))
+                    pass
+
+            entry = TabTransition.delete().where(TabTransition.uid == rec.uid)
+            try:
+                entry.execute()
+                pass
+            except Exception as err:
+                print(repr(err))
+                pass
+        for rec in recs2:
 
             tran_acts = MTransitionAction.get_by_trans(rec.uid)
 
@@ -458,12 +494,12 @@ class MTransition:
                 print(repr(err))
                 pass
 
-        try:
-            MRequest.delete_by_state(state_id)
-            pass
-        except Exception as err:
-            print(repr(err))
-            pass
+        # try:
+        MRequest.delete_by_state(state_id)
+        # pass
+        # except Exception as err:
+        #     print(repr(err))
+        #     pass
 
     @staticmethod
     def delete(uid):
@@ -727,7 +763,7 @@ class MPermissionAction:
     @staticmethod
     def query_per_by_action(act_id):
         query = (
-            TabPermissionAction.select(TabPermission.uid,TabPermission.name)
+            TabPermissionAction.select(TabPermission.uid, TabPermission.name)
             .join(TabPermission, JOIN.INNER)
             .switch(TabPermissionAction)
             .join(TabAction, JOIN.INNER)
