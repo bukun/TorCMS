@@ -192,11 +192,11 @@
           "type": "text"
         },
         {
-          "name": "permission",
+          "name": "permission_arr",
           "id": "permission",
           "type": "text",
           "label": "所属权限",
-          "value": "${permission}"
+          "value": "${permission_arr}"
         },
         {
           "type": "operation",
@@ -239,7 +239,28 @@
                           "label": "动作说明",
                           "type": "input-text",
                           "value": "${description}"
-                        },
+                        }
+                      ]
+                    }
+                  }
+                },
+                 {
+                  "type": "button",
+                  "label": "更新流程",
+                  "level": "info",
+                  "icon": "fa fa-pencil",
+                  "tooltip": "更新流程",
+                  "actionType": "drawer",
+                  "drawer": {
+                    "position": "left",
+                    "size": "lg",
+                    "title": "更新流程",
+                    "body": {
+                      "type": "form",
+                      "name": "role-edit-form",
+                      "api": "/api/action/_edit_process/${uid}",
+                      "body": [
+
                         {
                           "name": "process",
                           "id": "process",
@@ -248,8 +269,8 @@
                           "source": "/api/process/chainedOptions",
                           "required": true
                         },
-                        {
-                          "name": "transition_arr",
+                            {
+                          "name": "transition",
                           "id": "transition",
                           "type": "select",
                           "label": "所属转换",
@@ -257,7 +278,31 @@
                           "clearable": true,
                           "searchable": true,
                           "required": true
-                        },
+                        }
+
+
+                      ]
+                    }
+                  }
+                },
+
+                 {
+                  "type": "button",
+                  "label": "更新权限",
+                  "level": "info",
+                  "icon": "fa fa-pencil",
+                  "tooltip": "更新权限",
+                  "actionType": "drawer",
+                  "drawer": {
+                    "position": "left",
+                    "size": "lg",
+                    "title": "更新权限",
+                    "body": {
+                      "type": "form",
+                      "name": "role-edit-form",
+                      "api": "/api/action/_edit_per/${uid}",
+                      "body": [
+
                         {
                           "label": "选择权限",
                           "id": "transfer-receiver",

@@ -252,8 +252,9 @@ class MTransitionAction:
             print(repr(err))
             return False
 
+
     @staticmethod
-    def delete_by_trans_act(trans_id, act_id):
+    def remove_relation(trans_id, act_id):
         entry = TabTransitionAction.delete().where(
             (TabTransitionAction.transition == trans_id) & (
                     TabTransitionAction.action == act_id)
@@ -725,7 +726,7 @@ class MPermissionAction:
     @staticmethod
     def query_per_by_action(act_id):
         query = (
-            TabPermissionAction.select(TabPermission.name)
+            TabPermissionAction.select(TabPermission.uid,TabPermission.name)
             .join(TabPermission, JOIN.INNER)
             .switch(TabPermissionAction)
             .join(TabAction, JOIN.INNER)
