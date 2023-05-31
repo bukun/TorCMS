@@ -299,8 +299,10 @@ class State(tornado.web.UIModule):
 
             act_recs = MTransitionAction.query_by_pro_state(request_rec.process, request_rec.current_state)
             for act in act_recs:
-                act_rec = MAction.get_by_id(act['action']).get()
-                if act_rec.action_type.startswith('restart'):
+
+                reqact_rec = MRequestAction.get_by_action_request(act['action'], request_rec.uid)
+                if reqact_rec.is_active:
+                    act_rec = MAction.get_by_id(act['action']).get()
                     act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": request_rec.uid,
                                "state_id": request_rec.current_state, "process_id": request_rec.process}
 

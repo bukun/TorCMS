@@ -67,7 +67,7 @@ class TestMProcess():
 
             # 创建状态转换
             self.test_trans(process_id, self.state_dic)
-        self.tearDown(process_id)
+        # self.tearDown(process_id)
 
     def test_state(self, process_id=''):
         '''

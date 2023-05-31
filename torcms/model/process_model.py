@@ -546,6 +546,20 @@ class MRequestAction:
         return TabRequestAction.select()
 
     @staticmethod
+    def update_by_request(request_id):
+
+        entry = TabRequestAction.update(
+            is_active=False
+        ).where(TabRequestAction.request == request_id)
+
+        try:
+            entry.execute()
+            return True
+        except Exception as err:
+            print(repr(err))
+            return False
+
+    @staticmethod
     def update_by_action(action_id, request_id):
 
         entry = TabRequestAction.update(
