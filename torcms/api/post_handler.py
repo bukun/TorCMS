@@ -173,7 +173,7 @@ class ApiPostHandler(PostHandler):
             post_data[key] = self.get_arguments(key)[0]
 
         post_id = post_data['post_id']
-        req=MRequest.query_by_postid(post_id)
+        req = MRequest.query_by_postid(post_id)
 
         MRequestAction.update_by_request(req.uid)
 
@@ -302,6 +302,7 @@ class ApiPostHandler(PostHandler):
                 act_recs = MTransitionAction.query_by_pro_state(request_rec.process, request_rec.current_state)
                 act_arr = []
                 for act in act_recs:
+                    # 判断动作is_active是否是True
                     reqact_rec = MRequestAction.get_by_action_request(act['action'], request_rec.uid)
                     if reqact_rec.is_active:
                         act_rec = MAction.get_by_id(act['action']).get()
@@ -318,8 +319,10 @@ class ApiPostHandler(PostHandler):
                         for per_act in per_act_recs:
 
                             if str(per_act.permission) in cur_user_per:
-                                act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": request_rec.uid,
-                                           "state_id": request_rec.current_state_id, "process_id": request_rec.process_id}
+                                act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid,
+                                           "request_id": request_rec.uid,
+                                           "state_id": request_rec.current_state_id,
+                                           "process_id": request_rec.process_id}
                                 act_arr.append(act_dic)
 
                 if act_arr:

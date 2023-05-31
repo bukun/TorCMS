@@ -22,7 +22,7 @@
                 contentType: false,
                 success: function (rs) {
 
-                    recstate.innerHTML = 'Waiting for Review'
+                    recstate.innerHTML = 'Waiting for Review  <a class="btn btn-primary btn-xs" onclick="revoke()">Revoke Review</a>'
 
                 },
                 error: function (err) {
@@ -53,7 +53,7 @@
                 contentType: false,
                 success: function (rs) {
 
-                    recstate.innerHTML = 'Waiting for Review'
+                      recstate.innerHTML = '<select class="form-select" name="process" id="process"> {% for pro in process %}  <option value="{{ pro.uid }}">{{ pro.name }}</option>{% end %}   </select> <button onclick="tjprocess()" class="btn btn-primary btn-sm">{{ _("Submit for review") }}</button>'
 
                 },
                 error: function (err) {
