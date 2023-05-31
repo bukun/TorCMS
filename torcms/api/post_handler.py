@@ -302,24 +302,25 @@ class ApiPostHandler(PostHandler):
                 act_recs = MTransitionAction.query_by_pro_state(request_rec.process, request_rec.current_state)
                 act_arr = []
                 for act in act_recs:
+                    reqact_rec = MRequestAction.get_by_action_request(act['action'], request_rec.uid)
+                    if reqact_rec.is_active:
+                        act_rec = MAction.get_by_id(act['action']).get()
 
-                    act_rec = MAction.get_by_id(act['action']).get()
+                        # 当前登录用户具有的权限
+                        perms = MStaff2Role.query_permissions(self.userinfo.uid)
 
-                    # 当前登录用户具有的权限
-                    perms = MStaff2Role.query_permissions(self.userinfo.uid)
+                        # 当前动作需要的权限
+                        per_act_recs = MPermissionAction.query_by_action(act_rec.uid)
+                        cur_user_per = []
+                        for key in perms:
+                            cur_user_per.append(key['permission'])
 
-                    # 当前动作需要的权限
-                    per_act_recs = MPermissionAction.query_by_action(act_rec.uid)
-                    cur_user_per = []
-                    for key in perms:
-                        cur_user_per.append(key['permission'])
+                        for per_act in per_act_recs:
 
-                    for per_act in per_act_recs:
-
-                        if str(per_act.permission) in cur_user_per:
-                            act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": request_rec.uid,
-                                       "state_id": request_rec.current_state_id, "process_id": request_rec.process_id}
-                            act_arr.append(act_dic)
+                            if str(per_act.permission) in cur_user_per:
+                                act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": request_rec.uid,
+                                           "state_id": request_rec.current_state_id, "process_id": request_rec.process_id}
+                                act_arr.append(act_dic)
 
                 if act_arr:
                     rec_arr.append(

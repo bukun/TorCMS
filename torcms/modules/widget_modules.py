@@ -307,6 +307,9 @@ class State(tornado.web.UIModule):
                                "state_id": request_rec.current_state, "process_id": request_rec.process}
 
                     act_arr.append(act_dic)
+                else:
+                    # 选择提交的流程，提交审核
+                    process = MProcess.query_all()
 
         else:
 
