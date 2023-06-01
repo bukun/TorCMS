@@ -1,16 +1,8 @@
 # -*- coding:utf-8 -*-
-import time
-
-import tornado.escape
 
 from torcms.core import tools
-from torcms.model.category_model import MCategory
-from torcms.model.label_model import MLabel, MPost2Label
-from torcms.model.post2catalog_model import MPost2Catalog
-from torcms.model.post_model import MPost
 from torcms.model.user_model import MUser
 from torcms.model.role_model import MRole
-from torcms.handlers.post_handler import update_label, update_category
 from torcms.model.process_model import MProcess, MState, MTransition, MRequest, MAction, MRequestAction, \
     MTransitionAction, MPermissionAction
 
@@ -21,21 +13,11 @@ class TestMProcess():
     def setup_method(self):
 
         print('setup 方法执行于本类中每条用例之前')
-        self.mpost = MPost()
-        self.m2c = MPost2Catalog()
-        self.ml = MLabel()
-        self.m2l = MPost2Label()
-        self.labeluid = '9999'
-        self.raw_count = self.mpost.get_counts()
-        self.post_title = 'ccc'
+
         self.uid = tools.get_uu4d()
-        self.post_id = '66565'
-        self.tag_id = '2342'
-        self.post_id2 = '89898'
-        self.slug = 'huio'
+
         self.user_id = MUser.get_by_name('admin').uid
         self.state_dic = {}
-        self.process_id = ''
         self.mprocess = MProcess()
         self.mstate = MState()
         self.mtrans = MTransition()
@@ -49,7 +31,7 @@ class TestMProcess():
 
         self.fake = Faker(locale="zh_CN")
 
-    def init_process(self):
+    def test_process(self):
         '''
         创建流程TabProcess
         '''
@@ -200,16 +182,3 @@ class TestMProcess():
             self.mstate.delete(state.uid)
 
         self.mprocess.delete_by_uid(process_id)
-
-        self.mpost.delete(self.uid)
-
-        MCategory.delete(self.tag_id)
-        self.mpost.delete(self.post_id2)
-        self.mpost.delete(self.post_id)
-
-        MPost2Catalog.remove_relation(self.post_id, self.tag_id)
-        tt = MLabel.get_by_slug(self.slug)
-        if tt:
-            MLabel.delete(tt.uid)
-
-
