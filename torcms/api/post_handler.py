@@ -176,7 +176,9 @@ class ApiPostHandler(PostHandler):
         user_id = post_data['user_id']
 
         req = MRequest.query_by_postid(post_id)
-        if user_id == req.user:
+
+        if user_id == str(req.user):
+
             MRequestAction.update_by_request(req.uid)
 
         output = {'act_arr': ''}
