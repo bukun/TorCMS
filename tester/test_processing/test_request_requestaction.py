@@ -4,13 +4,10 @@ import time
 import tornado.escape
 
 from torcms.core import tools
-from torcms.model.category_model import MCategory
-from torcms.model.label_model import MLabel, MPost2Label
-from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
 from torcms.model.user_model import MUser
 from torcms.model.role_model import MRole
-from torcms.handlers.post_handler import update_label, update_category
+from torcms.handlers.post_handler import update_category
 from torcms.model.process_model import MProcess, MState, MTransition, MRequest, MAction, MRequestAction, \
     MTransitionAction, MPermissionAction
 
@@ -22,20 +19,13 @@ class TestMProcess():
 
         print('setup 方法执行于本类中每条用例之前')
         self.mpost = MPost()
-        self.m2c = MPost2Catalog()
-        self.ml = MLabel()
-        self.m2l = MPost2Label()
-        self.labeluid = '9999'
-        self.raw_count = self.mpost.get_counts()
+
         self.post_title = 'ccc'
         self.uid = tools.get_uu4d()
-        self.post_id = '66565'
-        self.tag_id = '2342'
-        self.post_id2 = '89898'
-        self.slug = 'huio'
+
         self.user_id = MUser.get_by_name('admin').uid
         self.state_dic = {}
-        self.process_id = ''
+
         self.mprocess = MProcess()
         self.mstate = MState()
         self.mtrans = MTransition()
@@ -46,7 +36,6 @@ class TestMProcess():
         self.muser = MUser()
         self.mrole = MRole()
         self.mper_action = MPermissionAction()
-        self.init_process()
 
         self.fake = Faker(locale="zh_CN")
 
@@ -76,19 +65,9 @@ class TestMProcess():
         # 创建Post
         self.init_post()
         process_name = 'test数据审核' + self.uid
-        process_id = self.mprocess.create(process_name)
-        if process_id:
-            self.process_id = process_id
-            # 创建动作
-            self.init_action(process_id)
+        self.process_id = self.mprocess.create(process_name)
 
-            # 创建状态
-            self.init_state(process_id)
-
-            # 创建状态转换
-            self.init_trans(process_id, self.state_dic)
-
-    def init_state(self, process_id=''):
+    def init_state(self):
         '''
         创建状态TabState
         '''
@@ -106,15 +85,15 @@ class TestMProcess():
              'description': '没有特殊名称的常规状态'},
 
         ]
+        if self.process_id:
+            for state_data in state_datas:
+                state_data['process'] = self.process_id
+                state_uid = MState.create(state_data)
+                self.state_dic[state_data['state_type']] = state_uid
 
-        for state_data in state_datas:
-            state_data['process'] = process_id
-            state_uid = MState.create(state_data)
-            self.state_dic[state_data['state_type']] = state_uid
+            assert self.state_dic
 
-        assert self.state_dic
-
-    def init_action(self, process_id=''):
+    def init_action(self):
         '''
         创建动作TabAction
         '''
@@ -130,27 +109,26 @@ class TestMProcess():
              'name': '提交审核', 'description': '操作人将将请求移回到进程中的“开始”状态'},
 
         ]
+        if self.process_id:
+            action_uids = []
+            for act in action_datas:
+                act_uid = MAction.create(self.process_id, act)
+                action_uids.append(act_uid)
 
-        action_uids = []
-        for act in action_datas:
-            act_uid = MAction.create(process_id, act)
-            action_uids.append(act_uid)
-            print("*" * 50)
-            print(act['role'])
-            if act_uid:
-                self.mper_action.create(act['role'], act_uid)
+                if act_uid:
+                    self.mper_action.create(act['role'], act_uid)
 
-        assert action_uids
+            assert action_uids
 
-    def init_trans(self, process_id='', state_dic={}):
+    def init_trans(self):
         '''
          转换Tabtransition
         '''
-        if process_id:
-            deny = 'deny_' + process_id
-            cancel = 'cancel_' + process_id
-            restart = 'restart_' + process_id
-            approve = 'approve_' + process_id
+        if self.process_id:
+            deny = 'deny_' + self.process_id
+            cancel = 'cancel_' + self.process_id
+            restart = 'restart_' + self.process_id
+            approve = 'approve_' + self.process_id
 
             act_deny = MAction.get_by_action_type(deny).uid
             act_cancel = MAction.get_by_action_type(cancel).uid
@@ -160,31 +138,31 @@ class TestMProcess():
 
             trans = [
                 # 状态：“正常”对应的“开始”
-                {'current_state': state_dic['normal'],
-                 'next_state': state_dic['start'], 'act_id': act_restart},
+                {'current_state': self.state_dic['normal'],
+                 'next_state': self.state_dic['start'], 'act_id': act_restart},
 
                 # 状态：“开始”对应的“拒绝”，“完成”，“取消”
-                {'current_state': state_dic['start'],
-                 'next_state': state_dic['denied'], 'act_id': act_deny},
-                {'current_state': state_dic['start'],
-                 'next_state': state_dic['complete'], 'act_id': act_approve},
-                {'current_state': state_dic['start'],
-                 'next_state': state_dic['cancelled'], 'act_id': act_cancel},
+                {'current_state': self.state_dic['start'],
+                 'next_state': self.state_dic['denied'], 'act_id': act_deny},
+                {'current_state': self.state_dic['start'],
+                 'next_state': self.state_dic['complete'], 'act_id': act_approve},
+                {'current_state': self.state_dic['start'],
+                 'next_state': self.state_dic['cancelled'], 'act_id': act_cancel},
 
                 # 状态：“取消”对应的“拒绝”，“完成”
-                {'current_state': state_dic['cancelled'],
-                 'next_state': state_dic['denied'], 'act_id': act_deny},
-                {'current_state': state_dic['cancelled'],
-                 'next_state': state_dic['complete'], 'act_id': act_approve},
+                {'current_state': self.state_dic['cancelled'],
+                 'next_state': self.state_dic['denied'], 'act_id': act_deny},
+                {'current_state': self.state_dic['cancelled'],
+                 'next_state': self.state_dic['complete'], 'act_id': act_approve},
 
                 # 状态：“拒绝”对应的“开始”
-                {'current_state': state_dic['denied'],
-                 'next_state': state_dic['start'], 'act_id': act_restart},
+                {'current_state': self.state_dic['denied'],
+                 'next_state': self.state_dic['start'], 'act_id': act_restart},
 
             ]
 
             for tran in trans:
-                tran_id = MTransition.create(process_id, tran['current_state'], tran['next_state'])
+                tran_id = MTransition.create(self.process_id, tran['current_state'], tran['next_state'])
 
                 # 创建转换动作
 
@@ -196,7 +174,14 @@ class TestMProcess():
         '''
         创建请求以及请求对应状态的相关动作
         '''
+        self.init_process()
+        self.init_action()
+        #
+        # 创建状态
+        self.init_state()
 
+        # 创建状态转换
+        self.init_trans()
         # 获取“开始”状态ID
         if self.process_id:
             state_type = 'start_' + self.process_id
@@ -214,7 +199,7 @@ class TestMProcess():
                     MRequestAction.create(req_id, cur_act['action'], cur_act['transition'])
 
                     # 进行请求操作
-                    self.test_request_action(req_id, self.process_id, self.uid, cur_act['action'])
+                    self.test_request_action(req_id, self.uid, cur_act['action'])
 
             req_rec = self.mrequest.get_by_pro(self.process_id).get()
             assert req_rec.post_id == self.uid
@@ -223,9 +208,9 @@ class TestMProcess():
             assert req_rec2.user_id == self.user_id
             req_rec3 = self.mrequest.query_by_postid(self.uid)
             assert req_rec3.process_id == self.process_id
-            self.tearDown(self.process_id)
+        self.tearDown()
 
-    def test_request_action(self, request_id='', process_id='', post_id='', act_id=''):
+    def test_request_action(self, request_id='', post_id='', act_id=''):
         '''
         进行请求操作
         '''
@@ -269,10 +254,10 @@ class TestMProcess():
                             print("1.4 " * 50)
                             print(new_state.name)
                             # 创建请求
-                            new_request_id = MRequest.create(process_id, post_id, self.user_id, new_state.uid)
+                            new_request_id = MRequest.create(self.process_id, post_id, self.user_id, new_state.uid)
 
                             # 创建请求操作
-                            cur_actions = MTransitionAction.query_by_pro_state(process_id, new_state.uid)
+                            cur_actions = MTransitionAction.query_by_pro_state(self.process_id, new_state.uid)
 
                             for cur_act in cur_actions:
                                 MRequestAction.create(new_request_id, cur_act['action'], cur_act['transition'])
@@ -295,9 +280,9 @@ class TestMProcess():
                             print(new_act_arr)
                             assert act_arr == new_act_arr
 
-    def tearDown(self, process_id=''):
+    def tearDown(self):
         print("function teardown")
-        trans = self.mtrans.query_by_proid(process_id)
+        trans = self.mtrans.query_by_proid(self.process_id)
         print(trans.count())
         for tran in trans:
             print("*" * 50)
@@ -307,71 +292,21 @@ class TestMProcess():
             self.mtransaction.delete_by_trans(tran.uid)
             self.mtrans.delete(tran.uid)
 
-        req_recs = self.mrequest.get_by_pro(process_id)
+        req_recs = self.mrequest.get_by_pro(self.process_id)
         if req_recs:
             for req_rec in req_recs:
                 print(req_rec.uid)
                 self.mrequest.delete(req_rec.uid)
 
-        act_recs = MAction.query_by_proid(process_id)
+        act_recs = MAction.query_by_proid(self.process_id)
         for act in act_recs:
             self.mper_action.delete_by_action(act.uid)
             self.maction.delete(act.uid)
 
-        states = self.mstate.query_by_pro_id(process_id)
+        states = self.mstate.query_by_pro_id(self.process_id)
         for state in states:
             self.mstate.delete(state.uid)
 
-        self.mprocess.delete_by_uid(process_id)
+        self.mprocess.delete_by_uid(self.process_id)
 
         self.mpost.delete(self.uid)
-
-        MCategory.delete(self.tag_id)
-        self.mpost.delete(self.post_id2)
-        self.mpost.delete(self.post_id)
-
-        MPost2Catalog.remove_relation(self.post_id, self.tag_id)
-        tt = MLabel.get_by_slug(self.slug)
-        if tt:
-            MLabel.delete(tt.uid)
-
-        pro_recs = self.mprocess.query_all()
-        for pro in pro_recs:
-            if pro.name.startswith('test数据审核'):
-                trans = self.mtrans.query_by_proid(pro.uid)
-                print(trans.count())
-                for tran in trans:
-                    print("*" * 50)
-                    print(tran.uid)
-
-                    self.mreqaction.delete_by_trans(tran.uid)
-                    self.mtransaction.delete_by_trans(tran.uid)
-                    self.mtrans.delete(tran.uid)
-
-                req_recs = self.mrequest.get_by_pro(pro.uid)
-                if req_recs:
-                    for req_rec in req_recs:
-                        print(req_rec.uid)
-                        self.mrequest.delete(req_rec.uid)
-
-                act_recs = MAction.query_by_proid(pro.uid)
-                for act in act_recs:
-                    self.mper_action.delete_by_action(act.uid)
-                    self.maction.delete(act.uid)
-
-                states = self.mstate.query_by_pro_id(pro.uid)
-                for state in states:
-                    self.mstate.delete(state.uid)
-
-                self.mprocess.delete_by_uid(pro.uid)
-
-                self.mpost.delete(self.uid)
-
-                MCategory.delete(self.tag_id)
-                self.mpost.delete(self.post_id2)
-                self.mpost.delete(self.post_id)
-
-                MPost2Catalog.remove_relation(self.post_id, self.tag_id)
-                tt = MLabel.get_by_slug(self.slug)
-                if tt:
-                    MLabel.delete(tt.uid)

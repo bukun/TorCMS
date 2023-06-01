@@ -49,7 +49,7 @@ class TestMProcess():
 
         self.fake = Faker(locale="zh_CN")
 
-    def test_process(self):
+    def init_process(self):
         '''
         创建流程TabProcess
         '''
@@ -212,42 +212,4 @@ class TestMProcess():
         if tt:
             MLabel.delete(tt.uid)
 
-        pro_recs = self.mprocess.query_all()
-        for pro in pro_recs:
-            if pro.name.startswith('test数据审核'):
-                trans = self.mtrans.query_by_proid(pro.uid)
-                print(trans.count())
-                for tran in trans:
-                    print("*" * 50)
-                    print(tran.uid)
 
-                    self.mtransaction.delete_by_trans(tran.uid)
-                    self.mtrans.delete(tran.uid)
-
-                req_recs = self.mrequest.get_by_pro(process_id)
-                if req_recs:
-                    for req_rec in req_recs:
-                        print(req_rec.uid)
-                        self.mrequest.delete(req_rec.uid)
-
-                act_recs = MAction.query_by_proid(pro.uid)
-                for act in act_recs:
-                    self.mper_action.delete_by_action(act.uid)
-                    self.maction.delete(act.uid)
-
-                states = self.mstate.query_by_pro_id(pro.uid)
-                for state in states:
-                    self.mstate.delete(state.uid)
-
-                self.mprocess.delete_by_uid(pro.uid)
-
-                self.mpost.delete(self.uid)
-
-                MCategory.delete(self.tag_id)
-                self.mpost.delete(self.post_id2)
-                self.mpost.delete(self.post_id)
-
-                MPost2Catalog.remove_relation(self.post_id, self.tag_id)
-                tt = MLabel.get_by_slug(self.slug)
-                if tt:
-                    MLabel.delete(tt.uid)

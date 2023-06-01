@@ -173,9 +173,11 @@ class ApiPostHandler(PostHandler):
             post_data[key] = self.get_arguments(key)[0]
 
         post_id = post_data['post_id']
-        req = MRequest.query_by_postid(post_id)
+        user_id = post_data['user_id']
 
-        MRequestAction.update_by_request(req.uid)
+        req = MRequest.query_by_postid(post_id)
+        if user_id == req.user:
+            MRequestAction.update_by_request(req.uid)
 
         output = {'act_arr': ''}
 

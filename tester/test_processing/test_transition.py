@@ -26,8 +26,7 @@ class TestMtransition():
         self.mrole = MRole()
         self.mper_action = MPermissionAction()
         self.state_dic = {}
-        self.process_id = self.init_process()
-        self.init_data()
+
 
         self.fake = Faker(locale="zh_CN")
 
@@ -44,6 +43,7 @@ class TestMtransition():
         '''
         初始化流程TabProcess，状态，动作
         '''
+        self.process_id = self.init_process()
 
         # 创建状态TabState
 
@@ -91,10 +91,11 @@ class TestMtransition():
 
         assert action_uids
 
-    def test_create_transition(self):
+    def init_transition(self):
         '''
          转换Tabtransition
         '''
+        self.init_data()
 
         deny = 'deny_' + self.process_id
         cancel = 'cancel_' + self.process_id
@@ -139,7 +140,7 @@ class TestMtransition():
             self.mtransaction.create(tran_id, tran['act_id'])
 
     def test_trans_query_all(self):
-
+        self.init_transition()
         pp = self.mtrans.query_all()
 
         TF = False
@@ -150,7 +151,7 @@ class TestMtransition():
         assert TF
 
     def test_query_by_proid(self):
-        self.test_create_transition()
+        self.init_transition()
 
         pp = self.mtrans.query_by_proid(self.process_id)
         TF = False
@@ -161,7 +162,7 @@ class TestMtransition():
         assert TF
 
     def test_query_by_proid_state(self):
-        self.test_create_transition()
+        self.init_transition()
         state_id = self.mstate.get_by_pro_statename(self.process_id, '拒绝')
         pp = self.mtrans.query_by_proid_state(self.process_id, state_id)
         TF = False
@@ -171,7 +172,7 @@ class TestMtransition():
         assert TF
 
     def test_get_by_state_type(self):
-        self.test_create_transition()
+        self.init_transition()
         cur_state = self.mstate.get_by_pro_statename(self.process_id, '开始')
         next_state = self.mstate.get_by_pro_statename(self.process_id, '拒绝')
         pp = self.mtrans.get_by_cur_next(self.process_id, cur_state, next_state)
@@ -183,7 +184,7 @@ class TestMtransition():
         assert TF
 
     def test_get_by_state_type2(self):
-        self.test_create_transition()
+        self.init_transition()
         cur_state = self.mstate.get_by_pro_statename(self.process_id, '取消')
         next_state = self.mstate.get_by_pro_statename(self.process_id, '开始')
         pp = self.mtrans.get_by_cur_next(self.process_id, cur_state, next_state)
@@ -195,7 +196,7 @@ class TestMtransition():
         assert TF
 
     def test_query_by_action(self):
-        self.test_create_transition()
+        self.init_transition()
         act_id = self.maction.get_by_action_type('restart_' + self.process_id)
         pp = self.mtrans.query_by_action(act_id, self.process_id)
         TF = False
@@ -207,7 +208,7 @@ class TestMtransition():
         assert TF
 
     def test_tranaction_query_all(self):
-        self.test_create_transition()
+        self.init_transition()
         trans_arr = []
         trans_recs = self.mtrans.query_by_proid(self.process_id)
         for tran in trans_recs:
@@ -220,7 +221,6 @@ class TestMtransition():
                 TF = True
         self.tearDown()
         assert TF
-
 
     def tearDown(self, process_id=''):
         print("function teardown")
@@ -247,24 +247,3 @@ class TestMtransition():
             self.mstate.delete(state.uid)
 
         self.mprocess.delete_by_uid(process_id)
-
-        pro_recs = self.mprocess.query_all()
-        for pro in pro_recs:
-            if pro.name.startswith('test数据审核'):
-                trans = self.mtrans.query_by_proid(pro.uid)
-                for tran in trans:
-                    self.mtransaction.delete_by_trans(tran.uid)
-                    self.mtrans.delete(tran.uid)
-
-                act_recs = MAction.query_by_proid(pro.uid)
-
-                for act in act_recs:
-                    self.mper_action.delete_by_action(act.uid)
-                    self.maction.delete(act.uid)
-
-                state_recs = self.mstate.query_by_pro_id(pro.uid)
-
-                for state in state_recs:
-                    self.mstate.delete(state.uid)
-
-                self.mprocess.delete_by_uid(pro.uid)

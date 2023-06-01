@@ -26,7 +26,6 @@ class TestMtransition():
         self.mrole = MRole()
         self.mper_action = MPermissionAction()
         self.state_dic = {}
-        self.process_id = self.init_process()
 
         self.fake = Faker(locale="zh_CN")
 
@@ -45,7 +44,7 @@ class TestMtransition():
         '''
 
         # 创建状态TabState
-
+        self.process_id = self.init_process()
         state_datas = [
             {'name': '开始', 'state_type': 'start',
              'description': '每个进程只应该一个。此状态是创建新请求时所处的状态'},
@@ -122,24 +121,3 @@ class TestMtransition():
             self.mstate.delete(state.uid)
 
         self.mprocess.delete_by_uid(process_id)
-
-        pro_recs = self.mprocess.query_all()
-        for pro in pro_recs:
-            if pro.name.startswith('test数据审核'):
-                trans = self.mtrans.query_by_proid(pro.uid)
-                for tran in trans:
-                    self.mtransaction.delete_by_trans(tran.uid)
-                    self.mtrans.delete(tran.uid)
-
-                act_recs = MAction.query_by_proid(pro.uid)
-
-                for act in act_recs:
-                    self.mper_action.delete_by_action(act.uid)
-                    self.maction.delete(act.uid)
-
-                state_recs = self.mstate.query_by_pro_id(pro.uid)
-
-                for state in state_recs:
-                    self.mstate.delete(state.uid)
-
-                self.mprocess.delete_by_uid(pro.uid)
