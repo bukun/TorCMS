@@ -303,13 +303,16 @@ class State(tornado.web.UIModule):
                 reqact_rec = MRequestAction.get_by_action_request(act['action'], request_rec.uid)
                 if reqact_rec.is_active:
                     act_rec = MAction.get_by_id(act['action']).get()
-                    act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": request_rec.uid,
-                               "state_id": request_rec.current_state, "process_id": request_rec.process}
 
-                    act_arr.append(act_dic)
-                else:
-                    # 选择提交的流程，提交审核
-                    process = MProcess.query_all()
+                    if act_rec.action_type.startswith('restart'):
+                        # 选择提交的流程，提交审核
+                        process = MProcess.query_all()
+
+                    else:
+                        act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": request_rec.uid,
+                                   "state_id": request_rec.current_state, "process_id": request_rec.process}
+
+                        act_arr.append(act_dic)
 
         else:
 
