@@ -160,7 +160,7 @@ class ActionHandler(BaseHandler):
         transition = post_data["transition"]
         process = post_data["process"]
 
-        transition1 = post_data.get("transition1","")
+        transition1 = post_data.get("transition1", "")
 
         exis_rec = MAction.get_by_pro_actname(transition, post_data['name'])
 
@@ -243,18 +243,17 @@ class ActionHandler(BaseHandler):
 
         post_data = json.loads(self.request.body)
 
-        if 'transition_arr' in post_data and 'process' in post_data:
+        if 'transition' in post_data and 'process' in post_data:
             pass
         else:
             return False
 
-        transition = post_data["transition_arr"]
-        print("*" * 50)
-        print(transition)
+        transition = post_data["transition"]
+        transition1 = post_data.get("transition1","")
+
         process = post_data["process"]
 
         exis_rec = MAction.get_by_pro_act(transition, uid)
-        # trans_extis_rec = MTransitionAction.get_by_trans_act(transition, uid)
         if exis_rec.count() > 0:
 
             output = {
@@ -268,7 +267,14 @@ class ActionHandler(BaseHandler):
             recs = MTransitionAction.query_by_actid(uid)
             for rec in recs:
                 MTransitionAction.remove_relation(rec.transition, rec.action)
+                if transition1:
+                    try:
+                        MTransitionAction.create(transition1, rec.action)
+                    except Exception as err:
+                        print(repr(err))
+                        pass
             if MAction.update_process(process, uid) and MTransitionAction.create(transition, uid):
+
                 output = {
                     "ok": True,
                     "status": 0,
