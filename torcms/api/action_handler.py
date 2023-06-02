@@ -106,6 +106,7 @@ class ActionHandler(BaseHandler):
             for per in per_recs:
                 per_arr.append(per['name'])
                 per_id_arr.append(per['uid'])
+
             if trans_recs:
                 trans_arr = []
                 trans_id_arr = []
@@ -150,6 +151,7 @@ class ActionHandler(BaseHandler):
         '''
 
         post_data = json.loads(self.request.body)
+
         if 'transition' in post_data and 'process' in post_data and 'permission' in post_data:
             pass
         else:
@@ -157,6 +159,8 @@ class ActionHandler(BaseHandler):
 
         transition = post_data["transition"]
         process = post_data["process"]
+
+        transition1 = post_data.get("transition1","")
 
         exis_rec = MAction.get_by_pro_actname(transition, post_data['name'])
 
@@ -175,6 +179,13 @@ class ActionHandler(BaseHandler):
                 trans_uid = MTransitionAction.create(transition, act_uid)
                 for per in per_dics:
                     MPermissionAction.create(per, act_uid)
+
+                if transition1:
+                    try:
+                        MTransitionAction.create(transition1, act_uid)
+                    except Exception as err:
+                        print(repr(err))
+                        pass
                 if trans_uid:
 
                     output = {
@@ -232,12 +243,12 @@ class ActionHandler(BaseHandler):
 
         post_data = json.loads(self.request.body)
 
-        if 'transition' in post_data and 'process' in post_data:
+        if 'transition_arr' in post_data and 'process' in post_data:
             pass
         else:
             return False
 
-        transition = post_data["transition"]
+        transition = post_data["transition_arr"]
         print("*" * 50)
         print(transition)
         process = post_data["process"]
@@ -321,39 +332,30 @@ class ActionHandler(BaseHandler):
         ids = post_data.get("ids", "").split(",")
         for uid in ids:
 
-            transition = post_data["transition"]
-            process = post_data["process"]
+            per_dics = post_data.get("permission", "").split(",")
+            print("*" * 50)
+            print(per_dics)
+            if per_dics:
+                peract_recs = MPermissionAction.query_by_action(uid)
+                for rec in peract_recs:
+                    MPermissionAction.remove_relation(uid, rec.permission)
 
-            trans_extis_rec = MTransitionAction.get_by_trans_act(transition, uid)
+                for per in per_dics:
+                    MPermissionAction.create(per, uid)
 
-            if trans_extis_rec.count() > 0:
+                output = {
+                    "ok": True,
+                    "status": 0,
+                    "msg": "更新动作所属权限成功"
+                }
+
+
+            else:
                 output = {
                     "ok": False,
                     "status": 404,
-                    "msg": "该转换下已存在当前动作，修改失败"
+                    "msg": "更新动作所属权限成功失败"
                 }
-
-            else:
-                recs = MTransitionAction.query_by_actid(uid)
-                for rec in recs:
-                    MTransitionAction.remove_relation(rec.transition, rec.action)
-
-                if MAction.update_process(process, uid) and MTransitionAction.create(transition, uid):
-
-                    output = {
-                        "ok": True,
-                        "status": 0,
-                        "msg": "更新流程，转换成功"
-                    }
-
-
-                else:
-                    output = {
-                        "ok": False,
-                        "status": 404,
-                        "msg": "更新流程，转换失败"
-                    }
-
         return json.dump(output, self, ensure_ascii=False)
 
     @privilege.permission(action='assign_group')

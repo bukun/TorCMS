@@ -55,6 +55,15 @@
               "required": true
             },
             {
+              "name": "transition1",
+              "id": "transition1",
+              "type": "select",
+              "label": "所属转换",
+              "source": "/api/transition/chainedOptions?process=${process}",
+              "clearable": true,
+              "searchable": true
+            },
+            {
               "label": "选择权限",
               "id": "transfer-receiver",
               "type": "transfer",
@@ -99,24 +108,12 @@
                   "name": "ids"
                 },
                 {
-                  "name": "process",
-                  "id": "process",
-                  "label": "流程",
-                  "type": "select",
-                  "source": "/api/process/chainedOptions",
-                  "required": true,
-                  "clearable": true,
-                  "searchable": true
-                },
-                {
-                  "name": "transition_arr",
-                  "id": "transition",
-                  "type": "select",
-                  "label": "所属转换",
-                  "source": "/api/transition/chainedOptions?process=${process}",
-                  "clearable": true,
-                  "searchable": true,
-                  "required": true
+                  "label": "选择权限",
+                  "id": "transfer-receiver",
+                  "type": "transfer",
+                  "name": "permission",
+                  "debugger": true,
+                  "source": "/api/permission/getall/0000"
                 }
               ]
             }
@@ -269,14 +266,25 @@
                           "required": true
                         },
                         {
-                          "name": "transition_arr",
+                          "name": "transition",
                           "id": "transition",
                           "type": "select",
                           "label": "所属转换",
                           "source": "/api/transition/chainedOptions?process=${process}",
                           "clearable": true,
                           "searchable": true,
-                          "required": true
+                          "required": true,
+                          "value": "${transition_arr[0]}"
+                        },
+                        {
+                          "name": "transition1",
+                          "id": "transition1",
+                          "type": "select",
+                          "label": "所属转换",
+                          "source": "/api/transition/chainedOptions?process=${process}",
+                          "clearable": true,
+                          "searchable": true,
+                          "value": "${transition_arr[1]}"
                         }
                       ]
                     }
