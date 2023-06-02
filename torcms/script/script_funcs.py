@@ -48,9 +48,9 @@ def run_create_admin(*args):
         print(f'User `{post_data["user_name"]}` already exists.')
     else:
         out_dic=MUser.create_user(post_data)
-
-        if 'uid' in out_dic:
-            MStaff2Role.add_or_update(out_dic['uid'], 'uadministrators')
+        role=MRole.get_by_uid('uadministrators')
+        if 'uid' in out_dic and role:
+            MStaff2Role.add_or_update(out_dic['uid'], role.uid)
 
 
 def run_whoosh(*args):
