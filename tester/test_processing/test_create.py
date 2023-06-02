@@ -86,7 +86,7 @@ class TestMProcess():
             {'action_type': 'deny', 'role': 'ucan_verify',
              'name': '拒绝', 'description': '操作人将请求应移至上一个状态'},
             {'action_type': 'cancel', 'role': 'ucan_verify',
-             'name': '取消', 'description': '操作人将请求应在此过程中移至“已取消”状态'},
+             'name': '撤销', 'description': '操作人将请求应在此过程中移至“已取消”状态'},
             {'action_type': 'approve', 'role': 'ucan_verify',
              'name': '通过', 'description': '操作人将请求应移至下一个状态'},
             {'action_type': 'restart', 'role': '9can_edit',

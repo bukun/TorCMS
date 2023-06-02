@@ -102,7 +102,7 @@ class TestMProcess():
             {'action_type': 'deny', 'role': 'ucan_verify',
              'name': '拒绝', 'description': '操作人将请求应移至上一个状态'},
             {'action_type': 'cancel', 'role': 'ucan_verify',
-             'name': '取消', 'description': '操作人将请求应在此过程中移至“已取消”状态'},
+             'name': '撤销', 'description': '操作人将请求应在此过程中移至“已取消”状态'},
             {'action_type': 'approve', 'role': 'ucan_verify',
              'name': '通过', 'description': '操作人将请求应移至下一个状态'},
             {'action_type': 'restart', 'role': '9can_edit',
@@ -279,6 +279,49 @@ class TestMProcess():
                             print(act_arr)
                             print(new_act_arr)
                             assert act_arr == new_act_arr
+    def test_request(self):
+        self.init_process()
+        self.init_post()
+        state_type = 'start_' + self.process_id
+        cur_state = MState.get_by_state_type(state_type)
+        if cur_state:
+            req_uid = self.mrequest.create(self.process_id, self.uid, self.user_id, cur_state.uid)
+
+            recs = self.mrequest.get_by_pro(self.process_id)
+            assert recs.uid == req_uid
+            recs2 = self.mrequest.query_by_postid(self.uid)
+            assert recs2.uid == req_uid
+            recs3 = self.mrequest.get_by_pro_state(self.uid, cur_state.uid)
+            assert recs3.uid == req_uid
+
+            req_rec = self.mrequest.create("self.process_id", self.process_id, self.user_id, cur_state.uid)
+            assert req_rec == False
+        self.tearDown()
+
+    def test_reqact(self):
+        self.init_process()
+        self.init_post()
+        self.init_state()
+        self.init_action()
+        self.init_trans()
+        state_type = 'start_' + self.process_id
+        cur_state = MState.get_by_state_type(state_type)
+        act_rec = self.maction.get_by_action_type('deny_' + self.process_id)
+        tran_rec = self.mtrans.query_by_action(act_rec.uid, self.process_id).get()
+
+        if cur_state:
+            req_uid = self.mrequest.create(self.process_id, self.uid, self.user_id, cur_state.uid)
+
+            reqact_rec = self.mreqaction.create(req_uid, act_rec.uid,tran_rec.uid)
+            assert reqact_rec
+
+            reqact_rec1 = self.mreqaction.get_by_action_request(act_rec.uid, req_uid)
+            assert reqact_rec1.transition_id == tran_rec.uid
+
+            reqact_rec2 = self.mreqaction.query_by_request_trans(req_uid, tran_rec.uid)
+            assert reqact_rec2.action_id == act_rec.uid
+
+        self.tearDown()
 
     def tearDown(self):
         print("function teardown")

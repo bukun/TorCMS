@@ -600,16 +600,7 @@ class MRequestAction:
         else:
             return None
 
-    @staticmethod
-    def query_by_request(req_uid):
-        '''
-        Get a link by ID.
-        '''
-        return TabRequestAction.select().where(TabRequestAction.request == req_uid)
 
-    @staticmethod
-    def query_by_action(act_id):
-        return TabRequestAction.select().where(TabRequestAction.action == act_id)
 
     @staticmethod
     def get_by_action_request(act_id, request_id):
@@ -621,17 +612,7 @@ class MRequestAction:
         else:
             return None
 
-    @staticmethod
-    def query_by_postid(post_id):
-        query = (
-            TabRequestAction.select(TabTransition.process, TabTransition.current_state)
-            .join(TabRequest, JOIN.INNER)
-            .switch(TabRequestAction)
-            .join(TabTransition, JOIN.INNER)
-            .where((TabRequest.post == post_id) & (TabRequestAction.is_active == True))
 
-        )
-        return query.dicts()
 
     @staticmethod
     def delete_by_actid(action_id):
@@ -690,20 +671,7 @@ class MRequest:
         else:
             return None
 
-    @staticmethod
-    def get_id_by_username(post_id, user_name):
 
-        query = (
-            TabRequest.select(TabRequest.uid, TabRequest.process)
-            .join(TabPost, JOIN.INNER)
-            .switch(TabRequest)
-            .join(TabMember, JOIN.INNER)
-            .where((TabMember.user_name == user_name) & (TabPost.uid == post_id))
-        )
-        if query.count() > 0:
-            return query.get()
-        else:
-            return None
 
     @staticmethod
     def get_by_pro_state(pro_id, state_id):

@@ -17,9 +17,6 @@ class TestMAction():
         self.maction = MAction()
         self.mper_action = MPermissionAction()
         self.mpermission = MPermission()
-
-
-
         self.fake = Faker(locale="zh_CN")
 
     def init_process(self):

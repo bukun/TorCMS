@@ -22,7 +22,7 @@
                 contentType: false,
                 success: function (rs) {
 
-                    recstate.innerHTML = 'Waiting for Review  <a class="btn btn-primary btn-xs" onclick="revoke()">Revoke Review</a>'
+                    recstate.innerHTML = 'Waiting for Review  <a class="btn btn-primary btn-xs" onclick="cancel()">Cancel Review</a>'
 
                 },
                 error: function (err) {
@@ -33,7 +33,7 @@
 
 
     }
-    function revoke() {
+    function cancel() {
 
         var url = "/api/post/rovoke";
 
@@ -75,7 +75,7 @@
         {% if action_arr %}
         {{ _('Waiting for Review') }}
 
-        <a class="btn btn-primary btn-xs" onclick="revoke()">{{ _('Revoke Review') }}</a>
+        <a class="btn btn-primary btn-xs" onclick="cancel()">{{ _('Cancel Review') }}</a>
         {% elif process %}
 
 
