@@ -23,9 +23,8 @@ amis 实战教程-1-环境搭建/登录功能实现
 ![](./docs/cross-domain.jpg)
 
 找到 nginx 的配置文件, Debian/Ubuntu 使用 apt 安装的一般在/etc/nginx 下, 
-添加的配置文件，放在 `/etc/nginx/sites-enabled` 。
 
-在 nginx 配置文件中添加文件 `torcms-amis.nginx` ，内容如下：
+在 nginx 配置文件中添加文件`torcms-amis.nginx`，放在 `/etc/nginx/sites-enabled/`，内容如下：
 
     server {
     # 通过浏览器访问的端口

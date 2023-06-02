@@ -14,6 +14,8 @@ from config import post_cfg
 
 # from torcms.core.tool import run_whoosh as running_whoosh
 from torcms.model.user_model import MUser
+from torcms.model.staff2role_model import MStaff2Role
+from torcms.model.role_model import MRole
 
 
 def build_directory():
@@ -45,7 +47,10 @@ def run_create_admin(*args):
     if MUser.get_by_name(post_data['user_name']):
         print(f'User `{post_data["user_name"]}` already exists.')
     else:
-        MUser.create_user(post_data)
+        out_dic=MUser.create_user(post_data)
+
+        if 'uid' in out_dic:
+            MStaff2Role.add_or_update(out_dic['uid'], 'uadministrators')
 
 
 def run_whoosh(*args):
