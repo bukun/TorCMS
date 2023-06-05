@@ -72,7 +72,7 @@ class TestMtransition():
             {'action_type': 'deny', 'role': 'ucan_verify',
              'name': '拒绝', 'description': '操作人将请求应移至上一个状态'},
             {'action_type': 'cancel', 'role': 'ucan_verify',
-             'name': '取消', 'description': '操作人将请求应在此过程中移至“已取消”状态'},
+             'name': '撤消', 'description': '操作人将请求应在此过程中移至“已取消”状态'},
             {'action_type': 'approve', 'role': 'ucan_verify',
              'name': '通过', 'description': '操作人将请求应移至下一个状态'},
             {'action_type': 'restart', 'role': '9can_edit',
@@ -113,13 +113,11 @@ class TestMtransition():
             {'current_state': self.state_dic['normal'],
              'next_state': self.state_dic['start'], 'act_id': act_restart},
 
-            # 状态：“开始”对应的“拒绝”，“完成”，“取消”
+            # 状态：“开始”对应的“拒绝”，“完成”
             {'current_state': self.state_dic['start'],
              'next_state': self.state_dic['denied'], 'act_id': act_deny},
             {'current_state': self.state_dic['start'],
              'next_state': self.state_dic['complete'], 'act_id': act_approve},
-            {'current_state': self.state_dic['start'],
-             'next_state': self.state_dic['cancelled'], 'act_id': act_cancel},
 
             # 状态：“取消”对应的“拒绝”，“完成”
             {'current_state': self.state_dic['cancelled'],
@@ -127,9 +125,9 @@ class TestMtransition():
             {'current_state': self.state_dic['cancelled'],
              'next_state': self.state_dic['complete'], 'act_id': act_approve},
 
-            # 状态：“拒绝”对应的“开始”
+            # 状态：“拒绝”对应的“取消”
             {'current_state': self.state_dic['denied'],
-             'next_state': self.state_dic['start'], 'act_id': act_restart},
+             'next_state': self.state_dic['cancelled'], 'act_id': act_cancel}
 
         ]
 

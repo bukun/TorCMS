@@ -37,7 +37,7 @@ class TestMAction():
             {'action_type': 'deny', 'role': 'ucan_verify',
              'name': '拒绝', 'description': '操作人将请求应移至上一个状态'},
             {'action_type': 'cancel', 'role': 'ucan_verify',
-             'name': '取消', 'description': '操作人将请求应在此过程中移至“已取消”状态'},
+             'name': '撤消', 'description': '操作人将请求应在此过程中移至“已取消”状态'},
 
             {'action_type': 'approve', 'role': 'ucan_verify',
              'name': '通过', 'description': '操作人将请求应移至下一个状态'},
@@ -124,7 +124,7 @@ class TestMAction():
         TF = False
         for i in pp:
 
-            if i.name in ['拒绝', '取消', '通过', '提交审核']:
+            if i.name in ['拒绝', '撤消', '通过', '提交审核']:
                 TF = True
         self.tearDown()
         assert TF
@@ -143,7 +143,7 @@ class TestMAction():
     def test_get_by_name(self):
         self.init_action()
 
-        pp = self.maction.get_by_name('取消').get()
+        pp = self.maction.get_by_name('撤消').get()
         TF = False
         if pp.action_type.startswith('cancel'):
             TF = True
@@ -179,11 +179,11 @@ class TestMAction():
         assert rec_name == per_rec.name
 
         recs = self.mper_action.query_by_permission('ucan_verify')
-        assert recs == ['拒绝', '取消', '通过']
+        assert recs == ['拒绝', '撤消', '通过']
 
         self.mper_action.remove_relation(act_id, per_rec.uid)
         recs = self.mper_action.query_by_permission('ucan_verify')
-        assert recs == ['取消', '通过']
+        assert recs == ['撤消', '通过']
         self.tearDown()
     def tearDown(self):
         print("function teardown")

@@ -102,7 +102,7 @@ class TestMProcess():
             {'action_type': 'deny', 'role': 'ucan_verify',
              'name': '拒绝', 'description': '操作人将请求应移至上一个状态'},
             {'action_type': 'cancel', 'role': 'ucan_verify',
-             'name': '撤销', 'description': '操作人将请求应在此过程中移至“已取消”状态'},
+             'name': '撤消', 'description': '操作人将请求应在此过程中移至“已取消”状态'},
             {'action_type': 'approve', 'role': 'ucan_verify',
              'name': '通过', 'description': '操作人将请求应移至下一个状态'},
             {'action_type': 'restart', 'role': '9can_edit',
@@ -146,8 +146,6 @@ class TestMProcess():
                  'next_state': self.state_dic['denied'], 'act_id': act_deny},
                 {'current_state': self.state_dic['start'],
                  'next_state': self.state_dic['complete'], 'act_id': act_approve},
-                {'current_state': self.state_dic['start'],
-                 'next_state': self.state_dic['cancelled'], 'act_id': act_cancel},
 
                 # 状态：“取消”对应的“拒绝”，“完成”
                 {'current_state': self.state_dic['cancelled'],
@@ -155,9 +153,9 @@ class TestMProcess():
                 {'current_state': self.state_dic['cancelled'],
                  'next_state': self.state_dic['complete'], 'act_id': act_approve},
 
-                # 状态：“拒绝”对应的“开始”
-                {'current_state': self.state_dic['denied'],
-                 'next_state': self.state_dic['start'], 'act_id': act_restart},
+                # 状态：“拒绝”对应的“取消”
+                {'current_state':  self.state_dic['denied'],
+                 'next_state':  self.state_dic['cancelled'], 'act_id': act_cancel}
 
             ]
 
@@ -268,9 +266,9 @@ class TestMProcess():
                             if new_state.name == '正常':
                                 new_act_arr = [{"act_name": "提交审核"}]
                             elif new_state.name == '开始':
-                                new_act_arr = [{"act_name": "拒绝"}, {"act_name": "通过"}, {"act_name": "取消"}]
+                                new_act_arr = [{"act_name": "拒绝"}, {"act_name": "通过"}]
                             elif new_state.name == '拒绝':
-                                new_act_arr = [{"act_name": "提交审核"}]
+                                new_act_arr = [{"act_name": "撤消"}]
                             elif new_state.name == '取消':
                                 new_act_arr = [{"act_name": "拒绝"}, {"act_name": "通过"}]
                             else:

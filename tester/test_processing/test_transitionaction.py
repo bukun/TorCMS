@@ -66,7 +66,7 @@ class TestMtransition():
         if act_uid:
             self.mper_action.create(action_datas['role'], act_uid)
 
-            # 状态：“开始”对应的“拒绝”，“完成”，“取消”
+            # 状态：“开始”对应的“拒绝”
             tran = {'current_state': self.state_dic['start'],
                     'next_state': self.state_dic['denied'], 'act_id': act_uid}
 
