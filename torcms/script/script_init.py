@@ -41,8 +41,10 @@ def run_init(*args):
         run_gen_role_permission()
         create_test_role()
 
-    run_gen_process()
+
     run_gen_category()
     run_create_admin()
     run_whoosh()
+
+    run_gen_process()
 
