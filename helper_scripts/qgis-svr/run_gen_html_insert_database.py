@@ -1,13 +1,9 @@
 # -*- coding:utf-8 -*-
 
-'''
+"""
 create YAML file  for MapProxy.
-'''
-import sys
-from pprint import pprint
-import os
+"""
 import yaml
-import re
 from pathlib import Path
 from shapely import wkt
 from torcms.model.post_model import MPost
@@ -15,72 +11,30 @@ from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.category_model import MCategory
 from osgeo import osr, ogr
 from torcms.core.tools import logger
-from torcms.core import tools
 import requests
-import time
 from owslib.wms import WebMapService
 
-
-out_rst_dir = Path('static/map_legend')
-tmpl = open('tmpl_wms.html').read()
-
-TPL_MAPPROXY = '''
-services:
-  demo:
-  tms:
-    use_grid_names: true
-    # origin for /tiles service
-    origin: 'nw'
-  kml:
-      use_grid_names: true
-  wmts:
-  wms:
-    md:
-      title: MapProxy WMS Proxy
-      abstract: This is a minimal MapProxy example.
-layers:
-  - name: osm
-    title: Omniscale OSM WMS - osm.omniscale.net
-    sources: [osm_cache]
-
-caches:
-  osm_cache:
-    grids: [webmercator]
-    sources: [osm_wms]
-
-sources:
-  osm_wms:
-    type: wms
-    req:
-      # use of this source is only permitted for testing
-      url: http://osm.omniscale.net/proxy/service?
-      layers: osm
-
-grids:
-    webmercator:
-        base: GLOBAL_WEBMERCATOR
-
-globals:
-'''
+out_rst_dir = Path("static/map_legend")
+tmpl = open("tmpl_wms.html").read()
 
 
 def update_category(uid, post_data):
-    '''
+    """
     Update the category of the post.
     :param uid:  The ID of the post. Extra info would get by requests.
-    '''
+    """
 
     # deprecated
     # catid = kwargs['catid'] if MCategory.get_by_uid(kwargs.get('catid')) else None
     # post_data = self.get_request_arguments()
 
-    '''
+    """
     在前端，使用 `gcat0`，`gcat1`，`gcat2` 等，作为分类的参数。
     因为一个 post 可能会有多个分类，再定义第1分类的 key ：
         'def_cat_uid'： 第1分类
         'def_cat_pid' : 分1分类的父类
-    '''
-    if 'gcat0' in post_data:
+    """
+    if "gcat0" in post_data:
         pass
     else:
         return False
@@ -93,18 +47,18 @@ def update_category(uid, post_data):
     # for old page. deprecated
     # def_cate_arr.append('def_cat_uid')
 
-    def_cate_arr = ['gcat{0}'.format(x) for x in range(10)]
+    def_cate_arr = ["gcat{0}".format(x) for x in range(10)]
     for key in def_cate_arr:
         if key not in post_data:
             continue
-        if post_data[key] == '' or post_data[key] == '0':
+        if post_data[key] == "" or post_data[key] == "0":
             continue
         # 有可能选重复了。保留前面的
         if post_data[key] in the_cats_arr:
             continue
 
-        the_cats_arr.append(post_data[key] + ' ' * (4 - len(post_data[key])))
-        the_cats_dict[key] = post_data[key] + ' ' * (4 - len(post_data[key]))
+        the_cats_arr.append(post_data[key] + " " * (4 - len(post_data[key])))
+        the_cats_dict[key] = post_data[key] + " " * (4 - len(post_data[key]))
 
     # if catid:
     #     def_cat_id = catid
@@ -114,12 +68,12 @@ def update_category(uid, post_data):
         def_cat_id = None
 
     if def_cat_id:
-        the_cats_dict['gcat0'] = def_cat_id
-        the_cats_dict['def_cat_uid'] = def_cat_id
-        the_cats_dict['def_cat_pid'] = MCategory.get_by_uid(def_cat_id).pid
+        the_cats_dict["gcat0"] = def_cat_id
+        the_cats_dict["def_cat_uid"] = def_cat_id
+        the_cats_dict["def_cat_pid"] = MCategory.get_by_uid(def_cat_id).pid
 
-    logger.info('Update category: {0}'.format(the_cats_arr))
-    logger.info('Update category: {0}'.format(the_cats_dict))
+    logger.info("Update category: {0}".format(the_cats_arr))
+    logger.info("Update category: {0}".format(the_cats_dict))
 
     # Add the category
     MPost.update_jsonb(uid, the_cats_dict)
@@ -128,7 +82,7 @@ def update_category(uid, post_data):
         MPost2Catalog.add_record(uid, idx_catid, index)
 
     # Delete the old category if not in post requests.
-    current_infos = MPost2Catalog.query_by_entity_uid(uid, kind='').objects()
+    current_infos = MPost2Catalog.query_by_entity_uid(uid, kind="").objects()
     for cur_info in current_infos:
         if cur_info.tag_id not in the_cats_arr:
             MPost2Catalog.remove_relation(uid, cur_info.tag_id)
@@ -136,7 +90,7 @@ def update_category(uid, post_data):
 
 def trans(bnd_box):
     source = osr.SpatialReference()
-    epsg_code = int(bnd_box[-1].split(':')[-1])
+    epsg_code = int(bnd_box[-1].split(":")[-1])
     print(bnd_box)
     print(epsg_code)
     source.ImportFromEPSG(epsg_code)
@@ -149,7 +103,6 @@ def trans(bnd_box):
     if epsg_code == 4326:
         ll = f"POINT ({bnd_box[1]} {bnd_box[0]})"
         ur = f"POINT ({bnd_box[3]} {bnd_box[2]})"
-
 
     else:
         point = ogr.CreateGeometryFromWkt(f"POINT ({bnd_box[0]} {bnd_box[1]})")
@@ -184,11 +137,11 @@ def trans(bnd_box):
         zoom_cur = 7
     elif xx > 1.2:
         zoom_cur = 8
-    elif xx > .6:
+    elif xx > 0.6:
         zoom_cur = 9
-    elif xx > .3:
+    elif xx > 0.3:
         zoom_cur = 10
-    elif xx > .15:
+    elif xx > 0.15:
         zoom_cur = 11
     else:
         zoom_cur = 12
@@ -198,26 +151,25 @@ def trans(bnd_box):
     return ((ll.x + ur.x) / 2, (ll.y + ur.y) / 2, zoom_cur, zoom_min, zoom_max)
 
 
-
 def parse_proxy():
-    map_dict = yaml.load(open('xx_demo_mapproxy.yaml'), Loader=yaml.FullLoader)
+    map_dict = yaml.load(open("xx_pub_maproxy.yaml"), Loader=yaml.FullLoader)
 
-    for cache_sig, val in map_dict['caches'].items():
-        if 'osm_cache' in cache_sig:
+    for cache_sig, val in map_dict["caches"].items():
+        if "osm_cache" in cache_sig:
             continue
-        print('=' * 40)
+        print("=" * 40)
         # print(cache_sig)
-        src_sig = val['sources'][0]
-        qfile_url = map_dict['sources'][src_sig]['req']['url']
-        qfile_lyrs = map_dict['sources'][src_sig]['req']['layers']
-        qfile_path = qfile_url.split('=')[-1]
+        src_sig = val["sources"][0]
+        qfile_url = map_dict["sources"][src_sig]["req"]["url"]
+        qfile_lyrs = map_dict["sources"][src_sig]["req"]["layers"]
+        qfile_path = qfile_url.split("=")[-1]
 
         print(qfile_url)
         print(qfile_lyrs)
         print(qfile_path)
 
         try:
-            wms = WebMapService(qfile_url, version='1.3.0')
+            wms = WebMapService(qfile_url, version="1.3.0")
         except:
             # time.sleep(5)
             # wms = WebMapService(qfile_url, version='1.3.0')
@@ -231,8 +183,8 @@ def parse_proxy():
         if abstract:
             pass
         else:
-            abstract = '''这里是摘要说明。进行测试。
-            '''
+            abstract = """这里是摘要说明。进行测试。
+            """
 
         bnd_box = trans(wms_lyr.boundingBox)
 
@@ -240,45 +192,43 @@ def parse_proxy():
             pass
         else:
             out_rst_dir.mkdir(parents=True)
-        legend_img_file = out_rst_dir / f'xx_{cache_sig}.png'
+        legend_img_file = out_rst_dir / f"xx_{cache_sig}.png"
         if legend_img_file.exists():
             pass
         else:
-            req_str = '{}&LAYER={}&FORMAT=image/png&STYLE=default&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&FORMAT=image/png&STYLE=&SLD_VERSION=1.1.0'.format(
-                qfile_url,
-                qfile_lyrs
+            req_str = "{}&LAYER={}&FORMAT=image/png&STYLE=default&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&FORMAT=image/png&STYLE=&SLD_VERSION=1.1.0".format(
+                qfile_url, qfile_lyrs
             )
-            print('fetching legend ...')
+            print("fetching legend ...")
             print(req_str)
             r = requests.get(req_str, stream=True)
             if r.status_code == 200:
-                with open(legend_img_file, 'wb') as f:
+                with open(legend_img_file, "wb") as f:
                     for chunk in r.iter_content(1024):
                         f.write(chunk)
 
-        uid = 'v' + str(cache_sig)[2:]
+        uid = "v" + str(cache_sig)[2:]
         post_data = {
-            'title': wms[qfile_lyrs].title,
-            'cnt_md': abstract,
-            'kind': 'v',
-            'gcat0': 'v101',
-            'user_name': 'admin',
-            'valid':1
+            "title": wms[qfile_lyrs].title,
+            "cnt_md": abstract,
+            "kind": "v",
+            "gcat0": "v101",
+            "user_name": "admin",
+            "valid": 1,
         }
-        catid=post_data['gcat0']
+        catid = post_data["gcat0"]
         ext_data = {
-            'ext_data-maplet': cache_sig,
-            'ext_lat': bnd_box[0],
-            'ext_lon': bnd_box[1],
-            'ext_zoom_current': bnd_box[2],
-            'ext_zoom_min': bnd_box[3],
-            'ext_zoom_max': bnd_box[4],
-            'ext_qfile_path': qfile_path,
-            'def_uid': uid,
-            'gcat0': catid,
-            'def_cat_uid': catid,
-            'def_cat_pid': catid[:2] + '00'
-
+            "ext_data-maplet": cache_sig,
+            "ext_lat": bnd_box[0],
+            "ext_lon": bnd_box[1],
+            "ext_zoom_current": bnd_box[2],
+            "ext_zoom_min": bnd_box[3],
+            "ext_zoom_max": bnd_box[4],
+            "ext_qfile_path": qfile_path,
+            "def_uid": uid,
+            "gcat0": catid,
+            "def_cat_uid": catid,
+            "def_cat_pid": catid[:2] + "00",
         }
 
         MPost.add_or_update_post(uid, post_data, ext_data)
@@ -286,6 +236,5 @@ def parse_proxy():
         MPost2Catalog.add_record(uid, catid)
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     parse_proxy()
