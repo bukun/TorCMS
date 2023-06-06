@@ -159,7 +159,7 @@ def trans(bnd_box):
 
 def test_parse_proxy():
 
-    yaml_file = Path(__file__).parent / 'xx_pub_maproxy.yaml'
+    yaml_file = Path(__file__).parent / 'pub_maproxy.yaml'
     map_dict = yaml.load(open(yaml_file), Loader=yaml.FullLoader)
 
     for cache_sig, val in map_dict["caches"].items():

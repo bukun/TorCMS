@@ -1,0 +1,273 @@
+caches:
+  osm_cache:
+    grids:
+      - webmercator
+    sources:
+      - osm_wms
+  qn0169:
+    grids:
+      - webmercator
+    sources:
+      - qn0169
+  qn0375:
+    grids:
+      - webmercator
+    sources:
+      - qn0375
+  qn1293:
+    grids:
+      - webmercator
+    sources:
+      - qn1293
+  qn1793:
+    grids:
+      - webmercator
+    sources:
+      - qn1793
+  qn2370:
+    grids:
+      - webmercator
+    sources:
+      - qn2370
+  qn4297:
+    grids:
+      - webmercator
+    sources:
+      - qn4297
+  qn4538:
+    grids:
+      - webmercator
+    sources:
+      - qn4538
+  qn4619:
+    grids:
+      - webmercator
+    sources:
+      - qn4619
+  qn4852:
+    grids:
+      - webmercator
+    sources:
+      - qn4852
+  qn5201:
+    grids:
+      - webmercator
+    sources:
+      - qn5201
+  qn5741:
+    grids:
+      - webmercator
+    sources:
+      - qn5741
+  qn7453:
+    grids:
+      - webmercator
+    sources:
+      - qn7453
+  qn8249:
+    grids:
+      - webmercator
+    sources:
+      - qn8249
+  qn9127:
+    grids:
+      - webmercator
+    sources:
+      - qn9127
+globals:
+  cache:
+    base_dir: /xx_caches
+grids:
+  webmercator:
+    base: GLOBAL_WEBMERCATOR
+layers:
+  - name: osm
+    sources:
+      - osm_cache
+    title: Omniscale OSM WMS - osm.omniscale.net
+  - name: qn2370
+    sources:
+      - qn2370
+    title: q_cpjrc_rs_wb20220825_qn2370
+  - name: qn0375
+    sources:
+      - qn0375
+    title: q_cpjrc_rs_gf_202206panjad_qn0375
+  - name: qn5741
+    sources:
+      - qn5741
+    title: q_cpjrc_rs_st2_Sandh_qn5741
+  - name: qn8249
+    sources:
+      - qn8249
+    title: q_cp_GDP_GDP_qn8249
+  - name: qn4538
+    sources:
+      - qn4538
+    title: q_cp_terrain_terrain_qn4538
+  - name: qn4619
+    sources:
+      - qn4619
+    title: q_cp_land_land_qn4619
+  - name: qn4852
+    sources:
+      - qn4852
+    title: q_cp_wind_wind_qn4852
+  - name: qn1793
+    sources:
+      - qn1793
+    title: q_cp_forest_forest_qn1793
+  - name: qn7453
+    sources:
+      - qn7453
+    title: q_cp_soil_soil_qn7453
+  - name: qn0169
+    sources:
+      - qn0169
+    title: q_cp_traffic_traffic_qn0169
+  - name: qn1293
+    sources:
+      - qn1293
+    title: q_cp_river_river_qn1293
+  - name: qn4297
+    sources:
+      - qn4297
+    title: q_cp_imagery_imagery_qn4297
+  - name: qn5201
+    sources:
+      - qn5201
+    title: q_cp_climate_climate_qn5201
+  - name: qn9127
+    sources:
+      - qn9127
+    title: q_cp_population_population_qn9127
+services:
+  demo: null
+  kml:
+    use_grid_names: true
+  tms:
+    origin: nw
+    use_grid_names: true
+  wms:
+    md:
+      abstract: This is a minimal MapProxy example.
+      title: MapProxy WMS Proxy
+  wmts: null
+sources:
+  osm_wms:
+    req:
+      layers: osm
+      url: http://osm.omniscale.net/proxy/service?
+    type: wms
+  qn0169:
+    image:
+      transparent_color: '#ffffff'
+      transparent_color_tolerance: 0
+    req:
+      layers: pub_traffic_qn0169
+      url: http://47.104.152.23/qsvr?MAP=/pb1/gisws/qgis_pub_map/svr_a5/ch00_pub/sec02_cpjrc/zhongba/pub11_cp_traffic.qgz
+    type: wms
+  qn0375:
+    image:
+      transparent_color: '#ffffff'
+      transparent_color_tolerance: 0
+    req:
+      layers: pub_gf_202206panjad_qn0375
+      url: http://47.104.152.23/qsvr?MAP=/pb1/gisws/qgis_pub_map/svr_a5/ch00_pub/sec02_cpjrc/pub_cpjrc_rs.qgz
+    type: wms
+  qn1293:
+    image:
+      transparent_color: '#ffffff'
+      transparent_color_tolerance: 0
+    req:
+      layers: pub_river_qn1293
+      url: http://47.104.152.23/qsvr?MAP=/pb1/gisws/qgis_pub_map/svr_a5/ch00_pub/sec02_cpjrc/zhongba/pub04_cp_river.qgz
+    type: wms
+  qn1793:
+    image:
+      transparent_color: '#ffffff'
+      transparent_color_tolerance: 0
+    req:
+      layers: pub_forest_qn1793
+      url: http://47.104.152.23/qsvr?MAP=/pb1/gisws/qgis_pub_map/svr_a5/ch00_pub/sec02_cpjrc/zhongba/pub08_cp_forest.qgz
+    type: wms
+  qn2370:
+    image:
+      transparent_color: '#ffffff'
+      transparent_color_tolerance: 0
+    req:
+      layers: pub_wb20220825_qn2370
+      url: http://47.104.152.23/qsvr?MAP=/pb1/gisws/qgis_pub_map/svr_a5/ch00_pub/sec02_cpjrc/pub_cpjrc_rs.qgz
+    type: wms
+  qn4297:
+    image:
+      transparent_color: '#ffffff'
+      transparent_color_tolerance: 0
+    req:
+      layers: pub_imagery_qn4297
+      url: http://47.104.152.23/qsvr?MAP=/pb1/gisws/qgis_pub_map/svr_a5/ch00_pub/sec02_cpjrc/zhongba/pub01_cp_imagery.qgz
+    type: wms
+  qn4538:
+    image:
+      transparent_color: '#ffffff'
+      transparent_color_tolerance: 0
+    req:
+      layers: pub_terrain_qn4538
+      url: http://47.104.152.23/qsvr?MAP=/pb1/gisws/qgis_pub_map/svr_a5/ch00_pub/sec02_cpjrc/zhongba/pub02_cp_terrain.qgz
+    type: wms
+  qn4619:
+    image:
+      transparent_color: '#ffffff'
+      transparent_color_tolerance: 0
+    req:
+      layers: pub_land_qn4619
+      url: http://47.104.152.23/qsvr?MAP=/pb1/gisws/qgis_pub_map/svr_a5/ch00_pub/sec02_cpjrc/zhongba/pub07_cp_land.qgz
+    type: wms
+  qn4852:
+    image:
+      transparent_color: '#ffffff'
+      transparent_color_tolerance: 0
+    req:
+      layers: pub_wind_qn4852
+      url: http://47.104.152.23/qsvr?MAP=/pb1/gisws/qgis_pub_map/svr_a5/ch00_pub/sec02_cpjrc/zhongba/pub03_cp_wind.qgz
+    type: wms
+  qn5201:
+    image:
+      transparent_color: '#ffffff'
+      transparent_color_tolerance: 0
+    req:
+      layers: pub_climate_qn5201
+      url: http://47.104.152.23/qsvr?MAP=/pb1/gisws/qgis_pub_map/svr_a5/ch00_pub/sec02_cpjrc/zhongba/pub05_cp_climate.qgz
+    type: wms
+  qn5741:
+    image:
+      transparent_color: '#ffffff'
+      transparent_color_tolerance: 0
+    req:
+      layers: pub_st2_Sandh_qn5741
+      url: http://47.104.152.23/qsvr?MAP=/pb1/gisws/qgis_pub_map/svr_a5/ch00_pub/sec02_cpjrc/pub_cpjrc_rs.qgz
+    type: wms
+  qn7453:
+    image:
+      transparent_color: '#ffffff'
+      transparent_color_tolerance: 0
+    req:
+      layers: pub_soil_qn7453
+      url: http://47.104.152.23/qsvr?MAP=/pb1/gisws/qgis_pub_map/svr_a5/ch00_pub/sec02_cpjrc/zhongba/pub06_cp_soil.qgz
+    type: wms
+  qn8249:
+    image:
+      transparent_color: '#ffffff'
+      transparent_color_tolerance: 0
+    req:
+      layers: pub_GDP_qn8249
+      url: http://47.104.152.23/qsvr?MAP=/pb1/gisws/qgis_pub_map/svr_a5/ch00_pub/sec02_cpjrc/zhongba/pub09_cp_GDP.qgz
+    type: wms
+  qn9127:
+    image:
+      transparent_color: '#ffffff'
+      transparent_color_tolerance: 0
+    req:
+      layers: pub_population_qn9127
+      url: http://47.104.152.23/qsvr?MAP=/pb1/gisws/qgis_pub_map/svr_a5/ch00_pub/sec02_cpjrc/zhongba/pub10_cp_population.qgz
+    type: wms
