@@ -67,7 +67,7 @@
 </script>
 
 
-{% if userinfo %}
+{% if userinfo  and (userinfo.extinfo.get(f'_per_{postinfo.kind}can_edit', 0) == 1) %}
 {% if postinfo.valid==0 %}
 <div class="row">
     <div id="recstate" class="col-sm-5">
