@@ -252,7 +252,7 @@ class ApiPostHandler(PostHandler):
 
                         for per_act in per_act_recs:
 
-                            if str(per_act.permission) in cur_user_per:
+                            if (str(per_act.permission) in cur_user_per) and (self.userinfo.extinfo.get(f'_per_{per_act.permission}', 0) == 1):
                                 act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid,
                                            "request_id": request_rec.uid,
                                            "state_id": request_rec.current_state_id,
