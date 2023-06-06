@@ -66,7 +66,8 @@ class StateHandler(BaseHandler):
 
         post_data = self.request.arguments  # {'page': [b'1'], 'perPage': [b'10']}
         if 'pro' in post_data:
-            process = str(post_data.get('pro')[0])[2:-1]
+
+            process = post_data.get('pro')[0].decode('utf-8')
             recs = MState.query_by_pro_id(process)
         else:
             recs = MState.query_all()
@@ -87,8 +88,8 @@ class StateHandler(BaseHandler):
         '''
 
         post_data = self.request.arguments  # {'page': [b'1'], 'perPage': [b'10']}
-        page = int(str(post_data['page'][0])[2:-1])
-        perPage = int(str(post_data['perPage'][0])[2:-1])
+        page = int(post_data['page'][0].decode('utf-8'))
+        perPage = int(post_data['perPage'][0].decode('utf-8'))
 
         def get_pager_idx():
             '''

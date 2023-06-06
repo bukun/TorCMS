@@ -65,8 +65,8 @@ class ProcessHandler(BaseHandler):
         '''
 
         post_data = self.request.arguments  # {'page': [b'1'], 'perPage': [b'10']}
-        page = int(str(post_data['page'][0])[2:-1])
-        perPage = int(str(post_data['perPage'][0])[2:-1])
+        page = int(post_data['page'][0].decode('utf-8'))
+        perPage = int(post_data['perPage'][0].decode('utf-8'))
 
         def get_pager_idx():
             '''
