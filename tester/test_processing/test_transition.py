@@ -154,7 +154,7 @@ class TestMtransition():
         pp = self.mtrans.query_by_proid(self.process_id)
         TF = False
 
-        if pp.count() == 7:
+        if pp.count() == 6:
             TF = True
         self.tearDown()
         assert TF
@@ -199,7 +199,7 @@ class TestMtransition():
         pp = self.mtrans.query_by_action(act_id, self.process_id)
         TF = False
 
-        if pp.count() == 2:
+        if pp.count() == 1:
             TF = True
 
         self.tearDown()

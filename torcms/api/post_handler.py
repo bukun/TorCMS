@@ -190,7 +190,8 @@ class ApiPostHandler(PostHandler):
     def amis_submit_action(self, **kwargs):
 
         post_data = json.loads(self.request.body)
-
+        print("-" * 50)
+        print(post_data)
         request_id = post_data['request_id']
         post_id = post_data['post_id']
         user_id = post_data['user_id']

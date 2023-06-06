@@ -186,6 +186,7 @@ class TransitionHandler(BaseHandler):
         return json.dump(output, self, ensure_ascii=False)
 
     @privilege.permission(action='assign_group')
+    @tornado.web.authenticated
     def delete(self, trans_id):
         '''
         delete user by ID.

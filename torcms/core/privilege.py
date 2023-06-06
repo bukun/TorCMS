@@ -198,7 +198,7 @@ def permission(action=''):
         def deco(self, *args, **kwargs):
             print('Need role: ', f'_per_{self.kind}{action}')
             if self.current_user:
-                if self.userinfo.user_name in ['admin', 'lihy0']:
+                if self.userinfo.user_name == 'admin':
                     # admin 用户为超级管理员，具有所有权限
                     func(self, *args, **kwargs)
                 elif self.userinfo.extinfo.get(f'_per_{self.kind}{action}', 0) == 1:

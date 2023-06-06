@@ -179,7 +179,7 @@ class PermissionHandler(BaseHandler):
             }
         return json.dump(output, self, ensure_ascii=False)
 
-    # @privilege.permission(action='assign_role')
+    @privilege.permission(action='assign_role')
     @tornado.web.authenticated
     def batch_edit(self):
         '''

@@ -3,6 +3,7 @@ import time
 
 import tornado.escape
 
+import requests
 from torcms.core import tools
 from torcms.model.post_model import MPost
 from torcms.model.user_model import MUser
@@ -10,7 +11,7 @@ from torcms.model.role_model import MRole
 from torcms.handlers.post_handler import update_category
 from torcms.model.process_model import MProcess, MState, MTransition, MRequest, MAction, MRequestAction, \
     MTransitionAction, MPermissionAction
-
+from torcms.api.post_handler import ApiPostHandler
 from faker import Faker
 
 
@@ -25,7 +26,7 @@ class TestMProcess():
 
         self.user_id = MUser.get_by_name('admin').uid
         self.state_dic = {}
-
+        self.apipost=ApiPostHandler
         self.mprocess = MProcess()
         self.mstate = MState()
         self.mtrans = MTransition()
@@ -154,8 +155,8 @@ class TestMProcess():
                  'next_state': self.state_dic['complete'], 'act_id': act_approve},
 
                 # 状态：“拒绝”对应的“取消”
-                {'current_state':  self.state_dic['denied'],
-                 'next_state':  self.state_dic['cancelled'], 'act_id': act_cancel}
+                {'current_state': self.state_dic['denied'],
+                 'next_state': self.state_dic['cancelled'], 'act_id': act_cancel}
 
             ]
 
@@ -167,6 +168,7 @@ class TestMProcess():
                 MTransitionAction.create(tran_id, tran['act_id'])
 
             # assert True
+
 
     def test_create_request(self):
         '''
@@ -277,6 +279,7 @@ class TestMProcess():
                             print(act_arr)
                             print(new_act_arr)
                             assert act_arr == new_act_arr
+
     def test_request(self):
         self.init_process()
         self.init_post()
@@ -310,7 +313,7 @@ class TestMProcess():
         if cur_state:
             req_uid = self.mrequest.create(self.process_id, self.uid, self.user_id, cur_state.uid)
 
-            reqact_rec = self.mreqaction.create(req_uid, act_rec.uid,tran_rec.uid)
+            reqact_rec = self.mreqaction.create(req_uid, act_rec.uid, tran_rec.uid)
             assert reqact_rec
 
             reqact_rec1 = self.mreqaction.get_by_action_request(act_rec.uid, req_uid)

@@ -365,6 +365,7 @@ class ActionHandler(BaseHandler):
         return json.dump(output, self, ensure_ascii=False)
 
     @privilege.permission(action='assign_group')
+    @tornado.web.authenticated
     def delete(self, action_id):
         '''
         delete user by ID.
