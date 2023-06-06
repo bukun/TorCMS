@@ -157,7 +157,7 @@ def trans(bnd_box):
     return ((ll.x + ur.x) / 2, (ll.y + ur.y) / 2, zoom_cur, zoom_min, zoom_max)
 
 
-def parse_proxy():
+def test_parse_proxy():
 
     yaml_file = Path(__file__).parent / 'xx_pub_maproxy.yaml'
     map_dict = yaml.load(open(yaml_file), Loader=yaml.FullLoader)
@@ -244,5 +244,4 @@ def parse_proxy():
         MPost2Catalog.add_record(uid, catid)
 
 
-if __name__ == "__main__":
-    parse_proxy()
+#    parse_proxy()
