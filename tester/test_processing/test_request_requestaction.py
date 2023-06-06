@@ -11,7 +11,6 @@ from torcms.model.role_model import MRole
 from torcms.handlers.post_handler import update_category
 from torcms.model.process_model import MProcess, MState, MTransition, MRequest, MAction, MRequestAction, \
     MTransitionAction, MPermissionAction
-from torcms.api.post_handler import ApiPostHandler
 from faker import Faker
 
 
@@ -26,7 +25,6 @@ class TestMProcess():
 
         self.user_id = MUser.get_by_name('admin').uid
         self.state_dic = {}
-        self.apipost=ApiPostHandler
         self.mprocess = MProcess()
         self.mstate = MState()
         self.mtrans = MTransition()
@@ -168,6 +166,7 @@ class TestMProcess():
                 MTransitionAction.create(tran_id, tran['act_id'])
 
             # assert True
+
 
 
     def test_create_request(self):
