@@ -19,6 +19,7 @@ from torcms.core.tools import logger
 from torcms.model.user_model import MUser
 from torcms.model.staff2role_model import MStaff2Role
 from torcms.model.role2permission_model import MRole2Permission
+from torcms.model.role_model import MRole
 
 
 def check_regist_info(post_data):
@@ -537,8 +538,6 @@ class UserApi(BaseHandler):
     def fromCharCOde(self, passstr, *b):
         return chr(passstr % 65536) + "".join([chr(i % 65536) for i in b])
 
-
-
     def login(self):
         '''
         user login.
@@ -559,9 +558,9 @@ class UserApi(BaseHandler):
                 result = MUser.check_user_by_name(user_x.user_name, u_pass)
 
         if result == 1:
-            userinfo=MUser.get_by_name(u_name)
+            userinfo = MUser.get_by_name(u_name)
             if u_name in ['admin', 'lihy0']:
-               pass
+                pass
             elif userinfo.extinfo.get(f'_per_{self.kind}{"assign_role"}', 0) == 1:
                 pass
             else:
@@ -588,7 +587,6 @@ class UserApi(BaseHandler):
             )
 
             MUser.update_success_info(u_name)
-
 
             self.set_status(200)
             user_login_status = {
@@ -649,8 +647,8 @@ class UserApi(BaseHandler):
                 'authority': rec.authority,
                 'time_login': tools.format_time(rec.time_login),
                 'time_create': tools.format_time(rec.time_create),
-                'extinfo': rec.extinfo,
-                'staff_roles': self.get_role_by_uid(rec.uid),
+                'extinfo': rec.extinfo, 
+                'staff_roles': self.get_role_by_uid(rec.extinfo.get('roles', '')),
             }
             dics.append(dic)
         out_dict = {
@@ -662,16 +660,36 @@ class UserApi(BaseHandler):
 
         return json.dump(out_dict, self, ensure_ascii=False)
 
-    def get_role_by_uid(self, user_id):
+    def get_role_by_userid(self, user_id):
 
-        pers = MStaff2Role.get_role_by_uid(user_id)
+        roles = MStaff2Role.get_role_by_uid(user_id)
 
-        per_arr = []
-        if pers:
-            for per in pers:
-                per_arr.append(per['name'])
+        role_arr = []
+        if roles:
+            for role in roles:
+                role_arr.append(role['name'])
 
-        return per_arr
+        return role_arr
+
+    def get_role_by_uid(self, roles):
+        role_arr = []
+        if roles:
+
+            for role in roles:
+
+                if ',' in role:
+                    role1_id = role.split(',')[0]
+                    role_id = role.split(',')[-1]
+                    role1_rec = MRole.get_by_uid(role1_id)
+                    role_rec = MRole.get_by_uid(role_id)
+                    role_name = role_rec.name + ' [' + role1_rec.name + '] '
+                else:
+                    role_rec = MRole.get_by_uid(role)
+                    role_name = role_rec.name
+
+                role_arr.append(role_name)
+
+        return role_arr
 
     @privilege.permission(action='assign_role')
     def delete_user(self, user_id):

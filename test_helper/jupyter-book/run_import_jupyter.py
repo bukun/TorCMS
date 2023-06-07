@@ -132,7 +132,7 @@ def do_for_chapter(cat_id, ch_path):
 
         # pprint(pp_data)
         # 入库是将外扩展字段加入。
-        MPost.add_or_modify_meta(pp_data['uid'], pp_data, extinfo=pp_data['extinfo'])
+        MPost.add_or_update_post(pp_data['uid'], pp_data, extinfo=pp_data['extinfo'])
         update_category(pp_data['uid'], pp_data)
         idx = idx + 1
 
