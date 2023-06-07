@@ -7,8 +7,8 @@ peewee >= 3.0.16
 Pillow
 tornado
 Whoosh
-# wtforms==2.3.3
-# wtforms-tornado
+# wtforms==2.3.3  # Deprecated
+# wtforms-tornado # the module files were copied into the project.
 tornado-wtforms
 email-validator
 psycopg2-binary
