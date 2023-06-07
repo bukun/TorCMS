@@ -196,7 +196,7 @@ def get_meta(catid, sig):
                 MPost2Catalog.add_record('u' + sig[2:], catid)
 
 
-def import_meta():
+def test_import_meta():
     inws = pathlib.Path('./database/datacn_datasets')
     print(inws)
     # for y in os.listdir(inws):
@@ -224,5 +224,5 @@ def import_meta():
 
 if __name__ == '__main__':
     # import_tables()
-    import_meta()
+    test_import_meta()
     #

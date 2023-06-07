@@ -92,11 +92,11 @@ def insert_into_db(postinfo):
     mrec.add_or_update(out_dic, force=True)
 
 
-def run_export():
+def test_run_export():
     all_recs = MPost.query_all(kind='9', limit=10000)
     for postinfo in all_recs:
         insert_into_db(postinfo)
 
 
 if __name__ == '__main__':
-    run_export()
+    test_run_export()

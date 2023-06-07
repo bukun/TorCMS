@@ -2,7 +2,7 @@ import os
 import shutil
 
 import openpyxl
-
+from pathlib import Path
 from torcms.model.category_model import MCategory
 from torcms.model.post_model import MPost
 
@@ -12,7 +12,7 @@ def clean_name(instr):
 
 
 def test_dump2xlsx():
-    outbase = 'xx_out'
+    outbase = Path(__file__).parent / 'xx_out'
     pp = MCategory.query_pcat()
     for t in pp:
         print(t.uid, t.name, t.slug, t.pid)

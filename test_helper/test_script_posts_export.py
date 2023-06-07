@@ -8,12 +8,12 @@ import re
 import shutil
 
 import markdown
-
+from pathlib import Path
 from torcms.model.category_model import MCategory
 from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
 
-out_ws = './static/xx_mds'
+out_ws = Path(__file__).parent / 'xx_mds'
 
 
 def get_img(text):
@@ -42,7 +42,7 @@ def do_for_cat(rec):
         postinfo = MPost.get_by_uid(post2tag_rec.post_id)
         markdown_cnt = postinfo.cnt_md
         md = markdown.Markdown(extensions=['meta'])
-        html = "{ " + md.convert(markdown_cnt)+" }"
+        html = "{ " + md.convert(markdown_cnt) + " }"
 
         print("*" * 50)
         print(md.Meta)
@@ -158,7 +158,7 @@ def do_for_cat(rec):
             if md.Meta.get('cnt_md'):
                 pass
             else:
-                fout_md.write('cnt_md: {}\n'.format("{ " +markdown_cnt.replace('\r\n', '\n')+" }"))
+                fout_md.write('cnt_md: {}\n'.format("{ " + markdown_cnt.replace('\r\n', '\n') + " }"))
             if md.Meta.get('cnt_html'):
                 pass
             else:
@@ -174,7 +174,7 @@ def do_for_cat(rec):
                 fout_md.write('extinfo: {}\n\n'.format(postinfo.extinfo))
 
 
-def run_export():
+def test_run_export():
     all_cats = MCategory.query_all('9')
     for rec in all_cats:
 
@@ -184,6 +184,9 @@ def run_export():
         else:
             do_for_cat(rec)
 
+    if os.path.exists(out_ws):
+        shutil.rmtree(out_ws)
+
 
 if __name__ == '__main__':
-    run_export()
+    test_run_export()

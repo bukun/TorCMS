@@ -256,7 +256,7 @@ def update_label(signature, post_data):
             MPost2Label.remove_relation(signature, cur_info.tag_id)
 
 
-def import_meta():
+def test_import_meta():
     inws = './database/md_meta'
 
     for wroot, wdirs, wfiles in os.walk(inws):
@@ -292,4 +292,4 @@ def chli_xlsx(cat_path):
 
 
 if __name__ == '__main__':
-    import_meta()
+    test_import_meta()

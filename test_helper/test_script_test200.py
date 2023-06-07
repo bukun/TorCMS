@@ -1,9 +1,9 @@
 import os
 import time
-
-import requests
-
 import config
+import requests
+from pathlib import Path
+
 from torcms.core.tools import format_date, timestamp
 from torcms.model.post_model import MPost
 from torcms.model.wiki_model import MWiki
@@ -58,7 +58,7 @@ def test_200():
 
     timeit = timestamp()
     time_local = time.localtime(timeit)
-    path = 'xx_posts_x200_{date0}.html'.format(date0=str(time.strftime("%Y_%m_%d", time_local)))
+    path = Path(__file__).parent / 'xx_posts_x200_{date0}.html'.format(date0=str(time.strftime("%Y_%m_%d", time_local)))
     with open(path, 'w') as fo:
         fo.write(html_tmpl.format(cnt=tstr))
     os.remove(path)

@@ -1,9 +1,8 @@
 # import tornado.web
 import os
-
+from pathlib import Path
 from openpyxl import Workbook
 
-from torcms.handlers.entity_handler import EntityHandler
 from torcms.model.core_tab import TabPost, TabTag
 
 
@@ -35,10 +34,10 @@ class Ext_Post():
         return recs
 
 
-def export_data(kind):
+def test_export_data(kind='9'):
     filename = 'ResForm'
 
-    out_docx = './xx_out.xlsx'
+    out_docx = Path(__file__).parent / 'xx_out.xlsx'
     if os.path.exists(out_docx):
         try:
             os.remove(out_docx)
@@ -64,8 +63,10 @@ def export_data(kind):
                     ws.cell(row=row_inx + 1, column=col_inx + 1).value = x.title
                     row_inx = row_inx + 1
     wb.save(out_docx)
-    return filename
+
+    os.remove(out_docx)
+    # return filename
 
 
 if __name__ == '__main__':
-    export_data('9')
+    test_export_data('9')

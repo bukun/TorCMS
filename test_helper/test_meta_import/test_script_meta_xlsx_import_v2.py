@@ -6,7 +6,7 @@ import os
 import pathlib
 
 from openpyxl import load_workbook
-
+from pathlib import Path
 from torcms.handlers.post_handler import update_category
 from torcms.model.category_model import MCategory
 from torcms.model.post_model import MPost
@@ -60,9 +60,9 @@ def get_meta(catid, sig):
     return pp_data
 
 
-def import_meta():
-    inws = pathlib.Path('./database/pycsw_meta')
-    print(inws)
+def test_import_meta():
+    inws = Path(__file__).parent / 'pycsw_meta'
+    out_file = Path(__file__).parent / 'xx_pycsw_meta.xlsx'
 
     for cat_path in inws.iterdir():
         print('x' * 40)
@@ -94,8 +94,9 @@ def import_meta():
 
                     ws.cell(row=i, column=2).value = pp_data['title']
         # Write a copy with titles.
-        wb.save('xx_pycsw_meta.xlsx')
+        wb.save(out_file)
+    os.remove(out_file)
 
 
 if __name__ == '__main__':
-    import_meta()
+    test_import_meta()
