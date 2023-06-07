@@ -239,7 +239,7 @@ class ApiPostHandler(PostHandler):
                 for act in act_recs:
                     # 判断动作is_active是否是True
                     reqact_rec = MRequestAction.get_by_action_request(act['action'], request_rec.uid)
-                    if reqact_rec.is_active:
+                    if reqact_rec and reqact_rec.is_active:
                         act_rec = MAction.get_by_id(act['action']).get()
 
                         # 当前登录用户具有的权限
