@@ -9,10 +9,11 @@ import uuid
 import html2text
 from tornado.escape import xhtml_unescape
 
-from pycsw_helper.csw_helper import MRecords
+from torcms_metadata.pycsw_helper.csw_helper import MRecords
 from torcms.model.post_model import MPost
 
 mrec = MRecords()
+
 
 h = html2text.HTML2Text()
 

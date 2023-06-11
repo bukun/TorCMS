@@ -101,7 +101,7 @@ def update_label(signature, post_data):
             MPost2Label.remove_relation(signature, cur_info.tag_id)
 
 
-def import_meta():
+def test_meta():
     # 初始化Faker
     f = Faker(locale='zh_CN')
 
@@ -130,5 +130,3 @@ def import_meta():
         update_category(uid, post_data, kwargsa)
         update_label(uid, post_data)
 
-if __name__ == '__main__':
-    import_meta()

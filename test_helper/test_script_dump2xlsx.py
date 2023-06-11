@@ -42,8 +42,9 @@ def test_dump2xlsx():
                 ws.cell(row=idx, column=2).value = post.title
                 idx = idx + 1
 
-        ws = wb['Sheet']
-        wb.remove(ws)
+        # 对于空的数据库不会产生另外worksheet.
+        # ws = wb['Sheet']
+        # wb.remove(ws)
         wb.save(out_file)
 
     if os.path.exists(outbase):

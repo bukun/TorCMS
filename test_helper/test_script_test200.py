@@ -1,3 +1,7 @@
+'''
+需要启动服务以进行测试
+'''
+
 import os
 import time
 import config
