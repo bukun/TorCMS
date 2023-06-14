@@ -207,7 +207,7 @@ class TestMProcess():
             assert req_rec2.user_id == self.user_id
             req_rec3 = self.mrequest.query_by_postid(self.uid)
             assert req_rec3.process_id == self.process_id
-        self.tearDown()
+        self.teardown_class()
 
     def test_request_action(self, request_id='', post_id='', act_id=''):
         '''
@@ -296,7 +296,7 @@ class TestMProcess():
 
             req_rec = self.mrequest.create("self.process_id", self.process_id, self.user_id, cur_state.uid)
             assert req_rec == False
-        self.tearDown()
+        self.teardown_class()
 
     def test_reqact(self):
         self.init_process()
@@ -321,9 +321,9 @@ class TestMProcess():
             reqact_rec2 = self.mreqaction.query_by_request_trans(req_uid, tran_rec.uid)
             assert reqact_rec2.action_id == act_rec.uid
 
-        self.tearDown()
+        self.teardown_class()
 
-    def tearDown(self):
+    def teardown_class(self):
         print("function teardown")
         trans = self.mtrans.query_by_proid(self.process_id)
         print(trans.count())

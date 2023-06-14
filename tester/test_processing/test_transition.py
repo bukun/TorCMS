@@ -145,7 +145,7 @@ class TestMtransition():
 
         if pp.count() > 0:
             TF = True
-        self.tearDown()
+        self.teardown_it()
         assert TF
 
     def test_query_by_proid(self):
@@ -156,7 +156,7 @@ class TestMtransition():
 
         if pp.count() == 6:
             TF = True
-        self.tearDown()
+        self.teardown_it()
         assert TF
 
     def test_query_by_proid_state(self):
@@ -166,7 +166,7 @@ class TestMtransition():
         TF = False
         if pp.count() == 1:
             TF = True
-        self.tearDown()
+        self.teardown_it()
         assert TF
 
     def test_get_by_state_type(self):
@@ -178,7 +178,7 @@ class TestMtransition():
 
         if pp.count() == 1:
             TF = True
-        self.tearDown()
+        self.teardown_it()
         assert TF
 
     def test_get_by_state_type2(self):
@@ -190,7 +190,7 @@ class TestMtransition():
 
         if pp.count() == 0:
             TF = True
-        self.tearDown()
+        self.teardown_it()
         assert TF
 
     def test_query_by_action(self):
@@ -202,7 +202,7 @@ class TestMtransition():
         if pp.count() == 1:
             TF = True
 
-        self.tearDown()
+        self.teardown_it()
         assert TF
 
     def test_tranaction_query_all(self):
@@ -217,10 +217,10 @@ class TestMtransition():
 
             if i.uid in trans_arr:
                 TF = True
-        self.tearDown()
+        self.teardown_it()
         assert TF
 
-    def tearDown(self, process_id=''):
+    def teardown_it(self, process_id=''):
         print("function teardown")
         if process_id:
             pass

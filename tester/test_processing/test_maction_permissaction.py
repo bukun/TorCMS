@@ -115,7 +115,7 @@ class TestMAction():
             uu = self.maction.update(rec.uid, post_data5)
             assert uu == True
 
-        self.tearDown()
+        self.teardown_class()
 
     def test_query_all(self):
         self.init_action()
@@ -126,7 +126,7 @@ class TestMAction():
 
             if i.name in ['拒绝', '撤消', '通过', '提交审核']:
                 TF = True
-        self.tearDown()
+        self.teardown_class()
         assert TF
 
     def test_query_by_proid(self):
@@ -137,7 +137,7 @@ class TestMAction():
 
         if pp.count() == 4:
             TF = True
-        self.tearDown()
+        self.teardown_class()
         assert TF
 
     def test_get_by_name(self):
@@ -147,7 +147,7 @@ class TestMAction():
         TF = False
         if pp.action_type.startswith('cancel'):
             TF = True
-        self.tearDown()
+        self.teardown_class()
         assert TF
 
     def test_get_by_action_type(self):
@@ -158,7 +158,7 @@ class TestMAction():
 
         if pp.name == '拒绝':
             TF = True
-        self.tearDown()
+        self.teardown_class()
         assert TF
 
     def test_get_by_pro_actname(self):
@@ -168,7 +168,7 @@ class TestMAction():
 
         if pp.action_type == 'approve_' + self.process_id:
             TF = True
-        self.tearDown()
+        self.teardown_class()
         assert TF
 
     def test_query_per_by_action(self):
@@ -184,8 +184,8 @@ class TestMAction():
         self.mper_action.remove_relation(act_id, per_rec.uid)
         recs = self.mper_action.query_by_permission('ucan_verify')
         assert recs == ['撤消', '通过']
-        self.tearDown()
-    def tearDown(self):
+        self.teardown_class()
+    def teardown_class(self):
         print("function teardown")
 
         act_recs = MAction.query_by_proid(self.process_id)

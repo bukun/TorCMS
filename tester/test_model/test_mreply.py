@@ -63,14 +63,14 @@ class TestMReply():
         self.add_post()
         tt = self.post.get_by_uid(self.post_uid)
         assert tt.title == self.post_title
-        self.tearDown()
+        self.teardown_class()
 
     def test_insert_user(self):
 
         self.add_user()
         tt = self.user.get_by_uid(self.user_uid)
         assert tt.user_name == self.username
-        self.tearDown()
+        self.teardown_class()
 
     def add_reply(self, **kwargs):
         p_d = {
@@ -93,7 +93,7 @@ class TestMReply():
         assert aa.user_name == self.username
         assert aa.post_id == self.post_uid
         assert aa.user_id == self.user_uid
-        self.tearDown()
+        self.teardown_class()
 
     def test_update_vote(self):
         self.add_user()
@@ -104,7 +104,7 @@ class TestMReply():
         after = self.reply.get_by_uid(self.reply_uid)
         assert after.vote == 10
         assert before.vote < after.vote
-        self.tearDown()
+        self.teardown_class()
 
     def test_delete_by_uid(self):
         self.add_user()
@@ -116,7 +116,7 @@ class TestMReply():
         assert aa
         nosrep = self.reply.get_by_uid(self.reply_uid)
         assert nosrep == None
-        self.tearDown()
+        self.teardown_class()
 
     def test_modify_by_uid(self):
         self.add_user()
@@ -133,7 +133,7 @@ class TestMReply():
         tt = self.reply.get_by_uid(self.reply_uid)
         assert tt.category == p_d['category']
         assert tt.cnt_md == p_d['cnt_reply']
-        self.tearDown()
+        self.teardown_class()
 
     def test_query_pager(self):
         self.add_user()
@@ -149,7 +149,7 @@ class TestMReply():
                 if x.uid == self.reply_uid:
                     tf = True
                     break
-        self.tearDown()
+        self.teardown_class()
         assert tf
 
     def test_total_number(self):
@@ -159,7 +159,7 @@ class TestMReply():
         self.add_reply()
         bb = self.reply.total_number()
         assert aa + 1 <= bb
-        self.tearDown()
+        self.teardown_class()
 
     def test_count_of_certain(self):
         aa = self.reply.count_of_certain()
@@ -168,10 +168,10 @@ class TestMReply():
         self.add_reply()
         bb = self.reply.count_of_certain()
         assert aa + 1 <= bb
-        self.tearDown()
+        self.teardown_class()
 
     # def test_delete(self):
-    #     self.tearDown()
+    #     self.teardown_class()
     #     bb = self.reply.count_of_certain()
     #     print(bb)
     #     self.add_user()
@@ -195,12 +195,12 @@ class TestMReply():
     #     print(s)
     #     # assert vv
     #     aa = self.reply.get_by_uid(self.reply_uid)
-    #     self.tearDown()
+    #     self.teardown_class()
     #     assert aa==None
 
 
     def test_query_all(self):
-        self.tearDown()
+        self.teardown_class()
 
         aa = self.reply.query_all()
         tf = True
@@ -220,7 +220,7 @@ class TestMReply():
                 assert i.post_id == self.post_uid
                 break
         assert tf
-        self.tearDown()
+        self.teardown_class()
 
     def test_get_by_zan(self):
 
@@ -229,7 +229,7 @@ class TestMReply():
         self.add_reply()
         aa = self.reply.get_by_zan(self.reply_uid)
         assert aa >= 1
-        self.tearDown()
+        self.teardown_class()
 
     def test_query_by_post(self):
         self.add_user()
@@ -242,7 +242,7 @@ class TestMReply():
                 tf = True
                 break
         assert tf
-        self.tearDown()
+        self.teardown_class()
 
     def test_get_by_uid(self):
         self.add_user()
@@ -250,9 +250,9 @@ class TestMReply():
         self.add_reply()
         aa = self.reply.get_by_uid(self.reply_uid)
         assert aa.user_id == self.user_uid
-        self.tearDown()
+        self.teardown_class()
 
-    def tearDown(self):
+    def teardown_class(self):
         print("function teardown")
         tt = self.post.get_by_uid(self.post_uid)
         if tt:

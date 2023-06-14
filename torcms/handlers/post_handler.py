@@ -31,6 +31,16 @@ from torcms.model.relation_model import MRelation
 from torcms.model.usage_model import MUsage
 
 
+def import_post(uid, post_data, extinfo={}):
+    '''
+    Used for import data scripts.
+    '''
+
+    MPost.add_or_update_post(uid, post_data, extinfo=extinfo)
+    update_category(uid, post_data)
+    update_label(uid, post_data)
+
+
 def update_category(uid, post_data):
     '''
     Update the category of the post.
@@ -414,11 +424,14 @@ class PostHandler(BaseHandler):
         p_catinfo = None
 
         post2catinfo = MPost2Catalog.get_first_category(postinfo.uid)
+
         if post2catinfo:
             catinfo = MCategory.get_by_uid(post2catinfo.tag_id)
             if catinfo:
                 p_catinfo = MCategory.get_by_uid(catinfo.pid)
 
+        else:
+            print('无信息')
         kwd = self._the_view_kwd(postinfo)
 
         MPost.update_misc(postinfo.uid, count=True)

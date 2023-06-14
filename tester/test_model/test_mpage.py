@@ -40,10 +40,10 @@ class TestMWiki():
         assert tt.cnt_md == tornado.escape.xhtml_unescape(post_data['cnt_md'])
         assert raw_count + 1 <= new_count
 
-        self.tearDown()
+        self.teardown_class()
 
     # def test_insert_2(self):
-    #     self.tearDown()
+    #     self.teardown_class()
     #     '''Wiki insert: Test invalid title'''
     #     post_data = {
     #         'title': '',
@@ -54,7 +54,7 @@ class TestMWiki():
     #     aa=self.uu.create_page(self.uid, post_data)
     #     assert aa==False
     #
-    #     self.tearDown()
+    #     self.teardown_class()
 
 
 
@@ -68,14 +68,14 @@ class TestMWiki():
         for i in aa:
             if i.uid == self.uid:
                 tf = True
-        self.tearDown()
+        self.teardown_class()
         assert tf
 
     def test_get_by_slug(self):
         self.add_page()
         aa = self.uu.get_by_uid(self.uid)
         assert aa.title == self.title
-        self.tearDown()
+        self.teardown_class()
 
     def test_update_cnt(self):
         self.add_page()
@@ -88,7 +88,7 @@ class TestMWiki():
         tt = self.uu.get_by_uid(self.uid)
         assert tt.user_name == post_data['user_name']
         assert tt.cnt_md == tornado.escape.xhtml_unescape(post_data['cnt_md'])
-        self.tearDown()
+        self.teardown_class()
 
     def test_update(self):
         self.add_page()
@@ -106,7 +106,7 @@ class TestMWiki():
         self.uu.update(self.uid, post_data2)
         aa = self.uu.get_by_uid(self.uid)
         assert aa.title == post_data2['title']
-        self.tearDown()
+        self.teardown_class()
 
     def test_query_recent_edited(self):
         timstamp = tools.timestamp()
@@ -117,9 +117,9 @@ class TestMWiki():
         for i in aa:
             if i.uid == self.uid:
                 tf = True
-        self.tearDown()
+        self.teardown_class()
         assert tf
 
-    def tearDown(self):
+    def teardown_class(self):
         print("function teardown")
         self.uu.delete(self.uid)

@@ -72,12 +72,12 @@ class TestMUsage():
                 assert i.uid == self.uid
                 tf = True
                 break
-        self.tearDown()
+        self.teardown_class()
         assert tf
 
     #
     # def test_get_all(self):
-    #     self.tearDown()
+    #     self.teardown_class()
     #     aa = MUsage.get_all()
     #     print(aa.count())
     #     self.add_message()
@@ -94,11 +94,11 @@ class TestMUsage():
     #             assert i.uid == self.uid
     #             tf = True
     #             break
-    #     # self.tearDown()
+    #     # self.teardown_class()
     #     assert tf
 
     def test_query_random(self):
-        self.tearDown()
+        self.teardown_class()
         self.add_message()
         self.add_usage()
         aa = MUsage.query_random(limit=300)
@@ -108,7 +108,7 @@ class TestMUsage():
                 assert i.uid == self.uid
                 tf = True
                 break
-        self.tearDown()
+        self.teardown_class()
         assert tf
 
     def test_query_recent(self):
@@ -121,7 +121,7 @@ class TestMUsage():
                 assert i.uid == self.uid
                 tf = True
                 break
-        self.tearDown()
+        self.teardown_class()
         assert tf
 
     def test_query_recent_by_cat(self):
@@ -134,7 +134,7 @@ class TestMUsage():
                 assert i.uid == self.uid
                 tf = True
                 break
-        self.tearDown()
+        self.teardown_class()
         assert tf
 
     def test_query_most(self):
@@ -147,7 +147,7 @@ class TestMUsage():
                 assert i.uid == self.uid
                 tf = True
                 break
-        self.tearDown()
+        self.teardown_class()
         assert tf
 
     def test_query_by_signature(self):
@@ -157,7 +157,7 @@ class TestMUsage():
         aa = MUsage.query_by_signature(self.userid, self.postid)
         assert aa[0].uid == self.uid
 
-        self.tearDown()
+        self.teardown_class()
 
     def test_count_increate(self):
         self.add_message()
@@ -170,7 +170,7 @@ class TestMUsage():
                 assert i.count >= 8
                 tf = True
                 break
-        self.tearDown()
+        self.teardown_class()
         assert tf
 
     def test_add_or_update(self):
@@ -184,10 +184,10 @@ class TestMUsage():
                 assert i.post_id == self.postid
                 tf = True
                 break
-        self.tearDown()
+        self.teardown_class()
         assert tf
 
-    def tearDown(self):
+    def teardown_class(self):
         print("function teardown")
 
         MCategory.delete(self.tag_id)

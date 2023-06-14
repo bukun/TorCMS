@@ -33,10 +33,10 @@ class TestMWiki():
 
         assert tt.title == self.wiki_title
         assert raw_count + 1 <= new_count
-        self.tearDown()
+        self.teardown_class()
 
     # def test_insert_2(self):
-    #     self.tearDown()
+    #     self.teardown_class()
     #     '''Wiki insert: Test invalid title'''
     #     post_data = {
     #         'title': '',
@@ -46,7 +46,7 @@ class TestMWiki():
     #     uu = MWiki.create_wiki(post_data)
     #     assert uu == False
     #
-    #     self.tearDown()
+    #     self.teardown_class()
 
 
     def test_get_by_title(self):
@@ -55,7 +55,7 @@ class TestMWiki():
         assert ss.title == self.wiki_title
         tt = MWiki.get_by_title(self.wiki_title)
         assert tt.title == self.wiki_title
-        self.tearDown()
+        self.teardown_class()
 
     def test_get_by_title2(self):
         '''Test Wiki title with SPACE'''
@@ -65,7 +65,7 @@ class TestMWiki():
         assert ss.title == self.wiki_title
         tt = MWiki.get_by_title(self.wiki_title)
         assert tt.title == self.wiki_title.strip()
-        self.tearDown()
+        self.teardown_class()
 
     def test_upate_by_view_count(self):
         self.add_mess()
@@ -79,7 +79,7 @@ class TestMWiki():
         viewcount1 = MWiki.get_by_wiki(self.wiki_title).view_count
         assert viewcount1 >= 103
 
-        self.tearDown()
+        self.teardown_class()
 
     def test_upate(self):
         self.add_mess()
@@ -92,14 +92,14 @@ class TestMWiki():
         now = MWiki.get_by_wiki(p_d['title'])
         assert rec.uid == now.uid
         assert now.uid == self.uid
-        self.tearDown()
+        self.teardown_class()
 
     def test_get_counts(self):
         a = MWiki.get_counts()
         self.add_mess()
         b = MWiki.get_counts()
         assert a + 1 <= b
-        self.tearDown()
+        self.teardown_class()
 
     def test_query_recent_edited(self):
         self.add_mess()
@@ -109,7 +109,7 @@ class TestMWiki():
             if i.uid == self.uid:
                 tf = True
                 break
-        self.tearDown()
+        self.teardown_class()
         assert tf
 
     def test_delete(self):
@@ -135,7 +135,7 @@ class TestMWiki():
             if i.title == self.wiki_title:
                 tf = False
                 break
-        self.tearDown()
+        self.teardown_class()
         assert tf
 
     def test_get_by_uid(self):
@@ -149,7 +149,7 @@ class TestMWiki():
         assert tf
         bb = MWiki.get_by_uid(self.uid)
         assert bb.title == self.wiki_title
-        self.tearDown()
+        self.teardown_class()
 
     def test_update_cnt(self):
         self.add_mess()
@@ -162,7 +162,7 @@ class TestMWiki():
         bb = MWiki.get_by_uid(self.uid)
         assert aa.user_name != bb.user_name
         assert bb.user_name == pf['user_name']
-        self.tearDown()
+        self.teardown_class()
 
     def test_create_page(self):
         p_d = {
@@ -176,7 +176,7 @@ class TestMWiki():
         aa = MWiki.get_by_uid(self.uid)
         assert aa.title == self.wiki_title
         assert aa.kind == '2'
-        self.tearDown()
+        self.teardown_class()
 
     def test_query_dated(self):
         self.add_mess()
@@ -186,7 +186,7 @@ class TestMWiki():
             if i.uid == self.uid:
                 tf = True
                 break
-        self.tearDown()
+        self.teardown_class()
         assert tf
 
     def test_query_most(self):
@@ -197,7 +197,7 @@ class TestMWiki():
             if i.uid == self.uid:
                 tf = True
                 break
-        self.tearDown()
+        self.teardown_class()
         assert tf
 
     def test_update_view_count(self):
@@ -207,7 +207,7 @@ class TestMWiki():
             MWiki.update_view_count(self.wiki_title)
         bb = MWiki.get_by_uid(self.uid)
         assert aa.view_count + 5 <= bb.view_count
-        self.tearDown()
+        self.teardown_class()
 
     def test_update_view_count_by_uid(self):
         self.add_mess()
@@ -216,13 +216,13 @@ class TestMWiki():
             MWiki.update_view_count_by_uid(self.uid)
         bb = MWiki.get_by_uid(self.uid)
         assert aa.view_count + 5 <= bb.view_count
-        self.tearDown()
+        self.teardown_class()
 
     def test_get_by_wiki(self):
         self.add_mess()
         aa = MWiki.get_by_wiki(self.wiki_title)
         assert aa.uid == self.uid
-        self.tearDown()
+        self.teardown_class()
 
     def test_query_all(self):
         self.add_mess()
@@ -232,7 +232,7 @@ class TestMWiki():
             if i.uid == self.uid:
                 tf = True
                 break
-        self.tearDown()
+        self.teardown_class()
         assert tf
 
     def test_view_count_plus(self):
@@ -242,7 +242,7 @@ class TestMWiki():
             MWiki.view_count_plus(self.uid)
         bb = MWiki.get_by_uid(self.uid)
         assert aa.view_count + 5 <= bb.view_count
-        self.tearDown()
+        self.teardown_class()
 
     def test_query_random(self):
         self.add_mess()
@@ -252,7 +252,7 @@ class TestMWiki():
             if i.uid == self.uid:
                 tf = True
                 break
-        self.tearDown()
+        self.teardown_class()
         assert tf
 
     def test_query_recent(self):
@@ -263,7 +263,7 @@ class TestMWiki():
             if i.uid == self.uid:
                 tf = True
                 break
-        self.tearDown()
+        self.teardown_class()
         assert tf
 
     def test_total_number(self):
@@ -271,7 +271,7 @@ class TestMWiki():
         self.add_mess()
         bb = MWiki.total_number('1')
         assert aa + 1 <= bb
-        self.tearDown()
+        self.teardown_class()
 
     def test_query_pager_by_kind(self):
         self.add_mess()
@@ -285,7 +285,7 @@ class TestMWiki():
                     assert y.title == self.wiki_title
                     tf = True
                     break
-        self.tearDown()
+        self.teardown_class()
         assert tf
 
     def test_count_of_certain_kind(self):
@@ -293,8 +293,8 @@ class TestMWiki():
         self.add_mess()
         bb = MWiki.count_of_certain_kind('1')
         assert aa + 1 <= bb
-        self.tearDown()
+        self.teardown_class()
 
-    def tearDown(self):
+    def teardown_class(self):
         print("function teardown")
         MWiki.delete(self.uid)

@@ -24,7 +24,7 @@ class TestMLabel():
 
         self.tmpl_uid = tt
         assert tt == newid
-        self.tearDown()
+        self.teardown_class()
 
     def test_create_tag_with_uid(self):
         '''Wiki insert: Test invalid title'''
@@ -34,7 +34,7 @@ class TestMLabel():
         self.uu.create_tag_with_uid(self.uid, post_data['name'])
         a = self.uu.get_id_by_name(post_data['name'])
         assert a == self.uid
-        self.tearDown()
+        self.teardown_class()
 
     def add_message(self, **kwargs):
         p_d = {
@@ -65,13 +65,13 @@ class TestMLabel():
         print(a)
         print(self.uid)
         assert a == self.uid
-        self.tearDown()
+        self.teardown_class()
 
     def test_get_by_slug(self):
         self.add_message()
         a = self.uu.get_by_slug(self.uid)
         assert a.name == self.name
-        self.tearDown()
+        self.teardown_class()
 
     def test_delete(self):
         self.add_message()
@@ -81,9 +81,9 @@ class TestMLabel():
         a = self.uu.get_by_slug(self.uid)
         print(a)
         assert a == False
-        self.tearDown()
+        self.teardown_class()
 
-    def tearDown(self):
+    def teardown_class(self):
         print("function teardown")
         tt = self.uu.get_by_slug(self.tmpl_uid)
         if tt:
@@ -146,7 +146,7 @@ class TestMPost2Label():
         b = MPost2Label.query_count(self.uid)
         print(b)
         assert a + 1 <= b
-        self.tearDown()
+        self.teardown_class()
 
     def test_remove_relation(self):
         self.add_mess()
@@ -166,7 +166,7 @@ class TestMPost2Label():
             if i.tag_id == self.tag_id:
                 tf = False
         assert tf
-        self.tearDown()
+        self.teardown_class()
 
     # def test_generate_catalog_list(self):
     #     self.add_mess()
@@ -179,10 +179,10 @@ class TestMPost2Label():
     #     # a=MPost2Label.generate_catalog_list(self.post_id)
     #     # print(a)
     #     # assert a==0
-    #     self.tearDown()
+    #     self.teardown_class()
 
     def test_get_by_uid(self):
-        self.tearDown()
+        self.teardown_class()
         self.add_mess()
         a = MPost2Label.get_by_uid(self.post_id)
         print(a.count())
@@ -191,7 +191,7 @@ class TestMPost2Label():
         a = MPost2Label.get_by_uid(self.post_id)
 
         assert a[0].tag_id == self.uid
-        self.tearDown()
+        self.teardown_class()
 
     def test_get_by_info(self):
         self.add_mess()
@@ -199,7 +199,7 @@ class TestMPost2Label():
         a = MPost2Label.get_by_info(self.post_id, self.tag_id)
         assert a != None
 
-        self.tearDown()
+        self.teardown_class()
 
     def test_add_record(self):
         a = MPost2Label.get_by_uid(self.post_id)
@@ -217,7 +217,7 @@ class TestMPost2Label():
             if i.tag_id == self.tag_id:
                 tf = True
         assert tf
-        self.tearDown()
+        self.teardown_class()
 
     def test_total_number(self):
         self.add_mess()
@@ -225,7 +225,7 @@ class TestMPost2Label():
         self.add_M2L()
         b = MPost2Label.total_number(self.uid)
         assert a + 1 == b
-        self.tearDown()
+        self.teardown_class()
 
     def test_query_pager_by_slug(self):
         self.add_mess()
@@ -241,9 +241,9 @@ class TestMPost2Label():
             if i.uid == self.post_id:
                 tf = True
         assert tf
-        self.tearDown()
+        self.teardown_class()
 
-    def tearDown(self):
+    def teardown_class(self):
         print("function teardown")
 
         tt = MPost.get_by_uid(self.post_id)

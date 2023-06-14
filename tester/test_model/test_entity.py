@@ -16,7 +16,7 @@ class TestMEntity():
         kind = 'f'
         tt = MEntity.create_entity(uid, path, desc, kind)
         assert tt == True
-        self.tearDown()
+        self.teardown_class()
 
     def add_message(self):
         desc = 'create entity'
@@ -29,7 +29,7 @@ class TestMEntity():
         self.add_message()
         a = MEntity.get_by_uid(self.uid)
         assert a
-        self.tearDown()
+        self.teardown_class()
 
     def test_query_all(self):
         self.add_message()
@@ -41,7 +41,7 @@ class TestMEntity():
             if i.uid == self.uid:
                 tf = True
         assert tf
-        self.tearDown()
+        self.teardown_class()
 
     def test_get_by_kind(self):
         self.add_message()
@@ -52,7 +52,7 @@ class TestMEntity():
             if i.uid == self.uid:
                 tf = True
         assert tf
-        self.tearDown()
+        self.teardown_class()
 
     def test_get_all_pager(self):
         a = MEntity.get_all_pager()
@@ -68,14 +68,14 @@ class TestMEntity():
             if i.uid == self.uid:
                 tf = True
         assert tf
-        self.tearDown()
+        self.teardown_class()
 
     def test_get_id_by_impath(self):
         self.add_message()
         path = self.path
         a = MEntity.get_id_by_impath(path)
         assert a.uid == self.uid
-        self.tearDown()
+        self.teardown_class()
 
     def test_total_number(self):
         b = MEntity.total_number()
@@ -84,7 +84,7 @@ class TestMEntity():
         a = MEntity.total_number()
 
         assert b + 1 <= a
-        self.tearDown()
+        self.teardown_class()
 
     def test_delete_by_path(self):
         tf = MEntity.get_by_uid(self.uid)
@@ -96,7 +96,7 @@ class TestMEntity():
         tf = MEntity.get_by_uid(self.uid)
 
         assert tf == None
-        self.tearDown()
+        self.teardown_class()
 
     def test_delete(self):
         tf = MEntity.get_by_uid(self.uid)
@@ -107,9 +107,9 @@ class TestMEntity():
         tf = MEntity.get_by_uid(self.uid)
 
         assert tf == None
-        self.tearDown()
+        self.teardown_class()
 
-    def tearDown(self):
+    def teardown_class(self):
         print("function teardown")
         tt = MEntity.get_by_uid(self.uid)
         if tt:

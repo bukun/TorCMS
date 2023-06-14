@@ -211,6 +211,15 @@ def get_uu6d():
 
     return func_rand_arr(list('0123456789abcdef'), 6)
 
+def rst2html(rst_text):
+    '''
+    convert restructuredtext to html.
+    '''
+    import docutils.core
+    return docutils.core.publish_string(
+        rst_text,
+        writer_name='pseudoxml',  # 'html'
+    ).decode('utf-8')
 
 def markdown2html(markdown_text):
     '''

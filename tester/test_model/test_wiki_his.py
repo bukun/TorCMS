@@ -49,13 +49,13 @@ class TestMWikiHist():
         self.add_w_h()
         aa = MWikiHist.get_last(self.wiki_uid)
         assert aa.uid == self.uid
-        self.tearDown()
+        self.teardown_class()
 
     def test_get_by_uid(self):
         self.add_w_h()
         aa = MWikiHist.get_by_uid(self.uid)
         assert aa.user_name == self.username
-        self.tearDown()
+        self.teardown_class()
 
     def test_update_cnt(self):
         self.add_w_h()
@@ -68,7 +68,7 @@ class TestMWikiHist():
         bb = MWikiHist.get_by_uid(self.uid)
         assert aa.cnt_md != bb.cnt_md
         assert bb.cnt_md == post_data['cnt_md']
-        self.tearDown()
+        self.teardown_class()
 
     def test_query_by_wikiid(self):
         self.add_w_h()
@@ -78,21 +78,21 @@ class TestMWikiHist():
             if i.uid == self.uid:
                 tf = True
                 break
-        self.tearDown()
+        self.teardown_class()
         assert tf
 
     def test_create_wiki_history(self):
         self.add_w_h()
-        self.tearDown()
+        self.teardown_class()
 
     def test_delete(self):
         self.add_w_h()
         assert self.uid != ''
         aa = MWikiHist.delete(self.uid)
         assert aa
-        self.tearDown()
+        self.teardown_class()
 
-    def tearDown(self):
+    def teardown_class(self):
         print("function teardown")
         MUser.delete(self.user_uid)
         MWiki.delete(self.wiki_uid)

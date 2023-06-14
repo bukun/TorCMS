@@ -30,7 +30,7 @@ class TestMRating():
                 assert i.rating == float(self.rating)
                 self.uid = i.uid
                 tf = True
-        self.tearDown()
+        self.teardown_class()
         assert tf
 
     def test_query_average_rating(self):
@@ -40,7 +40,7 @@ class TestMRating():
         MRating.update(self.post_id, 'fin', 4)
         ave = MRating.query_average_rating(self.post_id)
         assert ave == 3.5
-        self.tearDown()
+        self.teardown_class()
         aa = MRating.query_by_post(self.post_id)
         for i in aa:
             if i.user_id == 'fin':
@@ -50,7 +50,7 @@ class TestMRating():
     def test_get_rating(self):
         self.add_message()
         rat = MRating.get_rating(self.post_id, self.userid)
-        self.tearDown()
+        self.teardown_class()
         assert rat == float(self.rating)
 
     def test_update(self):
@@ -62,10 +62,10 @@ class TestMRating():
                 assert i.rating == float(self.rating)
                 self.uid = i.uid
                 tf = True
-        self.tearDown()
+        self.teardown_class()
         assert tf
 
-    def tearDown(self):
+    def teardown_class(self):
         print("function teardown")
         MHelper.delete(TabRating, self.uid)
         self.uid = ''

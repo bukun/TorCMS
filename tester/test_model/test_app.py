@@ -19,21 +19,34 @@ from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
 
 
-class TestApp():
+class Test_App():
     '''
     Testing for map app.
     '''
 
-    def setup_method(self):
-        print('setup 方法执行于本类中每条用例之前')
-
+    def setup_class(self):
         self.title = '哈哈sdfsdf'
         self.uid = 'g' + tools.get_uu4d()
         self.tag_id = '2342'
 
         self.slug = 'huio'
+        print('setup 方法执行于本类中每条用例之前')
 
-    def test_insert(self):
+    def teardown_method(self):
+        print("function teardown")
+        tt = MPost.get_by_uid(self.uid)
+        if tt:
+            MPost.delete(tt.uid)
+
+        tt = MCategory.get_by_uid(self.tag_id)
+        if tt:
+            MCategory.delete(self.tag_id)
+            MPost2Catalog.remove_relation(self.uid, self.tag_id)
+        tt = MLabel.get_by_slug(self.slug)
+        if tt:
+            MLabel.delete(tt.uid)
+
+    def test_case1(self):
         uid = self.uid
         post_data = {
             'title': self.title,
@@ -180,7 +193,7 @@ class TestApp():
                 continue
         assert TF == True
         assert pp.count() == f + 1
-        self.tearDown()
+        # self.teardown_class()
 
     def test_query_recent(self):
         kwargs = {
@@ -205,7 +218,7 @@ class TestApp():
             else:
                 continue
         assert TF == True
-        self.tearDown()
+        # self.teardown_class()
 
     def test_query_all(self):
 
@@ -232,7 +245,7 @@ class TestApp():
             else:
                 continue
         assert TF == True
-        self.tearDown()
+        # self.teardown_class()
 
     def test_query_keywords_empty(self):
 
@@ -254,7 +267,7 @@ class TestApp():
             else:
                 continue
         assert TF == True
-        self.tearDown()
+        # self.teardown_class()
 
     def test_query_recent_edited(self):
 
@@ -276,7 +289,7 @@ class TestApp():
             else:
                 continue
         assert TF == True
-        self.tearDown()
+        # self.teardown_class()
 
     def test_query_dated(self):
         pp = MPost.query_dated()
@@ -284,7 +297,7 @@ class TestApp():
         # ToDo: the count ? 
 
         assert pp.count() >= 0
-        self.tearDown()
+        # self.teardown_class()
 
     def test_query_cat_recent(self):
 
@@ -305,7 +318,7 @@ class TestApp():
             else:
                 continue
         assert TF == True
-        self.tearDown()
+        # self.teardown_class()
 
     def test_query_most_pic(self):
 
@@ -327,7 +340,8 @@ class TestApp():
             else:
                 continue
         assert TF == True
-        self.tearDown()
+
+        # self.teardown_class()
 
     def test_get_all(self):
 
@@ -348,7 +362,7 @@ class TestApp():
             else:
                 continue
         assert TF == True
-        self.tearDown()
+        # self.teardown_class()
 
     # def test_modify_init(self):
     #     kwargs = {
@@ -370,7 +384,7 @@ class TestApp():
     #     pp = MPost.get_by_uid(uid)
     #     assert post_data['keywords'] == pp.keywords
     #     assert post_data['kind'] == pp.kind
-    #     self.tearDown()
+    #     self.teardown_class()
 
     # def test_get_view_count(self):
     #     kwargs = {
@@ -384,18 +398,4 @@ class TestApp():
     #
     #     pp = MPost.get_view_count(self.uid)
     #     assert pp == 1
-    #     self.tearDown()
-
-    def tearDown(self):
-        print("function teardown")
-        tt = MPost.get_by_uid(self.uid)
-        if tt:
-            MPost.delete(tt.uid)
-
-        tt = MCategory.get_by_uid(self.tag_id)
-        if tt:
-            MCategory.delete(self.tag_id)
-            MPost2Catalog.remove_relation(self.uid, self.tag_id)
-        tt = MLabel.get_by_slug(self.slug)
-        if tt:
-            MLabel.delete(tt.uid)
+    #     self.teardown_class()

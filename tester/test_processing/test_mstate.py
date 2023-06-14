@@ -119,7 +119,7 @@ class TestMstate():
             uu = self.mstate.update(rec.uid, post_data5)
             assert uu == True
 
-        self.tearDown(self.process_id)
+        self.teardown_it(self.process_id)
 
     def test_query_all(self):
         self.init_state()
@@ -130,7 +130,7 @@ class TestMstate():
 
             if i.name in ['开始', '拒绝', '完成', '取消', '正常']:
                 TF = True
-        self.tearDown(self.process_id)
+        self.teardown_it(self.process_id)
         assert TF
 
     def test_query_by_proid(self):
@@ -141,7 +141,7 @@ class TestMstate():
 
         if pp.count() == 5:
             TF = True
-        self.tearDown(self.process_id)
+        self.teardown_it(self.process_id)
         assert TF
 
     def test_get_by_name(self):
@@ -151,7 +151,7 @@ class TestMstate():
         TF = False
         if pp.state_type.startswith('cancelled'):
             TF = True
-        self.tearDown(self.process_id)
+        self.teardown_it(self.process_id)
         assert TF
 
     def test_get_by_state_type(self):
@@ -163,7 +163,7 @@ class TestMstate():
         print(pp.name)
         if pp.name == '拒绝':
             TF = True
-        self.tearDown(self.process_id)
+        self.teardown_it(self.process_id)
         assert TF
 
     def test_get_by_pro_statename(self):
@@ -173,7 +173,7 @@ class TestMstate():
 
         if pp.state_type == 'complete_' + self.process_id:
             TF = True
-        self.tearDown(self.process_id)
+        self.teardown_it(self.process_id)
         assert TF
 
     def test_update_process(self):
@@ -186,10 +186,10 @@ class TestMstate():
         state_rec = self.mstate.get_by_uid(state_id).get()
 
         assert state_rec.process_id == process_id
-        self.tearDown(self.process_id)
-        self.tearDown(process_id)
+        self.teardown_it(self.process_id)
+        self.teardown_it(process_id)
 
-    def tearDown(self, process_id=''):
+    def teardown_it(self, process_id=''):
         print("function teardown")
         if process_id:
             pass

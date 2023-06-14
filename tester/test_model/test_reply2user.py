@@ -46,7 +46,7 @@ class TestMReply2User():
         self.r2u.create_reply(self.user_uid, self.reply_uid)
         aa = self.r2u.get_voter_count(self.reply_uid)
         assert aa >= 1
-        self.tearDown()
+        self.teardown_class()
 
     #
     # def test_update(self):
@@ -61,7 +61,7 @@ class TestMReply2User():
         self.r2u.delete(self.reply_uid)
         aa = self.r2u.get_voter_count(self.reply_uid)
         assert aa == 0
-        self.tearDown()
+        self.teardown_class()
 
     def test_get_voter_count(self):
         self.add_user()
@@ -69,9 +69,9 @@ class TestMReply2User():
         self.r2u.create_reply(self.user_uid, self.reply_uid)
         aa = self.r2u.get_voter_count(self.reply_uid)
         assert aa >= 1
-        self.tearDown()
+        self.teardown_class()
 
-    def tearDown(self):
+    def teardown_class(self):
         print("function teardown")
         tt = self.user.get_by_uid(self.user_uid)
         if tt:

@@ -10,6 +10,7 @@ from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
 from torcms.model.label_model import MPost2Label
 from torcms.core.tools import get_uu4d
+from torcms.handlers.post_handler import import_post
 
 
 def update_category(uid, postdata, kwargs):
@@ -126,7 +127,8 @@ def test_meta():
             'gcat0': '3101',
             'cat_id': '3100',
         }
-        MPost.add_or_update_post(uid,post_data,extinfo=ext_dic)
-        update_category(uid, post_data, kwargsa)
-        update_label(uid, post_data)
+        import_post(uid, post_data, extinfo=ext_dic)
+        # MPost.add_or_update_post(uid,post_data,extinfo=ext_dic)
+        # update_category(uid, post_data, kwargsa)
+        # update_label(uid, post_data)
 

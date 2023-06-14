@@ -67,7 +67,7 @@ class TestMReply():
         for i in aa:
             if i.uid == self.reply_uid:
                 tf = True
-        self.tearDown()
+        self.teardown_class()
         assert tf
 
     def test_get_by_uid(self):
@@ -76,7 +76,7 @@ class TestMReply():
         assert aa.uid == self.reply_uid
         assert aa.post_id == self.post_id
         assert aa.user_name == self.username
-        self.tearDown()
+        self.teardown_class()
 
     def test_query_by_post(self):
         self.add_message()
@@ -85,7 +85,7 @@ class TestMReply():
         for i in aa:
             if i.uid == self.reply_uid:
                 tf = True
-        self.tearDown()
+        self.teardown_class()
         assert tf
 
     def test_get_by_zan(self):
@@ -93,7 +93,7 @@ class TestMReply():
         self.add_message()
         b = MReply.get_by_zan(self.reply_uid)
         assert a + 1 == b
-        self.tearDown()
+        self.teardown_class()
 
     def test_query_all(self):
         self.add_message()
@@ -102,7 +102,7 @@ class TestMReply():
         for i in aa:
             if i.uid == self.reply_uid:
                 tf = True
-        self.tearDown()
+        self.teardown_class()
         assert tf
 
     def test_count_of_certain(self):
@@ -110,14 +110,14 @@ class TestMReply():
         self.add_message()
         b = MReply.count_of_certain()
         assert a + 1 == b
-        self.tearDown()
+        self.teardown_class()
 
     def test_total_number(self):
         a = MReply.total_number()
         self.add_message()
         b = MReply.total_number()
         assert a + 1 == b
-        self.tearDown()
+        self.teardown_class()
 
     def test_query_pager(self):
         self.add_message()
@@ -126,7 +126,7 @@ class TestMReply():
         for i in aa:
             if i.uid == self.reply_uid:
                 tf = True
-        self.tearDown()
+        self.teardown_class()
         assert tf
 
     def test_update_vote(self):
@@ -138,7 +138,7 @@ class TestMReply():
             if i.uid == self.reply_uid:
                 tf = True
                 assert i.vote == 8
-        self.tearDown()
+        self.teardown_class()
         assert tf
 
     # def test_delete(self):
@@ -160,7 +160,7 @@ class TestMReply():
     #     #     if i.uid == self.reply_uid:
     #     #         TF = False
     #     # assert TF
-    #     self.tearDown()
+    #     self.teardown_class()
 
     def test_modify_by_uid(self):
         self.add_message()
@@ -179,7 +179,7 @@ class TestMReply():
         assert aa.user_name == 'pink'
         assert aa.category == '1234'
         assert aa.user_id == '8900'
-        self.tearDown()
+        self.teardown_class()
 
     def test_delete_by_uid(self):
         self.add_message()
@@ -192,9 +192,9 @@ class TestMReply():
         MReply.delete_by_uid(self.reply_uid)
         aa = MReply.get_by_uid(self.reply_uid)
         assert aa == None
-        self.tearDown()
+        self.teardown_class()
 
-    def tearDown(self):
+    def teardown_class(self):
         print("function teardown")
         MUser.delete_by_user_name(self.username)
         MPost.delete(self.post_id)

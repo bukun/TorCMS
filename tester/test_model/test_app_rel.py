@@ -82,7 +82,7 @@ class TestMRelation():
         aa = MHelper.get_by_uid(TabRel, self.uid)
         assert aa.post_f_id == self.post_id
         assert aa.post_t_id == self.post_id2
-        self.tearDown()
+        self.teardown_class()
 
     def test_update_relation(self):
         self.add_tag()
@@ -91,7 +91,7 @@ class TestMRelation():
         MRelation.update_relation(self.post_id, self.post_id2, weight=2)
         aa = MHelper.get_by_uid(TabRel, self.uid)
         assert aa.count >= 2 + 1
-        self.tearDown()
+        self.teardown_class()
 
     # def test_get_app_relations(self):
     #     self.add_tag()
@@ -103,7 +103,7 @@ class TestMRelation():
     #         print(i.post_id)
     #         if i.post_id==self.post_id2:
     #             tf=True
-    #     self.tearDown()
+    #     self.teardown_class()
     #     assert tf
 
 
@@ -116,9 +116,9 @@ class TestMRelation():
         MRelation.delete(self.uid)
         aa = MHelper.get_by_uid(TabRel, self.uid)
         assert aa == None
-        self.tearDown()
+        self.teardown_class()
 
-    def tearDown(self):
+    def teardown_method(self):
         MCategory.delete(self.tag_id)
         MPost.delete(self.post_id2)
         MPost.delete(self.post_id)

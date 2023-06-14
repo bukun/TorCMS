@@ -52,7 +52,7 @@ class TestMCatalog():
             if i.uid == self.post_id:
                 tf = True
         assert tf
-        self.tearDown()
+        self.teardown_class()
 
     def test_query_all(self):
         self.add_message()
@@ -62,9 +62,9 @@ class TestMCatalog():
             if i.slug == self.slug:
                 tf = True
         assert tf
-        self.tearDown()
+        self.teardown_class()
 
-    def tearDown(self):
+    def teardown_class(self):
         print("function teardown")
         MPost.delete(self.post_id)
         MCategory.delete(self.tag_id)

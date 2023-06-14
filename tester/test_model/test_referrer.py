@@ -35,13 +35,13 @@ class TestMReferrer():
         assert b.kind == post_data['kind']
         assert b.userip == post_data['userip']
 
-        self.tearDown()
+        self.teardown_class()
 
     def test_add_meta(self):
         self.add_message()
         b = MReferrer.get_by_userip(self.userip)
         assert b[0].uid == self.uid
-        self.tearDown()
+        self.teardown_class()
 
     def test_delete(self):
         self.add_message()
@@ -50,7 +50,7 @@ class TestMReferrer():
         MReferrer.delete(self.uid)
         b = MReferrer.get_by_userip(self.userip)
         assert b.count() == 0
-        self.tearDown()
+        self.teardown_class()
 
     def test_query_all(self):
         self.add_message()
@@ -58,21 +58,21 @@ class TestMReferrer():
         for i in b:
             if i.uid == self.uid:
                 assert i.userip == self.userip
-        self.tearDown()
+        self.teardown_class()
 
     def test_get_by_userip(self):
         self.add_message()
         b = MReferrer.get_by_userip(self.userip)
         assert b[0].uid == self.uid
-        self.tearDown()
+        self.teardown_class()
 
     def test_get_by_uid(self):
         self.add_message()
         b = MReferrer.get_by_uid(self.uid)
         assert b.userip == self.userip
-        self.tearDown()
+        self.teardown_class()
 
-    def tearDown(self):
+    def teardown_class(self):
         print("function teardown")
         MReferrer.delete(self.uid)
         self.uid = ''

@@ -49,7 +49,7 @@ class TestMEvaluation():
 
         a = MEvaluation.app_evaluation_count(self.app_id)
         assert a == b + 2
-        self.tearDown()
+        self.teardown_class()
 
     def test_get_by_signature(self):
         a = MEvaluation.get_by_signature(self.user_id, self.app_id)
@@ -57,15 +57,15 @@ class TestMEvaluation():
         self.add_message()
         a = MEvaluation.get_by_signature(self.user_id, self.app_id)
         assert a
-        self.tearDown()
+        self.teardown_class()
 
     def test_add_or_update(self):
         value = 1
         MEvaluation.add_or_update(self.user_id, self.app_id, value)
         a = MEvaluation.get_by_signature(self.user_id, self.app_id)
         assert a
-        self.tearDown()
+        self.teardown_class()
 
-    def tearDown(self):
+    def teardown_class(self):
         print("function teardown")
         MPost.delete(self.post_id)
