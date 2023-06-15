@@ -7,7 +7,7 @@
 import os
 import sys
 
-sys.path.append('..')
+sys.path.append('../..')
 from pathlib import Path
 from torcms.model.category_model import MCategory
 from torcms.model.post_model import MPost
@@ -242,6 +242,7 @@ def get_catname(ch_path, filename):
 
 
 def bainli(inws):
+
     all_recs = TabTag.select()
     recs_arr = []
     for x in all_recs:
@@ -253,6 +254,7 @@ def bainli(inws):
     print(max(recs_arr))
 
     for wroot, wdirs, wfiles in os.walk(inws):
+
         if 'doctrees' in wroot:
             continue
         idx = max_order + 1
@@ -289,6 +291,7 @@ def bainli(inws):
             try:
                 MCategory.add_or_update(cat_id, post_data)
             except Exception:
+                print('Error')
                 pass
 
             do_for_chapter(
@@ -300,5 +303,5 @@ def bainli(inws):
 
 
 if __name__ == '__main__':
-    inws = 'torcms_jubook/judocs'
+    inws = 'jupyter-book/judocs'
     bainli(inws)

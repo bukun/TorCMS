@@ -40,9 +40,9 @@ class TestFoo():
     def insert_rst(self, rst_file):
         post_data = {}
 
-        uid = '1' + get_uu4d()
+        uid = 'k' + get_uu4d()
         while MPost.get_by_uid(uid):
-            uid = '1' + get_uu4d()
+            uid = 'k' + get_uu4d()
 
         rst_info = rst2html(
             open(rst_file).read()
@@ -51,8 +51,8 @@ class TestFoo():
         post_data['title'] = rst_info['title']
         post_data['cnt_md'] = rst_info['cnt']
         post_data['user_name'] = 'admin'
-        post_data['kind'] = '1'
-        post_data['gcat0'] = '0101'
+        post_data['kind'] = 'k'
+        post_data['gcat0'] = '1101'
         post_data['valid'] = 1
 
         # kwargsa = {
