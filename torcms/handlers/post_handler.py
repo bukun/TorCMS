@@ -35,10 +35,12 @@ def import_post(uid, post_data, extinfo={}):
     '''
     Used for import data scripts.
     '''
-
-    MPost.add_or_update_post(uid, post_data, extinfo=extinfo)
-    update_category(uid, post_data)
-    update_label(uid, post_data)
+    cat_rec = MCategory.get_by_uid(post_data['gcat0'])
+    if cat_rec:
+        if post_data['kind'] == cat_rec.kind:
+            MPost.add_or_update_post(uid, post_data, extinfo=extinfo)
+            update_category(uid, post_data)
+            update_label(uid, post_data)
 
 
 def update_category(uid, post_data):

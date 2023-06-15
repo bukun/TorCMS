@@ -111,15 +111,18 @@
 {% end %}
 
 {% block right%}
+
 <div class="panel panel-info">
 	{# 47.104.179.132 #}
 	{# 47.104.222.195 #}
+
     <a href={% module jupyter_link(dc_image=postinfo.extinfo['dc_image'],dc_uid = postinfo.extinfo['dc_uid']) %}
-            target="_blank" target="_blank">
+            target="_blank">
 <img src="/static/images/jupyter-geo.jpg" class="img-thumbnail">
 <p style="text-align: center;font-weight: bold;">打开在线实验环境</p>
 </a>
 </div>
+
 {% module ext_secondary_category_list(catid = catinfo.uid,userinfo = userinfo) %}
 
 
