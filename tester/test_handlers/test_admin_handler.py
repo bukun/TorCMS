@@ -1,18 +1,32 @@
 # -*- coding:utf-8 -*-
 
 '''
-Test
+AdminHandler
 '''
+
 import sys
 
 sys.path.append('.')
-from torcms.handlers.admin_handler import AdminHandler
+
+from tornado.testing import AsyncHTTPSTestCase
+
+from application import APP
 
 
-def Test():
+class TestSomeHandler(AsyncHTTPSTestCase):
     '''
     Test
     '''
-    # assert InfoHandler({}, request="/entity/(.*)")
-    urls = [("/label/(.*)", AdminHandler, {}), ]
-    assert urls
+
+    def get_app(self):
+        '''
+        Test
+        '''
+        return APP
+
+    def test_index(self):
+        '''
+        Test index.
+        '''
+        response = self.fetch('/admin/')
+        self.assertEqual(response.code, 200)

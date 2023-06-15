@@ -559,7 +559,7 @@ class UserApi(BaseHandler):
 
         if result == 1:
             userinfo = MUser.get_by_name(u_name)
-            if u_name in ['admin', 'lihy0']:
+            if u_name == 'admin':
                 pass
             elif userinfo.extinfo.get(f'_per_{self.kind}{"assign_role"}', 0) == 1:
                 pass

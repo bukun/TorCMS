@@ -1,17 +1,30 @@
 # -*- coding:utf-8 -*-
 '''
-Test
+CategoryAjaxHandler
 '''
-from torcms.handlers.category_handler import CategoryAjaxHandler
+import sys
+
+sys.path.append('.')
+
+from tornado.testing import AsyncHTTPSTestCase
+
+from application import APP
 
 
-def test_vz():
+class TestSomeHandler(AsyncHTTPSTestCase):
     '''
     Test
     '''
-    urls = [
-        ("/label/(.*)", CategoryAjaxHandler, {}),
 
-    ]
+    def get_app(self):
+        '''
+        Test
+        '''
+        return APP
 
-    assert urls
+    def test_index(self):
+        '''
+        Test index.
+        '''
+        response = self.fetch('/category_ajax/')
+        self.assertEqual(response.code, 200)
