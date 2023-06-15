@@ -215,11 +215,21 @@ def rst2html(rst_text):
     '''
     convert restructuredtext to html.
     '''
+    from bs4 import BeautifulSoup
+    # 创建beautifulsoup解析对象
     import docutils.core
-    return docutils.core.publish_string(
+    html_doc =  docutils.core.publish_string(
         rst_text,
-        writer_name='pseudoxml',  # 'html'
+        writer_name='html',  # 'html' # pseudoxml
     ).decode('utf-8')
+
+
+    soup = BeautifulSoup(html_doc, 'html.parser')
+    out_dict = {
+        'title': soup.title.text,
+        'cnt': soup.find("div",class_="document").text
+    }
+    return out_dict
 
 def markdown2html(markdown_text):
     '''

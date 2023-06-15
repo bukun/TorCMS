@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 from torcms.core import tools
+from pprint import  pprint
 from pathlib import Path
 from torcms.model.post_model import MPost
 from torcms.model.process_model import MProcess, MState, MTransition, MRequest, MAction, MRequestAction, \
@@ -61,15 +62,19 @@ class TestFoo():
         uid = '1' + get_uu4d()
         while MPost.get_by_uid(uid):
             uid = '1' + get_uu4d()
-
-        post_data['valid'] = 0
-        post_data['title'] = self.fake.company_prefix()
-        post_data['cnt_md'] = rst2html(
+        rst_info = rst2html(
             open(self.rst_file).read()
         )
+        print(rst_info)
+        post_data['valid'] = 0
+        post_data['title'] = rst_info['title']
+        # post_data['cnt_md'] = self.fake.text() # rst_info['cnt']
+        post_data['cnt_md'] = rst_info['cnt']
+
         post_data['user_name'] = 'admin'
         post_data['kind'] = '1'
         post_data['gcat0'] = '0101'
+        post_data['valid'] = 1
 
         ext_dic['def_uid'] = uid
         ext_dic['gcat0'] = '0101'
@@ -79,6 +84,7 @@ class TestFoo():
         #     'gcat0': '0101',
         #     'cat_id': '0101',
         # }
+        pprint(post_data)
         assert not MPost.get_by_uid(uid)
         import_post(uid, post_data, ext_dic)
         assert MPost.get_by_uid(uid)
