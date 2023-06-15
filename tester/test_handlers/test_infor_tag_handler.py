@@ -1,11 +1,31 @@
 # # -*- coding:utf-8 -*-
-#
-from torcms.handlers.label_handler import LabelHandler
+
+'''
+LabelHandler
+'''
+import sys
+
+sys.path.append('.')
+
+from tornado.testing import AsyncHTTPSTestCase
+
+from application import APP
 
 
-def Test():
-    urls = [
-        ("/label/(.*)", LabelHandler, {}),
-    ]
+class TestSomeHandler(AsyncHTTPSTestCase):
+    '''
+    Test
+    '''
 
-    assert urls
+    def get_app(self):
+        '''
+        Test
+        '''
+        return APP
+
+    def test_lable(self):
+        '''
+        Test publish.
+        '''
+        response = self.fetch('/label/')
+        self.assertEqual(response.code, 200)

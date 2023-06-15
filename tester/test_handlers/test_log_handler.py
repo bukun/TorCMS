@@ -1,17 +1,38 @@
 # -*- coding:utf-8 -*-
 
 '''
-Test
+LogHandler
 '''
 
-from torcms.handlers.log_handler import LogHandler, LogPartialHandler
+import sys
+
+sys.path.append('.')
+
+from tornado.testing import AsyncHTTPSTestCase
+
+from application import APP
 
 
-def Test():
+class TestSomeHandler(AsyncHTTPSTestCase):
     '''
     Test
     '''
-    urls = [
-        ("/label/(.*)", LogHandler, {}),
-        ("/label/(.*)", LogPartialHandler, {}), ]
-    assert urls
+
+    def get_app(self):
+        '''
+        Test
+        '''
+        return APP
+
+    def test_log(self):
+        '''
+        Test index.
+        '''
+        response = self.fetch('/log/')
+        self.assertEqual(response.code, 200)
+    def test_log_j(self):
+        '''
+        Test index.
+        '''
+        response = self.fetch('/log_j/')
+        self.assertEqual(response.code, 200)

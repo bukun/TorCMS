@@ -1,18 +1,31 @@
 # -*- coding:utf-8 -*-
 
 '''
-Test
+ListHandler
 '''
-from torcms.handlers.list_handler import ListHandler, MCategory
+import sys
+
+sys.path.append('.')
+
+from tornado.testing import AsyncHTTPSTestCase
+
+from application import APP
 
 
-def Test():
+class TestSomeHandler(AsyncHTTPSTestCase):
     '''
     Test
     '''
-    urls = [
-        ("/label/(.*)", ListHandler, {}),
-        ("/label/(.*)", MCategory, {}),
-    ]
 
-    assert urls
+    def get_app(self):
+        '''
+        Test
+        '''
+        return APP
+
+    def test_list(self):
+        '''
+        Test index.
+        '''
+        response = self.fetch('/list/')
+        self.assertEqual(response.code, 200)

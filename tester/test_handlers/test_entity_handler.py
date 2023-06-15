@@ -30,3 +30,15 @@ class TestSomeHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/entity/')
         self.assertEqual(response.code, 200)
+    def test_to_add(self):
+        '''
+        Test add.
+        '''
+        response = self.fetch('/entity/_add')
+        self.assertEqual(response.code, 200)
+    def test_to_list(self):
+        '''
+        Test list.
+        '''
+        response = self.fetch('/entity/list')
+        self.assertEqual(response.code, 200)

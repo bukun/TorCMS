@@ -1,13 +1,37 @@
 # -*- coding:utf-8 -*-
 
 '''
-Test
+LinkHandler LinkPartialHandler
 '''
-from torcms.handlers.link_handler import LinkHandler
+import sys
+
+sys.path.append('.')
+
+from tornado.testing import AsyncHTTPSTestCase
+
+from application import APP
 
 
-def test_ab():
+class TestSomeHandler(AsyncHTTPSTestCase):
     '''
     Test
     '''
-    assert LinkHandler
+
+    def get_app(self):
+        '''
+        Test
+        '''
+        return APP
+
+    def test_link(self):
+        '''
+        Test index.
+        '''
+        response = self.fetch('/link/')
+        self.assertEqual(response.code, 200)
+    def test_link_j(self):
+        '''
+        Test index.
+        '''
+        response = self.fetch('/link_j/')
+        self.assertEqual(response.code, 200)

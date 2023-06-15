@@ -1,15 +1,31 @@
 # -*- coding:utf-8 -*-
 '''
-Test
+PublishHandler
 '''
-from torcms.handlers.publish_handler import PublishHandler
+
+import sys
+
+sys.path.append('.')
+
+from tornado.testing import AsyncHTTPSTestCase
+
+from application import APP
 
 
-def Test():
+class TestSomeHandler(AsyncHTTPSTestCase):
     '''
     Test
     '''
-    # assert InfoHandler({}, request="/entity/(.*)")
-    urls = [
-        ("/label/(.*)", PublishHandler, {}), ]
-    assert urls
+
+    def get_app(self):
+        '''
+        Test
+        '''
+        return APP
+
+    def test_index(self):
+        '''
+        Test publish.
+        '''
+        response = self.fetch('/publish/')
+        self.assertEqual(response.code, 200)

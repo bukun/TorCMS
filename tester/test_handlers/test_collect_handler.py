@@ -29,3 +29,16 @@ class TestSomeHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/collect/')
         self.assertEqual(response.code, 200)
+
+    def test_collect_list(self):
+        '''
+        Test list.
+        '''
+        response = self.fetch('/collect/list')
+        self.assertEqual(response.code, 200)
+    def test_collect_remove(self):
+        '''
+        Test remove.
+        '''
+        response = self.fetch('/collect/remove')
+        self.assertEqual(response.code, 200)

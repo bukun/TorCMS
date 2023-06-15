@@ -26,5 +26,18 @@ class TestSomeHandler(AsyncHTTPSTestCase):
         '''
         Test index.
         '''
-        response = self.fetch('/category_ajax/')
+        response = self.fetch('/category_j/')
+        self.assertEqual(response.code, 200)
+
+    def test_to_add(self):
+        '''
+        Test add.
+        '''
+        response = self.fetch('/category_j/_add')
+        self.assertEqual(response.code, 200)
+    def test_to_list(self):
+        '''
+        Test list.
+        '''
+        response = self.fetch('/category_j/list')
         self.assertEqual(response.code, 200)
