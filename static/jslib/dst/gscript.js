@@ -278,7 +278,7 @@ $("#sub_reset").click(function () {
             var cmap_coor, div_str, link_str;
             return currentZoom = map.getZoom(), cmap_coor = map.getCenter(), currentX = cmap_coor.lng.toFixed(3).toString(), currentY = cmap_coor.lat.toFixed(3).toString(), link_str = "http://drr.ikcest.org/map/m" + map_uid + "?zoom=" + currentZoom + "&lat=" + cmap_coor.lat.toFixed(4) + "&lon=" + cmap_coor.lng.toFixed(4), "" !== geojsonid && (link_str = link_str + "&geojson=" + geojsonid), div_str = '{"i" : "' + map_uid + '", "x" : ' + cmap_coor.lng.toFixed(3).toString() + ', "y": ' + cmap_coor.lat.toFixed(3).toString() + ', "v":' + currentZoom.toString() + ', "m": ' + vzoom_max + ', "n": ' + vzoom_min + ', "g": "' + geojsonid + '", "k": 0}', map_add_log(div_str,mapson), div_str = '&lt;div id="map" data-map = \'' + div_str + "'&gt;&lt;/div&gt;", $("#current_view_url").css("color", ""), $("#current_view_url").html(link_str), $("#mapref").html(div_str), $("#current_view_url").attr("href", link_str)
         }, popup = L.popup(), cities = new L.LayerGroup, new L.FeatureGroup, nexrad = L.tileLayer.wms("https://tile.osgeo.cn/service?", {
-            layers: "maplet_" + map_uid,
+            layers: "mp" + map_uid,
             format: "image/png",
             transparent: !0,
             attribution: 'Map &copy; <a href="http://drr.ikcest.org/map/m' + map_uid + '">DRRKS</a>'

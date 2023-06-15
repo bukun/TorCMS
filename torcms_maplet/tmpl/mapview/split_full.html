@@ -76,7 +76,7 @@
 
 
         m1 = L.tileLayer.wms("https://tile.osgeo.cn/service?", {
-            layers: "maplet_" + app_arr[0].substring(1),
+            layers: "mp" + app_arr[0].substring(1),
             format: "image/png",
             transparent: !0,
             attribution: "Maplet"
@@ -84,7 +84,7 @@
 
 
         m2 = L.tileLayer.wms("https://tile.osgeo.cn/service?", {
-            layers: "maplet_" + app_arr[1].substring(1),
+            layers: "mp" + app_arr[1].substring(1),
             format: "image/png",
             transparent: !0,
             attribution: "Maplet"

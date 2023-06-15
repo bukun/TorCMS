@@ -87,7 +87,7 @@ $(document).ready ->
   drawnItems = new L.FeatureGroup()
   # wcs = "121.42.29.253"
   nexrad = L.tileLayer.wms("https://tile.osgeo.cn/service?",
-    layers: "maplet_" + map_uid
+    layers: "mp" + map_uid
     format: "image/png"
     transparent: true
     attribution: "Maplet"

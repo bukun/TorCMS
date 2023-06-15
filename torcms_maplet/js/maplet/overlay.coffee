@@ -8,7 +8,7 @@ $(document).ready ->
 
   while jj < app_arr.length
     mycars[jj] = L.tileLayer.wms("https://tile.osgeo.cn/service?",
-      layers: "maplet_" + app_arr[jj].substring(1)
+      layers: "mp" + app_arr[jj].substring(1)
       format: "image/png"
       transparent: true
       attribution: "Maplet"

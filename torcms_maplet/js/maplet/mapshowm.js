@@ -135,7 +135,7 @@
             cities = new L.LayerGroup;
             drawnItems = new L.FeatureGroup;
             nexrad = L.tileLayer.wms("https://tile.osgeo.cn/service?", {
-                layers: "maplet_" + map_uid,
+                layers: "mp" + map_uid,
                 format: "image/png",
                 transparent: true,
                 attribution: 'Map &copy; <a href="http://www.osgeo.cn/map/m' + map_uid + '">OSGeo China</a>'

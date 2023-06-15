@@ -40,7 +40,7 @@
             var hdata, nexrad2;
             hdata = $("#maplet_id").val();
             nexrad2 = L.tileLayer.wms("https://tile.osgeo.cn/service?", {
-                layers: "maplet_" + hdata,
+                layers: "mp" + hdata,
                 format: "image/png",
                 transparent: true,
                 attribution: "Maplet2"

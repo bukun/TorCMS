@@ -70,7 +70,7 @@
         cities = new L.LayerGroup;
         drawnItems = new L.FeatureGroup;
         nexrad = L.tileLayer.wms("https://tile.osgeo.cn/service?", {
-            layers: "maplet_" + map_uid,
+            layers: "mp" + map_uid,
             format: "image/png",
             transparent: true,
             attribution: "Maplet"
