@@ -1,16 +1,32 @@
 # -*- coding:utf-8 -*-
 
 '''
-Test
+EntityHandler
 '''
-from torcms.handlers.entity_handler import EntityHandler
+
+import sys
+
+sys.path.append('.')
+
+from tornado.testing import AsyncHTTPSTestCase
+
+from application import APP
 
 
-def Test():
+class TestSomeHandler(AsyncHTTPSTestCase):
     '''
     Test
     '''
-    # assert InfoHandler({}, request="/entity/(.*)")
-    urls = [
-        ("/label/(.*)", EntityHandler, {}), ]
-    assert urls
+
+    def get_app(self):
+        '''
+        Test
+        '''
+        return APP
+
+    def test_index(self):
+        '''
+        Test index.
+        '''
+        response = self.fetch('/entity/')
+        self.assertEqual(response.code, 200)

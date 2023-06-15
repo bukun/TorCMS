@@ -1,16 +1,31 @@
 # -*- coding:utf-8 -*-
 
 '''
-Test
+CollectHandler
 '''
-from torcms.handlers.collect_handler import CollectHandler
+import sys
+
+sys.path.append('.')
+
+from tornado.testing import AsyncHTTPSTestCase
+
+from application import APP
 
 
-def Test():
+class TestSomeHandler(AsyncHTTPSTestCase):
     '''
     Test
     '''
-    # assert InfoHandler({}, request="/entity/(.*)")
-    urls = [
-        ("/label/(.*)", CollectHandler, {}), ]
-    assert urls
+
+    def get_app(self):
+        '''
+        Test
+        '''
+        return APP
+
+    def test_index(self):
+        '''
+        Test index.
+        '''
+        response = self.fetch('/collect/')
+        self.assertEqual(response.code, 200)

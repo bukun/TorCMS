@@ -1,15 +1,33 @@
 # -*- coding:utf-8 -*-
 '''
-Test
+EvaluationHandler
 '''
-from torcms.handlers.evaluation_handler import EvaluationHandler
 
 
-def Test():
+import sys
+
+sys.path.append('.')
+
+from tornado.testing import AsyncHTTPSTestCase
+
+from application import APP
+
+
+class TestSomeHandler(AsyncHTTPSTestCase):
     '''
     Test
     '''
-    # assert InfoHandler({}, request="/entity/(.*)")
-    urls = [
-        ("/label/(.*)", EvaluationHandler, {}), ]
-    assert urls
+
+    def get_app(self):
+        '''
+        Test
+        '''
+        return APP
+
+    def test_index(self):
+        '''
+        Test index.
+        '''
+        response = self.fetch('/evaluate/')
+        self.assertEqual(response.code, 200)
+
