@@ -1,4 +1,4 @@
-{% extends "../theme/bage.html" %}
+{% extends "../theme/bage_add_edit.html" %}
 {% block head %}
 <title>{{ postinfo.title }}- {{ _('Modify') }}</title>
 <meta name="description" content="{{ postinfo.title }},">
@@ -7,7 +7,7 @@
 {% module use_f2e('codemirror') %}
 
 {% end %}
-{% block mainbody %}
+{% block typebody %}
 <div class="mtop">
     <ul class="breadcrumb">
         <li><a href="/" title="Home">{{ _('Home') }}</a></li>
@@ -15,7 +15,7 @@
         <li class="active">{{ _('Modify') }} - {{ postinfo.title }}</li>
     </ul>
 </div>
-<div class="panel panel-default">
+<div class="panel panel-black">
     <div class="panel-heading"><h1 class="htitle"> {{ postinfo.title }} </h1></div>
     <div class="panel-body">
                 <legend>{{ _('Core Metadata fields') }}</legend>

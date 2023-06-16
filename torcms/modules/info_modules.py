@@ -487,7 +487,7 @@ class InfoRightNav(tornado.web.UIModule):
     def render(self, *args, **kwargs):
         content = args[0]
         con_arr = []
-        Soup = bs4.BeautifulSoup(content, features="lxml")
+        Soup = bs4.BeautifulSoup(content, features="html.parser")
         # for text in Soup.find_all(["h2", "h3"]):
         for text in Soup.find_all(["h2"]):
 

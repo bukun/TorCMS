@@ -1,4 +1,4 @@
-{% extends "../theme/base_view.html" %}
+{% extends "../theme/bage.html" %}
 {% block head %}
 <title>{{ postinfo.title }} - {% module site_title() %}</title>
 <meta name="keywords" content="{{ postinfo.title }} - {% module site_title() %}">
@@ -6,62 +6,67 @@
 
 
 {% end %}
-{% block zhuti %}
+{% block typebody %}
 <script>
     var post_uid = "{{ postinfo.uid }}";
     var login = {{ kwd['login'] }};
 </script>
-<ol class="breadcrumb">
-    <li><a href="/">{{ _('Home') }}</a></li>
-    <li><a href="/tutorial/">{{ _('Tutorials') }}</a></li>
+<div class="row">
+    <div class="col-sm-9">
+        <ol class="breadcrumb">
+            <li><a href="/">{{ _('Home') }}</a></li>
+            <li><a href="/tutorial/">{{ _('Tutorials') }}</a></li>
 
-    <li> {% module category_name(pcatinfo) %}</li>
-    <li>{% module the_category(postinfo.uid) %}</li>
-    <li class="active">{{ _('Text') }}</li>
-</ol>
-<div class="panel panel-black">
-    <div class="panel-heading">
-        <h2>{{ postinfo.title }}</h2>
+            <li> {% module category_name(pcatinfo) %}</li>
+            <li>{% module the_category(postinfo.uid) %}</li>
+            <li class="active">{{ _('Text') }}</li>
+        </ol>
+        <div class="panel panel-black">
+            <div class="panel-heading">
+                <h2>{{ postinfo.title }}</h2>
 
-        <br>
-         <div class="btspan">
-        <span>{{_('Release date')}}：{{ datetime.datetime.fromtimestamp(postinfo.time_create).strftime('%Y-%m-%d')  }}</span>
-        <span>{{_('Update date') }}：{{ datetime.datetime.fromtimestamp(postinfo.time_update).strftime('%Y-%m-%d')  }}</span>
-        <span>{{ _('Editor') }}：{{ postinfo.user_name }}</span>
-        <span>{{ _('View counts') }}：{% raw postinfo.view_count %} </span>
-         </div>
-            <br>
+                <br>
+                <div class="btspan">
+                    <span>{{ _('Release date') }}：{{ datetime.datetime.fromtimestamp(postinfo.time_create).strftime('%Y-%m-%d') }}</span>
+                    <span>{{ _('Update date') }}：{{ datetime.datetime.fromtimestamp(postinfo.time_update).strftime('%Y-%m-%d') }}</span>
+                    <span>{{ _('Editor') }}：{{ postinfo.user_name }}</span>
+                    <span>{{ _('View counts') }}：{% raw postinfo.view_count %} </span>
+                </div>
+                <br>
 
-             {{ _('Label') }}：{% module post_labels(post_uid = postinfo.uid) %}
-
-
-        <div class="pull-right">
-        {% if userinfo %}
-        {% module collect(userinfo.uid, postinfo.uid) %}
-        {% end %}
-        {% module widget_editor('tutorial', postinfo.uid, userinfo) %}
-        </div>
+                {{ _('Label') }}：{% module post_labels(post_uid = postinfo.uid) %}
 
 
-    </div>
-    <div class="panel-body">
-        <div class="entry">
+                <div class="pull-right">
+                    {% if userinfo %}
+                    {% module collect(userinfo.uid, postinfo.uid) %}
+                    {% end %}
+                    {% module widget_editor('tutorial', postinfo.uid, userinfo) %}
+                </div>
 
 
-            <div class="entrycontent">
-                {% raw unescape(postinfo.cnt_html) %}
             </div>
+            <div class="panel-body">
+                <div class="entry">
+
+
+                    <div class="entrycontent">
+                        {% raw unescape(postinfo.cnt_html) %}
+                    </div>
+                </div>
+
+            </div>
+
         </div>
+    </div>
+    <div class="col-sm-3">
+        {% module secondary_category_list(catid = catinfo.uid,userinfo = userinfo,post_uid=postinfo.uid) %}
+        {% module info_right_nav(unescape(postinfo.cnt_html)) %}
 
     </div>
-
 </div>
 
-{% end %}
-
-{% block right%}
-
-{% module secondary_category_list(catid = catinfo.uid,userinfo = userinfo,post_uid=postinfo.uid) %}
-{#{% module right_nav(unescape(postinfo.cnt_html))%}#}
 
 {% end %}
+
+

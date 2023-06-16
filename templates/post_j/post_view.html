@@ -4,7 +4,7 @@
 <meta name="description" content="{% module generate_abstract(postinfo.cnt_html) %},{{ postinfo.title }}">
 <meta name="keywords" content="{% for x in tag_info %} {{ _(x.tag_name) }} {% end %},{{ postinfo.title }}">
 {% end %}
-{% block mainbody %}
+{% block typebody %}
 <div class="mtop">
     <ul class="breadcrumb">
         <li><a href="/" title="Home">{{ _('Home') }}</a></li>
@@ -23,8 +23,8 @@
             var login = {{ kwd['login'] }};
         </script>
 
-        <div class="panel panel-default">
-            <div class="panel-heading"><h1 class="news-title"> {{ postinfo.title }}</h1>
+        <div class="panel panel-black">
+            <div class="panel-heading"><h2>{{ postinfo.title }}</h2>
                 <div class="row">
                     <div class="col-sm-12">
                         {{ datetime.datetime.fromtimestamp(postinfo.time_update).strftime('%Y-%m-%d') }}&nbsp;
@@ -76,24 +76,24 @@
 
             <a href="{% module jupyter_link(dc_image=postinfo.extinfo['ext_dc_image'],dc_uid = postinfo.extinfo['ext_dc_uid']) %}"
                target="_blank">
-                <img src="/static/imgs/jupyter-geo.jpg" class="img-thumbnail">
+                <img src="/static/tass/img/jupyter-geo.jpg" class="img-thumbnail">
                 <p style="text-align: center;font-weight: bold;">{{ _('Open the online experimental environment') }}</p>
             </a>
         </div>
         {% end %}
         {% if postinfo.extinfo.get('ext_wx_dolink') %}
-        <a href="{{ postinfo.extinfo.get('ext_wx_dolink','/') }}" class="btn btn-primary">
-            <span class="glyphicon glyphicon-download-alt"></span>
-            {{ _('Download  JUPYTER document') }}
-        </a>
-        <br><br>
-         {% end %}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                {{ _('Scientific - Model') }}
-            </div>
+        <div class="panel panel-info">
+            <a href="{{ postinfo.extinfo.get('ext_wx_dolink','/') }}" class="btn btn-primary">
+                <span class="glyphicon glyphicon-download-alt"></span>
+                {{ _('Download  JUPYTER document') }}
+            </a>
+            <br><br>
+        </div>
+        {% end %}
+
+
         {% module secondary_category_list(catid = catinfo.uid,userinfo = userinfo,post_uid = postinfo.uid) %}
-</div>
+
         {% module info_right_nav(unescape(postinfo.cnt_html)) %}
 
     </div>

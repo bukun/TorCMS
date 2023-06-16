@@ -1,4 +1,4 @@
-{% extends "../theme/bage.html" %}
+{% extends "../theme/bage_add_edit.html" %}
 {% block head %}
 <title>{{ _('Add Scientific - Model') }}- </title>
 <meta name="description"
@@ -6,7 +6,7 @@
 <meta name="keywords" content="{{ _('Add Scientific - Model') }},">
 {% module use_f2e('codemirror') %}
 {% end %}
-{% block mainbody %}
+{% block typebody %}
 <div class="mtop">
     <ul class="breadcrumb">
         <li><a href="/" title="Home">{{ _('Home') }}</a></li>
@@ -14,7 +14,7 @@
         <li class="active">{{ _('Add Scientific - Model') }}</li>
     </ul>
 </div>
-<div class="panel panel-default">
+<div class="panel panel-black">
     <div class="panel-heading"><h1 class="htitle"> {{ _('Add Scientific - Model') }} </h1></div>
     <div class="panel-body">
 
