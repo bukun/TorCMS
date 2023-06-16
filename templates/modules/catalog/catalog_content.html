@@ -1,0 +1,28 @@
+{% set uu = 1 %}
+
+{% if str(kwd['cat_id'])[2:]=='00' %}
+
+{% for cat in kwd['cats'] %}
+
+{% module tutorial_catalog(cat.uid,order=True) %}
+
+{% end %}
+
+{% else %}
+
+<ul id="sortable" >
+    {% for x in recs %}
+    <li id={{ x.uid }}>
+        {% if kwd['userinfo'] and kwd['userinfo'].role[1] < '0' %}
+        <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+        {% end %}
+
+        <a href="/tutorial/{{ x.uid }}" title="{{ _(x.title) }}">
+            {{ x.title }}
+        </a>
+    </li>
+    {% set uu = uu + 1 %}
+    {% end %}
+
+</ul>
+{% end %}

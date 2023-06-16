@@ -4,7 +4,7 @@ Define the widget modules for TorCMS.
 '''
 import tornado.escape
 import tornado.web
-
+import random
 import config
 from torcms.model.category_model import MCategory
 from torcms.model.rating_model import MRating
@@ -409,3 +409,20 @@ class Check_username_pager(tornado.web.UIModule):
             state=state,
             username=username,
         )
+
+
+class Jupyter_link(tornado.web.UIModule):
+    '''
+    jupyter link
+    '''
+
+    def render(self, *args, **kwargs):
+        mach_dict = {
+            'a8': '47.104.10.246',
+        }
+
+        the_key = random.choice(list(mach_dict))
+        dc_image = kwargs.get('dc_image', '')
+        dc_uid = kwargs.get('dc_uid', '')
+        outstr = f"http://{mach_dict[the_key]}:6628/t/{dc_image}/{dc_uid}/{the_key}"
+        return outstr

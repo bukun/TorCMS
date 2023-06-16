@@ -101,8 +101,12 @@ class MCategory:
         )
 
     @staticmethod
-    def query_sub_cat(pid):
-        return TabTag.select().where(TabTag.pid == pid).order_by(TabTag.order)
+    def query_sub_cat(pid, order_uid=False):
+        if order_uid:
+            sort_order = TabTag.uid
+        else:
+            sort_order = TabTag.order
+        return TabTag.select().where(TabTag.pid == pid).order_by(sort_order)
 
     @staticmethod
     def query_pcat(**kwargs):

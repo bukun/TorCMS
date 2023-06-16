@@ -1,22 +1,14 @@
-{% extends "../theme/base.html" %}
-{% block head %}
-<title>{{ postinfo.title }}-修改   </title>
-<meta name="keywords" content="{{ postinfo.title }},GIS,地理信息系统,开源GIS,OSGeo,OpenLayers,MapServer,GDAL,GIS教程,WebGIS">
-<meta name="description" content="{{ postinfo.title }},关注开源GIS，开放数据">
-{% end %}
-{% block mainbody %}
-<div class="container mainbh">
-<h1 class="hden">{{postinfo.title}}</h1>
-<div class="mtop">
-    <ul class="breadcrumb">
-        <li>Current location: <a href="/" title="Home">Home</a></li>
-        <li><a href="/tutorial/" title="Tutorial">Tutorial</a></li>
-        <li class="active">Modify - {{ postinfo.title }}</li>
-    </ul>
-</div>
+{% extends "../theme/base_edit.html" %}
+{% block edit %}
+
+<ol class="breadcrumb">
+    <li><a href="/">{{ _('Home') }}</a></li>
+    <li><a href="/tutorial/">{{ _('Tutorials') }}</a></li>
+    <li class="active">{{ _('Modify') }} - {{ postinfo.title }}</li>
+</ol>
 <div class="panel panel-black">
     <div class="panel-heading">
-        Modify - {{ postinfo.title }}
+        {{ _('Modify') }} - {{ postinfo.title }}
     </div>
     <div class="panel-body">
         <form method="post" class="form-horizontal" role="form" id="form_post">
@@ -25,7 +17,7 @@
                 <input type=hidden id="keywords" name="keywords">
 
                 <div class="form-group">
-                    <label for="title" class="col-sm-2 control-label">Title</label>
+                    <label for="title" class="col-sm-2 control-label">{{ _('title') }}</label>
 
                     <div class="col-sm-10">
                         <input type="text" id="title" name="title" value="{{ postinfo.title }}"
@@ -33,7 +25,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="tags">Label</label>
+                    <label class="col-sm-2 control-label" for="tags">{{ _('label') }}</label>
 
                     <div class="col-sm-10">
                         <input class="form-control" id="tags" name="tags" type="text"
@@ -45,7 +37,7 @@
                 {% for ii in range(0,5) %}
                 <div class="form-group">
                     {% if ii == 0 %}
-                    <label class="col-sm-2 control-label" for="pcat0">Category</label>
+                    <label class="col-sm-2 control-label" for="pcat0">{{ _('Category') }}</label>
                     {% else %}
                     <label class="col-sm-2 control-label"></label>
                     {% end %}
@@ -104,20 +96,19 @@
 
 
                 <div class="form-group">
-                    <label for="logo" class="col-sm-2 control-label">Picture</label>
+                    <label for="logo" class="col-sm-2 control-label">{{ _('picture') }}</label>
 
                     <div class="col-sm-10">
-                        <input id="logo" name="logo" type="text" value="{{ postinfo.logo }}"  class="form-control" readonly />
+                        <input id="logo" name="logo" type="text" value="{{ postinfo.logo }}" class="form-control"
+                               readonly/>
                         <br>
-                        <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" title="{{ _('Upload picture') }}">{{ _('Upload picture') }}</a>
+                        <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">上传图片</a>
                     </div>
                 </div>
 
 
-
-
                 <div class="form-group">
-                    <label for="cnt_md" class="col-sm-2 control-label">Content</label>
+                    <label for="cnt_md" class="col-sm-2 control-label">{{ _('Content') }}</label>
 
                     <div class="col-sm-10">
             <textarea rows=26 id="cnt_md" name="cnt_md" cols="80" class="form-control">
@@ -125,29 +116,28 @@
             </textarea>
                     </div>
                 </div>
-               <div class="form-group">
-                    <label class="col-sm-2 control-label" for="valid">{{ _('Is available') }}</label>
-
-                    <div class="col-sm-10">
-                        <select name="valid" id="valid" class="form-control">
-                            <option value="1" {% if postinfo.valid == 1 %} selected {% end %} >{{ _('yes') }}</option>
-                            <option value="0" {% if postinfo.valid == 0 %} selected {% end %} >{{ _('no') }}</option>
-                        </select>
-                    </div>
-                </div>
                 <div class="form-group">
                     <label for="sub1" class="col-sm-2 control-label"></label>
 
                     <div class="col-sm-10">
-                        <input id="sub1" type="submit" class="btn btn-primary" value="Submit"/>
+                        <input id="sub1" type="submit" class="btn btn-primary" value="{{ _('submit') }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="memo">{{ _('Memo') }}</label>
+
+                    <div class="col-sm-10">
+                        <textarea class="form-control" rows=10 id="memo" name="memo"
+                                  {% if userinfo and userinfo.role[1] <= '2' %} readonly {% end %} >
+                        {% raw unescape(postinfo.memo) %}
+                        </textarea>
                     </div>
                 </div>
             </fieldset>
         </form>
-          {% module upload_pic() %}
+        {% module upload_pic() %}
     </div>
 </div>
-    </div>
 {% end %}
 
 

@@ -1,0 +1,148 @@
+{% extends "../theme/bage.html" %}
+{% block head %}
+<title>{{ _('Add Scientific - Model') }}- </title>
+<meta name="description"
+      content="{{ _('Add Scientific - Model') }},">
+<meta name="keywords" content="{{ _('Add Scientific - Model') }},">
+{% module use_f2e('codemirror') %}
+{% end %}
+{% block mainbody %}
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li><a href="/" title="Home">{{ _('Home') }}</a></li>
+        <li><a href="/jupyter/" title="Scientific - Model">{{ _('Scientific - Model') }}</a></li>
+        <li class="active">{{ _('Add Scientific - Model') }}</li>
+    </ul>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading"><h1 class="htitle"> {{ _('Add Scientific - Model') }} </h1></div>
+    <div class="panel-body">
+
+        <legend>{{ _('Core Metadata fields') }}</legend>
+        <div class="panel-group" id="accordion">
+
+            <btn data-toggle="collapse" data-parent="#accordion" id="col_btn"
+                 href="#collapseOne" class="btn btn-primary">
+                {{ _('Fill in the core fields using ipynb file') }}
+            </btn>
+
+            <div id="collapseOne" class="panel-collapse collapse">
+
+
+                {% module upload_jupyter(kwd['uid'],'jupyter') %}
+
+            </div>
+
+        </div>
+
+
+        <form action="" method="post" class="form-horizontal" role="form" id="form_post">
+            <input type="hidden" id="keywords" name="keywords">
+           <input type=hidden name=uid value="{{ kwd['uid'] }}">
+
+            <input type="hidden" id="ext_wx_vecode" name="ext_wx_vecode">
+            <input type="hidden" id="ext_wx_dolink" name="ext_wx_dolink">
+            <input type="hidden" id="ext_dc_uid" name="ext_dc_uid">
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="title">{{ _('Title') }}</label>
+
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" id="title" name="title">
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                <label for="ext_dc_image" class="col-sm-2 control-label">{{ _('容器镜像ID') }}</label>
+
+                <div class="col-sm-10">
+                    <select name="ext_dc_image" id="ext_dc_image" class="form-control">
+                        <option value="scipy">python 基础</option>
+                        <option value="2">python 绘图</option>
+                        <option value="3">R语言</option>
+
+
+                    </select>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="tags">{{ _('Label') }}</label>
+
+                <div class="col-sm-10">
+                    <input class="form-control" id="tags" name="tags" type="text"/>
+                </div>
+            </div>
+            {% for ii in range(0,5) %}
+            <div class="form-group">
+                {% if ii == 0 %}
+                <label for="pcat0" class="col-sm-2 control-label">{{ _('Category') }}</label>
+                {% else %}
+                <label for="pcatx" class="col-sm-2 control-label"></label>
+                {% end %}
+                <div class="col-sm-3">
+                    <select name="pcat{{ ii }}" id="pcat{{ ii }}" class="form-control"
+                            onchange="g_load_postcat({{ ii }})">
+                        <option value="">{{ _('Please select') }}</option>
+                        {% for taginfo in tag_infos %}
+                        {% if taginfo.uid.endswith('00') %}
+                        <option value="{{ taginfo.uid }}">{{ taginfo.name }}
+                        </option>
+                        {% else %}
+                        {% end %}
+                        {% end %}
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <select name="gcat{{ ii }}" id="gcat{{ ii }}" class="form-control">
+                    </select>
+                </div>
+            </div>
+            {% end %}
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="logo">{{ _('Picture') }}</label>
+
+                <div class="col-sm-10">
+
+
+                    <input type="text" id="logo" name="logo" class="form-control" readonly/>
+
+                    <br>
+
+                    <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" title="Upload picture">
+                        {{ _('Upload picture') }}
+                    </a>
+
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="cnt_md">{{ _('Content') }} </label>
+
+                <div class="col-sm-10">
+                    <textarea class="form-control" rows=26 id="cnt_md1" name="cnt_md" cols="100"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="memo">{{ _('Memo') }} </label>
+
+                <div class="col-sm-10">
+                    <textarea class="form-control" rows=10 id="memo" name="memo"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="sub1"></label>
+
+                <div class="col-sm-10">
+                    <input id="sub1" type="submit" class="btn btn-primary" value="{{ _('Submit') }}"/>
+                </div>
+            </div>
+
+        </form>
+        {% module upload_pic() %}
+    </div>
+</div>
+{% end %}

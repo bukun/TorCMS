@@ -7,6 +7,7 @@ import tornado.web
 
 from torcms.model.catalog_model import MCatalog
 from torcms.model.category_model import MCategory
+from torcms.model.post2catalog_model import MPost2Catalog
 
 
 class CatalogMenu(tornado.web.UIModule):
@@ -37,3 +38,34 @@ class CatalogList(tornado.web.UIModule):
         return self.render_string(
             'modules/catalog/catalog_menu.html', recs=recs, catid=catid
         )
+
+
+class CatalogContent(tornado.web.UIModule):
+    '''
+
+    '''
+
+    def render(self, *args, **kwargs):
+        slug = args[0]
+
+        uid = kwargs.get('uid', '')
+        userinfo = kwargs.get('userinfo', None)
+
+        cat_rec = MCategory.get_by_slug(slug)
+        if cat_rec:
+            cat_id = cat_rec.uid
+        else:
+            return None
+        recs = MPost2Catalog.query_list_by_uid(slug, uid=True)
+        cats = MCategory.query_sub_cat(cat_id, order_uid=True)
+        kwd = {
+
+            'slug': slug,
+            'userinfo': userinfo,
+            'cat_id': cat_id,
+            'cats': cats,
+        }
+
+        return self.render_string('modules/catalog/catalog_content.html',
+                                  recs=recs,
+                                  kwd=kwd)

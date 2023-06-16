@@ -1,21 +1,14 @@
-{% extends "../theme/base_view.html" %}
-{% block head %}
-<title>添加文档 开源地理空间基金会中文分会,OSGeo中文分会,OSGeo中国中心,开放地理空间实验室</title>
-<meta name="keywords" content="添加文档,GIS,地理信息系统,开源GIS,OSGeo,OpenLayers,MapServer,GDAL,GIS教程,WebGIS">
-<meta name="description" content="添加文档,开源地理空间基金会中文分会实验室，关注开源GIS，开放数据">
-{% end %}
-{% block typebody %}
-<h1 class="hden">添加文档</h1>
-<div class="mtop">
-    <ul class="breadcrumb">
-        <li><a href="/" title="首页">首页 </a></li>
-        <li><a href="/post/" title="文档">文档</a></li>
-        <li class="active">添加文档</li>
-    </ul>
-</div>
+{% extends "../theme/base_edit.html" %}
+{% block edit %}
+
+<ol class="breadcrumb">
+    <li><a href="/">{{ _('Home') }}</a></li>
+    <li><a href="/tutorial/">{{ _('Tutorials') }}</a></li>
+    <li class="active">{{ _('Add tutorial')}}</li>
+</ol>
 <div class="panel panel-black">
     <div class="panel-heading">
-        添加文档
+        {{ _('Add tutorial')}}
     </div>
     <div class="panel-body">
         <form method="post" class="form-horizontal" role="form" id="form_post">
@@ -23,14 +16,14 @@
             <input type=hidden id="keywords" name="keywords">
             <fieldset>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="title">标题</label>
+                    <label class="col-sm-2 control-label" for="title">{{ _('Title') }}</label>
 
                     <div class="col-sm-10">
                         <input class="form-control" type="text" id="title" name="title">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="tags">标签</label>
+                    <label class="col-sm-2 control-label" for="tags">{{ _('label') }}</label>
 
                     <div class="col-sm-10">
                         <input class="form-control" id="tags" name="tags" type="text"/>
@@ -39,14 +32,14 @@
                 {% for ii in range(0,5) %}
                 <div class="form-group">
                     {% if ii == 0 %}
-                    <label for="pcat0" class="col-sm-2 control-label">分类</label>
+                    <label for="pcat0" class="col-sm-2 control-label">{{ _('Category') }}</label>
                     {% else %}
                     <label for="pcatx" class="col-sm-2 control-label"></label>
                     {% end %}
                     <div class="col-sm-3">
                         <select name="pcat{{ii}}" id="pcat{{ii}}" class="form-control"
                                 onchange="g_load_postcat({{ii}})">
-                            <option value="">请选择</option>
+                            <option value="">{{ _('Please select') }}</option>
                             {% for taginfo in tag_infos %}
                             {% if taginfo.uid.endswith('00') %}
                             <option value="{{ taginfo.uid }}">{{ taginfo.name }}
@@ -65,10 +58,8 @@
                 {% end %}
 
 
-
-
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="logo">图片</label>
+                    <label class="col-sm-2 control-label" for="logo">{{ _('Picture') }}</label>
 
                     <div class="col-sm-10">
 
@@ -76,8 +67,8 @@
 
                         <br>
 
-                        <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal"  title="上传图片">
-                            上传图片
+                        <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
+                            {{ _('Upload picture') }}
                         </a>
 
 
@@ -86,22 +77,29 @@
 
 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="cnt_md">内容 </label>
+                    <label class="col-sm-2 control-label" for="cnt_md">{{ _('Content') }} </label>
 
                     <div class="col-sm-10">
                         <textarea rows=26 id="cnt_md" name="cnt_md" cols="80" class="form-control"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-sm-2 control-label" for="memo">{{ _('Memo') }} </label>
+
+                    <div class="col-sm-10">
+                        <textarea class="form-control" rows=10 id="memo" name="memo"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="col-sm-2 control-label" for="sub1"></label>
 
                     <div class="col-sm-10">
-                        <input id="sub1" type="submit" class="btn btn-primary" value="添加数据"/>
+                        <input id="sub1" type="submit" class="btn btn-primary" value="{{ _('Submit') }}"/>
                     </div>
                 </div>
             </fieldset>
         </form>
-          {% module upload_pic() %}
+        {% module upload_pic() %}
     </div>
 </div>
 {% end %}

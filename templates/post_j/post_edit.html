@@ -1,46 +1,84 @@
 {% extends "../theme/bage.html" %}
 {% block head %}
-<title>{{postinfo.title}}- {{ _('Modify') }}</title>
-<meta name="description" content="{{postinfo.title}},">
-<meta name="keywords" content="{{postinfo.title}},">
+<title>{{ postinfo.title }}- {{ _('Modify') }}</title>
+<meta name="description" content="{{ postinfo.title }},">
+<meta name="keywords" content="{{ postinfo.title }},">
+
 {% module use_f2e('codemirror') %}
+
 {% end %}
-{% block typebody %}
+{% block mainbody %}
 <div class="mtop">
     <ul class="breadcrumb">
-        <li><a href="/" title="Home">{{ _('Home') }} </a></li>
-        <li><a href="/app/" title="App">{{ _('App') }}</a></li>
-        <li>{{ _('Modify') }} - {{postinfo.title}}</li>
+        <li><a href="/" title="Home">{{ _('Home') }}</a></li>
+        <li><a href="/jupyter/" title="Scientific - Model">{{ _('Scientific - Model') }}</a></li>
+        <li class="active">{{ _('Modify') }} - {{ postinfo.title }}</li>
     </ul>
 </div>
-<div class="panel panel-black">
-    <div class="panel-heading">
-        <h1 class="htitle">{{ _('Modify') }} - {{ postinfo.title }}</h1>
-    </div>
+<div class="panel panel-default">
+    <div class="panel-heading"><h1 class="htitle"> {{ postinfo.title }} </h1></div>
     <div class="panel-body">
-        <form action="/app/_edit/{{ postinfo.uid }}" method="post" class="form-horizontal" role="form"
-              id="form_post">
+                <legend>{{ _('Core Metadata fields') }}</legend>
+        <div class="panel-group" id="accordion">
 
-                <input type="hidden" id="uid" name="uid" value="{{ postinfo.uid }}"/>
+            <btn data-toggle="collapse" data-parent="#accordion" id="col_btn"
+                 href="#collapseOne" class="btn btn-primary">
+                {{ _('Fill in the core fields using ipynb file') }}
+            </btn>
 
+            <div id="collapseOne" class="panel-collapse collapse">
+
+
+                {% module upload_jupyter(postinfo.uid,'jupyter') %}
+
+            </div>
+
+        </div>
+
+
+        <form method="post" action="" class="form-horizontal"  id="form_post">
+
+                <input class="form-control" type="hidden" id="uid" name="uid" value="{{ postinfo.uid }}"/>
+                <input type=hidden id="keywords" name="keywords">
+            <input type="hidden" id="ext_wx_vecode" name="ext_wx_vecode" value="{{ postinfo.extinfo.get('ext_wx_vecode') }}">
+            <input type="hidden" id="ext_wx_dolink" name="ext_wx_dolink" value="{{ postinfo.extinfo.get('ext_wx_dolink') }}">
+            <input type="hidden" id="ext_dc_uid" name="ext_dc_uid" value="{{ postinfo.extinfo.get('ext_dc_uid') }}">
                 <div class="form-group">
-                    <label for="title" class="col-sm-2 control-label">{{ _('Title') }}</label>
+                    <label class="col-sm-2 control-label" for="title">{{ _('title') }}</label>
 
                     <div class="col-sm-10">
                         <input class="form-control" type="text" id="title" name="title"
-                                   value="{{postinfo.title}}"/>
+                               value="{{ postinfo.title }}">
                     </div>
                 </div>
+         
+            <div class="form-group">
+
+                <label for="ext_dc_image" class="col-sm-2 control-label">{{ _('容器镜像ID') }}</label>
+
+                <div class="col-sm-10">
+                    <select name="ext_dc_image" id="ext_dc_image" class="form-control">
+                        <option value="scipy" {% if postinfo.extinfo.get('ext_dc_image') == 'scipy' %} selected {% end %}>python 基础</option>
+                        <option value="2" {% if postinfo.extinfo.get('ext_dc_image') == '2' %} selected {% end %}>python 绘图</option>
+                        <option value="3" {% if postinfo.extinfo.get('ext_dc_image') == '3' %} selected {% end %}>R语言</option>
+
+
+                    </select>
+                </div>
+
+            </div>
                 <div class="form-group">
-                    <label for="tags" class="col-sm-2 control-label">{{ _('Label') }}</label>
+                    <label class="col-sm-2 control-label" for="tags">{{ _('label') }}</label>
 
                     <div class="col-sm-10">
-                        <input type="text" id="tags" name="tags" value="{% for x in app2label_info %}
-                        {{ x.tag_name}},
-                        {% end  %}" size=58 class="form-control">
+                        <input class="form-control" id="tags" name="tags" type="text"
+                               value="{% for x in app2label_info %}
+                                    {{ x.tag_name }},
+                                    {% end  %}">
                     </div>
                 </div>
-             <div class="form-group">
+
+                <div class="form-group">
                     <label for="logo" class="col-sm-2 control-label">{{ _('picture') }}</label>
 
                     <div class="col-sm-10">
@@ -49,18 +87,17 @@
                         <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" title="Upload picture">{{ _('Upload picture') }}</a>
                     </div>
                 </div>
-
                 {% for ii in range(0,5) %}
                 <div class="form-group">
                     {% if ii == 0 %}
-                    <label for="pcat0" class="col-sm-2 control-label">{{ _('Category') }}</label>
+                    <label class="col-sm-2 control-label" for="pcat0">{{ _('Category') }}</label>
                     {% else %}
                     <label class="col-sm-2 control-label"></label>
                     {% end %}
                     <div class="col-sm-3">
                         <select name="pcat{{ii}}" id="pcat{{ii}}" class="form-control"
-                                onchange="g_load_infocat({{ii}})">
-                            <option value="">{{ _('Please Select') }}</option>
+                                onchange="g_load_postcat({{ii}})">
+                            <option value="">{{ _('Please select') }}</option>
                             {% for taginfo in tag_infos %}
                             {% if taginfo.uid.endswith('00') %}
                             <option value="{{ taginfo.uid }}"
@@ -71,16 +108,14 @@
                                     {% end %}>{{ taginfo.name }}
                             </option>
                             {% else %}
-
                             {% end %}
                             {% end %}
                         </select>
                     </div>
                     <div class="col-sm-4">
                         <select name="gcat{{ii}}" id="gcat{{ii}}" class="form-control">
-                            <option value="0">{{ _('Please Select') }}</option>
+                            <option value="0">{{ _('Please select') }}</option>
                             {% set pcatid = 'xx' %}
-                            {# 设置父类ID，用在下面子类是否显示看 #}
                             {% for taginfo in tag_infos %}
                             {% for tt in app2tag_info %}
                             {% if tt.order== ii and tt.tag_id== taginfo.uid %}
@@ -88,7 +123,6 @@
                             {% end %}
                             {% end %}
                             {% end %}
-
                             {% for taginfo in tag_infos %}
                             {% if taginfo.uid.startswith(pcatid) %}
                             {% if not taginfo.uid.endswith('00') %}
@@ -103,19 +137,18 @@
                             {% end %}
                             {% end %}
                             {% end %}
-
                         </select>
                     </div>
                 </div>
                 {% end %}
-
                 <div class="form-group">
-                    <label for="cnt_md" class="col-sm-2 control-label">{{ _('Content') }}</label>
+                    <label class="col-sm-2 control-label" for="cnt_md">{{ _('Content') }}</label>
 
                     <div class="col-sm-10">
-                        <textarea rows=16 id="cnt_md" name="cnt_md" class="form-control">
-                            {% raw unescape(postinfo.cnt_md) %}
-                        </textarea>
+                    <textarea rows=26 id="cnt_md1" data-provider="markdown" data-provide="markdown"  class="form-control"
+                              name="cnt_md">
+                        {% raw unescape(postinfo.cnt_md) %}
+                    </textarea>
                     </div>
                 </div>
                 <div class="form-group">
@@ -123,16 +156,17 @@
 
                     <div class="col-sm-10">
                         <select name="valid" id="valid" class="form-control">
-
                             <option value="1" {% if postinfo.valid == 1 %} selected {% end %} >{{ _('yes') }}</option>
                             <option value="0" {% if postinfo.valid == 0 %} selected {% end %} >{{ _('no') }}</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                     <label class="col-sm-2 control-label" ></label>
+                    <label class="col-sm-2 control-label" for="sub1"></label>
+
                     <div class="col-sm-10">
-                        <input id="sub1" type="submit" value="Submit" class="btn btn-primary">
+                        <input id="sub1" type="submit" value="{{ _('submit') }}"
+                               class="btn btn-primary">
                     </div>
                 </div>
                 <hr/>
@@ -154,9 +188,7 @@
 
                     <div class="col-sm-10">
                     <textarea class="form-control" rows=26 id="json" name="json"
-                              readonly="readonly">
-                        {{ kwd['extinfo'] }}
-                    </textarea>
+                              cols="100" readonly="readonly">{{ kwd['extinfo'] }}</textarea>
                     </div>
                 </div>
 

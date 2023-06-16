@@ -1,34 +1,29 @@
-
 {% extends "../theme/base_view.html" %}
 {% block head %}
-<title>开源地理空间基金会中文分会,OSGeo中文分会,OSGeo中国中心,开放地理空间实验室</title>
-<meta name="keywords" content="GIS,地理信息系统,开源GIS,OSGeo,OpenLayers,MapServer,GDAL,GIS教程,WebGIS">
-<meta name="description" content="开源地理空间基金会中文分会实验室，关注开源GIS，开放数据">
-
+<title>{{ _('Tutorials') }} - {% module site_title() %}</title>
+<meta name="keywords" content="{{ _('Tutorials') }} - {% module site_title() %}">
+<meta name="description" content="{{ _('Tutorials') }} - {% module site_title() %}">
 
 
 {% end %}
 {% block zhuti %}
-<h1 class="hden">教程</h1>
 <ol class="breadcrumb">
-    <li>当前位置: <a href="{% module site_url() %}" title="首页">首页</a></li>
-    <li><a href="/tutorial/"  title="教程">教程</a></li>
-    {% module category_by_slug(kwd['cat_slug'])%}
+    <li><a href="/">{{ _('Home') }}</a></li>
 
+    <li class="active">
+        <a href="/tutorial/">{{ _('Tutorials') }}</a>
+        {% module category_by_slug(kwd['cat_slug'])%}
+    </li>
 </ol>
 <div class="panel panel-black">
     <div class="panel-heading">{{ kwd['cat_name'] }}</div>
-
-
     <div class="panel-body">
-
-        {% module show_page(page_id=kwd['page_slug'],userinfo = userinfo,count=10000)%}
+        {% module show_page(page_id=catinfo.uid,userinfo = userinfo,count=10000)%}
     </div>
 </div>
 
-
 {% end %}
 {% block right%}
-{% module secondary_category_list(catid = catinfo.uid,userinfo = userinfo) %}
 
+{% module secondary_category_list(catid = catinfo.uid,userinfo = userinfo) %}
 {% end %}

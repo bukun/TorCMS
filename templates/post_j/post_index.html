@@ -1,0 +1,23 @@
+{% extends "../theme/bage.html" %}
+{% block head %}
+<title>{{ _('Scientific - Model') }}</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+{% end %}
+{% block mainbody %}
+<h1 class="hden">{{ _('Disaster Knowledge') }}</h1>
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li><a href="/" title="Home">{{ _('Home') }}</a></li>
+        <li class="active">{{ _('Scientific - Model') }}</li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <div class="panel panel-black">
+            {% module post_catalog_of('j100',kind='j',slug=True,glyph='glyphicon glyphicon-book') %}
+        </div>
+    </div>
+</div>
+{% end %}
+

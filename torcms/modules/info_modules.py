@@ -4,6 +4,8 @@ Tornado Modules for infor.
 '''
 
 import tornado.web
+import bs4
+import config
 from html2text import html2text
 
 from config import post_cfg
@@ -477,3 +479,59 @@ class InfoList(tornado.web.UIModule):
             html2text=html2text,
             post_info=info,
         )
+class InfoRightNav(tornado.web.UIModule):
+    '''
+    Web site Additional navigation
+    '''
+
+    def render(self, *args, **kwargs):
+        content = args[0]
+        con_arr = []
+        Soup = bs4.BeautifulSoup(content, features="lxml")
+        # for text in Soup.find_all(["h2", "h3"]):
+        for text in Soup.find_all(["h2"]):
+
+            text_tag = text.a.parent.name
+            title = text.contents[0]
+            if text_tag == 'h3':
+                title = ' ' * 5 + title
+            href = text.select('a')[0].get('href')
+            con_dic = {'title': title, 'href': href}
+            con_arr.append(con_dic)
+
+        kwd = {
+
+        }
+        return self.render_string('modules/info/info_right_nav.html',
+                                  con_arr=con_arr,
+                                  kwd=kwd)
+class TutorialCatalog(tornado.web.UIModule):
+    '''
+
+    '''
+
+    def render(self, *args, **kwargs):
+        cat_id = args[0]
+        order = kwargs.get('order', False)
+
+        label = kwargs.get('label', None)
+
+        catinfo = MCategory.get_by_uid(cat_id)
+        if catinfo.pid == '0000':
+            subcats = MCategory.query_sub_cat(cat_id)
+            sub_cat_ids = [x.uid for x in subcats]
+            recs = MPost.query_total_cat_recent(sub_cat_ids, label=label, kind=catinfo.kind)
+
+        else:
+            recs = MPost.query_cat_recent(cat_id, label=label, kind=catinfo.kind, order=order)
+
+        kwd = {
+
+            'router': config.post_cfg[catinfo.kind]['router'],
+            'title': catinfo.name,
+            'slug': catinfo.slug,
+            'kind': catinfo.kind
+        }
+        return self.render_string('modules/post/tutorial_catalog.html',
+                                  recs=recs,
+                                  kwd=kwd)

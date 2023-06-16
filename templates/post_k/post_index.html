@@ -1,24 +1,67 @@
 {% extends "../theme/bage.html" %}
 
+{% block headinfo %}
+<title>{{ _('Tutorials') }}</title>
+<meta name="keywords" content="{{ _('Tutorials') }}">
+<meta name="description" content="{{ _('Tutorials') }}">
+{% end %}
 
 {% block typebody %}
-<div class="container">
-    <div class="mtop">
-        <ul class="breadcrumb">
-            <li>Current location:</li>
-            <li><a href="/" title="Home">{{ _('Home') }}</a></li>
-            <li class="active">{{ _('Search result') }}</li>
-        </ul>
-    </div>
-    <div class="row">
+<ol class="breadcrumb">
+    <li><a href="/">{{ _('Home') }}</a></li>
+    <li class="active"> {{ _('Tutorials') }}</li>
+
+</ol>
+<div class="row">
+    <div class="col-sm-12">
+
+        <div class="row">
             <div class="col-sm-4">
                 <div class="panel panel-black">
-                 {% module post_catalog_of('k100',slug=True, order=True) %}
+                    {% module post_catalog_of('k100',slug=True) %}
                 </div>
             </div>
+
+            <div class="col-sm-4">
+                <div class="panel panel-black">
+                    {% module post_catalog_of('k200',slug=True) %}
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="panel panel-black">
+                    {% module post_catalog_of('k300',slug=True) %}
+                </div>
+            </div>
+
+            {#
+            <div class="col-sm-4">
+                <div class="panel panel-black">
+                    {% module ext_post_catalog_of('k400',slug=True, order=True) %}
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="panel panel-black">
+                    {% module ext_post_catalog_of('k500',slug=True, order=True) %}
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="panel panel-black">
+                    {% module ext_post_catalog_of('k600',slug=True, order=True) %}
+                </div>
+            </div>
+
+            #}
+
+            <div class="col-sm-4">
+                <div class="panel panel-black">
+                    {% module post_catalog_of('k800',slug=True) %}
+                </div>
+            </div>
+
         </div>
+    </div>
+
 </div>
 <br>
-
-
 {% end %}
+

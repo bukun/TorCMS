@@ -310,3 +310,38 @@ class MPost2Catalog:
             return recs.get()
 
         return None
+    def query_list_by_uid(slug, uid=False):
+
+        cat_rec = MCategory.get_by_slug(slug)
+        if cat_rec:
+            cat_id = cat_rec.uid
+        else:
+            return None
+
+        # The flowing code is valid.
+        if cat_id.endswith('00'):
+            # The first level category, using the code bellow.
+            cat_con = TabPost2Tag.par_id == cat_id
+        else:
+            cat_con = TabPost2Tag.tag_id == cat_id
+
+        if uid:
+            recs = TabPost.select().join(
+                TabPost2Tag,
+                on=((TabPost.uid == TabPost2Tag.post_id) & (TabPost.valid == 1))
+            ).where(
+                cat_con
+            ).order_by(
+                TabPost.uid
+            )
+        else:
+            recs = TabPost.select().join(
+                TabPost2Tag,
+                on=((TabPost.uid == TabPost2Tag.post_id) & (TabPost.valid == 1))
+            ).where(
+                cat_con
+            ).order_by(
+                TabPost.order.asc()
+            )
+
+        return recs

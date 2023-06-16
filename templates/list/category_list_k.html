@@ -1,0 +1,65 @@
+{% extends "../theme/bage.html" %}
+{% block headbase %}
+<title>{{ kwd['cat_name'] }} </title>
+<link rel="stylesheet" href="{{  static_url('f2elib/jqueryui_1.12.1/jquery-ui.min.css') }}">
+<script src="{{ static_url('f2elib/jqueryui_1.12.1/jquery-ui.min.js') }}"></script>
+{% end %}
+
+
+
+<script>
+    $(function () {
+        $("#sortable").sortable({
+            cursor: "move",
+            items: "li",
+            opacity: 0.6,
+            revert: true,
+            update: function (event, ui) {
+
+                uu = ($('#sortable').sortable("toArray"));
+
+                $.each(uu, function (index, value) {
+
+                    $.ajax({
+                        type: "POST",
+                        url: '/leaf/update_order/' + value + '/' + (100000 + index) + '/',
+                    });
+
+                });
+
+            }
+        });
+    });
+
+</script>
+{% block typebody %}
+
+<div class="row">
+    <div class="col-sm-9">
+        <ol class="breadcrumb">
+    <li><a href="/">{{ _('Home') }}</a></li>
+    <li><a href="/{{ router }}/">{{ _(router) }}</a></li>
+    <li>{% module category_name(catinfo.pid) %}</li>
+    <li class="active">{{ _(kwd['cat_name']) }}</li>
+
+</ol>
+<div class="panel panel-black">
+    <div class="panel-heading">{{ kwd['cat_name'] }}</div>
+    <div class="panel-body">
+        {% module show_page(page_id=catinfo.uid,userinfo = userinfo)%}
+
+
+        {% module  catalog_content(kwd['cat_slug'],userinfo=userinfo,uid=True)%}
+
+        </div>
+</div>
+
+
+    </div>
+    <div class="col-sm-3">
+
+{% module secondary_category_list(catid = catinfo.uid,userinfo = userinfo) %}
+
+    </div>
+</div>
+{% end %}

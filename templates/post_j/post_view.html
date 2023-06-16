@@ -1,0 +1,104 @@
+{% extends "../theme/bage_add_edit.html" %}
+{% block head %}
+<title>{{ postinfo.title }}</title>
+<meta name="description" content="{% module generate_abstract(postinfo.cnt_html) %},{{ postinfo.title }}">
+<meta name="keywords" content="{% for x in tag_info %} {{ _(x.tag_name) }} {% end %},{{ postinfo.title }}">
+{% end %}
+{% block mainbody %}
+<div class="mtop">
+    <ul class="breadcrumb">
+        <li><a href="/" title="Home">{{ _('Home') }}</a></li>
+
+        <li>{% module category_name(pcatinfo) %}</li>
+        <li>{% module the_category(postinfo.uid) %}</li>
+
+        <li class="active">{{ _('Text') }}</li>
+    </ul>
+</div>
+
+<div class="row">
+    <div class="col-sm-8">
+        <script>
+            var post_uid = "{{ postinfo.uid }}";
+            var login = {{ kwd['login'] }};
+        </script>
+
+        <div class="panel panel-default">
+            <div class="panel-heading"><h1 class="news-title"> {{ postinfo.title }}</h1>
+                <div class="row">
+                    <div class="col-sm-12">
+                        {{ datetime.datetime.fromtimestamp(postinfo.time_update).strftime('%Y-%m-%d') }}&nbsp;
+                        <span class="split"> | </span>&nbsp;
+                        {{ _('Editor') }} : {{ postinfo.user_name }} &nbsp;
+                        {% if userinfo %}
+                        {% module collect(userinfo.uid, postinfo.uid, en=True) %}
+                        {% end %}
+                        {% module widget_editor(kwd['router'], postinfo.uid, userinfo) %}
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+
+
+                <div id="wiki_cnt" class="bor_bottom listinfo_content">
+                    {% raw unescape(postinfo.cnt_html) %}
+                </div>
+                <div class="bor_bottom">
+                    <b>{{ _('Label') }} :</b>
+                    <span class="post_label">
+                        {% module post_labels(post_uid = postinfo.uid) %}
+                    </span>
+                </div>
+                <div class="row bor_bottom">
+                    <div class="col-sm-6">
+                        <div class="btn btn-danger btn-sm">
+                            {% module previous_post_link(postinfo.uid,kind='j') %}
+                        </div>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <div class="btn btn-danger btn-sm">
+                            {% module next_post_link(postinfo.uid,kind='j') %}
+                        </div>
+                    </div>
+                </div>
+                <div class="listinfo_content">
+                    {% module reply_panel(postinfo.uid, userinfo, en=True) %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+
+
+        {% if postinfo.extinfo.get('ext_dc_image') and postinfo.extinfo.get('ext_dc_uid') %}
+        <div class="panel panel-info">
+
+            <a href="{% module jupyter_link(dc_image=postinfo.extinfo['ext_dc_image'],dc_uid = postinfo.extinfo['ext_dc_uid']) %}"
+               target="_blank">
+                <img src="/static/imgs/jupyter-geo.jpg" class="img-thumbnail">
+                <p style="text-align: center;font-weight: bold;">{{ _('Open the online experimental environment') }}</p>
+            </a>
+        </div>
+        {% end %}
+        {% if postinfo.extinfo.get('ext_wx_dolink') %}
+        <a href="{{ postinfo.extinfo.get('ext_wx_dolink','/') }}" class="btn btn-primary">
+            <span class="glyphicon glyphicon-download-alt"></span>
+            {{ _('Download  JUPYTER document') }}
+        </a>
+        <br><br>
+         {% end %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{ _('Scientific - Model') }}
+            </div>
+        {% module secondary_category_list(catid = catinfo.uid,userinfo = userinfo,post_uid = postinfo.uid) %}
+</div>
+        {% module info_right_nav(unescape(postinfo.cnt_html)) %}
+
+    </div>
+</div>
+
+
+{% end %}
+

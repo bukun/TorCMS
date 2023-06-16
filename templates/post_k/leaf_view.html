@@ -1,42 +1,39 @@
 {% autoescape None %}
-{% extends "../theme/base_view.html" %}
+{% extends "../theme/tmpleaf.html" %}
 {% block head %}
-<title>{{ postinfo.title }} 开源地理空间基金会中文分会 开放地理空间实验室</title>
-<meta name="keywords" content="{{ postinfo.title }},开源地理空间基金会中文分会,开放地理空间实验室,开源GIS">
-<meta name="description" content="{% module generate_abstract(postinfo.cnt_html) %},{{ postinfo.title }}">
+<meta name="keywords" content="{{ postinfo.keywords }} ">
+<meta name="description" content="{% module generate_abstract(postinfo.cnt_html) %}">
 <script>
-        var post_uid = "{{ postinfo.uid }}";
+    var post_uid = "{{ postinfo.uid }}";
     var login = {{ kwd['login'] }};
-
+    $.get('/post_j/count_plus/{{postinfo.uid}}');
 </script>
 
 {% end %}
-{% block zhuti %}
-<h1 class="hden">{{ postinfo.title }}</h1>
-<ol class="breadcrumb">
-    <li>当前位置: <a href="{% module site_url() %}" title="首页">首页</a></li>
-    <li> <a href="/tutorial/" title="教程">教程</a></li>
-    <li>{% module the_category(postinfo.uid, order=True) %}</li>
-    <li class="active">{{ postinfo.title }}</li>
-</ol>
+{% block typebody %}
 
+<ol class="breadcrumb">
+    <li><a href="/">{{ _('Home') }}</a></li>
+    <li><a href="/tutorial/">{{ _('Tutorials') }}</a></li>
+    <li>{% module the_category(postinfo.uid, order=True) %}</li>
+    <li class="active">{{ _(postinfo.title) }}</li>
+</ol>
 <div class="panel panel-black">
     <div class="panel-heading">
-        <h2>{{ postinfo.title }}</h2>
+        <h2>{{ _(postinfo.title) }}</h2>
         <span>{{ datetime.datetime.fromtimestamp(postinfo.time_create).strftime('%Y-%m-%d')  }}</span>
 
-        <span>Browse: {{ postinfo.view_count }} 次</span>
-         <button id="act_collect" class="btn btn-primary btn-xs">
-                <span class="glyphicon glyphicon-heart-empty"></span>
-                <span id="text_collect">收藏</span>
-            </button>
+        <span>Browse: {{ postinfo.view_count }} </span>
+        <button id="act_collect" class="btn btn-primary btn-xs">
+            <span class="glyphicon glyphicon-heart-empty"></span>
+            <span id="text_collect">{{ _('Collection') }}</span>
+        </button>
         {% module widget_editor('post', postinfo.uid, userinfo) %}
     </div>
     <div class="panel-body">
         <div class="entry">
-            <p class="summary"><strong>Abstract</strong>: {% module generate_abstract(postinfo.cnt_html) %} </p>
-
-            {%  module google_nq_ad() %}
+            <p class="summary"><strong>{{ _('Abstract') }}</strong>: {% module generate_abstract(postinfo.cnt_html) %}
+            </p>
 
             <div class="entrycontent">
                 {% raw unescape(postinfo.cnt_html) %}
@@ -46,8 +43,8 @@
             <div class="wpyouvote"></div>
             <div class="clear"></div>
             <br>
-            <strong>Article link:</strong>
-            <a href="{% module site_url() %}/post/{{postinfo.uid}}" class="underline" title="{{ postinfo.title }}"> {{ postinfo.title }}</a>
+            <strong>{{ _('Article link') }}:</strong>
+            <a href="{% module site_url() %}/post/{{postinfo.uid}}" class="underline"> {{ _(postinfo.title) }}</a>
 
 
         </div>
@@ -66,9 +63,9 @@
         </div>
     </div>
 </div>
-
 {% end %}
 
 {% block right%}
-{% module secondary_category_menu(kind = 'k',catid=catinfo.uid) %}
+{% module ext_category_list(catid = catinfo.uid,userinfo = userinfo) %}
+
 {% end %}

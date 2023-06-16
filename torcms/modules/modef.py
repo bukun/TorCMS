@@ -97,13 +97,17 @@ core_modules = {
     'info_count': info_modules.InfoCount,
     'recent_access': info_modules.RecentAccess,
     'relate_doc': info_modules.RelateDoc,
+    'info_right_nav':info_modules.InfoRightNav,
+    'tutorial_catalog':info_modules.TutorialCatalog,
     # Category
     'category_menu': category_modules.CategoryMenu,
     'category_name': category_modules.CategoryName,
     'catalog_menu': catalog_modules.CatalogMenu,
     'catalog_list': catalog_modules.CatalogList,
+    'catalog_content': catalog_modules.CatalogContent,
     'secondary_category_menu': category_modules.SecondaryCategoryMenu,
     'secondary_category_list': category_modules.SecondaryCategoryList,
+
     # Comment
     'comment_list': widget_modules.CommentList,
     'replycnt': widget_modules.Replycnt,
@@ -113,4 +117,6 @@ core_modules = {
     'post_state': widget_modules.State,
     'check_pager': widget_modules.Check_pager,
     'check_username_pager': widget_modules.Check_username_pager,
+
+    'jupyter_link' : widget_modules.Jupyter_link
 }

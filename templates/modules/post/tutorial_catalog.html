@@ -1,0 +1,21 @@
+<ul id="con_menu">
+    <h3>
+        <a href="/catalog/{{ kwd['slug'] }}" title="{{kwd['title']}}">
+            {{kwd['title']}}
+        </a>
+    </h3>
+    {% for x in recs %}
+    {% if x.valid == 1 %}
+
+    <li>
+
+        <a href="/{{ kwd['router'] }}/{{ x.uid }}" title="{{ _(x.title) }}">
+
+            {{ _(x.title) }}
+        </a>
+
+    </li>
+
+    {% end %}
+    {% end %}
+</ul>

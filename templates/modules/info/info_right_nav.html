@@ -1,0 +1,16 @@
+<div class="row visible-lg" id="myScrollspy">
+    <div class="col-sm-12 ">
+        <ul class=" nav-tabs nav-stacked" data-spy="affix" data-offset-top="125">
+
+
+            {% for con in con_arr%}
+            <li class="active">
+
+                <a href="{{con['href']}}" title="{{ _(con['title']) }}">{{ _(con['title']) }}</a>
+
+            </li>
+
+            {% end %}
+        </ul>
+    </div>
+</div>
