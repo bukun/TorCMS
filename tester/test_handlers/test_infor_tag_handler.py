@@ -23,9 +23,9 @@ class TestSomeHandler(AsyncHTTPSTestCase):
         '''
         return APP
 
-    def test_lable(self):
+    def test_to_remove(self):
         '''
-        Test publish.
+        Test label.
         '''
-        response = self.fetch('/label/')
+        response = self.fetch('/label/remove/')
         self.assertEqual(response.code, 200)

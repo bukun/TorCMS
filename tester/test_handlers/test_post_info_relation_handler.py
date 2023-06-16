@@ -2,11 +2,23 @@
 '''
 Test
 '''
-from torcms.handlers.relation_handler import RelHandler
+
+from tornado.testing import AsyncHTTPSTestCase
+
+from application import APP
 
 
-def test_lz():
-    # assert InfoHandler({}, request="/entity/(.*)")
-    urls = [
-        ("/label/(.*)", RelHandler, {}), ]
-    assert urls
+class TestPostHandler(AsyncHTTPSTestCase):
+    def get_app(self):
+        '''
+        Test
+        '''
+        return APP
+
+    def test_Rel(self):
+        '''
+        Test post.
+        '''
+        response = self.fetch('/rel/1/')
+        self.assertEqual(response.code, 200)
+

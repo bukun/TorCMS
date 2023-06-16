@@ -30,6 +30,25 @@ class TestSomeHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/log/')
         self.assertEqual(response.code, 200)
+    # def test_to_pageview(self):
+    #     '''
+    #     Test pageview.
+    #     '''
+    #     response = self.fetch('/log/pageview')
+    #     self.assertEqual(response.code, 200)
+    #
+    # def test_to_search(self):
+    #     '''
+    #     Test search.
+    #     '''
+    #     response = self.fetch('/log/search')
+    #     self.assertEqual(response.code, 200)
+    def test_to_add(self):
+        '''
+        Test add.
+        '''
+        response = self.fetch('/log/_add')
+        self.assertEqual(response.code, 200)
     def test_log_j(self):
         '''
         Test index.

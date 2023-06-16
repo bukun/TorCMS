@@ -28,4 +28,5 @@ class TestSomeHandler(AsyncHTTPSTestCase):
         Test publish.
         '''
         response = self.fetch('/publish/')
+        print(response.code)
         self.assertEqual(response.code, 200)

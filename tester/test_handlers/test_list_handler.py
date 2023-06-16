@@ -29,3 +29,21 @@ class TestSomeHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/list/')
         self.assertEqual(response.code, 200)
+    def test_to_j_subcat(self):
+        '''
+        Test j_subcat.
+        '''
+        response = self.fetch('/list/j_subcat')
+        self.assertEqual(response.code, 200)
+    def test_to_j_kindcat(self):
+        '''
+        Test j_kindcat.
+        '''
+        response = self.fetch('/list/j_kindcat')
+        self.assertEqual(response.code, 200)
+    def test_to_j_list_catalog(self):
+        '''
+        Test j_list_catalog.
+        '''
+        response = self.fetch('/list/j_list_catalog')
+        self.assertEqual(response.code, 200)
