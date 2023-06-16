@@ -82,13 +82,13 @@
         </div>
         {% end %}
         {% if postinfo.extinfo.get('ext_wx_dolink') %}
-        <div class="panel panel-info">
+
             <a href="{{ postinfo.extinfo.get('ext_wx_dolink','/') }}" class="btn btn-primary">
                 <span class="glyphicon glyphicon-download-alt"></span>
                 {{ _('Download  JUPYTER document') }}
             </a>
             <br><br>
-        </div>
+
         {% end %}
 
 
