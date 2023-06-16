@@ -4,7 +4,7 @@
 <meta name="keywords" content="{{ postinfo.title }} - {% module site_title() %}">
 <meta name="description" content="{% module generate_abstract(postinfo.cnt_html) %}">
 
-
+   {% module use_f2e('f2elib') %}
 {% end %}
 {% block typebody %}
 <script>
@@ -61,6 +61,7 @@
     </div>
     <div class="col-sm-3">
         {% module secondary_category_list(catid = catinfo.uid,userinfo = userinfo,post_uid=postinfo.uid) %}
+
         {% module info_right_nav(unescape(postinfo.cnt_html)) %}
 
     </div>

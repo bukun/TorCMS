@@ -3,6 +3,7 @@
 <title>{{ postinfo.title }}</title>
 <meta name="description" content="{% module generate_abstract(postinfo.cnt_html) %},{{ postinfo.title }}">
 <meta name="keywords" content="{% for x in tag_info %} {{ _(x.tag_name) }} {% end %},{{ postinfo.title }}">
+  {% module use_f2e('f2elib') %}
 {% end %}
 {% block typebody %}
 <div class="mtop">

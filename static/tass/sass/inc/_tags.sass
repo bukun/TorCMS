@@ -76,3 +76,50 @@
     margin: 0 auto
     padding: 5px 0px
     border-top: 1px solid #ddd
+
+/* Custom Styles */
+#myScrollspy
+  ul.nav-tabs
+    width: 370px
+
+    border-radius: 4px
+    border: 1px solid #ddd
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067)
+    z-index: 999999999
+    padding: 0px
+
+  ul.nav-tabs li
+    background: #0088cc
+    margin: 0
+    border-top: 1px solid #ddd
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
+    line-height: 30px
+    color: #fff
+  ul.nav-tabs li:first-child
+    border-top: none
+
+  ul.nav-tabs li a
+    white-space: pre
+    margin: 0
+    padding: 8px 16px
+    border-radius: 0
+    color: #fff
+    background: #0088cc
+    border: 1px solid #0088cc
+
+  ul.nav-tabs li.active a:hover
+    color: #f8b239
+    text-decoration: none
+    cursor: pointer
+
+  ul.nav-tabs li:first-child a
+    border-radius: 4px 4px 0 0
+
+  ul.nav-tabs li:last-child a
+    border-radius: 0 0 4px 4px
+
+  ul.nav-tabs.affix
+    bottom: 10px
+    
