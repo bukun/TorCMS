@@ -23,7 +23,7 @@ email_cfg = {
     "content": """<div>尊敬的会员，您好：</div>
         <div>　　感谢您在网站注册</div>
         <div>　　网站是一个在线计算工具的网站，网站不断地在创新、完善。</div>
-        <div>　　注册并登陆后，用户可收藏常用的计算工具，系统也会自动记录使用过的应用，方便以后的使用。</div>        
+        <div>　　注册并登陆后，用户可收藏常用的计算工具，系统也会自动记录使用过的应用，方便以后的使用。</div>
         """,
 }
 
@@ -74,12 +74,18 @@ post_cfg = {
 
 APP_MASK = ["g_drr", "9_todo_new", "9_todo_new5"]
 
-for wdir in Path(".").iterdir():
-    if wdir.is_dir() and wdir.name.startswith("torcms_"):
-        the_file = f"{wdir.name}._config"
-        print(the_file)
-        _mod = __import__(the_file)
-        post_cfg = dict(post_cfg, **_mod._config._post_cfg)
+
+_mod = __import__('torcms_app._config')
+post_cfg = dict(post_cfg, **_mod._config._post_cfg)
+
+
+
+# for wdir in Path(".").iterdir():
+#     if wdir.is_dir() and wdir.name.startswith("torcms_"):
+#         the_file = f"{wdir.name}._config"
+#         print(the_file)
+#         _mod = __import__(the_file)
+#         post_cfg = dict(post_cfg, **_mod._config._post_cfg)
 
 
 class WidgetMenu(tornado.web.UIModule):
