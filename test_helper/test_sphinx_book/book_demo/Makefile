@@ -5,7 +5,7 @@
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 SOURCEDIR     = gisbook-src
-BUILDDIR      = _build
+BUILDDIR      = xx_build
 
 # Put it first so that "make" without argument is like "make help".
 help:
