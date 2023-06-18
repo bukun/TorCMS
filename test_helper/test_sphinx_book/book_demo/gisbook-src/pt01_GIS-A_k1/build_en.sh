@@ -1,0 +1,1 @@
+make -e SPHINXOPTS="-D language='en'" html
