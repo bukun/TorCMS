@@ -41,6 +41,12 @@ def import_post(uid, post_data, extinfo={}):
             MPost.add_or_update_post(uid, post_data, extinfo=extinfo)
             update_category(uid, post_data)
             update_label(uid, post_data)
+        else:
+            print('The kind not match')
+            return False
+    else:
+        print('The catalog not exists.')
+        return False
 
 
 def update_category(uid, post_data):

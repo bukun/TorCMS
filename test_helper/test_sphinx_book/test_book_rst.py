@@ -16,11 +16,10 @@ class TestFoo():
         print('setup 方法执行于本类中每条用例之前')
 
         self.uid = tools.get_uu4d()
-
         self.fake = Faker(locale="zh_CN")
-
-        self.ws_dir = Path('/home/bk/book-rst/doculet/booklet/git-booklet/git-tuto-src')
-    def teardown_method(self, process_id=''):
+        self.ws_dir = Path(__file__ ).parent / 'book_demo'
+        print(self.ws_dir)
+    def teardown_method(self):
         # self.new_rst_file.unlink()
         # self.new_sec_dir.rmdir()
         # self.ch_dir.rmdir()
@@ -32,7 +31,6 @@ class TestFoo():
     def test(self):
         assert self.ws_dir.exists()
 
-
         for wfile in self.ws_dir.rglob('*.rst'):
             if 'sec' in wfile.parent.name :
                 self.insert_rst(wfile)
@@ -40,7 +38,8 @@ class TestFoo():
     def insert_rst(self, rst_file):
         post_data = {}
 
-        uid = 'k' + get_uu4d()
+        uid = rst_file.parent.name.split('_')[-1]
+        print(uid)
         while MPost.get_by_uid(uid):
             uid = 'k' + get_uu4d()
 
@@ -52,8 +51,9 @@ class TestFoo():
         post_data['cnt_md'] = rst_info['cnt']
         post_data['user_name'] = 'admin'
         post_data['kind'] = 'k'
-        post_data['gcat0'] = '1101'
+        post_data['gcat0'] = 'k101'
         post_data['valid'] = 1
+        # post_data['order'] =
 
         # kwargsa = {
         #     'gcat0': '0101',
