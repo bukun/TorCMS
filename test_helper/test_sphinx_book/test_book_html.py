@@ -8,7 +8,6 @@ from torcms.model.process_model import MProcess, MState, MTransition, MRequest, 
     MTransitionAction, MPermissionAction
 from torcms.handlers.post_handler import import_post
 
-
 import bs4
 
 from faker import Faker
@@ -21,11 +20,12 @@ class TestFoo():
 
         self.uid = tools.get_uu4d()
         self.fake = Faker(locale="zh_CN")
-        self.ws_dir = Path(__file__).parent / 'book_demo/xx_build/html'
+        self.ws_dir = Path(__file__).parent / 'book_eb1243/xx_build/html'
         self.re_pt = re.compile('\/pt\d\d')
         self.re_ch = re.compile('\/ch\d\d')
         self.re_sec = re.compile('\/sec\d\d')
         print(self.ws_dir)
+        self.img_ws = Path('static/xx_book_eb1243')
 
     def teardown_method(self):
         # self.new_rst_file.unlink()
@@ -36,6 +36,17 @@ class TestFoo():
         print("function teardown .. ")
 
     def test(self):
+        if self.img_ws.exists():
+            pass
+        else:
+            self.img_ws.mkdir()
+        for wfile in (self.ws_dir / '_images').rglob('*'):
+            print(wfile)
+            if wfile.is_file():
+                outfile = self.img_ws / wfile.name
+                outfile.write_bytes(wfile.read_bytes())
+                # with open(outfile, 'w') as fo:
+                #     fo.wr
         assert self.ws_dir.exists()
 
         for wfile in self.ws_dir.rglob('*.html'):
@@ -44,13 +55,14 @@ class TestFoo():
 
     def get_html(self, html_file):
 
-        File = open(str(html_file.resolve()))
-        Soup = bs4.BeautifulSoup(File.read(), features="html.parser")
-        title = 'title'
+        File = open(str(html_file.resolve())).read()
+        File = File.replace('src="../../../_images/', 'src="/static/xx_book_eb1243/')
+        Soup = bs4.BeautifulSoup(File, features="html.parser")
+        title = Soup.title.text.split('—')[0]
         content = Soup.select('.body')[0]
         conz = ''
-        for a in content.find_all(["h1", "p"]):
-            conz += str(a)
+        for a in content:
+            conz += str(a) + '\n'
 
         return {'title': title, 'cnt': conz}
 
