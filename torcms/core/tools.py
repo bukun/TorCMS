@@ -223,11 +223,19 @@ def rst2html(rst_text):
         writer_name='html',  # 'html' # pseudoxml
     ).decode('utf-8')
 
-
     soup = BeautifulSoup(html_doc, 'html.parser')
+
+    conz = ''
+    # soup.find("div", class_="document")
+    # content = soup.select('.body')[0]
+    content = soup.select('.document')[0]
+    for a in content.find_all(["h1", "h2", "h3",  "p"]):
+        conz += str(a)
+        conz += '\n'
+
     out_dict = {
         'title': soup.title.text,
-        'cnt': soup.find("div",class_="document").text
+        'cnt': conz
     }
     return out_dict
 
