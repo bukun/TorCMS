@@ -14,16 +14,16 @@ def get_xml(maplayers):
         # 设置Loader=yaml.FullLoader忽略YAMLLoadWarning警告
         data = yaml.load(content, Loader=yaml.FullLoader)
 
-        for ii in data['sources']:
+        for ii in data['layers']:
 
-            if (ii == maplayers):
-                mapurl = data['sources'][ii]['req']['url']
+            if (ii['name'] == maplayers):
+                mapurl = ii[maplayers]['req']['url']
 
                 wms = WebMapService(mapurl, version='1.3.0')
                 result = wms.getServiceXML()
 
                 result = str(result)[2:-1]
-                result2 ="".join(json.dumps(result).split("\\n"))
+                result2 = "".join(json.dumps(result).split("\\n"))
                 result3 = "".join(json.dumps(result2).split("\\"))
                 print(result3[2:-2])
 
