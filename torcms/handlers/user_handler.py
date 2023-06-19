@@ -724,7 +724,7 @@ class UserHandler(BaseHandler):
         '''
 
         post_data = self.get_request_arguments()
-        print("*" * 50)
+        print("*1" * 50)
         print(post_data)
         if 'next' in post_data:
             next_url = post_data['next']
