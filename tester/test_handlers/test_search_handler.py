@@ -26,3 +26,16 @@ class TestSearchHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/search/')
         self.assertEqual(response.code, 200)
+    def test_to_more(self):
+        '''
+        Test
+        '''
+        response = self.fetch('/search/0/1')
+        self.assertEqual(response.code, 200)
+
+    def test_to_more_thir(self):
+        '''
+        Test
+        '''
+        response = self.fetch('/search/0/1/1')
+        self.assertEqual(response.code, 200)

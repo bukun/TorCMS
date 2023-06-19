@@ -13,7 +13,7 @@ from tornado.testing import AsyncHTTPSTestCase
 from application import APP
 
 
-class TestSomeHandler(AsyncHTTPSTestCase):
+class TestLogHandler(AsyncHTTPSTestCase):
     '''
     Test
     '''
@@ -49,9 +49,27 @@ class TestSomeHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/log/_add')
         self.assertEqual(response.code, 200)
+
+class TestLogAjaxHandler(AsyncHTTPSTestCase):
+    '''
+    Test
+    '''
+
+    def get_app(self):
+        '''
+        Test
+        '''
+        return APP
     def test_log_j(self):
         '''
         Test index.
         '''
         response = self.fetch('/log_j/')
+        self.assertEqual(response.code, 200)
+
+    def test_log_j_add(self):
+        '''
+        Test index.
+        '''
+        response = self.fetch('/log_j/_add')
         self.assertEqual(response.code, 200)

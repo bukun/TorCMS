@@ -42,3 +42,21 @@ class TestSomeHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/entity/list')
         self.assertEqual(response.code, 200)
+    def test_entry_index(self):
+        '''
+        Test index.
+        '''
+        response = self.fetch('/entry/')
+        self.assertEqual(response.code, 200)
+    def test_entry_to_add(self):
+        '''
+        Test add.
+        '''
+        response = self.fetch('/entry/_add')
+        self.assertEqual(response.code, 200)
+    def test_entry_to_list(self):
+        '''
+        Test list.
+        '''
+        response = self.fetch('/entry/list')
+        self.assertEqual(response.code, 200)
