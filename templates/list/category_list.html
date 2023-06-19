@@ -3,9 +3,14 @@
 
 {% end %}
 {% block content %}
+<style>
+    .pad10 {
+        padding: 10px 0
+    }
+</style>
 <ol class="breadcrumb">
     <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
-        <li><a href="/{{router}}/" title="{{post_type}}">{{post_type}}</a></li>
+    <li><a href="/{{ router }}/" title="{{ post_type }}">{{ post_type }}</a></li>
     <li class="active">{{ kwd['cat_name'] }}</li>
 </ol>
 <div class="panel panel-black">
@@ -20,19 +25,38 @@
             </div>
             <div class="col-sm-8">
                 <div class="col-sm-12">
-                    <div class="listinfo_title"><a href="/{{ router }}/{{ x.uid }}"> {{ x.title }} </a>  {% module info_nullify(uid = x.uid,router=kwd['router'])%}</div>
-                    <div class="listinfo_content padt10">{% module generate_abstract(x.cnt_html)[:215] %}...</div>
+                    <div class="listinfo_title"><a href="/{{ router }}/{{ x.uid }}"> {{ x.title }} </a></div>
+                    <div class="pad10">
+                        {{ str(x.date)[0:19] }}
+                    </div>
+                    <div class="listinfo_content">{% module generate_abstract(x.cnt_html)[:215] %}</div>
+                    <div class="listinfo_extra  pad10">
+
+                        {% module post_labels(post_uid = x.uid) %}
+
+                    </div>
+
                 </div>
             </div>
             {% else %}
             <div class="col-sm-12">
-                <div class="listinfo_title"><a href="/{{ router }}/{{ x.uid }}"> {{ x.title }} </a>{% module info_nullify(uid = x.uid,router=kwd['router'])%}</div>
-                <div class="listinfo_content padt10">{% module generate_abstract(x.cnt_html)[:215] %}...</div>
+                <div class="listinfo_title"><a href="/{{ router }}/{{ x.uid }}"> {{ x.title }} </a></div>
+                <div class="pad10">
+                    {{ str(x.date)[0:19] }}
+                </div>
+                <div class="listinfo_content ">{% module generate_abstract(x.cnt_html)[:215] %}</div>
+
+                <div class="listinfo_extra pad10">
+
+                    {% module post_labels(post_uid = x.uid) %}
+
+                </div>
+
             </div>
 
             {% end %}
         </div>
- <div class="bor"></div>
+        <div class="bor"></div>
         {% end %}
     </div>
 </div>

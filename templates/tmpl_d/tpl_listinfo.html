@@ -49,9 +49,9 @@
                 <div class="listinfo_content padt10">
                     {% if postinfo.extinfo.get('pycsw_abstract') %}
 
-                    {% module generate_abstract(postinfo.extinfo.get('pycsw_abstract',''))[:120] %}...
+                    {% module generate_abstract(postinfo.extinfo.get('pycsw_abstract',''))[:120] %}
                     {% else %}
-                    {% module generate_abstract(postinfo.cnt_html)[:120] %}...
+                    {% module generate_abstract(postinfo.cnt_html)[:120] %}
                     {% end %}
 
                 </div>

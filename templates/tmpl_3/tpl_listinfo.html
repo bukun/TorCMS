@@ -17,10 +17,7 @@
                     <strong> <a href="/{{kwd['router']}}/{{ postinfo.uid }}">
                         {{ postinfo.title }}
                     </a></strong>
-                    {% if userinfo and( userinfo.role[1] >= '2' or userinfo.user_name == postinfo.user_name) %}
-                    <a href="/{{kwd['router']}}/_edit/{{ postinfo.uid }}" class="btn btn-xs btn-primary">Modify</a>
-                    {% module info_nullify(uid = postinfo.uid,router=kwd['router'])%}
-                    {% end %}
+
                 </div>
                 <div class="listinfo_content" style="width: 99%;overflow: hidden;margin: 5px 15px 20px 5px;">
                     {% module generate_abstract(postinfo.cnt_html)[:120] %}
