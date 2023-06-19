@@ -27,7 +27,7 @@
                 <div class="col-sm-12">
                     <div class="listinfo_title"><a href="/{{ router }}/{{ x.uid }}"> {{ x.title }} </a></div>
                     <div class="pad10">
-                        {{ str(x.date)[0:19] }}
+                        {{ str(x.date)[0:10] }}
                     </div>
                     <div class="listinfo_content">{% module generate_abstract(x.cnt_html)[:215] %}</div>
                     <div class="listinfo_extra  pad10">
@@ -42,7 +42,7 @@
             <div class="col-sm-12">
                 <div class="listinfo_title"><a href="/{{ router }}/{{ x.uid }}"> {{ x.title }} </a></div>
                 <div class="pad10">
-                    {{ str(x.date)[0:19] }}
+                    {{ str(x.date)[0:10] }}
                 </div>
                 <div class="listinfo_content ">{% module generate_abstract(x.cnt_html)[:215] %}</div>
 

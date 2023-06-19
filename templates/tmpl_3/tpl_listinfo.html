@@ -5,7 +5,7 @@
     <div class="row">
         {% if postinfo.logo != '' %}
         <div class="col-sm-3">
-            <a href="/{{kwd['router']}}/{{ postinfo.uid }}">
+            <a href="/{{ kwd['router'] }}/{{ postinfo.uid }}">
                 <img src="{{ postinfo.logo }}" class="img-thumbnail">
             </a>
         </div>
@@ -14,14 +14,20 @@
             <div class="col-sm-12">
                 {% end %}
                 <div class="listinfo_title" style="font-weight: bold">
-                    <strong> <a href="/{{kwd['router']}}/{{ postinfo.uid }}">
+                    <strong> <a href="/{{ kwd['router'] }}/{{ postinfo.uid }}">
                         {{ postinfo.title }}
                     </a></strong>
 
                 </div>
-                <div class="listinfo_content" style="width: 99%;overflow: hidden;margin: 5px 15px 20px 5px;">
+                <br>
+                <div>
+                    {{ str(postinfo.date)[0:10] }}
+                </div>
+                <br>
+                <div class="listinfo_content" style="width: 99%;overflow: hidden;margin: 5px 15px 20px 0px;">
                     {% module generate_abstract(postinfo.cnt_html)[:120] %}
                 </div>
+
                 <div class="listinfo_extra">
                     {% module post_labels(post_uid = postinfo.uid) %}
                 </div>

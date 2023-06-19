@@ -44,9 +44,12 @@
                     {#            {% end %}#}
                     <span style="float: right"><a href="/{{ kwd['router'] }}/{{ postinfo.uid }}">{{ _('More') }} > </a>   </span>
                 </div>
-
                 <br>
-                <div class="listinfo_content padt10">
+                <div class="pad10">
+                    {{ str(postinfo.date)[0:10] }}
+                </div>
+                <br>
+                <div class="listinfo_content">
                     {% if postinfo.extinfo.get('pycsw_abstract') %}
 
                     {% module generate_abstract(postinfo.extinfo.get('pycsw_abstract',''))[:120] %}
