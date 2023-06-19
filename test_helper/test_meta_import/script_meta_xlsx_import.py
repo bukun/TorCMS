@@ -14,7 +14,7 @@ from torcms.model.category_model import MCategory
 from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
 
-# import xlrd  # 删除
+
 
 
 def update_category(uid, postdata, kwargs):
@@ -222,7 +222,4 @@ def test_import_meta():
                 if sig:
                     get_meta(catid, sig)
 
-if __name__ == '__main__':
-    # import_tables()
-    test_import_meta()
-    #
+

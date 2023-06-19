@@ -20,6 +20,7 @@ from torcms.core.tools import get_uu4d, get_uu8d
 import shutil
 
 pwd = os.getcwd()
+inws = Path(__file__).parent / 'jupyter-book/judocs'
 
 
 def get_docker_name(the_str):
@@ -132,14 +133,14 @@ def do_for_chapter(cat_id, ch_path):
 
         # pprint(pp_data)
         # 入库是将外扩展字段加入。
-        MPost.add_or_update_post(pp_data['uid'], pp_data, extinfo=pp_data['extinfo'])
-        update_category(pp_data['uid'], pp_data)
+        # MPost.add_or_update_post(pp_data['uid'], pp_data, extinfo=pp_data['extinfo'])
+        # update_category(pp_data['uid'], pp_data)
         idx = idx + 1
 
 
 def get_appfile(uid):
-    ws_raw = Path('./static/judocs')
-    ws_aim = Path('./static/xnb')
+    ws_raw = Path(__file__).parent / 'jupyter-book/judocs'
+    ws_aim = Path(__file__).parent / 'xnb'
 
     if ws_aim.exists():
         pass
@@ -241,8 +242,7 @@ def get_catname(ch_path, filename):
         return title
 
 
-def bainli(inws):
-
+def test_bainli():
     all_recs = TabTag.select()
     recs_arr = []
     for x in all_recs:
@@ -288,11 +288,11 @@ def bainli(inws):
                          'kind': 'k',
                          'pid': pid}
 
-            try:
-                MCategory.add_or_update(cat_id, post_data)
-            except Exception:
-                print('Error')
-                pass
+            # try:
+            # MCategory.add_or_update(cat_id, post_data)
+            # except Exception:
+            #     print('Error')
+            #     pass
 
             do_for_chapter(
                 cat_id,
@@ -300,8 +300,3 @@ def bainli(inws):
             )
 
             idx = idx + 1
-
-
-if __name__ == '__main__':
-    inws = 'jupyter-book/judocs'
-    bainli(inws)
