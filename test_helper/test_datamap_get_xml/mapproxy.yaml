@@ -1,0 +1,33 @@
+caches:
+  osm_cache:
+    grids:
+      - webmercator
+    sources:
+      - osm_wms
+
+  q_ht_geomor_geomor_mn1011:
+    grids:
+      - webmercator
+    sources:
+      - q_ht_geomor_geomor_mn1011
+
+globals: null
+grids:
+  webmercator:
+    base: GLOBAL_WEBMERCATOR
+layers:
+
+  - name: q_ht_geomor_geomor_mn1011
+    sources:
+      - q_ht_geomor_geomor_mn1011
+    title: q_ht_geomor_geomor_mn1011
+
+    q_ht_geomor_geomor_mn1011:
+      image:
+        transparent_color: '#ffffff'
+        transparent_color_tolerance: 0
+      req:
+        layers: pub_geomor_mn1011
+        url: http://159.226.123.24:9012/qgisserver?MAP=/home/bk/gisws/ws_heitu/htliangcangzhihuipingtai/pub_ht_geomor.qgz
+      type: wms
+
