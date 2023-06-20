@@ -724,12 +724,13 @@ class UserHandler(BaseHandler):
         '''
 
         post_data = self.get_request_arguments()
-        print("*1" * 50)
-        print(post_data)
-        if 'next' in post_data:
+
+        if post_data.get('next', '') != '':
             next_url = post_data['next']
         else:
             next_url = '/'
+
+        print(next_url)
 
         u_name = post_data['user_name']
         u_pass = post_data['user_pass']
@@ -1043,9 +1044,9 @@ class UserHandler(BaseHandler):
                 )
 
                 if send_mail(
-                    [userinfo.user_email],
-                    "{0}|密码重置".format(config.SMTP_CFG['name']),
-                    email_cnt,
+                        [userinfo.user_email],
+                        "{0}|密码重置".format(config.SMTP_CFG['name']),
+                        email_cnt,
                 ):
                     MUser.update_time_reset_passwd(username, timestamp)
                     self.set_status(200)
@@ -1158,10 +1159,10 @@ class UserHandler(BaseHandler):
             break
         for i in range(len(pwd)):
             if (
-                ('null' <= pwdlist[i] < '0')
-                or ('9' < pwdlist[i] <= '@')
-                or ('Z' < pwdlist[i] <= '`')
-                or ('z' < pwdlist[i] <= '~')
+                    ('null' <= pwdlist[i] < '0')
+                    or ('9' < pwdlist[i] <= '@')
+                    or ('Z' < pwdlist[i] <= '`')
+                    or ('z' < pwdlist[i] <= '~')
             ):
                 intensity += 2
                 break
