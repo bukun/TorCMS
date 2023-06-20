@@ -20,8 +20,8 @@ class TestMCatalog():
             'kind': kwargs.get('kind1', '1'),
             'pid': kwargs.get('pid', '0000'),
         }
-        MCategory.add_or_update(self.tag_id, post_data)
-
+        tf = MCategory.add_or_update(self.tag_id, post_data)
+        assert tf == self.tag_id
         p_d = {
             'title': kwargs.get('title', 'iiiii'),
             'cnt_md': kwargs.get('cnt_md', 'grgr'),
@@ -40,33 +40,39 @@ class TestMCatalog():
         }
         post_id = kwargs.get('post_id', self.post_id)
 
-        MPost.add_or_update(post_id, p_d)
-
+        tt = MPost.add_or_update(post_id, p_d)
+        assert tt == post_id
         MPost2Catalog.add_record(self.post_id, self.tag_id)
 
     def test_query_by_slug(self):
         self.add_message()
         aa = MCatalog.query_by_slug(self.slug)
+        assert aa
         tf = False
         for i in aa:
             if i.uid == self.post_id:
                 tf = True
         assert tf
-        self.teardown_class()
+
 
     def test_query_all(self):
         self.add_message()
         aa = MCatalog.query_all()
+        assert aa
         tf = False
         for i in aa:
             if i.slug == self.slug:
                 tf = True
         assert tf
-        self.teardown_class()
 
-    def teardown_class(self):
+
+    def teardown_method(self):
         print("function teardown")
-        MPost.delete(self.post_id)
-        MCategory.delete(self.tag_id)
+        post = MPost.get_by_uid(self.post_id)
+        if post:
+            MPost.delete(self.post_id)
+        cate = MPost.get_by_uid(self.tag_id)
+        if cate:
+            MCategory.delete(self.tag_id)
         MPost2Catalog.remove_relation(self.post_id, self.tag_id)
-        self.uid = ''
+

@@ -24,7 +24,7 @@ class Test_App():
     Testing for map app.
     '''
 
-    def setup_class(self):
+    def setup_method(self):
         self.title = '哈哈sdfsdf'
         self.uid = 'g' + tools.get_uu4d()
         self.tag_id = '2342'
@@ -63,7 +63,8 @@ class Test_App():
         MPost.add_or_update_post(uid, post_data, extinfo)
         tt = MPost.get_by_uid(uid)
         assert tt.uid == uid
-        MPost.delete(uid)
+        assert tt.title == post_data['title']
+
 
     def test_insert2(self):
         uid = self.uid
@@ -100,7 +101,7 @@ class Test_App():
         uu = MPost.add_or_update_post(self.uid, post_data)
 
         assert uu == uid
-        MPost.delete(uid)
+
 
     def test_insert5(self):
         uid = self.uid
@@ -115,7 +116,7 @@ class Test_App():
         }
         uu = MPost.add_or_update_post(self.uid, post_data)
         assert uu == uid
-        MPost.delete(uid)
+
 
     def test_insert8(self):
         uid = self.uid
@@ -132,7 +133,7 @@ class Test_App():
         tt = MPost.get_by_uid(uid)
 
         assert tt.uid == uu
-        MPost.delete(uid)
+
 
     def add_message(self, **kwargs):
         post_data = {
@@ -166,7 +167,7 @@ class Test_App():
         MPost2Catalog.add_record(self.uid, self.tag_id)
 
     def test_query_random(self):
-        MPost.delete(self.uid)
+        # MPost.delete(self.uid)
         kwargs = {
             'limit': 300,
             'kind': '2',

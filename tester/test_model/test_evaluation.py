@@ -31,9 +31,13 @@ class TestMEvaluation():
         }
         post_id = kwargs.get('post_id', self.post_id)
 
-        MPost.add_or_update(post_id, p_d)
+        tf = MPost.add_or_update(post_id, p_d)
+        assert tf == post_id
         user_id = kwargs.get('user_id', self.user_id)
         MEvaluation.add_or_update(user_id, self.app_id, 1)
+        tt = MEvaluation.get_by_signature(user_id, self.app_id)
+        assert tt.user_id == user_id
+
 
     def test_app_evaluation_count(self):
         b = MEvaluation.app_evaluation_count(self.app_id)
@@ -42,10 +46,17 @@ class TestMEvaluation():
             'user_id': '33336'
         }
         self.add_message(**p)
+       
+        eval = MEvaluation.get_by_signature(p['user_id'],self.app_id)
+        assert eval
+
         p = {
             'user_id': '54436'
         }
         self.add_message(**p)
+
+        eval1 = MEvaluation.get_by_signature(p['user_id'], self.app_id)
+        assert eval1
 
         a = MEvaluation.app_evaluation_count(self.app_id)
         assert a == b + 2
@@ -55,6 +66,7 @@ class TestMEvaluation():
         a = MEvaluation.get_by_signature(self.user_id, self.app_id)
         assert a == None
         self.add_message()
+
         a = MEvaluation.get_by_signature(self.user_id, self.app_id)
         assert a
 
@@ -66,6 +78,8 @@ class TestMEvaluation():
         assert a
 
 
-    def teardown_class(self):
+    def teardown_method(self):
         print("function teardown")
-        MPost.delete(self.post_id)
+        tt = MPost.get_by_uid(self.post_id)
+        if tt:
+            MPost.delete(self.post_id)

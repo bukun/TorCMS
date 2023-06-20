@@ -29,17 +29,19 @@ class TestMEntity2User():
 
         self.uu.create_user(post_data)
         aa = self.uu.get_by_name(name)
+        assert aa
         self.user_uid = aa.uid
 
     def add_entity(self):
         desc = 'create entity'
-        self.ee.create_entity(self.e_uid, self.path, desc)
-
+        tf = self.ee.create_entity(self.e_uid, self.path, desc)
+        assert tf
     def add_E2U(self):
         self.add_user()
         self.add_entity()
         self.M2U.create_entity2user(self.e_uid, self.user_uid, self.userip)
         tt = self.M2U.query_all()
+        assert tt
         for i in tt:
             if i.entity_id == self.e_uid:
                 self.uid = i.uid
@@ -49,7 +51,7 @@ class TestMEntity2User():
         tt = self.M2U.get_by_uid(self.uid)
         assert tt.user_ip == self.userip
         assert tt.entity_id == self.e_uid
-        self.teardown_class()
+        
 
     def test_delete_by_uid(self):
         self.add_E2U()
@@ -61,7 +63,7 @@ class TestMEntity2User():
         for i in tt:
             if i.entity_id == self.e_uid:
                 tf = False
-        self.teardown_class()
+        
         assert tf
 
     def test_query_all(self):
@@ -77,7 +79,7 @@ class TestMEntity2User():
         for i in tt:
             if i.entity_id == self.e_uid:
                 tf = True
-        self.teardown_class()
+        
         assert tf
 
     def test_get_all_pager(self):
@@ -92,7 +94,7 @@ class TestMEntity2User():
                     tf = True
                     assert t.user_id == self.user_uid
                     assert t.user_ip == self.userip
-        self.teardown_class()
+        
         assert tf
 
     def test_get_all_pager_by_username(self):
@@ -103,20 +105,20 @@ class TestMEntity2User():
             if t.uid == self.uid:
                 tf = True
                 assert t.user_ip == self.userip
-        self.teardown_class()
+        
         assert tf
 
     def test_create_entity2user(self):
         self.add_E2U()
         tt = self.M2U.get_by_uid(self.uid)
         assert tt.user_ip == self.userip
-        self.teardown_class()
+        
 
     def test_total_number(self):
         a = self.M2U.total_number()
         self.add_E2U()
         b = self.M2U.total_number()
-        self.teardown_class()
+        
         assert a + 1 <= b
 
     def test_total_number_by_user(self):
@@ -124,10 +126,10 @@ class TestMEntity2User():
         aa = self.M2U.total_number_by_user(self.user_uid)
         self.add_E2U()
         bb = self.M2U.total_number_by_user(self.user_uid)
-        self.teardown_class()
+        
         assert aa + 1 <= bb
 
-    def teardown_class(self):
+    def teardown_method(self):
         print("function teardown")
         self.uu.delete_by_user_name(self.username)
         self.ee.delete(self.e_uid)

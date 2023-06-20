@@ -9,66 +9,89 @@ class TestMEntity():
         print('setup 方法执行于本类中每条用例之前')
         self.uid = tools.get_uu4d()
         self.path = 'path'
+        self.kind = '1'
+        self.desc = 'desc'
+        
+    def add_message(self,**kwargs):
+        uid = kwargs.get('uid',self.uid)
+        path = kwargs.get('path',self.path)
+        kind = kwargs.get('kind',self.kind)
+        desc = kwargs.get('desc',self.desc)
 
+        tt = MEntity.create_entity(uid,path,desc,kind)
+        assert tt
     def test_create_entity(self):
         uid = self.uid
         post_data = {
             'path': self.path,
-
         }
 
-        MEntity.create_entity(uid, post_data['path'])
-        assert True
-        self.teardown_class()
+        tf = MEntity.create_entity(uid, post_data['path'])
+        assert tf
+
 
     def test_create_entity_2(self):
         '''Wiki insert: Test invalid title'''
         post_data = {
             'path': '',
         }
+        MEntity.create_entity(self.uid,post_data['path'],self.desc,self.kind)
         uu = MEntity.get_id_by_impath(post_data['path'])
-        assert uu is None
 
-        post_data = {
-            'path': self.path,
-        }
-        uu = MEntity.get_id_by_impath(post_data['path'])
-        assert uu is None
-        self.teardown_class()
+        assert uu == None
+
 
     def test_get_by_uid(self):
-        MEntity.get_by_uid(self.uid)
-        assert True
+        self.add_message()
+        tf = MEntity.get_by_uid(self.uid)
+        assert tf.uid == self.uid
 
     def test_query_all(self):
-        MEntity.query_all()
-        assert True
+        self.add_message()
+        tf = MEntity.query_all()
+        assert tf != None
 
     def test_get_by_kind(self):
-        MEntity.get_by_kind('2')
-        assert True
+        post_data = {
+                'kind':'2'
+        }
+        self.add_message(**post_data)
+        tf = MEntity.get_by_kind('2')
+        assert tf
 
     def test_get_all_pager(self):
-        MEntity.get_all_pager()
-        assert True
+        self.add_message()
+        tf = MEntity.get_all_pager()
+        assert tf
 
     def test_get_id_by_impath(self):
-        MEntity.get_id_by_impath(self.path)
-        assert True
+        self.add_message()
+   
+        tf = MEntity.get_id_by_impath(self.path)
+        assert tf
 
     def test_total_number(self):
-        MEntity.total_number()
-        assert True
+        self.add_message()
+   
+        tf = MEntity.total_number()
+        assert tf
 
     def test_delete(self):
+        self.add_message()
+   
         MEntity.delete(self.uid)
-        assert True
+        tf = MEntity.get_by_uid(self.uid)
+        assert tf is None
 
     def test_delete_by_path(self):
-        MEntity.delete_by_path(self.path)
-        assert True
+        self.add_message()
+   
+        MEntity.delete_by_path(self.path,kind='1')
 
-    def teardown_class(self):
+        tf = MEntity.get_id_by_impath(self.path)
+        assert tf is None
+
+    def teardown_method(self):
         print("function teardown")
         tt = MEntity.get_id_by_impath(self.path)
         if tt:

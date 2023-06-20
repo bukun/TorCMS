@@ -25,8 +25,8 @@ class TestMCategory():
             'kind': kwargs.get('kind1', '1'),
             'pid': kwargs.get('pid', '0000'),
         }
-        MCategory.add_or_update(self.tag_id, post_data)
-
+        tt = MCategory.add_or_update(self.tag_id, post_data)
+        assert tt == self.tag_id
         p_d = {
             'title': kwargs.get('title', 'iiiii'),
             'cnt_md': kwargs.get('cnt_md', 'grgr'),
@@ -45,11 +45,12 @@ class TestMCategory():
         }
         post_id = kwargs.get('post_id', self.post_id)
 
-        MPost.add_or_update(post_id, p_d)
+        tf = MPost.add_or_update(post_id, p_d)
+        assert tf == post_id
         MPost2Catalog.add_record(self.post_id, self.tag_id)
 
     def test_add_or_update(self):
-        self.teardown_class()
+      
 
         post_data = {
             'name': 'titlesdf',
@@ -60,13 +61,16 @@ class TestMCategory():
             'pid': '0000',
         }
         self.add_message(**post_data)
+        
         tt = MCategory.get_by_uid(self.uid)
+        assert tt.uid == self.uid
         assert tt.name == post_data['name']
-        self.teardown_class()
+
 
     def test_update(self):
-        self.teardown_class()
+      
         self.add_message()
+        
         post_data = {
             'name': 'chicken',
             'slug': 'hahaha',
@@ -77,18 +81,20 @@ class TestMCategory():
         assert tt.name == post_data['name']
         assert tt.slug == post_data['slug']
         assert tt.pid == post_data['pid']
-        self.teardown_class()
+      
 
     def test_get_by_slug(self):
-        self.teardown_class()
+      
         self.add_message()
+        
         aa = MCategory.get_by_slug(self.slug)
         assert aa.uid == self.uid
-        self.teardown_class()
+      
 
     def test_query_field_count(self):
-        self.teardown_class()
+      
         aa = MCategory.query_field_count(500)
+        assert aa
         tf = True
         for i in aa:
             if i.uid == self.uid:
@@ -96,18 +102,21 @@ class TestMCategory():
                 break
         assert tf
         self.add_message()
+        
         aa = MCategory.query_field_count(500)
+        assert aa
         tf = False
         for i in aa:
             if i.uid == self.uid:
                 tf = True
                 break
-        self.teardown_class()
+      
         assert tf
 
     def test_query_all(self):
-        self.teardown_class()
+      
         aa = MCategory.query_all()
+        assert aa
         tf = True
         for i in aa:
             if i.uid == self.uid:
@@ -115,18 +124,21 @@ class TestMCategory():
                 break
         assert tf
         self.add_message()
+        
         aa = MCategory.query_all()
+        assert aa
         tf = False
         for i in aa:
             if i.uid == self.uid:
                 tf = True
                 break
-        self.teardown_class()
+      
         assert tf
 
     def test_query_uid_starts_with(self):
-        self.teardown_class()
+      
         aa = MCategory.query_uid_starts_with(self.uid[0:2])
+        assert aa != None
         tf = True
         for i in aa:
             if i.uid == self.uid:
@@ -134,18 +146,21 @@ class TestMCategory():
                 break
         assert tf
         self.add_message()
+        
         aa = MCategory.query_uid_starts_with(self.uid[0:2])
+        assert aa
         tf = False
         for i in aa:
             if i.uid == self.uid:
                 tf = True
                 break
-        self.teardown_class()
+      
         assert tf
 
     def test_query_pcat(self):
-        self.teardown_class()
+      
         aa = MCategory.query_pcat()
+        assert aa
         tf = True
         for i in aa:
             if i.uid == self.uid:
@@ -153,59 +168,69 @@ class TestMCategory():
                 break
         assert tf
         self.add_message()
+        
         aa = MCategory.query_pcat()
+        assert aa
         tf = False
         for i in aa:
             if i.uid == self.uid:
                 tf = True
                 break
-        self.teardown_class()
+      
         assert tf
 
     def test_query_sub_cat(self):
-        self.teardown_class()
+      
         post_data = {
             'name': 'chicken',
             'slug': 'hahaha',
             'pid': '9988',
         }
         self.add_message(**post_data)
+        
         tt = MCategory.query_sub_cat(post_data['pid'])
+        assert tt
         for i in tt:
             if i.uid == self.uid:
                 assert i.name == post_data['name']
                 assert i.slug == post_data['slug']
-        self.teardown_class()
+      
 
     def test_query_kind_cat(self):
-        self.teardown_class()
+      
         post_data = {
             'name': 'chicken',
             'slug': 'hahaha',
             'kind1': '4',
         }
         self.add_message(**post_data)
+        
         tt = MCategory.query_kind_cat(post_data['kind1'])
+        assert tt
         for i in tt:
             if i.uid == self.uid:
                 assert i.name == post_data['name']
                 assert i.slug == post_data['slug']
-        self.teardown_class()
+      
 
     def test_get_parent_list(self):
-        self.teardown_class()
+      
         self.add_message()
+        
         tt = MCategory.get_parent_list()
+        assert tt
+        assert tt
         tf = False
         for i in tt:
             if i.uid == self.uid:
                 tf = True
-        self.teardown_class()
+      
         assert tf
 
     def test_get_qian2(self):
-        self.teardown_class()
+      
         aa = MCategory.get_qian2(self.uid[0:2])
+        assert aa!= None
         tf = True
         for i in aa:
             if i.uid == self.uid:
@@ -213,42 +238,47 @@ class TestMCategory():
                 break
         assert tf
         self.add_message()
+        
         aa = MCategory.get_qian2(self.uid[0:2])
+        assert aa
         tf = False
         for i in aa:
             if i.uid == self.uid:
                 tf = True
                 break
-        self.teardown_class()
+      
         assert tf
 
     def test_get_by_uid(self):
-        self.teardown_class()
+      
         aa = MCategory.get_by_uid(self.uid)
         assert aa == None
         self.add_message()
+        
         tt = MCategory.get_by_uid(self.uid)
         assert tt.slug == self.slug
-        self.teardown_class()
+      
 
     def test_delete(self):
         aa = MCategory.get_by_uid(self.uid)
         assert aa == None
         self.add_message()
+        
         tt = MCategory.get_by_uid(self.uid)
         assert tt.slug == self.slug
         aa = MCategory.delete(self.uid)
         assert aa
         aa = MCategory.get_by_uid(self.uid)
         assert aa == None
-        self.teardown_class()
+      
 
-    def teardown_class(self):
+    def teardown_method(self):
         print("function teardown")
         tt = MPost.get_by_uid(self.uid)
 
         if tt:
             MPost.delete(self.uid)
+
         tt = MPost.get_by_uid(self.post_id)
         if tt:
             MCategory.delete(self.tag_id)

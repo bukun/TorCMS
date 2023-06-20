@@ -25,8 +25,8 @@ class TestMRelation():
             'kind': kwargs.get('kind1', '1'),
             'pid': kwargs.get('pid', '0000'),
         }
-        MCategory.add_or_update(self.tag_id, post_data)
-
+        tf = MCategory.add_or_update(self.tag_id, post_data)
+        assert tf == self.tag_id
     def add_post(self, **kwargs):
         p_d = {
             'title': kwargs.get('title', '一二三'),
@@ -46,7 +46,8 @@ class TestMRelation():
         }
         p_id = kwargs['post_uid']
 
-        MPost.add_or_update(p_id, p_d)
+        tt = MPost.add_or_update(p_id, p_d)
+        assert tt
         MPost2Catalog.add_record(p_id, self.tag_id)
 
     def add_2post(self):
@@ -79,6 +80,8 @@ class TestMRelation():
         self.add_tag()
         self.add_2post()
         self.add_rela()
+        print('====')
+        print(self.uid)
         aa = MHelper.get_by_uid(TabRel, self.uid)
         assert aa.post_f_id == self.post_id
         assert aa.post_t_id == self.post_id2
@@ -119,10 +122,19 @@ class TestMRelation():
 
 
     def teardown_method(self):
-        MCategory.delete(self.tag_id)
-        MPost.delete(self.post_id2)
-        MPost.delete(self.post_id)
+        print("function teardown")
+        tt = MCategory.get_by_uid(self.tag_id)
+        if tt:
+            MCategory.delete(tt.uid)
+        aa = MPost.get_by_uid(self.post_id2)
+        aa2 = MPost.get_by_uid(self.post_id)
+        if aa:
+            MPost.delete(self.post_id2)
+
+        if aa2:
+            MPost.delete(self.post_id)
 
         MPost2Catalog.remove_relation(self.post_id, self.tag_id)
 
         MRelation.delete(self.uid)
+        self.uid = ''
