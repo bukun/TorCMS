@@ -26,7 +26,7 @@ class TestMUser():
         tt = self.uu.create_user(post_data)
 
         assert tt['success'] == True
-        self.teardown_class()
+        
 
     def add_mess(self, **kwargs):
         name = kwargs.get('user_name', self.username)
@@ -67,7 +67,7 @@ class TestMUser():
 
         tt = self.uu.create_user(post_data)
         assert tt['success'] == False
-        self.teardown_class()
+        
 
     def test_update_info(self):
         post_data = {
@@ -77,7 +77,7 @@ class TestMUser():
         user_info = self.uu.get_by_name(self.username)
         tt = self.uu.update_info(user_info.uid, post_data['user_email'])
         assert tt['success'] == True
-        self.teardown_class()
+        
 
     def test_update_pass(self):
         self.add_mess()
@@ -87,7 +87,7 @@ class TestMUser():
         self.uu.update_pass(self.uid, post_data['user_pass'])
         tt = self.uu.get_by_uid(self.uid)
         assert tt.user_pass == tools.md5(post_data['user_pass'])
-        self.teardown_class()
+        
 
     def test_update_role(self):
         self.add_mess()
@@ -98,14 +98,14 @@ class TestMUser():
         self.uu.update_role(self.username, post_data)
         tt = self.uu.get_by_uid(self.uid)
         assert tt.role == post_data['role']
-        self.teardown_class()
+        
 
     def test_total_number(self):
         a = self.uu.total_number()
         self.add_mess()
         b = self.uu.total_number()
         assert a + 1 <= b
-        self.teardown_class()
+        
 
     def test_query_pager_by_slug(self):
         self.add_mess()
@@ -118,7 +118,7 @@ class TestMUser():
             for y in aa:
                 if y.uid == self.uid:
                     tf = True
-        self.teardown_class()
+        
         assert tf
 
     def test_count_of_certain(self):
@@ -126,7 +126,7 @@ class TestMUser():
         self.add_mess()
         b = self.uu.count_of_certain()
         assert a + 1 <= b
-        self.teardown_class()
+        
 
     def test_delete(self):
         user_info = self.uu.get_by_name(self.username)
@@ -138,7 +138,7 @@ class TestMUser():
         assert user_info == user_info3
         assert user_info == None
         assert user_info2.uid == self.uid
-        self.teardown_class()
+        
 
     def test_delete_by_user_name(self):
         user_info = self.uu.get_by_name(self.username)
@@ -150,7 +150,7 @@ class TestMUser():
         assert user_info == user_info3
         assert user_info == None
         assert user_info2.uid == self.uid
-        self.teardown_class()
+        
 
     def test_get_by_keyword(self):
         self.add_mess()
@@ -159,7 +159,7 @@ class TestMUser():
         for i in aa:
             if i.uid == self.uid:
                 tf = True
-        self.teardown_class()
+        
         assert tf
 
     def test_update_time_login(self):
@@ -169,7 +169,7 @@ class TestMUser():
         self.uu.update_success_info(self.username)
         aa = self.uu.get_by_name(self.username)
         assert user_info.time_login != aa.time_login
-        self.teardown_class()
+        
 
     def test_update_time_reset_passwd(self):
         self.add_mess()
@@ -178,14 +178,14 @@ class TestMUser():
         assert aa == True
         aa = self.uu.get_by_name(self.username)
         assert aa.time_reset_passwd == time_r
-        self.teardown_class()
+        
 
     def test_query_nologin(self):
         aa = self.uu.query_nologin()
         self.add_mess()
         bb = self.uu.query_nologin()
         assert aa.count() == bb.count()
-        self.teardown_class()
+        
 
     def test_check_user_by_email(self):
         post_data = {
@@ -196,7 +196,7 @@ class TestMUser():
         u_name = self.uu.get_by_email(post_data['user_email']).user_name
         aa = self.uu.check_user_by_name(u_name, post_data['user_pass'])
         assert aa == 1
-        self.teardown_class()
+        
 
     def test_check_user_by_name(self):
         post_data = {
@@ -205,7 +205,7 @@ class TestMUser():
         self.add_mess(**post_data)
         aa = self.uu.check_user_by_name(self.username, post_data['user_pass'])
         assert aa == 1
-        self.teardown_class()
+        
 
     def test_check_user(self):
         post_data = {
@@ -214,7 +214,7 @@ class TestMUser():
         self.add_mess(**post_data)
         aa = self.uu.check_user(self.uid, post_data['user_pass'])
         assert aa == 1
-        self.teardown_class()
+        
 
     def test_get_by_email(self):
         post_data = {
@@ -223,7 +223,7 @@ class TestMUser():
         self.add_mess(**post_data)
         aa = self.uu.get_by_email(post_data['user_email'])
         assert aa.uid == self.uid
-        self.teardown_class()
+        
 
     def test_set_sendemail_time(self):
         self.add_mess()
@@ -233,19 +233,19 @@ class TestMUser():
         self.uu.set_sendemail_time(self.uid)
         aa = self.uu.get_by_uid(self.uid)
         assert bb.time_email <= aa.time_email
-        self.teardown_class()
+        
 
     def test_get_by_name(self):
         self.add_mess()
         aa = self.uu.get_by_name(self.username)
         assert aa.uid == self.uid
-        self.teardown_class()
+        
 
     def test_get_by_uid(self):
         self.add_mess()
         aa = self.uu.get_by_uid(self.uid)
         assert aa.user_name == self.username
-        self.teardown_class()
+        
 
     def test_query_all_1(self):
         aa = self.uu.query_all()
@@ -255,7 +255,7 @@ class TestMUser():
                 tf = False
         assert tf
 
-        self.teardown_class()
+        
 
     def test_query_all(self):
 
@@ -266,10 +266,10 @@ class TestMUser():
             if i.user_name == self.username:
                 tf = True
         assert tf
-        self.teardown_class()
+        
 
     def test_db_email(self):
-        self.teardown_class()
+        
         pdata = {
             'user_name': 'asdfdsf',
             'user_pass': 'LG1sadf',
@@ -281,7 +281,7 @@ class TestMUser():
         assert bb == {'code': '31', 'success': False}
         self.uu.delete_by_user_name(pdata['user_name'])
 
-    def teardown_class(self):
+    def teardown_method(self):
         print("function teardown")
         tt = self.uu.get_by_uid(self.uid)
         if tt:

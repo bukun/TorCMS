@@ -22,7 +22,7 @@ class TestMPost2Catalog():
         Po = MPost2Catalog.query_by_post(self.post_id)
 
         assert Po.count() > 0
-        self.teardown_class()
+        
 
     def add_message(self, **kwargs):
         post_data = {
@@ -69,7 +69,7 @@ class TestMPost2Catalog():
                 TF = True
 
         assert TF
-        self.teardown_class()
+        
 
     def test_query_all(self):
         self.add_message()
@@ -82,7 +82,7 @@ class TestMPost2Catalog():
                 TF = True
 
         assert TF
-        self.teardown_class()
+        
 
     def test_remove_relation(self):
         self.add_message()
@@ -96,7 +96,7 @@ class TestMPost2Catalog():
                 TF = False
 
         assert TF
-        self.teardown_class()
+        
 
     def test_remove_tag(self):
         self.add_message()
@@ -105,7 +105,7 @@ class TestMPost2Catalog():
         TF = MPost2Catalog.query_by_catid(self.tag_id)
 
         assert TF.count() == 0
-        self.teardown_class()
+        
 
     def test_query_by_catid(self):
         self.add_message()
@@ -113,21 +113,21 @@ class TestMPost2Catalog():
         b = MPost2Catalog.query_by_catid(self.tag_id)
 
         assert b[0].post_id == self.post_id
-        self.teardown_class()
+        
 
     def test_query_postinfo_by_cat(self):
         self.add_message()
         self.add_P2C()
         ss = MPost2Catalog.query_postinfo_by_cat(self.tag_id)
         assert ss[0].logo == 'prprprprpr'
-        self.teardown_class()
+        
 
     def test_query_by_post(self):
         self.add_message()
         self.add_P2C()
         ss = MPost2Catalog.query_by_post(self.post_id)
         assert ss[0].tag_id == self.tag_id
-        self.teardown_class()
+        
 
     def test_query_count(self):
         self.add_message()
@@ -140,7 +140,7 @@ class TestMPost2Catalog():
                 if i.num == 1:
                     TF = True
         assert TF
-        self.teardown_class()
+        
 
     def test_update_field(self):
         self.add_message()
@@ -156,7 +156,7 @@ class TestMPost2Catalog():
         aa = MPost2Catalog.query_by_post(kwargs['post_id'])
 
         assert ss[0].uid == aa[0].uid
-        self.teardown_class()
+        
 
     def test_count_of_certain_category(self):
         b = MPost2Catalog.count_of_certain_category(self.tag_id)
@@ -165,7 +165,7 @@ class TestMPost2Catalog():
         a = MPost2Catalog.count_of_certain_category(self.tag_id)
 
         assert b + 1 == a
-        self.teardown_class()
+        
 
     def test_query_pager_by_slug(self):
         kwargs = {
@@ -177,7 +177,7 @@ class TestMPost2Catalog():
         a = MPost2Catalog.query_pager_by_slug(kwargs['slug'])
 
         assert a[0].uid == self.post_id
-        self.teardown_class()
+        
 
     def test_query_by_entity_uid(self):
         self.add_message()
@@ -185,7 +185,7 @@ class TestMPost2Catalog():
         a = MPost2Catalog.query_by_entity_uid(self.post_id)
 
         assert a[0].tag_id == self.tag_id
-        self.teardown_class()
+        
 
     def test_del_by_uid(self):
         self.add_message()
@@ -193,7 +193,7 @@ class TestMPost2Catalog():
         ss = MPost2Catalog.query_by_post(self.post_id)
         a = MPost2Catalog.del_by_uid(ss[0].uid)
         assert a
-        self.teardown_class()
+        
 
     def test_query_by_id(self):
         self.add_message()
@@ -201,7 +201,7 @@ class TestMPost2Catalog():
         a = MPost2Catalog.query_by_id(self.post_id)
 
         assert a[0].tag_id == self.tag_id
-        self.teardown_class()
+        
 
     def test_get_first_category(self):
         self.add_message()
@@ -210,9 +210,9 @@ class TestMPost2Catalog():
         b = MPost2Catalog.del_by_uid(a)
 
         assert b
-        self.teardown_class()
+        
 
-    def teardown_class(self):
+    def teardown_method(self):
         print("function teardown")
         tt = MCategory.get_by_uid(self.tag_id)
         if tt:

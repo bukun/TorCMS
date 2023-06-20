@@ -78,7 +78,7 @@ class MLabel:
                 name=tag_name,
                 order=1,
                 count=0,
-                kind='z',
+                kind=kind,
                 tmpl=9,
                 pid='zzzz',
             )
@@ -192,6 +192,7 @@ class MPost2Label:
                 order=order,
             ).where(TabPost2Tag.uid == labelinfo.uid)
             entry.execute()
+            return labelinfo.uid
         else:
             entry = TabPost2Tag.create(
                 uid=tools.get_uuid(),

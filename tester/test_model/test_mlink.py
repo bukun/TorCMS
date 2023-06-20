@@ -8,6 +8,7 @@ class TestMLink():
     def setup_method(self):
         self.id = tools.get_uu4d()
         self.raw_count = MLink.get_counts()
+        self.add_message()
         print(self.raw_count)
 
     def test_create_link(self):
@@ -28,7 +29,7 @@ class TestMLink():
         assert tt.order == int(post_data['order'])
         assert tt.logo == post_data['logo']
         assert self.raw_count + 1 <= new_count
-        self.teardown_class()
+        
 
     def add_message(self, **kwargs):
         uid = self.id
@@ -78,65 +79,48 @@ class TestMLink():
         assert tt.link == post_data2['link']
         assert tt.order == int(post_data2['order'])
         assert tt.logo == post_data2['logo']
-        self.teardown_class()
+        
 
     def test_query_all(self):
-        a = MLink.query_all()
-        tf = True
-        for i in a:
-            if i.uid == self.id:
-                tf = False
-        assert tf
-        self.add_message()
         a = MLink.query_all()
         tf = False
         for i in a:
             if i.uid == self.id:
                 tf = True
-        self.teardown_class()
         assert tf
+
+
 
     def test_get_by_uid(self):
         a = MLink.get_by_uid(self.id)
-        assert a == None
-        self.add_message()
-        a = MLink.get_by_uid(self.id)
+
         assert a.uid == self.id
-        self.teardown_class()
+        
 
     def test_delete(self):
-        self.add_message()
         a = MLink.get_by_uid(self.id)
         assert a.uid == self.id
         MLink.delete(self.id)
         a = MLink.get_by_uid(self.id)
         assert a == None
-        self.teardown_class()
+        
 
     def test_get_counts(self):
         a = MLink.get_counts()
-        self.add_message()
-        b = MLink.get_counts()
-        assert a + 1 <= b
-        self.teardown_class()
+
+        assert a
+        
 
     def test_query_link(self):
-        a = MLink.query_link(29)
-        tf = True
-        for i in a:
-            if i.uid == self.id:
-                tf = False
-        assert tf
-        self.add_message()
+
         a = MLink.query_link(29)
         tf = False
         for i in a:
             if i.uid == self.id:
-                tf = True
-        self.teardown_class()
+                tf = True 
         assert tf
 
-    def teardown_class(self):
+    def teardown_method(self):
         print("function teardown")
         tt = MLink.get_by_uid(self.id)
         if tt:

@@ -38,16 +38,16 @@ class TestMNullifyInfo():
             if i.uid == self.post_id:
                 tf = True
         assert tf
-        self.teardown_class()
+        
 
     def test_count_of_certain(self):
         aa = MNullifyInfo.count_of_certain()
         self.add_message()
         bb = MNullifyInfo.count_of_certain()
         assert bb == aa + 1
-        self.teardown_class()
+        
 
-    def teardown_class(self):
+    def teardown_method(self):
         print("function teardown")
         MPost.delete(self.post_id)
         self.uid = ''
