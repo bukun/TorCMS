@@ -35,8 +35,47 @@ class TestMProcess():
         self.muser = MUser()
         self.mrole = MRole()
         self.mper_action = MPermissionAction()
+        self.process_id=self.init_process()
+        self.init_post()
+
+        self.init_action()
+        self.init_state()
+        self.init_trans()
+
 
         self.fake = Faker(locale="zh_CN")
+
+    def teardown_method(self):
+        print("function teardown")
+        trans = self.mtrans.query_by_proid(self.process_id)
+        print(trans.count())
+        for tran in trans:
+            print("*" * 50)
+            print(tran.uid)
+
+            self.mreqaction.delete_by_trans(tran.uid)
+            self.mtransaction.delete_by_trans(tran.uid)
+            self.mtrans.delete(tran.uid)
+
+        req_recs = self.mrequest.get_by_pro(self.process_id)
+        if req_recs:
+            for req_rec in req_recs:
+                print(req_rec.uid)
+                self.mrequest.delete(req_rec.uid)
+
+        act_recs = MAction.query_by_proid(self.process_id)
+        for act in act_recs:
+            self.mper_action.delete_by_action(act.uid)
+            self.maction.delete(act.uid)
+
+        states = self.mstate.query_by_pro_id(self.process_id)
+        for state in states:
+            self.mstate.delete(state.uid)
+
+        self.mprocess.delete_by_uid(self.process_id)
+
+        self.mpost.delete(self.uid)
+
 
     def init_post(self):
 
@@ -61,10 +100,11 @@ class TestMProcess():
         '''
         创建流程TabProcess
         '''
-        # 创建Post
-        self.init_post()
+
+
         process_name = 'test数据审核' + self.uid
-        self.process_id = self.mprocess.create(process_name)
+        process_id = self.mprocess.create(process_name)
+        return process_id
 
     def init_state(self):
         '''
@@ -173,41 +213,34 @@ class TestMProcess():
         '''
         创建请求以及请求对应状态的相关动作
         '''
-        self.init_process()
-        self.init_action()
-        #
-        # 创建状态
-        self.init_state()
 
-        # 创建状态转换
-        self.init_trans()
         # 获取“开始”状态ID
-        if self.process_id:
-            state_type = 'start_' + self.process_id
-            cur_state = MState.get_by_state_type(state_type)
-            if cur_state:
-                print("/" * 50)
-                print(cur_state)
-                # 创建请求
-                req_id = MRequest.create(self.process_id, self.uid, self.user_id, cur_state.uid)
-                # trans_id=MTransition.query_by_state(cur_state.name)
-                print(req_id)
-                # 创建请求操作
-                cur_actions = MTransitionAction.query_by_pro_state(self.process_id, cur_state.uid)
-                for cur_act in cur_actions:
-                    MRequestAction.create(req_id, cur_act['action'], cur_act['transition'])
 
-                    # 进行请求操作
-                    self.test_request_action(req_id, self.uid, cur_act['action'])
+        state_type = 'start_' + self.process_id
+        cur_state = MState.get_by_state_type(state_type)
+        if cur_state:
+            print("/" * 50)
+            print(cur_state)
+            # 创建请求
+            req_id = MRequest.create(self.process_id, self.uid, self.user_id, cur_state.uid)
+            # trans_id=MTransition.query_by_state(cur_state.name)
+            print(req_id)
+            # 创建请求操作
+            cur_actions = MTransitionAction.query_by_pro_state(self.process_id, cur_state.uid)
+            for cur_act in cur_actions:
+                MRequestAction.create(req_id, cur_act['action'], cur_act['transition'])
 
-            req_rec = self.mrequest.get_by_pro(self.process_id).get()
-            assert req_rec.post_id == self.uid
+                # 进行请求操作
+                self.test_request_action(req_id, self.uid, cur_act['action'])
 
-            req_rec2 = self.mrequest.get_by_pro_state(self.process_id, cur_state.uid)
-            assert req_rec2.user_id == self.user_id
-            req_rec3 = self.mrequest.query_by_postid(self.uid)
-            assert req_rec3.process_id == self.process_id
-        self.teardown_class()
+        req_rec = self.mrequest.get_by_pro(self.process_id).get()
+        assert req_rec.post_id == self.uid
+
+        req_rec2 = self.mrequest.get_by_pro_state(self.process_id, cur_state.uid)
+        assert req_rec2.user_id == self.user_id
+        req_rec3 = self.mrequest.query_by_postid(self.uid)
+        assert req_rec3.process_id == self.process_id
+
 
     def test_request_action(self, request_id='', post_id='', act_id=''):
         '''
@@ -280,30 +313,24 @@ class TestMProcess():
                             assert act_arr == new_act_arr
 
     def test_request(self):
-        self.init_process()
-        self.init_post()
+
         state_type = 'start_' + self.process_id
         cur_state = MState.get_by_state_type(state_type)
         if cur_state:
             req_uid = self.mrequest.create(self.process_id, self.uid, self.user_id, cur_state.uid)
 
             recs = self.mrequest.get_by_pro(self.process_id)
-            assert recs.uid == req_uid
+            assert recs.get().uid == req_uid
             recs2 = self.mrequest.query_by_postid(self.uid)
             assert recs2.uid == req_uid
-            recs3 = self.mrequest.get_by_pro_state(self.uid, cur_state.uid)
+            recs3 = self.mrequest.get_by_pro_state(self.process_id, cur_state.uid)
             assert recs3.uid == req_uid
 
             req_rec = self.mrequest.create("self.process_id", self.process_id, self.user_id, cur_state.uid)
             assert req_rec == False
-        self.teardown_class()
 
     def test_reqact(self):
-        self.init_process()
-        self.init_post()
-        self.init_state()
-        self.init_action()
-        self.init_trans()
+
         state_type = 'start_' + self.process_id
         cur_state = MState.get_by_state_type(state_type)
         act_rec = self.maction.get_by_action_type('deny_' + self.process_id)
@@ -321,35 +348,6 @@ class TestMProcess():
             reqact_rec2 = self.mreqaction.query_by_request_trans(req_uid, tran_rec.uid)
             assert reqact_rec2.action_id == act_rec.uid
 
-        self.teardown_class()
 
-    def teardown_class(self):
-        print("function teardown")
-        trans = self.mtrans.query_by_proid(self.process_id)
-        print(trans.count())
-        for tran in trans:
-            print("*" * 50)
-            print(tran.uid)
 
-            self.mreqaction.delete_by_trans(tran.uid)
-            self.mtransaction.delete_by_trans(tran.uid)
-            self.mtrans.delete(tran.uid)
 
-        req_recs = self.mrequest.get_by_pro(self.process_id)
-        if req_recs:
-            for req_rec in req_recs:
-                print(req_rec.uid)
-                self.mrequest.delete(req_rec.uid)
-
-        act_recs = MAction.query_by_proid(self.process_id)
-        for act in act_recs:
-            self.mper_action.delete_by_action(act.uid)
-            self.maction.delete(act.uid)
-
-        states = self.mstate.query_by_pro_id(self.process_id)
-        for state in states:
-            self.mstate.delete(state.uid)
-
-        self.mprocess.delete_by_uid(self.process_id)
-
-        self.mpost.delete(self.uid)

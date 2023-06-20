@@ -730,7 +730,6 @@ class UserHandler(BaseHandler):
         else:
             next_url = '/'
 
-        print(next_url)
 
         u_name = post_data['user_name']
         u_pass = post_data['user_pass']

@@ -26,8 +26,9 @@ class TestMtransition():
         self.mrole = MRole()
         self.mper_action = MPermissionAction()
         self.state_dic = {}
-
-
+        self.process_id = self.init_process()
+        self.init_data()
+        self.init_transition()
         self.fake = Faker(locale="zh_CN")
 
     def init_process(self):
@@ -41,9 +42,9 @@ class TestMtransition():
 
     def init_data(self):
         '''
-        初始化流程TabProcess，状态，动作
+        初始化状态，动作
         '''
-        self.process_id = self.init_process()
+
 
         # 创建状态TabState
 
@@ -95,7 +96,7 @@ class TestMtransition():
         '''
          转换Tabtransition
         '''
-        self.init_data()
+
 
         deny = 'deny_' + self.process_id
         cancel = 'cancel_' + self.process_id
@@ -138,39 +139,38 @@ class TestMtransition():
             self.mtransaction.create(tran_id, tran['act_id'])
 
     def test_trans_query_all(self):
-        self.init_transition()
+
         pp = self.mtrans.query_all()
 
         TF = False
 
         if pp.count() > 0:
             TF = True
-        self.teardown_it()
+
         assert TF
 
     def test_query_by_proid(self):
-        self.init_transition()
 
         pp = self.mtrans.query_by_proid(self.process_id)
         TF = False
 
         if pp.count() == 6:
             TF = True
-        self.teardown_it()
+
         assert TF
 
     def test_query_by_proid_state(self):
-        self.init_transition()
+
         state_id = self.mstate.get_by_pro_statename(self.process_id, '拒绝')
         pp = self.mtrans.query_by_proid_state(self.process_id, state_id)
         TF = False
         if pp.count() == 1:
             TF = True
-        self.teardown_it()
+
         assert TF
 
     def test_get_by_state_type(self):
-        self.init_transition()
+
         cur_state = self.mstate.get_by_pro_statename(self.process_id, '开始')
         next_state = self.mstate.get_by_pro_statename(self.process_id, '拒绝')
         pp = self.mtrans.get_by_cur_next(self.process_id, cur_state, next_state)
@@ -178,11 +178,11 @@ class TestMtransition():
 
         if pp.count() == 1:
             TF = True
-        self.teardown_it()
+
         assert TF
 
     def test_get_by_state_type2(self):
-        self.init_transition()
+
         cur_state = self.mstate.get_by_pro_statename(self.process_id, '取消')
         next_state = self.mstate.get_by_pro_statename(self.process_id, '开始')
         pp = self.mtrans.get_by_cur_next(self.process_id, cur_state, next_state)
@@ -190,11 +190,11 @@ class TestMtransition():
 
         if pp.count() == 0:
             TF = True
-        self.teardown_it()
+
         assert TF
 
     def test_query_by_action(self):
-        self.init_transition()
+
         act_id = self.maction.get_by_action_type('restart_' + self.process_id)
         pp = self.mtrans.query_by_action(act_id, self.process_id)
         TF = False
@@ -202,11 +202,10 @@ class TestMtransition():
         if pp.count() == 1:
             TF = True
 
-        self.teardown_it()
         assert TF
 
     def test_tranaction_query_all(self):
-        self.init_transition()
+
         trans_arr = []
         trans_recs = self.mtrans.query_by_proid(self.process_id)
         for tran in trans_recs:
@@ -217,15 +216,13 @@ class TestMtransition():
 
             if i.uid in trans_arr:
                 TF = True
-        self.teardown_it()
+
         assert TF
 
-    def teardown_it(self, process_id=''):
+    def teardown_method(self):
         print("function teardown")
-        if process_id:
-            pass
-        else:
-            process_id = self.process_id
+
+        process_id = self.process_id
 
         trans = self.mtrans.query_by_proid(process_id)
 

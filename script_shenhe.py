@@ -1,6 +1,6 @@
 from torcms.model.process_model import MState, MTransition, MTransitionAction, MAction, \
     MRequest, MRequestAction,MProcess,MPermissionAction
-
+from torcms.model.process_model import *
 
 def test():
     # process = MProcess.query_all().dicts()
@@ -74,8 +74,42 @@ def test():
     print("-" * 50)
 
 
+
+
+
+
+def drop_the_table(table_name):
+    '''
+    Drop a table.
+    '''
+    try:
+        table_name.drop_table()
+    except Exception as err:
+        print(repr(err))
+
+def run_drop_tables():
+    '''
+    Running the script.
+    '''
+    print('--')
+
+
+    drop_the_table(TabRequestAction)
+    drop_the_table(TabTransitionAction)
+    drop_the_table(TabTransition)
+
+
+    drop_the_table(TabRequest)
+    drop_the_table(TabState)
+    drop_the_table(TabPermissionAction)
+    drop_the_table(TabAction)
+
+    drop_the_table(TabProcess)
+
+
 if __name__ == '__main__':
     test()
+    # run_drop_tables()
     # uu = MState()
     # tt = MProcess()
     # tt.create_or_update('1', 'Post')

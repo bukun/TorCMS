@@ -18,7 +18,19 @@ class TestMAction():
         self.mper_action = MPermissionAction()
         self.mpermission = MPermission()
         self.fake = Faker(locale="zh_CN")
+        self.process_id = self.init_process()
+        self.init_action()
 
+    def teardown_method(self):
+        print("function teardown")
+
+        act_recs = MAction.query_by_proid(self.process_id)
+
+        for act in act_recs:
+            self.mper_action.delete_by_action(act.uid)
+            self.maction.delete(act.uid)
+
+        self.mprocess.delete_by_uid(self.process_id)
     def init_process(self):
         '''
         创建流程TabProcess
@@ -32,7 +44,7 @@ class TestMAction():
         '''
         创建动作TabAction
         '''
-        self.process_id = self.init_process()
+
         action_datas = [
             {'action_type': 'deny', 'role': 'ucan_verify',
              'name': '拒绝', 'description': '操作人将请求应移至上一个状态'},
@@ -59,7 +71,7 @@ class TestMAction():
             assert rec.uid in action_uids
 
     def text_update_action(self):
-        self.init_action()
+
         post_data1 = {
             'process': 'adf',
             'name': 'asdf',
@@ -115,10 +127,10 @@ class TestMAction():
             uu = self.maction.update(rec.uid, post_data5)
             assert uu == True
 
-        self.teardown_class()
+
 
     def test_query_all(self):
-        self.init_action()
+
 
         pp = self.maction.query_all()
         TF = False
@@ -126,53 +138,53 @@ class TestMAction():
 
             if i.name in ['拒绝', '撤消', '通过', '提交审核']:
                 TF = True
-        self.teardown_class()
+
         assert TF
 
     def test_query_by_proid(self):
-        self.init_action()
+
 
         pp = self.maction.query_by_proid(self.process_id)
         TF = False
 
         if pp.count() == 4:
             TF = True
-        self.teardown_class()
+
         assert TF
 
     def test_get_by_name(self):
-        self.init_action()
+
 
         pp = self.maction.get_by_name('撤消').get()
         TF = False
         if pp.action_type.startswith('cancel'):
             TF = True
-        self.teardown_class()
+
         assert TF
 
     def test_get_by_action_type(self):
-        self.init_action()
+
         act_type = 'deny_' + self.process_id
         pp = self.maction.get_by_action_type(act_type).get()
         TF = False
 
         if pp.name == '拒绝':
             TF = True
-        self.teardown_class()
+
         assert TF
 
     def test_get_by_pro_actname(self):
-        self.init_action()
+
         pp = self.maction.get_by_pro_actname(self.process_id, '通过').get()
         TF = False
 
         if pp.action_type == 'approve_' + self.process_id:
             TF = True
-        self.teardown_class()
+
         assert TF
 
     def test_query_per_by_action(self):
-        self.init_action()
+
         act_id = self.maction.get_by_action_type('deny' + self.process_id)
         rec_name = self.mper_action.query_per_by_action(act_id)
         per_rec = self.mpermission.get_by_uid('ucan_verify')
@@ -184,16 +196,7 @@ class TestMAction():
         self.mper_action.remove_relation(act_id, per_rec.uid)
         recs = self.mper_action.query_by_permission('ucan_verify')
         assert recs == ['撤消', '通过']
-        self.teardown_class()
-    def teardown_class(self):
-        print("function teardown")
 
-        act_recs = MAction.query_by_proid(self.process_id)
 
-        for act in act_recs:
-            self.mper_action.delete_by_action(act.uid)
-            self.maction.delete(act.uid)
-
-        self.mprocess.delete_by_uid(self.process_id)
 
         

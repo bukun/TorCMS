@@ -20,10 +20,25 @@ class TestMstate():
         self.maction = MAction()
         self.mreqaction = MRequestAction()
         self.mtransaction = MTransitionAction()
-
+        self.process_id = self.init_process()
+        self.process_id2 = self.mprocess.create('test_pro' + self.uid)
         self.state_dic = {}
+        self.init_state()
 
         self.fake = Faker(locale="zh_CN")
+
+    def teardown_method(self):
+        print("function teardown")
+
+        state_recs = self.mstate.query_by_pro_id(self.process_id)
+        for state in state_recs:
+            self.mstate.delete(state.uid)
+        state_recs2 = self.mstate.query_by_pro_id(self.process_id2)
+        for state2 in state_recs2:
+            self.mstate.delete(state2.uid)
+
+        self.mprocess.delete_by_uid(self.process_id)
+        self.mprocess.delete_by_uid(self.process_id2)
 
     def init_process(self):
         '''
@@ -38,7 +53,7 @@ class TestMstate():
         '''
         创建状态TabState
         '''
-        self.process_id = self.init_process()
+
         state_datas = [
             {'name': '开始', 'state_type': 'start',
              'description': '每个进程只应该一个。此状态是创建新请求时所处的状态'},
@@ -63,7 +78,7 @@ class TestMstate():
             assert uu.uid == state_uid
 
     def text_update_state(self):
-        self.init_state()
+
         post_data1 = {
             'process': 'adf',
             'name': 'asdf',
@@ -119,10 +134,7 @@ class TestMstate():
             uu = self.mstate.update(rec.uid, post_data5)
             assert uu == True
 
-        self.teardown_it(self.process_id)
-
     def test_query_all(self):
-        self.init_state()
 
         pp = self.mstate.query_all()
         TF = False
@@ -130,32 +142,30 @@ class TestMstate():
 
             if i.name in ['开始', '拒绝', '完成', '取消', '正常']:
                 TF = True
-        self.teardown_it(self.process_id)
+
         assert TF
 
     def test_query_by_proid(self):
-        self.init_state()
 
         pp = self.mstate.query_by_pro_id(self.process_id)
         TF = False
 
         if pp.count() == 5:
             TF = True
-        self.teardown_it(self.process_id)
+
         assert TF
 
     def test_get_by_name(self):
-        self.init_state()
 
         pp = self.mstate.get_by_name('取消').get()
         TF = False
         if pp.state_type.startswith('cancelled'):
             TF = True
-        self.teardown_it(self.process_id)
+
         assert TF
 
     def test_get_by_state_type(self):
-        self.init_state()
+
         state_type = 'denied_' + self.process_id
         pp = self.mstate.get_by_state_type(state_type)
         TF = False
@@ -163,41 +173,24 @@ class TestMstate():
         print(pp.name)
         if pp.name == '拒绝':
             TF = True
-        self.teardown_it(self.process_id)
+
         assert TF
 
     def test_get_by_pro_statename(self):
-        self.init_state()
+
         pp = self.mstate.get_by_pro_statename(self.process_id, '完成').get()
         TF = False
 
         if pp.state_type == 'complete_' + self.process_id:
             TF = True
-        self.teardown_it(self.process_id)
+
         assert TF
 
     def test_update_process(self):
-        process_id = self.mprocess.create('test_pro' + self.uid)
 
-        self.init_state()
-        post_data = {'process': process_id}
+        post_data = {'process': self.process_id2}
         state_id = self.state_dic['complete']
         self.mstate.update_process(state_id, post_data)
         state_rec = self.mstate.get_by_uid(state_id).get()
 
-        assert state_rec.process_id == process_id
-        self.teardown_it(self.process_id)
-        self.teardown_it(process_id)
-
-    def teardown_it(self, process_id=''):
-        print("function teardown")
-        if process_id:
-            pass
-        else:
-            process_id = self.process_id
-        state_recs = self.mstate.query_by_pro_id(process_id)
-
-        for state in state_recs:
-            self.mstate.delete(state.uid)
-
-        self.mprocess.delete_by_uid(process_id)
+        assert state_rec.process_id == self.process_id2
