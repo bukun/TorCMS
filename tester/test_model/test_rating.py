@@ -41,7 +41,7 @@ class TestMRating():
         assert ave1 == self.rating
         MRating.update(self.post_id, 'fin', 4)
         ave = MRating.query_average_rating(self.post_id)
-        assert ave 
+        assert ave
         aa = MRating.query_by_post(self.post_id)
         for i in aa:
             if i.user_id == 'fin':

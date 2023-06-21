@@ -75,17 +75,17 @@ post_cfg = {
 APP_MASK = ["g_drr", "9_todo_new", "9_todo_new5"]
 
 
-_mod = __import__('torcms_app._config')
-post_cfg = dict(post_cfg, **_mod._config._post_cfg)
+# _mod = __import__('torcms_app._config')
+# post_cfg = dict(post_cfg, **_mod._config._post_cfg)
 
 
 
-# for wdir in Path(".").iterdir():
-#     if wdir.is_dir() and wdir.name.startswith("torcms_"):
-#         the_file = f"{wdir.name}._config"
-#         print(the_file)
-#         _mod = __import__(the_file)
-#         post_cfg = dict(post_cfg, **_mod._config._post_cfg)
+for wdir in Path(".").iterdir():
+    if wdir.is_dir() and wdir.name.startswith("torcms_"):
+        the_file = f"{wdir.name}._config"
+        print(the_file)
+        _mod = __import__(the_file)
+        post_cfg = dict(post_cfg, **_mod._config._post_cfg)
 
 
 class WidgetMenu(tornado.web.UIModule):
@@ -98,17 +98,18 @@ class WidgetMenu(tornado.web.UIModule):
         out_str = ""
 
         tmpl = '<li><a href="/{}/">{}</a></li>'
-
+        ii = 1
         for key in post_cfg:
-            if post_cfg[key]['router'] == 'topic':
-                tmpl = '<li><a href="/list/{}">{}</a></li>'
-            else:
-                tmpl = '<li><a href="/{}/">{}</a></li>'
-            out_str = out_str + tmpl.format(
-                post_cfg[key]['router'],
-                post_cfg[key].get('show', post_cfg[key].get('router'))
-            )
-
+            if ii < 7:
+                if post_cfg[key]['router'] == 'topic':
+                    tmpl = '<li><a href="/list/{}">{}</a></li>'
+                else:
+                    tmpl = '<li><a href="/{}/">{}</a></li>'
+                out_str = out_str + tmpl.format(
+                    post_cfg[key]['router'],
+                    post_cfg[key].get('show', post_cfg[key].get('router'))
+                )
+                ii = ii + 1
         return out_str
 
 
