@@ -15,7 +15,7 @@
                 <a href="/wiki/{{x.title}}" title="{{x.title}}">
                     {{ x.title }}
                 </a>
-                <span>{{ datetime.datetime.fromtimestamp(postinfo.time_update).strftime('%Y-%m-%d')  }}</span>
+                <span>{{ datetime.datetime.fromtimestamp(x.time_update).strftime('%Y-%m-%d')  }}</span>
             </li>
             {% end %}
         </ul>
