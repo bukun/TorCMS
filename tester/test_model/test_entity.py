@@ -8,20 +8,16 @@ class TestMEntity():
         print('setup 方法执行于本类中每条用例之前')
         self.uid = tools.get_uuid()
         self.path = '/static/123123'
-
+        self.kind = 'f'
+        self.desc = 'create entity'
     def test_create_entity(self):
-        uid = self.uid
-        path = self.path
-        desc = 'create entity'
-        kind = 'f'
-        tt = MEntity.create_entity(uid, path, desc, kind)
+
+        tt = MEntity.create_entity(self.uid, self.path, self.desc, self.kind)
         assert tt == True
 
 
     def add_message(self):
-        desc = 'create entity'
-        kind = 'f'
-        tf = MEntity.create_entity(self.uid, self.path, desc, kind)
+        tf = MEntity.create_entity(self.uid, self.path, self.desc, self.kind)
         assert tf
 
 

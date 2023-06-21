@@ -143,8 +143,8 @@ class Test_App():
             'kind': kwargs.get('kind1', '1'),
             'pid': kwargs.get('pid', '0000'),
         }
-        MCategory.add_or_update(self.tag_id, post_data)
-
+        tf = MCategory.add_or_update(self.tag_id, post_data)
+        assert tf == self.tag_id
         p_d = {
             'title': kwargs.get('title', self.title),
             'cnt_md': kwargs.get('cnt_md', 'grgr'),
@@ -162,8 +162,8 @@ class Test_App():
 
         }
 
-        MPost.add_or_update(self.uid, p_d)
-
+        tt = MPost.add_or_update(self.uid, p_d)
+        assert tt == self.uid
         MPost2Catalog.add_record(self.uid, self.tag_id)
 
     def test_query_random(self):

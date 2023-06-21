@@ -16,6 +16,9 @@ class TestMRelation():
         self.tag_id = '2342'
         self.post_id2 = '89898'
         self.uid = ''
+        self.add_tag()
+        self.add_2post()
+        self.add_rela()
 
     def add_tag(self, **kwargs):
         post_data = {
@@ -77,9 +80,7 @@ class TestMRelation():
         self.uid = aa
 
     def test_add_relation(self):
-        self.add_tag()
-        self.add_2post()
-        self.add_rela()
+
         print('====')
         print(self.uid)
         aa = MHelper.get_by_uid(TabRel, self.uid)
@@ -88,9 +89,7 @@ class TestMRelation():
 
 
     def test_update_relation(self):
-        self.add_tag()
-        self.add_2post()
-        self.add_rela()
+
         MRelation.update_relation(self.post_id, self.post_id2, weight=2)
         aa = MHelper.get_by_uid(TabRel, self.uid)
         assert aa.count >= 2 + 1
@@ -111,9 +110,7 @@ class TestMRelation():
 
 
     def test_delete(self):
-        self.add_tag()
-        self.add_2post()
-        self.add_rela()
+
         aa = MHelper.get_by_uid(TabRel, self.uid)
         assert aa.post_f_id == self.post_id
         MRelation.delete(self.uid)

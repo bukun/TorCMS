@@ -10,6 +10,8 @@ class TestMCollect():
         print('setup 方法执行于本类中每条用例之前')
         self.user_id = 'pppp'
         self.post_id = '90953'
+        self.post_id_new = '90955'
+        self.add_mess()
 
     def add_message(self, **kwargs):
 
@@ -34,7 +36,7 @@ class TestMCollect():
         tf = MPost.add_or_update(post_id, p_d)
         assert tf == post_id
     def test_add_or_update(self):
-        self.add_message()
+
         user_id = self.user_id
         app_id = self.post_id
         MCollect.add_or_update(user_id, app_id)
@@ -58,7 +60,7 @@ class TestMCollect():
         assert tf
 
     def test_query_recent(self):
-        self.add_mess()
+
         user_id = self.user_id
         a = MCollect.query_recent(user_id)
 
@@ -69,7 +71,7 @@ class TestMCollect():
 
         user_id = self.user_id
 
-        self.add_mess()
+
         a = MCollect.get_by_signature(user_id, self.post_id)
 
         assert a != None
@@ -78,7 +80,9 @@ class TestMCollect():
     def test_count_of_user(self):
         user_id = self.user_id
         b = MCollect.count_of_user(user_id)
-        self.add_mess()
+
+        self.add_message(post_id=self.post_id_new)
+        MCollect.add_or_update(self.user_id, self.post_id_new)
 
         a = MCollect.count_of_user(user_id)
 
@@ -87,7 +91,7 @@ class TestMCollect():
 
     def test_query_pager_by_all(self):
         user_id = self.user_id
-        self.add_mess()
+
         a = MCollect.query_pager_by_all(user_id)
         tf = False
         for i in a:
@@ -98,7 +102,7 @@ class TestMCollect():
 
     def test_query_pager_by_userid(self):
         user_id = self.user_id
-        self.add_mess()
+
         a = MCollect.query_pager_by_userid(user_id, '1')
         tf = False
         for i in a:
@@ -117,5 +121,8 @@ class TestMCollect():
     def teardown_method(self):
         print("function teardown")
         tt = MPost.get_by_uid(self.post_id)
+        tt1 = MPost.get_by_uid(self.post_id_new)
         if tt:
             MPost.delete(self.post_id)
+        if tt1:
+            MPost.delete(self.post_id_new)

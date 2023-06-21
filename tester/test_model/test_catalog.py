@@ -11,6 +11,7 @@ class TestMCatalog():
         self.post_id = 'r42w2'
         self.slug = 'huohuohuo'
         self.tag_id = 'xx00'
+        self.add_message()
 
     def add_message(self, **kwargs):
         post_data = {
@@ -45,7 +46,7 @@ class TestMCatalog():
         MPost2Catalog.add_record(self.post_id, self.tag_id)
 
     def test_query_by_slug(self):
-        self.add_message()
+
         aa = MCatalog.query_by_slug(self.slug)
         assert aa
         tf = False
@@ -56,7 +57,6 @@ class TestMCatalog():
 
 
     def test_query_all(self):
-        self.add_message()
         aa = MCatalog.query_all()
         assert aa
         tf = False
