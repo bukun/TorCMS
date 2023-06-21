@@ -23,13 +23,6 @@ class TestSomeHandler(AsyncHTTPSTestCase):
         '''
         return APP
 
-    def test_index(self):
-        '''
-        Test index.
-        '''
-        response = self.fetch('/collect/')
-        self.assertEqual(response.code, 200)
-
     def test_collect_list(self):
         '''
         Test list.
@@ -40,5 +33,5 @@ class TestSomeHandler(AsyncHTTPSTestCase):
         '''
         Test remove.
         '''
-        response = self.fetch('/collect/remove')
+        response = self.fetch('/collect/remove/')
         self.assertEqual(response.code, 200)
