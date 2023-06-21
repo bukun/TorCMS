@@ -16,6 +16,9 @@ class TestMReply2User():
         self.user_uid = '12345'
         self.reply_uid = '65412'
 
+        self.add_user()
+        self.add_reply()
+
     def add_user(self, **kwargs):
         name = kwargs.get('user_name', self.username)
         post_data = {
@@ -26,6 +29,7 @@ class TestMReply2User():
 
         self.user.create_user(post_data)
         aa = self.user.get_by_name(name)
+        assert aa
         self.user_uid = aa.uid
 
     def add_reply(self, **kwargs):
@@ -37,41 +41,36 @@ class TestMReply2User():
             'cnt_reply': kwargs.get('cnt_reply', 'kfjd速度很快很低'),
         }
         uid = self.reply.create_reply(p_d)
+        assert uid
         self.reply_uid = uid
         self.r2u.create_reply(self.user_uid, uid)
 
     def test_create_reply(self):
-        self.add_user()
-        self.add_reply()
         self.r2u.create_reply(self.user_uid, self.reply_uid)
         aa = self.r2u.get_voter_count(self.reply_uid)
         assert aa >= 1
-        self.teardown_class()
+
 
     #
     # def test_update(self):
     #     self.r2u.update()
 
     def test_delete(self):
-        self.add_user()
-        self.add_reply()
         self.r2u.create_reply(self.user_uid, self.reply_uid)
         aa = self.r2u.get_voter_count(self.reply_uid)
         assert aa >= 1
         self.r2u.delete(self.reply_uid)
         aa = self.r2u.get_voter_count(self.reply_uid)
         assert aa == 0
-        self.teardown_class()
+
 
     def test_get_voter_count(self):
-        self.add_user()
-        self.add_reply()
         self.r2u.create_reply(self.user_uid, self.reply_uid)
         aa = self.r2u.get_voter_count(self.reply_uid)
         assert aa >= 1
-        self.teardown_class()
 
-    def teardown_class(self):
+
+    def teardown_method(self):
         print("function teardown")
         tt = self.user.get_by_uid(self.user_uid)
         if tt:

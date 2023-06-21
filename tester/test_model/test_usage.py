@@ -17,6 +17,8 @@ class TestMUsage():
         self.slug = 'qwqqq'
         self.postid2 = 'qqqew'
         self.uu = MPost()
+        self.add_message()
+        self.add_usage()
 
     def add_message(self, **kwargs):
         post_data = {
@@ -26,8 +28,8 @@ class TestMUsage():
             'kind': kwargs.get('kind1', '1'),
             'pid': kwargs.get('pid', '0000'),
         }
-        MCategory.add_or_update(self.tag_id, post_data)
-
+        tf = MCategory.add_or_update(self.tag_id, post_data)
+        assert tf == self.tag_id
         p_d = {
             'title': kwargs.get('title', 'iiiii'),
             'cnt_md': kwargs.get('cnt_md', 'grgr'),
@@ -46,14 +48,15 @@ class TestMUsage():
         }
         post_id = kwargs.get('post_id', self.postid)
 
-        MPost.add_or_update(post_id, p_d)
-
+        tt = MPost.add_or_update(post_id, p_d)
+        assert tt == post_id
         MPost2Catalog.add_record(self.postid, self.tag_id)
 
     def add_usage(self, **kwargs):
         id = kwargs.get('post_id', self.postid)
         MUsage.add_or_update(self.userid, id, '1')
         aa = MUsage.query_by_post(id)
+        assert aa
         print('add_usage')
         print(aa)
 
@@ -63,8 +66,7 @@ class TestMUsage():
         print(self.uid)
 
     def test_query_by_post(self):
-        self.add_message()
-        self.add_usage()
+
         aa = MUsage.query_by_post(self.postid)
         tf = False
         for i in aa:
@@ -72,12 +74,12 @@ class TestMUsage():
                 assert i.uid == self.uid
                 tf = True
                 break
-        self.teardown_class()
+   
         assert tf
 
     #
     # def test_get_all(self):
-    #     self.teardown_class()
+    #
     #     aa = MUsage.get_all()
     #     print(aa.count())
     #     self.add_message()
@@ -98,9 +100,7 @@ class TestMUsage():
     #     assert tf
 
     def test_query_random(self):
-        self.teardown_class()
-        self.add_message()
-        self.add_usage()
+
         aa = MUsage.query_random(limit=300)
         tf = False
         for i in aa:
@@ -108,12 +108,10 @@ class TestMUsage():
                 assert i.uid == self.uid
                 tf = True
                 break
-        self.teardown_class()
+   
         assert tf
 
     def test_query_recent(self):
-        self.add_message()
-        self.add_usage()
         aa = MUsage.query_recent(self.userid, '1', num=300)
         tf = False
         for i in aa:
@@ -121,12 +119,10 @@ class TestMUsage():
                 assert i.uid == self.uid
                 tf = True
                 break
-        self.teardown_class()
+   
         assert tf
 
     def test_query_recent_by_cat(self):
-        self.add_message()
-        self.add_usage()
         aa = MUsage.query_recent_by_cat(self.userid, self.tag_id, 8)
         tf = False
         for i in aa:
@@ -134,12 +130,10 @@ class TestMUsage():
                 assert i.uid == self.uid
                 tf = True
                 break
-        self.teardown_class()
+   
         assert tf
 
     def test_query_most(self):
-        self.add_message()
-        self.add_usage()
         aa = MUsage.query_most(self.userid, '1', 8)
         tf = False
         for i in aa:
@@ -147,21 +141,17 @@ class TestMUsage():
                 assert i.uid == self.uid
                 tf = True
                 break
-        self.teardown_class()
+   
         assert tf
 
     def test_query_by_signature(self):
 
-        self.add_message()
-        self.add_usage()
         aa = MUsage.query_by_signature(self.userid, self.postid)
         assert aa[0].uid == self.uid
 
-        self.teardown_class()
+   
 
     def test_count_increate(self):
-        self.add_message()
-        self.add_usage()
         MUsage.count_increate(self.uid, self.tag_id, 8)
         aa = MUsage.query_recent(self.userid, '1')
         tf = False
@@ -170,12 +160,11 @@ class TestMUsage():
                 assert i.count >= 8
                 tf = True
                 break
-        self.teardown_class()
+   
         assert tf
 
     def test_add_or_update(self):
-        self.add_message()
-        self.add_usage()
+
         aa = MUsage.query_recent(self.userid, '1')
         tf = False
         for i in aa:
@@ -184,14 +173,16 @@ class TestMUsage():
                 assert i.post_id == self.postid
                 tf = True
                 break
-        self.teardown_class()
+   
         assert tf
 
-    def teardown_class(self):
+    def teardown_method(self):
         print("function teardown")
-
-        MCategory.delete(self.tag_id)
-
-        MPost.delete(self.postid)
+        tf = MCategory.get_by_uid(self.tag_id)
+        if tf:
+            MCategory.delete(self.tag_id)
+        tt = MPost.get_by_uid(self.postid)
+        if tt:
+            MPost.delete(self.postid)
 
         MPost2Catalog.remove_relation(self.postid, self.tag_id)
