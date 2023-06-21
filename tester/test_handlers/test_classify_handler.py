@@ -25,6 +25,7 @@ class TestClassifyHandler(AsyncHTTPSTestCase):
 
 
 
+
     def test_index_sec(self):
         '''
         Test index.
@@ -38,3 +39,4 @@ class TestClassifyHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/classify/list/2')
         self.assertEqual(response.code, 200)
+
