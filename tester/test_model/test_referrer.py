@@ -6,9 +6,10 @@ from torcms.model.referrer_model import MReferrer
 class TestMReferrer():
     def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
-        self.uid = '',
-        self.post_id = 'grww',
+        self.uid = ''
+        self.post_id = 'grww'
         self.userip = '423'
+        self.add_message()
 
     def add_message(self, **kwargs):
         post_data = {
@@ -20,7 +21,7 @@ class TestMReferrer():
         self.uid = MReferrer.add_meta('ftydd', post_data)
 
     def test_modify_meta(self):
-        self.add_message()
+
         post_data = {
             'media': 'fffffff',
             'terminal': '4f4f4fgg',
@@ -35,44 +36,32 @@ class TestMReferrer():
         assert b.kind == post_data['kind']
         assert b.userip == post_data['userip']
 
-        self.teardown_class()
-
     def test_add_meta(self):
-        self.add_message()
         b = MReferrer.get_by_userip(self.userip)
         assert b[0].uid == self.uid
-        self.teardown_class()
 
     def test_delete(self):
-        self.add_message()
         b = MReferrer.get_by_userip(self.userip)
         assert b[0].uid == self.uid
         MReferrer.delete(self.uid)
         b = MReferrer.get_by_userip(self.userip)
         assert b.count() == 0
-        self.teardown_class()
 
     def test_query_all(self):
-        self.add_message()
         b = MReferrer.query_all()
         for i in b:
             if i.uid == self.uid:
                 assert i.userip == self.userip
-        self.teardown_class()
 
     def test_get_by_userip(self):
-        self.add_message()
         b = MReferrer.get_by_userip(self.userip)
         assert b[0].uid == self.uid
-        self.teardown_class()
 
     def test_get_by_uid(self):
-        self.add_message()
         b = MReferrer.get_by_uid(self.uid)
         assert b.userip == self.userip
-        self.teardown_class()
 
-    def teardown_class(self):
+    def teardown_method(self):
         print("function teardown")
         MReferrer.delete(self.uid)
         self.uid = ''

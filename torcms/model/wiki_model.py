@@ -87,9 +87,9 @@ class MWiki:
         logger.info('Call create wiki')
 
         title = post_data['title'].strip()
-        # if len(title) < 2:
-        #     logger.info(' ' * 4 + 'The title is too short.')
-        #     return False
+        if len(title) < 1:
+            logger.info(' ' * 4 + 'The title is too short.')
+            return False
 
         the_wiki = MWiki.get_by_wiki(title)
         if the_wiki:

@@ -17,8 +17,6 @@ class TestMRelation():
         self.tag_id = '0111'
 
     def test_get_app_relations(self, **kwargs):
-        MPost.delete(self.uid)
-        MPost.delete(self.uid2)
         # 添加post
         post_data = {
             'title': 'test1',
@@ -31,7 +29,7 @@ class TestMRelation():
         }
 
         uu1 = MPost.add_or_update(self.uid, post_data)
-
+        assert uu1 == self.uid
         post_data2 = {
             'title': 'test2',
             'cnt_md': '## test2',
@@ -44,7 +42,7 @@ class TestMRelation():
         }
 
         uu2 = MPost.add_or_update(self.uid2, post_data2)
-
+        assert uu2 == self.uid2
         # 添加category
         cat_data = {
             'name': kwargs.get('name', 'category'),
@@ -54,11 +52,19 @@ class TestMRelation():
             'pid': kwargs.get('pid', '0000'),
         }
 
-        MCategory.add_or_update(self.tag_id, cat_data)
+        cat_id = MCategory.add_or_update(self.tag_id, cat_data)
+        assert cat_id == self.tag_id
         MPost2Catalog.add_record(uu1, self.tag_id)
 
-        MRelation.add_relation(uu1, uu2)
+        rel_uid = MRelation.add_relation(uu1, uu2)
+        assert rel_uid
+        rel_rec = MRelation.get_app_relations(uu2)
+        assert rel_rec.count() >= 1
+        assert rel_rec.get().post_id == self.uid
 
-        MRelation.get_app_relations(uu1)
-
-        assert True
+    def teardown_method(self):
+        print("function teardown")
+        MRelation.delete(self.uid)
+        MCategory.delete(self.tag_id)
+        MPost.delete(self.uid)
+        MPost.delete(self.uid2)
