@@ -9,14 +9,12 @@
     {% module use_f2e('f2elib') %}
     {% module use_f2e('codemirror') %}
 
-
     {% block headinfo %}
     {% end %}
     {% block head %}
     {% end %}
 
     <script src="{{ static_url('jslib/dst/getIP.js') }}"></script>
-
     <script language="javascript" type="text/javascript">
         // 统计用户 访问网站步骤记录
         var tjSecond = 0;
@@ -66,13 +64,10 @@
                     timeon: tjArrRd[tjI].time,
                     timein: tjArrRd[tjI].timeIn,
                     timeOut: tjArrRd[tjI].timeOut
-
                 }, function (result) {
                 });
                 var tjArr1 = JSON.stringify(tjArrRd);
                 localStorage.setItem("jsArr", tjArr1);
-
-
             }
         };
 
