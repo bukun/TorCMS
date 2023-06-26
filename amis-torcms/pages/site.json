@@ -113,6 +113,12 @@
                 "url": "/data/list",
                 "icon": "fa fa-list",
                 "schemaApi": "get:/pages/data-list.json"
+              },
+               {
+                "label": "已拒绝数据列表",
+                "url": "/data/list1",
+                "icon": "fa fa-list",
+                "schemaApi": "get:/pages/data1-list.json"
               }
             ]
           }

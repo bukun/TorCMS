@@ -198,6 +198,10 @@ class ApiPostHandler(PostHandler):
         page = int(post_data['page'][0].decode('utf-8'))
         perPage = int(post_data['perPage'][0].decode('utf-8'))
 
+        state = post_data['state'][0].decode('utf-8')
+
+
+
         def get_pager_idx():
             '''
             Get the pager index.
@@ -234,6 +238,7 @@ class ApiPostHandler(PostHandler):
             request_rec = MRequest.query_by_postid(rec.uid)
 
             if request_rec:
+                cur_state=MState.get_by_uid(request_rec.current_state)
                 act_recs = MTransitionAction.query_by_pro_state(request_rec.process, request_rec.current_state)
                 act_arr = []
                 for act in act_recs:
@@ -259,7 +264,15 @@ class ApiPostHandler(PostHandler):
                                            "request_id": request_rec.uid,
                                            "state_id": request_rec.current_state_id,
                                            "process_id": request_rec.process_id}
-                                act_arr.append(act_dic)
+
+                                if state=='1':
+                                    if cur_state.get().state_type.startswith('denied'):
+                                        act_arr.append(act_dic)
+                                else:
+                                    if cur_state.get().state_type.startswith('denied'):
+                                        continue
+                                    else:
+                                        act_arr.append(act_dic)
 
                 if act_arr:
                     rec_arr.append(
