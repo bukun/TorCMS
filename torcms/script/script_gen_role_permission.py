@@ -3,7 +3,7 @@
 Genereting catetory.
 '''
 import sys
-
+from config import post_cfg
 from openpyxl.reader.excel import load_workbook
 
 from torcms.script.autocrud.base_crud import FILTER_COLUMNS
@@ -38,7 +38,7 @@ def gen_xlsx_role_permission():
                 ppdata = {'name': cell_val.split(":")[1]}
 
                 MPermission.add_or_update(puid, ppdata)
-
+        role_arr = []
         for row_num in range(3, 10000):
 
             # role入库
@@ -80,8 +80,9 @@ def gen_xlsx_role_permission():
                 continue
 
             post_data = {'name': name, 'uid': uid, 'pid': pid}
-
+            role_arr.append(uid)
             MRole.add_or_update(uid, post_data)
+
             user_data = {
                 'user_name': f'user_{uid}',
                 'user_pass': 'Gg123456',
@@ -90,7 +91,19 @@ def gen_xlsx_role_permission():
             }
             tt = MUser.create_user(user_data)
             if tt.get('uid'):
+
                 role_permission_relation(uid, tt['uid'], sheet_ranges, row_num, kind_sig)
+
+                # 编辑者添加权限
+                create_editor_role()
+
+                cur_per = MRole2Permission.query_permission_by_role(uid)
+                extinfo = {}
+                extinfo['roles'] = role_arr
+                for per in cur_per:
+                    extinfo[f'_per_{per["uid"]}'] = 0
+
+                MUser.update_extinfo(tt['uid'], extinfo)
 
 
 def role_permission_relation(role_uid, user_uid, work_sheet, row_num, kind_sig):
@@ -117,47 +130,17 @@ def test_script():
     gen_xlsx_role_permission()
 
 
-def create_test_role():
+def create_editor_role():
     per_arr = []
-    aa = {'1': {'router': 'post',
-                'html': '<span style="color:green;" class="glyphicon glyphicon-list-alt">[Document]</span>',
-                'checker': '1', 'show': 'Document'}, '3': {'router': 'info',
-                                                           'html': '<span style="color:blue;" class="glyphicon glyphicon-list-alt">[Info]</span>',
-                                                           'checker': '0', 'show': 'Info'}, 'v': {'router': 'map-show',
-                                                                                                  'html': '<span style="color:red;" class="glyphicon glyphicon-globe">[Map visualization]</span>',
-                                                                                                  'checker': '0',
-                                                                                                  'show': 'Map visualization'},
-          'k': {'router': 'tutorial',
-                'html': '<span style="color:blue;" class="glyphicon glyphicon-list-alt">[Tutorial]</span>',
-                'checker': '0', 'show': 'Tutorial'}, 'q': {'router': 'topic',
-                                                           'html': '<span style="color:blue;" class="glyphicon glyphicon-list-alt">[Topics]</span>',
-                                                           'checker': '0', 'show': 'Topics'},
-          's': {'router': 'app', 'html': '<span style="color:green;" class="glyphicon glyphicon-list-alt">[App]</span>',
-                'checker': '0', 'show': 'App'}, 'd': {'router': 'directory',
-                                                      'html': '<span style="color:blue;" class="glyphicon glyphicon-list-alt">[Directory]</span>',
-                                                      'checker': '0', 'show': 'Directory'}, '9': {'router': 'data',
-                                                                                                  'html': '<span style="color:blue;" class="glyphicon glyphicon-list-alt">[Data]</span>',
-                                                                                                  'checker': '10',
-                                                                                                  'show': 'Data'},
-          'g': {'router': 'postgis',
-                'html': '<span style="color:blue;" class="glyphicon glyphicon-list-alt">[postgis]</span>',
-                'checker': '10', 'show': 'postgis'}, 't': {'router': 'dataset',
-                                                           'html': '<span style="color:blue;" class="glyphicon glyphicon-list-alt">[Taginfo]</span>',
-                                                           'checker': '10', 'show': 'Taginfo'},
-          'm': {'router': 'map', 'html': '<span style="color:green;" class="glyphicon glyphicon-list-alt">[Map]</span>',
-                'checker': '0', 'show': 'Map'}, '7': {'router': 'datayml',
-                                                      'html': '<span style="color:blue;" class="glyphicon glyphicon-list-alt">[Datayml]</span>',
-                                                      'checker': '10', 'show': 'Datayml'}}
-    for kind in aa.keys():
-        print("*" * 50)
-        print(kind)
+
+    for kind in post_cfg.keys():
         per_dic_v = {
             "uid": "{0}can_view".format(kind),
             "kind": kind,
             "per_data": {
                 "name": "{0}查看".format(kind),
-                "controller": 1,
-                "action": 1
+                "controller": 0,
+                "action": 0
             },
 
         }
@@ -166,8 +149,8 @@ def create_test_role():
             "kind": kind,
             "per_data": {
                 "name": "{0}添加".format(kind),
-                "controller": 1,
-                "action": 1
+                "controller": 0,
+                "action": 0
             },
 
         }
@@ -176,8 +159,8 @@ def create_test_role():
             "kind": kind,
             "per_data": {
                 "name": "{0}编辑".format(kind),
-                "controller": 1,
-                "action": 1
+                "controller": 0,
+                "action": 0
             },
 
         }
@@ -186,8 +169,8 @@ def create_test_role():
             "kind": kind,
             "per_data": {
                 "name": "{0}删除".format(kind),
-                "controller": 1,
-                "action": 1
+                "controller": 0,
+                "action": 0
             },
 
         }
@@ -197,11 +180,10 @@ def create_test_role():
         per_arr.append(per_dic_d)
 
     for per in per_arr:
-
         MPermission.add_or_update(per['uid'], per['per_data'])
         MRole2Permission.add_or_update('1editor', per['uid'], kind_sig=per['kind'])
 
 
 if __name__ == '__main__':
     gen_xlsx_role_permission()
-    create_test_role()
+    create_editor_role()

@@ -44,11 +44,15 @@ def run_create_admin(*args):
         'user_pass': 'Gg01234567',
         'role': '3300',
     }
-    if MUser.get_by_name(post_data['user_name']):
+    userinfo = MUser.get_by_name(post_data['user_name'])
+    if userinfo:
+        role = MRole.get_by_uid('uadministrators')
+        if role:
+            MStaff2Role.add_or_update(userinfo.uid, role.uid)
         print(f'User `{post_data["user_name"]}` already exists.')
     else:
-        out_dic=MUser.create_user(post_data)
-        role=MRole.get_by_uid('uadministrators')
+        out_dic = MUser.create_user(post_data)
+        role = MRole.get_by_uid('uadministrators')
         if 'uid' in out_dic and role:
             MStaff2Role.add_or_update(out_dic['uid'], role.uid)
 

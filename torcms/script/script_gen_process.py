@@ -6,10 +6,12 @@ Genereting catetory.
 from torcms.model.process_model import MProcess, MState, MTransition, MRequest, MAction, MRequestAction, \
     MTransitionAction, MPermissionAction
 
+
 def run_gen_process():
     '''
     Initialize audit process related data
     '''
+
 
     process_name = '数据审核'
     process_id = MProcess.create(process_name)
@@ -22,11 +24,14 @@ def run_gen_process():
         test_state(process_id)
 
 
+
+
+
 def test_state(process_id):
     '''
     创建状态TabState
     '''
-    state_dic={}
+    state_dic = {}
     state_datas = [
         {'name': '开始', 'state_type': 'start',
          'description': '每个进程只应该一个。此状态是创建新请求时所处的状态'},
@@ -47,7 +52,8 @@ def test_state(process_id):
         state_dic[state_data['state_type']] = state_uid
 
     # 创建状态转换
-    test_trans(process_id,state_dic)
+    test_trans(process_id, state_dic)
+
 
 def test_action(process_id):
     '''
@@ -74,7 +80,6 @@ def test_action(process_id):
         print(act['role'])
         if act_uid:
             MPermissionAction.create(act['role'], act_uid)
-
 
 
 def test_trans(process_id, state_dic):
@@ -109,7 +114,6 @@ def test_trans(process_id, state_dic):
              'next_state': state_dic['denied'], 'act_id': act_deny},
             {'current_state': state_dic['cancelled'],
              'next_state': state_dic['complete'], 'act_id': act_approve},
-
 
             # 状态：“拒绝”对应的“取消”
             {'current_state': state_dic['denied'],
