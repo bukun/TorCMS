@@ -15,9 +15,8 @@ from .script_gen_process import run_gen_process
 from .script_zero import run_zero
 from .script_gen_role_permission import run_gen_role_permission
 from pathlib import Path
- 
-XLSX_FILE = './database/role_perm.xlsx'
 
+XLSX_FILE = './database/role_perm.xlsx'
 
 
 def run_init(*args):
@@ -37,15 +36,11 @@ def run_init(*args):
 
     run_init_tables()
 
-    run_gen_process()
-
     if Path(XLSX_FILE).exists():
         run_gen_role_permission()
-
 
     run_gen_category()
     run_create_admin()
     run_whoosh()
 
-
-
+    run_gen_process()

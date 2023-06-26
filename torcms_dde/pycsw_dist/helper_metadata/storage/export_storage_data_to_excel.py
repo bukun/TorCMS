@@ -27,8 +27,7 @@ def query_data():
     search_req_s = requests.post(search_url, data=search_d, headers=headers)
     search_res = json.loads(search_req_s.text)
     id_list = []
-    # print("-" * 50)
-    # print(search_res)
+
 
     search_payload1 = {
         'data': 'data',

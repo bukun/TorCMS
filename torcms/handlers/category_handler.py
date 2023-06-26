@@ -134,8 +134,7 @@ class CategoryAjaxHandler(BaseHandler):
         Delete  by id.
 
         '''
-        print("-" * 50)
-        print(del_id)
+
         if self.check_post_role()['DELETE']:
             pass
         else:

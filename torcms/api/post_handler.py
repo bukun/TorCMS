@@ -67,9 +67,9 @@ class ApiPostHandler(PostHandler):
         process_id = post_data['process_id']
         post_id = post_data['post_id']
         user_id = post_data['user_id']
-        print("-" * 50)
+
         act_arr, cur_state_id = self.create_request(process_id, post_id, user_id)
-        print(act_arr)
+
         output = {'act_arr': act_arr}
 
         return json.dump(output, self)
@@ -250,10 +250,11 @@ class ApiPostHandler(PostHandler):
                         cur_user_per = []
                         for key in perms:
                             cur_user_per.append(key['permission'])
-
+                         
                         for per_act in per_act_recs:
 
-                            if (str(per_act.permission) in cur_user_per) and (self.userinfo.extinfo.get(f'_per_{per_act.permission}', 0) == 1):
+                            if (str(per_act.permission) in cur_user_per) and (
+                                    self.userinfo.extinfo.get(f'_per_{per_act.permission}', 0) == 1):
                                 act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid,
                                            "request_id": request_rec.uid,
                                            "state_id": request_rec.current_state_id,

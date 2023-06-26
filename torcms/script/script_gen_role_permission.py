@@ -95,7 +95,7 @@ def gen_xlsx_role_permission():
                 role_permission_relation(uid, tt['uid'], sheet_ranges, row_num, kind_sig)
 
                 # 编辑者添加权限
-                create_editor_role()
+                create_editor_role(uid)
 
                 cur_per = MRole2Permission.query_permission_by_role(uid)
                 extinfo = {}
@@ -130,8 +130,9 @@ def test_script():
     gen_xlsx_role_permission()
 
 
-def create_editor_role():
-    per_arr = []
+def create_editor_role(role_uid):
+    per_editor = []
+    per_admin = []
 
     for kind in post_cfg.keys():
         per_dic_v = {
@@ -174,16 +175,66 @@ def create_editor_role():
             },
 
         }
-        per_arr.append(per_dic_v)
-        per_arr.append(per_dic_a)
-        per_arr.append(per_dic_e)
-        per_arr.append(per_dic_d)
+        per_editor.append(per_dic_v)
+        per_editor.append(per_dic_a)
+        per_editor.append(per_dic_e)
+        per_editor.append(per_dic_d)
 
-    for per in per_arr:
-        MPermission.add_or_update(per['uid'], per['per_data'])
-        MRole2Permission.add_or_update('1editor', per['uid'], kind_sig=per['kind'])
+        per_ad_r = {
+            "uid": "{0}can_review".format(kind),
+            "kind": kind,
+            "per_data": {
+                "name": "{0}复查".format(kind),
+                "controller": 0,
+                "action": 0
+            },
+
+        }
+        per_ad_v = {
+            "uid": "{0}can_verify".format(kind),
+            "kind": kind,
+            "per_data": {
+                "name": "{0}审核".format(kind),
+                "controller": 0,
+                "action": 0
+            },
+
+        }
+        per_ad_a = {
+            "uid": "{0}assign_role".format(kind),
+            "kind": kind,
+            "per_data": {
+                "name": "{0}权限".format(kind),
+                "controller": 0,
+                "action": 0
+            },
+
+        }
+        per_ad_g = {
+            "uid": "{0}assign_group".format(kind),
+            "kind": kind,
+            "per_data": {
+                "name": "{0}分组".format(kind),
+                "controller": 0,
+                "action": 0
+            },
+
+        }
+        per_admin.append(per_ad_r)
+        per_admin.append(per_ad_v)
+        per_admin.append(per_ad_a)
+        per_admin.append(per_ad_g)
+
+    if role_uid.endswith('editor'):
+        for per_edit in per_editor:
+            MPermission.add_or_update(per_edit['uid'], per_edit['per_data'])
+            MRole2Permission.add_or_update('1editor', per_edit['uid'], kind_sig=per_edit['kind'])
+    else:
+
+        for per_ad in per_admin:
+            MPermission.add_or_update(per_ad['uid'], per_ad['per_data'])
+            MRole2Permission.add_or_update('uadministrators', per_ad['uid'], kind_sig=per_ad['kind'])
 
 
 if __name__ == '__main__':
     gen_xlsx_role_permission()
-    create_editor_role()

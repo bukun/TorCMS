@@ -219,8 +219,7 @@ class MUser:
     def update_extinfo(user_id, extinfo):
 
         out_dic = {'success': False, 'code': '00'}
-        print("-" * 50)
-        print(extinfo)
+
         cur_info = MUser.get_by_uid(user_id)
         cur_extinfo = cur_info.extinfo
         for key in extinfo:
@@ -323,9 +322,7 @@ class MUser:
         perms = MStaff2Role.query_permissions(userinfo.uid)
         # 重新分配权限
         for key in perms:
-            print("-" * 50)
-            print(key)
-            print(key['permission'])
+
             cur_extinfo[f"_per_{key['permission']}"] = 1
 
         entry = TabMember.update(extinfo=cur_extinfo).where(
