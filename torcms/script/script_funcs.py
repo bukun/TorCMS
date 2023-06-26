@@ -16,6 +16,7 @@ from config import post_cfg
 from torcms.model.user_model import MUser
 from torcms.model.staff2role_model import MStaff2Role
 from torcms.model.role_model import MRole
+from torcms.model.role2permission_model import MRole2Permission
 
 
 def build_directory():
@@ -49,12 +50,27 @@ def run_create_admin(*args):
         role = MRole.get_by_uid('uadministrators')
         if role:
             MStaff2Role.add_or_update(userinfo.uid, role.uid)
+            cur_per = MRole2Permission.query_permission_by_role(role.uid)
+            extinfo = {}
+            extinfo['roles'] = [role.uid]
+            for per in cur_per:
+                extinfo[f'_per_{per["uid"]}'] = 0
+
+            MUser.update_extinfo(userinfo.uid, extinfo)
         print(f'User `{post_data["user_name"]}` already exists.')
     else:
         out_dic = MUser.create_user(post_data)
         role = MRole.get_by_uid('uadministrators')
         if 'uid' in out_dic and role:
             MStaff2Role.add_or_update(out_dic['uid'], role.uid)
+
+            cur_per = MRole2Permission.query_permission_by_role(role.uid)
+            extinfo = {}
+            extinfo['roles'] = [role.uid]
+            for per in cur_per:
+                extinfo[f'_per_{per["uid"]}'] = 0
+
+            MUser.update_extinfo(out_dic['uid'], extinfo)
 
 
 def run_whoosh(*args):
