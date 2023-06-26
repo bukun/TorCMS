@@ -191,7 +191,7 @@ class UserApi(BaseHandler):
                 MStaff2Role.add_or_update(user_id, role)
                 pers = MRole2Permission.query_by_role(role)
                 for per in pers:
-                    extinfo['_per_' + str(per.permission)] = 1
+                    extinfo['_per_' + str(per.permission)] = 0
 
         extinfo['roles'] = the_roles_arr
 
@@ -254,7 +254,7 @@ class UserApi(BaseHandler):
                     MStaff2Role.add_or_update(user_id, role)
                     pers = MRole2Permission.query_by_role(role)
                     for per in pers:
-                        extinfo['_per_' + str(per.permission)] = 1
+                        extinfo['_per_' + str(per.permission)] = 0
 
             extinfo['roles'] = the_roles_arr
 
@@ -301,6 +301,35 @@ class UserApi(BaseHandler):
 
         user_create_status = MUser.create_user(post_data)
         if user_create_status['success']:
+
+            the_roles_arr = []
+            extinfo = {}
+            def_roles_arr = ['ext_role{0}'.format(x) for x in range(10)]
+            for key in def_roles_arr:
+                if key not in post_data:
+                    continue
+                if post_data[key] == '' or post_data[key] == '0':
+                    continue
+
+                if post_data[key] in the_roles_arr:
+                    continue
+
+                the_roles_arr.append(post_data[key])
+
+
+
+            for index, idx_catid in enumerate(the_roles_arr):
+                roles = idx_catid.split(",")
+                for role in roles:
+                    MStaff2Role.add_or_update(user_create_status['uid'], role)
+                    pers = MRole2Permission.query_by_role(role)
+                    for per in pers:
+                        extinfo['_per_' + str(per.permission)] = 0
+
+            extinfo['roles'] = the_roles_arr
+
+            out_dic = MUser.update_extinfo(user_create_status['uid'], extinfo)
+
             user_create_status = {
                 "ok": True,
                 "status": 0,

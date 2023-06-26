@@ -37,6 +37,36 @@
               "type": "input-email",
               "placeholder": "请输入邮箱地址",
               "name": "user_email"
+            },
+            {
+              "name": "ext_role0",
+              "id": "ext_role0",
+              "label": "分组/角色",
+              "mode": "row",
+              "type": "chained-select",
+              "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
+              "clearable": true,
+              "searchable": true
+            },
+            {
+              "name": "ext_role1",
+              "id": "ext_role1",
+              "label": "分组/角色",
+              "mode": "row",
+              "type": "chained-select",
+              "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
+              "clearable": true,
+              "searchable": true
+            },
+            {
+              "name": "ext_role3",
+              "id": "ext_role3",
+              "label": "分组/角色",
+              "mode": "row",
+              "type": "chained-select",
+              "source": "/api/role/chainedOptions?parentId=$parentId&level=$level&maxLevel=4",
+              "clearable": true,
+              "searchable": true
             }
           ]
         }
@@ -163,11 +193,6 @@
           "type": "text",
           "label": "注册时间",
           "value": "${time_create}"
-        },
-        {
-          "name": "extinfo",
-          "type": "json",
-          "label": "extinfo"
         },
         {
           "type": "operation",

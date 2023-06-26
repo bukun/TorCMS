@@ -250,7 +250,7 @@ class ApiPostHandler(PostHandler):
                         cur_user_per = []
                         for key in perms:
                             cur_user_per.append(key['permission'])
-                         
+
                         for per_act in per_act_recs:
 
                             if (str(per_act.permission) in cur_user_per) and (
