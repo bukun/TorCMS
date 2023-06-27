@@ -57,7 +57,7 @@
             "label": "流程管理",
             "url": "/process",
             "rewrite": "/process/list",
-            "icon": "fa fa-gear",
+            "icon": "fa fa-chain",
             "children": [
               {
                 "label": "流程列表",
@@ -71,7 +71,7 @@
             "label": "状态管理",
             "url": "/state",
             "rewrite": "/state/list",
-            "icon": "fa fa-gear",
+            "icon": "fa fa-spinner",
             "children": [
               {
                 "label": "状态列表",
@@ -82,7 +82,7 @@
               {
                 "label": "状态转换",
                 "url": "/state/transition",
-                "icon": "fa fa-list",
+                "icon": "fa fa-exchange",
                 "schemaApi": "get:/pages/transition-list.json"
               }
             ]
@@ -91,7 +91,7 @@
             "label": "动作管理",
             "url": "/action",
             "rewrite": "/action/list",
-            "icon": "fa fa-gear",
+            "icon": "fa fa-universal-access",
             "children": [
               {
                 "label": "动作列表",
