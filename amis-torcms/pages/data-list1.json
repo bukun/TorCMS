@@ -11,8 +11,8 @@
       "keepItemSelectionOnPageChange": true,
       "maxKeepItemSelectionLength": 10,
       "labelTpl": "${uid} ${title}",
-      "initApi": "/api/post/list/9?state=0",
-      "api": "/api/post/list/9?state=0",
+      "initApi": "/api/post/list/1?state=0",
+      "api": "/api/post/list/1?state=0",
       "expandConfig": {
         "expand": "all"
       },

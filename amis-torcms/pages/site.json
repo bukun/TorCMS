@@ -102,28 +102,19 @@
             ]
           },
           {
-            "label": "数据管理",
-            "url": "/data",
-            "rewrite": "/data/list",
+            "label": "Data管理",
+            "url": "/data/list/9",
+            "rewrite": "/data/list/9",
             "icon": "fa fa-database",
-            "children": [
-              {
-                "label": "待审核数据列表",
-                "url": "/data/list",
-                "icon": "fa fa-list",
-                "schemaApi": "get:/pages/data-list.json"
-              },
-              {
-                "label": "已拒绝数据列表",
-                "url": "/data/list1",
-                "icon": "fa fa-list",
-                "schemaApi": "get:/pages/data1-list.json"
-              }
-            ]
+            "schemaApi": "get:/pages/data-list9.json"
+          },
+          {
+            "label": "Document管理",
+            "url": "/data/list/1",
+            "rewrite": "/data/list/1",
+            "icon": "fa fa-database",
+            "schemaApi": "get:/pages/data-list1.json"
           }
-
-
-
         ]
       },
       {

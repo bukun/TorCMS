@@ -11,8 +11,8 @@
       "keepItemSelectionOnPageChange": true,
       "maxKeepItemSelectionLength": 10,
       "labelTpl": "${uid} ${title}",
-      "initApi": "/api/post/list/9?state=1",
-      "api": "/api/post/list/9?state=1",
+      "initApi": "/api/post/list/9?state=0",
+      "api": "/api/post/list/9?state=0",
       "expandConfig": {
         "expand": "all"
       },
@@ -208,7 +208,9 @@
                           },
                           {
                             "actionType": "setValue",
-                            "args": {"act_arr": "${event.data.var1|json"}
+                            "args": {
+                              "act_arr": "${event.data.var1|json"
+                            }
                           },
                           {
                             "actionType": "refresh"
