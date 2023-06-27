@@ -111,12 +111,9 @@ class UserApi(BaseHandler):
         url_arr = self.parse_url(url_str)
 
         dict_get = {
-            'info': self.__to_show_info__,
-            'j_info': self.json_info,
+
             'logout': self.__logout__,
-            'reset-passwd': self.gen_passwd,
             'list': self.__user_list__,
-            'pass_strength': self.pass_strength,
         }
 
         if len(url_arr) == 1:
@@ -184,6 +181,10 @@ class UserApi(BaseHandler):
         for cur_role in current_roles:
             if cur_role.role not in the_roles_arr:
                 MStaff2Role.remove_relation(user_id, cur_role.role)
+                pers = MRole2Permission.query_by_role(cur_role.role)
+
+                for per in pers:
+                    MUser.remove_extinfo(user_id, f'_per_{per.permission}')
 
         for index, idx_catid in enumerate(the_roles_arr):
             roles = idx_catid.split(",")
@@ -247,6 +248,10 @@ class UserApi(BaseHandler):
             for cur_role in current_roles:
                 if cur_role.role not in the_roles_arr:
                     MStaff2Role.remove_relation(user_id, cur_role.role)
+                    pers = MRole2Permission.query_by_role(cur_role.role)
+
+                    for per in pers:
+                        MUser.remove_extinfo(user_id, f'_per_{per.permission}')
 
             for index, idx_catid in enumerate(the_roles_arr):
                 roles = idx_catid.split(",")
@@ -254,7 +259,7 @@ class UserApi(BaseHandler):
                     MStaff2Role.add_or_update(user_id, role)
                     pers = MRole2Permission.query_by_role(role)
                     for per in pers:
-                        extinfo['_per_' + str(per.permission)] = 0
+                        extinfo[f'_per_{per.permission}'] = 0
 
             extinfo['roles'] = the_roles_arr
 
@@ -315,8 +320,6 @@ class UserApi(BaseHandler):
                     continue
 
                 the_roles_arr.append(post_data[key])
-
-
 
             for index, idx_catid in enumerate(the_roles_arr):
                 roles = idx_catid.split(",")
@@ -505,33 +508,6 @@ class UserApi(BaseHandler):
 
         return json.dump(out_dict, self, ensure_ascii=False)
 
-    @tornado.web.authenticated
-    def __to_show_info__(self, userid=''):
-        '''
-        show the user info
-        '''
-        if userid:
-            rec = MUser.get_by_uid(userid)
-        else:
-            rec = MUser.get_by_uid(self.userinfo.uid)
-
-        dic = [
-            {
-                "uid": rec.uid,
-                "user_name": rec.user_name,
-                'user_email': rec.user_email,
-                'role': rec.role,
-                'authority': rec.authority,
-                'time_login': tools.format_time(rec.time_login),
-                'time_create': tools.format_time(rec.time_create),
-                'extinfo': rec.extinfo,
-            }
-        ]
-
-        out_dict = {'title': '用户信息', 'userinfo_table': dic}
-
-        return json.dump(out_dict, self, ensure_ascii=False)
-
     @privilege.permission(action='assign_role')
     def json_batchchangerole(self):
         '''
@@ -676,7 +652,7 @@ class UserApi(BaseHandler):
                 'authority': rec.authority,
                 'time_login': tools.format_time(rec.time_login),
                 'time_create': tools.format_time(rec.time_create),
-                'extinfo': rec.extinfo, 
+                'extinfo': rec.extinfo,
                 'staff_roles': self.get_role_by_uid(rec.extinfo.get('roles', '')),
             }
             dics.append(dic)
@@ -727,7 +703,7 @@ class UserApi(BaseHandler):
         '''
         del_recs = MStaff2Role.query_by_staff(user_id)
         for del_rec in del_recs:
-            MStaff2Role.remove_relation(del_rec.staff, del_rec.row)
+            MStaff2Role.remove_relation(del_rec.staff, del_rec.role)
 
         if MUser.delete(user_id):
             output = {"ok": True,
@@ -754,7 +730,7 @@ class UserApi(BaseHandler):
         for user_id in del_uids:
             del_recs = MStaff2Role.query_by_staff(user_id)
             for del_rec in del_recs:
-                MStaff2Role.remove_relation(del_rec.staff, del_rec.row)
+                MStaff2Role.remove_relation(del_rec.staff, del_rec.role)
 
             if MUser.delete(user_id):
                 output = {"ok": True,
@@ -769,164 +745,3 @@ class UserApi(BaseHandler):
                 }
 
         return json.dump(output, self, ensure_ascii=False)
-
-    def reset_password(self):
-        '''
-        Do reset password
-        :return: None
-        '''
-        post_data = json.loads(self.request.body)
-
-        if 'email' in post_data:
-            userinfo = MUser.get_by_email(post_data['email'])
-
-            if tools.timestamp() - userinfo.time_reset_passwd < 70:
-                self.set_status(400)
-                kwd = {
-                    'info': '两次重置密码时间应该大于1分钟',
-                    'link': '/user/reset-password',
-                }
-                self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
-                return False
-
-            if userinfo:
-                timestamp = tools.timestamp()
-                passwd = userinfo.user_pass
-                username = userinfo.user_name
-                hash_str = tools.md5(username + str(timestamp) + passwd)
-                url_reset = '{0}/user/reset-passwd?u={1}&t={2}&p={3}'.format(
-                    config.SITE_CFG['site_url'], username, timestamp, hash_str
-                )
-                email_cnt = '''<div>请查看下面的信息，并<span style="color:red">谨慎操作</span>：</div>
-                    <div>您在"{0}"网站（{1}）申请了密码重置，如果确定要进行密码重置，请打开下面链接：</div>
-                    <div><a href={2}>{2}</a></div>
-                    <div>如果无法确定本信息的有效性，请忽略本邮件。</div>'''.format(
-                    config.SMTP_CFG['name'], config.SITE_CFG['site_url'], url_reset
-                )
-
-                if send_mail(
-                        [userinfo.user_email],
-                        "{0}|密码重置".format(config.SMTP_CFG['name']),
-                        email_cnt,
-                ):
-                    MUser.update_time_reset_passwd(username, timestamp)
-                    self.set_status(200)
-                    logger.info('password has been reset.')
-                    return True
-
-                self.set_status(400)
-                return False
-            self.set_status(400)
-            return False
-        self.set_status(400)
-        return False
-
-    def gen_passwd(self):
-        '''
-        reseting password
-        '''
-        post_data = json.loads(self.request.body)
-
-        userinfo = MUser.get_by_name(post_data['u'])
-
-        sub_timestamp = int(post_data['t'])
-        cur_timestamp = tools.timestamp()
-        if cur_timestamp - sub_timestamp < 600 and cur_timestamp > sub_timestamp:
-            pass
-        else:
-            kwd = {
-                'info': '密码重置已超时！',
-                'link': '/user/reset-password',
-            }
-            self.set_status(400)
-            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
-
-        hash_str = tools.md5(userinfo.user_name + post_data['t'] + userinfo.user_pass)
-        if hash_str == post_data['p']:
-            pass
-        else:
-            kwd = {
-                'info': '密码重置验证出错！',
-                'link': '/user/reset-password',
-            }
-            self.set_status(400)
-            self.render(
-                'misc/html/404.html',
-                kwd=kwd,
-                userinfo=self.userinfo,
-            )
-
-        new_passwd = tools.get_uu8d()
-        MUser.update_pass(userinfo.uid, new_passwd)
-        kwd = {
-            'user_name': userinfo.user_name,
-            'new_pass': new_passwd,
-        }
-        self.render(
-            'user/user_show_pass.html',
-            cfg=config.CMS_CFG,
-            kwd=kwd,
-            userinfo=self.userinfo,
-        )
-
-    @tornado.web.authenticated
-    def json_info(self):
-        '''
-        show the user info
-        '''
-        post_data = json.loads(self.request.body)
-        user_name = post_data.get('user_name', '')
-        rec = MUser.get_by_uid(self.userinfo.uid)
-        # rec = MUser.get_by_name(user_name)
-
-        userinfo = {
-            'user_name': rec.user_name,
-            'user_email': rec.user_email,
-            'role': rec.role,
-            'extinfo': rec.extinfo,
-        }
-        return json.dump(userinfo, self, ensure_ascii=False)
-
-    def pass_strength(self, pwd):
-        '''
-        实现密码强度计算函数:
-        1. 实现函数 passworld_strength 返回 0-10 的数值，表示强度，数值越高，密码强度越强
-        2. 密码长度在 6 位及以上，强度 +1，
-           在 8 位及以上，强度 +2，
-           在 12 位及以上，强度 +4
-        3. 有大写字母，强度 +2
-        4. 除字母外，还包含数字，强度 +2
-        5. 有除字母、数字以外字符，强度 +2
-        '''
-
-        intensity = 0
-        if len(pwd) >= 12:
-            intensity += 4
-        elif 8 <= len(pwd) < 12:
-            intensity += 2
-        elif 6 <= len(pwd) < 8:
-            intensity += 1
-        pwdlist = list(pwd)
-        for i in range(len(pwd)):
-            if 'A' <= pwdlist[i] <= 'Z':
-                intensity += 2
-                break
-        for i in range(len(pwd)):
-            if 'A' <= pwdlist[i] <= 'Z' or 'a' <= pwdlist[i] <= 'z':
-                for j in range(len(pwd)):
-                    if '0' <= pwdlist[j] <= '9':
-                        intensity += 2
-                        break
-            break
-        for i in range(len(pwd)):
-            if (
-                    ('null' <= pwdlist[i] < '0')
-                    or ('9' < pwdlist[i] <= '@')
-                    or ('Z' < pwdlist[i] <= '`')
-                    or ('z' < pwdlist[i] <= '~')
-            ):
-                intensity += 2
-                break
-
-        pass_strength_status = {'intensity': intensity}
-        return json.dump(pass_strength_status, self, ensure_ascii=False)

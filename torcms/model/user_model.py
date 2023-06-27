@@ -238,6 +238,24 @@ class MUser:
         return out_dic
 
     @staticmethod
+    def remove_extinfo(user_id, item):
+
+        out_dic = {'success': False, 'code': '00'}
+        userinfo =MUser.get_by_uid(user_id)
+        userinfo.extinfo.pop(item)
+
+        try:
+            entry = TabMember.update(extinfo=userinfo.extinfo).where(
+                TabMember.uid == user_id
+            )
+            entry.execute()
+            out_dic['success'] = True
+        except Exception as err:
+            print(repr(err))
+            out_dic['code'] = '91'
+
+        return out_dic
+    @staticmethod
     def update_time_reset_passwd(user_name, the_time):
         '''
         Update the time when user reset passwd.
