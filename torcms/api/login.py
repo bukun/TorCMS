@@ -406,8 +406,6 @@ class UserApi(BaseHandler):
 
         return (post_data, ext_dic)
 
-
-
     def ext_post_data(self, **kwargs):
         '''
         The additional information.  for add(), or update().
@@ -415,14 +413,21 @@ class UserApi(BaseHandler):
         _ = kwargs
         return {}
 
-
-
     @tornado.web.authenticated
     def __logout__(self):
         '''
         user logout.
         '''
+
         self.clear_all_cookies()
+        print('aa')
+        self.set_secure_cookie(
+            "user",
+            '',
+        )
+
+        print('log out')
+
         output = {"ok": True,
                   "status": 0,
                   "msg": "注销登录成功"}
@@ -474,11 +479,6 @@ class UserApi(BaseHandler):
         out_dict = {'results': list}
 
         return json.dump(out_dict, self, ensure_ascii=False)
-
-
-
-
-
 
     def login(self):
         '''

@@ -9,7 +9,7 @@
         "redirect": "/user/list"
       },
       {
-        "label": "示例",
+        "label": "",
         "children": [
           {
             "label": "用户管理",
@@ -67,7 +67,6 @@
               }
             ]
           },
-
           {
             "label": "状态管理",
             "url": "/state",
@@ -88,7 +87,7 @@
               }
             ]
           },
-           {
+          {
             "label": "动作管理",
             "url": "/action",
             "rewrite": "/action/list",
@@ -102,7 +101,7 @@
               }
             ]
           },
-           {
+          {
             "label": "数据管理",
             "url": "/data",
             "rewrite": "/data/list",
@@ -114,7 +113,7 @@
                 "icon": "fa fa-list",
                 "schemaApi": "get:/pages/data-list.json"
               },
-               {
+              {
                 "label": "已拒绝数据列表",
                 "url": "/data/list1",
                 "icon": "fa fa-list",
@@ -122,6 +121,7 @@
               }
             ]
           }
+
         ]
       },
       {
@@ -141,7 +141,6 @@
           }
         ]
       }
-
     ]
   }
 }
