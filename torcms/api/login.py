@@ -206,7 +206,8 @@ class UserApi(BaseHandler):
             }
             return json.dump(user_edit_role, self, ensure_ascii=False)
 
-        MUser.update_permissions(post_data['user_name'])
+        if self.userinfo.uid == user_id:
+            MUser.update_permissions(post_data['user_name'])
 
         user_edit_role = {'ok': True, 'status': 0}
         return json.dump(user_edit_role, self, ensure_ascii=False)
@@ -273,7 +274,8 @@ class UserApi(BaseHandler):
                 }
                 continue
 
-            MUser.update_permissions(userinfo.user_name)
+            if self.userinfo.uid == user_id:
+                MUser.update_permissions(userinfo.user_name)
 
             user_edit_role = {'ok': True, 'status': 0}
         return json.dump(user_edit_role, self, ensure_ascii=False)
