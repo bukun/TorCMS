@@ -431,7 +431,7 @@ class UserApi(BaseHandler):
         output = {"ok": True,
                   "status": 0,
                   "msg": "注销登录成功"}
-        return json.dump(output, self, ensure_ascii=False)
+        self.redirect('/')
 
     @tornado.web.authenticated
     def __to_find__(self, cur_p=''):
