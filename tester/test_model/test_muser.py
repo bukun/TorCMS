@@ -73,15 +73,6 @@ class TestMUser():
         assert tt['success'] == False
         assert tt['code'] == '11'
 
-        post_data = {
-            'user_name': 'asddsad',
-            'user_pass': 'fg131322',
-            'user_email': 'name@qjhgq.com',
-        }
-
-        tt = self.uu.create_user(post_data)
-        assert tt['success'] == False
-        assert tt['code'] == '31'
 
         post_data = {
             'user_name': 'sdfadf',

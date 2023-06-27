@@ -143,8 +143,6 @@ class UserApi(BaseHandler):
         elif url_arr[0] == '_delete':
             self.delete_user(url_arr[1]),
 
-        elif url_arr[0] == 'changerole':
-            self.__change_role__(url_arr[1])
         elif url_arr[0] == 'batch_edit':
             self.batch_edit()
         elif url_arr[0] == 'batch_delete':
@@ -408,22 +406,7 @@ class UserApi(BaseHandler):
 
         return (post_data, ext_dic)
 
-    def fetch_user_data(self):
-        '''
-        fetch post accessed data. post_data, and ext_dic.
-        '''
-        post_data = {}
-        ext_dic = {}
-        for key in self.request.arguments:
-            if key.startswith('ext_'):
-                ext_dic[key] = self.get_argument(key, default='')
 
-            else:
-                post_data[key] = self.get_arguments(key)[0]
-
-        ext_dic = dict(ext_dic, **self.ext_post_data(postdata=post_data))
-
-        return (post_data, ext_dic)
 
     def ext_post_data(self, **kwargs):
         '''
@@ -432,25 +415,7 @@ class UserApi(BaseHandler):
         _ = kwargs
         return {}
 
-    @privilege.permission(action='assign_role')
-    @tornado.web.authenticated
-    def __change_role__(self, xg_username):
-        '''
-        Change th user rule
-        '''
-        post_data = json.loads(self.request.body)
 
-        # 审核权限
-        authority = '0'
-        for i in self.get_arguments('authority'):
-            authority = bin(int(authority, 2) + int(i, 2))[2:]
-        post_data['authority'] = authority
-
-        MUser.update_role(xg_username, post_data)
-
-        output = {"ok": True,
-                  "status": 0}
-        return json.dump(output, self, ensure_ascii=False)
 
     @tornado.web.authenticated
     def __logout__(self):
@@ -510,40 +475,10 @@ class UserApi(BaseHandler):
 
         return json.dump(out_dict, self, ensure_ascii=False)
 
-    @privilege.permission(action='assign_role')
-    def json_batchchangerole(self):
-        '''
-        Batch Modify Permission
-        '''
 
-        post_data = json.loads(self.request.body)
 
-        name_list = post_data.get("check_value", '')
 
-        username_list = json.loads(name_list)
-        if username_list == []:
-            output = {"ok": False,
-                      "status": 404,
-                      "msg": "请至少选择一个用户"}
-            return json.dump(output, self, ensure_ascii=False)
-        # 审核权限
-        authority = '0'
-        for i in self.get_arguments('authority'):
-            authority = bin(int(authority, 2) + int(i, 2))[2:]
-        post_data['authority'] = authority
-        for xg_username in username_list:
-            MUser.update_role(xg_username, post_data)
 
-        output = {"ok": True,
-                  "status": 0,
-                  "msg": "批量修改成功"}
-        return json.dump(output, self, ensure_ascii=False)
-
-    def parseint(self, stringss):
-        return int(''.join([x for x in stringss if x.isdigit()]))
-
-    def fromCharCOde(self, passstr, *b):
-        return chr(passstr % 65536) + "".join([chr(i % 65536) for i in b])
 
     def login(self):
         '''

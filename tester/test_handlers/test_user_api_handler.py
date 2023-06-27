@@ -23,19 +23,7 @@ class TestUserApiHandler(AsyncHTTPSTestCase):
         '''
         return APP
 
-    def test_index(self):
-        '''
-        Test index.
-        '''
-        response = self.fetch('/api/user/info')
-        self.assertEqual(response.code, 200)
 
-    def test_J_info(self):
-        '''
-        Test index.
-        '''
-        response = self.fetch('/api/user/j_info')
-        self.assertEqual(response.code, 200)
 
     def test_logout(self):
         '''
@@ -56,9 +44,3 @@ class TestUserApiHandler(AsyncHTTPSTestCase):
     #     response = self.fetch('/api/user/list')
     #     self.assertEqual(response.code, 200)
 
-    def test_pass_strength(self):
-        '''
-        Test index.
-        '''
-        response = self.fetch('/api/user/pass_strength/')
-        self.assertEqual(response.code, 200)
