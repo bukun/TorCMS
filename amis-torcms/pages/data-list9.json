@@ -1,8 +1,27 @@
 {
   "type": "page",
-  "title": "待审核数据列表",
+  "title": "数据列表",
   "remark": null,
   "name": "page-demo",
+  "aside": {
+    "type": "wrapper",
+    "size": "xs",
+    "className": "",
+    "body": {
+      "type": "nav",
+      "stacked": true,
+      "links": [
+        {
+          "label": "待审核列表",
+          "to": "?state=0"
+        },
+        {
+          "label": "已拒绝列表",
+          "to": "?state=1"
+        }
+      ]
+    }
+  },
   "body": [
     {
       "type": "crud",
