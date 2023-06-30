@@ -86,6 +86,21 @@
       "maxKeepItemSelectionLength": 11,
       "primaryField": "uid",
       "api": "/api/user/list",
+      "filter": {
+        "title": "搜索用户",
+        "submitText": "",
+        "body": [
+          {
+            "type": "input-text",
+            "name": "user_name",
+            "placeholder": "通过用户名搜索",
+            "addOn": {
+              "label": "搜索",
+              "type": "submit"
+            }
+          }
+        ]
+      },
       "bulkActions": [
         {
           "label": "批量编辑",

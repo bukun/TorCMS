@@ -496,7 +496,7 @@ class MUser:
         return TabMember.select().count(None)
 
     @staticmethod
-    def query_pager_by_slug(current_page_num=1, type='', num=CMS_CFG['list_num']):
+    def query_pager_by_slug(current_page_num=1, type='',user_name='', num=CMS_CFG['list_num']):
         '''
         Query pager
         '''
@@ -508,6 +508,8 @@ class MUser:
                 .order_by(TabMember.time_create.desc())
                 .paginate(current_page_num, num)
             )
+        elif user_name:
+            return TabMember.select().where(TabMember.user_name.contains(user_name)).paginate(current_page_num, num)
         else:
             return TabMember.select().paginate(current_page_num, num)
 

@@ -9,7 +9,7 @@
     "tabs": [
       {
         "title": "待审核列表",
-        "tab": {
+        "body": {
           "type": "crud",
           "draggable": true,
           "perPage": 15,
@@ -315,7 +315,7 @@
       },
       {
         "title": "已拒绝列表",
-        "tab": {
+        "body": {
           "type": "crud",
           "draggable": true,
           "perPage": 15,
@@ -327,6 +327,7 @@
           "expandConfig": {
             "expand": "all"
           },
+
           "primaryField": "uid",
           "bulkActions": [
             {

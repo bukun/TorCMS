@@ -553,8 +553,13 @@ class UserApi(BaseHandler):
         '''
 
         post_data = self.request.arguments  # {'page': [b'1'], 'perPage': [b'10']}
-        page = int(str(post_data['page'][0])[2:-1])
-        perPage = int(str(post_data['perPage'][0])[2:-1])
+
+        page = int(post_data['page'][0].decode('utf-8'))
+        perPage = int(post_data['perPage'][0].decode('utf-8'))
+        if 'user_name' in post_data and post_data['user_name'] != '':
+            find_name = str(post_data.get('user_name', '')[0].decode('utf-8'))
+        else:
+            find_name = ''
 
         def get_pager_idx():
             '''
@@ -579,8 +584,12 @@ class UserApi(BaseHandler):
 
         dics = []
         current_page_num = get_pager_idx()
-        recs = MUser.query_pager_by_slug(current_page_num, num=perPage)
-        counts = MUser.count_of_certain()
+
+        recs = MUser.query_pager_by_slug(current_page_num,user_name=find_name, num=perPage)
+
+        # counts = MUser.count_of_certain()
+        counts = recs.count()
+
         for rec in recs:
             dic = {
                 'uid': rec.uid,

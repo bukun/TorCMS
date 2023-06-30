@@ -200,12 +200,6 @@ class ApiPostHandler(PostHandler):
 
         state = post_data['state'][0].decode('utf-8')
 
-        if state == '1':
-            list_title = '已拒绝列表'
-        elif state == '0':
-            list_title = '待审核列表'
-        else:
-            list_title = '数据列表'
 
         def get_pager_idx():
             '''
