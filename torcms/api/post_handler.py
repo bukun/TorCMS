@@ -199,7 +199,10 @@ class ApiPostHandler(PostHandler):
         perPage = int(post_data['perPage'][0].decode('utf-8'))
 
         state = post_data['state'][0].decode('utf-8')
-
+        if 'keywords' in post_data and post_data['keywords'] != '':
+            keywords = post_data['keywords'][0].decode('utf-8')
+        else:
+            keywords = ''
 
         def get_pager_idx():
             '''
@@ -224,7 +227,8 @@ class ApiPostHandler(PostHandler):
 
         current_page_num = get_pager_idx()
 
-        recs = MPost.query_pager_by_slug(kind, current_page_num, perPage)
+        recs = MPost.query_pager_by_slug(kind, current_page_num, perPage, keywords=keywords)
+
         # 分类筛选用以下方法
         # recs = MPost.query_list_pager(kind, current_page_num, perPage)
 

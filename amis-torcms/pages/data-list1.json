@@ -22,6 +22,21 @@
             "expand": "all"
           },
           "primaryField": "uid",
+          "filter": {
+            "title": "搜索数据",
+            "submitText": "",
+            "body": [
+              {
+                "type": "input-text",
+                "name": "keywords",
+                "placeholder": "通过标题关键词搜索",
+                "addOn": {
+                  "label": "搜索",
+                  "type": "submit"
+                }
+              }
+            ]
+          },
           "bulkActions": [
             {
               "label": "批量编辑",
@@ -328,7 +343,21 @@
             "expand": "all"
           },
           "primaryField": "uid",
-
+          "filter": {
+            "title": "搜索数据",
+            "submitText": "",
+            "body": [
+              {
+                "type": "input-text",
+                "name": "keywords",
+                "placeholder": "通过标题关键词搜索",
+                "addOn": {
+                  "label": "搜索",
+                  "type": "submit"
+                }
+              }
+            ]
+          },
           "bulkActions": [
             {
               "label": "批量编辑",

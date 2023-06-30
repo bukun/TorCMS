@@ -845,16 +845,24 @@ class MPost:
         )
 
     @staticmethod
-    def query_pager_by_slug(kind, current_page_num=1, perpage=CMS_CFG['list_num']):
+    def query_pager_by_slug(kind, current_page_num=1, perpage=CMS_CFG['list_num'],keywords=''):
         '''
         Query pager
         '''
-        return (
-            TabPost.select()
-            .where((TabPost.kind == kind) & (TabPost.valid == 0))
-            .order_by(TabPost.time_create.desc())
-            .paginate(current_page_num, perpage)
-        )
+        if keywords:
+            return (
+                TabPost.select()
+                .where((TabPost.title.contains(keywords)) &(TabPost.kind == kind) & (TabPost.valid == 0))
+                .order_by(TabPost.time_create.desc())
+                .paginate(current_page_num, perpage)
+            )
+        else:
+            return (
+                TabPost.select()
+                .where((TabPost.kind == kind) & (TabPost.valid == 0))
+                .order_by(TabPost.time_create.desc())
+                .paginate(current_page_num, perpage)
+            )
 
     @staticmethod
     def query_access(kind, day_sig, limit=10):
