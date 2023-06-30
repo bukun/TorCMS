@@ -1,332 +1,626 @@
 {
   "type": "page",
-  "title": "数据列表",
+  "title": "Data 数据列表",
   "remark": null,
   "name": "page-demo",
-  "aside": {
-    "type": "wrapper",
-    "size": "xs",
-    "className": "",
-    "body": {
-      "type": "nav",
-      "stacked": true,
-      "links": [
-        {
-          "label": "待审核列表",
-          "to": "?state=0"
-        },
-        {
-          "label": "已拒绝列表",
-          "to": "?state=1"
-        }
-      ]
-    }
-  },
-  "body": [
-    {
-      "type": "crud",
-      "draggable": true,
-      "perPage": 15,
-      "keepItemSelectionOnPageChange": true,
-      "maxKeepItemSelectionLength": 10,
-      "labelTpl": "${uid} ${title}",
-      "initApi": "/api/post/list/9?state=0",
-      "api": "/api/post/list/9?state=0",
-      "expandConfig": {
-        "expand": "all"
-      },
-      "primaryField": "uid",
-      "bulkActions": [
-        {
-          "label": "批量编辑",
-          "type": "button",
-          "actionType": "dialog",
-          "level": "primary",
-          "dialog": {
-            "title": "批量编辑",
-            "name": "sample-bulk-edit",
-            "body": {
-              "type": "form",
-              "api": "/api/post_j/batch_edit",
-              "body": [
-                {
-                  "type": "hidden",
-                  "name": "ids"
-                },
-                {
-                  "name": "status",
-                  "label": "状态",
-                  "type": "input-text"
-                },
-                {
-                  "name": "pid",
-                  "id": "pid",
-                  "label": "parent",
-                  "mode": "row",
-                  "type": "chained-select",
-                  "source": "/api/role/getpid?level=1&maxLevel=1",
-                  "clearable": true,
-                  "searchable": true,
-                  "required": true
-                },
-                {
-                  "name": "transferEvent1",
-                  "id": "transferEvent1",
-                  "type": "action",
-                  "label": "全选功能",
-                  "level": "primary",
-                  "className": "mr-3 mb-3",
-                  "debugger": true,
-                  "onEvent": {
-                    "click": {
-                      "actions": [
-                        {
-                          "actionType": "selectAll",
-                          "componentId": "transfer-receiver"
-                        }
-                      ]
-                    }
-                  }
-                },
-                {
-                  "name": "transferEvent2",
-                  "id": "transferEvent2",
-                  "type": "action",
-                  "label": "清空功能",
-                  "level": "primary",
-                  "className": "mr-3 mb-3",
-                  "debugger": true,
-                  "onEvent": {
-                    "click": {
-                      "actions": [
-                        {
-                          "actionType": "clear",
-                          "componentId": "transfer-receiver"
-                        }
-                      ]
-                    }
-                  }
-                },
-                {
-                  "type": "action",
-                  "actionType": "reload",
-                  "label": "刷新 reload",
-                  "level": "primary",
-                  "className": "mr-3 mb-3",
-                  "target": "transfer"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "label": "批量删除",
-          "type": "button",
-          "level": "danger",
-          "actionType": "ajax",
-          "api": "/api/post/batch_delete/${ids|raw}",
-          "confirmText": "确定要批量删除?"
-        }
-      ],
-      "filterTogglable": true,
-      "headerToolbar": [
-        "bulkActions",
-        {
-          "type": "tpl",
-          "tpl": "当前有 ${count} 条数据。",
-          "className": "v-middle"
-        },
-        {
-          "type": "columns-toggler",
-          "align": "right"
-        },
-        {
-          "type": "drag-toggler",
-          "align": "right"
-        },
-        {
-          "type": "pagination",
-          "align": "right"
-        }
-      ],
-      "footerToolbar": [
-        "statistics",
-        "switch-per-page",
-        "pagination"
-      ],
-      "columns": [
-        {
-          "name": "uid",
-          "label": "uid",
-          "type": "text",
-          "toggled": true
-        },
-        {
-          "name": "title",
-          "label": "标题",
-          "type": "text",
-          "toggled": true
-        },
-        {
-          "name": "cnt_md",
-          "label": "内容",
-          "type": "markdown"
-        },
-        {
-          "name": "user_name",
-          "label": "编辑者",
-          "type": "text"
-        },
-        {
-          "name": "time_create",
-          "label": "创建时间",
-          "type": "text"
-        },
-        {
-          "label": "审核",
-          "type": "operation",
-          "name": "action_arr",
-          "id": "act_button",
-          "buttons": [
+  "body": {
+    "type": "portlet",
+    "divider": false,
+    "tabs": [
+      {
+        "title": "待审核列表",
+        "tab": {
+          "type": "crud",
+          "draggable": true,
+          "perPage": 15,
+          "keepItemSelectionOnPageChange": true,
+          "maxKeepItemSelectionLength": 10,
+          "labelTpl": "${uid} ${title}",
+          "initApi": "/api/post/list/9?state=0",
+          "api": "/api/post/list/9?state=0",
+          "expandConfig": {
+            "expand": "all"
+          },
+          "primaryField": "uid",
+          "bulkActions": [
             {
-              "type": "button-group",
+              "label": "批量编辑",
+              "type": "button",
+              "actionType": "dialog",
+              "level": "primary",
+              "dialog": {
+                "title": "批量编辑",
+                "name": "sample-bulk-edit",
+                "body": {
+                  "type": "form",
+                  "api": "/api/post_j/batch_edit",
+                  "body": [
+                    {
+                      "type": "hidden",
+                      "name": "ids"
+                    },
+                    {
+                      "name": "status",
+                      "label": "状态",
+                      "type": "input-text"
+                    },
+                    {
+                      "name": "pid",
+                      "id": "pid",
+                      "label": "parent",
+                      "mode": "row",
+                      "type": "chained-select",
+                      "source": "/api/role/getpid?level=1&maxLevel=1",
+                      "clearable": true,
+                      "searchable": true,
+                      "required": true
+                    },
+                    {
+                      "name": "transferEvent1",
+                      "id": "transferEvent1",
+                      "type": "action",
+                      "label": "全选功能",
+                      "level": "primary",
+                      "className": "mr-3 mb-3",
+                      "debugger": true,
+                      "onEvent": {
+                        "click": {
+                          "actions": [
+                            {
+                              "actionType": "selectAll",
+                              "componentId": "transfer-receiver"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "name": "transferEvent2",
+                      "id": "transferEvent2",
+                      "type": "action",
+                      "label": "清空功能",
+                      "level": "primary",
+                      "className": "mr-3 mb-3",
+                      "debugger": true,
+                      "onEvent": {
+                        "click": {
+                          "actions": [
+                            {
+                              "actionType": "clear",
+                              "componentId": "transfer-receiver"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "type": "action",
+                      "actionType": "reload",
+                      "label": "刷新 reload",
+                      "level": "primary",
+                      "className": "mr-3 mb-3",
+                      "target": "transfer"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "label": "批量删除",
+              "type": "button",
+              "level": "danger",
+              "actionType": "ajax",
+              "api": "/api/post/batch_delete/${ids|raw}",
+              "confirmText": "确定要批量删除?"
+            }
+          ],
+          "filterTogglable": true,
+          "headerToolbar": [
+            "bulkActions",
+            {
+              "type": "tpl",
+              "tpl": "当前有 ${count} 条数据。",
+              "className": "v-middle"
+            },
+            {
+              "type": "columns-toggler",
+              "align": "right"
+            },
+            {
+              "type": "drag-toggler",
+              "align": "right"
+            },
+            {
+              "type": "pagination",
+              "align": "right"
+            }
+          ],
+          "footerToolbar": [
+            "statistics",
+            "switch-per-page",
+            "pagination"
+          ],
+          "columns": [
+            {
+              "name": "uid",
+              "label": "uid",
+              "type": "text",
+              "toggled": true
+            },
+            {
+              "name": "title",
+              "label": "标题",
+              "type": "text",
+              "toggled": true
+            },
+            {
+              "name": "cnt_md",
+              "label": "内容",
+              "type": "markdown"
+            },
+            {
+              "name": "user_name",
+              "label": "编辑者",
+              "type": "text"
+            },
+            {
+              "name": "time_create",
+              "label": "创建时间",
+              "type": "text"
+            },
+            {
+              "label": "审核",
+              "type": "operation",
+              "name": "action_arr",
+              "id": "act_button",
               "buttons": [
                 {
-                  "type": "each",
-                  "name": "arr",
-                  "items": {
-                    "type": "button",
-                    "id": "<%= data.act_uid %>",
-                    "label": "<%= data.act_name %> ",
-                    "level": "primary",
-                    "confirmText": "确认要发出这个请求？",
-                    "onEvent": {
-                      "click": {
-                        "actions": [
-                          {
-                            "actionType": "ajax",
-                            "args": {
-                              "api": {
-                                "url": "/api/post/amis_submit_action",
-                                "method": "post",
-                                "data": {
-                                  "state_id": "${state_id}",
-                                  "user_id": "${cur_user_id}",
-                                  "post_id": "${uid}",
-                                  "process_id": "${ process_id }",
-                                  "request_id": "${ request_id }",
-                                  "act_id": "${act_uid }"
+                  "type": "button-group",
+                  "buttons": [
+                    {
+                      "type": "each",
+                      "name": "arr",
+                      "items": {
+                        "type": "button",
+                        "id": "<%= data.act_uid %>",
+                        "label": "<%= data.act_name %> ",
+                        "level": "primary",
+                        "confirmText": "确认要发出这个请求？",
+                        "onEvent": {
+                          "click": {
+                            "actions": [
+                              {
+                                "actionType": "ajax",
+                                "args": {
+                                  "api": {
+                                    "url": "/api/post/amis_submit_action",
+                                    "method": "post",
+                                    "data": {
+                                      "state_id": "${state_id}",
+                                      "user_id": "${cur_user_id}",
+                                      "post_id": "${uid}",
+                                      "process_id": "${ process_id }",
+                                      "request_id": "${ request_id }",
+                                      "act_id": "${act_uid }"
+                                    }
+                                  },
+                                  "messages": {
+                                    "success": "审核成功！",
+                                    "failed": "审核失败！"
+                                  }
+                                },
+                                "outputVar": "var1"
+                              },
+                              {
+                                "actionType": "setValue",
+                                "args": {
+                                  "act_arr": "${event.data.var1|json"
                                 }
                               },
-                              "messages": {
-                                "success": "审核成功！",
-                                "failed": "审核失败！"
+                              {
+                                "actionType": "refresh"
                               }
-                            },
-                            "outputVar": "var1"
-                          },
-                          {
-                            "actionType": "setValue",
-                            "args": {
-                              "act_arr": "${event.data.var1|json"
-                            }
-                          },
-                          {
-                            "actionType": "refresh"
+                            ]
                           }
-                        ]
+                        }
                       }
                     }
-                  }
+                  ]
                 }
-              ]
-            }
-          ],
-          "placeholder": "-",
-          "fixed": "right"
-        },
-        {
-          "type": "operation",
-          "label": "操作",
-          "width": "",
-          "buttons": [
+              ],
+              "placeholder": "-",
+              "fixed": "right"
+            },
             {
-              "type": "button-group",
+              "type": "operation",
+              "label": "操作",
+              "width": "",
               "buttons": [
                 {
-                  "type": "button",
-                  "label": "查看",
-                  "level": "primary",
-                  "icon": "fa fa-eye",
-                  "actionType": "dialog",
-                  "tooltip": "查看",
-                  "dialog": {
-                    "title": "查看",
-                    "body": {
-                      "type": "form",
-                      "body": [
-                        {
-                          "name": "uid",
-                          "label": "uid",
-                          "type": "static"
-                        },
-                        {
-                          "name": "title",
-                          "label": "标题",
-                          "type": "static",
-                          "toggled": true
-                        },
-                        {
-                          "name": "user_name",
-                          "label": "编辑者",
-                          "type": "static"
-                        },
-                        {
-                          "name": "time_create",
-                          "label": "创建时间",
-                          "type": "static"
-                        },
-                        {
-                          "name": "time_update",
-                          "label": "更新时间",
-                          "type": "static"
-                        },
-                        {
-                          "name": "cnt_md",
-                          "label": "内容",
-                          "type": "markdown"
+                  "type": "button-group",
+                  "buttons": [
+                    {
+                      "type": "button",
+                      "label": "查看",
+                      "level": "primary",
+                      "icon": "fa fa-eye",
+                      "actionType": "dialog",
+                      "tooltip": "查看",
+                      "dialog": {
+                        "title": "查看",
+                        "body": {
+                          "type": "form",
+                          "body": [
+                            {
+                              "name": "uid",
+                              "label": "uid",
+                              "type": "static"
+                            },
+                            {
+                              "name": "title",
+                              "label": "标题",
+                              "type": "static",
+                              "toggled": true
+                            },
+                            {
+                              "name": "user_name",
+                              "label": "编辑者",
+                              "type": "static"
+                            },
+                            {
+                              "name": "time_create",
+                              "label": "创建时间",
+                              "type": "static"
+                            },
+                            {
+                              "name": "time_update",
+                              "label": "更新时间",
+                              "type": "static"
+                            },
+                            {
+                              "name": "cnt_md",
+                              "label": "内容",
+                              "type": "markdown"
+                            }
+                          ]
                         }
-                      ]
+                      }
+                    },
+                    {
+                      "type": "button",
+                      "label": "删除",
+                      "icon": "fa fa-times text-danger",
+                      "level": "danger",
+                      "actionType": "ajax",
+                      "confirmText": "您确认要删除?",
+                      "api": "/api/post/_delete/$uid"
                     }
-                  }
-                },
-                {
-                  "type": "button",
-                  "label": "删除",
-                  "icon": "fa fa-times text-danger",
-                  "level": "danger",
-                  "actionType": "ajax",
-                  "confirmText": "您确认要删除?",
-                  "api": "/api/post/_delete/$uid"
+                  ]
                 }
-              ]
+              ],
+              "placeholder": "-",
+              "fixed": "right"
             }
           ],
-          "placeholder": "-",
-          "fixed": "right"
+          "affixHeader": true,
+          "columnsTogglable": "auto",
+          "placeholder": "暂无数据",
+          "tableClassName": "table-db table-striped",
+          "headerClassName": "crud-table-header",
+          "footerClassName": "crud-table-footer",
+          "toolbarClassName": "crud-table-toolbar",
+          "combineNum": 0,
+          "bodyClassName": "panel-default"
         }
-      ],
-      "affixHeader": true,
-      "columnsTogglable": "auto",
-      "placeholder": "暂无数据",
-      "tableClassName": "table-db table-striped",
-      "headerClassName": "crud-table-header",
-      "footerClassName": "crud-table-footer",
-      "toolbarClassName": "crud-table-toolbar",
-      "combineNum": 0,
-      "bodyClassName": "panel-default"
-    }
-  ]
+      },
+      {
+        "title": "已拒绝列表",
+        "tab": {
+          "type": "crud",
+          "draggable": true,
+          "perPage": 15,
+          "keepItemSelectionOnPageChange": true,
+          "maxKeepItemSelectionLength": 10,
+          "labelTpl": "${uid} ${title}",
+          "initApi": "/api/post/list/9?state=1",
+          "api": "/api/post/list/9?state=1",
+          "expandConfig": {
+            "expand": "all"
+          },
+          "primaryField": "uid",
+          "bulkActions": [
+            {
+              "label": "批量编辑",
+              "type": "button",
+              "actionType": "dialog",
+              "level": "primary",
+              "dialog": {
+                "title": "批量编辑",
+                "name": "sample-bulk-edit",
+                "body": {
+                  "type": "form",
+                  "api": "/api/post_j/batch_edit",
+                  "body": [
+                    {
+                      "type": "hidden",
+                      "name": "ids"
+                    },
+                    {
+                      "name": "status",
+                      "label": "状态",
+                      "type": "input-text"
+                    },
+                    {
+                      "name": "pid",
+                      "id": "pid",
+                      "label": "parent",
+                      "mode": "row",
+                      "type": "chained-select",
+                      "source": "/api/role/getpid?level=1&maxLevel=1",
+                      "clearable": true,
+                      "searchable": true,
+                      "required": true
+                    },
+                    {
+                      "name": "transferEvent1",
+                      "id": "transferEvent1",
+                      "type": "action",
+                      "label": "全选功能",
+                      "level": "primary",
+                      "className": "mr-3 mb-3",
+                      "debugger": true,
+                      "onEvent": {
+                        "click": {
+                          "actions": [
+                            {
+                              "actionType": "selectAll",
+                              "componentId": "transfer-receiver"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "name": "transferEvent2",
+                      "id": "transferEvent2",
+                      "type": "action",
+                      "label": "清空功能",
+                      "level": "primary",
+                      "className": "mr-3 mb-3",
+                      "debugger": true,
+                      "onEvent": {
+                        "click": {
+                          "actions": [
+                            {
+                              "actionType": "clear",
+                              "componentId": "transfer-receiver"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "type": "action",
+                      "actionType": "reload",
+                      "label": "刷新 reload",
+                      "level": "primary",
+                      "className": "mr-3 mb-3",
+                      "target": "transfer"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "label": "批量删除",
+              "type": "button",
+              "level": "danger",
+              "actionType": "ajax",
+              "api": "/api/post/batch_delete/${ids|raw}",
+              "confirmText": "确定要批量删除?"
+            }
+          ],
+          "filterTogglable": true,
+          "headerToolbar": [
+            "bulkActions",
+            {
+              "type": "tpl",
+              "tpl": "当前有 ${count} 条数据。",
+              "className": "v-middle"
+            },
+            {
+              "type": "columns-toggler",
+              "align": "right"
+            },
+            {
+              "type": "drag-toggler",
+              "align": "right"
+            },
+            {
+              "type": "pagination",
+              "align": "right"
+            }
+          ],
+          "footerToolbar": [
+            "statistics",
+            "switch-per-page",
+            "pagination"
+          ],
+          "columns": [
+            {
+              "name": "uid",
+              "label": "uid",
+              "type": "text",
+              "toggled": true
+            },
+            {
+              "name": "title",
+              "label": "标题",
+              "type": "text",
+              "toggled": true
+            },
+            {
+              "name": "cnt_md",
+              "label": "内容",
+              "type": "markdown"
+            },
+            {
+              "name": "user_name",
+              "label": "编辑者",
+              "type": "text"
+            },
+            {
+              "name": "time_create",
+              "label": "创建时间",
+              "type": "text"
+            },
+            {
+              "label": "审核",
+              "type": "operation",
+              "name": "action_arr",
+              "id": "act_button",
+              "buttons": [
+                {
+                  "type": "button-group",
+                  "buttons": [
+                    {
+                      "type": "each",
+                      "name": "arr",
+                      "items": {
+                        "type": "button",
+                        "id": "<%= data.act_uid %>",
+                        "label": "<%= data.act_name %> ",
+                        "level": "primary",
+                        "confirmText": "确认要发出这个请求？",
+                        "onEvent": {
+                          "click": {
+                            "actions": [
+                              {
+                                "actionType": "ajax",
+                                "args": {
+                                  "api": {
+                                    "url": "/api/post/amis_submit_action",
+                                    "method": "post",
+                                    "data": {
+                                      "state_id": "${state_id}",
+                                      "user_id": "${cur_user_id}",
+                                      "post_id": "${uid}",
+                                      "process_id": "${ process_id }",
+                                      "request_id": "${ request_id }",
+                                      "act_id": "${act_uid }"
+                                    }
+                                  },
+                                  "messages": {
+                                    "success": "审核成功！",
+                                    "failed": "审核失败！"
+                                  }
+                                },
+                                "outputVar": "var1"
+                              },
+                              {
+                                "actionType": "setValue",
+                                "args": {
+                                  "act_arr": "${event.data.var1|json"
+                                }
+                              },
+                              {
+                                "actionType": "refresh"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "placeholder": "-",
+              "fixed": "right"
+            },
+            {
+              "type": "operation",
+              "label": "操作",
+              "width": "",
+              "buttons": [
+                {
+                  "type": "button-group",
+                  "buttons": [
+                    {
+                      "type": "button",
+                      "label": "查看",
+                      "level": "primary",
+                      "icon": "fa fa-eye",
+                      "actionType": "dialog",
+                      "tooltip": "查看",
+                      "dialog": {
+                        "title": "查看",
+                        "body": {
+                          "type": "form",
+                          "body": [
+                            {
+                              "name": "uid",
+                              "label": "uid",
+                              "type": "static"
+                            },
+                            {
+                              "name": "title",
+                              "label": "标题",
+                              "type": "static",
+                              "toggled": true
+                            },
+                            {
+                              "name": "user_name",
+                              "label": "编辑者",
+                              "type": "static"
+                            },
+                            {
+                              "name": "time_create",
+                              "label": "创建时间",
+                              "type": "static"
+                            },
+                            {
+                              "name": "time_update",
+                              "label": "更新时间",
+                              "type": "static"
+                            },
+                            {
+                              "name": "cnt_md",
+                              "label": "内容",
+                              "type": "markdown"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "type": "button",
+                      "label": "删除",
+                      "icon": "fa fa-times text-danger",
+                      "level": "danger",
+                      "actionType": "ajax",
+                      "confirmText": "您确认要删除?",
+                      "api": "/api/post/_delete/$uid"
+                    }
+                  ]
+                }
+              ],
+              "placeholder": "-",
+              "fixed": "right"
+            }
+          ],
+          "affixHeader": true,
+          "columnsTogglable": "auto",
+          "placeholder": "暂无数据",
+          "tableClassName": "table-db table-striped",
+          "headerClassName": "crud-table-header",
+          "footerClassName": "crud-table-footer",
+          "toolbarClassName": "crud-table-toolbar",
+          "combineNum": 0,
+          "bodyClassName": "panel-default"
+        }
+      }
+    ]
+  }
 }
 
 

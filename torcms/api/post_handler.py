@@ -200,7 +200,12 @@ class ApiPostHandler(PostHandler):
 
         state = post_data['state'][0].decode('utf-8')
 
-
+        if state == '1':
+            list_title = '已拒绝列表'
+        elif state == '0':
+            list_title = '待审核列表'
+        else:
+            list_title = '数据列表'
 
         def get_pager_idx():
             '''
@@ -238,7 +243,7 @@ class ApiPostHandler(PostHandler):
             request_rec = MRequest.query_by_postid(rec.uid)
 
             if request_rec:
-                cur_state=MState.get_by_uid(request_rec.current_state)
+                cur_state = MState.get_by_uid(request_rec.current_state)
                 act_recs = MTransitionAction.query_by_pro_state(request_rec.process, request_rec.current_state)
                 act_arr = []
                 for act in act_recs:
@@ -265,7 +270,7 @@ class ApiPostHandler(PostHandler):
                                            "state_id": request_rec.current_state_id,
                                            "process_id": request_rec.process_id}
 
-                                if state=='1':
+                                if state == '1':
                                     if cur_state.get().state_type.startswith('denied'):
                                         act_arr.append(act_dic)
                                 else:
