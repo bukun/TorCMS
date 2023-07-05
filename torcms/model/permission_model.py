@@ -91,10 +91,16 @@ class MPermission:
         if perinfo:
             MPermission.update(uid, post_data)
         else:
-            TabPermission.create(
-                uid=uid,
-                name=post_data['name'],
-                controller=post_data.get('controller', '0'),
-                action=post_data.get('action', '0'),
-            )
-        return uid
+            try:
+                TabPermission.create(
+                    uid=uid,
+                    name=post_data['name'],
+                    controller=post_data.get('controller', '0'),
+                    action=post_data.get('action', '0'),
+                )
+                return uid
+            except Exception as err:
+                print(repr(err))
+                return False
+
+
