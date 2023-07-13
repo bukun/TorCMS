@@ -67,7 +67,7 @@
       "draggable": true,
       "perPage": 15,
       "keepItemSelectionOnPageChange": true,
-      "maxKeepItemSelectionLength": 10,
+      "maxKeepItemSelectionLength": 15,
       "labelTpl": "${uid} ${name}",
       "api": "/api/state/list",
       "expandConfig": {

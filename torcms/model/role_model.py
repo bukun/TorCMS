@@ -23,12 +23,12 @@ class MRole:
         return TabRole.select().count(None)
 
     @staticmethod
-    def get_counts_distinct_pid():
+    def get_counts_by_pid():
         '''
         The count in table.
         '''
-        # adding ``None`` to hide ``No value for argument 'database' in method call``
-        return TabRole.select().distinct(TabRole.pid).count(None)
+
+        return TabRole.select().where(TabRole.pid=='0000').count()
 
     @staticmethod
     def query_all_pager(current_page_num, perPage):
