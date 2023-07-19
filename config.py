@@ -108,7 +108,7 @@ class WidgetMenu(tornado.web.UIModule):
         for key in post_cfg:
             if key =='2':
                 continue
-                
+
             if ii < 7:
                 if post_cfg[key]['router'] == 'topic':
                     tmpl = '<li><a href="/list/{}">{}</a></li>'
