@@ -38,6 +38,14 @@ post_cfg = {
         "checker": "1",
         "show": "Document"
     },
+    "2": {
+        "router": "page",
+        "html": """<span style="color:green; glyphicon glyphicon-list-alt"></span> [{0}]</span>""".format(
+            "Page"
+        ),
+        "checker": "0",
+        "show": "Page"
+    },
     "3": {
         "router": "info",
         "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
@@ -74,10 +82,8 @@ post_cfg = {
 
 APP_MASK = ["g_drr", "9_todo_new", "9_todo_new5"]
 
-
 # _mod = __import__('torcms_app._config')
 # post_cfg = dict(post_cfg, **_mod._config._post_cfg)
-
 
 
 for wdir in Path(".").iterdir():
