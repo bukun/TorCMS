@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 '''
-Handler for links.
+Handler for role.
 '''
 
 import json
@@ -13,7 +13,7 @@ from torcms.model.role2permission_model import MRole2Permission
 
 class RoleHandler(BaseHandler):
     '''
-    Handler for links.
+    Handler for role.
     '''
 
     def initialize(self, **kwargs):
@@ -132,7 +132,7 @@ class RoleHandler(BaseHandler):
         current_page_num = get_pager_idx()
         dics = []
         recs = MRole.query_all_pager(current_page_num, perPage)
-        counts = MRole.get_counts()
+        counts = MRole.get_counts_by_pid()
 
         for rec in recs:
             dic = self.get_recs_dic(rec)

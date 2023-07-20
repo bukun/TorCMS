@@ -182,15 +182,16 @@ class UserApi(BaseHandler):
                 pers = MRole2Permission.query_by_role(cur_role.role)
 
                 for per in pers:
+
                     MUser.remove_extinfo(user_id, f'_per_{per.permission}')
 
         for index, idx_catid in enumerate(the_roles_arr):
             roles = idx_catid.split(",")
-            for role in roles:
-                MStaff2Role.add_or_update(user_id, role)
-                pers = MRole2Permission.query_by_role(role)
-                for per in pers:
-                    extinfo['_per_' + str(per.permission)] = 0
+     
+            MStaff2Role.add_or_update(user_id, roles[-1])
+            pers = MRole2Permission.query_by_role(roles[-1])
+            for per in pers:
+                extinfo['_per_' + str(per.permission)] = 0
 
         extinfo['roles'] = the_roles_arr
 

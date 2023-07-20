@@ -83,7 +83,7 @@
       "orderDir": "desc",
       "labelTpl": "${user_name}",
       "keepItemSelectionOnPageChange": true,
-      "maxKeepItemSelectionLength": 11,
+      "maxKeepItemSelectionLength": 15,
       "primaryField": "uid",
       "api": "/api/user/list",
       "filter": {

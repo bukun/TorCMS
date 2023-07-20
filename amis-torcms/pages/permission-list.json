@@ -49,7 +49,7 @@
       "draggable": true,
       "perPage": 15,
       "keepItemSelectionOnPageChange": true,
-      "maxKeepItemSelectionLength": 11,
+      "maxKeepItemSelectionLength": 15,
       "labelTpl": "${uid} ${name}",
       "api": "/api/permission/list",
       "primaryField": "uid",

@@ -23,6 +23,14 @@ class MRole:
         return TabRole.select().count(None)
 
     @staticmethod
+    def get_counts_by_pid():
+        '''
+        The count in table.
+        '''
+
+        return TabRole.select().where(TabRole.pid=='0000').count()
+
+    @staticmethod
     def query_all_pager(current_page_num, perPage):
         '''
         Return some of the records. Not all.
