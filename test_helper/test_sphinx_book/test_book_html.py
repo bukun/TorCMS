@@ -40,11 +40,13 @@ class TestFoo():
             pass
         else:
             self.img_ws.mkdir()
-        for wfile in (self.ws_dir / '_images').rglob('*'):
-            print(wfile)
-            if wfile.is_file():
-                outfile = self.img_ws / wfile.name
-                outfile.write_bytes(wfile.read_bytes())
+        for wdir in self.ws_dir.rglob('_images'):
+
+            for wfile in wdir.rglob('*'):
+                print(wfile)
+                if wfile.is_file():
+                    outfile = self.img_ws / wfile.name
+                    outfile.write_bytes(wfile.read_bytes())
                 # with open(outfile, 'w') as fo:
                 #     fo.wr
         assert self.ws_dir.exists()
@@ -57,6 +59,7 @@ class TestFoo():
 
         File = open(str(html_file.resolve())).read()
         File = File.replace('src="../../../_images/', 'src="/static/xx_book_eb1243/')
+        File = File.replace('src="../../_images/', 'src="/static/xx_book_eb1243/')
         Soup = bs4.BeautifulSoup(File, features="html.parser")
         title = Soup.title.text.split('—')[0]
         content = Soup.select('.body')[0]
@@ -94,10 +97,11 @@ class TestFoo():
         post_data['order'] = int(order_str)
 
         # assert not MPost.get_by_uid(uid)
+        pprint(post_data)
         import_post(uid, post_data)
         assert MPost.get_by_uid(uid)
         print(uid)
-        pprint(post_data)
+
 
         sec_dir = html_file.parent
         new_sec_dir = sec_dir.parent / f'{sec_dir.name}_{uid}'
