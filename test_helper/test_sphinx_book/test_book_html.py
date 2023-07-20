@@ -20,12 +20,24 @@ class TestFoo():
 
         self.uid = tools.get_uu4d()
         self.fake = Faker(locale="zh_CN")
-        self.ws_dir = Path(__file__).parent / 'book_eb1243/xx_build/html'
+        # self.ws_dir = Path(__file__).parent / 'book_eb1243/xx_build/html'
+        # self.ws_dir = Path('/home/bk/book-rst/doculet/pt01_language_eb00kh')
+        self.ws_dir = Path('/home/bk/book-rst/doculet/pt02_web_eb00ka')
         self.re_pt = re.compile('\/pt\d\d')
         self.re_ch = re.compile('\/ch\d\d')
         self.re_sec = re.compile('\/sec\d\d')
+
+        self.re_book = re.compile('eb\d\d..')
         print(self.ws_dir)
-        self.img_ws = Path('static/xx_book_eb1243')
+
+        self.book_sig = self.re_book.search(str(self.ws_dir))
+
+        self.img_ws = Path(
+            f'static/xx_book_{self.book_sig.group()}'
+        )
+
+    def test_sig_exists(self):
+        assert self.re_book.search(str(self.ws_dir))
 
     def teardown_method(self):
         # self.new_rst_file.unlink()
@@ -52,14 +64,14 @@ class TestFoo():
         assert self.ws_dir.exists()
 
         for wfile in self.ws_dir.rglob('*.html'):
-            if 'sec' in wfile.parent.name:
+            if 'sec' in wfile.parent.name and '_build' in str(wfile.resolve()):
                 self.insert_rst(wfile)
 
     def get_html(self, html_file):
 
         File = open(str(html_file.resolve())).read()
-        File = File.replace('src="../../../_images/', 'src="/static/xx_book_eb1243/')
-        File = File.replace('src="../../_images/', 'src="/static/xx_book_eb1243/')
+        File = File.replace('src="../../../_images/', f'src="/static/xx_book_{self.book_sig.group()}/')
+        File = File.replace('src="../../_images/',  f'src="/static/xx_book_{self.book_sig.group()}/')
         Soup = bs4.BeautifulSoup(File, features="html.parser")
         title = Soup.title.text.split('—')[0]
         content = Soup.select('.body')[0]
