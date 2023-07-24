@@ -69,7 +69,7 @@ export default {
         params: formdata
       })
         .then(async (statusCode) => {
-
+         console.log(statusCode.data['code'])
           if (statusCode.data['code'] === '1') {
 
             this.$q.notify(statusCode.data['info'])
@@ -80,9 +80,10 @@ export default {
               })
 
             authService.setToken(statusCode.data['user_name'])
+            userService.setUserInfo(statusCode.data)
 
 
-          } else {
+          }  else {
 
             this.$q.notify(statusCode.data['info'])
             this.toRegister()
@@ -90,7 +91,7 @@ export default {
 
         })
         .catch(function (error) { // 请求失败处理
-          this.$q.notify('Login failed')
+
           console.log('Error for res: ');
           // this.$q.loading.hide();
           console.log(error);

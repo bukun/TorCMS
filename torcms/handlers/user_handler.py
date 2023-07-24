@@ -781,9 +781,7 @@ class UserHandler(BaseHandler):
             user_id = MUser.get_by_name(u_name).uid
             # jwt
             jwtToken = self.generate_jwt_token(u_name)
-            print("!" * 50)
-            print(user_id)
-            print(jwtToken)
+
             user_pers = MStaff2Role.query_permissions(user_id)
             user_roles = MStaff2Role.get_role_by_uid(user_id)
 

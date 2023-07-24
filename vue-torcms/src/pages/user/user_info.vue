@@ -19,7 +19,7 @@
         <q-btn color="primary" size="sm" label="Modify personal information " @click="toChangeinfo"></q-btn>
         <q-btn color="secondary" size="sm" label="Change password" @click="toChangepass"></q-btn>
         <q-btn color="purple" size="sm" label="Change role" @click="toChangerole"></q-btn>
-                <q-btn color="blue-grey" size="sm" label="Logout" @click="toLogout"></q-btn>
+        <q-btn color="blue-grey" size="sm" label="Logout" @click="toLogout"></q-btn>
       </div>
     </div>
   </q-page>
@@ -64,7 +64,6 @@ export default {
 
           if (response.data.user_name) {
 
-            userService.setUserInfo(response)
             this.info = response
             this.user_name = response.data.user_name
           } else {
