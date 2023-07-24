@@ -26,6 +26,9 @@
       ],
       "stores/*": [
         "src/stores/*"
+      ],
+      "store/*": [
+        "src/store/*"
       ]
     }
   },

@@ -187,7 +187,7 @@ class UserApi(BaseHandler):
 
         for index, idx_catid in enumerate(the_roles_arr):
             roles = idx_catid.split(",")
-     
+
             MStaff2Role.add_or_update(user_id, roles[-1])
             pers = MRole2Permission.query_by_role(roles[-1])
             for per in pers:

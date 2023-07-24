@@ -9,9 +9,15 @@ const routes: RouteRecordRaw[] = [
 ]
 
   },
+  {
+    path: '/403',
+    name: '403',
+    component: () => import('pages/Error403.vue')
+  },
 
   {
     path: '/post',
+    meta: { isAllowBack: true },
     component: () => import('layouts/MainLayoutPost.vue'),
     children: [
       {path: 'add', component: () => import('pages/post/post_add.vue')},
@@ -25,6 +31,7 @@ const routes: RouteRecordRaw[] = [
 
   {
     path: '/userinfo',
+    meta: { isAllowBack: true },
     component: () => import('layouts/MainLayoutUser.vue'),
     children: [
       {path: 'register', component: () => import('pages/user/user_register.vue')},

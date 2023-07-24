@@ -17,7 +17,6 @@
 
 <script lang="ts">
 import {defineComponent, ref} from 'vue';
-import EssentialLink from 'components/EssentialLink.vue';
 import EssentialHead from 'components/Head.vue';
 
 const linksList = [
@@ -41,8 +40,7 @@ const linksList = [
 export default defineComponent({
   name: 'MainLayout',
   components: {
-    EssentialHead,
-    // EssentialLink
+    EssentialHead
   },
 
   setup() {

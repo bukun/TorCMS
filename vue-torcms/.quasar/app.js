@@ -17,7 +17,7 @@ import { Quasar } from 'quasar'
 import { markRaw } from 'vue'
 import RootComponent from 'app/src/App.vue'
 
-import createStore from 'app/src/stores/index'
+import createStore from 'app/src/store/index'
 import createRouter from 'app/src/router/index'
 
 
@@ -45,9 +45,8 @@ export default async function (createAppFn, quasarUserOptions) {
       : createStore
 
     
-      app.use(store)
-
-      
+      // obtain Vuex injection key in case we use TypeScript
+      const { storeKey } = await import('app/src/store/index')
     
   
 
@@ -60,7 +59,7 @@ export default async function (createAppFn, quasarUserOptions) {
   
     // make router instance available in store
     
-      store.use(({ store }) => { store.router = router })
+      store.$router = router
     
   
 
@@ -69,7 +68,7 @@ export default async function (createAppFn, quasarUserOptions) {
   // different depending on whether we are in a browser or on the server.
   return {
     app,
-    store,
+    store, storeKey,
     router
   }
 }

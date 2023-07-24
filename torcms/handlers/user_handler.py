@@ -8,7 +8,7 @@ import datetime
 import json
 import re
 import time
-
+import jwt
 import tornado.web
 import wtforms.validators
 from wtforms.fields import StringField
@@ -25,6 +25,7 @@ from torcms.core.base_handler import BaseHandler
 from torcms.core.tool.send_email import send_mail
 from torcms.core.tools import logger
 from torcms.model.user_model import MUser
+from torcms.model.staff2role_model import MStaff2Role
 
 
 def check_regist_info(post_data):
@@ -116,6 +117,11 @@ class SumFormPass(Form):
     '''
 
     user_pass = StringField('user_pass', validators=[DataRequired()])
+
+
+JWT_TOKEN_EXPIRE_SECONDS = time.time() + 60 * CMS_CFG.get('expires_minutes', 15)  # token有效时间
+JWT_TOKEN_SECRET_SALT = 'salt.2023.07.21'
+JWT_TOKEN_ALGORITHM = 'HS256'  # HASH算法
 
 
 class UserHandler(BaseHandler):
@@ -718,6 +724,14 @@ class UserHandler(BaseHandler):
     def fromCharCOde(self, passstr, *b):
         return chr(passstr % 65536) + "".join([chr(i % 65536) for i in b])
 
+    def generate_jwt_token(self, user_name):
+        """根据用户user_name生成token"""
+
+        data = {'user_name': user_name, 'exp': int(time.time()) + JWT_TOKEN_EXPIRE_SECONDS}
+        print("generate data:", data)
+        jwtToken = jwt.encode(data, JWT_TOKEN_SECRET_SALT, algorithm=JWT_TOKEN_ALGORITHM)
+        return jwtToken
+
     def login(self):
         '''
         user login.
@@ -729,7 +743,6 @@ class UserHandler(BaseHandler):
             next_url = post_data['next']
         else:
             next_url = '/'
-
 
         u_name = post_data['user_name']
         u_pass = post_data['user_pass']
@@ -764,6 +777,26 @@ class UserHandler(BaseHandler):
                 expires_days=None,
                 expires=time.time() + 60 * CMS_CFG.get('expires_minutes', 15),
             )
+
+            user_id = MUser.get_by_name(u_name).uid
+            # jwt
+            jwtToken = self.generate_jwt_token(u_name)
+            print("!" * 50)
+            print(user_id)
+            print(jwtToken)
+            user_pers = MStaff2Role.query_permissions(user_id)
+            user_roles = MStaff2Role.get_role_by_uid(user_id)
+
+            cur_user_per = []
+            if user_pers:
+                for key in user_pers:
+                    cur_user_per.append(key['permission'])
+
+            cur_user_role = []
+            if user_roles:
+                for role in user_roles:
+                    cur_user_role.append(role['name'])
+
             MUser.update_success_info(u_name)
             if self.is_p:
                 user_login_status = {
@@ -771,6 +804,10 @@ class UserHandler(BaseHandler):
                     'code': '1',
                     'info': 'Login successful',
                     'user_name': u_name,
+                    'access_token': jwtToken,
+                    'user_pers': cur_user_per,
+                    'user_roles': cur_user_role
+
                 }
                 return json.dump(user_login_status, self)
             else:

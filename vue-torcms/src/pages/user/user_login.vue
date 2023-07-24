@@ -23,7 +23,8 @@
             </q-input>
 
 
-            <q-btn label="Submit" type="submit" color="primary"/>
+            <q-btn label="Submit" type="submit" :disable="!model.user_name || !model.user_pass" color="primary"/>
+
 
 
           </q-form>
@@ -32,19 +33,19 @@
 
     </div>
     <div class="row">
-<div class="q-pt-sm">
-  <br><br>
-      Not have an account?
-      <q-btn color="primary" size="sm" label="Register" @click="toRegister"></q-btn>
+      <div class="q-pt-sm">
+        <br><br>
+        Not have an account?
+        <q-btn color="primary" size="sm" label="Register" @click="toRegister"></q-btn>
 
-    </div>
+      </div>
     </div>
   </q-page>
 </template>
 
 <script>
-import { authService} from '../../service/authService'
-import { userService} from '../../service/userService'
+import {authService} from '../../service/authService'
+import {userService} from '../../service/userService'
 
 export default {
   data() {
@@ -54,7 +55,8 @@ export default {
     };
   },
   methods: {
-    onSubmit() {
+
+     onSubmit() {
       let formdata = {
         user_name: this.model.user_name,
         user_pass: this.model.user_pass

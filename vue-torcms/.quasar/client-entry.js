@@ -57,7 +57,7 @@ const publicPath = `/`
 async function start ({
   app,
   router
-  , store
+  , store, storeKey
 }, bootFiles) {
   
 
@@ -119,7 +119,7 @@ async function start ({
   
 
   app.use(router)
-  
+  app.use(store, storeKey)
 
   
 
