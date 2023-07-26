@@ -729,7 +729,10 @@ class UserHandler(BaseHandler):
 
         data = {'user_name': user_name, 'exp': int(time.time()) + JWT_TOKEN_EXPIRE_SECONDS}
         print("generate data:", data)
-        jwtToken = jwt.encode(data, JWT_TOKEN_SECRET_SALT, algorithm=JWT_TOKEN_ALGORITHM)
+        try:
+            jwtToken = jwt.encode(data, JWT_TOKEN_SECRET_SALT, algorithm=JWT_TOKEN_ALGORITHM)
+        except:
+            jwtToken = ''
         return jwtToken
 
     def login(self):
