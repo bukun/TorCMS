@@ -7,6 +7,6 @@ export default {
     realname: '',
     avatar: '',
     authorities: [],
-    roles: ''
+    roles: []
   }
 };

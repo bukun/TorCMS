@@ -79,7 +79,7 @@ export default {
 
               })
 
-            authService.setToken(statusCode.data['user_name'])
+            authService.setToken(statusCode.data['access_token'])
             userService.setUserInfo(statusCode.data)
 
 

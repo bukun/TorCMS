@@ -800,6 +800,11 @@ class UserHandler(BaseHandler):
                 for role in user_roles:
                     cur_user_role.append({role['uid']: role['name']})
 
+            if u_name == 'admin':
+                isSuperAdmin = True
+            else:
+                isSuperAdmin = False
+
             MUser.update_success_info(u_name)
             if self.is_p:
                 user_login_status = {
@@ -809,7 +814,8 @@ class UserHandler(BaseHandler):
                     'user_name': u_name,
                     'access_token': jwtToken,
                     'user_pers': cur_user_per,
-                    'user_roles': cur_user_role
+                    'user_roles': cur_user_role,
+                    'isSuperAdmin': isSuperAdmin
 
                 }
                 return json.dump(user_login_status, self)
