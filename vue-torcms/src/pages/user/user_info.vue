@@ -61,7 +61,8 @@ export default {
         headers: {'Content-Type': 'application/json'},
         params: {user_name: this.$route.query.user_name}
       }).then(response => {
-
+          console.log(authService.getToken())
+          console.log(userService.getUserInfo())
           if (response.data.user_name) {
 
             this.info = response

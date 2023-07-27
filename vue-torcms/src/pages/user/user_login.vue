@@ -69,7 +69,7 @@ export default {
         params: formdata
       })
         .then(async (statusCode) => {
-         console.log(statusCode.data['code'])
+
           if (statusCode.data['code'] === '1') {
 
             this.$q.notify(statusCode.data['info'])

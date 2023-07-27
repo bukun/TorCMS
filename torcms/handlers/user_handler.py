@@ -796,7 +796,7 @@ class UserHandler(BaseHandler):
             cur_user_role = []
             if user_roles:
                 for role in user_roles:
-                    cur_user_role.append(role['name'])
+                    cur_user_role.append({role['uid']:role['name']})
 
             MUser.update_success_info(u_name)
             if self.is_p:

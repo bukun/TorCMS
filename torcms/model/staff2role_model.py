@@ -52,7 +52,7 @@ class MStaff2Role:
 
         query = (
             TabStaff2Role.select(
-                TabStaff2Role.id, TabRole.uid, TabRole2Permission.permission_id
+                TabStaff2Role.id, TabRole.uid, TabRole2Permission.permission_id,TabRole.name
             )
             .join(TabRole, JOIN.LEFT_OUTER)
             .join(TabRole2Permission, JOIN.LEFT_OUTER)
