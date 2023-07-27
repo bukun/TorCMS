@@ -26,6 +26,8 @@ from torcms.core.tool.send_email import send_mail
 from torcms.core.tools import logger
 from torcms.model.user_model import MUser
 from torcms.model.staff2role_model import MStaff2Role
+from torcms.model.role2permission_model import MRole2Permission
+from torcms.model.role_model import MRole
 
 
 def check_regist_info(post_data):
@@ -796,7 +798,7 @@ class UserHandler(BaseHandler):
             cur_user_role = []
             if user_roles:
                 for role in user_roles:
-                    cur_user_role.append({role['uid']:role['name']})
+                    cur_user_role.append({role['uid']: role['name']})
 
             MUser.update_success_info(u_name)
             if self.is_p:
@@ -1145,6 +1147,26 @@ class UserHandler(BaseHandler):
             userinfo=self.userinfo,
         )
 
+    def get_role_by_uid(self, roles):
+        role_arr = []
+        if roles:
+
+            for role in roles:
+
+                if ',' in role:
+                    role1_id = role.split(',')[0]
+                    role_id = role.split(',')[-1]
+                    role1_rec = MRole.get_by_uid(role1_id)
+                    role_rec = MRole.get_by_uid(role_id)
+                    role_name = role_rec.name + ' [' + role1_rec.name + '] '
+                else:
+                    role_rec = MRole.get_by_uid(role)
+                    role_name = role_rec.name
+
+                role_arr.append(role_name)
+
+        return role_arr
+
     @tornado.web.authenticated
     def json_info(self):
         '''
@@ -1155,10 +1177,19 @@ class UserHandler(BaseHandler):
         rec = MUser.get_by_uid(self.userinfo.uid)
         # rec = MUser.get_by_name(user_name)
 
+        user_pers = MStaff2Role.query_permissions(rec.uid)
+        user_roles = MStaff2Role.get_role_by_uid(rec.uid)
+
+        cur_user_per = []
+        if user_pers:
+            for key in user_pers:
+                cur_user_per.append(key['permission'])
+
         userinfo = {
             'user_name': rec.user_name,
             'user_email': rec.user_email,
-            'role': rec.role,
+            'roles': self.get_role_by_uid(rec.extinfo.get('roles', '')),
+            'permissions': cur_user_per,
             'extinfo': rec.extinfo,
         }
         return json.dump(userinfo, self, ensure_ascii=False)
