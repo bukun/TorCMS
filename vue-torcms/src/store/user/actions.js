@@ -23,6 +23,7 @@ export const login = ({ commit }, userInfo) => {
           commit('updateUserInfo', newUserInfo);
 
           let permissions = data.user_pers || [];
+          let roles = data.user_roles || [];
           let isSuperAdmin = false;
           if (permissions.findIndex(t => t.user_pers === 'admin') >= 0) {
             isSuperAdmin = true;
@@ -30,7 +31,8 @@ export const login = ({ commit }, userInfo) => {
 
           permissionService.set({
             permissions: permissions,
-            isSuperAdmin: isSuperAdmin
+            isSuperAdmin: isSuperAdmin,
+            roles: roles
           });
 
           resolve(newUserInfo);
