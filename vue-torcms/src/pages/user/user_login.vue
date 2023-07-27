@@ -46,7 +46,6 @@
 <script>
 import {authService} from '../../service/authService'
 import {userService} from '../../service/userService'
-
 export default {
   data() {
     return {
@@ -57,6 +56,7 @@ export default {
   methods: {
 
      onSubmit() {
+
       let formdata = {
         user_name: this.model.user_name,
         user_pass: this.model.user_pass

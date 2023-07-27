@@ -1,7 +1,7 @@
 import {boot} from 'quasar/wrappers';
 import axios, {AxiosInstance} from 'axios';
 import {Notify} from 'quasar'
-// import Router from '../router/index';
+import Router from '../router/index';
 
 
 declare module '@vue/runtime-core' {
@@ -27,15 +27,15 @@ const api = axios.create({
 
 
 
-// function login() {
-//   setTimeout(() => {
-//     Router.push({
-//       path: '/userinfo/login'
-//     });
-//
-//
-//   }, 1000);
-// }
+function login() {
+  setTimeout(() => {
+    Router.prototype.push({
+      path: '/userinfo/login'
+    });
+
+
+  }, 1000);
+}
 
 // Add a response interceptor
 api.interceptors.response.use(
