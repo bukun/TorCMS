@@ -8,7 +8,7 @@ import user from './user';
 
 import { plugin as userPlugin } from './user';
 
-
+// Vue.use(Vuex)
 
 
 /*
