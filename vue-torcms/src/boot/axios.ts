@@ -2,7 +2,8 @@ import {boot} from 'quasar/wrappers';
 import axios, {AxiosInstance} from 'axios';
 import {Notify} from 'quasar'
 import Router from '../router/index';
-
+import { permissionService } from '../service';
+import qs from 'qs';
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -14,7 +15,7 @@ declare module '@vue/runtime-core' {
 // due to creating a Singleton instance here;
 // If any client changes this (global) instance, it might be a
 // good idea to move this instance creation inside of the
-// "export default () => {}" function below (which runs individually
+// 'export default () => {}' function below (which runs individually
 // for each client)
 
 
@@ -36,6 +37,46 @@ function login() {
 
   }, 1000);
 }
+// Add a request interceptor
+api.interceptors.request.use(
+  function(config) {
+    if (config.params.permission && !permissionService.check(config.params.permission)) {
+      throw {
+        message: "403 forbidden"
+      };
+    }
+
+    if (config.params.dataSource) {
+      console.log("config.dataSource = " + config.params.dataSource);
+      config.headers["dataSource"] = config.params.dataSource;
+    }
+
+    return config;
+  },
+  function(error) {
+    // Do something with request error
+    return Promise.reject(error);
+  }
+);
+api.defaults.transformRequest = [
+  function(data, headers) {
+    // Do whatever you want to transform the data
+    let contentType = headers['Content-Type'] || headers['content-type'];
+    if (!contentType) {
+      contentType = 'application/json';
+      headers['Content-Type'] = 'application/json';
+    }
+
+    if (contentType.indexOf('multipart/form-data') >= 0) {
+      return data;
+    } else if (contentType.indexOf('application/x-www-form-urlencoded') >= 0) {
+      return qs.stringify(data);
+    }
+
+    return JSON.stringify(data);
+  }
+];
+
 
 // Add a response interceptor
 api.interceptors.response.use(
@@ -103,4 +144,4 @@ export default boot(({app}) => {
 
 });
 
-export {api};
+export {api}

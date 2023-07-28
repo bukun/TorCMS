@@ -2,10 +2,10 @@ import { LocalStorage } from 'quasar';
 
 const authService = {
   getToken: function() {
-    return LocalStorage.getItem('user_name');
+    return LocalStorage.getItem('access_token');
   },
   setToken: function(token) {
-    LocalStorage.set('user_name', token);
+    LocalStorage.set('access_token', token);
   },
 
 

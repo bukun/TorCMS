@@ -1,11 +1,11 @@
-import { api } from 'boot/axios';
+import {api} from '../boot/axios';
 
 const HEADERS = {
   'Content-Type': 'application/x-www-form-urlencoded'
 };
 
 const user = {
-  login: function(data) {
+  login: function (data) {
     return api.post('/user_j/login',
       data,
       {
@@ -13,7 +13,7 @@ const user = {
       }
     );
   },
-  logout: function() {
+  logout: function () {
     return api.get('/user_j/logout',
       {
         headers: HEADERS
@@ -22,4 +22,4 @@ const user = {
   }
 };
 
-export { user };
+export {user};
