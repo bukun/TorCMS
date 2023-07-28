@@ -38,26 +38,26 @@ function login() {
   }, 1000);
 }
 // Add a request interceptor
-api.interceptors.request.use(
-  function(config) {
-    if (config.params.permission && !permissionService.check(config.params.permission)) {
-      throw {
-        message: "403 forbidden"
-      };
-    }
-
-    if (config.params.dataSource) {
-      console.log("config.dataSource = " + config.params.dataSource);
-      config.headers["dataSource"] = config.params.dataSource;
-    }
-
-    return config;
-  },
-  function(error) {
-    // Do something with request error
-    return Promise.reject(error);
-  }
-);
+// api.interceptors.request.use(
+//   function(config) {
+//     if (config.permission && !permissionService.check(config.permission)) {
+//       throw {
+//         message: "403 forbidden"
+//       };
+//     }
+//
+//     if (config.dataSource) {
+//       console.log("config.dataSource = " + config.dataSource);
+//       config.headers["dataSource"] = config.dataSource;
+//     }
+//
+//     return config;
+//   },
+//   function(error) {
+//     // Do something with request error
+//     return Promise.reject(error);
+//   }
+// );
 api.defaults.transformRequest = [
   function(data, headers) {
     // Do whatever you want to transform the data
