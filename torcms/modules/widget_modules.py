@@ -93,12 +93,31 @@ class WidgetEditor(tornado.web.UIModule):
         router = args[0]
         uid = args[1]
         userinfo = args[2]
-        review = kwargs.get('review', True)
-        delete = kwargs.get('delete', False)
-        nullify = kwargs.get('nullify', False)
-        reclass = kwargs.get('reclass', True)
+
         url = kwargs.get('url', '')
         catid = kwargs.get('catid', '')
+        kind = kwargs.get('kind', '')
+        review = False
+        delete = False
+        edit = False
+        nullify = False
+        reclass = False
+
+        iscan_review = MStaff2Role.check_permissions(userinfo.uid, f'{kind}can_review')
+
+        iscan_edit = MStaff2Role.check_permissions(userinfo.uid, f'{kind}can_edit')
+        iscan_delete = MStaff2Role.check_permissions(userinfo.uid, f'{kind}can_delete')
+        iscan_verify = MStaff2Role.check_permissions(userinfo.uid, f'{kind}can_verify')
+
+        if iscan_review:
+            review = True
+        if iscan_delete:
+            delete = True
+        if iscan_edit:
+            edit = True
+        if iscan_verify:
+            nullify = True
+            reclass = True
 
         kwd = {
             'router': router,
@@ -106,10 +125,12 @@ class WidgetEditor(tornado.web.UIModule):
             'catid': catid,
             'review': review,
             'delete': delete,
+            'edit': edit,
             'nullify': nullify,
             'reclass': reclass,
             'url': url,
         }
+
         return self.render_string(
             'modules/widget/widget_editor.html', kwd=kwd, userinfo=userinfo
         )

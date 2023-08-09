@@ -118,7 +118,7 @@
                     {% if userinfo %}
                     <span class="pull-right">
 
-                        {% module widget_editor('map-show', postinfo.uid, userinfo) %}
+                        {% module widget_editor('map-show', postinfo.uid, userinfo,kind = postinfo.kind) %}
 
                     {% module collect(userinfo.uid, postinfo.uid, en=True) %}
                               </span>

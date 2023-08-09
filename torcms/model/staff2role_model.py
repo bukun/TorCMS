@@ -72,11 +72,6 @@ class MStaff2Role:
         #          .join(Tweet, JOIN.LEFT_OUTER)  # Joins user -> tweet.
         #          .join(Favorite, JOIN.LEFT_OUTER)  # Joins tweet -> favorite.
         #          .group_by(User.username))
-        userinfo = TabMember.get(uid=staff_id)
-        if userinfo.is_staff:
-            pass
-        else:
-            return False
 
         query = (
             TabStaff2Role.select(
@@ -127,17 +122,3 @@ class MStaff2Role:
             TabStaff2Role.create(role=role_id, staff=staff_id)
 
 
-if __name__ == '__main__':
-    # uid = 'a99c7bfd-c4b5-11ed-bd91-f58b67e41619'
-    userinfo = TabMember.get(user_name='user_1role5')
-    print(userinfo.user_name)
-    print(userinfo.extinfo)
-    uid = userinfo.uid
-    uu = MStaff2Role.query_permissions(uid)
-    for x in uu:
-        print(x)
-        # print(x.id, x.tabuser.uid , dir(x))
-
-    tt = MStaff2Role.check_permissions(uid, '1can_add')
-    tt = MStaff2Role.check_permissions(uid, '1can_af')
-    print(tt)

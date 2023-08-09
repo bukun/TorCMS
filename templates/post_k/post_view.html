@@ -41,7 +41,7 @@
                     {% if userinfo %}
                     {% module collect(userinfo.uid, postinfo.uid) %}
                     {% end %}
-                    {% module widget_editor('tutorial', postinfo.uid, userinfo) %}
+                    {% module widget_editor('tutorial', postinfo.uid, userinfo,kind = postinfo.kind) %}
                 </div>
 
 

@@ -70,7 +70,7 @@
 
                                 {% module post_state(postinfo = postinfo,userinfo = userinfo,kind = postinfo.kind) %}
                 {% end %}
-{#            {% module widget_editor(kwd['router'], postinfo.uid, userinfo) %}#}
+            {% module widget_editor(kwd['router'], postinfo.uid, userinfo,kind = postinfo.kind) %}
 
                                  <p><strong>{{ _('Release time') }}：</strong>{{ datetime.datetime.fromtimestamp(postinfo.time_create).strftime('%Y-%m-%d') }}</p>
                                 <p><strong>{{ _('Browsing times') }}：</strong> {% raw postinfo.view_count %}</p>
@@ -119,7 +119,7 @@
                              <br>
                             <br>
                 {% end %}
-{#            {% module widget_editor(kwd['router'] , postinfo.uid, userinfo) %}#}
+            {% module widget_editor(kwd['router'] , postinfo.uid, userinfo,kind = postinfo.kind) %}
 
 
                               <strong>{{ _('Release time') }}：</strong>
