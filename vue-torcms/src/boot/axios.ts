@@ -95,7 +95,7 @@ api.interceptors.response.use(
           message:  error.response.data.message,
           type: 'negative'
         });
-        // login();
+        login();
       } else if (error.response.data && error.response.data.message) {
         Notify.create({
           message: error.response.data.message,
