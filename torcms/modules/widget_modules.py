@@ -102,22 +102,22 @@ class WidgetEditor(tornado.web.UIModule):
         edit = False
         nullify = False
         reclass = False
+        if userinfo:
+            iscan_review = MStaff2Role.check_permissions(userinfo.uid, f'{kind}can_review')
 
-        iscan_review = MStaff2Role.check_permissions(userinfo.uid, f'{kind}can_review')
+            iscan_edit = MStaff2Role.check_permissions(userinfo.uid, f'{kind}can_edit')
+            iscan_delete = MStaff2Role.check_permissions(userinfo.uid, f'{kind}can_delete')
+            iscan_verify = MStaff2Role.check_permissions(userinfo.uid, f'{kind}can_verify')
 
-        iscan_edit = MStaff2Role.check_permissions(userinfo.uid, f'{kind}can_edit')
-        iscan_delete = MStaff2Role.check_permissions(userinfo.uid, f'{kind}can_delete')
-        iscan_verify = MStaff2Role.check_permissions(userinfo.uid, f'{kind}can_verify')
-
-        if iscan_review:
-            review = True
-        if iscan_delete:
-            delete = True
-        if iscan_edit:
-            edit = True
-        if iscan_verify:
-            nullify = True
-            reclass = True
+            if iscan_review:
+                review = True
+            if iscan_delete:
+                delete = True
+            if iscan_edit:
+                edit = True
+            if iscan_verify:
+                nullify = True
+                reclass = True
 
         kwd = {
             'router': router,
