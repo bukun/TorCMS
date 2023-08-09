@@ -46,6 +46,8 @@
 <script>
 import {authService} from '../../service/authService'
 import {userService} from '../../service/userService'
+import store from '../../store';
+
 export default {
   data() {
     return {

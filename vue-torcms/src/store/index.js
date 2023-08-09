@@ -30,4 +30,3 @@ const Store = new Vuex.Store({
 });
 
 export default Store;
-
