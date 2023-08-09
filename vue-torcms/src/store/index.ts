@@ -1,14 +1,12 @@
-import Vue from 'vue'
 import Vuex from 'vuex'
 
-// import example from './module-example'
 
 import config from './config';
 import user from './user';
 
 import { plugin as userPlugin } from './user';
 
-// Vue.use(Vuex)
+
 
 
 /*
@@ -32,3 +30,4 @@ const Store = new Vuex.Store({
 });
 
 export default Store;
+

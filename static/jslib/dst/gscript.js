@@ -269,16 +269,15 @@ $("#sub_reset").click(function () {
             width: "92%"
         }), mapson = $("#map").data("map");
         if (mapson.i.length == 4) {
-            map_uid = "m" + mapson.i;
-            mp_uid = "mp" + mapson.i;
+
+            mp_uid = "mn" + mapson.i;
 
         } else {
-            map_uid = mapson.i;
+
             mp_uid = mapson.i;
 
         };
-
-        vlon = mapson.x, vlat = mapson.y, vzoom_current = mapson.v, vzoom_max = mapson.m, vzoom_min = mapson.n, vmarker = mapson.k, geojsonid = mapson.g, $("#btn_overlay").click(function () {
+        map_uid=mapson.post_id, vlon = mapson.x, vlat = mapson.y, vzoom_current = mapson.v, vzoom_max = mapson.m, vzoom_min = mapson.n, vmarker = mapson.k, geojsonid = mapson.g, $("#btn_overlay").click(function () {
             var sig_map_1, sig_map_2, url_new;
             return sig_map_1 = $("#over_map_1").val(), sig_map_2 = $("#over_map_2").val(), url_new = "/map/overlay/" + map_uid + "/" + sig_map_1, "" !== sig_map_2 && (url_new = url_new + "/" + sig_map_2), window.location.href = url_new
         }), $("#save_view").click(function () {
