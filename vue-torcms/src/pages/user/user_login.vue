@@ -63,7 +63,19 @@ export default {
         user_name: this.model.user_name,
         user_pass: this.model.user_pass
       }
-
+ // this.$store
+ //        .dispatch("user/login", {
+ //          username: this.model.user_name,
+ //          password: this.model.user_pass,
+ //        })
+ //        .then(async (data) => {
+ //          this.$router.push("/");
+ //          this.$q.loading.hide();
+ //        })
+ //        .catch(e => {
+ //          this.$q.loading.hide();
+ //          console.error(e);
+ //        });
       this.$axios({
         url: '/user_j/login',
         method: 'post',
