@@ -268,13 +268,13 @@ $("#sub_reset").click(function () {
             height: "350px",
             width: "92%"
         }), mapson = $("#map").data("map");
-        if (mapson.i.length == 4) {
+        if (mapson.i.substr(0,1) == 'm') {
 
-            mp_uid = "mn" + mapson.i;
+            mp_uid = "mn" + mapson.i.substr(-4);
 
         } else {
 
-            mp_uid = mapson.i;
+            mp_uid = "qn" + mapson.i.substr(-4);
 
         };
         map_uid=mapson.post_id, vlon = mapson.x, vlat = mapson.y, vzoom_current = mapson.v, vzoom_max = mapson.m, vzoom_min = mapson.n, vmarker = mapson.k, geojsonid = mapson.g, $("#btn_overlay").click(function () {
@@ -299,10 +299,10 @@ $("#sub_reset").click(function () {
         }), onMapClick = function (e) {
 
             var cmap_coor, div_str, link_str;
-            return popup.setLatLng(e.latlng), popup.setContent("Coordinate position" + e.latlng.toString()), currentZoom = map.getZoom(), cmap_coor = e.latlng, link_str = "http://drr.ikcest.org/map/" + map_uid + "?zoom=" + currentZoom + "&lat=" + cmap_coor.lat.toFixed(4) + "&lon=" + cmap_coor.lng.toFixed(4) + "&marker=1", "" !== geojsonid && (link_str = link_str + "&geojson=" + geojsonid), div_str = '{"i" : "' + map_uid + '",  "x" : ' + cmap_coor.lng.toFixed(3).toString() + ', "y": ' + cmap_coor.lat.toFixed(3).toString() + ', "v":' + currentZoom.toString() + ', "m": ' + vzoom_max + ', "n": ' + vzoom_min + ', "g": "' + geojsonid + '", "k": 1}', map_add_log(div_str, mapson), div_str = '&lt;div id="map" data-map = \'' + div_str + "'&gt;&lt;/div&gt;", $("#current_view_url").html(link_str), $("#mapref").html(div_str), $("#current_view_url").attr("href", link_str), popup.openOn(map)
+            return popup.setLatLng(e.latlng), popup.setContent("Coordinate position" + e.latlng.toString()), currentZoom = map.getZoom(), cmap_coor = e.latlng, link_str = "http://drr.ikcest.org/map/" + map_uid + "?zoom=" + currentZoom + "&lat=" + cmap_coor.lat.toFixed(4) + "&lon=" + cmap_coor.lng.toFixed(4) + "&marker=1", "" !== geojsonid && (link_str = link_str + "&geojson=" + geojsonid), div_str = '{"i" : "' + mp_uid + '",  "x" : ' + cmap_coor.lng.toFixed(3).toString() + ', "y": ' + cmap_coor.lat.toFixed(3).toString() + ', "v":' + currentZoom.toString() + ', "m": ' + vzoom_max + ', "n": ' + vzoom_min + ', "g": "' + geojsonid + '", "k": 1}', map_add_log(div_str, mapson), div_str = '&lt;div id="map" data-map = \'' + div_str + "'&gt;&lt;/div&gt;", $("#current_view_url").html(link_str), $("#mapref").html(div_str), $("#current_view_url").attr("href", link_str), popup.openOn(map)
         }, onZoomend = function () {
             var cmap_coor, div_str, link_str;
-            return currentZoom = map.getZoom(), cmap_coor = map.getCenter(), currentX = cmap_coor.lng.toFixed(3).toString(), currentY = cmap_coor.lat.toFixed(3).toString(), link_str = "http://drr.ikcest.org/map/" + map_uid + "?zoom=" + currentZoom + "&lat=" + cmap_coor.lat.toFixed(4) + "&lon=" + cmap_coor.lng.toFixed(4), "" !== geojsonid && (link_str = link_str + "&geojson=" + geojsonid), div_str = '{"i" : "' + map_uid + '", "x" : ' + cmap_coor.lng.toFixed(3).toString() + ', "y": ' + cmap_coor.lat.toFixed(3).toString() + ', "v":' + currentZoom.toString() + ', "m": ' + vzoom_max + ', "n": ' + vzoom_min + ', "g": "' + geojsonid + '", "k": 0}', map_add_log(div_str, mapson), div_str = '&lt;div id="map" data-map = \'' + div_str + "'&gt;&lt;/div&gt;", $("#current_view_url").css("color", ""), $("#current_view_url").html(link_str), $("#mapref").html(div_str), $("#current_view_url").attr("href", link_str)
+            return currentZoom = map.getZoom(), cmap_coor = map.getCenter(), currentX = cmap_coor.lng.toFixed(3).toString(), currentY = cmap_coor.lat.toFixed(3).toString(), link_str = "http://drr.ikcest.org/map/" + map_uid + "?zoom=" + currentZoom + "&lat=" + cmap_coor.lat.toFixed(4) + "&lon=" + cmap_coor.lng.toFixed(4), "" !== geojsonid && (link_str = link_str + "&geojson=" + geojsonid), div_str = '{"i" : "' + mp_uid + '", "x" : ' + cmap_coor.lng.toFixed(3).toString() + ', "y": ' + cmap_coor.lat.toFixed(3).toString() + ', "v":' + currentZoom.toString() + ', "m": ' + vzoom_max + ', "n": ' + vzoom_min + ', "g": "' + geojsonid + '", "k": 0}', map_add_log(div_str, mapson), div_str = '&lt;div id="map" data-map = \'' + div_str + "'&gt;&lt;/div&gt;", $("#current_view_url").css("color", ""), $("#current_view_url").html(link_str), $("#mapref").html(div_str), $("#current_view_url").attr("href", link_str)
         }, popup = L.popup(), cities = new L.LayerGroup, new L.FeatureGroup, nexrad = L.tileLayer.wms("https://tile.osgeo.cn/service?", {
             layers: mp_uid,
             format: "image/png",

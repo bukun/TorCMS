@@ -102,7 +102,7 @@
         </div>
         <br>
 
-        <div id="map" class="mapdiv" tabindex="0" data-map='{"i": "{% if 'ext_map_uid' in postinfo.extinfo and postinfo.extinfo.get('ext_map_uid') != '' %}{{ postinfo.extinfo.get('ext_map_uid') }}{% else %}{{ postinfo.uid[1:] }}{% end %}",
+        <div id="map" class="mapdiv" tabindex="0" data-map='{"i": "{% if 'ext_map_uid' in postinfo.extinfo and postinfo.extinfo.get('ext_map_uid') != '' %}{{ postinfo.extinfo.get('ext_map_uid') }}{% else %}{{ postinfo.uid }}{% end %}",
         "x":{{ kwd['vlon'] if 'vlon' in kwd else postinfo.extinfo.get('ext_lon') }},
         "y": {{ kwd['vlat'] if 'vlat' in kwd else postinfo.extinfo.get('ext_lat') }},
         "v": {{ kwd['vzoom'] if 'vzoom' in kwd else postinfo.extinfo.get('ext_zoom_current') }},
