@@ -96,7 +96,7 @@ class ActionHandler(BaseHandler):
         current_page_num = get_pager_idx()
         dics = []
         recs = MAction.query_all_parger(current_page_num, perPage)
-
+        counts=MAction.get_counts()
         for rec in recs:
             process = MProcess.get_by_uid(rec.process).get()
             trans_recs = MTransition.query_by_action(rec.uid, rec.process)
@@ -138,7 +138,7 @@ class ActionHandler(BaseHandler):
             "ok": True,
             "status": 0,
             "msg": "ok",
-            "data": {"count": len(dics), "rows": dics},
+            "data": {"count": counts, "rows": dics},
         }
 
         return json.dump(out_dict, self, ensure_ascii=False)

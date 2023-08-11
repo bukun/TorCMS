@@ -23,7 +23,7 @@ def run_gen_process():
             process_id = process_id
             # 创建动作
             test_action(process_id)
-    
+
             # 创建状态,状态转换
             test_state(process_id)
 

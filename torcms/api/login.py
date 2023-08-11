@@ -588,8 +588,8 @@ class UserApi(BaseHandler):
 
         recs = MUser.query_pager_by_slug(current_page_num,user_name=find_name, num=perPage)
 
-        # counts = MUser.count_of_certain()
-        counts = recs.count()
+        counts = MUser.count_of_certain()
+
 
         for rec in recs:
             dic = {

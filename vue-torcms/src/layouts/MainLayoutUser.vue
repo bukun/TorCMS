@@ -45,12 +45,13 @@ import EssentialHead from 'components/Head.vue';
     icon: 'school',
     link: '/#/userinfo/changepass'
   },
-  {
-    title: 'changerole',
-    caption: 'changerole',
-    icon: 'school',
-    link: '/#/userinfo/changerole'
-  }]
+  // {
+  //   title: 'changerole',
+  //   caption: 'changerole',
+  //   icon: 'school',
+  //   link: '/#/userinfo/changerole'
+  // }
+  ]
 
 
 export default defineComponent({
