@@ -1,12 +1,13 @@
 import {api} from '../boot/axios';
 
 const HEADERS = {
-  'Content-Type': 'application/x-www-form-urlencoded'
+  'Content-Type': 'application/json'
 };
+
 
 const user = {
   login: function (data) {
-    return api.post('/user_j/login',
+  return api.post('/user_j/login',
       data,
       {
         headers: HEADERS

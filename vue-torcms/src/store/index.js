@@ -30,3 +30,14 @@ const Store = new Vuex.Store({
 });
 
 export default Store;
+// import { createStore } from 'vuex'
+// import user from './user';
+// const store = createStore({
+//     state:user.state,
+//     getters: user.getters,
+//     mutations: user.mutations,
+//     actions:user.actions,
+//     modules:{}
+// })
+//
+// export default store
