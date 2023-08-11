@@ -14,14 +14,18 @@ def run_gen_process():
 
 
     process_name = '数据审核'
-    process_id = MProcess.create(process_name)
-    if process_id:
-        process_id = process_id
-        # 创建动作
-        test_action(process_id)
-
-        # 创建状态,状态转换
-        test_state(process_id)
+    recs=MProcess.get_by_name('数据审核')
+    if recs:
+        pass
+    else:
+        process_id = MProcess.create(process_name)
+        if process_id:
+            process_id = process_id
+            # 创建动作
+            test_action(process_id)
+    
+            # 创建状态,状态转换
+            test_state(process_id)
 
 
 

@@ -280,11 +280,11 @@ class MProcess:
             return False
 
     @staticmethod
-    def query_by_name(name):
+    def get_by_name(name):
         '''
         Get a link by name.
         '''
-        return TabProcess.select().where(TabProcess.name.startswith(name))
+        return TabProcess.select().where(TabProcess.name == name)
 
     @staticmethod
     def get_by_uid(uid):
@@ -600,8 +600,6 @@ class MRequestAction:
         else:
             return None
 
-
-
     @staticmethod
     def get_by_action_request(act_id, request_id):
         rec = TabRequestAction.select().where(
@@ -611,8 +609,6 @@ class MRequestAction:
             return rec.get()
         else:
             return None
-
-
 
     @staticmethod
     def delete_by_actid(action_id):
@@ -670,8 +666,6 @@ class MRequest:
             return recs.get()
         else:
             return None
-
-
 
     @staticmethod
     def get_by_pro_state(pro_id, state_id):
