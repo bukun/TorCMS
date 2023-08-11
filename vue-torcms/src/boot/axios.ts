@@ -22,21 +22,12 @@ declare module '@vue/runtime-core' {
 
 
 const api = axios.create({
-  baseURL: process.env.API,
-  timeout: 10000
+  baseURL: process.env.API
 });
 
 
 
-function login() {
-  setTimeout(() => {
-    Router.prototype.push({
-      path: '/userinfo/login'
-    });
 
-
-  }, 1000);
-}
 // Add a request interceptor
 // api.interceptors.request.use(
 //   function(config) {
@@ -128,7 +119,15 @@ api.interceptors.response.use(
   }
 );
 
+function login() {
+  setTimeout(() => {
+    Router.prototype.push({
+      path: '/userinfo/login'
+    });
 
+
+  }, 1000);
+}
 
 export default boot(({app}) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api

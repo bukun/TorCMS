@@ -1,4 +1,4 @@
-\<template>
+<template>
   <q-layout view="hHh lpR fFf">
     <EssentialHead/>
     <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered>

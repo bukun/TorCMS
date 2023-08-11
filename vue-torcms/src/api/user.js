@@ -1,7 +1,8 @@
 import {api} from '../boot/axios';
 
 const HEADERS = {
-  'Content-Type': 'application/json'
+
+   'Content-Type': 'application/x-www-form-urlencoded'
 };
 
 

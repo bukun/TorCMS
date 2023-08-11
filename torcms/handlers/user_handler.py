@@ -486,9 +486,17 @@ class UserHandler(BaseHandler):
             rec = MUser.get_by_uid(userid)
         else:
             rec = MUser.get_by_uid(self.userinfo.uid)
-        kwd = {}
+        kwd = {
+            # "iscan_review" : MStaff2Role.check_permissions(rec.uid, f'{kind}can_review'),
+            # "iscan_edit" : MStaff2Role.check_permissions(rec.uid, f'{kind}can_edit'),
+            # "iscan_delete" : MStaff2Role.check_permissions(rec.uid, f'{kind}can_delete'),
+            # "iscan_verify" : MStaff2Role.check_permissions(rec.uid, f'{kind}can_verify')
+        }
 
         post_data = self.get_request_arguments()
+
+
+
         isjson = post_data.get('isjson', False)
         if isjson:
             dic = {

@@ -47,11 +47,11 @@ export default route(function (/* { store, ssrContext } */) {
 
     const token = authService.getToken();
     if (token) {
-      const userInfo = store.state.user.userInfo;
+      const userInfo = store.state.userInfo;
 
       if (!userInfo.username) {
         try {
-          await store.dispatch('user/getUserInfo');
+          await store.dispatch('getUserInfo');
           next();
         } catch (e) {
           if (whiteList.indexOf(to.path) !== -1) {

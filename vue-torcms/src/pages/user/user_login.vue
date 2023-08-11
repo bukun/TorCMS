@@ -49,7 +49,6 @@ import {userService} from '../../service/userService'
 
 import { useStore } from 'vuex'
 
-
 export default {
   data() {
     return {
@@ -61,17 +60,19 @@ export default {
 
      onSubmit() {
 
-
-
-        let formdata = {
+      let formdata = {
           user_name: this.model.user_name,
           user_pass: this.model.user_pass
         }
 
+       console.log("1" * 50)
+       console.log(this.$store)
+
+        //
         // this.$store
-        // .dispatch('user/login', {
-        //   username: this.model.user_name,
-        //   password: this.model.user_pass,
+        // .dispatch('login', {
+        //   user_name: this.model.user_name,
+        //   user_pass: this.model.user_pass,
         // })
         // .then(async (data) => {
         //   this.$router.push('/');

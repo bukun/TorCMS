@@ -248,7 +248,7 @@
                     {% if userinfo %}
                         {% module collect(userinfo.uid, postinfo.uid, en=True) %}
                         {% end %}
-                    {% module widget_editor('app', postinfo.uid, userinfo) %}
+                     {% module widget_editor('app', postinfo.uid, userinfo,kind=postinfo.kind) %}
                 </div>
             </div>
         </div>
