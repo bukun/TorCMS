@@ -46,9 +46,12 @@ export default route(function (/* { store, ssrContext } */) {
 
 
     const token = authService.getToken();
-    if (token) {
-      const userInfo = store.state.userInfo;
 
+    if (token) {
+
+      const userInfo = store.state.userInfo;
+      console.log('-------------------------------------')
+      console.log(userInfo)
       if (!userInfo.username) {
         try {
           await store.dispatch('getUserInfo');
@@ -68,6 +71,7 @@ export default route(function (/* { store, ssrContext } */) {
         }
       }
     } else {
+
       if (whiteList.indexOf(to.path) !== -1) {
         next();
       } else {

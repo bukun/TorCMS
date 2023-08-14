@@ -26,7 +26,6 @@
             <q-btn label="Submit" type="submit" :disable="!model.user_name || !model.user_pass" color="primary"/>
 
 
-
           </q-form>
         </q-card-section>
       </q-card>
@@ -47,7 +46,7 @@
 import {authService} from '../../service/authService'
 import {userService} from '../../service/userService'
 
-import { useStore } from 'vuex'
+import {useStore} from 'vuex'
 
 export default {
   data() {
@@ -58,29 +57,34 @@ export default {
   },
   methods: {
 
-     onSubmit() {
+    onSubmit() {
 
       let formdata = {
-          user_name: this.model.user_name,
-          user_pass: this.model.user_pass
+        user_name: this.model.user_name,
+        user_pass: this.model.user_pass
 
-        }
+      }
 
-        //
-        // this.$store
-        // .dispatch('login', {
-        //   user_name: this.model.user_name,
-        //   user_pass: this.model.user_pass,
-        //   login_method:'vue'
-        // })
-        // .then(async (data) => {
-        //   this.$router.push('/');
-        //   this.$q.loading.hide();
-        // })
-        // .catch(e => {
-        //   this.$q.loading.hide();
-        //   console.error(e);
-        // });
+      //
+      // this.$store
+      //   .dispatch('login', {
+      //     user_name: this.model.user_name,
+      //     user_pass: this.model.user_pass,
+      //     login_method: 'vue'
+      //   })
+      //   .then(async (data) => {
+      //     console.log()
+      //     this.$router.push(
+      //       {
+      //         path: '/user/info'
+      //
+      //       })
+      //
+      //   })
+      //   .catch(e => {
+      //     this.$q.loading.hide();
+      //     console.error(e);
+      //   });
       this.$axios({
         url: '/user_j/login',
         method: 'post',

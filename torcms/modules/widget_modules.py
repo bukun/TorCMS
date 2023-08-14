@@ -322,7 +322,7 @@ class State(tornado.web.UIModule):
             for act in act_recs:
 
                 reqact_rec = MRequestAction.get_by_action_request(act['action'], request_rec.uid)
-                if reqact_rec.is_active:
+                if reqact_rec and reqact_rec.is_active:
                     act_rec = MAction.get_by_id(act['action']).get()
 
                     if act_rec.action_type.startswith('restart'):

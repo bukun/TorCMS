@@ -431,6 +431,7 @@ class UserApi(BaseHandler):
             '',
         )
 
+
         print('log out')
 
         output = {"ok": True,
@@ -543,6 +544,7 @@ class UserApi(BaseHandler):
                 "amisToken",
                 datetime.strftime(now, "%Y-%m-%d %H:%M:%S"),
                 expires_days=None,
+
                 expires=time.time() + 60 * CMS_CFG.get('expires_minutes', 15),
             )
 
@@ -564,10 +566,6 @@ class UserApi(BaseHandler):
                 for role in user_roles:
                     cur_user_role.append({role['uid']: role['name']})
 
-            if u_name == 'admin':
-                isSuperAdmin = True
-            else:
-                isSuperAdmin = False
 
             self.set_status(200)
             user_login_status = {
@@ -578,8 +576,7 @@ class UserApi(BaseHandler):
                 'username': u_name,
                 'access_token': jwtToken,
                 'user_pers': cur_user_per,
-                'user_roles': cur_user_role,
-                'isSuperAdmin': isSuperAdmin
+                'user_roles': cur_user_role
             }
             return json.dump({'data': user_login_status, 'status': 0}, self)
         else:

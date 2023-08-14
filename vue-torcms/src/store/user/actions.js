@@ -1,41 +1,43 @@
-import { userService } from '../../service';
-import { permissionService } from '../../service';
+import {userService} from '../../service';
+import {permissionService} from '../../service';
 
 
-export const login = ({ commit }, userInfo) => {
+export const login = ({commit}, userInfo) => {
 
   return new Promise((resolve, reject) => {
     userService
       .login(userInfo)
       .then(data => {
-          //session方式登录，其实不需要token，这里为了JWT登录预留，用username代替。
-          //通过Token是否为空判断本地有没有登录过，方便后续处理。
-          commit('updateToken', data.access_token);
 
-          const newUserInfo = {
-            username: data.username,
-            realname: data.realname || data.username,
-            avatar: '',
-            authorities: data.user_pers || [],
-            roles: data.user_roles || []
-          };
+        //session方式登录，其实不需要token，这里为了JWT登录预留，用username代替。
+        //通过Token是否为空判断本地有没有登录过，方便后续处理。
+        commit('updateToken', data.data.access_token);
 
-          commit('updateUserInfo', newUserInfo);
+        const newUserInfo = {
+          username: data.data.username,
+          authorities: data.data.user_pers || [],
+          roles: data.data.user_roles || []
+        };
 
-          let permissions = data.user_pers || [];
-          let roles = data.user_roles || [];
-          let isSuperAdmin = false;
-          if (permissions.findIndex(t => t.user_pers === 'admin') >= 0) {
-            isSuperAdmin = true;
-          }
+        commit('updateUserInfo', newUserInfo);
 
-          permissionService.set({
-            permissions: permissions,
-            isSuperAdmin: isSuperAdmin,
-            roles: roles
-          });
+        let permissions = data.data.user_pers || [];
+        let roles = data.data.user_roles || [];
+        let isSuperAdmin = false;
+        if (roles.findIndex(t => t.user_roles === 'uadministrators') >= 0) {
+          isSuperAdmin = true;
+        }
+        if (data.data.username === 'admin') {
+          isSuperAdmin = true;
+        }
 
-          resolve(newUserInfo);
+        permissionService.set({
+          permissions: permissions,
+          isSuperAdmin: isSuperAdmin,
+          roles: roles
+        });
+
+        resolve(newUserInfo);
       })
       .catch(error => {
 
@@ -44,9 +46,9 @@ export const login = ({ commit }, userInfo) => {
   });
 };
 
-export const logout = ({ commit }) => {
+export const logout = ({commit}) => {
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     userService
       .logout()
       .then(() => {
@@ -60,21 +62,20 @@ export const logout = ({ commit }) => {
         commit('updateToken', '');
         commit('updateUserInfo', {
           username: '',
-          realname: '',
-          avatar: '',
           authorities: [],
           roles: []
         });
 
         permissionService.set({
           permissions: [],
+          roles: [],
           isSuperAdmin: false
         });
       });
   });
 };
 
-export const getUserInfo = ({ commit }) => {
+export const getUserInfo = ({commit}) => {
   return new Promise((resolve, reject) => {
     userService
       .getUserInfo()
