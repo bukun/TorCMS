@@ -19,12 +19,7 @@ declare module '@vue/runtime-core' {
 // for each client)
 
 
-
-
-const api = axios.create({
-  baseURL: process.env.API
-});
-
+const api = axios
 
 
 

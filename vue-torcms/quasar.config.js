@@ -139,6 +139,13 @@ module.exports = configure(function (ctx) {
 
 
         },
+        '/api': {
+          // target: 'http://39.100.72.56:8877',
+          target: 'http://127.0.0.1:5555',
+          changeOrigin: true,
+
+
+        },
 
 
       }

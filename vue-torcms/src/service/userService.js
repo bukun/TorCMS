@@ -4,6 +4,8 @@ import { LocalStorage } from 'quasar';
 const userService = {
   login: async function(data) {
     var res = await user.login(data);
+    console.log(res)
+    console.log(res.data)
     return res.data;
   },
   logout: async function() {

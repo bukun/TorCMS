@@ -63,16 +63,15 @@ export default {
       let formdata = {
           user_name: this.model.user_name,
           user_pass: this.model.user_pass
-        }
 
-       console.log("1" * 50)
-       console.log(this.$store)
+        }
 
         //
         // this.$store
         // .dispatch('login', {
         //   user_name: this.model.user_name,
         //   user_pass: this.model.user_pass,
+        //   login_method:'vue'
         // })
         // .then(async (data) => {
         //   this.$router.push('/');

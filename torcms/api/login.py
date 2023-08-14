@@ -2,14 +2,14 @@ import datetime
 import json
 import re
 import time
-
+import config
+import jwt
 import tornado.web
 import wtforms.validators
 from wtforms.fields import StringField
 from wtforms.validators import DataRequired
 from wtforms_tornado import Form
 
-import config
 from datetime import datetime
 from config import CMS_CFG
 from torcms.core import privilege, tools
@@ -93,6 +93,11 @@ class SumForm(Form):
         validators=[DataRequired(), wtforms.validators.Email()],
         default='',
     )
+
+
+JWT_TOKEN_EXPIRE_SECONDS = time.time() + 60 * CMS_CFG.get('expires_minutes', 15)  # token有效时间
+JWT_TOKEN_SECRET_SALT = 'salt.2023.07.21'
+JWT_TOKEN_ALGORITHM = 'HS256'  # HASH算法
 
 
 class UserApi(BaseHandler):
@@ -182,7 +187,6 @@ class UserApi(BaseHandler):
                 pers = MRole2Permission.query_by_role(cur_role.role)
 
                 for per in pers:
-
                     MUser.remove_extinfo(user_id, f'_per_{per.permission}')
 
         for index, idx_catid in enumerate(the_roles_arr):
@@ -481,6 +485,17 @@ class UserApi(BaseHandler):
 
         return json.dump(out_dict, self, ensure_ascii=False)
 
+    def generate_jwt_token(self, user_name):
+        """根据用户user_name生成token"""
+
+        data = {'user_name': user_name, 'exp': int(time.time()) + JWT_TOKEN_EXPIRE_SECONDS}
+        print("generate data:", data)
+        try:
+            jwtToken = jwt.encode(data, JWT_TOKEN_SECRET_SALT, algorithm=JWT_TOKEN_ALGORITHM)
+        except:
+            jwtToken = ''
+        return jwtToken
+
     def login(self):
         '''
         user login.
@@ -489,7 +504,7 @@ class UserApi(BaseHandler):
 
         u_name = data['user_name']
         u_pass = data['user_pass']
-
+        login_method = data.get('login_method', 'amis')
         check_email = re.compile(r'^\w+@(\w+\.)+(com|cn|net)$')
 
         result = MUser.check_user_by_name(u_name, u_pass)
@@ -501,18 +516,20 @@ class UserApi(BaseHandler):
                 result = MUser.check_user_by_name(user_x.user_name, u_pass)
 
         if result == 1:
+
             userinfo = MUser.get_by_name(u_name)
-            if u_name == 'admin':
-                pass
-            elif userinfo.extinfo.get(f'_per_{self.kind}{"assign_role"}', 0) == 1:
-                pass
-            else:
-                kwd = {
-                    "ok": False,
-                    "status": 404,
-                    "msg": "没有权限"
-                }
-                return json.dump(kwd, self, ensure_ascii=False)
+            if login_method == 'amis':
+                if u_name == 'admin':
+                    pass
+                elif userinfo.extinfo.get(f'_per_{self.kind}{"assign_role"}', 0) == 1:
+                    pass
+                else:
+                    kwd = {
+                        "ok": False,
+                        "status": 404,
+                        "msg": "没有权限"
+                    }
+                    return json.dump(kwd, self, ensure_ascii=False)
 
             self.set_secure_cookie(
                 "user",
@@ -531,6 +548,27 @@ class UserApi(BaseHandler):
 
             MUser.update_success_info(u_name)
 
+            # jwt
+            jwtToken = self.generate_jwt_token(u_name)
+
+            user_pers = MStaff2Role.query_permissions(userinfo.uid)
+            user_roles = MStaff2Role.get_role_by_uid(userinfo.uid)
+
+            cur_user_per = []
+            if user_pers:
+                for key in user_pers:
+                    cur_user_per.append(key['permission'])
+
+            cur_user_role = []
+            if user_roles:
+                for role in user_roles:
+                    cur_user_role.append({role['uid']: role['name']})
+
+            if u_name == 'admin':
+                isSuperAdmin = True
+            else:
+                isSuperAdmin = False
+
             self.set_status(200)
             user_login_status = {
                 'ok': True,
@@ -538,6 +576,10 @@ class UserApi(BaseHandler):
                 'msg': '登录成功',
                 'status': 0,
                 'username': u_name,
+                'access_token': jwtToken,
+                'user_pers': cur_user_per,
+                'user_roles': cur_user_role,
+                'isSuperAdmin': isSuperAdmin
             }
             return json.dump({'data': user_login_status, 'status': 0}, self)
         else:
@@ -586,10 +628,9 @@ class UserApi(BaseHandler):
         dics = []
         current_page_num = get_pager_idx()
 
-        recs = MUser.query_pager_by_slug(current_page_num,user_name=find_name, num=perPage)
+        recs = MUser.query_pager_by_slug(current_page_num, user_name=find_name, num=perPage)
 
         counts = MUser.count_of_certain()
-
 
         for rec in recs:
             dic = {
