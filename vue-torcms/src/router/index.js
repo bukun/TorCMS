@@ -42,13 +42,14 @@ export default route(function (/* { store, ssrContext } */) {
 
   const whiteList = ['/userinfo/login', '/403'];
 
-function hasPermission(router) {
-  if (whiteList.indexOf(router.path) !== -1) {
+  function hasPermission(router) {
+    if (whiteList.indexOf(router.path) !== -1) {
+      return true;
+    }
+
     return true;
   }
 
-  return true;
-}
   Router.beforeEach(async (to, from, next) => {
 
 
@@ -70,11 +71,11 @@ function hasPermission(router) {
           }
         }
       } else {
-       if (hasPermission(to)) {
-        next();
-      } else {
-        next({ path: '/403', replace: true });
-      }
+        if (hasPermission(to)) {
+          next();
+        } else {
+          next({path: '/403', replace: true});
+        }
       }
     } else {
 

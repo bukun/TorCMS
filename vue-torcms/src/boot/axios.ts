@@ -3,9 +3,11 @@ import axios, {AxiosInstance} from 'axios';
 import {Notify} from 'quasar'
 import Router from '../router/index';
 
+
+
+
 // import { permissionService } from '../service';
 import qs from 'qs';
-import routes from "../router/routes";
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -72,6 +74,7 @@ api.interceptors.response.use(
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
 
+
     return response;
   },
   function(error) {
@@ -120,11 +123,7 @@ api.interceptors.response.use(
 
 function login() {
   setTimeout(() => {
-
-    Router.push({
-      path: '/userinfo/login'
-    });
-
+    Router.push('/userinfo/login')
 
   }, 1000);
 }

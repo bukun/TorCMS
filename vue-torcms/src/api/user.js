@@ -18,7 +18,7 @@ const user = {
     );
   },
   logout: function () {
-    return api.get('/api/user/logout',
+    return api.get('/api/user/vuelogout',
       {
         headers: HEADERS
       }

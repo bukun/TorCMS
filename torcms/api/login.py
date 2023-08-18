@@ -118,6 +118,7 @@ class UserApi(BaseHandler):
         dict_get = {
 
             'logout': self.__logout__,
+            'vuelogout': self.__vue_logout__,
             'list': self.__user_list__,
         }
 
@@ -438,6 +439,26 @@ class UserApi(BaseHandler):
                   "status": 0,
                   "msg": "注销登录成功"}
         self.redirect('/')
+
+    @tornado.web.authenticated
+    def __vue_logout__(self):
+        '''
+        user logout.
+        '''
+
+        self.clear_all_cookies()
+        print('aa')
+        self.set_secure_cookie(
+            "user",
+            '',
+        )
+
+        print('log out')
+
+        output = {"ok": True,
+                  "status": 0,
+                  "msg": "注销登录成功"}
+        return json.dump(output, self, ensure_ascii=False)
 
     @tornado.web.authenticated
     def __to_find__(self, cur_p=''):

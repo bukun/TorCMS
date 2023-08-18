@@ -42,6 +42,7 @@ export default {
   },
   methods: {
     check_login() {
+
       if (authService.getToken()) {
         this.get_info()
       } else {
