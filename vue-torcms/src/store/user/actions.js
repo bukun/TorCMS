@@ -11,6 +11,7 @@ export const login = ({commit}, userInfo) => {
 
         //session方式登录，其实不需要token，这里为了JWT登录预留，用username代替。
         //通过Token是否为空判断本地有没有登录过，方便后续处理。
+
         commit('updateToken', data.data.access_token);
 
         const newUserInfo = {
@@ -24,9 +25,9 @@ export const login = ({commit}, userInfo) => {
         let permissions = data.data.user_pers || [];
         let roles = data.data.user_roles || [];
         let isSuperAdmin = false;
-        if (roles.findIndex(t => t.user_roles === 'uadministrators') >= 0) {
-          isSuperAdmin = true;
-        }
+        // if (roles.findIndex(t => t.user_roles === 'uadministrators') >= 0) {
+        //   isSuperAdmin = true;
+        // }
         if (data.data.username === 'admin') {
           isSuperAdmin = true;
         }

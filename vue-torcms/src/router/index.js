@@ -35,13 +35,20 @@ export default route(function (/* { store, ssrContext } */) {
     // Leave this as is and make changes in quasar.conf.js instead!
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
+
     history: createHistory(process.env.VUE_ROUTER_BASE),
   });
 
 
   const whiteList = ['/userinfo/login', '/403'];
 
+function hasPermission(router) {
+  if (whiteList.indexOf(router.path) !== -1) {
+    return true;
+  }
 
+  return true;
+}
   Router.beforeEach(async (to, from, next) => {
 
 
@@ -50,12 +57,11 @@ export default route(function (/* { store, ssrContext } */) {
     if (token) {
 
       const userInfo = store.state.userInfo;
-      console.log('-------------------------------------')
-      console.log(userInfo)
+
       if (!userInfo.username) {
         try {
           await store.dispatch('getUserInfo');
-          next();
+          next('/');
         } catch (e) {
           if (whiteList.indexOf(to.path) !== -1) {
             next();
@@ -64,11 +70,11 @@ export default route(function (/* { store, ssrContext } */) {
           }
         }
       } else {
-        if (whiteList.indexOf(to.path) !== -1) {
-          next();
-        } else {
-          next({path: '/403', replace: true});
-        }
+       if (hasPermission(to)) {
+        next();
+      } else {
+        next({ path: '/403', replace: true });
+      }
       }
     } else {
 

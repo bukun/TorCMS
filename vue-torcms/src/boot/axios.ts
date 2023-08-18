@@ -2,8 +2,10 @@ import {boot} from 'quasar/wrappers';
 import axios, {AxiosInstance} from 'axios';
 import {Notify} from 'quasar'
 import Router from '../router/index';
-import { permissionService } from '../service';
+
+// import { permissionService } from '../service';
 import qs from 'qs';
+import routes from "../router/routes";
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -69,6 +71,7 @@ api.interceptors.response.use(
   function(response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
+
     return response;
   },
   function(error) {
@@ -76,6 +79,7 @@ api.interceptors.response.use(
     // Do something with response error
 
     if (error.response) {
+
       if (error.response.status === 401) {
         Notify.create({
           message:  error.response.data.message,
@@ -116,7 +120,8 @@ api.interceptors.response.use(
 
 function login() {
   setTimeout(() => {
-    Router.prototype.push({
+
+    Router.push({
       path: '/userinfo/login'
     });
 

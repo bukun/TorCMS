@@ -25,7 +25,7 @@
 {% end %}
 {% block mainbody %}
 <div id="q-app"
-     data-map='{"i": "{{postinfo.uid[1:]}}",
+     data-map='{"i": "{{postinfo.uid}}",
             "x":{{ kwd['vlon'] if 'vlon' in kwd else postinfo.extinfo.get('ext_lon') }},
 "y": {{ kwd['vlat'] if 'vlat' in kwd else postinfo.extinfo.get('ext_lat') }},
 "v": {{ kwd['vzoom'] if 'vzoom' in kwd else postinfo.extinfo.get('ext_zoom_current') }},
