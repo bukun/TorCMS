@@ -26,8 +26,6 @@
 </template>
 
 <script>
-import {userService} from '../../service/userService'
-import {settingService} from '../../service/settingService'
 import {authService} from "../../service";
 
 export default {
@@ -102,13 +100,16 @@ export default {
       })
     },
     toLogout() {
+       this.$store
+        .dispatch('logout')
+        .then(async () => {
+          this.$router.push('/userinfo/login');
+        })
+        .catch(e => {
+          console.error(e);
+        });
+    }
 
-      settingService.clear()
-      this.$router.push({
-        path: '/userinfo/login'
-
-      })
-    },
   },
 
 };

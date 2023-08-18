@@ -61,7 +61,7 @@ function hasPermission(router) {
       if (!userInfo.username) {
         try {
           await store.dispatch('getUserInfo');
-          next('/');
+          next();
         } catch (e) {
           if (whiteList.indexOf(to.path) !== -1) {
             next();

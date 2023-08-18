@@ -56,7 +56,7 @@ export const logout = ({commit}) => {
         resolve();
       })
       .catch(error => {
-        console.error(error);
+        // console.error(error);
         resolve();
       })
       .finally(() => {

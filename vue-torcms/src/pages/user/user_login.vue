@@ -43,10 +43,6 @@
 </template>
 
 <script>
-// import {authService} from '../../service/authService'
-// import {userService} from '../../service/userService'
-
-
 
 export default {
   data() {
@@ -59,12 +55,6 @@ export default {
 
     onSubmit() {
 
-      let formdata = {
-        user_name: this.model.user_name,
-        user_pass: this.model.user_pass
-
-      }
-
 
       this.$store
         .dispatch('login', {
@@ -74,47 +64,14 @@ export default {
         })
         .then(async (data) => {
 
-          this.$router.push('/index')
+          this.$router.push('/userinfo/info')
 
         })
         .catch(e => {
           this.$q.loading.hide();
           console.error(e);
         });
-      // this.$axios({
-      //   url: '/user_j/login',
-      //   method: 'post',
-      //   headers: {'Content-Type': 'application/json'},
-      //   params: formdata
-      // })
-      //   .then(async (statusCode) => {
-      //
-      //     if (statusCode.data['code'] === '1') {
-      //
-      //       this.$q.notify(statusCode.data['info'])
-      //       this.$router.push(
-      //         {
-      //           path: '/userinfo/info'
-      //
-      //         })
-      //
-      //       authService.setToken(statusCode.data['access_token'])
-      //       userService.setUserInfo(statusCode.data)
-      //
-      //
-      //     }  else {
-      //
-      //       this.$q.notify(statusCode.data['info'])
-      //       this.toRegister()
-      //     }
-      //
-      //   })
-      //   .catch(function (error) { // 请求失败处理
-      //
-      //     console.log('Error for res: ');
-      //     // this.$q.loading.hide();
-      //     console.log(error);
-      //   });
+
 
 
     },
