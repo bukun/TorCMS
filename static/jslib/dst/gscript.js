@@ -271,11 +271,11 @@ $("#sub_reset").click(function () {
 
             if (mapson.i.substr(0, 1) == 'm') {
 
-                mp_uid = "mp" + mapson.i.substr(-4);
+                 mp_uid = "mp" + mapson.i.substr(-4);
 
             } else {
 
-                mp_uid = "qn" + mapson.i.substr(-4);
+                 mp_uid = "qn" + mapson.i.substr(-4);
 
             };
        
