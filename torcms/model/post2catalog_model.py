@@ -238,30 +238,53 @@ class MPost2Catalog:
             cat_con = TabPost2Tag.tag_id == cat_id
         if order:
             sort_criteria = TabPost.order.asc()
+            if tag:
+                condition = {'def_tag_arr': [tag]}
+                recs = (
+                    TabPost.select()
+                    .join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id))
+                    .where(
+                        cat_con & (TabPost.valid == 1) & TabPost.extinfo.contains(condition)
+                    )
+                    .order_by(sort_criteria, TabPost.time_create.asc())
+                    .paginate(current_page_num, CMS_CFG['list_num'])
+                    .distinct()
+                )
+
+            else:
+                recs = (
+                    TabPost.select()
+                    .join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id))
+                    .where(cat_con & (TabPost.valid == 1))
+                    .order_by(sort_criteria, TabPost.time_create.asc())
+                    .paginate(current_page_num, CMS_CFG['list_num'])
+                    .distinct()
+                )
         else:
             sort_criteria = TabPost.time_update.desc()
-        if tag:
-            condition = {'def_tag_arr': [tag]}
-            recs = (
-                TabPost.select()
-                .join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id))
-                .where(
-                    cat_con & (TabPost.valid == 1) & TabPost.extinfo.contains(condition)
-                )
-                .order_by(sort_criteria)
-                .paginate(current_page_num, CMS_CFG['list_num'])
-                .distinct()
-            )
 
-        else:
-            recs = (
-                TabPost.select()
-                .join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id))
-                .where(cat_con & (TabPost.valid == 1))
-                .order_by(sort_criteria)
-                .paginate(current_page_num, CMS_CFG['list_num'])
-                .distinct()
-            )
+            if tag:
+                condition = {'def_tag_arr': [tag]}
+                recs = (
+                    TabPost.select()
+                    .join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id))
+                    .where(
+                        cat_con & (TabPost.valid == 1) & TabPost.extinfo.contains(condition)
+                    )
+                    .order_by(sort_criteria)
+                    .paginate(current_page_num, CMS_CFG['list_num'])
+                    .distinct()
+                )
+
+            else:
+                recs = (
+                    TabPost.select()
+                    .join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id))
+                    .where(cat_con & (TabPost.valid == 1))
+                    .order_by(sort_criteria)
+                    .paginate(current_page_num, CMS_CFG['list_num'])
+                    .distinct()
+                )
 
         return recs
 
@@ -310,6 +333,7 @@ class MPost2Catalog:
             return recs.get()
 
         return None
+
     def query_list_by_uid(slug, uid=False):
 
         cat_rec = MCategory.get_by_slug(slug)
@@ -332,7 +356,7 @@ class MPost2Catalog:
             ).where(
                 cat_con
             ).order_by(
-                TabPost.uid,TabPost.time_create.asc()
+                TabPost.uid, TabPost.time_create.asc()
             )
         else:
             recs = TabPost.select().join(
