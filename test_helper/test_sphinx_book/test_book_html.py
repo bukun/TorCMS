@@ -22,8 +22,12 @@ class TestFoo():
         self.fake = Faker(locale="zh_CN")
         # self.ws_dir = Path(__file__).parent / 'book_eb1243/xx_build/html'
         # self.ws_dir = Path('/home/bk/book-rst/doculet/pt01_language_eb00kh')
-        self.ws_dir = Path('/home/bk/tmp/gislite-pub/pt01_language_eb00kh')
-        self.re_pt = re.compile('\/pt\d\d')
+
+        # self.ws_dir = Path('/home/bk/tmp/gislite-pub/pt01_language_eb00kh')
+        self.ws_dir = Path('/home/bk/tmp/gislite-pub/ptk1_wulun_eb00k1')
+
+
+        self.re_pt = re.compile('\/pt.{1}\d')
         self.re_ch = re.compile('\/ch\d\d')
         self.re_sec = re.compile('\/sec\d\d')
 
@@ -106,7 +110,7 @@ class TestFoo():
         post_data['kind'] = 'k'
         post_data['gcat0'] = html_file.parent.parent.name.split('_')[-1]
         post_data['valid'] = 1
-        post_data['order'] = int(order_str)
+        post_data['order'] = int(order_str[1:])
 
         # assert not MPost.get_by_uid(uid)
         pprint(post_data)
