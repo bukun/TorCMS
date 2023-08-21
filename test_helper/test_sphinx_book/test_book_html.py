@@ -22,7 +22,7 @@ class TestFoo():
         self.fake = Faker(locale="zh_CN")
         # self.ws_dir = Path(__file__).parent / 'book_eb1243/xx_build/html'
         # self.ws_dir = Path('/home/bk/book-rst/doculet/pt01_language_eb00kh')
-        self.ws_dir = Path('/home/bk/book-rst/doculet/pt02_web_eb00ka')
+        self.ws_dir = Path('/home/bk/tmp/gislite-pub/pt01_language_eb00kh')
         self.re_pt = re.compile('\/pt\d\d')
         self.re_ch = re.compile('\/ch\d\d')
         self.re_sec = re.compile('\/sec\d\d')
