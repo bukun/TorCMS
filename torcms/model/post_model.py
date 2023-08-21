@@ -343,43 +343,65 @@ class MPost:
         '''
         if order:
             sort_criteria = TabPost.order.asc()
+            return (
+                TabPost.select()
+                .join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id))
+                .where(
+                    (TabPost.kind == kind)
+                    & (TabPost2Tag.tag_id == cat_id)
+                    & (TabPost.valid == 1)
+                    & (TabPost.extinfo['def_tag_arr'].contains(label))
+                )
+                .order_by(sort_criteria, TabPost.time_create.asc())
+                .limit(num)
+            )
         else:
             sort_criteria = TabPost.time_update.desc()
 
-        return (
-            TabPost.select()
-            .join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id))
-            .where(
-                (TabPost.kind == kind)
-                & (TabPost2Tag.tag_id == cat_id)
-                & (TabPost.valid == 1)
-                & (TabPost.extinfo['def_tag_arr'].contains(label))
+            return (
+                TabPost.select()
+                .join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id))
+                .where(
+                    (TabPost.kind == kind)
+                    & (TabPost2Tag.tag_id == cat_id)
+                    & (TabPost.valid == 1)
+                    & (TabPost.extinfo['def_tag_arr'].contains(label))
+                )
+                .order_by(sort_criteria)
+                .limit(num)
             )
-            .order_by(sort_criteria)
-            .limit(num)
-        )
 
     @staticmethod
     def query_cat_recent_no_label(cat_id, num=8, kind='1', order=False):
         '''
         query_cat_recent_no_label
         '''
-        if order:
-            sort_criteria = TabPost.order.asc()
-        else:
-            sort_criteria = TabPost.time_update.desc()
 
-        return (
-            TabPost.select()
-            .join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id))
-            .where(
-                (TabPost.kind == kind)
-                & (TabPost2Tag.tag_id == cat_id)
-                & (TabPost.valid == 1)
+        if order:
+
+            return (
+                TabPost.select()
+                .join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id))
+                .where(
+                    (TabPost.kind == kind)
+                    & (TabPost2Tag.tag_id == cat_id)
+                    & (TabPost.valid == 1)
+                )
+                .order_by(TabPost.order.asc(), TabPost.time_create.asc())
+                .limit(num)
             )
-            .order_by(sort_criteria)
-            .limit(num)
-        )
+        else:
+            return (
+                TabPost.select()
+                .join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id))
+                .where(
+                    (TabPost.kind == kind)
+                    & (TabPost2Tag.tag_id == cat_id)
+                    & (TabPost.valid == 1)
+                )
+                .order_by(TabPost.time_update.desc())
+                .limit(num)
+            )
 
     @staticmethod
     def query_total_cat_recent(cat_id_arr, label=None, num=8, kind='1', order=False):
@@ -403,23 +425,37 @@ class MPost:
         '''
         if order:
             sort_criteria = TabPost.order.asc()
+            return (
+                TabPost.select()
+                .join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id))
+                .where(
+                    (TabPost.kind == kind)
+                    & (TabPost2Tag.tag_id << cat_id_arr)
+                    & (  # the "<<" operator signifies an "IN" query
+                            TabPost.extinfo['def_tag_arr'].contains(label)
+                            & (TabPost.valid == 1)
+                    )
+                )
+                .order_by(sort_criteria, TabPost.time_create.asc())
+                .limit(num)
+            )
         else:
             sort_criteria = TabPost.time_update.desc()
 
-        return (
-            TabPost.select()
-            .join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id))
-            .where(
-                (TabPost.kind == kind)
-                & (TabPost2Tag.tag_id << cat_id_arr)
-                & (  # the "<<" operator signifies an "IN" query
-                        TabPost.extinfo['def_tag_arr'].contains(label)
-                        & (TabPost.valid == 1)
+            return (
+                TabPost.select()
+                .join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id))
+                .where(
+                    (TabPost.kind == kind)
+                    & (TabPost2Tag.tag_id << cat_id_arr)
+                    & (  # the "<<" operator signifies an "IN" query
+                            TabPost.extinfo['def_tag_arr'].contains(label)
+                            & (TabPost.valid == 1)
+                    )
                 )
+                .order_by(sort_criteria)
+                .limit(num)
             )
-            .order_by(sort_criteria)
-            .limit(num)
-        )
 
     @staticmethod
     def query_total_cat_recent_no_label(cat_id_arr, num=8, kind='1', order=False):
@@ -428,19 +464,30 @@ class MPost:
         '''
         if order:
             sort_criteria = TabPost.order.asc()
+            return (
+                TabPost.select()
+                .join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id))
+                .where(
+                    (TabPost.kind == kind)
+                    & (TabPost2Tag.tag_id << cat_id_arr)
+                    & (TabPost.valid == 1)  # the "<<" operator signifies an "IN" query
+                )
+                .order_by(sort_criteria, TabPost.time_create.asc())
+                .limit(num)
+            )
         else:
             sort_criteria = TabPost.time_update.desc()
-        return (
-            TabPost.select()
-            .join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id))
-            .where(
-                (TabPost.kind == kind)
-                & (TabPost2Tag.tag_id << cat_id_arr)
-                & (TabPost.valid == 1)  # the "<<" operator signifies an "IN" query
+            return (
+                TabPost.select()
+                .join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id))
+                .where(
+                    (TabPost.kind == kind)
+                    & (TabPost2Tag.tag_id << cat_id_arr)
+                    & (TabPost.valid == 1)  # the "<<" operator signifies an "IN" query
+                )
+                .order_by(sort_criteria)
+                .limit(num)
             )
-            .order_by(sort_criteria)
-            .limit(num)
-        )
 
     @staticmethod
     def query_most(num=8, kind='1'):
@@ -845,14 +892,14 @@ class MPost:
         )
 
     @staticmethod
-    def query_pager_by_slug(kind, current_page_num=1, perpage=CMS_CFG['list_num'],keywords=''):
+    def query_pager_by_slug(kind, current_page_num=1, perpage=CMS_CFG['list_num'], keywords=''):
         '''
         Query pager
         '''
         if keywords:
             return (
                 TabPost.select()
-                .where((TabPost.title.contains(keywords)) &(TabPost.kind == kind) & (TabPost.valid == 0))
+                .where((TabPost.title.contains(keywords)) & (TabPost.kind == kind) & (TabPost.valid == 0))
                 .order_by(TabPost.time_create.desc())
                 .paginate(current_page_num, perpage)
             )

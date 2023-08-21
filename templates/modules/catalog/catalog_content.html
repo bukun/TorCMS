@@ -3,7 +3,6 @@
 {% if str(kwd['cat_id'])[2:]=='00' %}
 
 {% for cat in kwd['cats'] %}
-
 {% module tutorial_catalog(cat.uid,order=True) %}
 
 {% end %}
@@ -13,6 +12,7 @@
 <ul id="sortable" >
     {% for x in recs %}
     <li id={{ x.uid }}>
+
         {% if kwd['userinfo'] and kwd['userinfo'].role[1] < '0' %}
         <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
         {% end %}
