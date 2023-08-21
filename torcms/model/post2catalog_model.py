@@ -332,7 +332,7 @@ class MPost2Catalog:
             ).where(
                 cat_con
             ).order_by(
-                TabPost.uid
+                TabPost.uid,TabPost.time_create.asc()
             )
         else:
             recs = TabPost.select().join(
