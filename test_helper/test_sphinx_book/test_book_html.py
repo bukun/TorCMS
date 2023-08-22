@@ -79,9 +79,7 @@ class TestFoo():
         Soup = bs4.BeautifulSoup(File, features="html.parser")
         title = Soup.title.text.split('—')[0]
         content = Soup.select('.body')[0]
-        conz = ''
-        for a in content:
-            conz += str(a) + '\n'
+        conz = '' + '\n'.join([str(a) for a in content])
 
         return {'title': title, 'cnt': conz}
 
