@@ -511,10 +511,12 @@ class UserApi(BaseHandler):
     def generate_jwt_token(self, user_name):
         """根据用户user_name生成token"""
 
+
         data = {'user_name': user_name, 'exp': int(time.time()) + JWT_TOKEN_EXPIRE_SECONDS}
         print("generate data:", data)
         try:
             jwtToken = jwt.encode(data, JWT_TOKEN_SECRET_SALT, algorithm=JWT_TOKEN_ALGORITHM)
+
         except:
             jwtToken = ''
         return jwtToken

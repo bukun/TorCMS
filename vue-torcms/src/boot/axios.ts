@@ -32,8 +32,6 @@ api.interceptors.request.use(
     } else {
       config.headers.token = ''
     }
-    console.log('config.headers.token')
-    console.log(config.headers.token)
 
 
     // if (config.permission && !permissionService.check(config.permission)) {

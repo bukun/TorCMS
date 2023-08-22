@@ -64,14 +64,15 @@ export default {
         })
         .then(async (data) => {
 
+
           this.$router.push('/userinfo/info')
+
 
         })
         .catch(e => {
-          this.$q.loading.hide();
-          console.error(e);
-        });
 
+          this.$q.notify('Wrong username or password. Please try again.')
+        });
 
 
     },
