@@ -2,11 +2,8 @@ import {boot} from 'quasar/wrappers';
 import axios, {AxiosInstance} from 'axios';
 import {Notify} from 'quasar'
 import Router from '../router/index';
-
-
-
-
-// import { permissionService } from '../service';
+import {authService} from '../service'
+import {permissionService} from '../service';
 import qs from 'qs';
 
 declare module '@vue/runtime-core' {
@@ -26,30 +23,37 @@ declare module '@vue/runtime-core' {
 const api = axios
 
 
-
 // Add a request interceptor
-// api.interceptors.request.use(
-//   function(config) {
-//     if (config.permission && !permissionService.check(config.permission)) {
-//       throw {
-//         message: "403 forbidden"
-//       };
-//     }
-//
-//     if (config.dataSource) {
-//       console.log("config.dataSource = " + config.dataSource);
-//       config.headers["dataSource"] = config.dataSource;
-//     }
-//
-//     return config;
-//   },
-//   function(error) {
-//     // Do something with request error
-//     return Promise.reject(error);
-//   }
-// );
+api.interceptors.request.use(
+  function (config) {
+    const token = authService.getToken()
+    if (token) {
+      config.headers.token = token
+    } else {
+      config.headers.token = ''
+    }
+    console.log('config.headers.token')
+    console.log(config.headers.token)
+
+
+    // if (config.permission && !permissionService.check(config.permission)) {
+    //   throw {
+    //     message: '403 forbidden'
+    //   };
+    // }
+    //
+
+    // }
+
+    return config;
+  },
+  function (error) {
+    // Do something with request error
+    return Promise.reject(error);
+  }
+);
 api.defaults.transformRequest = [
-  function(data, headers) {
+  function (data, headers) {
     // Do whatever you want to transform the data
     let contentType = headers['Content-Type'] || headers['content-type'];
     if (!contentType) {
@@ -70,14 +74,14 @@ api.defaults.transformRequest = [
 
 // Add a response interceptor
 api.interceptors.response.use(
-  function(response) {
+  function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
 
 
     return response;
   },
-  function(error) {
+  function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
 
@@ -85,7 +89,7 @@ api.interceptors.response.use(
 
       if (error.response.status === 401) {
         Notify.create({
-          message:  error.response.data.message,
+          message: error.response.data.message,
           type: 'negative'
         });
         login();

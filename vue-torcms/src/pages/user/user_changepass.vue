@@ -52,7 +52,7 @@
 <script>
 
 
-import {authService} from "../../service";
+import {authService} from '../../service';
 
 export default {
   data() {
@@ -86,7 +86,6 @@ export default {
           })
             .then(async (info) => {
                 if (info.data.state == true) {
-                  this.get_info()
                 } else {
                   this.$router.push({
                     path: '/userinfo/login'
