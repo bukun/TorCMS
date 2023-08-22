@@ -23,6 +23,13 @@ const user = {
         headers: HEADERS
       }
     );
+  },
+  verity_user: function () {
+    return api.get('/api/user/verify_jwt',
+      {
+        headers: HEADERS
+      }
+    );
   }
 };
 

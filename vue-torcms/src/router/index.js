@@ -40,9 +40,10 @@ export default route(function (/* { store, ssrContext } */) {
   });
 
 
-  const whiteList = ['/userinfo/login', '/403'];
+  const whiteList = ['/userinfo/login', '/403', '/'];
 
   function hasPermission(router) {
+
     if (whiteList.indexOf(router.path) !== -1) {
       return true;
     }
@@ -80,9 +81,15 @@ export default route(function (/* { store, ssrContext } */) {
     } else {
 
       if (whiteList.indexOf(to.path) !== -1) {
+
         next();
       } else {
-        next('/userinfo/login');
+        if(to.path.startsWith('/post/')){
+           next();
+        }else{
+            next('/userinfo/login');
+        }
+
       }
     }
   });

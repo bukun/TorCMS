@@ -60,23 +60,12 @@ export default {
             params: formdata
           })
             .then(async (info) => {
-                if (info.data.state == true) {
-                  this.get_info()
-                } else {
-                  this.$router.push({
-                    path: '/userinfo/login'
 
-                  })
-                }
+                  this.get_info()
+
               }
             )
-            .catch(function (error) { // 请求失败处理
-              console.log(error);
-              this.$q.notify('Token signature expired')
-              console.log('Error for res: ');
-              this.$q.loading.hide();
-              console.log(error);
-            });
+
 
 
         })
