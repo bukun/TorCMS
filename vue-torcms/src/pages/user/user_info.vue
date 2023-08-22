@@ -18,7 +18,7 @@
         <br><br>
         <q-btn color="primary" size="sm" label="Modify personal information " @click="toChangeinfo"></q-btn>
         <q-btn color="secondary" size="sm" label="Change password" @click="toChangepass"></q-btn>
-<!--        <q-btn color="purple" size="sm" label="Change role" @click="toChangerole"></q-btn>-->
+        <!--        <q-btn color="purple" size="sm" label="Change role" @click="toChangerole"></q-btn>-->
         <q-btn color="blue-grey" size="sm" label="Logout" @click="toLogout"></q-btn>
       </div>
     </div>
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import {authService} from "../../service";
+import {authService} from '../../service';
 
 export default {
   data() {
@@ -43,14 +43,52 @@ export default {
   methods: {
     check_login() {
 
-      if (authService.getToken()) {
-        this.get_info()
-      } else {
-        this.$router.push({
-          path: '/userinfo/login'
+
+      this.$store
+        .dispatch('getUserInfo')
+        .then(async (data) => {
+
+          let formdata = {
+            user_name: data.username,
+            token: authService.getToken(),
+          }
+
+          this.$axios({
+            url: '/api/user/verify_jwt',
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            params: formdata
+          })
+            .then(async (info) => {
+                if (info.data.state == true) {
+                  this.get_info()
+                } else {
+                  this.$router.push({
+                    path: '/userinfo/login'
+
+                  })
+                }
+              }
+            )
+            .catch(function (error) { // 请求失败处理
+              console.log(error);
+              this.$q.notify('Token signature expired')
+              console.log('Error for res: ');
+              this.$q.loading.hide();
+              console.log(error);
+            });
+
 
         })
-      }
+        .catch(e => {
+
+          this.$router.push({
+            path: '/userinfo/login'
+
+          })
+        });
+
+
     },
 
     get_info() {
@@ -101,7 +139,7 @@ export default {
       })
     },
     toLogout() {
-       this.$store
+      this.$store
         .dispatch('logout')
         .then(async () => {
           this.$router.push('/userinfo/login');

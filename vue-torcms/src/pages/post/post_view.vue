@@ -51,12 +51,52 @@ export default {
 
   },
   methods: {
-    check_login() {
-      if (authService.getToken()) {
-        this.$refs.show_edit.style.setProperty('display', 'block')
-      } else {
-        this.$refs.show_edit.style.setProperty('display', 'none')
-      }
+
+     check_login() {
+
+
+      this.$store
+        .dispatch('getUserInfo')
+        .then(async (data) => {
+
+          let formdata = {
+            user_name: data.username,
+            token: authService.getToken(),
+          }
+
+          this.$axios({
+            url: '/api/user/verify_jwt',
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            params: formdata
+          })
+            .then(async (info) => {
+                if (info.data.state == true) {
+                  this.$refs.show_edit.style.setProperty('display', 'block')
+                } else {
+                  this.$refs.show_edit.style.setProperty('display', 'none')
+                }
+              }
+            )
+            .catch(function (error) { // 请求失败处理
+              console.log(error);
+              this.$q.notify('Token signature expired')
+              console.log('Error for res: ');
+              this.$q.loading.hide();
+              console.log(error);
+            });
+
+
+        })
+        .catch(e => {
+
+          this.$router.push({
+            path: '/userinfo/login'
+
+          })
+        });
+
+
     },
     get_info() {
       this.$axios({

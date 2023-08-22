@@ -1,7 +1,6 @@
 import {userService} from '../../service';
 import {permissionService} from '../../service';
 
-
 export const login = ({commit}, userInfo) => {
 
   return new Promise((resolve, reject) => {
@@ -81,8 +80,10 @@ export const getUserInfo = ({commit}) => {
     userService
       .getUserInfo()
       .then(data => {
+
         commit('updateUserInfo', data);
-        resolve();
+        resolve(data);
+
       })
       .catch(error => {
         reject(error);

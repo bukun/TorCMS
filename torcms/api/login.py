@@ -153,6 +153,8 @@ class UserApi(BaseHandler):
             self.batch_edit()
         elif url_arr[0] == 'batch_delete':
             self.batch_delete(url_arr[1])
+        elif url_str == 'verify_jwt':
+            self.verify_jwt_token()
 
     @privilege.permission(action='assign_role')
     def user_edit_role(self):
@@ -432,7 +434,6 @@ class UserApi(BaseHandler):
             '',
         )
 
-
         print('log out')
 
         output = {"ok": True,
@@ -518,6 +519,36 @@ class UserApi(BaseHandler):
             jwtToken = ''
         return jwtToken
 
+    def verify_jwt_token(self, **kwargs):
+        """验证用户token"""
+
+        post_data = self.get_request_arguments()
+
+        user_name = post_data.get('user_name', '')
+        token = post_data.get('token', '')
+        data = {'user_name': user_name}
+
+        try:
+            payload = jwt.decode(token, JWT_TOKEN_SECRET_SALT, algorithms=[JWT_TOKEN_ALGORITHM])
+            print("verify:", payload)
+            exp = int(payload.pop('exp'))
+            if time.time() > exp:
+                print('已失效')
+
+                return json.dump({'state': False, 'info': 'expired '}, self)
+            if data == payload:
+                return json.dump({'state': True, 'info': 'Verification successful '}, self)
+            else:
+                return json.dump({'state': False, 'info': 'expired '}, self)
+
+        except jwt.exceptions.ExpiredSignatureError as ex:
+            print('token签名过期:', ex)
+            return json.dump({'state': False, 'info': 'Token signature expired'}, self)
+
+        except jwt.PyJWTError as ex:
+            print('token解析失败:', ex)
+            return json.dump({'state': False, 'info': 'Token parsing failed'}, self)
+
     def login(self):
         '''
         user login.
@@ -586,7 +617,6 @@ class UserApi(BaseHandler):
             if user_roles:
                 for role in user_roles:
                     cur_user_role.append({role['uid']: role['name']})
-
 
             self.set_status(200)
             user_login_status = {
