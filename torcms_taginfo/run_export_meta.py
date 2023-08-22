@@ -40,8 +40,7 @@ def export_data():
     for rec in recs:
         label = ''
         rec_label = MPost2Label.get_by_uid(rec.uid).objects()
-        for r_label in rec_label:
-            label += r_label.tag_name + ','
+        label += ','.join([r_label.tag_name for r_label in rec_label])
 
         infos = MPost.query_by_extinfo(key='cpbh', val=rec.extinfo['cpbh'])
         for info in infos:
