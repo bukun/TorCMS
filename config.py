@@ -55,12 +55,12 @@ post_cfg = {
         "show": "Info"
     },
     "v": {
-        "router": "map-show",
+        "router": "map",
         "html": """<span style="color:red;" class="glyphicon glyphicon-globe">[{0}]</span>""".format(
-            "Map visualization"
+            "Map"
         ),
         "checker": "0",  # '10', '100', '1000', '10000'
-        "show": "Map visualization"
+        "show": "Map"
     },
     "k": {
         "router": "tutorial",
