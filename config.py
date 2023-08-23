@@ -54,14 +54,14 @@ post_cfg = {
         "checker": "0",  # '10', '100', '1000', '10000'
         "show": "Info"
     },
-    "v": {
-        "router": "map",
-        "html": """<span style="color:red;" class="glyphicon glyphicon-globe">[{0}]</span>""".format(
-            "Map"
-        ),
-        "checker": "0",  # '10', '100', '1000', '10000'
-        "show": "Map"
-    },
+    # "v": {
+    #     "router": "map",
+    #     "html": """<span style="color:red;" class="glyphicon glyphicon-globe">[{0}]</span>""".format(
+    #         "Map"
+    #     ),
+    #     "checker": "0",  # '10', '100', '1000', '10000'
+    #     "show": "Map"
+    # },
     "k": {
         "router": "tutorial",
         "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
@@ -70,14 +70,14 @@ post_cfg = {
         "checker": "0",  # '10', '100', '1000', '10000'
         "show": "Tutorial"
     },
-    "s": {
-        "router": "app",
-        "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
-            "APP"
-        ),
-        "checker": "0",  # '10', '100', '1000', '10000'
-        "show": "APP"
-    },
+    # "s": {
+    #     "router": "app",
+    #     "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
+    #         "APP"
+    #     ),
+    #     "checker": "0",  # '10', '100', '1000', '10000'
+    #     "show": "APP"
+    # },
     # "q": {
     #     "router": "topic",
     #     "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
