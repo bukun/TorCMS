@@ -2,6 +2,8 @@ import {user} from '../api';
 import {LocalStorage} from 'quasar';
 import state from '../store/user/state';
 import {authService} from './authService';
+import store from '../store';
+
 
 const userService = {
   login: async function (data) {
@@ -20,13 +22,12 @@ const userService = {
   },
   validate: async function () {
 
-    var code={user_name: state.userInfo.username, token: authService.getToken()}
-    try {
-      var res = await user.verity_user(code);
-      return res.data
-    } catch (error) {
-      return {'code':1}
-    }
+    var code={user_name: store.state.userInfo.username, token: authService.getToken()}
+
+    var res = await user.verity_user(code);
+
+    return res.data
+
   }
 }
 

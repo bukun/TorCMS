@@ -58,11 +58,11 @@ export default route(function (/* { store, ssrContext } */) {
 
     let needLogin = to.matched.some(match => match.meta.needLogin)
     if (needLogin) {
-      if (token && isLogin.code === 0) {
-
+      if (token) {
         const userInfo = store.state.userInfo;
 
         if (!userInfo.username) {
+
           try {
             await store.dispatch('getUserInfo');
             next();
@@ -74,14 +74,15 @@ export default route(function (/* { store, ssrContext } */) {
             }
           }
         } else {
-          if (hasPermission(to)) {
+
+          if (isLogin.code === 0) {
             next();
           } else {
-            next({path: '/403', replace: true});
+            next('/userinfo/login');
           }
         }
       } else {
-        await store.dispatch('logout')
+
 
         if (whiteList.indexOf(to.path) !== -1) {
 

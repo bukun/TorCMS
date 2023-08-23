@@ -102,8 +102,6 @@ export const validate = ({commit}) => {
 
       }
 
-      //返回token是否失效,true或者false
-
         resolve(data);
 
       })
