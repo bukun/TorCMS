@@ -59,7 +59,7 @@ def run_sitemap():
     '''
     Generate the sitemap file.
     '''
-    site_map_file = 'xx_sitemap.txt'
+    site_map_file = 'static/xx_sitemap.txt'
     if os.path.exists(site_map_file):
         os.remove(site_map_file)
 
