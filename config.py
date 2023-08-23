@@ -96,9 +96,13 @@ APP_MASK = ["g_drr", "9_todo_new", "9_todo_new5"]
 
 for wdir in Path(".").iterdir():
     if wdir.is_dir() and wdir.name.startswith("torcms_"):
-        the_file = f"{wdir.name}._config"
-        print(the_file)
-        _mod = __import__(the_file)
+        the_file = wdir / '_config.py'
+        if the_file.exists():
+            pass
+        else:
+            continue
+        the_mod = f"{wdir.name}._config"
+        _mod = __import__(the_mod)
         post_cfg = dict(post_cfg, **_mod._config._post_cfg)
 
 
