@@ -13,33 +13,38 @@ import router
 import torcms.core.router
 from config import config_modules
 from config import SITE_CFG
+from config import EXTENTIONS
 
 # 注册各个应用的模块
 CUR_MODUES = dict(core_modules, **config_modules)  # type: Dict[str, object]
 
-for wdir in Path(".").iterdir():
-    if wdir.is_dir() and wdir.name.startswith("torcms_"):
-        the_file = wdir / 'modules/modef.py'
-        if the_file.exists():
-            pass
-        else:
-            continue
-        the_mod = f"{wdir.name}.modules.modef"
-        _mod = __import__(the_mod)
-        CUR_MODUES = dict(CUR_MODUES, **_mod.modules.modef._modules)
+# for wdir in Path(".").iterdir():
+#     if wdir.is_dir() and wdir.name.startswith("torcms_"):
+
+for wdir in EXTENTIONS:
+    # the_file = Path(wdir) / 'modules/modef.py'
+    # if the_file.exists():
+    #     pass
+    # else:
+    #     continue
+    the_mod = f"{wdir}.modules.modef"
+    _mod = __import__(the_mod)
+    CUR_MODUES = dict(CUR_MODUES, **_mod.modules.modef._modules)
 
 # 注册路由
+
+# for wdir in Path(".").iterdir():
+#     if wdir.is_dir() and wdir.name.startswith("torcms_"):
+#         the_file = wdir / 'core/router.py'
+#         if the_file.exists():
+#             pass
+#         else:
+#             continue
 urls = router.urls + torcms.core.router.urls
-for wdir in Path(".").iterdir():
-    if wdir.is_dir() and wdir.name.startswith("torcms_"):
-        the_file = wdir / 'core/router.py'
-        if the_file.exists():
-            pass
-        else:
-            continue
-        the_mod = f"{wdir.name}.core.router"
-        _mod = __import__(the_mod)
-        urls = urls + _mod.core.router._urls
+for wdir in EXTENTIONS:
+    the_mod = f"{wdir}.core.router"
+    _mod = __import__(the_mod)
+    urls = urls + _mod.core.router._urls
 
 
 SETTINGS = {

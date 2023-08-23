@@ -27,8 +27,6 @@ email_cfg = {
         """,
 }
 
-# router_post = {"1": "post", "3": "info", "q": "topic", "v": "map-show", "k": "tutorial"}
-
 post_cfg = {
     "1": {
         "router": "post",
@@ -62,12 +60,12 @@ post_cfg = {
     #     "checker": "0",  # '10', '100', '1000', '10000'
     #     "show": "Map"
     # },
-    'm': {
-        'router': 'map',
-        'html': '''<span style="color:green;" class="glyphicon glyphicon-list-alt">[{0}]</span>'''.format('Map'),
-        'checker': '0',
-        'show': 'Map'
-    },
+    # 'm': {
+    #     'router': 'map',
+    #     'html': '''<span style="color:green;" class="glyphicon glyphicon-list-alt">[{0}]</span>'''.format('Map'),
+    #     'checker': '0',
+    #     'show': 'Map'
+    # },
     "k": {
         "router": "tutorial",
         "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
@@ -76,14 +74,14 @@ post_cfg = {
         "checker": "0",  # '10', '100', '1000', '10000'
         "show": "Tutorial"
     },
-    "s": {
-        "router": "app",
-        "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
-            "APP"
-        ),
-        "checker": "0",  # '10', '100', '1000', '10000'
-        "show": "APP"
-    },
+    # "s": {
+    #     "router": "app",
+    #     "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
+    #         "APP"
+    #     ),
+    #     "checker": "0",  # '10', '100', '1000', '10000'
+    #     "show": "APP"
+    # },
     # "q": {
     #     "router": "topic",
     #     "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
@@ -96,20 +94,12 @@ post_cfg = {
 
 APP_MASK = ["g_drr", "9_todo_new", "9_todo_new5"]
 
-# _mod = __import__('torcms_app._config')
-# post_cfg = dict(post_cfg, **_mod._config._post_cfg)
+EXTENTIONS = ['torcms_app', 'torcms_maplet', 'torcms_jupyter']
 
-
-for wdir in Path(".").iterdir():
-    if wdir.is_dir() and wdir.name.startswith("torcms_"):
-        the_file = wdir / '_config.py'
-        if the_file.exists():
-            pass
-        else:
-            continue
-        the_mod = f"{wdir.name}._config"
-        _mod = __import__(the_mod)
-        post_cfg = dict(post_cfg, **_mod._config._post_cfg)
+for wdir in EXTENTIONS:
+    the_mod = f"{wdir}._config"
+    _mod = __import__(the_mod)
+    post_cfg = dict(post_cfg, **_mod._config._post_cfg)
 
 
 class WidgetMenu(tornado.web.UIModule):
@@ -162,3 +152,4 @@ config_modules = {
     "widget_menu": WidgetMenu,
     "publish_list_menu": PublishListMenu,
 }
+
