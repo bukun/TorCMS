@@ -54,13 +54,19 @@ post_cfg = {
         "checker": "0",  # '10', '100', '1000', '10000'
         "show": "Info"
     },
-    "v": {
-        "router": "map-show",
-        "html": """<span style="color:red;" class="glyphicon glyphicon-globe">[{0}]</span>""".format(
-            "Map visualization"
-        ),
-        "checker": "0",  # '10', '100', '1000', '10000'
-        "show": "Map visualization"
+    # "v": {
+    #     "router": "map",
+    #     "html": """<span style="color:red;" class="glyphicon glyphicon-globe">[{0}]</span>""".format(
+    #         "Map"
+    #     ),
+    #     "checker": "0",  # '10', '100', '1000', '10000'
+    #     "show": "Map"
+    # },
+    'm': {
+        'router': 'map',
+        'html': '''<span style="color:green;" class="glyphicon glyphicon-list-alt">[{0}]</span>'''.format('Map'),
+        'checker': '0',
+        'show': 'Map'
     },
     "k": {
         "router": "tutorial",
@@ -70,14 +76,22 @@ post_cfg = {
         "checker": "0",  # '10', '100', '1000', '10000'
         "show": "Tutorial"
     },
-    "q": {
-        "router": "topic",
+    "s": {
+        "router": "app",
         "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
-            "Topics"
+            "APP"
         ),
         "checker": "0",  # '10', '100', '1000', '10000'
-        "show": "Topics"
+        "show": "APP"
     },
+    # "q": {
+    #     "router": "topic",
+    #     "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
+    #         "Topics"
+    #     ),
+    #     "checker": "0",  # '10', '100', '1000', '10000'
+    #     "show": "Topics"
+    # },
 }
 
 APP_MASK = ["g_drr", "9_todo_new", "9_todo_new5"]
@@ -88,9 +102,13 @@ APP_MASK = ["g_drr", "9_todo_new", "9_todo_new5"]
 
 for wdir in Path(".").iterdir():
     if wdir.is_dir() and wdir.name.startswith("torcms_"):
-        the_file = f"{wdir.name}._config"
-        print(the_file)
-        _mod = __import__(the_file)
+        the_file = wdir / '_config.py'
+        if the_file.exists():
+            pass
+        else:
+            continue
+        the_mod = f"{wdir.name}._config"
+        _mod = __import__(the_mod)
         post_cfg = dict(post_cfg, **_mod._config._post_cfg)
 
 

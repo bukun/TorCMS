@@ -19,16 +19,26 @@ CUR_MODUES = dict(core_modules, **config_modules)  # type: Dict[str, object]
 
 for wdir in Path(".").iterdir():
     if wdir.is_dir() and wdir.name.startswith("torcms_"):
-        the_file = f"{wdir.name}.modules.modef"
-        _mod = __import__(the_file)
+        the_file = wdir / 'modules/modef.py'
+        if the_file.exists():
+            pass
+        else:
+            continue
+        the_mod = f"{wdir.name}.modules.modef"
+        _mod = __import__(the_mod)
         CUR_MODUES = dict(CUR_MODUES, **_mod.modules.modef._modules)
 
 # 注册路由
 urls = router.urls + torcms.core.router.urls
 for wdir in Path(".").iterdir():
     if wdir.is_dir() and wdir.name.startswith("torcms_"):
-        the_file = f"{wdir.name}.core.router"
-        _mod = __import__(the_file)
+        the_file = wdir / 'core/router.py'
+        if the_file.exists():
+            pass
+        else:
+            continue
+        the_mod = f"{wdir.name}.core.router"
+        _mod = __import__(the_mod)
         urls = urls + _mod.core.router._urls
 
 

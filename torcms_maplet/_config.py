@@ -6,5 +6,4 @@ _post_cfg = {
         'checker': '0',
         'show': 'Map'
     }
-
 }
