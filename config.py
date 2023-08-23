@@ -70,14 +70,14 @@ post_cfg = {
         "checker": "0",  # '10', '100', '1000', '10000'
         "show": "Tutorial"
     },
-    # "s": {
-    #     "router": "app",
-    #     "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
-    #         "APP"
-    #     ),
-    #     "checker": "0",  # '10', '100', '1000', '10000'
-    #     "show": "APP"
-    # },
+    "s": {
+        "router": "app",
+        "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
+            "APP"
+        ),
+        "checker": "0",  # '10', '100', '1000', '10000'
+        "show": "APP"
+    },
     # "q": {
     #     "router": "topic",
     #     "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
