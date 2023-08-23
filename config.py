@@ -78,14 +78,14 @@ post_cfg = {
         "checker": "0",  # '10', '100', '1000', '10000'
         "show": "APP"
     },
-    "q": {
-        "router": "topic",
-        "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
-            "Topics"
-        ),
-        "checker": "0",  # '10', '100', '1000', '10000'
-        "show": "Topics"
-    },
+    # "q": {
+    #     "router": "topic",
+    #     "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
+    #         "Topics"
+    #     ),
+    #     "checker": "0",  # '10', '100', '1000', '10000'
+    #     "show": "Topics"
+    # },
 }
 
 APP_MASK = ["g_drr", "9_todo_new", "9_todo_new5"]
