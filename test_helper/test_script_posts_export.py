@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 '''
-将 OSGeo 数据库中的 Posts 导出。
+Export posts from database to Markdown files.
 '''
 
 import os
@@ -175,7 +175,7 @@ def do_for_cat(rec):
 
 
 def test_run_export():
-    all_cats = MCategory.query_all('9')
+    all_cats = MCategory.query_all('1')
     for rec in all_cats:
 
         if rec.pid == '0000':
@@ -184,8 +184,8 @@ def test_run_export():
         else:
             do_for_cat(rec)
 
-    if os.path.exists(out_ws):
-        shutil.rmtree(out_ws)
+    # if os.path.exists(out_ws):
+    #     shutil.rmtree(out_ws)
 
 
 if __name__ == '__main__':

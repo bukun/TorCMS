@@ -95,7 +95,6 @@ post_cfg = {
     # },
 }
 
-APP_MASK = ["g_drr", "9_todo_new", "9_todo_new5"]
 
 ADDONS = ['torcms_app', 'torcms_maplet', 'torcms_jupyter'] + ADDONS
 

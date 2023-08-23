@@ -14,7 +14,7 @@ pwd = os.getcwd()
 sys.path.append(qian)
 
 from torcms_app.model.ext_model import MAppYun
-from config import APP_MASK
+from torcms_app._config import APP_MASK
 
 mequ = MAppYun()
 
