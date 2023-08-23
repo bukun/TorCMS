@@ -1,8 +1,9 @@
 import {route} from 'quasar/wrappers';
 
 import {authService} from '../service';
+import {userService} from '../service';
 import store from '../store';
-
+import state from '../store/user/state'
 import {
   createMemoryHistory,
   createRouter,
@@ -51,46 +52,50 @@ export default route(function (/* { store, ssrContext } */) {
     return true;
   }
 
+
   Router.beforeEach(async (to, from, next) => {
 
-
+    let isLogin = await store.dispatch('validate')
     const token = authService.getToken();
 
-    if (token) {
+    let needLogin = to.matched.some(match => match.meta.needLogin)
+    if (needLogin) {
+      if (token && isLogin.code === 0) {
 
-      const userInfo = store.state.userInfo;
+        const userInfo = store.state.userInfo;
 
-      if (!userInfo.username) {
-        try {
-          await store.dispatch('getUserInfo');
-          next();
-        } catch (e) {
-          if (whiteList.indexOf(to.path) !== -1) {
+        if (!userInfo.username) {
+          try {
+            await store.dispatch('getUserInfo');
+            next();
+          } catch (e) {
+            if (whiteList.indexOf(to.path) !== -1) {
+              next();
+            } else {
+              next('/userinfo/login');
+            }
+          }
+        } else {
+          if (hasPermission(to)) {
             next();
           } else {
-            next('/userinfo/login');
+            next({path: '/403', replace: true});
           }
         }
       } else {
-        if (hasPermission(to)) {
+
+        if (whiteList.indexOf(to.path) !== -1) {
+
           next();
         } else {
-          next({path: '/403', replace: true});
+
+          next('/userinfo/login');
+
+
         }
       }
     } else {
-
-      if (whiteList.indexOf(to.path) !== -1) {
-
-        next();
-      } else {
-        if(to.path.startsWith('/post/')){
-           next();
-        }else{
-            next('/userinfo/login');
-        }
-
-      }
+      next()
     }
   });
 

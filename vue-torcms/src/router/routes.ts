@@ -6,7 +6,7 @@ const routes: RouteRecordRaw[] = [
     component: () => import('layouts/MainLayoutPost.vue'),
     children: [
       {path: '', component: () => import('pages/IndexPage.vue')}
-]
+    ]
 
   },
   {
@@ -17,7 +17,7 @@ const routes: RouteRecordRaw[] = [
 
   {
     path: '/post',
-    meta: { isAllowBack: true },
+    meta: {isAllowBack: true},
     component: () => import('layouts/MainLayoutPost.vue'),
     children: [
       {path: 'add', component: () => import('pages/post/post_add.vue')},
@@ -31,7 +31,7 @@ const routes: RouteRecordRaw[] = [
 
   {
     path: '/userinfo',
-    meta: { isAllowBack: true },
+    meta: {isAllowBack: true, needLogin: true},
     component: () => import('layouts/MainLayoutUser.vue'),
     children: [
       {path: 'register', component: () => import('pages/user/user_register.vue')},
@@ -40,7 +40,6 @@ const routes: RouteRecordRaw[] = [
       {path: 'changerole', component: () => import('pages/user/user_changerole.vue')},
       {path: 'changepass', component: () => import('pages/user/user_changepass.vue')},
       {path: 'changeinfo', component: () => import('pages/user/user_changeinfo.vue')},
-
 
 
     ],

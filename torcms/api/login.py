@@ -119,7 +119,9 @@ class UserApi(BaseHandler):
 
             'logout': self.__logout__,
             'vuelogout': self.__vue_logout__,
-            'list': self.__user_list__,
+            'list': self.__user_list__
+
+
         }
 
         if len(url_arr) == 1:
@@ -524,7 +526,7 @@ class UserApi(BaseHandler):
     def verify_jwt_token(self, **kwargs):
         """验证用户token"""
 
-        post_data = self.get_request_arguments()
+        post_data = json.loads(self.request.body)
 
         user_name = post_data.get('user_name', '')
         token = post_data.get('token', '')
@@ -533,23 +535,51 @@ class UserApi(BaseHandler):
         try:
             payload = jwt.decode(token, JWT_TOKEN_SECRET_SALT, algorithms=[JWT_TOKEN_ALGORITHM])
             print("verify:", payload)
+            print("data:", data)
             exp = int(payload.pop('exp'))
             if time.time() > exp:
                 print('已失效')
 
-                return json.dump({'state': False, 'info': 'expired '}, self)
+                return json.dump({'code':1,'state': False, 'info': 'expired'}, self)
             if data == payload:
-                return json.dump({'state': True, 'info': 'Verification successful '}, self)
+                userinfo = MUser.get_by_name(user_name)
+                user_pers = MStaff2Role.query_permissions(userinfo.uid)
+                user_roles = MStaff2Role.get_role_by_uid(userinfo.uid)
+
+                cur_user_per = []
+                if user_pers:
+                    for key in user_pers:
+                        cur_user_per.append(key['permission'])
+
+                cur_user_role = []
+                if user_roles:
+                    for role in user_roles:
+                        cur_user_role.append({role['uid']: role['name']})
+
+                self.set_status(200)
+                user_info = {
+                    'ok': True,
+                    'code': '1',
+                    'msg': 'Verification successful',
+                    'status': 0,
+                    'username': user_name,
+                    'access_token': token,
+                    'user_pers': cur_user_per,
+                    'user_roles': cur_user_role
+                }
+                print("验证成功:", payload)
+                return json.dump({'code':0,'state': True, 'info': 'Verification successful','userinfo':user_info}, self)
             else:
-                return json.dump({'state': False, 'info': 'expired '}, self)
+                print("验证失败:", payload)
+                return json.dump({'code':1,'state': False, 'info': 'expired'}, self)
 
         except jwt.exceptions.ExpiredSignatureError as ex:
             print('token签名过期:', ex)
-            return json.dump({'state': False, 'info': 'Token signature expired'}, self)
+            return json.dump({'code':1,'state': False, 'info': 'Token signature expired'}, self)
 
         except jwt.PyJWTError as ex:
             print('token解析失败:', ex)
-            return json.dump({'state': False, 'info': 'Token parsing failed'}, self)
+            return json.dump({'code':1,'state': False, 'info': 'Token parsing failed'}, self)
 
     def login(self):
         '''

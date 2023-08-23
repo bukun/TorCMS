@@ -1,5 +1,7 @@
 import {user} from '../api';
 import {LocalStorage} from 'quasar';
+import state from '../store/user/state';
+import {authService} from './authService';
 
 const userService = {
   login: async function (data) {
@@ -16,13 +18,14 @@ const userService = {
   setUserInfo: function (userInfo) {
     LocalStorage.set('userInfo', userInfo);
   },
-  iwalogin: async function (code) {
+  validate: async function () {
+
+    var code={user_name: state.userInfo.username, token: authService.getToken()}
     try {
       var res = await user.verity_user(code);
-
       return res.data
     } catch (error) {
-      console.log(error)
+      return {'code':1}
     }
   }
 }

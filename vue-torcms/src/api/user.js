@@ -24,8 +24,9 @@ const user = {
       }
     );
   },
-  verity_user: function () {
-    return api.get('/api/user/verify_jwt',
+  verity_user: function (data) {
+    return api.post('/api/user/verify_jwt',
+      data,
       {
         headers: HEADERS
       }

@@ -80,7 +80,6 @@ export const getUserInfo = ({commit}) => {
     userService
       .getUserInfo()
       .then(data => {
-
         commit('updateUserInfo', data);
         resolve(data);
 
@@ -91,4 +90,25 @@ export const getUserInfo = ({commit}) => {
   });
 };
 
+export const validate = ({commit}) => {
+  return new Promise((resolve, reject) => {
+    userService
+      .validate()
+      .then(data => {
 
+      if (data.code === 0) {
+        commit('updateUserInfo', data.userinfo);
+        commit('updateToken', data.userinfo.access_token);
+
+      }
+
+      //返回token是否失效,true或者false
+
+        resolve(data);
+
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};

@@ -37,48 +37,11 @@ export default {
     };
   },
   mounted() {
-    this.check_login()
+    this.get_info()
 
   },
   methods: {
-    check_login() {
 
-
-      this.$store
-        .dispatch('getUserInfo')
-        .then(async (data) => {
-
-          let formdata = {
-            user_name: data.username,
-            token: authService.getToken(),
-          }
-
-          this.$axios({
-            url: '/api/user/verify_jwt',
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            params: formdata
-          })
-            .then(async (info) => {
-
-                  this.get_info()
-
-              }
-            )
-
-
-
-        })
-        .catch(e => {
-
-          this.$router.push({
-            path: '/userinfo/login'
-
-          })
-        });
-
-
-    },
 
     get_info() {
       this.$axios({
@@ -92,9 +55,6 @@ export default {
 
             this.info = response
             this.user_name = response.data.user_name
-          } else {
-            this.toLogin()
-            this.$q.notify('Please login')
           }
         }
       )
