@@ -81,7 +81,7 @@ export const getUserInfo = ({commit}) => {
       .getUserInfo()
       .then(data => {
         commit('updateUserInfo', data);
-        resolve(data);
+        resolve();
 
       })
       .catch(error => {
