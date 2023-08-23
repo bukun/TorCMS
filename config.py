@@ -62,6 +62,12 @@ post_cfg = {
     #     "checker": "0",  # '10', '100', '1000', '10000'
     #     "show": "Map"
     # },
+    'm': {
+        'router': 'map',
+        'html': '''<span style="color:green;" class="glyphicon glyphicon-list-alt">[{0}]</span>'''.format('Map'),
+        'checker': '0',
+        'show': 'Map'
+    },
     "k": {
         "router": "tutorial",
         "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
