@@ -5,7 +5,10 @@ Config for the website.
 """
 import tornado.web
 from torcms.core.tools import get_cfg
-from pathlib import Path
+try:
+    from cfg import ADDONS
+except:
+    ADDONS = []
 
 DB_CON, SMTP_CFG, SITE_CFG, ROLE_CFG, REDIS_CFG = get_cfg()
 
@@ -94,9 +97,9 @@ post_cfg = {
 
 APP_MASK = ["g_drr", "9_todo_new", "9_todo_new5"]
 
-EXTENTIONS = ['torcms_app', 'torcms_maplet', 'torcms_jupyter']
+ADDONS = ['torcms_app', 'torcms_maplet', 'torcms_jupyter'] + ADDONS
 
-for wdir in EXTENTIONS:
+for wdir in ADDONS:
     the_mod = f"{wdir}._config"
     _mod = __import__(the_mod)
     post_cfg = dict(post_cfg, **_mod._config._post_cfg)

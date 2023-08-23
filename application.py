@@ -13,7 +13,7 @@ import router
 import torcms.core.router
 from config import config_modules
 from config import SITE_CFG
-from config import EXTENTIONS
+from config import ADDONS
 
 # 注册各个应用的模块
 CUR_MODUES = dict(core_modules, **config_modules)  # type: Dict[str, object]
@@ -21,7 +21,7 @@ CUR_MODUES = dict(core_modules, **config_modules)  # type: Dict[str, object]
 # for wdir in Path(".").iterdir():
 #     if wdir.is_dir() and wdir.name.startswith("torcms_"):
 
-for wdir in EXTENTIONS:
+for wdir in ADDONS:
     # the_file = Path(wdir) / 'modules/modef.py'
     # if the_file.exists():
     #     pass
@@ -41,7 +41,7 @@ for wdir in EXTENTIONS:
 #         else:
 #             continue
 urls = router.urls + torcms.core.router.urls
-for wdir in EXTENTIONS:
+for wdir in ADDONS:
     the_mod = f"{wdir}.core.router"
     _mod = __import__(the_mod)
     urls = urls + _mod.core.router._urls
