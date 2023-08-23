@@ -4,22 +4,22 @@
     <h3> {{ this.info.title }}</h3>
     <div class="row ">
 
-    <div class="col-sm-12 col-xs-12 " style="padding-left: 20px">
-      <p>{{ this.info.time_create }}</p>
-      <p>{{ this.info.cnt_md }}</p>
+      <div class="col-sm-12 col-xs-12 " style="padding-left: 20px">
+        <p>{{ this.info.time_create }}</p>
+        <p>{{ this.info.cnt_md }}</p>
 
 
-      <div class="row">
-        <div class="q-pt-sm" ref="show_edit" style="display: none">
-          <br><br>
+        <div class="row">
+          <div class="q-pt-sm" ref="show_edit" style="display: none">
+            <br><br>
 
-          <q-btn color="purple" size="sm" label="Edit" @click="toEdit()"></q-btn>
+            <q-btn color="purple" size="sm" label="Edit" @click="toEdit()"></q-btn>
 
+          </div>
         </div>
+
+
       </div>
-
-
-    </div>
     </div>
   </q-page>
 </template>
@@ -28,7 +28,7 @@
 
 import '../../css/leaflet.css';
 import statesData from '../gson_china.js'
-import {authService} from "../../service";
+import {authService} from '../../service'
 
 export default {
   data() {
@@ -50,13 +50,13 @@ export default {
 
   },
   methods: {
-    show_edit(){
+    show_edit() {
 
-       if (authService.getToken()) {
-                  this.$refs.show_edit.style.setProperty('display', 'block')
-                } else {
-                  this.$refs.show_edit.style.setProperty('display', 'none')
-                }
+      if (authService.getToken()) {
+        this.$refs.show_edit.style.setProperty('display', 'block')
+      } else {
+        this.$refs.show_edit.style.setProperty('display', 'none')
+      }
     },
     get_info() {
       this.$axios({

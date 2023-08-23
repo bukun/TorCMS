@@ -1,9 +1,7 @@
 import {route} from 'quasar/wrappers';
 
 import {authService} from '../service';
-import {userService} from '../service';
 import store from '../store';
-import state from '../store/user/state'
 import {
   createMemoryHistory,
   createRouter,
@@ -83,6 +81,7 @@ export default route(function (/* { store, ssrContext } */) {
           }
         }
       } else {
+        await store.dispatch('logout')
 
         if (whiteList.indexOf(to.path) !== -1) {
 
