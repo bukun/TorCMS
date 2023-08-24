@@ -55,7 +55,6 @@ export default route(function (/* { store, ssrContext } */) {
 
     const isLogin = await store.dispatch('validate')
     const token = authService.getToken();
-    const aa = isLogin
     let needLogin = to.matched.some(match => match.meta.needLogin)
     if (needLogin) {
       if (token) {
@@ -65,7 +64,7 @@ export default route(function (/* { store, ssrContext } */) {
 
           try {
 
-            if (aa.code === 0) {
+            if (isLogin.code === 0) {
               next();
             } else {
               await store.dispatch('logout');
@@ -80,7 +79,7 @@ export default route(function (/* { store, ssrContext } */) {
             }
           }
         } else {
-          if (aa.code === 0) {
+          if (isLogin.code === 0) {
             next();
           } else {
             await store.dispatch('logout');
@@ -94,7 +93,7 @@ export default route(function (/* { store, ssrContext } */) {
 
           next();
         } else {
-          if (aa.code === 0) {
+          if (isLogin.code === 0) {
             next();
           } else {
             await store.dispatch('logout');
