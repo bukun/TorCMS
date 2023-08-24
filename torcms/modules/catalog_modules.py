@@ -48,7 +48,7 @@ class CatalogContent(tornado.web.UIModule):
     def render(self, *args, **kwargs):
         slug = args[0]
 
-        uid = kwargs.get('uid', '')
+        uid = kwargs.get('uid', False)
         userinfo = kwargs.get('userinfo', None)
 
         cat_rec = MCategory.get_by_slug(slug)
@@ -56,7 +56,7 @@ class CatalogContent(tornado.web.UIModule):
             cat_id = cat_rec.uid
         else:
             return None
-        recs = MPost2Catalog.query_list_by_uid(slug, uid=True)
+        recs = MPost2Catalog.query_list_by_uid(slug, uid=uid)
         cats = MCategory.query_sub_cat(cat_id, order_uid=True)
         kwd = {
 

@@ -365,7 +365,7 @@ class MPost2Catalog:
             ).where(
                 cat_con
             ).order_by(
-                TabPost.order.asc()
+                TabPost.order.asc(), TabPost.time_create.asc()
             )
 
         return recs
