@@ -95,7 +95,7 @@ class SumForm(Form):
     )
 
 
-JWT_TOKEN_EXPIRE_SECONDS = time.time() + 60 * CMS_CFG.get('expires_minutes', 15)  # token有效时间
+JWT_TOKEN_EXPIRE_SECONDS = 60 * CMS_CFG.get('expires_minutes', 1)  # token有效时间
 JWT_TOKEN_SECRET_SALT = 'salt.2023.07.21'
 JWT_TOKEN_ALGORITHM = 'HS256'  # HASH算法
 
@@ -534,9 +534,12 @@ class UserApi(BaseHandler):
 
         try:
             payload = jwt.decode(token, JWT_TOKEN_SECRET_SALT, algorithms=[JWT_TOKEN_ALGORITHM])
-            print("verify:", payload)
+
             print("data:", data)
+            print("payload:", payload)
             exp = int(payload.pop('exp'))
+            print("exp:", exp)
+            print("time.time():", time.time())
             if time.time() > exp:
                 print('已失效')
 

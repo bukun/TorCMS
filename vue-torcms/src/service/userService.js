@@ -21,7 +21,10 @@ const userService = {
     LocalStorage.set('userInfo', userInfo);
   },
   validate: async function () {
-
+    const aa = await store.dispatch('getUserInfo');
+    if(aa.code===0){
+      store.state.userInfo.username=aa.username
+    }
     var code={user_name: store.state.userInfo.username, token: authService.getToken()}
 
     var res = await user.verity_user(code);
