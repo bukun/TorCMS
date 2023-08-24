@@ -65,7 +65,12 @@ export default route(function (/* { store, ssrContext } */) {
           try {
             const aa = await store.dispatch('getUserInfo');
             if (aa.code === 0) {
-              next();
+              if (isLogin.code === 0) {
+                next();
+              } else {
+                await store.dispatch('logout');
+                next('/userinfo/login');
+              }
             } else {
               await store.dispatch('logout');
               next('/userinfo/login');
