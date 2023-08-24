@@ -53,19 +53,24 @@ export default route(function (/* { store, ssrContext } */) {
 
   Router.beforeEach(async (to, from, next) => {
 
-    let isLogin = await store.dispatch('validate')
+    const isLogin = await store.dispatch('validate')
     const token = authService.getToken();
 
     let needLogin = to.matched.some(match => match.meta.needLogin)
     if (needLogin) {
       if (token) {
         const userInfo = store.state.userInfo;
-
         if (!userInfo.username) {
 
           try {
-            await store.dispatch('getUserInfo');
-            next();
+            const aa = await store.dispatch('getUserInfo');
+            if (aa.code === 0) {
+              next();
+            } else {
+              await store.dispatch('logout');
+              next('/userinfo/login');
+            }
+
           } catch (e) {
             if (whiteList.indexOf(to.path) !== -1) {
               next();
@@ -83,7 +88,6 @@ export default route(function (/* { store, ssrContext } */) {
           }
         }
       } else {
-
 
         if (whiteList.indexOf(to.path) !== -1) {
 

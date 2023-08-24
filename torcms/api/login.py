@@ -559,7 +559,7 @@ class UserApi(BaseHandler):
                 self.set_status(200)
                 user_info = {
                     'ok': True,
-                    'code': '1',
+                    'code': 0,
                     'msg': 'Verification successful',
                     'status': 0,
                     'username': user_name,
