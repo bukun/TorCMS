@@ -78,6 +78,7 @@ export default route(function (/* { store, ssrContext } */) {
           if (isLogin.code === 0) {
             next();
           } else {
+            await store.dispatch('logout');
             next('/userinfo/login');
           }
         }
