@@ -1,3 +1,6 @@
+'''
+pip install pyjwt  (2.8.0)
+'''
 import jwt
 import time
 
