@@ -21,9 +21,9 @@ const userService = {
     LocalStorage.set('userInfo', userInfo);
   },
   validate: async function () {
-    const aa = await store.dispatch('getUserInfo');
-    if(aa.code===0){
-      store.state.userInfo.username=aa.username
+    const local_user_rec = await store.dispatch('getUserInfo');
+    if(local_user_rec.code===0){
+      store.state.userInfo.username=local_user_rec.username
     }
     var code={user_name: store.state.userInfo.username, token: authService.getToken()}
 
