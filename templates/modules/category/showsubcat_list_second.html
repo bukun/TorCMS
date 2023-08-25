@@ -7,7 +7,7 @@
         <div class="panel-heading">
             <h3 class="panel-title">
                 <center>
-                    <a href="/catalog/{{ x.slug }}" title="{{ _(x.name) }}" class="flbt">
+                    <a href="/list/{{ x.slug }}" title="{{ _(x.name) }}" class="flbt">
                         {{ _(x.name) }}
                     </a>
                 </center>
@@ -21,7 +21,7 @@
         <div class="panel-heading">
             <h5 class="panel-title">
                 <span class="glyphicon glyphicon-book"></span>
-                 <span class="fr"><a class="btn btn-primary btn-xs" href="/catalog/{{ x.slug }}"> {{ _('More') }}</a></span>
+                 <span class="fr"><a class="btn btn-primary btn-xs" href="/list/{{ x.slug }}"> {{ _('More') }}</a></span>
 
                 <a data-toggle="collapse" data-parent="#accordion"
                    href="#collapse{{ii}}">
