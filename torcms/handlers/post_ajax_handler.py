@@ -151,11 +151,6 @@ class PostAjaxHandler(PostHandler):
         url_str = args[0]
         url_arr = self.parse_url(url_str)
 
-        if len(url_arr) == 3 and url_arr[0] == 'update_state':
-            print('=========')
-            print(url_arr[1], url_arr[2])
-            self.update_state(url_arr[1], url_arr[2])
-
         if url_str == 'j_add':
             self.json_add()
         elif url_str == 'j_view':
@@ -276,32 +271,7 @@ class PostAjaxHandler(PostHandler):
             }
         return json.dump(output, self)
 
-    def update_state(self, infoid, state):
-        postinfo = MPost.get_by_uid(infoid)
 
-        if state[1] in ['0', '1']:
-            if postinfo and postinfo.user_name == self.userinfo.user_name:
-                is_true = MPost.update_state(infoid, state)
-            else:
-                is_true = False
-        elif state[1] in ['2', '3']:
-
-            if self.userinfo.role[2] >= '1':
-                is_true = MPost.update_state(infoid, state)
-                if state[1] == '2':
-                    MPost.update_valid(infoid)
-                else:
-                    MPost.nullify(infoid)
-
-            else:
-                is_true = False
-        else:
-            is_true = False
-        output = {'state': state}
-        if is_true:
-            return json.dump(output, self)
-        else:
-            return False
 
     @tornado.web.authenticated
     def json_add(self):

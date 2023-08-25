@@ -8,6 +8,7 @@ import json
 import tornado.web
 
 import config
+from torcms.core import privilege
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
 from torcms.model.category_model import MCategory
@@ -79,15 +80,13 @@ class CategoryAjaxHandler(BaseHandler):
             cfg=config.CMS_CFG,
         )
 
+    @privilege.permission(action='assign_group')
     @tornado.web.authenticated
     def add(self):
         '''
         user add category.
         '''
-        if self.check_post_role()['ADD']:
-            pass
-        else:
-            return False
+
         post_data = self.get_request_arguments()
 
         post_data['user_name'] = self.get_current_user()
@@ -105,15 +104,13 @@ class CategoryAjaxHandler(BaseHandler):
             }
         return json.dump(output, self)
 
+    @privilege.permission(action='assign_group')
     @tornado.web.authenticated
     def update(self, uid):
         '''
         Update the category.
         '''
-        if self.check_post_role()['EDIT']:
-            pass
-        else:
-            return False
+
         post_data = self.get_request_arguments()
 
         post_data['user_name'] = self.get_current_user()
@@ -128,6 +125,7 @@ class CategoryAjaxHandler(BaseHandler):
             }
         return json.dump(output, self)
 
+    @privilege.permission(action='assign_group')
     @tornado.web.authenticated
     def delete_by_id(self, del_id):
         '''
@@ -135,10 +133,7 @@ class CategoryAjaxHandler(BaseHandler):
 
         '''
 
-        if self.check_post_role()['DELETE']:
-            pass
-        else:
-            return False
+
         post_resc = MPost2Catalog.query_postinfo_by_cat(del_id)
         for post in post_resc:
             MPost2Catalog.remove_relation(post.uid, del_id)

@@ -10,7 +10,7 @@ from concurrent.futures import ThreadPoolExecutor
 import tornado.escape
 import tornado.ioloop
 import tornado.web
-
+import config
 from config import CMS_CFG
 from torcms.core import privilege, tools
 from torcms.core.base_handler import BaseHandler
@@ -18,6 +18,8 @@ from torcms.core.tools import logger
 from torcms.model.category_model import MCategory
 from torcms.model.wiki_hist_model import MWikiHist
 from torcms.model.wiki_model import MWiki
+
+from torcms.model.staff2role_model import MStaff2Role
 
 
 class PageHandler(BaseHandler):
@@ -99,6 +101,7 @@ class PageHandler(BaseHandler):
             }
             self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
+    @privilege.permission(action='can_edit')
     @tornado.web.authenticated
     def __could_edit(self, slug):
         '''
@@ -107,8 +110,7 @@ class PageHandler(BaseHandler):
         page_rec = MWiki.get_by_uid(slug)
         if not page_rec:
             return False
-        if self.check_post_role()['EDIT']:
-            return True
+
         elif page_rec.user_name == self.userinfo.user_name:
             return True
         else:
@@ -166,6 +168,8 @@ class PageHandler(BaseHandler):
             'pager': '',
         }
         MWiki.view_count_plus(rec.uid)
+        if self.userinfo:
+            kwd['can_review'] = MStaff2Role.check_permissions(self.userinfo.uid, f'{rec.kind}can_review')
         self.render(
             'wiki_page/page_view.html',
             postinfo=rec,

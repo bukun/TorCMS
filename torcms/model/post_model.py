@@ -969,19 +969,6 @@ class MPost:
             return False
 
     @staticmethod
-    def update_state(uid, state):
-        '''
-        更新审核状态
-        '''
-        try:
-            entry = TabPost.update(state=state).where(TabPost.uid == uid)
-            entry.execute()
-            return True
-        except Exception as err:
-            print(repr(err))
-            return False
-
-    @staticmethod
     def query_by_state(state, kind, current_page_num=1):
         if state:
             recent_recs = (

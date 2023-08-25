@@ -18,14 +18,14 @@
         {{ datetime.datetime.fromtimestamp(postinfo.time_update).strftime('%Y-%m-%d') }}
         <span class="split">|</span>
         {{ _('author') }} : {{ _('admin') }}
-
+    {% if userinfo and kwd.get('can_review',False) %}
         <span class="cmts"><a href="/wiki/_edit/{{ postinfo.uid  }}" class="btn btn-xs btn-warning">
             <span class="glyphicon glyphicon-pencil"></span>
             {{ _('Edit') }}</a></span>
         <span class="cmts">
             <a href="/wiki_man/view/{{ postinfo.uid  }}" class="btn btn-xs btn-danger"> {{ _('Review') }}</a>
         </span>
-
+{% end %}
         <div id="wiki_cnt" class="listinfo_content">
             {% raw unescape(postinfo.cnt_html ) %}
         </div>

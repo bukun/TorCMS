@@ -7,7 +7,7 @@ import json
 
 import tornado.escape
 import tornado.web
-
+from torcms.core import privilege
 from config import CMS_CFG
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
@@ -85,16 +85,14 @@ class LinkHandler(BaseHandler):
                 userinfo=self.userinfo,
             )
 
+    @privilege.permission(action='assign_group')
     def to_add_link(
         self,
     ):
         '''
         To add link
         '''
-        if self.check_post_role()['ADD']:
-            pass
-        else:
-            return False
+
         kwd = {
             'pager': '',
             'uid': '',
@@ -106,15 +104,13 @@ class LinkHandler(BaseHandler):
             userinfo=self.userinfo,
         )
 
+    @privilege.permission(action='assign_group')
     @tornado.web.authenticated
     def update(self, uid):
         '''
         Update the link.
         '''
-        if self.userinfo.role[1] >= '3':
-            pass
-        else:
-            return False
+
         post_data = self.get_request_arguments()
 
         post_data['user_name'] = self.get_current_user()
@@ -133,15 +129,13 @@ class LinkHandler(BaseHandler):
             if MLink.update(uid, post_data):
                 self.redirect('/link/list')
 
+    @privilege.permission(action='assign_group')
     @tornado.web.authenticated
     def to_modify(self, uid):
         '''
         Try to edit the link.
         '''
-        if self.userinfo.role[1] >= '3':
-            pass
-        else:
-            return False
+
 
         self.render(
             'misc/link/link_edit.html',
@@ -165,7 +159,6 @@ class LinkHandler(BaseHandler):
 
         kwd = {
             'pager': '',
-            'editable': self.editable(),
         }
 
         self.render(
@@ -176,15 +169,13 @@ class LinkHandler(BaseHandler):
             cfg=CMS_CFG,
         )
 
+    @privilege.permission(action='assign_group')
     @tornado.web.authenticated
     def p_user_add_link(self):
         '''
         user add link.
         '''
-        if self.check_post_role()['ADD']:
-            pass
-        else:
-            return False
+
         post_data = self.get_request_arguments()
 
         post_data['user_name'] = self.get_current_user()
@@ -203,15 +194,13 @@ class LinkHandler(BaseHandler):
             }
         return json.dump(output, self)
 
+    @privilege.permission(action='assign_group')
     @tornado.web.authenticated
     def user_add_link(self):
         '''
         Create link by user.
         '''
-        if self.check_post_role()['ADD']:
-            pass
-        else:
-            return False
+
         post_data = self.get_request_arguments()
 
         post_data['user_name'] = self.get_current_user()
@@ -224,15 +213,13 @@ class LinkHandler(BaseHandler):
 
         self.redirect('/link/list')
 
+    @privilege.permission(action='assign_group')
     @tornado.web.authenticated
     def delete_by_id(self, del_id):
         '''
         Delete a link by id.
         '''
-        if self.check_post_role()['DELETE']:
-            pass
-        else:
-            return False
+
         if self.is_p:
             if MLink.delete(del_id):
                 output = {'del_link': 1}

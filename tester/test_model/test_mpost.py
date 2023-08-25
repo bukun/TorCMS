@@ -694,28 +694,3 @@ class TestMPost():
 
         assert a >= 1
 
-    def test_update_state(self):
-        p_d = {
-            'title': 'qqqii',
-            'cnt_md': 'qwqwqw',
-            'time_create': '1999',
-            'time_update': '2019',
-            'user_name': 'max',
-            'view_count': '1',
-            'logo': 'opps',
-            'memo': '',
-            'order': '1',
-
-            'extinfo': {},
-            'kind': '1',
-            'valid': '1',
-
-        }
-        self.mpost.add_or_update_post(self.post_id, p_d)
-        tf = False
-        MPost.update_state(self.post_id, 'a000')
-        recs = MPost.query_by_state('a000', '1')
-        if recs.count() >= 1:
-            tf = True
-
-        assert tf

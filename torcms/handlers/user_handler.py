@@ -480,12 +480,12 @@ class UserHandler(BaseHandler):
             rec = MUser.get_by_uid(userid)
         else:
             rec = MUser.get_by_uid(self.userinfo.uid)
-        kwd = {
-            # "iscan_review" : MStaff2Role.check_permissions(rec.uid, f'{kind}can_review'),
-            # "iscan_edit" : MStaff2Role.check_permissions(rec.uid, f'{kind}can_edit'),
-            # "iscan_delete" : MStaff2Role.check_permissions(rec.uid, f'{kind}can_delete'),
-            # "iscan_verify" : MStaff2Role.check_permissions(rec.uid, f'{kind}can_verify')
-        }
+        kwd = {}
+        for kind in config.post_cfg.keys():
+            kwd[f'{kind}can_add'] = MStaff2Role.check_permissions(rec.uid, f'{kind}can_add')
+            kwd[f'{kind}can_review'] = MStaff2Role.check_permissions(rec.uid, f'{kind}can_review')
+            kwd[f'{kind}can_verify'] = MStaff2Role.check_permissions(rec.uid, f'{kind}can_verify')
+            kwd[f'{kind}assign_group'] = MStaff2Role.check_permissions(rec.uid, f'{kind}assign_group')
 
         post_data = self.get_request_arguments()
 
@@ -1217,4 +1217,3 @@ class UserPartialHandler(UserHandler):
     def initialize(self, **kwargs):
         super().initialize()
         self.is_p = True
-

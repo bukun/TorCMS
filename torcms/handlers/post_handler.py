@@ -757,15 +757,13 @@ class PostHandler(BaseHandler):
         if download_url:
             MEntity.create_entity(path=download_url, desc=download_url, kind=4)
 
+    @privilege.permission(action='assign_group')
     @tornado.web.authenticated
     def _to_edit_kind(self, post_uid):
         '''
         Show the page for changing the category.
         '''
-        if self.userinfo and self.userinfo.role[1] >= '3':
-            pass
-        else:
-            self.redirect('/')
+
         postinfo = MPost.get_by_uid(
             post_uid,
         )

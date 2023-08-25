@@ -4,13 +4,14 @@ Handler for wiki, and page.
 '''
 
 import json
+import config
 from concurrent.futures import ThreadPoolExecutor
 
 import tornado.escape
 import tornado.gen
 import tornado.ioloop
 import tornado.web
-
+from torcms.model.staff2role_model import MStaff2Role
 from torcms.core import privilege, tools
 from torcms.core.base_handler import BaseHandler
 from torcms.model.wiki_hist_model import MWikiHist
@@ -105,6 +106,7 @@ class WikiHandler(BaseHandler):
         else:
             self.to_add(title)
 
+    @privilege.permission(action='can_edit')
     # @tornado.web.asynchronous
     @tornado.web.authenticated
     @tornado.gen.coroutine
@@ -113,10 +115,7 @@ class WikiHandler(BaseHandler):
         Update the wiki.
         '''
         postinfo = MWiki.get_by_uid(uid)
-        if (
-            self.check_post_role()['EDIT']
-            or postinfo.user_name == self.get_current_user()
-        ):
+        if postinfo.user_name == self.get_current_user():
             pass
         else:
             return False
@@ -138,14 +137,12 @@ class WikiHandler(BaseHandler):
 
         self.redirect('/wiki/{0}'.format(tornado.escape.url_escape(post_data['title'])))
 
+    @privilege.permission(action='can_edit')
     @tornado.web.authenticated
     def to_edit(self, id_rec):
         wiki_rec = MWiki.get_by_uid(id_rec)
         # 用户具有管理权限，或文章是用户自己发布的。
-        if (
-            self.check_post_role()['EDIT']
-            or wiki_rec.user_name == self.get_current_user()
-        ):
+        if wiki_rec.user_name == self.get_current_user():
             pass
         else:
             return False
@@ -166,10 +163,11 @@ class WikiHandler(BaseHandler):
         View the wiki.
         '''
         kwd = {
-            'pager': '',
-            'editable': self.editable(),
+            'pager': ''
         }
         MWiki.update_view_count(view.uid)
+        if self.userinfo:
+            kwd['can_review'] = MStaff2Role.check_permissions(self.userinfo.uid, f'{view.kind}can_review')
         self.render(
             'wiki_page/wiki_view.html', postinfo=view, kwd=kwd, userinfo=self.userinfo
         )
@@ -179,7 +177,7 @@ class WikiHandler(BaseHandler):
             'title': title,
             'pager': '',
         }
-        if self.userinfo and self.userinfo.role[0] > '0':
+        if self.userinfo:
             tmpl = 'wiki_page/wiki_add.html'
         else:
             tmpl = 'wiki_page/wiki_login.html'

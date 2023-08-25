@@ -5,11 +5,12 @@ History handler for wiki, and page.
 
 import tornado.escape
 import tornado.web
-
+import config
+from torcms.core import privilege
 from torcms.core.tools import diff_table
 from torcms.model.wiki_hist_model import MWikiHist
 from torcms.model.wiki_model import MWiki
-
+from torcms.model.staff2role_model import MStaff2Role
 from .post_history_handler import EditHistoryHander
 
 
@@ -21,15 +22,12 @@ class WikiHistoryHandler(EditHistoryHander):
     def initialize(self, **kwargs):
         super().initialize()
 
+    @privilege.permission(action='can_review')
     @tornado.web.authenticated
     def update(self, uid):
         '''
         Update the post via ID.
         '''
-        if self.userinfo.role[0] > '0':
-            pass
-        else:
-            return False
 
         post_data = self.get_request_arguments()
         post_data['user_name'] = self.userinfo.user_name if self.userinfo else ''
@@ -47,15 +45,13 @@ class WikiHistoryHandler(EditHistoryHander):
         elif cur_info.kind == '2':
             self.redirect('/page/{0}.html'.format(cur_info.uid))
 
+    @privilege.permission(action='can_review')
     @tornado.web.authenticated
     def to_edit(self, postid):
         '''
         Try to edit the Post.
         '''
-        if self.userinfo.role[0] > '0':
-            pass
-        else:
-            return False
+
         kwd = {}
         self.render(
             'man_info/wiki_man_edit.html',
@@ -64,15 +60,12 @@ class WikiHistoryHandler(EditHistoryHander):
             kwd=kwd,
         )
 
+    @privilege.permission(action='can_review')
     @tornado.web.authenticated
     def delete(self, uid):
         '''
         Delete the history of certain ID.
         '''
-        if self.check_post_role()['DELETE']:
-            pass
-        else:
-            return False
 
         histinfo = MWikiHist.get_by_uid(uid)
         if histinfo:
@@ -118,6 +111,10 @@ class WikiHistoryHandler(EditHistoryHander):
                 )
 
         kwd = {}
+        if self.userinfo:
+            for kind in config.post_cfg.keys():
+                kwd[f'{kind}can_review'] = MStaff2Role.check_permissions(self.userinfo.uid, f'{kind}can_review')
+                kwd[f'{kind}can_edit'] = MStaff2Role.check_permissions(self.userinfo.uid, f'{kind}can_review')
         self.render(
             'man_info/wiki_man_view.html',
             userinfo=self.userinfo,
@@ -126,15 +123,13 @@ class WikiHistoryHandler(EditHistoryHander):
             kwd=kwd,
         )
 
+    @privilege.permission(action='can_review')
     @tornado.web.authenticated
     def restore(self, hist_uid):
         '''
         Restore by ID
         '''
-        if self.check_post_role()['ADMIN']:
-            pass
-        else:
-            return False
+
         histinfo = MWikiHist.get_by_uid(hist_uid)
         if histinfo:
             pass

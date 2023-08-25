@@ -70,7 +70,7 @@
             {% if catinfo %}
             <li><a href="/filter/{{catinfo.uid}}">{{catinfo.name}}</a></li>
             {% end %}
-            {% if userinfo and( userinfo.role[2] >= '2') %}
+            {% if userinfo and kwd.get(f'{pcatinfo.kind}can_add',False) %}
             <li><a href="/publish/{{ widget_info['parentid'] }}" class="btn btn-primary btn-sm">{{ _('Published') }}
                 {{ widget_info['catname'] }} {{ _('Data') }}</a></li>
             {% end %}
