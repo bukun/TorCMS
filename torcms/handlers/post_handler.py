@@ -659,20 +659,7 @@ class PostHandler(BaseHandler):
             post_data['valid'] = postinfo.valid
 
         ext_dic['def_uid'] = uid
-        # 用于判断是第几轮审核
-        if postinfo.state[1] == '3':
-            edit_count = int(postinfo.extinfo.get('def_edit_count', 0)) + 1
-        else:
-            edit_count = int(postinfo.extinfo.get('def_edit_count', 0))
 
-        ext_dic['def_edit_count'] = edit_count
-        # 用于记录审核通过后第几轮修改
-        if postinfo.state[1] == '2':
-            approved_count = int(postinfo.extinfo.get('def_approved_count', 0)) + 1
-        else:
-            approved_count = int(postinfo.extinfo.get('def_approved_count', 0))
-
-        ext_dic['def_approved_count'] = approved_count
 
         cnt_old = tornado.escape.xhtml_unescape(postinfo.cnt_md).strip()
         cnt_new = post_data['cnt_md'].strip()
@@ -683,26 +670,7 @@ class PostHandler(BaseHandler):
 
         MPost.add_or_update_post(uid, post_data, extinfo=ext_dic)
 
-        # todo:应该判断当前审核状态，是否可以进行修改状态。
-        if postinfo.state[1] == '3':
-            state_arr = ['a', 'b', 'c', 'd', 'e', 'f']
-            if len(state_arr) > edit_count:
-                pstate = str(state_arr[edit_count]) + '0' + postinfo.state[2:]
 
-                MPost.update_state(uid, pstate)
-
-        if postinfo.state[1] == '2':
-            approved_state_arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
-            if len(approved_state_arr) > approved_count:
-                pstate = (
-                        postinfo.state[0]
-                        + '1'
-                        + str(approved_state_arr[approved_count])
-                        + '0'
-                )
-            else:
-                pstate = postinfo.state[0] + '190'
-            MPost.update_state(uid, pstate)
 
         self._add_download_entity(ext_dic)
         # self.update_tag(uid=uid)
