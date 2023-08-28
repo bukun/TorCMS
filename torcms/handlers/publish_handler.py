@@ -86,7 +86,6 @@ class PublishHandler(BaseHandler):
         }
         self.render('misc/publish/publish.html', userinfo=self.userinfo, kwd=kwd)
 
-    @privilege.permission(action='can_add')
     @tornado.web.authenticated
     def view_class2(self, fatherid=''):
         '''

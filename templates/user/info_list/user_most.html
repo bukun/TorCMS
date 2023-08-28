@@ -17,7 +17,7 @@
                         <li class="span3 active main-selector main-tabs">
                             <a href="#tab1" data-toggle="tab" class="home-tab-a">
                                 <span class="tabfix">
-                                    <h4>{{ _('Information') }}</h4>
+                                    <h4>{{ _('Map') }}</h4>
                                 </span>
                             </a>
                         </li>
@@ -36,7 +36,7 @@
                     <div class="row-fluid">
 
                         <ul class="list-group">
-                            {% module app_user_most(userinfo.uid,'9',20,with_tag=True,glyph="glyphicon glyphicon-th-list") %}
+                            {% module app_user_most(userinfo.uid,'m',20,with_tag=True,glyph="glyphicon glyphicon-map-marker") %}
                         </ul>
 
 

@@ -336,7 +336,7 @@ class FilterHandler(BaseHandler):
             kw_condition_arr.append(the_key.decode('utf-8'))
         if self.userinfo:
             for kind in config.post_cfg.keys():
-                kwd[f'{kind}can_review'] = MStaff2Role.check_permissions(self.userinfo.uid, f'{kind}can_review')
+                kwd[f'{kind}can_add'] = MStaff2Role.check_permissions(self.userinfo.uid, f'{kind}can_add')
         self.render(
             'autogen/list/list_{0}.html'.format(catid),
             userinfo=self.userinfo,

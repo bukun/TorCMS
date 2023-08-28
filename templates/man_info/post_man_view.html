@@ -47,7 +47,7 @@
         <span>{{ _('Browse') }}: {{ postinfo.view_count }} </span>
 
         {% module widget_editor(router, postinfo.uid, userinfo,kind=postinfo.kind) %}
-        <span class="cmts"><a href="/{{ router }}/{{postinfo.uid}}" class="btn btn-xs btn-primary">{{ _('View') }}</a></span>
+        <span class="btn-group"><a href="/{{ router }}/{{postinfo.uid}}" class="btn btn-xs btn-primary">{{ _('View') }}</a></span>
 
     </div>
     <div class="panel-body">
