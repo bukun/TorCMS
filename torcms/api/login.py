@@ -121,7 +121,6 @@ class UserApi(BaseHandler):
             'vuelogout': self.__vue_logout__,
             'list': self.__user_list__
 
-
         }
 
         if len(url_arr) == 1:
@@ -351,78 +350,6 @@ class UserApi(BaseHandler):
             logger.info('user_register_status: {0}'.format(user_create_status))
             return json.dump(user_create_status, self, ensure_ascii=False)
 
-    @privilege.permission(action='assign_role')
-    @tornado.web.authenticated
-    def p_changepassword(self):
-        '''
-        Changing password.
-        '''
-
-        post_data = json.loads(self.request.body)
-
-        usercheck = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
-        if usercheck == 1:
-            MUser.update_pass(self.userinfo.uid, post_data['user_pass'])
-            output = {
-                "ok": True,
-                "status": 0,
-                "msg": "重置密码成功",
-                'changepass ': usercheck}
-        else:
-            output = {"ok": False,
-                      "status": 404,
-                      "msg": "重置密码失败"}
-        return json.dump(output, self, ensure_ascii=False)
-
-    @privilege.permission(action='assign_role')
-    @tornado.web.authenticated
-    def p_changeinfo(self):
-        '''
-        Change Infor via Ajax.
-        '''
-
-        post_data, def_dic = self.fetch_post_data()
-
-        usercheck = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
-        if usercheck == 1:
-            MUser.update_info(
-                self.userinfo.uid, post_data['user_email'], extinfo=def_dic
-            )
-            output = {"ok": True,
-                      "status": 0,
-                      "msg": "修改用户信息成功", 'changeinfo ': usercheck}
-        else:
-            output = {"ok": False,
-                      "status": 404,
-                      "msg": "修改用户信息失败"}
-        return json.dump(output, self, ensure_ascii=False)
-
-    def fetch_post_data(self):
-        '''
-        fetch post accessed data. post_data, and ext_dic.
-        '''
-        post_data = {}
-        ext_dic = {}
-        for key in self.request.arguments:
-            if key.startswith('def_') or key.startswith('ext_'):
-                ext_dic[key] = self.get_argument(key, default='')
-
-            else:
-                post_data[key] = self.get_arguments(key)[0]
-
-        post_data['user_name'] = self.userinfo.user_name
-
-        ext_dic = dict(ext_dic, **self.ext_post_data(postdata=post_data))
-
-        return (post_data, ext_dic)
-
-    def ext_post_data(self, **kwargs):
-        '''
-        The additional information.  for add(), or update().
-        '''
-        _ = kwargs
-        return {}
-
     @tornado.web.authenticated
     def __logout__(self):
         '''
@@ -430,7 +357,6 @@ class UserApi(BaseHandler):
         '''
 
         self.clear_all_cookies()
-        print('aa')
         self.set_secure_cookie(
             "user",
             '',
@@ -470,7 +396,6 @@ class UserApi(BaseHandler):
         '''
         post_data = json.loads(self.request.body)
         type = post_data.get('type', '')
-        isjson = post_data.get('isjson', False)
         current_page_number = 1
         if cur_p == '':
             current_page_number = 1
@@ -513,7 +438,6 @@ class UserApi(BaseHandler):
     def generate_jwt_token(self, user_name):
         """根据用户user_name生成token"""
 
-
         data = {'user_name': user_name, 'exp': int(time.time()) + JWT_TOKEN_EXPIRE_SECONDS}
         print("generate data:", data)
         try:
@@ -543,7 +467,7 @@ class UserApi(BaseHandler):
             if time.time() > exp:
                 print('已失效')
 
-                return json.dump({'code':1,'state': False, 'info': 'expired'}, self)
+                return json.dump({'code': 1, 'state': False, 'info': 'expired'}, self)
             if data == payload:
                 userinfo = MUser.get_by_name(user_name)
                 user_pers = MStaff2Role.query_permissions(userinfo.uid)
@@ -571,18 +495,19 @@ class UserApi(BaseHandler):
                     'user_roles': cur_user_role
                 }
                 print("验证成功:", payload)
-                return json.dump({'code':0,'state': True, 'info': 'Verification successful','userinfo':user_info}, self)
+                return json.dump({'code': 0, 'state': True, 'info': 'Verification successful', 'userinfo': user_info},
+                                 self)
             else:
                 print("验证失败:", payload)
-                return json.dump({'code':1,'state': False, 'info': 'expired'}, self)
+                return json.dump({'code': 1, 'state': False, 'info': 'expired'}, self)
 
         except jwt.exceptions.ExpiredSignatureError as ex:
             print('token签名过期:', ex)
-            return json.dump({'code':1,'state': False, 'info': 'Token signature expired'}, self)
+            return json.dump({'code': 1, 'state': False, 'info': 'Token signature expired'}, self)
 
         except jwt.PyJWTError as ex:
             print('token解析失败:', ex)
-            return json.dump({'code':1,'state': False, 'info': 'Token parsing failed'}, self)
+            return json.dump({'code': 1, 'state': False, 'info': 'Token parsing failed'}, self)
 
     def login(self):
         '''

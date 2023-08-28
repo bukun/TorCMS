@@ -37,7 +37,6 @@ from torcms.handlers.check_handler import CheckHandler
 from torcms.api.permission_handler import PermissionHandler
 from torcms.api.role_handler import RoleHandler
 from torcms.api.login import UserApi
-from torcms.api.test import TestApi
 from torcms.api.post_handler import ApiPostHandler
 from torcms.api.process_handler import ProcessHandler
 from torcms.api.state_handler import StateHandler
@@ -52,7 +51,6 @@ urls = [
     ('/api/state/(.*)', StateHandler, {}),
     ('/api/transition/(.*)', TransitionHandler, {}),
     ('/api/action/(.*)', ActionHandler, {}),
-    ('/api/test/(.*)', TestApi, {}),
     ('/api/post/(.*)', ApiPostHandler, {}),
     ('/_rating/(.*)', RatingHandler, {}),
     ('/post_man/(.*)', PostHistoryHandler, {}),
