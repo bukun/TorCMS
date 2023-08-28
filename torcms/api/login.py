@@ -53,46 +53,7 @@ def check_regist_info(post_data):
     return user_create_status
 
 
-def check_modify_info(post_data):
-    '''
-    check data for user infomation modification.
-    '''
-    user_create_status = {'success': False, 'code': '00'}
 
-    if not tools.check_email_valid(post_data['user_email']):
-        user_create_status['code'] = '21'
-    elif MUser.get_by_email(post_data['user_email']):
-        user_create_status['code'] = '22'
-    else:
-        user_create_status['success'] = True
-    return user_create_status
-
-
-def check_valid_pass(postdata):
-    '''
-    对用户密码进行有效性检查。
-    '''
-    _ = postdata
-    user_create_status = {'success': False, 'code': '00'}
-    if not tools.check_pass_valid(postdata['user_pass']):
-        user_create_status['code'] = '41'
-    else:
-        user_create_status['success'] = True
-    return user_create_status
-
-
-class SumForm(Form):
-    '''
-    WTForm for user.
-    '''
-
-    user_name = StringField('user_name', validators=[DataRequired()], default='')
-    user_pass = StringField('user_pass', validators=[DataRequired()], default='')
-    user_email = StringField(
-        'user_email',
-        validators=[DataRequired(), wtforms.validators.Email()],
-        default='',
-    )
 
 
 JWT_TOKEN_EXPIRE_SECONDS = 60 * CMS_CFG.get('expires_minutes', 15)  # token有效时间
@@ -340,7 +301,7 @@ class UserApi(BaseHandler):
 
             extinfo['roles'] = the_roles_arr
 
-            out_dic = MUser.update_extinfo(user_create_status['uid'], extinfo)
+            MUser.update_extinfo(user_create_status['uid'], extinfo)
 
             user_create_status = {
                 "ok": True,
