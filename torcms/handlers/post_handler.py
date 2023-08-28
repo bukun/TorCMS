@@ -780,7 +780,7 @@ class PostHandler(BaseHandler):
 
     # @privilege.permission(action='can_edit')
     @tornado.web.authenticated
-    @privilege.app_can_edit
+    @privilege.permission(action='assign_group')
     def _change_kind(self, post_uid):
         '''
         To modify the category of the post, and kind.
@@ -794,4 +794,4 @@ class PostHandler(BaseHandler):
         # self.update_category(post_uid)
 
         update_category(post_uid, post_data)
-        self.redirect('/{0}/{1}'.format(post_cfg[post_data['kcat']['router']], post_uid))
+        self.redirect('/{0}/{1}'.format(post_cfg[post_data['kcat']]['router'], post_uid))
