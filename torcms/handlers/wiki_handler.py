@@ -115,10 +115,7 @@ class WikiHandler(BaseHandler):
         Update the wiki.
         '''
         postinfo = MWiki.get_by_uid(uid)
-        if postinfo.user_name == self.get_current_user():
-            pass
-        else:
-            return False
+
         post_data = self.get_request_arguments()
         post_data['user_name'] = self.userinfo.user_name
 
@@ -137,15 +134,11 @@ class WikiHandler(BaseHandler):
 
         self.redirect('/wiki/{0}'.format(tornado.escape.url_escape(post_data['title'])))
 
-    @privilege.permission(action='can_edit')
+
     @tornado.web.authenticated
     def to_edit(self, id_rec):
         wiki_rec = MWiki.get_by_uid(id_rec)
-        # 用户具有管理权限，或文章是用户自己发布的。
-        if wiki_rec.user_name == self.get_current_user():
-            pass
-        else:
-            return False
+
 
         kwd = {
             'pager': '',
@@ -200,7 +193,7 @@ class WikiHandler(BaseHandler):
         else:
             post_data['title'] = title
 
-        post_data['user_name'] = self.get_current_user()
+        post_data['user_name'] = self.userinfo.user_name
 
         if len(post_data['title'].strip()) < 2:
             kwd = {'info': 'Title cannot be less than 2 characters', 'link': '/'}

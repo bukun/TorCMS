@@ -17,7 +17,7 @@
     <div class="panel-body">
         {{ datetime.datetime.fromtimestamp(postinfo.time_update).strftime('%Y-%m-%d') }}
         <span class="split">|</span>
-        {{ _('author') }} : {{ _('admin') }}
+        {{ _('author') }} : {{ postinfo.user_name }}
     {% if userinfo and kwd.get('can_review',False) %}
         <span class="cmts"><a href="/wiki/_edit/{{ postinfo.uid  }}" class="btn btn-xs btn-warning">
             <span class="glyphicon glyphicon-pencil"></span>

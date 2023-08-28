@@ -21,7 +21,7 @@ class WikiHistoryHandler(EditHistoryHander):
 
     def initialize(self, **kwargs):
         super().initialize()
-
+        self.kind = kwargs.get('kind','1')
     @privilege.permission(action='can_review')
     @tornado.web.authenticated
     def update(self, uid):
