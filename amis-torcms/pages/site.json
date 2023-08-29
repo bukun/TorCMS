@@ -103,10 +103,10 @@
           },
           {
             "label": "Data管理",
-            "url": "/data/list/9",
-            "rewrite": "/data/list/9",
+            "url": "/data/list/3",
+            "rewrite": "/data/list/3",
             "icon": "fa fa-database",
-            "schemaApi": "get:/pages/data-list9.json"
+            "schemaApi": "get:/pages/data-list3.json"
           },
           {
             "label": "Document管理",

@@ -51,7 +51,7 @@ urls = [
     ('/api/state/(.*)', StateHandler, {}),
     ('/api/transition/(.*)', TransitionHandler, {}),
     ('/api/action/(.*)', ActionHandler, {}),
-    ('/api/post/(.*)', ApiPostHandler, {}),
+    ('/api/post/(.*)', ApiPostHandler, dict(kind='3')),
     ('/_rating/(.*)', RatingHandler, {}),
     ('/post_man/(.*)', PostHistoryHandler, {}),
     ('/meta_man/(.*)', PostHistoryHandler, {}),
