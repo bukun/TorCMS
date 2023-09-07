@@ -13,14 +13,21 @@ amis 实战教程-1-环境搭建/登录功能实现
 
 1. 安装 nodejs,npm,git,python,nginx
 
-**nginx安装：**
+For Deiban 12:
+
+    sudo apt install -y npm
+    npm i --legacy-peer-deps
+    npm start 
+
+Nginx安装：
+
     sudo apt-get install nginx
 
 按照自己的操作系统自行百度/谷歌
 
 2. nginx 转发解决跨域
 
-![](./docs/cross-domain.jpg)
+![nginx 转发解决跨域](./docs/cross-domain.jpg)
 
 找到 nginx 的配置文件, Debian/Ubuntu 使用 apt 安装的一般在/etc/nginx 下, 
 
@@ -67,3 +74,5 @@ amis 实战教程-1-环境搭建/登录功能实现
 ### 访问完整环境
 
 访问  http://localhost:6796
+
+
