@@ -5,6 +5,7 @@ Config for the website.
 """
 import tornado.web
 from torcms.core.tools import get_cfg
+
 try:
     from cfg import ADDONS
 except:
@@ -55,20 +56,6 @@ post_cfg = {
         "checker": "0",  # '10', '100', '1000', '10000'
         "show": "Info"
     },
-    # "v": {
-    #     "router": "map",
-    #     "html": """<span style="color:red;" class="glyphicon glyphicon-globe">[{0}]</span>""".format(
-    #         "Map"
-    #     ),
-    #     "checker": "0",  # '10', '100', '1000', '10000'
-    #     "show": "Map"
-    # },
-    # 'm': {
-    #     'router': 'map',
-    #     'html': '''<span style="color:green;" class="glyphicon glyphicon-list-alt">[{0}]</span>'''.format('Map'),
-    #     'checker': '0',
-    #     'show': 'Map'
-    # },
     "k": {
         "router": "tutorial",
         "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
@@ -77,26 +64,9 @@ post_cfg = {
         "checker": "0",  # '10', '100', '1000', '10000'
         "show": "Tutorial"
     },
-    # "s": {
-    #     "router": "app",
-    #     "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
-    #         "APP"
-    #     ),
-    #     "checker": "0",  # '10', '100', '1000', '10000'
-    #     "show": "APP"
-    # },
-    # "q": {
-    #     "router": "topic",
-    #     "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
-    #         "Topics"
-    #     ),
-    #     "checker": "0",  # '10', '100', '1000', '10000'
-    #     "show": "Topics"
-    # },
 }
 
-
-ADDONS = ['torcms_app', 'torcms_maplet', 'torcms_jupyter'] + ADDONS
+ADDONS = ['torcms_app', 'torcms_maplet'] + ADDONS
 
 for wdir in ADDONS:
     the_mod = f"{wdir}._config"
@@ -116,7 +86,7 @@ class WidgetMenu(tornado.web.UIModule):
         tmpl = '<li><a href="/{}/">{}</a></li>'
         ii = 1
         for key in post_cfg:
-            if key =='2':
+            if key == '2':
                 continue
 
             if ii < 7:
@@ -154,4 +124,3 @@ config_modules = {
     "widget_menu": WidgetMenu,
     "publish_list_menu": PublishListMenu,
 }
-

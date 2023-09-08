@@ -121,7 +121,6 @@ class UserApi(BaseHandler):
             'vuelogout': self.__vue_logout__,
             'list': self.__user_list__
 
-
         }
 
         if len(url_arr) == 1:
@@ -513,7 +512,6 @@ class UserApi(BaseHandler):
     def generate_jwt_token(self, user_name):
         """根据用户user_name生成token"""
 
-
         data = {'user_name': user_name, 'exp': int(time.time()) + JWT_TOKEN_EXPIRE_SECONDS}
         print("generate data:", data)
         try:
@@ -543,7 +541,7 @@ class UserApi(BaseHandler):
             if time.time() > exp:
                 print('已失效')
 
-                return json.dump({'code':1,'state': False, 'info': 'expired'}, self)
+                return json.dump({'code': 1, 'state': False, 'info': 'expired'}, self)
             if data == payload:
                 userinfo = MUser.get_by_name(user_name)
                 user_pers = MStaff2Role.query_permissions(userinfo.uid)
@@ -571,18 +569,19 @@ class UserApi(BaseHandler):
                     'user_roles': cur_user_role
                 }
                 print("验证成功:", payload)
-                return json.dump({'code':0,'state': True, 'info': 'Verification successful','userinfo':user_info}, self)
+                return json.dump({'code': 0, 'state': True, 'info': 'Verification successful', 'userinfo': user_info},
+                                 self)
             else:
                 print("验证失败:", payload)
-                return json.dump({'code':1,'state': False, 'info': 'expired'}, self)
+                return json.dump({'code': 1, 'state': False, 'info': 'expired'}, self)
 
         except jwt.exceptions.ExpiredSignatureError as ex:
             print('token签名过期:', ex)
-            return json.dump({'code':1,'state': False, 'info': 'Token signature expired'}, self)
+            return json.dump({'code': 1, 'state': False, 'info': 'Token signature expired'}, self)
 
         except jwt.PyJWTError as ex:
             print('token解析失败:', ex)
-            return json.dump({'code':1,'state': False, 'info': 'Token parsing failed'}, self)
+            return json.dump({'code': 1, 'state': False, 'info': 'Token parsing failed'}, self)
 
     def login(self):
         '''
