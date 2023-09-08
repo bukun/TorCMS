@@ -769,7 +769,7 @@ class UserHandler(BaseHandler):
                 "user",
                 u_name,
                 expires_days=None,
-                expires=time.time() + 60 * CMS_CFG.get('expires_minutes', 15),
+                expires=time.time() + 60 * CMS_CFG.get('expires_minutes', 60),
             )
 
             MUser.update_success_info(u_name)
