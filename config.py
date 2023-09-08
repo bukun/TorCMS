@@ -16,7 +16,7 @@ DB_CON, SMTP_CFG, SITE_CFG, ROLE_CFG, REDIS_CFG = get_cfg()
 CMS_CFG = {
     "list_num": 10,
     "redis_kw": "lsadfkj",
-    # 'expires_minutes': 1
+    'expires_minutes': 60,
     "pass_encrypt": ",.",
 }
 
