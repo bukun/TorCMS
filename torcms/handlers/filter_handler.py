@@ -5,7 +5,7 @@
 
 import json
 import math
-
+import config
 import tornado.escape
 from urllib.parse import unquote
 from html2text import html2text
@@ -16,7 +16,7 @@ from torcms.core.tools import logger
 from torcms.core.torcms_redis import redisvr
 from torcms.model.category_model import MCategory
 from torcms.model.post_model import MPost
-
+from torcms.model.staff2role_model import MStaff2Role
 
 def echo_html_fenye_str(rec_num, fenye_num):
     '''
@@ -334,6 +334,9 @@ class FilterHandler(BaseHandler):
         kw_condition_arr = []
         for the_key in redis_kw:
             kw_condition_arr.append(the_key.decode('utf-8'))
+        if self.userinfo:
+            for kind in config.post_cfg.keys():
+                kwd[f'{kind}can_add'] = MStaff2Role.check_permissions(self.userinfo.uid, f'{kind}can_add')
         self.render(
             'autogen/list/list_{0}.html'.format(catid),
             userinfo=self.userinfo,

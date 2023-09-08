@@ -55,10 +55,9 @@
 
 
 </script>
-
 <div class="btn-group">
 
-    {% if kwd['edit'] %}
+    {% if kwd['edit'] or userinfo.user_name=='admin' %}
 
     <a href="/{{kwd['router']}}/_edit/{{ kwd['uid']  }}" class="btn btn-xs btn-warning">
         <span class="glyphicon glyphicon-pencil"></span>
@@ -74,7 +73,7 @@
     </a>
 
     {% end %}
-    {% if kwd['review'] %}
+    {% if kwd['review'] or userinfo.user_name=='admin'  %}
 
 
     <a href="/{{ 'wiki' if kwd['router'] == 'wiki' else 'meta' }}_man/view/{{ kwd['uid']  }}"
@@ -88,16 +87,16 @@
 
 
     {% if kwd['router'] != 'map' %}
-    {% if kwd['reclass'] %}
+    {% if kwd['reclass'] or userinfo.user_name=='admin' %}
     <a href="/post/_edit_kind/{{ kwd['uid']  }}" class="btn btn-xs btn-info">{{ _('Reclassify') }}</a>
 
     {% end %}
     {% end %}
 
-    {% if kwd['nullify'] %}
+    {% if kwd['nullify'] or userinfo.user_name=='admin' %}
     {% module info_nullify(uid = kwd['uid'],router=kwd['router'],url=kwd['url'])%}
     {% end %}
-    {% if kwd['delete'] %}
+    {% if kwd['delete'] or userinfo.user_name=='admin' %}
     <a onclick="info_del('{{kwd['uid']}}')" class="btn btn-xs btn-danger">
         <span class="glyphicon glyphicon-trash"></span>
         {{ _('Delete') }}

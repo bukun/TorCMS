@@ -58,10 +58,7 @@
         {% set uu = 1 %}
         {% for x in infos %}
         <li class="list-group-item ui-state-default" id={{ x.uid }}>
-            {% if userinfo and userinfo.role[1] < '0' %}
-            <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
-            {% end %}
-            {{ uu }}
+            {{ uu }}.
             <a href="/leaf/{{x.uid}}" title="{{x.title}}">
                 {{ x.title}}
             </a>

@@ -1,6 +1,10 @@
-sudo rm /etc/nginx/sites-enabled/ng_torcms_amis.nginx
-sudo rm /etc/supervisor/conf.d/spv_torcms.conf
+if [ -e /etc/nginx/sites-enabled/ng_torcms_amis.nginx ]
+  then sudo rm /etc/nginx/sites-enabled/ng_torcms_amis.nginx
+fi
 
+if [ -e /etc/supervisor/conf.d/spv_torcms.conf ]
+  then sudo rm /etc/supervisor/conf.d/spv_torcms.conf
+fi
 
 sudo ln -s `pwd`/ng_torcms_amis.nginx /etc/nginx/sites-enabled/ng_torcms_amis.nginx
 sudo ln -s `pwd`/spv_torcms.conf /etc/supervisor/conf.d/spv_torcms.conf

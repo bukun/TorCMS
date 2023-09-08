@@ -53,46 +53,7 @@ def check_regist_info(post_data):
     return user_create_status
 
 
-def check_modify_info(post_data):
-    '''
-    check data for user infomation modification.
-    '''
-    user_create_status = {'success': False, 'code': '00'}
 
-    if not tools.check_email_valid(post_data['user_email']):
-        user_create_status['code'] = '21'
-    elif MUser.get_by_email(post_data['user_email']):
-        user_create_status['code'] = '22'
-    else:
-        user_create_status['success'] = True
-    return user_create_status
-
-
-def check_valid_pass(postdata):
-    '''
-    对用户密码进行有效性检查。
-    '''
-    _ = postdata
-    user_create_status = {'success': False, 'code': '00'}
-    if not tools.check_pass_valid(postdata['user_pass']):
-        user_create_status['code'] = '41'
-    else:
-        user_create_status['success'] = True
-    return user_create_status
-
-
-class SumForm(Form):
-    '''
-    WTForm for user.
-    '''
-
-    user_name = StringField('user_name', validators=[DataRequired()], default='')
-    user_pass = StringField('user_pass', validators=[DataRequired()], default='')
-    user_email = StringField(
-        'user_email',
-        validators=[DataRequired(), wtforms.validators.Email()],
-        default='',
-    )
 
 
 JWT_TOKEN_EXPIRE_SECONDS = 60 * CMS_CFG.get('expires_minutes', 15)  # token有效时间
@@ -340,7 +301,7 @@ class UserApi(BaseHandler):
 
             extinfo['roles'] = the_roles_arr
 
-            out_dic = MUser.update_extinfo(user_create_status['uid'], extinfo)
+            MUser.update_extinfo(user_create_status['uid'], extinfo)
 
             user_create_status = {
                 "ok": True,
@@ -350,78 +311,6 @@ class UserApi(BaseHandler):
             logger.info('user_register_status: {0}'.format(user_create_status))
             return json.dump(user_create_status, self, ensure_ascii=False)
 
-    @privilege.permission(action='assign_role')
-    @tornado.web.authenticated
-    def p_changepassword(self):
-        '''
-        Changing password.
-        '''
-
-        post_data = json.loads(self.request.body)
-
-        usercheck = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
-        if usercheck == 1:
-            MUser.update_pass(self.userinfo.uid, post_data['user_pass'])
-            output = {
-                "ok": True,
-                "status": 0,
-                "msg": "重置密码成功",
-                'changepass ': usercheck}
-        else:
-            output = {"ok": False,
-                      "status": 404,
-                      "msg": "重置密码失败"}
-        return json.dump(output, self, ensure_ascii=False)
-
-    @privilege.permission(action='assign_role')
-    @tornado.web.authenticated
-    def p_changeinfo(self):
-        '''
-        Change Infor via Ajax.
-        '''
-
-        post_data, def_dic = self.fetch_post_data()
-
-        usercheck = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
-        if usercheck == 1:
-            MUser.update_info(
-                self.userinfo.uid, post_data['user_email'], extinfo=def_dic
-            )
-            output = {"ok": True,
-                      "status": 0,
-                      "msg": "修改用户信息成功", 'changeinfo ': usercheck}
-        else:
-            output = {"ok": False,
-                      "status": 404,
-                      "msg": "修改用户信息失败"}
-        return json.dump(output, self, ensure_ascii=False)
-
-    def fetch_post_data(self):
-        '''
-        fetch post accessed data. post_data, and ext_dic.
-        '''
-        post_data = {}
-        ext_dic = {}
-        for key in self.request.arguments:
-            if key.startswith('def_') or key.startswith('ext_'):
-                ext_dic[key] = self.get_argument(key, default='')
-
-            else:
-                post_data[key] = self.get_arguments(key)[0]
-
-        post_data['user_name'] = self.userinfo.user_name
-
-        ext_dic = dict(ext_dic, **self.ext_post_data(postdata=post_data))
-
-        return (post_data, ext_dic)
-
-    def ext_post_data(self, **kwargs):
-        '''
-        The additional information.  for add(), or update().
-        '''
-        _ = kwargs
-        return {}
-
     @tornado.web.authenticated
     def __logout__(self):
         '''
@@ -429,7 +318,6 @@ class UserApi(BaseHandler):
         '''
 
         self.clear_all_cookies()
-        print('aa')
         self.set_secure_cookie(
             "user",
             '',
@@ -469,7 +357,6 @@ class UserApi(BaseHandler):
         '''
         post_data = json.loads(self.request.body)
         type = post_data.get('type', '')
-        isjson = post_data.get('isjson', False)
         current_page_number = 1
         if cur_p == '':
             current_page_number = 1

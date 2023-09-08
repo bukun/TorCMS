@@ -46,8 +46,8 @@
         <span>{{ _('Author') }}: <a href="http://www.osgeo.cn/">OSGeo中国中心</a></span>
         <span>{{ _('Browse') }}: {{ postinfo.view_count }} </span>
 
-        {% module widget_editor(router, postinfo.uid, userinfo) %}
-        <span class="cmts"><a href="/{{ router }}/{{postinfo.uid}}" class="btn btn-xs btn-primary">{{ _('View') }}</a></span>
+        {% module widget_editor(router, postinfo.uid, userinfo,kind=postinfo.kind) %}
+        <span class="btn-group"><a href="/{{ router }}/{{postinfo.uid}}" class="btn btn-xs btn-primary">{{ _('View') }}</a></span>
 
     </div>
     <div class="panel-body">
@@ -56,7 +56,7 @@
 
                  {% if html_diff_arr %}
                 {% for diff_dic in html_diff_arr %}
-                {% if userinfo and userinfo.role[2] >= '1' %}
+                {% if userinfo and kwd.get(f'{postinfo.kind}can_review',False) %}
                 <div class="bg-info">
                      <a href="/post_man/restore/{{ diff_dic['hist_uid'] }}" class="btn btn-sm btn-danger" title="Restore">
                         {{ _('Restore') }}

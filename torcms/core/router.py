@@ -37,7 +37,6 @@ from torcms.handlers.check_handler import CheckHandler
 from torcms.api.permission_handler import PermissionHandler
 from torcms.api.role_handler import RoleHandler
 from torcms.api.login import UserApi
-from torcms.api.test import TestApi
 from torcms.api.post_handler import ApiPostHandler
 from torcms.api.process_handler import ProcessHandler
 from torcms.api.state_handler import StateHandler
@@ -52,13 +51,12 @@ urls = [
     ('/api/state/(.*)', StateHandler, {}),
     ('/api/transition/(.*)', TransitionHandler, {}),
     ('/api/action/(.*)', ActionHandler, {}),
-    ('/api/test/(.*)', TestApi, {}),
-    ('/api/post/(.*)', ApiPostHandler, {}),
+    ('/api/post/(.*)', ApiPostHandler, dict(kind='3')),
     ('/_rating/(.*)', RatingHandler, {}),
     ('/post_man/(.*)', PostHistoryHandler, {}),
     ('/meta_man/(.*)', PostHistoryHandler, {}),
-    ('/wiki_man/(.*)', WikiHistoryHandler, {}),
-    ('/page_man/(.*)', WikiHistoryHandler, {}),
+    ('/wiki_man/(.*)', WikiHistoryHandler, dict(kind='1')),
+    ('/page_man/(.*)', WikiHistoryHandler, dict(kind='2')),
     ('/admin/(.*)', AdminHandler, {}),
     ('/entry/(.*)', EntityHandler, {}),
     ('/entity/(.*)', EntityHandler, {}),

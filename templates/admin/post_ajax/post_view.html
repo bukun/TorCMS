@@ -95,12 +95,7 @@
                 赞
             </a>
             {% end %}
-            {% if userinfo is not None and ( userinfo.uid == reply.reply_id.uid or userinfo.role[4] == '1') %}
-            <a class="pure-button pure-button-primary" style="padding:3px 8px;"
-               onclick="reply_del('post','{{ reply.reply_id.uid }}', {{ ii }} );">
-                删除
-            </a>
-            {% end %}
+
         </p>
 
         <p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>

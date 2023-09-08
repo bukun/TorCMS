@@ -39,7 +39,7 @@
 
                 <div class="pull-right">
                     {% if userinfo %}
-                    {% module collect(userinfo.uid, postinfo.uid) %}
+                    {% module collect(userinfo.uid, postinfo.uid,en=True) %}
                     {% end %}
                     {% module widget_editor('tutorial', postinfo.uid, userinfo,kind = postinfo.kind) %}
                 </div>

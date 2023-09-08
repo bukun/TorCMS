@@ -72,13 +72,7 @@ function reply_del_com(reply_id) {
                                         class="glyphicon glyphicon-pencil"></span>&nbsp;{{ _('Modify') }}
                                 </button>
                                 {% end %}
-                                {% if userinfo and ( userinfo.uid == reply.user_id or userinfo.role[2] > '1') %}
-                                <button class="btn btn-xs btn-danger"
-                                        onclick="reply_del('{{ reply.uid }}');">
-                                    <span class=" glyphicon glyphicon-trash"></span>
-                                    {{ _('Delete') }}
-                                </button>
-                                {% end %}
+
                                 {% if userinfo %}
                                 <button class="btn btn-primary btn-xs" data-toggle="collapse" data-target="#reply_demo{{reply.uid}}"><span
                                         class="glyphicon glyphicon-share-alt"></span>&nbsp;回复

@@ -23,7 +23,7 @@ class ApiPostHandler(PostHandler):
 
     def initialize(self, **kwargs):
         super().initialize()
-        self.kind = '9'
+        self.kind = kwargs.get('kind','9')
 
     def get(self, *args, **kwargs):
         url_str = args[0]

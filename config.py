@@ -89,16 +89,15 @@ class WidgetMenu(tornado.web.UIModule):
             if key == '2':
                 continue
 
-            if ii < 7:
-                if post_cfg[key]['router'] == 'topic':
-                    tmpl = '<li><a href="/list/{}">{}</a></li>'
-                else:
-                    tmpl = '<li><a href="/{}/">{}</a></li>'
-                out_str = out_str + tmpl.format(
-                    post_cfg[key]['router'],
-                    post_cfg[key].get('show', post_cfg[key].get('router'))
-                )
-                ii = ii + 1
+            if post_cfg[key]['router'] == 'topic':
+                tmpl = '<li><a href="/list/{}">{}</a></li>'
+            else:
+                tmpl = '<li><a href="/{}/">{}</a></li>'
+            out_str = out_str + tmpl.format(
+                post_cfg[key]['router'],
+                post_cfg[key].get('show', post_cfg[key].get('router'))
+            )
+
         return out_str
 
 

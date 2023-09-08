@@ -16,8 +16,8 @@
           "keepItemSelectionOnPageChange": true,
           "maxKeepItemSelectionLength": 15,
           "labelTpl": "${uid} ${title}",
-          "initApi": "/api/post/list/9?state=0",
-          "api": "/api/post/list/9?state=0",
+          "initApi": "/api/post/list/3?state=0",
+          "api": "/api/post/list/3?state=0",
           "expandConfig": {
             "expand": "all"
           },
@@ -337,8 +337,8 @@
           "keepItemSelectionOnPageChange": true,
           "maxKeepItemSelectionLength": 10,
           "labelTpl": "${uid} ${title}",
-          "initApi": "/api/post/list/9?state=1",
-          "api": "/api/post/list/9?state=1",
+          "initApi": "/api/post/list/3?state=1",
+          "api": "/api/post/list/3?state=1",
           "expandConfig": {
             "expand": "all"
           },

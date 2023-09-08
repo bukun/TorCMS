@@ -4,7 +4,7 @@
     <ul class="breadcrumb">
         <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
         <li class="active">{{ _('Entity List') }}</li>
-        {% if userinfo and( userinfo.role[1] >= '2') %}
+        {% if userinfo and kwd.get('1can_add',False) %}
         <li><a href="/entry/add" class="btn btn-primary btn-xs">{{ _('Upload Files') }}</a></li>
         {% end %}
     </ul>

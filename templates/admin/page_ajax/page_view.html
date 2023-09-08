@@ -15,10 +15,10 @@
         <span class="split">|</span>
         {{ _('View counts') }} :
         <em id="_viewnum">{{ view.slug.view_count }}</em>
-        {% if userinfo is not None and userinfo.role[4] == '1' %}
+
         <span class="split">|</span>
         <a href="/page/modify/{{ view.slug.slug }}">{{ _('modify') }}</a>
-        {% end %}
+
     </div>
 </div>
 <Br>

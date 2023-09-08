@@ -4,15 +4,16 @@ Manage the posts by Administrator.
 '''
 
 from abc import ABCMeta, abstractmethod
-
+import config
 import tornado.escape
 import tornado.web
-
+from torcms.core import privilege
 from config import post_cfg
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tools import diff_table
 from torcms.model.post_hist_model import MPostHist
 from torcms.model.post_model import MPost
+from torcms.model.staff2role_model import MStaff2Role
 
 
 class EditHistoryHander(BaseHandler):
@@ -117,12 +118,10 @@ class PostHistoryHandler(EditHistoryHander):
     def initialize(self):
         super().initialize()
 
+
     @tornado.web.authenticated
     def update(self, uid):
-        if self.userinfo.role[0] > '0':
-            pass
-        else:
-            return False
+
         post_data = self.get_request_arguments()
         if self.userinfo:
             post_data['user_name'] = self.userinfo.user_name
@@ -140,12 +139,10 @@ class PostHistoryHandler(EditHistoryHander):
             MPost.update_cnt(uid, post_data)
         self.redirect('/{0}/{1}'.format(post_cfg[cur_info.kind]['router'], uid))
 
+
     @tornado.web.authenticated
     def to_edit(self, postid):
-        if self.userinfo.role[0] > '0':
-            pass
-        else:
-            return False
+
         post_rec = MPost.get_by_uid(postid)
         kwd = {}
         self.render(
@@ -155,25 +152,21 @@ class PostHistoryHandler(EditHistoryHander):
             kwd=kwd,
         )
 
+
     @tornado.web.authenticated
     def __could_edit(self, postid):
         post_rec = MPost.get_by_uid(postid)
         if not post_rec:
             return False
-        if (
-            self.check_post_role()['EDIT']
-            or post_rec.user_name == self.userinfo.user_name
-        ):
+        if post_rec.user_name == self.userinfo.user_name:
             return True
         else:
             return False
 
+
     @tornado.web.authenticated
     def delete(self, uid):
-        if self.check_post_role()['DELETE']:
-            pass
-        else:
-            return False
+
 
         histinfo = MPostHist.get_by_uid(uid)
         if histinfo:
@@ -215,6 +208,9 @@ class PostHistoryHandler(EditHistoryHander):
                         'up_words_num': up_words_num,
                     }
                 )
+        if self.userinfo:
+            for kind in config.post_cfg.keys():
+                kwd[f'{kind}can_review'] = MStaff2Role.check_permissions(self.userinfo.uid, f'{kind}can_review')
 
         self.render(
             'man_info/post_man_view.html',
@@ -226,12 +222,10 @@ class PostHistoryHandler(EditHistoryHander):
             kwd=kwd,
         )
 
+
     @tornado.web.authenticated
     def restore(self, hist_uid):
-        if self.check_post_role()['ADMIN']:
-            pass
-        else:
-            return False
+
         histinfo = MPostHist.get_by_uid(hist_uid)
         if histinfo:
             pass

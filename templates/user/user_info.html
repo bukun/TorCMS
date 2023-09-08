@@ -85,7 +85,7 @@
                     <span class="glyphicon glyphicon-save"></span>
                     {{ _('My comments') }}</a>
                      </li>
-                {% if userinfo and userinfo.role[0] >= '2' %}
+                {% if userinfo and kwd.get('1can_add',False) %}
                 <li class="list-group-item"><a href="/post/_add" class="btn btn-xs btn-success">
                     <span class="glyphicon glyphicon-list-alt"></span>
                     {{ _('Add Document') }}</a>
@@ -94,7 +94,7 @@
                         {{ _('Publish Info') }}</a></li>
                 {% end %}
 
-                {% if userinfo and userinfo.role[0] >= '3' %}
+                {% if userinfo and  kwd.get('1assign_group',False) %}
                 <li class="list-group-item">
 
 
