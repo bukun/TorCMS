@@ -10,10 +10,10 @@ MAINTAINER bukun <bukun@osgeo.cn>
 # ENV LANGUAGE en_US:en
 # ENV LC_ALL en_US.UTF-8
 
-RUN echo     "deb http://mirrors.163.com/debian/ bullseye main non-free contrib" > /etc/apt/sources.list
-RUN echo     "deb http://mirrors.163.com/debian/ bullseye-updates main non-free contrib" >> /etc/apt/sources.list
-RUN echo     "deb http://mirrors.163.com/debian-security bullseye-security main" >> /etc/apt/sources.list
-RUN echo     "deb http://mirrors.163.com/debian/ bullseye-backports main non-free contrib" >> /etc/apt/sources.list
+RUN echo "deb http://mirrors.163.com/debian/ bullseye main non-free contrib" > /etc/apt/sources.list
+RUN echo "deb http://mirrors.163.com/debian/ bullseye-updates main non-free contrib" >> /etc/apt/sources.list
+RUN echo "deb http://mirrors.163.com/debian-security bullseye-security main" >> /etc/apt/sources.list
+RUN echo "deb http://mirrors.163.com/debian/ bullseye-backports main non-free contrib" >> /etc/apt/sources.list
 
 
 #########################################
@@ -52,10 +52,10 @@ WORKDIR /coding/TorCMS
 
 RUN git clone https://gitee.com/bukun/torcms_f2elib.git static/f2elib
 
-RUN source  /vpy/bin/activate && pip3 install wheel
-RUN source  /vpy/bin/activate && pip3 install email_validator
-RUN source  /vpy/bin/activate && pip3 install -r doc/requirements.txt
-RUN source  /vpy/bin/activate && pip3 install -r doc/requirements-dev.txt
+RUN source /vpy/bin/activate && pip3 install wheel
+RUN source /vpy/bin/activate && pip3 install email_validator
+RUN source /vpy/bin/activate && pip3 install -r doc/requirements.txt
+RUN source /vpy/bin/activate && pip3 install -r doc/requirements-dev.txt
 
 # Add VOLUMEs to allow backup of config, logs and databases
 
