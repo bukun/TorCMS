@@ -56,7 +56,6 @@ post_cfg = {
         "checker": "0",  # '10', '100', '1000', '10000'
         "show": "Info"
     },
-
     "k": {
         "router": "tutorial",
         "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
@@ -65,7 +64,6 @@ post_cfg = {
         "checker": "0",  # '10', '100', '1000', '10000'
         "show": "Tutorial"
     },
-
 }
 
 ADDONS = ['torcms_app', 'torcms_maplet'] + ADDONS
