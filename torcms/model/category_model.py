@@ -45,8 +45,11 @@ class MCategory:
         根据Name得到类别实例
         '''
         if name:
-            rec = TabTag.select().where((TabTag.kind == kind) & (TabTag.name == name))
-            return rec.get()
+            try:
+                rec = TabTag.select().where((TabTag.kind == kind) & (TabTag.name == name))
+                return rec.get()
+            except:
+                return False
         return False
 
     @staticmethod
@@ -127,7 +130,7 @@ class MCategory:
                 TabTag.select().where(TabTag.kind == kind).order_by(TabTag.count.desc())
             )
         elif by_order:
-            recs = TabTag.select().where(TabTag.kind == kind).order_by(TabTag.order)
+            recs = TabTag.select().order_by(TabTag.order)
         else:
             recs = TabTag.select().where(TabTag.kind == kind).order_by(TabTag.uid)
         return recs
