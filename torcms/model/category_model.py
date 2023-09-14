@@ -130,7 +130,7 @@ class MCategory:
                 TabTag.select().where(TabTag.kind == kind).order_by(TabTag.count.desc())
             )
         elif by_order:
-            recs = TabTag.select().order_by(TabTag.order)
+            recs = TabTag.select(TabTag.kind == kind).order_by(TabTag.order)
         else:
             recs = TabTag.select().where(TabTag.kind == kind).order_by(TabTag.uid)
         return recs
