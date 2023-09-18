@@ -197,15 +197,18 @@ def gen_select_view(sig_dic):
          '''.format(sig_en=sig_dic['en'], sig_key=key, sig_dic=val)
         option_str += tmp_str
 
-    return '''
-    {{% if postinfo.extinfo.get('{sig_en}','') != ''%}}
-    <div class="row">
-    <div class="col-sm-4"><span class="des"><strong>{{{{_('{sig_zh}')}}}}</strong></span></div>
-    <div class="col-sm-8">
-    {option_str}
-    </div></div>
-    {{% end %}}
-    '''.format(sig_zh=sig_dic['zh'], option_str=option_str,sig_en=sig_dic['en'])
+    # return '''
+    # {{% if userinfo and userinfo.role[1] > '0' %}}
+    # {{% if postinfo.extinfo.get('{sig_en}','') != ''%}}
+    # <div class="row">
+    # <div class="col-sm-4"><span class="des"><strong>{{{{_('{sig_zh}')}}}}</strong></span></div>
+    # <div class="col-sm-8">
+    # {option_str}
+    # </div></div>
+    # {{% end %}}
+    # {{% end %}}
+    # '''.format(sig_zh=sig_dic['zh'], option_str=option_str,sig_en=sig_dic['en'])
+    return ''
 
 
 
