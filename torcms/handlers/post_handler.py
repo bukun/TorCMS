@@ -320,7 +320,7 @@ class PostHandler(BaseHandler):
         '''
         Used for info1.
         '''
-    
+
         if 'catid' in kwargs:
             catid = kwargs['catid']
             return self._to_add_with_category(catid)

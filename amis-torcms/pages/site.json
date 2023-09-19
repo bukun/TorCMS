@@ -52,68 +52,6 @@
                 "schemaApi": "get:/pages/permission-list.json"
               }
             ]
-          },
-          {
-            "label": "流程管理",
-            "url": "/process",
-            "rewrite": "/process/list",
-            "icon": "fa fa-chain",
-            "children": [
-              {
-                "label": "流程列表",
-                "url": "/process/list",
-                "icon": "fa fa-list",
-                "schemaApi": "get:/pages/process-list.json"
-              }
-            ]
-          },
-          {
-            "label": "状态管理",
-            "url": "/state",
-            "rewrite": "/state/list",
-            "icon": "fa fa-spinner",
-            "children": [
-              {
-                "label": "状态列表",
-                "url": "/state/list",
-                "icon": "fa fa-list",
-                "schemaApi": "get:/pages/state-list.json"
-              },
-              {
-                "label": "状态转换",
-                "url": "/state/transition",
-                "icon": "fa fa-exchange",
-                "schemaApi": "get:/pages/transition-list.json"
-              }
-            ]
-          },
-          {
-            "label": "动作管理",
-            "url": "/action",
-            "rewrite": "/action/list",
-            "icon": "fa fa-universal-access",
-            "children": [
-              {
-                "label": "动作列表",
-                "url": "/action/list",
-                "icon": "fa fa-list",
-                "schemaApi": "get:/pages/action-list.json"
-              }
-            ]
-          },
-          {
-            "label": "Data管理",
-            "url": "/data/list/3",
-            "rewrite": "/data/list/3",
-            "icon": "fa fa-database",
-            "schemaApi": "get:/pages/data-list3.json"
-          },
-          {
-            "label": "Document管理",
-            "url": "/data/list/1",
-            "rewrite": "/data/list/1",
-            "icon": "fa fa-database",
-            "schemaApi": "get:/pages/data-list1.json"
           }
         ]
       },
