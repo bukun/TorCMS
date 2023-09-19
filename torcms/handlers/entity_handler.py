@@ -72,8 +72,6 @@ class EntityHandler(BaseHandler):
             self.add_entity()
         elif url_arr[0] == 'down':
             self.down(url_arr[1])
-        elif url_arr[0] == 'quasar_add':
-            self.quasar_add()
         else:
             self.render('misc/html/404.html', kwd={}, userinfo=self.userinfo)
 
@@ -347,20 +345,7 @@ class EntityHandler(BaseHandler):
             userinfo=self.userinfo,
         )
 
-    @tornado.web.authenticated
-    def quasar_add(self):
-        '''
-        To add the entity.
-        '''
-        from flask import Flask, request
-        from werkzeug import secure_filename
 
-        for fname in request.files:
-            f = request.files.get(fname)
-            print(f)
-            f.save('./uploads/%s' % secure_filename(fname))
-
-        return 'Okay!'
 
 
 class EntityAjaxHandler(EntityHandler):

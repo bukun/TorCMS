@@ -91,14 +91,6 @@ class SearchHandler(BaseHandler):
 
         para_dict = self.get_request_arguments()
 
-        print('=' * 40)
-        print(self.request.arguments)
-        print(para_dict)
-        print(url_arr)
-        print(args)
-        print(kwargs)
-        print('=' * 40)
-
         if url_str == '':
             self.index()
         elif len(url_arr) == 2:

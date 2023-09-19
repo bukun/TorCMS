@@ -213,6 +213,8 @@ class PostHandler(BaseHandler):
             self.add(uid=url_str)
         elif url_arr[0] == 'rel' and len(url_arr) == 3:
             self._add_relation(url_arr[1], url_arr[2])
+        elif url_arr[0] == 'update_order':
+            self.update_order(url_arr[1], url_arr[2])
         else:
             self.show404()
 
@@ -660,7 +662,6 @@ class PostHandler(BaseHandler):
 
         ext_dic['def_uid'] = uid
 
-
         cnt_old = tornado.escape.xhtml_unescape(postinfo.cnt_md).strip()
         cnt_new = post_data['cnt_md'].strip()
         if cnt_old == cnt_new:
@@ -669,8 +670,6 @@ class PostHandler(BaseHandler):
             MPostHist.create_post_history(postinfo, self.userinfo)
 
         MPost.add_or_update_post(uid, post_data, extinfo=ext_dic)
-
-
 
         self._add_download_entity(ext_dic)
         # self.update_tag(uid=uid)
@@ -795,3 +794,11 @@ class PostHandler(BaseHandler):
 
         update_category(post_uid, post_data)
         self.redirect('/{0}/{1}'.format(post_cfg[post_data['kcat']]['router'], post_uid))
+
+    @tornado.web.authenticated
+    @privilege.permission(action='can_edit')
+    def update_order(self, uid, order):
+        '''
+        update the order of the posts.
+        '''
+        MPost.update_order(uid, order)
