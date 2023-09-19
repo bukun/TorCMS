@@ -134,8 +134,8 @@ class WikiHandler(BaseHandler):
 
         self.redirect('/wiki/{0}'.format(tornado.escape.url_escape(post_data['title'])))
 
-
     @tornado.web.authenticated
+    @privilege.permission(action='can_edit')
     def to_edit(self, id_rec):
         wiki_rec = MWiki.get_by_uid(id_rec)
 
@@ -150,7 +150,7 @@ class WikiHandler(BaseHandler):
             userinfo=self.userinfo,
         )
 
-    @privilege.auth_view
+
     def view(self, view):
         '''
         View the wiki.
@@ -165,6 +165,8 @@ class WikiHandler(BaseHandler):
             'wiki_page/wiki_view.html', postinfo=view, kwd=kwd, userinfo=self.userinfo
         )
 
+    @tornado.web.authenticated
+    @privilege.permission(action='can_add')
     def to_add(self, title):
         kwd = {
             'title': title,

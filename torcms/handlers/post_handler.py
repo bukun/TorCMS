@@ -213,8 +213,6 @@ class PostHandler(BaseHandler):
             self.add(uid=url_str)
         elif url_arr[0] == 'rel' and len(url_arr) == 3:
             self._add_relation(url_arr[1], url_arr[2])
-        elif url_arr[0] == 'update_order':
-            self.update_order(url_arr[1], url_arr[2])
         else:
             self.show404()
 
@@ -317,6 +315,7 @@ class PostHandler(BaseHandler):
         else:
             self.show404()
 
+    @tornado.web.authenticated
     @privilege.permission(action='can_add')
     def _to_add(self, **kwargs):
         '''
@@ -343,6 +342,7 @@ class PostHandler(BaseHandler):
                 },
             )
 
+    @tornado.web.authenticated
     @privilege.permission(action='can_edit')
     def _to_edit(self, infoid):
         '''
@@ -418,7 +418,7 @@ class PostHandler(BaseHandler):
         if last_post_id and MPost.get_by_uid(last_post_id):
             self._add_relation(last_post_id, post_id)
 
-    @privilege.auth_view
+
     def viewinfo(self, postinfo):
         '''
         查看 Post.
@@ -756,7 +756,7 @@ class PostHandler(BaseHandler):
         if download_url:
             MEntity.create_entity(path=download_url, desc=download_url, kind=4)
 
-    @privilege.permission(action='assign_group')
+    @privilege.permission(action='assign_role')
     @tornado.web.authenticated
     def _to_edit_kind(self, post_uid):
         '''
@@ -779,7 +779,7 @@ class PostHandler(BaseHandler):
 
     # @privilege.permission(action='can_edit')
     @tornado.web.authenticated
-    @privilege.permission(action='assign_group')
+    @privilege.permission(action='assign_role')
     def _change_kind(self, post_uid):
         '''
         To modify the category of the post, and kind.
@@ -795,10 +795,3 @@ class PostHandler(BaseHandler):
         update_category(post_uid, post_data)
         self.redirect('/{0}/{1}'.format(post_cfg[post_data['kcat']]['router'], post_uid))
 
-    @tornado.web.authenticated
-    @privilege.permission(action='can_edit')
-    def update_order(self, uid, order):
-        '''
-        update the order of the posts.
-        '''
-        MPost.update_order(uid, order)

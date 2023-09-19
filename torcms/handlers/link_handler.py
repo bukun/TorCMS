@@ -59,6 +59,8 @@ class LinkHandler(BaseHandler):
         else:
             self.redirect('misc/html/404.html')
 
+    @privilege.permission(action='assign_role')
+    @tornado.web.authenticated
     def recent(self):
         '''
         Recent links.
@@ -85,7 +87,8 @@ class LinkHandler(BaseHandler):
                 userinfo=self.userinfo,
             )
 
-    @privilege.permission(action='assign_group')
+    @privilege.permission(action='assign_role')
+    @tornado.web.authenticated
     def to_add_link(
         self,
     ):
@@ -104,7 +107,7 @@ class LinkHandler(BaseHandler):
             userinfo=self.userinfo,
         )
 
-    @privilege.permission(action='assign_group')
+    @privilege.permission(action='assign_role')
     @tornado.web.authenticated
     def update(self, uid):
         '''
@@ -129,7 +132,7 @@ class LinkHandler(BaseHandler):
             if MLink.update(uid, post_data):
                 self.redirect('/link/list')
 
-    @privilege.permission(action='assign_group')
+    @privilege.permission(action='assign_role')
     @tornado.web.authenticated
     def to_modify(self, uid):
         '''
@@ -144,6 +147,7 @@ class LinkHandler(BaseHandler):
             userinfo=self.userinfo,
         )
 
+    @privilege.permission(action='assign_role')
     @tornado.web.authenticated
     def viewit(self, post_id):
         '''
@@ -169,7 +173,7 @@ class LinkHandler(BaseHandler):
             cfg=CMS_CFG,
         )
 
-    @privilege.permission(action='assign_group')
+    @privilege.permission(action='assign_role')
     @tornado.web.authenticated
     def p_user_add_link(self):
         '''
@@ -194,7 +198,7 @@ class LinkHandler(BaseHandler):
             }
         return json.dump(output, self)
 
-    @privilege.permission(action='assign_group')
+    @privilege.permission(action='assign_role')
     @tornado.web.authenticated
     def user_add_link(self):
         '''
@@ -213,7 +217,7 @@ class LinkHandler(BaseHandler):
 
         self.redirect('/link/list')
 
-    @privilege.permission(action='assign_group')
+    @privilege.permission(action='assign_role')
     @tornado.web.authenticated
     def delete_by_id(self, del_id):
         '''

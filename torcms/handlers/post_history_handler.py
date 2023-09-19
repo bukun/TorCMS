@@ -118,8 +118,8 @@ class PostHistoryHandler(EditHistoryHander):
     def initialize(self):
         super().initialize()
 
-
     @tornado.web.authenticated
+    @privilege.permission(action='can_review')
     def update(self, uid):
 
         post_data = self.get_request_arguments()
@@ -139,8 +139,8 @@ class PostHistoryHandler(EditHistoryHander):
             MPost.update_cnt(uid, post_data)
         self.redirect('/{0}/{1}'.format(post_cfg[cur_info.kind]['router'], uid))
 
-
     @tornado.web.authenticated
+    @privilege.permission(action='can_review')
     def to_edit(self, postid):
 
         post_rec = MPost.get_by_uid(postid)
@@ -152,8 +152,8 @@ class PostHistoryHandler(EditHistoryHander):
             kwd=kwd,
         )
 
-
     @tornado.web.authenticated
+    @privilege.permission(action='can_review')
     def __could_edit(self, postid):
         post_rec = MPost.get_by_uid(postid)
         if not post_rec:
@@ -163,8 +163,8 @@ class PostHistoryHandler(EditHistoryHander):
         else:
             return False
 
-
     @tornado.web.authenticated
+    @privilege.permission(action='can_review')
     def delete(self, uid):
 
 
@@ -179,6 +179,8 @@ class PostHistoryHandler(EditHistoryHander):
 
         self.redirect('/post_man/view/{0}'.format(postinfo.uid))
 
+    @tornado.web.authenticated
+    @privilege.permission(action='can_review')
     def view(self, uid):
         postinfo = MPost.get_by_uid(uid)
         if postinfo:
@@ -222,8 +224,8 @@ class PostHistoryHandler(EditHistoryHander):
             kwd=kwd,
         )
 
-
     @tornado.web.authenticated
+    @privilege.permission(action='can_review')
     def restore(self, hist_uid):
 
         histinfo = MPostHist.get_by_uid(hist_uid)

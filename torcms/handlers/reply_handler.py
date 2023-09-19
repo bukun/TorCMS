@@ -5,6 +5,7 @@ Handler for reply.
 
 import json
 import datetime
+import tornado.web
 from config import CMS_CFG
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tools import logger
@@ -73,6 +74,7 @@ class ReplyHandler(BaseHandler):
         elif url_arr[0] == 'get_by_post':
             self.get_by_post(url_arr[1], num=url_arr[2])
 
+    @tornado.web.authenticated
     def _add(self):
         '''
         提问
@@ -373,6 +375,7 @@ class ReplyHandler(BaseHandler):
                 kwd=kwd,
             )
 
+    @tornado.web.authenticated
     def add(self, post_id):
         '''
         Adding reply to a post.
@@ -394,6 +397,7 @@ class ReplyHandler(BaseHandler):
             logger.info('add reply result dic: {0}'.format(out_dic))
             return json.dump(out_dic, self, ensure_ascii=False)
 
+    @tornado.web.authenticated
     def json_add(self):
         '''
         Adding reply to a post.
@@ -420,6 +424,7 @@ class ReplyHandler(BaseHandler):
 
             # @tornado.web.authenticated
 
+    @tornado.web.authenticated
     def zan(self, id_reply):
         '''
         先在外部表中更新，然后更新内部表字段的值。
@@ -468,6 +473,7 @@ class ReplyHandler(BaseHandler):
 
         return json.dump(output, self, ensure_ascii=False)
 
+    @tornado.web.authenticated
     def delete(self, del_id):
         '''
         Delete the id
@@ -478,6 +484,7 @@ class ReplyHandler(BaseHandler):
             output = {'del_zan': 0}
         return json.dump(output, self)
 
+    @tornado.web.authenticated
     def delete_com(self, del_id):
         '''
         Delete the reply id
@@ -489,6 +496,7 @@ class ReplyHandler(BaseHandler):
             output = {'del_reply': 0}
         return json.dump(output, self)
 
+    @tornado.web.authenticated
     def add_reply(self, post_id, reply_id):
         '''
         Adding reply
@@ -513,6 +521,7 @@ class ReplyHandler(BaseHandler):
             logger.info('add reply result dic: {0}'.format(out_dic))
             return json.dump(out_dic, self, ensure_ascii=False)
 
+    @tornado.web.authenticated
     def modify(self, pid, cat):
         '''
         Adding comment to a post.

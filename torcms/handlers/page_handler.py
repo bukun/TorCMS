@@ -79,7 +79,7 @@ class PageHandler(BaseHandler):
             self.to_add(slug)
 
     @tornado.web.authenticated
-    @privilege.permission(action='can_add')
+    @privilege.permission(action='assign_role')
     def to_add(self, citiao):
         '''
         To Add page.
@@ -101,7 +101,7 @@ class PageHandler(BaseHandler):
             }
             self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
-    @privilege.permission(action='can_edit')
+    @privilege.permission(action='assign_role')
     @tornado.web.authenticated
     def __could_edit(self, slug):
         '''
@@ -117,7 +117,7 @@ class PageHandler(BaseHandler):
             return False
 
     @tornado.web.authenticated
-    @privilege.permission(action='can_edit')
+    @privilege.permission(action='assign_role')
     def update(self, slug):
         '''
         Update the page.
@@ -142,7 +142,7 @@ class PageHandler(BaseHandler):
         self.redirect('/page/{0}'.format(post_data['slug']))
 
     @tornado.web.authenticated
-    @privilege.permission(action='can_edit')
+    @privilege.permission(action='assign_role')
     def to_modify(self, uid):
         '''
         Try to modify the page.
@@ -159,7 +159,7 @@ class PageHandler(BaseHandler):
             userinfo=self.userinfo,
         )
 
-    @privilege.auth_view
+
     def view(self, rec):
         '''
         View the page.
@@ -180,6 +180,8 @@ class PageHandler(BaseHandler):
             cfg=CMS_CFG,
         )
 
+    @tornado.web.authenticated
+    @privilege.permission(action='assign_role')
     def list(self):
         '''
         View the list of the pages.
@@ -199,7 +201,7 @@ class PageHandler(BaseHandler):
         )
 
     @tornado.web.authenticated
-    @privilege.permission(action='can_add')
+    @privilege.permission(action='assign_role')
     def add_page(self, slug):
         '''
         Add new page.

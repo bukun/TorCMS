@@ -12,6 +12,7 @@ from torcms.handlers.evaluation_handler import EvaluationHandler
 from torcms.handlers.filter_handler import FilterHandler
 from torcms.handlers.index import IndexHandler
 from torcms.handlers.label_handler import InfoTagHandler, LabelHandler
+from torcms.handlers.leaf_handler import LeafHandler
 from torcms.handlers.link_handler import LinkHandler, LinkPartialHandler
 from torcms.handlers.list_handler import ListHandler, TagListHandler
 from torcms.handlers.log_handler import LogHandler, LogPartialHandler
@@ -66,7 +67,7 @@ urls = [
     ('/post/(.*)', PostHandler, dict(kind='1')),
     # For listing ordered items.
     ('/catalog/(.*)', CatalogHandler, {}),
-    ('/leaf/(.*)', PostHandler, dict(kind='6')),
+    ('/leaf/(.*)', LeafHandler, dict(kind='6')),
     # For filter listing.
     ('/filter/(.*)', FilterHandler, {}),
     # CRUD, for information via filter.

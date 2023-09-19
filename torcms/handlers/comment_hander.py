@@ -1,4 +1,6 @@
 import config
+import tornado.web
+from torcms.core import privilege
 from config import CMS_CFG, post_cfg
 from torcms.core.base_handler import BaseHandler
 from torcms.model.comment_model import MComment
@@ -16,6 +18,8 @@ class CommentHandler(BaseHandler):
         elif len(url_arr) == 2:
             self.list(url_arr[0], cur_p=url_arr[1])
 
+    @tornado.web.authenticated
+    @privilege.permission(action='assign_role')
     def list(self, list, **kwargs):
         '''
         List the replies.
