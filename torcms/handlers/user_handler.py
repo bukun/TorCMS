@@ -356,17 +356,14 @@ class UserHandler(BaseHandler):
         '''
         user logout.
         '''
-        print('bb')
+
         self.clear_all_cookies()
-        print('aa')
+
         self.set_secure_cookie(
             "user",
             '',
         )
-        # self.set_secure_cookie(
-        #     "user",
-        #     '',
-        # )
+
         print('log out')
         self.redirect('/')
 

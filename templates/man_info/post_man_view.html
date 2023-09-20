@@ -43,7 +43,6 @@
     <div class="panel-heading">
         <h2>{{ postinfo.title }}</h2>
         <span>{{ str(postinfo.date)[:10] }}</span>
-        <span>{{ _('Author') }}: <a href="http://www.osgeo.cn/">OSGeo中国中心</a></span>
         <span>{{ _('Browse') }}: {{ postinfo.view_count }} </span>
 
         {% module widget_editor(router, postinfo.uid, userinfo,kind=postinfo.kind) %}

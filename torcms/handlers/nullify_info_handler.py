@@ -4,6 +4,8 @@ Handler for `valid==0`.
 ToDo: fix it.
 '''
 
+import tornado.web
+from torcms.core import privilege
 from config import CMS_CFG, post_cfg
 from torcms.core.base_handler import BaseHandler
 from torcms.model.nullify_info_model import MNullifyInfo
@@ -22,6 +24,8 @@ class NullifyInfoHandler(BaseHandler):
 
             self.list(url_arr[0], cur_p=url_arr[1])
 
+    @privilege.permission(action='assign_role')
+    @tornado.web.authenticated
     def list(self, _, **kwargs):
         '''
         List the replies.

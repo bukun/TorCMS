@@ -151,10 +151,6 @@ class FilterHandler(BaseHandler):
 
         num = (len(url_arr) - 2) // 2
 
-        print('=' * 40)
-        print(sig)
-        print('=' * 40)
-
         catinfo = MCategory.get_by_uid(sig)
 
         if catinfo.pid == '0000':

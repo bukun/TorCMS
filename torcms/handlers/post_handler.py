@@ -315,12 +315,13 @@ class PostHandler(BaseHandler):
         else:
             self.show404()
 
+    @tornado.web.authenticated
     @privilege.permission(action='can_add')
     def _to_add(self, **kwargs):
         '''
         Used for info1.
         '''
-    
+
         if 'catid' in kwargs:
             catid = kwargs['catid']
             return self._to_add_with_category(catid)
@@ -341,6 +342,7 @@ class PostHandler(BaseHandler):
                 },
             )
 
+    @tornado.web.authenticated
     @privilege.permission(action='can_edit')
     def _to_edit(self, infoid):
         '''
@@ -416,7 +418,7 @@ class PostHandler(BaseHandler):
         if last_post_id and MPost.get_by_uid(last_post_id):
             self._add_relation(last_post_id, post_id)
 
-    @privilege.auth_view
+
     def viewinfo(self, postinfo):
         '''
         查看 Post.
@@ -660,7 +662,6 @@ class PostHandler(BaseHandler):
 
         ext_dic['def_uid'] = uid
 
-
         cnt_old = tornado.escape.xhtml_unescape(postinfo.cnt_md).strip()
         cnt_new = post_data['cnt_md'].strip()
         if cnt_old == cnt_new:
@@ -669,8 +670,6 @@ class PostHandler(BaseHandler):
             MPostHist.create_post_history(postinfo, self.userinfo)
 
         MPost.add_or_update_post(uid, post_data, extinfo=ext_dic)
-
-
 
         self._add_download_entity(ext_dic)
         # self.update_tag(uid=uid)
@@ -757,7 +756,7 @@ class PostHandler(BaseHandler):
         if download_url:
             MEntity.create_entity(path=download_url, desc=download_url, kind=4)
 
-    @privilege.permission(action='assign_group')
+    @privilege.permission(action='assign_role')
     @tornado.web.authenticated
     def _to_edit_kind(self, post_uid):
         '''
@@ -780,7 +779,7 @@ class PostHandler(BaseHandler):
 
     # @privilege.permission(action='can_edit')
     @tornado.web.authenticated
-    @privilege.permission(action='assign_group')
+    @privilege.permission(action='assign_role')
     def _change_kind(self, post_uid):
         '''
         To modify the category of the post, and kind.
@@ -795,3 +794,4 @@ class PostHandler(BaseHandler):
 
         update_category(post_uid, post_data)
         self.redirect('/{0}/{1}'.format(post_cfg[post_data['kcat']]['router'], post_uid))
+

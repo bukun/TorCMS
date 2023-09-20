@@ -5,6 +5,7 @@ Hander for entiey, such as files or URL.
 import tornado.web
 import json
 import config
+from torcms.core import privilege
 from torcms.core.base_handler import BaseHandler
 from torcms.model.entity2user_model import MEntity2User
 
@@ -35,6 +36,8 @@ class Entity2UserHandler(BaseHandler):
         if url_str == 'count':
             self.down_count_by_year()
 
+    @tornado.web.authenticated
+    @privilege.permission(action='assign_role')
     def down_count_by_year(self):
         '''
         List the entities of the user.
@@ -46,6 +49,7 @@ class Entity2UserHandler(BaseHandler):
         return json.dump(output, self)
 
     @tornado.web.authenticated
+    @privilege.permission(action='assign_role')
     def all_list(self, cur_p=''):
         '''
         List the entities of the user.
