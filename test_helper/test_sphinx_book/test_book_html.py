@@ -1,11 +1,10 @@
 # -*- coding:utf-8 -*-
 import re
 
+import tornado.escape
 from torcms.core import tools
 from pathlib import Path
 from torcms.model.post_model import MPost
-from torcms.model.process_model import MProcess, MState, MTransition, MRequest, MAction, MRequestAction, \
-    MTransitionAction, MPermissionAction
 from torcms.handlers.post_handler import import_post
 
 import bs4
@@ -23,9 +22,9 @@ class TestFoo():
         # self.ws_dir = Path(__file__).parent / 'book_eb1243/xx_build/html'
         # self.ws_dir = Path('/home/bk/book-rst/doculet/pt01_language_eb00kh')
         self.ws_dir = Path('/home/bk/tmp/gislite-pub/pt01_language_eb00kh')
-        self.re_pt = re.compile('\/pt\d\d')
-        self.re_ch = re.compile('\/ch\d\d')
-        self.re_sec = re.compile('\/sec\d\d')
+        self.re_pt = re.compile(r'/pt\d\d')
+        self.re_ch = re.compile(r'/ch\d\d')
+        self.re_sec = re.compile(r'/sec\d\d')
 
         self.re_book = re.compile('eb\d\d..')
         print(self.ws_dir)
@@ -67,11 +66,11 @@ class TestFoo():
             if 'sec' in wfile.parent.name and '_build' in str(wfile.resolve()):
                 self.insert_rst(wfile)
 
-    def get_html(self, html_file):
+    def get_html(self, html_file: Path):
 
         File = open(str(html_file.resolve())).read()
         File = File.replace('src="../../../_images/', f'src="/static/xx_book_{self.book_sig.group()}/')
-        File = File.replace('src="../../_images/',  f'src="/static/xx_book_{self.book_sig.group()}/')
+        File = File.replace('src="../../_images/', f'src="/static/xx_book_{self.book_sig.group()}/')
         Soup = bs4.BeautifulSoup(File, features="html.parser")
         title = Soup.title.text.split('—')[0]
         content = Soup.select('.body')[0]
@@ -81,7 +80,7 @@ class TestFoo():
 
         return {'title': title, 'cnt': conz}
 
-    def insert_rst(self, html_file):
+    def insert_rst(self, html_file: Path):
         print('=' * 40)
         print(html_file)
         post_data = {}
@@ -110,12 +109,17 @@ class TestFoo():
 
         # assert not MPost.get_by_uid(uid)
         pprint(post_data)
+
+        rec = MPost.get_by_uid(uid)
+        if rec:
+            rec_cnt_md = rec.cnt_md
+            if rst_info['cnt'].strip() == tornado.escape.xhtml_unescape(rec_cnt_md).strip():
+                return
+
         import_post(uid, post_data)
         assert MPost.get_by_uid(uid)
         print(uid)
 
-
-        sec_dir = html_file.parent
-        new_sec_dir = sec_dir.parent / f'{sec_dir.name}_{uid}'
-
+        # sec_dir = html_file.parent
+        # new_sec_dir = sec_dir.parent / f'{sec_dir.name}_{uid}'
         # sec_dir.rename(new_sec_dir)
