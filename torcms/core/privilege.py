@@ -196,16 +196,16 @@ def permission(action=''):
 
     def wrapper(func):
         def deco(self, *args, **kwargs):
-            print('Need role: ', f'_per_{self.kind}{action}')
+            print('Need role: ', f'_per_{action}')
+
             if self.current_user:
 
                 if self.userinfo.user_name == 'admin':
-                    # admin 用户为超级管理员，具有所有权限
                     func(self, *args, **kwargs)
-                elif self.userinfo.extinfo.get(f'_per_{self.kind}{action}', 0) == 1:
-                    # 真正执行函数的地方
+                elif self.userinfo.extinfo.get(f'_per_{action}', 0) == 1:
                     func(self, *args, **kwargs)
                 else:
+
                     kwd = {
                         "ok": False,
                         "status": 404,
@@ -241,7 +241,7 @@ def app_can_edit(method):
         wrapper.
         '''
         if self.current_user:
-            if self.userinfo.extinfo.get(f'_per_{self.kind}can_edit', 0) == 1:
+            if self.userinfo.extinfo.get(f'_per_can_edit', 0) == 1:
                 return method(self, *args, **kwargs)
             else:
                 kwd = {

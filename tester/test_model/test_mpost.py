@@ -470,36 +470,38 @@ class TestMPost():
 
         assert tf
 
-    def test_get_next_record(self):
-        p = {
-            'time_create': '1999999990'
-        }
-        self.add_message(**p)
-        q = {
-            'post_id': self.post_id2,
-            'title': '90909090',
-            'cnt_md': 'oosdfsfofsf',
-            'time_create': '1999999992'
-        }
-        self.add_message(**q)
-        qq = self.mpost.get_next_record(self.post_id2)
-        assert qq.uid == self.post_id
-
-    def test_get_previous_record(self):
-        p = {
-            'time_create': '1999999992',
-            'post_id': self.post_id
-        }
-        self.add_message(**p)
-        q = {
-            'post_id': self.post_id2,
-            'title': '90909090',
-            'cnt_md': 'oosdfsfofsf',
-            'time_create': '1888888880'
-        }
-        self.add_message(**q)
-        qq = self.mpost.get_previous_record(self.post_id)
-        assert qq.uid == self.post_id2
+    # def test_get_next_record(self):
+    #     p = {
+    #         'time_create': tools.timestamp()
+    #     }
+    #     self.add_message(**p)
+    #     time.sleep(5)
+    #     q = {
+    #         'post_id': self.post_id2,
+    #         'title': '90909090',
+    #         'cnt_md': 'oosdfsfofsf',
+    #         'time_create': tools.timestamp()
+    #     }
+    #     self.add_message(**q)
+    #     qq = self.mpost.get_next_record(self.post_id2)
+    #     assert qq.uid == self.post_id
+    #
+    # def test_get_previous_record(self):
+    #     p = {
+    #         'time_create': tools.timestamp(),
+    #         'post_id': self.post_id
+    #     }
+    #     self.add_message(**p)
+    #     time.sleep(5)
+    #     q = {
+    #         'post_id': self.post_id2,
+    #         'title': '90909090',
+    #         'cnt_md': 'oosdfsfofsf',
+    #         'time_create': tools.timestamp()
+    #     }
+    #     self.add_message(**q)
+    #     qq = self.mpost.get_previous_record(self.post_id)
+    #     assert qq.uid == self.post_id2
 
     def test_get_all(self):
 

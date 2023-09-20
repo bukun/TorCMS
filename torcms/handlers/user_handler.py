@@ -478,11 +478,11 @@ class UserHandler(BaseHandler):
         else:
             rec = MUser.get_by_uid(self.userinfo.uid)
         kwd = {}
-        for kind in config.post_cfg.keys():
-            kwd[f'{kind}can_add'] = MStaff2Role.check_permissions(rec.uid, f'{kind}can_add')
-            kwd[f'{kind}can_review'] = MStaff2Role.check_permissions(rec.uid, f'{kind}can_review')
-            kwd[f'{kind}can_verify'] = MStaff2Role.check_permissions(rec.uid, f'{kind}can_verify')
-            kwd[f'{kind}assign_group'] = MStaff2Role.check_permissions(rec.uid, f'{kind}assign_group')
+
+        kwd['can_add'] = MStaff2Role.check_permissions(rec.uid, 'can_add')
+        kwd['can_review'] = MStaff2Role.check_permissions(rec.uid, 'can_review')
+        kwd['can_verify'] = MStaff2Role.check_permissions(rec.uid, 'can_verify')
+        kwd['assign_group'] = MStaff2Role.check_permissions(rec.uid, 'assign_group')
 
         post_data = self.get_request_arguments()
 

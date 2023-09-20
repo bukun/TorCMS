@@ -55,7 +55,7 @@
 
                  {% if html_diff_arr %}
                 {% for diff_dic in html_diff_arr %}
-                {% if userinfo and kwd.get(f'{postinfo.kind}can_review',False) %}
+                {% if userinfo and kwd.get('can_review',False) %}
                 <div class="bg-info">
                      <a href="/post_man/restore/{{ diff_dic['hist_uid'] }}" class="btn btn-sm btn-danger" title="Restore">
                         {{ _('Restore') }}

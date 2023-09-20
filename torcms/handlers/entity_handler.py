@@ -17,6 +17,7 @@ from torcms.model.entity2user_model import MEntity2User
 from torcms.model.entity_model import MEntity
 from torcms.model.post_model import MPost
 from torcms.model.staff2role_model import MStaff2Role
+
 # TMPL_SIZE = (768, 768)
 # THUMBNAIL_SIZE = (256, 256)
 
@@ -37,7 +38,7 @@ def allowed_file_pdf(filename):
     Allowed PDF files
     '''
     return (
-        '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS_PDF
+            '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS_PDF
     )
 
 
@@ -100,8 +101,7 @@ class EntityHandler(BaseHandler):
 
         kwd = {'current_page': current_page_number}
         if self.userinfo:
-            for kind in config.post_cfg.keys():
-                kwd[f'{kind}can_add'] = MStaff2Role.check_permissions(self.userinfo.uid, f'{kind}can_add')
+            kwd['can_add'] = MStaff2Role.check_permissions(self.userinfo.uid, 'can_add')
 
         recs = MEntity.get_all_pager(current_page_num=current_page_number)
         self.render(
@@ -353,8 +353,6 @@ class EntityHandler(BaseHandler):
             kwd=kwd,
             userinfo=self.userinfo,
         )
-
-
 
 
 class EntityAjaxHandler(EntityHandler):

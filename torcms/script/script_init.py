@@ -43,4 +43,4 @@ def run_init(*args):
     run_create_admin()
     run_whoosh()
 
-    run_gen_process()
+    # run_gen_process()

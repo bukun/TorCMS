@@ -167,7 +167,6 @@ class PostHistoryHandler(EditHistoryHander):
     @privilege.permission(action='can_review')
     def delete(self, uid):
 
-
         histinfo = MPostHist.get_by_uid(uid)
         if histinfo:
             pass
@@ -211,8 +210,7 @@ class PostHistoryHandler(EditHistoryHander):
                     }
                 )
         if self.userinfo:
-            for kind in config.post_cfg.keys():
-                kwd[f'{kind}can_review'] = MStaff2Role.check_permissions(self.userinfo.uid, f'{kind}can_review')
+            kwd['can_review'] = MStaff2Role.check_permissions(self.userinfo.uid, 'can_review')
 
         self.render(
             'man_info/post_man_view.html',

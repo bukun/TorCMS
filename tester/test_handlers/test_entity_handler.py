@@ -7,7 +7,7 @@ EntityHandler
 import sys
 
 sys.path.append('.')
-
+import urllib
 from tornado.testing import AsyncHTTPSTestCase
 
 from application import APP
@@ -34,6 +34,9 @@ class TestSomeHandler(AsyncHTTPSTestCase):
         '''
         Test add.
         '''
+        # post_body = urllib.parse.urlencode({"user_name":"admin","user_pass":"Gg01234567"})
+        # response = self.fetch("/user/login", method="POST", body=post_body)
+        # self.assertEqual(response.code, 200)
         response = self.fetch('/entity/_add')
         self.assertEqual(response.code, 200)
     def test_to_list(self):

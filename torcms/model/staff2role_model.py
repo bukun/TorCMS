@@ -25,14 +25,13 @@ class MStaff2Role:
     @staticmethod
     def get_role_by_uid(staff_id):
         query = TabStaff2Role.select(
-                TabRole.uid, TabRole.name, TabRole.status, TabRole.pid
-            ) .join(TabRole, JOIN.INNER) .switch(
-            TabStaff2Role) .join(TabMember, JOIN.INNER) .where(TabStaff2Role.staff == staff_id)
+            TabRole.uid, TabRole.name, TabRole.status, TabRole.pid
+        ).join(TabRole, JOIN.INNER).switch(
+            TabStaff2Role).join(TabMember, JOIN.INNER).where(TabStaff2Role.staff == staff_id)
         # query = TabStaff2Role.select(
         #     ).where(TabStaff2Role.staff == staff_id)
 
-
-        if query.count()>0:
+        if query.count() > 0:
             return query.dicts()
         else:
             return None
@@ -52,7 +51,7 @@ class MStaff2Role:
 
         query = (
             TabStaff2Role.select(
-                TabStaff2Role.id, TabRole.uid, TabRole2Permission.permission_id,TabRole.name
+                TabStaff2Role.id, TabRole.uid, TabRole2Permission.permission_id, TabRole.name
             )
             .join(TabRole, JOIN.LEFT_OUTER)
             .join(TabRole2Permission, JOIN.LEFT_OUTER)
@@ -107,18 +106,15 @@ class MStaff2Role:
 
     @staticmethod
     def add_or_update(staff_id, role_id):
-        print('aa')
+
         record = TabStaff2Role.select().where(
             (TabStaff2Role.staff == staff_id) & (TabStaff2Role.role == role_id)
         )
-        print('bb')
 
         if record.count() > 0:
-            print('cc')
+
             pass
 
         else:
-            print('dd')
+
             TabStaff2Role.create(role=role_id, staff=staff_id)
-
-

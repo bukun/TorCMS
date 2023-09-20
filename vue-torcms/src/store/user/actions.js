@@ -24,7 +24,7 @@ export const login = ({commit}, userInfo) => {
         let permissions = data.data.user_pers || [];
         let roles = data.data.user_roles || [];
         let isSuperAdmin = false;
-        // if (roles.findIndex(t => t.user_roles === 'uadministrators') >= 0) {
+        // if (roles.findIndex(t => t.user_roles === 'administrators') >= 0) {
         //   isSuperAdmin = true;
         // }
         if (data.data.username === 'admin') {

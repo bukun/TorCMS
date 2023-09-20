@@ -28,7 +28,7 @@ class MRole:
         The count in table.
         '''
 
-        return TabRole.select().where(TabRole.pid=='0000').count()
+        return TabRole.select().where(TabRole.pid == '0000').count()
 
     @staticmethod
     def query_all_pager(current_page_num, perPage):
@@ -101,13 +101,31 @@ class MRole:
         return uid
 
     @staticmethod
+    def update_by_name(uid, name):
+        entry = TabRole.update(
+            uid=uid
+        ).where(TabRole.name == name)
+        entry.execute()
+
+    @staticmethod
     def add_or_update(uid, post_data):
         '''
         Add or update the data by the given ID of post.
         '''
         catinfo = MRole.get_by_uid(uid)
+        catinfo2 = MRole.get_by_name(post_data['name'])
         if catinfo:
             MRole.update(uid, post_data)
+        elif catinfo2:
+            MRole.delete(catinfo2.get().uid)
+            TabRole.create(
+                uid=uid,
+                name=post_data['name'],
+                pid=post_data['pid'],
+                status=post_data.get('status', 0),
+                time_create=tools.timestamp(),
+                time_update=tools.timestamp(),
+            )
         else:
             TabRole.create(
                 uid=uid,

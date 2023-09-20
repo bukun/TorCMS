@@ -2,10 +2,7 @@
 '''
 Genereting catetory.
 '''
-import sys
-from config import post_cfg
 from openpyxl.reader.excel import load_workbook
-
 from torcms.script.autocrud.base_crud import FILTER_COLUMNS
 from torcms.model.role2permission_model import MRole2Permission
 from torcms.model.staff2role_model import MStaff2Role
@@ -27,13 +24,12 @@ def gen_xlsx_role_permission():
     '''
 
     for sheet_ranges in load_workbook(filename=XLSX_FILE):
-        kind_sig = str(sheet_ranges['A1'].value).strip()
 
         # permission 入库
         for col_idx in FILTER_COLUMNS:
             cell_val = sheet_ranges['{0}1'.format(col_idx)].value
             if cell_val and cell_val != '':
-                puid = kind_sig + cell_val.split(":")[0]
+                puid = cell_val.split(":")[0]
 
                 ppdata = {'name': cell_val.split(":")[1]}
 
@@ -49,7 +45,7 @@ def gen_xlsx_role_permission():
 
             if a_cell_val and a_cell_val != '':
                 cell_arr = a_cell_val.strip()
-                uid = kind_sig + cell_arr.split(":")[0]
+                uid = cell_arr.split(":")[0]
                 name = cell_arr.split(":")[1]
                 pid = '0000'
                 auid = uid
@@ -57,7 +53,7 @@ def gen_xlsx_role_permission():
 
             elif b_cell_val and b_cell_val != '':
                 cell_arr = b_cell_val
-                uid = kind_sig + cell_arr.split(":")[0]
+                uid = cell_arr.split(":")[0]
                 pid = auid
                 name = aname + cell_arr.split(":")[1]
                 buid = uid
@@ -65,14 +61,14 @@ def gen_xlsx_role_permission():
 
             elif c_cell_val and c_cell_val != '':
                 cell_arr = c_cell_val
-                uid = kind_sig + cell_arr.split(":")[0]
+                uid = cell_arr.split(":")[0]
                 pid = buid
                 name = bname + cell_arr.split(":")[1]
                 cuid = uid
                 cname = name
             elif d_cell_val and d_cell_val != '':
                 cell_arr = d_cell_val
-                uid = kind_sig + cell_arr.split(":")[0]
+                uid = cell_arr.split(":")[0]
                 pid = cuid
                 name = cname + cell_arr.split(":")[1]
 
@@ -92,7 +88,7 @@ def gen_xlsx_role_permission():
             tt = MUser.create_user(user_data)
             if tt.get('uid'):
 
-                role_permission_relation(uid, tt['uid'], sheet_ranges, row_num, kind_sig)
+                role_permission_relation(uid, tt['uid'], sheet_ranges, row_num)
 
                 # 编辑者添加权限
                 create_editor_role(uid)
@@ -106,16 +102,16 @@ def gen_xlsx_role_permission():
                 MUser.update_extinfo(tt['uid'], extinfo)
 
 
-def role_permission_relation(role_uid, user_uid, work_sheet, row_num, kind_sig):
+def role_permission_relation(role_uid, user_uid, work_sheet, row_num):
     for col_idx in FILTER_COLUMNS:
 
         cell_val = work_sheet['{0}{1}'.format(col_idx, row_num)].value
 
         if cell_val in [1, '1']:
             cel_val = work_sheet['{0}1'.format(col_idx)].value.strip()
-            per_uid = kind_sig + cel_val.split(":")[0]
+            per_uid = cel_val.split(":")[0]
 
-            MRole2Permission.add_or_update(role_uid, per_uid, kind_sig=kind_sig)
+            MRole2Permission.add_or_update(role_uid, per_uid)
             MStaff2Role.add_or_update(user_uid, role_uid)
 
 
@@ -134,107 +130,105 @@ def create_editor_role(role_uid):
     per_editor = []
     per_admin = []
 
-    for kind in post_cfg.keys():
-        per_dic_v = {
-            "uid": "{0}can_view".format(kind),
-            "kind": kind,
-            "per_data": {
-                "name": "{0}查看".format(kind),
-                "controller": 0,
-                "action": 0
-            },
+    per_dic_v = {
+        "uid": "can_view",
 
-        }
-        per_dic_a = {
-            "uid": "{0}can_add".format(kind),
-            "kind": kind,
-            "per_data": {
-                "name": "{0}添加".format(kind),
-                "controller": 0,
-                "action": 0
-            },
+        "per_data": {
+            "name": "查看",
+            "controller": 0,
+            "action": 0
+        },
 
-        }
-        per_dic_e = {
-            "uid": "{0}can_edit".format(kind),
-            "kind": kind,
-            "per_data": {
-                "name": "{0}编辑".format(kind),
-                "controller": 0,
-                "action": 0
-            },
+    }
+    per_dic_a = {
+        "uid": "can_add",
 
-        }
-        per_dic_d = {
-            "uid": "{0}can_delete".format(kind),
-            "kind": kind,
-            "per_data": {
-                "name": "{0}删除".format(kind),
-                "controller": 0,
-                "action": 0
-            },
+        "per_data": {
+            "name": "添加",
+            "controller": 0,
+            "action": 0
+        },
 
-        }
-        per_editor.append(per_dic_v)
-        per_editor.append(per_dic_a)
-        per_editor.append(per_dic_e)
-        per_editor.append(per_dic_d)
+    }
+    per_dic_e = {
+        "uid": "can_edit",
 
-        per_ad_r = {
-            "uid": "{0}can_review".format(kind),
-            "kind": kind,
-            "per_data": {
-                "name": "{0}复查".format(kind),
-                "controller": 0,
-                "action": 0
-            },
+        "per_data": {
+            "name": "编辑",
+            "controller": 0,
+            "action": 0
+        },
 
-        }
-        per_ad_v = {
-            "uid": "{0}can_verify".format(kind),
-            "kind": kind,
-            "per_data": {
-                "name": "{0}审核".format(kind),
-                "controller": 0,
-                "action": 0
-            },
+    }
+    per_dic_d = {
+        "uid": "can_delete",
 
-        }
-        per_ad_a = {
-            "uid": "{0}assign_role".format(kind),
-            "kind": kind,
-            "per_data": {
-                "name": "{0}权限".format(kind),
-                "controller": 0,
-                "action": 0
-            },
+        "per_data": {
+            "name": "删除",
+            "controller": 0,
+            "action": 0
+        },
 
-        }
-        per_ad_g = {
-            "uid": "{0}assign_group".format(kind),
-            "kind": kind,
-            "per_data": {
-                "name": "{0}分组".format(kind),
-                "controller": 0,
-                "action": 0
-            },
+    }
+    per_editor.append(per_dic_v)
+    per_editor.append(per_dic_a)
+    per_editor.append(per_dic_e)
+    per_editor.append(per_dic_d)
 
-        }
-        per_admin.append(per_ad_r)
-        per_admin.append(per_ad_v)
-        per_admin.append(per_ad_a)
-        per_admin.append(per_ad_g)
+    per_ad_r = {
+        "uid": "can_review",
+
+        "per_data": {
+            "name": "复查",
+            "controller": 0,
+            "action": 0
+        },
+
+    }
+    per_ad_v = {
+        "uid": "can_verify",
+
+        "per_data": {
+            "name": "审核",
+            "controller": 0,
+            "action": 0
+        },
+
+    }
+    per_ad_a = {
+        "uid": "assign_role",
+
+        "per_data": {
+            "name": "权限",
+            "controller": 0,
+            "action": 0
+        },
+
+    }
+    per_ad_g = {
+        "uid": "assign_group",
+
+        "per_data": {
+            "name": "分组",
+            "controller": 0,
+            "action": 0
+        },
+
+    }
+    per_admin.append(per_ad_r)
+    per_admin.append(per_ad_v)
+    per_admin.append(per_ad_a)
+    per_admin.append(per_ad_g)
 
     if role_uid.endswith('editor'):
         for per_edit in per_editor:
             MPermission.add_or_update(per_edit['uid'], per_edit['per_data'])
-            MRole2Permission.add_or_update('1editor', per_edit['uid'], kind_sig=per_edit['kind'])
+            MRole2Permission.add_or_update('editor', per_edit['uid'])
     else:
 
         for per_ad in per_admin:
             MPermission.add_or_update(per_ad['uid'], per_ad['per_data'])
-            MRole2Permission.add_or_update('uadministrators', per_ad['uid'], kind_sig=per_ad['kind'])
-
+            MRole2Permission.add_or_update('administrators', per_ad['uid'])
 
 if __name__ == '__main__':
     gen_xlsx_role_permission()

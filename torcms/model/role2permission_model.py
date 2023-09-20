@@ -68,4 +68,10 @@ class MRole2Permission:
             pass
 
         else:
-            TabRole2Permission.create(role=role_uid, permission=per_id, kind=kind_sig)
+
+            try:
+                TabRole2Permission.create(role=role_uid, permission=per_id, kind=kind_sig)
+                return True
+            except Exception as err:
+                print(repr(err))
+                return False

@@ -4,6 +4,7 @@ For friends links.
 '''
 from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import TabPermission
+from torcms.model.process_model import TabPermissionAction
 
 
 class MPermission:
@@ -34,6 +35,17 @@ class MPermission:
         return MHelper.get_by_uid(TabPermission, uid)
 
     @staticmethod
+    def get_by_name(name):
+        '''
+        Get a link by name.
+        '''
+        recs = TabPermission.select().where(TabPermission.name == name)
+        if recs.count() == 0:
+            return None
+        else:
+            return recs.get()
+
+    @staticmethod
     def query_all():
         '''
         Get a link by ID.
@@ -45,6 +57,14 @@ class MPermission:
         '''
         Delete by uid
         '''
+        entry = TabPermissionAction.delete().where(TabPermissionAction.permission == uid)
+        try:
+            entry.execute()
+            pass
+        except Exception as err:
+            print(repr(err))
+            pass
+
         return MHelper.delete(TabPermission, uid)
 
     @staticmethod
@@ -58,6 +78,22 @@ class MPermission:
             controller=post_data.get('controller', raw_rec.controller),
             action=post_data.get('action', raw_rec.action),
         ).where(TabPermission.uid == uid)
+        try:
+            entry.execute()
+            return True
+        except Exception as err:
+            print(repr(err))
+            return False
+
+    @staticmethod
+    def update_by_name(uid, name):
+        '''
+        Updat the link.
+        '''
+
+        entry = TabPermission.update(
+            uid=uid,
+        ).where(TabPermission.name == name)
         try:
             entry.execute()
             return True
@@ -88,9 +124,11 @@ class MPermission:
         Add record in permission.
         '''
         perinfo = MPermission.get_by_uid(uid)
+        perinfo2 = MPermission.get_by_name(post_data['name'])
         if perinfo:
             MPermission.update(uid, post_data)
-        else:
+        elif perinfo2:
+            MPermission.delete(perinfo2.uid)
             try:
                 TabPermission.create(
                     uid=uid,
@@ -103,4 +141,15 @@ class MPermission:
                 print(repr(err))
                 return False
 
-
+        else:
+            try:
+                TabPermission.create(
+                    uid=uid,
+                    name=post_data['name'],
+                    controller=post_data.get('controller', '0'),
+                    action=post_data.get('action', '0'),
+                )
+                return uid
+            except Exception as err:
+                print(repr(err))
+                return False

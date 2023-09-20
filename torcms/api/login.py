@@ -495,7 +495,7 @@ class UserApi(BaseHandler):
             if login_method == 'amis':
                 if u_name == 'admin':
                     pass
-                elif userinfo.extinfo.get(f'_per_{self.kind}{"assign_role"}', 0) == 1:
+                elif userinfo.extinfo.get('_per_assign_role', 0) == 1:
                     pass
                 else:
                     kwd = {
@@ -644,10 +644,17 @@ class UserApi(BaseHandler):
                     role_id = role.split(',')[-1]
                     role1_rec = MRole.get_by_uid(role1_id)
                     role_rec = MRole.get_by_uid(role_id)
-                    role_name = role_rec.name + ' [' + role1_rec.name + '] '
+                    if role_rec:
+                        role_name = role_rec.name + ' [' + role1_rec.name + '] '
+                    else:
+                        role_name=''
                 else:
                     role_rec = MRole.get_by_uid(role)
-                    role_name = role_rec.name
+                    if role_rec:
+                        role_name = role_rec.name
+                    else:
+                        role_name = ''
+
 
                 role_arr.append(role_name)
 
