@@ -20,9 +20,9 @@ class TestFoo():
         self.uid = tools.get_uu4d()
         self.fake = Faker(locale="zh_CN")
         self.ws_dir = Path(__file__).parent / 'book_demo'
-        self.re_pt = re.compile('\/pt\d\d')
-        self.re_ch = re.compile('\/ch\d\d')
-        self.re_sec = re.compile('\/sec\d\d')
+        self.re_pt = re.compile(r'/pt\d\d')
+        self.re_ch = re.compile(r'/ch\d\d')
+        self.re_sec = re.compile(r'/sec\d\d')
         print(self.ws_dir)
 
     def teardown_method(self):
