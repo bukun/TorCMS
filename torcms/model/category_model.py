@@ -45,8 +45,11 @@ class MCategory:
         根据Name得到类别实例
         '''
         if name:
-            rec = TabTag.select().where((TabTag.kind == kind) & (TabTag.name == name))
-            return rec.get()
+            try:
+                rec = TabTag.select().where((TabTag.kind == kind) & (TabTag.name == name))
+                return rec.get()
+            except:
+                return False
         return False
 
     @staticmethod

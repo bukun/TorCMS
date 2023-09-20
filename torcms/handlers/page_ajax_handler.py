@@ -7,7 +7,7 @@ import json
 
 import tornado.escape
 import tornado.web
-
+from torcms.core import privilege
 from config import CMS_CFG
 from torcms.handlers.page_handler import PageHandler
 from torcms.model.wiki_model import MWiki
@@ -73,6 +73,7 @@ class PageAjaxHandler(PageHandler):
         }
         self.write(json.dumps(out_json))
 
+    @privilege.permission(action='assign_role')
     @tornado.web.authenticated
     def to_add(self, citiao):
         self.write(json.dumps({'code': citiao}))
@@ -115,6 +116,7 @@ class PageAjaxHandler(PageHandler):
             kwd=kwd,
         )
 
+    @privilege.permission(action='assign_role')
     @tornado.web.authenticated
     def p_to_add(self):
         '''
@@ -122,6 +124,7 @@ class PageAjaxHandler(PageHandler):
         '''
         self.render('admin/page_ajax/page_add.html', kwd={})
 
+    @privilege.permission(action='assign_role')
     @tornado.web.authenticated
     def json_add(self):
         '''
@@ -196,6 +199,7 @@ class PageAjaxHandler(PageHandler):
         out_json = {'code': '1', 'info': 'success', 'recs': rec_arr}
         return json.dump(out_json, self)
 
+    @privilege.permission(action='assign_role')
     @tornado.web.authenticated
     def json_edit(self, slug):
         '''

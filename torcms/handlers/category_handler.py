@@ -80,7 +80,7 @@ class CategoryAjaxHandler(BaseHandler):
             cfg=config.CMS_CFG,
         )
 
-    @privilege.permission(action='assign_group')
+    @privilege.permission(action='assign_role')
     @tornado.web.authenticated
     def add(self):
         '''
@@ -104,7 +104,7 @@ class CategoryAjaxHandler(BaseHandler):
             }
         return json.dump(output, self)
 
-    @privilege.permission(action='assign_group')
+    @privilege.permission(action='assign_role')
     @tornado.web.authenticated
     def update(self, uid):
         '''
@@ -125,7 +125,7 @@ class CategoryAjaxHandler(BaseHandler):
             }
         return json.dump(output, self)
 
-    @privilege.permission(action='assign_group')
+    @privilege.permission(action='assign_role')
     @tornado.web.authenticated
     def delete_by_id(self, del_id):
         '''

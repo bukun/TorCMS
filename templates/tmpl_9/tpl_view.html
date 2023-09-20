@@ -159,11 +159,11 @@
                                 <img src="{{ postinfo.logo }}" alt="{{ postinfo.logo }}" class="img-thumbnail">
                             </div>
                             <div class="col-sm-6">
-{% if userinfo %}
-                                  {% if postinfo.valid != 1 %}
-                                {% module post_state(postinfo = postinfo,userinfo = userinfo,kind = postinfo.kind) %}
-                                 <br>
-{% end %}
+{#{% if userinfo %}#}
+{#                                  {% if postinfo.valid != 1 %}#}
+{#                                {% module post_state(postinfo = postinfo,userinfo = userinfo,kind = postinfo.kind) %}#}
+{#                                 <br>#}
+{#{% end %}#}
                 {% module collect(userinfo.uid, postinfo.uid,en=True) %}
                                                            <br>
  <br>

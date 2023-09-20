@@ -16,7 +16,7 @@ DB_CON, SMTP_CFG, SITE_CFG, ROLE_CFG, REDIS_CFG = get_cfg()
 CMS_CFG = {
     "list_num": 10,
     "redis_kw": "lsadfkj",
-    # 'expires_minutes': 1
+    'expires_minutes': 60,
     "pass_encrypt": ",.",
 }
 
@@ -56,7 +56,6 @@ post_cfg = {
         "checker": "0",  # '10', '100', '1000', '10000'
         "show": "Info"
     },
-
     "k": {
         "router": "tutorial",
         "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
@@ -65,7 +64,6 @@ post_cfg = {
         "checker": "0",  # '10', '100', '1000', '10000'
         "show": "Tutorial"
     },
-
 }
 
 ADDONS = ['torcms_app', 'torcms_maplet'] + ADDONS

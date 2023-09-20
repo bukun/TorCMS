@@ -11,6 +11,7 @@ from PIL import Image
 
 import config
 from torcms.core import tools
+from torcms.core import privilege
 from torcms.core.base_handler import BaseHandler
 from torcms.model.entity2user_model import MEntity2User
 from torcms.model.entity_model import MEntity
@@ -72,12 +73,11 @@ class EntityHandler(BaseHandler):
             self.add_entity()
         elif url_arr[0] == 'down':
             self.down(url_arr[1])
-        elif url_arr[0] == 'quasar_add':
-            self.quasar_add()
         else:
             self.render('misc/html/404.html', kwd={}, userinfo=self.userinfo)
 
     @tornado.web.authenticated
+    @privilege.permission(action='assign_role')
     def list(self, cur_p=''):
         '''
         Lists of the entities.
@@ -112,6 +112,7 @@ class EntityHandler(BaseHandler):
             userinfo=self.userinfo,
         )
 
+    @tornado.web.authenticated
     def down(self, down_uid):
         '''
         Download the entity by UID.
@@ -155,6 +156,7 @@ class EntityHandler(BaseHandler):
             output = {'down_code': 0}
         return json.dump(output, self)
 
+    @privilege.permission(action='can_add')
     @tornado.web.authenticated
     def to_add(self):
         '''
@@ -168,6 +170,7 @@ class EntityHandler(BaseHandler):
             userinfo=self.userinfo,
         )
 
+    @privilege.permission(action='can_add')
     @tornado.web.authenticated
     def add_entity(self):
         '''
@@ -187,6 +190,7 @@ class EntityHandler(BaseHandler):
         else:
             self.add_pic(post_data)
 
+    @privilege.permission(action='can_add')
     @tornado.web.authenticated
     def add_pic(self, post_data):
         '''
@@ -255,6 +259,7 @@ class EntityHandler(BaseHandler):
                 output = {'path_save': ''}
             return json.dump(output, self)
 
+    @privilege.permission(action='can_add')
     @tornado.web.authenticated
     def add_pdf(self, post_data):
         '''
@@ -308,6 +313,7 @@ class EntityHandler(BaseHandler):
                 output = {'path_save': ''}
             return json.dump(output, self)
 
+    @privilege.permission(action='can_add')
     @tornado.web.authenticated
     def add_url(self, post_data):
         '''
@@ -336,6 +342,7 @@ class EntityHandler(BaseHandler):
             userinfo=self.userinfo,
         )
 
+    @privilege.permission(action='can_add')
     @tornado.web.authenticated
     def view(self, outfilename):
         kwd = {'pager': '', 'kind': ''}
@@ -347,20 +354,7 @@ class EntityHandler(BaseHandler):
             userinfo=self.userinfo,
         )
 
-    @tornado.web.authenticated
-    def quasar_add(self):
-        '''
-        To add the entity.
-        '''
-        from flask import Flask, request
-        from werkzeug import secure_filename
 
-        for fname in request.files:
-            f = request.files.get(fname)
-            print(f)
-            f.save('./uploads/%s' % secure_filename(fname))
-
-        return 'Okay!'
 
 
 class EntityAjaxHandler(EntityHandler):

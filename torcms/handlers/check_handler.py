@@ -36,7 +36,7 @@ class CheckHandler(BaseHandler):
             self.show404()
 
     @tornado.web.authenticated
-    @privilege.auth_check
+    @privilege.permission(action='can_verify')
     def pend_review(self, list, **kwargs):
         '''
         The default page of examine.

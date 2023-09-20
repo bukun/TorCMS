@@ -1,9 +1,10 @@
 <ul id="con_menu">
     <h3>
-        <a href="/catalog/{{ kwd['slug'] }}" title="{{kwd['title']}}">
-            {{kwd['title']}}
+        <a href="/catalog/{{ kwd['slug'] }}" title="{{ kwd['title'] }}">
+            {{ kwd['title'] }}
         </a>
     </h3>
+    {% set uu =1 %}
     {% for x in recs %}
     {% if x.valid == 1 %}
 
@@ -11,11 +12,11 @@
 
         <a href="/{{ kwd['router'] }}/{{ x.uid }}" title="{{ _(x.title) }}">
 
-            {{ _(x.title) }}
+            {{ uu }}. {{ _(x.title) }}
         </a>
 
     </li>
-
+    {% set uu = uu + 1 %}
     {% end %}
     {% end %}
 </ul>

@@ -22,7 +22,7 @@ class WikiHistoryHandler(EditHistoryHander):
     def initialize(self, **kwargs):
         super().initialize()
         self.kind = kwargs.get('kind','1')
-    @privilege.permission(action='can_review')
+    @privilege.permission(action='can_role')
     @tornado.web.authenticated
     def update(self, uid):
         '''
@@ -45,7 +45,7 @@ class WikiHistoryHandler(EditHistoryHander):
         elif cur_info.kind == '2':
             self.redirect('/page/{0}.html'.format(cur_info.uid))
 
-    @privilege.permission(action='can_review')
+    @privilege.permission(action='can_role')
     @tornado.web.authenticated
     def to_edit(self, postid):
         '''
@@ -60,7 +60,7 @@ class WikiHistoryHandler(EditHistoryHander):
             kwd=kwd,
         )
 
-    @privilege.permission(action='can_review')
+    @privilege.permission(action='can_role')
     @tornado.web.authenticated
     def delete(self, uid):
         '''
@@ -114,7 +114,7 @@ class WikiHistoryHandler(EditHistoryHander):
         if self.userinfo:
             for kind in config.post_cfg.keys():
                 kwd[f'{kind}can_review'] = MStaff2Role.check_permissions(self.userinfo.uid, f'{kind}can_review')
-                kwd[f'{kind}can_edit'] = MStaff2Role.check_permissions(self.userinfo.uid, f'{kind}can_review')
+                kwd[f'{kind}can_edit'] = MStaff2Role.check_permissions(self.userinfo.uid, f'{kind}can_edit')
         self.render(
             'man_info/wiki_man_view.html',
             userinfo=self.userinfo,
@@ -123,7 +123,7 @@ class WikiHistoryHandler(EditHistoryHander):
             kwd=kwd,
         )
 
-    @privilege.permission(action='can_review')
+    @privilege.permission(action='can_role')
     @tornado.web.authenticated
     def restore(self, hist_uid):
         '''

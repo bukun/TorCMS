@@ -271,8 +271,7 @@ class PostAjaxHandler(PostHandler):
             }
         return json.dump(output, self)
 
-
-
+    @privilege.permission(action='can_add')
     @tornado.web.authenticated
     def json_add(self):
 
@@ -382,6 +381,7 @@ class PostAjaxHandler(PostHandler):
             output = {'code': '0', 'info': 'failed'}
             return json.dump(output, self)
 
+    @privilege.permission(action='can_edit')
     @tornado.web.authenticated
     def json_edit(self, uid):
         '''
