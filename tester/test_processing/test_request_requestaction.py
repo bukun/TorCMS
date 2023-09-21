@@ -138,13 +138,13 @@ class TestMProcess():
         '''
 
         action_datas = [
-            {'action_type': 'deny', 'role': 'ucan_verify',
+            {'action_type': 'deny', 'role': 'can_verify',
              'name': '拒绝', 'description': '操作人将请求应移至上一个状态'},
-            {'action_type': 'cancel', 'role': 'ucan_verify',
+            {'action_type': 'cancel', 'role': 'can_verify',
              'name': '撤消', 'description': '操作人将请求应在此过程中移至“已取消”状态'},
-            {'action_type': 'approve', 'role': 'ucan_verify',
+            {'action_type': 'approve', 'role': 'can_verify',
              'name': '通过', 'description': '操作人将请求应移至下一个状态'},
-            {'action_type': 'restart', 'role': '9can_edit',
+            {'action_type': 'restart', 'role': 'can_edit',
              'name': '提交审核', 'description': '操作人将将请求移回到进程中的“开始”状态'},
 
         ]

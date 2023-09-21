@@ -60,7 +60,7 @@ class TestMtransition():
                 self.state_dic[state_data['state_type']] = state_uid
 
             # 创建动作TabAction
-            action_datas = {'action_type': 'deny', 'role': 'ucan_verify',
+            action_datas = {'action_type': 'deny', 'role': 'can_verify',
                             'name': '拒绝', 'description': '操作人将请求应移至上一个状态'},
 
             act_uid = self.maction.create(self.process_id, action_datas)

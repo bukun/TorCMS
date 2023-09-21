@@ -46,14 +46,14 @@ class TestMAction():
         '''
 
         action_datas = [
-            {'action_type': 'deny', 'role': 'ucan_verify',
+            {'action_type': 'deny', 'role': 'can_verify',
              'name': '拒绝', 'description': '操作人将请求应移至上一个状态'},
-            {'action_type': 'cancel', 'role': 'ucan_verify',
+            {'action_type': 'cancel', 'role': 'can_verify',
              'name': '撤消', 'description': '操作人将请求应在此过程中移至“已取消”状态'},
 
-            {'action_type': 'approve', 'role': 'ucan_verify',
+            {'action_type': 'approve', 'role': 'can_verify',
              'name': '通过', 'description': '操作人将请求应移至下一个状态'},
-            {'action_type': 'restart', 'role': '9can_edit',
+            {'action_type': 'restart', 'role': 'can_edit',
              'name': '提交审核', 'description': '操作人将将请求移回到进程中的“开始”状态'},
 
         ]
@@ -187,14 +187,14 @@ class TestMAction():
 
         act_id = self.maction.get_by_action_type('deny' + self.process_id)
         rec_name = self.mper_action.query_per_by_action(act_id)
-        per_rec = self.mpermission.get_by_uid('ucan_verify')
+        per_rec = self.mpermission.get_by_uid('can_verify')
         assert rec_name == per_rec.name
 
-        recs = self.mper_action.query_by_permission('ucan_verify')
+        recs = self.mper_action.query_by_permission('can_verify')
         assert recs == ['拒绝', '撤消', '通过']
 
         self.mper_action.remove_relation(act_id, per_rec.uid)
-        recs = self.mper_action.query_by_permission('ucan_verify')
+        recs = self.mper_action.query_by_permission('can_verify')
         assert recs == ['撤消', '通过']
 
 
