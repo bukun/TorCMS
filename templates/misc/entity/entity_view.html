@@ -5,7 +5,7 @@
     <ul class="breadcrumb">
         <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
         <li class="active">{{ _('Show Picture') }}</li>
-        {% if userinfo %}
+       {% if userinfo and ((userinfo.user_name=='admin') or  (userinfo.extinfo.get('_per_assign_role', 0) == 1) ) %}
         <li>
             <a href="/entity/" class="btn btn-primary btn-xs">{{ _('View Entity List') }}</a>
         </li>
