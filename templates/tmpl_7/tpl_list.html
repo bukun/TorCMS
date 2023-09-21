@@ -120,7 +120,7 @@
 
             {% end %}
 
-            {% if userinfo and  kwd.get('can_add',False) %}
+            {% if userinfo and (userinfo.user_name=='admin' or  kwd.get('can_add',False)) %}
 
             <li>
                 <a href="/publish/{{ widget_info['parentid'] }}" class="btn btn-primary btn-sm" title="{{ _('Publish') }} {{ widget_info['catname'] }} {{ _('data') }}">
