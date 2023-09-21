@@ -169,6 +169,7 @@ class PageHandler(BaseHandler):
         }
         MWiki.view_count_plus(rec.uid)
         if self.userinfo:
+            kwd['assign_role'] = MStaff2Role.check_permissions(self.userinfo.uid, 'assign_role')
             kwd['can_review'] = MStaff2Role.check_permissions(self.userinfo.uid, 'can_review')
         self.render(
             'wiki_page/page_view.html',

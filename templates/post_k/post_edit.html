@@ -127,8 +127,7 @@
                     <label class="col-sm-2 control-label" for="memo">{{ _('Memo') }}</label>
 
                     <div class="col-sm-10">
-                        <textarea class="form-control" rows=10 id="memo" name="memo"
-                                  {% if userinfo and userinfo.extinfo.get("_per_assign_role", 0) == 1 %} readonly {% end %} >
+                        <textarea class="form-control" rows=10 id="memo" name="memo">
                         {% raw unescape(postinfo.memo) %}
                         </textarea>
                     </div>

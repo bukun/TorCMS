@@ -9,15 +9,13 @@
 <div class="panel panel-black">
     <div class="panel-heading"><b> {{ postinfo.title }} </b></div>
     <div class="panel-body"><p>
-        <!--{{ datetime.datetime.fromtimestamp(postinfo.time_update).strftime('%Y-%m-%d') }}-->
-        <!--<span class="split">|</span>-->
-        <!--{{ _('author') }} : {{ _('admin') }}-->
-        {% if userinfo and kwd.get('can_review',False) %}
-        <!--<span class="split">|</span>-->
+
+        {% if userinfo and kwd.get('assign_role',False) %}
 
         <a href="/page/_edit/{{ postinfo.uid }}" class="btn btn-warning btn-xs">{{ _('Edit') }}</a>
-
-        <span class="cmts"><a href="/page_man/view/{{ postinfo.uid  }}"
+        {% end %}
+        {% if userinfo and kwd.get('can_review',False) %}
+        <span class="cmts"><a href="/page_man/view/{{ postinfo.uid }}"
                               class="btn btn-xs btn-danger"> {{ _('Review') }}</a></span>
         {% end %}
     </p>
