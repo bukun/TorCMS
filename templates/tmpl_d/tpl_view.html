@@ -99,11 +99,10 @@
                             </div>
                             <div class="col-sm-6">
 {% if userinfo %}
-                                {% module post_state(postinfo = postinfo,userinfo = userinfo,kind = postinfo.kind) %}
-                                 <br>
+
 
                 {% module collect(userinfo.uid, postinfo.uid,en=True) %}
-                                                           <br>
+
 
                 {% end %}
             {% module widget_editor(kwd['router'], postinfo.uid, userinfo,kind = postinfo.kind) %}
@@ -147,13 +146,11 @@
 
                         {% else %}
                         <div class="col-sm-12 bor_bottom">
-                                  {% module post_state(postinfo = postinfo,userinfo = userinfo,kind = postinfo.kind) %}
-                             <br>
+
 
                              {% if userinfo %}
                 {% module collect(userinfo.uid, postinfo.uid,en=True) %}
-                             <br>
-                            <br>
+
                 {% end %}
             {% module widget_editor(kwd['router'] , postinfo.uid, userinfo,kind = postinfo.kind) %}
 

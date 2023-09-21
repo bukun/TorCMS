@@ -26,7 +26,6 @@
     </div>
     <div class="panel-body">
 
-        {% module post_state(postinfo = postinfo,userinfo = userinfo,kind = postinfo.kind)%}
         <div class="entry">
             <div class="bor_bottom">
                 <b>{{ _('Category') }} :</b> <span class="post_cat">{% module post_catalogs(postinfo.uid,'1') %}</span>

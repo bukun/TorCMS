@@ -43,8 +43,7 @@
                                 {% end %}
 
                                 {% module widget_editor(kwd['router'], postinfo.uid, userinfo,url='filter',kind = postinfo.kind) %}
-                     <br> <br>
-                                {% module post_state(postinfo = postinfo,userinfo = userinfo,kind = postinfo.kind) %}
+
 
                             <br>
 
@@ -83,16 +82,14 @@
                     {% else %}
                     <div class="col-sm-12 bor_bottom">
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 {% if userinfo %}
                                 {% module collect(userinfo.uid, postinfo.uid, en=True) %}
                                 {% end %}
 
                                 {% module widget_editor(kwd['router'], postinfo.uid, userinfo,kind = postinfo.kind,url='filter') %}
                             </div>
-                            <div class="col-sm-6">
-                                {% module post_state(postinfo = postinfo,userinfo = userinfo,kind = postinfo.kind) %}
-                            </div>
+
                         </div>
 
 
