@@ -126,7 +126,7 @@
                             <span id="reply_count_{{ reply.uid }}">{% module reply_count(reply.uid) %}</span> comments
                             </a>
                             </span>
-                         {% if userinfo and ( userinfo.uid == reply.user_id or userinfo.role[2] > '1') %}
+                         {% if userinfo and ( (userinfo.uid == reply.user_id) or (userinfo.extinfo.get("_per_assign_role", 0) == 1)) %}
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <button class="btn btn-xs btn-danger"
                                 onclick="reply_del('{{ reply.uid }}');">

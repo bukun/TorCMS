@@ -159,7 +159,7 @@ def __write_view_tmpl(tag_key, tag_list):
 
         # The admin information should be hidden for user.
         if sig.startswith('_'):
-            tmpl = '''{% if userinfo and userinfo.role[1] > '1' %}''' + tmpl + '''{% end %}'''
+            tmpl = '''{% if userinfo and userinfo.extinfo.get("_per_assign_role", 0) == 1 %}''' + tmpl + '''{% end %}'''
         view_widget_arr.append(tmpl)
 
     for crud_dic in SWITCH_DICS_Meta:

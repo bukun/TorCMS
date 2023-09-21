@@ -53,7 +53,7 @@
                                         class="glyphicon glyphicon-pencil"></span>&nbsp;{{ _('Modify') }}
                                 </button>
                                 {% end %}
-                                {% if userinfo and ( userinfo.uid == reply.user_id or userinfo.role[2] > '1') %}
+                                {% if userinfo and ( (userinfo.uid == reply.user_id) or (userinfo.extinfo.get("_per_assign_role", 0) == 1)) %}
                                 <button class="btn btn-xs btn-danger"
                                         onclick="reply_del('{{ reply.uid }}');">
                                     <span class=" glyphicon glyphicon-trash"></span>

@@ -198,7 +198,7 @@ def gen_select_view(sig_dic):
         option_str += tmp_str
 
     # return '''
-    # {{% if userinfo and userinfo.role[1] > '0' %}}
+    # {{% if userinfo and userinfo.extinfo.get("_per_assign_role", 0) == 1 %}}
     # {{% if postinfo.extinfo.get('{sig_en}','') != ''%}}
     # <div class="row">
     # <div class="col-sm-4"><span class="des"><strong>{{{{_('{sig_zh}')}}}}</strong></span></div>

@@ -3,6 +3,6 @@
 {% else %}
 {% raw str(unescape(postinfo.cnt_html)) %}
 {% end %}
-{% if userinfo and userinfo.role[1] > '2' %}
+{% if userinfo and userinfo.extinfo.get("_per_assign_role", 0) == 1 %}
 <div><a href="/page/_edit/{{kwd['uid']}}">{{ _('Edit') }}</a></div>
 {% end %}

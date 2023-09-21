@@ -10,8 +10,7 @@
 <div class="row">
 
     <div class="col-sm-8">
-        <div class="panel panel-black">
-
+        <div class="panel panel-black"> 
 
             <div class="panel-heading"><b> {{ _('User Info') }} </b></div>
             <div class="panel-body">
@@ -93,9 +92,7 @@
                     <a href="/publish/3" class="btn btn-xs btn-success">
                         <span class="glyphicon glyphicon-list-alt"></span>
                         {{ _('Publish Info') }}</a></li>
-                {% end %}
 
-                {% if userinfo and  kwd.get('assign_group',False) %}
                 <li class="list-group-item">
 
 
@@ -104,24 +101,18 @@
                         {{ _('Entity Download List') }}
                     </a>
                 </li>
+{% end %}
 
+                {% if userinfo and  kwd.get('assign_role',False) %}
                 <li class="list-group-item">
                     <a href="/user/find/" class="btn btn-xs btn-primary">
                         <span class="glyphicon glyphicon-user"></span>
                         {{ _('Show All User') }}
                     </a>
 
-                    <a href="/admin/" class="btn btn-xs btn-primary">
-                        <span class="glyphicon glyphicon-asterisk"></span>
-                        {{ _('Admin') }}
-                    </a>
+
                 </li>
 
-
-                <li class="list-group-item">
-                     <b>{{ _('Audit information list') }}</b><br><br>
-                    {% module publish_list_menu('pend_review') %}
-                 </li>
                 {% end %}
             </ul>
         </div>

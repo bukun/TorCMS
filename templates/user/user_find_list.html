@@ -25,13 +25,8 @@
           {% for x in view %}
         <div class="row bor">
             <div class="col-sm-2"><b>{{ _('User Name') }}：</b></div>
-            <div class="col-sm-2">{{x.user_name}}</div>
-            <div class="col-sm-2"><b>{{ _('Current permissions') }}：</b></div>
-            <div class="col-sm-2">{{ x.role }}</div>
-            <div class="col-sm-1">
-                <a class="btn btn-primary" href="/user/changerole/{{x.user_name}}">{{ _('Modify') }}</a>
-            </div>
-            <div class="col-sm-1">
+            <div class="col-sm-6">{{x.user_name}}</div>
+            <div class="col-sm-4">
                 <a class="btn btn-primary" href="/user/delete_user/{{x.uid}}">{{ _('Delete user') }}</a>
             </div>
         </div>

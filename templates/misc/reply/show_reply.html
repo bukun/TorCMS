@@ -1,91 +1,96 @@
 <div id="del_zan_0">
-<div class="row">
-    <div class="col-sm-12">
+    <div class="row">
+        <div class="col-sm-12">
 
 
-        <div class="reply_title">
-            <div style="width: 30px;height: 30px" class="pull-left">{% module user_profile_by_id(reply.user_id) %}</div>&nbsp;&nbsp;
-            <strong>{{ username }}</strong>
+            <div class="reply_title">
+                <div style="width: 30px;height: 30px"
+                     class="pull-left">{% module user_profile_by_id(reply.user_id) %}</div>&nbsp;&nbsp;
+                <strong>{{ username }}</strong>
 
-            <span class="pull-right"><span class="glyphicon glyphicon-time"></span>
-                {{ str(date).split('.')[0] }}</span>
-        </div>
-        <div class="reply_cnt">
-            <div class="listinfo_content">
-                {% raw unescape(reply.cnt_html) %}
+                <span class="pull-right"><span class="glyphicon glyphicon-time"></span>
+                    {{ str(date).split('.')[0] }}</span>
             </div>
+            <div class="reply_cnt">
+                <div class="listinfo_content">
+                    {% raw unescape(reply.cnt_html) %}
+                </div>
 
 
-            <div>&nbsp;
-                {% if (userinfo is None) or ( (userinfo) and ( userinfo.uid == reply.user_id )) %}
-                <span class="glyphicon glyphicon-thumbs-up"></span>
-                {% else %}
-                <span class="glyphicon glyphicon-thumbs-up" id="zan_text"
-                      onclick="reply_zan('{{ reply.uid }}');" style="cursor: pointer"></span>
-                {% end %}
-                <span style="color: #f00" id="text_zan_{{ reply.uid }}">{{ reply.vote }}</span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div>&nbsp;
+                    {% if (userinfo is None) or ( (userinfo) and ( userinfo.uid == reply.user_id )) %}
+                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                    {% else %}
+                    <span class="glyphicon glyphicon-thumbs-up" id="zan_text"
+                          onclick="reply_zan('{{ reply.uid }}');" style="cursor: pointer"></span>
+                    {% end %}
+                    <span style="color: #f00" id="text_zan_{{ reply.uid }}">{{ reply.vote }}</span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-                {% if isreply == '' %}
-                <span>
+                    {% if isreply == '' %}
+                    <span>
                                 <span class="glyphicon glyphicon-comment"></span>
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ reply.uid }}">
                             <span id="reply_count_{{ reply.uid }}">{% module reply_count(reply.uid) %}</span> comments
                             </a>
                             </span>
-                <div id="collapse{{ reply.uid }}" class="panel-collapse collapse">
+                    <div id="collapse{{ reply.uid }}" class="panel-collapse collapse">
 
-                    <div id="reply_demo{{ reply.uid }}">
-                        <form method="post" class="form-horizontal" id="comment_form">
-                            <div class="form-group">
+                        <div id="reply_demo{{ reply.uid }}">
+                            <form method="post" class="form-horizontal" id="comment_form">
+                                <div class="form-group">
 
-                                <div class="col-sm-10">
-                                    {% if userinfo %}
-                                    <textarea rows="1" name="cnt_comment{{ reply.uid }}" id="cnt_comment{{ reply.uid }}"
-                                              class="form-control"></textarea>
-                                    {% else %}
-                                    <textarea rows="1" name="cnt_comment{{ reply.uid }}" id="cnt_comment{{ reply.uid }}"
-                                              class="form-control" readonly></textarea>
-                                    {% end %}
+                                    <div class="col-sm-10">
+                                        {% if userinfo %}
+                                        <textarea rows="1" name="cnt_comment{{ reply.uid }}"
+                                                  id="cnt_comment{{ reply.uid }}"
+                                                  class="form-control"></textarea>
+                                        {% else %}
+                                        <textarea rows="1" name="cnt_comment{{ reply.uid }}"
+                                                  id="cnt_comment{{ reply.uid }}"
+                                                  class="form-control" readonly></textarea>
+                                        {% end %}
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <a id="btn_submit_comment{{ reply.uid }}" style="color:#fff"
+                                           onclick="comment_it('{{ uid }}','{{ reply.uid }}','cnt_comment{{ reply.uid }}','btn_submit_comment{{ reply.uid }}');"
+                                           class="btn btn-primary btn-xs" data-toggle="collapse"
+                                           data-target="#reply_demo{{ reply.uid }}">
+                                            {{ _('Submit') }}
+                                        </a>
+                                    </div>
+
                                 </div>
+                            </form>
+                        </div>
 
-                                <div class="col-sm-2">
-                                    <a id="btn_submit_comment{{ reply.uid }}" style="color:#fff"
-                                       onclick="comment_it('{{ uid }}','{{ reply.uid }}','cnt_comment{{ reply.uid }}','btn_submit_comment{{ reply.uid }}');"
-                                       class="btn btn-primary btn-xs" data-toggle="collapse"
-                                       data-target="#reply_demo{{ reply.uid }}">
-                                        {{ _('Submit') }}
-                                    </a>
-                                </div>
-
+                        <div class="panel panel-black">
+                            <div class="panel-heading"
+                                 style="background: #fff;color: #333;border-bottom: 1px solid #333">
+                                <span id="reply_count1_{{ reply.uid }}">{% module reply_count(reply.uid) %}</span>
+                                comments
                             </div>
-                        </form>
-                    </div>
-
-                    <div class="panel panel-black">
-                        <div class="panel-heading" style="background: #fff;color: #333;border-bottom: 1px solid #333">
-                            <span id="reply_count1_{{ reply.uid }}">{% module reply_count(reply.uid) %}</span> comments
-                        </div>
-                        <div class="panel-body">
-                            <div class="row" id="reply_comment{{ reply.uid }}"></div>
-                            {% module comment_list(replyid = reply.uid,userinfo=userinfo) %}
+                            <div class="panel-body">
+                                <div class="row" id="reply_comment{{ reply.uid }}"></div>
+                                {% module comment_list(replyid = reply.uid,userinfo=userinfo) %}
+                            </div>
                         </div>
                     </div>
+                    {% end %}
+                    {% if userinfo and ( (userinfo.uid == reply.user_id) or  (userinfo.extinfo.get("_per_assign_role", 0) == 1 )) %}
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button class="btn btn-xs btn-danger"
+                            onclick="reply_del('{{ reply.uid }}');">
+                        <span class=" glyphicon glyphicon-trash"></span>
+                        {{ _('Delete') }}
+                    </button>
+                    {% end %}
                 </div>
-                {% end %}
-                {% if userinfo and ( userinfo.uid == reply.user_id or userinfo.role[2] > '1') %}
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <button class="btn btn-xs btn-danger"
-                        onclick="reply_del('{{ reply.uid }}');">
-                    <span class=" glyphicon glyphicon-trash"></span>
-                    {{ _('Delete') }}
-                </button>
-                {% end %}
             </div>
-        </div>
 
+        </div>
     </div>
-</div>
 </div>
 
 
