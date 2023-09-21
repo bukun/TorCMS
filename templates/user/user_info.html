@@ -47,6 +47,7 @@
                         <td></td>
                     </tr>
 
+
                 </table>
 
                 <a href="/user/changepass" class="btn btn-xs btn-primary">
@@ -85,7 +86,7 @@
                     <span class="glyphicon glyphicon-save"></span>
                     {{ _('My comments') }}</a>
                      </li>
-                {% if userinfo and kwd.get('can_add',False) %}
+                {% if userinfo and (userinfo.user_name=='admin' or kwd.get('can_add',False)) %}
                 <li class="list-group-item"><a href="/post/_add" class="btn btn-xs btn-success">
                     <span class="glyphicon glyphicon-list-alt"></span>
                     {{ _('Add Document') }}</a>
