@@ -92,7 +92,9 @@
                     <a href="/publish/3" class="btn btn-xs btn-success">
                         <span class="glyphicon glyphicon-list-alt"></span>
                         {{ _('Publish Info') }}</a></li>
+{% end %}
 
+                {% if userinfo and (userinfo.user_name=='admin' or kwd.get('assign_role',False)) %}
                 <li class="list-group-item">
 
 

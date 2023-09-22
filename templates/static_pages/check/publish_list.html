@@ -8,20 +8,22 @@
     {% end %} </title>
 
 {% end %}
+
 {% block typebody %}
+<style>
+    .panel-body a{
+        display:block;margin:5px;padding:5px;background: #fff;border: 1px solid #ddd; color: #333;
+    }
+</style>
 <div class="row">
     <ul class="breadcrumb">
         <li><a href="/" title="home">{{ _('Home') }}</a></li>
         <li><a href="/check/publish">{{ _('List of published information') }}</a></li>
         <li><a href="/check/publish?kind={{ kwd['kind'] }}">{% raw kwd['post_type'] %}</a></li>
         <li class="active">
-            {% if state %}
-            {% if state[0]=='1' %} {{ _('Pending review list') }}{% elif state[0]=='0' %}
-            {{ _('Information review list') }}{% elif state[0]=='3' %}
-            {{ _('Review failed list') }}{% else %}{{ _('Approved list') }}{% end %}
-            {% else %}
+
             {{ _('List of published information') }}
-            {% end %}
+
         </li>
     </ul>
     <div class="col-sm-8">
@@ -30,39 +32,23 @@
         <div class="panel panel-black">
             <div class="panel-heading">
                 <h3 class="panel-title">
-                    {{ kwd['post_type'] }} - {% if state %}
-                    {% if state[0]=='1' %}
-                    {{ _('Pending review list') }}{% elif state[0]=='0' %}{{ _('Information review list') }}
-                    {% elif state[0]=='3' %}{{ _('Review failed list') }}{% else %} {{ _('Approved list') }}{% end %}
-                    {% else %}
+                    {{ kwd['post_type'] }} -
+
                     {{ _('List of published information') }}
-                    {% end %}
+
                 </h3></div>
             <table class="table table-bordered table-condensed table-striped">
                 <tr>
 
                     <th>ID</th>
                     <th>{{ _('Title') }}</th>
-                    <th>{{ _('State') }}</th>
                 </tr>
                 {% for rec in recs %}
                 <tr>
 
                     <td>{{ rec.uid }}</td>
                     <td><a href="/{{ kwd['router'] }}/{{ rec.uid }}">{{ rec.title }}</a></td>
-                    <td>
 
-                        {% if  rec.state[1] == '0' %}
-                        {{ _('Editing') }}
-                        {% elif rec.state[1] == '1' %}
-                        {{ _('Pending review') }}
-                        {% elif rec.state[1] == '2' %}
-                        {{ _('Review passed') }}
-                        {% else %}
-                        {{ _('Review failed') }}
-                        {% end %}
-
-                    </td>
                 </tr>
                 {% end %}
             </table>
@@ -86,17 +72,11 @@
                 <h3 class="panel-title">
                     {{ _('List of published information') }}
                 </h3></div>
-            <ul class="list-group">
-                <li class="list-group-item"><a
-                        href="/check/publish?state=000&kind={{ kwd['kind'] }}">{{ _('Information review list') }}</a>
-                </li>
-                <li class="list-group-item"><a
-                        href="/check/publish?state=100&kind={{ kwd['kind'] }}">{{ _('Pending review list') }}</a></li>
-                <li class="list-group-item"><a
-                        href="/check/publish?state=200&kind={{ kwd['kind'] }}">{{ _('Approved list') }}</a></li>
-                <li class="list-group-item"><a
-                        href="/check/publish?state=300&kind={{ kwd['kind'] }}">{{ _('Review failed list') }}</a></li>
-            </ul>
+            <div class="panel-body">
+
+              {% module publish_list_menu('publish') %}
+
+            </div>
         </div>
     </div>
 </div>
