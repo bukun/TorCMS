@@ -245,7 +245,6 @@ class MetadataHandler(PostHandler):
 
     @tornado.web.authenticated
     @privilege.permission(action='can_add')
-    # @tornado.web.asynchronous
     @tornado.gen.coroutine
     def add(self, **kwargs):
         '''

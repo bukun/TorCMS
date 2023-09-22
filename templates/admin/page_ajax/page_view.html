@@ -9,16 +9,16 @@
 <div class="pure-g">
     <div class="pure-u-1">
         <h2> {{ view.title }} </h2>
-        {{ str(view.slug.date)[:-7]}}
+        {{ str(view.slug.date)[:-7] }}
         <span class="split">|</span>
         {{ _('Editor') }} : {{ _('admin') }}
         <span class="split">|</span>
         {{ _('View counts') }} :
         <em id="_viewnum">{{ view.slug.view_count }}</em>
-
+        {% if userinfo and userinfo.extinfo.get('_per_assign_role',0)==1 %}
         <span class="split">|</span>
         <a href="/page/modify/{{ view.slug.slug }}">{{ _('modify') }}</a>
-
+        {% end %}
     </div>
 </div>
 <Br>
