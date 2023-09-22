@@ -88,7 +88,7 @@
         <p>编辑于{{ str(reply.reply_id.date).split('.')[0] }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;共
             <span id="text_zan_{{ ii }}">{{ reply.reply_id.vote }}</span>
             个人赞同 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            {% if (userinfo is None) or ( (userinfo is not None ) and ( userinfo.uid != reply.reply_id )) %}
+            {% if userinfo is not None and ( (userinfo.uid == reply.reply_id.uid) or (userinfo.extinfo.get('_per_assign_role',0)==1)) %}
             <a class="pure-button pure-button-primary"
                style="padding:3px 8px; margin-right: 5px"
                onclick="reply_zan('post','{{ reply.reply_id.uid }}', {{ ii }} );">
