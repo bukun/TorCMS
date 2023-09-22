@@ -32,7 +32,7 @@
     <span style="color: #f00" id="text_zan_{{ ii }}">{{ reply.vote }}</span>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-        {% if userinfo is not None and ( (userinfo.uid == reply.reply_id.uid) or (userinfo.extinfo.get("_per_assign_role", 0) == 1)) %}
+        {% if userinfo is not None and ( (userinfo.uid == reply.reply_id.uid) or (userinfo.extinfo.get('_per_assign_role', 0) == 1)) %}
         <a class="btn btn-primary" style="padding:3px 8px;"
            onclick="reply_del('post', '{{ reply.reply_id.uid }}', {{ ii }} );">
             {{ _('Delete') }}
