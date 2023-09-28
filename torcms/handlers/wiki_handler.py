@@ -194,7 +194,7 @@ class WikiHandler(BaseHandler):
         if title == '':
             pass
         else:
-            post_data['title'] = title
+            post_data['title'] = tornado.escape.url_escape(title)
 
         post_data['user_name'] = self.userinfo.user_name
 
@@ -203,11 +203,12 @@ class WikiHandler(BaseHandler):
             self.render('misc/html/404.html', userinfo=self.userinfo, kwd=kwd)
 
         if MWiki.get_by_wiki(post_data['title']):
-            pass
+            self.redirect('/wiki/{0}'.format(post_data['title']))
         else:
             MWiki.create_wiki(post_data)
 
-        tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
-        # cele_gen_whoosh.delay()
+            tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
+            # cele_gen_whoosh.delay()
 
-        self.redirect('/wiki/{0}'.format(tornado.escape.url_escape(post_data['title'])))
+
+            self.redirect('/wiki/{0}'.format(post_data['title']))

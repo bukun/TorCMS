@@ -95,11 +95,12 @@ class MWiki:
         if the_wiki:
             logger.info(' ' * 4 + 'The title already exists.')
             MWiki.update(the_wiki.uid, post_data)
-            return
 
-        uid = '_' + tools.get_uu8d()
+        else:
 
-        return MWiki.__create_rec(uid, '1', post_data=post_data)
+            uid = '_' + tools.get_uu8d()
+
+            return MWiki.__create_rec(uid, '1', post_data=post_data)
 
     @staticmethod
     def create_page(slug, post_data):
