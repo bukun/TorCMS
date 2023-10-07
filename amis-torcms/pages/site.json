@@ -54,23 +54,6 @@
             ]
           }
         ]
-      },
-      {
-        "label": "参考信息",
-        "children": [
-          {
-            "label": "AMIS文档",
-            "link": "https://aisuda.bce.baidu.com/amis/zh-CN/docs/index"
-          },
-          {
-            "label": "jsonp 返回示例",
-            "schemaApi": "jsonp:/pages/jsonp.js?callback=jsonpCallback"
-          },
-          {
-            "label": "yaml",
-            "schemaApi": "get:/yaml/time.yaml"
-          }
-        ]
       }
     ]
   }
