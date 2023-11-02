@@ -51,7 +51,7 @@
         <script type="text/javascript">
             var page = '{{pager_num}}';
             $("#btn5").click(function changePage() {
-                curPage = document.getElementById("changePage").value * 1;
+                var curPage = document.getElementById("changePage").value * 1;
                 if (!/^[1-9]\d*$/.test(curPage)) {
                     $("#fyts").text("Please enter a positive integer");
                     return;

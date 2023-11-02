@@ -107,7 +107,7 @@
     var state = '{{str(state)[0:]}}';
     var kind = '{{kwd['kind']}}';
     $("#btn5").click(function changePage() {
-        curPage = document.getElementById("changePage").value * 1;
+        var curPage = document.getElementById("changePage").value * 1;
         if (!/^[1-9]\d*$/.test(curPage)) {
             $("#fyts").val("Please enter a positive integer");
             return;
