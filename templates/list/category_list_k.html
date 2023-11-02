@@ -39,7 +39,9 @@
         <ol class="breadcrumb">
     <li><a href="/">{{ _('Home') }}</a></li>
     <li><a href="/{{ router }}/">{{ _(router) }}</a></li>
+            {% if catinfo.pid!='0000' %}
     <li>{% module category_name(catinfo.pid) %}</li>
+            {% end %}
     <li class="active">{{ _(kwd['cat_name']) }}</li>
 
 </ol>
