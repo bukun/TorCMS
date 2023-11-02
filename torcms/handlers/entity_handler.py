@@ -140,7 +140,9 @@ class EntityHandler(BaseHandler):
 
             ment_id = MEntity.get_id_by_impath(down_url)
 
-            userip = self.get_location()
+            # userip = self.get_location()
+            userip = self.get_ip()
+
 
             if ment_id:
                 MEntity2User.create_entity2user(ment_id, self.userinfo.uid, userip)
