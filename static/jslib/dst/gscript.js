@@ -172,7 +172,8 @@ function del_layout(layout_id) {
             return alert("Delete failed!")
         },
         success: function (result) {
-            return alert("Delete successfully! Please refresh the page manually!")
+            $("#map_layout_show").load(location.href+" #map_layout_show>*","");
+            return alert("Delete successfully!")
         }
     })
 }
@@ -296,6 +297,7 @@ $("#sub_reset").click(function () {
                     return $("#current_view_url").text("Please save the view after login, or check to see if you've started browsing the map."), $("#current_view_url").css("color", "red")
                 },
                 success: function (result) {
+                    $("#map_layout_show").load(location.href+" #map_layout_show>*","");
                     return $("#current_view_url").text("The view has been saved successfully.")
                 }
             })
@@ -310,7 +312,7 @@ $("#sub_reset").click(function () {
             layers: mp_uid,
             format: "image/png",
             transparent: !0,
-            attribution: 'Map &copy; <a href="https://www.gislite.com/map/' + map_uid + '">DRRKS</a>'
+            attribution: 'Map &copy; <a href="https://www.gislite.com/map/' + map_uid + '">GISLite</a>'
         });
         var osm = L.tileLayer.chinaProvider("TianDiTu.Normal.Annotion", {
                 maxZoom: 18,

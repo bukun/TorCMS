@@ -127,7 +127,7 @@
         </li>
     </ul>
     {% if userinfo %}
-    <ul class="list-group">
+      <ul class="list-group" id="map_layout_show">
         <li class="list-group-item"><h4 class="list-group-item-heading">{{ _('User view link') }}</h4></li>
 
         {% module app_layout(postinfo.uid, userinfo.uid) %}
