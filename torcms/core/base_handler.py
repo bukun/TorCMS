@@ -177,13 +177,15 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def get_location(self):
         ip_address = self.get_ip()
-        response = requests.get(f'https://ipapi.co/{ip_address}/json/').json()
+
+        response = requests.get(f'https://www.ip.cn/api/index?ip&type=0').json()
+
         location_data = {
             "ip": ip_address,
-            "city": response.get("city"),
-            "region": response.get("region"),
-            "country": response.get("country_name"),
+            "address": response.get("address"),
+
         }
+
         return location_data
 
     def show404(self, kwd=None):

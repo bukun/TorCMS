@@ -143,11 +143,10 @@ class EntityHandler(BaseHandler):
             # userip = self.get_location()
             userip = self.get_ip()
 
-
             if ment_id:
                 MEntity2User.create_entity2user(ment_id, self.userinfo.uid, userip)
             else:
-                MEntity.create_entity(uid='', path=down_url, desc='', kind=kind)
+                MEntity.create_entity(path=down_url, kind=kind)
                 ment_id = MEntity.get_id_by_impath(down_url)
                 if ment_id:
                     MEntity2User.create_entity2user(ment_id, self.userinfo.uid, userip)
@@ -156,6 +155,7 @@ class EntityHandler(BaseHandler):
 
         else:
             output = {'down_code': 0}
+
         return json.dump(output, self)
 
     @privilege.permission(action='can_add')
