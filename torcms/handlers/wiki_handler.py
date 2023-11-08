@@ -192,7 +192,7 @@ class WikiHandler(BaseHandler):
         if title == '':
             pass
         else:
-            post_data['title'] = title
+            post_data['title'] = title.strip()
 
         post_data['user_name'] = self.userinfo.user_name
 
