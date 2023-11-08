@@ -139,7 +139,6 @@ class WikiHandler(BaseHandler):
     def to_edit(self, id_rec):
         wiki_rec = MWiki.get_by_uid(id_rec)
 
-
         kwd = {
             'pager': '',
         }
@@ -149,7 +148,6 @@ class WikiHandler(BaseHandler):
             postinfo=wiki_rec,
             userinfo=self.userinfo,
         )
-
 
     def view(self, view):
         '''
@@ -194,7 +192,7 @@ class WikiHandler(BaseHandler):
         if title == '':
             pass
         else:
-            post_data['title'] = tornado.escape.url_escape(title)
+            post_data['title'] = title
 
         post_data['user_name'] = self.userinfo.user_name
 
@@ -209,6 +207,5 @@ class WikiHandler(BaseHandler):
 
             tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
             # cele_gen_whoosh.delay()
-
 
             self.redirect('/wiki/{0}'.format(post_data['title']))
