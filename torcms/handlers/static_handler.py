@@ -17,12 +17,11 @@ class StaticHandler(BaseHandler):
         super().initialize()
 
     def get(self, *args, **kwargs):
-        kwd = {}
-        if len(args) > 2:
-            kwd['info'] = '404! Page not found.'
-            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
-        else:
-            url_str = args[0]
+
+        url_str = args[0]
+        if '../' in url_str:
+            self.show404()
+        elif url_str.endswith('.html'):
             kwd = {
                 'pager': '',
             }
@@ -35,3 +34,5 @@ class StaticHandler(BaseHandler):
             else:
                 kwd['info'] = '404! Page not found.'
                 self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
+        else:
+            self.show404()
