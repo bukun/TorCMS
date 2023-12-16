@@ -432,10 +432,10 @@ class PostHandler(BaseHandler):
 
         cache_file = Path(
             self.application.settings.get('template_path')
-        ) / f'xx_{self.kind}_{postinfo.uid}_{int(time.time() / 10000)}.html'
+        ) / 'caches' / f'xx_{self.kind}_{postinfo.uid}_{int(time.time() / 10000)}.html'
 
         if cache_file.exists():
-            self.render(cache_file.name)
+            self.render(f'caches/{cache_file.name}')
             return
 
         __ext_catid = postinfo.extinfo.get('def_cat_uid', '')
@@ -500,7 +500,7 @@ class PostHandler(BaseHandler):
         with open(cache_file, 'wb') as fo:
             fo.write(result)
 
-        self.render(cache_file.name)
+        self.render(f'caches/{cache_file.name}')
 
         # self.render(
         #     tmpl,

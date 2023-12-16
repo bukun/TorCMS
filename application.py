@@ -32,4 +32,10 @@ SETTINGS = {
     "ui_methods": uifuncs,
 }
 
+CACHES_PATH = os.path.join(os.path.dirname(__file__), "templates", 'caches')
+if os.path.exists(CACHES_PATH):
+    pass
+else:
+    os.mkdir(CACHES_PATH)
+
 APP = tornado.web.Application(handlers=APP_URLS, **SETTINGS)
