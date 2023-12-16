@@ -6,6 +6,13 @@ The basic HTML Page handler.
 import json
 import random
 import time
+from pathlib import Path
+import os
+# from tornado.template import Loader
+
+# loader = Loader(
+#     os.path.join(os.path.dirname(__file__), '../..', "templates"),
+# )
 
 from concurrent.futures import ThreadPoolExecutor
 
@@ -418,11 +425,18 @@ class PostHandler(BaseHandler):
         if last_post_id and MPost.get_by_uid(last_post_id):
             self._add_relation(last_post_id, post_id)
 
-
     def viewinfo(self, postinfo):
         '''
         查看 Post.
         '''
+
+        cache_file = Path(
+            self.application.settings.get('template_path')
+        ) / f'xx_{self.kind}_{postinfo.uid}_{int(time.time() / 10000)}.html'
+
+        if cache_file.exists():
+            self.render(cache_file.name)
+            return
 
         __ext_catid = postinfo.extinfo.get('def_cat_uid', '')
         cat_enum1 = MCategory.get_qian2(__ext_catid[:2]) if __ext_catid else []
@@ -462,7 +476,7 @@ class PostHandler(BaseHandler):
             recent_apps = []
         logger.info('The Info Template: {0}'.format(tmpl))
 
-        self.render(
+        result = self.render_string(
             tmpl,
             kwd=dict(kwd, **self.ext_view_kwd(postinfo)),
             postinfo=postinfo,
@@ -482,6 +496,32 @@ class PostHandler(BaseHandler):
             router=post_cfg[catinfo.kind]['router'],
             post_type=post_cfg[catinfo.kind].get('show', post_cfg[catinfo.kind].get('router')),
         )
+
+        with open(cache_file, 'wb') as fo:
+            fo.write(result)
+
+        self.render(cache_file.name)
+
+        # self.render(
+        #     tmpl,
+        #     kwd=dict(kwd, **self.ext_view_kwd(postinfo)),
+        #     postinfo=postinfo,
+        #     userinfo=self.userinfo,
+        #     catinfo=catinfo,
+        #     pcatinfo=p_catinfo,
+        #     relations=rel_recs,
+        #     rand_recs=rand_recs,
+        #     subcats=MCategory.query_sub_cat(p_catinfo.uid) if p_catinfo else '',
+        #     ad_switch=random.randint(1, 18),
+        #     tag_info=filter(
+        #         lambda x: not x.tag_name.startswith('_'),
+        #         MPost2Label.get_by_uid(postinfo.uid).objects(),
+        #     ),
+        #     recent_apps=recent_apps,
+        #     cat_enum=cat_enum1,
+        #     router=post_cfg[catinfo.kind]['router'],
+        #     post_type=post_cfg[catinfo.kind].get('show', post_cfg[catinfo.kind].get('router')),
+        # )
 
     def _the_view_kwd(self, postinfo):
         '''
@@ -794,4 +834,3 @@ class PostHandler(BaseHandler):
 
         update_category(post_uid, post_data)
         self.redirect('/{0}/{1}'.format(post_cfg[post_data['kcat']]['router'], post_uid))
-
