@@ -16,6 +16,7 @@ class YuansuanHandler(PostHandler):
 
     def initialize(self, **kwargs):
         super(YuansuanHandler, self).initialize()
+        self.cache = kwargs.get('cache', False)
         self.mcalcinfo = MCalcInfo()
         if 'kind' in kwargs:
             self.kind = kwargs['kind']

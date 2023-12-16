@@ -169,6 +169,7 @@ class PostHandler(BaseHandler):
     def initialize(self, **kwargs):
         super().initialize()
         self.kind = kwargs.get('kind', '1')
+        self.cache = kwargs.get('cache', False)
         self.filter_view = kwargs.get('filter_view', False)
         self.entity = EntityHandler
 
@@ -434,7 +435,7 @@ class PostHandler(BaseHandler):
             self.application.settings.get('template_path')
         ) / 'caches' / f'xx_{self.kind}_{postinfo.uid}_{int(time.time() / 10000)}.html'
 
-        if cache_file.exists():
+        if self.cache and cache_file.exists():
             self.render(f'caches/{cache_file.name}')
             return
 

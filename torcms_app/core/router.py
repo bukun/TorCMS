@@ -5,7 +5,7 @@ from torcms_app.handlers.javascript_handler import JavascriptHandler
 
 
 _urls = [
-    ('/app/(.*)', YuansuanHandler, dict(kind='s')),
+    ('/app/(.*)', YuansuanHandler, dict(kind='s', cache = False)),
     ('/calcinfo/(.*)', CalcInfo, dict()),
     ('/py/(.*)', JavascriptHandler, dict()),
 
