@@ -433,9 +433,12 @@ class PostHandler(BaseHandler):
 
         cache_file = Path(
             self.application.settings.get('template_path')
-        ) / 'caches' / f'xx_{self.kind}_{postinfo.uid}_{int(time.time() / 10000)}.html'
+        ) / 'caches' / f'xx_{self.kind}_{postinfo.uid}.html'
 
-        if self.cache and cache_file.exists():
+        mtime = cache_file.stat().st_mtime if cache_file.exists() else 0
+
+        if self.cache and (time.time() - mtime < 10000):
+            # Render with the cached file.
             self.render(f'caches/{cache_file.name}')
             return
 
