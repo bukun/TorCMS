@@ -437,7 +437,7 @@ class PostHandler(BaseHandler):
 
         mtime = cache_file.stat().st_mtime if cache_file.exists() else 0
 
-        if self.cache and (time.time() - mtime < 10000):
+        if self.cache and (time.time() - mtime < 1000):
             # Render with the cached file.
             self.render(f'caches/{cache_file.name}')
             return
