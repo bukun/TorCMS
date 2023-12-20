@@ -169,7 +169,7 @@ class PostHandler(BaseHandler):
     def initialize(self, **kwargs):
         super().initialize()
         self.kind = kwargs.get('kind', '1')
-        self.cache = kwargs.get('cache', False)
+        self.cache = kwargs.get('cache', True)
         self.filter_view = kwargs.get('filter_view', False)
         self.entity = EntityHandler
 
@@ -441,7 +441,6 @@ class PostHandler(BaseHandler):
             # Render with the cached file.
             self.render(f'caches/{cache_file.name}')
             return
-
 
         __ext_catid = postinfo.extinfo.get('def_cat_uid', '')
         cat_enum1 = MCategory.get_qian2(__ext_catid[:2]) if __ext_catid else []
