@@ -439,8 +439,9 @@ class PostHandler(BaseHandler):
 
         if self.cache and (time.time() - mtime < 1000):
             # Render with the cached file.
-            self.render(f'caches/{cache_file.name}')
-            return
+            if os.path.exists(cache_file):
+                self.render(f'caches/{cache_file.name}')
+                return
 
         __ext_catid = postinfo.extinfo.get('def_cat_uid', '')
         cat_enum1 = MCategory.get_qian2(__ext_catid[:2]) if __ext_catid else []
