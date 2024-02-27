@@ -431,20 +431,20 @@ class PostHandler(BaseHandler):
         查看 Post.
         '''
 
-        out_dir = os.path.join(self.application.settings.get('template_path'), 'caches')
-        if os.path.exists(out_dir):
-            pass
-        else:
-            os.mkdir(out_dir)
-
-        cache_file = Path(out_dir) / f'xx_{self.kind}_{postinfo.uid}.html'
-
-        mtime = cache_file.stat().st_mtime if cache_file.exists() else 0
-
-        if self.cache and (time.time() - mtime < 1000):
-            # Render with the cached file.
-            self.render(f'caches/{cache_file.name}')
-            return
+        # out_dir = os.path.join(self.application.settings.get('template_path'), 'caches')
+        # if os.path.exists(out_dir):
+        #     pass
+        # else:
+        #     os.mkdir(out_dir)
+        #
+        # cache_file = Path(out_dir) / f'xx_{self.kind}_{postinfo.uid}.html'
+        #
+        # mtime = cache_file.stat().st_mtime if cache_file.exists() else 0
+        #
+        # if self.cache and (time.time() - mtime < 1000):
+        #     # Render with the cached file.
+        #     self.render(f'caches/{cache_file.name}')
+        #     return
 
         __ext_catid = postinfo.extinfo.get('def_cat_uid', '')
         cat_enum1 = MCategory.get_qian2(__ext_catid[:2]) if __ext_catid else []
@@ -506,8 +506,8 @@ class PostHandler(BaseHandler):
                 post_type=post_cfg[catinfo.kind].get('show', post_cfg[catinfo.kind].get('router')),
             )
 
-            with open(cache_file, 'wb') as fo:
-                fo.write(result)
+            # with open(cache_file, 'wb') as fo:
+            #     fo.write(result)
 
         # self.render(f'caches/{cache_file.name}')
 
