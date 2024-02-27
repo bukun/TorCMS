@@ -431,9 +431,13 @@ class PostHandler(BaseHandler):
         查看 Post.
         '''
 
-        cache_file = Path(
-            self.application.settings.get('template_path')
-        ) / 'caches' / f'xx_{self.kind}_{postinfo.uid}.html'
+        out_dir = os.path.join(self.application.settings.get('template_path'), 'caches')
+        if os.path.exists(out_dir):
+            pass
+        else:
+            os.mkdir(out_dir)
+
+        cache_file = Path(out_dir) / f'xx_{self.kind}_{postinfo.uid}.html'
 
         mtime = cache_file.stat().st_mtime if cache_file.exists() else 0
 
@@ -690,7 +694,6 @@ class PostHandler(BaseHandler):
         cache_file = Path(
             self.application.settings.get('template_path')
         ) / 'caches' / f'xx_{self.kind}_{uid}.html'
-
 
         if os.path.exists(cache_file):
             os.remove(cache_file)
