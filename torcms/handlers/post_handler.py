@@ -691,12 +691,12 @@ class PostHandler(BaseHandler):
         '''
         in infor.
         '''
-        cache_file = Path(
-            self.application.settings.get('template_path')
-        ) / 'caches' / f'xx_{self.kind}_{uid}.html'
-
-        if os.path.exists(cache_file):
-            os.remove(cache_file)
+        # cache_file = Path(
+        #     self.application.settings.get('template_path')
+        # ) / 'caches' / f'xx_{self.kind}_{uid}.html'
+        #
+        # if os.path.exists(cache_file):
+        #     os.remove(cache_file)
 
         postinfo = MPost.get_by_uid(uid)
         if postinfo.kind == self.kind:
