@@ -3,14 +3,23 @@
 '''
 Handlers for Map application.
 '''
+import random
+import time
+from pathlib import Path
+import os
 import tornado.web
 import config
+from config import post_cfg
 from torcms.core.base_handler import BaseHandler
 from torcms.handlers.post_handler import PostHandler
 from torcms.model.post_model import MPost
 from torcms_maplet.model.layout_model import MLayout
-
-
+from torcms.model.category_model import MCategory
+from torcms.model.post2catalog_model import MPost2Catalog
+from torcms.model.label_model import MPost2Label
+from torcms.core.tools import logger
+from torcms.model.usage_model import MUsage
+from torcms.core.tool.sqlite_helper import MAcces
 class MapPostHandler(PostHandler):
     '''
     For meta handler of map.
@@ -129,7 +138,111 @@ class MapPostHandler(PostHandler):
             for idx in range(0, len(self.get_secure_cookie('map_hist').decode('utf-8')), 4):
                 map_hist.append(self.get_secure_cookie('map_hist').decode('utf-8')[idx: idx + 4])
         return map_hist
+    def viewinfo(self, postinfo):
+        '''
+        查看 Post.
+        '''
 
+        out_dir = os.path.join(self.application.settings.get('template_path'), 'caches')
+        if os.path.exists(out_dir):
+            pass
+        else:
+            os.mkdir(out_dir)
+
+        cache_file = Path(out_dir) / f'xx_{self.kind}_{postinfo.uid}.html'
+
+        mtime = cache_file.stat().st_mtime if cache_file.exists() else 0
+
+        if self.cache and (time.time() - mtime < 1000):
+            # Render with the cached file.
+            self.render(f'caches/{cache_file.name}')
+            return
+
+        __ext_catid = postinfo.extinfo.get('def_cat_uid', '')
+        cat_enum1 = MCategory.get_qian2(__ext_catid[:2]) if __ext_catid else []
+        rand_recs, rel_recs = self.fetch_additional_posts(postinfo.uid)
+
+        self._chuli_cookie_relation(postinfo.uid)
+
+        catinfo = None
+        p_catinfo = None
+
+        post2catinfo = MPost2Catalog.get_first_category(postinfo.uid)
+
+        if post2catinfo:
+            catinfo = MCategory.get_by_uid(post2catinfo.tag_id)
+            if catinfo:
+                p_catinfo = MCategory.get_by_uid(catinfo.pid)
+
+        else:
+            print('无信息')
+        kwd = self._the_view_kwd(postinfo)
+
+        MPost.update_misc(postinfo.uid, count=True)
+        MAcces.add(postinfo.uid)
+
+        if self.get_current_user() and self.userinfo:
+            MUsage.add_or_update(self.userinfo.uid, postinfo.uid, postinfo.kind)
+
+        self.set_cookie('user_pass', kwd['cookie_str'])
+
+        tmpl = self.ext_tmpl_view(postinfo)
+
+        if self.userinfo:
+            recent_apps = MUsage.query_recent(
+                self.userinfo.uid, postinfo.kind, 6
+            ).objects()[1:]
+        else:
+            recent_apps = []
+        logger.info('The Info Template: {0}'.format(tmpl))
+
+        if self.cache:
+            result = self.render_string(
+                tmpl,
+                kwd=dict(kwd, **self.ext_view_kwd(postinfo)),
+                postinfo=postinfo,
+                userinfo=self.userinfo,
+                catinfo=catinfo,
+                pcatinfo=p_catinfo,
+                relations=rel_recs,
+                rand_recs=rand_recs,
+                subcats=MCategory.query_sub_cat(p_catinfo.uid) if p_catinfo else '',
+                ad_switch=random.randint(1, 18),
+                tag_info=filter(
+                    lambda x: not x.tag_name.startswith('_'),
+                    MPost2Label.get_by_uid(postinfo.uid).objects(),
+                ),
+                recent_apps=recent_apps,
+                cat_enum=cat_enum1,
+                router=post_cfg[catinfo.kind]['router'],
+                post_type=post_cfg[catinfo.kind].get('show', post_cfg[catinfo.kind].get('router')),
+            )
+
+            with open(cache_file, 'wb') as fo:
+                fo.write(result)
+
+        # self.render(f'caches/{cache_file.name}')
+
+        self.render(
+            tmpl,
+            kwd=dict(kwd, **self.ext_view_kwd(postinfo)),
+            postinfo=postinfo,
+            userinfo=self.userinfo,
+            catinfo=catinfo,
+            pcatinfo=p_catinfo,
+            relations=rel_recs,
+            rand_recs=rand_recs,
+            subcats=MCategory.query_sub_cat(p_catinfo.uid) if p_catinfo else '',
+            ad_switch=random.randint(1, 18),
+            tag_info=filter(
+                lambda x: not x.tag_name.startswith('_'),
+                MPost2Label.get_by_uid(postinfo.uid).objects(),
+            ),
+            recent_apps=recent_apps,
+            cat_enum=cat_enum1,
+            router=post_cfg[catinfo.kind]['router'],
+            post_type=post_cfg[catinfo.kind].get('show', post_cfg[catinfo.kind].get('router')),
+        )
     def ext_tmpl_view(self, rec):
         if 'fullscreen' in self.request.arguments:
             if 'version' in self.request.arguments:
