@@ -40,7 +40,7 @@
 
 <div class="panel panel-black">
     <div class="panel-heading">
-        <h2>{{ postinfo.title }}</h2>
+        <h3 class="listinfo_title">{{ postinfo.title }}</h3>
         <span>{{ datetime.datetime.fromtimestamp(postinfo.time_update).strftime('%Y-%m-%d') }}</span>
         <span>{{ _('Author') }}: {{ postinfo.user_name }}</span>
         <span>{{ _('Browse') }}: {{ postinfo.view_count }} </span>

@@ -7,7 +7,11 @@
     </ul>
 </div>
 <div class="panel panel-black">
-    <div class="panel-heading"><b> {{ postinfo.title }} </b></div>
+    <div class="panel-heading">
+        <h3 class="listinfo_title">
+            {{ postinfo.title }}
+        </h3>
+    </div>
     <div class="panel-body"><p>
 
         {% if userinfo and kwd.get('assign_role',False) %}

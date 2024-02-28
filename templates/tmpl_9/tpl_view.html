@@ -46,27 +46,29 @@
 
             <div class="panel panel-black">
 
-                <div class="panel-heading listinfo_title">
-
-                 {{ postinfo.title }}
-
+                <div class="panel-heading ">
+                    <h3 class="listinfo_title">
+                        {{ postinfo.title }}
+                    </h3>
                 </div>
 
                 <div class="panel-body">
 
                     <div class="row">
-                            {% if postinfo.logo != ''%}
+                        {% if postinfo.logo != '' %}
                         <div class="col-sm-12 bor_bottom ">
                             <div class="col-sm-6 ">
                                 <img src="{{ postinfo.logo }}" alt="{{ postinfo.logo }}" class="img-thumbnail">
                             </div>
                             <div class="col-sm-6">
 
-                {% module collect(userinfo.uid, postinfo.uid,en=True) %}
+                                {% module collect(userinfo.uid, postinfo.uid,en=True) %}
 
-            {% module widget_editor(kwd['router'], postinfo.uid, userinfo,kind = postinfo.kind) %}
+                                {% module widget_editor(kwd['router'], postinfo.uid, userinfo,kind = postinfo.kind) %}
 
-                                 <p><strong>{{ _('Release time') }}：</strong>{{ datetime.datetime.fromtimestamp(postinfo.time_create).strftime('%Y-%m-%d') }}</p>
+                                <p>
+                                    <strong>{{ _('Release time') }}：</strong>{{ datetime.datetime.fromtimestamp(postinfo.time_create).strftime('%Y-%m-%d') }}
+                                </p>
                                 <p><strong>{{ _('Browsing times') }}：</strong> {% raw postinfo.view_count %}</p>
 
                                 <p><strong>Tag:</strong><span class="post_label">
@@ -75,26 +77,29 @@
                                     {% set iii = 1 %}
                                     {% end %}
                     {% for x in tag_info %}
-                    <a href="/label/{{postinfo.kind}}/{{ x.tag_uid }}" class="tag{{ iii }}" title="{{ x.tag_name }}">{{ x.tag_name }}</a>
+                    <a href="/label/{{ postinfo.kind }}/{{ x.tag_uid }}" class="tag{{ iii }}"
+                       title="{{ x.tag_name }}">{{ x.tag_name }}</a>
                     {% set iii = iii + 1 %}
                     {% end %} </span></p>
 
 
-{% if userinfo %}
+                                {% if userinfo %}
                                 {% if 'tag__file_download' in postinfo.extinfo and postinfo.extinfo['tag__file_download'] != '' %}
-                               <p style="float:right;">
-                                   <a class="btn btn-danger btn-sm" title="Download Dataset"
-                                href="{{postinfo.extinfo['tag__file_download'] if 'tag__file_download' in postinfo.extinfo else ''}}" target="_blank">
-                                       <span class="glyphicon glyphicon-download-alt"> </span>
-                                   {{ _('Download Dataset') }}</a></p>
+                                <p style="float:right;">
+                                    <a class="btn btn-danger btn-sm" title="Download Dataset"
+                                       href="{{ postinfo.extinfo['tag__file_download'] if 'tag__file_download' in postinfo.extinfo else '' }}"
+                                       target="_blank">
+                                        <span class="glyphicon glyphicon-download-alt"> </span>
+                                        {{ _('Download Dataset') }}</a></p>
 
                                 {% end %}
                                 {% end %}
 
                                 {% if 'ext_pdf' in postinfo.extinfo and postinfo.extinfo['ext_pdf'] != '' %}
-                                <p>    <a class="btn btn-info btn-sm" title="View Document"
-                                href="{{postinfo.extinfo['ext_pdf'] if 'ext_pdf' in postinfo.extinfo else ''}}" target="_blank">
-                                   <span class="glyphicon glyphicon-new-window"> </span>
+                                <p><a class="btn btn-info btn-sm" title="View Document"
+                                      href="{{ postinfo.extinfo['ext_pdf'] if 'ext_pdf' in postinfo.extinfo else '' }}"
+                                      target="_blank">
+                                    <span class="glyphicon glyphicon-new-window"> </span>
                                     {{ _('View Document') }}</a></p>
 
                                 {% end %}
@@ -107,16 +112,17 @@
                         <div class="col-sm-12 bor_bottom">
 
 
-                             {% if userinfo %}
-                {% module collect(userinfo.uid, postinfo.uid,en=True) %}
+                            {% if userinfo %}
+                            {% module collect(userinfo.uid, postinfo.uid,en=True) %}
 
-                {% end %}
-            {% module widget_editor(kwd['router'] , postinfo.uid, userinfo,kind = postinfo.kind) %}
+                            {% end %}
+                            {% module widget_editor(kwd['router'] , postinfo.uid, userinfo,kind = postinfo.kind) %}
 
 
-                              <strong>{{ _('Release time') }}：</strong>
-                               <span>{{ datetime.datetime.fromtimestamp(postinfo.time_create).strftime('%Y-%m-%d') }}&nbsp;</span> &nbsp;&nbsp;&nbsp;&nbsp;<strong>{{ _('Browsing times') }}：</strong>
-                                {% raw postinfo.view_count %}&nbsp;&nbsp;&nbsp;&nbsp;
+                            <strong>{{ _('Release time') }}：</strong>
+                            <span>{{ datetime.datetime.fromtimestamp(postinfo.time_create).strftime('%Y-%m-%d') }}&nbsp;</span>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<strong>{{ _('Browsing times') }}：</strong>
+                            {% raw postinfo.view_count %}&nbsp;&nbsp;&nbsp;&nbsp;
 
                             <br>
                             <br>
@@ -126,30 +132,33 @@
                                     {% set iii = 1 %}
                                     {% end %}
                     {% for x in tag_info %}
-                    <a href="/label/{{postinfo.kind}}/{{ x.tag_uid }}" class="tag{{ iii }}" title="{{ x.tag_name }}">{{ x.tag_name }}</a>
+                    <a href="/label/{{ postinfo.kind }}/{{ x.tag_uid }}" class="tag{{ iii }}"
+                       title="{{ x.tag_name }}">{{ x.tag_name }}</a>
                     {% set iii = iii + 1 %}
                     {% end %}
                 </span>&nbsp;&nbsp;&nbsp;&nbsp;
 
                             </p>
                             {% if userinfo %}
-                              {% if 'tag__file_download' in postinfo.extinfo and postinfo.extinfo['tag__file_download'] != '' %}
-                               <p style="float:right;">
-                                   <a class="btn btn-danger btn-sm" title="Download Dataset"
-                                href="{{postinfo.extinfo['tag__file_download'] if 'tag__file_download' in postinfo.extinfo else ''}}" target="_blank">
-                                       <span class="glyphicon glyphicon-download-alt"> </span>
-                                   {{ _('Download Dataset') }}</a></p>
+                            {% if 'tag__file_download' in postinfo.extinfo and postinfo.extinfo['tag__file_download'] != '' %}
+                            <p style="float:right;">
+                                <a class="btn btn-danger btn-sm" title="Download Dataset"
+                                   href="{{ postinfo.extinfo['tag__file_download'] if 'tag__file_download' in postinfo.extinfo else '' }}"
+                                   target="_blank">
+                                    <span class="glyphicon glyphicon-download-alt"> </span>
+                                    {{ _('Download Dataset') }}</a></p>
 
-                                {% end %}
-                                {% end %}
+                            {% end %}
+                            {% end %}
 
-                                {% if 'ext_pdf' in postinfo.extinfo and postinfo.extinfo['ext_pdf'] != '' %}
-                                <p>    <a class="btn btn-info btn-sm" title="View Document"
-                                href="{{postinfo.extinfo['ext_pdf'] if 'ext_pdf' in postinfo.extinfo else ''}}" target="_blank">
-                                   <span class="glyphicon glyphicon-new-window"> </span>
-                                    {{ _('View Document') }}</a></p>
+                            {% if 'ext_pdf' in postinfo.extinfo and postinfo.extinfo['ext_pdf'] != '' %}
+                            <p><a class="btn btn-info btn-sm" title="View Document"
+                                  href="{{ postinfo.extinfo['ext_pdf'] if 'ext_pdf' in postinfo.extinfo else '' }}"
+                                  target="_blank">
+                                <span class="glyphicon glyphicon-new-window"> </span>
+                                {{ _('View Document') }}</a></p>
 
-                                {% end %}
+                            {% end %}
 
                         </div>
 
@@ -161,7 +170,7 @@
                         {% raw unescape(postinfo.cnt_html) %}
                     </div>
                     <div class="col-sm-12 ">
-                         {% block extrainfo %} {% end %}
+                        {% block extrainfo %} {% end %}
 
 
                         <!--<div class='bor_bottom'> </div>-->
@@ -178,104 +187,105 @@
 
                     {% if postinfo.extinfo.get('ext_map_layers') %}
                     <script>
-    $(document).ready(function () {
-        var post_uid = "{{postinfo.uid}}";
-        var login = {{kwd['login']}};
-        var map_url = "{{postinfo.extinfo.get('ext_map_url','https://tile.osgeo.cn/service?')}}";
-        var map_layers = "{{postinfo.extinfo.get('ext_map_layers','q_cp_imagery_imagery')}}";
+                        $(document).ready(function () {
+                            var post_uid = "{{postinfo.uid}}";
+                            var login = {{kwd['login']}};
+                            var map_url = "{{postinfo.extinfo.get('ext_map_url','https://tile.osgeo.cn/service?')}}";
+                            var map_layers = "{{postinfo.extinfo.get('ext_map_layers','q_cp_imagery_imagery')}}";
 
 
-        var currentX, currentY, currentZoom, geojsonid, map_uid, mapson, vlat, vlon, vmarker, vzoom_current, vzoom_max,
-            vzoom_min;
-        mapson = $("#map_vkz").data("map")
+                            var currentX, currentY, currentZoom, geojsonid, map_uid, mapson, vlat, vlon, vmarker,
+                                vzoom_current, vzoom_max,
+                                vzoom_min;
+                            mapson = $("#map_vkz").data("map")
 
-        vlon = mapson.x
-        vlat = mapson.y
-        vzoom_current = mapson.v
-        vzoom_max = mapson.m
-        vzoom_min = mapson.n
-
-
-        function test_fun2() {
+                            vlon = mapson.x
+                            vlat = mapson.y
+                            vzoom_current = mapson.v
+                            vzoom_max = mapson.m
+                            vzoom_min = mapson.n
 
 
-            var info_map_center = map.getCenter();
-            currentZoom = map.getZoom();
-
-        }
-
-        function test_fun3(e) {
+                            function test_fun2() {
 
 
-            vmarker = e.latlng;
-            currentZoom = map.getZoom();
+                                var info_map_center = map.getCenter();
+                                currentZoom = map.getZoom();
 
-        }
+                            }
 
-        function onMapClick(e) {
-            popup.setLatLng(e.latlng)
-                .setContent('Location:' + e.latlng.toString())
-                .openOn(map);
-        }
-
-        //创建地图
-        var map = L.map('map_vkz', {
-            center: [vlat, vlon],
-            crs: L.CRS.EPSG3857,
-            zoom: vzoom_current,
-            maxZoom: vzoom_max,
-            minZoom: vzoom_min,
-            editable: true,
-
-            // 去除放大缩小控件
-            // https://stackoverflow.com/questions/16537326/leafletjs-how-to-remove-the-zoom-control
-            zoomControl: false,
-            layerControl: false,
-            attributionControl: false,
-            // Attribution: false,
-        });
-        var popup = L.popup();
-        map.on('click', onMapClick);
-        map.on('move', test_fun2);
-        map.on('mousemove', test_fun3);
+                            function test_fun3(e) {
 
 
-        // 天地图地图及标示  osm，osm1.
-        var osm = L.tileLayer('http://t4.tianditu.gov.cn/DataServer?T=vec_w&X={x}&Y={y}&L={z}&tk=57f1b8146ef867f14189f3f4bb1adc1c', {
-            title: '天地图网格图',
-            maxZoom: 18,
-            id: 'mapbox.streets'
-        });
+                                vmarker = e.latlng;
+                                currentZoom = map.getZoom();
+
+                            }
+
+                            function onMapClick(e) {
+                                popup.setLatLng(e.latlng)
+                                    .setContent('Location:' + e.latlng.toString())
+                                    .openOn(map);
+                            }
+
+                            //创建地图
+                            var map = L.map('map_vkz', {
+                                center: [vlat, vlon],
+                                crs: L.CRS.EPSG3857,
+                                zoom: vzoom_current,
+                                maxZoom: vzoom_max,
+                                minZoom: vzoom_min,
+                                editable: true,
+
+                                // 去除放大缩小控件
+                                // https://stackoverflow.com/questions/16537326/leafletjs-how-to-remove-the-zoom-control
+                                zoomControl: false,
+                                layerControl: false,
+                                attributionControl: false,
+                                // Attribution: false,
+                            });
+                            var popup = L.popup();
+                            map.on('click', onMapClick);
+                            map.on('move', test_fun2);
+                            map.on('mousemove', test_fun3);
 
 
-        var osm1 = L.tileLayer.chinaProvider("TianDiTu.Normal.Map", {
-            maxZoom: 18,
-            minZoom: 1
-        })
-        var osm2 = L.tileLayer("http://t{s}.tianditu.gov.cn/DataServer?T=eva_w&x={x}&y={y}&l={z}&tk=57f1b8146ef867f14189f3f4bb1adc1c", {
-            subdomains: ['0', '1', '2', '3', '4', '5', '6', '7']
-        })
-        var the_basemap = L.layerGroup([osm1, osm2]);
-
-        the_basemap.addTo(map);
+                            // 天地图地图及标示  osm，osm1.
+                            var osm = L.tileLayer('http://t4.tianditu.gov.cn/DataServer?T=vec_w&X={x}&Y={y}&L={z}&tk=57f1b8146ef867f14189f3f4bb1adc1c', {
+                                title: '天地图网格图',
+                                maxZoom: 18,
+                                id: 'mapbox.streets'
+                            });
 
 
-        var geomor = L.tileLayer.wms(map_url, {
-            layers: map_layers,
-            format: 'image/png',
-            transparent: true,
-            backgroundColor: '#0f0f0f'
-        }).addTo(map);
+                            var osm1 = L.tileLayer.chinaProvider("TianDiTu.Normal.Map", {
+                                maxZoom: 18,
+                                minZoom: 1
+                            })
+                            var osm2 = L.tileLayer("http://t{s}.tianditu.gov.cn/DataServer?T=eva_w&x={x}&y={y}&l={z}&tk=57f1b8146ef867f14189f3f4bb1adc1c", {
+                                subdomains: ['0', '1', '2', '3', '4', '5', '6', '7']
+                            })
+                            var the_basemap = L.layerGroup([osm1, osm2]);
 
-        L.control.scale({
-            position: 'bottomright',
-            maxWidth: '100',
-            imperial: false
-        }).addTo(map);
+                            the_basemap.addTo(map);
 
 
-    })
-</script>
+                            var geomor = L.tileLayer.wms(map_url, {
+                                layers: map_layers,
+                                format: 'image/png',
+                                transparent: true,
+                                backgroundColor: '#0f0f0f'
+                            }).addTo(map);
+
+                            L.control.scale({
+                                position: 'bottomright',
+                                maxWidth: '100',
+                                imperial: false
+                            }).addTo(map);
+
+
+                        })
+                    </script>
                     <h3>{{ _('Data Visualization on Map') }}</h3>
                     <div class="row">
                         <div class="col-sm-8">
@@ -375,11 +385,11 @@
                         <div class="col-md-12"
                              style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap; display: block;">
 
-                            {{ _('Article link') }}： <a href="/{{ kwd['router'] }}/{{ postinfo.uid }}" style="color: #003366"
+                            {{ _('Article link') }}： <a href="/{{ kwd['router'] }}/{{ postinfo.uid }}"
+                                                        style="color: #003366"
                                                         title="{{ postinfo.title }}">{{ postinfo.title }}</a>
 
                         </div>
-
 
 
                     </div>
@@ -392,15 +402,15 @@
 
         <div class="col-sm-3">
 
-             <div class="panel panel-black">
-            <div class="panel-heading">
-                <b> {{ _('Information evaluation') }}</b>
+            <div class="panel panel-black">
+                <div class="panel-heading">
+                    <b> {{ _('Information evaluation') }}</b>
+                </div>
+                <div class="panel-body" style="font-size: x-small">
+                    {% module star_rating(postinfo, userinfo) %}
+                </div>
             </div>
-            <div class="panel-body" style="font-size: x-small">
-                {% module star_rating(postinfo, userinfo) %}
-            </div>
-        </div>
-          <div class="panel panel-black">
+            <div class="panel panel-black">
                 <div class="panel-heading">
                     {{ _('Most attention') }}
                 </div>
@@ -417,21 +427,22 @@
                 </ul>
             </div>
 
-        <div class="panel panel-black">
-            <div class="panel-heading"> {% for taginfo in cat_enum %}
-                {% if taginfo.uid.endswith('00') %}
-                {{ taginfo.name }}
-                {% end %}
-                {% end %}
+            <div class="panel panel-black">
+                <div class="panel-heading"> {% for taginfo in cat_enum %}
+                    {% if taginfo.uid.endswith('00') %}
+                    {{ taginfo.name }}
+                    {% end %}
+                    {% end %}
+                </div>
+                <ul class="list-group">
+                    {% for taginfo in cat_enum %}
+                    {% if not taginfo.uid.endswith('00') %}
+                    <li class="list-group-item"><a href="/filter/{{ taginfo.uid }}"
+                                                   title="{{ taginfo.name }}">{{ taginfo.name }}</a></li>
+                    {% end %}
+                    {% end %}
+                </ul>
             </div>
-            <ul class="list-group">
-                {% for taginfo in cat_enum %}
-                {% if not taginfo.uid.endswith('00') %}
-                <li class="list-group-item"><a href="/filter/{{ taginfo.uid }}" title="{{ taginfo.name }}">{{ taginfo.name }}</a></li>
-                {% end %}
-                {% end %}
-            </ul>
-        </div>
         </div>
 
     </div>

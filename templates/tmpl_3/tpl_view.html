@@ -25,8 +25,10 @@
             {% end %}
         </ol>
         <div class="panel panel-black">
-            <div class="panel-heading listinfo_title"> {{ postinfo.title }}
-
+            <div class="panel-heading">
+                <h3 class="listinfo_title">
+                    {{ postinfo.title }}
+                </h3>
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -38,11 +40,11 @@
                         <div class="col-sm-6">
 
 
-                                {% if userinfo %}
-                                {% module collect(userinfo.uid, postinfo.uid, en=True) %}
-                                {% end %}
+                            {% if userinfo %}
+                            {% module collect(userinfo.uid, postinfo.uid, en=True) %}
+                            {% end %}
 
-                                {% module widget_editor(kwd['router'], postinfo.uid, userinfo,url='filter',kind = postinfo.kind) %}
+                            {% module widget_editor(kwd['router'], postinfo.uid, userinfo,url='filter',kind = postinfo.kind) %}
 
 
                             <br>

@@ -15,7 +15,7 @@
 </ol>
 <div class="panel panel-black">
     <div class="panel-heading">
-        <h3 class="listinfo_title" style="line-height: 35px">{{ postinfo.title }}</h3>
+        <h3 class="listinfo_title">{{ postinfo.title }}</h3>
         <span class="split">  {{ _('Author') }} : {{ postinfo.user_name }} </span>&nbsp;
         <span>{{ datetime.datetime.fromtimestamp(postinfo.time_create).strftime('%Y-%m-%d %H:%M:%S')}}</span>
         <span>{{ _('Browse') }}: {{ postinfo.view_count }} </span>

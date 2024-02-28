@@ -1,11 +1,12 @@
 {% extends "../theme/bage_add_edit.html" %}
 {% block head %}
-<title>{{postinfo.title}} | {{ _('Online map') }}</title>
-<meta name="keywords" content="{% for x in tag_info %} {{ _(x.tag_name) }} {% end %},{{postinfo.title}}">
-<meta name="description" content="{% module generate_abstract(postinfo.cnt_html) %},{{postinfo.title}}">
+<title>{{ postinfo.title }} | {{ _('Online map') }}</title>
+<meta name="keywords" content="{% for x in tag_info %} {{ _(x.tag_name) }} {% end %},{{ postinfo.title }}">
+<meta name="description" content="{% module generate_abstract(postinfo.cnt_html) %},{{ postinfo.title }}">
 
 
-<link rel="stylesheet" href="{{ static_url('f2elib/bootstrap-star-rating-master/css/star-rating.css')}}" type="text/css"
+<link rel="stylesheet" href="{{ static_url('f2elib/bootstrap-star-rating-master/css/star-rating.css') }}"
+      type="text/css"
       media="all">
 <script type="text/javascript" src="{{ static_url('f2elib/bootstrap-star-rating-master/js/star-rating.js') }}"></script>
 
@@ -16,22 +17,23 @@
     var login = {{kwd['login']}};
 </script>
 <style>
-    #map{
-  margin: auto;
-  text-align: center;
-  align-self: center;
-  width: 99%;
-  height: 640px;
-  border: 1px grey solid
-}
-.mapdiv{
-  margin: auto;
-  text-align: center;
-  align-self: center;
-  width: 99%;
-  height: 640px;
-  border: 1px grey solid
-}
+    #map {
+        margin: auto;
+        text-align: center;
+        align-self: center;
+        width: 99%;
+        height: 640px;
+        border: 1px grey solid
+    }
+
+    .mapdiv {
+        margin: auto;
+        text-align: center;
+        align-self: center;
+        width: 99%;
+        height: 640px;
+        border: 1px grey solid
+    }
 </style>
 
 {% block headinfo %}
@@ -43,7 +45,7 @@
 <div class="mtop">
     <ul class="breadcrumb">
         <li>Current location: <a href="/" title="Home">{{ _('Home') }} </a></li>
-           <li><a href="/{{router}}/" title="{{post_type}}">{{post_type}}</a></li>
+        <li><a href="/{{ router }}/" title="{{ post_type }}">{{ post_type }}</a></li>
         <li>{% module the_category(postinfo.uid) %}</li>
         <li>{{ _('Text') }}</li>
     </ul>
@@ -58,7 +60,9 @@
     </div>
     {% end %}
     <div class="panel-heading listinfo_title">
-        <h1 class="news-title">{{postinfo.title}}</h1>
+        <h3 class="listinfo_title">
+            {{ postinfo.title }}
+        </h3>
     </div>
     <div class="panel-body">
         <div class="row">
@@ -76,7 +80,8 @@
                     <div class="  visible-lg" style="float: left; margin-right: 2px">
 
                         <a class="btn btn-info btn-xs"
-                           href="/{{kwd['router']}}/{{postinfo.uid}}?fullscreen=1&gson={{ kwd['geojson'] }}" target="_blank" title="{{ _('Full screen') }}">
+                           href="/{{ kwd['router'] }}/{{ postinfo.uid }}?fullscreen=1&gson={{ kwd['geojson'] }}"
+                           target="_blank" title="{{ _('Full screen') }}">
                             <span class="glyphicon glyphicon-fullscreen"></span>
                             {{ _('Full screen') }}
                         </a>
@@ -96,7 +101,8 @@
 
 
                 </div>
-                <div class="col-md-12"><Br><b>{{ _('Category') }}:</b> <span class="post_cat">{% module map_catalogs(postinfo.uid ) %}</span>
+                <div class="col-md-12"><Br><b>{{ _('Category') }}:</b> <span
+                        class="post_cat">{% module map_catalogs(postinfo.uid ) %}</span>
                 </div>
             </div>
         </div>
@@ -108,127 +114,132 @@
         "v": {{ kwd['vzoom'] if 'vzoom' in kwd else postinfo.extinfo.get('ext_zoom_current') }},
         "m": {{ postinfo.extinfo.get('ext_zoom_max') }},
         "n" : {{ postinfo.extinfo.get('ext_zoom_min') }},
-        "k": {{ kwd['marker']}},
+        "k": {{ kwd['marker'] }},
         "g": "{{ kwd['geojson'] }}",
         "login": {{ kwd['login'] }}
         }'>
-    </div>
+        </div>
 
 
-    <br>
-    <ul class="list-group">
-        <li class="list-group-item">
-            <a id="save_view" class="btn btn-xs btn-primary">
-                <span class="glyphicon glyphicon-save">{{ _('Save view') }}</span>
-            </a>
-            <a id="current_view_url" href="{{ kwd['url'] }}" title="{{ kwd['url'] }}" target="_blank">
-                {% module site_url() %}{{ kwd['url'] }}
-            </a>
-        </li>
-    </ul>
-    {% if userinfo %}
-      <ul class="list-group" id="map_layout_show">
-        <li class="list-group-item"><h4 class="list-group-item-heading">{{ _('User view link') }}</h4></li>
+        <br>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <a id="save_view" class="btn btn-xs btn-primary">
+                    <span class="glyphicon glyphicon-save">{{ _('Save view') }}</span>
+                </a>
+                <a id="current_view_url" href="{{ kwd['url'] }}" title="{{ kwd['url'] }}" target="_blank">
+                    {% module site_url() %}{{ kwd['url'] }}
+                </a>
+            </li>
+        </ul>
 
-        {% module app_layout(postinfo.uid, userinfo.uid) %}
+        {% if userinfo %}
+        <ul class="list-group" id="map_layout_show">
+            <li class="list-group-item"><h4 class="list-group-item-heading">{{ _('User view link') }}</h4></li>
 
-     {#   <li class="list-group-item">
+            {% module app_layout(postinfo.uid, userinfo.uid) %}
+
+            {#   <li class="list-group-item">
             <h4 class="list-group-item-heading" style="display: inline-block;">{{ _('User map data') }} </h4>
             <span class="text-info bg-info"> {{ _('Data editing can be carried out after full screen') }}</span>
         </li>
 
         {% module app_json(postinfo.uid, userinfo.uid) %}
 #}
-    </ul>
-    {% end %}
-      <div class="col-sm-12 bor_bottom">
-        <div id="iga_view_rec_box">
+        </ul>
+        {% end %}
+        <div class="col-sm-12 bor_bottom">
+            <div id="iga_view_rec_box">
 
-            <div class="row">
-                <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-sm-4">
                     <span class="des">
         <strong>{{ _('Central point longitude') }} </strong>
     </span>
+                    </div>
+                    <div class="col-sm-8">
+                        {{ postinfo.extinfo.get('ext_lon') }}
+                    </div>
                 </div>
-                <div class="col-sm-8">
-                    {{postinfo.extinfo.get('ext_lon')}}
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-sm-4">
                     <span class="des">
         <strong>{{ _('Central point latitude') }} </strong>
     </span>
+                    </div>
+                    <div class="col-sm-8">
+                        {{ postinfo.extinfo.get('ext_lat') }}
+                    </div>
                 </div>
-                <div class="col-sm-8">
-                    {{postinfo.extinfo.get('ext_lat')}}
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-sm-4">
                     <span class="des">
         <strong>{{ _('Max zoom level') }} </strong>
     </span>
+                    </div>
+                    <div class="col-sm-8">
+                        {{ postinfo.extinfo.get('ext_zoom_max') }}
+                    </div>
                 </div>
-                <div class="col-sm-8">
-                    {{postinfo.extinfo.get('ext_zoom_max')}}
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-sm-4">
                     <span class="des">
         <strong>{{ _('Min zoom level') }} </strong>
     </span>
+                    </div>
+                    <div class="col-sm-8">
+                        {{ postinfo.extinfo.get('ext_zoom_min') }}
+                    </div>
                 </div>
-                <div class="col-sm-8">
-                    {{postinfo.extinfo.get('ext_zoom_min')}}
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-sm-4">
                     <span class="des">
         <strong>{{ _('Current zoom level') }} </strong>
     </span>
+                    </div>
+                    <div class="col-sm-8">
+                        {{ postinfo.extinfo.get('ext_zoom_current') }}
+                    </div>
                 </div>
-                <div class="col-sm-8">
-                    {{postinfo.extinfo.get('ext_zoom_current')}}
-                </div>
-            </div>
 
+            </div>
+        </div>
+
+        <div class="col-sm-12 bor_bottom">
+            <br> <br>
+            <h4 class="list-group-item-heading">{{ _('Map description') }} </h4>
+            <br>
+        </div>
+        <div class="col-sm-12 bor_bottom">
+            <div id="wiki_cnt" class="listinfo_content">
+                {% raw unescape(postinfo.cnt_html) %}
+            </div>
+        </div>
+        <div class="col-sm-12">
+            {% module reply_panel(postinfo.uid, userinfo, en=True) %}
         </div>
     </div>
-    <div class="col-sm-12 bor_bottom">
-        <h4 class="list-group-item-heading">{{ _('Map description') }} </h4>
-    </div>
-    <div class="col-sm-12 bor_bottom">
-        <div id="wiki_cnt" class="listinfo_content">
-            {% raw unescape(postinfo.cnt_html) %}
-        </div>
-    </div>
-    <div class="col-sm-12">
-        {% module reply_panel(postinfo.uid, userinfo, en=True) %}
-    </div>
-</div>
-<div class="panel-footer">
-    <div class="row">
-        <div class="col-md-12">
-            <span>{{ _('Label') }}:</span>
+    <div class="panel-footer">
+        <div class="row">
+            <div class="col-md-12">
+                <span>{{ _('Label') }}:</span>
                 <span class="post_label">
                     {% module post_labels(post_uid = postinfo.uid) %}
                 </span>
-        </div>
+            </div>
 
-    </div>
-    <div class="row">
-        <div class="col-md-12" id="bwlj">
-            {{ _('Map link') }}： <a href="{% module site_url() %}/{{kwd['router']}}/{{ postinfo.uid }}" title="{{postinfo.title}}">{{postinfo.title}}</a>
+        </div>
+        <div class="row">
+            <div class="col-md-12" id="bwlj">
+                {{ _('Map link') }}： <a href="{% module site_url() %}/{{ kwd['router'] }}/{{ postinfo.uid }}"
+                                        title="{{ postinfo.title }}">{{ postinfo.title }}</a>
+            </div>
         </div>
     </div>
-</div>
 </div>
 
 
@@ -257,40 +268,40 @@
         {% if userinfo %}
         <form action="javascript:;" class="form-horizontal" role="form">
 
-                <div class="form-group">
-                    <div class="col-sm-12">
-                        <select id="over_map_1" name="over_map_1" class="form-control">
-                            {% for recent in recent_apps %}
-                            <option value="{{recent.post_id}}">{{recent.post_id}} |
-                                {{ _(recent.post_title) }}
-                            </option>
-                            {% end %}
-                        </select>
-                    </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <select id="over_map_1" name="over_map_1" class="form-control">
+                        {% for recent in recent_apps %}
+                        <option value="{{ recent.post_id }}">{{ recent.post_id }} |
+                            {{ _(recent.post_title) }}
+                        </option>
+                        {% end %}
+                    </select>
                 </div>
-                <div class="form-group">
-                    <div class="col-sm-12">
-                        <select id="over_map_2" name="over_map_2" class="form-control">
-                            <option value=""></option>
-                            {% for recent in recent_apps %}
-                            <option value="{{recent.post_id}}">{{recent.post_id}} |
-                                {{ _(recent.post_title) }}
-                            </option>
-                            {% end %}
-                        </select>
-                    </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <select id="over_map_2" name="over_map_2" class="form-control">
+                        <option value=""></option>
+                        {% for recent in recent_apps %}
+                        <option value="{{ recent.post_id }}">{{ recent.post_id }} |
+                            {{ _(recent.post_title) }}
+                        </option>
+                        {% end %}
+                    </select>
                 </div>
-                <div class="form-group">
-                    <div class="col-sm-offset-1 col-sm-3">
-                        <button id="btn_overlay" name="btn_overlay" class="btn btn-info btn-sm">
-                            {{ _('overlying') }}
-                        </button>
-                    </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-1 col-sm-3">
+                    <button id="btn_overlay" name="btn_overlay" class="btn btn-info btn-sm">
+                        {{ _('overlying') }}
+                    </button>
                 </div>
+            </div>
 
         </form>
         {% else %}
-        <a href="/user/login" class="btn btn-xs btn-primary">{{_('Login') }} </a> {{ _('for more operation') }}  .
+        <a href="/user/login" class="btn btn-xs btn-primary">{{ _('Login') }} </a> {{ _('for more operation') }} .
         {% end %}
 
     </div>
@@ -301,8 +312,8 @@
     <ul class="list-group" style="overflow: hidden;">
         {% for x in relations %}
         <li class="list-group-item" style="overflow: hidden;">
-            <a href="/{{kwd['router']}}/{{ x.post_id }}" title="{{x.post_title}}">
-                <span class="glyphicon glyphicon-map-marker"></span>{{x.post_title}}
+            <a href="/{{ kwd['router'] }}/{{ x.post_id }}" title="{{ x.post_title }}">
+                <span class="glyphicon glyphicon-map-marker"></span>{{ x.post_title }}
                 {% if x.post_id[0] == 'v' %}<span class="badge" style="color:yellow">v</span>{% end %}
             </a>
         </li>
