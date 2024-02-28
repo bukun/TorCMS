@@ -10,7 +10,7 @@
                     layers: mp_uid,
                     format: "image/png",
                     transparent: !0,
-                    attribution: "DRRKS"
+                    attribution: "TorCMS"
                 }), mycars[jj].addTo(lyrs), jj++;
 
             } else {
@@ -20,7 +20,7 @@
                     layers: mp_uid,
                     format: "image/png",
                     transparent: !0,
-                    attribution: "DRRKS"
+                    attribution: "TorCMS"
                 }), mycars[jj].addTo(lyrs), jj++;
 
 
