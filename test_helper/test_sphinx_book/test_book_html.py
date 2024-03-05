@@ -22,7 +22,9 @@ class TestFoo():
         # self.ws_dir = Path(__file__).parent / 'book_eb1243/xx_build/html'
         # self.ws_dir = Path('/home/bk/book-rst/doculet/pt01_language_eb00kh')
         # self.ws_dir = Path('/home/bk/tmp/gislite-pub/pt01_language_eb00kh')
-        self.ws_dir = Path('/home/bk/tmp/gislite-pub/pt02_web_eb00ka')
+        # self.ws_dir = Path('/home/bk/tmp/gislite-pub/pt02_web_eb00ka')
+        self.ws_dir = Path('/home/bk/tmp/gislite-pub/pt03_framework_eb00kb')
+
 
         self.re_pt = re.compile(r'/pt\d\d')
         self.re_ch = re.compile(r'/ch\d\d')
