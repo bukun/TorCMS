@@ -73,7 +73,8 @@
                     <div style="float: left">
                         <b>{{ _('Date') }}:</b>
                         {{ datetime.datetime.fromtimestamp(postinfo.time_update).strftime('%Y-%m-%d') }}&nbsp;
-                        <strong>{{ _('Editor') }} : {{ postinfo.user_name }} </strong>&nbsp;&nbsp;
+                        <b>{{ _('Editor') }}:</b> {{ postinfo.user_name }} &nbsp;&nbsp;
+                          <b>{{ _('View counts') }}:</b> {% raw postinfo.view_count %}  &nbsp;&nbsp;
                     </div>
 
 
