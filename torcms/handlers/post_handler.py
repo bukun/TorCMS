@@ -8,6 +8,7 @@ import random
 import time
 from pathlib import Path
 import os
+
 # from tornado.template import Loader
 
 # loader = Loader(
@@ -201,7 +202,6 @@ class PostHandler(BaseHandler):
             self.show404()
 
     def post(self, *args, **kwargs):
-
         url_str = args[0]
         logger.info('Post url: {0}'.format(url_str))
         url_arr = self.parse_url(url_str)
@@ -273,7 +273,6 @@ class PostHandler(BaseHandler):
         return tmpl
 
     def __get_cat_id(self, postinfo):
-
         catinfo = MPost2Catalog.get_first_category(postinfo.uid)
         if catinfo:
             cat_id = catinfo.tag_id
@@ -506,8 +505,8 @@ class PostHandler(BaseHandler):
         #         post_type=post_cfg[catinfo.kind].get('show', post_cfg[catinfo.kind].get('router')),
         #     )
 
-            # with open(cache_file, 'wb') as fo:
-            #     fo.write(result)
+        # with open(cache_file, 'wb') as fo:
+        #     fo.write(result)
 
         # self.render(f'caches/{cache_file.name}')
 
@@ -529,7 +528,9 @@ class PostHandler(BaseHandler):
             recent_apps=recent_apps,
             cat_enum=cat_enum1,
             router=post_cfg[catinfo.kind]['router'],
-            post_type=post_cfg[catinfo.kind].get('show', post_cfg[catinfo.kind].get('router')),
+            post_type=post_cfg[catinfo.kind].get(
+                'show', post_cfg[catinfo.kind].get('router')
+            ),
         )
 
     def _the_view_kwd(self, postinfo):
@@ -614,9 +615,9 @@ class PostHandler(BaseHandler):
         ext_dic = {}
         for key in self.request.arguments:
             if (
-                    key.startswith('ext_')
-                    or key.startswith('tag_')
-                    or key.startswith('_tag_')
+                key.startswith('ext_')
+                or key.startswith('tag_')
+                or key.startswith('_tag_')
             ):
                 ext_dic[key] = self.get_argument(key, default='')
             else:
@@ -749,7 +750,6 @@ class PostHandler(BaseHandler):
         current_infor = MPost.get_by_uid(uid)
 
         if MPost.delete(uid):
-
             tslug = MCategory.get_by_uid(current_infor.extinfo['def_cat_uid'])
 
             MCategory.update_count(current_infor.extinfo['def_cat_uid'])
@@ -848,4 +848,6 @@ class PostHandler(BaseHandler):
         # self.update_category(post_uid)
 
         update_category(post_uid, post_data)
-        self.redirect('/{0}/{1}'.format(post_cfg[post_data['kcat']]['router'], post_uid))
+        self.redirect(
+            '/{0}/{1}'.format(post_cfg[post_data['kcat']]['router'], post_uid)
+        )
