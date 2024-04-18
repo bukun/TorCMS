@@ -183,27 +183,27 @@ class MapPostHandler(PostHandler):
             recent_apps = []
         logger.info('The Info Template: {0}'.format(tmpl))
 
-        if self.cache:
-            result = self.render_string(
-                tmpl,
-                kwd=dict(kwd, **self.ext_view_kwd(postinfo)),
-                postinfo=postinfo,
-                userinfo=self.userinfo,
-                catinfo=catinfo,
-                pcatinfo=p_catinfo,
-                relations=rel_recs,
-                rand_recs=rand_recs,
-                subcats=MCategory.query_sub_cat(p_catinfo.uid) if p_catinfo else '',
-                ad_switch=random.randint(1, 18),
-                tag_info=filter(
-                    lambda x: not x.tag_name.startswith('_'),
-                    MPost2Label.get_by_uid(postinfo.uid).objects(),
-                ),
-                recent_apps=recent_apps,
-                cat_enum=cat_enum1,
-                router=post_cfg[catinfo.kind]['router'],
-                post_type=post_cfg[catinfo.kind].get('show', post_cfg[catinfo.kind].get('router')),
-            )
+        # if self.cache:
+        #     result = self.render_string(
+        #         tmpl,
+        #         kwd=dict(kwd, **self.ext_view_kwd(postinfo)),
+        #         postinfo=postinfo,
+        #         userinfo=self.userinfo,
+        #         catinfo=catinfo,
+        #         pcatinfo=p_catinfo,
+        #         relations=rel_recs,
+        #         rand_recs=rand_recs,
+        #         subcats=MCategory.query_sub_cat(p_catinfo.uid) if p_catinfo else '',
+        #         ad_switch=random.randint(1, 18),
+        #         tag_info=filter(
+        #             lambda x: not x.tag_name.startswith('_'),
+        #             MPost2Label.get_by_uid(postinfo.uid).objects(),
+        #         ),
+        #         recent_apps=recent_apps,
+        #         cat_enum=cat_enum1,
+        #         router=post_cfg[catinfo.kind]['router'],
+        #         post_type=post_cfg[catinfo.kind].get('show', post_cfg[catinfo.kind].get('router')),
+        #     )
 
 
 
