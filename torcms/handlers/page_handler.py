@@ -34,7 +34,6 @@ class PageHandler(BaseHandler):
         self.kind = '2'
 
     def get(self, *args, **kwargs):
-
         url_str = args[0]
 
         url_arr = self.parse_url(url_str)
@@ -159,7 +158,6 @@ class PageHandler(BaseHandler):
             userinfo=self.userinfo,
         )
 
-
     def view(self, rec):
         '''
         View the page.
@@ -169,8 +167,12 @@ class PageHandler(BaseHandler):
         }
         MWiki.view_count_plus(rec.uid)
         if self.userinfo:
-            kwd['assign_role'] = MStaff2Role.check_permissions(self.userinfo.uid, 'assign_role')
-            kwd['can_review'] = MStaff2Role.check_permissions(self.userinfo.uid, 'can_review')
+            kwd['assign_role'] = MStaff2Role.check_permissions(
+                self.userinfo.uid, 'assign_role'
+            )
+            kwd['can_review'] = MStaff2Role.check_permissions(
+                self.userinfo.uid, 'can_review'
+            )
         self.render(
             'wiki_page/page_view.html',
             postinfo=rec,

@@ -177,8 +177,6 @@ class PostHandler(BaseHandler):
     def get(self, *args, **kwargs):
         url_str = args[0]
         url_arr = self.parse_url(url_str)
-        # if url_arr:
-        #     self._redirect(url_arr)
 
         if url_str == '' or url_str == 'index':
             self.index()
