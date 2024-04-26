@@ -36,7 +36,6 @@ class ListHandler(BaseHandler):
         if len(url_arr) == 1:
             self.list_catalog(url_str)
         elif len(url_arr) == 2:
-
             if url_arr[0] == 'j_subcat':
                 self.ajax_subcat_arr(url_arr[1])
             elif url_arr[0] == 'j_kindcat':
@@ -164,7 +163,9 @@ class ListHandler(BaseHandler):
             cfg=CMS_CFG,
             kwd=kwd,
             router=post_cfg[cat_rec.kind]['router'],
-            post_type=post_cfg[cat_rec.kind].get('show', post_cfg[cat_rec.kind].get('router')),
+            post_type=post_cfg[cat_rec.kind].get(
+                'show', post_cfg[cat_rec.kind].get('router')
+            ),
         )
 
 

@@ -33,7 +33,6 @@ class CategoryAjaxHandler(BaseHandler):
             if url_arr[1] == 'list':
                 self.list_catalog(url_arr[0])
             elif url_arr[0] == '_delete':
-
                 self.delete_by_id(url_arr[1])
 
         else:
@@ -94,7 +93,6 @@ class CategoryAjaxHandler(BaseHandler):
         cur_uid = post_data['uid']
 
         if MCategory.add_or_update(cur_uid, post_data):
-
             output = {
                 'addinfo ': 1,
             }
@@ -132,7 +130,6 @@ class CategoryAjaxHandler(BaseHandler):
         Delete  by id.
 
         '''
-
 
         post_resc = MPost2Catalog.query_postinfo_by_cat(del_id)
         for post in post_resc:

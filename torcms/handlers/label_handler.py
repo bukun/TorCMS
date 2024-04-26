@@ -168,13 +168,11 @@ class InfoTagHandler(BaseHandler):
         url_arr = self.parse_url(args[0])
 
         if len(url_arr) == 1:
-
             self.redirect(
                 '/label/{kind}/{slug}'.format(slug=url_arr[0], kind=self.kind)
             )
 
         elif len(url_arr) == 2:
-
             self.redirect(
                 '/label/{kind}/{slug}/{page}'.format(
                     slug=url_arr[0], kind=self.kind, page=url_arr[1]
