@@ -6,8 +6,6 @@ The basic leaf handler.
 The list of the posts should be ordered under leaf list.
 '''
 
-import tornado.escape
-import tornado.ioloop
 import tornado.web
 
 from torcms.core import privilege
@@ -24,8 +22,8 @@ class LeafHandler(PostHandler):
 
     def initialize(self, **kwargs):
         super().initialize()
-        self.kind = kwargs['kind'] if 'kind' in kwargs else '6'
-        self.filter_view = kwargs['filter_view'] if 'filter_view' in kwargs else False
+        self.kind =  kwargs.get('kind', '6')
+        self.filter_view = kwargs.get('filter_view', False)
 
     def post(self, *args, **kwargs):
 

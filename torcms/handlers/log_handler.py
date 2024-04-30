@@ -31,12 +31,6 @@ class LogHandler(BaseHandler):
             if url_arr[0] in ['pageview', 'search']:
                 # 访问量
                 self.search()
-
-        # elif len(url_arr) == 2:
-        #     if url_arr[0] == 'pageview':
-        #         self.pageview(url_arr[1])
-        # else:
-        #     self.user_log_list(url_arr[0], url_arr[1])
         else:
             self.render('misc/html/404.html', userinfo=self.userinfo, kwd={})
 
@@ -138,7 +132,7 @@ class LogHandler(BaseHandler):
 
         current_page_number = 1 if current_page_number < 1 else current_page_number
 
-        pager_num = int(MLog.total_number() / CMS_CFG['list_num'])
+        # pager_num = int(MLog.total_number() / CMS_CFG['list_num'])
         kwd = {
             'pager': '',
             'title': '',

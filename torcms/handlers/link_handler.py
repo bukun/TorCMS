@@ -5,7 +5,6 @@ Handler for links.
 
 import json
 
-import tornado.escape
 import tornado.web
 from torcms.core import privilege
 from config import CMS_CFG

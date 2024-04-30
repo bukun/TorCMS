@@ -92,10 +92,10 @@ class LabelHandler(BaseHandler):
             'kind': kind,
         }
 
-        the_list_file = './templates/list/label_{kind}.html'.format(kind=kind)
+        the_list_file = f'./templates/list/label_{kind}.html'
 
         if os.path.exists(the_list_file):
-            tmpl = 'list/label_{kind}.html'.format(kind=kind)
+            tmpl = f'list/label_{kind}.html'
 
         else:
             tmpl = 'list/label.html'
@@ -159,10 +159,7 @@ class InfoTagHandler(BaseHandler):
 
     def initialize(self, **kwargs):
         super().initialize()
-        if 'kind' in kwargs:
-            self.kind = kwargs['kind']
-        else:
-            self.kind = '9'
+        self.kind = kwargs.get('kind', '9')
 
     def get(self, *args, **kwargs):
         url_arr = self.parse_url(args[0])
