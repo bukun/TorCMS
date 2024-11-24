@@ -15,6 +15,9 @@ from datetime import timedelta
 import os
 from cfg import DB_INFO, CACHES_INFO
 
+from django.views.generic import TemplateView
+
+
 import os
 WAGTAIL_SITE_NAME='WAGTAIL ADMIN'
 SITE_ID = int(os.environ.get('SITE_ID', 1))
@@ -421,7 +424,9 @@ USE_L10N = True  # 默认False，以本地化格式显示数字和时间
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),
+                    os.path.join(BASE_DIR, 'yy_static_html'),
+                    ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'yy_media')  # 上传图片的根目录
 

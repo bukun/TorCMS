@@ -21,6 +21,9 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from django.views.generic import TemplateView
+
+
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -58,6 +61,7 @@ urlpatterns = [
     path('wagtail_pages/', include(wagtail_urls)),  # 知识页面
 
 
+    path('static-docs/', TemplateView.as_view(template_name='index.html')),
     # path('', cat_views.Categorylist, name='category_index'),
     path('doc_save/', doc_views.save_doc, name='doc_spider_save'),
     # path('', yaouview.index, name='sindex'),
