@@ -104,3 +104,7 @@ node_modules
 package-lock.json
 gh-pages
 tags
+
+# for Django
+
+migrations/
