@@ -65,6 +65,7 @@ target/
 
 .DS_Store
 xx*
+yy_*
 zz_*
 # config.py
 cfg.py
