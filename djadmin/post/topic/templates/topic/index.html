@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block head %}
+<title>首页</title>
+
+{% endblock %}
+{% block mainbody %}
+
+<div class="col-sm-12">
+    <div class="card">
+        <div class="card-header">问答列表</div>
+        {% if topic_list %}
+        <div class="panel-body">
+
+            {% for dat in topic_list %}
+            <li class="list-group-item">
+
+                <div class="row">
+
+                    {% if dat.logo != "" %}
+                    <div class="col-sm-4">
+                        <img src="/static/img/{{ dat.logo }}" class="img-thumbnail" style="border: 1px solid #ddd"
+                             alt="{{ dat.title }}"/>
+                    </div>
+                    <div class="col-sm-8">
+
+                        <div class="listinfo_title">
+
+                            <a href="{% url 'topic:topic_view' dat.id %}" title="{{ dat.title }}"> {{ dat.title }} </a>
+                        </div>
+                        <br>
+                        <div class="padt10"><strong>{{ _('Label') }}：</strong>
+                            {% for label in dat.label.all %}
+                            <a href="{% url 'label:label_topiclist' label.id %}" class="btn btn-xs btn-primary">
+                                {{ label }}
+                            </a> &nbsp;&nbsp;
+                            {% endfor %}
+                        </div>
+                        <br>
+                        <div class="padt10"> {{ dat.create_time | date:"Y-m-j" }}</div>
+                        <br>
+                        <div class="listinfo_content padt10"> {{ dat.cnt_md |  safe | truncatechars:130 }}</div>
+
+                    </div>
+                    {% else %}
+                    <div class="col-sm-12">
+                        <div class="listinfo_title">
+                            <a href="{% url 'topic:topic_view' dat.id %}" title="{{ dat.title }}"> {{ dat.title }} </a>
+                        </div>
+                        <br>
+                        <div class="padt10"><strong>{{ _('Label') }}：</strong>
+                            {% for label in dat.label.all %}
+                            <a href="{% url 'label:label_topiclist' label.id %}" class="btn btn-xs btn-primary">
+                                {{ label }}
+                            </a> &nbsp;&nbsp;
+                            {% endfor %}
+                        </div>
+                        <br>
+                        <div class="padt10"> {{ dat.create_time | date:"Y-m-j" }}</div>
+                        <br>
+                        <div class="listinfo_content padt10"> {{ dat.cnt_md | safe |truncatechars:130 }}</div>
+                    </div>
+                    {% endif %}
+                </div>
+            </li>
+
+            {% endfor %}
+
+
+            {# 分页链接 #}
+            {% if is_paginated %}
+            <ul class="pagination">
+                {% if data.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ data.previous_page_number }}">Previous</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled"><span class="page-link">Previous</span></li>
+                {% endif %}
+
+                {% for i in data.paginator.page_range %}
+                {% if data.number == i %}
+                <li class="page-item active"><span class="page-link"> {{ i }} <span
+                        class="sr-only">(current)</span></span>
+                </li>
+                {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+                {% endfor %}
+
+                {% if data.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ data.next_page_number }}">Next</a></li>
+                {% else %}
+                <li class="page-item disabled"><span class="page-link">Next</span></li>
+                {% endif %}
+            </ul>
+            {% endif %}
+
+        </div>
+
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

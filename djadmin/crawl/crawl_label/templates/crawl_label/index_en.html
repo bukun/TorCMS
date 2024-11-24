@@ -1,0 +1,17 @@
+{% extends "crawl_base.html" %}
+{% load static %}
+
+{% block head %}
+<title>Crawling data list</title>
+
+{% endblock %}
+{% block mainbody %}
+
+<div class="wrapper">
+
+    <div class="content">
+            {% include "./index_data_list_en.html" with data=cat_data %}
+    </div>
+</div>
+
+{% endblock %}

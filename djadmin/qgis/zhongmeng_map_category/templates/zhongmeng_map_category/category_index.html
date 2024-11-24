@@ -1,0 +1,21 @@
+{% extends "zhongmeng_base.html" %}
+{% block head %}
+<title>{{_('Category List')}}</title>
+
+{% endblock %}
+{% block mainbody %}
+<div class="wrapper">
+    <div class="content">
+        <div class="container-fluid">
+
+            <div class="card-header">
+                {{_('Map category')}}
+            </div>
+            <div class="card-body">
+
+                {% include "catalog_of.html" with Category=Category %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

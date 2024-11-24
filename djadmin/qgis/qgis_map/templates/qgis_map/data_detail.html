@@ -1,0 +1,224 @@
+
+{% extends parent_template %}
+
+{% block head %}
+<title>{{ data.title }}</title>
+{% endblock %}
+{% block mainbody %}
+<style type="text/css">
+    #map_div {
+        width: 100%;
+        height: 420px;
+        border: 1px solid black;
+        text-align: center;
+        align-self: center;
+        z-index: 1;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-9">
+        <div class="card  ">
+            <div class="card-header listinfo_title">
+                {% if cat_name == "zhongmeng" or cat_name == "yaou"%}
+                <h3> {{ data.en_title }}</h3>
+                {% else %}
+                <h3> {{ data.title }}</h3>
+                {% endif %}
+
+            </div>
+
+            <div class="panel-body">
+
+                <div class="row">
+                    <div class="col-sm-12 bor_bottom">
+                        <strong>{{ _('Release time') }}：</strong>
+                        <span>{{ data.create_time | date:"Y-m-d" }}&nbsp;</span> &nbsp;&nbsp;&nbsp;&nbsp;
+
+
+                        <p><strong>{{ _('Category') }}：</strong>
+                            {% if cat_name == "anso" and data.ansocategory %}
+
+                            <a class="btn btn-xs btn-success"
+                               href="{% url 'ansomapcategory:category_datalist' data.ansocategory.id %}">
+                                {{ data.ansocategory }}
+                            </a>
+
+                            {% endif %}
+                            {% if cat_name == "yaou" and data.yaoucategory %}
+
+                            <a class="btn btn-xs btn-success"
+                               href="{% url 'yaoumapcategory:category_datalist' data.yaoucategory.id %}">
+                                {{ data.yaoucategory }}
+                            </a>
+
+                            {% endif %}
+                            {% if cat_name == "zhongba" and data.zhongbacategory%}
+
+                            <a class="btn btn-xs btn-success"
+                               href="{% url 'zhongbamapcategory:category_datalist' data.zhongbacategory.id %}">
+                                {{ data.zhongbacategory }}
+                            </a>
+
+                            {% endif %}
+                            {% if cat_name == "zhongmeng" and data.zhongmeng%}
+
+                            <a class="btn btn-xs btn-success"
+                               href="{% url 'zhongmengmapcategory:category_datalist' data.zhongmengcategory.id %}">
+                                {{ data.zhongmengcategory }}
+                            </a>
+
+                            {% endif %}
+
+
+                            {% if cat_name == "heitu" and data.heitucategory%}
+
+                            <a class="btn btn-xs btn-success"
+                               href="{% url 'heitumapcategory:category_datalist' data.heitucategory.id %}">
+                                {{ data.heitucategory }}
+                            </a>
+
+                            {% endif %}
+
+                             {% if cat_name == "bigscreen" and data.bigscreencategory%}
+
+                            <a class="btn btn-xs btn-success"
+                               href="{% url 'bigscreenmapcategory:category_datalist' data.bigscreencategory.id %}">
+                                {{ data.bigscreencategory }}
+                            </a>
+
+                            {% endif %}
+                        </p>
+{#                         <p><strong>{{ _('Label') }}：</strong>#}
+{#                            {% for label in data.label.all %}#}
+{#                                <a href="{% url 'qgis_label:qgis_label_datalist' label.id %}"#}
+{#                                   class="btn btn-xs btn-primary">#}
+{#                                    {{ label }}#}
+{#                                </a> &nbsp;&nbsp;#}
+{#                            {% endfor %}</p>#}
+
+
+                    </div>
+                    <div class="map_div" id="map_div"></div>
+
+                    <div id="wiki_cnt" class="col-sm-12 listinfo_content bor_bottom">
+                        {% if cat_name == "zhongmeng" or cat_name == "yaou"%}
+                         {{ data.get_en_html_content | safe }}
+
+                        {% else %}
+                        {{ data.get_html_content | safe }}
+                        {% endif %}
+                    </div>
+                    <div class="col-sm-12 bor_bottom">
+
+
+                        <p><strong>{{ _('Central point latitude') }}：</strong>{{ data.lat }} </p>
+                        <p><strong>{{ _('Central point longitude') }}：</strong>{{ data.lon }} </p>
+                        <p><strong>{{ _('Max zoom level') }}：</strong>{{ data.zoom_max }} </p>
+                        <p><strong>{{ _('Min zoom level') }}：</strong>{{ data.zoom_min }} </p>
+                        <p><strong>{{ _('Current zoom level ') }}：</strong>{{ data.zoom_current }} </p>
+                        <!--                        <p><strong>{{ _('Url') }}：</strong>{{ data.url }} </p>-->
+                        <!--                        <p><strong>{{ _('Host') }}：</strong>{{ data.host }} </p>-->
+                        <!--                        <p><strong>{{ _('Path') }}：</strong>{{ data.path }} </p>-->
+                        <!--                        <p><strong>{{ _('Layer Name') }}：</strong>{{ data.layer_name }} </p>-->
+                    </div>
+
+
+                </div>
+
+
+                {% for key,value in data.extinfo.items %}
+                {% if value != 'None' %}
+                <div class="row bor_bottom">
+                    <div class="col-sm-3">
+                        <span class="des"><strong>{{ key|slice:'6:' }}</strong></span>
+                    </div>
+                    <div class="col-sm-9">
+                        <span class="val">{{ value }} </span>
+                    </div>
+                </div>
+
+                {% endif %}
+                {% endfor %}
+
+            </div>
+
+            <div class="panel-footer">
+
+                <div class="row">
+
+                    <div class="col-md-12"
+                         style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap; display: block;">
+
+                        {{ _('Article link') }}：
+                        <a href="{% url 'qgismap:map_view' mapid=data.id category=cat_name %}"
+                           style="color: #003366">
+                            {% if cat_name == "zhongmeng"%}
+                            {{ data.en_title }}
+                            {% else %}
+                            {{ data.title }}
+                            {% endif %}
+                        </a>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-sm-3">
+        <div class="card-header">
+
+
+            {{_('Map category')}}
+
+        </div>
+        <div class="card-body">
+            {% include "map_catalog_of.html" with Category=Category %}
+        </div>
+
+    </div>
+</div>
+<SCRIPT>
+    $(document).ready(function () {
+        var popup = L.popup();
+
+        function onMapClick(e) {
+            popup
+                .setLatLng(e.latlng)
+                .setContent("Location:" + e.latlng.toString())
+                .openOn(map_idx);
+        }
+
+
+        var layers1 = L.tileLayer.wms("https://tile.osgeo.cn/service?", {
+            layers: '{{ data.mapid }}',
+            format: 'image/png',
+            transparent: true,
+        });
+
+
+        var osm = L.tileLayer.chinaProvider('TianDiTu.Normal.Map', {
+            maxZoom: 18,
+            attribution: "东北亚大数据中心",
+            id: "mapbox.streets"
+        });
+
+
+        var map_idx = L.map('map_div', {
+            center: [{{ data.lat }}, {{ data.lon }}],
+            zoom: {{ data.zoom_current }},
+            maxZoom: {{ data.zoom_max }},
+            minZoom: {{ data.zoom_min }},
+        });
+        map_idx.on('click', onMapClick);
+        osm.addTo(map_idx);
+        layers1.addTo(map_idx);
+
+    })
+</script>
+{% endblock %}

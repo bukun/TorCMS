@@ -1,0 +1,15 @@
+    /*屏幕在460到500px之间时，目标隐藏*/
+    @media (min-width: 460px) and (max-width: 500px)
+        {.hidden-ssm{display:none !important}}
+         /*屏幕在460到600px之间时，目标隐藏*/
+    @media (min-width: 460px) and (max-width: 600px)
+        {.hidden-sms{display:none !important}}
+         /*屏幕在460到768px之间时，目标隐藏*/
+    @media (min-width: 460px) and (max-width: 768px)
+        {.hidden-mid{display:none !important}}
+         /*屏幕在460到991px之间时，目标隐藏*/
+    @media (min-width: 460px) and (max-width: 991px)
+        {.hidden-mids{display:none !important}}
+         /*屏幕在460到1199px之间时，目标隐藏*/
+    @media (min-width: 460px) and (max-width: 1199px)
+        {.hidden-mds{display:none !important}}

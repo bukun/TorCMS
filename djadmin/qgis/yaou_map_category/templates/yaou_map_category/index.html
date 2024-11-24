@@ -1,0 +1,314 @@
+{% extends "yaou_base.html" %}
+{% load static %}
+
+{% block head %}
+<title>category List</title>
+<style>
+    .border-heading {
+        font-size: 28px;
+        font-weight: bold;
+
+    }
+
+    .border-heading span {
+        padding: 10px 0 0 0;
+        display: inline-block;
+        border-bottom: 2px solid #04182d;
+        width: 97%
+
+    }
+
+    #map_div {
+        width: 100%;
+        height: 420px;
+        border: 1px solid black;
+        text-align: center;
+        align-self: center;
+        z-index: 1;
+    }
+    .spacer-100{
+        display: block;
+        margin-top: 30px;
+    }
+   h3{
+       margin:50px 0 -10px 0;
+       padding-bottom: -10px;
+
+   }
+
+</style>
+{% endblock %}
+{% block mainbody %}
+
+<div class="wrapper">
+    <div class="map_div" id="map_div"></div>
+    <div class="content">
+            {% include "./index_data_list.html" with data=cat_data %}
+        <div class="row">
+
+            <h3 class="border-heading"><span>Map Service Publishing Based on QGIS Server</span>
+            </h3>
+
+            <section id="cpjrc-quasar" data-section="our-team">
+                <div class="col-sm-12 team-item gtco-team-reverse">
+                    <div class="col-md-4 col-md-push-8 animate-box" data-animate-effect="fadeInRight">
+                        <div class="img-shadow">
+                            <a href="https://www.osgeo.cn/sphinx-map/xx_rst/ch84/index.html" target="_blank">
+                                <img src="{% static 'imgs/gisphinx.png' %}" class="img-responsive"
+                                     alt="Map Service Publishing Based on QGIS Server">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-md-pull-4 animate-box" data-animate-effect="fadeInRight">
+                        <div class="listinfo_content about">
+
+
+                            <p>
+                                Use the static document website tool Sphinx to establish a map service publishing, and
+                                management tool to support the development of the project. For the convenience of
+                                management, a directory hierarchical self-derivation system is established using folder
+                                naming rules to form a secondary directory structure.
+
+                            </p>
+                            <p>
+                                Mapping uses QGIS Desktop. Map services are published through QGIS Server. Obtain
+                                metadata content based on OGC related standards, including title, abstract, author, data
+                                source, date and time, etc.
+                            </p>
+                            <p>
+                                The organization and construction of content use the Python documentation tool Sphinx.
+                                By adding the Leaflet plugin as a functional extension, this static website generator
+                                has the ability to visualize map displays.
+                            </p>
+                            <p><a href="https://www.osgeo.cn/sphinx-map/xx_rst/ch84/index.html" target="_blank"
+                                  class="btn btn-primary btn-sm">VIEW</a></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+        <div class="spacer-100"></div>
+        <div class="row">
+
+            <h3 class="border-heading"><span> Resources Environment and Socio Economy Information of the Eurasian Continent</span>
+            </h3>
+
+            <section id="cpjrc-quasar" data-section="our-team">
+                <div class="col-sm-12 team-item gtco-team-reverse">
+                    <div class="col-md-7 col-md-push-5 animate-box" data-animate-effect="fadeInRight">
+                        <div class="listinfo_content about">
+
+
+                            <p>
+                                The Eurasian continent, also known as the Eurasian continent, is a combination of the
+                                Asian and European continents, with an area of over 50 million square kilometers. From
+                                the perspective of plate tectonics, the Eurasian continent is composed of the Eurasian
+                                Plate, the Indian Plate, the Arabian Plate, and the North American Plate, where East
+                                Siberia is located. The Eurasian continent can also be a nickname for the regions where
+                                the various member republics were located after the dissolution of the former Soviet
+                                Union. The geographical environments of Asia and Europe are complex and diverse, with
+                                transitional natural landscapes and distinctive economic and social development.
+                            </p>
+
+                            <p><a href="http://eurasia.igadc.cn/" target="_blank"
+                                  class="btn btn-primary btn-sm">VIEW</a></p>
+                        </div>
+
+                    </div>
+                    <div class="col-md-5 col-md-pull-7 animate-box" data-animate-effect="fadeInRight">
+                        <div class="img-shadow">
+                            <a href="http://eurasia.igadc.cn/" target="_blank">
+                                <img src="{% static 'imgs/eurasia.png' %}" class="img-responsive"
+                                     alt="Resources Environment and Socio Economy Information of the Eurasian Continent">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+        </div>
+        <div class="spacer-100"></div>
+        <div class="row ">
+
+            <h3 class="border-heading"><span>Online Research Collaboration System</span>
+            </h3>
+
+            <section id="cpjrc-quasar" data-section="our-team">
+                <div class="col-sm-12 team-item gtco-team-reverse">
+                    <div class="col-md-4 col-md-push-8 animate-box" data-animate-effect="fadeInRight">
+                        <div class="img-shadow">
+                            <a href="http://pygis.igadc.cn/" target="_blank">
+                                <img src="{% static 'imgs/jupyter.png' %}" class="img-responsive"
+                                     alt="Online Research Collaboration System">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-md-pull-4 animate-box" data-animate-effect="fadeInRight">
+                        <div class="listinfo_content about">
+
+
+                            <p>
+                                Jupyter Notebook is a web-based interactive computing environment that can be used for
+                                data cleaning and transformation, statistical modeling, data visualization, machine
+                                learning, and more. For users of data analysis, it is suitable for data visualization.
+                                By adjusting code and parameters to update charts and visualization effects in real
+                                time, interactive data analysis and visualization operations can be carried out, which
+                                can help us better conduct data analysis and exploration.
+                            </p>
+                            <p>
+                                Benefiting from the Debian GIS/Ubuntu GIS project, there are currently many open-source
+                                GIS software tools available in Linux systems, and many tools can be called by Python.
+                            </p>
+                            <p>
+                                This platform is based on Python, open-source GIS, and open data to build an online
+                                collaborative computing environment, establish visualization tools, and complete
+                                interactive collaborative data analysis.
+                            </p>
+                            <p><a href="http://pygis.igadc.cn/" target="_blank"
+                                  class="btn btn-primary btn-sm">Open system</a></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+        </div>
+        <!--色楞格河-->
+        <div class="spacer-100"></div>
+         <div class="row ">
+
+            <h3 class="border-heading"><span>Selenge River Basin Geo-Spatial Data Visualization System</span>
+            </h3>
+
+            <section id="cpjrc-quasar" data-section="our-team">
+                <div class="col-sm-12 team-item gtco-team-reverse">
+                    <div class="col-md-7 col-md-push-5 animate-box" data-animate-effect="fadeInRight">
+                          <div class="listinfo_content about">
+
+
+                            <p>
+                                The Selenga River flows through the rivers of Mongolia and central eastern Russia, also known as the "Xueliangge River" or "Xuelingge River". Originating from the Hangai Mountains in Mongolia, it is formed by the confluence of the Ider River and the Mulun River. The river flows northeast and merges with the Erhun River at Sukhbaatar; The following is called the Selenge River, which continues northward and turns east into the territory of Russia, reaching the capital of Buryat, Ulan Ude. The river flows northward from here to Tatorovo, then turns westward and flows through a delta before flowing into Lake Baikal. The Selenge River flows gently downwards from Sukhbaatar to its mouth, serving as a passage for Mongolia to enter the Asian plain of Russia. The Trans Siberian Railway runs along the upper reaches of the river valley to Ulan Ude, where a branch line extends to Sukhbaatar and then up the Orhun River to reach Ulan Bator in Mongolia.
+                            </p>
+
+                            <p><a href="http://selenge-show.igadc.cn/#/" target="_blank"
+                                  class="btn btn-primary btn-sm">View big screen</a>
+                            <a href="http://selenge.igadc.cn" target="_blank"
+                                  class="btn btn-primary btn-sm">View CMS</a></p>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-md-pull-7 animate-box" data-animate-effect="fadeInRight">
+                        <div class="img-shadow">
+                            <a href="http://selenge-show.igadc.cn/#/" target="_blank">
+                                <img src="{% static 'imgs/selenge.png' %}" class="img-responsive"
+                                     alt="Selenge River Basin Geo-Spatial Data Visualization System">
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+
+        </div>
+        <!-- anso-->
+        <div class="spacer-100"></div>
+         <div class="row ">
+
+            <h3 class="border-heading"><span>黑龙江流域跨境农业优化配置与决策支持 </span>
+            </h3>
+
+            <section id="cpjrc-quasar" data-section="our-team">
+                <div class="col-sm-12">
+                    <div class="col-md-5 col-md-push-7 animate-box" data-animate-effect="fadeInRight">
+                        <div class="img-shadow">
+                            <a href="http://anso-show.igadc.cn/#/" target="_blank">
+                                <img src="{% static 'imgs/anso.png' %}" class="img-responsive"
+                                     alt="ANSO">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-7 col-md-pull-5 animate-box" data-animate-effect="fadeInRight">
+                        <div class="listinfo_content about">
+
+                            <p>
+                               黑龙江，俄罗斯称阿穆尔河，蒙古语Kharamuren。 东亚大河。 形成东南西伯利亚与中国之间的部分边界。发源于中国东北、内蒙古北部与西伯利亚之间的边界， 并大体沿这条边界向东和东南方向流往西伯利亚城市哈巴罗夫斯克， 然后再从那里掉头朝东北方向流去，注入鞑靼海峡，将西伯利亚与库页岛分开， 总长度约5498公里，发源于蒙古肯特山南侧， 在石喀勒河与额尔古纳河交汇处形成。经过中国黑龙江省北界与俄罗斯哈巴罗夫斯克区东南界， 流到鄂霍次克海的鞑靼海峡。中国方面认为，黑龙江本是中国的内河， 19世纪中后期沙俄强行占领中国黑龙江以北、乌苏里江以东大片领土之后，才成为中俄界河。 黑龙江是中国四大河流之一、世界十大河之一， 黑龙江沿线曾盛产沙金，在清朝达到繁荣，为带动当地经济发展起到了重要作用。
+                            </p>
+
+                            <p><a href="http://anso-show.igadc.cn/#/" target="_blank"
+                                  class="btn btn-primary btn-sm">View big screen</a>
+                             <a href="/anso_map_category/index/" target="_blank"
+                                  class="btn btn-primary btn-sm">View CMS</a></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+        </div>
+        <!-- crawl-->
+         <div class="spacer-100"></div>
+
+         <div class="row ">
+            <h3 class="border-heading"><span>Crawling data list </span></h3>
+
+         </div>
+        <div class="row">
+         {% include "index_crawl_data_list_en.html" with cat_data=crawl_data %}
+
+        </div>
+
+         <!-- data/dataset-->
+
+
+         <div class="row ">
+            <h3 class="border-heading"><span>Dataset</span></h3>
+
+         </div>
+        <div class="row">
+         {% include "index_data_list.html" with cat_data=dataset_cat_data %}
+
+        </div>
+
+    </div>
+</div>
+<SCRIPT>
+    $(document).ready(function () {
+        var popup = L.popup();
+
+        function onMapClick(e) {
+            popup
+                .setLatLng(e.latlng)
+                .setContent("Location:" + e.latlng.toString())
+                .openOn(map_idx);
+        }
+
+
+        var layers1 = L.tileLayer.wms("https://tile.osgeo.cn/service?", {
+            layers: 'qn0579',
+            format: 'image/png',
+            transparent: true,
+        });
+
+
+        var osm = L.tileLayer.chinaProvider('TianDiTu.Normal.Map', {
+            maxZoom: 18,
+            // attribution: "东北亚大数据中心",
+            id: "mapbox.streets"
+        });
+
+
+        var map_idx = L.map('map_div', {
+            center: [58.891, 67.23],
+            zoom: 3,
+            maxZoom: 15,
+            minZoom: 1,
+        });
+        map_idx.on('click', onMapClick);
+        osm.addTo(map_idx);
+        layers1.addTo(map_idx);
+
+    })
+</script>
+{% endblock %}

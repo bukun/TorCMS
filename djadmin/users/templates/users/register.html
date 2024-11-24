@@ -1,0 +1,73 @@
+{% extends "yaou_base.html" %}
+{% block head %}
+    <title>{{ data.title }}</title>
+{% endblock %}
+{% block mainbody %}
+     <div class="container">
+    <div class="row mt-3">
+
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active">
+                    {{ _('User Register') }}
+                </li>
+            </ul>
+
+    </div>
+    <div class="row">
+        <div class="col-sm-9">
+
+                <div class="card-header listinfo_title">
+                    {{ _('User Register') }}
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+<br><br>
+                            <form method="post" action="" class="my-form">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                <button class="btn btn-primary" type="submit">Submit</button>
+                            </form>
+                            <br><br>
+
+                        </div>
+                    </div>
+
+
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                {{ _('Article link') }}：
+                                <a href="{% url 'users:register' %}" style="color: #116530"
+                                   title="{{ _('User Register') }}">
+                                    {{ _('Register') }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        <div class="col-sm-3">
+
+                <div class="card-header">
+                    <b> {{ _('Login') }}</b>
+                </div>
+                <div class="card-body">
+
+                    <h3>{{ _('Had an account already') }}? </h3>
+                    <br>
+
+                    <p><a href="{% url 'users:login' %}" class="btn btn-primary" title="Login">{{ _('Login') }}</a></p>
+                    <br>
+
+                </div>
+
+        </div>
+    </div>
+    </div>
+{% endblock %}

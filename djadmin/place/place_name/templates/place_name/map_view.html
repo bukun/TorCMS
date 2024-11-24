@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+{% block head %}
+<title>{{ data.title }}</title>
+<style type='text/css'>
+    #mapdiv {
+        width: 99%;
+        height: 500px;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var popup = L.popup();
+
+         // 定义一个简单的字典
+        var mark_dic = {};
+
+          $('#dt_type').change(function () {
+
+            var p1 = $('#dt_type').val();//这就是selected的值
+
+            var p1_text = $("#dt_type option:selected").text();
+            // hidden_maplet(p1 + '2008' + p2);
+            // 创建点图层
+            var p1_layer = p1
+            p1_layer = L.layerGroup();
+
+
+            $("#dt_t").text(p1_text);
+
+           $.ajax({
+                type: "get",
+                url: "/place_name/ajax/load_cities/" + p1,
+                dataType: "json",
+                success: function (msg) {
+
+                    // alert(data)
+                    var json1 = eval("(" + msg + ")");
+                    var json2 = [];
+                    var keyMap = {};
+                    for (var i = 0; i < json1.length; i++) {
+
+                        var json1Elem = json1[i];
+
+                        var elemKey = json1Elem.lat + '-' + json1Elem.lon; // 用&或者_也可以
+                        var his_text = `${json1Elem.historical_name} ( ${json1Elem.set_time} - ${json1Elem.cancel_time} )`
+                        if (elemKey in keyMap) {
+                            json2[keyMap[elemKey]].location_name.push(json1Elem.location_name);
+                            json2[keyMap[elemKey]].historical_name.push(his_text);
+                        } else {
+
+                            json2.push({
+                                "lat": json1Elem.lat,
+                                "lon": json1Elem.lon,
+                                "location_name": [json1Elem.location_name],
+                                "historical_name": [json1Elem.historical_name]
+                            });
+                            keyMap[elemKey] = json2.length - 1;
+                        }
+                    }
+                    for (var x = 0; x < json1.length; x++) {
+
+                        var title_text = '';
+                        for (j in json2[x].historical_name) {
+
+                            title_text = title_text + '<BR>' + json2[x].historical_name[j];
+                        }
+                        var igainfo = title_text;
+
+                        L.marker([json2[x].lat, json2[x].lon]).addTo(p1_layer).bindPopup(igainfo);
+                        // L.marker([json2[x].lat, json2[x].lon]).addTo(map).bindPopup(igainfo); // .openPopup();
+                        if (!(p1 in mark_dic)) {
+
+                            mark_dic[p1] = p1_layer;
+                        }
+
+                    }
+
+
+
+
+
+                },
+                error: function () {
+                }
+            });
+
+ L.control.layers(null, mark_dic).addTo(map);
+        });
+
+
+
+        var map = L.map("mapdiv", {
+            center: [40, 80],
+            zoom: 2,
+            maxZoom: 8,
+            minZoom: 1,
+
+        });
+
+        map.on('click', onMapClick);
+//    var osm = L.tileLayer.chinaProvider('Google.Satellite.Map', {
+        var osm = L.tileLayer.chinaProvider('TianDiTu.Normal.Map', {
+            maxZoom: 12,
+            attribution: "Map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors, " + "<a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, " + "Imagery © <a href=\"http://mapbox.com\">Mapbox</a>",
+            id: "mapbox.satellite",
+
+        });
+
+        osm.addTo(map);
+        L.tileLayer("http://t{s}.tianditu.gov.cn/DataServer?T=eva_w&x={x}&y={y}&l={z}&tk=57f1b8146ef867f14189f3f4bb1adc1c", {
+            subdomains: ['0', '1', '2', '3', '4', '5', '6', '7']
+        }).addTo(map);
+
+
+        function onMapClick(e) {
+
+            var latLng = parseLatLng(e.latlng.toString());
+            $.ajax({
+                type: "get",
+                url: "/place_name/get_city/" + latLng['lat'] + "/" + latLng['lng'] + "/",
+                dataType: "json",
+                success: function (msg) {
+                    msg=JSON.parse(msg)
+                    popup.setLatLng(e.latlng).setContent(msg).openOn(map);
+
+                },
+                error: function () {
+                }
+            });
+
+        }
+
+
+
+        function parseLatLng(str) {
+            var matches = str.match(/LatLng\(([^,]+), ([^)]+)\)/);
+            return {
+                lat: parseFloat(matches[1]),
+                lng: parseFloat(matches[2])
+            };
+        }
+
+
+    })
+</script>
+
+{% endblock %}
+{% block mainbody %}
+<div class="row">
+    <div class="col-sm-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+
+                <h1><span id="dt_t"></span> 区域城市 </h1>
+
+            </div>
+            <div class="panel-body">
+
+                <div id="mapdiv" class="mapdiv" tabindex="0" style=" border:1px darkred solid;"></div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="col-sm-4">
+        <div class="panel panel-default" id="map_right">
+            <div class="panel-heading">
+
+                <b>区域选择</b>
+
+            </div>
+            <div class="panel-body">
+                <div id="layertree" class="span6" style="line-height: 36px">
+
+                    <form role="form">
+                        <div class="form-group">
+                            <label>所属区域</label>
+                            <select class="form-control" id="dt_type" onChange="change(this.value)">
+
+                                {% for data in region_data %}
+
+
+                                {% for key,value in data.items %}
+
+                                <option value="{{key}}" {% if key == '中国' %} selected="selected" {% endif %}>{{ key }}</option>
+
+
+                                <!--                                {% for x in value %}-->
+                                <!--                                {{x.historical_name}};&nbsp;&nbsp;&nbsp;-->
+                                <!--                                {% endfor %}-->
+                                {% endfor %}
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

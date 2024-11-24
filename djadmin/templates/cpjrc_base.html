@@ -1,0 +1,202 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en-US" prefix="og: http://ogp.me/ns#">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <script src="{% static 'f2elib/jquery/jquery-3.6.x.min.js' %}"></script>
+    <script src="{% static 'f2elib/bootstrap-3.4.x/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'f2elib/jquery-validate_1.15.0/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'f2elib/magnific-popup_1.1.0/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'f2elib/leaflet-1.9.x/leaflet.js' %}"></script>
+    <script src="{% static 'f2elib/leaflet/leaflet.ChineseTmsProviders.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'f2elib/bootstrap-3.4.x/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'f2elib/leaflet-1.9.x/leaflet.css' %}">
+
+    <link rel="stylesheet" href="{% static 'f2elib/bootstrap-star-rating-master/css/star-rating.css' %}">
+    <link rel='stylesheet' id='main_css-css' href="{% static 'tass/css/cpjrc_style.css' %}" type='text/css' media='all'/>
+    <link rel="stylesheet" href="{% static 'tass/css/nav-hidden.css' %}">
+    <link href="{% static 'dist_mv/iconfont/iconfont.css' %}" rel=stylesheet>
+    <link href="{% static 'dist_mv/texticon.css' %}" rel=stylesheet>
+
+    {% block head %}
+    {% endblock %}
+    {% block headbase %}
+    {% endblock %}
+    {% block headinfo %}
+    {% endblock %}
+
+</head>
+<body>
+<div class="col-sm-12  header_bg">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4 navbar-home">
+                <a href="{% url 'cpjrc_data_category:cpjrc_index' %}" class="welcom">
+                    {{ _('Welcome to the CPEC') }}
+                </a>
+            </div>
+            <div class="col-sm-8 line50 visible-lg" style="text-align: right; line-height: 50px;  font-size: 14px">
+                <div class="row">
+                    <div class="col-sm-9">
+                       {% if user.is_authenticated %}
+                        <span id="user-out">
+                <span class="glyphicon glyphicon-user"></span>&nbsp;
+	        <a id="drr_userName" href="{% url 'users:profile' %}" title="User info"></a>&nbsp;<a href="{% url 'users:profile' %}"> {{ userinfo.user_name }}</a> | &nbsp;
+            <span class="glyphicon glyphicon-log-out"></span>&nbsp;
+	        <a href="{% url 'users:logout' %}" id="btn_logout" title="Logout">{{ _('Logout') }}</a>
+	      </span>
+                        {% else %}
+                        <span id="user-in">
+
+             <span class="glyphicon glyphicon-registration-mark"></span>&nbsp;
+	        <a href="{% url 'users:register' %}" title="Register">{{ _('Register') }}</a> &nbsp;
+                 | &nbsp;
+            <span class="glyphicon glyphicon-log-in"></span>&nbsp;
+	        <a href="{% url 'users:login' %}" id="btn_logout" title="Logout">{{ _('Login') }}</a>
+
+	       </span>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="container">
+    <img src="{% static 'cpjrc_images/new_China-Pakistan logo_v2.png' %}" alt="logo">
+    <br>
+    <br>
+</div>
+
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="container-fluid" id="nava">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#example-navbar-collapse">
+                    <span class="sr-only">Navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand hvr-underline-from-center" href="{% url 'cpjrc_data_category:cpjrc_index' %}" title="{{ _('HOME') }}">{{ _('HOME') }}</a>
+
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <nav class="cl-effect-13" id="cl-effect-13">
+                    <ul class="nav navbar-nav navbar-left" >
+
+                        <li><a href="/doc_category/1/" class="hvr-underline-from-center"
+                               title="{{ _('DOCUMENTS') }}"> {{ _('DOCUMENTS') }} </a>
+                        </li>
+
+
+                        <li class="dropdown  hidden-mid">
+                            <a href="" class="dropdown-toggle hvr-underline-from-center"
+                               data-toggle="dropdown"> {{ _('DATASETS') }}
+
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/filter/2203"
+                                       title="PHYSICAL &nbsp; GEOGRAAPHIC">PHYSICAL &nbsp; GEOGRAAPHIC</a></li>
+                                <li><a href="/filter/2209" title="TEMPORAL &nbsp; CHANGE">
+                                    TEMPORAL &nbsp; CHANGE </a></li>
+                                <li><a href="/filter/2204" title="DISASTER &nbsp; RISK">
+                                    DISASTER &nbsp; RISK </a></li>
+                                <li><a href="/filter/2206" title="EARTH &nbsp; SYSTEM">
+                                    EARTH &nbsp; SYSTEM </a></li>
+                                <li><a href="/filter/2205" title="SUSTAINABLE &nbsp; DEVELOPMEN">
+                                    SUSTAINABLE &nbsp; DEVELOPMENT</a></li>
+
+                                <li><a href="/filter/2207" title="FIELD &nbsp; APPLICATION">
+                                    FIELD &nbsp; APPLICATION </a></li>
+                                <li><a href="/filter/2208" title="SATELITE &nbsp; IMAGE">
+                                    SATELITE &nbsp; IMAGE </a></li>
+                                <li><a href="/filter/2210" title="OTHERS">
+                                    OTHERS</a></li>
+
+
+                            </ul>
+                        </li>
+
+                        <li><a href="/map/" class="hvr-underline-from-center"
+                               title="{{ _('MAPS') }}">  {{ _('MAPS') }}</a></li>
+                        <li><a href="/page/view/cpjrc_introduction/" class="hvr-underline-from-center hidden-mids"
+                               title="{{ _('INTRODUCTION') }}">  {{ _('INTRODUCTION') }} </a></li>
+                        <li><a href="/flood_disaster/index" class="hvr-underline-from-center"
+                               title="{{ _('FLOOD DISASTERS') }}">
+                            {{ _('FLOOD DISASTERS') }} </a></li>
+                        <li><a href="{% url 'users:profile' %}" class="hvr-underline-from-center hidden-mid"
+                               title="{{ _('USER') }}">  {{ _('USER') }} </a>
+                        </li>
+
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+{#                        <li>#}
+{#                            {% module widget_search() %}</li>#}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div style="margin-top: 20px">
+    {% block mainbody %}
+    <div class="container" style="padding-top: 0">
+        {% block typebody %}{% endblock %}
+    </div>
+
+    {% endblock%}
+</div>
+<footer class="footer">
+
+    <div class="copyright">
+        <p>&copy; 2023 - CPEC Data Sharing Platform for Resources,Environment,Ecology and Disaster
+        </p>
+    </div>
+
+</footer>
+
+</body>
+<script type="text/javascript">
+    var urlstr = location.href;
+
+    var urlstatus = false;
+    $("#nava a").each(function () {
+        if ((urlstr + '/').indexOf($(this).attr('href')) > -1 && $(this).attr('href') != '') {
+            $(this).addClass('current');
+            urlstatus = true;
+        } else {
+            $(this).removeClass('current');
+        }
+    });
+    $(".dropdown-menu a").each(function () {
+        if ($(this).hasClass('current')) {
+
+            $(this).parents('ul').siblings('a').eq(0).addClass('current');
+            $(this).eq(0).removeClass('current');
+            $(this).eq(0).addClass('ula');
+            urlstatus = true;
+        }
+    });
+    // if (!urlstatus) {
+    //     $(".dropdown-menu a").eq(0).addClass('ula');
+    // }
+
+</script>
+<script src="{% static 'jslib/dst/lazyload.js' %}"></script>
+<script type="text/javascript" src="{% static 'f2elib/bootstrap-star-rating-master/js/star-rating.js' %}"></script>
+<script type="text/javascript" src="{% static 'jslib/dst/gscript.js' %}"></script>
+{% block ending %}
+{% endblock %}
+</html>
+

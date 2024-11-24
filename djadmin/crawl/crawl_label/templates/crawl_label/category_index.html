@@ -1,0 +1,22 @@
+{% extends "crawl_base.html" %}
+{% block head %}
+<title>category List</title>
+
+{% endblock %}
+{% block mainbody %}
+
+<div class="wrapper">
+    <div class="content">
+        <div class="container-fluid">
+            <h3>Crawling data list</h3>
+            <div class="row">
+                <div class="col-sm-3">
+                    {% include "catalog_of.html" with Category=Category %}
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

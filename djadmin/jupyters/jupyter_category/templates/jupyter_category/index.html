@@ -1,0 +1,36 @@
+{% extends "yaou_base.html" %}
+{% load static %}
+
+{% block head %}
+    <title>Scientific - Model </title>
+    <style>
+
+        #map_div {
+            width: 100%;
+            height: 420px;
+            border: 1px solid black;
+            text-align: center;
+            align-self: center;
+            z-index: 1;
+        }
+    </style>
+{% endblock %}
+{% block mainbody %}
+
+    <div class="wrapper">
+        <div class="row mt-3">
+
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active">
+                        {{ _('Scientific - Model') }}
+                    </li>
+                </ul>
+
+        </div>
+        <div class="content">
+            {% include "./index_data_list.html" with data=cat_data %}
+        </div>
+    </div>
+
+{% endblock %}

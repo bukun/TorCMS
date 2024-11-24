@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block head %}
+    <title>  {{ _('Datasets') }}</title>
+
+{% endblock %}
+{% block mainbody %}
+
+    <div class="wrapper">
+        <div class="row mt-3">
+            <div class="col-sm-12">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                     <li class="breadcrumb-item">
+                        <a href="/categorys/index/">{{ _('Datasets') }}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="content">
+            <div class="container-fluid">
+                <h3> {{ _('Datasets') }}</h3>
+                <div class="row">
+                    <div class="col-sm-3">
+                        {% include "catalog_of.html" with Category=Category %}
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

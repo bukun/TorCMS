@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DataV.GeoAtlas 范围选择器示例</title>
+    <script src="https://api.map.baidu.com/api?v=2.0&ak=astD3PabjjD1jOMFehnxnIV7qhDUY1n5"></script>
+    <script src="https://cdn.dataV.baidu.com/datav.js"></script>
+</head>
+<body>
+    <div id="map" style="width: 600px; height: 400px;"></div>
+    <script>
+        // 初始化地图
+        var map = new BMapGL.Map("map");
+        var point = new BMapGL.Point(116.404, 39.915);  // 创建点坐标
+        map.centerAndZoom(point, 5);                    // 初始化地图,设置中心点坐标和地图级别
+
+        // 创建DataV.GeoAtlas范围选择器实例
+        var geoAtlas = new datav.GeoAtlas({
+            'map': map,                                 // 绑定地图实例
+            'autoSelect': false,                        // 自动选择关闭
+            'width': 180,                               // 宽度
+            'height': 120,                              // 高度
+            'background': '#fff',                       // 背景颜色
+            'border': '1px solid #ccc',                 // 边框
+            'position': {                               // 位置
+                'left': 0,
+                'top': 0
+            }
+        });
+
+        // 监听选择结束事件
+        geoAtlas.on('confirm', function(result) {
+            console.log(result); // 打印选择结果
+        });
+    </script>
+</body>
+</html>

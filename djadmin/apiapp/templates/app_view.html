@@ -1,0 +1,17 @@
+{% extends "./base.html" %}
+{% block head %}
+<title>{{ data.title }}</title>
+{% endblock %}
+{% block mainbody %}
+<div class="col-sm-9">
+<div class="card">
+<h3>App view</h3>
+ {% for res in resinfo %}
+
+      <p><a href="/apiapp/view/{{ res.id }}">{{ res.title }} </a>
+    </p>
+{% endfor %}
+</div>
+</div>
+
+{% endblock %}

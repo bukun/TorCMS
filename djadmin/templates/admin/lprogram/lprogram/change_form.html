@@ -1,0 +1,64 @@
+{% extends "admin/change_form.html" %}
+{% load i18n admin_urls static %}
+
+{% block extrahead %}
+    <link href="{% static 'mdeditor/css/editormd.min.css' %}" rel="stylesheet">
+    <link href="{% static 'mdeditor/css/editormd.preview.css' %}" rel="stylesheet">
+    <script src="{% static 'mdeditor/js/jquery.min.js' %}"></script>
+    <script src="{% static 'mdeditor/js/editormd.min.js' %}"></script>
+    <script src="{% static 'mdeditor/js/lib/marked.min.js' %}"></script>
+    <script src="{% static 'mdeditor/js/lib/prettify.min.js' %}"></script>
+    <script src="{% static 'mdeditor/js/lib/raphael.min.js' %}"></script>
+    <script src="{% static 'mdeditor/js/lib/underscore.min.js' %}"></script>
+    <script src="{% static 'mdeditor/js/lib/sequence-diagram.min.js' %}"></script>
+    <script src="{% static 'mdeditor/js/lib/flowchart.min.js' %}"></script>
+    <script src="{% static 'mdeditor/js/lib/jquery.flowchart.min.js' %}"></script>
+    <script>
+        $(function () {
+            // js 解析markdown
+            editormd.markdownToHTML("txt", {
+                //htmlDecode      : "style,script,iframe",  // you can filter tags decode
+                emoji: true,
+                taskList: true,
+                tex: true,  // 默认不解析
+                flowChart: true,  // 默认不解析
+                sequenceDiagram: true,  // 默认不解析
+            });
+
+            $(".reference-link").each(function (i, obj) {
+                console.log(obj)
+            })
+        })
+
+    </script>
+
+
+{% endblock %}
+
+{% block after_field_sets %}
+    <div class="submit-row">
+
+        <!-- 这里是默认的保存按钮，可以保持或修改它 -->
+        {{ submit_row }}
+
+        <!-- 添加自定义按钮 -->
+        <button  class="el-button el-button--primary el-button--small" onclick="OpenPage()" type="button">打开页面</button>
+    </div>
+
+
+    <script type="text/javascript">
+        function OpenPage() {
+            var objectId = {{ original.id }};
+            window.open('http://47.104.10.246:6793/#/project_page/' + objectId);
+            // window.open('http://localhost:9000/#/project_page/' + objectId);
+
+        }
+
+    </script>
+
+
+{% endblock %}
+
+
+
+

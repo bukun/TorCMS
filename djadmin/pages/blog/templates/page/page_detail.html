@@ -1,0 +1,81 @@
+{% extends "cpjrc_base.html" %}
+{% block head %}
+<title>{{ data.title }}</title>
+{% endblock %}
+{% block mainbody %}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header listinfo_title">
+                {{ data.title }}
+            </div>
+            <div class="panel-body">
+
+                <div class="row">
+                    {% if data.logo != ''%}
+                    <div class="col-sm-12 bor_bottom ">
+                        <div class="col-sm-6 ">
+
+
+                            <img src="{{ data.logo}}" alt="{{ data.logo }}" class="img-thumbnail">
+
+                        </div>
+                        <div class="col-sm-6">
+
+
+                            <p><strong>{{ _('Release time') }}：</strong>{{ data.create_time| date:"Y-m-j" }}</p>
+
+
+                        </div>
+
+                    </div>
+
+                    {% else %}
+                    <div class="col-sm-12 bor_bottom">
+
+
+                        <strong>{{ _('Release time') }}：</strong>
+                        <span>{{ data.create_time| date:"Y-m-j" }}&nbsp;</span> &nbsp;&nbsp;&nbsp;&nbsp;
+
+
+                    </div>
+
+                    {% endif %}
+
+
+                </div>
+
+
+                <div id="wiki_cnt" class="col-sm-12 listinfo_content bor_bottom">
+                    {{ data.get_html_content | safe }}
+                </div>
+
+
+                <div class="col-sm-12">
+
+                    <span id="showCnt"></span>
+
+                </div>
+
+            </div>
+            <div class="panel-footer">
+
+                <div class="row">
+
+                    <div class="col-md-12"
+                         style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap; display: block;">
+
+                        {{ _('Article link') }}： <a href="{% url 'page:page_view' data.slug %}"
+                                                    style="color: #003366"
+                                                    title="{{ data.title }}">{{ data.title }}</a>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

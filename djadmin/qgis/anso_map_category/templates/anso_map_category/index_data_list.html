@@ -1,0 +1,38 @@
+
+{% for cat in cat_data %}
+{% if forloop.first %}
+<div class="row" style="margin-top: 30px">{% endif %}
+    <div class="col-sm-3">
+        <div class="card-header">{{ cat.cat_name }}
+            <a style="font-size: 12px;float: right"
+               href="{% url 'ansomapcategory:category_datalist' cat.cat_id %}">More</a>
+        </div>
+        <div class="card-body">
+
+            <ul class="list-group">
+                {% for dat in cat.data%}
+                <li class="list-group-item">
+                    <a href="{% url 'qgismap:map_view' mapid=dat.id category='anso' %}">
+                        {{ dat.title }}
+                    </a>
+
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% if forloop.counter|divisibleby:4 %}
+</div>
+<div class="row" style="margin-top: 30px">
+    {% endif %}
+    {% if forloop.last %}
+</div>
+{% endif %}
+{% endfor %}
+<div style="clear:both;"></div>
+
+
+
+
+
+

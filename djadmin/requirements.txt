@@ -1,0 +1,45 @@
+# . ~/vpy_django/bin/activate
+
+#django==4.2.7
+django
+Pillow #上传图片用
+djangorestframework #Django REST framework (DRF)是基于Django实现的一个RESTful风格API框架，能够帮助我们快速开发RESTful风格的API，文档地址如下所示:官网：https://www.django-rest-framework.org/
+djangorestframework-simplejwt  #JSON Web Token认证后端
+django-simpleui
+django-import-export #表格批量导入导出功能。
+django-cors-headers #后端安装跨域模块
+django-filter #过滤
+psycopg2-binary
+#pip install django_redis #缓存
+django-cors-headers -i https://pypi.tuna.tsinghua.edu.cn/simple #如果前端与后端的数据来自不同的域名，就会形成跨域问题，只要是协议、域名、端口三者其一不同那就会形成跨域，我们可以使用 CORS 来解决后端对跨域访问的支持
+django-tables2
+django-widget-tweaks
+django-mptt
+
+django-ckeditor  #安装ckeditor
+django-js-asset #安装js_asset
+
+Scrapy
+scrapy_djangoitem
+
+django-mdeditor
+
+html2text
+markdown
+beautifulsoup4
+shapely
+django-contrib-comments
+django-leaflet
+geopy
+
+django-geoposition
+djangorestframework-gis
+django-rest-multiple-models #多模型序列化组件
+nbformat
+nbconvert
+
+django-bootstrap4
+django-friendship
+django-oauth-toolkit
+
+wagtail

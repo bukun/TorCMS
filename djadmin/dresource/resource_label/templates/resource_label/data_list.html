@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block head %}
+<title>category List</title>
+{% endblock %}
+{% block mainbody %}
+<div class="col-sm-9">
+<div class="card">
+    <div class="card-header">{{ label_name }}</div>
+    <div class="panel-body">
+
+        {% for dat in data %}
+        <li class="list-group-item" >
+
+            <div class="row ">
+
+                {% if dat.logo != "" %}
+                <div class="col-sm-4">
+                    <img src="/static/img/{{ dat.logo }}" class="img-thumbnail" style="border: 1px solid #ddd"
+                         alt="{{ dat.title }}"/>
+                </div>
+                <div class="col-sm-8">
+                    <div class="col-sm-12">
+                        <div class="listinfo_title">
+                            <a href="{% url 'resource:data_view' dat.id %}" title="{{ dat.title }}"> {{ dat.title }} </a>
+                        </div>
+                    <br>
+                        <div class="padt10"><strong>{{ _('Label') }}：</strong>
+                            {% for label in dat.label.all %}
+                            <a href="{% url 'resourcelabel:label_datalist' label.id %}" class="btn btn-xs btn-primary">
+                                {{ label }}
+                            </a> &nbsp;&nbsp;
+                            {% endfor %}
+                        </div><br>
+                        <div class="padt10"> {{ dat.create_time | date:"Y-m-j"  }}</div><br>
+                        <div class="listinfo_content padt10">  {{ dat.cnt_md |  safe |  truncatechars:130}}</div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="col-sm-12">
+                    <div class="listinfo_title">
+                        <a href="{% url 'resource:data_view' dat.id %}" title="{{ dat.title }}"> {{ dat.title }} </a>
+                    </div><br>
+                    <div class="padt10"><strong>{{ _('Label') }}：</strong>
+                        {% for label in dat.label.all %}
+                        <a href="{% url 'resourcelabel:label_datalist' label.id %}" class="btn btn-xs btn-primary">
+                            {{ label }}
+                        </a> &nbsp;&nbsp;
+                        {% endfor %}
+                    </div><br>
+                    <div class="padt10"> {{ dat.create_time | date:"Y-m-j"  }}</div><br>
+                    <div class="listinfo_content padt10">  {{ dat.cnt_md | safe | truncatechars:130}}</div>
+                </div>
+                {% endif %}
+            </div>
+        </li>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+</div>
+<div class="col-sm-3">
+    {% include "catalog_of.html" with Category=Category order=False link_url='resourcecatagory' data_name='resource' %}
+</div>
+{% endblock %}

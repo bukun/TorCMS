@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Openlayers Map</title>
+    <link rel="stylesheet" href="{% static 'f2elib/ol-7.4.x/ol.css' %}"/>
+    <script src="{% static 'f2elib/ol-7.4.x/dist/ol.js' %}"></script>
+    <script src="{% static 'f2elib/jquery/jquery-3.3.1.min.js' %}"></script>
+</head>
+<body>
+
+
+<div id="map" style="height: 700px; width: 100%;"></div>
+<script>
+    $(document).ready(function () {
+
+        $.ajax({
+            url: '/hdikuai/ajax/load_cities/',
+            data: {},
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                const geoda = new ol.layer.Tile({
+                    title: "高德地图",
+                    source: new ol.source.XYZ({
+                        url: 'http://wprd0{1-4}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&style=7&x={x}&y={y}&z={z}',
+                        wrapX: false,
+                    })
+                });
+
+
+                var layer_arr = [geoda]
+                data = eval("(" + data + ")");
+
+                for (var ii in data) {
+
+
+                    let vectorLayer = new ol.layer.Vector({
+                        source: new ol.source.Vector({
+                            format: new ol.format.GeoJSON({    // 用于解析从服务器端发过来的GeoJSON数据
+                                geometryName: 'geom'           // 注意：这里图形信息字段一定要和后端服务器一致
+                            }),
+                            // 设置KVP格式的请求URL
+
+                            url: 'https://cms.igadc.cn/geoserver/heitu/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=heitu%3A' + data[ii] + '&maxFeatures=50&outputFormat=application%2Fjson'
+                        })
+                    });
+
+                    layer_arr.push(vectorLayer)
+
+
+                }
+
+                let map = new ol.Map({
+                    target: 'map',                          // 关联到对应的div容器
+                    layers: layer_arr,
+                    view: new ol.View({                     // 地图视图
+                        projection: 'EPSG:4326',
+                        center: [123.23347, 42.42],
+                        zoom: 4
+                    }),
+
+                    controls: [new ol.control.FullScreen()]
+                });
+
+            },
+
+        });
+
+
+    });
+
+</script>
+</body>
+</html>

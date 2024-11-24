@@ -1,0 +1,135 @@
+<!--{% extends parent_template %}-->
+{% extends "base.html" %}
+{% block head %}
+    <title>{{ data.title }}</title>
+{% endblock %}
+{% block mainbody %}
+    <div class="row">
+ <div class="col-sm-12">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+             <li class="breadcrumb-item">
+                    <a href="/doc_category/index/"> {{ _('Documents') }}</a>
+                </li>
+             <li class="breadcrumb-item active">
+                {{ _('Text') }}
+            </li>
+        </ul>
+    </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-9">
+            <div class="panel panel-primary">
+                <div class="panel-heading listinfo_title">
+                    {{ data.title }}
+
+
+                </div>
+
+                <div class="panel-body">
+
+                    <div class="row">
+                        {% if data.logo != '' %}
+                            <div class="col-sm-12 bor_bottom ">
+                                <div class="col-sm-6 ">
+
+
+                                    <img src="/static/img/{{ data.logo }}" alt="{{ data.logo }}" class="img-thumbnail">
+
+                                </div>
+                                <div class="col-sm-6">
+
+
+                                    <p><strong>{{ _('Release time') }}：</strong>{{ data.create_time }}</p>
+                                    <p><strong>{{ _('Category') }}：</strong><a class="btn btn-xs btn-success"
+                                                                               href="{% url 'doc_category:category_datalist' data.category.id %}">
+                                        {{ data.category }}</a></p>
+                                    <p><strong>{{ _('Label') }}：</strong>
+                                        {% for label in data.label.all %}
+                                            <a href="{% url 'doc_label:label_datalist' label.id %}"
+                                               class="btn btn-xs btn-primary">
+                                                {{ label }}
+                                            </a> &nbsp;&nbsp;
+                                        {% endfor %}</p>
+
+
+                                </div>
+
+                            </div>
+
+                        {% else %}
+                            <div class="col-sm-12 bor_bottom">
+
+
+                                <strong>{{ _('Release time') }}：</strong>
+                                <span>{{ data.create_time }}&nbsp;</span> &nbsp;&nbsp;&nbsp;&nbsp;
+
+
+                                <p><strong>{{ _('Category') }}：</strong><a class="btn btn-xs btn-success"
+                                                                           href="{% url 'doc_category:category_datalist' data.category.id %}">
+                                    {{ data.category }}</a></p>
+                                <p><strong>{{ _('Label') }}：</strong>
+                                    {% for label in data.label.all %}
+                                        <a href="{% url 'doc_label:label_datalist' label.id %}"
+                                           class="btn btn-xs btn-primary">
+                                            {{ label }}</a> &nbsp;&nbsp;
+                                    {% endfor %}</p>
+
+                            </div>
+
+                        {% endif %}
+
+
+                    </div>
+
+
+                    <div id="wiki_cnt" class="col-sm-12 listinfo_content bor_bottom">
+                        {{ data.get_html_content | safe }}
+                    </div>
+                    {% for key,value in data.extinfo.items %}
+                        {% if value != 'None' %}
+                            <div class="row bor_bottom">
+                                <div class="col-sm-3">
+                                    <span class="des"><strong>{{ key|slice:'6:' }}</strong></span>
+                                </div>
+                                <div class="col-sm-9">
+                                    <span class="val">{{ value }} </span>
+                                </div>
+                            </div>
+
+                        {% endif %}
+                    {% endfor %}
+
+
+
+                </div>
+
+                <div class="panel-footer">
+
+                    <div class="row">
+
+                        <div class="col-md-12"
+                             style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap; display: block;">
+
+                            {{ _('Article link') }}： <a href="{% url 'document:doc_view' data.id %}"
+                                                        style="color: #116530"
+                                                        title="{{ data.title }}">{{ data.title }}</a>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-sm-3">
+
+{% include "yj_catalog_of.html" with Category=Category order=False link_url='doc_category' data_name='Document' %}
+
+        </div>
+    </div>
+{% endblock %}

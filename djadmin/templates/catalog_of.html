@@ -1,0 +1,38 @@
+<div class="card">
+    {% for category in Category %}
+
+
+    {% if category.parent == None %}
+
+    </ul>
+    <div class="card-header">
+
+
+        {{ category.name }}
+
+    </div>
+    <ul class="list-group">
+        {% else %}
+
+
+        <li class="list-group-item">
+
+            {% with app_url=link_url|add:":"|add:"category_datalist" app=category|add:"."|add:data_name|add:"."|add:"all" %}
+
+
+            <a href="{% url app_url  category.id  %}">{{ category.name }}</a>
+            <!--            ({{ app |length }})-->
+            {% endwith %}
+
+
+        </li>
+
+
+        {% endif %}
+
+
+        {% endfor %}
+
+</div>
+
+

@@ -1,0 +1,109 @@
+{% extends "yaou_base.html" %}
+{% block head %}
+    <title>{{ data.title }}</title>
+<style>
+    img {
+        max-width: 100%
+    }
+</style>
+{% endblock %}
+{% block mainbody %}
+    <div class="row mt-3">
+
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item">
+                    <a href="/jupyter_category/index/"> {{ _('Scientific - Models') }}</a>
+                </li>
+                  <li class="breadcrumb-item active">
+                    Text
+                </li>
+            </ul>
+
+    </div>
+    <div class="row">
+        <div class="col-sm-9">
+
+                <div class="card-header listinfo_title">
+                    {{ data.title }}
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% if data.logo != '' %}
+                            <div class="col-sm-12 bor_bottom ">
+                                <div class="col-sm-6 ">
+                                    <img src="/static/img/{{ data.logo }}" alt="/static/img/{{ data.logo }}"
+                                         class="img-thumbnail">
+                                </div>
+                                <div class="col-sm-6">
+
+                                    <p><strong>{{ _('Release time') }}：</strong>{{ data.create_time }}</p>
+
+                                    {% if data.file %}
+                                       {% if user.is_authenticated %}
+                                        <p>
+                                            <a class="btn btn-success btn-sm" title="Download literature"
+                                               href="/static/img/{{ data.file }}" target="_blank">
+                                                <span class="glyphicon glyphicon-download-alt"> </span>
+                                                {{ _('Download JUPYTER Document') }}</a>
+                                        </p>
+                                    {% endif %}
+                                    {% endif %}
+                                </div>
+
+                            </div>
+
+                        {% else %}
+                            <div class="col-sm-12 bor_bottom">
+
+                                <p>
+                                    <strong>{{ _('Release time') }}：</strong>
+                                    <span>{{ data.create_time }}&nbsp;</span> &nbsp;&nbsp;&nbsp;&nbsp;
+                                </p>
+                                {% if data.file %}
+                                 {% if user.is_authenticated %}
+                                    <p>
+                                        <a class="btn btn-success btn-sm" title="Download literature"
+                                           href="/static/img/{{ data.file }}" target="_blank">
+                                            <span class="glyphicon glyphicon-download-alt"> </span>
+                                            {{ _('Download JUPYTER Document') }}</a>
+                                    </p>
+                                {% endif %}
+                                {% endif %}
+
+
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+                    <div class="col-sm-12  bor_bottom">
+
+                        {{ data.get_html_content | safe }}
+                    </div>
+
+
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-md-12"
+                                 style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap; display: block;">
+
+                                {{ _('Article link') }}： <a href="{% url 'jupyter_data:data_view' data.id %}"
+                                                            style="color: #116530"
+                                                            title="{{ data.title }}">{{ data.title }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        <div class="col-sm-3">
+
+            {% include "yj_catalog_of.html" with Category=Category order=False link_url='jupyter_category' data_name='Scientific - Model' %}
+
+
+        </div>
+    </div>
+{% endblock %}

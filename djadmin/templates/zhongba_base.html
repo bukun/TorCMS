@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ _('Animal Husbandry Information in the Selenge River Basin') }}</title>
+    <meta charset="utf-8">
+    <meta name="generator" content="{{ _('Animal Husbandry Information in the Selenge River Basin') }}">
+    <meta name="applicable-device" content="pc,mobile">
+    <meta name="author" content="{{ _('Animal Husbandry Information in the Selenge River Basin') }}">
+    <meta name="Copyright" content="{{ _('Animal Husbandry Information in the Selenge River Basin') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+     <script src="https://r.osgeo.cn/jquery/jquery-3.6.x.min.js"></script>
+    <script src="https://r.osgeo.cn/bootstrap-3.4.x/js/bootstrap.min.js"></script>
+    <script src="https://r.osgeo.cn/jquery-validate_1.15.0/jquery.validate.min.js"></script>
+    <script src="https://r.osgeo.cn/magnific-popup_1.1.0/jquery.magnific-popup.min.js"></script>
+    <script src="https://r.osgeo.cn/leaflet-1.9.x/leaflet.js"></script>
+    <script src="https://r.osgeo.cn/leaflet/leaflet.ChineseTmsProviders.js"></script>
+    <link rel="stylesheet" href="https://r.osgeo.cn/bootstrap-3.4.x/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://r.osgeo.cn/leaflet-1.9.x/leaflet.css">
+
+    <link rel="stylesheet" href="{% static 'tass/css/nav-hidden.css' %}">
+    <link rel="stylesheet" href="{% static 'tass/css/style.css' %}">
+    {%block head%}
+    {%endblock%}
+</head>
+<body>
+
+
+<nav class="navbar navbar-default  bg-dark navbar-dark" role="navigation">
+
+    <div class="container-fluid" id="nava">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#example-navbar-collapse">
+                <span class="sr-only">Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/zhongba_map_category/index/"  class="navbar-brand hvr-underline-from-center" style="color:#fff">
+               Animal Husbandry Information in the Selenge River Basin</a>
+             <div class="collapse navbar-collapse " id="example-navbar-collapse">
+
+        </div>
+
+        </div>
+
+    </div>
+
+</nav>
+
+{% block banner %}{% endblock%}
+<div class="container">
+
+
+    {% block mainbody %}{% endblock %}
+
+
+</div>
+<footer class="footer">
+    <div class="container">
+
+
+        <p align="center" style="margin-top: 40px;font-weight: 700;color:#6b819a">Copyright
+            © {{ _('Animal Husbandry Information in the Selenge River Basin') }}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Powered by
+            <a href="https://github.com/bukun/TorCMS" target="_blank" title="TorCMS">TorCMS</a>
+
+        </p>
+    </div>
+</footer>
+
+
+
+</body>
+</html>

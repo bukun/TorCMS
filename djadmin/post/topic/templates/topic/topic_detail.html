@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+{% load static %}
+{% block head %}
+<title>Topic List</title>
+<style>
+
+
+    #commentform_title {
+        background: url(/static/imgs/icon_addcomment.gif) left;
+        background-repeat: no-repeat;
+        padding: 0 0 0 25px;
+        margin-bottom: 10px;
+
+        display: flex;
+        align-items: center;
+    }
+
+    #feedback_area_title {
+        border-bottom: 1px solid #ddd;
+        font-size: 14px;
+        font-weight: bold;
+        padding-top: 20px;
+
+
+    }
+
+    #p {
+        border: deepskyblue 1px dashed;
+        background-color: antiquewhite;
+
+    }
+</style>
+
+
+{% endblock %}
+
+{% block mainbody %}
+
+
+{% load comments %}
+
+<div class="col-sm-12">
+    <div class="card">
+        <div class="card-header listinfo_title">
+            {{ data.title }}
+
+        </div>
+
+        <div class="panel-body">
+
+            <div class="row">
+                {% if data.logo != ''%}
+                <div class="col-sm-12 bor_bottom ">
+                    <div class="col-sm-6 ">
+
+
+                        <img src="{{ data.logo}}" alt="{{ data.logo }}" class="img-thumbnail">
+
+                    </div>
+                    <div class="col-sm-6">
+
+
+                        <p><strong>{{ _('Release time') }}：</strong>{{ data.create_time | date:"Y-m-d" }}</p>
+
+                        <p><strong>{{ _('Label') }}：</strong>
+                            {% for label in data.label.all %}
+                            <a href="{% url 'label:label_topiclist' label.id %}" class="btn btn-xs btn-primary">
+                                {{ label }}
+                            </a> &nbsp;&nbsp;
+                            {% endfor %}</p>
+
+
+                    </div>
+
+                </div>
+
+                {% else %}
+                <div class="col-sm-12 bor_bottom">
+
+
+                    <strong>{{ _('Release time') }}：</strong>
+                    <span>{{ data.create_time | date:"Y-m-d"}}&nbsp;</span> &nbsp;&nbsp;&nbsp;&nbsp;
+
+
+                    <p><strong>{{ _('Label') }}：</strong>
+                        {% for label in data.label.all %}
+                        <a href="{% url 'label:label_topiclist' label.id %}" class="btn btn-xs btn-primary">
+                            {{ label }}</a> &nbsp;&nbsp;
+                        {% endfor %}</p>
+
+                </div>
+
+                {% endif %}
+
+
+            </div>
+
+
+            <div id="wiki_cnt" class="col-sm-12 listinfo_content bor_bottom">
+                {{ data.cnt_md | safe }}
+            </div>
+            {% for key,value in data.extinfo.items %}
+            {% if value != 'None' %}
+            <div class="row bor_bottom">
+                <div class="col-sm-3">
+                    <span class="des"><strong>{{ key|slice:'6:' }}</strong></span>
+                </div>
+                <div class="col-sm-9">
+                    <span class="val">{{ value }} </span>
+                </div>
+            </div>
+
+            {% endif %}
+            {% endfor %}
+
+            <hr>
+
+            <div class="comment_post"> {# 提交评论区域的div #}
+                <div id="commentform_title">发表评论</div>
+
+                {{ comment_form.media }}
+
+                {{ comment_form.content }}
+
+
+                <br>
+                <p>
+                    <button class="btn btn-primary" id="sub_btn">提交评论</button>
+                </p>
+            </div>
+
+
+            <div class="comment_show" id="comment_show"> {# 评论展示区域的div #}
+                <div id="feedback_area_title">评论列表</div>
+                <div class="comment_list">
+                    {% for comment in comment_list %} {# 循环展示评论的数据 #}
+                    <div>
+                        <p>第{{ forloop.counter }}楼 -> By:{{ comment.user.username }} -> {{ comment.create_time }} ->
+                            <button class="reply" username={{ comment.user.username }} pk={{ comment.pk }}>回复</button>
+                        </p>
+                        {# 在此处定义一个回复按钮，用户实现子评论,并且自定义属性username和pk，用于下面回复功能的实现 #}
+                        {% if comment.pre_comment_id %} {# 判断评论是否有父级评论 #}
+                        <p id="p">原评论内容：{{ comment.pre_comment.content }}</p> {# 如果有父级评论，则在中间显示父级评论的评论内容
+                        #}
+                        {% endif %}
+                        <p>评论内容：{{ comment.content |safe }}</p>
+                        <hr>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="panel-footer">
+
+            <div class="row">
+
+                <div class="col-md-12"
+                     style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap; display: block;">
+
+                    {{ _('Article link') }}： <a href="{% url 'topic:topic_view' data.id %}" style="color: #003366"
+                                                title="{{ data.title }}">{{ data.title }}</a>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<script src="{% static 'ckeditor/ckeditor.js' %}" type="text/javascript"></script>
+<script src="{% static 'prism/prism_patched.min.js' %}"></script>
+<link rel="stylesheet" href="{% static 'prism/prism.css' %}">
+<script>
+    var pid = ""
+    // if (CKEDITOR.instances['id_content'].getData() == '') {
+
+
+    $(".comment_post p button").click(function () {
+        // var str = CKEDITOR.instances['id_content'].document.getBody().getText(); //取得纯文本
+
+
+        $.ajax({
+            url: '/topic/sub_comment/',
+            type: 'post',
+            data: {
+                content: CKEDITOR.instances['id_content'].getData(),
+                // content: $("#cont").val(),
+                topic: "{{ data.id }}",
+                parent: pid
+            },
+            success: function (res) {
+                console.log(res)
+                CKEDITOR.instances['id_content'].setData("");
+
+                pid = ""
+                $("#comment_show").load(location.href + " #comment_show>*", "");
+                $("#comment_post").load(location.href + " #comment_post>*", "");
+
+            }
+        })
+
+
+    })
+    $(".reply").click(function () {
+
+        var editor = CKEDITOR.instances.id_content;
+
+        var val = "@" + $(this).attr("username") + "\n"
+
+        editor.setData(val);
+
+        pid = $(this).attr("pk")
+
+        editor.on("blur", function () {
+            editor.focus()
+        });
+
+    })
+
+    $(".django-ckeditor-widget").removeAttr('style');
+
+</script>
+
+
+{% endblock %}

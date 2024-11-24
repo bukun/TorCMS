@@ -1,0 +1,18 @@
+from django.db import models
+from django.contrib.auth import get_user_model
+from base.models import basemodel
+
+User = get_user_model()
+
+
+class TranslationENZH(basemodel):
+    text_en = models.TextField(blank=True, null=False, unique=True, verbose_name="英文内容")
+    trans_zh = models.TextField(blank=True, null=True, verbose_name="中文内容")
+
+    def __str__(self):
+        return str(self.id)
+
+    class Meta(basemodel.Meta):
+        db_table = 'trans_en_zh'
+        verbose_name = "英-中翻译"
+        verbose_name_plural = verbose_name

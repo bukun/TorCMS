@@ -1,0 +1,182 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ _('Animal Husbandry Information in the Selenge River Basin ') }}</title>
+    <meta charset="utf-8">
+    <meta name="generator" content="{{ _('Animal Husbandry Information in the Selenge River Basin ') }}">
+    <meta name="applicable-device" content="pc,mobile">
+    <meta name="author" content="{{ _('Animal Husbandry Information in the Selenge River Basin ') }}">
+    <meta name="Copyright" content="{{ _('Animal Husbandry Information in the Selenge River Basin ') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://r.osgeo.cn/jquery/jquery-3.6.x.min.js"></script>
+    <script src="https://r.osgeo.cn/bootstrap-3.4.x/js/bootstrap.min.js"></script>
+    <script src="https://r.osgeo.cn/jquery-validate_1.15.0/jquery.validate.min.js"></script>
+    <script src="https://r.osgeo.cn/magnific-popup_1.1.0/jquery.magnific-popup.min.js"></script>
+    <script src="https://r.osgeo.cn/leaflet-1.9.x/leaflet.js"></script>
+    <script src="https://r.osgeo.cn/leaflet/leaflet.ChineseTmsProviders.js"></script>
+    <link rel="stylesheet" href="https://r.osgeo.cn/bootstrap-3.4.x/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://r.osgeo.cn/leaflet-1.9.x/leaflet.css">
+
+    <link rel="stylesheet" href="http://selenge.igadc.cn/static/tass/css/nav-hidden.css">
+    <link rel="stylesheet" href="http://selenge.igadc.cn/static/tass/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+    <style>
+
+        .btn {
+            /* background: #fff; */
+            border: none;
+            cursor: pointer;
+            line-height: 1.5;
+            font: 700 1.2rem "Roboto Slab", sans-serif;
+            padding: 1em 2em;
+            letter-spacing: 0.05rem;
+            width: 100%;
+            text-align: left;
+            transition: all 0.3s ease;
+            position: relative;
+            display: inline-block;
+            box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, .5),
+            7px 7px 20px 0px rgba(0, 0, 0, .1),
+            4px 4px 5px 0px rgba(0, 0, 0, .1);
+        }
+
+        .btn:focus {
+            outline: 2px dotted #55d7dc;
+        }
+
+        .text-stroke {
+            color: white; /* 文字颜色 */
+            line-height: 60px;
+            font-size: 40px;
+            text-shadow: -1px -1px 0 #000,
+            1px -1px 0 #ddd,
+            -1px 1px 0 #ddd,
+            1px 1px 0 #ddd; /* 文字阴影 */
+        }
+
+
+        .btn-16 {
+            border: none;
+            color: #222;
+            background-color: #ededed;
+
+        }
+
+        .btn-16:after {
+            position: absolute;
+            content: "";
+            width: 0;
+            height: 100%;
+            top: 0;
+            left: 0;
+            direction: rtl;
+            z-index: -1;
+            box-shadow: -7px -7px 20px 0px #fff9,
+            -4px -4px 5px 0px #fff9,
+            7px 7px 20px 0px #0002,
+            4px 4px 5px 0px #0001;
+            transition: all 0.3s ease;
+        }
+
+        .btn-16:hover {
+            color: #000;
+        }
+
+        .btn-16:hover:after {
+            left: auto;
+            right: 0;
+            width: 100%;
+        }
+
+        .btn-16:active {
+            top: 2px;
+        }
+
+
+
+    </style>
+    {% block head %}
+    {% endblock %}
+</head>
+<body class="background-image">
+
+<div class="container-fluid ">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-sm-12" style="margin-top: 180px">
+
+                <h1 class="text-stroke">
+                    <b>
+                        Collaborative Innovation Information Platform for Resources, Environment and Socio-Economic Research in Eurasian Continent
+                    </b>
+                </h1>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 60px;">
+            <div class="col-sm-4">
+
+                <a href="/portal/index/" target="_blank" class="btn  btn-16 btn-info">
+
+                    <div class="row ">
+                        <div class="col-sm-2 custom-fa-size">
+                            <span class="fa fa-database"> </span>
+                        </div>
+                        <div class="col-sm-10">
+                            <span class="custom-font-size"> Knowledge Resources <br/> Portal</span>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+
+            <div class="col-sm-4">
+
+                <a href="http://selenge-show.igadc.cn/" target="_blank" class="btn  btn-16 btn-info">
+                    <div class="row  ">
+                        <div class="col-sm-2 custom-fa-size">
+                            <span class="fa fa-desktop"> </span>
+                        </div>
+                        <div class="col-sm-10 ">
+                            <span class="custom-font-size">  Geo-Spatial Data <br/> Visualization</span>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+
+
+            <div class="col-sm-4">
+
+                <a href="https://pygis.igadc.cn/" target="_blank" class="btn  btn-16 btn-info">
+
+                    <div class="row ">
+                        <div class="col-sm-2 custom-fa-size">
+                            <span class="fa fa-file-code-o "></span>
+                        </div>
+                        <div class="col-sm-10">
+                            <span class="custom-font-size">  Online Research  <br/>Collaboration</span>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+
+
+</div>
+
+</body>
+</html>

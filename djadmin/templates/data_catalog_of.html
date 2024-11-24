@@ -1,0 +1,19 @@
+<div class="card">
+    {% for category in Category %}
+
+
+    <li class="list-group-item">
+        {% if cat_name == 'cpjrc' %}
+        <a href="{% url 'cpjrc_data_category:category_datalist' category.id category='cpjrc' %}">
+            {{ category.name }}
+        </a>
+        ({{ category.cpjrc.all|length }})
+        {% endif %}
+
+    </li>
+
+
+    {% endfor %}
+
+</div>
+

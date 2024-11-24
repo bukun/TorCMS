@@ -1,0 +1,64 @@
+{% extends "yaou_base.html" %}
+{% load static %}
+
+{% block head %}
+<title>category List</title>
+<style>
+    #map_div {
+        width: 100%;
+        height: 420px;
+        border: 1px solid black;
+        text-align: center;
+        align-self: center;
+        z-index: 1;
+    }
+</style>
+{% endblock %}
+{% block mainbody %}
+
+<div class="wrapper">
+    <div class="map_div" id="map_div"></div>
+    <div class="content">
+            {% include "./index_data_list.html" with data=cat_data %}
+
+    </div>
+</div>
+<SCRIPT>
+    $(document).ready(function () {
+        var popup = L.popup();
+
+        function onMapClick(e) {
+            popup
+                .setLatLng(e.latlng)
+                .setContent("Location:" + e.latlng.toString())
+                .openOn(map_idx);
+        }
+
+
+        var layers1 = L.tileLayer.wms("https://tile.osgeo.cn/service?", {
+            layers: 'qn0376',
+            format: 'image/png',
+            transparent: true,
+        });
+
+
+        var osm = L.tileLayer.chinaProvider('TianDiTu.Normal.Map', {
+            maxZoom: 18,
+            // attribution: "东北亚大数据中心",
+            id: "mapbox.streets"
+        });
+
+
+        var map_idx = L.map('map_div', {
+            center: [43.913723, 126.298828],
+            zoom: 6,
+            maxZoom: 15,
+            minZoom: 1,
+        });
+        map_idx.on('click', onMapClick);
+        osm.addTo(map_idx);
+        layers1.addTo(map_idx);
+
+    })
+</script>
+{% endblock %}

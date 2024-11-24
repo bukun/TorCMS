@@ -1,0 +1,33 @@
+<div class="card">
+    {% for category in Category %}
+
+
+    {% if category.parent == None %}
+
+    </ul>
+    <div class="card-header">
+
+
+        {{ category.name }}({{ category.data.all|length }})
+
+    </div>
+    <ul class="list-group">
+        {% else %}
+
+
+        <li class="list-group-item">
+            <a href="{% url 'qgismapcategory:category_datalist' category.id %}">
+                {{ category.name }}
+            </a>
+            ({{ category.data.all|length }})
+        </li>
+
+
+        {% endif %}
+
+
+        {% endfor %}
+
+</div>
+
+

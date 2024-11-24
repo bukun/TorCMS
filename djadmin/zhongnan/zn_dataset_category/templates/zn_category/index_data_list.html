@@ -1,0 +1,53 @@
+{% for cat in category_data %}
+
+    {% if forloop.first %}
+        <div class="row">
+        <div class="panel panel-default" style="margin-top: 30px">{% endif %}
+<div class="col-sm-6">
+    <div class="panel-heading">{{ cat.cat_name }}
+        <a style="font-size: 12px;float: right"
+           href="{% url 'zn_dataset_category:category_datalist' cat.cat_id %}">More</a>
+    </div>
+
+
+    <ul class="list-group">
+        {% for dat in cat.data %}
+            {% if dat.logo != "" %}
+                <li class="list-group-item">
+
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <img src="/static/img/{{ dat.logo }}" class="img-thumbnail" style="border: 1px solid #ddd"
+                                 alt="{{ dat.title }}"/>
+                        </div>
+
+                        <div class="col-sm-9">
+
+                            <a href="{% url 'zn_dataset:data_view' dataid=dat.id %}">
+                                {{ dat.title }}
+                            </a>
+                        </div>
+
+                    </div>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+</div>
+{% if forloop.counter|divisibleby:4 %}
+    </div>
+    <div class="panel panel-default" style="margin-top: 30px">
+{% endif %}
+{% if forloop.last %}
+    </div>
+    </div>
+{% endif %}
+{% endfor %}
+<div style="clear:both;"></div>
+
+
+
+
+
+

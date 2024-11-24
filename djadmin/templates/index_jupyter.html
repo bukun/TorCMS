@@ -1,0 +1,33 @@
+<div class="row">
+    <div class="col-sm-12">
+
+            <div class="card-header">Scientific-models
+                <a style="font-size: 12px;float: right"
+                   href="{% url 'jupyter_category:jupyter_category_index' %}">More</a>
+            </div>
+  <div class="card-body">
+
+            <ul class="list-group">
+                {% for dat in data %}
+                    <li class="list-group-item" style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap;">
+                       <a href="{% url 'jupyter_data:data_view' dataid=dat.id %}">
+                           <span class="fa fa-file-text-o"></span> {{ dat.title }}
+                        </a>
+
+                    </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+    </div>
+
+</div>
+
+
+<div style="clear:both;"></div>
+
+
+
+
+
+

@@ -1,0 +1,62 @@
+{% extends "./base.html" %}
+{% load static %}
+{% block head %}
+<title>category List</title>
+
+{% endblock %}
+{% block banner %}
+
+<div class="index_bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <a href="{% url 'category:category_index' 6 %}">
+                    <div class="host_ban">
+                        <img src="{% static 'fixed/hosted0.png'%}">
+                        <span>Hosted</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-sm-4">
+                <a href="{% url 'category:category_index' 8 %}">
+                    <div class="link_ban">
+                        <img src="{% static 'fixed/linked0.png'%}">
+                        <span>Linked</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-sm-4">
+                <a href="{% url 'category:category_index' 7 %}">
+                    <div class="dis_ban">
+                        <img src="{% static 'fixed/discovered0.png'%}">
+                        <span>Discovered</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock%}
+{% block mainbody %}
+
+<div class="container mt-3">
+
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">{{ _('Home') }}</a></li>
+        <li class="breadcrumb-item active">
+            {{ _('Hosted') }}
+        </li>
+    </ul>
+</div>
+<div class="container mt-3">
+    <div class="row">
+
+        {% include "./catalog_of.html" with Category=Category %}
+
+    </div>
+</div>
+
+<script src="{% static 'jslib/dst/lazyload.js' %}"></script>
+{% endblock %}

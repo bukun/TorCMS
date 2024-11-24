@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block mainbody %}
+{% if not followee_username == request.user.username %}
+{% if errors %}<p>{{ errors|join:", " }}</p>{% endif %}
+<form method="post">
+{% csrf_token %}
+<input type="hidden" name="followee_username" value="{{ followee_username }}" />
+<input type="submit" value="start following {{ followee_username }}" />
+</form>
+{% endif %}
+{% endblock %}

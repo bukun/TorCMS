@@ -1,0 +1,233 @@
+{% extends "zn_base.html" %}
+{% load static %}
+
+{% block head %}
+    <title>CPEC DRR Column</title>
+    <style>
+
+        #map_div {
+            width: 100%;
+            height: 420px;
+            border: 1px solid black;
+            text-align: center;
+            align-self: center;
+            z-index: 1;
+        }
+
+        h4 {
+            color: #333;
+        }
+    </style>
+{% endblock %}
+{% block mainbody %}
+
+
+
+    {#    <div class="map_div" id="map_div"></div>#}
+
+
+
+    {#    <div class="row">#}
+    {#        <div class="col-sm-4">#}
+    {#            {% for info in new_info.data %}#}
+    {##}
+    {##}
+    {#                <img src="/static/img/{{ info.logo }}" class="img-thumbnail">#}
+    {#            {% endfor %}#}
+    {#        </div>#}
+    {#        <div class="col-sm-8">#}
+    {#            {% include "./index_event_list_new.html" with category_data=new_event_data %}#}
+    {#        </div>#}
+    {#    </div>#}
+    {##}
+    {#    <br>#}
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4><span> March 21, 2024 Naran Avalanche, Pakistan</span></h4>
+                </div>
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="col-sm-6">
+                                   <h4><b>Overview</b></h4>
+                                <p>The avalanche incident occurred in Naran, northern Pakistan on March 21, 2024, which submerged houses and hotels, served as a trigger for further in-depth analysis of avalanche risks in the downstream towns and villages. Through comprehensive multi-case studies, it was found that the phenomenon of snow melting into water before heavy precipitation warrants particular vigilance, as it greatly increases the likelihood of avalanches. The spatial-temporal distribution of daily total precipitation was obtained by analyzing data from the Global Precipitation Measurement (GPM) for each day, facilitating an analysis of daily precipitation variations in the region. Subsequently, the Knowledge-Driven Flood Intelligent Monitoring (KDFIM) algorithm, combined with the free accessible Sentinel-1 and Sentinel-2 images of Copernicus Programme, was utilized to infer areas where snow melting into water on ground or slope surface, enabling the identification of early warning signs of snow melting before avalanches. Finally, GF-1B imagery, obtained on March 23 with 2m spatial resolution, from the Land Satellite Remote Sensing Application Center, Ministry of Natural Resources of China, was utilized to analyze the avalanches and assess potential avalanche risks nearby Naran town.</p>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="map_div" id="map_div"></div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <h4 class="text-center" style="margin:2rem auto"><b>Disaster Monitoring Products</b></h4></div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <img src="{% static 'imgs/figure1.jpg' %}" class="img-thumbnail"/>
+                            <p>Figure. 1 An overview of avalanche risk nearby Naran town.</p>
+                            <p>Fig.1 depicts that areas A1 and A2 had experienced avalanche events prior to March 21,
+                                while the avalanche source on March 21 was identified in area A3. Further validation of
+                                locally captured videos from multiple angles confirmed the affected area as A3. </p>
+                        </div>
+                        <div class="col-sm-4">
+                            <img src="{% static 'imgs/figure2.jpg' %}" class="img-thumbnail"/>
+                            <p>Figure. 2 An overview of avalanche risk in the northern Naran highway and hospital
+                                area.</p>
+                            <p>Fig. 2 clearly indicates that prior to the March 21 avalanche near Naran town, four
+                                avalanche events had occurred in area A4, leading to certain blockages along the Road
+                                N15 from GPS Dum Duma to Saeed Swati hospital. Additionally, continuous expansion of
+                                avalanches was observed in area A5, causing repeated damage or coverage to the
+                                roads. </p>
+                        </div>
+                        <div class="col-sm-4">
+                            <img src="{% static 'imgs/figure3.jpg' %}" style="height:245px;width:99%"/>
+                            <p>Figure. 3 The distribution of road blockages caused by avalanches along the Road N15.</p>
+                            <p>Fig. 3 indicates that the Road N15 had experienced significant blockages predominantly
+                                concentrated in the vicinity of Naran, attributable to the interplay of multiple rounds
+                                of heavy precipitation and steep terrain in the precipitous mountainous region. The
+                                total number of road segments affected by avalanches along the Road N15 in the imaging
+                                area amounts to 50, with a cumulative length of 21.09 kilometers. </p>
+                        </div>
+                    </div>
+                    <div>
+                        <span style="float:right"><a href="/zn_event/view/9/"><h4><b>More...</b></h4></a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {% include "./index_event_list.html" with category_data=event_data %}
+{#    {% include "./index_dataset_list.html" with category_data=cat_data %}#}
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4><span> Digital China Pakistan Economic Corridor</span></h4>
+                </div>
+                <div class="panel-body">
+                    <section id="cpjrc-quasar" data-section="our-team">
+                        <div class="col-sm-12 team-item gtco-team-reverse">
+                            <div class="col-md-6 col-md-push-6 animate-box" data-animate-effect="fadeInRight">
+                                <div class="img-shadow">
+                                    <a href="http://cpjrc-quasar.gislab.cn/" target="_blank">
+                                        <img src="{% static 'imgs/cpjrc-quasar-index.png' %}" class="img-responsive"
+                                             alt="Digital China Pakistan Economic Corridor">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-md-pull-6 animate-box" data-animate-effect="fadeInRight">
+                                <div class="listinfo_content about">
+
+
+                                    <p>
+                                        Digital China Pakistan Economic Corridor website(Quasar), used to display
+                                        China-Pakistan map
+                                        data
+                                        and map metadata information. Web technology is based on the quasar framework.
+                                    </p>
+                                    <p>
+
+                                        Quasar (pronounced /ˈkweɪ.zɑɹ/) is an MIT licensed open-source Vue.js based
+                                        framework, which
+                                        allows you as a web developer to quickly create responsive++ websites/apps in
+                                        many flavours.
+                                    </p>
+                                    <p>
+
+                                        Quasar’s motto is: write code once and simultaneously deploy it as a website, a
+                                        Mobile App
+                                        and/or an Electron App. Yes, one codebase for all of them, helping you develop
+                                        an app in
+                                        record time by using a state-of-the-art CLI and backed by best-practice, blazing
+                                        fast Quasar
+                                        web components.
+
+                                    </p>
+                                    <p><a href="http://cpjrc-quasar.gislab.cn/" target="_blank"
+                                          class="btn btn-primary btn-sm">Click to visit</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-12 visible-lg">
+            <div class="panel panel-default">
+                <div class="panel-heading"><b>{{ _('Links') }}</b></div>
+                <div class="panel-body flink">
+                    <img src="{% static 'imgs/sf_logo1.png' %}" style="height: 60px"
+                         class="img-thumbnail">
+
+                    <img src="{% static 'imgs/gb2020-logo.jpg' %}" style="height: 60px;"
+                         class="img-thumbnail">
+
+
+                    <img src="{% static 'imgs/dianzikeji.jpg' %}" style="height: 60px;"
+                         class="img-thumbnail">
+
+
+                    <img src="{% static 'imgs/zndx_logo.png' %}" style="height: 60px"
+                         class="img-thumbnail">
+
+
+                    <img src="{% static 'imgs/link_logo5.jpg' %}" style="height: 60px;"
+                         class="img-thumbnail">
+                    
+                         <img src="{% static 'imgs/link_logo6.jpg' %}" style="height: 60px;"
+                         class="img-thumbnail">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <SCRIPT>
+        $(document).ready(function () {
+            var popup = L.popup();
+
+            function onMapClick(e) {
+                popup
+                    .setLatLng(e.latlng)
+                    .setContent("Location:" + e.latlng.toString())
+                    .openOn(map_idx);
+            }
+
+            var osm = L.tileLayer.chinaProvider('TianDiTu.Normal.Map', {
+                maxZoom: 18,
+                attribution: "Naran Avalanche, Pakistan",
+                id: "mapbox.streets"
+            });
+
+
+            var map_idx = L.map('map_div', {
+                center: [33.86, 73.31],
+                zoom: 6,
+                maxZoom: 15,
+                minZoom: 1,
+            });
+
+
+            L.marker([33.86, 73.31]).addTo(map_idx).openPopup();
+
+
+            map_idx.on('click', onMapClick);
+            osm.addTo(map_idx);
+
+
+        })
+    </script>
+{% endblock %}

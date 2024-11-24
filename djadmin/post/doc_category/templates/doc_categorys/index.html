@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<title>{{ _('Document Catagories') }}</title>
+
+{% endblock %}
+{% block mainbody %}
+
+<div class="wrapper">
+ <div class="row mt-3">
+ <div class="col-sm-12">
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active">
+                    {{ _('Documents') }}
+                </li>
+            </ul>
+        </div>
+        </div>
+
+    <div class="content">
+            {% include "./index_data_list.html" with data=cat_data %}
+    </div>
+</div>
+
+{% endblock %}

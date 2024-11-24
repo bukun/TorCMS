@@ -1,0 +1,8 @@
+jupyter-core
+jupyter-server
+nbclassic
+jupyterhub
+jupyterlab
+ipywidgets
+oauthenticator
+

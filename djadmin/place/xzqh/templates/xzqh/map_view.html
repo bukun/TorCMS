@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block head %}
+<title>{{ data.title }}</title>
+
+<link rel="stylesheet" type="text/css" href="/static/xzqh/css/style.css" />
+
+<link rel="stylesheet" type="text/css" href="/static/xzqh/css/bootstrap.min.css" >
+<link rel="stylesheet" type="text/css" href="/static/xzqh/css/main.css">
+{% endblock %}
+{% block mainbody %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+
+                        <h1><span id="dt_t"></span> 行政区划 </h1>
+
+                    </div>
+                    <div class="panel-body">
+                        <div class="container">
+                            <header class="header">
+                                <h1>下拉框中选择中国省份，在地图上面高亮显示</h1>
+                            </header>
+                            <div class="container">
+                                <form class="form-inline">
+                                    <div data-toggle="distpicker">
+                                        <div class="form-group">
+                                            <label class="sr-only" for="province1">Province</label>
+                                            <select class="form-control" id="province1"></select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="sr-only" for="city1">City</label>
+                                            <select class="form-control" id="city1"></select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="sr-only" for="district1">District</label>
+                                            <select class="form-control" id="district1"></select>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+               <div class="map">
+		<img src="/static/xzqh/images/map.jpg" width="716" height="595" usemap="#Map" border="0">
+		<div class="city"><div class="citybg" style="background:url(/static/xzqh/images/anhui.png) no-repeat 0 0; top:314px; left:523px; width:75px; height:90px;"></div><a style=" position:absolute; top:355px; left:545px; z-index:10;" >安徽省</a></div>
+		<div class="city"><div class="citybg" style="background:url(/static/xzqh/images/neimeng.png) no-repeat 0 0;  top:9px; left:296px; width:318px; height:272px;"></div><a style="position:absolute; top:211px; left:424px; z-index:10;" >内蒙古自治区</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/heilongjiang.png) no-repeat 0 0; top:1px; left:550px; width:165px; height:151px;"></div><a style="position:absolute;top:81px; left:624px; z-index:10;" >黑龙江省</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/xinjiang.png) no-repeat 0 0; top:73px; left:0px; width:292px; height:223px;"></div><a style="position:absolute;top:211px; left:124px; z-index:10;" >新疆维吾尔自治区</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/xizang.png) no-repeat 0 0; top:275px; left:31px; width:281px; height:175px;"></div><a style="position:absolute;top:361px; left:145px; z-index:10;" >西藏自治区</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/qinghai.png) no-repeat 0 0; top:240px; left:182px; width:185px; height:135px;"></div><a style="position:absolute;top:300px; left:254px; z-index:10;" >青海省</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/gansu.png) no-repeat 0 0; top:187px; left:236px; width:207px; height:177px;"></div><a style="position:absolute;top:310px; left:364px; z-index:10;" >甘肃省</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/ningxia.png) no-repeat 0 0; top:245px; left:379px; width:49px; height:75px;"></div><a style="position:absolute;top:272px; left:390px; z-index:10;" >宁夏回族自治区</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/shanghai.png) no-repeat 0 0; top:354px; left:610px; width:23px; height:22px;"></div><a style="position:absolute;top:352px; left:615px;; z-index:10;" >上海市</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/liaoning.png) no-repeat 0 0; top:161px; left:557px; width:91px; height:87px;"></div><a style="position:absolute;top:180px; left:600px; z-index:10;" >辽宁省</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/guangdong.png) no-repeat 0 0; top:470px; left:464px; width:111px; height:88px;"></div><a style="position:absolute;top:490px; left:500px; z-index:10;" >广东省</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/guangxi.png) no-repeat 0 0; top:454px; left:382px; width:118px; height:92px;"></div><a style="position:absolute;top:488px; left:432px; z-index:10;" >广西壮族自治区</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/henan.png) no-repeat 0 0; top:288px; left:461px; width:118px; height:92px;"></div><a style="position:absolute;top:320px; left:490px; z-index:10;" >河南省</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/shanxi.png) no-repeat 0 0; top:242px; left:396px; width:79px; height:134px;"></div><a style="position:absolute;top:321px; left:430px; z-index:10;" >陕西省</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/shanxi2.png) no-repeat 0 0; top:219px; left:458px; width:56px; height:112px;"></div><a style="position:absolute;top:271px; left:470px; z-index:10;" >山西省</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/hebei.png) no-repeat 0 0; top:184px; left:497px; width:85px; height:118px;"></div><a style="position:absolute;top:247px; left:508px; z-index:10;" >河北省</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/jilin.png) no-repeat 0 0; top:113px; left:575px; width:125px; height:88px;"></div><a style="position:absolute;top:150px; left:642px; z-index:10;" >吉林省</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/beijing.png) no-repeat 0 0; top:210px; left:512px; width:50px; height:38px;"></div><a style="position:absolute;top:215px; left:515px; z-index:10;" >北京市</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/tianjin.png) no-repeat 0 0; top:224px; left:535px; width:26px; height:34px;"></div><a style="position:absolute;top:229px; left:535px; z-index:10;" >天津市</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/shandong.png) no-repeat 0 0; top:256px; left:521px; width:103px; height:68px;"></div><a style="position:absolute;top:281px; left:540px; z-index:10;" >山东省</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/jiangsu.png) no-repeat 0 0; top:305px; left:539px; width:93px; height:72px;"></div><a style="position:absolute;top:321px; left:570px; z-index:10;" >江苏省</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/hainan.png) no-repeat 0 0; top:556px; left:442px; width:89px; height:88px;"></div><a style="position:absolute;top:565px; left:450px; z-index:10;" >海南省</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/hubei.png) no-repeat 0 0; top:345px; left:438px; width:115px; height:75px;"></div><a style="position:absolute;top:365px; left:480px; z-index:10;" >湖北省</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/yunnan.png) no-repeat 0 0; top:412px; left:280px; width:132px; height:138px;"></div><a style="position:absolute;top:485px; left:320px; z-index:10;" >云南省</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/sichuan.png) no-repeat 0 0; top:328px; left:284px; width:161px; height:143px;"></div><a style="position:absolute;top:385px; left:345px; z-index:10;" >四川省</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/guizhou.png) no-repeat 0 0; top:409px; left:367px; width:93px; height:81px;"></div><a style="position:absolute;top:445px; left:405px; z-index:10;" >贵州省</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/taiwan.png) no-repeat 0 0; top:456px; left:613px; width:32px; height:65px;"></div><a style="position:absolute;top:475px; left:620px; z-index:10;" >台湾省</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/fujian.png) no-repeat 0 0; top:415px; left:548px; width:70px; height:84px;"></div><a style="position:absolute;top:445px; left:565px; z-index:10;" >福建省</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/hunan.png) no-repeat 0 0; top:394px; left:445px; width:83px; height:96px;"></div><a style="position:absolute;top:425px; left:475px; z-index:10;" >湖南省</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/zhejiang.png) no-repeat 0 0; top:367px; left:574px; width:62px; height:70px;"></div><a style="position:absolute;top:395px; left:588px; z-index:10;" >浙江省</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/jiangxi.png) no-repeat 0 0; top:390px; left:513px; width:76px; height:98px;"></div><a style="position:absolute;top:425px; left:525px; z-index:10;" >江西省</a></div>
+		<div class="city"><div class="citybg" style=" background:url(/static/xzqh/images/chongqing.png) no-repeat 0 0; top:363px; left:397px; width:70px; height:80px;"></div><a style="position:absolute;top:390px; left:420px; z-index:10;" >重庆市</a></div>
+	</div>
+
+
+{#                            <script type="text/jscript" src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>#}
+                            <script type="text/jscript" src="/static/xzqh/js/jquery-1.11.0.min.js"></script>
+                            <script type="text/jscript" src="/static/xzqh/js/distpicker.data.js"></script>
+                            <script type="text/jscript" src="/static/xzqh/js/distpicker.js"></script>
+                            <script type="text/jscript" src="/static/xzqh/js/main.js"></script>
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+{% endblock %}

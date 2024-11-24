@@ -1,0 +1,5 @@
+<ul>
+    {% for title, url in menu_items %}
+    <li>{{ title|capfirst }} - <a href="{{ url }}">{{ url }}</a></li>
+    {% endfor %}
+</ul>

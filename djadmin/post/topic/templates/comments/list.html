@@ -1,0 +1,17 @@
+{% load mptt_tags %}
+
+<dl id="comments">
+  {% recursetree comment_list %}
+    <dt id="c{{ node.id }}">
+      {{ node.submit_date }} - {{ node.name }} <a href="{% url 'mptt_comments_reply' node.pk %}">reply</a>
+    </dt>
+    <dd>
+      <p>{{ node.comment_html|safe }}</p>
+    </dd>
+    {% if not node.is_leaf_node %}
+      <dl class="children" style="margin-left: 40px">
+        {{ children }}
+      </dl>
+    {% endif %}
+  {% endrecursetree %}
+</dl>

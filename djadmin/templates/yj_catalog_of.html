@@ -1,0 +1,28 @@
+<div class="panel panel-primary">
+
+    <div class="panel-heading">
+
+        {{ data_name }}
+
+    </div>
+    <ul class="list-group">
+
+        {% for category in Category %}
+
+            <li class="list-group-item">
+
+                {% with app_url=link_url|add:":"|add:"category_datalist" app=category|add:"."|add:data_name|add:"."|add:"all" %}
+
+
+                    <a href="{% url app_url  category.id %}">{{ category.name }}</a>
+{#                             ({{ app |length }})#}
+                {% endwith %}
+
+
+            </li>
+
+        {% endfor %}
+    </ul>
+</div>
+
+

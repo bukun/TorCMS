@@ -1,0 +1,109 @@
+<script src="https://r.osgeo.cn/bootstrap-3.4.x/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://r.osgeo.cn/bootstrap-3.4.x/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+      integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
+      crossorigin="anonymous" referrerpolicy="no-referrer"/>
+<style>
+    html {
+        font-size: 13px;
+    }
+
+    #result_list {
+        font-size: 13px;
+    }
+
+    a {
+        font-size: 13px;
+    }
+
+    .active {
+        font-size: 13px;
+    }
+
+    li.disabled {
+        font-size: 13px;
+    }
+</style>
+
+
+<br><br>
+<div class="col-sm-12">
+    <div class="panel panel-default">
+
+
+        <div class="panel-body">
+
+
+            <table id="result_list" class="table">
+                <thead>
+                <tr>
+                    <th class="col-sm-2">
+                        <a>NO.</a>
+                    </th>
+                    <th class="col-sm-8">
+
+                        <a>TITLE</a>
+                    </th>
+                    <th class="col-sm-2">
+                        <a>DOWNLOAD</a>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if data %}
+                {% for dat in data %}
+                <tr>
+                    <td style="font-size: 13px;">{{ forloop.counter }}</td>
+                    <td style="font-size: 13px;"> {{ dat.title }}
+                    </td>
+                    <td><a href="/static/img/{{ dat.file }}"> <span class="fa fa-download"> </span> DOWNLOAD</a></td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3">Empty data ！</td>
+
+                </tr>
+                {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+<div class="col-sm-12">
+    {# 分页链接 #}
+    {% if is_paginated %}
+    <ul class="pagination">
+        {% if data.has_previous %}
+        <li class="page-item"><a class="page-link"
+                                 href="?page={{ data.previous_page_number }}"> < </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link"> < </span></li>
+        {% endif %}
+
+        {% for i in data.paginator.page_range %}
+        {% if data.number == i %}
+        <li class="page-item active"><span class="page-link"> {{ i }} <span
+                class="sr-only">(current)</span></span>
+        </li>
+        {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+        {% endif %}
+        {% endfor %}
+
+        {% if data.has_next %}
+        <li class="page-item"><a class="page-link"
+                                 href="?page={{ data.next_page_number }}"> > </a></li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link"> > </span></li>
+        {% endif %}
+    </ul>
+    {% endif %}
+</div>
+
+
+
+
+

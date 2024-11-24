@@ -1,0 +1,79 @@
+{% extends "yaou_base.html" %}
+
+{% block head %}
+    <title>{{ data.title }}</title>
+{% endblock %}
+{% block mainbody %}
+     <div class="container">
+    <div class="row mt-3">
+
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active">
+                    {{ _('User Info') }}
+                </li>
+            </ul>
+
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+
+                <div class="card-header listinfo_title">
+                    {{ _('User Info') }}
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+
+                            <table class="table table-striped">
+                                <tr>
+                                    <td>
+                                        <b>{{ _('User Name') }}</b>：
+                                    </td>
+                                    <td>{{ username }}</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>{{ _('Email') }}</b>：
+                                    </td>
+                                    <td>{{ email }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2">
+                                        <a href="{% url 'users:edit_profile' %}" title="Change User Info"
+                                           class="btn btn-primary">
+                                            <span class="glyphicon glyphicon-edit"></span>
+                                            {{ _('Change User Info') }}</a>
+
+                                        <a href="{% url 'users:logout' %}"
+                                           class="btn  btn-warning">{{ _('Logout') }}</a>
+                                    </td>
+
+                                </tr>
+                            </table>
+                            <br><br>
+
+                        </div>
+                    </div>
+
+
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{ _('Article link') }}：
+                                <a href="{% url 'users:profile' %}" style="color: #116530" title="{{ _('User Info') }}">
+                                    {{ _('User Info') }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "yaou_base.html" %}
+{% block head %}
+    <title>{{ data.title }}</title>
+{% endblock %}
+{% block mainbody %}
+    <div class="container">
+        <div class="row mt-3">
+
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'users:profile' %}">{{ _('User Info') }}</a>
+                    </li>
+                    <li class="active">{{ _('Modify personal information') }}</li>
+                </ul>
+
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+
+                    <div class="card-header listinfo_title">
+                        {{ _('Modify personal information') }}
+                    </div>
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <br><br>
+                                <form method="post" class="my-form">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                    <button class="btn btn-primary" type="submit">Save changes</button>
+                                </form>
+                            </div>
+
+
+                        </div>
+             <Br>
+                            <Br>
+
+                        <div class="panel-footer">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {{ _('Article link') }}：
+                                    <a href="{% url 'users:edit_profile' %}" style="color: #116530"
+                                       title="{{ _('Modify personal information') }}">
+                                        {{ _('Modify personal information') }}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

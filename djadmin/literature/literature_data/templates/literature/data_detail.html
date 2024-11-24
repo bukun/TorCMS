@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block head %}
+    <title>{{ data.title }}</title>
+{% endblock %}
+{% block mainbody %}
+    <div class="row mt-3">
+ <div class="col-sm-12">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item">
+                <a href="/literature_category/index/"> {{ _('Literatures') }}</a>
+            </li>
+            <li class="breadcrumb-item active">Text</li>
+        </ul>
+    </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-9">
+            <div class="panel panel-primary">
+                <div class="panel-heading listinfo_title">
+                    {{ data.title }}
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        {% if data.logo != '' %}
+                            <div class="col-sm-12 bor_bottom ">
+                                <div class="col-sm-6 ">
+                                    <img src="/static/img/{{ data.logo }}" alt="/static/img/{{ data.logo }}"
+                                         class="img-thumbnail">
+                                </div>
+                                <div class="col-sm-6">
+                                    <p><strong>{{ _('Theme') }}：</strong>{{ data.theme }}</p>
+                                    <p><strong>{{ _('Type') }}：</strong>{{ data.type }}</p>
+                                    <p><strong>{{ _('Author') }}：</strong>{{ data.author }}</p>
+                                    <p><strong>{{ _('Release time') }}：</strong>{{ data.pub_date }}</p>
+                                    <p><strong>{{ _('Category') }}：</strong>
+                                        <a class="btn btn-xs btn-success"
+                                           href="{% url 'literature_category:category_datalist' data.category.id %}">
+                                            {{ data.category }}</a></p>
+                                    <p><strong>{{ _('Label') }}：</strong>
+                                        {% for label in data.label.all %}
+                                            <a href="{% url 'literature_label:label_datalist' label.id %}"
+                                               class="btn btn-xs btn-primary">
+                                                {{ label }}
+                                            </a> &nbsp;&nbsp;
+                                        {% endfor %}</p>
+                                    {% if data.file %}
+                                        <p>
+                                            <a class="btn btn-success btn-sm" title="Download literature"
+                                               href="/static/img/{{ data.file }}" target="_blank">
+                                                <span class="glyphicon glyphicon-download-alt"> </span>
+                                                {{ _('Download literature') }}</a>
+                                        </p>
+                                    {% endif %}
+                                </div>
+
+                            </div>
+
+                        {% else %}
+                            <div class="col-sm-12 bor_bottom">
+                                <p>
+                                    <strong>{{ _('Theme') }}：</strong>
+                                    <span>{{ data.theme }}&nbsp;</span> &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <strong>{{ _('Type') }}：</strong>
+                                    <span>{{ data.type }}&nbsp;</span> &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <strong>{{ _('Author') }}：</strong>
+                                    <span>{{ data.author }}&nbsp;</span> &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <strong>{{ _('Release time') }}：</strong>
+                                    <span>{{ data.pub_date }}&nbsp;</span> &nbsp;&nbsp;&nbsp;&nbsp;
+                                </p>
+                                <p><strong>{{ _('Category') }}：</strong>
+                                    <a class="btn btn-xs btn-success"
+                                       href="{% url 'literature_category:category_datalist' data.category.id %}">
+                                        {{ data.category }}</a>
+                                </p>
+                                <p><strong>{{ _('Label') }}：</strong>
+                                    {% for label in data.label.all %}
+                                        <a href="{% url 'literature_label:label_datalist' label.id %}"
+                                           class="btn btn-xs btn-primary"> {{ label }}</a> &nbsp;&nbsp;
+                                    {% endfor %}
+                                </p>
+                                {% if data.file %}
+                                    <p>
+                                        <a class="btn btn-danger btn-sm" title="Download literature"
+                                           href="/static/img/{{ data.file }}" target="_blank">
+                                            <span class="glyphicon glyphicon-download-alt"> </span>
+                                            {{ _('Download literature') }}</a>
+                                    </p>
+                                {% endif %}
+
+
+                            </div>
+                        {% endif %}
+
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12 ">
+                           {{ data.get_html_content | safe }}
+                        </div>
+                    </div>
+
+
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-md-12"
+                                 style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap; display: block;">
+
+                                {{ _('Article link') }}： <a href="{% url 'literature:data_view' data.id %}"
+                                                            style="color: #116530"
+                                                            title="{{ data.title }}">{{ data.title }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-sm-3">
+            {% include "yj_catalog_of.html" with Category=Category  link_url='literature_category' data_name='literature' %}
+        </div>
+    </div>
+{% endblock %}

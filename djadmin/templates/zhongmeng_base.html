@@ -1,0 +1,173 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ _('Selenge River Basin Knowledge Resources Portal ') }}</title>
+    <meta charset="utf-8">
+    <meta name="generator" content="{{ _('Selenge River Basin Knowledge Resources Portal ') }}">
+    <meta name="applicable-device" content="pc,mobile">
+    <meta name="author" content="{{ _('Selenge River Basin Knowledge Resources Portal ') }}">
+    <meta name="Copyright" content="{{ _('Selenge River Basin Knowledge Resources Portal ') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <script src="https://r.osgeo.cn/jquery/jquery-3.6.x.min.js"></script>
+    <script src="https://r.osgeo.cn/bootstrap-3.4.x/js/bootstrap.min.js"></script>
+    <script src="https://r.osgeo.cn/jquery-validate_1.15.0/jquery.validate.min.js"></script>
+    <script src="https://r.osgeo.cn/magnific-popup_1.1.0/jquery.magnific-popup.min.js"></script>
+    <script src="https://r.osgeo.cn/leaflet-1.9.x/leaflet.js"></script>
+    <script src="https://r.osgeo.cn/leaflet/leaflet.ChineseTmsProviders.js"></script>
+    <link rel="stylesheet" href="https://r.osgeo.cn/bootstrap-3.4.x/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://r.osgeo.cn/leaflet-1.9.x/leaflet.css">
+
+
+    <link rel="stylesheet" href="{% static 'tass/css/nav-hidden.css' %}">
+    <link rel="stylesheet" href="{% static 'tass/css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
+<div class="row">
+    <div class="col-sm-12 ">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-sm-9">
+                    <h1 style="font-size:30px"><b>
+                        Selenge River Basin Knowledge Resources Portal
+                    </b>
+                    </h1>
+                </div>
+                <div class="col-sm-3">
+                    <div class="row" style="padding-top:23px">
+                        {% if user.is_authenticated %}
+
+                        <a href="/users/profile/"> <span class="fa fa-user"></span> {{ user.username }}</a>
+                        &nbsp;&nbsp; | &nbsp;&nbsp;
+                        <a class="nav-link" href="{% url 'users:logout' %}"><span class="fa fa-sign-out"></span>
+                            Logout
+                        </a>
+
+                        {% else %}
+
+                        <a class="nav-link" href="{% url 'users:register' %}"><span class="fa fa-registered"></span>
+                            Register</a>
+                        &nbsp;&nbsp; | &nbsp;&nbsp;
+                        <a class="nav-link" href="{% url 'users:login' %}"><span class="fa fa-sign-in"></span> Login</a>
+
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<nav class="navbar navbar-default" role="navigation">
+
+    <div class="container" id="nava">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#example-navbar-collapse">
+                <span class="sr-only">Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <a class="navbar-brand" style="color:#fff" href="/portal/index/">Home</a>
+
+        </div>
+        <div class="collapse navbar-collapse" id="example-navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/qgis_category/zm_index/">Maps</a></li>
+                <li><a href="/categorys/index/">Datasets</a></li>
+                <li><a href="/jupyter_category/index/">Scientific-models</a></li>
+                <li><a href="/literature_category/index/">Literatures</a></li>
+                <li><a href="/doc_category/index/">Documents</a></li>
+
+
+            </ul>
+        </div>
+    </div>
+
+
+</nav>
+
+{% block banner %}{% endblock %}
+<div class="container">
+    <br>
+
+    {% block mainbody %}{% endblock %}
+
+
+</div>
+<div class="row linkbg">
+    <div class="container">
+        <div class="col-sm-12">
+            <div class="col-sm-3">
+                <p><a href="http://selenge-show.igadc.cn/" target="_blank">
+                    <span class="fa fa-desktop"></span>
+                    Geo-Spatial Data Visualization</a></p>
+            </div>
+
+            <div class="col-sm-3">
+                <p><a href="https://pygis.igadc.cn/" target="_blank">
+                    <span class="fa fa-file-code-o"></span>
+                    Online Research Collaboration</a></p>
+            </div>
+
+            <div class="col-sm-3">
+                <p><a href="http://selenge-en.igadc.cn/" target="_blank">
+                    <span class="fa fa-file-text-o"></span>
+                    Technology Documents</a>
+                </p>
+            </div>
+            <div class="col-sm-3">
+                <p>
+                    <a href="http://selenge-mn.igadc.cn/" target="_blank">
+                        <span class="fa fa-file-text-o"></span> Технологийн баримт бичиг
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="row footbg">
+
+
+    <div class="container">
+
+
+        <p>Copyright
+            © {{ _('Selenge River Basin Knowledge Resources Portal ') }}
+
+        </p>
+    </div>
+</footer>
+
+<script type="text/javascript">
+    var urlstr = location.href;
+
+    var urlstatus = false;
+    $("#nava a").each(function () {
+        if ((urlstr + '/').indexOf($(this).attr('href')) > -1 && $(this).attr('href') != '') {
+            $(this).addClass('current');
+            urlstatus = true;
+        } else {
+            $(this).removeClass('current');
+        }
+    });
+
+
+</script>
+
+</body>
+

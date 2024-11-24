@@ -1,0 +1,27 @@
+{% extends "wdcrre_base.html" %}
+{% load static %}
+
+{% block head %}
+<title>专题资源</title>
+<style>
+
+    #map_div {
+        width: 100%;
+        height: 420px;
+        border: 1px solid black;
+        text-align: center;
+        align-self: center;
+        z-index: 1;
+    }
+</style>
+{% endblock %}
+{% block mainbody %}
+
+<div class="wrapper">
+    <div class="map_div" id="map_div"></div>
+    <div class="content">
+            {% include "./index_data_list.html" with data=cat_data %}
+    </div>
+</div>
+
+{% endblock %}

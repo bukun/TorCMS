@@ -1,0 +1,130 @@
+{% extends "crawl_base.html" %}
+{% block head %}
+<title>{{ data.title }}</title>
+{% endblock %}
+{% block mainbody %}
+<div class="row">
+<div class="col-sm-9">
+    <div class="card">
+        <div class="card-header listinfo_title">
+            {{ data.title }}
+            {{ data.cn_title }}
+
+
+        </div>
+
+        <div class="panel-body">
+
+            <div class="row">
+                {% if data.logo != ''%}
+                <div class="col-sm-12 bor_bottom ">
+                    <div class="col-sm-6 ">
+
+
+                        <img src="/static/img/{{ data.logo}}" alt="{{ data.logo }}" class="img-thumbnail">
+
+                    </div>
+                    <div class="col-sm-6">
+
+
+                        <p><strong>{{ _('Release time') }}：</strong>{{ data.update_date | date:"Y-m-d"}}</p>
+                         {% if data.source %}
+                        <p><strong>{{ _('Source') }}：</strong><a class="btn btn-xs btn-success"
+                                                                   href="{% url 'crawl_source:crawl_source_datalist_en' data.source.id %}">
+                            {{ data.source }}</a></p>
+                         {% endif %}
+
+                        <p><strong>{{ _('Category') }}：</strong>
+
+                                {% for label in data.label.all %}
+                                <a href="{% url 'crawl_label:crawl_label_datalist_en' label.id %}" class="btn btn-xs btn-primary">
+                                    {{ label }}
+                                </a> &nbsp;&nbsp;
+                                {% endfor %}
+                        </p>
+
+                    </div>
+
+                </div>
+
+                {% else %}
+                <div class="col-sm-12 bor_bottom">
+
+
+                    <strong>{{ _('Release time') }}：</strong>
+                    <span>{{ data.update_date | date:"Y-m-d"}}&nbsp;</span> &nbsp;&nbsp;&nbsp;&nbsp;
+
+                    {% if data.source %}
+                    <p><strong>{{ _('Source') }}：</strong>
+                        <a class="btn btn-xs btn-success"   href="{% url 'crawl_source:crawl_source_datalist_en' data.source.id %}">
+                        {{ data.source }}
+                        </a>
+                    </p>
+                {% endif %}
+                    <p><strong>{{ _('Category') }}：</strong>
+
+                                {% for label in data.label.all %}
+                                <a href="{% url 'crawl_label:crawl_label_datalist_en' label.id %}" class="btn btn-xs btn-primary">
+                                    {{ label }}
+                                </a> &nbsp;&nbsp;
+                                {% endfor %}
+                        </p>
+
+                </div>
+
+                {% endif %}
+
+
+            </div>
+
+
+            <div id="wiki_cnt" class="col-sm-12 listinfo_content bor_bottom">
+                {{ data.get_html_content | safe }}
+
+            </div>
+            {% for key,value in data.extinfo.items %}
+            {% if value != 'None' %}
+            <div class="row bor_bottom">
+                <div class="col-sm-3">
+                    <span class="des"><strong>{{ key|slice:'6:' }}</strong></span>
+                </div>
+                <div class="col-sm-9">
+                    <span class="val">{{ value }} </span>
+                </div>
+            </div>
+
+            {% endif %}
+            {% endfor %}
+
+
+
+        </div>
+
+        <div class="panel-footer">
+
+            <div class="row">
+
+                <div class="col-md-12"
+                     style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap; display: block;">
+
+                    {{ _('Article link') }}： <a href="{% url 'crawl_document_en:crawldoc_en_view' data.id %}" style="color: #003366"
+                                                title="{{ data.title }}">{{ data.title }}</a>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="col-sm-3">
+
+ {% include "crawl_catalog_of.html" with Category=Category  data_name='crawl_document_en'%}
+
+</div>
+    </div>
+{% endblock %}

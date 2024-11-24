@@ -1,0 +1,75 @@
+{% extends "yaou_base.html" %}
+{% block head %}
+    <title>{{ data.title }}</title>
+{% endblock %}
+{% block mainbody %}
+    <div class="row mt-3">
+
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active">
+                    {{ _('User Login') }}
+                </li>
+            </ul>
+
+    </div>
+    <div class="row">
+        <div class="col-sm-9">
+
+                <div class="card-header listinfo_title">
+                    {{ _('User Login') }}
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+<br><br>
+                            <form method="post" action="{% url 'users:login' %}" class="my-form">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                <button class="btn btn-primary" type="submit">Log in</button>
+                            </form>
+
+                            {% if error_message %}
+                                <p>{{ error_message }}</p>
+                            {% endif %}
+                            <br><br>
+                        </div>
+                    </div>
+
+
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                {{ _('Article link') }}：
+                                <a href="{% url 'users:login' %}" style="color: #003366" title="{{ _('User Login') }}">
+                                    {{ _('User Login') }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+        </div>
+        <div class="col-sm-3">
+
+
+                <div class="card-header">
+                    <b> {{ _('Register') }}</b>
+                </div>
+                <div class="card-body">
+
+                    <h3>{{ _('Not have an account') }}? </h3>
+                    <br>
+
+                    <p><a href="{% url 'users:register' %}" class="btn btn-info" title="Login">{{ _('Register') }}</a>
+                    </p>
+                    <br>
+
+                </div>
+
+        </div>
+    </div>
+{% endblock %}

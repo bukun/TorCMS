@@ -1,0 +1,64 @@
+{% extends "admin/change_form.html" %}
+{% load i18n admin_urls static %}
+
+{% block extrahead %}
+<style>
+    /* 添加自定义按钮的样式 */
+    button {
+        margin: 10px 0;
+        padding: 5px 10px;
+        background-color: #0971B2;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+</style>
+<script>
+    // 为按钮添加点击事件处理器
+
+
+</script>
+{% endblock %}
+
+{% block after_field_sets %}
+<div class="submit-row">
+
+    <!-- 这里是默认的保存按钮，可以保持或修改它 -->
+    {{ submit_row }}
+
+    <!-- 添加自定义按钮 -->
+    <button id="copyContent" onclick="copyText()" type="button">复制英文内容到中文内容</button>
+    <button id="btnSubmit" onclick="trans_baidu()" type="button">百度接口</button>
+</div>
+
+<script type="text/javascript">
+    function copyText() {
+        var z_text_en = document.getElementById("id_text_en").value;
+        document.getElementById("id_trans_zh").value = z_text_en;
+    }
+
+</script>
+
+<script type="text/javascript">
+
+    function trans_baidu() {
+
+
+        $.ajax({
+            url: '/trans_en_zh/trans/',
+            type: 'get',
+            data: {
+                'content': $("#id_text_en").val()
+            },
+
+            success: function (data) {
+
+                document.getElementById("id_trans_zh").value = data;
+            }
+        });
+
+    }
+
+</script>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block mainbody %}
+<ul>
+    {% for friend_request in friend_requests %}
+        <li>{{ friend_request }}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

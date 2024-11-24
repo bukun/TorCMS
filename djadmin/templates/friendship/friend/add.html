@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block mainbody %}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            {{ _('Add as friend ') }}
+        </div>
+        <div class="panel-body">
+            {% if not to_username == request.user.username %}
+                {% if errors %}<p>{{ errors|join:", " }}</p>{% endif %}
+                <form method="post" class="form-horizontal">
+                    {% csrf_token %}
+                    <input type="hidden" name="to_username" value="{{ to_username }}"/>
+                    <input type="submit" class="btn btn-primary" value="add {{ to_username }} as a friend"/>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

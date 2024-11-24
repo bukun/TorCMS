@@ -1,0 +1,135 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ _('DDE Master Directory') }}</title>
+    <meta charset="utf-8">
+    <meta name="generator" content="{{ _('DDE Master Directory') }}">
+    <meta name="applicable-device" content="pc,mobile">
+    <meta name="author" content="{{ _('DDE Master Directory') }}">
+    <meta name="Copyright" content="{{ _('DDE Master Directory') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+     <script src="https://r.osgeo.cn/jquery/jquery-3.6.x.min.js"></script>
+    <script src="https://r.osgeo.cn/bootstrap-3.4.x/js/bootstrap.min.js"></script>
+    <script src="https://r.osgeo.cn/jquery-validate_1.15.0/jquery.validate.min.js"></script>
+    <script src="https://r.osgeo.cn/magnific-popup_1.1.0/jquery.magnific-popup.min.js"></script>
+    <script src="https://r.osgeo.cn/leaflet-1.9.x/leaflet.js"></script>
+    <script src="https://r.osgeo.cn/leaflet/leaflet.ChineseTmsProviders.js"></script>
+    <link rel="stylesheet" href="https://r.osgeo.cn/bootstrap-3.4.x/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://r.osgeo.cn/leaflet-1.9.x/leaflet.css">
+
+    <link rel="stylesheet" href="{% static 'tass/css/nav-hidden.css' %}">
+    <link rel="stylesheet" href="{% static 'tass/css/style.css' %}">
+    {% block script %}{% endblock script %}
+</head>
+<body>
+
+
+<nav class="navbar navbar-default  bg-dark navbar-dark fixed-top" role="navigation">
+
+    <div class="container-fluid" id="nava">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#example-navbar-collapse">
+                <span class="sr-only">Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/">
+                <img src="{% static 'fixed/logo-white.png' %}" alt="logo" style="max-width:100px;margin: 3px 25px">
+                <span style="color: #fff">Data Master Directory</span></a>
+
+        </div>
+        <div class="collapse navbar-collapse " id="example-navbar-collapse">
+            <ul class="nav navbar-nav" id="nava">
+                <li class="nav-item active">
+                    <a class="nav-link " href="{% url 'categorys:category_index' 6 %}">{{ _('Hosted') }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'categorys:category_index' 8 %}">{{ _('Linked') }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'categorys:category_index' 7 %}">{{ _('Discovered') }}</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+</nav>
+
+{% block banner %}{% endblock%}
+<div class="container mainbh">
+
+
+    {% block mainbody %}{% endblock %}
+
+
+</div>
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <img src="{% static 'fixed/dde-logo-s.png' %}" style="width: 50%"/>
+            </div>
+            <div class=" col-sm-3">
+                <h3 class="white"> {{ _('DDE related pages') }}
+                    <div class="line"></div>
+                </h3>
+
+                <li><a href="/page/dde_resources" title="{{ _('DDE related resources') }}">
+                    {{ _('DDE related resources') }}
+                </a>
+                </li>
+                <!--                <li><a href="https://gakg.acemap.info" target="_blank" title="知识图谱">知识图谱</a></li>-->
+
+
+            </div>
+            <div class=" col-sm-2">
+                <h3 class="white"> {{ _('Interface') }}
+                    <div class="line"></div>
+                </h3>
+
+                <li><a href="/json/metainfo"> API</a></li>
+                <li><a href="#"> CSW</a></li>
+
+            </div>
+            <div class=" col-sm-2">
+                <h3 class="white"> {{ _('MetaData') }}
+                    <div class="line"></div>
+                </h3>
+
+                <li><a href="#"> Tools</a></li>
+
+
+            </div>
+            <div class=" col-sm-2">
+                <h3 class="white"> {{ _('Contact Us') }}
+                    <div class="line"></div>
+                </h3>
+
+                <li><a href="/page/about">{{ _('Contact Us') }}</a></li>
+
+
+            </div>
+
+
+        </div>
+
+        <p align="center" style="margin-top: 40px;font-weight: 700;color:#6b819a">Copyright
+            © {{ _('DDE Master Directory') }}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Powered by
+            <a href="https://github.com/bukun/TorCMS" target="_blank" title="TorCMS">TorCMS</a>
+
+        </p>
+    </div>
+</footer>
+
+
+
+</body>
+</html>

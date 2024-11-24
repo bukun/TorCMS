@@ -1,0 +1,133 @@
+{% extends "zn_base.html" %}
+{% block head %}
+<title>{{ data.title }}</title>
+{% endblock %}
+{% block mainbody %}
+<div class="row">
+    <div class="col-sm-9">
+        <div class="panel panel-default">
+            <div class="panel-heading listinfo_title">
+                <h1 class="htitle"> {{ data.title }}</h1>
+
+
+            </div>
+
+            <div class="panel-body">
+
+                <div class="row">
+                    {% if data.logo != ''%}
+                    <div class="col-sm-12 bor_bottom ">
+                        <div class="col-sm-6 ">
+
+
+                            <img src="/static/img/{{ data.logo}}" alt="{{ data.logo }}" class="img-thumbnail">
+
+                        </div>
+                        <div class="col-sm-6">
+
+
+                            <p><strong>{{ _('Release time') }}：</strong>{{ data.create_time| date:"Y-m-j" }}</p>
+                            <p><strong>{{ _('Category') }}：</strong><a class="btn btn-xs btn-success"
+                                                                       href="{% url 'zn_dataset_category:category_datalist' data.category.id %}">
+                                {{ data.category }}</a></p>
+                            <p><strong>{{ _('Label') }}：</strong>
+                                {% for label in data.label.all %}
+                                <a href="{% url 'zn_dataset_label:label_datalist' label.id %}" class="btn btn-xs btn-primary">
+                                    {{ label }}
+                                </a> &nbsp;&nbsp;
+                                {% endfor %}</p>
+                            {% if data.file %}
+                                <p>
+                                    <a class="btn btn-danger btn-sm" title="Download Dataset"
+                                       href="/static/img/{{ data.file }}"
+                                       target="_blank">
+                                        <span class="glyphicon glyphicon-download-alt"> </span>
+                                        {{ _('Download Dataset') }}</a>
+                                </p>
+                            {% endif %}
+                        </div>
+
+                    </div>
+
+                    {% else %}
+                    <div class="col-sm-12 bor_bottom">
+
+
+                        <strong>{{ _('Release time') }}：</strong>
+                        <span>{{ data.create_time| date:"Y-m-j" }}&nbsp;</span> &nbsp;&nbsp;&nbsp;&nbsp;
+
+
+                        <p><strong>{{ _('Category') }}：</strong><a class="btn btn-xs btn-success"
+                                                                   href="{% url 'zn_dataset_category:category_datalist' data.category.id %}">
+                            {{ data.category }}</a></p>
+                        <p><strong>{{ _('Label') }}：</strong>
+                            {% for label in data.label.all %}
+                            <a href="{% url 'zn_dataset_label:label_datalist' label.id %}" class="btn btn-xs btn-primary">
+                                {{ label }}</a> &nbsp;&nbsp;
+                            {% endfor %}</p>
+                        {% if data.file %}
+                            <p>
+                                <a class="btn btn-danger btn-sm" title="Download Dataset"
+                                   href="/static/img/{{ data.file }}"
+                                   target="_blank">
+                                    <span class="glyphicon glyphicon-download-alt"> </span>
+                                    {{ _('Download Dataset') }}</a>
+                            </p>
+                        {% endif %}
+                    </div>
+
+                    {% endif %}
+
+
+                </div>
+
+
+                <div id="wiki_cnt" class="col-sm-12 listinfo_content bor_bottom">
+                    {{ data.cnt_md | safe }}
+                </div>
+                {% for key,value in data.extinfo.items %}
+                {% if value != 'None' %}
+                <div class="row bor_bottom">
+                    <div class="col-sm-3">
+                        <span class="des"><strong>{{ key|slice:'6:' }}</strong></span>
+                    </div>
+                    <div class="col-sm-9">
+                        <span class="val">{{ value }} </span>
+                    </div>
+                </div>
+
+                {% endif %}
+                {% endfor %}
+
+
+            </div>
+
+            <div class="panel-footer">
+
+                <div class="row">
+
+                    <div class="col-md-12"
+                         style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap; display: block;">
+
+                        {{ _('Article link') }}： <a href="{% url 'zn_dataset:data_view' data.id %}" style="color: #003366"
+                                                    title="{{ data.title }}">{{ data.title }}</a>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-sm-3">
+
+
+        {% include "zn_catalog_of.html" with Category=Category  link_url='zn_dataset_category' data_name='Dataset'%}
+
+    </div>
+</div>
+{% endblock %}

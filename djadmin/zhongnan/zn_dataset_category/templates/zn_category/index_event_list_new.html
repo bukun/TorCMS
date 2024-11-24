@@ -1,0 +1,62 @@
+{% for cat in category_data %}
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="panel panel-default">
+
+                <div class="panel-heading">{{ cat.cat_name }}
+                    <a style="font-size: 12px;float: right"
+                       href="{% url 'zn_event_category:category_datalist' cat.cat_id %}">More</a>
+                </div>
+{#                <div class="panel-body">#}
+                    <ul class="list-group">
+
+
+                        {% for dat in cat.data %}
+                            {#                            {% if dat.logo != "" %}#}
+                            <li class="list-group-item" style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap;">
+
+
+                                {#                                <div class="row">#}
+                                {#                                        <div class="col-sm-3">#}
+                                {#                                            <img src="/static/img/{{ dat.logo }}" class="img-thumbnail"#}
+                                {#                                                 style="border: 1px solid #ddd;"#}
+                                {#                                                 alt="{{ dat.title }}"/>#}
+                                {#                                        </div>#}
+
+                                {#                                    <div class="col-sm-12">#}
+
+                                {#                                        <p>#}
+                                <a href="{% url 'zn_event:data_view' dataid=dat.id %}" title="{{ dat.title }}">
+                                    <span class="fa fa-clock-o"></span> {{ dat.create_time | date:"Y-m-j" }}: {{ dat.title }}
+                                </a>
+                                {#                                        </p>#}
+                                {#                                        <p> </p>#}
+
+                                {#                                        <p> {{ dat.user }}</p>#}
+
+
+                                {#                                    </div>#}
+
+                                {#                                </div>#}
+
+                            </li>
+                            {#                            {% endif %}#}
+                        {% endfor %}
+
+
+                    </ul>
+
+                </div>
+
+            </div>
+{#        </div>#}
+    </div>
+{% endfor %}
+
+
+
+
+
+
