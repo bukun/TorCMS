@@ -176,6 +176,8 @@ INSTALLED_APPS = [
     'pages.page',
     'bigscreen.bigscreen_data',  # 大屏数据
     'bigscreen.jump_btn',  # 大屏数据
+
+    'black_html.sphinx_doc', #sphinx
 ]
 
 LEAFLET_CONFIG = {

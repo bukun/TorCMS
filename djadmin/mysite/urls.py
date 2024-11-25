@@ -41,6 +41,9 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
+from black_html.sphinx_doc.views import sphinx_document_list
+from black_html.sphinx_doc.views import sphinx_docs
+
 @login_required()
 def userdata(request):
     print("=" * 80)
@@ -60,8 +63,10 @@ urlpatterns = [
     path('wagtail_documents/', include(wagtaildocs_urls)),  # 文件
     path('wagtail_pages/', include(wagtail_urls)),  # 知识页面
 
+    # path('static-docs/', TemplateView.as_view(template_name='index.html')),
+    # path('static-docs/', sphinx_document_list,name='sphinx_document_list'),
+    path('static-docs/', sphinx_docs, name='sphinx_docs'),
 
-    path('static-docs/', TemplateView.as_view(template_name='index.html')),
     # path('', cat_views.Categorylist, name='category_index'),
     path('doc_save/', doc_views.save_doc, name='doc_spider_save'),
     # path('', yaouview.index, name='sindex'),
