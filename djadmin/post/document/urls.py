@@ -8,7 +8,7 @@ urlpatterns = [
     path('doc_update/', views.DataSpiderUpdate, name='doc_spider_update'),
     path('doc_save/', views.save_doc, name='doc_spider_save'),
     path('', views.DataList.as_view(), name='doc_list'),
-    re_path(r'^view/(?P<pk>[0-9a-zA-Z]+)/(?P<category>[0-9a-zA-Z]+)', views.DataDetailView, name='doc_view'),
+    re_path(r'^view/(?P<pk>[0-9a-zA-Z]+)', views.DataDetailView, name='doc_view'),
 
     re_path(r'^(?P<pk>[0-9a-zA-Z]+)/$', views.DataDetail.as_view(), name='doc_detail'),
     re_path(r'^(?P<pk>[0-9a-zA-Z]+)/update/$', views.DataDetail.as_view(), name='doc_update'),

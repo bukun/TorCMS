@@ -38,7 +38,7 @@ class DataDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
 
 
-def DataDetailView(request, pk, category):
+def DataDetailView(request, pk):
     # 从url里获取单个任务的pk值，然后查询数据库获得单个对象
     data = get_object_or_404(Document, pk=pk)
 
