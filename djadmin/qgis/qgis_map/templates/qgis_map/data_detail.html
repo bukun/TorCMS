@@ -15,9 +15,28 @@
         z-index: 1;
     }
 </style>
+  <div class="row mt-3">
+
+
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+
+                <li class="breadcrumb-item">
+                <a href="/portal/map_index/"> {{ _('Maps') }}</a>
+                </li>
+                <li class="breadcrumb-item">
+                    {{ cat_name }}
+                </li>
+                <li class="breadcrumb-item active">
+                Text
+                </li>
+
+            </ul>
+
+    </div>
 <div class="row">
     <div class="col-sm-9">
-        <div class="card  ">
+
             <div class="card-header listinfo_title">
                 {% if cat_name == "zhongmeng" or cat_name == "yaou"%}
                 <h3> {{ data.en_title }}</h3>
@@ -166,7 +185,7 @@
 
             </div>
 
-        </div>
+
 
     </div>
 

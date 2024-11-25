@@ -2,25 +2,26 @@
 {% load static %}
 
 {% block head %}
-    <title> {{ _('Dataset catagories') }}</title>
+<title> {{ _('Dataset catagories') }}</title>
 
 {% endblock %}
 {% block mainbody %}
 
-    <div class="wrapper">
-        <div class="row">
-            <div class="col-sm-12">
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/">Home</a></li>
-                    <li class="breadcrumb-item active">
-                        {{ _('Datasets') }}
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="content">
-            {% include "./index_data_list.html" with data=cat_data %}
-        </div>
+<div class="wrapper">
+    <div class="row">
+
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active">
+                    {{ _('Datasets') }}
+                </li>
+            </ul>
+
     </div>
+    <div class="content">
+        {% include "./index_data_list.html" with data=cat_data %}
+    </div>
+</div>
+
 
 {% endblock %}

@@ -4,7 +4,7 @@
 {% endblock %}
 {% block mainbody %}
     <div class="row mt-3">
- <div class="col-sm-12">
+
         <ul class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
                <li class="breadcrumb-item">
@@ -14,12 +14,12 @@
             <li class="breadcrumb-item active">Text</li>
         </ul>
     </div>
-    </div>
+
     <div class="row">
         <div class="col-sm-9">
-            <div class="card">
+
                 <div class="card-header listinfo_title">
-                    {{ data.title }}
+                    <h3> {{ data.title }}</h3>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -241,7 +241,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+
 
         <div class="col-sm-3">
            {% include "yj_catalog_of.html" with Category=Category order=False link_url='categorys' data_name='Dataset' %}

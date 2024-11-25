@@ -4,14 +4,30 @@
 <title>{{ cat_name }} List</title>
 {% endblock %}
 {% block mainbody %}
+  <div class="row mt-3">
+
+
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+
+                <li class="breadcrumb-item">
+                <a href="/portal/map_index/"> {{ _('Maps') }}</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    {{ cat_name }}
+                </li>
+            </ul>
+
+    </div>
+<div class="row">
 <div class="col-sm-9">
-    <div class="card">
+
         <div class="card-header">
           <h3>  {{ cat_name }}</h3>
         </div>
         {% if data %}
-        <div class="panel-body">
-            <div class="row">
+        <div class="card-body">
+            <ul class="list-group">
             {% for dat in data %}
             <li class="list-group-item">
 
@@ -60,12 +76,12 @@
                 {% endif %}
             </ul>
             {% endif %}
-</div>
+</ul>
         </div>
 
         {% endif %}
     </div>
-</div>
+
 <div class="col-sm-3">
          <div class="card-header">
             {{_('Map category')}}
@@ -73,4 +89,5 @@
     {% include "map_catalog_of.html" with Category=Category cat_name='yaou' %}
 
 </div>
+    </div>
 {% endblock %}

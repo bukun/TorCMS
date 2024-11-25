@@ -4,7 +4,7 @@
 {% endblock %}
 {% block mainbody %}
     <div class="row mt-3">
- <div class="col-sm-12">
+
         <ul class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
             <li class="breadcrumb-item">
@@ -12,13 +12,13 @@
             </li>
             <li class="breadcrumb-item active">Text</li>
         </ul>
-    </div>
+
     </div>
     <div class="row">
         <div class="col-sm-9">
             <div class="panel panel-primary">
                 <div class="panel-heading listinfo_title">
-                    {{ data.title }}
+                    <h3>{{ data.title }}</h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -108,7 +108,7 @@
                                  style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap; display: block;">
 
                                 {{ _('Article link') }}： <a href="{% url 'literature:data_view' data.id %}"
-                                                            style="color: #116530"
+
                                                             title="{{ data.title }}">{{ data.title }}</a>
                             </div>
                         </div>
