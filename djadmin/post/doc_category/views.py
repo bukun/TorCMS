@@ -73,7 +73,7 @@ def index(request):
     for cat in category_rec:
         data = cat.document.filter(sites__id=current_site.id)[:4]
 
-        cat_rec.append({'cat_id': cat.id, 'cat_name': cat.name, 'data': data,'parent':cat.parent,'parent_template': parent_template})
-    context = {'cat_data': cat_rec}
+        cat_rec.append({'cat_id': cat.id, 'cat_name': cat.name, 'data': data,'parent':cat.parent})
+    context = {'cat_data': cat_rec,'parent_template': parent_template}
 
     return render(request, 'doc_categorys/index.html', context)
