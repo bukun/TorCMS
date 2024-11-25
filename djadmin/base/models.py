@@ -13,7 +13,7 @@ def get_template():
 
         parent_template = 'yaou_base.html'
     elif current_site.domain in ["https://selenge.igadc.cn/", "http://mn.igadc.cn/"]:
-        parent_template = 'zhongmeng.html'
+        parent_template = 'zhongmeng_base.html'
     elif current_site.domain == "http://127.0.0.1:6792/":
         parent_template = 'yaou_base.html'
     else:
