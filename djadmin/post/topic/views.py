@@ -12,7 +12,9 @@ from .forms import CommentForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.sites.models import Site
+from base.models import get_template
 
+parent_template = get_template()
 current_site = Site.objects.get_current()
 User = get_user_model()
 
@@ -48,6 +50,7 @@ def DataDetailView(request, pk):
         'data': data,
         'comment_list': comment_list,
         'comment_form': comment_form,
+     'parent_template': parent_template
     })
 
 
@@ -65,7 +68,7 @@ def index(request):  # 首页函数
         page_obj = paginator.page(paginator.num_pages)
     is_paginated = True if paginator.num_pages > 1 else False  # 如果页数小于1不使用分页
 
-    context = {'topic_list': page_obj,  'is_paginated': is_paginated}
+    context = {'topic_list': page_obj,  'is_paginated': is_paginated,'parent_template': parent_template}
 
     return render(request, 'topic/index.html', context=context)
     # else:
@@ -81,7 +84,7 @@ def article_detail(request, article_id):
     comment_form = CommentForm()
 
 
-    return render(request, 'topic/topic_detail.html', {"article": article, "comment_list": comment_list,"comment_form":comment_form})  # 返回对应文章的详情页面
+    return render(request, 'topic/topic_detail.html', {"article": article, "comment_list": comment_list,"comment_form":comment_form,'parent_template': parent_template})  # 返回对应文章的详情页面
     # else:
     #     return redirect('/user_login/')
 
@@ -138,7 +141,8 @@ def post_comment(request, article_id, parent_comment_id=None):
         context = {
             'comment_form': comment_form,
             'article_id': article_id,
-            'parent_comment_id': parent_comment_id
+            'parent_comment_id': parent_comment_id,
+            'parent_template': parent_template
         }
         return render(request, 'comment/reply.html', context)
     # 处理其他请求

@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends parent_template %}
 
 {% block head %}
     <title>{{ cat_name }} List</title>
@@ -20,8 +20,9 @@
     </div>
     <div class="row">
         <div class="col-sm-9">
-            <div class="panel panel-primary">
-                <div class="panel-heading">{{ cat_name }}</div>
+
+                <div class="card-header">{{ cat_name }}</div>
+                   <div class="card-body">
                 {% if data %}
                     <ul class="list-group">
 

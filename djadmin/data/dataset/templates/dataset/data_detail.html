@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends parent_template %}
 {% block head %}
     <title>{{ data.title }}</title>
 {% endblock %}
@@ -17,11 +17,11 @@
     </div>
     <div class="row">
         <div class="col-sm-9">
-            <div class="panel panel-primary">
-                <div class="panel-heading listinfo_title">
+            <div class="card">
+                <div class="card-header listinfo_title">
                     {{ data.title }}
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <div class="row">
                         {% if data.logo != '' %}
                             <div class="col-sm-12 bor_bottom ">
@@ -234,7 +234,6 @@
                              style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap; display: block;">
 
                             {{ _('Article link') }}： <a href="{% url 'dataset:data_view' data.id %}"
-                                                        style="color: #116530"
                                                         title="{{ data.title }}">{{ data.title }}</a>
 
 

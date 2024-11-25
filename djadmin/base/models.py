@@ -12,8 +12,10 @@ def get_template():
     if current_site.domain == "https://cms.igadc.cn/":
 
         parent_template = 'yaou_base.html'
-    elif current_site.domain == "https://selenge.igadc.cn/":
+    elif current_site.domain in ["https://selenge.igadc.cn/", "http://mn.igadc.cn/"]:
         parent_template = 'zhongmeng.html'
+    elif current_site.domain == "http://127.0.0.1:6792/":
+        parent_template = 'yaou_base.html'
     else:
         parent_template = 'base.html'
     return parent_template

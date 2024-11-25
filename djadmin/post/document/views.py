@@ -45,7 +45,7 @@ def DataDetailView(request, pk, category):
     data_cat = DocumentCatagory.objects.filter(sites__id=current_site.id)
 
     return render(request, "document/data_detail.html",
-                  {"data": data, "Category": data_cat, "parent_template": f'{category}_base.html'})
+                  {"data": data, "Category": data_cat, "parent_template": parent_template})
 
 
 def DataSpiderUpdate(request):

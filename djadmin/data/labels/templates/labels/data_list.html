@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends parent_template %}
 {% block head %}
     <title>Dataset labels</title>
 {% endblock %}
@@ -17,8 +17,9 @@
     </div>
     <div class="row">
         <div class="col-sm-9">
-            <div class="panel panel-primary">
-                <div class="panel-heading">{{ label_name }}</div>
+
+                <div class="card-header">{{ label_name }}</div>
+                <div class="card-body">
                 <ul class="list-group">
 
                     {% for dat in data %}

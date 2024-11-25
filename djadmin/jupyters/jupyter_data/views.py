@@ -95,7 +95,7 @@ def upload_file(request):
             return HttpResponse('File uploaded successfully.')
     else:
         form = SharedFileForm()
-    return render(request, 'jupyter_data/upload_file.html', {'form': form})
+    return render(request, 'jupyter_data/upload_file.html', {'form': form,'parent_template': parent_template})
 
 
 def download_file(request, file_id):

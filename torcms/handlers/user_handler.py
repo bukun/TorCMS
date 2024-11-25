@@ -362,8 +362,6 @@ class UserHandler(BaseHandler):
         self.set_secure_cookie(
             "user",
             '',
-            expires_days=None,
-            expires=time.time() + 60 * CMS_CFG.get('expires_minutes', 15),
         )
 
         print('log out')
