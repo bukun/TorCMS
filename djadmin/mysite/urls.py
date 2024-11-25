@@ -179,6 +179,8 @@ urlpatterns = [
     path('literature/', include('literature.literature_data.urls')),  # 文献管理
     path('literature_category/', include('literature.literature_category.urls')),  # 文献分类管理
     path('literature_label/', include('literature.literature_label.urls')),  # 文献标签管理
+    path('literature_author/', include('literature.literature_author.urls')),  # 文献作者管理
+    path('literature_date/', include('literature.literature_date.urls')),  # 文献日期管理
     path('jupyter_data/', include('jupyters.jupyter_data.urls')),  # 科学计算模型数据
     path('jupyter_category/', include('jupyters.jupyter_category.urls')),  # 科学计算模型分类
 

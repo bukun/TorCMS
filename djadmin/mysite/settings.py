@@ -17,9 +17,9 @@ from cfg import DB_INFO, CACHES_INFO
 
 from django.views.generic import TemplateView
 
-
 import os
-WAGTAIL_SITE_NAME='WAGTAIL ADMIN'
+
+WAGTAIL_SITE_NAME = 'WAGTAIL ADMIN'
 SITE_ID = int(os.environ.get('SITE_ID', 1))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -73,7 +73,6 @@ INSTALLED_APPS = [
     # 'crequest',
     'mptt',
     'friendship',
-
 
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
@@ -171,6 +170,9 @@ INSTALLED_APPS = [
     'literature.literature_category',  # 文献分类
     'literature.literature_label',  # 文献标签
     'literature.literature_data',  # 文献库
+    'literature.literature_author',  # 文献作者库
+    'literature.literature_date',  # 文献日期库
+
     'pages.page',
     'bigscreen.bigscreen_data',  # 大屏数据
     'bigscreen.jump_btn',  # 大屏数据
@@ -281,7 +283,6 @@ FILE_UPLOAD_HANDLERS = [
     "django.core.files.uploadhandler.TemporaryFileUploadHandler",
 ]
 MPTT_COMMENTS_ALLOW_ANONYMOUS = True  # True 为允许匿名评论，否则不允许
-
 
 # CACHES = CACHES_INFO
 # SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # 引擎（默认）
@@ -419,7 +420,6 @@ USE_TZ = True
 
 USE_L10N = True  # 默认False，以本地化格式显示数字和时间
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
@@ -432,7 +432,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'yy_media')  # 上传图片的根目录
 
 # 部署环境静态文件目录
 STATIC_ROOT = os.path.join(BASE_DIR, 'xx_static')
-
 
 MEDIA_URL = '/'
 CKEDITOR_UPLOAD_PATH = 'upload/'
@@ -648,7 +647,6 @@ SIMPLEUI_CONFIG = {
             'icon': 'fa fa-th-list',
             'models': [
 
-
                 {
                     'name': '分类管理',
                     'url': '/admin/categorys/categorys/',
@@ -714,7 +712,16 @@ SIMPLEUI_CONFIG = {
                     'url': '/admin/literature_label/literaturelabel/',
                     'icon': 'fa fa-tasks'
                 },
-
+                {
+                    'name': '文献作者',
+                    'url': '/admin/literature_author/literatureauthor/',
+                    'icon': 'fa fa-tasks'
+                },
+                {
+                    'name': '文献日期',
+                    'url': '/admin/literature_date/literaturedate/',
+                    'icon': 'fa fa-tasks'
+                },
                 {
                     'name': '文献数据',
                     'url': '/admin/literature_data/literature/',
