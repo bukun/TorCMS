@@ -1,3 +1,4 @@
+import markdown
 from django.db import models
 from django.contrib.auth import get_user_model
 from base.models import basemodel
@@ -5,6 +6,7 @@ from mdeditor.fields import MDTextField
 from literature.literature_category.models import LiteratureCatagory
 from literature.literature_label.models import LiteratureLabel
 from django.contrib.sites.models import Site
+from django.utils.safestring import mark_safe
 User = get_user_model()
 
 
