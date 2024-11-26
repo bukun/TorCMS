@@ -98,7 +98,20 @@
             top: 2px;
         }
 
+        /* 应用于一个具体类名为 .background-image 的元素 */
+        .back-image {
+            background: url('/images/yaou_background.original.jpg');
 
+            background-size: cover;
+            /* 背景图片覆盖整个元素 */
+            background-repeat: no-repeat;
+            /* 背景图片不重复 */
+            background-position: center;
+            /* 背景图片居中 */
+            width: 100%;
+            /* 元素宽度 */
+            height: 100%;
+        }
 
     </style>
     {% block head %}
@@ -113,7 +126,8 @@
             <div class="col-sm-12" style="margin-top: 180px">
 
                 <h1 class="text-stroke">
-                    <b style="line-height:45px">Collaborative Innovation Information Platform for Resources,Environment and Socio-Economic Research in Eurasian Continent
+                    <b style="line-height:45px">Collaborative Innovation Information Platform for Resources,Environment
+                        and Socio-Economic Research in Eurasian Continent
                     </b>
                 </h1>
             </div>
@@ -167,9 +181,6 @@
 
             </div>
         </div>
-
-
-
 
 
     </div>
