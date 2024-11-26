@@ -11,7 +11,7 @@ class qgismapadmin(ImportExportModelAdmin):
     resource_class = QgisMapResource
     # 控制哪些字段会显示在Admin 的修改列表页面中
     list_display = (
-        "mapid","title", "create_time","update_time","zhongbacategory","yaoucategory",
+        "ID","mapid","title", "create_time","update_time","zhongbacategory","yaoucategory",
         "zhongmengcategory","heitucategory","ansocategory")
     ordering = [ "create_time", "update_time", ]
     formfield_overrides = {
