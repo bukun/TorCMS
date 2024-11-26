@@ -203,7 +203,21 @@ a:hover {
     cursor: pointer;
     color: #336699;
 }
+/* 应用于一个具体类名为 .background-image 的元素 */
+.background-image{
+  background: url('/images/yaou_background.original.jpg');
 
+  background-size: cover;
+  /* 背景图片覆盖整个元素 */
+  background-repeat: no-repeat;
+  /* 背景图片不重复 */
+  background-position: center;
+  /* 背景图片居中 */
+  width: 100%;
+  /* 元素宽度 */
+  height: 100%;
+}
+/* 元素高度 */
 /* CUSTOMIZE THE NAVBAR
  *-------------------------------------------------- */
 /* Special class on .container surrounding .navbar, used for positioning it into place. */
