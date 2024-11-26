@@ -26,7 +26,7 @@
                         {% if data.logo != '' %}
                             <div class="col-sm-12 bor_bottom ">
                                 <div class="col-sm-6 ">
-                                    <img src="/{{ data.logo }}" alt="/static/img/{{ data.logo }}"
+                                    <img src="/{{ data.logo }}" alt="/{{ data.logo }}"
                                          class="img-thumbnail">
                                 </div>
                                 <div class="col-sm-6">
@@ -47,7 +47,7 @@
                                     {% if data.file %}
                                         <p>
                                             <a class="btn btn-danger btn-sm" title="Download Dataset"
-                                               href="/static/img/{{ data.file }}"
+                                               href="/{{ data.file }}"
                                                target="_blank">
                                                 <span class="glyphicon glyphicon-download-alt"> </span>
                                                 {{ _('Download Dataset') }}</a>

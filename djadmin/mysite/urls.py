@@ -71,6 +71,7 @@ urlpatterns = [
     path('doc_save/', doc_views.save_doc, name='doc_spider_save'),
     # path('', yaouview.index, name='sindex'),
     path('', yaouview.yaou_index, name='yaou_index'),
+    # path('', yaouview.big_index, name='big_index'),
     path('zn/', znview.index, name='zn_dataset_index'),
 
     # path('', ansoview.index, name='anso_index'),

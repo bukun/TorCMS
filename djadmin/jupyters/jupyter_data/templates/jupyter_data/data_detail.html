@@ -32,7 +32,7 @@
                         {% if data.logo != '' %}
                             <div class="col-sm-12 bor_bottom ">
                                 <div class="col-sm-6 ">
-                                    <img src="/static/img/{{ data.logo }}" alt="/static/img/{{ data.logo }}"
+                                    <img src="/{{ data.logo }}" alt="/{{ data.logo }}"
                                          class="img-thumbnail">
                                 </div>
                                 <div class="col-sm-6">
@@ -43,7 +43,7 @@
                                        {% if user.is_authenticated %}
                                         <p>
                                             <a class="btn btn-success btn-sm" title="Download literature"
-                                               href="/static/img/{{ data.file }}" target="_blank">
+                                               href="/{{ data.file }}" target="_blank">
                                                 <span class="glyphicon glyphicon-download-alt"> </span>
                                                 {{ _('Download JUPYTER Document') }}</a>
                                         </p>
@@ -64,7 +64,7 @@
                                  {% if user.is_authenticated %}
                                     <p>
                                         <a class="btn btn-success btn-sm" title="Download literature"
-                                           href="/static/img/{{ data.file }}" target="_blank">
+                                           href="/{{ data.file }}" target="_blank">
                                             <span class="glyphicon glyphicon-download-alt"> </span>
                                             {{ _('Download JUPYTER Document') }}</a>
                                     </p>

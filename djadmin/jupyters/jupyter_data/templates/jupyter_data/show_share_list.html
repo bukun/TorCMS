@@ -56,7 +56,7 @@
                     <td style="font-size: 13px;">{{ forloop.counter }}</td>
                     <td style="font-size: 13px;"> {{ dat.title }}
                     </td>
-                    <td><a href="/static/img/{{ dat.file }}"> <span class="fa fa-download"> </span> DOWNLOAD</a></td>
+                    <td><a href="/{{ dat.file }}"> <span class="fa fa-download"> </span> DOWNLOAD</a></td>
                 </tr>
                 {% empty %}
                 <tr>
