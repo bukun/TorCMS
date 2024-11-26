@@ -37,9 +37,9 @@
                         <div class="listinfo_title">
                             <a href="{% url 'qgismap:map_view' mapid=dat.id category='yaou' %}" title="{{ dat.title }}"> {{ dat.title }} </a>
                         </div>
-                        <br>
+
                         <div class="padt10"> {{ dat.create_time | date:"Y-m-j" }}</div>
-                        <br>
+
                         <div class="listinfo_content padt10"> {{ dat.cnt_md | truncatechars:130}}</div>
                     </div>
 
