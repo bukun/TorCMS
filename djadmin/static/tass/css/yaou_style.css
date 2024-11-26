@@ -204,9 +204,13 @@ a:hover {
     color: #336699;
 }
 
+.padt10 {
+    padding-top: 10px;
+}
+
 /* 应用于一个具体类名为 .background-image 的元素 */
 .back-image {
-    background: url('/images/yaou_background.original.jpg');
+    background: url('https://cms.igadc.cn/images/yaou_back.original.jpg');
 
     background-size: cover;
     /* 背景图片覆盖整个元素 */
@@ -217,6 +221,22 @@ a:hover {
     width: 100%;
     /* 元素宽度 */
     height: 100%;
+}
+
+/* 定义基础字体大小 */
+.custom-font-size {
+    font-size: 18px;
+    line-height: 36px;
+}
+
+.custom-fa-size {
+    font-size: 30pt;
+}
+
+.flink img {
+    height: 60px;
+    opacity: 0.8;
+    margin-bottom: 10px;
 }
 
 /* 元素高度 */
