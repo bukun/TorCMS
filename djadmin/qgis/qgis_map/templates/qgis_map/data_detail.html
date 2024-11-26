@@ -163,9 +163,8 @@
                          style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap; display: block;">
 
                         {{ _('Article link') }}：
-                        <a href="{% url 'qgismap:map_view' mapid=data.id category=cat_name %}"
-                           style="color: #003366">
-                            {% if cat_name == "zhongmeng"%}
+                        <a href="{% url 'qgismap:map_view' mapid=data.id category=cat_name %}" >
+                            {% if cat_name == "zhongmeng" or cat_name == "yaou"%}
                             {{ data.en_title }}
                             {% else %}
                             {{ data.title }}
