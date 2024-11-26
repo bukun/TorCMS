@@ -205,7 +205,7 @@ a:hover {
 }
 
 /* 应用于一个具体类名为 .background-image 的元素 */
-.background-image {
+.back-image {
     background: url('/images/yaou_background.original.jpg');
 
     background-size: cover;
