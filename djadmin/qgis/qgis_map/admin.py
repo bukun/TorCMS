@@ -12,7 +12,7 @@ class qgismapadmin(ImportExportModelAdmin):
     # 控制哪些字段会显示在Admin 的修改列表页面中
     list_display = (
         "id","mapid","title", "create_time","update_time","zhongbacategory","yaoucategory",
-        "zhongmengcategory","heitucategory","ansocategory","bigscreencategory")
+        "zhongmengcategory","heitucategory","ansocategory")
     ordering = [ "create_time", "update_time", ]
     formfield_overrides = {
         models.CharField: {'widget': TextInput(attrs={'style': 'width: 80%;'})},
