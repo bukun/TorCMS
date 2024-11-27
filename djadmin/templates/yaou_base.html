@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-     <script src="https://r.osgeo.cn/jquery/jquery-3.6.x.min.js"></script>
+    <script src="https://r.osgeo.cn/jquery/jquery-3.6.x.min.js"></script>
     <script src="https://r.osgeo.cn/bootstrap-3.4.x/js/bootstrap.min.js"></script>
     <script src="https://r.osgeo.cn/jquery-validate_1.15.0/jquery.validate.min.js"></script>
     <script src="https://r.osgeo.cn/magnific-popup_1.1.0/jquery.magnific-popup.min.js"></script>
@@ -24,7 +24,7 @@
 
     <link rel="stylesheet" href="{% static 'tass/css/nav-hidden.css' %}">
     <link rel="stylesheet" href="{% static 'tass/css/yaou_style.css' %}">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
           integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
@@ -37,29 +37,29 @@
         <div class="col-sm-10 padt10">
             <h1 style="font-size:30px"><b>
                 亚欧大陆科学资源管理
-                </b></h1>
+            </b></h1>
             <p> Eurasian Continental Scientific Resource Management</p>
         </div>
-<!--           <div class="col-sm-2">-->
-<!--                    <div class="row" style="padding-top:23px">-->
-<!--                        {% if user.is_authenticated %}-->
+        <!--           <div class="col-sm-2">-->
+        <!--                    <div class="row" style="padding-top:23px">-->
+        <!--                        {% if user.is_authenticated %}-->
 
-<!--                        <a href="/users/profile/"> <span class="fa fa-user"></span> {{ user.username }}</a>-->
-<!--                        &nbsp;&nbsp; | &nbsp;&nbsp;-->
-<!--                        <a class="nav-link" href="{% url 'users:logout' %}"><span class="fa fa-sign-out"></span>-->
-<!--                            Logout-->
-<!--                        </a>-->
+        <!--                        <a href="/users/profile/"> <span class="fa fa-user"></span> {{ user.username }}</a>-->
+        <!--                        &nbsp;&nbsp; | &nbsp;&nbsp;-->
+        <!--                        <a class="nav-link" href="{% url 'users:logout' %}"><span class="fa fa-sign-out"></span>-->
+        <!--                            Logout-->
+        <!--                        </a>-->
 
-<!--                        {% else %}-->
+        <!--                        {% else %}-->
 
-<!--                        <a class="nav-link" href="{% url 'users:register' %}"><span class="fa fa-registered"></span>-->
-<!--                            Register</a>-->
-<!--                        &nbsp;&nbsp; | &nbsp;&nbsp;-->
-<!--                        <a class="nav-link" href="{% url 'users:login' %}"><span class="fa fa-sign-in"></span> Login</a>-->
+        <!--                        <a class="nav-link" href="{% url 'users:register' %}"><span class="fa fa-registered"></span>-->
+        <!--                            Register</a>-->
+        <!--                        &nbsp;&nbsp; | &nbsp;&nbsp;-->
+        <!--                        <a class="nav-link" href="{% url 'users:login' %}"><span class="fa fa-sign-in"></span> Login</a>-->
 
-<!--                        {% endif %}-->
-<!--                    </div>-->
-<!--                </div>-->
+        <!--                        {% endif %}-->
+        <!--                    </div>-->
+        <!--                </div>-->
     </div>
 
 </div>
@@ -89,14 +89,15 @@
                         </a>
 
                     </li>
-                     <li><a href="/categorys/index/">Datasets</a></li>
+                    <li><a href="/categorys/index/">Datasets</a></li>
                     <li>
                         <a href="/jupyter_category/index/">
                             Scientific-models
                         </a>
 
                     </li>
-
+                    <li><a href="/literature_category/index/">Literatures</a></li>
+                    <li><a href="/doc_category/index/">Documents</a></li>
 
                 </ul>
             </div>
