@@ -9,7 +9,7 @@ from mptt.admin import MPTTModelAdmin
 class yaoumapcategoryadmin(ImportExportModelAdmin):
     resource_class = YaouMapCategoryResource
     # 控制哪些字段会显示在Admin 的修改列表页面中
-    list_display = ("name", "parent","get_count",)
+    list_display = ("id","name", "parent","get_count",)
 
     list_per_page = 20
     filter_horizontal = ('sites',)

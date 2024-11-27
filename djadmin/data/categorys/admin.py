@@ -9,7 +9,7 @@ from django.db.models.aggregates import Count
 class categoryadmin(ImportExportModelAdmin):
     resource_class = CategoryResource
     # 控制哪些字段会显示在Admin 的修改列表页面中
-    list_display = ("name", "order", "get_count",)
+    list_display = ("id","name", "order", "get_count",)
     filter_horizontal = ('sites',)
 
     list_per_page = 20

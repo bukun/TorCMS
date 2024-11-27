@@ -8,7 +8,7 @@ from django.db.models.aggregates import Count
 class DocLabelAdmin(ImportExportModelAdmin):
     resource_class = LabelResource
     # 控制哪些字段会显示在Admin 的修改列表页面中
-    list_display = ("name", "order", )
+    list_display = ("id","name", "order", )
     # 用来排序
     ordering = ["order",  ]
     list_per_page = 20

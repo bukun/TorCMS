@@ -8,7 +8,7 @@ from django.forms import TextInput, Textarea
 class TopictAdmin(ImportExportModelAdmin):
     resource_class = TopicResource
     # 控制哪些字段会显示在Admin 的修改列表页面中
-    list_display = ("title", "user",  "create_time","update_time")
+    list_display = ("id","title", "user",  "create_time","update_time")
 
     # 用来排序
     ordering = ["create_time", ]

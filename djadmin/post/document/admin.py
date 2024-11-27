@@ -9,7 +9,7 @@ class Documenttadmin(ImportExportModelAdmin):
     resource_class = DataResource
     # 控制哪些字段会显示在Admin 的修改列表页面中
     list_display = (
-        "title",  "category", "user",  "create_time","update_time")
+        "id","title",  "category", "user",  "create_time","update_time")
     # 用来排序
     ordering = ["create_time", "category", ]
     list_per_page = 20
