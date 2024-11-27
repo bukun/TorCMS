@@ -224,15 +224,13 @@ a:hover {
 }
 
 /* 定义基础字体大小 */
+.custom-fa-size {
+    font-size: 25pt;
+}
 .custom-font-size {
     font-size: 18px;
-    line-height: 36px;
+    line-height: 48px;
 }
-
-.custom-fa-size {
-    font-size: 30pt;
-}
-
 .flink img {
     height: 60px;
     opacity: 0.8;

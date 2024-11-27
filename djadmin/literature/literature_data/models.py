@@ -20,7 +20,7 @@ class Literature(basemodel):
     cnt_md = MDTextField(verbose_name="简介", null=True, blank=True)
     pub_date = models.ForeignKey(LiteratureDate, on_delete=models.CASCADE, blank=True, null=True,
                                  related_name='literature_data', verbose_name='发布日期')
-    author = models.ManyToManyField(LiteratureAuthor, blank=True, related_name='literature_data', verbose_name='作者')
+    author = models.ManyToManyField(LiteratureAuthor, blank=True,null=True, related_name='literature_data', verbose_name='作者')
     label = models.ManyToManyField(LiteratureLabel, related_name='literature_data', verbose_name='标签', blank=True)
     category = models.ForeignKey(LiteratureCatagory, on_delete=models.CASCADE, blank=True, null=True,
                                  related_name='literature_data', verbose_name='分类名称')
