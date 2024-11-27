@@ -53,10 +53,13 @@
 
 
     <div class="row">
-        <div class="col-sm-4"> {% include "index_qgis.html" with data=qgis_data %}</div>
-        <div class="col-sm-4"> {% include "index_data.html" with data=dataset_data %}</div>
-        <div class="col-sm-4"> {% include "index_jupyter.html" with data=jupyter_data %}</div>
+        <div class="col-sm-6"> {% include "index_qgis.html" with data=qgis_data %}</div>
 
+        <div class="col-sm-6"> {% include "index_jupyter.html" with data=jupyter_data %}</div>
+
+    </div>
+    <div class="row">
+                <div class="col-sm-12"> {% include "index_data.html" with data=dataset_data %}</div>
     </div>
     <div class="row">
 

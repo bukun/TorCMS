@@ -4,28 +4,42 @@
             <div class="card-header">Datasets
                   <a style="font-size: 12px;float: right" href="{% url 'categorys:data_category_index' %}">More</a>
             </div>
-        <div class="card-body">
 
+<div class="card-body">
             <ul class="list-group">
 
                 {% for dat in data %}
-                    <li class="list-group-item" style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap;">
+                   {% if dat.logo != '' %}
+                <li class="list-group-item">
+
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <img src="/static/img/{{ dat.logo }}" alt="/static/img/{{ dat.logo }}"
+                                         class="img-thumbnail">
+                        </div>
+                        <div class="col-sm-9">
                        <a href="{% url 'dataset:data_view' dataid=dat.id %}">
                            <span class="fa fa-database"></span>
                             {{ dat.title }}
                         </a>
+                        </div>
+                    </div>
 
                     </li>
+                {% endif %}
                 {% endfor %}
             </ul>
 
         </div>
-    </div>
+ </div>
 
 </div>
 
 
 <div style="clear:both;"></div>
+
+
+
 
 
 
