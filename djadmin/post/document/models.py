@@ -14,6 +14,7 @@ class Document(basemodel):
     cnt_md = MDTextField(verbose_name="内容", null=True, blank=True)
     label = models.ManyToManyField(DocLabel, related_name='document',
                                    verbose_name='标签', blank=True)
+    sites = models.ManyToManyField(Site, blank=True, related_name='document', verbose_name='Site')
     category = models.ForeignKey(DocumentCatagory,
                                  on_delete=models.CASCADE,
                                  blank=True, null=True,
@@ -41,7 +42,7 @@ class Document(basemodel):
                                     verbose_name='7*24小时内阅读量', editable=False)
     access_30d = models.IntegerField(blank=True, null=True, default=0,
                                      verbose_name='30*24小时内阅读量', editable=False)
-    sites = models.ManyToManyField(Site, blank=True,related_name='document', verbose_name='Site')
+
 
     def __str__(self):
         return self.title

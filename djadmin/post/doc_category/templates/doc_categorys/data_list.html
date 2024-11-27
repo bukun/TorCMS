@@ -20,9 +20,9 @@
     </div>
     <div class="row">
         <div class="col-sm-9">
-            <div class="panel panel-primary">
-                <div class="panel-heading">{{ cat_name }}</div>
-                {% if data %}
+
+                <div class="card-header">{{ cat_name }}</div>
+               <div class="panel-body">
                     <ul class="list-group">
 
                         {% for dat in data %}
@@ -119,7 +119,7 @@
 
                     </ul>
 
-                {% endif %}
+
             </div>
         </div>
         <div class="col-sm-3">

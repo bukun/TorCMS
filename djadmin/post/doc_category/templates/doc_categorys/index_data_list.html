@@ -5,13 +5,13 @@
     {% if forloop.first %}
         <div class="row">{% endif %}
 <div class="col-sm-6">
-    <div class="panel panel-primary">
-        <div class="panel-heading">{{ cat.cat_name }}
+
+        <div class="card-header">{{ cat.cat_name }}
             <a style="font-size: 12px;float: right"
                href="{% url 'doc_category:category_datalist' cat.cat_id %}">More</a>
         </div>
 
-
+   <div class="card-body">
         <ul class="list-group">
             {% for dat in cat.data %}
             {% if dat.logo != '' %}
