@@ -31,7 +31,13 @@
                                 <div class="col-sm-6">
                                     <p><strong>{{ _('Theme') }}：</strong>{{ data.theme }}</p>
                                     <p><strong>{{ _('Type') }}：</strong>{{ data.type }}</p>
-                                    <p><strong>{{ _('Author') }}：</strong>{{ data.author }}</p>
+                                    <p><strong>{{ _('Author') }}：</strong>
+                                         {% for author in data.author.all %}
+
+                                                {{ author }}
+
+                                        {% endfor %}
+                                      </p>
                                     <p><strong>{{ _('Release time') }}：</strong>{{ data.pub_date }}</p>
                                     <p><strong>{{ _('Category') }}：</strong>
                                         <a class="btn btn-xs btn-success"
