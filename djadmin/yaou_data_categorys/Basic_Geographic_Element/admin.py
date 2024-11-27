@@ -6,7 +6,7 @@ from mptt.admin import MPTTModelAdmin
 from django.db.models.aggregates import Count
 
 
-class categoryadmin(ImportExportModelAdmin):
+class categoryadmin(ImportExportModelAdmin,MPTTModelAdmin):
     resource_class = CategoryResource
     # 控制哪些字段会显示在Admin 的修改列表页面中
     list_display = ("name", "category_code", )
