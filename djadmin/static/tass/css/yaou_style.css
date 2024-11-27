@@ -523,12 +523,11 @@ h1[id] {
 
 .footer {
     color: #999;
-    padding: 30px 0;
+    padding: 30px 0 50px 0;
     margin-top: 70px;
     border-top: 1px solid #e5e5e5;
     background-color: #eee;
-    height: 200px;
-    background-image: url(../images/footer-bg.png);
+    height: 50px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
