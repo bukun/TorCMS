@@ -33,10 +33,10 @@
                                     <p><strong>{{ _('Type') }}：</strong>{{ data.type }}</p>
                                     <p><strong>{{ _('Author') }}：</strong>
                                          {% for author in data.author.all %}
-                                             <a href="{% url 'literature_author:author_datalist' author.id %}">
+                                             <a class="text-primary" href="{% url 'literature_author:author_datalist' author.id %}">
                                                 {{ author }}
                                                 </a>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        &nbsp;&nbsp;
                                         {% endfor %}
                                       </p>
                                     <p><strong>{{ _('Release time') }}：</strong>{{ data.pub_date }}</p>
@@ -114,7 +114,7 @@
                             <div class="col-md-12"
                                  style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap; display: block;">
 
-                                {{ _('Article link') }}： <a href="{% url 'literature:data_view' data.id %}"
+                                {{ _('Article link') }}： <a class="text-primary" href="{% url 'literature:data_view' data.id %}"
 
                                                             title="{{ data.title }}">{{ data.title }}</a>
                             </div>

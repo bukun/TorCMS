@@ -65,8 +65,8 @@
                     <div class="col-md-12"
                          style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap; display: block;">
 
-                        {{ _('Article link') }}： <a href="{% url 'page:page_view' data.slug %}"
-                                                    style="color: #003366"
+                        {{ _('Article link') }}： <a class="text-primary" href="{% url 'page:page_view' data.slug %}"
+
                                                     title="{{ data.title }}">{{ data.title }}</a>
 
                     </div>
