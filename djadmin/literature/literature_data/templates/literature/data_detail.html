@@ -33,9 +33,10 @@
                                     <p><strong>{{ _('Type') }}：</strong>{{ data.type }}</p>
                                     <p><strong>{{ _('Author') }}：</strong>
                                          {% for author in data.author.all %}
-
-                                                {{ author }}, 
-
+                                             <a href="{% url 'literature_author:author_datalist' author.id %}">
+                                                {{ author }}
+                                                </a>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
                                         {% endfor %}
                                       </p>
                                     <p><strong>{{ _('Release time') }}：</strong>{{ data.pub_date }}</p>
