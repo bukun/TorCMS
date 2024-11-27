@@ -178,6 +178,8 @@ INSTALLED_APPS = [
     'bigscreen.jump_btn',  # 大屏数据
 
     'black_html.sphinx_doc', #sphinx
+
+    'yaou_data_categorys.Basic_Geographic_Element', #亚欧大陆数据分类
 ]
 
 LEAFLET_CONFIG = {
@@ -648,7 +650,20 @@ SIMPLEUI_CONFIG = {
 
             ]
         },
+{
+            'name': '亚欧大陆分类表',
+            'icon': 'fa fa-th-list',
+            'models': [
+                {
+                    'name': '基础地理要素数据指标分类',
+                    'url': '/admin/Basic_Geographic_Element/basic_geographic_element_category/',
+                    'icon': 'fa fa-tasks'
+                },
 
+
+
+            ]
+        },
         {
             'name': '数据管理',
             'icon': 'fa fa-th-list',

@@ -1,0 +1,52 @@
+
+{% for cat in cat_data %}
+
+
+        {% if forloop.first %}
+            <div class="row">{% endif %}
+
+    <div class="col-sm-6">
+
+            <div class="card-header">{{ cat.cat_name }}
+                <a style="font-size: 12px;float: right"
+                   href="{% url 'categorys:category_datalist' cat.cat_id %}">More</a>
+            </div>
+      <div class="card-body">
+            <ul class="list-group">
+                {% for dat in cat.data %}
+                   {% if dat.logo != '' %}
+                    <li class="list-group-item">
+                        <div class="row">
+                        <div class="col-sm-3">
+                            <img src="/{{ dat.logo }}" alt="/{{ dat.logo }}"
+                                         class="img-thumbnail">
+                        </div>
+                        <div class="col-sm-9">
+                        <a href="{% url 'dataset:data_view' dataid=dat.id %}">
+
+                            {{ dat.title }}
+                        </a>
+                        </div>
+                        </div>
+                    </li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% if forloop.counter|divisibleby:4 %}
+        </div>
+        <div class="row">
+    {% endif %}
+    {% if forloop.last %}
+        </div>
+    {% endif %}
+  
+{% endfor %}
+<div style="clear:both;"></div>
+
+
+
+
+
+

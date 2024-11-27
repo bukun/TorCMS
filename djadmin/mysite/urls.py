@@ -196,6 +196,8 @@ urlpatterns = [
     path('bigscreen/', include('bigscreen.bigscreen_data.urls')), #大屏数据
     path('jump_btn/', include('bigscreen.jump_btn.urls')), #大屏数据
 
+    path('Basic_Geographic_Element_Category/', include('yaou_data_categorys.Basic_Geographic_Element.urls')), #亚欧大陆分类表
+
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
