@@ -672,6 +672,7 @@ h1[id] {
 .card-header {
     border-bottom: 3px solid #336699;
     background: #fff;
+    font-weight: bold;
 }
 
 .card-header a {
