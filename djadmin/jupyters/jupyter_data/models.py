@@ -33,8 +33,7 @@ class Jupyter(basemodel):
     cnt_md = MDTextField(verbose_name="内容", null=True, blank=True)
     logo = models.ImageField(upload_to='jupyter/imgs/', max_length=255, null=True, blank=True,
                              verbose_name="图片")
-    shared_with = models.ManyToManyField(User, related_name='shared_with', verbose_name="分享给好友", null=True,
-                                         blank=True)
+    shared_with = models.ManyToManyField(User, related_name='shared_with', verbose_name="分享给好友", blank=True)
     sites = models.ManyToManyField(Site,blank=True, related_name='jupyter', verbose_name='Site')
 
 

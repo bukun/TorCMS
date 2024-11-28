@@ -31,8 +31,7 @@ class qgismap(basemodel):
     host = models.CharField(blank=True, null=True, default='', max_length=255, verbose_name="host")
     name = models.CharField(blank=True, null=True, default='', max_length=255, verbose_name="名称")
     date = models.DateTimeField(verbose_name='创建日期', auto_now_add=True)
-    label = models.ManyToManyField(QgisLabel, related_name='qgismap',
-                                   verbose_name='标签', blank=True)
+    label = models.ManyToManyField(QgisLabel, related_name='qgismap',verbose_name='标签', blank=True)
 
     zhongbacategory = models.ForeignKey(zhongbamapcategory, on_delete=models.CASCADE,blank=True,null=True,
                                  related_name='zhongbadata',verbose_name='中巴地图分类名称')
@@ -44,7 +43,7 @@ class qgismap(basemodel):
                                         related_name='heitudata', verbose_name='黑土地图分类名称')
     ansocategory = models.ForeignKey(ANSOMapCategory, on_delete=models.CASCADE, blank=True, null=True,
                                       related_name='ansodata', verbose_name='ANSO地图分类名称')
-    bigscreencategory = models.ManyToManyField(BigScreenMapCategory, blank=True, null=True,
+    bigscreencategory = models.ManyToManyField(BigScreenMapCategory, blank=True,
                                       related_name='bigscreendata', verbose_name='大屏数据分类')
     logo = models.ImageField(upload_to='qgismap/imgs/', max_length=255, null=True, blank=True,
                              verbose_name="LOGO")

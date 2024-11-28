@@ -67,7 +67,7 @@ class vectorlayer(basemodel):
     label = models.ManyToManyField(QgisLabel, related_name='vectorlayer',
                                    verbose_name='标签', blank=True)
 
-    bigscreencategory = models.ManyToManyField(BigScreenMapCategory, blank=True, null=True,
+    bigscreencategory = models.ManyToManyField(BigScreenMapCategory, blank=True,
                                       related_name='qgismapbigscreen', verbose_name='大屏数据分类')
     # logo = models.ImageField(upload_to='vectorlayer/imgs/', max_length=255, null=True, blank=True,
     #                          verbose_name="LOGO")

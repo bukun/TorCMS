@@ -15,7 +15,7 @@ Fast_Jump_Chose = [
 ]
 class BigScreenData(basemodel):
     title = models.CharField(blank=True, unique=True, null=False, max_length=255, verbose_name="标题")
-    qgis_map =  models.ManyToManyField(BigScreenMapCategory, related_name='big_screen_data', verbose_name="Qgis地图分类", null=True,
+    qgis_map =  models.ManyToManyField(BigScreenMapCategory, related_name='big_screen_data', verbose_name="Qgis地图分类",
                                          blank=True)
     lat = models.FloatField(blank=True, null=True, default=0,
         validators=[MinValueValidator(-90.0), MaxValueValidator(90.0)],
@@ -31,7 +31,7 @@ class BigScreenData(basemodel):
     vector_layer =  models.JSONField(null=True, default=dict, verbose_name='矢量图层分类', blank=True)
     if_fast_jump_show = models.BooleanField(blank=False, null=True, verbose_name="是否显示快速跳转", default=True)
     fast_jump_chose = models.CharField(choices=Fast_Jump_Chose, verbose_name="快速跳转选择", default='0')
-    fast_location_btn=models.ManyToManyField(JumpBtn, related_name='big_screen_data', verbose_name="快速跳转按钮", null=True,
+    fast_location_btn=models.ManyToManyField(JumpBtn, related_name='big_screen_data', verbose_name="快速跳转按钮",
                                          blank=True)
     if_qgismap_jump = models.BooleanField(blank=False, null=True, verbose_name="是否转到到图层位置", default=False)
 

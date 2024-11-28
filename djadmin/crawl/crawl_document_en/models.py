@@ -30,7 +30,7 @@ class CrawlDocumentEN(basemodel):
                                blank=True, null=True,
                                related_name='crawl_document_en', verbose_name='数据来源')
     label = models.ManyToManyField(CrawlLabel, related_name='crawl_document_en',
-                                   verbose_name='数据分类', blank=True,null=True)
+                                   verbose_name='数据分类', blank=True)
 
 
     date = models.DateTimeField(verbose_name='创建日期', auto_now_add=True, null=True)

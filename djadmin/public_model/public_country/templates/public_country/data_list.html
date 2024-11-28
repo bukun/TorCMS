@@ -1,0 +1,96 @@
+{% extends parent_template %}
+{% block head %}
+    <title>{{ label_name }}</title>
+{% endblock %}
+{% block mainbody %}
+    <div class="row mt-3">
+
+
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+
+                <li class="breadcrumb-item">
+                <a href="/literature_category/index/"> {{ _('Literatures') }}</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    {{ label_name }}
+                </li>
+            </ul>
+
+    </div>
+    <div class="row">
+        <div class="col-sm-9">
+
+                <div class="card-header">{{ label_name }}</div>
+                    <div class="panel-body">
+                <ul class="list-group">
+
+                    {% for dat in data %}
+                        <li class="list-group-item">
+
+                            <div class="row ">
+
+                                {% if dat.logo != "" %}
+                                    <div class="col-sm-4">
+                                        <img src="/{{ dat.logo }}" class="img-thumbnail"
+                                             style="border: 1px solid #ddd"
+                                             alt="{{ dat.title }}"/>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <div class="col-sm-12">
+                                            <div class="listinfo_title">
+                                                <a href="{% url 'literature:data_view' dat.id %}"
+                                                   title="{{ dat.title }}"> {{ dat.title }} </a>
+                                            </div>
+
+                                            <div class="listinfo_content padt10">  {{ dat.get_html_content| striptags |  truncatechars:130 }}</div>
+
+                                            <div class="padt10">
+                                                {% for label in dat.label.all %}
+                                                    <a href="{% url 'literature_label:label_datalist' label.id %}"
+                                                       class="btn btn-xs btn-primary">
+                                                        {{ label }}
+                                                    </a> &nbsp;&nbsp;
+                                                {% endfor %}
+                                            </div>
+
+                                            <div class="padt10"> {{ dat.create_time | date:"Y-m-j" }}</div>
+
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="col-sm-12">
+                                        <div class="listinfo_title">
+                                            <a href="{% url 'literature:data_view' dat.id %}"
+                                               title="{{ dat.title }}"> {{ dat.title }} </a>
+                                        </div>
+
+                                        <div class="listinfo_content padt10">  {{ dat.get_html_content| striptags |  truncatechars:130 }}</div>
+
+                                        <div class="padt10">
+                                            {% for label in dat.label.all %}
+                                                <a href="{% url 'literature_label:label_datalist' label.id %}"
+                                                   class="btn btn-xs btn-primary">
+                                                    {{ label }}
+                                                </a> &nbsp;&nbsp;
+                                            {% endfor %}
+                                        </div>
+
+                                        <div class="padt10"> {{ dat.create_time | date:"Y-m-j" }}</div>
+
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+        </div>
+        <div class="col-sm-3">
+            {% include "yj_catalog_of.html" with Category=Category order=False  link_url='literature_category' data_name='literature' %}
+        </div>
+    </div>
+{% endblock %}

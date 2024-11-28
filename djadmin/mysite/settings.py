@@ -169,9 +169,11 @@ INSTALLED_APPS = [
     'jupyters.jupyter_category',  # 科学计算模型分类
     'literature.literature_category',  # 文献分类
     'literature.literature_label',  # 文献标签
-    'literature.literature_data',  # 文献库
+
     'literature.literature_author',  # 文献作者库
-    'literature.literature_date',  # 文献日期库
+    'literature.literature_data',  # 文献库
+    'literature.literature_date',  # 日期库
+    'public_model.public_country',  # 国家库
 
     'pages.page',
     'bigscreen.bigscreen_data',  # 大屏数据
@@ -715,6 +717,18 @@ SIMPLEUI_CONFIG = {
                 {
                     'name': '分享给我的数据',
                     'url': '/jupyter_data/show_share/',
+                    'icon': 'fa fa-tasks'
+                },
+
+            ]
+        },
+        {
+            'name': '公共模型管理',
+            'icon': 'fa fa-th-list',
+            'models': [
+                {
+                    'name': '国家库管理',
+                    'url': '/admin/public_country/publiccountry/',
                     'icon': 'fa fa-tasks'
                 },
 

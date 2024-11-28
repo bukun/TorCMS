@@ -25,7 +25,7 @@ class Literature(basemodel):
     file = models.FileField(upload_to='literature/files/', null=True, blank=True, verbose_name="文件")
     pub_date = models.ForeignKey(LiteratureDate, on_delete=models.CASCADE, blank=True, null=True,
                                  related_name='literature_data', verbose_name='发布日期')
-    author = models.ManyToManyField(LiteratureAuthor, blank=True,null=True, related_name='literature_data', verbose_name='作者')
+    author = models.ManyToManyField(LiteratureAuthor, blank=True, related_name='literature_data', verbose_name='作者')
     label = models.ManyToManyField(LiteratureLabel, related_name='literature_data', verbose_name='标签', blank=True)
 
     sites = models.ManyToManyField(Site, blank=True, related_name='literature', verbose_name='Site')

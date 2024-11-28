@@ -5,6 +5,7 @@ from base.models import basemodel
 from mdeditor.fields import MDTextField
 from django.contrib.sites.models import Site
 from django.utils.safestring import mark_safe
+from public_model.public_country.models import PublicCountry
 User = get_user_model()
 
 gender_CHOICES = [
@@ -15,9 +16,8 @@ gender_CHOICES = [
 class LiteratureAuthor(basemodel):
     name=models.CharField(blank=True,unique=True, null=False, max_length=255, verbose_name="姓名")
     gender=models.CharField(choices=gender_CHOICES, verbose_name="性别",default='0')
-
-    nation=models.CharField(blank=True,unique=True, null=True, max_length=255, verbose_name="国家")
-
+    nation = models.ForeignKey(PublicCountry, on_delete=models.CASCADE, blank=True, null=True,
+                                related_name='public_author', verbose_name='国家')
     department=models.CharField(blank=True, null=True, max_length=255, verbose_name="部门")
     business=models.CharField(blank=True, null=True, max_length=255, verbose_name="职务")
     profession=models.CharField(blank=True, null=True, max_length=255, verbose_name="专业")
