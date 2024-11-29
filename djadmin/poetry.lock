@@ -383,6 +383,21 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "django-bootstrap4"
+version = "24.4"
+description = "Bootstrap 4 for Django"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "django_bootstrap4-24.4-py3-none-any.whl", hash = "sha256:90f642d8c9a6622694544a4fdbf8e6734a037b33b5d6b2884cfd79c87c5d610f"},
+    {file = "django_bootstrap4-24.4.tar.gz", hash = "sha256:b6147eeaa534057f866962d50bcf506b3d378720340d7a8243494a6e33f4e23e"},
+]
+
+[package.dependencies]
+beautifulsoup4 = ">=4.10.0"
+Django = ">=4.2"
+
+[[package]]
 name = "django-ckeditor"
 version = "6.7.1"
 description = "Django admin CKEditor integration."
@@ -396,6 +411,20 @@ files = [
 [package.dependencies]
 Django = ">=3.2"
 django-js-asset = ">=2.0"
+
+[[package]]
+name = "django-contrib-comments"
+version = "2.2.0"
+description = "The code formerly known as django.contrib.comments."
+optional = false
+python-versions = "*"
+files = [
+    {file = "django-contrib-comments-2.2.0.tar.gz", hash = "sha256:48de00f15677e016a216aeff205d6e00e4391c9a5702136c64119c472b7356da"},
+    {file = "django_contrib_comments-2.2.0-py3-none-any.whl", hash = "sha256:2ca79060bbc8fc5b636981ef6e50f35ab83649af75fc1be47bf770636be3271c"},
+]
+
+[package.dependencies]
+Django = ">=2.2"
 
 [[package]]
 name = "django-cors-headers"
@@ -425,6 +454,20 @@ files = [
 
 [package.dependencies]
 Django = ">=4.2"
+
+[[package]]
+name = "django-friendship"
+version = "1.9.6"
+description = "django-friendship provides an easy extensible interface for following and friendship"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "django_friendship-1.9.6-py2.py3-none-any.whl", hash = "sha256:babc1ef3c9775fbf8281ea70f74396ea6fff919b311b7be25001dbbcbcd91219"},
+    {file = "django_friendship-1.9.6.tar.gz", hash = "sha256:b598c11deff804d05da32d6c9a5b5c3b215501c66fc7a3484281fb368eea27eb"},
+]
+
+[package.extras]
+test = ["black (==21.7b0)", "factory-boy", "pytest", "pytest-cov", "pytest-django", "pytest-pythonpath"]
 
 [[package]]
 name = "django-geoposition"
@@ -1988,4 +2031,4 @@ wand = ["Wand (>=0.6,<1.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "7be7e5b8dfe09540b9b41234cb6ecdd81955c31d36fe4a44c555bd6aeae2e2c2"
+content-hash = "cb19b3fa83754f4a73b8a7249e870c301faaa6fb3d78d656266a3c7476595918"
