@@ -9,7 +9,7 @@ from public_model.public_country.models import PublicCountry
 User = get_user_model()
 
 gender_CHOICES = [
-('0', '-'),
+('0', '---------'),
 ('1', 'Male'),
 ('2', 'Female'),
 ]

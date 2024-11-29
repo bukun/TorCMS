@@ -170,9 +170,9 @@ INSTALLED_APPS = [
     'literature.literature_category',  # 文献分类
     'literature.literature_label',  # 文献标签
 
-    'literature.literature_author',  # 文献作者库
+    'public_model.literature_author',  # 作者库
+    'public_model.literature_date',  # 日期库
     'literature.literature_data',  # 文献库
-    'literature.literature_date',  # 日期库
     'public_model.public_country',  # 国家库
 
     'pages.page',
@@ -731,6 +731,16 @@ SIMPLEUI_CONFIG = {
                     'url': '/admin/public_country/publiccountry/',
                     'icon': 'fa fa-tasks'
                 },
+                {
+                    'name': '文献作者',
+                    'url': '/admin/literature_author/literatureauthor/',
+                    'icon': 'fa fa-tasks'
+                },
+                {
+                    'name': '文献日期',
+                    'url': '/admin/literature_date/literaturedate/',
+                    'icon': 'fa fa-tasks'
+                },
 
             ]
         },
@@ -748,16 +758,7 @@ SIMPLEUI_CONFIG = {
                     'url': '/admin/literature_label/literaturelabel/',
                     'icon': 'fa fa-tasks'
                 },
-                {
-                    'name': '文献作者',
-                    'url': '/admin/literature_author/literatureauthor/',
-                    'icon': 'fa fa-tasks'
-                },
-                {
-                    'name': '文献日期',
-                    'url': '/admin/literature_date/literaturedate/',
-                    'icon': 'fa fa-tasks'
-                },
+
                 {
                     'name': '文献数据',
                     'url': '/admin/literature_data/literature/',
