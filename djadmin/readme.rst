@@ -24,7 +24,7 @@
     CREATE TABLE "django_site" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "domain" varchar(100) NOT NULL, "name" varchar(50) NOT NULL);
     insert into django_site (id, domain, name) values(1, 'htt', 'hta');
 
-以上处理后，再进行数据迁移时，会出现数据表已存在的问题。
+以上处理后，再进行数据迁移时，会出现数据表 **已存在** 的问题。
 注意检查出错的文件与行号。
 这个得修改脚本，将创建数据库的地方跳过。
 如，修改虚拟环境对应文件：
