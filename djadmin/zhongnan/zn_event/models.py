@@ -43,7 +43,7 @@ class ZNEvent(basemodel):
     cnt_md = MDTextField(verbose_name="内容", null=True, blank=True)
     lat = models.CharField(blank=True, null=True, default=0, max_length=255, verbose_name="纬度")
     lon = models.CharField(blank=True, null=True, default=1, max_length=255, verbose_name="经度")
-    url = models.CharField(null=True, blank=True, default='', verbose_name="URL")
+    url = models.CharField(null=True, blank=True, default='', verbose_name="URL",max_length=255)
     sub_type = models.IntegerField(choices=sub_type.choices, verbose_name="Sub type", default=0)
     location = models.IntegerField(choices=location.choices, verbose_name="Location", default=0)
 

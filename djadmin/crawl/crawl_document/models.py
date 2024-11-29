@@ -21,7 +21,7 @@ class CrawlDocument(basemodel):
     cnt_md = MDTextField(verbose_name="爬取内容", null=True, blank=True)
     cnt_md_edit = MDTextField(verbose_name="处理后内容", null=True, blank=True)
     cnt_md_trans = MDTextField(verbose_name="内容翻译", null=True, blank=True)
-    author = models.CharField(blank=True, null=True, verbose_name='作者')
+    author = models.CharField(blank=True, null=True, verbose_name='作者',max_length=255)
     crawlurl = models.CharField(null=True, blank=True, max_length=255, verbose_name="源URL")
     source = models.ForeignKey(CrawlSource,
                                on_delete=models.CASCADE,
@@ -31,7 +31,7 @@ class CrawlDocument(basemodel):
                               verbose_name='数据分类', blank=True)
 
     date = models.DateTimeField(verbose_name='创建日期', auto_now_add=True, null=True)
-    update_date = models.CharField(verbose_name='发布日期', null=True, blank=True)
+    update_date = models.CharField(verbose_name='发布日期', null=True, blank=True,max_length=255)
 
 
     logo = models.ImageField(upload_to='crawl_document/imgs/', max_length=255, null=True, blank=True,

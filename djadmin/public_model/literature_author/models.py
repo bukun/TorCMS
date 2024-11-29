@@ -15,7 +15,7 @@ gender_CHOICES = [
 ]
 class LiteratureAuthor(basemodel):
     name=models.CharField(blank=True,unique=True, null=False, max_length=255, verbose_name="姓名")
-    gender=models.CharField(choices=gender_CHOICES, verbose_name="性别",default='0')
+    gender=models.CharField(choices=gender_CHOICES, verbose_name="性别",default='0',max_length=255)
     nation = models.ForeignKey(PublicCountry, on_delete=models.CASCADE, blank=True, null=True,
                                 related_name='literature_author', verbose_name='国家')
     department=models.CharField(blank=True, null=True, max_length=255, verbose_name="部门")

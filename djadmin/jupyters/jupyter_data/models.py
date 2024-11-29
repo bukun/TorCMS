@@ -24,7 +24,7 @@ DC_IMAGE_CHOICES = [
 class Jupyter(basemodel):
 
     file = models.FileField(upload_to='jupyter/files/', null=True, blank=True, verbose_name="文件")
-    dc_image = models.CharField(choices=DC_IMAGE_CHOICES, verbose_name="容器镜像ID",default='scipy')
+    dc_image = models.CharField(choices=DC_IMAGE_CHOICES, verbose_name="容器镜像ID",default='scipy',max_length=255)
     category = models.ForeignKey(JupyterCatagory, on_delete=models.CASCADE, blank=True, null=True,
                                  related_name='jupyter_data', verbose_name='分类名称')
     file_id = models.CharField(blank=True, null=False, max_length=255, verbose_name="文件ID")

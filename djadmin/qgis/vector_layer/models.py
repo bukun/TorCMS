@@ -26,7 +26,7 @@ class vectorlayer(basemodel):
     en_title = models.CharField(blank=True, null=True, max_length=255, verbose_name="英文标题")
 
 
-    type = models.CharField(choices=Fast_Jump_Chose, verbose_name="数据类型", default='0')
+    type = models.CharField(choices=Fast_Jump_Chose, verbose_name="数据类型", default='0', max_length=255)
 
     # symbol
     textcolor = models.CharField(blank=True, null=True, max_length=255, verbose_name="字体颜色")

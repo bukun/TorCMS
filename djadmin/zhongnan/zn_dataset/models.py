@@ -26,7 +26,7 @@ class ZNDataset(basemodel):
     zoom_min = models.CharField(blank=True, null=True, default=1, max_length=255, verbose_name="最大缩放级别")
     zoom_max = models.CharField(blank=True, null=True, default=1, max_length=255, verbose_name="最小缩放级别")
     layer_name = models.CharField(blank=True, null=True, default='', max_length=255, verbose_name="地图名称")
-    url = models.CharField(null=True, blank=True, default='', verbose_name="地址")
+    url = models.CharField(null=True, blank=True, default='', verbose_name="地址",max_length=255)
     path = models.TextField(null=True, blank=True, default='', verbose_name="路径")
     host = models.CharField(blank=True, null=True, default='', max_length=255, verbose_name="host")
     name = models.CharField(blank=True, null=True, default='', max_length=255, verbose_name="名称")
