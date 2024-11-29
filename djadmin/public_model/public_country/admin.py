@@ -15,7 +15,7 @@ class PublicCountryAdmin(ImportExportModelAdmin):
     list_per_page = 20
     filter_horizontal = ('sites',)
     def get_count(self, obj):
-        rec = PublicCountry.objects.annotate(num_posts=Count('public_author')).filter(name=obj.name)
+        rec = PublicCountry.objects.annotate(num_posts=Count('literature_author')).filter(name=obj.name)
 
         return rec[0].num_posts
 
