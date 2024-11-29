@@ -1,46 +1,120 @@
+
+
+问题
+==============================
+
+由于启用多站点，在初始化时存在有问题：
+
+::
+
+    django.db.utils.OperationalError: no such table: django_site
+
+解决方法：单独创建， 并创建 ``id`` 为 ``1`` 的一条记录。
+如下：
+
+::
+
+    create table django_site(id integer, domain varchar(100), name varchar(50));
+    insert into django_site (id, domain, name) values(1, 'htt', 'hta');
+
+使用 poetry 进行包的管理
+========================================
+
+安装 Python Poetry
+
+首先要安装最新版本的 Python Poetry，不要用操作系统自带的。可以先创建虚拟环境，熊岳 使用 pip 命令安装：
+
+::
+
+    pip install poetry
+
+安装完成后，就可以在命令行中使用 poetry 命令了。
+
+Python Poetry 的主要特性
+
+1. 简洁易用的依赖定义
+
+Python Poetry 使用 pyproject.toml 文件来定义项目的依赖和配置信息，这种格式简洁明了，易于理解和维护。通过 pyproject.toml 文件，用户可以轻松地指定项目依赖、Python 版本、项目元数据等信息。
+
+示例代码：
+
+::
+
+    # pyproject.toml
+
+    [tool.poetry]
+    name = "myproject"
+    version = "0.1.0"
+    description = "My Python project"
+    authors = ["Your Name <you@example.com>"]
+
+    [tool.poetry.dependencies]
+    python = "^3.8"
+    requests = "^2.25.1"
+
+    [build-system]
+    requires = ["poetry-core>=1.0.0"]
+    build-backend = "poetry.core.masonry.api"
+
+2. 虚拟环境管理
+
+Python Poetry 自动为每个项目创建独立的虚拟环境，这样可以确保项目的依赖不会与系统的 Python 环境产生冲突。用户可以在虚拟环境中安装和管理项目的依赖，保持项目的环境隔离性。
+
+示例代码：
+
+::
+
+    poetry init -n
+
+
+# 创建虚拟环境
+
+::
+
+    poetry env use python3.11
+
+# 激活虚拟环境
+
+::
+
+    poetry shell
+
+可以使用以下命令来添加依赖：
+
+::
+
+    poetry add requests
+
+
+3. 依赖解析和锁定
+
+Python Poetry 使用锁文件（poetry.lock）来记录项目依赖的精确版本信息，这样可以确保项目在不同环境下的依赖一致性。Poetry 还提供了强大的依赖解析算法，可以有效地解决依赖冲突和版本兼容性问题。
+
+示例代码：
+
+# 安装项目依赖并生成锁文件
+
+::
+
+    poetry install
+
+# 更新依赖并重新生成锁文件
+
+::
+
+    poetry update
+
+
+
+Note
+=================================
+
+
 source ~/vpy_django/bin/activate
 
 安装：
-pip install django
 
-python -m pip install Pillow #上传图片用
 
-pip install djangorestframework #Django REST framework (DRF)是基于Django实现的一个RESTful风格API框架，能够帮助我们快速开发RESTful风格的API，文档地址如下所示:官网：https://www.django-rest-framework.org/
-
-pip install djangorestframework-simplejwt  #JSON Web Token认证后端
-
-pip install django-simpleui
-
-pip install django-import-export #表格批量导入导出功能。
-
-pip install django-cors-headers #后端安装跨域模块
-
-pip install django-cors-headers -i https://pypi.tuna.tsinghua.edu.cn/simple #如果前端与后端的数据来自不同的域名，就会形成跨域问题，只要是协议、域名、端口三者其一不同那就会形成跨域，我们可以使用 CORS 来解决后端对跨域访问的支持
-
-pip install psycopg2-binary
-
-pip install django_redis #缓存
-
-pip install django-ckeditor  #安装ckeditor
-
-pip install django-js-asset #安装js_asset
-
-pip install Scrapy
-
-pip install scrapy_djangoitem
-
-pip install django-mdeditor
-
-pip install html2text
-pip install markdown
-pip install beautifulsoup4
-pip install shapely
-pip install django-contrib-comments
-pip install geopy #根据经纬度获取城市名称
-pip install django-geoposition
-pip install djangorestframework-gis
-pip install django-bootstrap4
-pip install django-friendship
 运行：
 
 django-admin startproject mysite  #创建项目
