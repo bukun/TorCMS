@@ -198,6 +198,7 @@ urlpatterns = [
     path('jump_btn/', include('bigscreen.jump_btn.urls')), #大屏数据
 
     path('Basic_Geographic_Element_Category/', include('yaou_data_categorys.Basic_Geographic_Element.urls')), #亚欧大陆分类表
+    path('portal_index/', include('public_model.portal_index.urls')), #各个站首页路由
 
 ]
 if settings.DEBUG:

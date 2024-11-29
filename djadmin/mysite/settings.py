@@ -182,6 +182,7 @@ INSTALLED_APPS = [
     'black_html.sphinx_doc', #sphinx
 
     'yaou_data_categorys.Basic_Geographic_Element', #亚欧大陆数据分类
+    'public_model.portal_index',  # 各个门户网站首页
 ]
 
 LEAFLET_CONFIG = {

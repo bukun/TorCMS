@@ -1,0 +1,57 @@
+<div class="row">
+    {% for dat in data %}
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading bg_white" id="white">
+                {{ dat.name }}
+            </div>
+            <div class="panel-body">
+                <div class="featput_container">
+                    {% if dat.logo != "" %}
+                    <div class="landpub_img">
+                        <div class="col-sm-12">
+                            <p><img class="doc_expert" src="{{dat.logo}}" alt="{{dat.name}}"/></p></div>
+                        <div class="featpub_cont">
+                            <p><b>Gender:</b> {{ dat.gender }}</p>
+                            <p><b>Nation:</b> {{ dat.nation }}</p>
+                            <p><b>Department:</b> {{ dat.department }}</p>
+                            <p><b>Business:</b> {{ dat.business }}</p>
+                            <p><b>Profession:</b> {{ dat.profession }}</p>
+                            <p><b>Research:</b> {{ dat.researh }}</p>
+                            <p><b>Tel:</b> {{ dat.tel }}</p>
+                            <p><b>Email:</b> {{ dat.email }}</p>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="featpub_cont">
+                        <p><b>Gender:</b> {{ dat.gender }}</p>
+                        <p><b>Nation:</b> {{ dat.nation }}</p>
+                        <p><b>Department:</b> {{ dat.department }}</p>
+                        <p><b>Business:</b> {{ dat.business }}</p>
+                        <p><b>Profession:</b> {{ dat.profession }}</p>
+                        <p><b>Research:</b> {{ dat.researh }}</p>
+                        <p><b>Tel:</b> {{ dat.tel }}</p>
+                        <p><b>Email:</b> {{ dat.email }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="panel-footer">
+                <a class="btn btn-default btn-sm" href="/expert/{{ dat.uid }}.html" title="{{dat.name}}">Read More </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+
+<div style="clear:both;"></div>
+
+
+
+
+
+
+
+
+
