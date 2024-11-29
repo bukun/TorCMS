@@ -106,6 +106,6 @@ gh-pages
 tags
 
 # for Django
-
-migrations/
+migrations/*.py
+????_initial.py
 !djadmin/**/migrations/__init__.py
