@@ -45,9 +45,13 @@ def edit_postgresql():
         name varchar(50) 
     );
     """)
-
+    cur.execute("SELECT * FROM django_site;")
+    res = cur.fetchall()
+    print('====')
+    print(res)
     # 向表中添加一条信息
-    cur.execute("INSERT INTO django_site(id, domain, name) VALUES (1, 'htt', 'hta')", )
+    if not res:
+        cur.execute("INSERT INTO django_site(id, domain, name) VALUES (1, 'htt', 'hta')", )
 
     # 提交事务
     conn.commit()
@@ -56,4 +60,4 @@ def edit_postgresql():
     cur.close()
     conn.close()
 if __name__ == '__main__':
-    edit_postgresql()
+    edit_sqlite()
