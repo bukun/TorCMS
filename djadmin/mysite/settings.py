@@ -43,7 +43,7 @@ LOGOUT_REDIRECT_URL = "/admin/"
 # Application definition
 
 # 访问django后台，提示CSRF验证失败. 请求被中断.
-# https://blog.csdn.net/weixin_37770279/article/details/124480045 
+# https://blog.csdn.net/weixin_37770279/article/details/124480045
 CSRF_TRUSTED_ORIGINS = ['https://cms.igadc.cn']
 
 INSTALLED_APPS = [
