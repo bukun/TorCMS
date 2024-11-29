@@ -92,14 +92,15 @@ INSTALLED_APPS = [
     'bootstrap4',
     'data.categorys',
     'data.labels',
-    'data.dataset',
     'data.map',
+    'data.dataset',
+
 
     'igais.igais_category',
     'igais.igais_label',
     'igais.igais_data',
 
-    'qgis.qgis_map',
+
     'qgis.heitu_map_category',
     'qgis.zhongmeng_map_category',
     'qgis.yaou_map_category',
@@ -108,6 +109,7 @@ INSTALLED_APPS = [
     'qgis.bigscreen_map_category',
     'qgis.qgis_label',
     'qgis.vector_layer',
+    'qgis.qgis_map',
 
     'post.doc_category',
     'post.doc_label',
@@ -117,9 +119,10 @@ INSTALLED_APPS = [
     'apiapp',
 
     'crawl.crawl_label',
+    'crawl.crawl_source',
     'crawl.crawl_document',
     'crawl.crawl_document_en',
-    'crawl.crawl_source',
+
 
     'world',
 
@@ -145,35 +148,39 @@ INSTALLED_APPS = [
     # 长春工程建设管理：（文字识别结果）
     'changchun_project',
     # 中南专栏
-    'zhongnan.zn_dataset',
+
     'zhongnan.zn_dataset_category',
     'zhongnan.zn_dataset_label',
-    'zhongnan.zn_event',
+    'zhongnan.zn_dataset',
+
     'zhongnan.zn_event_category',
     'zhongnan.zn_event_label',
+    'zhongnan.zn_event',
 
     # 黑土粮仓
-    'heitu_barn.barn_dataset',
+
     'heitu_barn.barn_device',
     'heitu_barn.barn_field',
     'heitu_barn.device_soilmoisture',
     'heitu_barn.device_soilfiveparameters',
     'heitu_barn.device_soilfiveparametersv2',
     'heitu_barn.device_meteorology',
+    'heitu_barn.barn_dataset',
 
     # 在线制图与编辑应用系统
     'layerstyle.lgeojson',
     'layerstyle.lprogram',
 
-    'jupyters.jupyter_data',  # 科学计算模型数据
     'jupyters.jupyter_category',  # 科学计算模型分类
+    'jupyters.jupyter_data',  # 科学计算模型数据
+
     'literature.literature_category',  # 文献分类
     'literature.literature_label',  # 文献标签
-
+    'public_model.public_country',  # 国家库
     'public_model.literature_author',  # 作者库
     'public_model.literature_date',  # 日期库
     'literature.literature_data',  # 文献库
-    'public_model.public_country',  # 国家库
+
 
     'pages.page',
     'bigscreen.bigscreen_data',  # 大屏数据
