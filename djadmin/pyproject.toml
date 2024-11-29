@@ -1,0 +1,39 @@
+[tool.poetry]
+name = "djadmin"
+version = "0.1.0"
+description = ""
+authors = ["bukun <bukun@osgeo.cn>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^5.1.3"
+django-ckeditor = "^6.7.1"
+wagtail = "^6.3.1"
+peewee = "^3.17.8"
+htmlmin = "^0.1.12"
+django-tables2 = "^2.7.0"
+django-cors-headers = "^4.6.0"
+django-widget-tweaks = "^1.5.0"
+django-mptt = "^0.16.0"
+django-mdeditor = "^0.1.20"
+djangorestframework-gis = "^1.1"
+django-rest-multiple-models = "^2.1.3"
+simpleui = "^2024.11.15"
+oauth2-provider = "^0.0"
+django-import-export = "^4.3.1"
+leaflet = "^0.0.3"
+django-geoposition = "^0.3.0"
+markdown = "^3.7"
+html2text = "^2024.2.26"
+django-leaflet = "^0.31.0"
+# rest-framework-simplejwt = "^0.0.2"
+djangorestframework-simplejwt = "^5.3.1"
+django-oauth-toolkit = "^3.0.1"
+nbformat = "^5.10.4"
+nbconvert = "^7.16.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

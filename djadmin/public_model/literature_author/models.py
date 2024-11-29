@@ -9,15 +9,15 @@ from public_model.public_country.models import PublicCountry
 User = get_user_model()
 
 gender_CHOICES = [
-('0', '未知'),
-('1', '男'),
-('2', '女'),
+('0', '---------'),
+('1', 'Male'),
+('2', 'Female'),
 ]
 class LiteratureAuthor(basemodel):
     name=models.CharField(blank=True,unique=True, null=False, max_length=255, verbose_name="姓名")
     gender=models.CharField(choices=gender_CHOICES, verbose_name="性别",default='0')
     nation = models.ForeignKey(PublicCountry, on_delete=models.CASCADE, blank=True, null=True,
-                                related_name='public_author', verbose_name='国家')
+                                related_name='literature_author', verbose_name='国家')
     department=models.CharField(blank=True, null=True, max_length=255, verbose_name="部门")
     business=models.CharField(blank=True, null=True, max_length=255, verbose_name="职务")
     profession=models.CharField(blank=True, null=True, max_length=255, verbose_name="专业")

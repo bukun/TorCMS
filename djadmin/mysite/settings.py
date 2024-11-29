@@ -43,7 +43,7 @@ LOGOUT_REDIRECT_URL = "/admin/"
 # Application definition
 
 # 访问django后台，提示CSRF验证失败. 请求被中断.
-# https://blog.csdn.net/weixin_37770279/article/details/124480045 
+# https://blog.csdn.net/weixin_37770279/article/details/124480045
 CSRF_TRUSTED_ORIGINS = ['https://cms.igadc.cn']
 
 INSTALLED_APPS = [
@@ -170,9 +170,9 @@ INSTALLED_APPS = [
     'literature.literature_category',  # 文献分类
     'literature.literature_label',  # 文献标签
 
-    'literature.literature_author',  # 文献作者库
+    'public_model.literature_author',  # 作者库
+    'public_model.literature_date',  # 日期库
     'literature.literature_data',  # 文献库
-    'literature.literature_date',  # 日期库
     'public_model.public_country',  # 国家库
 
     'pages.page',
@@ -731,6 +731,16 @@ SIMPLEUI_CONFIG = {
                     'url': '/admin/public_country/publiccountry/',
                     'icon': 'fa fa-tasks'
                 },
+                {
+                    'name': '作者库管理',
+                    'url': '/admin/literature_author/literatureauthor/',
+                    'icon': 'fa fa-tasks'
+                },
+                {
+                    'name': '日期库管理',
+                    'url': '/admin/literature_date/literaturedate/',
+                    'icon': 'fa fa-tasks'
+                },
 
             ]
         },
@@ -748,16 +758,7 @@ SIMPLEUI_CONFIG = {
                     'url': '/admin/literature_label/literaturelabel/',
                     'icon': 'fa fa-tasks'
                 },
-                {
-                    'name': '文献作者',
-                    'url': '/admin/literature_author/literatureauthor/',
-                    'icon': 'fa fa-tasks'
-                },
-                {
-                    'name': '文献日期',
-                    'url': '/admin/literature_date/literaturedate/',
-                    'icon': 'fa fa-tasks'
-                },
+
                 {
                     'name': '文献数据',
                     'url': '/admin/literature_data/literature/',
