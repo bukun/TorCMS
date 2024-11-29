@@ -10,12 +10,36 @@
     django.db.utils.OperationalError: no such table: django_site
 
 解决方法：单独创建， 并创建 ``id`` 为 ``1`` 的一条记录。
-如下：
+
+在 SpatiaLite 中如下：
 
 ::
 
-    create table django_site(id integer, domain varchar(100), name varchar(50));
+    CREATE TABLE "django_site" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "domain" varchar(100) NOT NULL, "name" varchar(50) NOT NULL);
     insert into django_site (id, domain, name) values(1, 'htt', 'hta');
+
+以上处理后，再进行数据迁移时，会出现数据表已存在的问题。
+注意检查出错的文件与行号。
+这个得修改脚本，将创建数据库的地方跳过。
+如，修改虚拟环境对应文件：
+
+::
+
+    lib/python3.11/site-packages/django/db/backends/sqlite3/base.py
+
+针对出问题函数，修改如下：
+
+::
+
+   def execute(self, query, params=None):
+       if params is None:
+           if 'CREATE TABLE "django_site"' in query:
+               print('=' * 80)
+               print(query)
+               return None
+           return super().execute(query)
+
+ToDo: 针对 PostGIS，应有所不同，注意处理。
 
 使用 poetry 进行包的管理
 ========================================
