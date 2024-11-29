@@ -9,9 +9,9 @@ from public_model.public_country.models import PublicCountry
 User = get_user_model()
 
 gender_CHOICES = [
-('0', '未知'),
-('1', '男'),
-('2', '女'),
+('0', '-'),
+('1', 'Male'),
+('2', 'Female'),
 ]
 class LiteratureAuthor(basemodel):
     name=models.CharField(blank=True,unique=True, null=False, max_length=255, verbose_name="姓名")
