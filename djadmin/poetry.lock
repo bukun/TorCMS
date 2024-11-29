@@ -978,17 +978,6 @@ dev = ["black (==24.1.1)", "blacken-docs (==1.16.0)", "coverage (==7.3.4)", "dja
 testing = ["coverage (==7.3.4)", "dj-database-url (==2.1.0)"]
 
 [[package]]
-name = "leaflet"
-version = "0.0.3"
-description = "Dead simple I2P SAM library"
-optional = false
-python-versions = ">=3"
-files = [
-    {file = "leaflet-0.0.3-py3-none-any.whl", hash = "sha256:654053f4728e8326a38a1e80ee6fbfdca30a2dbf388d27cefe55f5912e546fd7"},
-    {file = "leaflet-0.0.3.tar.gz", hash = "sha256:f906a59a3e06b8d3f8b81eedfe30340187119bbef2dbaa73b79588c79be369c1"},
-]
-
-[[package]]
 name = "markdown"
 version = "3.7"
 description = "Python implementation of John Gruber's Markdown."
@@ -2031,4 +2020,4 @@ wand = ["Wand (>=0.6,<1.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "cb19b3fa83754f4a73b8a7249e870c301faaa6fb3d78d656266a3c7476595918"
+content-hash = "e1bf0a069931def48d3deca7fa9aab9c588e3be683378da62fe47a4078d050a3"
