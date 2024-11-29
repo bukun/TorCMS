@@ -732,12 +732,12 @@ SIMPLEUI_CONFIG = {
                     'icon': 'fa fa-tasks'
                 },
                 {
-                    'name': '文献作者',
+                    'name': '作者库管理',
                     'url': '/admin/literature_author/literatureauthor/',
                     'icon': 'fa fa-tasks'
                 },
                 {
-                    'name': '文献日期',
+                    'name': '日期库管理',
                     'url': '/admin/literature_date/literaturedate/',
                     'icon': 'fa fa-tasks'
                 },
