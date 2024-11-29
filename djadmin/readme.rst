@@ -11,6 +11,12 @@
 
 解决方法：单独创建， 并创建 ``id`` 为 ``1`` 的一条记录。
 
+如果用 SpatiaLite ，注意安装：
+
+::
+
+    sudo apt install libsqlite3-mod-spatialite
+
 在 SpatiaLite 中如下：
 
 ::
