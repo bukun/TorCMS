@@ -44,6 +44,13 @@
                print(query)
                return None
            return super().execute(query)
+或可运行如下命令,此命令是一个在Django框架中执行数据库迁移的命令。这个命令的目的是创建数据库的迁移文件，但是它并不会真正地执行这些迁移，
+它只是创建了迁移文件，并将它们标记为已经执行，但实际上并没有改变数据库的结构。
+
+::
+    python manage.py migrate --fake-initial
+
+
 
 ToDo: 针对 PostGIS，应有所不同，注意处理。
 

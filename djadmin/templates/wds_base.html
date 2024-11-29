@@ -1,0 +1,173 @@
+{% load bootstrap4 %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ _('Eurasian Continental Knowledge Resources Portal') }}</title>
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <script src="https://r.osgeo.cn/jquery/jquery-3.6.x.min.js"></script>
+    <script src="https://r.osgeo.cn/bootstrap-3.4.x/js/bootstrap.min.js"></script>
+    <script src="https://r.osgeo.cn/jquery-validate_1.15.0/jquery.validate.min.js"></script>
+    <script src="https://r.osgeo.cn/magnific-popup_1.1.0/jquery.magnific-popup.min.js"></script>
+    <script src="https://r.osgeo.cn/leaflet-1.9.x/leaflet.js"></script>
+    <script src="https://r.osgeo.cn/leaflet/leaflet.ChineseTmsProviders.js"></script>
+    <link rel="stylesheet" href="https://r.osgeo.cn/bootstrap-3.4.x/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://r.osgeo.cn/leaflet-1.9.x/leaflet.css">
+    <link rel="stylesheet" href="https://cms.igadc.cn/wagtail_documents/6/ydyl.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+    {% block head %}
+    {% endblock %}
+</head>
+
+<body>
+<div id="content_home">
+    <header id="masthead" class="site-header" role="banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                    <a href="/" title="Home">
+                        <img src="https://cms.igadc.cn/images/logo3.original.png" id="site-logo" alt="logo_img" class="index_logo"></a></div>
+            </div>
+        </div>
+    </header>
+    <div id="wrapper_nav" class="hit">
+
+            <nav class="navbar navbar-default" role="navigation">
+                  <div class="container" id="nava">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle date" data-toggle="collapse"
+                            data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">WDS-CHINA</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div id="bs-example-navbar-collapse-1" class="collapse navbar-collapse">
+                    <ul id="menu-main-navigation" class="nav navbar-nav navbar-left">
+                        <li><a href="/" title="Home" style="background-color: #4f3f27 ;color: white"> Home </a></li>
+                        <li><a href="/expert/list" title="SCIENTISTS"> SCIENTISTS </a></li>
+                        <li class="dropdown">
+                    <a href="/page/aboutdb.html" class="dropdown-toggle" data-toggle="dropdown" title="Document">
+                        Document
+                        <b class="caret"></b>
+                    </a>
+                         <ul class="dropdown-menu">
+                       <li><a href="/list/history" title="VIEWPOINT"> VIEWPOINT </a></li>
+                        <li><a href="/list/modern" title="ISSUES"> ISSUES </a></li>
+                         </ul></li>
+
+                    <li class="dropdown">
+                    <a href="/page/aboutdb.html" class="dropdown-toggle" data-toggle="dropdown" title="Data">
+                        Data
+                        <b class="caret"></b>
+                    </a>
+                         <ul class="dropdown-menu">
+                        <li><a href="/filter/2200" title="Data">{{ _('Data') }}</a></li>
+                        <li><a href="/filter/2100" title="MULTIMEDIA"> MULTIMEDIA </a></li>
+                        <li><a href="/filter/2300" title="Model"> Model </a></li>
+                         </ul></li>
+                        <li><a href="/map/" title="Map"> MAP </a></li>
+                        <li><a href="/tutorial/" title="Tutorial"> Scientific-model </a></li>
+                        <li><a href="/drought.html" title="Drought"> Drought </a></li>
+
+
+                        <li><a href="/application/index.html" title="Application">Application</a></li>
+                    </ul>
+
+
+                </div></div>
+            </nav>
+        </div>
+    </div>
+    <div class="site-content">
+        {% block mainbody %}
+        {% endblock %}
+    </div>
+
+<footer id="footer-top" class="site-footer" role="contentinfo">
+    <div class="container">
+        <div class="row">
+            <div class="lu">&nbsp;</div>
+            <br>
+            <div class="col-sm-3 col-sm-3 hidden-xs">
+                <h3 class="footer_title"><a href="/"> Home</a></h3>
+                <h3 class="footer_title"><a href="/expert/list"> SCIENTISTS </a></h3>
+                <h3 class="footer_title"><a href="/list/history"> VIEWPOINT </a></h3>
+                <h3 class="footer_title"><a href="/list/modern"> ISSUES </a></h3>
+            </div>
+            <div class="col-md-3 col-sm-3 hidden-xs"><h3 class="footer_title">Help</h3>
+                <div class="menu-experts-3-container">
+                    <ul id="menu-experts-3" class="menu">
+                        <li><a href="/page/about us.html" title="About us">About us</a></li>
+                        <li><a href="/page/contact.html" title="Content">Content</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3 hidden-xs"><h3 class="footer_title">User Info</h3>
+                <div class="menu-experts-3-container">
+                    <ul id="menu-experts-3" class="menu">
+                        <li><a href="/user_list/user_recent" title="Recent use">Recent use</a></li>
+                        <li><a href="/user_list/user_most" title="Most use">Most use</a></li>
+                        <li><a href="/user/info" title="My info">My Info</a></li>
+                        <li><a href="/collect/list" title="My collection">My collection</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3  footer_orange_border"><h3 class="footer_title">Contact</h3>
+                <div><p>International Scientists Union of One Belt and One Road</p>
+                    <p>Tel: 0431-88888888</p>
+                    <!--<p>Email: <a href="/">[email&#160;protected]</a></p> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<div id="footer-bottom" class="site-footer-bottom" role="contentinfo">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10">&copy; 2016 - International Scientists Union of One Belt and One Road</div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var urlstr = location.href;
+
+    var urlstatus = false;
+    $("#nava a").each(function () {
+        if ((urlstr + '/').indexOf($(this).attr('href')) > -1 && $(this).attr('href') != '') {
+            $(this).addClass('current');
+            urlstatus = true;
+        } else {
+            $(this).removeClass('current');
+        }
+    });
+    $(".dropdown-menu a").each(function () {
+        if ($(this).hasClass('current')) {
+            $(this).parents('ul').siblings('a').eq(0).addClass('current');
+            urlstatus = true;
+        }
+    });
+    if (!urlstatus) {
+        $("#nava a").eq(0).addClass('current');
+    }
+</script>
+</body>
+
+{% block ending %}
+{% endblock %}
+
+</html>
+
+
+
+ 

@@ -7,11 +7,11 @@ from cfg import DB_INFO
 
 def edit_sqlite():
     # 连接到数据库
-    conn = sqlite3.connect('db.sqlite3')
+    conn = sqlite3.connect('xx_db.sqlite3')
     # 创建一个游标对象
     cursor = conn.cursor()
     # 执行SQL语句
-    cursor.execute("create table IF NOT EXISTS django_site(id integer, domain varchar(100), name varchar(50));")
+    cursor.execute('''CREATE TABLE "django_site" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "domain" varchar(100) NOT NULL, "name" varchar(50) NOT NULL);''')
     cursor.execute("insert into django_site(id, domain, name) values(1, 'htt', 'hta');")
 
     # 提交事务
@@ -40,7 +40,7 @@ def edit_postgresql():
     # 创建表
     cur.execute("""
     CREATE TABLE IF NOT EXISTS django_site (
-        id integer PRIMARY KEY,
+        id integer NOT NULL PRIMARY KEY AUTOINCREMENT,
         domain varchar(100),
         name varchar(50) 
     );
