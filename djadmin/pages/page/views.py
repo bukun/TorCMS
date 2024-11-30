@@ -1,4 +1,4 @@
-from .models import Page
+from .models import ThePage
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import PageSerializer
@@ -17,7 +17,7 @@ User = get_user_model()
 
 
 class PageList(generics.ListCreateAPIView):
-    queryset = Page.objects.filter(sites__id=current_site.id)
+    queryset = ThePage.objects.filter(sites__id=current_site.id)
     serializer_class = PageSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     filter_backends = (rest_framework.DjangoFilterBackend,)
@@ -29,11 +29,11 @@ class PageList(generics.ListCreateAPIView):
 
 
 class PageDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Page.objects.filter(sites__id=current_site.id)
+    queryset = ThePage.objects.filter(sites__id=current_site.id)
     serializer_class = PageSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
 
 
 def PageDetailView(request, cur_slug):
-    data = Page.objects.filter(slug=cur_slug).first()
+    data = ThePage.objects.filter(slug=cur_slug).first()
     return render(request, "page/page_detail.html", {"data": data,'parent_template': parent_template })

@@ -26,7 +26,7 @@ def update_data():
     from layerstyle.lgeojson.models import lgeojson
     from layerstyle.lprogram.models import lprogram
     from literature.literature_data.models import Literature,LiteratureLabel,LiteratureCatagory
-    from pages.page.models import Page
+    from pages.page.models import ThePage
     from post.document.models import Document,DocumentCatagory,DocLabel
     from post.topic.models import Topic
     from qgis.qgis_map.models import QgisLabel, qgismap, zhongmengmapcategory,yaoumapcategory,heitumapcategory,zhongbamapcategory,ANSOMapCategory
@@ -55,7 +55,7 @@ def update_data():
     set_value(site_rec,LiteratureLabel)
     set_value(site_rec,LiteratureCatagory)
 
-    set_value(site_rec,Page)
+    set_value(site_rec, ThePage)
 
     set_value(site_rec,Document)
     set_value(site_rec,DocumentCatagory)

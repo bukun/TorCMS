@@ -33,7 +33,8 @@ class dataset(basemodel):
     category = models.ForeignKey(categorys, on_delete=models.CASCADE, blank=True, null=True,
                                  related_name='dataset', verbose_name='分类名称')
     date = models.DateTimeField(verbose_name='创建日期', auto_now_add=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name='dataset',
+    user = models.ForeignKey(User, on_delete=models.CASCADE,
+                             blank=True, null=True, related_name='dataset',
                              editable=False,
                              verbose_name='用户名')
     view_count = models.IntegerField(blank=True, null=True, default=0, verbose_name="浏览量", editable=False)

@@ -11,7 +11,9 @@ def edit_sqlite():
     # 创建一个游标对象
     cursor = conn.cursor()
     # 执行SQL语句
-    cursor.execute('''CREATE TABLE "django_site" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "domain" varchar(100) NOT NULL, "name" varchar(50) NOT NULL);''')
+    cursor.execute('''
+    CREATE TABLE "django_site" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "domain" varchar(100) NOT NULL, "name" varchar(50) NOT NULL);
+    ''')
     cursor.execute("insert into django_site(id, domain, name) values(1, 'htt', 'hta');")
 
     # 提交事务

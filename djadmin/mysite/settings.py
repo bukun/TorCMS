@@ -22,6 +22,9 @@ import os
 WAGTAIL_SITE_NAME = 'WAGTAIL ADMIN'
 SITE_ID = int(os.environ.get('SITE_ID', 1))
 
+# from django.conf import settings
+# DEFAULT_LEVEL_INDICATOR = getattr(settings, "MPTT_DEFAULT_LEVEL_INDICATOR", "---")
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 

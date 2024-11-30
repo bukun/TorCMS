@@ -1,7 +1,7 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import Page
-from .resources import PageResource
+from pages.page.models import ThePage
+from pages.page.resources import PageResource
 from django.db.models.aggregates import Count
 from django.db import models
 from django.forms import TextInput, Textarea
@@ -25,4 +25,4 @@ class PageAdmin(ImportExportModelAdmin):
 
 
 # 注册app的admin
-admin.site.register(Page, PageAdmin)
+admin.site.register(ThePage, PageAdmin)

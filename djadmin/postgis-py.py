@@ -2,8 +2,11 @@ import psycopg2
 from cfg import DB_INFO
 
 # 建立数据库连接
-con = psycopg2.connect(database='geodjango', user=DB_INFO['USER'], password=DB_INFO['PASSWORD'], host="localhost",
-                       port="5432")
+con = psycopg2.connect(database='geodjango',
+                       user=DB_INFO['USER'],
+                       password=DB_INFO['PASSWORD'],
+                       host="localhost",
+                       port=DB_INFO['PORT'])
 # 调用游标对象
 cur = con.cursor()
 # 用cursor中的execute 使用DDL语句创建一个名为 STUDENT 的表,指定表的字段以及字段类型
