@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 import os
-from cfg import DB_INFO, CACHES_INFO
+from cfg import DB_INFO, CACHES_INFO, DEBUG_CFG
 
 from django.views.generic import TemplateView
 
@@ -35,7 +35,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-2@0v#aiu_edfdl2z286icz7r)_u&bua%f3f@b2$+#_yw$-a1p5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = DEBUG_CFG
 AUTH_USER_MODEL = 'users.MyUser'
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),  # access有效时间
