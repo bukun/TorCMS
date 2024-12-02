@@ -448,14 +448,15 @@ USE_L10N = True  # 默认False，以本地化格式显示数字和时间
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),
                     os.path.join(BASE_DIR, 'yy_static_html'),
-                    ]
+                    os.path.join(BASE_DIR, 'yy_media'), ]
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'yy_media')  # 上传图片的根目录
 
 # 部署环境静态文件目录
 STATIC_ROOT = os.path.join(BASE_DIR, 'xx_static')
 
-MEDIA_URL = '/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'yy_media')  # 上传图片的根目录
+MEDIA_URL = '/media/'
+
 CKEDITOR_UPLOAD_PATH = 'upload/'
 CKEDITOR_IMAGE_BACKEND = 'PIL'
 # CKEDITOR_CONFIGS = {
