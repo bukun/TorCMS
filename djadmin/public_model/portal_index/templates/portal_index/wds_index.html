@@ -1,0 +1,102 @@
+{% extends "wds_base.html" %}
+{% load static %}
+
+{% block head %}
+    <title>Silk Road Economic Zone International Union of scientists</title>
+    <meta name="keywords" content="Silk Road Economic Zone International Union of scientists">
+    <meta name="description" content="Silk Road Economic Zone International Union of scientists">
+
+    <style>
+        .border-heading {
+            font-size: 28px;
+            font-weight: bold;
+
+        }
+
+        .border-heading span {
+            padding: 10px 0 0 0;
+            display: inline-block;
+            border-bottom: 2px solid #04182d;
+            width: 97%
+
+        }
+
+        #map_div {
+            width: 100%;
+            height: 420px;
+            border: 1px solid black;
+            text-align: center;
+            align-self: center;
+            z-index: 1;
+            margin-bottom: 20px
+        }
+
+        .spacer-100 {
+            display: block;
+            margin-top: 30px;
+        }
+
+        h3 {
+            margin: 50px 0 -10px 0;
+            padding-bottom: -10px;
+
+        }
+
+    </style>
+{% endblock %}
+{% block mainbody %}
+
+    <h1 class="hden">WDS-CHINA</h1>
+    <br>
+
+    <div id="wrapper_gray" class="content-area">
+        <main id="home_issues" class="container" role="main">
+            <div class="row">
+                {% include "index_document.html" with data=post_data %}
+            </div>
+            <div class="row">
+                {% include "index_jupyter.html" with data=jupyter_data %}
+            </div>
+            <div class="row"> {% include "index_data.html" with data=dataset_data %}</div>
+        </main>
+    </div>
+    <br>
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                WDS Website platform!
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a href="http://explore.china-vo.org/" target="_blank" title="Chinese Astronomical Data Center">
+                        <img src="https://cms.igadc.cn/images/NADCLogoTransHorizontal.original.png"
+                             width="90%" alt="Chinese Astronomical Data Center"/>
+                        Chinese Astronomical Data Center</a></li>
+                <li class="list-group-item">
+                    <a href="http://eng.wdc.cn/" target="_blank" title="WDC-Renewable Resources and Environment">
+                        <img src="https://cms.igadc.cn/images/world.original.png"
+                             width="90%" alt="WDC-Renewable Resources and Environment"/>
+                        WDC-Renewable Resources and Environment</a></li>
+
+                <li class="list-group-item">
+                    <a href="http://www.wdcm.org/" target="_blank"
+                       title="WFCC - MIRCEN World Data Centre for Microorganisms">
+                        <img src="https://cms.igadc.cn/images/logo.original.jpg"
+                             width="90%" alt="WFCC - MIRCEN World Data Centre for Microorganisms"/>
+                        WFCC - MIRCEN World Data Centre for Microorganisms</a></li>
+
+                <li class="list-group-item">
+                    <a href="http://www.geophys.ac.cn/" target="_blank" title=" WDC for Geophysics.Beijing">
+                        <img src="https://cms.igadc.cn/images/wdc_geophysics.original.jpg"
+                             width="90%" alt="WDC for Geophysics.Beijing"/>
+                        WDC for Geophysics.Beijing</a></li>
+                <li class="list-group-item">
+                    <a href="http://www.geodoi.ac.cn/" target="_blank"
+                       title="Global Change Research Data Publishing and Repository">
+                        <img src="https://cms.igadc.cn/images/geodoi.original.jpg"
+                             width="90%" alt="Global Change Research Data Publishing and Repository"/>
+                        Global Change Research Data Publishing and Repository</a></li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
