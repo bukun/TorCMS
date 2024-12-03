@@ -148,6 +148,8 @@ INSTALLED_APPS = [
     'place.geopage',
     'place.xzqh',
 
+    'place.photo_info',
+
     # 长春工程建设管理：（文字识别结果）
     'changchun_project',
     # 中南专栏
@@ -395,7 +397,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # DATABASES = {
 #    'default': {
 #        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': BASE_DIR / 'db.sqlite3',
+#        'NAME': BASE_DIR / 'xx_db.sqlite3',
 #    },
 #    'OPTIONS': {
 #        'timeout': 20,
@@ -1051,6 +1053,11 @@ SIMPLEUI_CONFIG = {
                     'name': '行政区划',
                     'icon': 'fa fa-th-list',
                     'url': '/admin/xzqh/xzqh/'
+                },
+                {
+                    'name': '照片信息',
+                    'icon': 'fa fa-th-list',
+                    'url': '/admin/photo_info/photoinfo/'
                 },
 
             ]

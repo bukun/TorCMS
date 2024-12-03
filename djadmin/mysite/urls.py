@@ -145,6 +145,8 @@ urlpatterns = [
     path('linear_features/', include('place.linear_features.urls')),  # 线状要素库
     path('planar_features/', include('place.planar_features.urls')),  # 面状要素库
 
+    path('photo_info/', include('place.photo_info.urls')),  # photo
+
     # http://geofea.gislab.cn/#/html/index/
     path('geofea/', include('place.geofea.urls')),
     path('thematic_maps/', include('place.thematic_maps.urls')),
