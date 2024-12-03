@@ -210,7 +210,7 @@ a:hover {
 
 /* 应用于一个具体类名为 .background-image 的元素 */
 .back-image {
-    background: url('https://cms.igadc.cn/images/yaou_back.original.jpg');
+    background: url('https://cms.igadc.cn/media/images/yaou_back.original.jpg');
 
     background-size: cover;
     /* 背景图片覆盖整个元素 */
