@@ -23,9 +23,9 @@ class LiteratureAuthor(basemodel):
     profession=models.CharField(blank=True, null=True, max_length=255, verbose_name="专业")
     email=models.CharField(blank=True, null=True, max_length=255, verbose_name="邮箱")
     tel=models.CharField(blank=True, null=True, max_length=255, verbose_name="电话")
-    cnt_md = MDTextField(verbose_name="简介", null=True, blank=True)
-    logo = models.ImageField(upload_to='author/imgs/', max_length=255, null=True, blank=True,
-                             verbose_name="图片")
+    cnt_md = MDTextField(verbose_name="简", null=True, blank=True)
+    cnt_html = MDTextField(verbose_name="结果", null=True, blank=True)
+    logo = models.ImageField(upload_to='author/imgs/', max_length=255, null=True, blank=True, verbose_name="图片")
     sites = models.ManyToManyField(Site,blank=True, related_name='literature_author', verbose_name='Site')
 
     def __str__(self):

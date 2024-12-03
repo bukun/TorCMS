@@ -10,3 +10,7 @@ DB_INFO =  {
        'NAME': 'xx_db.sqlite3',
    }
 CACHES_INFO = {}
+
+
+DEBUG_CFG = True
+# DEBUG_CFG = False

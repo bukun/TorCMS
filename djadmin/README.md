@@ -210,19 +210,19 @@ scrapy genspider itcast \"itcast.cn\"
 scrapy保存信息的最简单的方法主要有四种，-o
 输出指定格式的文件，命令如下：
 
-scrapy crawl itcast -o teachers.json
+    scrapy crawl itcast -o teachers.json
 
 json lines格式，默认为Unicode编码
 
-scrapy crawl itcast -o teachers.jsonl
+    scrapy crawl itcast -o teachers.jsonl
 
 csv 逗号表达式，可用Excel打开
 
-scrapy crawl itcast -o teachers.csv
+    scrapy crawl itcast -o teachers.csv
 
 xml格式
 
-scrapy crawl itcast -o teachers.xml
+    scrapy crawl itcast -o teachers.xml
 
 **在cmd中创建Scrapy项目工程。**
 
