@@ -10,7 +10,6 @@ current_site = Site.objects.get_current()
 
 def get_template():
     if current_site.domain == "https://cms.igadc.cn/":
-
         parent_template = 'yaou_base.html'
     elif current_site.domain in ["https://selenge.igadc.cn/", "http://mn.igadc.cn/"]:
         parent_template = 'zhongmeng_base.html'

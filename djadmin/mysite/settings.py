@@ -16,6 +16,10 @@ import os
 from cfg import DB_INFO, CACHES_INFO, DEBUG_CFG
 
 from django.views.generic import TemplateView
+from django.utils.translation import gettext_lazy as _
+
+# from django.utils.translation import ugettext_lazy as _
+
 
 import os
 
@@ -340,6 +344,10 @@ MIDDLEWARE = [
 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+
+    # 最后别忘了加入LocaleMiddleware这个中间件。
+    # 它的位置也很重要，应于SessionMiddleware之后，CommonMiddleware之前。
+    'django.middleware.locale.LocaleMiddleware',  # 新增多语支持
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'oauth2_provider.middleware.OAuth2TokenMiddleware',
@@ -433,7 +441,21 @@ AUTH_PASSWORD_VALIDATORS = [
 #
 # TIME_ZONE = 'Asia/Shanghai'
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en-US'
+
+# 指定支持语言。这里为了简化只支持简体中文和英文
+
+
+LANGUAGES = (
+    ('en', _('English')),
+    ('zh', _('Simplified Chinese')),
+)
+
+# 用于存放django.po和django.mo编译过的翻译文件
+PROJECT_ROOT = os.path.dirname(os.path.realpath(__name__))
+LOCALE_PATHS = (
+    os.path.join(PROJECT_ROOT, 'locale'),
+)
 
 TIME_ZONE = 'UTC'
 
@@ -681,7 +703,7 @@ SIMPLEUI_CONFIG = {
             ]
         },
         {
-            'name': '数据管理',
+            'name': _("Data Management"),
             'icon': 'fa fa-th-list',
             'models': [
 

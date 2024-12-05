@@ -1,0 +1,914 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-12-05 22:29+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: apiapp/templates/apiapp/base.html:6 apiapp/templates/apiapp/base.html:8
+#: apiapp/templates/apiapp/base.html:10 apiapp/templates/apiapp/base.html:11
+#: apiapp/templates/apiapp/base.html:126
+#: changchun_project/templates/geofea/base.html:6
+#: changchun_project/templates/geofea/base.html:8
+#: changchun_project/templates/geofea/base.html:10
+#: changchun_project/templates/geofea/base.html:11
+#: changchun_project/templates/geofea/base.html:126
+msgid "DDE Master Directory"
+msgstr ""
+
+#: apiapp/templates/apiapp/base.html:45
+#: changchun_project/templates/geofea/base.html:45
+msgid "Hosted"
+msgstr ""
+
+#: apiapp/templates/apiapp/base.html:48
+#: changchun_project/templates/geofea/base.html:48
+msgid "Linked"
+msgstr ""
+
+#: apiapp/templates/apiapp/base.html:51
+#: changchun_project/templates/geofea/base.html:51
+msgid "Discovered"
+msgstr ""
+
+#: apiapp/templates/apiapp/base.html:76
+#: changchun_project/templates/geofea/base.html:76
+msgid "DDE related pages"
+msgstr ""
+
+#: apiapp/templates/apiapp/base.html:80 apiapp/templates/apiapp/base.html:81
+#: changchun_project/templates/geofea/base.html:80
+#: changchun_project/templates/geofea/base.html:81
+msgid "DDE related resources"
+msgstr ""
+
+#: apiapp/templates/apiapp/base.html:89
+#: changchun_project/templates/geofea/base.html:89
+msgid "Interface"
+msgstr ""
+
+#: apiapp/templates/apiapp/base.html:98
+#: changchun_project/templates/geofea/base.html:98
+msgid "MetaData"
+msgstr ""
+
+#: apiapp/templates/apiapp/base.html:107 apiapp/templates/apiapp/base.html:111
+#: changchun_project/templates/geofea/base.html:107
+#: changchun_project/templates/geofea/base.html:111 templates/zn_base.html:473
+msgid "Contact Us"
+msgstr ""
+
+#: crawl/crawl_document/templates/crawl_doc/data_detail.html:29
+#: crawl/crawl_document/templates/crawl_doc/data_detail.html:52
+#: crawl/crawl_document_en/templates/crawl_docen/data_detail.html:30
+#: crawl/crawl_document_en/templates/crawl_docen/data_detail.html:54
+#: data/dataset/templates/dataset/data_detail.html:42
+#: data/dataset/templates/dataset/data_detail.html:72
+#: dresource/resource_dataset/templates/resource_dataset/data_detail.html:29
+#: dresource/resource_dataset/templates/resource_dataset/data_detail.html:49
+#: heitu_barn/barn_dataset/templates/dataset/data_detail.html:29
+#: heitu_barn/barn_dataset/templates/dataset/data_detail.html:49
+#: heitu_barn/barn_device/templates/dataset/data_detail.html:29
+#: heitu_barn/barn_device/templates/dataset/data_detail.html:49
+#: heitu_barn/barn_field/templates/dataset/data_detail.html:29
+#: heitu_barn/barn_field/templates/dataset/data_detail.html:49
+#: heitu_barn/device_meteorology/templates/dataset/data_detail.html:29
+#: heitu_barn/device_meteorology/templates/dataset/data_detail.html:49
+#: heitu_barn/device_soilfiveparameters/templates/dataset/data_detail.html:29
+#: heitu_barn/device_soilfiveparameters/templates/dataset/data_detail.html:49
+#: heitu_barn/device_soilfiveparametersv2/templates/dataset/data_detail.html:29
+#: heitu_barn/device_soilfiveparametersv2/templates/dataset/data_detail.html:49
+#: heitu_barn/device_soilmoisture/templates/dataset/data_detail.html:29
+#: heitu_barn/device_soilmoisture/templates/dataset/data_detail.html:49
+#: heitu_granary/farmpro/templates/data/data_detail.html:25
+#: heitu_granary/farmpro/templates/data/data_detail.html:45
+#: heitu_granary/farmpro_avg/templates/data/data_detail.html:25
+#: heitu_granary/farmpro_avg/templates/data/data_detail.html:45
+#: jupyters/jupyter_data/templates/jupyter_data/data_detail.html:40
+#: jupyters/jupyter_data/templates/jupyter_data/data_detail.html:61
+#: literature/literature_data/templates/literature/data_detail.html:42
+#: literature/literature_data/templates/literature/data_detail.html:75
+#: literature/literature_data/templates/literature/data_list.html:40
+#: literature/literature_data/templates/literature/data_list.html:64
+#: pages/blog/templates/page/page_detail.html:26
+#: pages/blog/templates/page/page_detail.html:37
+#: pages/page/templates/page/page_detail.html:26
+#: pages/page/templates/page/page_detail.html:37
+#: post/document/templates/document/data_detail.html:43
+#: post/document/templates/document/data_detail.html:64
+#: post/topic/templates/topic/data_detail.html:29
+#: post/topic/templates/topic/data_detail.html:49
+#: post/topic/templates/topic/topic_detail.html:63
+#: post/topic/templates/topic/topic_detail.html:81
+#: qgis/qgis_map/templates/qgis_map/data_detail.html:50
+#: templates/data_detail.html:27 templates/data_detail.html:47
+#: zhongnan/zn_dataset/templates/zn_dataset/data_detail.html:29
+#: zhongnan/zn_dataset/templates/zn_dataset/data_detail.html:56
+#: zhongnan/zn_event/templates/zn_event/data_detail.html:29
+#: zhongnan/zn_event/templates/zn_event/data_detail.html:51
+msgid "Release time"
+msgstr "发布时间"
+
+#: crawl/crawl_document/templates/crawl_doc/data_detail.html:30
+#: crawl/crawl_document/templates/crawl_doc/data_detail.html:56
+#: crawl/crawl_document_en/templates/crawl_docen/data_detail.html:32
+#: crawl/crawl_document_en/templates/crawl_docen/data_detail.html:58
+msgid "Source"
+msgstr ""
+
+#: crawl/crawl_document/templates/crawl_doc/data_detail.html:34
+#: crawl/crawl_document/templates/crawl_doc/data_detail.html:59
+#: crawl/crawl_document_en/templates/crawl_docen/data_detail.html:37
+#: crawl/crawl_document_en/templates/crawl_docen/data_detail.html:64
+#: data/dataset/templates/dataset/data_detail.html:43
+#: data/dataset/templates/dataset/data_detail.html:77
+#: dresource/resource_dataset/templates/resource_dataset/data_detail.html:30
+#: dresource/resource_dataset/templates/resource_dataset/data_detail.html:53
+#: heitu_barn/barn_dataset/templates/dataset/data_detail.html:30
+#: heitu_barn/barn_dataset/templates/dataset/data_detail.html:53
+#: heitu_barn/barn_device/templates/dataset/data_detail.html:30
+#: heitu_barn/barn_device/templates/dataset/data_detail.html:53
+#: heitu_barn/barn_field/templates/dataset/data_detail.html:30
+#: heitu_barn/barn_field/templates/dataset/data_detail.html:53
+#: heitu_barn/device_meteorology/templates/dataset/data_detail.html:30
+#: heitu_barn/device_meteorology/templates/dataset/data_detail.html:53
+#: heitu_barn/device_soilfiveparameters/templates/dataset/data_detail.html:30
+#: heitu_barn/device_soilfiveparameters/templates/dataset/data_detail.html:53
+#: heitu_barn/device_soilfiveparametersv2/templates/dataset/data_detail.html:30
+#: heitu_barn/device_soilfiveparametersv2/templates/dataset/data_detail.html:53
+#: heitu_barn/device_soilmoisture/templates/dataset/data_detail.html:30
+#: heitu_barn/device_soilmoisture/templates/dataset/data_detail.html:53
+#: heitu_granary/farmpro/templates/data/data_detail.html:26
+#: heitu_granary/farmpro/templates/data/data_detail.html:49
+#: heitu_granary/farmpro_avg/templates/data/data_detail.html:26
+#: heitu_granary/farmpro_avg/templates/data/data_detail.html:49
+#: literature/literature_data/templates/literature/data_detail.html:43
+#: literature/literature_data/templates/literature/data_detail.html:78
+#: post/document/templates/document/data_detail.html:44
+#: post/document/templates/document/data_detail.html:68
+#: post/topic/templates/topic/data_detail.html:30
+#: post/topic/templates/topic/data_detail.html:53
+#: qgis/qgis_map/templates/qgis_map/data_detail.html:54
+#: templates/data_detail.html:28 templates/data_detail.html:51
+#: zhongnan/zn_dataset/templates/zn_dataset/data_detail.html:30
+#: zhongnan/zn_dataset/templates/zn_dataset/data_detail.html:60
+#: zhongnan/zn_event/templates/zn_event/data_detail.html:31
+#: zhongnan/zn_event/templates/zn_event/data_detail.html:57
+msgid "Category"
+msgstr ""
+
+#: crawl/crawl_document/templates/crawl_doc/data_detail.html:110
+#: crawl/crawl_document_en/templates/crawl_docen/data_detail.html:110
+#: data/dataset/templates/dataset/data_detail.html:247
+#: dresource/resource_dataset/templates/resource_dataset/data_detail.html:107
+#: heitu_barn/barn_dataset/templates/dataset/data_detail.html:97
+#: heitu_barn/barn_device/templates/dataset/data_detail.html:97
+#: heitu_barn/barn_field/templates/dataset/data_detail.html:97
+#: heitu_barn/device_meteorology/templates/dataset/data_detail.html:97
+#: heitu_barn/device_soilfiveparameters/templates/dataset/data_detail.html:97
+#: heitu_barn/device_soilfiveparametersv2/templates/dataset/data_detail.html:97
+#: heitu_barn/device_soilmoisture/templates/dataset/data_detail.html:97
+#: heitu_granary/farmpro/templates/data/data_detail.html:99
+#: heitu_granary/farmpro_avg/templates/data/data_detail.html:99
+#: jupyters/jupyter_data/templates/jupyter_data/data_detail.html:92
+#: literature/literature_data/templates/literature/data_detail.html:117
+#: pages/blog/templates/page/page_detail.html:68
+#: pages/page/templates/page/page_detail.html:68
+#: post/document/templates/document/data_detail.html:114
+#: post/topic/templates/topic/data_detail.html:103
+#: post/topic/templates/topic/topic_detail.html:163
+#: qgis/qgis_map/templates/qgis_map/data_detail.html:165
+#: templates/data_detail.html:96 users/templates/users/edit_profile.html:44
+#: users/templates/users/login.html:44 users/templates/users/profile.html:64
+#: users/templates/users/register.html:42
+#: zhongnan/zn_dataset/templates/zn_dataset/data_detail.html:112
+#: zhongnan/zn_event/templates/zn_event/data_detail.html:102
+msgid "Article link"
+msgstr ""
+
+#: data/categorys/templates/categorys/category_index.html:3
+#: data/categorys/templates/categorys/category_index.html:14
+#: data/categorys/templates/categorys/category_index.html:21
+#: data/categorys/templates/categorys/data_list.html:13
+#: data/categorys/templates/categorys/index.html:16
+#: data/dataset/templates/dataset/data_detail.html:16
+#: data/labels/templates/labels/data_list.html:12
+#: yaou_data_categorys/Basic_Geographic_Element/templates/Basic_Geographic_Element_Category/category_index.html:3
+#: yaou_data_categorys/Basic_Geographic_Element/templates/Basic_Geographic_Element_Category/category_index.html:14
+#: yaou_data_categorys/Basic_Geographic_Element/templates/Basic_Geographic_Element_Category/category_index.html:21
+#: yaou_data_categorys/Basic_Geographic_Element/templates/Basic_Geographic_Element_Category/data_list.html:13
+#: yaou_data_categorys/Basic_Geographic_Element/templates/Basic_Geographic_Element_Category/index.html:16
+msgid "Datasets"
+msgstr ""
+
+#: data/categorys/templates/categorys/index.html:5
+#: yaou_data_categorys/Basic_Geographic_Element/templates/Basic_Geographic_Element_Category/index.html:5
+msgid "Dataset catagories"
+msgstr ""
+
+#: data/dataset/templates/dataset/data_detail.html:47
+#: data/dataset/templates/dataset/data_detail.html:82
+#: dresource/resource_category/templates/resource_category/data_list.html:32
+#: dresource/resource_category/templates/resource_category/data_list.html:53
+#: dresource/resource_dataset/templates/resource_dataset/data_detail.html:33
+#: dresource/resource_dataset/templates/resource_dataset/data_detail.html:56
+#: dresource/resource_label/templates/resource_label/data_list.html:27
+#: dresource/resource_label/templates/resource_label/data_list.html:43
+#: heitu_barn/barn_dataset/templates/dataset/data_detail.html:33
+#: heitu_barn/barn_dataset/templates/dataset/data_detail.html:56
+#: heitu_barn/barn_device/templates/dataset/data_detail.html:33
+#: heitu_barn/barn_device/templates/dataset/data_detail.html:56
+#: heitu_barn/barn_field/templates/dataset/data_detail.html:33
+#: heitu_barn/barn_field/templates/dataset/data_detail.html:56
+#: heitu_barn/device_meteorology/templates/dataset/data_detail.html:33
+#: heitu_barn/device_meteorology/templates/dataset/data_detail.html:56
+#: heitu_barn/device_soilfiveparameters/templates/dataset/data_detail.html:33
+#: heitu_barn/device_soilfiveparameters/templates/dataset/data_detail.html:56
+#: heitu_barn/device_soilfiveparametersv2/templates/dataset/data_detail.html:33
+#: heitu_barn/device_soilfiveparametersv2/templates/dataset/data_detail.html:56
+#: heitu_barn/device_soilmoisture/templates/dataset/data_detail.html:33
+#: heitu_barn/device_soilmoisture/templates/dataset/data_detail.html:56
+#: heitu_granary/farmpro/templates/data/data_detail.html:29
+#: heitu_granary/farmpro/templates/data/data_detail.html:52
+#: heitu_granary/farmpro_avg/templates/data/data_detail.html:29
+#: heitu_granary/farmpro_avg/templates/data/data_detail.html:52
+#: literature/literature_data/templates/literature/data_detail.html:47
+#: literature/literature_data/templates/literature/data_detail.html:83
+#: post/document/templates/document/data_detail.html:47
+#: post/document/templates/document/data_detail.html:71
+#: post/topic/templates/topic/data_detail.html:33
+#: post/topic/templates/topic/data_detail.html:56
+#: post/topic/templates/topic/index.html:31
+#: post/topic/templates/topic/index.html:50
+#: post/topic/templates/topic/topic_detail.html:65
+#: post/topic/templates/topic/topic_detail.html:85
+#: qgis/qgis_label/templates/qgis_labels/data_list.html:28
+#: qgis/qgis_label/templates/qgis_labels/data_list.html:45
+#: templates/data_detail.html:31 templates/data_detail.html:54
+#: zhongnan/zn_dataset/templates/zn_dataset/data_detail.html:33
+#: zhongnan/zn_dataset/templates/zn_dataset/data_detail.html:63
+#: zhongnan/zn_dataset_category/templates/zn_category/data_list.html:31
+#: zhongnan/zn_dataset_category/templates/zn_category/data_list.html:50
+#: zhongnan/zn_dataset_label/templates/zn_label/data_list.html:30
+#: zhongnan/zn_dataset_label/templates/zn_label/data_list.html:46
+#: zhongnan/zn_event/templates/zn_event/data_detail.html:34
+#: zhongnan/zn_event/templates/zn_event/data_detail.html:60
+#: zhongnan/zn_event_category/templates/zn_event_category/data_list.html:31
+#: zhongnan/zn_event_category/templates/zn_event_category/data_list.html:50
+#: zhongnan/zn_event_label/templates/zn_event_label/data_list.html:28
+#: zhongnan/zn_event_label/templates/zn_event_label/data_list.html:44
+msgid "Label"
+msgstr ""
+
+#: data/dataset/templates/dataset/data_detail.html:62
+#: zhongnan/zn_dataset/templates/zn_dataset/data_detail.html:45
+#: zhongnan/zn_dataset/templates/zn_dataset/data_detail.html:74
+msgid "Download Dataset"
+msgstr ""
+
+#: data/dataset/templates/dataset/data_detail.html:113
+msgid "Title alternate"
+msgstr ""
+
+#: data/dataset/templates/dataset/data_detail.html:123
+msgid "Topicategory"
+msgstr ""
+
+#: data/dataset/templates/dataset/data_detail.html:133
+msgid "Language"
+msgstr ""
+
+#: data/dataset/templates/dataset/data_detail.html:143
+#: literature/literature_data/templates/literature/data_detail.html:33
+#: literature/literature_data/templates/literature/data_detail.html:71
+#: literature/literature_data/templates/literature/data_list.html:36
+#: literature/literature_data/templates/literature/data_list.html:60
+msgid "Type"
+msgstr ""
+
+#: data/dataset/templates/dataset/data_detail.html:153
+msgid "Format"
+msgstr ""
+
+#: data/dataset/templates/dataset/data_detail.html:163
+#: zhongnan/zn_dataset_category/templates/zn_category/index.html:168
+msgid "Links"
+msgstr ""
+
+#: data/dataset/templates/dataset/data_detail.html:173
+msgid "Time begin"
+msgstr ""
+
+#: data/dataset/templates/dataset/data_detail.html:183
+msgid "Time end"
+msgstr ""
+
+#: data/dataset/templates/dataset/data_detail.html:193
+msgid "Creator"
+msgstr ""
+
+#: data/dataset/templates/dataset/data_detail.html:203
+msgid "Publisher"
+msgstr ""
+
+#: data/dataset/templates/dataset/data_detail.html:213
+msgid "Contributor"
+msgstr ""
+
+#: data/dataset/templates/dataset/data_detail.html:223
+#: templates/zn_base.html:345
+msgid "Organization"
+msgstr ""
+
+#: data/dataset/templates/dataset/data_detail.html:233
+msgid "Operateson"
+msgstr ""
+
+#: jupyters/jupyter_category/templates/jupyter_category/category_index.html:3
+msgid "Scientific - Model Catagories"
+msgstr ""
+
+#: jupyters/jupyter_category/templates/jupyter_category/category_index.html:14
+#: jupyters/jupyter_category/templates/jupyter_category/data_list.html:12
+#: jupyters/jupyter_data/templates/jupyter_data/data_detail.html:16
+msgid "Scientific - Models"
+msgstr ""
+
+#: jupyters/jupyter_category/templates/jupyter_category/index.html:27
+msgid "Scientific - Model"
+msgstr ""
+
+#: jupyters/jupyter_data/templates/jupyter_data/data_detail.html:48
+#: jupyters/jupyter_data/templates/jupyter_data/data_detail.html:70
+msgid "Download JUPYTER Document"
+msgstr ""
+
+#: literature/literature_category/templates/literature_category/category_index.html:14
+msgid "Literatures Catagories"
+msgstr ""
+
+#: literature/literature_category/templates/literature_category/data_list.html:13
+#: literature/literature_data/templates/literature/data_detail.html:11
+#: literature/literature_label/templates/literature_label/data_list.html:13
+#: public_model/literature_author/templates/literature_author/data_list.html:13
+#: public_model/literature_date/templates/literature_date/data_list.html:13
+#: public_model/public_country/templates/public_country/data_list.html:13
+msgid "Literatures"
+msgstr ""
+
+#: literature/literature_category/templates/literature_category/index.html:16
+msgid "Literature Catagories"
+msgstr ""
+
+#: literature/literature_data/templates/literature/data_detail.html:32
+#: literature/literature_data/templates/literature/data_detail.html:69
+#: literature/literature_data/templates/literature/data_list.html:32
+#: literature/literature_data/templates/literature/data_list.html:56
+msgid "Theme"
+msgstr ""
+
+#: literature/literature_data/templates/literature/data_detail.html:34
+#: literature/literature_data/templates/literature/data_detail.html:73
+msgid "Author"
+msgstr ""
+
+#: literature/literature_data/templates/literature/data_detail.html:59
+#: literature/literature_data/templates/literature/data_detail.html:94
+msgid "Download literature"
+msgstr ""
+
+#: post/doc_category/templates/doc_categorys/data_list.html:13
+#: post/doc_category/templates/doc_categorys/index.html:16
+#: post/doc_label/templates/doc_labels/data_list.html:12
+#: post/document/templates/document/data_detail.html:12
+msgid "Documents"
+msgstr ""
+
+#: post/doc_category/templates/doc_categorys/index.html:5
+msgid "Document Catagories"
+msgstr ""
+
+#: post/document/templates/document/data_detail.html:15
+msgid "Text"
+msgstr ""
+
+#: post/topic/templates/comments/form.html:48
+msgid "Post"
+msgstr ""
+
+#: post/topic/templates/comments/form.html:49
+msgid "Preview"
+msgstr ""
+
+#: qgis/bigscreen_map_category/templates/bigscreen_map_category/category_index.html:3
+#: qgis/heitu_map_category/templates/heitu_map_category/category_index.html:2
+#: qgis/yaou_map_category/templates/yaou_map_category/category_index.html:3
+#: qgis/zhongba_map_category/templates/zhongba_map_category/category_index.html:3
+#: qgis/zhongmeng_map_category/templates/zhongmeng_map_category/category_index.html:3
+msgid "Category List"
+msgstr ""
+
+#: qgis/bigscreen_map_category/templates/bigscreen_map_category/category_index.html:12
+#: qgis/bigscreen_map_category/templates/bigscreen_map_category/data_list.html:99
+#: qgis/heitu_map_category/templates/heitu_map_category/category_index.html:10
+#: qgis/heitu_map_category/templates/heitu_map_category/data_list.html:90
+#: qgis/qgis_map/templates/qgis_map/data_detail.html:188
+#: qgis/yaou_map_category/templates/yaou_map_category/category_index.html:12
+#: qgis/yaou_map_category/templates/yaou_map_category/data_list.html:87
+#: qgis/zhongba_map_category/templates/zhongba_map_category/category_index.html:12
+#: qgis/zhongba_map_category/templates/zhongba_map_category/data_list.html:70
+#: qgis/zhongmeng_map_category/templates/zhongmeng_map_category/category_index.html:12
+#: qgis/zhongmeng_map_category/templates/zhongmeng_map_category/data_list.html:93
+msgid "Map category"
+msgstr ""
+
+#: qgis/qgis_map/templates/qgis_map/data_detail.html:24
+#: qgis/yaou_map_category/templates/yaou_map_category/data_list.html:14
+#: templates/zn_base.html:269
+msgid "Maps"
+msgstr ""
+
+#: qgis/qgis_map/templates/qgis_map/data_detail.html:131
+msgid "Central point latitude"
+msgstr ""
+
+#: qgis/qgis_map/templates/qgis_map/data_detail.html:132
+msgid "Central point longitude"
+msgstr ""
+
+#: qgis/qgis_map/templates/qgis_map/data_detail.html:133
+msgid "Max zoom level"
+msgstr ""
+
+#: qgis/qgis_map/templates/qgis_map/data_detail.html:134
+msgid "Min zoom level"
+msgstr ""
+
+#: qgis/qgis_map/templates/qgis_map/data_detail.html:135
+msgid "Current zoom level "
+msgstr ""
+
+#: qgis/yaou_map_category/templates/yaou_map_category/big_index.html:6
+#: qgis/yaou_map_category/templates/yaou_map_category/big_index.html:8
+#: qgis/yaou_map_category/templates/yaou_map_category/big_index.html:10
+#: qgis/yaou_map_category/templates/yaou_map_category/big_index.html:11
+msgid "Animal Husbandry Information in the Selenge River Basin "
+msgstr ""
+
+#: templates/admin/barn_dataset/barndataset/change_form.html:18
+#: templates/admin/barn_device/barndevice/change_form.html:18
+#: templates/admin/changchun_project/changchunproject/change_form.html:18
+#: templates/admin/linear_features/linearfeatures/change_form.html:18
+#: templates/admin/place_name/placename/change_form.html:18
+#: templates/admin/planar_features/planarfeatures/change_form.html:18
+msgid "Home"
+msgstr ""
+
+#: templates/admin/barn_dataset/barndataset/change_form.html:21
+#: templates/admin/barn_device/barndevice/change_form.html:21
+#: templates/admin/changchun_project/changchunproject/change_form.html:21
+#: templates/admin/linear_features/linearfeatures/change_form.html:21
+#: templates/admin/place_name/placename/change_form.html:21
+#: templates/admin/planar_features/planarfeatures/change_form.html:21
+#, python-format
+msgid "Add %(name)s"
+msgstr ""
+
+#: templates/admin/barn_dataset/barndataset/change_form.html:43
+#: templates/admin/barn_device/barndevice/change_form.html:43
+#: templates/admin/changchun_project/changchunproject/change_form.html:43
+#: templates/admin/linear_features/linearfeatures/change_form.html:43
+#: templates/admin/place_name/placename/change_form.html:43
+#: templates/admin/planar_features/planarfeatures/change_form.html:43
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/anso_base.html:7 templates/anso_base.html:9
+#: templates/anso_base.html:11 templates/anso_base.html:12
+#: templates/anso_base.html:91
+msgid "黑龙江流域跨境农业优化配置与决策支持"
+msgstr ""
+
+#: templates/base.html:6 templates/base.html:8 templates/base.html:10
+#: templates/base.html:11 templates/base.html:68
+msgid "Eurasian Continent"
+msgstr ""
+
+#: templates/cpjrc_base.html:40
+msgid "Welcome to the CPEC"
+msgstr ""
+
+#: templates/cpjrc_base.html:51 users/templates/users/profile.html:50
+msgid "Logout"
+msgstr ""
+
+#: templates/cpjrc_base.html:57 templates/zn_base.html:54
+#: users/templates/users/login.html:60 users/templates/users/login.html:67
+#: users/templates/users/register.html:45
+msgid "Register"
+msgstr ""
+
+#: templates/cpjrc_base.html:60 templates/zn_base.html:52
+#: users/templates/users/register.html:58
+#: users/templates/users/register.html:65
+msgid "Login"
+msgstr ""
+
+#: templates/cpjrc_base.html:89
+msgid "HOME"
+msgstr ""
+
+#: templates/cpjrc_base.html:97
+msgid "DOCUMENTS"
+msgstr ""
+
+#: templates/cpjrc_base.html:103
+msgid "DATASETS"
+msgstr ""
+
+#: templates/cpjrc_base.html:131
+msgid "MAPS"
+msgstr ""
+
+#: templates/cpjrc_base.html:133
+msgid "INTRODUCTION"
+msgstr ""
+
+#: templates/cpjrc_base.html:135 templates/cpjrc_base.html:136
+msgid "FLOOD DISASTERS"
+msgstr ""
+
+#: templates/cpjrc_base.html:138
+msgid "USER"
+msgstr ""
+
+#: templates/crawl_base.html:6 templates/crawl_base.html:8
+#: templates/crawl_base.html:10 templates/crawl_base.html:11
+#: templates/crawl_base.html:68
+msgid "Crawling data list"
+msgstr ""
+
+#: templates/friendship/friend/add.html:5
+msgid "Add as friend "
+msgstr ""
+
+#: templates/wds_base.html:7 templates/yaou_base.html:8
+#: templates/yaou_base.html:10 templates/yaou_base.html:12
+#: templates/yaou_base.html:13 templates/yaou_base.html:124
+#: templates/ydyl_base.html:7
+msgid "Eurasian Continental Knowledge Resources Portal"
+msgstr ""
+
+#: templates/ydyl_base.html:75 templates/zn_base.html:165
+msgid "Data"
+msgstr ""
+
+#: templates/zhongmeng_base.html:6 templates/zhongmeng_base.html:8
+#: templates/zhongmeng_base.html:10 templates/zhongmeng_base.html:11
+#: templates/zhongmeng_base.html:150
+msgid "Selenge River Basin Knowledge Resources Portal "
+msgstr ""
+
+#: templates/zn_base.html:7
+msgid "Disaster Risk Reduction Knowledge Service"
+msgstr ""
+
+#: templates/zn_base.html:8
+msgid "Disaster Risk Reduction Knowledge Service CopyRight"
+msgstr ""
+
+#: templates/zn_base.html:42
+msgid "Welcome to the IKCEST"
+msgstr ""
+
+#: templates/zn_base.html:94
+msgid "Keyword search"
+msgstr ""
+
+#: templates/zn_base.html:104
+msgid "Advanced search"
+msgstr ""
+
+#: templates/zn_base.html:149
+msgid "Document"
+msgstr ""
+
+#: templates/zn_base.html:155
+msgid "Report"
+msgstr ""
+
+#: templates/zn_base.html:155
+msgid "Reports"
+msgstr ""
+
+#: templates/zn_base.html:157
+msgid "Newsletters"
+msgstr ""
+
+#: templates/zn_base.html:169 templates/zn_base.html:170
+msgid "Subject database for earthquake"
+msgstr ""
+
+#: templates/zn_base.html:173 templates/zn_base.html:174
+msgid "Subject database for drought"
+msgstr ""
+
+#: templates/zn_base.html:179 templates/zn_base.html:180
+msgid "Subject database for flood"
+msgstr ""
+
+#: templates/zn_base.html:185 templates/zn_base.html:186
+msgid "Subject database for frozen"
+msgstr ""
+
+#: templates/zn_base.html:191 templates/zn_base.html:192
+msgid "Subject database for heat wave"
+msgstr ""
+
+#: templates/zn_base.html:197 templates/zn_base.html:198
+msgid "Subject database for wild fire"
+msgstr ""
+
+#: templates/zn_base.html:204 templates/zn_base.html:205
+msgid "Subject database for ecology & environment"
+msgstr ""
+
+#: templates/zn_base.html:210 templates/zn_base.html:211
+msgid "Subject database for urban"
+msgstr ""
+
+#: templates/zn_base.html:217 templates/zn_base.html:218
+msgid "Subject database for social media mining"
+msgstr ""
+
+#: templates/zn_base.html:223 templates/zn_base.html:224
+msgid "Subject database for hurricane disaster"
+msgstr ""
+
+#: templates/zn_base.html:231 templates/zn_base.html:232
+msgid "Regional basic database for the Belt and Road"
+msgstr ""
+
+#: templates/zn_base.html:238 templates/zn_base.html:239
+msgid "Regional disaster database for the Belt and Road"
+msgstr ""
+
+#: templates/zn_base.html:245 templates/zn_base.html:246
+msgid "Regional database for China-Mongolia-Russia Economic Corridor"
+msgstr ""
+
+#: templates/zn_base.html:252 templates/zn_base.html:253
+msgid "Regional database for China-Pakistan Economic Corridor"
+msgstr ""
+
+#: templates/zn_base.html:259 templates/zn_base.html:260
+msgid "Regional database for Bangladesh-China-India-Myanmar Economic Corridor"
+msgstr ""
+
+#: templates/zn_base.html:274
+msgid "China Historical Disaster"
+msgstr ""
+
+#: templates/zn_base.html:278
+msgid "Biological Disasters"
+msgstr ""
+
+#: templates/zn_base.html:281
+msgid "Geological Disasters"
+msgstr ""
+
+#: templates/zn_base.html:284
+msgid "Earthquake Disasters"
+msgstr ""
+
+#: templates/zn_base.html:287
+msgid "Meteorologic Disasters"
+msgstr ""
+
+#: templates/zn_base.html:290
+msgid "Flood Disasters"
+msgstr ""
+
+#: templates/zn_base.html:293
+msgid "Raster Data"
+msgstr ""
+
+#: templates/zn_base.html:295
+msgid "Vector Data"
+msgstr ""
+
+#: templates/zn_base.html:304
+msgid "Education"
+msgstr ""
+
+#: templates/zn_base.html:311
+msgid "Tutorial for GIS"
+msgstr ""
+
+#: templates/zn_base.html:313
+msgid "Disaster Knowledge"
+msgstr ""
+
+#: templates/zn_base.html:319
+msgid "Presentation"
+msgstr ""
+
+#: templates/zn_base.html:321
+msgid "Training Video"
+msgstr ""
+
+#: templates/zn_base.html:323
+msgid "Reference report"
+msgstr ""
+
+#: templates/zn_base.html:325
+msgid "Disaster news Video"
+msgstr ""
+
+#: templates/zn_base.html:329
+msgid "Science Popularization"
+msgstr ""
+
+#: templates/zn_base.html:334
+msgid "International Training"
+msgstr ""
+
+#: templates/zn_base.html:339
+msgid "Subject-Catalogue"
+msgstr ""
+
+#: templates/zn_base.html:346
+msgid "Experts"
+msgstr ""
+
+#: templates/zn_base.html:347
+msgid "Website"
+msgstr ""
+
+#: templates/zn_base.html:354
+msgid "Application"
+msgstr ""
+
+#: templates/zn_base.html:360
+msgid "Information Aggregation"
+msgstr ""
+
+#: templates/zn_base.html:363
+msgid "Application Using Web GIS"
+msgstr ""
+
+#: templates/zn_base.html:366
+msgid "Scientific Data Visulization"
+msgstr ""
+
+#: templates/zn_base.html:369
+msgid "Natural Science Research Work"
+msgstr ""
+
+#: templates/zn_base.html:375
+msgid "CPEC DRR Column"
+msgstr ""
+
+#: templates/zn_base.html:383
+msgid "Directory"
+msgstr ""
+
+#: templates/zn_base.html:387
+msgid "Scholar"
+msgstr ""
+
+#: templates/zn_base.html:391
+msgid "ALL"
+msgstr ""
+
+#: templates/zn_base.html:392
+msgid "Earthquake"
+msgstr ""
+
+#: templates/zn_base.html:394
+msgid "Flood"
+msgstr ""
+
+#: templates/zn_base.html:395
+msgid "Drought"
+msgstr ""
+
+#: templates/zn_base.html:397
+msgid "Geological disaster"
+msgstr ""
+
+#: templates/zn_base.html:399
+msgid "Forest fire"
+msgstr ""
+
+#: templates/zn_base.html:401
+msgid "Tsunami"
+msgstr ""
+
+#: templates/zn_base.html:403
+msgid "Extreme heat wave"
+msgstr ""
+
+#: templates/zn_base.html:404
+msgid "Typhoon"
+msgstr ""
+
+#: templates/zn_base.html:406
+msgid "Disaster warning"
+msgstr ""
+
+#: templates/zn_base.html:408
+msgid "Disaster risk reduction"
+msgstr ""
+
+#: templates/zn_base.html:411
+msgid "Sichuan-Tibet Railway"
+msgstr ""
+
+#: templates/zn_base.html:471
+msgid "Data List"
+msgstr ""
+
+#: templates/zn_base.html:472
+msgid "About"
+msgstr ""
+
+#: templates/zn_base.html:474
+msgid "How to use"
+msgstr ""
+
+#: users/admin.py:20 users/admin.py:36
+msgid "通用信息"
+msgstr ""
+
+#: users/admin.py:27 users/admin.py:42
+msgid "权限"
+msgstr ""
+
+#: users/admin.py:28 users/admin.py:43
+msgid "重要日期"
+msgstr ""
+
+#: users/templates/users/edit_profile.html:12
+#: users/templates/users/profile.html:13 users/templates/users/profile.html:22
+#: users/templates/users/profile.html:65 users/templates/users/profile.html:66
+msgid "User Info"
+msgstr ""
+
+#: users/templates/users/edit_profile.html:14
+#: users/templates/users/edit_profile.html:22
+#: users/templates/users/edit_profile.html:46
+#: users/templates/users/edit_profile.html:47
+msgid "Modify personal information"
+msgstr ""
+
+#: users/templates/users/login.html:11 users/templates/users/login.html:20
+#: users/templates/users/login.html:45 users/templates/users/login.html:46
+msgid "User Login"
+msgstr ""
+
+#: users/templates/users/login.html:64
+msgid "Not have an account"
+msgstr ""
+
+#: users/templates/users/profile.html:31
+msgid "User Name"
+msgstr ""
+
+#: users/templates/users/profile.html:37
+msgid "Email"
+msgstr ""
+
+#: users/templates/users/profile.html:47
+msgid "Change User Info"
+msgstr ""
+
+#: users/templates/users/register.html:12
+#: users/templates/users/register.html:21
+#: users/templates/users/register.html:44
+msgid "User Register"
+msgstr ""
+
+#: users/templates/users/register.html:62
+msgid "Had an account already"
+msgstr ""
+
+#: zhongnan/zn_event/templates/zn_event/data_detail.html:30
+#: zhongnan/zn_event/templates/zn_event/data_detail.html:54
+msgid "Editor"
+msgstr ""

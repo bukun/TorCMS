@@ -23,6 +23,9 @@ from django.conf.urls.static import static
 
 from django.views.generic import TemplateView
 
+from django.conf.urls.i18n import i18n_patterns
+
+
 
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -58,6 +61,12 @@ def userdata(request):
 
 
 urlpatterns = [
+    path('i18n/', include('django.conf.urls.i18n')),
+]
+
+# urlpatterns = [
+urlpatterns += i18n_patterns(
+
 
     path('wagtail_cms/', include(wagtailadmin_urls)),  # 管理中心
     path('wagtail_documents/', include(wagtaildocs_urls)),  # 文件
@@ -201,7 +210,7 @@ urlpatterns = [
 
     path('Basic_Geographic_Element_Category/', include('yaou_data_categorys.Basic_Geographic_Element.urls')), #亚欧大陆分类表
     path('portal_index/', include('public_model.portal_index.urls')), #各个站首页路由
+)
 
-]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

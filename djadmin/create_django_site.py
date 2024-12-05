@@ -1,4 +1,3 @@
-# --coding:utf-8--
 # 运行django时报错“django_site” 表不存在,运行此脚本进行生成创建表并插入一条信息.
 # 对应两种不同数据库，sqlite与postgresql的不同方式。运行前确认使用的数据库，对应使用相应的函数方法.
 import sqlite3
