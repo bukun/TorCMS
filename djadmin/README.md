@@ -90,11 +90,11 @@ Python
 
     poetry init -n
 
-\# 创建虚拟环境
+创建虚拟环境
 
     poetry env use python3.11
 
-\# 激活虚拟环境
+激活虚拟环境
 
     poetry shell
 
@@ -105,20 +105,21 @@ Python
 3.  依赖解析和锁定
 
 Python Poetry
+
 使用锁文件（poetry.lock）来记录项目依赖的精确版本信息，这样可以确保项目在不同环境下的依赖一致性。Poetry
 还提供了强大的依赖解析算法，可以有效地解决依赖冲突和版本兼容性问题。
 
 示例代码：
 
-\# 安装项目依赖并生成锁文件
+安装项目依赖并生成锁文件
 
     poetry install
 
-\# 更新依赖并重新生成锁文件
+更新依赖并重新生成锁文件
 
     poetry update
 
-# Note
+Note
 
     source \~/vpy_django/bin/activate
 
@@ -176,34 +177,23 @@ view.py中更改
 
 继承 [PermissionRequiredMixin]{.title-ref}
 
-示例：
-
-> [from django.contrib.auth.mixins import
-> PermissionRequiredMixin]{.title-ref}
->
-> [class FarmerList(PermissionRequiredMixin,
-> generics.ListCreateAPIView):]{.title-ref}
->
-> > [login_url = \'/admin/\']{.title-ref}
 
 **Scrapy**
 
 <https://www.runoob.com/w3cnote/scrapy-detail.html>
 
-pip install Scrapy
+    pip install Scrapy
 
-scrapy startproject 项目名 \# 创建scrapy项目
-
-scrapy genspider 爬虫名 域名
-
-scrapy crawl 爬虫名
+    scrapy startproject 项目名 \# 创建scrapy项目
+    scrapy genspider 爬虫名 域名
+    scrapy crawl 爬虫名
 
 **爬数据**
 
 在当前目录下输入命令，将在mySpider/spider目录下创建一个名为itcast的爬虫，
 并指定爬取域的范围：
 
-scrapy genspider itcast \"itcast.cn\"
+    scrapy genspider itcast \"itcast.cn\"
 
 **保存数据**
 

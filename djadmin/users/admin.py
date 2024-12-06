@@ -74,8 +74,9 @@ class myuseradmin(ImportExportModelAdmin, UserAdmin):
 
 
 admin.site.register(myuser, myuseradmin)
-admin.site.site_header = '科学数据管理与可视化后台管理'  # 设置header
-admin.site.site_title = '科学数据管理与可视化后台管理'
+admin.site.site_header = 'Resource Management Center'  # 设置header
+# admin.site.site_title = '科学数据管理与可视化后台管理'
+admin.site.site_title = 'Resource Management Center'
 admin.site.unregister(Group)
 
 

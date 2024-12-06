@@ -60,13 +60,12 @@ def userdata(request):
     return HttpResponse(json.dumps(info), content_type="application/json")
 
 
-urlpatterns = [
-    path('i18n/', include('django.conf.urls.i18n')),
-]
-
 # urlpatterns = [
-urlpatterns += i18n_patterns(
+#     path('i18n/', include('django.conf.urls.i18n')),
+# ]
 
+urlpatterns = (
+# urlpatterns += i18n_patterns(
 
     path('wagtail_cms/', include(wagtailadmin_urls)),  # 管理中心
     path('wagtail_documents/', include(wagtaildocs_urls)),  # 文件
