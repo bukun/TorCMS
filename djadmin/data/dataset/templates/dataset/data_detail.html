@@ -1,4 +1,9 @@
+
+
 {% extends parent_template %}
+
+{% load i18n %}
+
 {% block head %}
     <title>{{ data.title }}</title>
 {% endblock %}
@@ -30,7 +35,11 @@
                                          class="img-thumbnail">
                                 </div>
                                 <div class="col-sm-6">
-                                    <p><strong>{{ _('Release time') }}：</strong>{{ data.create_time }}</p>
+
+{#                                    <p><strong>{{ _('Release time') }}：</strong>{{ data.create_time }}</p>#}
+
+
+                                    <p><strong>{% trans "Release time" %}：</strong>{{ data.create_time }}</p>
                                     <p><strong>{{ _('Category') }}：</strong>
                                         <a class="btn btn-xs btn-success"
                                            href="{% url 'categorys:category_datalist' data.category.id %}">
@@ -60,7 +69,9 @@
                         {% else %}
                             <div class="col-sm-12 bor_bottom">
 
-                                <strong>{{ _('Release time') }}：</strong>
+                                <strong>{% trans "Release time" %}：</strong>
+
+
                                 <span>{{ data.create_time }}&nbsp;</span> &nbsp;&nbsp;&nbsp;&nbsp;
 
                                 <p><strong>{{ _('Category') }}：</strong>
