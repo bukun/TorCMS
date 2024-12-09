@@ -54,6 +54,7 @@ django-leaflet = "^0.31.0"
 psycopg2 = "^2.9.10"
 uwsgi = "^2.0.28"
 faker = "^33.1.0"
+requests = "^2.32.3"
 
 
 [build-system]
