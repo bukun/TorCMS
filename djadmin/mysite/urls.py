@@ -126,6 +126,7 @@ urlpatterns = (
     path('topic/', include('post.topic.urls')),  # 协同计算？问答
 
     path('page/', include('pages.page.urls')),
+    path('wiki/', include('pages.wiki.urls')),
 
     path('apiapp/', include('apiapp.urls')),  # app，
 

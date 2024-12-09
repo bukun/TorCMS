@@ -340,6 +340,12 @@ MENUS = [
                 'url': '/admin/page/thepage/',
                 'icon': 'fa fa-tasks'
             },
+            {
+                'name': '维基管理',
+                'name_en': 'Wiki Management',
+                'url': '/admin/wiki/thewiki/',
+                'icon': 'fa fa-tasks'
+            },
 
         ]
     },

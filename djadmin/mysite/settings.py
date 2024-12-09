@@ -190,6 +190,7 @@ INSTALLED_APPS = [
     'literature.literature_data',  # 文献库
 
     'pages.page',
+    'pages.wiki',
     'bigscreen.bigscreen_data',  # 大屏数据
     'bigscreen.jump_btn',  # 大屏数据
 
