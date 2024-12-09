@@ -118,7 +118,7 @@ MENUS = [
         'models': [
             {
                 'name': '国家库管理',
-                'name_en': 'National Treasury Management',
+                'name_en': 'National Management',
                 'url': '/admin/public_country/publiccountry/',
                 'icon': 'fa fa-tasks'
             },
@@ -240,7 +240,7 @@ MENUS = [
             },
             {
                 'name': '跳转按钮管理',
-                'name_en': 'Jump button Management',
+                'name_en': 'Skip Button Management',
                 'url': '/admin/jump_btn/jumpbtn/',
                 'icon': 'fa fa-tasks'
             },
@@ -345,7 +345,7 @@ MENUS = [
     },
     {
         'name': '爬取数据管理',
-        'name_en': 'Crawling Data Management',
+        'name_en': 'Crawl Data Management',
         'icon': 'fa fa-th-list',
         'models': [
             {
@@ -356,7 +356,7 @@ MENUS = [
             },
             {
                 'name': '数据分类',
-                'name_en': 'Crawl Data Catagories',
+                'name_en': 'Data Catagories',
                 'url': '/admin/crawl_label/crawllabel/',
                 'icon': 'fa fa-tasks'
             },
@@ -384,7 +384,7 @@ MENUS = [
 
     {
         'name': '专题资源管理',
-        'name_en': 'Specialized Resource Management',
+        'name_en': 'Thematic Resource Management',
         'icon': 'fa fa-th-list',
         'models': [
             {
@@ -450,13 +450,13 @@ MENUS = [
             },
             {
                 'name': '面状要素库',
-                'name_en': 'Area feature library',
+                'name_en': 'Polygon feature library',
                 'url': '/admin/planar_features/planarfeatures/',
                 'icon': 'fa fa-tasks'
             },
             {
                 'name': 'Geofea管理',
-                'name_en': 'AGeofea Management',
+                'name_en': 'Geofea Management',
                 'icon': 'fa fa-th-list',
                 'url': '/admin/geofea/geofea/'
             },
@@ -580,7 +580,7 @@ MENUS = [
     },
     {
         'name': '黑土粮仓数据管理',
-        'name_en': 'Data Management of Black Soil Granary',
+        'name_en': 'Black Soil Granary Data Management',
         'icon': 'fa fa-th-list',
         'models': [
             {
