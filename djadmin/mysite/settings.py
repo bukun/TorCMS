@@ -19,6 +19,8 @@ from django.views.generic import TemplateView
 from django.utils.translation import gettext_lazy as _
 from .conf_simpleui import *
 from .conf_ckeditor import *
+from .conf_leaflet import *
+from .conf_mdeditor import *
 
 # from django.utils.translation import ugettext_lazy as _
 
@@ -102,11 +104,9 @@ INSTALLED_APPS = [
     'data.map',
     'data.dataset',
 
-
     'igais.igais_category',
     'igais.igais_label',
     'igais.igais_data',
-
 
     'qgis.heitu_map_category',
     'qgis.zhongmeng_map_category',
@@ -129,7 +129,6 @@ INSTALLED_APPS = [
     'crawl.crawl_source',
     'crawl.crawl_document',
     'crawl.crawl_document_en',
-
 
     'world',
 
@@ -190,116 +189,16 @@ INSTALLED_APPS = [
     'public_model.literature_date',  # 日期库
     'literature.literature_data',  # 文献库
 
-
     'pages.page',
     'bigscreen.bigscreen_data',  # 大屏数据
     'bigscreen.jump_btn',  # 大屏数据
 
-    'black_html.sphinx_doc', #sphinx
+    'black_html.sphinx_doc',  # sphinx
 
-    'yaou_data_categorys.Basic_Geographic_Element', #亚欧大陆数据分类
+    'yaou_data_categorys.Basic_Geographic_Element',  # 亚欧大陆数据分类
     'public_model.portal_index',  # 各个门户网站首页
 ]
 
-LEAFLET_CONFIG = {
-    'DEFAULT_CENTER': (43.88, 125.35),  # Center of Washington, D.C.
-    'DEFAULT_ZOOM': 10,
-    'MIN_ZOOM': 3,
-    'MAX_ZOOM': 18,
-    'SCALE': 'both',
-    'ATTRIBUTION_PREFIX': 'Leaflet',
-    'PLUGINS': {
-        'leaflet-geoman': {
-            'js': ['leaflet-geoman.js'],
-            'css': ['leaflet-geoman.css'],
-            'auto-css': True,
-            'auto-js': True,
-        },
-        'fullscreen': {  # 启用全屏插件
-            'js': 'https://cdn.jsdelivr.net/npm/leaflet-fullscreen@1.0.2/dist/Leaflet.fullscreen.min.js',
-            'css': 'https://cdn.jsdelivr.net/npm/leaflet-fullscreen@1.0.2/dist/leaflet.fullscreen.min.css',
-            'auto-include': True,
-            'priority': 100,
-        },
-        'search': {  # 启用搜索插件
-            'js': ['my_custom_search_plugin.js'],  # 自定义搜索插件的JS文件
-            'css': ['my_custom_search_plugin.css'],  # 自定义搜索插件的CSS文件
-            'autoCollapse': True,  # 当地图移动时是否自动折叠搜索控件
-            'collapsed': False,  # 是否在加载时折叠搜索控件
-            'position': 'topleft',  # 搜索控件在地图上的位置
-            'providers': [{  # 提供搜索结果的提供者，例如使用OpenStreetMap Nominatim服务
-                'osm': {
-                    'label': 'OpenStreetMap',
-                    'url': 'https://nominatim.openstreetmap.org/search/{query}?format=json',
-                    'bounds': [[-90.0, -180.0], [90.0, 180.0]],
-                    'polygon_true': '1',
-                    'polygon_false': '0',
-                    'polygon_threshold': 0.1,
-                    'limit': 5,
-                }
-            }],
-        },
-    },
-    'TILES': [
-        (
-            'OpenStreetMap.DE',
-            'http://tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png',
-            {'type': 'sat', 'ext': 'jpg',
-             'attribution': 'Data CC-By-SA by <a href="http://openstreetmap.org/" target="_blank">OpenStreetMap</a>, Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a>',
-             'subdomains': ['1', '2', '3', '4']}
-        ),
-        (
-            'OpenStreetMap.BlackAndWhite',
-            'http://tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png',
-            {'type': 'sat', 'ext': 'jpg',
-             'attribution': 'Data CC-By-SA by <a href="http://openstreetmap.org/" target="_blank">OpenStreetMap</a>, Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a>',
-             'subdomains': ['1', '2', '3', '4']}
-        ),
-        (
-            'OpenStreetMap.Mapnik',
-            'http://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            {'type': 'sat', 'ext': 'jpg',
-             'attribution': 'Data CC-By-SA by <a href="http://openstreetmap.org/" target="_blank">OpenStreetMap</a>, Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a>',
-             'subdomains': ['1', '2', '3', '4']}
-        ),
-
-    ],
-    # 'TILES': [('Aerial Imagery', 'http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png',
-    #            {'type': 'sat', 'ext': 'jpg',
-    #             'attribution': 'Data CC-By-SA by <a href="http://openstreetmap.org/" target="_blank">OpenStreetMap</a>, Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a>',
-    #             'subdomains': ['1', '2', '3', '4']})],
-}
-
-MDEDITOR_CONFIGS = {
-    'default': {
-        'width': '100%',  # 自定义编辑框宽度
-        'heigth': 500,  # 自定义编辑框高度
-
-        'toolbar': ["undo", "redo", "|",
-                    "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
-                    "h1", "h2", "h3", "h5", "h6", "|",
-                    "list-ul", "list-ol", "hr", "|",
-                    "link", "reference-link", "image", "code", "preformatted-text", "code-block", "table", "datetime",
-                    "emoji", "html-entities", "pagebreak", "goto-line", "|",
-                    "help", "info",
-                    "||", "preview", "watch", "fullscreen"],  # 自定义编辑框工具栏
-
-        'upload_image_formats': ["jpg", "jpeg", "gif", "png", "bmp", "webp"],  # 图片上传格式类型
-        'image_folder': 'editor',  # 图片保存文件夹名称
-        'theme': 'default',  # 编辑框主题 ，dark / default
-        'preview_theme': 'default',  # 预览区域主题， dark / default
-        'editor_theme': 'default',  # edit区域主题，pastel-on-dark / default
-        'toolbar_autofixed': True,  # 工具栏是否吸顶
-        'search_replace': True,  # 是否开启查找替换
-        'emoji': True,  # 是否开启表情功能
-        'tex': True,  # 是否开启 tex 图表功能
-        'flow_chart': True,  # 是否开启流程图功能
-        'sequence': True,  # 是否开启序列图功能
-        'watch': True,  # 实时预览
-        'lineWrapping': True,  # 自动换行
-        'lineNumbers': False  # 行号
-    },
-}
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760
 # 设置文件上传处理器
 FILE_UPLOAD_HANDLERS = [
@@ -372,6 +271,12 @@ OAUTH2_PROVIDER = {
         "groups": "Access to your groups",
     },
 }
+
+OAUTH2_PROVIDER_ACCESS_TOKEN_MODEL = 'oauth2_provider.AccessToken'
+OAUTH2_PROVIDER_ID_TOKEN_MODEL = 'oauth2_provider.IdToken'
+OAUTH2_PROVIDER_APPLICATION_MODEL = 'oauth2_provider.Application'
+OAUTH2_PROVIDER_REFRESH_TOKEN_MODEL = 'oauth2_provider.RefreshToken'
+
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
     "oauth2_provider.backends.OAuth2Backend",
@@ -398,8 +303,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
-
-
 
 DATABASES = {
     'default': DB_INFO
@@ -447,7 +350,6 @@ LOCALE_PATHS = (
 
 TIME_ZONE = 'UTC'
 
-
 # USE_I18N = True
 
 USE_TZ = True
@@ -462,21 +364,16 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),
                     os.path.join(BASE_DIR, 'yy_static_html'),
                     os.path.join(BASE_DIR, 'yy_media'), ]
 
-
 # 部署环境静态文件目录
 STATIC_ROOT = os.path.join(BASE_DIR, 'xx_static')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'yy_media')  # 上传图片的根目录
 MEDIA_URL = '/media/'
 
-
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
 
 # MIDDLEWARE_CLASSES = (
 #
@@ -522,11 +419,3 @@ CORS_ALLOW_HEADERS = (
     'x-requested-with',
     'Pragma',
 )
-
-
-
-OAUTH2_PROVIDER_ACCESS_TOKEN_MODEL = 'oauth2_provider.AccessToken'
-OAUTH2_PROVIDER_ID_TOKEN_MODEL = 'oauth2_provider.IdToken'
-OAUTH2_PROVIDER_APPLICATION_MODEL = 'oauth2_provider.Application'
-OAUTH2_PROVIDER_REFRESH_TOKEN_MODEL = 'oauth2_provider.RefreshToken'
-

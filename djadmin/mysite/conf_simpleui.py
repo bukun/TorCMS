@@ -337,7 +337,7 @@ MENUS = [
             {
                 'name': '单页管理',
                 'name_en': 'Page Management',
-                'url': '/admin/page/page/',
+                'url': '/admin/page/thepage/',
                 'icon': 'fa fa-tasks'
             },
 
