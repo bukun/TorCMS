@@ -698,31 +698,31 @@ MENUS = [
     },
     {
         'name': '好友管理',
-        'name_en': 'Friend Management',
+        'name_en': 'Friendship Management',
         'icon': 'fa fa-th-list',
         'models': [
             {
                 'name': '屏蔽关系',
-                'name_en': 'Block relationship',
+                'name_en': 'Blocked Relationship',
                 'url': '/admin/friendship/block/',
                 'icon': 'fa fa-tasks'
             },
             {
                 'name': '关注关系',
-                'name_en': 'Follow',
+                'name_en': 'Following Relationship',
                 'url': '/admin/friendship/follow/',
                 'icon': 'fa fa-tasks'
             },
 
             {
                 'name': '好友列表',
-                'name_en': 'Friend List',
+                'name_en': 'Friend',
                 'url': '/admin/friendship/friend/',
                 'icon': 'fa fa-tasks'
             },
             {
                 'name': '好友请求',
-                'name_en': 'Friend request',
+                'name_en': 'Friendship Request',
                 'url': '/admin/friendship/friendshiprequest/',
                 'icon': 'fa fa-tasks'
             },
