@@ -1,0 +1,55 @@
+{% extends "admin/change_form.html" %}
+{% load i18n admin_urls static %}
+
+
+{% block object-tools %}
+
+
+<div class="submit-row">
+    {% if original.id%}
+    <input type="submit" value="{% trans 'Export to Excel' %}" name="export_action" onclick="Export_To_Excel()"
+           class="button"/>
+    {% else%}
+        <input type="submit" value="{% trans 'Import Excel' %}" name="import_action" onclick="Import_Excel()"
+           class="button"/>
+    {% endif %}
+
+</div>
+<script type="text/javascript">
+    function Export_To_Excel() {
+        var dataset_id = {{ original.id }};
+
+        $.ajax({
+            url: '/dataset/export_dataset/',
+            type: 'GET',
+            data: {
+                'dataset_id': dataset_id
+            },
+
+            success: function (file_path) {
+
+                  window.open('/static/'+file_path, '_blank');
+            }
+        });
+
+    }
+    function Import_Excel() {
+
+
+        // $.ajax({
+        //     url: '/dataset/import_dataset/',
+        //     type: 'GET',
+        //     data: {
+        //         'dataset_id': dataset_id
+        //     },
+        //
+        //     success: function (data) {
+        //         alert(data)
+        //           window.open(data, '_blank');
+        //     }
+        // });
+
+    }
+
+</script>
+{% endblock %}

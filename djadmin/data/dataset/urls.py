@@ -10,5 +10,6 @@ urlpatterns = [
     re_path(r'^(?P<pk>[0-9a-zA-Z]+)/$', views.DataDetail.as_view(), name='data_detail'),
     re_path(r'^(?P<pk>[0-9a-zA-Z]+)/update/$', views.DataDetail.as_view(), name='data_update'),
     re_path(r'^(?P<pk>[0-9a-zA-Z]+)/delete/$', views.DataDetail.as_view(), name='data_delete'),
+    path('export_dataset/', views.export_to_excel, name='export_dataset'),
 ]
 urlpatterns = format_suffix_patterns(urlpatterns)
