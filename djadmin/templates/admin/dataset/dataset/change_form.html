@@ -6,33 +6,40 @@
 
 
 <div class="submit-row">
+
     {% if original.id%}
     <input type="submit" value="{% trans 'Export to Excel' %}" name="export_action" onclick="Export_To_Excel()"
            class="button"/>
     {% else%}
-        <input type="submit" value="{% trans 'Import Excel' %}" name="import_action" onclick="Import_Excel()"
+    <input type="submit" value="{% trans 'Import Excel' %}" name="import_action" onclick="Import_Excel()"
            class="button"/>
     {% endif %}
 
 </div>
 <script type="text/javascript">
-    function Export_To_Excel() {
-        var dataset_id = {{ original.id }};
 
+
+    function Export_To_Excel() {
+        var dataset_id = {{original.id}};
+        // 使用返回的CSRF token设置全局AJAX请求的header
+        $.ajaxSetup({
+            data: {csrfmiddlewaretoken: '{{ csrf_token }}'},
+        });
         $.ajax({
             url: '/dataset/export_dataset/',
-            type: 'GET',
+            type: 'POST',
             data: {
                 'dataset_id': dataset_id
             },
 
             success: function (file_path) {
 
-                  window.open('/static/'+file_path, '_blank');
+                window.open('/static/' + file_path, '_blank');
             }
         });
 
     }
+
     function Import_Excel() {
 
 
@@ -50,6 +57,7 @@
         // });
 
     }
+
 
 </script>
 {% endblock %}

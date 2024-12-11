@@ -16,6 +16,8 @@ from django.http import HttpResponse
 from base.models import get_template
 from django.conf import settings
 
+from django.template.context_processors import csrf
+
 parent_template = get_template()
 current_site = Site.objects.get_current()
 User = get_user_model()
@@ -54,7 +56,7 @@ def export_to_excel(request):
     wb = openpyxl.Workbook()
     ws = wb.active
 
-    data_id = request.GET.get('dataset_id')
+    data_id = request.POST['dataset_id']
 
     obj = dataset.objects.filter(id=data_id).first()
     ################按行保存###################
