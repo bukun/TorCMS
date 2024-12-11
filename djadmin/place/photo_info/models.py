@@ -35,6 +35,8 @@ class Photoinfo(basemodel):
         file_src = os.path.join(self.logo.path)
         print(file_src)
         x,y = self.get_single_gps(file_src)
+        self.lat = x
+        self.lon = y
         print(x,y)
     def get_single_gps(self,img):
         with open(str(img), 'rb') as f:

@@ -55,8 +55,7 @@ class Jupyter(basemodel):
             '\<img.+?\/\>',  # 形如：   ``sadf``: :sdf:`slfkj`
 
         ]
-        print('test jupyter')
-        print(self.logo)
+
         file_src = os.path.join(self.file.path)
         ch_path = Path(os.path.join(file_src))
         if ch_path.stem.split('_')[-2]:
