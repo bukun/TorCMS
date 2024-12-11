@@ -715,16 +715,16 @@ MENUS = [
     },
 ]
 
-for app in MENUS:
-    if 'name_en' in app:
-        app['name'] = app['name_en']
-    for model in app['models']:
-        if 'name_en' in model:
-            model['name'] = model['name_en']
-        if 'models' in model:
-            for sub_model in model['models']:
-                if 'name_en' in sub_model:
-                    sub_model['name'] = sub_model['name_en']
+# for app in MENUS:
+#     if 'name_en' in app:
+#         app['name'] = app['name_en']
+#     for model in app['models']:
+#         if 'name_en' in model:
+#             model['name'] = model['name_en']
+#         if 'models' in model:
+#             for sub_model in model['models']:
+#                 if 'name_en' in sub_model:
+#                     sub_model['name'] = sub_model['name_en']
 
 SIMPLEUI_CONFIG = {
     # 是否使用系统默认菜单，自定义菜单时建议关闭。
