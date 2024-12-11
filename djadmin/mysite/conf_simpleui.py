@@ -325,15 +325,6 @@ MENUS = [
 
                 ]
             },
-
-        ]
-    },
-    {
-        'name': '单页管理',
-        'name_en': 'Page Management',
-        'icon': 'fa fa-th-list',
-        'models': [
-
             {
                 'name': '单页管理',
                 'name_en': 'Page Management',
@@ -349,6 +340,7 @@ MENUS = [
 
         ]
     },
+
     {
         'name': '爬取数据管理',
         'name_en': 'Crawl Data Management',
@@ -520,16 +512,8 @@ MENUS = [
                 'icon': 'fa fa-tasks'
             },
 
-        ]
-    },
-
-    {
-        'name': '中南专栏',
-        'name_en': 'CPEC DRR Column',
-        'icon': 'fa fa-th-list',
-        'models': [
             {
-                'name': '数据管理',
+                'name': '中南数据管理',
                 'name_en': 'CPEC DRR Column Dataset Management',
                 'icon': 'fa fa-tasks',
                 'models': [
@@ -556,7 +540,7 @@ MENUS = [
             },
 
             {
-                'name': '事件管理',
+                'name': '中南事件管理',
                 'name_en': 'CPEC DRR Column Event Management',
                 'icon': 'fa fa-tasks',
                 'models': [
@@ -582,15 +566,8 @@ MENUS = [
                 ]
             },
 
-        ]
-    },
-    {
-        'name': '黑土粮仓数据管理',
-        'name_en': 'Black Soil Granary Data Management',
-        'icon': 'fa fa-th-list',
-        'models': [
             {
-                'name': '农业站数据管理',
+                'name': '黑土粮仓农业站数据管理',
                 'name_en': 'Agricultural Station Data Management',
                 'icon': 'fa fa-th-list',
                 'models': [
@@ -615,7 +592,7 @@ MENUS = [
                 ]
             },
             {
-                'name': '农业站气象站数据管理',
+                'name': '黑土粮仓农业站气象站数据管理',
                 'name_en': 'Agricultural Station Meteorological Station Data Management',
                 'icon': 'fa fa-th-list',
                 'models': [
@@ -647,6 +624,7 @@ MENUS = [
             },
 
         ]
+
     },
 
     {

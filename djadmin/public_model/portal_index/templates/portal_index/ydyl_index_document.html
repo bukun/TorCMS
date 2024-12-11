@@ -1,0 +1,41 @@
+<div class="row">
+    <div class="col-sm-12">
+
+
+        <div class="card-body">
+            <ul class="list-group">
+
+                {% for dat in data %}
+                {% if dat.logo != '' %}
+                <div class="col-sm-4">
+                    <li class="list-group-item">
+
+
+                        <img src="/media/{{ dat.logo }}" alt="/media/{{ dat.logo }}"
+                             class="img-thumbnail">
+
+                        <a href="{% url 'document:doc_view' pk=dat.id %}">
+
+                            {{ dat.title }}
+                        </a>
+
+                    </li>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<div style="clear:both;"></div>
+
+
+
+
+
+
+
+
+
