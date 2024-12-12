@@ -56,7 +56,9 @@ def export_to_excel(request):
     wb = openpyxl.Workbook()
     ws = wb.active
 
-    data_id = request.POST['dataset_id']
+    data_id = request.POST.get('dataset_id')
+    print("ddddddddddddddddddddddddddddddddddd")
+    print(data_id)
 
     obj = dataset.objects.filter(id=data_id).first()
     ################按行保存###################

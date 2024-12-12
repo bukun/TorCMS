@@ -20,7 +20,7 @@
 
 
     function Export_To_Excel() {
-        var dataset_id = {{original.id}};
+
         // 使用返回的CSRF token设置全局AJAX请求的header
         $.ajaxSetup({
             data: {csrfmiddlewaretoken: '{{ csrf_token }}'},
@@ -29,7 +29,7 @@
             url: '/dataset/export_dataset/',
             type: 'POST',
             data: {
-                'dataset_id': dataset_id
+                'dataset_id': {{original.id}}
             },
 
             success: function (file_path) {
