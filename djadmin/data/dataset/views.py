@@ -57,8 +57,6 @@ def export_to_excel(request):
     ws = wb.active
 
     data_id = request.POST.get('dataset_id')
-    print("ddddddddddddddddddddddddddddddddddd")
-    print(data_id)
 
     obj = dataset.objects.filter(id=data_id).first()
     ################按行保存###################
@@ -124,5 +122,5 @@ def export_to_excel(request):
 
     save_path = os.path.join(save_dir, f"{obj.id}_dataset.xlsx")
     wb.save(save_path)
-    visit_path = f'dataset/download/{obj.id}_dataset.xlsx'
+    visit_path = f'/media/dataset/download/{obj.id}_dataset.xlsx'
     return HttpResponse(json.dumps(visit_path), content_type='application/json; charset=utf-8')
