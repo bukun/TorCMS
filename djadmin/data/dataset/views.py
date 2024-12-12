@@ -114,7 +114,7 @@ def export_to_excel(request):
 
         ii = ii + 1
 
-    save_dir = settings.MEDIA_ROOT + "/dataset/download/"
+    save_dir = settings.MEDIA_ROOT + "/dataset/files/"
     if os.path.exists(save_dir):
         pass
     else:
@@ -122,5 +122,5 @@ def export_to_excel(request):
 
     save_path = os.path.join(save_dir, f"{obj.id}_dataset.xlsx")
     wb.save(save_path)
-    visit_path = f'/media/dataset/download/{obj.id}_dataset.xlsx'
+    visit_path = f'/media/dataset/files/{obj.id}_dataset.xlsx'
     return HttpResponse(json.dumps(visit_path), content_type='application/json; charset=utf-8')
