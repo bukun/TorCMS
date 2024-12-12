@@ -105,8 +105,8 @@ def export_to_excel(request):
                  obj.organization,
                  obj.operateson, obj.cnt_md, labels, obj.category.name, str(obj.date), obj.user.username,
                  obj.view_count,
-                 obj.logo.path,
-                 obj.file.path,
+                 obj.logo.name if obj.logo else None,
+                 obj.file.name if obj.file else None,
                  obj.sites.name, str(obj.extinfo)
                  ]
     ii = 1
