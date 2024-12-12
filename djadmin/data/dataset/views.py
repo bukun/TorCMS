@@ -16,8 +16,6 @@ from django.http import HttpResponse
 from base.models import get_template
 from django.conf import settings
 
-from django.template.context_processors import csrf
-
 parent_template = get_template()
 current_site = Site.objects.get_current()
 User = get_user_model()
@@ -90,22 +88,15 @@ def export_to_excel(request):
     for label in obj.label.all():
         labels = labels + label.name + ','
     name_arr = ['id', '数据ID', '标题', '别名', '建议学科分类', '语言', '数据类型', '数据格式', '链接', '开始时间',
-                '结束时间',
-                '数据创建者',
-                '数据发布者', '数据贡献者', '组织机构', '元数据创建者', '内容', '标签', '分类名称', '创建日期',
-                '用户名',
-                '浏览量', '图片',
-                '文件', '站点', 'extinfo'
+                '结束时间', '数据创建者', '数据发布者', '数据贡献者', '组织机构', '元数据创建者', '内容', '标签',
+                '分类名称',
+                '创建日期', '用户名', '浏览量', '图片', '文件', '站点', 'extinfo'
                 ]
     value_arr = [obj.id, obj.datasetid, obj.title, obj.title_alternate, obj.topicategory, obj.language, obj.type,
-                 obj.format,
-                 obj.links, str(obj.time_begin), str(obj.time_end), obj.creator, obj.publisher, obj.contributor,
-                 obj.organization,
-                 obj.operateson, obj.cnt_md, labels, obj.category.name, str(obj.date), obj.user.username,
-                 obj.view_count,
-                 obj.logo.name if obj.logo else None,
-                 obj.file.name if obj.file else None,
-                 obj.sites.name, str(obj.extinfo)
+                 obj.format, obj.links, str(obj.time_begin), str(obj.time_end), obj.creator, obj.publisher,
+                 obj.contributor, obj.organization, obj.operateson, obj.cnt_md, labels, obj.category.name,
+                 str(obj.date), obj.user.username, obj.view_count, obj.logo.name if obj.logo else None,
+                 obj.file.name if obj.file else None, obj.sites.name, str(obj.extinfo)
                  ]
     ii = 1
     for t_name in name_arr:
@@ -114,7 +105,7 @@ def export_to_excel(request):
 
         ii = ii + 1
 
-    save_dir = settings.MEDIA_ROOT + "/dataset/files/"
+    save_dir = settings.MEDIA_ROOT + "/dataset/download/"
     if os.path.exists(save_dir):
         pass
     else:
@@ -122,5 +113,5 @@ def export_to_excel(request):
 
     save_path = os.path.join(save_dir, f"{obj.id}_dataset.xlsx")
     wb.save(save_path)
-    visit_path = f'/media/dataset/files/{obj.id}_dataset.xlsx'
+    visit_path = f'/media/dataset/download/{obj.id}_dataset.xlsx'
     return HttpResponse(json.dumps(visit_path), content_type='application/json; charset=utf-8')
