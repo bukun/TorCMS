@@ -10,8 +10,15 @@
                     {% if dat.logo != "" %}
                     <div class="landpub_img">
                         <div class="col-sm-12">
-                            <p><img class="doc_expert" src="{{dat.logo}}" alt="{{dat.name}}"/></p></div>
+
+                            <p><img class="doc_expert img-responsive" style="width: 350px;
+  height: 200px;" src="/media/{{dat.logo}}" alt="{{dat.name}}"/>
+                               </p>
+
+                        </div>
+
                         <div class="featpub_cont">
+
                             <p><b>Gender:</b> {{ dat.gender }}</p>
                             <p><b>Nation:</b> {{ dat.nation }}</p>
                             <p><b>Department:</b> {{ dat.department }}</p>
