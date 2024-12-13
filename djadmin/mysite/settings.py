@@ -22,11 +22,12 @@ from .conf_ckeditor import *
 from .conf_leaflet import *
 from .conf_mdeditor import *
 from .conf_install_apps import *
+from .conf_wagtail_setting import *
 
 # from django.utils.translation import ugettext_lazy as _
 
 
-WAGTAIL_SITE_NAME = 'WAGTAIL ADMIN'
+
 SITE_ID = int(os.environ.get('SITE_ID', 1))
 
 # from django.conf import settings
@@ -245,6 +246,7 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
 # CORS_ORIGIN_WHITELIST = (
 #     '*'
+# 'http://127.0.0.1:8080'
 # 'http://127.0.0.1:8080'
 # )
 
