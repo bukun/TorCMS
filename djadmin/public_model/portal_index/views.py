@@ -21,7 +21,7 @@ User = get_user_model()
 #中蒙俄协同创新平台 http://ydyl.gislab.cn/
 def ydyl_index(request):
 
-    post_data = Document.objects.filter(sites__id=current_site.id,category__isnull=False)[:4]
+    post_data = Document.objects.filter(sites__id=current_site.id,category__isnull=False)[:6]
     expert_data = LiteratureAuthor.objects.filter(sites__id=current_site.id)[:3]
 
     context = {'post_data': post_data, 'expert_data': expert_data, 'parent_template': parent_template}
