@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block mainbody %}
+
+<!-- Load wagtailimages_tags: -->
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<!-- Modify this: -->
+{% for post in blogpages %}
+    {% with post=post.specific %}
+        <h2><a href="{% pageurl post %}">{{ post.title }}</a></h2>
+
+        <!-- Add this: -->
+        {% with post.main_image as main_image %}
+            {% if main_image %}{% image main_image fill-160x100 %}{% endif %}
+        {% endwith %}
+
+        <p>{{ post.intro }}</p>
+        {{ post.body|richtext }}
+    {% endwith %}
+{% endfor %}
+
+{% endblock %}

@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'mptt',
     'friendship',
 
+    "wagtail_dir.wagtail_blog",
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
     "wagtail.embeds",

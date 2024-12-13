@@ -1,7 +1,6 @@
 from django.apps import AppConfig
 
 
-class PageConfig(AppConfig):
+class BlogConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'pages.blog'
-    verbose_name = '博客管理'
+    name = 'wagtail_dir.wagtail_blog'
