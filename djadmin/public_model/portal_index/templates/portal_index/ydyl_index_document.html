@@ -3,33 +3,35 @@
 
 
         <div class="card-body">
-            <ul class="list-group">
-
-                {% for dat in data %}
-                {% if dat.logo != '' %}
-                <div class="col-sm-4">
-                    <li class="list-group-item">
 
 
-                        <img src="/media/{{ dat.logo }}" alt="/media/{{ dat.logo }}"
+            {% for dat in data %}
+            {% if dat.logo != '' %}
+            <div class="col-sm-4">
+                <div class="issues_callout" style="border: 0px">
+
+                    <a href="{% url 'document:doc_view' pk=dat.id %}">
+                        <img width="100%" id="mainls" src="/media/{{ dat.logo }}" alt="/media/{{ dat.logo }}"
                              class="img-thumbnail">
 
-                        <a href="{% url 'document:doc_view' pk=dat.id %}">
+                        <h3>{{ dat.title }}</h3>
 
-                            {{ dat.title }}
-                        </a>
+                        {% end %}
 
-                    </li>
+
+                    </a>
+
+
                 </div>
                 {% endif %}
                 {% endfor %}
-            </ul>
+
+            </div>
         </div>
     </div>
-</div>
 
 
-<div style="clear:both;"></div>
+    <div style="clear:both;"></div>
 
 
 
