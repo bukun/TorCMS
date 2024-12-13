@@ -23,8 +23,9 @@ def ydyl_index(request):
 
     post_data = Document.objects.filter(sites__id=current_site.id,category__isnull=False)[:6]
     expert_data = LiteratureAuthor.objects.filter(sites__id=current_site.id)[:3]
+    history_data = LiteratureAuthor.objects.filter(sites__id=current_site.id)[:1]
 
-    context = {'post_data': post_data, 'expert_data': expert_data, 'parent_template': parent_template}
+    context = {'post_data': post_data, 'expert_data': expert_data,'history_data':history_data, 'parent_template': parent_template}
 
 
     return render(request, 'portal_index/ydyl_index.html', context)

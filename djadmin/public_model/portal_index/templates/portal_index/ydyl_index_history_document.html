@@ -1,0 +1,26 @@
+{% for dat in data %}
+{% if dat.logo != '' %}
+<h3 class="entry-title">{{ dat.title }}</h3>
+
+
+<img id="history" width="60%" src="/media/{{ dat.logo }}" alt="/media/{{ dat.logo }}"
+     class="img-thumbnail">
+<p>{{ data.get_html_content | safe }}</p>
+<a href="{% url 'document:doc_view' pk=dat.id %}" class="btn btn-primary btn-xs"
+   style="background-color: white ;color:#4f3f27" role="button">Read More</a>
+
+
+{% endif %}
+{% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
