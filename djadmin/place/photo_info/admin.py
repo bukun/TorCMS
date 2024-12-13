@@ -10,6 +10,13 @@ class photoinfoadmin(ImportExportModelAdmin):
     ordering = ["id"]
     list_per_page = 20
 
+    # 定义只读字段，这意味着它们在添加时不可编辑，但在更改时可编辑
+    def get_readonly_fields(self, request, obj=None):
+        if obj:  # obj为None时表示添加，非None时表示编辑
+            pass
+        else:
+            return ['lat', 'lon']
+        return []
 
 
 # 注册app的admin
