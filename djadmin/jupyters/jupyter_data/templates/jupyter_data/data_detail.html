@@ -102,6 +102,16 @@
 
 
         <div class="col-sm-3">
+  {% if data.dc_image and data.file_id %}
+        <div class="panel panel-primary">
+
+            <a href="http://pod.igadc.cn/t/{{data.dc_image}}/{{data.file_id}}/sd"
+               target="_blank">
+                <img src="https://cms.igadc.cn/media/images/jupyter_nvCs0bS.original.png" class="img-thumbnail">
+                <p style="text-align: center;font-weight: bold;">{{ _('Open the online experimental environment') }}</p>
+            </a>
+        </div>
+        {% endif %}
 
             {% include "yj_catalog_of.html" with Category=Category order=False link_url='jupyter_category' data_name='Scientific - Model' %}
 
