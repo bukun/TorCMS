@@ -6,6 +6,7 @@ import subprocess
 from pathlib import Path
 import bs4
 import markdown
+import random
 from django.db import models
 from django.contrib.auth import get_user_model
 from base.models import basemodel
@@ -14,6 +15,7 @@ from jupyters.jupyter_category.models import JupyterCatagory
 from django.utils.safestring import mark_safe
 from django.contrib.sites.models import Site
 User = get_user_model()
+
 
 
 DC_IMAGE_CHOICES = [
@@ -25,14 +27,21 @@ class Jupyter(basemodel):
     dc_image = models.CharField(choices=DC_IMAGE_CHOICES, verbose_name="容器镜像ID",default='bio',max_length=255)
     category = models.ForeignKey(JupyterCatagory, on_delete=models.CASCADE, blank=True, null=True,
                                  related_name='jupyter_data', verbose_name='分类名称')
+    url = models.CharField(blank=True, null=True, max_length=255, verbose_name="服务器")
+    jupyter_port = models.IntegerField(blank=True, null=True, verbose_name="端口")
     file_id = models.CharField(blank=True, null=False, max_length=255, verbose_name="文件ID")
+
     title = models.CharField(blank=True, null=False, max_length=255, verbose_name="标题")
 
     cnt_md = MDTextField(verbose_name="内容", null=True, blank=True)
+
     logo = models.ImageField(upload_to='jupyter/imgs/', max_length=255, null=True, blank=True,
                              verbose_name="图片")
     shared_with = models.ManyToManyField(User, related_name='shared_with', verbose_name="分享给好友", blank=True)
     sites = models.ManyToManyField(Site,blank=True, related_name='jupyter', verbose_name='Site')
+
+    # user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, editable=False,
+    #                          null=True, related_name='jupyter', verbose_name='用户名')
 
 
     def __str__(self):
@@ -42,7 +51,15 @@ class Jupyter(basemodel):
         return mark_safe(html_content)
     def save(self, *args, **kwargs):
         super(Jupyter, self).save(*args, **kwargs)
+
         if not self.cnt_md:
+            while True:
+                random_number = random.randint(10000, 65535)
+                try:
+                    existing_object = Jupyter.objects.get(jupyter_port=random_number)
+                except Jupyter.DoesNotExist:
+                    self.jupyter_port = random_number
+                    break
             self.convert_to_markdown()
             super(Jupyter, self).save(*args, **kwargs)
 

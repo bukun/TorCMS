@@ -4,6 +4,7 @@ from rest_framework import generics
 from rest_framework import permissions
 from .serializers import JupyterSerializer
 from .permissions import IsOwnerOrReadOnly
+from .forms import SharedFileForm
 from django.contrib.auth import get_user_model
 from django_filters import rest_framework
 from django.shortcuts import render, redirect, get_object_or_404
@@ -11,6 +12,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from jupyters.jupyter_category.models import JupyterCatagory 
 from django.contrib.sites.models import Site
 from django.http import HttpResponse
+
+
 current_site = Site.objects.get_current()
 User = get_user_model()
 from base.models import get_template
@@ -80,9 +83,15 @@ def Index(request):
 
     context = {'data': page_obj,'is_paginated': is_paginated,'parent_template': parent_template}
     return render(request, 'jupyter_data/data_list.html', context)
+def SystemIndex(request):
+
+    data_recs = Jupyter.objects.filter(sites__id=current_site.id,)
 
 
-from .forms import SharedFileForm
+    context = {'data': data_recs,'parent_template': parent_template}
+    return render(request, 'jupyter_data/system_index.html', context)
+
+
 
 
 def upload_file(request):

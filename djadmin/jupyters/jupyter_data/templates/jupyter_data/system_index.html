@@ -1,0 +1,179 @@
+{% extends parent_template %}
+{% block head %}
+<title>{{ data.title }}</title>
+<style>
+    img {
+        max-width: 100%
+    }
+</style>
+{% endblock %}
+{% block mainbody %}
+<div class="row mt-3">
+
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item">
+            <a href="/jupyter_category/index/"> {{ _('Scientific - Models') }}</a>
+        </li>
+        <li class="breadcrumb-item active">
+            Online Research Collaboration System
+        </li>
+    </ul>
+
+</div>
+<div class="row">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-sm-12">
+
+                <h1> Online Research Collaboration System</h1>
+
+            </div>
+
+        </div>
+
+        <Br>
+        <Br>
+        <div class="row">
+
+            <div class="col-lg-8 col-md-8 col-xs-12">
+
+                <div class="row mt">
+
+                    <div class="col-lg-6 col-md-6 col-xs-12 desc"
+                         style="border-right:1px dashed #ddd;padding:0 20px">
+
+
+                        <p class="lead">
+                            <span class="fa fa-home"></span> <a>Introduction</a></p>
+
+                        <p>Jupyter is a powerful tool for data science, machine learning, and deep learning,
+                            integrating coding, visualization, documentation, and more to make scientific computing
+                            intuitive and efficient. Jupyter is an open-source web application that can be used to
+                            create and share code and documentation. It provides an environment where you can write
+                            your code, run code, view output, visualize data, and view results. Therefore, it is a
+                            convenient tool for executable end-to-end data science workflows for scientific
+                            computing tasks including data cleaning, statistical modeling, building and training
+                            machine learning models, visualizing data, and more. </p>
+                        <p>With the continuous development of data science and artificial intelligence, Jupyter is
+                            constantly updating and refining its features and performance. In the future, we can
+                            expect to see more innovative features and tools added to Jupyter to further advance
+                            scientific computing and data analytics. As a scientific researcher, you should keep an
+                            eye on new technologies and new tools, and constantly improve your skills and
+                            competitiveness.</p>
+
+                    </div>
+
+                    <div class="col-lg-6 col-md-6 col-xs-12 desc"
+                         style="border-right:1px dashed #ddd;padding:0 20px">
+
+                        <p class="lead"><span class="fa fa-star"></span> <a>System Kernel</a></p>
+                        <p>
+                            Currently, the system provides the following three kernels for running. In the future,
+                            the public kernel and the default class libraries in the kernel will be added according
+                            to the requirements. </p>
+
+                        <ul>
+                            <li>Python 3.11 [System]</li>
+                            <li>Python 3.12 [Conda]</li>
+                            <li>R 4.4 [Conda]</li>
+                        </ul>
+                        <br> <br>
+                        <p class="lead"><span class="fa fa-exclamation-circle"></span> <a>Note</a></p>
+                        <ul>
+                            <li>The system is built using Jupyter technology and authenticated with a technology
+                                cloud pass. The login authentication of the system uses the email of the research
+                                institute.
+                            </li>
+                            <li>The system is <span
+                                    data-slate-fragment="JTVCJTdCJTIydHlwZSUyMiUzQSUyMnBhcmFncmFwaCUyMiUyQyUyMmNoaWxkcmVuJTIyJTNBJTVCJTdCJTIyaWQlMjIlM0ElMjJZSjUyR2pXR3dYJTIyJTJDJTIycGFyYUlkeCUyMiUzQTAlMkMlMjJzcmMlMjIlM0ElMjJjdXJyZW50bHklMjIlMkMlMjJkc3QlMjIlM0ElMjIlRTclOUIlQUUlRTUlODklOEQlMjIlMkMlMjJtZXRhZGF0YSUyMiUzQSUyMiUyMiUyQyUyMm1ldGFEYXRhJTIyJTNBJTVCJTVEJTJDJTIydGV4dCUyMiUzQSUyMmN1cnJlbnRseSUyMiU3RCU1RCU3RCU1RA==">currently</span>
+                                limited to internal network access of the research institute and cannot be accessed
+                                through external networks.
+                            </li>
+                            <li>Provide a certain amount of hard disk space storage for users to use. The current
+                                limit is 500M.
+                            </li>
+                        </ul>
+
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-xs-12">
+                <div class="row mt" style="padding-left:10px">
+                    {% if user.is_authenticated %}
+                    <div class="panel panel-primary">
+
+                        <a href="http://pod.igadc.cn/i/{{user.username}}/bio"
+                           target="_blank">
+                            <p><img src="https://cms.igadc.cn/media/images/jupyter_nvCs0bS.original.png"
+                                    class="img-responsive"></p>
+                            <p style="text-align: center;font-weight: bold;">
+                                {{ _('Open the online experimental environment') }}</p>
+                        </a>
+
+                    </div>
+                    <br><br>
+                    <div class="card">
+                        <div class="card-header"><h3>Recent Use</h3></div>
+                        <ul class="list-group">
+                            <li class="list-group-item">asdfasdfsdfsf</li>
+                        </ul>
+
+                    </div>
+
+
+                    {% else %}
+                    <h2><span class="fa ">① </span> Read the User Manual</h2>
+                    <br>
+                    <p>Please refer to the
+                        <a href="http://selenge-en.igadc.cn/ch05_intro/chapter.html" target="_blank"
+                           class="btn btn-info btn-xs">
+                            User Manual</a> for login and usage.</p>
+                    <br>
+
+
+                    <h2><span class="fa">② </span> Register User Account</h2>
+                    <br>
+                    <p>
+                        If you have not yet opened the permission to use the scientific computing platform, please
+                        <a href="http://apply-pygis.igadc.cn/" class="btn btn-info btn-xs">register</a> a user account.
+                    </p>
+                    <br>
+
+                    <div id="login-main" class="container">
+
+                        <h2><span class="fa">③ </span> Login </h2>
+                        <br>
+                        <div>
+                            <p id='insecure-login-warning' class='hidden'>
+                                Warning: JupyterHub seems to be served over an unsecured HTTP
+                                connection.
+                                We strongly recommend enabling HTTPS for JupyterHub.
+                            </p>
+                            <a role="button" class='btn btn-warning btn-lg' href="{% url 'users:login' %}">
+                                Sign in </a>
+
+                        </div>
+                        {% endif %}
+
+
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+</div>
+{% endblock %}

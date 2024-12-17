@@ -61,7 +61,7 @@ class myuser(AbstractUser):
                                    blank=True, verbose_name="头像")
 
     # 专家农户政府都有都有这一项，启用或禁用，如果修改为禁用就用户不能使用帐号登录？是不是
-    state = models.IntegerField(choices=statetype.choices, verbose_name="状态", default=1)
+    # state = models.IntegerField(choices=statetype.choices, verbose_name="状态", default=1)
 
     # -----------------------------------------
     # 前台用户
