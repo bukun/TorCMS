@@ -23,16 +23,16 @@ class JupyterAdmin(ImportExportModelAdmin):
             return ['title','file_id','cnt_md','jupyter_port']
         return []
     # 用来排序
-    ordering = ["dc_image","create_time","update_time"]
+    ordering = ["create_time","dc_image","update_time"]
 
     list_per_page = 20
 
     search_fields = ('title', 'cnt_md','dc_image')
     filter_horizontal = ('shared_with','sites')
-    def save_model(self, request, obj, form, change):
-
-        obj.user = request.user
-
-        super().save_model(request, obj, form, change)
+    # def save_model(self, request, obj, form, change):
+    #
+    #     obj.user = request.user
+    #
+    #     super().save_model(request, obj, form, change)
 # 注册app的admin
 admin.site.register(Jupyter, JupyterAdmin)

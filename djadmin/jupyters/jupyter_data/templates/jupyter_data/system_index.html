@@ -123,7 +123,13 @@
                     <div class="card">
                         <div class="card-header"><h3>Recent Use</h3></div>
                         <ul class="list-group">
-                            <li class="list-group-item">asdfasdfsdfsf</li>
+                            {% for dat in data %}
+                            <li class="list-group-item">
+                                <a href="{% url 'jupyter_data:data_view' dataid=dat.id %}">
+                       <span class="fa fa-file-text-o"></span> {{ dat.title }}
+                    </a>
+                            </li>
+                               {% endfor %}
                         </ul>
 
                     </div>

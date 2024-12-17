@@ -85,7 +85,7 @@ def Index(request):
     return render(request, 'jupyter_data/data_list.html', context)
 def SystemIndex(request):
 
-    data_recs = Jupyter.objects.filter(sites__id=current_site.id,)
+    data_recs = Jupyter.objects.filter(sites__id=current_site.id,user=request.user)[:8]
 
 
     context = {'data': data_recs,'parent_template': parent_template}

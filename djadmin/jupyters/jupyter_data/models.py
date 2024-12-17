@@ -43,8 +43,8 @@ class Jupyter(basemodel):
     shared_with = models.ManyToManyField(User, related_name='shared_with', verbose_name="分享给好友", blank=True)
     sites = models.ManyToManyField(Site,blank=True, related_name='jupyter', verbose_name='Site')
 
-    # user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, editable=False,
-    #                          null=True, related_name='jupyter', verbose_name='用户名')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True,
+                             null=True, related_name='jupyter', verbose_name='用户名')
 
 
     def __str__(self):
@@ -64,6 +64,7 @@ class Jupyter(basemodel):
                     self.jupyter_port = random_number
                     break
             self.convert_to_markdown()
+
             super(Jupyter, self).save(*args, **kwargs)
 
 
