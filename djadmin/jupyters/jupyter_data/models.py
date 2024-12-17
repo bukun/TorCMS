@@ -1,4 +1,5 @@
 import re
+import random
 import html2text as ht
 import os
 import re
@@ -27,9 +28,11 @@ class Jupyter(basemodel):
     dc_image = models.CharField(choices=DC_IMAGE_CHOICES, verbose_name="容器镜像ID",default='bio',max_length=255)
     category = models.ForeignKey(JupyterCatagory, on_delete=models.CASCADE, blank=True, null=True,
                                  related_name='jupyter_data', verbose_name='分类名称')
+
     url = models.CharField(blank=True, null=True, max_length=255, verbose_name="服务器")
     jupyter_port = models.IntegerField(blank=True, null=True, verbose_name="端口")
-    file_id = models.CharField(blank=True, null=False, max_length=255, verbose_name="文件ID")
+
+    file_id = models.CharField(blank=True, null=False, max_length=255, verbose_name="文件ID",unique=True)
 
     title = models.CharField(blank=True, null=False, max_length=255, verbose_name="标题")
 
@@ -65,6 +68,7 @@ class Jupyter(basemodel):
 
 
     def convert_to_markdown(self):
+
         rest_regs = [
             # '\s:.+?:`.+?`\/:.+?:`.+?`\/:.+?:`.+?`'
             '\<img.+?\/\>',  # 形如：   ``sadf``: :sdf:`slfkj`
@@ -116,10 +120,14 @@ class Jupyter(basemodel):
         text_maker.bypass_tables = False
         markdown_content = text_maker.handle(html_content)
 
+        file_id = 'jt' + ''.join(random.sample(list('0123456789abcdefghijklmnopqrstuvwxyz'), 4))
+        while Jupyter.objects.filter(file_id=file_id):
+            file_id = 'jt' + ''.join(random.sample(list('0123456789abcdefghijklmnopqrstuvwxyz'), 4))
 
+        self.file_id = file_id
         self.cnt_md = markdown_content
         self.title = title
-        self.file_id = uid
+        # self.file_id = uid
     class Meta(basemodel.Meta):
         db_table = 'jupyter'
         verbose_name = "科学计算模型数据"
