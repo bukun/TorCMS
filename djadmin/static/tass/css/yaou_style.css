@@ -570,11 +570,12 @@ h1[id] {
     width: 38px;
     background: url("../images/top.png") no-repeat;
 }
-.dropdown-menu a{
-    color:#357ebd
 
-
+.dropdown a {
+  color: #357ebd;
 }
+
+
 .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
     text-decoration: none;
 
@@ -1262,34 +1263,33 @@ h1[id] {
 
 .navbar-dark .navbar-nav li a {
     color: #fff;
-    font-size: 14px;
-    padding-bottom: 15px;
+
 }
 
 .navbar-dark .navbar-nav li a:hover {
-    border-bottom-width: 3px;
-    border-bottom-color: #336699;
-    border-bottom-style: solid;
-    padding-bottom: 9px;
     background: #336699;
     color: #fff;
 }
-
-.navbar-dark .navbar-nav li a.current {
-    border-bottom: 3px solid #336699;
+.navbar-dark .navbar-nav li a:focus {
     background: #336699;
-    padding-bottom: 9px;
+    color: #fff;
+}
+.navbar-dark .navbar-nav li a.current {
+    background: #336699;
+
     color: #fff;
 }
 
 .navbar-dark .navbar-nav li a.ula {
     color: #fff;
-    border-bottom-width: 3px;
-    border-bottom-color: #fff;
-    border-bottom-style: solid;
-    padding-bottom: 9px;
-}
 
+}
+.navbar-dark .navbar-nav li .dropdown-menu a {
+  color: #333;
+}
+.navbar-dark .navbar-nav li .dropdown-menu a:hover {
+  color: #fff;
+}
 .breacru {
     color: #2c3e50;
     padding: 35px 0;

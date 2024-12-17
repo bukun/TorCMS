@@ -570,26 +570,19 @@ h1[id] {
 .navbar-dark .navbar-nav li a {
   color: #fff;
   font-size: 14px;
-  padding-bottom: 15px;
+
 }
 .navbar-dark .navbar-nav li a:hover {
-  border-bottom-width: 3px;
-  border-bottom-color: #fff;
-  border-bottom-style: solid;
-  padding-bottom: 9px;
+
   color: #fff;
 }
 .navbar-dark .navbar-nav li a.current {
   border-bottom: 3px solid #fff;
-  padding-bottom: 9px;
   color: #fff;
 }
 .navbar-dark .navbar-nav li a.ula {
   color: #fff;
-  border-bottom-width: 3px;
-  border-bottom-color: #fff;
-  border-bottom-style: solid;
-  padding-bottom: 9px;
+
 }
 .navbar-dark .navbar-nav li .dropdown-menu a {
   color: #333;
