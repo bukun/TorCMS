@@ -20,7 +20,7 @@ class JupyterAdmin(ImportExportModelAdmin):
         if obj:  # obj为None时表示添加，非None时表示编辑
             pass
         else:
-            return ['title','file_id','cnt_md','jupyter_port']
+            return ['title','file_id','cnt_md']
         return []
     # 用来排序
     ordering = ["create_time","dc_image","update_time"]

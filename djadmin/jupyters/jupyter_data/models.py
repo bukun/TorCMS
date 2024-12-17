@@ -1,5 +1,4 @@
 import re
-import random
 import html2text as ht
 import os
 import re
@@ -30,9 +29,6 @@ class Jupyter(basemodel):
     category = models.ForeignKey(JupyterCatagory, on_delete=models.CASCADE, blank=True, null=True,
                                  related_name='jupyter_data', verbose_name='分类名称')
 
-    url = models.CharField(blank=True, null=True, max_length=255, verbose_name="服务器")
-    jupyter_port = models.IntegerField(blank=True, null=True, verbose_name="端口")
-
     file_id = models.CharField(blank=True, null=False, max_length=255, verbose_name="文件ID",unique=True)
 
     title = models.CharField(blank=True, null=False, max_length=255, verbose_name="标题")
@@ -59,13 +55,7 @@ class Jupyter(basemodel):
         if not self.cnt_md:
 
             self.convert_to_markdown()
-            while True:
-                random_number = random.randint(10000, 65535)
-                try:
-                    existing_object = Jupyter.objects.get(jupyter_port=random_number)
-                except Jupyter.DoesNotExist:
-                    self.jupyter_port = random_number
-                    break
+
             super(Jupyter, self).save(*args, **kwargs)
 
 
