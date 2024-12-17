@@ -9,10 +9,10 @@ from django.contrib.auth import get_user_model
 from django_filters import rest_framework
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from jupyters.jupyter_category.models import JupyterCatagory 
+from jupyters.jupyter_category.models import JupyterCatagory
 from django.contrib.sites.models import Site
 from django.http import HttpResponse
-
+from django.contrib.auth.models import AnonymousUser
 
 current_site = Site.objects.get_current()
 User = get_user_model()
@@ -27,7 +27,7 @@ class DataList(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     filter_backends = (rest_framework.DjangoFilterBackend,)
-    filterset_fields = ['title',]
+    filterset_fields = ['title', ]
 
     # 将request.user与author绑定
     def perform_create(self, serializer):
@@ -44,7 +44,9 @@ def DataDetailView(request, dataid):
     # 从url里获取单个任务的pk值，然后查询数据库获得单个对象
     data = get_object_or_404(Jupyter, pk=dataid)
     data_cat = JupyterCatagory.objects.filter(sites__id=current_site.id)
-    return render(request, "jupyter_data/data_detail.html", {"data": data, "Category": data_cat,'parent_template': parent_template})
+    return render(request, "jupyter_data/data_detail.html",
+                  {"data": data, "Category": data_cat, 'parent_template': parent_template})
+
 
 def ShowShare(request):
     # 获取当前登录用户的UserProfile对象
@@ -67,9 +69,7 @@ def ShowShare(request):
     return render(request, "jupyter_data/show_share_list.html", context)
 
 
-
 def Index(request):
-
     data_recs = Jupyter.objects.filter(sites__id=current_site.id)
     paginator = Paginator(data_recs, 20)  # 实例化一个分页对象, 每页显示10个
     page = request.GET.get('page')  # 从URL通过get页码，如?page=3
@@ -81,17 +81,20 @@ def Index(request):
         page_obj = paginator.page(paginator.num_pages)
     is_paginated = True if paginator.num_pages > 1 else False  # 如果页数小于1不使用分页
 
-    context = {'data': page_obj,'is_paginated': is_paginated,'parent_template': parent_template}
+    context = {'data': page_obj, 'is_paginated': is_paginated, 'parent_template': parent_template}
     return render(request, 'jupyter_data/data_list.html', context)
+
+
 def SystemIndex(request):
+    if str(request.user) == 'AnonymousUser':
+        context = {'parent_template': parent_template}
 
-    data_recs = Jupyter.objects.filter(sites__id=current_site.id,user=request.user)[:8]
+    else:
+        data_recs = Jupyter.objects.filter(sites__id=current_site.id, user=request.user)[:8]
 
+        context = {'data': data_recs, 'parent_template': parent_template}
 
-    context = {'data': data_recs,'parent_template': parent_template}
     return render(request, 'jupyter_data/system_index.html', context)
-
-
 
 
 def upload_file(request):
@@ -104,7 +107,7 @@ def upload_file(request):
             return HttpResponse('File uploaded successfully.')
     else:
         form = SharedFileForm()
-    return render(request, 'jupyter_data/upload_file.html', {'form': form,'parent_template': parent_template})
+    return render(request, 'jupyter_data/upload_file.html', {'form': form, 'parent_template': parent_template})
 
 
 def download_file(request, file_id):
