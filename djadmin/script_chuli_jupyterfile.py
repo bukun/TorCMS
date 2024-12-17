@@ -25,6 +25,7 @@ def chuli_jupyterfile():
         if obj.file_id.startswith('jt') and len(str(obj.file_id))==6:
             file_id = obj.file_id
         else:
+            # 处理已经上传的jupyter信息，但fileid值有问题的地方。
             file_id = 'jt' + ''.join(random.sample(list('0123456789abcdefghijklmnopqrstuvwxyz'), 4))
             while Jupyter.objects.filter(file_id=file_id):
                 file_id = 'jt' + ''.join(random.sample(list('0123456789abcdefghijklmnopqrstuvwxyz'), 4))
