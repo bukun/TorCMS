@@ -49,14 +49,12 @@ class myuser(AbstractUser):
 
     def save(self, *args, **kwargs):
         super(myuser, self).save(*args, **kwargs)
-
-        if not self.pk:
-
-            while True:
-                random_number = random.randint(10000, 65535)
-                try:
-                    existing_object = myuser.objects.get(jupyter_port=random_number)
-                except myuser.DoesNotExist:
-                    self.jupyter_port = random_number
-                    break
-            super(myuser, self).save(*args, **kwargs)
+ 
+        while True:
+            random_number = random.randint(10000, 65535)
+            try:
+                existing_object = myuser.objects.get(jupyter_port=random_number)
+            except myuser.DoesNotExist:
+                self.jupyter_port = random_number
+                break
+        super(myuser, self).save(*args, **kwargs)
