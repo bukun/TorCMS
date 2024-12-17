@@ -44,7 +44,7 @@ class Jupyter(basemodel):
     shared_with = models.ManyToManyField(User, related_name='shared_with', verbose_name="分享给好友", blank=True)
     sites = models.ManyToManyField(Site,blank=True, related_name='jupyter', verbose_name='Site')
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True,editable=False,
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True,
                              null=True, related_name='jupyter', verbose_name='用户名')
 
 
@@ -67,7 +67,6 @@ class Jupyter(basemodel):
             self.convert_to_markdown()
 
 
-            self.user = get_user()
             super(Jupyter, self).save(*args, **kwargs)
 
 
