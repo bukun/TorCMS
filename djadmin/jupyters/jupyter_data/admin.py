@@ -9,7 +9,7 @@ class JupyterAdmin(ImportExportModelAdmin):
     resource_class = JupyterResource
     # 控制哪些字段会显示在Admin 的修改列表页面中
     list_display = (
-       "id", "title", "file_id","dc_image","create_time","update_time")
+       "id", "title", "file_id","dc_image","user","create_time","update_time")
     formfield_overrides = {
         models.CharField: {'widget': TextInput(attrs={'style': 'width: 80%;'})},
         models.TextField: {'widget': Textarea(attrs={'rows': 6, 'style': 'width: 80%;'})},
@@ -29,10 +29,10 @@ class JupyterAdmin(ImportExportModelAdmin):
 
     search_fields = ('title', 'cnt_md','dc_image')
     filter_horizontal = ('shared_with','sites')
-    # def save_model(self, request, obj, form, change):
-    #
-    #     obj.user = request.user
-    #
-    #     super().save_model(request, obj, form, change)
+    def save_model(self, request, obj, form, change):
+
+        obj.user = request.user
+
+        super().save_model(request, obj, form, change)
 # 注册app的admin
 admin.site.register(Jupyter, JupyterAdmin)
