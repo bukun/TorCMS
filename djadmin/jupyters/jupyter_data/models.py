@@ -57,6 +57,8 @@ class Jupyter(basemodel):
         super(Jupyter, self).save(*args, **kwargs)
 
         if not self.cnt_md:
+
+            self.convert_to_markdown()
             while True:
                 random_number = random.randint(10000, 65535)
                 try:
@@ -64,8 +66,6 @@ class Jupyter(basemodel):
                 except Jupyter.DoesNotExist:
                     self.jupyter_port = random_number
                     break
-            self.convert_to_markdown()
-     
             super(Jupyter, self).save(*args, **kwargs)
 
 
