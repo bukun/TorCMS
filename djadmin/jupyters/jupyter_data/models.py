@@ -129,7 +129,6 @@ class Jupyter(basemodel):
         self.file_id = file_id
         self.cnt_md = markdown_content
         self.title = title
-        # self.file_id = uid
     class Meta(basemodel.Meta):
         db_table = 'jupyter'
         verbose_name = "科学计算模型数据"
