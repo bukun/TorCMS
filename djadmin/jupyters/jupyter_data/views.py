@@ -88,10 +88,8 @@ def Index(request):
 def SystemIndex(request):
     if str(request.user) == 'AnonymousUser':
         context = {'parent_template': parent_template}
-
     else:
         data_recs = Jupyter.objects.filter(sites__id=current_site.id, user=request.user)[:8]
-
         context = {'data': data_recs, 'parent_template': parent_template}
 
     return render(request, 'jupyter_data/system_index.html', context)
