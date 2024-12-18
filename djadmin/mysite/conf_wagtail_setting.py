@@ -5,7 +5,8 @@ WAGTAIL_SITE_NAME = 'WAGTAIL ADMIN'
 
 # 在你的 Wagtail 设置中设置独立的主机和端口
 # WAGTAIL_WORKER_PORT = 23456  # 你想要的端口号
-WAGTAIL_WORKER_HOST = 'https://cms.igadc.cn'  # 你的独立主机
+WAGTAIL_WORKER_HOST = 'https://cms.igadc.cn/wagtail_cms/'  # 你的独立主机
+WAGTAILADMIN_BASE_URL = 'your-custom-admin-url/'
 #
 # # 为 Wagtail 设置自定义的登录和导航模板
 # WAGTAIL_FRONTEND_LOGIN_TEMPLATE = 'myapp/login.html'
