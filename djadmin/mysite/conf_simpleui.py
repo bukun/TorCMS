@@ -713,6 +713,40 @@ MENUS = [
 
         ]
     },
+    {
+        'name': "地理所",
+        'name_en': 'IGA',
+        'icon': 'fa fa-th-list',
+        'models': [
+
+            {
+                'name': '学科组',
+                'name_en': 'IGA Group',
+                'url': '/admin/iga_group/iga_group/',
+                'icon': 'fa fa-tasks'
+            },
+            {
+                'name': '人员',
+                'name_en': 'IGA Staff',
+                'url': '/admin/iga_staff/iga_staff/',
+                'icon': 'fa fa-tasks'
+            },
+            {
+                'name': '办公室',
+                'name_en': 'IGA Office',
+                'url': '/admin/iga_room/iga_room/',
+                'icon': 'fa fa-tasks'
+            },
+
+            {
+                'name': '楼层',
+                'name_en': 'IGA Floor',
+                'url': '/admin/iga_floor/iga_floor/',
+                'icon': 'fa fa-tasks'
+            },
+
+        ]
+    },
 ]
 
 # for app in MENUS:

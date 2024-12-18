@@ -142,4 +142,10 @@ INSTALLED_APPS = [
 
     'yaou_data_categorys.Basic_Geographic_Element',  # 亚欧大陆数据分类
     'public_model.portal_index',  # 各个门户网站首页
+
+    # iga办公室信息
+    'iga.iga_group', # 学科组
+    'iga.iga_room', # 办公室信息
+    'iga.iga_staff', # 人员
+    'iga.iga_floor', # 楼层
 ]

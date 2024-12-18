@@ -210,6 +210,11 @@ urlpatterns = (
 
     path('Basic_Geographic_Element_Category/', include('yaou_data_categorys.Basic_Geographic_Element.urls')), #亚欧大陆分类表
     path('portal_index/', include('public_model.portal_index.urls')), #各个站首页路由
+
+    path('iga_group/', include('iga.iga_group.urls')), #各个站首页路由
+    path('iga_room/', include('iga.iga_room.urls')), #各个站首页路由
+    path('iga_staff/', include('iga.iga_staff.urls')), #各个站首页路由
+    path('iga_floor/', include('iga.iga_floor.urls')), #各个站首页路由
 )
 
 if settings.DEBUG:
