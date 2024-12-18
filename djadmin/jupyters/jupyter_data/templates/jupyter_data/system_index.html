@@ -100,26 +100,26 @@
                         <div class="panel-body">
                             <div class="form-horizontal">
 
-                            <div class="form-group">
-                                <label for="dc_image" class="col-sm-3 control-label">容器镜像</label>
-                                <div class="col-sm-9">
-                                    <select name="dc_image" id="dc_image" class="form-control">
-                                        <option value="">请选择</option>
-                                        <option value="pygis">pygis</option>
-                                        <option value="scipy">scipy</option>
-                                        <option value="julia">julia</option>
-                                        <option value="rlang">rlang</option>
-                                    </select>
+                                <div class="form-group">
+                                    <label for="dc_image" class="col-sm-3 control-label">容器镜像</label>
+                                    <div class="col-sm-9">
+                                        <select name="dc_image" id="dc_image" class="form-control">
+                                            <option value="">请选择</option>
+                                            <option value="pygis">pygis</option>
+                                            <option value="scipy">scipy</option>
+                                            <option value="julia">julia</option>
+                                            <option value="rlang">rlang</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label"></label>
-                                <div class="col-sm-9">
-                                    <button type="submit" class="btn btn-primary btn-sm" onclick="open_dc_system()">
-                                        打开
-                                    </button>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label"></label>
+                                    <div class="col-sm-9">
+                                        <button type="submit" class="btn btn-primary btn-sm" onclick="open_dc_system()">
+                                            打开
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
                             </div>
                         </div>
                     </div>
@@ -199,11 +199,13 @@
             type: 'POST',
             data: {
                 'dc_image': selectedValue,
-                'user':user,
+                'user': user,
             },
 
-            success: function (file_path) {
+            success: function (htmlString) {
 
+                var newWindow = window.open('', '_blank');
+                newWindow.document.write(htmlString);
             }
         });
     }

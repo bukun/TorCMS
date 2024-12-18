@@ -15,6 +15,7 @@ from django.contrib.sites.models import Site
 from django.http import HttpResponse
 from django.contrib.auth.models import AnonymousUser
 from django.http import HttpResponseRedirect
+
 current_site = Site.objects.get_current()
 User = get_user_model()
 from base.models import get_template
@@ -110,9 +111,10 @@ def OpenDCSystem(request):
         }
         url3 = "http://pod.igadc.cn/i/"
         response = requests.post(url3, data=data)
-        print(response.text)
+        # print(response.text)
+        return HttpResponse(response.text)
 
-        return HttpResponseRedirect(f'https://www.baidu.com/')
+
 
 
 # 打开特定文件
@@ -132,8 +134,8 @@ def OpenSystem(request):
         }
         url2 = "http://pod.igadc.cn/t/"
         response = requests.post(url2, data=data)
-        print(response.text)
-        return redirect('https://cms.igadc.cn/')
+        # print(response.text)
+        return HttpResponse(response.text)
 
 
 

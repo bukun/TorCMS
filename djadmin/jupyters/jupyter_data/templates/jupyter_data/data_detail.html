@@ -162,8 +162,10 @@
                 'user': user,
             },
 
-            success: function (file_path) {
+             success: function (htmlString) {
 
+                var newWindow = window.open('', '_blank');
+                newWindow.document.write(htmlString);
             }
         });
     }
