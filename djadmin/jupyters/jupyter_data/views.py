@@ -15,6 +15,7 @@ from django.contrib.sites.models import Site
 from django.http import HttpResponse
 from django.contrib.auth.models import AnonymousUser
 from django.http import HttpResponseRedirect
+from jupyters.jupyter_category.models import JupyterCatagory
 
 current_site = Site.objects.get_current()
 User = get_user_model()
@@ -95,6 +96,22 @@ def SystemIndex(request):
         context = {'data': data_recs, 'parent_template': parent_template}
 
     return render(request, 'jupyter_data/system_index.html', context)
+
+def SystemIndex_v2(request):
+    category_rec = JupyterCatagory.objects.filter(sites__id=current_site.id)
+
+    cat_rec = []
+    for cat in category_rec:
+        data = cat.jupyter_data.filter(sites__id=current_site.id)[:4]
+
+        cat_rec.append({'cat_data': cat_rec,'cat_id': cat.id, 'cat_name': cat.name, 'data': data, 'parent': cat.parent})
+    if str(request.user) == 'AnonymousUser':
+        context = {'cat_data': cat_rec,'parent_template': parent_template}
+    else:
+        data_recs = Jupyter.objects.filter(sites__id=current_site.id, user=request.user)[:8]
+        context = {'cat_data': cat_rec,'data': data_recs, 'parent_template': parent_template}
+
+    return render(request, 'jupyter_data/system_index_v2.html', context)
 
 
 # 打开镜像服务器

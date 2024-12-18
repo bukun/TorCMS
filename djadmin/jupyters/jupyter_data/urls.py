@@ -7,6 +7,7 @@ urlpatterns = [
     path('create/', views.DataList.as_view(), name='data_create'),
     path('index/', views.Index, name='jupyter_index'),
     path('system_index/', views.SystemIndex, name='jupyter_system_index'),
+    path('system_index_v2/', views.SystemIndex_v2, name='jupyter_system_index_v2'),
     path('open_dc_system/', views.OpenDCSystem, name='jupyter_open_dc_system'),
     path('open_system/', views.OpenSystem, name='jupyter_open_system'),
     path('', views.DataList.as_view(), name='data_list'),
