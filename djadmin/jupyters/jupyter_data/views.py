@@ -1,4 +1,5 @@
 import nbformat
+import requests
 from .models import Jupyter
 from rest_framework import generics
 from rest_framework import permissions
@@ -13,7 +14,7 @@ from jupyters.jupyter_category.models import JupyterCatagory
 from django.contrib.sites.models import Site
 from django.http import HttpResponse
 from django.contrib.auth.models import AnonymousUser
-
+from django.http import HttpResponseRedirect
 current_site = Site.objects.get_current()
 User = get_user_model()
 from base.models import get_template
@@ -93,6 +94,47 @@ def SystemIndex(request):
         context = {'data': data_recs, 'parent_template': parent_template}
 
     return render(request, 'jupyter_data/system_index.html', context)
+
+
+# 打开镜像服务器
+def OpenDCSystem(request):
+    if request.method == 'POST':
+        dc_image = request.POST.get('dc_image')
+        user = request.POST.get('user')
+        user_info = User.objects.filter(username=user).first()
+        data = {
+            "image": dc_image,
+            "user": user_info.username,
+            "mach": user_info.jupyter_url,
+            "port": user_info.jupyter_port,
+        }
+        url3 = "http://pod.igadc.cn/i/"
+        response = requests.post(url3, data=data)
+        print(response.text)
+
+        return HttpResponseRedirect(f'https://www.baidu.com/')
+
+
+# 打开特定文件
+def OpenSystem(request):
+    if request.method == 'POST':
+        dc_image = request.POST.get('dc_image')
+        user = request.POST.get('user')
+        file_id = request.POST.get('file_id')
+        user_info = User.objects.filter(username=user).first()
+
+        data = {
+            "image": dc_image,
+            "jufile": file_id,
+            "user": user_info.username,
+            "mach": user_info.jupyter_url,
+            "port": user_info.jupyter_port,
+        }
+        url2 = "http://pod.igadc.cn/t/"
+        response = requests.post(url2, data=data)
+        print(response.text)
+        return redirect('https://cms.igadc.cn/')
+
 
 
 def upload_file(request):

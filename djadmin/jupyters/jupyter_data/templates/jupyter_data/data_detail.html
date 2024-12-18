@@ -1,6 +1,6 @@
 {% extends parent_template %}
 {% block head %}
-    <title>{{ data.title }}</title>
+<title>{{ data.title }}</title>
 <style>
     img {
         max-width: 100%
@@ -8,115 +8,164 @@
 </style>
 {% endblock %}
 {% block mainbody %}
-    <div class="row mt-3">
+<div class="row mt-3">
 
-            <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/">Home</a></li>
-                <li class="breadcrumb-item">
-                    <a href="/jupyter_category/index/"> {{ _('Scientific - Models') }}</a>
-                </li>
-                  <li class="breadcrumb-item active">
-                    Text
-                </li>
-            </ul>
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item">
+            <a href="/jupyter_category/index/"> {{ _('Scientific - Models') }}</a>
+        </li>
+        <li class="breadcrumb-item active">
+            Text
+        </li>
+    </ul>
 
-    </div>
-    <div class="row">
-        <div class="col-sm-9">
+</div>
+<div class="row">
+    <div class="col-sm-9">
 
-                <div class="card-header listinfo_title">
-                   <h3>{{ data.title }}....{{ data.jupyter_port }}</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        {% if data.logo != '' %}
-                            <div class="col-sm-12 bor_bottom ">
-                                <div class="col-sm-6 ">
-                                    <img src="/media/{{ data.logo }}" alt="/media/{{ data.logo }}"
-                                         class="img-thumbnail">
-                                </div>
-                                <div class="col-sm-6">
+        <div class="card-header listinfo_title">
+            <h3>{{ data.title }}....{{ data.jupyter_port }}</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                {% if data.logo != '' %}
+                <div class="col-sm-12 bor_bottom ">
+                    <div class="col-sm-6 ">
+                        <img src="/media/{{ data.logo }}" alt="/media/{{ data.logo }}"
+                             class="img-thumbnail">
+                    </div>
+                    <div class="col-sm-6">
 
-                                    <p><strong>{{ _('Release time') }}：</strong>{{ data.create_time }}</p>
+                        <p><strong>{{ _('Release time') }}：</strong>{{ data.create_time }}</p>
 
-                                    {% if data.file %}
-                                       {% if user.is_authenticated %}
-                                        <p>
-                                            <a class="btn btn-success btn-sm" title="Download JUPYTER Document"
-                                               href="/{{ data.file }}" target="_blank">
-                                                <span class="fa fa-download"> </span>
-                                                {{ _('Download JUPYTER Document') }}</a>
-                                        </p>
-                                    {% endif %}
-                                    {% endif %}
-                                </div>
-
-                            </div>
-
-                        {% else %}
-
-                            <div class="col-sm-12 bor_bottom">
-
-                                <p>
-                                    <strong>{{ _('Release time') }}：</strong>
-                                    <span>{{ data.create_time }}&nbsp;</span> &nbsp;&nbsp;&nbsp;&nbsp;
-                                </p>
-                                {% if data.file %}
-                                 {% if user.is_authenticated %}
-                                    <p>
-                                        <a class="btn btn-success btn-sm" title="Download JUPYTER Document"
-                                           href="/{{ data.file }}" target="_blank">
-                                            <span class="fa fa-download"> </span>
-                                            {{ _('Download JUPYTER Document') }}</a>
-                                    </p>
-                                {% endif %}
-                                {% endif %}
-
-
-                            </div>
+                        {% if data.file %}
+                        {% if user.is_authenticated %}
+                        <p>
+                            <a class="btn btn-success btn-sm" title="Download JUPYTER Document"
+                               href="/{{ data.file }}" target="_blank">
+                                <span class="fa fa-download"> </span>
+                                {{ _('Download JUPYTER Document') }}</a>
+                        </p>
                         {% endif %}
-
+                        {% endif %}
                     </div>
 
-                    <div class="col-sm-12  bor_bottom">
-
-                        {{ data.get_html_content | safe }}
-                    </div>
-
-
-                    <div class="panel-footer">
-                        <div class="row">
-                            <div class="col-md-12"
-                                 style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap; display: block;">
-
-                                {{ _('Article link') }}： <a class="text-primary" href="{% url 'jupyter_data:data_view' data.id %}"
-
-                                                            title="{{ data.title }}">{{ data.title }}</a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
+
+                {% else %}
+
+                <div class="col-sm-12 bor_bottom">
+
+                    <p>
+                        <strong>{{ _('Release time') }}：</strong>
+                        <span>{{ data.create_time }}&nbsp;</span> &nbsp;&nbsp;&nbsp;&nbsp;
+                    </p>
+                    {% if data.file %}
+                    {% if user.is_authenticated %}
+                    <p>
+                        <a class="btn btn-success btn-sm" title="Download JUPYTER Document"
+                           href="/{{ data.file }}" target="_blank">
+                            <span class="fa fa-download"> </span>
+                            {{ _('Download JUPYTER Document') }}</a>
+                    </p>
+                    {% endif %}
+                    {% endif %}
+
+
+                </div>
+                {% endif %}
 
             </div>
 
+            <div class="col-sm-12  bor_bottom">
+
+                {{ data.get_html_content | safe }}
+            </div>
 
 
-        <div class="col-sm-3">
-  {% if data.dc_image and data.file_id %}
-        <div class="panel panel-primary">
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12"
+                         style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap; display: block;">
 
-            <a href="http://pod.igadc.cn/t/{{data.dc_image}}/{{data.file_id}}/sd"
-               target="_blank">
-                <p><img src="https://cms.igadc.cn/media/images/jupyter_nvCs0bS.original.png" class="img-responsive"></p>
-                <p style="text-align: center;font-weight: bold;">{{ _('Open the online experimental environment') }}</p>
-            </a>
+                        {{ _('Article link') }}： <a class="text-primary"
+                                                    href="{% url 'jupyter_data:data_view' data.id %}"
 
+                                                    title="{{ data.title }}">{{ data.title }}</a>
+                    </div>
+                </div>
+            </div>
         </div>
+
+    </div>
+
+
+    <div class="col-sm-3">
+        {% if data.dc_image and data.file_id %}
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                打开在线实验环境
+            </div>
+            <div class="panel-body">
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <div class="col-sm-12">容器镜像</div>
+                    </div>
+                     <div class="form-group">
+                        <div class="col-sm-12">
+                            <select name="dc_image" id="dc_image" class="form-control">
+                                <option value="">请选择</option>
+                                <option value="pygis">pygis</option>
+                                <option value="scipy">scipy</option>
+                                <option value="julia">julia</option>
+                                <option value="rlang">rlang</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-primary btn-sm" onclick="open_system()">
+                                打开
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         {% endif %}
 
-            {% include "yj_catalog_of.html" with Category=Category order=False link_url='jupyter_category' data_name='Scientific - Model' %}
+        {% include "yj_catalog_of.html" with Category=Category order=False link_url='jupyter_category' data_name='Scientific - Model' %}
 
 
-        </div>
     </div>
+</div>
+<script type="text/javascript">
+    function open_system() {
+        var selectedValue = $("#dc_image").val();
+        var user = "{{ user.username }}";
+        var file_id = "{{ data.file_id }}";
+        // 使用返回的CSRF token设置全局AJAX请求的header
+        $.ajaxSetup({
+            data: {csrfmiddlewaretoken: '{{ csrf_token }}'},
+        });
+        $.ajax({
+            url: '/jupyter_data/open_system/',
+            type: 'POST',
+            data: {
+                'dc_image': selectedValue,
+                'jufile': file_id,
+                'user': user,
+            },
+
+            success: function (file_path) {
+
+            }
+        });
+    }
+</script>
 {% endblock %}

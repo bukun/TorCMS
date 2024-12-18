@@ -49,7 +49,7 @@ class myuser(AbstractUser):
 
     def save(self, *args, **kwargs):
         super(myuser, self).save(*args, **kwargs)
- 
+
         while True:
             random_number = random.randint(10000, 65535)
             try:
