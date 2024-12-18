@@ -127,9 +127,17 @@ def OpenDCSystem(request):
             "port": user_info.jupyter_port,
         }
         url3 = "http://pod.igadc.cn/i/"
-        response = requests.post(url3, data=data)
+
+        from django.http import HttpResponseRedirect
+
+        print(url3)
+        return HttpResponseRedirect(url3)
+
+        # return redirect()
+        # return redirect(url3, data=data)
+        # response = requests.post(url3, data=data)
         # print(response.text)
-        return HttpResponse(response.text)
+        # return HttpResponse(response.text)
 
 
 
