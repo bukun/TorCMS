@@ -110,25 +110,14 @@
             </div>
             <div class="panel-body">
                 <div class="form-horizontal">
-
                     <div class="form-group">
-                        <div class="col-sm-12">容器镜像</div>
-                    </div>
-                     <div class="form-group">
                         <div class="col-sm-12">
-                            <select name="dc_image" id="dc_image" class="form-control">
-                                <option value="pygis">pygis</option>
-                                <option value="scipy">scipy</option>
-                                <option value="julia">julia</option>
-                                <option value="rlang">rlang</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
 
-                        <div class="col-sm-12">
-                            <button type="submit" class="btn btn-primary btn-sm" onclick="open_system()">
-                                打开
+                            <a class="btn btn-primary btn-sm" href="http://pod.igadc.cn/t/{{data.dc_image}}/{{ data.file_id }}/sd">
+                                GET方式打开
+                            </a>
+                                <button type="submit" class="btn btn-primary btn-sm" onclick="open_system()">
+                                POST方式打开
                             </button>
                         </div>
                     </div>
@@ -145,9 +134,9 @@
 </div>
 <script type="text/javascript">
     function open_system() {
-        var selectedValue = $("#dc_image").val();
         var user = "{{ user.username }}";
         var file_id = "{{ data.file_id }}";
+        var dc_image = "{{ data.dc_image }}";
         // 使用返回的CSRF token设置全局AJAX请求的header
         $.ajaxSetup({
             data: {csrfmiddlewaretoken: '{{ csrf_token }}'},
@@ -156,7 +145,7 @@
             url: '/jupyter_data/open_system/',
             type: 'POST',
             data: {
-                'dc_image': selectedValue,
+                'dc_image': dc_image,
                 'jufile': file_id,
                 'user': user,
             },

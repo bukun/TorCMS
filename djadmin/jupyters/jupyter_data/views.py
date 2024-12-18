@@ -89,11 +89,19 @@ def Index(request):
 
 
 def SystemIndex(request):
+    category_rec = JupyterCatagory.objects.filter(sites__id=current_site.id)
+
+    cat_rec = []
+    for cat in category_rec:
+        data = cat.jupyter_data.filter(sites__id=current_site.id)[:4]
+
+        cat_rec.append(
+            {'cat_data': cat_rec, 'cat_id': cat.id, 'cat_name': cat.name, 'data': data, 'parent': cat.parent})
     if str(request.user) == 'AnonymousUser':
-        context = {'parent_template': parent_template}
+        context = {'cat_data': cat_rec,'parent_template': parent_template}
     else:
         data_recs = Jupyter.objects.filter(sites__id=current_site.id, user=request.user)[:8]
-        context = {'data': data_recs, 'parent_template': parent_template}
+        context = {'cat_data': cat_rec,'data': data_recs, 'parent_template': parent_template}
 
     return render(request, 'jupyter_data/system_index.html', context)
 
