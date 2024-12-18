@@ -111,39 +111,49 @@
                 </div>
                 <div class="card-body">
 
-                    <h2><span class="fa ">① </span> 直接打开</h2>
+
+                    <h2><span class="fa ">① </span> 选择镜像打开</h2>
+
+
+                        <div class="mb-3 mt-3">
+                            <div class="col-sm-12">容器镜像</div>
+                        </div>
+                      <div class="mb-3 mt-3">
+                            <div class="col-sm-12">
+                                <form action="http://pod.igadc.cn/t/" method="post" enctype="multipart/form-data">
+
+                                <input type="hidden" name="user" value="{{ user.username }}">
+                                <input type="hidden" name="mach" value="{{ user.jupyter_url }}">
+                                <input type="hidden" name="port" value="{{ user.jupyter_port }}">
+
+                                <select name="image" id="image" class="form-select">
+                                    <option value="pygis">pygis</option>
+                                    <option value="scipy">scipy</option>
+                                    <option value="julia">julia</option>
+                                    <option value="rlang">rlang</option>
+
+                                </select>
+<br>
+                                     <button type="submit" class="btn btn-primary btn-sm">
+                                    打开
+                                </button>
+                                </form>
+                            </div>
+
+                        </div>
+    <br><br>
+
+
+                     <h2><span class="fa ">② </span> GET方式打开</h2>
                     <p>
                         <a href="http://pod.igadc.cn/i/{{ user.username }}/bio" target="_blank" class="btn btn-primary btn-sm">
                             <!--                                        <p><img src="https://cms.igadc.cn/media/images/jupyter_nvCs0bS.original.png"-->
                             <!--                                                class="img-responsive"></p>-->
 
-                            打开在线实验环境
+                            打开
                         </a>
                     </p>
-                    <br><br>
-                    <h2><span class="fa ">② </span> 选择镜像打开</h2>
 
-
-                        <div class="mb-3 mt-3">
-                            <div class="col-sm-10">容器镜像</div>
-                            <div class="col-sm-10">
-                                <select name="dc_image" id="dc_image" class="form-select">
-                                    <option value="pygis">pygis</option>
-                                    <option value="scipy">scipy</option>
-                                    <option value="julia">julia</option>
-                                    <option value="rlang">rlang</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="mb-3 mt-3">
-                            <div class="col-sm-2"></div>
-                            <div class="col-sm-10">
-                                <button type="submit" class="btn btn-primary btn-sm" onclick="open_dc_system()">
-                                    打开
-                                </button>
-                            </div>
-                        </div>
 
                 </div>
             </div>

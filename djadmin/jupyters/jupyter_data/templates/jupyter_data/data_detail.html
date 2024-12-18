@@ -116,9 +116,24 @@
                             <a class="btn btn-primary btn-sm" href="http://pod.igadc.cn/t/{{data.dc_image}}/{{ data.file_id }}/sd">
                                 GET方式打开
                             </a>
-                                <button type="submit" class="btn btn-primary btn-sm" onclick="open_system()">
-                                POST方式打开
-                            </button>
+
+
+
+                                    <form action="http://pod.igadc.cn/t/" method="post" enctype="multipart/form-data">
+
+                                <input type="hidden" name="user" value="{{ user.username }}">
+                                <input type="hidden" name="mach" value="{{ user.jupyter_url }}">
+                                <input type="hidden" name="port" value="{{ user.jupyter_port }}">
+                                <input type="hidden" name="image" value="{{ data.dc_image }}">
+                                <input type="hidden" name="jufile" value="{{ data.file_id }}">
+
+
+<br>
+                                     <button type="submit" class="btn btn-primary btn-sm">
+                                    POST方式打开
+                                </button>
+                                </form>
+
                         </div>
                     </div>
                 </div>
