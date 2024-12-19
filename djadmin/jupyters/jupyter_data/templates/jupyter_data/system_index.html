@@ -100,6 +100,65 @@
 
     <div class="row">
         <div class="col-lg-8 col-md-8 col-xs-12">
+              <div class="row">
+                <div class="col-lg-6 col-md-6 col-xs-12">
+                    <h3 class="cent"><span class="fa fa-home"></span> <a>介绍</a></h3>
+
+
+                    <div class="news-gridtext">
+                        <div class="news-w3imgtext">
+                            <p>在数据科学、机器学习及深度学习的领域里，Jupyter
+                                无疑是一个强大的工具，它集成了代码编写、可视化展示、文档记录等多种功能于一体，让科学计算变得既直观又高效。
+                                Jupyter 是一款开源的网络应用，可以将其用于创建和共享代码与文档。其提供了一个环境，可以在其中编写你的代码、运行代码、查看输出、可视化数据并查看结果。
+                                因此，这是一款可执行的端到端数据科学工作流程便捷工具，可以辅助完成包括数据清理、统计建模、构建和训练机器学习模型、可视化数据等等科学计算任务。</p>
+                            <p>随着数据科学和人工智能领域的不断发展，Jupyter 也在不断更新和完善其功能和性 能。
+                                未来可以期待看到更多创新的特性和工具被加入到 Jupyter
+                                中，从而进一步推动科学计算和数据分析的发展。作为科研工作者应该保持对新技术和新工具的关注和学习态度，不断提升自己的技能和竞争力。
+                            </p>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-xs-12">
+
+                    <h3 class="cent"><span class="fa fa-star"></span> <a>平台内核</a></h3>
+
+
+                    <div class="news-gridtext">
+                        <div class="news-w3imgtext">
+                            <p>
+                                目前平台提供如下三种内核供运行使用。后期会根据需求增加公用内核，及内核中的默认类库。
+                            </p>
+
+                            <ul>
+                                <li>Python 3.11 [系统]</li>
+                                <li>Python 3.12 [Conda]</li>
+                                <li>R 4.4 [Conda]</li>
+                            </ul>
+
+
+                        </div>
+                    </div>
+                    <br><br>
+                    <h3 class="cent"><span class="fa fa-exclamation-circle"></span> <a>注意事项</a></h3>
+
+
+                    <div class="news-gridtext">
+                        <div class="news-w3imgtext">
+                            <ul>
+                                <li>平台使用Jupyter技术搭建，使用科技云通行证进行认证。平台的登陆认证使用研究所邮箱。</li>
+                                <li>目前平台限研究所内部网络访问，无法通过外网访问。</li>
+                                <li>使用提供一定数量的硬盘空间存储供用户使用。目前限制为 500M 。</li>
+                            </ul>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br><br>
             {% if user.is_authenticated %}
             <div class="row">
                 <div class="col-sm-12">
@@ -312,64 +371,64 @@
 
             {% endif %}
             <br><br>
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-xs-12">
-                    <h3 class="cent"><span class="fa fa-home"></span> <a>介绍</a></h3>
+<!--            <div class="row">-->
+<!--                <div class="col-lg-12 col-md-12 col-xs-12">-->
+<!--                    <h3 class="cent"><span class="fa fa-home"></span> <a>介绍</a></h3>-->
 
 
-                    <div class="news-gridtext">
-                        <div class="news-w3imgtext">
-                            <p>在数据科学、机器学习及深度学习的领域里，Jupyter
-                                无疑是一个强大的工具，它集成了代码编写、可视化展示、文档记录等多种功能于一体，让科学计算变得既直观又高效。
-                                Jupyter 是一款开源的网络应用，可以将其用于创建和共享代码与文档。其提供了一个环境，可以在其中编写你的代码、运行代码、查看输出、可视化数据并查看结果。
-                                因此，这是一款可执行的端到端数据科学工作流程便捷工具，可以辅助完成包括数据清理、统计建模、构建和训练机器学习模型、可视化数据等等科学计算任务。</p>
-                            <p>随着数据科学和人工智能领域的不断发展，Jupyter 也在不断更新和完善其功能和性 能。
-                                未来可以期待看到更多创新的特性和工具被加入到 Jupyter
-                                中，从而进一步推动科学计算和数据分析的发展。作为科研工作者应该保持对新技术和新工具的关注和学习态度，不断提升自己的技能和竞争力。
-                            </p>
+<!--                    <div class="news-gridtext">-->
+<!--                        <div class="news-w3imgtext">-->
+<!--                            <p>在数据科学、机器学习及深度学习的领域里，Jupyter-->
+<!--                                无疑是一个强大的工具，它集成了代码编写、可视化展示、文档记录等多种功能于一体，让科学计算变得既直观又高效。-->
+<!--                                Jupyter 是一款开源的网络应用，可以将其用于创建和共享代码与文档。其提供了一个环境，可以在其中编写你的代码、运行代码、查看输出、可视化数据并查看结果。-->
+<!--                                因此，这是一款可执行的端到端数据科学工作流程便捷工具，可以辅助完成包括数据清理、统计建模、构建和训练机器学习模型、可视化数据等等科学计算任务。</p>-->
+<!--                            <p>随着数据科学和人工智能领域的不断发展，Jupyter 也在不断更新和完善其功能和性 能。-->
+<!--                                未来可以期待看到更多创新的特性和工具被加入到 Jupyter-->
+<!--                                中，从而进一步推动科学计算和数据分析的发展。作为科研工作者应该保持对新技术和新工具的关注和学习态度，不断提升自己的技能和竞争力。-->
+<!--                            </p>-->
 
 
-                        </div>
-                    </div>
-                </div>
-                <br><br>
-                <div class="col-lg-12 col-md-12 col-xs-12">
-                    <br><br>
-                    <h3 class="cent"><span class="fa fa-star"></span> <a>平台内核</a></h3>
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <br><br>-->
+<!--                <div class="col-lg-12 col-md-12 col-xs-12">-->
+<!--                    <br><br>-->
+<!--                    <h3 class="cent"><span class="fa fa-star"></span> <a>平台内核</a></h3>-->
 
 
-                    <div class="news-gridtext">
-                        <div class="news-w3imgtext">
-                            <p>
-                                目前平台提供如下三种内核供运行使用。后期会根据需求增加公用内核，及内核中的默认类库。
-                            </p>
+<!--                    <div class="news-gridtext">-->
+<!--                        <div class="news-w3imgtext">-->
+<!--                            <p>-->
+<!--                                目前平台提供如下三种内核供运行使用。后期会根据需求增加公用内核，及内核中的默认类库。-->
+<!--                            </p>-->
 
-                            <ul>
-                                <li>Python 3.11 [系统]</li>
-                                <li>Python 3.12 [Conda]</li>
-                                <li>R 4.4 [Conda]</li>
-                            </ul>
-
-
-                        </div>
-                    </div>
-                    <br><br>
-                    <h3 class="cent"><span class="fa fa-exclamation-circle"></span> <a>注意事项</a></h3>
+<!--                            <ul>-->
+<!--                                <li>Python 3.11 [系统]</li>-->
+<!--                                <li>Python 3.12 [Conda]</li>-->
+<!--                                <li>R 4.4 [Conda]</li>-->
+<!--                            </ul>-->
 
 
-                    <div class="news-gridtext">
-                        <div class="news-w3imgtext">
-                            <ul>
-                                <li>平台使用Jupyter技术搭建，使用科技云通行证进行认证。平台的登陆认证使用研究所邮箱。</li>
-                                <li>目前平台限研究所内部网络访问，无法通过外网访问。</li>
-                                <li>使用提供一定数量的硬盘空间存储供用户使用。目前限制为 500M 。</li>
-                            </ul>
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <br><br>-->
+<!--                    <h3 class="cent"><span class="fa fa-exclamation-circle"></span> <a>注意事项</a></h3>-->
 
 
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!--                    <div class="news-gridtext">-->
+<!--                        <div class="news-w3imgtext">-->
+<!--                            <ul>-->
+<!--                                <li>平台使用Jupyter技术搭建，使用科技云通行证进行认证。平台的登陆认证使用研究所邮箱。</li>-->
+<!--                                <li>目前平台限研究所内部网络访问，无法通过外网访问。</li>-->
+<!--                                <li>使用提供一定数量的硬盘空间存储供用户使用。目前限制为 500M 。</li>-->
+<!--                            </ul>-->
+
+
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
         </div>
 
 
