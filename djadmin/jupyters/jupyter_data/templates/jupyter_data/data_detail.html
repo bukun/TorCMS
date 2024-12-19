@@ -105,14 +105,25 @@
         <div class="card">
                         <div class="card-header">我的信息</div>
                         <div class="card-body">
-                            <p>用户名：<a href="/users/profile/"> <span class="fa fa-user"></span>
-                                {{ user.username }}</a></p>
-                            <p>服务器：{{ user.jupyter_url }}</p>
-                            <p>端口：{{ user.jupyter_port }}</p>
-
-                            <p><a class="nav-link" href="{% url 'users:logout' %}"><span class="fa fa-sign-out"></span>
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    用户名：<a href="/users/profile/"> <span class="fa fa-user"></span>
+                                {{ user.username }}</a>
+                                </li>
+                                <li class="list-group-item">
+                                    服务器：{{ user.jupyter_url }}
+                                </li>
+                                  <li class="list-group-item">
+                                    端口：{{ user.jupyter_port }}
+                                </li>
+                                <li class="list-group-item">
+                                   <a class="nav-link" href="{% url 'users:logout' %}"><span class="fa fa-sign-out"></span>
                                 Logout
-                            </a></p>
+                            </a>
+                                </li>
+
+                            </ul>
+                             
                         </div>
                     </div>
                     <br>
