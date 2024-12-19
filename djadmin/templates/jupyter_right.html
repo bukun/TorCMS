@@ -33,15 +33,15 @@
 
         <div class="card">
             <div class="card-header">
-                打开在线实验环境
+                个人工作空间
             </div>
             <div class="card-body">
 
-                <span class="fa ">① </span> 选择镜像打开
+                <span class="fa "></span> 选择镜像：
 
                 <div class="mb-3 mt-3">
                     <div class="row">
-                        <div class="col-sm-2">
+                        <div class="col-sm-6">
                             <form action="https://pod.igadc.cn/i/" method="post"
                                   enctype="multipart/form-data"
                                   target="_blank">
@@ -52,11 +52,11 @@
                                 <input type="hidden" name="image" value="pygis">
 
                                 <button type="submit" class="btn btn-primary btn-sm">
-                                    pygis
+                                    Python与开源GIS
                                 </button>
                             </form>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-6">
                             <form action="https://pod.igadc.cn/i/" method="post"
                                   enctype="multipart/form-data"
                                   target="_blank">
@@ -67,11 +67,12 @@
                                 <input type="hidden" name="image" value="scipy">
 
                                 <button type="submit" class="btn btn-primary btn-sm">
-                                    scipy
+                                    Python科学计算
                                 </button>
                             </form>
                         </div>
-                        <div class="col-sm-2">
+                        <p />
+                        <div class="col-sm-6">
                             <form action="https://pod.igadc.cn/i/" method="post"
                                   enctype="multipart/form-data"
                                   target="_blank">
@@ -82,11 +83,11 @@
                                 <input type="hidden" name="image" value="julia">
 
                                 <button type="submit" class="btn btn-primary btn-sm">
-                                    julia
+                                    Julia语言
                                 </button>
                             </form>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-6">
                             <form action="https://pod.igadc.cn/i/" method="post"
                                   enctype="multipart/form-data"
                                   target="_blank">
@@ -97,45 +98,27 @@
                                 <input type="hidden" name="image" value="rlang">
 
                                 <button type="submit" class="btn btn-primary btn-sm">
-                                    rlang
+                                    R语言
                                 </button>
                             </form>
                         </div>
                     </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <form action="https://pod.igadc.cn/i/" method="post"
-                                  enctype="multipart/form-data"
-                                  target="_blank">
 
-                                <input type="hidden" name="user" value="{{ user.username }}">
-                                <input type="hidden" name="mach" value="{{ user.jupyter_url }}">
-                                <input type="hidden" name="port" value="{{ user.jupyter_port }}">
-                                <input type="hidden" name="image" value="ubu">
-
-                                <button type="submit" class="btn btn-primary btn-sm">
-                                    Ubuntu System
-                                </button>
-                            </form>
-                        </div>
-
-                    </div>
 
                 </div>
                 <br><br>
 
 
-                <span class="fa ">② </span> GET方式打开
-                <div class="mb-3 mt-3">
-                    <p>
-                        <a href="http://pod.igadc.cn/i/{{ user.username }}/bio" target="_blank"
-                           class="btn btn-primary btn-sm">
-
-                            打开
-                        </a>
-                    </p>
-                </div>
+{#                <span class="fa ">② </span> GET方式打开#}
+{#                <div class="mb-3 mt-3">#}
+{#                    <p>#}
+{#                        <a href="http://pod.igadc.cn/i/{{ user.username }}/bio" target="_blank"#}
+{#                           class="btn btn-primary btn-sm">#}
+{##}
+{#                            打开#}
+{#                        </a>#}
+{#                    </p>#}
+{#                </div>#}
 
             </div>
         </div>
@@ -150,7 +133,7 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="card">
-            <div class="card-header">我的数据列表</div>
+            <div class="card-header">最近运行</div>
 
             <ul class="list-group">
                 {% for dat in my_data %}
