@@ -92,223 +92,271 @@
 
         <div class="col-sm-12">
 
-            <h1 style="text-align: center;padding: 40px 0 20px 0">
+            <h1 style="text-align: center;padding: 50px 0 60px 0">
                 科学计算模型在线研究协作系统</h1>
 
         </div>
     </div>
 
-
-    {% if user.is_authenticated %}
-
     <div class="row">
-        <div class="col-lg-6 col-md-6 col-xs-12">
+        <div class="col-lg-8 col-md-8 col-xs-12">
 
-
-            <div class="card">
-                <div class="card-header">
-                    打开在线实验环境
+            <div class="row">
+                <div class="col-sm-12">
+                    {% include "./sys_jupyter_list.html" with cat_data=cat_data %}
                 </div>
-                <div class="card-body">
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-xs-12">
+            {% if user.is_authenticated %}
 
 
-                    <h2><span class="fa ">① </span> 选择镜像打开</h2>
+            <div class="row">
 
+                <div class="col-lg-12 col-md-12 col-xs-12">
+                    <div class="card">
+                        <div class="card-header">我的信息</div>
+                        <div class="card-body">
+                            <p>用户名：<a href="/users/profile/"> <span class="fa fa-user"></span>
+                                {{ user.username }}</a></p>
+                            <p>服务器：{{ user.jupyter_url }}</p>
+                            <p>端口：{{ user.jupyter_port }}</p>
 
-                        <div class="mb-3 mt-3">
-                            <div class="col-sm-12">容器镜像</div>
+                            <p><a class="nav-link" href="{% url 'users:logout' %}"><span class="fa fa-sign-out"></span>
+                                Logout
+                            </a></p>
                         </div>
-                      <div class="mb-3 mt-3">
-                            <div class="col-sm-12">
-                                <form action="https://pod.igadc.cn/i/" method="post" enctype="multipart/form-data" target="_blank">
-
-                                <input type="hidden" name="user" value="{{ user.username }}">
-                                <input type="hidden" name="mach" value="{{ user.jupyter_url }}">
-                                <input type="hidden" name="port" value="{{ user.jupyter_port }}">
-
-                                <select name="image" id="image" class="form-select">
-                                    <option value="pygis">pygis</option>
-                                    <option value="scipy">scipy</option>
-                                    <option value="julia">julia</option>
-                                    <option value="rlang">rlang</option>
-				<option value="ubu">Ubuntu System</option>
+                    </div>
+                    <br>
 
 
+                    <div class="card">
+                        <div class="card-header">
+                            打开在线实验环境
+                        </div>
+                        <div class="card-body">
 
-                                </select>
-<br>
-                                     <button type="submit" class="btn btn-primary btn-sm">
-                                    打开
-                                </button>
-                                </form>
+                            <h2><span class="fa ">① </span> 选择镜像打开</h2>
+
+                            <div class="mb-3 mt-3">
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                    <form action="https://pod.igadc.cn/i/" method="post" enctype="multipart/form-data"
+                                          target="_blank">
+
+                                        <input type="hidden" name="user" value="{{ user.username }}">
+                                        <input type="hidden" name="mach" value="{{ user.jupyter_url }}">
+                                        <input type="hidden" name="port" value="{{ user.jupyter_port }}">
+                                        <input type="hidden" name="pygis" value="pygis">
+
+                                        <button type="submit" class="btn btn-primary btn-sm">
+                                            pygis
+                                        </button>
+                                    </form>
+                                    </div>
+                                    <div class="col-sm-2">
+                                      <form action="https://pod.igadc.cn/i/" method="post" enctype="multipart/form-data"
+                                          target="_blank">
+
+                                        <input type="hidden" name="user" value="{{ user.username }}">
+                                        <input type="hidden" name="mach" value="{{ user.jupyter_url }}">
+                                        <input type="hidden" name="port" value="{{ user.jupyter_port }}">
+                                        <input type="hidden" name="scipy" value="scipy">
+
+                                        <button type="submit" class="btn btn-primary btn-sm">
+                                            scipy
+                                        </button>
+                                    </form>
+                                         </div>
+                                    <div class="col-sm-2">
+                                      <form action="https://pod.igadc.cn/i/" method="post" enctype="multipart/form-data"
+                                          target="_blank">
+
+                                        <input type="hidden" name="user" value="{{ user.username }}">
+                                        <input type="hidden" name="mach" value="{{ user.jupyter_url }}">
+                                        <input type="hidden" name="port" value="{{ user.jupyter_port }}">
+                                        <input type="hidden" name="julia" value="julia">
+
+                                        <button type="submit" class="btn btn-primary btn-sm">
+                                            julia
+                                        </button>
+                                    </form>
+                                         </div>
+                                    <div class="col-sm-2">
+                                    <form action="https://pod.igadc.cn/i/" method="post" enctype="multipart/form-data"
+                                          target="_blank">
+
+                                        <input type="hidden" name="user" value="{{ user.username }}">
+                                        <input type="hidden" name="mach" value="{{ user.jupyter_url }}">
+                                        <input type="hidden" name="port" value="{{ user.jupyter_port }}">
+                                        <input type="hidden" name="rlang" value="rlang">
+
+                                        <button type="submit" class="btn btn-primary btn-sm">
+                                            rlang
+                                        </button>
+                                    </form>
+                                         </div>
+                                </div>
+                                <br>
+                                   <div class="row">
+                                    <div class="col-sm-6">
+                                       <form action="https://pod.igadc.cn/i/" method="post" enctype="multipart/form-data"
+                                          target="_blank">
+
+                                        <input type="hidden" name="user" value="{{ user.username }}">
+                                        <input type="hidden" name="mach" value="{{ user.jupyter_url }}">
+                                        <input type="hidden" name="port" value="{{ user.jupyter_port }}">
+                                        <input type="hidden" name="ubu" value="ubu">
+
+                                        <button type="submit" class="btn btn-primary btn-sm">
+                                            Ubuntu System
+                                        </button>
+                                    </form>
+                                    </div>
+
+                                </div>
+
                             </div>
-
-                        </div>
-    <br><br>
+                            <br><br>
 
 
-                     <h2><span class="fa ">② </span> GET方式打开</h2>
-                    <p>
-                        <a href="http://pod.igadc.cn/i/{{ user.username }}/bio" target="_blank" class="btn btn-primary btn-sm">
-                            <!--                                        <p><img src="https://cms.igadc.cn/media/images/jupyter_nvCs0bS.original.png"-->
-                            <!--                                                class="img-responsive"></p>-->
+                            <h2><span class="fa ">② </span> GET方式打开</h2>
+                            <p>
+                                <a href="http://pod.igadc.cn/i/{{ user.username }}/bio" target="_blank"
+                                   class="btn btn-primary btn-sm">
+                                    <!--                                        <p><img src="https://cms.igadc.cn/media/images/jupyter_nvCs0bS.original.png"-->
+                                    <!--                                                class="img-responsive"></p>-->
 
-                            打开
-                        </a>
-                    </p>
-
-
-                </div>
-            </div>
-
-
-        </div>
-
-        <div class="col-lg-6 col-md-6 col-xs-12">
-            <div class="card">
-            <div class="card-header">我的信息</div>
-            <div class="card-body">
-                <p>用户名：<a href="/users/profile/"> <span class="fa fa-user"></span> {{ user.username }}</a></p>
-                <p>服务器：{{ user.jupyter_url }}</p>
-                <p>端口：{{ user.jupyter_port }}</p>
-
-                <p><a class="nav-link" href="{% url 'users:logout' %}"><span class="fa fa-sign-out"></span>
-                    Logout
-                </a></p>
-            </div>
-                </div>
-            <br><br>
-
-
-            <div class="card-header">我的数据列表</div>
-            <ul class="list-group">
-                {% for dat in data %}
-                <li class="list-group-item">
-                    <a href="{% url 'jupyter_data:data_view' dataid=dat.id %}">
-                        <span class="fa fa-file-text-o"></span> {{ dat.title }}
-                    </a>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-    <br><br>
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-xs-12">
-
-            {% include "./sys_jupyter_list.html" with cat_data=cat_data %}
-
-        </div>
-    </div>
-    {% else %}
-    <div class="row">
-        <div class="col-lg-6 col-md-6 col-xs-12">
-            <div class="news-gridtext">
-                <div class="news-w3imgtext">
-                    <h2><span class="fa ">① </span> 阅读使用手册</h2>
-                    <br>
-                    <p>平台的登录与使用，请参考
-                        <a href="http://jupyter-handbook.igadc.cn/" target="_blank" class="btn btn-info btn-xs">
-                            《用户使用手册》</a>
-                    </p>
-                    <br>
-
-
-                    <h2><span class="fa">② </span> 登记用户账号</h2>
-                    <br>
-                    <p>
-                        若尚未开通科学计算平台使用权限，请<a href="http://apply-jupyter.igadc.cn"
-                                                            class="btn btn-info btn-xs">登记用户账号</a>。
-                    </p>
-                    <br>
-
-                    <div id="login-main" class="container">
-
-                        <h2><span class="fa">③ </span> 登陆 </h2>
-                        <br>
-                        <div>
-                            <p id='insecure-login-warning' class='hidden'>
-                                Warning: JupyterHub seems to be served over an unsecured HTTP
-                                connection.
-                                We strongly recommend enabling HTTPS for JupyterHub.
+                                    打开
+                                </a>
                             </p>
-                            <a role="button" class='btn btn-warning btn-lg' href="{% url 'users:login' %}">
-                                Sign in </a>
+
 
                         </div>
                     </div>
+                    <br>
+                    <div class="card-header">我的数据列表</div>
+                    <ul class="list-group">
+                        {% for dat in data %}
+                        <li class="list-group-item">
+                            <a href="{% url 'jupyter_data:data_view' dataid=dat.id %}">
+                                <span class="fa fa-file-text-o"></span> {{ dat.title }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <br>
 
+                </div>
+
+            </div>
+
+            {% else %}
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-xs-12">
+                    <div class="news-gridtext">
+                        <div class="news-w3imgtext">
+                            <h2><span class="fa ">① </span> 阅读使用手册</h2>
+                            <br>
+                            <p>平台的登录与使用，请参考
+                                <a href="http://jupyter-handbook.igadc.cn/" target="_blank" class="btn btn-info btn-xs">
+                                    《用户使用手册》</a>
+                            </p>
+                            <br>
+
+
+                            <h2><span class="fa">② </span> 注册用户账号</h2>
+                            <br>
+                            <p>
+                                若尚未开通科学计算平台使用权限，请<a href="{% url 'users:register' %}"
+                                                                    class="btn btn-info btn-xs">注册用户账号</a>。
+                            </p>
+                            <br>
+
+                            <div id="login-main" class="container">
+
+                                <h2><span class="fa">③ </span> 登陆 </h2>
+                                <br>
+                                <div>
+
+                                    <a role="button" class='btn btn-warning btn-xs' href="{% url 'users:login' %}">
+                                        登陆 </a>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            {% endif %}
+            <br><br>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-xs-12">
+                    <h3 class="cent"><span class="fa fa-home"></span> <a>介绍</a></h3>
+
+
+                    <div class="news-gridtext">
+                        <div class="news-w3imgtext">
+                            <p>在数据科学、机器学习及深度学习的领域里，Jupyter
+                                无疑是一个强大的工具，它集成了代码编写、可视化展示、文档记录等多种功能于一体，让科学计算变得既直观又高效。
+                                Jupyter 是一款开源的网络应用，可以将其用于创建和共享代码与文档。其提供了一个环境，可以在其中编写你的代码、运行代码、查看输出、可视化数据并查看结果。
+                                因此，这是一款可执行的端到端数据科学工作流程便捷工具，可以辅助完成包括数据清理、统计建模、构建和训练机器学习模型、可视化数据等等科学计算任务。</p>
+                            <p>随着数据科学和人工智能领域的不断发展，Jupyter 也在不断更新和完善其功能和性 能。
+                                未来可以期待看到更多创新的特性和工具被加入到 Jupyter
+                                中，从而进一步推动科学计算和数据分析的发展。作为科研工作者应该保持对新技术和新工具的关注和学习态度，不断提升自己的技能和竞争力。
+                            </p>
+
+
+                        </div>
+                    </div>
+                </div>
+                <br><br>
+                <div class="col-lg-12 col-md-12 col-xs-12">
+                    <br><br>
+                    <h3 class="cent"><span class="fa fa-star"></span> <a>平台内核</a></h3>
+
+
+                    <div class="news-gridtext">
+                        <div class="news-w3imgtext">
+                            <p>
+                                目前平台提供如下三种内核供运行使用。后期会根据需求增加公用内核，及内核中的默认类库。
+                            </p>
+
+                            <ul>
+                                <li>Python 3.11 [系统]</li>
+                                <li>Python 3.12 [Conda]</li>
+                                <li>R 4.4 [Conda]</li>
+                            </ul>
+
+
+                        </div>
+                    </div>
+                    <br><br>
+                    <h3 class="cent"><span class="fa fa-exclamation-circle"></span> <a>注意事项</a></h3>
+
+
+                    <div class="news-gridtext">
+                        <div class="news-w3imgtext">
+                            <ul>
+                                <li>平台使用Jupyter技术搭建，使用科技云通行证进行认证。平台的登陆认证使用研究所邮箱。</li>
+                                <li>目前平台限研究所内部网络访问，无法通过外网访问。</li>
+                                <li>使用提供一定数量的硬盘空间存储供用户使用。目前限制为 500M 。</li>
+                            </ul>
+
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-6 col-md-6 col-xs-12">
-            <br>
-            {% include "./sys_jupyter_list.html" with cat_data=cat_data %}
-        </div>
+
+
     </div>
 
-    {% endif %}
 
-
-    <br><br>
-    <div class="row">
-        <div class="col-lg-6 col-md-6 col-xs-12">
-            <h3 class="cent"><span class="fa fa-home"></span> <a>介绍</a></h3>
-
-
-            <div class="news-gridtext">
-                <div class="news-w3imgtext">
-                    <p>在数据科学、机器学习及深度学习的领域里，Jupyter
-                        无疑是一个强大的工具，它集成了代码编写、可视化展示、文档记录等多种功能于一体，让科学计算变得既直观又高效。
-                        Jupyter 是一款开源的网络应用，可以将其用于创建和共享代码与文档。其提供了一个环境，可以在其中编写你的代码、运行代码、查看输出、可视化数据并查看结果。
-                        因此，这是一款可执行的端到端数据科学工作流程便捷工具，可以辅助完成包括数据清理、统计建模、构建和训练机器学习模型、可视化数据等等科学计算任务。</p>
-                    <p>随着数据科学和人工智能领域的不断发展，Jupyter 也在不断更新和完善其功能和性 能。
-                        未来可以期待看到更多创新的特性和工具被加入到 Jupyter
-                        中，从而进一步推动科学计算和数据分析的发展。作为科研工作者应该保持对新技术和新工具的关注和学习态度，不断提升自己的技能和竞争力。
-                    </p>
-
-
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6 col-md-6 col-xs-12">
-            <h3 class="cent"><span class="fa fa-star"></span> <a>平台内核</a></h3>
-
-
-            <div class="news-gridtext">
-                <div class="news-w3imgtext">
-                    <p>
-                        目前平台提供如下三种内核供运行使用。后期会根据需求增加公用内核，及内核中的默认类库。
-                    </p>
-
-                    <ul>
-                        <li>Python 3.11 [系统]</li>
-                        <li>Python 3.12 [Conda]</li>
-                        <li>R 4.4 [Conda]</li>
-                    </ul>
-
-
-                </div>
-            </div>
-            <div style="margin-top: 10px">&nbsp;</div>
-            <h3 class="cent"><span class="fa fa-exclamation-circle"></span> <a>注意事项</a></h3>
-
-
-            <div class="news-gridtext">
-                <div class="news-w3imgtext">
-                    <ul>
-                        <li>平台使用Jupyter技术搭建，使用科技云通行证进行认证。平台的登陆认证使用研究所邮箱。</li>
-                        <li>目前平台限研究所内部网络访问，无法通过外网访问。</li>
-                        <li>使用提供一定数量的硬盘空间存储供用户使用。目前限制为 500M 。</li>
-                    </ul>
-
-
-                </div>
-            </div>
-        </div>
-    </div>
-    <br>
-    <br>
 </div>
 
 

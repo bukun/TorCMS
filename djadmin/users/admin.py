@@ -11,7 +11,7 @@ from mptt.admin import MPTTModelAdmin
 # 先注册
 class myuseradmin(ImportExportModelAdmin, UserAdmin):
     resource_class = UsersResource
-    list_display = ('username', 'get_group_type', 'email', 'mobile', 'get_groups')
+    list_display = ('username', 'email', 'mobile','jupyter_url',  'jupyter_port','get_groups')
 
     # 将源码的UserAdmin.fieldsets转换成列表格式
     # fieldsets = list(UserAdmin.fieldsets)
@@ -70,10 +70,10 @@ class myuseradmin(ImportExportModelAdmin, UserAdmin):
 
     def get_readonly_fields(self, request, obj=None):
         if obj:  # obj为None时表示添加，非None时表示编辑
-            pass
+            return ['jupyter_port']
         else:
             return ['jupyter_port']
-        return []
+
 
 
 admin.site.register(myuser, myuseradmin)

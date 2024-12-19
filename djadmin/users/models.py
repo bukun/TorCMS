@@ -38,7 +38,7 @@ class myuser(AbstractUser):
                                    blank=True, verbose_name="头像")
 
     jupyter_url = models.CharField(blank=True, null=True, max_length=255, verbose_name="服务器")
-    jupyter_port = models.IntegerField(blank=True, null=True, verbose_name="端口")
+    jupyter_port = models.IntegerField(blank=True, null=True, verbose_name="端口",unique=True)
 
     def __str__(self):
         return self.username
@@ -50,7 +50,6 @@ class myuser(AbstractUser):
     def save(self, *args, **kwargs):
         super(myuser, self).save(*args, **kwargs)
 
-        # if not self.pk:
         while True:
             random_number = random.randint(10000, 65535)
             try:
@@ -58,12 +57,5 @@ class myuser(AbstractUser):
             except myuser.DoesNotExist:
                 self.jupyter_port = random_number
                 break
-
-        print("no pk " * 10)
-        # else:
-        #     temp_obj = myuser.objects.get(pk=self.pk)
-        #     self.jupyter_port = temp_obj.jupyter_port
-        #     print("pk " * 10)
-        #
-        # print(self.jupyter_port)
         super(myuser, self).save(*args, **kwargs)
+
