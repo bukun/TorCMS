@@ -1,42 +1,8 @@
 {% for dat in data %}
 <li class="list-group-item">
 
-    <div class="row ">
-        {% if dat.logo != "" %}
+    <a href="{% url 'jupyter_data:data_view' dat.id %}"
+       title="{{ dat.title }}"> {{ dat.title }} </a>
 
-        <div class="col-sm-4">
-            <img src="/media/{{ dat.logo }}" class="img-thumbnail"
-                 style="border: 1px solid #ddd"
-                 alt="{{ dat.title }}"/>
-        </div>
-        <div class="col-sm-8">
-
-            <div class="listinfo_title">
-
-                <a href="{% url 'jupyter_data:data_view' dat.id %}"
-                   title="{{ dat.title }}"> {{ dat.title }} </a>
-            </div>
-
-            <div class="listinfo_content padt10"> {{ dat.get_html_content| striptags |  truncatechars:130 }}</div>
-
-
-            <div class="padt10"> {{ dat.create_time | date:"Y-m-j" }}</div>
-
-
-        </div>
-        {% else %}
-        <div class="col-sm-12">
-            <div class="listinfo_title">
-                <a href="{% url 'jupyter_data:data_view' dat.id %}"
-                   title="{{ dat.title }}"> {{ dat.title }} </a>
-            </div>
-
-            <div class="listinfo_content padt10"> {{ dat.get_html_content| striptags |  truncatechars:130 }}</div>
-
-            <div class="padt10"> {{ dat.create_time | date:"Y-m-j" }}</div>
-
-        </div>
-        {% endif %}
-    </div>
 </li>
 {% endfor %}

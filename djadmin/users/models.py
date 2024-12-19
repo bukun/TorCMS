@@ -60,6 +60,6 @@ class myuser(AbstractUser):
                 except myuser.DoesNotExist:
                     self.jupyter_port = random_number
                     break
- 
+
         super(myuser, self).save(*args, **kwargs)
 
