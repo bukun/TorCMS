@@ -102,6 +102,20 @@
 
 
     <div class="col-sm-4">
+        <div class="card">
+                        <div class="card-header">我的信息</div>
+                        <div class="card-body">
+                            <p>用户名：<a href="/users/profile/"> <span class="fa fa-user"></span>
+                                {{ user.username }}</a></p>
+                            <p>服务器：{{ user.jupyter_url }}</p>
+                            <p>端口：{{ user.jupyter_port }}</p>
+
+                            <p><a class="nav-link" href="{% url 'users:logout' %}"><span class="fa fa-sign-out"></span>
+                                Logout
+                            </a></p>
+                        </div>
+                    </div>
+                    <br>
         {% if data.dc_image and data.file_id %}
 
         <div class="panel panel-primary">
