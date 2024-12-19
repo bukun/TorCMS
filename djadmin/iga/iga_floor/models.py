@@ -9,7 +9,7 @@ class iga_floor(basemodel):
     sites = models.ManyToManyField(Site, blank=True, related_name='iga_floor', verbose_name='Site')
 
     def __str__(self):
-        return self.title
+        return self.num
 
     class Meta(basemodel.Meta):
         db_table = 'iga_floor'

@@ -12,15 +12,15 @@ from django.utils.safestring import mark_safe
 class iga_room(basemodel):
     title = models.CharField(blank=True, null=False, max_length=255, verbose_name="办公室")
     num = models.CharField(blank=True, null=False, max_length=255, verbose_name="房间号")
-    area = models.CharField(blank=True, null=False, max_length=255, verbose_name="面积")
-    staff = models.CharField(blank=True, null=False, max_length=255, verbose_name="使用人员")
+    area = models.CharField(blank=True,default='', max_length=255, verbose_name="面积")
+    staff = models.CharField(blank=True,default='',  max_length=255, verbose_name="使用人员")
 
-    cnt_md = MDTextField(verbose_name="用途", null=True, blank=True)
+    cnt_md = MDTextField(verbose_name="用途",default='', blank=True)
 
-    building = models.CharField(blank=True, null=False, max_length=255, verbose_name="所属楼")
+    building = models.CharField(blank=True,default='',  max_length=255, verbose_name="所属楼")
     sites = models.ManyToManyField(Site, blank=True, related_name='iga_room', verbose_name='Site')
 
-    group = models.ManyToManyField(iga_group, blank=True, null=True,
+    group = models.ManyToManyField(iga_group, blank=True,
                                  related_name='iga_room', verbose_name='学科组名称')
     floor = models.ForeignKey(iga_floor, on_delete=models.CASCADE, blank=True, null=True,
                                  related_name='iga_room', verbose_name='所在楼层')
