@@ -47,8 +47,14 @@ def DataDetailView(request, dataid):
     # 从url里获取单个任务的pk值，然后查询数据库获得单个对象
     data = get_object_or_404(Jupyter, pk=dataid)
     data_cat = JupyterCatagory.objects.filter(sites__id=current_site.id)
-    return render(request, "jupyter_data/data_detail.html",
-                  {"data": data, "Category": data_cat, 'parent_template': parent_template})
+
+    if str(request.user) == 'AnonymousUser':
+        context = {'data': data,'Category':data_cat,'parent_template': parent_template}
+    else:
+        data_recs = Jupyter.objects.filter(sites__id=current_site.id, user=request.user)[:8]
+        context = {'data': data,'Category':data_cat,'my_data': data_recs, 'parent_template': parent_template}
+
+    return render(request, "jupyter_data/data_detail.html",  context)
 
 
 def ShowShare(request):
@@ -101,7 +107,7 @@ def SystemIndex(request):
         context = {'cat_data': cat_rec,'parent_template': parent_template}
     else:
         data_recs = Jupyter.objects.filter(sites__id=current_site.id, user=request.user)[:8]
-        context = {'cat_data': cat_rec,'data': data_recs, 'parent_template': parent_template}
+        context = {'cat_data': cat_rec,'my_data': data_recs, 'parent_template': parent_template}
 
     return render(request, 'jupyter_data/system_index.html', context)
 

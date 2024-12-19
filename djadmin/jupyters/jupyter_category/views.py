@@ -55,6 +55,7 @@ def CategoryIndex(request, pk):
 
 
 def CategoryDataList(request, pk):
+
     category_rec = get_object_or_404(JupyterCatagory, pk=pk)
     all_cat = JupyterCatagory.objects.filter(sites__id=current_site.id)
     data_recs = category_rec.jupyter_data.filter(sites__id=current_site.id)
@@ -69,7 +70,12 @@ def CategoryDataList(request, pk):
     is_paginated = True if paginator.num_pages > 1 else False  # 如果页数小于1不使用分页
 
     context = {'data': page_obj, 'cat_name': category_rec.name, 'is_paginated': is_paginated, 'Category': all_cat,'parent_template': parent_template}
-    return render(request, 'jupyter_category/data_list.html', context)
+    if pk:
+        temp_src='jupyter_category/data_list.html'
+    else:
+        temp_src='jupyter_category/data_list.html'
+
+    return render(request, temp_src, context)
 
 
 def index(request):

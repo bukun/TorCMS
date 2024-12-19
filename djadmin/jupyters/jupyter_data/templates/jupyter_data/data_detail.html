@@ -39,16 +39,16 @@
 
                         <p><strong>{{ _('Release time') }}：</strong>{{ data.create_time }}</p>
                         {% if user.is_authenticated %}
-                        {% if data.file %}
+<!--                        {% if data.file %}-->
 
 
-                            <a class="btn btn-success btn-sm" title="Download JUPYTER Document"
-                               href="/media/{{ data.file }}" target="_blank">
-                                <span class="fa fa-download"> </span>
-                                {{ _('Download JUPYTER Document') }}</a>
+<!--                            <a class="btn btn-success btn-sm" title="Download JUPYTER Document"-->
+<!--                               href="/media/{{ data.file }}" target="_blank">-->
+<!--                                <span class="fa fa-download"> </span>-->
+<!--                                {{ _('Download JUPYTER Document') }}</a>-->
 
 
-                        {% endif %}
+<!--                        {% endif %}-->
 
                         {% if data.dc_image and data.file_id %}
 
@@ -86,15 +86,15 @@
                         <span>{{ data.create_time }}&nbsp;</span> &nbsp;&nbsp;&nbsp;&nbsp;
                     </p>
                       {% if user.is_authenticated %}
-                    {% if data.file %}
+<!--                    {% if data.file %}-->
 
 
-                        <a class="btn btn-success btn-sm" title="Download JUPYTER Document"
-                           href="/media/{{ data.file }}" target="_blank">
-                            <span class="fa fa-download"> </span>
-                            {{ _('Download JUPYTER Document') }}</a>
+<!--                        <a class="btn btn-success btn-sm" title="Download JUPYTER Document"-->
+<!--                           href="/media/{{ data.file }}" target="_blank">-->
+<!--                            <span class="fa fa-download"> </span>-->
+<!--                            {{ _('Download JUPYTER Document') }}</a>-->
 
-                    {% endif %}
+<!--                    {% endif %}-->
                     {% if data.dc_image and data.file_id %}
 
                         <form action="https://pod.igadc.cn/t/" method="post" enctype="multipart/form-data"
@@ -146,35 +146,13 @@
 
 
     <div class="col-sm-4">
-        <div class="card">
-            <div class="card-header">我的信息</div>
-            <div class="card-body">
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        用户名：<a href="/users/profile/"> <span class="fa fa-user"></span>
-                        {{ user.username }}</a>
-                    </li>
-                    <li class="list-group-item">
-                        服务器：{{ user.jupyter_url }}
-                    </li>
-                    <li class="list-group-item">
-                        端口：{{ user.jupyter_port }}
-                    </li>
-                    <li class="list-group-item">
-                        <a class="nav-link" href="{% url 'users:logout' %}"><span class="fa fa-sign-out"></span>
-                            Logout
-                        </a>
-                    </li>
 
-                </ul>
 
-            </div>
-        </div>
-        <br>
 
 
         {% include "yj_catalog_of.html" with Category=Category order=False link_url='jupyter_category' data_name='Scientific - Model' %}
-
+              <br>
+ {% include "./jupyter_right.html" %}
 
     </div>
 </div>
