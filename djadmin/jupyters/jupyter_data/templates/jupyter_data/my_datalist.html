@@ -1,8 +1,0 @@
-{% for dat in data %}
-<li class="list-group-item">
-
-    <a href="{% url 'jupyter_data:data_view' dat.id %}"
-       title="{{ dat.title }}"> {{ dat.title }} </a>
-
-</li>
-{% endfor %}

@@ -19,7 +19,8 @@
                     端口：{{ user.jupyter_port }}
                 </li>
                 <li class="list-group-item">
-                    <a class="btn btn-warning btn-sm" href="{% url 'users:logout' %}"><span class="fa fa-sign-out"></span>
+                    <a class="btn btn-warning btn-sm" href="{% url 'users:logout' %}"><span
+                            class="fa fa-sign-out"></span>
                         注销
                     </a>
                 </li>
@@ -130,8 +131,6 @@
                     <p>
                         <a href="http://pod.igadc.cn/i/{{ user.username }}/bio" target="_blank"
                            class="btn btn-primary btn-sm">
-                            <!--                                        <p><img src="https://cms.igadc.cn/media/images/jupyter_nvCs0bS.original.png"-->
-                            <!--                                                class="img-responsive"></p>-->
 
                             打开
                         </a>
@@ -154,7 +153,14 @@
             <div class="card-header">我的数据列表</div>
 
             <ul class="list-group">
-                {% include "./my_datalist.html" with data=my_data %}
+                {% for dat in my_data %}
+                <li class="list-group-item">
+
+                    <a href="/jupyter_data/view/{{ dat.id }}/?temp=1"
+                       title="{{ dat.title }}"> {{ dat.title }} </a>
+
+                </li>
+                {% endfor %}
             </ul>
 
         </div>

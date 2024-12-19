@@ -44,18 +44,18 @@ class CategoryListView(ListView):
 
 def Categorylist(request):
     all_cat = JupyterCatagory.objects.filter(sites__id=current_site.id)
-    context = {'Category': all_cat,'parent_template': parent_template}
+    context = {'Category': all_cat, 'parent_template': parent_template}
     return render(request, 'jupyter_category/category_list.html', context)
 
 
 def CategoryIndex(request, pk):
     all_cat = JupyterCatagory.objects.filter(sites__id=current_site.id)
-    context = {'Category': all_cat,'parent_template': parent_template}
+    context = {'Category': all_cat, 'parent_template': parent_template}
     return render(request, 'jupyter_category/category_index.html', context)
 
 
 def CategoryDataList(request, pk):
-
+    temp = request.GET.get('temp', '0')
     category_rec = get_object_or_404(JupyterCatagory, pk=pk)
     all_cat = JupyterCatagory.objects.filter(sites__id=current_site.id)
     data_recs = category_rec.jupyter_data.filter(sites__id=current_site.id)
@@ -68,12 +68,14 @@ def CategoryDataList(request, pk):
     except EmptyPage:
         page_obj = paginator.page(paginator.num_pages)
     is_paginated = True if paginator.num_pages > 1 else False  # 如果页数小于1不使用分页
-
-    context = {'data': page_obj, 'cat_name': category_rec.name, 'is_paginated': is_paginated, 'Category': all_cat,'parent_template': parent_template}
-    if pk:
-        temp_src='jupyter_category/data_list.html'
+    if temp == '1':
+        p_template = 'jupyter_base.html'
     else:
-        temp_src='jupyter_category/data_list.html'
+        p_template = parent_template
+    context = {'data': page_obj, 'cat_name': category_rec.name, 'is_paginated': is_paginated, 'Category': all_cat,
+               'parent_template': p_template,'jupyter_temp':temp}
+
+    temp_src = 'jupyter_category/data_list.html'
 
     return render(request, temp_src, context)
 
@@ -85,7 +87,7 @@ def index(request):
     for cat in category_rec:
         data = cat.jupyter_data.filter(sites__id=current_site.id)[:4]
 
-        cat_rec.append({'cat_id': cat.id, 'cat_name': cat.name, 'data': data,'parent':cat.parent})
-    context = {'cat_data': cat_rec,'parent_template': parent_template}
+        cat_rec.append({'cat_id': cat.id, 'cat_name': cat.name, 'data': data, 'parent': cat.parent})
+    context = {'cat_data': cat_rec, 'parent_template': parent_template}
 
     return render(request, 'jupyter_category/index.html', context)

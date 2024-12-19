@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ _('Eurasian Continental Knowledge Resources Portal') }}</title>
+    <meta charset="utf-8">
+    <meta name="generator" content="{{ _('Eurasian Continental Knowledge Resources Portal') }}">
+    <meta name="applicable-device" content="pc,mobile">
+    <meta name="author" content="{{ _('Eurasian Continental Knowledge Resources Portal') }}">
+    <meta name="Copyright" content="{{ _('Eurasian Continental Knowledge Resources Portal') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <script src="https://r.osgeo.cn/jquery/jquery-3.6.x.min.js"></script>
+    <script src="https://r.osgeo.cn/jquery-validate_1.15.0/jquery.validate.min.js"></script>
+    <script src="https://r.osgeo.cn/magnific-popup_1.1.0/jquery.magnific-popup.min.js"></script>
+    <script src="https://r.osgeo.cn/leaflet-1.9.x/leaflet.js"></script>
+    <script src="https://r.osgeo.cn/leaflet/leaflet.ChineseTmsProviders.js"></script>
+    <link rel="stylesheet" href="https://r.osgeo.cn/leaflet-1.9.x/leaflet.css">
+
+    <link rel="stylesheet" href="https://r.osgeo.cn//bootstrap-5.3.x/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://r.osgeo.cn/bootstrap-icons-1.11.x/font/bootstrap-icons.css">
+    <script src="https://r.osgeo.cn/bootstrap-5.3.x/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cms.igadc.cn/wagtail_documents/8/yaou_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <style>
+
+        .news-w3lgrids {
+            padding: 15px;
+        }
+
+        .news-w3lgrids {
+            width: 20%;
+        }
+
+        .news-gridtext {
+            margin: 0 0.5em;
+            -webkit-box-shadow: -2px 4px 5px rgba(25, 13, 15, 0.17);
+            -moz-box-shadow: -2px 4px 5px rgba(25, 13, 15, 0.17);
+            box-shadow: -2px 4px 5px rgba(25, 13, 15, 0.17);
+            -webkit-transition: 0.5s all;
+            -moz-transition: 0.5s all;
+            transition: 0.5s all;
+        }
+
+        .news-gridtext:hover {
+            box-shadow: -2px 4px 30px rgba(25, 13, 15, 0.38);
+        }
+
+        .news-w3img {
+            padding-top: 20px;
+            overflow: hidden;
+        }
+
+        .news-w3img img {
+            width: 100%;
+            -webkit-transition: all 0.7s ease-in-out;
+            -moz-transition: all 0.7s ease-in-out;
+            -o-transition: all 0.7s ease-in-out;
+            -ms-transition: all 0.7s ease-in-out;
+            transition: all 0.7s ease-in-out;
+        }
+
+        .news-w3img img:hover {
+            -webkit-transform: scale(1.1);
+            -ms-transform: scale(1.1);
+            -o-transform: scale(1.1);
+            transform: scale(1.1);
+        }
+
+        .news-w3imgtext {
+            padding: 15px;
+            line-height: 30px;
+
+        }
+
+        .cent {
+            color: #004299;
+            font-size: 2rem;
+            text-align: center;
+            margin: 5px auto;
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1 style="text-align: center;padding: 50px 0 60px 0">
+                <a href="/jupyter_data/system_index/"> 科学计算模型在线研究协作系统</a></h1>
+
+        </div>
+    </div>
+    {% block mainbody %}{% endblock %}
+
+</div>
+
+</body>
+</html>

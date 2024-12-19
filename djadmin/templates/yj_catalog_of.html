@@ -1,26 +1,28 @@
+<div class="card-header">
 
+    {{ data_name }}
 
-    <div class="card-header">
-
-        {{ data_name }}
-
-    </div>
-    <div class="card-body">
+</div>
+<div class="card-body">
     <ul class="list-group">
 
         {% for category in Category %}
 
-            <li class="list-group-item">
+        <li class="list-group-item">
 
-                {% with app_url=link_url|add:":"|add:"category_datalist" app=category|add:"."|add:data_name|add:"."|add:"all" %}
+            {% with app_url=link_url|add:":"|add:"category_datalist" app=category|add:"."|add:data_name|add:"."|add:"all" %}
+
+            {% if jupyter_temp %}
+            <a href="/jupyter_category/{{category.id}}?temp=1">{{ category.name }}</a>
+            {% else %}
+            <a href="{% url app_url  category.id %}">{{ category.name }}</a>
+            {# ({{ app |length }})#}
+
+            {% endif %}
+            {% endwith %}
 
 
-                    <a href="{% url app_url  category.id %}">{{ category.name }}</a>
-{#                             ({{ app |length }})#}
-                {% endwith %}
-
-
-            </li>
+        </li>
 
         {% endfor %}
     </ul>

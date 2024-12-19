@@ -8,7 +8,7 @@
 
         <div class="card-header">{{ cat.cat_name }}
             <a style="font-size: 12px;float: right"
-               href="{% url 'jupyter_category:category_datalist' cat.cat_id %}">More</a>
+               href="/jupyter_category/{{cat.cat_id}}?temp=1">More</a>
         </div>
 
         <div class="card-body">
@@ -28,7 +28,7 @@
 
                                             <div class="listinfo_title">
 
-                                                <a href="{% url 'jupyter_data:data_view' dat.id %}"
+                                                <a href="/jupyter_data/view/{{ dat.id }}/?temp=1"
                                                    title="{{ dat.title }}"> {{ dat.title }} </a>
                                             </div>
 
@@ -42,7 +42,7 @@
                                     {% else %}
                                         <div class="col-sm-12">
                                             <div class="listinfo_title">
-                                                <a href="{% url 'jupyter_data:data_view' dat.id %}"
+                                                <a href="/jupyter_data/view/{{ dat.id }}/?temp=1"
                                                    title="{{ dat.title }}"> {{ dat.title }} </a>
                                             </div>
 

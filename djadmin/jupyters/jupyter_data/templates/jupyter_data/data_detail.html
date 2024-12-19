@@ -8,19 +8,19 @@
 </style>
 {% endblock %}
 {% block mainbody %}
-<div class="row mt-3">
+<!--<div class="row mt-3">-->
 
-    <ul class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/">Home</a></li>
-        <li class="breadcrumb-item">
-            <a href="/jupyter_category/index/"> {{ _('Scientific - Models') }}</a>
-        </li>
-        <li class="breadcrumb-item active">
-            Text
-        </li>
-    </ul>
+<!--    <ul class="breadcrumb">-->
+<!--        <li class="breadcrumb-item"><a href="/">Home</a></li>-->
+<!--        <li class="breadcrumb-item">-->
+<!--            <a href="/jupyter_category/index/"> {{ _('Scientific - Models') }}</a>-->
+<!--        </li>-->
+<!--        <li class="breadcrumb-item active">-->
+<!--            Text-->
+<!--        </li>-->
+<!--    </ul>-->
 
-</div>
+<!--</div>-->
 <div class="row">
     <div class="col-sm-8">
 
@@ -61,8 +61,6 @@
                             <input type="hidden" name="image" value="{{ data.dc_image }}">
                             <input type="hidden" name="jufile" value="{{ data.file_id }}">
 
-
-                            <br>
                             <button type="submit" class="btn btn-primary btn-sm">
                               <span class="fa fa-share"> </span>  打开在线实验环境
                             </button>
@@ -105,9 +103,7 @@
                             <input type="hidden" name="port" value="{{ user.jupyter_port }}">
                             <input type="hidden" name="image" value="{{ data.dc_image }}">
                             <input type="hidden" name="jufile" value="{{ data.file_id }}">
-
-
-                            <br>
+ 
                             <button type="submit" class="btn btn-primary btn-sm">
                                 <span class="fa fa-share"> </span> 打开在线实验环境
                             </button>
@@ -133,10 +129,8 @@
                     <div class="col-md-12"
                          style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap; display: block;">
 
-                        {{ _('Article link') }}： <a class="text-primary"
-                                                    href="{% url 'jupyter_data:data_view' data.id %}"
-
-                                                    title="{{ data.title }}">{{ data.title }}</a>
+                        {{ _('Article link') }}：
+                        <a class="text-primary" href="/jupyter_data/view/{{ dat.id }}/?temp={{ jupyter_temp }}" title="{{ data.title }}">{{ data.title }}</a>
                     </div>
                 </div>
             </div>
@@ -147,13 +141,11 @@
 
     <div class="col-sm-4">
 
-
-
-
         {% include "yj_catalog_of.html" with Category=Category order=False link_url='jupyter_category' data_name='Scientific - Model' %}
               <br>
- {% include "./jupyter_right.html" %}
-
+        {% if jupyter_temp %}
+            {% include "jupyter_right.html" %}
+        {% endif %}
     </div>
 </div>
 
