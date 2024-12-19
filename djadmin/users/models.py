@@ -50,15 +50,20 @@ class myuser(AbstractUser):
     def save(self, *args, **kwargs):
         super(myuser, self).save(*args, **kwargs)
 
-        if not self.pk:
-            while True:
-                random_number = random.randint(10000, 65535)
-                try:
-                    existing_object = myuser.objects.get(jupyter_port=random_number)
-                except myuser.DoesNotExist:
-                    self.jupyter_port = random_number
-                    break
-        else:
-            temp_obj = myuser.objects.get(pk=self.pk)
-            self.jupyter_port = temp_obj.jupyter_port
+        # if not self.pk:
+        while True:
+            random_number = random.randint(10000, 65535)
+            try:
+                existing_object = myuser.objects.get(jupyter_port=random_number)
+            except myuser.DoesNotExist:
+                self.jupyter_port = random_number
+                break
+
+        print("no pk " * 10)
+        # else:
+        #     temp_obj = myuser.objects.get(pk=self.pk)
+        #     self.jupyter_port = temp_obj.jupyter_port
+        #     print("pk " * 10)
+        #
+        # print(self.jupyter_port)
         super(myuser, self).save(*args, **kwargs)
