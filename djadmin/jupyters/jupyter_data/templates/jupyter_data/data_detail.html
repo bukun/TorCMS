@@ -38,17 +38,41 @@
                     <div class="col-sm-6">
 
                         <p><strong>{{ _('Release time') }}：</strong>{{ data.create_time }}</p>
-
-                        {% if data.file %}
                         {% if user.is_authenticated %}
-                        <p>
+                        {% if data.file %}
+
+
                             <a class="btn btn-success btn-sm" title="Download JUPYTER Document"
                                href="/media/{{ data.file }}" target="_blank">
                                 <span class="fa fa-download"> </span>
                                 {{ _('Download JUPYTER Document') }}</a>
-                        </p>
+
+
                         {% endif %}
+
+                        {% if data.dc_image and data.file_id %}
+
+                        <form action="https://pod.igadc.cn/t/" method="post" enctype="multipart/form-data"
+                              target="_blank">
+
+                            <input type="hidden" name="user" value="{{ user.username }}">
+                            <input type="hidden" name="mach" value="{{ user.jupyter_url }}">
+                            <input type="hidden" name="port" value="{{ user.jupyter_port }}">
+                            <input type="hidden" name="image" value="{{ data.dc_image }}">
+                            <input type="hidden" name="jufile" value="{{ data.file_id }}">
+
+
+                            <br>
+                            <button type="submit" class="btn btn-primary btn-sm">
+                              <span class="fa fa-share"> </span>  打开在线实验环境
+                            </button>
+                        </form>
+
                         {% endif %}
+
+                        {% endif %}
+
+
                     </div>
 
                 </div>
@@ -61,15 +85,35 @@
                         <strong>{{ _('Release time') }}：</strong>
                         <span>{{ data.create_time }}&nbsp;</span> &nbsp;&nbsp;&nbsp;&nbsp;
                     </p>
+                      {% if user.is_authenticated %}
                     {% if data.file %}
-                    {% if user.is_authenticated %}
-                    <p>
+
+
                         <a class="btn btn-success btn-sm" title="Download JUPYTER Document"
                            href="/media/{{ data.file }}" target="_blank">
                             <span class="fa fa-download"> </span>
                             {{ _('Download JUPYTER Document') }}</a>
-                    </p>
+                    
                     {% endif %}
+                    {% if data.dc_image and data.file_id %}
+
+                        <form action="https://pod.igadc.cn/t/" method="post" enctype="multipart/form-data"
+                              target="_blank">
+
+                            <input type="hidden" name="user" value="{{ user.username }}">
+                            <input type="hidden" name="mach" value="{{ user.jupyter_url }}">
+                            <input type="hidden" name="port" value="{{ user.jupyter_port }}">
+                            <input type="hidden" name="image" value="{{ data.dc_image }}">
+                            <input type="hidden" name="jufile" value="{{ data.file_id }}">
+
+
+                            <br>
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <span class="fa fa-share"> </span> 打开在线实验环境
+                            </button>
+                        </form>
+
+                        {% endif %}
                     {% endif %}
 
 
@@ -103,99 +147,36 @@
 
     <div class="col-sm-4">
         <div class="card">
-                        <div class="card-header">我的信息</div>
-                        <div class="card-body">
-                            <ul class="list-group">
-                                <li class="list-group-item">
-                                    用户名：<a href="/users/profile/"> <span class="fa fa-user"></span>
-                                {{ user.username }}</a>
-                                </li>
-                                <li class="list-group-item">
-                                    服务器：{{ user.jupyter_url }}
-                                </li>
-                                  <li class="list-group-item">
-                                    端口：{{ user.jupyter_port }}
-                                </li>
-                                <li class="list-group-item">
-                                   <a class="nav-link" href="{% url 'users:logout' %}"><span class="fa fa-sign-out"></span>
-                                Logout
-                            </a>
-                                </li>
+            <div class="card-header">我的信息</div>
+            <div class="card-body">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        用户名：<a href="/users/profile/"> <span class="fa fa-user"></span>
+                        {{ user.username }}</a>
+                    </li>
+                    <li class="list-group-item">
+                        服务器：{{ user.jupyter_url }}
+                    </li>
+                    <li class="list-group-item">
+                        端口：{{ user.jupyter_port }}
+                    </li>
+                    <li class="list-group-item">
+                        <a class="nav-link" href="{% url 'users:logout' %}"><span class="fa fa-sign-out"></span>
+                            Logout
+                        </a>
+                    </li>
 
-                            </ul>
+                </ul>
 
-                        </div>
-                    </div>
-                    <br>
-        {% if data.dc_image and data.file_id %}
-
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                打开在线实验环境
-            </div>
-            <div class="panel-body">
-                <div class="form-horizontal">
-                    <div class="form-group">
-                        <div class="col-sm-12">
-
-                            <a class="btn btn-primary btn-sm" href="http://pod.igadc.cn/t/{{data.dc_image}}/{{ data.file_id }}/sd">
-                                GET方式打开
-                            </a>
-
-
-
-                                    <form action="https://pod.igadc.cn/t/" method="post" enctype="multipart/form-data" target="_blank">
-
-                                <input type="hidden" name="user" value="{{ user.username }}">
-                                <input type="hidden" name="mach" value="{{ user.jupyter_url }}">
-                                <input type="hidden" name="port" value="{{ user.jupyter_port }}">
-                                <input type="hidden" name="image" value="{{ data.dc_image }}">
-                                <input type="hidden" name="jufile" value="{{ data.file_id }}">
-
-
-<br>
-                                     <button type="submit" class="btn btn-primary btn-sm">
-                                    POST方式打开
-                                </button>
-                                </form>
-
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
+        <br>
 
-        {% endif %}
 
         {% include "yj_catalog_of.html" with Category=Category order=False link_url='jupyter_category' data_name='Scientific - Model' %}
 
 
     </div>
 </div>
-<script type="text/javascript">
-    function open_system() {
-        var user = "{{ user.username }}";
-        var file_id = "{{ data.file_id }}";
-        var dc_image = "{{ data.dc_image }}";
-        // 使用返回的CSRF token设置全局AJAX请求的header
-        $.ajaxSetup({
-            data: {csrfmiddlewaretoken: '{{ csrf_token }}'},
-        });
-        $.ajax({
-            url: '/jupyter_data/open_system/',
-            type: 'POST',
-            data: {
-                'dc_image': dc_image,
-                'jufile': file_id,
-                'user': user,
-            },
 
-             success: function (htmlString) {
-
-                var newWindow = window.open('', '_blank');
-                newWindow.document.write(htmlString);
-            }
-        });
-    }
-</script>
 {% endblock %}
