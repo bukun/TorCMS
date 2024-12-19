@@ -83,7 +83,7 @@ def update_group(group_list,data):
 
 
 def start_chuli():
-    room_file = Path(__file__).parent / 'xx_20221011.xlsx'
+    room_file = Path(__file__).parent / 'iga_20221011.xlsx'
     wb = openpyxl.load_workbook(room_file)
     sheets = wb.sheetnames
     for sheet in sheets:
