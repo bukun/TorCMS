@@ -100,7 +100,20 @@
 
     <div class="row">
         <div class="col-lg-8 col-md-8 col-xs-12">
+            {% if user.is_authenticated %}
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card-header">我的数据列表</div>
+  <div class="card-body">
+            <ul class="list-group">
+                         {% include "./my_datalist.html" with data=data %}
+            </ul>
+  </div>
 
+                    <br>
+                </div>
+            </div>
+            {% endif %}
             <div class="row">
                 <div class="col-sm-12">
                     {% include "./sys_jupyter_list.html" with cat_data=cat_data %}
@@ -136,82 +149,87 @@
                         </div>
                         <div class="card-body">
 
-                            <h2><span class="fa ">① </span> 选择镜像打开</h2>
+                            <h3><span class="fa ">① </span> 选择镜像打开</h3>
 
                             <div class="mb-3 mt-3">
                                 <div class="row">
                                     <div class="col-sm-2">
-                                    <form action="https://pod.igadc.cn/i/" method="post" enctype="multipart/form-data"
-                                          target="_blank">
+                                        <form action="https://pod.igadc.cn/i/" method="post"
+                                              enctype="multipart/form-data"
+                                              target="_blank">
 
-                                        <input type="hidden" name="user" value="{{ user.username }}">
-                                        <input type="hidden" name="mach" value="{{ user.jupyter_url }}">
-                                        <input type="hidden" name="port" value="{{ user.jupyter_port }}">
-                                        <input type="hidden" name="pygis" value="pygis">
+                                            <input type="hidden" name="user" value="{{ user.username }}">
+                                            <input type="hidden" name="mach" value="{{ user.jupyter_url }}">
+                                            <input type="hidden" name="port" value="{{ user.jupyter_port }}">
+                                            <input type="hidden" name="pygis" value="pygis">
 
-                                        <button type="submit" class="btn btn-primary btn-sm">
-                                            pygis
-                                        </button>
-                                    </form>
+                                            <button type="submit" class="btn btn-primary btn-sm">
+                                                pygis
+                                            </button>
+                                        </form>
                                     </div>
                                     <div class="col-sm-2">
-                                      <form action="https://pod.igadc.cn/i/" method="post" enctype="multipart/form-data"
-                                          target="_blank">
+                                        <form action="https://pod.igadc.cn/i/" method="post"
+                                              enctype="multipart/form-data"
+                                              target="_blank">
 
-                                        <input type="hidden" name="user" value="{{ user.username }}">
-                                        <input type="hidden" name="mach" value="{{ user.jupyter_url }}">
-                                        <input type="hidden" name="port" value="{{ user.jupyter_port }}">
-                                        <input type="hidden" name="scipy" value="scipy">
+                                            <input type="hidden" name="user" value="{{ user.username }}">
+                                            <input type="hidden" name="mach" value="{{ user.jupyter_url }}">
+                                            <input type="hidden" name="port" value="{{ user.jupyter_port }}">
+                                            <input type="hidden" name="scipy" value="scipy">
 
-                                        <button type="submit" class="btn btn-primary btn-sm">
-                                            scipy
-                                        </button>
-                                    </form>
-                                         </div>
+                                            <button type="submit" class="btn btn-primary btn-sm">
+                                                scipy
+                                            </button>
+                                        </form>
+                                    </div>
                                     <div class="col-sm-2">
-                                      <form action="https://pod.igadc.cn/i/" method="post" enctype="multipart/form-data"
-                                          target="_blank">
+                                        <form action="https://pod.igadc.cn/i/" method="post"
+                                              enctype="multipart/form-data"
+                                              target="_blank">
 
-                                        <input type="hidden" name="user" value="{{ user.username }}">
-                                        <input type="hidden" name="mach" value="{{ user.jupyter_url }}">
-                                        <input type="hidden" name="port" value="{{ user.jupyter_port }}">
-                                        <input type="hidden" name="julia" value="julia">
+                                            <input type="hidden" name="user" value="{{ user.username }}">
+                                            <input type="hidden" name="mach" value="{{ user.jupyter_url }}">
+                                            <input type="hidden" name="port" value="{{ user.jupyter_port }}">
+                                            <input type="hidden" name="julia" value="julia">
 
-                                        <button type="submit" class="btn btn-primary btn-sm">
-                                            julia
-                                        </button>
-                                    </form>
-                                         </div>
+                                            <button type="submit" class="btn btn-primary btn-sm">
+                                                julia
+                                            </button>
+                                        </form>
+                                    </div>
                                     <div class="col-sm-2">
-                                    <form action="https://pod.igadc.cn/i/" method="post" enctype="multipart/form-data"
-                                          target="_blank">
+                                        <form action="https://pod.igadc.cn/i/" method="post"
+                                              enctype="multipart/form-data"
+                                              target="_blank">
 
-                                        <input type="hidden" name="user" value="{{ user.username }}">
-                                        <input type="hidden" name="mach" value="{{ user.jupyter_url }}">
-                                        <input type="hidden" name="port" value="{{ user.jupyter_port }}">
-                                        <input type="hidden" name="rlang" value="rlang">
+                                            <input type="hidden" name="user" value="{{ user.username }}">
+                                            <input type="hidden" name="mach" value="{{ user.jupyter_url }}">
+                                            <input type="hidden" name="port" value="{{ user.jupyter_port }}">
+                                            <input type="hidden" name="rlang" value="rlang">
 
-                                        <button type="submit" class="btn btn-primary btn-sm">
-                                            rlang
-                                        </button>
-                                    </form>
-                                         </div>
+                                            <button type="submit" class="btn btn-primary btn-sm">
+                                                rlang
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                                 <br>
-                                   <div class="row">
+                                <div class="row">
                                     <div class="col-sm-6">
-                                       <form action="https://pod.igadc.cn/i/" method="post" enctype="multipart/form-data"
-                                          target="_blank">
+                                        <form action="https://pod.igadc.cn/i/" method="post"
+                                              enctype="multipart/form-data"
+                                              target="_blank">
 
-                                        <input type="hidden" name="user" value="{{ user.username }}">
-                                        <input type="hidden" name="mach" value="{{ user.jupyter_url }}">
-                                        <input type="hidden" name="port" value="{{ user.jupyter_port }}">
-                                        <input type="hidden" name="ubu" value="ubu">
+                                            <input type="hidden" name="user" value="{{ user.username }}">
+                                            <input type="hidden" name="mach" value="{{ user.jupyter_url }}">
+                                            <input type="hidden" name="port" value="{{ user.jupyter_port }}">
+                                            <input type="hidden" name="ubu" value="ubu">
 
-                                        <button type="submit" class="btn btn-primary btn-sm">
-                                            Ubuntu System
-                                        </button>
-                                    </form>
+                                            <button type="submit" class="btn btn-primary btn-sm">
+                                                Ubuntu System
+                                            </button>
+                                        </form>
                                     </div>
 
                                 </div>
@@ -220,7 +238,7 @@
                             <br><br>
 
 
-                            <h2><span class="fa ">② </span> GET方式打开</h2>
+                            <h3><span class="fa ">② </span> GET方式打开</h3>
                             <p>
                                 <a href="http://pod.igadc.cn/i/{{ user.username }}/bio" target="_blank"
                                    class="btn btn-primary btn-sm">
@@ -235,17 +253,7 @@
                         </div>
                     </div>
                     <br>
-                    <div class="card-header">我的数据列表</div>
-                    <ul class="list-group">
-                        {% for dat in data %}
-                        <li class="list-group-item">
-                            <a href="{% url 'jupyter_data:data_view' dataid=dat.id %}">
-                                <span class="fa fa-file-text-o"></span> {{ dat.title }}
-                            </a>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                    <br>
+
 
                 </div>
 
