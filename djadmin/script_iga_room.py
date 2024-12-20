@@ -96,7 +96,7 @@ def start_chuli():
             # print(floor_id)
             for row in ws.rows:
                 sig = row[0].value
-                print(row[4] != None)
+                # print(row[4] != None)
                 if sig != None and str(sig).strip()[:2] not in ['办公', '房间']:
                     dic = {}
                     dic['room_num'] = str(sig).strip()
