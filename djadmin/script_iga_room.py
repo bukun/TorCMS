@@ -96,19 +96,20 @@ def start_chuli():
             # print(floor_id)
             for row in ws.rows:
                 sig = row[0].value
+                print(row[4] != None)
                 if sig != None and str(sig).strip()[:2] not in ['办公', '房间']:
                     dic = {}
                     dic['room_num'] = str(sig).strip()
-                    dic['room_title'] = str(row[1].value).strip()  if row[1] is not None else '无信息'
+                    dic['room_title'] = str(row[1].value).strip()  if row[1].value != None else '无信息'
                     dic['room_group'] = str(row[2].value).strip()
-                    dic['room_staff'] = str(row[3].value).strip()  if row[3] is not None else '无人员信息'
-                    dic['room_area'] = str(row[4].value).strip() if row[4] is not None else '无面积信息'
-                    dic['room_cnt'] = str(row[5].value).strip() if row[5] is not None else '无用途信息'
+                    dic['room_staff'] = str(row[3].value).strip()  if row[3].value != None else '无人员信息'
+                    dic['room_area'] = str(row[4].value).strip() if row[4].value != None else '无面积信息'
+                    dic['room_cnt'] = str(row[5].value).strip() if row[5].value !=  None else '无用途信息'
                     dic['room_build'] = sheet.strip()[:2]
 
                     # print(dic['room_group'])
                     group_ids = chuli_group(dic['room_group'])
-
+                    #
                     dic['group_ids'] = group_ids
                     dic['floor'] = floor_id
                     print(dic)
