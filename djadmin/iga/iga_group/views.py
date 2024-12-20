@@ -14,6 +14,8 @@ from django.contrib.sites.models import Site
 from django.http import HttpResponse
 from base.models import get_template
 from django.conf import settings
+from django.shortcuts import render
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 parent_template = get_template()
 current_site = Site.objects.get_current()
@@ -38,3 +40,33 @@ class DataDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = IgagroupSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
 
+def IgaIndex(request):
+    i = 0
+    groups_rec = iga_group.objects.all().order_by('id')
+    group_rec = []
+    for group in groups_rec:
+        data = group.iga_room.all()
+        if data:
+            group_rec.append({'group_id': group.id, 'group_title': group.title, 'data': data,'count':data.count()})
+            i= i + data.count()
+    print(i)
+    context = {'cat_data': group_rec, 'parent_template': parent_template}
+
+    return render(request, 'groups/groups.html', context)
+
+def IgagroupDataList(request, pk):
+    category_rec = get_object_or_404(iga_group, pk=pk)
+    all_cat = iga_group.objects.all()
+    data_recs = category_rec.iga_room.all()
+    paginator = Paginator(data_recs, 20)  # 实例化一个分页对象, 每页显示10个
+    page = request.GET.get('page')  # 从URL通过get页码，如?page=3
+    try:
+        page_obj = paginator.page(page)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)  # 如果传入page参数不是整数，默认第一页
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
+    is_paginated = True if paginator.num_pages > 1 else False  # 如果页数小于1不使用分页
+
+    context = {'data': page_obj, 'cat_name': category_rec.title, 'is_paginated': is_paginated, 'Category': all_cat, 'parent_template': parent_template}
+    return render(request, 'groups/data_list.html', context)

@@ -1,0 +1,42 @@
+<div class="card">
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">学科组名称</th>
+                <th scope="col">办公室统计数量</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for cat in cat_data %}
+
+                <tr>
+                    <td><a href="{% url 'iga_group:igagroup_datalist' cat.group_id %}"> {{ cat.group_title }}</a>
+                    </td>
+                    <td>
+                        {{ cat.count }}</td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+
+{#        <ul class="list-group">#}
+{#            {% for cat in cat_data %}#}
+{##}
+{#                <li class="list-group-item">#}
+{#                    <a href="{% url 'iga_group:igagroup_datalist' cat.group_id %}"> {{ cat.group_title }}</a>#}
+{#                    {{ cat.count }}#}
+{#                </li>#}
+{##}
+{#            {% endfor %}#}
+{#        </ul>#}
+    </div>
+</div>
+<div style="clear:both;"></div>
+
+
+
+
+
+

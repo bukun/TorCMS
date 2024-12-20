@@ -1,0 +1,28 @@
+{% extends parent_template %}
+{% load static %}
+
+{% block head %}
+    <title> 学科组列表</title>
+
+{% endblock %}
+{% block mainbody %}
+
+    <div class="wrapper">
+        <div class="row">
+
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active">
+                    学科组
+                </li>
+            </ul>
+
+        </div>
+        <div class="content">
+
+            {% include "./index_group_list.html" with data=cat_data %}
+        </div>
+    </div>
+
+
+{% endblock %}

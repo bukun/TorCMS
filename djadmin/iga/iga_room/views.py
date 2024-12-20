@@ -14,6 +14,7 @@ from django.contrib.sites.models import Site
 from django.http import HttpResponse
 from base.models import get_template
 from django.conf import settings
+from iga.iga_group.models import iga_group
 
 parent_template = get_template()
 current_site = Site.objects.get_current()
@@ -37,4 +38,13 @@ class DataDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = iga_room.objects.filter(sites__id=current_site.id)
     serializer_class = IgaroomSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
+
+def RoomDetailView(request, dataid):
+    # 从url里获取单个任务的pk值，然后查询数据库获得单个对象
+    current_site = Site.objects.get_current()
+    data = get_object_or_404(iga_room, pk=dataid)
+    data_cat = iga_group.objects.all()
+
+    return render(request, "rooms/room_detail.html",
+                  {"data": data, "Category": data_cat, 'site': current_site, 'parent_template': parent_template})
 

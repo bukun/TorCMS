@@ -1,0 +1,219 @@
+
+
+{% extends parent_template %}
+
+{% load i18n %}
+
+{% block head %}
+    <title>{{ data.title }}</title>
+{% endblock %}
+{% block mainbody %}
+    <div class="row mt-3">
+
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+               <li class="breadcrumb-item">
+                        <a href="/iga_group/igaindex/">{{ _('Datasets') }}</a>
+                    </li>
+
+            <li class="breadcrumb-item active">Text</li>
+        </ul>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-9">
+
+                <div class="card-header listinfo_title">
+                    <h3> {{ data.title }}</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+
+                            <div class="col-sm-12 bor_bottom">
+
+                                <strong>{% trans "Release time" %}：</strong>
+
+
+                                <span>{{ data.create_time }}&nbsp;</span> &nbsp;&nbsp;&nbsp;&nbsp;
+
+                                <p><strong>{{ _('Category') }}：</strong>
+                                      {% for category in data.category.all %}
+                                        <a href="{% url 'iga_group:igagroup_datalist' category.id %}"
+                                           class="btn btn-xs btn-primary"> {{ category }}</a> &nbsp;&nbsp;
+                                    {% endfor %}
+                                </p>
+
+
+                            </div>
+
+
+                    </div>
+
+                    <div id="wiki_cnt" class="col-sm-12 listinfo_content bor_bottom">
+                        {{ data.get_html_content | safe }}
+                    </div>
+                    {% for key,value in data.extinfo.items %}
+                        {% if value != 'None' %}
+                            <div class="row bor_bottom">
+                                <div class="col-sm-3">
+                                    <span class="des"><strong>{{ key|slice:'6:' }}</strong></span>
+                                </div>
+                                <div class="col-sm-9">
+                                    <span class="val">{{ value }} </span>
+                                </div>
+                            </div>
+
+                        {% endif %}
+                    {% endfor %}
+                    {% if data.title_alternate %}
+                    <div class="row bor_bottom">
+                        <div class="col-sm-3">
+                            <span class="des"><strong>{{ _('Title alternate') }}</strong></span>
+                        </div>
+                        <div class="col-sm-9">
+                            <span class="val">{{ data.title_alternate }} </span>
+                        </div>
+                    </div>
+                    {% endif %}
+                  {% if data.topicategory %}
+                    <div class="row bor_bottom">
+                        <div class="col-sm-3">
+                            <span class="des"><strong>{{ _('Topicategory') }}</strong></span>
+                        </div>
+                        <div class="col-sm-9">
+                            <span class="val">{{ data.topicategory }} </span>
+                        </div>
+                    </div>
+                 {% endif %}
+                {% if data.language %}
+                    <div class="row bor_bottom">
+                        <div class="col-sm-3">
+                            <span class="des"><strong>{{ _('Language') }}</strong></span>
+                        </div>
+                        <div class="col-sm-9">
+                            <span class="val">{{ data.language }} </span>
+                        </div>
+                    </div>
+                 {% endif %}
+                 {% if data.type %}
+                    <div class="row bor_bottom">
+                        <div class="col-sm-3">
+                            <span class="des"><strong>{{ _('Type') }}</strong></span>
+                        </div>
+                        <div class="col-sm-9">
+                            <span class="val">{{ data.type }} </span>
+                        </div>
+                    </div>
+                 {% endif %}
+                 {% if data.format %}
+                    <div class="row bor_bottom">
+                        <div class="col-sm-3">
+                            <span class="des"><strong>{{ _('Format') }}</strong></span>
+                        </div>
+                        <div class="col-sm-9">
+                            <span class="val">{{ data.format }} </span>
+                        </div>
+                    </div>
+                 {% endif %}
+                {% if data.links %}
+                    <div class="row bor_bottom">
+                        <div class="col-sm-3">
+                            <span class="des"><strong>{{ _('Links') }}</strong></span>
+                        </div>
+                        <div class="col-sm-9">
+                            <span class="val">{{ data.links }} </span>
+                        </div>
+                    </div>
+                 {% endif %}
+                 {% if data.time_begin %}
+                    <div class="row bor_bottom">
+                        <div class="col-sm-3">
+                            <span class="des"><strong>{{ _('Time begin') }}</strong></span>
+                        </div>
+                        <div class="col-sm-9">
+                            <span class="val">{{ data.time_begin }} </span>
+                        </div>
+                    </div>
+                   {% endif %}
+                 {% if data.time_end %}
+                    <div class="row bor_bottom">
+                        <div class="col-sm-3">
+                            <span class="des"><strong>{{ _('Time end') }}</strong></span>
+                        </div>
+                        <div class="col-sm-9">
+                            <span class="val">{{ data.time_end }} </span>
+                        </div>
+                    </div>
+                  {% endif %}
+                {% if data.creator %}
+                    <div class="row bor_bottom">
+                        <div class="col-sm-3">
+                            <span class="des"><strong>{{ _('Creator') }}</strong></span>
+                        </div>
+                        <div class="col-sm-9">
+                            <span class="val">{{ data.creator }} </span>
+                        </div>
+                    </div>
+                  {% endif %}
+                    {% if data.publisher %}
+                    <div class="row bor_bottom">
+                        <div class="col-sm-3">
+                            <span class="des"><strong>{{ _('Publisher') }}</strong></span>
+                        </div>
+                        <div class="col-sm-9">
+                            <span class="val">{{ data.publisher }} </span>
+                        </div>
+                    </div>
+                   {% endif %}
+                 {% if data.contributor %}
+                    <div class="row bor_bottom">
+                        <div class="col-sm-3">
+                            <span class="des"><strong>{{ _('Contributor') }}</strong></span>
+                        </div>
+                        <div class="col-sm-9">
+                            <span class="val">{{ data.contributor }} </span>
+                        </div>
+                    </div>
+                   {% endif %}
+                {% if data.organization %}
+                    <div class="row bor_bottom">
+                        <div class="col-sm-3">
+                            <span class="des"><strong>{{ _('Organization') }}</strong></span>
+                        </div>
+                        <div class="col-sm-9">
+                            <span class="val">{{ data.organization }} </span>
+                        </div>
+                    </div>
+                 {% endif %}
+                {% if data.operateson %}
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <span class="des"><strong>{{ _('Operateson') }}</strong></span>
+                        </div>
+                        <div class="col-sm-9">
+                            <span class="val">{{ data.operateson }} </span>
+                        </div>
+                    </div>
+                 {% endif %}
+                </div>
+
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-12"
+                             style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap; display: block;">
+
+                            {{ _('Article link') }}： <a class="text-primary" href="{% url 'iga_room:igaroom_view' data.id %}"
+                                                        title="{{ data.title }}">{{ data.title }}</a>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        <div class="col-sm-3">
+           {% include "yj_catalog_of.html" with Category=Category order=False link_url='categorys' data_name='Dataset' %}
+        </div>
+    </div>
+{% endblock %}

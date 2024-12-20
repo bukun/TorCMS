@@ -1,0 +1,91 @@
+{% extends parent_template %}
+
+{% block head %}
+    <title>{{ cat_name }} List</title>
+{% endblock %}
+{% block mainbody %}
+    <div class="row mt-3">
+
+
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                   <li class="breadcrumb-item">
+                        <a href="/categorys/index/">{{ _('Datasets') }}</a>
+                    </li>
+                <li class="breadcrumb-item active">
+                    {{ cat_name }}
+                </li>
+            </ul>
+
+    </div>
+    <div class="row">
+        <div class="col-sm-9">
+
+                <div class="card-header">{{ cat_name }}</div>
+                   <div class="card-body">
+                {% if data %}
+                    <ul class="list-group">
+
+                        {% for dat in data %}
+                            <li class="list-group-item">
+
+                                <div class="row ">
+
+                                        <div class="col-sm-12">
+                                            <div class="listinfo_title">
+                                                <a href="{% url 'iga_room:igaroom_view' dat.id %}"
+                                                   title="{{ dat.num }}">房间号: {{ dat.num }} </a>
+                                            </div>
+
+
+                                            <div class="padt10"> {{ dat.create_time | date:"Y-m-j" }}</div>
+
+                                            <div class="listinfo_content padt10"> {{ dat.get_html_content |striptags|  truncatechars:130 }}</div>
+                                        </div>
+
+                                </div>
+                            </li>
+
+                        {% endfor %}
+
+
+                        {# 分页链接 #}
+                        {% if is_paginated %}
+                            <ul class="pagination">
+                                {% if data.has_previous %}
+                                    <li class="page-item"><a class="page-link"
+                                                             href="?page={{ data.previous_page_number }}">Previous</a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled"><span class="page-link">Previous</span></li>
+                                {% endif %}
+
+                                {% for i in data.paginator.page_range %}
+                                    {% if data.number == i %}
+                                        <li class="page-item active"><span class="page-link"> {{ i }} <span
+                                                class="sr-only">(current)</span></span>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if data.has_next %}
+                                    <li class="page-item"><a class="page-link"
+                                                             href="?page={{ data.next_page_number }}">Next</a></li>
+                                {% else %}
+                                    <li class="page-item disabled"><span class="page-link">Next</span></li>
+                                {% endif %}
+                            </ul>
+                        {% endif %}
+
+                    </ul>
+
+                {% endif %}
+            </div>
+        </div>
+{#        <div class="col-sm-3">#}
+{#            {% include "yj_catalog_of.html" with Category=Category order=False link_url='categorys' data_name='Dataset' %}#}
+{#        </div>#}
+    </div>
+{% endblock %}
