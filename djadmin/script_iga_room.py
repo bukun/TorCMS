@@ -18,6 +18,7 @@ from iga.iga_floor.models import iga_floor
 
 
 def chuli_group(group_str):
+    print(group_str)
     group_ids = []
     if group_str:
         if '、' in group_str:
@@ -40,12 +41,14 @@ def chuli_group(group_str):
                 instance = iga_group.objects.create(title=group_str.strip())
                 resid = instance.pk
             group_ids = [resid]
+    else:
+        pass
     return group_ids
 
 
 def chuli_room(dic):
     print(dic['room_num'])
-    res = iga_room.objects.filter(num=dic['room_num'])
+    res = iga_room.objects.filter(floor_num=dic['floor_num'])
     floorinfo = iga_floor.objects.filter(id=dic['floor']).first()
     group_list = dic['group_ids']
     print(group_list)
@@ -57,6 +60,7 @@ def chuli_room(dic):
             staff=dic['room_staff'],
             cnt_md=dic['room_cnt'],
             building=dic['room_build'],
+            floor_num=dic['floor_num'],
             floor=floorinfo,
         )
         update_group(group_list, new_info)
@@ -89,23 +93,25 @@ def start_chuli():
     for sheet in sheets:
         # print(sheet)
         if sheet != '封面':
-            # print(sheet)
             ws = wb[sheet]
             floor_num = str(sheet).strip()
             floor_id = chuli_floor(sheet)
             # print(floor_id)
             for row in ws.rows:
                 sig = row[0].value
+                sig1 = row[1].value
+                print(sig,sig1)
                 # print(row[4] != None)
                 if sig != None and str(sig).strip()[:2] not in ['办公', '房间']:
                     dic = {}
                     dic['room_num'] = str(sig).strip()
                     dic['room_title'] = str(row[1].value).strip()  if row[1].value != None else '无信息'
-                    dic['room_group'] = str(row[2].value).strip()
+                    dic['room_group'] = str(row[2].value).strip() if row[2].value != None else ''
                     dic['room_staff'] = str(row[3].value).strip()  if row[3].value != None else '无人员信息'
                     dic['room_area'] = str(row[4].value).strip() if row[4].value != None else '无面积信息'
                     dic['room_cnt'] = str(row[5].value).strip() if row[5].value !=  None else '无用途信息'
                     dic['room_build'] = sheet.strip()[:2]
+                    dic['floor_num'] = str(sheet) + '_' + str(sig).strip()
 
                     # print(dic['room_group'])
                     group_ids = chuli_group(dic['room_group'])
