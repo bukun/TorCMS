@@ -196,7 +196,7 @@ urlpatterns = (
     path('literature/', include('literature.literature_data.urls')),  # 文献管理
     path('literature_category/', include('literature.literature_category.urls')),  # 文献分类管理
     path('literature_label/', include('literature.literature_label.urls')),  # 文献标签管理
-    path('literature_author/', include('public_model.literature_author.urls')),  # 作者管理
+    path('author/', include('public_model.literature_author.urls')),  # 作者管理
     path('literature_date/', include('public_model.literature_date.urls')),  # 日期管理
     path('public_country/', include('public_model.public_country.urls')),  # 国家
     path('jupyter_data/', include('jupyters.jupyter_data.urls')),  # 科学计算模型数据
