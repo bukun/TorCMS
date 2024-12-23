@@ -73,12 +73,13 @@ class Jupyter(basemodel):
             uid=ch_path.stem.split('_')[-2]
         else:
             uid = ch_path.stem.split('_')[-1]
+            
+        current_directory = os.path.dirname(self.file.path)
+        # 获取上一层目录
+        parent_directory = os.path.dirname(current_directory)
 
-
-
-        subprocess.run(f'jupyter nbconvert --to html {ch_path.resolve()} --output /tmp/xx.html ', shell=True)
-
-        html_file = '/tmp/xx.html'
+        html_file = f'/{parent_directory}/xx.html'
+        subprocess.run(f'jupyter nbconvert --to html {ch_path.resolve()} --output {html_file} ', shell=True)
 
         # File = open(str(the_file.resolve()))
         Soup = bs4.BeautifulSoup(open(html_file).read(), features="html.parser")
