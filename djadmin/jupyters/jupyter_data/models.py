@@ -73,12 +73,12 @@ class Jupyter(basemodel):
             uid=ch_path.stem.split('_')[-2]
         else:
             uid = ch_path.stem.split('_')[-1]
-            
+
         current_directory = os.path.dirname(self.file.path)
         # 获取上一层目录
         parent_directory = os.path.dirname(current_directory)
 
-        html_file = f'/{parent_directory}/xx.html'
+        html_file = f'{parent_directory}/xx.html'
         subprocess.run(f'jupyter nbconvert --to html {ch_path.resolve()} --output {html_file} ', shell=True)
 
         # File = open(str(the_file.resolve()))
