@@ -1,4 +1,4 @@
-{% extends parent_template %}
+{% extends 'iga_base.html' %}
 {% load static %}
 
 {% block head %}
@@ -8,16 +8,6 @@
 {% block mainbody %}
 
     <div class="wrapper">
-        <div class="row">
-
-            <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/">Home</a></li>
-                <li class="breadcrumb-item active">
-                    学科组
-                </li>
-            </ul>
-
-        </div>
         <div class="content">
 
             {% include "./index_group_list.html" with data=cat_data %}

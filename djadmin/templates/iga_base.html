@@ -1,0 +1,54 @@
+{% load bootstrap4 %}
+{% load i18n %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ _('Eurasian Continental Knowledge Resources Portal') }}</title>
+    <meta charset="utf-8">
+    <meta name="generator" content="{{ _('Eurasian Continental Knowledge Resources Portal') }}">
+    <meta name="applicable-device" content="pc,mobile">
+    <meta name="author" content="{{ _('Eurasian Continental Knowledge Resources Portal') }}">
+    <meta name="Copyright" content="{{ _('Eurasian Continental Knowledge Resources Portal') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <script src="https://r.osgeo.cn/jquery-validate_1.15.0/jquery.validate.min.js"></script>
+    <script src="https://r.osgeo.cn/magnific-popup_1.1.0/jquery.magnific-popup.min.js"></script>
+    <script src="https://r.osgeo.cn/leaflet-1.9.x/leaflet.js"></script>
+    <script src="https://r.osgeo.cn/leaflet/leaflet.ChineseTmsProviders.js"></script>
+    <link rel="stylesheet" href="https://r.osgeo.cn/leaflet-1.9.x/leaflet.css">
+
+    <link rel="stylesheet" href="https://r.osgeo.cn//bootstrap-5.3.x/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://r.osgeo.cn/bootstrap-icons-1.11.x/font/bootstrap-icons.css">
+    <script src="https://r.osgeo.cn/bootstrap-5.3.x/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1 style="text-align: center;padding: 50px 0 60px 0">
+                <a href="/iga_group/igaindex/">地理所办公室管理系统</a></h1>
+        </div>
+    </div>
+    {% block mainbody %}{% endblock %}
+
+</div>
+
+
+</body>
+</html>
+
+
+
+ 
