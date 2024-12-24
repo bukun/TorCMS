@@ -12,7 +12,8 @@ from django.utils.safestring import mark_safe
 
 class iga_room(basemodel):
     title = models.CharField(blank=True, null=False, max_length=255,
-                             choices=[('1', '公共设施'), ('2', '办公室'),('3', '实验室'),('4', '档案室')],
+                             choices=[('1', '公共设施'), ('2', '办公室'),('3', '实验室'),('4', '档案室'),
+                                      ('5', '会议室')],
                              default='2',
                              verbose_name="用途")
     num = models.CharField(blank=True, null=False, max_length=255, verbose_name="房间号")
