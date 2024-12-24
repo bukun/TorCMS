@@ -17,7 +17,8 @@ class iga_room(basemodel):
                              verbose_name="用途")
     num = models.CharField(blank=True, null=False, max_length=255, verbose_name="房间号")
     staff = models.CharField(blank=True, null=False, max_length=255, verbose_name="备注")
-
+    photo = models.ImageField(upload_to='iga_room/imgs/', max_length=255, null=True, blank=True,
+                             verbose_name="照片")
     area = models.CharField(blank=True,default='', max_length=255, verbose_name="面积")
     areafloat = models.FloatField(blank=True, null=True, default=0,verbose_name="面积值")
 
@@ -37,11 +38,12 @@ class iga_room(basemodel):
     operaters = models.ManyToManyField(iga_staff, blank=True,
                                  related_name='iga_room_operaters',verbose_name="使用人员")
 
-    cnt_md = MDTextField(verbose_name="内容", default='', blank=True)
     building = models.CharField(blank=True, default='', max_length=255, verbose_name="所属楼")
+
+    cnt_md = MDTextField(verbose_name="内容", default='', blank=True)
+
     sites = models.ManyToManyField(Site, blank=True, related_name='iga_room', verbose_name='Site')
-    photo = models.ImageField(upload_to='iga_room/imgs/', max_length=255, null=True, blank=True,
-                             verbose_name="图片")
+
     floor_num = models.CharField(blank=True, null=False, max_length=255,unique=True, verbose_name="楼与房间号组合")
     def __str__(self):
         return self.title

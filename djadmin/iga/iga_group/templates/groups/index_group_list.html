@@ -15,7 +15,7 @@
                     <td><a href="{% url 'iga_group:igagroup_datalist' cat.group_id %}"> {{ cat.group_title }}</a>
                     </td>
                     <td>{{ cat.count }}</td>
-                    <td></td>
+                    <td>{{ cat.area_count }}</td>
                 </tr>
 
             {% endfor %}

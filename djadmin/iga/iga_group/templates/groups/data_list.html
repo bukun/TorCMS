@@ -5,43 +5,61 @@
 {% endblock %}
 {% block mainbody %}
     <div class="row">
+        <div class="col-sm-10">
+            <div class="card-header">
+                <h3>学科组名称: {{ cat_name }}</h3>
+                <hr/>
+            </div>
+            <div class="card-body">
 
-        <div class="card-header">
-            <h3>学科组名称: {{ cat_name }}</h3>
-            <hr/>
-        </div>
-        <div class="card-body">
-
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col">房间号</th>
-                    <th scope="col">名称</th>
-                    <th scope="col">面积</th>
-                    <th scope="col">使用人员</th>
-                    <th scope="col">所属楼</th>
-                    <th scope="col">所在楼层</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for dat in data %}
-
+                <table class="table table-striped">
+                    <thead>
                     <tr>
-                        <td>{{ dat.num }}</td>
-                        <td>{{ dat.title }}</td>
-                        <td>{{ dat.area }}</td>
-                        <td>{{ dat.staff }}</td>
-                        <td>{{ dat.building }}楼</td>
-                        <td>
-                            {{ dat.floor }}楼
-                        </td>
+                        <th scope="col">所属楼</th>
+                        <th scope="col">所在楼层</th>
+                        <th scope="col">房间号</th>
+                        <th scope="col">用途</th>
+                        <th scope="col">面积</th>
+                        <th scope="col">备注</th>
+
                     </tr>
+                    </thead>
+                    <tbody>
+                    {% for dat in data %}
 
-                {% endfor %}
-                </tbody>
-            </table>
+                        <tr>
+                            <td>{{ dat.building }}楼</td>
+                            <td>
+                                {{ dat.floor }}楼
+                            </td>
+                            <td>{{ dat.num }}</td>
+
+                            <td>{{ dat.title }}</td>
+
+                            <td>{{ dat.area }}</td>
+
+                            <td>{{ dat.staff }}</td>
 
 
+                        </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            {% for cat in Category %}
+
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <a href="{% url 'iga_group:igagroup_datalist' cat.id %}">
+
+                            {{ cat.title }}</a>
+                    </li>
+                </ul>
+
+            {% endfor %}
         </div>
     </div>
 {% endblock %}
