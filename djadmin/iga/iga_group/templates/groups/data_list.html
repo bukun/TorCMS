@@ -18,6 +18,7 @@
                         <th scope="col">所属楼</th>
                         <th scope="col">所在楼层</th>
                         <th scope="col">房间号</th>
+
                         <th scope="col">用途</th>
                         <th scope="col">面积</th>
                         <th scope="col">备注</th>
@@ -34,7 +35,8 @@
                             </td>
                             <td>{{ dat.num }}</td>
 
-                            <td>{{ dat.title }}</td>
+
+                            <td>{{ dat.get_title_display }}</td>
 
                             <td>{{ dat.areafloat }}</td>
 
@@ -49,17 +51,68 @@
             </div>
         </div>
         <div class="col-sm-2">
-            {% for cat in Category %}
 
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <a href="{% url 'iga_group:igagroup_datalist' cat.id %}">
 
-                            {{ cat.title }}</a>
-                    </li>
-                </ul>
+            <div class="card card-body">
+                <div class="card-title">
+                    <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button"
+                       aria-expanded="false" aria-controls="collapseExample">
+                        学科组
+                    </a>
+                </div>
+                <div class="collapse" id="collapseExample">
+                    {% for cat in Category %}
+                        {% if cat.group_type == '1' %}
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <a href="{% url 'iga_group:igagroup_datalist' cat.id %}" class="btn btn-success">
+                                        {{ cat.title }}</a>
+                                </li>
+                            </ul>
+                        {% endif %}
+                    {% endfor %}
+                </div>
 
-            {% endfor %}
+                <div class="card-title">
+                    <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample1" role="button"
+                       aria-expanded="false" aria-controls="collapseExample1">
+                        管理支撑部门
+                    </a>
+                </div>
+                <div class="collapse" id="collapseExample1">
+                    {% for cat in Category %}
+                        {% if cat.group_type == '2' %}
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <a href="{% url 'iga_group:igagroup_datalist' cat.id %}" class="btn btn-success">
+                                        {{ cat.title }}</a>
+                                </li>
+                            </ul>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                   <div class="card-title">
+                    <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample2" role="button"
+                       aria-expanded="false" aria-controls="collapseExample2">
+                        野外台站
+                    </a>
+                </div>
+                <div class="collapse" id="collapseExample2">
+                    {% for cat in Category %}
+                        {% if cat.group_type == '3' %}
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <a href="{% url 'iga_group:igagroup_datalist' cat.id %}" class="btn btn-success">
+                                        {{ cat.title }}</a>
+                                </li>
+                            </ul>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
+
+
 {% endblock %}

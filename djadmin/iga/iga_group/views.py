@@ -49,8 +49,8 @@ def IgaIndex(request):
         area_count = 0.0
         if data:
             for dat in data:
-                if dat.area != '无面积信息':
-                    area_count = area_count + float(dat.area)
+                # if dat.areaf != '无面积信息':
+                area_count = area_count + dat.areafloat
                 # print(area_count)
             group_rec.append({'group_id': group.id, 'group_title': group.title, 'data': data,'count':data.count(),'area_count':area_count})
             # i= i + data.count()
