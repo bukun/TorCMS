@@ -5,6 +5,7 @@
             <tr>
                 <th scope="col">学科组名称</th>
                 <th scope="col">办公室统计数量</th>
+                <th scope="col">统计面积</th>
             </tr>
             </thead>
             <tbody>
@@ -13,8 +14,8 @@
                 <tr>
                     <td><a href="{% url 'iga_group:igagroup_datalist' cat.group_id %}"> {{ cat.group_title }}</a>
                     </td>
-                    <td>
-                        {{ cat.count }}</td>
+                    <td>{{ cat.count }}</td>
+                    <td>{{ cat.area_count }}</td>
                 </tr>
 
             {% endfor %}

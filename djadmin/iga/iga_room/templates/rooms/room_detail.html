@@ -21,7 +21,7 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-9">
+        <div class="col-sm-12">
 
                 <div class="card-header listinfo_title">
                     <h3> {{ data.title }}</h3>
@@ -212,8 +212,5 @@
             </div>
 
 
-        <div class="col-sm-3">
-           {% include "yj_catalog_of.html" with Category=Category order=False link_url='categorys' data_name='Dataset' %}
-        </div>
     </div>
 {% endblock %}

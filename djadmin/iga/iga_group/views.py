@@ -41,15 +41,20 @@ class DataDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
 
 def IgaIndex(request):
-    i = 0
+    # i = 0
     groups_rec = iga_group.objects.all().order_by('id')
     group_rec = []
     for group in groups_rec:
         data = group.iga_room.all()
+        area_count = 0.0
         if data:
-            group_rec.append({'group_id': group.id, 'group_title': group.title, 'data': data,'count':data.count()})
-            i= i + data.count()
-    print(i)
+            for dat in data:
+                # if dat.areaf != '无面积信息':
+                area_count = area_count + dat.areafloat
+                # print(area_count)
+            group_rec.append({'group_id': group.id, 'group_title': group.title, 'data': data,'count':data.count(),'area_count':area_count})
+            # i= i + data.count()
+    # print(i)
     context = {'cat_data': group_rec, 'parent_template': parent_template}
 
     return render(request, 'groups/groups.html', context)
