@@ -34,26 +34,318 @@
                 popup
                     .setLatLng(e.latlng)
                     .setContent("Location:" + e.latlng.toString())
-                    .openOn(map_idx);
+                    .openOn(map);
             }
 
             var osm = L.tileLayer.chinaProvider('TianDiTu.Normal.Map', {
                 id: "mapbox.streets"
             });
 
-
-            var map_idx = L.map('map_div', {
+            var map = L.map('map_div', {
                 center: [43.9985, 125.3964],
                 zoom: 16,
                 maxZoom: 22,
                 minZoom: 1,
             });
-            map_idx.on('click', onMapClick);
-            osm.addTo(map_idx);
-            // 添加地图层
-            L.tileLayer('http://39.100.72.56:6799/dls_poly',
-                {attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map_idx);
+
+
+            var gl = L.maplibreGL({
+                style: 'https://demotiles.maplibre.org/style.json',
+                interactive: true
+            }).addTo(map);
+
+
+            var maplibreMap = gl.getMaplibreMap();
+
+            var paint = {
+
+                'fill-extrusion-color': '#fd8788',
+                "fill-extrusion-height": ["get", "height"],
+                "fill-extrusion-base": ["get", "height"],
+                "fill-extrusion-opacity": 1,
+                // "fill-extrusion-ambient-occlusion-ground-attenuation": 0.6,
+
+            }
+            maplibreMap.on('load', () => {
+                maplibreMap.addSource('tdt', {
+                    type: 'raster',
+                    tiles: ['http://t4.tianditu.gov.cn/DataServer?T=img_w&X={x}&Y={y}&L={z}&tk=57f1b8146ef867f14189f3f4bb1adc1c',
+                        // 'http://t4.tianditu.gov.cn/DataServer?T=cia_w&X={x}&Y={y}&L={z}&tk=57f1b8146ef867f14189f3f4bb1adc1c',
+                    ],
+                    tileSize: 256
+                });
+                maplibreMap.addLayer({
+                    id: 'tdt-layer',
+                    type: 'raster',
+                    source: 'tdt',
+                    minzoom: 0,
+                });
+                maplibreMap.addLayer({
+                    id: 'pp_cga1',
+                    type: 'fill-extrusion',
+                    source: {
+                        type: 'vector',
+                        url: 'http://39.100.72.56:6799/pp_cga1'
+                    },
+                    'source-layer': 'pp_cga1',
+                    paint: paint,
+                });
+                maplibreMap.addLayer({
+                    id: 'pp_cga2',
+                    type: 'fill-extrusion',
+                    source: {
+                        type: 'vector',
+                        url: 'http://39.100.72.56:6799/pp_cga2'
+                    },
+                    'source-layer': 'pp_cga2',
+                    paint: paint,
+                });
+                maplibreMap.addLayer({
+                    id: 'pp_cga3',
+                    type: 'fill-extrusion',
+                    source: {
+                        type: 'vector',
+                        url: 'http://39.100.72.56:6799/pp_cga3'
+                    },
+                    'source-layer': 'pp_cga3',
+                    paint: paint,
+                });
+                maplibreMap.addLayer({
+                    id: 'pp_cga4',
+                    type: 'fill-extrusion',
+                    source: {
+                        type: 'vector',
+                        url: 'http://39.100.72.56:6799/pp_cga4'
+                    },
+                    'source-layer': 'pp_cga4',
+                    paint: paint,
+                });
+                maplibreMap.addLayer({
+                    id: 'pp_cga5',
+                    type: 'fill-extrusion',
+                    source: {
+                        type: 'vector',
+                        url: 'http://39.100.72.56:6799/pp_cga5'
+                    },
+                    'source-layer': 'pp_cga5',
+                    paint: paint,
+                });
+                maplibreMap.addLayer({
+                    id: 'pp_hja1',
+                    type: 'fill-extrusion',
+                    source: {
+                        type: 'vector',
+                        url: 'http://39.100.72.56:6799/pp_hja1'
+                    },
+                    'source-layer': 'pp_hja1',
+                    paint: paint,
+                });
+                maplibreMap.addLayer({
+                    id: 'pp_hja2',
+                    type: 'fill-extrusion',
+                    source: {
+                        type: 'vector',
+                        url: 'http://39.100.72.56:6799/pp_hja2'
+                    },
+                    'source-layer': 'pp_hja2',
+                    paint: paint,
+                });
+                maplibreMap.addLayer({
+                    id: 'pp_hja3',
+                    type: 'fill-extrusion',
+                    source: {
+                        type: 'vector',
+                        url: 'http://39.100.72.56:6799/pp_hja3'
+                    },
+                    'source-layer': 'pp_hja3',
+                    paint: paint,
+                });
+                maplibreMap.addLayer({
+                    id: 'pp_hja4',
+                    type: 'fill-extrusion',
+                    source: {
+                        type: 'vector',
+                        url: 'http://39.100.72.56:6799/pp_hja4'
+                    },
+                    'source-layer': 'pp_hja4',
+                    paint: paint,
+                });
+                maplibreMap.addLayer({
+                    id: 'pp_hja5',
+                    type: 'fill-extrusion',
+                    source: {
+                        type: 'vector',
+                        url: 'http://39.100.72.56:6799/pp_hja5'
+                    },
+                    'source-layer': 'pp_hja5',
+                    paint: paint,
+                });
+                maplibreMap.addLayer({
+                    id: 'pp_nya1',
+                    type: 'fill-extrusion',
+                    source: {
+                        type: 'vector',
+                        url: 'http://39.100.72.56:6799/pp_nya1'
+                    },
+                    'source-layer': 'pp_nya1',
+                    paint: paint,
+                });
+                maplibreMap.addLayer({
+                    id: 'pp_nya2',
+                    type: 'fill-extrusion',
+                    source: {
+                        type: 'vector',
+                        url: 'http://39.100.72.56:6799/pp_nya2'
+                    },
+                    'source-layer': 'pp_nya2',
+                    paint: paint,
+                });
+
+                maplibreMap.addLayer({
+                    id: 'pp_nya3',
+                    type: 'fill-extrusion',
+                    source: {
+                        type: 'vector',
+                        url: 'http://39.100.72.56:6799/pp_nya3'
+                    },
+                    'source-layer': 'pp_nya3',
+                    paint: paint,
+                });
+                maplibreMap.addLayer({
+                    id: 'pp_nya4',
+                    type: 'fill-extrusion',
+                    source: {
+                        type: 'vector',
+                        url: 'http://39.100.72.56:6799/pp_nya4'
+                    },
+                    'source-layer': 'pp_nya4',
+                    paint: paint,
+                });
+                maplibreMap.addLayer({
+                    id: 'pp_nya5',
+                    type: 'fill-extrusion',
+                    source: {
+                        type: 'vector',
+                        url: 'http://39.100.72.56:6799/pp_nya5'
+                    },
+                    'source-layer': 'pp_nya5',
+                    paint: paint,
+                });
+
+                maplibreMap.addLayer({
+                    id: 'pp_zha1',
+                    type: 'fill-extrusion',
+                    source: {
+                        type: 'vector',
+                        url: 'http://39.100.72.56:6799/pp_zha1'
+                    },
+                    'source-layer': 'pp_zha1',
+                    paint: paint,
+                });
+
+                maplibreMap.addLayer({
+                    id: 'pp_zha2',
+                    type: 'fill-extrusion',
+                    source: {
+                        type: 'vector',
+                        url: 'http://39.100.72.56:6799/pp_zha2'
+                    },
+                    'source-layer': 'pp_zha2',
+                    paint: paint,
+                });
+                maplibreMap.addLayer({
+                    id: 'pp_zha3',
+                    type: 'fill-extrusion',
+                    source: {
+                        type: 'vector',
+                        url: 'http://39.100.72.56:6799/pp_zha3'
+                    },
+                    'source-layer': 'pp_zha3',
+                    paint: paint,
+                });
+                maplibreMap.addLayer({
+                    id: 'pp_zha4',
+                    type: 'fill-extrusion',
+                    source: {
+                        type: 'vector',
+                        url: 'http://39.100.72.56:6799/pp_zha4'
+                    },
+                    'source-layer': 'pp_zha4',
+                    paint: paint,
+                });
+                maplibreMap.addLayer({
+                    id: 'pp_zha5',
+                    type: 'fill-extrusion',
+                    source: {
+                        type: 'vector',
+                        url: 'http://39.100.72.56:6799/pp_zha5'
+                    },
+                    'source-layer': 'pp_zha5',
+                    paint: paint,
+                });
+                maplibreMap.addLayer({
+                    id: 'pp_sda1',
+                    type: 'fill-extrusion',
+                    source: {
+                        type: 'vector',
+                        url: 'http://39.100.72.56:6799/pp_sda1'
+                    },
+                    'source-layer': 'pp_sda1',
+                    paint: paint,
+                });
+                maplibreMap.addLayer({
+                    id: 'pp_sda2',
+                    type: 'fill-extrusion',
+                    source: {
+                        type: 'vector',
+                        url: 'http://39.100.72.56:6799/pp_sda2'
+                    },
+                    'source-layer': 'pp_sda2',
+                    paint: paint,
+                });
+                maplibreMap.addLayer({
+                    id: 'pp_sda3',
+                    type: 'fill-extrusion',
+                    source: {
+                        type: 'vector',
+                        url: 'http://39.100.72.56:6799/pp_sda3'
+                    },
+                    'source-layer': 'pp_sda3',
+                    paint: paint,
+                });
+                maplibreMap.addLayer({
+                    id: 'pp_sda4',
+                    type: 'fill-extrusion',
+                    source: {
+                        type: 'vector',
+                        url: 'http://39.100.72.56:6799/pp_sda4'
+                    },
+                    'source-layer': 'pp_sda4',
+                    paint: paint,
+                });
+                maplibreMap.addLayer({
+                    id: 'pp_sda5',
+                    type: 'fill-extrusion',
+                    source: {
+                        type: 'vector',
+                        url: 'http://39.100.72.56:6799/pp_sda5'
+                    },
+                    'source-layer': 'pp_sda5',
+                    paint: paint,
+                });
+
+            });
+            maplibreMap.on('click', (e) => {
+                const {point} = e;
+                console.log(e)
+                const clickedFeatures = maplibreMap.queryRenderedFeatures(point); // 查询点击处的要素
+                var filter = clickedFeatures[0].properties.name;
+                console.log(clickedFeatures[0])
+                console.log(filter)
+            })
 
         })
+
+
     </script>
 {% endblock %}
