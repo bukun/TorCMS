@@ -16,7 +16,7 @@ from django.utils.safestring import mark_safe
 from django.contrib.sites.models import Site
 User = get_user_model()
 from django.conf import settings
-
+from cfg import jupyter_exe
 
 
 DC_IMAGE_CHOICES = [
@@ -49,15 +49,14 @@ class Jupyter(basemodel):
     def get_html_content(self):
         html_content = markdown.markdown(self.cnt_md)
         return mark_safe(html_content)
+
     def save(self, *args, **kwargs):
+
         super(Jupyter, self).save(*args, **kwargs)
 
-        if not self.cnt_md:
+        self.convert_to_markdown()
 
-            self.convert_to_markdown()
-
-            super(Jupyter, self).save(*args, **kwargs)
-
+        super(Jupyter, self).save(*args, **kwargs)
 
     def convert_to_markdown(self):
 
@@ -69,30 +68,30 @@ class Jupyter(basemodel):
 
         file_src = os.path.join(self.file.path)
         ch_path = Path(os.path.join(file_src))
-        if ch_path.stem.split('_')[-2]:
-            uid=ch_path.stem.split('_')[-2]
-        else:
-            uid = ch_path.stem.split('_')[-1]
 
         current_directory = os.path.dirname(self.file.path)
         # 获取上一层目录
         parent_directory = os.path.dirname(current_directory)
 
-        html_file = f'{parent_directory}/xx.html'
-        subprocess.run(f'jupyter nbconvert --to html {ch_path.resolve()} --output {html_file} ', shell=True)
+        html_file = Path('/tmp/xx.html')
+
+        subprocess.run(f'{jupyter_exe} nbconvert --to html {ch_path.resolve()} --output {html_file}'.split())
 
         # File = open(str(the_file.resolve()))
         Soup = bs4.BeautifulSoup(open(html_file).read(), features="html.parser")
 
+        title_con = Soup.select('h1')[0].getText()
 
-        title = Soup.select('h1')[0].getText()
+        title = re.sub(r'¶', '', str(title_con))
+
         content = Soup.select('.jp-Notebook')
 
         # title.replace('{', '{{').replace('}', '}}')
         # 术语、参考
         phoneNumRegex = re.compile('|'.join(rest_regs))
         # print(in_text)
-        in_text = str(content)
+
+        in_text = re.sub(r'¶', '', str(content))
 
         out_reg_arr = phoneNumRegex.findall(in_text)
 
@@ -107,7 +106,8 @@ class Jupyter(basemodel):
         # print(result)
 
         content = ' '.join(result)[1:-1]
-        html_content=str(content).replace('class="container"', '')
+        html_content = str(content).replace('class="container"', '')
+
         # 将HTML转换为Textile
         text_maker = ht.HTML2Text()
         text_maker.bypass_tables = False
