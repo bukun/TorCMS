@@ -5,22 +5,25 @@
     img {
         max-width: 100%
     }
+    .codehilite{border: 1px solid #ddd;margin-bottom: 20px}
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/github.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
 {% endblock %}
 {% block mainbody %}
-<!--<div class="row mt-3">-->
+<div class="row mt-3">
 
-<!--    <ul class="breadcrumb">-->
-<!--        <li class="breadcrumb-item"><a href="/">Home</a></li>-->
-<!--        <li class="breadcrumb-item">-->
-<!--            <a href="/jupyter_category/index/"> {{ _('Scientific - Models') }}</a>-->
-<!--        </li>-->
-<!--        <li class="breadcrumb-item active">-->
-<!--            Text-->
-<!--        </li>-->
-<!--    </ul>-->
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item">
+            <a href="/jupyter_category/index/"> {{ _('Scientific - Models') }}</a>
+        </li>
+        <li class="breadcrumb-item active">
+            Text
+        </li>
+    </ul>
 
-<!--</div>-->
+</div>
 <div class="row">
     <div class="col-sm-8">
 
@@ -148,5 +151,16 @@
         {% endif %}
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+      hljs.highlightAll();
+    });
+    // 获取所有的table元素
+var tables = document.getElementsByTagName('table');
 
+// 遍历所有table元素，并添加CSS类名
+for (var i = 0; i < tables.length; i++) {
+    tables[i].className += 'table table-bordered';
+}
+  </script>
 {% endblock %}
