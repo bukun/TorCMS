@@ -29,9 +29,7 @@ class LiteratureAuthor(basemodel):
 
     def __str__(self):
         return self.name
-    def get_html_content(self):
-        html_content = markdown.markdown(self.cnt_md)
-        return mark_safe(html_content)
+
 
     class Meta(basemodel.Meta):
         db_table = 'literature_authors'

@@ -4,7 +4,8 @@ from django.db import models
 import uuid
 from mptt.models import MPTTModel, TreeForeignKey
 from django.contrib.sites.models import Site
-
+import markdown
+from django.utils.safestring import mark_safe
 current_site = Site.objects.get_current()
 
 
@@ -59,36 +60,23 @@ class basemodel(models.Model):
             return self.name
         else:
             return self.id
+    def get_html_content(self):
+        content = ""
+        for line in self.cnt_md.split("\n"):
+            content += line.strip("  ") if "```" in line else line
+            content += "\n"
+        html_content = markdown.markdown(content, extensions=[
+            'markdown.extensions.extra',  # 转化标题，字体等
+            'markdown.extensions.codehilite',  # 高亮功能
+            'markdown.extensions.toc',  # 将表单渲染为html， document类型
+        ])
 
+        return mark_safe(html_content)
     class Meta:
         abstract = True  # 定义抽象表，不会创建数据库表
         ordering = ['id']  # 根据id排序（默认为顺序排序）
 
 
-class samplingbasemodel(models.Model):
-    # 采样管理公共字段
-
-    task = models.CharField(blank=True, null=True, max_length=255, verbose_name="任务名称")
-    task_location = models.CharField(blank=True, null=True, max_length=255, verbose_name="任务点名称")
-    x = models.CharField(blank=True, null=True, max_length=255, verbose_name="x")
-    y = models.CharField(blank=True, null=True, max_length=255, verbose_name="y")
-    altitude = models.CharField(blank=True, null=True, max_length=255, verbose_name="海拔")
-    azimuth = models.CharField(blank=True, null=True, max_length=255, verbose_name="方位角")
-    logo = models.ImageField(upload_to='media_dir/upload/', max_length=255, null=True, blank=True,
-                             verbose_name='拍照')
-
-    content = models.TextField(blank=True, null=True, verbose_name="备注")
-
-    def __str__(self):
-        # 判断当前数据对象是否有name属性，如果有，返回name，如果没有，返回描述
-        if hasattr(self, 'task'):  # hasattr 是Python中是反射的一种用法
-            return self.task
-        else:
-            return self.id
-
-    class Meta:
-        abstract = True  # 定义抽象表，不会创建数据库表
-        ordering = ['id']  # 根据id排序（默认为顺序排序）
 
 
 # 状态

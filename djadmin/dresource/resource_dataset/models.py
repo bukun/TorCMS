@@ -78,9 +78,7 @@ class Resource(basemodel):
     def __str__(self):
         return str(self.id)
 
-    def get_html_content(self):
-        html_content = markdown.markdown(self.cnt_md)
-        return mark_safe(html_content)
+
     class Meta(basemodel.Meta):
         db_table = 'resource_dataset'
         verbose_name = "软件资源"

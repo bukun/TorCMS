@@ -72,9 +72,7 @@ class vectorlayer(basemodel):
     # logo = models.ImageField(upload_to='vectorlayer/imgs/', max_length=255, null=True, blank=True,
     #                          verbose_name="LOGO")
     sites = models.ManyToManyField(Site,blank=True, related_name='vectorlayer', verbose_name='Site')
-    def get_html_content(self):
-        html_content = markdown.markdown(self.cnt_md)
-        return mark_safe(html_content)
+
 
     def get_en_html_content(self):
         html_content = markdown.markdown(self.en_cnt_md)
