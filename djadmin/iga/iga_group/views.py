@@ -63,6 +63,9 @@ def IgagroupDataList(request, pk):
     category_rec = get_object_or_404(iga_group, pk=pk)
     all_cat = iga_group.objects.all()
     data_recs = category_rec.iga_room.all()
+    dict_instances = [instance.floor_num for instance in data_recs]
+    num_instances = [instance.num for instance in data_recs]
+
     paginator = Paginator(data_recs, 20)  # 实例化一个分页对象, 每页显示10个
     page = request.GET.get('page')  # 从URL通过get页码，如?page=3
     try:
@@ -73,5 +76,7 @@ def IgagroupDataList(request, pk):
         page_obj = paginator.page(paginator.num_pages)
     is_paginated = True if paginator.num_pages > 1 else False  # 如果页数小于1不使用分页
 
-    context = {'data': page_obj, 'cat_name': category_rec.title, 'is_paginated': is_paginated, 'Category': all_cat, 'parent_template': parent_template}
+    context = {'data': data_recs,'data_json':dict_instances, 'data_num':num_instances,'cat_name': category_rec.title,
+               'is_paginated': is_paginated, 'Category': all_cat, 'parent_template': parent_template
+               }
     return render(request, 'groups/data_list.html', context)

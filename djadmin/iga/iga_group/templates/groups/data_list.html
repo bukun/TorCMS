@@ -130,6 +130,37 @@
 
     <SCRIPT>
         $(document).ready(function () {
+            var data = JSON.stringify("{{ data_json|escapejs }}");
+            var array = JSON.parse(data).replace('[', '').replace(']', '').split(',');
+
+            var data_num = JSON.stringify("{{ data_num|escapejs }}");
+            console.log(data_num);
+            console.log(typeof (data_num));
+            var array_num = JSON.parse(data_num).replace('[', '').replace(']', '').replaceAll('\'','').replace(/\s/g, "").split(',');
+            console.log(array_num)
+            var floor_dict = {
+                '综合1': 'zha1',
+                '综合2': 'zha2',
+                '综合3': 'zha3',
+                '综合4': 'zha4',
+                '综合5': 'zha5',
+                '湿地1': 'sda1',
+                '湿地2': 'sda2',
+                '湿地3': 'sda3',
+                '湿地4': 'sda4',
+                '湿地5': 'sda5',
+                '环境1': 'hja1',
+                '环境2': 'hja2',
+                '环境3': 'hja3',
+                '环境4': 'hja4',
+                '环境5': 'hja5',
+                '农业1': 'nya1',
+                '农业2': 'nya2',
+                '农业3': 'nya3',
+                '农业4': 'nya4',
+                '农业5': 'nya5',
+            };
+
             var popup = L.popup();
 
             function onMapClick(e) {
@@ -810,21 +841,23 @@
                     },
                     filter: ["in", "name", ["get", "name"]],
                 });
-                {#for(var i = 0;i < "{{ data }}".length; i++){#}
-                {#    var dat = "{{ data }}"[i]#}
-                {#    console.log('dat')#}
-                {#    console.log(dat)#}
+                 maplibreMap.setFilter('multipolygon-hightlightpp_zha2' , ['match', ['get', 'roomid'],
+                                                    array_num,
+                                                    true, false]);
 
-                  maplibreMap.setFilter("multipolygon-hightlightpp_zha1", ["in", "name", '监控室']);
+
             });
             maplibreMap.on('click', (e) => {
                 const {point} = e;
                 console.log(e)
                 const clickedFeatures = maplibreMap.queryRenderedFeatures(point); // 查询点击处的要素
                 var filter = clickedFeatures[0].properties.name;
+                var roomid = clickedFeatures[0].properties.roomid;
                 console.log(clickedFeatures[0])
                 console.log(filter)
+                console.log(roomid)
             })
+
 
 
         })
