@@ -85,8 +85,8 @@
                     type: 'fill-extrusion',
                     source: {
                         type: 'vector',
-                        {#url: 'http://39.100.72.56:6799/pp'#}
-                        url: 'https://martin.igadc.cn/pp'
+                        url: 'http://39.100.72.56:6799/pp'
+                        {#url: 'https://martin.igadc.cn/pp'#}
                     },
                     'source-layer': 'pp',
                     paint: paint,
@@ -94,10 +94,10 @@
                 maplibreMap.addLayer({
                     'id': 'boundary-line',
                     'type': 'line',
-                    'source':  {
+                    'source': {
                         type: 'vector',
-                        {#url: 'http://39.100.72.56:6799/pp'#}
-                        url: 'https://martin.igadc.cn/pp'
+                        url: 'http://39.100.72.56:6799/pp'
+                        {#url: 'https://martin.igadc.cn/pp'#}
                     }, // 同样替换为你的数据源ID
                     'source-layer': 'pp',
                     'paint': {
@@ -108,15 +108,31 @@
                         'visibility': 'visible' // 可以设置为'none'来隐藏图层
                     }
                 });
+                maplibreMap.addLayer({
+                    // id: 'MULTIPOLYGON',
+                    id: 'hightlight',
+                    type: 'fill-extrusion',
+                    source: {
+                        type: 'vector',
+                        url: 'http://39.100.72.56:6799/pp'
+                    },
+                    'source-layer': 'pp',
+                    paint: {
+                        'fill-extrusion-color': '#c1d6ff',
 
+                    },
+                    filter: ["==", "gid", ["get", "gid"]],
+                });
             });
             maplibreMap.on('click', (e) => {
                 const {point} = e;
                 console.log(e)
                 const clickedFeatures = maplibreMap.queryRenderedFeatures(point); // 查询点击处的要素
-                var filter = clickedFeatures[0].properties.name;
+                var filter = clickedFeatures[0].properties.gid;
                 console.log(clickedFeatures[0])
                 console.log(filter)
+                maplibreMap.setFilter("hightlight", ["in", "gid", filter]);
+
             })
 
         })

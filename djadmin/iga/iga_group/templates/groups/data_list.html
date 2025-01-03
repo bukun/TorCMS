@@ -221,6 +221,7 @@
                     'source-layer': 'pp',
                     paint: paint,
                 });
+
                 maplibreMap.addLayer({
                     'id': 'boundary-line',
                     'type': 'line',
@@ -252,6 +253,21 @@
                     },
                     filter: ["in", "name", ["get", "name"]],
                 });
+                  maplibreMap.addLayer({
+                    // id: 'MULTIPOLYGON',
+                    id: 'clickhightlight',
+                    type: 'fill-extrusion',
+                    source: {
+                        type: 'vector',
+                        url: 'http://39.100.72.56:6799/pp'
+                    },
+                    'source-layer': 'pp',
+                    paint: {
+                        'fill-extrusion-color': '#c1d6ff',
+
+                    },
+                    filter: ["==", "gid", ["get", "gid"]],
+                });
                  maplibreMap.setFilter('multipolygon-hightlightpp' , ['match', ['get', 'label'],
                                                     array,
                                                     true, false]);
@@ -262,11 +278,9 @@
                 const {point} = e;
                 console.log(e)
                 const clickedFeatures = maplibreMap.queryRenderedFeatures(point); // 查询点击处的要素
-                var filter = clickedFeatures[0].properties.name;
-                var roomid = clickedFeatures[0].properties.roomid;
-                console.log(clickedFeatures[0])
-                console.log(filter)
-                console.log(roomid)
+                var filter = clickedFeatures[0].properties.gid;
+
+                maplibreMap.setFilter("clickhightlight", ["in", "gid", filter]);
             })
 
 
