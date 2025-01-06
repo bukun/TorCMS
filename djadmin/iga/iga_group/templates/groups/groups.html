@@ -32,8 +32,7 @@
 
             function onMapClick(e) {
                 popup
-                    .setLatLng(e.latlng)
-                    .setContent("Location:" + e.latlng.toString())
+                    .setContent("Location:")
                     .openOn(map);
             }
 
@@ -69,7 +68,7 @@
             maplibreMap.on('load', () => {
                 maplibreMap.addSource('tdt', {
                     type: 'raster',
-                    tiles: ['http://t4.tianditu.gov.cn/DataServer?T=img_w&X={x}&Y={y}&L={z}&tk=57f1b8146ef867f14189f3f4bb1adc1c',
+                    tiles: ['https://t4.tianditu.gov.cn/DataServer?T=img_w&X={x}&Y={y}&L={z}&tk=57f1b8146ef867f14189f3f4bb1adc1c',
                         // 'http://t4.tianditu.gov.cn/DataServer?T=cia_w&X={x}&Y={y}&L={z}&tk=57f1b8146ef867f14189f3f4bb1adc1c',
                     ],
                     tileSize: 256
