@@ -32,7 +32,8 @@
 
             function onMapClick(e) {
                 popup
-                    .setContent("Location:")
+                    .setLatLng(e.latlng)
+                    .setContent("Location:" + e.latlng.toString())
                     .openOn(map);
             }
 
@@ -47,6 +48,7 @@
                 minZoom: 1,
             });
             osm.addTo(map)
+            map.on('click',onMapClick)
             var geojsonStyle = {
                 color: '#222',
                 weight: 1,
@@ -54,20 +56,32 @@
                 fillColor: '#fd8788',
                 fillOpacity: 0.8
             };
-           fetch('https://martin.igadc.cn/')
+            fetch('https://martin.igadc.cn/')
                 .then(response => response.json())
                 .then(data => {
-                    L.geoJson(data, {
+                    var geojsonLayer = L.geoJson(data, {
                         style: function () {
                             return geojsonStyle;
                         },
                         onEachFeature: function (feature, layer) {
-                            // 为图层添加点击事件
-                            layer.on('click', function () {
-                                // 在地图上弹出信息窗口
-                                console.log('feature')
-                                console.log(feature.properties.gid)
-                                layer.bindPopup('testinfo').openPopup();
+
+                            layer.bindTooltip('<div><b>Name:' + feature.properties.name + '</b></div>' +
+                                '<div><b>所属楼:' + feature.properties.floor + '楼</b></div>' +
+                                '<div><b>房间号:' + feature.properties.roomid + '</b></div>', {
+                                permanent: false,
+                            });
+                            layer.on('mouseover', function (e) {
+                                e.target.setStyle({
+                                    fillColor: '#0e8abd',
+                                    fillOpacity: 0.6
+                                });
+                            });
+                            layer.on('mouseout', function (e) {
+                                e.target.setStyle({
+                                        fillColor: '#fd8788',
+                                        fillOpacity: 0.8,
+                                    }
+                                ); // 使用之前的样式
                             });
                         }
                     }).addTo(map);
