@@ -46,93 +46,35 @@
                 maxZoom: 22,
                 minZoom: 1,
             });
-
-
-            var gl = L.maplibreGL({
-                style: 'https://demotiles.maplibre.org/style.json',
-                interactive: true
-            }).addTo(map);
-
-
-            var maplibreMap = gl.getMaplibreMap();
-
-            var paint = {
-
-                'fill-extrusion-color': '#fd8788',
-                "fill-extrusion-height": ["get", "height"],
-                "fill-extrusion-base": ["get", "height"],
-                "fill-extrusion-opacity": 1,
-                // "fill-extrusion-ambient-occlusion-ground-attenuation": 0.6,
-
-            }
-            maplibreMap.on('load', () => {
-                maplibreMap.addSource('tdt', {
-                    type: 'raster',
-                    tiles: ['https://t4.tianditu.gov.cn/DataServer?T=img_w&X={x}&Y={y}&L={z}&tk=57f1b8146ef867f14189f3f4bb1adc1c',
-                        // 'http://t4.tianditu.gov.cn/DataServer?T=cia_w&X={x}&Y={y}&L={z}&tk=57f1b8146ef867f14189f3f4bb1adc1c',
-                    ],
-                    tileSize: 256
+            osm.addTo(map)
+            var geojsonStyle = {
+                color: '#222',
+                weight: 1,
+                opacity: 0.9,
+                fillColor: '#fd8788',
+                fillOpacity: 0.8
+            };
+           fetch('http://39.100.72.56:6794')
+                .then(response => response.json())
+                .then(data => {
+                    L.geoJson(data, {
+                        style: function () {
+                            return geojsonStyle;
+                        },
+                        onEachFeature: function (feature, layer) {
+                            // 为图层添加点击事件
+                            layer.on('click', function () {
+                                // 在地图上弹出信息窗口
+                                console.log('feature')
+                                console.log(feature.properties.gid)
+                                layer.bindPopup('testinfo').openPopup();
+                            });
+                        }
+                    }).addTo(map);
+                })
+                .catch(error => {
+                    console.error('Error fetching GeoJSON:', error);
                 });
-                maplibreMap.addLayer({
-                    id: 'tdt-layer',
-                    type: 'raster',
-                    source: 'tdt',
-                    minzoom: 0,
-                });
-                maplibreMap.addLayer({
-                    id: 'pp',
-                    type: 'fill-extrusion',
-                    source: {
-                        type: 'vector',
-                        url: 'http://39.100.72.56:6799/pp'
-                        {#url: 'https://martin.igadc.cn/pp'#}
-                    },
-                    'source-layer': 'pp',
-                    paint: paint,
-                });
-                maplibreMap.addLayer({
-                    'id': 'boundary-line',
-                    'type': 'line',
-                    'source': {
-                        type: 'vector',
-                        url: 'http://39.100.72.56:6799/pp'
-                        {#url: 'https://martin.igadc.cn/pp'#}
-                    }, // 同样替换为你的数据源ID
-                    'source-layer': 'pp',
-                    'paint': {
-                        'line-color': '#333', // 线的颜色
-                        'line-width': 1 // 线的宽度
-                    },
-                    'layout': {
-                        'visibility': 'visible' // 可以设置为'none'来隐藏图层
-                    }
-                });
-                maplibreMap.addLayer({
-                    // id: 'MULTIPOLYGON',
-                    id: 'hightlight',
-                    type: 'fill-extrusion',
-                    source: {
-                        type: 'vector',
-                        url: 'http://39.100.72.56:6799/pp'
-                    },
-                    'source-layer': 'pp',
-                    paint: {
-                        'fill-extrusion-color': '#c1d6ff',
-
-                    },
-                    filter: ["==", "gid", ["get", "gid"]],
-                });
-            });
-            maplibreMap.on('click', (e) => {
-                const {point} = e;
-                console.log(e)
-                const clickedFeatures = maplibreMap.queryRenderedFeatures(point); // 查询点击处的要素
-                var filter = clickedFeatures[0].properties.gid;
-                console.log(clickedFeatures[0])
-                console.log(filter)
-                maplibreMap.setFilter("hightlight", ["in", "gid", filter]);
-
-            })
 
         })
 
