@@ -16,6 +16,8 @@ from base.models import get_template
 from django.conf import settings
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.http import JsonResponse
+from django.forms.models import model_to_dict
 
 parent_template = get_template()
 current_site = Site.objects.get_current()
@@ -62,7 +64,7 @@ def IgaIndex(request):
 def IgagroupDataList(request, pk):
     category_rec = get_object_or_404(iga_group, pk=pk)
     all_cat = iga_group.objects.all()
-    data_recs = category_rec.iga_room.all()
+    data_recs = category_rec.iga_room.all().order_by('num')
     dict_instances = [instance.floor_num for instance in data_recs]
     num_instances = [instance.num for instance in data_recs]
 
@@ -80,3 +82,17 @@ def IgagroupDataList(request, pk):
                'is_paginated': is_paginated, 'Category': all_cat, 'parent_template': parent_template
                }
     return render(request, 'groups/data_list.html', context)
+def ajax_update_info(request):
+    if request.method == 'GET':
+        groupid = request.GET.get('groupid', '1')  # 从GET请求中获取参数
+
+
+        cat = iga_group.objects.filter(id=groupid).first()
+        data_recs = cat.iga_room.all()
+        dict_instances = [instance.floor_num for instance in data_recs]
+        objects_list_dict = [model_to_dict(obj) for obj in data_recs]
+        context = {'title': cat.title,'data_json':dict_instances,}
+        print(context)
+        return JsonResponse(context)
+    else:
+        return JsonResponse({'message': 'fail'})

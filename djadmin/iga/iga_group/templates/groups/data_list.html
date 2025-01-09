@@ -26,49 +26,53 @@
         <div class="map" id="map"></div>
     </div>
     <div class="row">
+        <div id='content'>
+            <div class="card-header">
+                <h3>学科组名称: {{ cat_name }}</h3>
+                <hr/>
+            </div>
+            <div class="card-body">
 
-        <div class="card-header">
-            <h3>学科组名称: {{ cat_name }}</h3>
-            <hr/>
-        </div>
-        <div class="card-body">
-
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col">所属楼</th>
-                    <th scope="col">所在楼层</th>
-                    <th scope="col">房间号</th>
-
-                    <th scope="col">用途</th>
-                    <th scope="col">面积</th>
-                    <th scope="col">备注</th>
-
-                </tr>
-                </thead>
-                <tbody>
-                {% for dat in data %}
+                <table class="table table-striped">
+                    <thead>
                     <tr>
-                        <td>{{ dat.building }}楼</td>
-                        <td>
-                            {{ dat.floor }}楼
-                        </td>
-                        <td>{{ dat.num }}</td>
+                        <th scope="col">所属楼</th>
+                        <th scope="col">所在楼层</th>
+                        <th scope="col">房间号</th>
 
-
-                        <td>{{ dat.get_title_display }}</td>
-
-                        <td>{{ dat.areafloat }}</td>
-
-                        <td>{{ dat.staff }}</td>
-
+                        <th scope="col">用途</th>
+                        <th scope="col">面积</th>
+                        <th scope="col">备注</th>
 
                     </tr>
+                    </thead>
+                    <tbody>
+                    {% for dat in data %}
+                        <tr>
+                            <td>{{ dat.building }}楼</td>
+                            <td>
+                                {{ dat.floor }}楼
+                            </td>
+                            <td>{{ dat.num }}</td>
 
-                {% endfor %}
-                </tbody>
-            </table>
+
+                            <td>{{ dat.get_title_display }}</td>
+
+                            <td>{{ dat.areafloat }}</td>
+
+                            <td>{{ dat.staff }}</td>
+
+
+                        </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
+    </div>
+    <div class="row">
+        <div id="my-data-container"></div>
     </div>
     <div class="row">
         <div class="card-header">
@@ -78,7 +82,7 @@
         <div class="btn-group" role="group" aria-label="Basic example"
              style="flex-wrap: wrap; gap: 0.5rem;display: block ">
             {% for cat in Category %}
-                <a class="btn btn-success btn-xs">
+                <a class="btn btn-success btn-xs" onclick="update_info({{ cat.id }})">
                     {{ cat.title }}</a>
             {% endfor %}
         </div>
@@ -170,17 +174,30 @@
 
 
         })
-        function update_info(){
-            $.ajax({
-            url: '/hdikuai/ajax/load_cities/',
-            data: {},
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                console.log(data)
-            },
 
-        });
+        function update_info(groupid) {
+            $.ajax({
+                url: '/iga_group/ajax/update_info/',
+                data: {
+                    'groupid': groupid
+                },
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    console.log('data')
+                    console.log(data)
+                    console.log(typeof (data.data_json))
+                    var html = '';
+                    $.each(data.data_json, function (item) {
+                        html += '<p>' + data.data_json[item] + '</p>'; // 假设每个对象都有一个'name'属性
+                    });
+                    $('#my-data-container').html(html);
+                },
+                error: function () {
+                    console.log('Error occurred');
+                }
+
+            });
         }
 
     </script>
