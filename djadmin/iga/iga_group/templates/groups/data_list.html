@@ -11,120 +11,76 @@
             align-self: center;
             z-index: 1;
         }
+
+        .btn-xs {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            line-height: 1.5;
+            border-radius: 0.2rem;
+            margin: 5px 3px;
+        }
     </style>
 {% endblock %}
 {% block mainbody %}
     <div class="row">
-        <div class="col-sm-10">
-            <div class="card-header">
-                <h3>学科组名称: {{ cat_name }}</h3>
-                <hr/>
-            </div>
-            <div class="card-body">
+        <div class="map" id="map"></div>
+    </div>
+    <div class="row">
 
-                <table class="table table-striped">
-                    <thead>
+        <div class="card-header">
+            <h3>学科组名称: {{ cat_name }}</h3>
+            <hr/>
+        </div>
+        <div class="card-body">
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">所属楼</th>
+                    <th scope="col">所在楼层</th>
+                    <th scope="col">房间号</th>
+
+                    <th scope="col">用途</th>
+                    <th scope="col">面积</th>
+                    <th scope="col">备注</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for dat in data %}
                     <tr>
-                        <th scope="col">所属楼</th>
-                        <th scope="col">所在楼层</th>
-                        <th scope="col">房间号</th>
+                        <td>{{ dat.building }}楼</td>
+                        <td>
+                            {{ dat.floor }}楼
+                        </td>
+                        <td>{{ dat.num }}</td>
 
-                        <th scope="col">用途</th>
-                        <th scope="col">面积</th>
-                        <th scope="col">备注</th>
+
+                        <td>{{ dat.get_title_display }}</td>
+
+                        <td>{{ dat.areafloat }}</td>
+
+                        <td>{{ dat.staff }}</td>
+
 
                     </tr>
-                    </thead>
-                    <tbody>
-                    {% for dat in data %}
 
-                        <tr>
-                            <td>{{ dat.building }}楼</td>
-                            <td>
-                                {{ dat.floor }}楼
-                            </td>
-                            <td>{{ dat.num }}</td>
-
-
-                            <td>{{ dat.get_title_display }}</td>
-
-                            <td>{{ dat.areafloat }}</td>
-
-                            <td>{{ dat.staff }}</td>
-
-
-                        </tr>
-
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            <div class="row">
-                <div class="map" id="map"></div>
-            </div>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
-
-        <div class="col-sm-2">
-
-
-            <div class="card card-body">
-                <div class="card-title">
-                    <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button"
-                       aria-expanded="false" aria-controls="collapseExample">
-                        学科组
-                    </a>
-                </div>
-                <div class="collapse" id="collapseExample">
-                    {% for cat in Category %}
-                        {% if cat.group_type == '1' %}
-                            <ul class="list-group">
-                                <li class="list-group-item">
-                                    <a href="{% url 'iga_group:igagroup_datalist' cat.id %}" class="btn btn-success">
-                                        {{ cat.title }}</a>
-                                </li>
-                            </ul>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-
-                <div class="card-title">
-                    <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample1" role="button"
-                       aria-expanded="false" aria-controls="collapseExample1">
-                        管理支撑部门
-                    </a>
-                </div>
-                <div class="collapse" id="collapseExample1">
-                    {% for cat in Category %}
-                        {% if cat.group_type == '2' %}
-                            <ul class="list-group">
-                                <li class="list-group-item">
-                                    <a href="{% url 'iga_group:igagroup_datalist' cat.id %}" class="btn btn-success">
-                                        {{ cat.title }}</a>
-                                </li>
-                            </ul>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-
-                <div class="card-title">
-                    <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample2" role="button"
-                       aria-expanded="false" aria-controls="collapseExample2">
-                        野外台站
-                    </a>
-                </div>
-                <div class="collapse" id="collapseExample2">
-                    {% for cat in Category %}
-                        {% if cat.group_type == '3' %}
-                            <ul class="list-group">
-                                <li class="list-group-item">
-                                    <a href="{% url 'iga_group:igagroup_datalist' cat.id %}" class="btn btn-success">
-                                        {{ cat.title }}</a>
-                                </li>
-                            </ul>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
+    </div>
+    <div class="row">
+        <div class="card-header">
+            <h3>学科组列表</h3>
+            <hr/>
+        </div>
+        <div class="btn-group" role="group" aria-label="Basic example"
+             style="flex-wrap: wrap; gap: 0.5rem;display: block ">
+            {% for cat in Category %}
+                <a class="btn btn-success btn-xs">
+                    {{ cat.title }}</a>
+            {% endfor %}
         </div>
     </div>
 
@@ -151,8 +107,8 @@
             });
 
             var map = L.map('map', {
-                center: [43.9985, 125.3964],
-                zoom: 16,
+                center: [43.997362, 125.394808],
+                zoom: 18,
                 maxZoom: 22,
                 minZoom: 1,
             });
@@ -170,7 +126,7 @@
                 weight: 1,
                 color: '#666',
                 dashArray: '',
-                fillColor: 'red',
+                fillColor: '#2b35fb',
                 fillOpacity: 0.7
             };
             fetch('https://martin.igadc.cn/')
@@ -214,7 +170,18 @@
 
 
         })
+        function update_info(){
+            $.ajax({
+            url: '/hdikuai/ajax/load_cities/',
+            data: {},
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                console.log(data)
+            },
 
+        });
+        }
 
     </script>
 {% endblock %}
