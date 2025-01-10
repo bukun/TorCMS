@@ -77,7 +77,7 @@ def CategoryDataList(request, pk):
 
 
 def index(request):
-    category_rec = ZNDatasetCategory.objects.all()
+    category_rec = ZNDatasetCategory.objects.all().order_by('-create_time')
 
     cat_rec = []
     for cat in category_rec:

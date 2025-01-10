@@ -1,7 +1,7 @@
 <div class="row">
     {% for cat in category_data %}
 
-        {#        {% if cat.data.count != 0 %}#}
+
         <div class="col-sm-12">
 
             <div class="panel panel-default">
@@ -10,12 +10,12 @@
                     <a style="font-size: 12px;float: right"
                        href="{% url 'zn_dataset_category:category_datalist' cat.cat_id %}">More</a>
                 </div>
-                {#                <div class="panel-body">#}
+
                 <ul class="list-group">
                     <div class="row">
                         <div class="col-sm-12">
                             {% for dat in cat.data %}
-                                {#                            {% if dat != "" %}#}
+                            {% if dat.logo != "" %}
 
                                 {% if forloop.counter|divisibleby:"3" %}
                                     </div>
@@ -23,10 +23,10 @@
                                     <div class="col-sm-12">
                                 {% endif %}
                                 <div class="col-sm-6">
-                                    <li class="list-group-item">
+                                    <li class="list-group-item" style="border-bottom: 1px dashed #ddd">
+ <br>
 
-
-                                        <div class="row">
+                                        <div class="row" >
                                             <div class="col-sm-12">
                                                 <div class="col-sm-4">
                                                     <img src="/media/{{ dat.logo }}" class="img-thumbnail"
@@ -41,7 +41,9 @@
                                                             <span class="fa fa-database"></span> {{ dat.title }}
                                                         </a>
                                                     </div>
-                                                    <br>
+                                                   <div class="listinfo_content padt10">
+                                                        {{ dat.get_html_content| striptags |  truncatechars:50 }}
+                                                    </div>
                                                     <div class="padt10"> {{ dat.create_time | date:"Y-m-j" }}</div>
 
                                                     <div class="padt10"> {{ dat.user }}</div>
@@ -50,20 +52,22 @@
                                             </div>
 
                                         </div>
+                                        <br>
 
                                     </li>
                                 </div>
+                                        {% endif %}
                             {% endfor %}
 
                             </div>
                     </div>
                 </ul>
 
-                {#                </div>#}
+
 
             </div>
         </div>
-        {#        {% endif %}#}
+
     {% endfor %}
 </div>
 
