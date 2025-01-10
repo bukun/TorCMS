@@ -5,7 +5,7 @@
     <style>
         #map {
             width: 100%;
-            height: 420px;
+            height: 620px;
             border: 1px solid black;
             text-align: center;
             align-self: center;
@@ -24,6 +24,19 @@
 {% block mainbody %}
     <div class="row">
         <div class="map" id="map"></div>
+    </div>
+    <div class="row">
+        <div class="card-header">
+            <h3>学科组列表</h3>
+            <hr/>
+        </div>
+        <div class="btn-group" role="group" aria-label="Basic example"
+             style="flex-wrap: wrap; gap: 0.5rem;display: block ">
+            {% for cat in Category %}
+                <a class="btn btn-success btn-xs" onclick="update_info({{ cat.id }})">
+                    {{ cat.title }}</a>
+            {% endfor %}
+        </div>
     </div>
     <div class="row">
         <div id='content'>
@@ -72,19 +85,8 @@
         </div>
     </div>
     <div class="row">
-        <div id="my-data-container"></div>
-    </div>
-    <div class="row">
-        <div class="card-header">
-            <h3>学科组列表</h3>
-            <hr/>
-        </div>
-        <div class="btn-group" role="group" aria-label="Basic example"
-             style="flex-wrap: wrap; gap: 0.5rem;display: block ">
-            {% for cat in Category %}
-                <a class="btn btn-success btn-xs" onclick="update_info({{ cat.id }})">
-                    {{ cat.title }}</a>
-            {% endfor %}
+        <div id="my-data-container">
+            test
         </div>
     </div>
 
@@ -107,12 +109,14 @@
             }
 
             var osm = L.tileLayer.chinaProvider('TianDiTu.Normal.Map', {
-                id: "mapbox.streets"
+                id: "mapbox.streets",
+                maxZoom: 22,
+                minZoom: 1,
             });
 
             var map = L.map('map', {
-                center: [43.997362, 125.394808],
-                zoom: 18,
+                center: [43.997362, 125.394408],
+                zoom: 19,
                 maxZoom: 22,
                 minZoom: 1,
             });
