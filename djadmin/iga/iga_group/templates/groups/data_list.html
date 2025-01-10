@@ -26,8 +26,11 @@
         <div class="map" id="map"></div>
     </div>
     <div class="row">
-        <div class="card-header">
+        <div class="card-header" style="padding: 10px">
+
+             <span style="float: right;margin-top: 1rem"> <a href="/iga_group/igaindex/">首页</a></span>
             <h3>学科组列表</h3>
+
             <hr/>
         </div>
         <div class="btn-group" role="group" aria-label="Basic example"
@@ -192,8 +195,8 @@
                     console.log(data)
                     console.log(typeof (data.data_json))
                     var html = '';
-                    $.each(data.data_json, function (item) {
-                        html += '<p>' + data.data_json[item] + '</p>'; // 假设每个对象都有一个'name'属性
+                    $.each(data.data_list, function (item) {
+                        html += `<tr><td>`+data.data_list[item]['building'] + `楼</td><td></tr>`; // 假设每个对象都有一个'name'属性
                     });
                     $('#my-data-container').html(html);
                 },
