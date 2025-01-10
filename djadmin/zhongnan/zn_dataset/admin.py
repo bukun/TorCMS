@@ -9,7 +9,7 @@ class ZNDatasetAdmin(ImportExportModelAdmin):
     resource_class = DataResource
     # 控制哪些字段会显示在Admin 的修改列表页面中
     list_display = (
-        "id", "title", "category", "user", "file",  "create_time","update_time",)
+        "id", "title", "category", "user",  "create_time","update_time",)
     formfield_overrides = {
         models.CharField: {'widget': TextInput(attrs={'style': 'width: 80%;'})},
         models.TextField: {'widget': Textarea(attrs={'rows': 6, 'style': 'width: 80%;'})},
