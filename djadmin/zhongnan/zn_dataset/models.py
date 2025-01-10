@@ -14,10 +14,23 @@ class ZNDataset(basemodel):
     datasetid = models.CharField(blank=True, null=True, max_length=255, verbose_name='数据ID')
     title = models.CharField(blank=True, null=False, max_length=255, verbose_name="标题")
     cnt_md = MDTextField(verbose_name="内容", null=True, blank=True)
+
+    title_alternate = models.CharField(blank=True, max_length=255, verbose_name="别名")
+    topicategory = models.CharField(blank=True, max_length=255, verbose_name="建议学科分类")
+    language = models.CharField(blank=True, max_length=255, verbose_name="语言")
+    type = models.CharField(blank=True, max_length=255, verbose_name="数据类型")
+    format = models.CharField(blank=True, max_length=255, verbose_name="数据格式")
+    links = models.CharField(blank=True, max_length=255, verbose_name="链接")
+    time_begin = models.CharField(blank=True, max_length=255, verbose_name="开始时间")
+    time_end = models.CharField(blank=True, max_length=255, verbose_name="结束时间")
+    creator = models.CharField(blank=True, max_length=255, verbose_name="数据创建者")
+    publisher = models.CharField(blank=True, max_length=255, verbose_name="数据发布者")
+    contributor = models.CharField(blank=True, max_length=255, verbose_name="数据贡献者")
+    organization = models.CharField(blank=True, max_length=255, verbose_name="组织机构")
+    operateson = models.CharField(blank=True, max_length=255, verbose_name="元数据创建者")
     label = models.ManyToManyField(ZNDatasetLabel, related_name='zn_dataset', verbose_name='标签', blank=True)
     category = models.ForeignKey(ZNDatasetCategory, on_delete=models.CASCADE, blank=True, null=True,
                                  related_name='zn_dataset', verbose_name='分类名称')
-
     # -----------------------------------------------------------------------------------
     # 地图
     lat = models.CharField(blank=True, null=True, default=0, max_length=255, verbose_name="纬度")
