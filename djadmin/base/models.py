@@ -6,6 +6,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 from django.contrib.sites.models import Site
 import markdown
 from django.utils.safestring import mark_safe
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 current_site = Site.objects.get_current()
 
 
@@ -89,3 +90,14 @@ class statetype(models.IntegerChoices):
 class permissionviewtype(models.IntegerChoices):
     type1 = 1, '全部可见'
     type2 = 0, '部分可见'
+def get_paginator(data_recs, request):
+    paginator = Paginator(data_recs, 20)  # 实例化一个分页对象, 每页显示10个
+    page = request.GET.get('page')  # 从URL通过get页码，如?page=3
+    try:
+        page_obj = paginator.page(page)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)  # 如果传入page参数不是整数，默认第一页
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
+    is_paginated = True if paginator.num_pages > 1 else False  # 如果页数小于1不使用分页
+    return is_paginated, page_obj

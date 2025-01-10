@@ -84,35 +84,12 @@
                         {% endfor %}
 
 
-                        {# 分页链接 #}
-                        {% if is_paginated %}
-                            <ul class="pagination">
-                                {% if data.has_previous %}
-                                    <li class="page-item"><a class="page-link"
-                                                             href="?page={{ data.previous_page_number }}">Previous</a>
-                                    </li>
-                                {% else %}
-                                    <li class="page-item disabled"><span class="page-link">Previous</span></li>
-                                {% endif %}
-
-                                {% for i in data.paginator.page_range %}
-                                    {% if data.number == i %}
-                                        <li class="page-item active"><span class="page-link"> {{ i }} <span
-                                                class="sr-only">(current)</span></span>
-                                        </li>
-                                    {% else %}
-                                        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
-                                    {% endif %}
-                                {% endfor %}
-
-                                {% if data.has_next %}
-                                    <li class="page-item"><a class="page-link"
-                                                             href="?page={{ data.next_page_number }}">Next</a></li>
-                                {% else %}
-                                    <li class="page-item disabled"><span class="page-link">Next</span></li>
-                                {% endif %}
-                            </ul>
-                        {% endif %}
+                         <br>
+            <div class="row">
+            <div class="col-sm-12">
+                       {% include "page.html"  with  data=data %}
+            </div>
+            </div>
 
                     </ul>
 

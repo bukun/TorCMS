@@ -9,7 +9,7 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from literature.literature_category.models import LiteratureCatagory
 from django.contrib.sites.models import Site
-from base.models import get_template
+from base.models import get_template,get_paginator
 
 parent_template = get_template()
 current_site = Site.objects.get_current()
@@ -38,5 +38,6 @@ def LabelDataList(request, pk):
     label_rec = get_object_or_404(LiteratureLabel, pk=pk)
     data_recs = label_rec.literature_data.filter(sites__id=current_site.id)
     all_cat = LiteratureCatagory.objects.filter(sites__id=current_site.id)
-    context = {'data': data_recs, 'label_name': label_rec.name,'Category':all_cat,'parent_template': parent_template}
+    is_paginated, page_obj = get_paginator(data_recs, request)
+    context = {'data': page_obj, 'label_name': label_rec.name,'is_paginated': is_paginated,'Category':all_cat,'parent_template': parent_template}
     return render(request, 'literature_label/data_list.html', context)

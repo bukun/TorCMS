@@ -10,6 +10,7 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from crawl.crawl_label.models import CrawlLabel
+from base.models import get_paginator
 User = get_user_model()
 
 
@@ -54,15 +55,7 @@ def CategoryDataList(request, pk):
     category_rec = get_object_or_404(CrawlSource, pk=pk)
     all_cat = CrawlLabel.objects.all()
     data_recs = category_rec.crawl_document.all()
-    paginator = Paginator(data_recs, 20)  # 实例化一个分页对象, 每页显示10个
-    page = request.GET.get('page')  # 从URL通过get页码，如?page=3
-    try:
-        page_obj = paginator.page(page)
-    except PageNotAnInteger:
-        page_obj = paginator.page(1)  # 如果传入page参数不是整数，默认第一页
-    except EmptyPage:
-        page_obj = paginator.page(paginator.num_pages)
-    is_paginated = True if paginator.num_pages > 1 else False  # 如果页数小于1不使用分页
+    is_paginated, page_obj = get_paginator(data_recs, request)
 
     context = {'data': page_obj, 'cat_name': category_rec.title, 'is_paginated': is_paginated, 'Category': all_cat}
     return render(request, 'crawl_source/data_list.html', context)
@@ -72,15 +65,7 @@ def CategoryDataListEN(request, pk):
     category_rec = get_object_or_404(CrawlSource, pk=pk)
     all_cat = CrawlLabel.objects.all()
     data_recs = category_rec.crawl_document_en.all()
-    paginator = Paginator(data_recs, 20)  # 实例化一个分页对象, 每页显示10个
-    page = request.GET.get('page')  # 从URL通过get页码，如?page=3
-    try:
-        page_obj = paginator.page(page)
-    except PageNotAnInteger:
-        page_obj = paginator.page(1)  # 如果传入page参数不是整数，默认第一页
-    except EmptyPage:
-        page_obj = paginator.page(paginator.num_pages)
-    is_paginated = True if paginator.num_pages > 1 else False  # 如果页数小于1不使用分页
+    is_paginated, page_obj = get_paginator(data_recs, request)
 
     context = {'data': page_obj, 'cat_name': category_rec.title, 'is_paginated': is_paginated, 'Category': all_cat}
     return render(request, 'crawl_source/data_list_en.html', context)

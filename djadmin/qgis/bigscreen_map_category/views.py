@@ -11,7 +11,7 @@ from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models.aggregates import Count
 from django.contrib.sites.models import Site
-from base.models import get_template
+from base.models import get_template,get_paginator
 
 parent_template = get_template()
 current_site = Site.objects.get_current()
@@ -52,15 +52,7 @@ def BigScreenMapCategoryDataList(request, pk):
     category_rec = get_object_or_404(BigScreenMapCategory, pk=pk)
     all_cat = BigScreenMapCategory.objects.filter(sites__id=current_site.id).order_by('-create_time')
     data_recs = category_rec.bigscreendata.filter(sites__id=current_site.id)
-    paginator = Paginator(data_recs, 20)  # 实例化一个分页对象, 每页显示10个
-    page = request.GET.get('page')  # 从URL通过get页码，如?page=3
-    try:
-        page_obj = paginator.page(page)
-    except PageNotAnInteger:
-        page_obj = paginator.page(1)  # 如果传入page参数不是整数，默认第一页
-    except EmptyPage:
-        page_obj = paginator.page(paginator.num_pages)
-    is_paginated = True if paginator.num_pages > 1 else False  # 如果页数小于1不使用分页
+    is_paginated, page_obj = get_paginator(data_recs, request)
 
     context = {'data': page_obj, 'cat_name': category_rec.name, 'is_paginated': is_paginated, 'Category': all_cat,'parent_template': parent_template}
     return render(request, 'bigscreen_map_category/data_list.html', context)

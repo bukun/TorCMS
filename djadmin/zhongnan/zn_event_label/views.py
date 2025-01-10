@@ -8,6 +8,7 @@ from django_filters import rest_framework
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from zhongnan.zn_event_category.models import ZNEventCategory
+from base.models import get_paginator
 User = get_user_model()
 
 
@@ -33,5 +34,6 @@ def LabelDataList(request, pk):
     label_rec = get_object_or_404(ZNEventLabel, pk=pk)
     data_recs = label_rec.zn_event.all()
     all_cat = ZNEventCategory.objects.all().order_by('order')
-    context = {'data': data_recs, 'label_name': label_rec.name,'Category':all_cat}
+    is_paginated, page_obj = get_paginator(data_recs, request)
+    context = {'data': page_obj, 'is_paginated': is_paginated,'label_name': label_rec.name,'Category':all_cat}
     return render(request, 'zn_event_label/data_list.html', context)

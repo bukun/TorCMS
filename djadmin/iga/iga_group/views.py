@@ -12,7 +12,7 @@ from django.views.generic import DetailView
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.sites.models import Site
 from django.http import HttpResponse
-from base.models import get_template
+from base.models import get_template,get_paginator
 from django.conf import settings
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -69,16 +69,8 @@ def IgagroupDataList(request, pk):
     num_instances = [instance.num for instance in data_recs]
 
     paginator = Paginator(data_recs, 20)  # 实例化一个分页对象, 每页显示10个
-    page = request.GET.get('page')  # 从URL通过get页码，如?page=3
-    try:
-        page_obj = paginator.page(page)
-    except PageNotAnInteger:
-        page_obj = paginator.page(1)  # 如果传入page参数不是整数，默认第一页
-    except EmptyPage:
-        page_obj = paginator.page(paginator.num_pages)
-    is_paginated = True if paginator.num_pages > 1 else False  # 如果页数小于1不使用分页
-
-    context = {'data': data_recs,'data_json':dict_instances, 'data_num':num_instances,'cat_name': category_rec.title,
+    is_paginated, page_obj = get_paginator(data_recs, request)
+    context = {'data': page_obj,'data_json':dict_instances, 'data_num':num_instances,'cat_name': category_rec.title,
                'is_paginated': is_paginated, 'Category': all_cat, 'parent_template': parent_template
                }
     return render(request, 'groups/data_list.html', context)
