@@ -2,6 +2,7 @@ import json
 import os
 import openpyxl
 from .models import iga_group
+from iga.iga_floor.models import iga_floor
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import IgagroupSerializer
@@ -80,11 +81,20 @@ def ajax_update_info(request):
 
 
         cat = iga_group.objects.filter(id=groupid).first()
-        data_recs = cat.iga_room.all()
+        data_recs = cat.iga_room.all().order_by('num')
+        data_list =[]
+        for info in data_recs:
+            dic = {}
+            dic['building'] = info.building
+            dic['floor'] = iga_floor.objects.filter(num=info.floor).first().num
+            dic['num'] = info.num
+            dic['title'] = info.get_title_display()
+            dic['areafloat'] = info.areafloat
+            dic['staff'] = info.staff
+            if dic not in data_list:data_list.append(dic)
         dict_instances = [instance.floor_num for instance in data_recs]
-        objects_list_dict = [model_to_dict(obj) for obj in data_recs]
-        context = {'title': cat.title,'data_json':dict_instances,}
-        print(context)
+        context = {'title': cat.title,'data_json':dict_instances,'data_list':data_list}
+        # print(context)
         return JsonResponse(context)
     else:
         return JsonResponse({'message': 'fail'})

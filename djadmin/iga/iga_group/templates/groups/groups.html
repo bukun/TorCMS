@@ -56,26 +56,26 @@
                 fillColor: '#fd8788',
                 fillOpacity: 0.8
             };
+            var zoulangStyle = {
+                color: '#222',
+                weight: 1,
+                opacity: 0.9,
+                fillColor: '#ddd',
+                fillOpacity: 0.8
+            }
             fetch('https://martin.igadc.cn/')
                 .then(response => response.json())
                 .then(data => {
                     var geojsonLayer = L.geoJson(data, {
-                        style: function () {
+                        style: function (feature) {
                             switch (feature.properties.name) {
                                 case '走廊':
-                                    return {
-                                        color: '#222',
-                                        weight: 1,
-                                        opacity: 0.9,
-                                        fillColor: '#ddd',
-                                        fillOpacity: 0.8
-                                    }; // 红色的道路
+                                    return zoulangStyle;
                                 default:
                                     return geojsonStyle; // 默认颜色
                             }
                         },
                         onEachFeature: function (feature, layer) {
-
                             layer.bindTooltip('<div><b>Name:' + feature.properties.name + '</b></div>' +
                                 '<div><b>所属楼:' + feature.properties.floor + '楼</b></div>' +
                                 '<div><b>房间号:' + feature.properties.roomid + '</b></div>', {
@@ -88,11 +88,11 @@
                                 });
                             });
                             layer.on('mouseout', function (e) {
-                                e.target.setStyle({
-                                        fillColor: '#fd8788',
-                                        fillOpacity: 0.8,
-                                    }
-                                ); // 使用之前的样式
+                                if (e.target.feature.properties.name === '走廊') {
+                                    e.target.setStyle(zoulangStyle);
+                                } else {
+                                    e.target.setStyle(geojsonStyle);
+                                }
                             });
                         }
                     }).addTo(map);

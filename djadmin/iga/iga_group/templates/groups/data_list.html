@@ -28,7 +28,7 @@
     <div class="row">
         <div class="card-header" style="padding: 10px">
 
-             <span style="float: right;margin-top: 1rem"> <a href="/iga_group/igaindex/">首页</a></span>
+            <span style="float: right;margin-top: 1rem"> <a href="/iga_group/igaindex/">首页</a></span>
             <h3>学科组列表</h3>
 
             <hr/>
@@ -87,14 +87,11 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div id="my-data-container">
-            test
-        </div>
-    </div>
+
 
     <SCRIPT>
         $(document).ready(function () {
+            var map;
             var data = JSON.stringify("{{ data_json|escapejs }}");
             var array = JSON.parse(data).replace('[', '').replace(']', '').replaceAll('\'', '').replace(/\s/g, "").split(',');
             console.log(data);
@@ -113,11 +110,12 @@
 
             var osm = L.tileLayer.chinaProvider('TianDiTu.Normal.Map', {
                 id: "mapbox.streets",
+                title: '天地图网格图',
                 maxZoom: 22,
                 minZoom: 1,
             });
 
-            var map = L.map('map', {
+            map = L.map('map', {
                 center: [43.997362, 125.394408],
                 zoom: 19,
                 maxZoom: 22,
@@ -140,12 +138,24 @@
                 fillColor: '#2b35fb',
                 fillOpacity: 0.7
             };
+            var zoulangStyle = {
+                color: '#222',
+                weight: 1,
+                opacity: 0.9,
+                fillColor: '#ddd',
+                fillOpacity: 0.8
+            }
             fetch('https://martin.igadc.cn/')
                 .then(response => response.json())
                 .then(data => {
-                    var geojsonLayer = L.geoJson(data, {
-                        style: function () {
-                            return geojsonStyle;
+                    const geojsonLayer = L.geoJson(data, {
+                        style: function (feature) {
+                            switch (feature.properties.name) {
+                                case '走廊':
+                                    return zoulangStyle;
+                                default:
+                                    return geojsonStyle; // 默认颜色
+                            }
                         },
                         onEachFeature: function (feature, layer) {
                             if (array.includes(feature.properties.label)) {
@@ -165,11 +175,17 @@
                             layer.on('mouseout', function (e) {
                                 if (array.includes(e.target.feature.properties.label)) {
                                     e.target.setStyle(highlightStyle);
-                                } else {
+                                } else if (e.target.feature.properties.name === '走廊') {
                                     e.target.setStyle({
-                                        fillColor: '#fd8788',
-                                        fillOpacity: 0.8,
-                                    });
+                                            color: '#222',
+                                            weight: 1,
+                                            opacity: 0.9,
+                                            fillColor: '#ddd',
+                                            fillOpacity: 0.8
+                                        }
+                                    );
+                                } else {
+                                    e.target.setStyle(geojsonStyle);
                                 }
                             });
                         }
@@ -192,13 +208,35 @@
                 dataType: 'json',
                 success: function (data) {
                     console.log('data')
-                    console.log(data)
-                    console.log(typeof (data.data_json))
+                    console.log(map)
+
+                    var title_html = `<div class="card-header"><h3>学科组名称:` + data.title + `</h3><hr/></div>`
                     var html = '';
                     $.each(data.data_list, function (item) {
-                        html += `<tr><td>`+data.data_list[item]['building'] + `楼</td><td></tr>`; // 假设每个对象都有一个'name'属性
+                        html += `<tr><td>` + data.data_list[item]['building'] + `楼</td>` +
+                            `<td>` + data.data_list[item]['floor'] + `楼</td>` +
+                            `<td>` + data.data_list[item]['num'] + `</td>` +
+                            `<td>` + data.data_list[item]['title'] + `</td>` +
+                            `<td>` + data.data_list[item]['areafloat'] + `</td>` +
+                            `<td>` + data.data_list[item]['staff'] + `</td></tr>`
                     });
-                    $('#my-data-container').html(html);
+                    var body_html = ` <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">所属楼</th>
+                        <th scope="col">所在楼层</th>
+                        <th scope="col">房间号</th>
+                        <th scope="col">用途</th>
+                        <th scope="col">面积</th>
+                        <th scope="col">备注</th>
+                    </tr>
+                    </thead>
+                    <tbody>`;
+                    var end_html = `</tbody></table></div>`;
+                    var res_html = title_html + body_html + html + end_html;
+                    $('#content').html(res_html);
+
                 },
                 error: function () {
                     console.log('Error occurred');
@@ -206,6 +244,9 @@
 
             });
         }
+
+
+
 
     </script>
 {% endblock %}
