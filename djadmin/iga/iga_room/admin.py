@@ -11,6 +11,7 @@ class igaroomadmin(ImportExportModelAdmin):
     list_display = ("id","title",'num','area','staff','building','floor')
     list_per_page = 20
     filter_horizontal = ('group', 'sites','operaters')
+    search_fields = ('num','building')
     readonly_fields = ('floor_num',)
 # 注册app的admin
 admin.site.register(iga_room, igaroomadmin)

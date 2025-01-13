@@ -11,7 +11,7 @@ class igagroupadmin(ImportExportModelAdmin):
     # 控制哪些字段会显示在Admin 的修改列表页面中
     list_display = ("id","title","get_count")
     list_per_page = 20
-
+    search_fields = ('title',)
     def get_count(self, obj):
         rec = iga_group.objects.annotate(num_posts=Count('iga_room')).filter(title=obj.title)
 

@@ -36,7 +36,7 @@
         <div class="btn-group" role="group" aria-label="Basic example"
              style="flex-wrap: wrap; gap: 0.5rem;display: block ">
             {% for cat in Category %}
-                <a class="btn btn-success btn-xs" onclick="update_info({{ cat.id }})">
+                <a class="btn btn-success btn-xs" href="{% url 'iga_group:igagroup_datalist' cat.id %}">
                     {{ cat.title }}</a>
             {% endfor %}
         </div>
@@ -142,7 +142,7 @@
                 color: '#222',
                 weight: 1,
                 opacity: 0.9,
-                fillColor: '#ddd',
+                fillColor: '#b9fce2',
                 fillOpacity: 0.8
             }
             fetch('https://martin.igadc.cn/')
@@ -176,14 +176,7 @@
                                 if (array.includes(e.target.feature.properties.label)) {
                                     e.target.setStyle(highlightStyle);
                                 } else if (e.target.feature.properties.name === '走廊') {
-                                    e.target.setStyle({
-                                            color: '#222',
-                                            weight: 1,
-                                            opacity: 0.9,
-                                            fillColor: '#ddd',
-                                            fillOpacity: 0.8
-                                        }
-                                    );
+                                    e.target.setStyle(zoulangStyle);
                                 } else {
                                     e.target.setStyle(geojsonStyle);
                                 }

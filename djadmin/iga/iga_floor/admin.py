@@ -11,6 +11,7 @@ class igaflooradmin(ImportExportModelAdmin):
     # 控制哪些字段会显示在Admin 的修改列表页面中
     list_display = ("id","num","get_count")
     list_per_page = 20
+    search_fields = ('num',)
     def get_count(self, obj):
         rec = iga_floor.objects.annotate(num_posts=Count('iga_room')).filter(num=obj.num)
 

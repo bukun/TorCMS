@@ -10,6 +10,6 @@ class igastaffadmin(ImportExportModelAdmin):
     # 控制哪些字段会显示在Admin 的修改列表页面中
     list_display = ("id","name")
     list_per_page = 20
-
+    search_fields = ('name',)
 # 注册app的admin
 admin.site.register(iga_staff, igastaffadmin)
