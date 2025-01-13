@@ -94,9 +94,7 @@
             var map;
             var data = JSON.stringify("{{ data_json|escapejs }}");
             var array = JSON.parse(data).replace('[', '').replace(']', '').replaceAll('\'', '').replace(/\s/g, "").split(',');
-            console.log(data);
-            console.log(array);
-            console.log(typeof (array));
+
 
 
             var popup = L.popup();
@@ -123,7 +121,7 @@
             });
 
             osm.addTo(map)
-            map.on('click', onMapClick)
+
             var geojsonStyle = {
                 color: '#222',
                 weight: 1,
