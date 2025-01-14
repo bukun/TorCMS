@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.gis.db.models import PointField
 from django.contrib.gis.forms import PointField as GisPointField
-from .models import PlaceName
+from place.geofea.models  import PlaceName
 
 class CustomPointField(GisPointField):
     def __init__(self, *args, **kwargs):

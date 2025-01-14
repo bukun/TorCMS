@@ -1,6 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import ThematicMaps
+from place.geofea.models  import ThematicMaps
 from .resources import ThematicMapsResource
 from django.db import models
 from django.forms import TextInput, Textarea

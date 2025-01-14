@@ -2,7 +2,7 @@ import json
 import requests
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import TranslationZHEN
+from translation_library.trans_en_zh.models import TranslationZHEN
 from .resources import ApiAppResource
 from django.db import models
 from django.forms import TextInput, Textarea

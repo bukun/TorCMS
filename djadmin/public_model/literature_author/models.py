@@ -5,7 +5,7 @@ from base.models import basemodel
 from mdeditor.fields import MDTextField
 from django.contrib.sites.models import Site
 from django.utils.safestring import mark_safe
-from public_model.public_country.models import PublicCountry
+
 User = get_user_model()
 
 gender_CHOICES = [
@@ -13,6 +13,22 @@ gender_CHOICES = [
 ('1', 'Male'),
 ('2', 'Female'),
 ]
+
+class PublicCountry(basemodel):
+    name=models.CharField(blank=True,unique=True, null=False, max_length=255, verbose_name="名称")
+
+
+    sites = models.ManyToManyField(Site,blank=True, related_name='public_country', verbose_name='Site')
+
+    def __str__(self):
+        return self.name
+
+
+    class Meta(basemodel.Meta):
+        db_table = 'public_country'
+        verbose_name = "国家管理"
+        verbose_name_plural = verbose_name
+
 class LiteratureAuthor(basemodel):
     name=models.CharField(blank=True,unique=True, null=False, max_length=255, verbose_name="姓名")
     gender=models.CharField(choices=gender_CHOICES, verbose_name="性别",default='0',max_length=255)
@@ -33,5 +49,20 @@ class LiteratureAuthor(basemodel):
 
     class Meta(basemodel.Meta):
         db_table = 'literature_authors'
-        verbose_name = "Literature Author"
+        verbose_name = "作者管理"
         verbose_name_plural = verbose_name
+
+
+
+class LiteratureDate(basemodel):
+    pub_date=models.CharField(blank=True,unique=True, null=False, max_length=255, verbose_name="日期")
+    sites = models.ManyToManyField(Site,blank=True, related_name='literature_date', verbose_name='Site')
+
+    def __str__(self):
+        return self.pub_date
+
+    class Meta(basemodel.Meta):
+        db_table = 'literature_date'
+        verbose_name = "日期管理"
+        verbose_name_plural = verbose_name
+

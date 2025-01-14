@@ -1,5 +1,5 @@
 import json
-from .models import XZQH
+from place.geofea.models  import XZQH
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 

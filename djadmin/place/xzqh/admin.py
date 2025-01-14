@@ -3,7 +3,7 @@ import requests
 import logging
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import XZQH
+from place.geofea.models  import XZQH
 from .resources import ApiAppResource
 from django.db import models
 from django.forms import TextInput, Textarea

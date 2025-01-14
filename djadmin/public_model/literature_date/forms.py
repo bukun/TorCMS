@@ -1,5 +1,5 @@
 from django import forms
-from .models import LiteratureDate
+from public_model.literature_author.models import LiteratureDate
 
 
 class CategoryForm(forms.ModelForm):

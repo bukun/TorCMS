@@ -1,6 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import TestText
+from place.geofea.models  import TestText
 from .resources import TestTextResource
 from django.db import models
 from django.forms import TextInput, Textarea

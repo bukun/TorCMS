@@ -1,4 +1,4 @@
-from .models import GeoPage
+from place.geofea.models  import GeoPage
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 

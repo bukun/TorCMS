@@ -1,6 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import GeoPage
+from place.geofea.models import GeoPage
 from .resources import GeoPageResource
 from django.db import models
 from django.forms import TextInput, Textarea

@@ -1,4 +1,4 @@
-from .models import TestText
+from place.geofea.models  import TestText
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import TestTextSerializer

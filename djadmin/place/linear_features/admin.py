@@ -3,7 +3,7 @@ import requests
 import logging
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import LinearFeatures
+from place.geofea.models  import LinearFeatures
 from .resources import ApiAppResource
 from django.db import models
 from django.forms import TextInput, Textarea

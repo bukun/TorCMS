@@ -1,5 +1,5 @@
 import json
-from .models import PlanarFeatures
+from place.geofea.models  import PlanarFeatures
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.core import serializers as django_serializers

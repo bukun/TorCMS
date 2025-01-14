@@ -1,6 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import LiteratureDate
+from public_model.literature_author.models import LiteratureDate
 from .resources import CategoryResource
 from mptt.admin import MPTTModelAdmin
 from django.db.models.aggregates import Count

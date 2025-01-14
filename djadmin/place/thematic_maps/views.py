@@ -1,4 +1,4 @@
-from .models import ThematicMaps
+from place.geofea.models  import ThematicMaps
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import ThematicMapsSerializer

@@ -1,4 +1,4 @@
-from .models import PublicCountry
+from public_model.literature_author.models import PublicCountry
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import AuthorSerializer

@@ -1,4 +1,4 @@
-from .models import TranslationZHEN
+from translation_library.trans_en_zh.models  import TranslationZHEN
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import ApiAppSerializer

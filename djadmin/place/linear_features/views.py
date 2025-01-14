@@ -1,6 +1,6 @@
 import requests
 import json
-from .models import LinearFeatures
+from place.geofea.models  import LinearFeatures
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import ApiAppSerializer

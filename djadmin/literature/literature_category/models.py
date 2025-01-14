@@ -3,8 +3,7 @@ from base.models import basemodel, basecategory
 from base.models import basemodel
 from mdeditor.fields import MDTextField
 
-from public_model.literature_author.models import LiteratureAuthor
-from public_model.literature_date.models import LiteratureDate
+from public_model.literature_author.models import LiteratureAuthor,LiteratureDate
 from django.contrib.sites.models import Site
 from django.db import models
 from django.contrib.auth import get_user_model

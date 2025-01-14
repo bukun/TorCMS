@@ -1,6 +1,6 @@
 import requests
 import json
-from .models import XZQH
+from place.geofea.models  import XZQH
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import ApiAppSerializer

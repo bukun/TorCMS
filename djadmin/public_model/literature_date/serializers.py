@@ -1,4 +1,4 @@
-from .models import LiteratureDate
+from public_model.literature_author.models import LiteratureDate
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 

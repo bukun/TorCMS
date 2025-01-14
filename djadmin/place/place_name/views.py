@@ -1,6 +1,6 @@
 import requests
 import json
-from .models import PlaceName
+from place.geofea.models  import PlaceName
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import ApiAppSerializer

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import Geofea
+from place.geofea.models  import Geofea
 from .resources import ApiAppResource
 from django.db import models
 from django.forms import TextInput, Textarea

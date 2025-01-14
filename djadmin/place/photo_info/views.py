@@ -1,6 +1,6 @@
 import json
 from django.shortcuts import render
-from .models import Photoinfo
+from place.geofea.models  import Photoinfo
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import PhotoinfoSerializer

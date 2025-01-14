@@ -1,4 +1,4 @@
-from .models import Geofea
+from place.geofea.models  import Geofea
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import GeofeaSerializer

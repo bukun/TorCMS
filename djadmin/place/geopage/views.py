@@ -1,4 +1,4 @@
-from .models import GeoPage
+from place.geofea.models  import GeoPage
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import GeoPageSerializer

@@ -1,6 +1,6 @@
 from import_export import resources
 
-from .models import PlanarFeatures
+from place.geofea.models  import PlanarFeatures
 from django.contrib.auth import get_user_model
 
 User = get_user_model()

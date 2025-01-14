@@ -1,4 +1,4 @@
-from .models import LiteratureDate
+from public_model.literature_author.models import LiteratureDate
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import AuthorSerializer
