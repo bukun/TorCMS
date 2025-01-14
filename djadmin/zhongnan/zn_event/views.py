@@ -1,5 +1,5 @@
 import markdown
-from .models import ZNEvent
+from ..zn_event_category.models import ZNEvent
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import DataSerializer

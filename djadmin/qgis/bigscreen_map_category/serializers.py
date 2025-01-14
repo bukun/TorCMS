@@ -1,4 +1,4 @@
-from .models import BigScreenMapCategory
+from qgis.qgis_map.models import BigScreenMapCategory
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 

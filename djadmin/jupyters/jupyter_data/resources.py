@@ -1,6 +1,6 @@
 from import_export import resources
 
-from .models import Jupyter
+from jupyters.jupyter_category.models import Jupyter
 from django.contrib.auth import get_user_model
 
 User = get_user_model()

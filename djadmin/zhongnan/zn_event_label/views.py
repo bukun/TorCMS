@@ -1,4 +1,4 @@
-from .models import ZNEventLabel
+from ..zn_event_category.models import ZNEventLabel
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import LabelsSerializer

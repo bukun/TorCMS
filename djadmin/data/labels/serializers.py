@@ -1,4 +1,4 @@
-from .models import labels
+from data.categorys.models import labels
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 

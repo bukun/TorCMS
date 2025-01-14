@@ -1,4 +1,4 @@
-from .models import ResourceLabel
+from dresource.resource_category.models import ResourceLabel
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import LabelsSerializer

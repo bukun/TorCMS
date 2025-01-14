@@ -1,6 +1,6 @@
 import markdown
 import difflib
-from .models import CrawlDocumentEN, RzLog
+from ..crawl_source.models import CrawlDocumentEN, RzLog
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import DataSerializer
@@ -8,7 +8,7 @@ from .permissions import IsOwnerOrReadOnly
 from django.contrib.auth import get_user_model
 from django_filters import rest_framework
 from crawl.crawl_source.models import CrawlSource
-from crawl.crawl_label.models import CrawlLabel
+from ..crawl_source.models import CrawlLabel
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render

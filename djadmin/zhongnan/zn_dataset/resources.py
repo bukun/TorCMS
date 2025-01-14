@@ -1,6 +1,6 @@
 from import_export import resources
 
-from .models import ZNDataset
+from ..zn_dataset_category.models import ZNDataset
 from django.contrib.auth import get_user_model
 
 User = get_user_model()

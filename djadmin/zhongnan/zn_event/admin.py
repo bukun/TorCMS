@@ -1,6 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import ZNEvent
+from ..zn_event_category.models import ZNEvent
 from .resources import DataResource
 from django.db import models
 from django.forms import TextInput, Textarea
@@ -18,6 +18,9 @@ class ZNEventadmin(ImportExportModelAdmin):
     ordering = ["view_count", "create_time", "category", ]
     list_per_page = 20
 
+    def get_readonly_fields(self, request, obj=None):
+
+        return ['cnt_html']
     search_fields = ('title', 'cnt_md')
 
     filter_horizontal = ('label',)

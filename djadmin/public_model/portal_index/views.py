@@ -4,15 +4,15 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.contrib.sites.models import Site
-from post.document.models import Document
+from post.doc_category.models import Document
 from public_model.literature_author.models import LiteratureAuthor
 from base.models import get_template
 from django.contrib.auth import get_user_model
 from django_filters import rest_framework
 from django.views.generic import ListView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from data.dataset.models import dataset
-from jupyters.jupyter_data.models import Jupyter
+from data.categorys.models import dataset
+from jupyters.jupyter_category.models import Jupyter
 
 parent_template = get_template()
 current_site = Site.objects.get_current()

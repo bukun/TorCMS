@@ -1,6 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from pages.wiki.models import TheWiki
+from pages.page.models import TheWiki
 from pages.wiki.resources import WikiResource
 from django.db.models.aggregates import Count
 from django.db import models

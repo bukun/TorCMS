@@ -1,5 +1,5 @@
 import markdown
-from .models import ZNDataset
+from ..zn_dataset_category.models import ZNDataset
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import DataSerializer

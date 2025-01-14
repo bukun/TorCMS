@@ -1,4 +1,4 @@
-from .models import DocLabel
+from post.doc_category.models import DocLabel
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import LabelsSerializer

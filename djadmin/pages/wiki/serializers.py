@@ -1,4 +1,4 @@
-from .models import TheWiki
+from pages.page.models import TheWiki
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 

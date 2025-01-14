@@ -1,6 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import Literature
+from ..literature_category.models import Literature
 from .resources import literatureResource
 from django.db import models
 from django.forms import TextInput, Textarea

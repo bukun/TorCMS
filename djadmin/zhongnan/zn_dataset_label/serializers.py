@@ -1,4 +1,4 @@
-from .models import ZNDatasetLabel
+from ..zn_dataset_category.models import ZNDatasetLabel
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 

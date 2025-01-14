@@ -1,4 +1,4 @@
-from .models import ZNDatasetLabel
+from ..zn_dataset_category.models import ZNDatasetLabel
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import LabelsSerializer

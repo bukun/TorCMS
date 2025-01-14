@@ -1,4 +1,4 @@
-from .models import Resource
+from dresource.resource_category.models import Resource
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import DataSerializer

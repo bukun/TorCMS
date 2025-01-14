@@ -1,4 +1,4 @@
-from .models import Jupyter
+from jupyters.jupyter_category.models import Jupyter
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 

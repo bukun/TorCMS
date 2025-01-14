@@ -83,7 +83,7 @@
 
 
                 <div id="wiki_cnt" class="col-sm-12 listinfo_content bor_bottom">
-                    {{ data.cnt_md | safe }}
+                    {{ data.cnt_html | safe }}
                 </div>
                 {% for key,value in data.extinfo.items %}
                 {% if value != 'None' %}

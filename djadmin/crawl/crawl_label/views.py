@@ -1,4 +1,4 @@
-from .models import CrawlLabel
+from ..crawl_source.models import CrawlLabel,CrawlDocumentEN,CrawlDocument
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import LabelsSerializer
@@ -7,9 +7,6 @@ from django.contrib.auth import get_user_model
 from django_filters import rest_framework
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
-# from crawl.crawl_source.models import CrawlSource
-from crawl.crawl_document_en.models import CrawlDocumentEN
-from crawl.crawl_document.models import CrawlDocument
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count
 from base.models import get_paginator

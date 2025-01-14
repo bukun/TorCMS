@@ -1,5 +1,5 @@
 from django import forms
-from .models import ANSOMapCategory
+from qgis.qgis_map.models import ANSOMapCategory
 
 
 class ANSOCategoryForm(forms.ModelForm):

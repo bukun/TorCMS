@@ -1,6 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import map
+from data.categorys.models import map
 from .resources import MapResource
 
 class mapadmin(ImportExportModelAdmin):

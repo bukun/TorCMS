@@ -1,5 +1,5 @@
 from django import forms
-from .models import Jupyter
+from jupyters.jupyter_category.models import Jupyter
 
 
 class SharedFileForm(forms.ModelForm):

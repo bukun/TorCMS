@@ -1,4 +1,4 @@
-from .models import Literature
+from ..literature_category.models import Literature
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import literatureSerializer

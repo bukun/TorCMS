@@ -1,7 +1,7 @@
 import json
 import os
 import openpyxl
-from .models import dataset
+from data.categorys.models import dataset
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import DataSerializer

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import QgisLabel
+from qgis.qgis_map.models import QgisLabel
 from .resources import LabelResource
 from django.db.models.aggregates import Count
 

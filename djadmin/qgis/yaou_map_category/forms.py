@@ -1,5 +1,5 @@
 from django import forms
-from .models import yaoumapcategory
+from qgis.qgis_map.models import yaoumapcategory
 
 
 class YaouCategoryForm(forms.ModelForm):

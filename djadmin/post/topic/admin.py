@@ -1,6 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import Topic,Comment
+from post.doc_category.models import Topic,Comment
 from .resources import TopicResource,CommentResource
 from mptt.admin import MPTTModelAdmin
 from django.db import models

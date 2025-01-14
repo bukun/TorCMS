@@ -11,7 +11,7 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from ..zn_event_category.models import ZNEventCategory
-from ..zn_event.models import ZNEvent
+from ..zn_event_category.models import ZNEvent
 from base.models import get_paginator
 User = get_user_model()
 

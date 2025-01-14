@@ -1,4 +1,4 @@
-from .models import yaoumapcategory
+from qgis.qgis_map.models import yaoumapcategory
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import YaouMapCategorySerializer
@@ -9,13 +9,12 @@ from django.views.generic import ListView
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from crawl.crawl_label.models import CrawlLabel
-from crawl.crawl_document_en.models import CrawlDocumentEN
-from literature.literature_data.models import Literature
+from crawl.crawl_source.models import CrawlLabel,CrawlDocumentEN
+from literature.literature_category.models import Literature
 from qgis.qgis_map.models import qgismap
 from data.categorys.models import categorys
-from jupyters.jupyter_data.models import Jupyter
-from data.dataset.models import dataset
+from jupyters.jupyter_category.models import Jupyter
+from data.categorys.models import dataset
 from django.contrib.sites.models import Site
 from base.models import get_template,get_paginator
 

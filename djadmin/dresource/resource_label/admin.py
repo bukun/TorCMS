@@ -1,6 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import ResourceLabel
+from dresource.resource_category.models import ResourceLabel
 from .resources import LabelResource
 from django.db.models.aggregates import Count
 

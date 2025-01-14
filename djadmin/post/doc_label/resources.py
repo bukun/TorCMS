@@ -1,6 +1,6 @@
 from import_export import resources
 
-from .models import DocLabel
+from post.doc_category.models import DocLabel
 from django.contrib.auth import get_user_model
 
 User = get_user_model()

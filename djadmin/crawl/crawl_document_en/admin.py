@@ -1,6 +1,6 @@
 from django.contrib import admin, messages
 from import_export.admin import ImportExportModelAdmin
-from .models import CrawlDocumentEN, RzLog
+from ..crawl_source.models import CrawlDocumentEN, RzLog
 from .resources import DataResource, RZLogResource
 from django.db import models
 from django.forms import TextInput, Textarea

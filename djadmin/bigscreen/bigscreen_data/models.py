@@ -5,7 +5,7 @@ from base.models import basemodel
 from django.utils.safestring import mark_safe
 from django.contrib.sites.models import Site
 User = get_user_model()
-from qgis.bigscreen_map_category.models import BigScreenMapCategory
+from qgis.qgis_map.models import BigScreenMapCategory
 from bigscreen.jump_btn.models import JumpBtn
 from django.core.validators import MaxValueValidator, MinValueValidator
 

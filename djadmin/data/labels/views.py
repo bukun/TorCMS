@@ -1,4 +1,4 @@
-from .models import labels
+from data.categorys.models import labels
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import LabelsSerializer

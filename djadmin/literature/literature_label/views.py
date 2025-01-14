@@ -1,4 +1,4 @@
-from .models import LiteratureLabel
+from ..literature_category.models import  LiteratureLabel
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import LabelsSerializer

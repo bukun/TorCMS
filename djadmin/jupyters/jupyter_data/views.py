@@ -1,6 +1,6 @@
 import nbformat
 import requests
-from .models import Jupyter
+from jupyters.jupyter_category.models import Jupyter
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import JupyterSerializer
@@ -9,12 +9,9 @@ from .forms import SharedFileForm
 from django.contrib.auth import get_user_model
 from django_filters import rest_framework
 from django.shortcuts import render, redirect, get_object_or_404
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from jupyters.jupyter_category.models import JupyterCatagory
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger 
 from django.contrib.sites.models import Site
 from django.http import HttpResponse
-from django.contrib.auth.models import AnonymousUser
-from django.http import HttpResponseRedirect
 from jupyters.jupyter_category.models import JupyterCatagory
 
 current_site = Site.objects.get_current()

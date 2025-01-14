@@ -1,6 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import Document
+from post.doc_category.models import Document
 from .resources import DataResource
 from django.db import models
 from django.forms import TextInput, Textarea

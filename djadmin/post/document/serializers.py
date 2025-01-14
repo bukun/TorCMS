@@ -1,4 +1,4 @@
-from .models import Document
+from post.doc_category.models import Document
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 

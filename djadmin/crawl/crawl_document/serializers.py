@@ -1,4 +1,4 @@
-from .models import CrawlDocument
+from ..crawl_source.models import CrawlDocument
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 

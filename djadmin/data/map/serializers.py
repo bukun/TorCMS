@@ -1,4 +1,4 @@
-from .models import map
+from data.categorys.models import map
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from data.dataset.serializers import DataSerializer

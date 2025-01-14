@@ -1,4 +1,4 @@
-from .models import DocLabel
+from post.doc_category.models import DocLabel
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 

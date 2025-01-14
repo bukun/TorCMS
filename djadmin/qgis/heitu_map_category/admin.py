@@ -1,6 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import heitumapcategory
+from qgis.qgis_map.models import heitumapcategory
 from .resources import HeituMapCategoryResource
 
 from django.db.models.aggregates import Count

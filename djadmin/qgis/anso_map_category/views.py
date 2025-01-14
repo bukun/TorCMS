@@ -1,4 +1,4 @@
-from .models import ANSOMapCategory
+from qgis.qgis_map.models import ANSOMapCategory
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import ANSOMapCategorySerializer

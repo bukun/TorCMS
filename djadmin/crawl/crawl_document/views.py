@@ -1,5 +1,5 @@
 import markdown
-from .models import CrawlDocument
+from ..crawl_source.models import CrawlDocument
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import DataSerializer
@@ -7,7 +7,7 @@ from .permissions import IsOwnerOrReadOnly
 from django.contrib.auth import get_user_model
 from django_filters import rest_framework
 from django.views.generic import DetailView
-from crawl.crawl_label.models import CrawlLabel
+from ..crawl_source.models import CrawlLabel
 from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
 from django.db.models import Count
 

@@ -1,6 +1,5 @@
 from import_export import resources
-
-from .models import TheWiki
+from pages.page.models import TheWiki
 from django.contrib.auth import get_user_model
 
 User = get_user_model()

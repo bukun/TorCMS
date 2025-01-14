@@ -1,4 +1,4 @@
-from .models import LiteratureLabel
+from ..literature_category.models import  LiteratureLabel
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 

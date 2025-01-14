@@ -1,4 +1,4 @@
-from .models import TheWiki
+from pages.page.models import TheWiki
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import PageSerializer

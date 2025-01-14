@@ -1,6 +1,6 @@
 from import_export import resources
 
-from .models import Resource
+from dresource.resource_category.models import Resource
 from django.contrib.auth import get_user_model
 
 User = get_user_model()

@@ -1,4 +1,4 @@
-from .models import Literature
+from ..literature_category.models import Literature
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import DocLabel
+from post.doc_category.models import DocLabel
 from .resources import LabelResource
 from django.db.models.aggregates import Count
 

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import dataset
+from data.categorys.models import dataset
 from .resources import DataResource
 from django.db import models
 from django.forms import TextInput, Textarea

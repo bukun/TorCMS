@@ -1,4 +1,4 @@
-from .models import zhongbamapcategory
+from qgis.qgis_map.models import zhongbamapcategory
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import ZhongbaMapCategorySerializer

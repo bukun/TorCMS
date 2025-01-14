@@ -1,5 +1,5 @@
 from django import forms
-from .models import heitumapcategory
+from qgis.qgis_map.models import heitumapcategory
 
 
 class HeituCategoryForm(forms.ModelForm):

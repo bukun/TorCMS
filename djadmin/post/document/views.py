@@ -1,6 +1,6 @@
 import json
 import subprocess
-from .models import Document
+from post.doc_category.models import Document
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import DataSerializer

@@ -1,4 +1,4 @@
-from .models import ZNEvent
+from ..zn_event_category.models import ZNEvent
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 

@@ -1,4 +1,4 @@
-from .models import heitumapcategory
+from qgis.qgis_map.models import heitumapcategory
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import HeituMapCategorySerializer

@@ -1,5 +1,5 @@
 from django import forms
-from .models import zhongbamapcategory
+from qgis.qgis_map.models import zhongbamapcategory
 
 
 class ZhongbaCategoryForm(forms.ModelForm):

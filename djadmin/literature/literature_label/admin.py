@@ -1,6 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import LiteratureLabel
+from ..literature_category.models import  LiteratureLabel
 from .resources import LabelResource
 from django.db.models.aggregates import Count
 

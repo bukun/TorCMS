@@ -1,4 +1,4 @@
-from .models import yaoumapcategory
+from qgis.qgis_map.models import yaoumapcategory
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 

@@ -2,10 +2,9 @@ import json
 from .models import BigScreenData
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from qgis.qgis_map.models import qgismap
 from bigscreen.jump_btn.models import JumpBtn
 from django.core import serializers as django_serializers
-from qgis.bigscreen_map_category.models import BigScreenMapCategory
+from qgis.qgis_map.models import qgismap,BigScreenMapCategory
 
 
 class BigScreenSerializer(serializers.ModelSerializer):

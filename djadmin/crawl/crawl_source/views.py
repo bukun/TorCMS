@@ -9,7 +9,7 @@ from django.views.generic import ListView
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from crawl.crawl_label.models import CrawlLabel
+from crawl.crawl_source.models import CrawlLabel
 from base.models import get_paginator
 User = get_user_model()
 

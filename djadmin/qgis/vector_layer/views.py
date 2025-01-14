@@ -1,21 +1,12 @@
-from .models import vectorlayer
+from qgis.qgis_map.models import *
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import vectorlayerSerializer
 from .permissions import IsOwnerOrReadOnly
 from django.contrib.auth import get_user_model
 from django_filters import rest_framework
-from qgis.yaou_map_category.models import yaoumapcategory
-from qgis.zhongba_map_category.models import zhongbamapcategory
-from qgis.zhongmeng_map_category.models import zhongmengmapcategory
-from qgis.heitu_map_category.models import heitumapcategory
-from qgis.anso_map_category.models import ANSOMapCategory
-from qgis.bigscreen_map_category.models import BigScreenMapCategory
-from qgis.qgis_label.models import QgisLabel
 from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework.decorators import permission_classes
 from rest_framework.response import Response
 import json
 from django.contrib.sites.models import Site

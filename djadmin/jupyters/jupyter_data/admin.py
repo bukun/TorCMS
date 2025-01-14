@@ -1,6 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import Jupyter
+from jupyters.jupyter_category.models import Jupyter
 from .resources import JupyterResource
 from django.db import models
 from django.forms import TextInput, Textarea

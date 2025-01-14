@@ -1,6 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import zhongmengmapcategory
+from qgis.qgis_map.models import zhongmengmapcategory
 from .resources import ZhongmengMapCategoryResource
 
 from django.db.models.aggregates import Count

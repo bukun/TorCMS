@@ -1,5 +1,5 @@
 from django import forms
-from .models import BigScreenMapCategory
+from qgis.qgis_map.models import BigScreenMapCategory
 
 
 class BigScreenCategoryForm(forms.ModelForm):

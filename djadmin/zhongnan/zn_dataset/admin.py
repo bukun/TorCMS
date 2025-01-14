@@ -1,6 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import ZNDataset
+from ..zn_dataset_category.models import ZNDataset
 from .resources import DataResource
 from django.db import models
 from django.forms import TextInput, Textarea
@@ -17,6 +17,9 @@ class ZNDatasetAdmin(ImportExportModelAdmin):
     # 用来排序
     ordering = ["view_count", "create_time", "category", ]
     list_per_page = 20
+
+    def get_readonly_fields(self, request, obj=None):
+        return ['cnt_html']
 
     search_fields = ('title', 'cnt_md')
 
