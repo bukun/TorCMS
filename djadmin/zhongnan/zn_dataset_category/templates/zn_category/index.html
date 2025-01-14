@@ -7,7 +7,7 @@
 
         #map_div {
             width: 100%;
-            height: 200px;
+            height: 300px;
             border: 1px solid black;
             text-align: center;
             align-self: center;
@@ -50,50 +50,22 @@
                 </div>
                 <div class="panel-body">
 
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="col-sm-6">
-                                   <h4><b>Overview</b></h4>
-                                <p>According to the China Earthquake Networks Center, a 6.8-magnitude earthquake occurred in Dingri County, Shigatse City, Xizang Autonomous Region, at 9:05 AM on January 7, 2025. The earthquake had a focal depth of 10 kilometers, with its epicenter located at 28.50°N and 87.45°E.</p>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="map_div" id="map_div"></div>
-                            </div>
-                        </div>
-                    </div>
+
+  <div class="map_div" id="map_div"></div>
+                    <br>
+                        {{new_info.cnt_html | safe }}
 
 
-                    <div class="row">
-                        <br><br>
-                        <h4 class="text-center" style="margin:2rem auto"><b>Disaster Monitoring Products</b></h4></div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div style="text-align: center">
-                            <img src="https://ikcest-drr.data.ac.cn/static/upload/6e/6e1527b4-cf17-11ef-9c99-00163e06208f_m.jpg" class="img-thumbnail"/>
-                                </div>
-                            <br>
-                            <p>Figure. 1 Distribution Map of Earthquake Damaged Buildings in Dingri County, Shigatse City, Xizang Autonomous Region
-(Cartographer: Wang Wei, Liu Kun, Wu Lixin)</p>
-                            <p>Fig.1 reveals that the buildings in the epicentral area and surrounding towns and villages have generally suffered varying degrees of damage, indicating the extensive reach of the seismic wave and the unevenness of its destructive power. </p>
-                        </div>
-
-                    </div>
-                    <div>
-                        <span style="float:right"><a href="/zn_event/view/9/"><h4><b>More...</b></h4></a></span>
+                        <span style="float:right"><a href="/zn_event/view/{{new_info.id}}/"><h4><b>More...</b></h4></a></span>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+
 
 
     {% include "./index_event_list.html" with category_data=event_data %}
 
-
-
-
-
-    {% include "./index_dataset_list.html" with category_data=cat_data %}
 
     <div class="row">
         <div class="col-sm-12">
@@ -204,14 +176,14 @@
 
 
             var map_idx = L.map('map_div', {
-                center: [28.5, 78.45],
-                zoom: 6,
+                center: [{{new_info.lat}},{{new_info.lon}}],
+                zoom: 3,
                 maxZoom: 15,
                 minZoom: 1,
             });
 
 
-            L.marker([28.5, 78.45]).addTo(map_idx).openPopup();
+            L.marker([{{new_info.lat}},{{new_info.lon}}]).addTo(map_idx).bindPopup("<h6>January 7, 2025 Shigatse earthquake, China</h6>").openPopup();
 
 
             map_idx.on('click', onMapClick);

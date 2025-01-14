@@ -11,6 +11,7 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from ..zn_event_category.models import ZNEventCategory
+from ..zn_event.models import ZNEvent
 from base.models import get_paginator
 User = get_user_model()
 
@@ -86,13 +87,15 @@ def index(request):
         data = cat.zn_event.all()[:4]
         event_rec.append({'cat_id': cat.id, 'cat_name': cat.name, 'data': data})
 
-    new_event_category = ZNEventCategory.objects.all().order_by('order').last()
-    new_event_rec = []
-    new_event_data = new_event_category.zn_event.all()[:10]
-    new_event_rec.append({'cat_id': new_event_category.id, 'cat_name': new_event_category.name, 'data': new_event_data})
+    # new_event_category = ZNEventCategory.objects.all().order_by('order').last()
+    # new_event_rec = []
+    # new_event_data = new_event_category.zn_event.all()[:10]
+    # new_event_rec.append({'cat_id': new_event_category.id, 'cat_name': new_event_category.name, 'data': new_event_data})
 
-    last_info = new_event_rec[-1]
+    # last_info = new_event_rec[-1]
 
-    context = {'cat_data': cat_rec, 'event_data': event_rec, 'new_event_data': new_event_rec,'new_info':last_info}
+    # context = {'cat_data': cat_rec, 'event_data': event_rec, 'new_event_data': new_event_rec,'new_info':last_info}
+    last_info=ZNEvent.objects.filter().order_by('create_time').last()
+    context = {'cat_data': cat_rec, 'event_data': event_rec, 'new_info':last_info}
 
     return render(request, 'zn_category/index.html', context)

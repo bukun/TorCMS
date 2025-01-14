@@ -101,3 +101,16 @@ def get_paginator(data_recs, request):
         page_obj = paginator.page(paginator.num_pages)
     is_paginated = True if paginator.num_pages > 1 else False  # 如果页数小于1不使用分页
     return is_paginated, page_obj
+
+def get_html_content(self):
+    content = ""
+    for line in self.cnt_md.split("\n"):
+        content += line.strip("  ") if "```" in line else line
+        content += "\n"
+    html_content = markdown.markdown(content, extensions=[
+        'markdown.extensions.extra',  # 转化标题，字体等
+        'markdown.extensions.codehilite',  # 高亮功能
+        'markdown.extensions.toc',  # 将表单渲染为html， document类型
+    ])
+
+    return mark_safe(html_content)
