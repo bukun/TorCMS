@@ -2,7 +2,7 @@ import json
 import os
 import openpyxl
 from .models import iga_group
-from iga.iga_floor.models import iga_floor
+from .models import iga_floor
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import IgagroupSerializer

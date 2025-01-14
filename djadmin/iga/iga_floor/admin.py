@@ -1,6 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import iga_floor
+from iga.iga_group.models import iga_floor
 from .resources import IgafloorResource
 from django.db import models
 from django.forms import TextInput, Textarea

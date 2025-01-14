@@ -1,7 +1,7 @@
 import json
 import os
 import openpyxl
-from .models import iga_staff
+from iga.iga_group.models import iga_staff
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import IgastaffSerializer

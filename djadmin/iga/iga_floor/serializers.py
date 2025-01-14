@@ -1,4 +1,4 @@
-from .models import iga_floor
+from iga.iga_group.models import iga_floor
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
