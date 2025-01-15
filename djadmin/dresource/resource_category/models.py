@@ -2,7 +2,7 @@ from django.db import models
 from base.models import basemodel, basecategory
 from django.contrib.auth import get_user_model
 from ckeditor_uploader.fields import RichTextUploadingField
-from django.contrib.admin.models import LogEntry
+# from django.contrib.admin.models import LogEntry
 from django.contrib.sites.models import Site
 
 User = get_user_model()
