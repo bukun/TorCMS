@@ -1,6 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import igaisdata
+from ..igais_category.models import igaisdata
 from .resources import IgaisDataResource
 from django.db import models
 from django.forms import TextInput, Textarea

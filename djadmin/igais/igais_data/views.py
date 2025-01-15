@@ -1,4 +1,4 @@
-from .models import igaisdata
+from ..igais_category.models import igaisdata
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import IgaisDataSerializer
@@ -6,7 +6,7 @@ from .permissions import IsOwnerOrReadOnly
 from django.contrib.auth import get_user_model
 from django_filters import rest_framework
 from django.views.generic import DetailView
-from igais.igais_category.models import igaiscategory
+from ..igais_category.models import igaiscategory
 from django.shortcuts import render, redirect, get_object_or_404
 
 User = get_user_model()

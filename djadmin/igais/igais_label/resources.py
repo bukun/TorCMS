@@ -1,6 +1,6 @@
 from import_export import resources
 
-from .models import igaislabel
+from ..igais_category.models import igaislabel
 from django.contrib.auth import get_user_model
 
 User = get_user_model()

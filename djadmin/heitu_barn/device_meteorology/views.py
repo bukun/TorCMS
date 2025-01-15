@@ -1,4 +1,4 @@
-from .models import Meteorology
+from ..barn_dataset.models import Meteorology
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import MeteorologySerializer

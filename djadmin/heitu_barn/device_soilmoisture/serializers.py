@@ -1,4 +1,4 @@
-from .models import Devicesoilmoisture
+from ..barn_dataset.models import Devicesoilmoisture
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 

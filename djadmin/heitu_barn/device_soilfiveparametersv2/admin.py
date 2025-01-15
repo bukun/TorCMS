@@ -1,7 +1,7 @@
 import logging
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import Soilfiveparav2
+from ..barn_dataset.models import Soilfiveparav2
 from .resources import Soilfiveparav2Resource
 from django.db import models
 from django.forms import TextInput, Textarea

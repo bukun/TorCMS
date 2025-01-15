@@ -1,7 +1,7 @@
 import logging
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import Meteorology
+from ..barn_dataset.models import Meteorology
 from .resources import MeteorologyResource
 from django.db import models
 from django.forms import TextInput, Textarea

@@ -1,7 +1,7 @@
 import logging
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import Devicesoilmoisture
+from ..barn_dataset.models import Devicesoilmoisture
 from .resources import DevicesoilmoistureResource
 from django.db import models
 from django.forms import TextInput, Textarea

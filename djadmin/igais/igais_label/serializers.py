@@ -1,4 +1,4 @@
-from .models import igaislabel
+from ..igais_category.models import igaislabel
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 

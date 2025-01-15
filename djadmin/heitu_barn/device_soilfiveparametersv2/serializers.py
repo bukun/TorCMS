@@ -1,4 +1,4 @@
-from .models import Soilfiveparav2
+from ..barn_dataset.models import Soilfiveparav2
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 

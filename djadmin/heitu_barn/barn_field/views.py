@@ -1,4 +1,4 @@
-from .models import Barnfield
+from ..barn_dataset.models import Barnfield
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import BarnfieldSerializer

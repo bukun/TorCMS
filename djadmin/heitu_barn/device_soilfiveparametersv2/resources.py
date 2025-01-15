@@ -1,6 +1,6 @@
 from import_export import resources
 
-from .models import Soilfiveparav2
+from ..barn_dataset.models import Soilfiveparav2
 from django.contrib.auth import get_user_model
 
 User = get_user_model()

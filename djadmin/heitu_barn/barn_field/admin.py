@@ -1,7 +1,7 @@
 import logging
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import Barnfield
+from ..barn_dataset.models import Barnfield
 from .resources import BarnfieldResource
 from django.db import models
 from django.forms import TextInput, Textarea

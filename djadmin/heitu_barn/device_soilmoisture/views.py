@@ -1,4 +1,4 @@
-from .models import Devicesoilmoisture
+from ..barn_dataset.models import Devicesoilmoisture
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import DevicesoilmoistureSerializer

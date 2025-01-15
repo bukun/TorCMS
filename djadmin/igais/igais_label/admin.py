@@ -1,6 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import igaislabel
+from ..igais_category.models import igaislabel
 from .resources import IgaisLabelResource
 from django.db.models.aggregates import Count
 

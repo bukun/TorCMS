@@ -1,4 +1,4 @@
-from .models import Soilfivepara1
+from ..barn_dataset.models import Soilfivepara1
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import Soilfivepara1Serializer
