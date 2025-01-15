@@ -125,12 +125,12 @@ INSTALLED_APPS = [
 
     'jupyters.jupyter_category',  # 科学计算模型分类
     'jupyters.jupyter_data',  # 科学计算模型数据
-
-    'literature.literature_category',  # 文献分类
-    'literature.literature_label',  # 文献标签
     'public_model.public_country',  # 国家库
     'public_model.literature_author',  # 作者库
     'public_model.literature_date',  # 日期库
+    'literature.literature_category',  # 文献分类
+    'literature.literature_label',  # 文献标签
+
     'literature.literature_data',  # 文献库
 
     'pages.page',
