@@ -75,8 +75,8 @@ def index(request):
     cat_rec = []
     for cat in category_rec:
         data = cat.zn_dataset.all()[:4]
-
-        cat_rec.append({'cat_id': cat.id, 'cat_name': cat.name, 'data': data})
+        if data:
+            cat_rec.append({'cat_id': cat.id, 'cat_name': cat.name, 'data': data})
 
     event_category_count = ZNEventCategory.objects.all().count() 
     # event_category_rec = ZNEventCategory.objects.all().order_by('order')[:event_category_count - 1]
