@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.contrib.sites.models import Site
 from post.doc_category.models import Document
-from public_model.literature_author.models import LiteratureAuthor
+# from public_model.literature_author.models import LiteratureAuthor
 from base.models import get_template
 from django.contrib.auth import get_user_model
 from django_filters import rest_framework
@@ -22,10 +22,10 @@ User = get_user_model()
 def ydyl_index(request):
 
     post_data = Document.objects.filter(sites__id=current_site.id,category__isnull=False)[:6]
-    expert_data = LiteratureAuthor.objects.filter(sites__id=current_site.id)[:3]
+    # expert_data = LiteratureAuthor.objects.filter(sites__id=current_site.id)[:3]
     history_data =  Document.objects.filter(sites__id=current_site.id,category__isnull=False).order_by('date')[:1]
 
-    context = {'post_data': post_data, 'expert_data': expert_data,'history_data':history_data, 'parent_template': parent_template}
+    context = {'post_data': post_data, 'expert_data': 'expert_data','history_data':history_data, 'parent_template': parent_template}
 
 
     return render(request, 'portal_index/ydyl_index.html', context)
@@ -35,9 +35,9 @@ def wds_index(request):
     post_data = Document.objects.filter(sites__id=current_site.id,category__isnull=False)[:4]
 
     datalist = dataset.objects.filter(sites__id=current_site.id, category__isnull=False)[:4]
-    expert_data = LiteratureAuthor.objects.filter(sites__id=current_site.id)[:3]
+    # expert_data = LiteratureAuthor.objects.filter(sites__id=current_site.id)[:3]
     jupyter_data = Jupyter.objects.filter(sites__id=current_site.id, category__isnull=False)[:3]
-    context = {'post_data': post_data, 'expert_data': expert_data, 'parent_template': parent_template,'dataset_data': datalist,'jupyter_data': jupyter_data}
+    context = {'post_data': post_data, 'expert_data': 'expert_data', 'parent_template': parent_template,'dataset_data': datalist,'jupyter_data': jupyter_data}
 
 
     return render(request, 'portal_index/wds_index.html', context)

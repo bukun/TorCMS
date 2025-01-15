@@ -10,7 +10,7 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from crawl.crawl_source.models import CrawlLabel,CrawlDocumentEN
-from literature.literature_category.models import Literature
+# from literature.literature_category.models import Literature
 from qgis.qgis_map.models import qgismap
 from data.categorys.models import categorys
 from jupyters.jupyter_category.models import Jupyter
@@ -104,13 +104,13 @@ def yaou_index(request):
         if len(qgis_list) == 3:
             cat_rec.append(qgis_list)
 
-    literature_data = Literature.objects.filter(sites__id=current_site.id,category__isnull=False)[:4]
+    # literature_data = Literature.objects.filter(sites__id=current_site.id,category__isnull=False)[:4]
     datalist = dataset.objects.filter(sites__id=current_site.id,category__isnull=False)[:4]
 
 
     jupyter_data = Jupyter.objects.filter(sites__id=current_site.id,category__isnull=False)[:3]
 
-    context = {'qgis_data': cat_rec, 'dataset_data': datalist,  'jupyter_data': jupyter_data,'literature_data': literature_data, 'parent_template': parent_template}
+    context = {'qgis_data': cat_rec, 'dataset_data': datalist,  'jupyter_data': jupyter_data,'literature_data': '', 'parent_template': parent_template}
 
 
     return render(request, 'yaou_map_category/yaou_index.html', context)
