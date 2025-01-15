@@ -34,7 +34,7 @@ class ZNDataset(basemodel):
     datasetid = models.CharField(blank=True, null=True, max_length=255, verbose_name='数据ID')
     title = models.CharField(blank=True, null=False, max_length=255, verbose_name="标题")
     cnt_md = MDTextField(verbose_name="内容", null=True, blank=True)
-    cnt_html = models.TextField(blank=True, null=True, verbose_name="内容HTML")
+    cnt_html = MDTextField(blank=True, null=True, verbose_name="内容HTML")
 
     title_alternate = models.CharField(blank=True, max_length=255, verbose_name="别名")
     topicategory = models.CharField(blank=True, max_length=255, verbose_name="建议学科分类")
