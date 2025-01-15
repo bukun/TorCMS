@@ -59,7 +59,7 @@ class ZNEvent(basemodel):
     datasetid = models.CharField(blank=True, null=True, max_length=255, verbose_name='数据ID')
     title = models.CharField(blank=True, null=False, max_length=255, verbose_name="标题")
     cnt_md = MDTextField(verbose_name="内容", null=True, blank=True)
-    cnt_html = models.TextField(blank=True, null=False, verbose_name="内容HTML")
+    cnt_html = models.TextField(blank=True, null=True, verbose_name="内容HTML")
     lat = models.CharField(blank=True, null=True, default=0, max_length=255, verbose_name="纬度")
     lon = models.CharField(blank=True, null=True, default=1, max_length=255, verbose_name="经度")
     url = models.CharField(null=True, blank=True, default='', verbose_name="URL", max_length=255)
