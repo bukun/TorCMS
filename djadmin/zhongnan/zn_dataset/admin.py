@@ -18,8 +18,8 @@ class ZNDatasetAdmin(ImportExportModelAdmin):
     ordering = ["view_count", "create_time", "category", ]
     list_per_page = 20
 
-    def get_readonly_fields(self, request, obj=None):
-        return ['cnt_html']
+    # def get_readonly_fields(self, request, obj=None):
+    #     return ['cnt_html']
 
     search_fields = ('title', 'cnt_md')
 
