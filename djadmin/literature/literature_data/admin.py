@@ -9,16 +9,16 @@ class LiteratureAdmin(ImportExportModelAdmin):
     resource_class = literatureResource
     # 控制哪些字段会显示在Admin 的修改列表页面中
     list_display = (
-        "id","title","category", "theme", "type",  "pub_date","create_time","update_time",)
+        "id","title","category", "theme", "type",  "create_time","update_time",)
     formfield_overrides = {
         models.CharField: {'widget': TextInput(attrs={'style': 'width: 80%;'})},
         models.TextField: {'widget': Textarea(attrs={'rows': 6, 'style': 'width: 80%;'})},
     }
     # 用来排序
-    ordering = ["create_time","category", "theme", "pub_date","update_time"]
+    ordering = ["create_time","category", "theme", "update_time"]
     list_per_page = 20
     filter_horizontal = ('label','sites',"author",)
-    search_fields = ('title', 'cnt_md','theme','type','pub_date')
+    search_fields = ('title', 'cnt_md','theme','type')
 
 
 
