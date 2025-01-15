@@ -34,7 +34,7 @@ class ZNDataset(basemodel):
     datasetid = models.CharField(blank=True, null=True, max_length=255, verbose_name='数据ID')
     title = models.CharField(blank=True, null=False, max_length=255, verbose_name="标题")
     cnt_md = MDTextField(verbose_name="内容", null=True, blank=True)
-    # cnt_html = MDTextField(blank=True, null=True, verbose_name="内容HTML")
+    cnt_html = MDTextField(blank=True, null=True, verbose_name="内容HTML")
 
     title_alternate = models.CharField(blank=True, max_length=255, verbose_name="别名")
     topicategory = models.CharField(blank=True, max_length=255, verbose_name="建议学科分类")
@@ -80,13 +80,13 @@ class ZNDataset(basemodel):
 
     def __str__(self):
         return self.title
-    # def save(self, *args, **kwargs):
-    #     super(ZNDataset, self).save(*args, **kwargs)
-    #
-    #
-    #     self.cnt_html = self.get_html_content()
-    #
-    #     super(ZNDataset, self).save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        super(ZNDataset, self).save(*args, **kwargs)
+
+
+        self.cnt_html = self.get_html_content()
+
+        super(ZNDataset, self).save(*args, **kwargs)
     class Meta(basemodel.Meta):
         db_table = 'zn_dataset'
         verbose_name = "中南数据信息"
