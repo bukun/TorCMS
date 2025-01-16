@@ -36,7 +36,8 @@
         <div class="btn-group" role="group" aria-label="Basic example"
              style="flex-wrap: wrap; gap: 0.5rem;display: block ">
             {% for cat in Category %}
-                <a class="btn btn-success btn-xs" href="{% url 'iga_group:igagroup_datalist' cat.id %}">
+                {#                <a class="btn btn-success btn-xs" href="{% url 'iga_group:igagroup_datalist' cat.id %}">#}
+                <a class="btn btn-success btn-xs" onclick="update_info({{ cat.id }})">
                     {{ cat.title }}</a>
             {% endfor %}
         </div>
@@ -90,11 +91,32 @@
 
 
     <SCRIPT>
+        var map;
+        var geojsonLayer
+        var geojsonStyle = {
+            color: '#222',
+            weight: 1,
+            opacity: 0.9,
+            fillColor: '#fd8788',
+            fillOpacity: 0.8
+        };
+        var highlightStyle = {
+            weight: 1,
+            color: '#666',
+            dashArray: '',
+            fillColor: '#2b35fb',
+            fillOpacity: 0.7
+        };
+        var zoulangStyle = {
+            color: '#222',
+            weight: 1,
+            opacity: 0.9,
+            fillColor: '#b9fce2',
+            fillOpacity: 0.8
+        }
         $(document).ready(function () {
-            var map;
             var data = JSON.stringify("{{ data_json|escapejs }}");
             var array = JSON.parse(data).replace('[', '').replace(']', '').replaceAll('\'', '').replace(/\s/g, "").split(',');
-
 
 
             var popup = L.popup();
@@ -114,42 +136,23 @@
             });
 
             map = L.map('map', {
-                center: [43.997362, 125.394408],
-                zoom: 19,
+                center: [43.998615, 125.394398],
+                zoom: 18,
                 maxZoom: 22,
                 minZoom: 1,
             });
 
             osm.addTo(map)
 
-            var geojsonStyle = {
-                color: '#222',
-                weight: 1,
-                opacity: 0.9,
-                fillColor: '#fd8788',
-                fillOpacity: 0.8
-            };
-            var highlightStyle = {
-                weight: 1,
-                color: '#666',
-                dashArray: '',
-                fillColor: '#2b35fb',
-                fillOpacity: 0.7
-            };
-            var zoulangStyle = {
-                color: '#222',
-                weight: 1,
-                opacity: 0.9,
-                fillColor: '#b9fce2',
-                fillOpacity: 0.8
-            }
-            fetch('https://martin.igadc.cn/')
+            fetch('http://39.100.254.142:6794/')
                 .then(response => response.json())
                 .then(data => {
-                    const geojsonLayer = L.geoJson(data, {
+                    geojsonLayer = L.geoJson(data, {
                         style: function (feature) {
                             switch (feature.properties.name) {
                                 case '走廊':
+                                    return zoulangStyle;
+                                case '大厅':
                                     return zoulangStyle;
                                 default:
                                     return geojsonStyle; // 默认颜色
@@ -157,6 +160,7 @@
                         },
                         onEachFeature: function (feature, layer) {
                             if (array.includes(feature.properties.label)) {
+                                console.log('dfd')
                                 layer.setStyle(highlightStyle);
                             }
                             layer.bindTooltip('<div><b>Name:' + feature.properties.name + '</b></div>' +
@@ -173,7 +177,7 @@
                             layer.on('mouseout', function (e) {
                                 if (array.includes(e.target.feature.properties.label)) {
                                     e.target.setStyle(highlightStyle);
-                                } else if (e.target.feature.properties.name === '走廊') {
+                                } else  if (e.target.feature.properties.name === '走廊' || e.target.feature.properties.name === '大厅') {
                                     e.target.setStyle(zoulangStyle);
                                 } else {
                                     e.target.setStyle(geojsonStyle);
@@ -227,7 +231,7 @@
                     var end_html = `</tbody></table></div>`;
                     var res_html = title_html + body_html + html + end_html;
                     $('#content').html(res_html);
-
+                    update_map(data.data_json)
                 },
                 error: function () {
                     console.log('Error occurred');
@@ -236,7 +240,53 @@
             });
         }
 
-
+        function update_map(array) {
+            map.removeLayer(geojsonLayer)
+            fetch('http://39.100.254.142:6794/')
+                .then(response => response.json())
+                .then(data => {
+                    geojsonLayer = L.geoJson(data, {
+                        style: function (feature) {
+                            switch (feature.properties.name) {
+                                case '走廊':
+                                    return zoulangStyle;
+                                 case '大厅':
+                                    return zoulangStyle;
+                                default:
+                                    return geojsonStyle; // 默认颜色
+                            }
+                        },
+                        onEachFeature: function (feature, layer) {
+                            if (array.includes(feature.properties.label)) {
+                                layer.setStyle(highlightStyle);
+                            }
+                            layer.bindTooltip('<div><b>Name:' + feature.properties.name + '</b></div>' +
+                                '<div><b>所属楼:' + feature.properties.floor + '楼</b></div>' +
+                                '<div><b>房间号:' + feature.properties.roomid + '</b></div>', {
+                                permanent: false,
+                            });
+                            layer.on('mouseover', function (e) {
+                                e.target.setStyle({
+                                    fillColor: '#0e8abd',
+                                    fillOpacity: 0.6
+                                });
+                            });
+                            layer.on('mouseout', function (e) {
+                                if (array.includes(e.target.feature.properties.label)) {
+                                    e.target.setStyle(highlightStyle);
+                                } else if (e.target.feature.properties.name === '走廊' || e.target.feature.properties.name === '大厅') {
+                                    e.target.setStyle(zoulangStyle);
+                                } else {
+                                    e.target.setStyle(geojsonStyle);
+                                }
+                            });
+                        }
+                    }).addTo(map);
+                })
+                .catch(error => {
+                    console.error('Error fetching GeoJSON:', error);
+                });
+        }
 
 
     </script>
