@@ -26,11 +26,11 @@
                         <div class="col-sm-6">
 
 
-                            <p><strong>{{ _('Release time') }}：</strong>{{ data.create_time| date:"Y-m-j" }}</p>
-                            <p><strong>{{ _('Category') }}：</strong><a class="btn btn-xs btn-success"
+                            <p><strong>Release time：</strong>{{ data.create_time| date:"Y-m-j" }}</p>
+                            <p><strong>Category：</strong><a class="btn btn-xs btn-success"
                                                                        href="{% url 'zn_dataset_category:category_datalist' data.category.id %}">
                                 {{ data.category }}</a></p>
-                            <p><strong>{{ _('Label') }}：</strong>
+                            <p><strong>Label：</strong>
                                 {% for label in data.label.all %}
                                 <a href="{% url 'zn_dataset_label:label_datalist' label.id %}" class="btn btn-xs btn-primary">
                                     {{ label }}
@@ -42,7 +42,7 @@
                                        href="/media/{{ data.file }}"
                                        target="_blank">
                                         <span class="glyphicon glyphicon-download-alt"> </span>
-                                        {{ _('Download Dataset') }}</a>
+                                        Download Dataset</a>
                                 </p>
                             {% endif %}
                         </div>
@@ -53,14 +53,14 @@
                     <div class="col-sm-12 bor_bottom">
 
 
-                        <strong>{{ _('Release time') }}：</strong>
+                        <strong>Release time：</strong>
                         <span>{{ data.create_time| date:"Y-m-j" }}&nbsp;</span> &nbsp;&nbsp;&nbsp;&nbsp;
 
 
-                        <p><strong>{{ _('Category') }}：</strong><a class="btn btn-xs btn-success"
+                        <p><strong>Category：</strong><a class="btn btn-xs btn-success"
                                                                    href="{% url 'zn_dataset_category:category_datalist' data.category.id %}">
                             {{ data.category }}</a></p>
-                        <p><strong>{{ _('Label') }}：</strong>
+                        <p><strong>Label：</strong>
                             {% for label in data.label.all %}
                             <a href="{% url 'zn_dataset_label:label_datalist' label.id %}" class="btn btn-xs btn-primary">
                                 {{ label }}</a> &nbsp;&nbsp;
@@ -71,7 +71,7 @@
                                    href="/media/{{ data.file }}"
                                    target="_blank">
                                     <span class="glyphicon glyphicon-download-alt"> </span>
-                                    {{ _('Download Dataset') }}</a>
+                                    Download Dataset</a>
                             </p>
                         {% endif %}
                     </div>
@@ -101,7 +101,7 @@
  {% if data.title_alternate %}
                     <div class="row bor_bottom">
                         <div class="col-sm-3">
-                            <span class="des"><strong>{{ _('Title alternate') }}</strong></span>
+                            <span class="des"><strong>Title alternate</strong></span>
                         </div>
                         <div class="col-sm-9">
                             <span class="val">{{ data.title_alternate }} </span>
@@ -111,7 +111,7 @@
                   {% if data.topicategory %}
                     <div class="row bor_bottom">
                         <div class="col-sm-3">
-                            <span class="des"><strong>{{ _('Topicategory') }}</strong></span>
+                            <span class="des"><strong>Topicategory</strong></span>
                         </div>
                         <div class="col-sm-9">
                             <span class="val">{{ data.topicategory }} </span>
@@ -121,7 +121,7 @@
                 {% if data.language %}
                     <div class="row bor_bottom">
                         <div class="col-sm-3">
-                            <span class="des"><strong>{{ _('Language') }}</strong></span>
+                            <span class="des"><strong>Language</strong></span>
                         </div>
                         <div class="col-sm-9">
                             <span class="val">{{ data.language }} </span>
@@ -131,7 +131,7 @@
                  {% if data.type %}
                     <div class="row bor_bottom">
                         <div class="col-sm-3">
-                            <span class="des"><strong>{{ _('Type') }}</strong></span>
+                            <span class="des"><strong>Type</strong></span>
                         </div>
                         <div class="col-sm-9">
                             <span class="val">{{ data.type }} </span>
@@ -141,7 +141,7 @@
                  {% if data.format %}
                     <div class="row bor_bottom">
                         <div class="col-sm-3">
-                            <span class="des"><strong>{{ _('Format') }}</strong></span>
+                            <span class="des"><strong>Format</strong></span>
                         </div>
                         <div class="col-sm-9">
                             <span class="val">{{ data.format }} </span>
@@ -151,7 +151,7 @@
                 {% if data.links %}
                     <div class="row bor_bottom">
                         <div class="col-sm-3">
-                            <span class="des"><strong>{{ _('Links') }}</strong></span>
+                            <span class="des"><strong>Links</strong></span>
                         </div>
                         <div class="col-sm-9">
                             <span class="val">{{ data.links }} </span>
@@ -161,7 +161,7 @@
                  {% if data.time_begin %}
                     <div class="row bor_bottom">
                         <div class="col-sm-3">
-                            <span class="des"><strong>{{ _('Time begin') }}</strong></span>
+                            <span class="des"><strong>Time begin</strong></span>
                         </div>
                         <div class="col-sm-9">
                             <span class="val">{{ data.time_begin }} </span>
@@ -171,7 +171,7 @@
                  {% if data.time_end %}
                     <div class="row bor_bottom">
                         <div class="col-sm-3">
-                            <span class="des"><strong>{{ _('Time end') }}</strong></span>
+                            <span class="des"><strong>Time end</strong></span>
                         </div>
                         <div class="col-sm-9">
                             <span class="val">{{ data.time_end }} </span>
@@ -181,7 +181,7 @@
                 {% if data.creator %}
                     <div class="row bor_bottom">
                         <div class="col-sm-3">
-                            <span class="des"><strong>{{ _('Creator') }}</strong></span>
+                            <span class="des"><strong>Creator</strong></span>
                         </div>
                         <div class="col-sm-9">
                             <span class="val">{{ data.creator }} </span>
@@ -191,7 +191,7 @@
                     {% if data.publisher %}
                     <div class="row bor_bottom">
                         <div class="col-sm-3">
-                            <span class="des"><strong>{{ _('Publisher') }}</strong></span>
+                            <span class="des"><strong>Publisher</strong></span>
                         </div>
                         <div class="col-sm-9">
                             <span class="val">{{ data.publisher }} </span>
@@ -201,7 +201,7 @@
                  {% if data.contributor %}
                     <div class="row bor_bottom">
                         <div class="col-sm-3">
-                            <span class="des"><strong>{{ _('Contributor') }}</strong></span>
+                            <span class="des"><strong>Contributor</strong></span>
                         </div>
                         <div class="col-sm-9">
                             <span class="val">{{ data.contributor }} </span>
@@ -211,7 +211,7 @@
                 {% if data.organization %}
                     <div class="row bor_bottom">
                         <div class="col-sm-3">
-                            <span class="des"><strong>{{ _('Organization') }}</strong></span>
+                            <span class="des"><strong>Organization</strong></span>
                         </div>
                         <div class="col-sm-9">
                             <span class="val">{{ data.organization }} </span>
@@ -221,7 +221,7 @@
                 {% if data.operateson %}
                     <div class="row">
                         <div class="col-sm-3">
-                            <span class="des"><strong>{{ _('Operateson') }}</strong></span>
+                            <span class="des"><strong>Operateson</strong></span>
                         </div>
                         <div class="col-sm-9">
                             <span class="val">{{ data.operateson }} </span>
@@ -238,7 +238,7 @@
                     <div class="col-md-12"
                          style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap; display: block;">
 
-                        {{ _('Article link') }}： <a class="text-primary" href="{% url 'zn_dataset:data_view' data.id %}"
+                        Article link： <a class="text-primary" href="{% url 'zn_dataset:data_view' data.id %}"
                                                     title="{{ data.title }}">{{ data.title }}</a>
 
                     </div>
