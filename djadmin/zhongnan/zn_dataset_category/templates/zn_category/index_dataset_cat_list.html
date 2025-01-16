@@ -1,0 +1,21 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Disaster Datasets
+            </div>
+            <ul class="list-group">
+                {% for cat in category_data %}
+                <li class="list-group-item">
+                   <b> <a href="{% url 'zn_dataset_category:category_datalist' cat.cat_id %}"> {{ cat.cat_name }}</a></b>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+
+

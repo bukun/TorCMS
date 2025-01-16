@@ -55,8 +55,8 @@ def CategoryIndex(request, pk):
 
 def CategoryDataList(request, pk):
     category_rec = get_object_or_404(ZNDatasetCategory, pk=pk)
-    all_cat = ZNDatasetCategory.objects.all()
-    data_recs = category_rec.zn_dataset.all()
+    all_cat = ZNDatasetCategory.objects.all().order_by('-create_time')
+    data_recs = category_rec.zn_dataset.all().order_by('-create_time')
     # 转换列表中的Markdown内容
     # data_recs = [markdown.markdown(data.cnt_md) for data in data_recs_all]
 
