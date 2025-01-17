@@ -5,7 +5,7 @@
     <style>
         #map {
             width: 100%;
-            height: 620px;
+            height: 960px;
             border: 1px solid black;
             text-align: center;
             align-self: center;
@@ -23,70 +23,84 @@
 {% endblock %}
 {% block mainbody %}
     <div class="row">
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">详情</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="关闭"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id='content'>
+                            <div class="card-header">
+                                <h3>学科组名称: {{ cat_name }}</h3>
+                                <hr/>
+                            </div>
+                            <div class="card-body">
+
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">所属楼</th>
+{#                                        <th scope="col">所在楼层</th>#}
+                                        <th scope="col">房间号</th>
+
+                                        <th scope="col">用途</th>
+                                        <th scope="col">面积</th>
+                                        <th scope="col">备注</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for dat in data %}
+                                        <tr>
+                                            <td>{{ dat.building }}楼</td>
+{#                                            <td>{{ dat.floor }}楼</td>#}
+                                            <td>{{ dat.num }}</td>
+
+
+                                            <td>{{ dat.get_title_display }}</td>
+
+                                            <td>{{ dat.areafloat }}</td>
+
+                                            <td>{{ dat.staff }}</td>
+
+
+                                        </tr>
+
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="
+    display: block;
+      z-index: 100;
+      padding: 5px;
+      top:800px;
+      position: absolute;
+      border-radius: 4px;
+      font-size: 10pt;
+      line-height: 16pt;">
+            <div class="btn-group" role="group" aria-label="Basic example"
+                 style="flex-wrap: wrap; gap: 0.5rem;display: block ">
+                {% for cat in Category %}
+                    {#                <a class="btn btn-success btn-xs" href="{% url 'iga_group:igagroup_datalist' cat.id %}">#}
+                    <a class="btn btn-success btn-xs" onclick="update_info({{ cat.id }})" data-bs-toggle="modal"
+                       data-bs-target="#exampleModal">
+                        {{ cat.title }}</a>
+                {% endfor %}
+            </div>
+        </div>
         <div class="map" id="map"></div>
-    </div>
-    <div class="row">
-        <div class="card-header" style="padding: 10px">
-
-            <span style="float: right;margin-top: 1rem"> <a href="/iga_group/igaindex/">首页</a></span>
-            <h3>学科组列表</h3>
-
-            <hr/>
-        </div>
-        <div class="btn-group" role="group" aria-label="Basic example"
-             style="flex-wrap: wrap; gap: 0.5rem;display: block ">
-            {% for cat in Category %}
-                {#                <a class="btn btn-success btn-xs" href="{% url 'iga_group:igagroup_datalist' cat.id %}">#}
-                <a class="btn btn-success btn-xs" onclick="update_info({{ cat.id }})">
-                    {{ cat.title }}</a>
-            {% endfor %}
-        </div>
-    </div>
-    <div class="row">
-        <div id='content'>
-            <div class="card-header">
-                <h3>学科组名称: {{ cat_name }}</h3>
-                <hr/>
-            </div>
-            <div class="card-body">
-
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col">所属楼</th>
-                        <th scope="col">所在楼层</th>
-                        <th scope="col">房间号</th>
-
-                        <th scope="col">用途</th>
-                        <th scope="col">面积</th>
-                        <th scope="col">备注</th>
-
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for dat in data %}
-                        <tr>
-                            <td>{{ dat.building }}楼</td>
-                            <td>
-                                {{ dat.floor }}楼
-                            </td>
-                            <td>{{ dat.num }}</td>
-
-
-                            <td>{{ dat.get_title_display }}</td>
-
-                            <td>{{ dat.areafloat }}</td>
-
-                            <td>{{ dat.staff }}</td>
-
-
-                        </tr>
-
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
     </div>
 
 
@@ -114,6 +128,12 @@
             fillColor: '#b9fce2',
             fillOpacity: 0.8
         }
+        document.addEventListener("DOMContentLoaded", function () {
+            var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+                keyboard: false
+            });
+            myModal.show();
+        });
         $(document).ready(function () {
             var data = JSON.stringify("{{ data_json|escapejs }}");
             var array = JSON.parse(data).replace('[', '').replace(']', '').replaceAll('\'', '').replace(/\s/g, "").split(',');
@@ -136,7 +156,7 @@
             });
 
             map = L.map('map', {
-                center: [43.998615, 125.394398],
+                center: [43.999015, 125.394398],
                 zoom: 18,
                 maxZoom: 22,
                 minZoom: 1,
@@ -177,7 +197,7 @@
                             layer.on('mouseout', function (e) {
                                 if (array.includes(e.target.feature.properties.label)) {
                                     e.target.setStyle(highlightStyle);
-                                } else  if (e.target.feature.properties.name === '走廊' || e.target.feature.properties.name === '大厅') {
+                                } else if (e.target.feature.properties.name === '走廊' || e.target.feature.properties.name === '大厅') {
                                     e.target.setStyle(zoulangStyle);
                                 } else {
                                     e.target.setStyle(geojsonStyle);
@@ -209,7 +229,7 @@
                     var html = '';
                     $.each(data.data_list, function (item) {
                         html += `<tr><td>` + data.data_list[item]['building'] + `楼</td>` +
-                            `<td>` + data.data_list[item]['floor'] + `楼</td>` +
+
                             `<td>` + data.data_list[item]['num'] + `</td>` +
                             `<td>` + data.data_list[item]['title'] + `</td>` +
                             `<td>` + data.data_list[item]['areafloat'] + `</td>` +
@@ -220,7 +240,6 @@
                     <thead>
                     <tr>
                         <th scope="col">所属楼</th>
-                        <th scope="col">所在楼层</th>
                         <th scope="col">房间号</th>
                         <th scope="col">用途</th>
                         <th scope="col">面积</th>
@@ -250,7 +269,7 @@
                             switch (feature.properties.name) {
                                 case '走廊':
                                     return zoulangStyle;
-                                 case '大厅':
+                                case '大厅':
                                     return zoulangStyle;
                                 default:
                                     return geojsonStyle; // 默认颜色
