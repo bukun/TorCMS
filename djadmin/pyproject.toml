@@ -61,3 +61,8 @@ exifread = "^3.0.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+skip-string-normalization = 1
+target-version = ['py311']
