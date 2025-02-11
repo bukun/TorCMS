@@ -1,4 +1,4 @@
-from .models import qgismap
+from .models import qgismap,QgisLabel
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import QgisMapSerializer
