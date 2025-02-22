@@ -130,7 +130,7 @@ Note
     django-admin startproject mysite #创建项目
     python manage.py startapp demo #创建新的app
     python manage.py flush \# 清空数据库(需要时运行)
-    python manage.py createsuperuser #创建管理员 (admin:Gg01234567)
+    python manage.py createsuperuser #创建管理员
     python manage.py collectstatic #收集静态文件
 
 #以下三条命令在 **sh_helper.sh** 中，每次更改后运行sh_helper.sh即可
