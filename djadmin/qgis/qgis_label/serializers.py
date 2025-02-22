@@ -1,10 +1,10 @@
-from qgis.qgis_map.models import QgisLabel
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+from qgis.qgis_map.models import QgisLabel
+
 
 class LabelsSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = QgisLabel
         fields = '__all__'

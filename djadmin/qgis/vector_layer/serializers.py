@@ -1,6 +1,8 @@
-from qgis.qgis_map.models import vectorlayer
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+from qgis.qgis_map.models import vectorlayer
+
 
 class vectorlayerSerializer(serializers.ModelSerializer):
     category = serializers.StringRelatedField()

@@ -1,10 +1,10 @@
-from qgis.qgis_map.models import zhongmengmapcategory
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+from qgis.qgis_map.models import zhongmengmapcategory
+
 
 class ZhongmengMapCategorySerializer(serializers.ModelSerializer):
-
     class Meta:
         model = zhongmengmapcategory
         fields = '__all__'

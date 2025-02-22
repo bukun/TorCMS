@@ -1,10 +1,10 @@
-from qgis.qgis_map.models import yaoumapcategory
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+from qgis.qgis_map.models import yaoumapcategory
+
 
 class YaouMapCategorySerializer(serializers.ModelSerializer):
-
     class Meta:
         model = yaoumapcategory
         fields = '__all__'

@@ -1,10 +1,10 @@
-from qgis.qgis_map.models import BigScreenMapCategory
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+from qgis.qgis_map.models import BigScreenMapCategory
+
 
 class BigScreenMapCategorySerializer(serializers.ModelSerializer):
-
     class Meta:
         model = BigScreenMapCategory
         fields = '__all__'

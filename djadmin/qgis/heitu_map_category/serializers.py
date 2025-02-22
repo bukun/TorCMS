@@ -1,10 +1,10 @@
-from qgis.qgis_map.models import heitumapcategory
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+from qgis.qgis_map.models import heitumapcategory
+
 
 class HeituMapCategorySerializer(serializers.ModelSerializer):
-
     class Meta:
         model = heitumapcategory
         fields = '__all__'

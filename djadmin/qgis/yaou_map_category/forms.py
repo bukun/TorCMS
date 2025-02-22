@@ -1,4 +1,5 @@
 from django import forms
+
 from qgis.qgis_map.models import yaoumapcategory
 
 

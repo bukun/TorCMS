@@ -1,10 +1,10 @@
-from qgis.qgis_map.models import ANSOMapCategory
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+from qgis.qgis_map.models import ANSOMapCategory
+
 
 class ANSOMapCategorySerializer(serializers.ModelSerializer):
-
     class Meta:
         model = ANSOMapCategory
         fields = '__all__'

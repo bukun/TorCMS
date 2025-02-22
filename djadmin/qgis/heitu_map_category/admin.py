@@ -1,20 +1,29 @@
 from django.contrib import admin
+from django.db.models.aggregates import Count
 from import_export.admin import ImportExportModelAdmin
+from mptt.admin import MPTTModelAdmin
+
 from qgis.qgis_map.models import heitumapcategory
+
 from .resources import HeituMapCategoryResource
 
-from django.db.models.aggregates import Count
 
-from mptt.admin import MPTTModelAdmin
 class heitumapcategoryadmin(ImportExportModelAdmin):
     resource_class = HeituMapCategoryResource
     # 控制哪些字段会显示在Admin 的修改列表页面中
-    list_display = ("name", "parent",  "get_count",)
+    list_display = (
+        "name",
+        "parent",
+        "get_count",
+    )
 
     list_per_page = 20
     filter_horizontal = ('sites',)
+
     def get_count(self, obj):
-        rec = heitumapcategory.objects.annotate(num_posts=Count('heitudata')).filter(name=obj.name)
+        rec = heitumapcategory.objects.annotate(num_posts=Count('heitudata')).filter(
+            name=obj.name
+        )
 
         return rec[0].num_posts
 
