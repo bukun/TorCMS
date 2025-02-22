@@ -1,4 +1,3 @@
-
 CKEDITOR_UPLOAD_PATH = 'upload/'
 CKEDITOR_IMAGE_BACKEND = 'PIL'
 # CKEDITOR_CONFIGS = {
@@ -31,11 +30,8 @@ CKEDITOR_IMAGE_BACKEND = 'PIL'
 # }
 
 CKEDITOR_CONFIGS = {
-
     # django-ckeditor默认使用default配置
-
     'default': {
-
         # 编辑器宽度自适应
         'width': 'auto',
         'height': '300px',
@@ -45,7 +41,17 @@ CKEDITOR_CONFIGS = {
         'toolbar': 'Custom',
         # 工具栏按钮
         'toolbar_Custom': [
-            ['Source', '-', 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', '-', 'Templates'],
+            [
+                'Source',
+                '-',
+                'Save',
+                'NewPage',
+                'DocProps',
+                'Preview',
+                'Print',
+                '-',
+                'Templates',
+            ],
             # 格式、字体、大小
             ['Format', 'Font', 'FontSize'],
             # 字体风格
@@ -53,16 +59,33 @@ CKEDITOR_CONFIGS = {
             ['Find', 'Replace', '-', 'SelectAll', '-', 'SpellChecker', 'Scayt'],
             # 字体颜色
             ['TextColor', 'BGColor'],
-
             # 列表
-            ['Image', 'Table', 'NumberedList', 'BulletedList', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak',
-             'Iframe'],
-            ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'],
+            [
+                'Image',
+                'Table',
+                'NumberedList',
+                'BulletedList',
+                'HorizontalRule',
+                'Smiley',
+                'SpecialChar',
+                'PageBreak',
+                'Iframe',
+            ],
+            [
+                'Form',
+                'Checkbox',
+                'Radio',
+                'TextField',
+                'Textarea',
+                'Select',
+                'Button',
+                'ImageButton',
+                'HiddenField',
+            ],
             ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'],
             # 链接
             ['Link', 'Unlink', 'Anchor'],
             # 预览、表情
-
             ['Preview', 'Smiley'],
             # 居左，居中，居右
             ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
@@ -71,13 +94,12 @@ CKEDITOR_CONFIGS = {
             # ['CodeSnippet', 'Markdown'],  # 这个markdown插件默认没有，得额外下载。
         ],
         # 加入代码块插件
-        'extraPlugins': ','.join(['codesnippet', 'image2', 'filebrowser', 'widget', 'lineutils']),  # 'markdown'
+        'extraPlugins': ','.join(
+            ['codesnippet', 'image2', 'filebrowser', 'widget', 'lineutils']
+        ),  # 'markdown'
     },
-
     # 评论
-
     'comment': {
-
         # 编辑器宽度自适应
         'width': 'auto',
         'height': '140px',
@@ -100,7 +122,5 @@ CKEDITOR_CONFIGS = {
         ],
         # 加入代码块插件
         'extraPlugins': ','.join(['codesnippet']),
-
-    }
-
+    },
 }

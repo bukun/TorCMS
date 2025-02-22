@@ -24,42 +24,52 @@ LEAFLET_CONFIG = {
             'autoCollapse': True,  # 当地图移动时是否自动折叠搜索控件
             'collapsed': False,  # 是否在加载时折叠搜索控件
             'position': 'topleft',  # 搜索控件在地图上的位置
-            'providers': [{  # 提供搜索结果的提供者，例如使用OpenStreetMap Nominatim服务
-                'osm': {
-                    'label': 'OpenStreetMap',
-                    'url': 'https://nominatim.openstreetmap.org/search/{query}?format=json',
-                    'bounds': [[-90.0, -180.0], [90.0, 180.0]],
-                    'polygon_true': '1',
-                    'polygon_false': '0',
-                    'polygon_threshold': 0.1,
-                    'limit': 5,
+            'providers': [
+                {  # 提供搜索结果的提供者，例如使用OpenStreetMap Nominatim服务
+                    'osm': {
+                        'label': 'OpenStreetMap',
+                        'url': 'https://nominatim.openstreetmap.org/search/{query}?format=json',
+                        'bounds': [[-90.0, -180.0], [90.0, 180.0]],
+                        'polygon_true': '1',
+                        'polygon_false': '0',
+                        'polygon_threshold': 0.1,
+                        'limit': 5,
+                    }
                 }
-            }],
+            ],
         },
     },
     'TILES': [
         (
             'OpenStreetMap.DE',
             'http://tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png',
-            {'type': 'sat', 'ext': 'jpg',
-             'attribution': 'Data CC-By-SA by <a href="http://openstreetmap.org/" target="_blank">OpenStreetMap</a>, Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a>',
-             'subdomains': ['1', '2', '3', '4']}
+            {
+                'type': 'sat',
+                'ext': 'jpg',
+                'attribution': 'Data CC-By-SA by <a href="http://openstreetmap.org/" target="_blank">OpenStreetMap</a>, Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a>',
+                'subdomains': ['1', '2', '3', '4'],
+            },
         ),
         (
             'OpenStreetMap.BlackAndWhite',
             'http://tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png',
-            {'type': 'sat', 'ext': 'jpg',
-             'attribution': 'Data CC-By-SA by <a href="http://openstreetmap.org/" target="_blank">OpenStreetMap</a>, Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a>',
-             'subdomains': ['1', '2', '3', '4']}
+            {
+                'type': 'sat',
+                'ext': 'jpg',
+                'attribution': 'Data CC-By-SA by <a href="http://openstreetmap.org/" target="_blank">OpenStreetMap</a>, Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a>',
+                'subdomains': ['1', '2', '3', '4'],
+            },
         ),
         (
             'OpenStreetMap.Mapnik',
             'http://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            {'type': 'sat', 'ext': 'jpg',
-             'attribution': 'Data CC-By-SA by <a href="http://openstreetmap.org/" target="_blank">OpenStreetMap</a>, Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a>',
-             'subdomains': ['1', '2', '3', '4']}
+            {
+                'type': 'sat',
+                'ext': 'jpg',
+                'attribution': 'Data CC-By-SA by <a href="http://openstreetmap.org/" target="_blank">OpenStreetMap</a>, Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a>',
+                'subdomains': ['1', '2', '3', '4'],
+            },
         ),
-
     ],
     # 'TILES': [('Aerial Imagery', 'http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png',
     #            {'type': 'sat', 'ext': 'jpg',

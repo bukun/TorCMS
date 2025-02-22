@@ -35,4 +35,3 @@ WAGTAILADMIN_BASE_URL = 'your-custom-admin-url/'
 #         path('media/<path:path>', serve, {'document_root': settings.MEDIA_ROOT}),
 #         path('static/<path:path>', serve, {'document_root': settings.STATIC_ROOT}),
 #     ]
-

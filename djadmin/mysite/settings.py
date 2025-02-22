@@ -10,22 +10,23 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-from pathlib import Path
-from datetime import timedelta
 import os
-from cfg import DB_INFO, CACHES_INFO, DEBUG_CFG
+from datetime import timedelta
+from pathlib import Path
 
-from django.views.generic import TemplateView
 from django.utils.translation import gettext_lazy as _
-from .conf_simpleui import *
+from django.views.generic import TemplateView
+
+from cfg import CACHES_INFO, DB_INFO, DEBUG_CFG
+
 from .conf_ckeditor import *
+from .conf_install_apps import *
 from .conf_leaflet import *
 from .conf_mdeditor import *
-from .conf_install_apps import *
+from .conf_simpleui import *
 from .conf_wagtail_setting import *
 
 # from django.utils.translation import ugettext_lazy as _
-
 
 
 SITE_ID = int(os.environ.get('SITE_ID', 1))
@@ -58,7 +59,6 @@ LOGOUT_REDIRECT_URL = "/admin/"
 CSRF_TRUSTED_ORIGINS = ['https://cms.igadc.cn']
 
 
-
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760
 # 设置文件上传处理器
 FILE_UPLOAD_HANDLERS = [
@@ -82,28 +82,24 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',  # 使用OAuth登录认证
-
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     # 'PAGE_SIZE': 10,
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.AnonRateThrottle',
         'rest_framework.throttling.UserRateThrottle',
-
     ],
     # # 全局使用限流类
     # 'DEFAULT_THROTTLE_RATES': {
     #     'anon': '30/min',
     #     'user': '50/min'
     # },
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
 
 MIDDLEWARE = [
-
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-
     # 最后别忘了加入LocaleMiddleware这个中间件。
     # 它的位置也很重要，应于SessionMiddleware之后，CommonMiddleware之前。
     'django.middleware.locale.LocaleMiddleware',  # 新增多语支持
@@ -116,7 +112,6 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',  # 注意顺序
     'django.contrib.sites.middleware.CurrentSiteMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
-
 ]
 # 即为可供资源拥有者(Django User)选择的 当第三方网站调用该网站资源时获取的权限范围。
 
@@ -158,15 +153,12 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
         },
-
     },
 ]
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
-DATABASES = {
-    'default': DB_INFO
-}
+DATABASES = {'default': DB_INFO}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -220,9 +212,11 @@ USE_L10N = True  # 默认False，以本地化格式显示数字和时间
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),
-                    os.path.join(BASE_DIR, 'yy_static_html'),
-                    os.path.join(BASE_DIR, 'yy_media'), ]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'yy_static_html'),
+    os.path.join(BASE_DIR, 'yy_media'),
+]
 
 # 部署环境静态文件目录
 STATIC_ROOT = os.path.join(BASE_DIR, 'xx_static')
