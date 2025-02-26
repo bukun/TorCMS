@@ -1,4 +1,3 @@
-wheel
 beautifulsoup4
 html2text
 jieba

@@ -4,11 +4,21 @@
 User defined Configuration for the application.
 '''
 
+#Used by Django
+DB_INFO =  {
+        'ENGINE': 'django.db.backends.postgresql',
+        "NAME": "torcms",
+        "USER": "torcms",
+        "PASSWORD": '111111',
+        'HOST': '127.0.0.1',
+        'CONN_MAX_AzGE': 7200,
+    }
+
 DB_CFG = {
-    'host': '127.0.0.1',
-    'db': 'torcms',
-    'user': 'torcms',
-    'pass': '111111',
+    'host': DB_INFO['HOST'],
+    'db': DB_INFO['NAME'],
+    'user': DB_INFO['USER'],
+    'pass': DB_INFO['PASSWORD'],
 }
 
 REDIS_CFG = {
