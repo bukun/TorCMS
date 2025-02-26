@@ -1,0 +1,54 @@
+[[tool.poetry.source]]
+name = "ali"
+url = "https://mirrors.aliyun.com/pypi/simple/"
+priority = "primary"
+
+[[tool.poetry.source]]
+name = "tencent"
+url = "https://mirrors.cloud.tencent.com/pypi/simple/"
+priority = "primary"
+
+
+[[tool.poetry.source]]
+name = "tsinghua"
+url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/"
+priority = "primary"
+
+
+[tool.poetry]
+name = "TorCMS"
+version = "0.1.0"
+description = ""
+authors = ["bukun <bukun@osgeo.cn>"]
+readme = "README.rst"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+beautifulsoup4 = "^4.13.3"
+jieba = "^0.42.1"
+markdown = "^3.7"
+pillow = "^11.1.0"
+peewee = "^3.17.9"
+tornado = "^6.4.2"
+whoosh = "^2.7.4"
+tornado-wtforms = "^0.0.1"
+email-validator = "^2.2.0"
+psycopg2-binary = "^2.9.10"
+redis = "^5.2.1"
+pyyaml = "^6.0.2"
+openpyxl = "^3.1.5"
+requests = "^2.32.3"
+htmlmin = "^0.1.12"
+html2text = "^2024.2.26"
+jwt = "^1.3.1"
+pytest = "^8.3.4"
+faker = "^36.1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+skip-string-normalization = 1
+target-version = ['py311']
