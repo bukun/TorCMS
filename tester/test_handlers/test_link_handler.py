@@ -36,12 +36,14 @@ class TestSomeHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/link/add')
         self.assertEqual(response.code, 200)
+
     def test_to_add_sec(self):
         '''
         Test add method.
         '''
         response = self.fetch('/link/_add')
         self.assertEqual(response.code, 200)
+
     def test_to_add_thir(self):
         '''
         Test add method.
@@ -69,18 +71,21 @@ class TestSomeHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/link/modify/')
         self.assertEqual(response.code, 200)
+
     def test_to_delete(self):
         '''
         Test delete method.
         '''
         response = self.fetch('/link/delete/')
         self.assertEqual(response.code, 200)
+
     def test_to_delete_sec(self):
         '''
         Test delete method.
         '''
         response = self.fetch('/link/_delete/')
         self.assertEqual(response.code, 200)
+
     def test_link_j(self):
         '''
         Test index.

@@ -14,7 +14,7 @@ class TestPostHandler(AsyncHTTPSTestCase):
         '''
         Test
         '''
-        return APP 
+        return APP
 
     def test_post(self):
         '''
@@ -58,6 +58,7 @@ class TestPostHandler(AsyncHTTPSTestCase):
         response = self.fetch('/post/index')
         self.assertEqual(response.code, 200)
 
+
 class TestPostAjaxHandler(AsyncHTTPSTestCase):
     def get_app(self):
         '''
@@ -65,19 +66,20 @@ class TestPostAjaxHandler(AsyncHTTPSTestCase):
         '''
         return APP
 
-
     def test_to_delete(self):
         '''
         Test delete.
         '''
         response = self.fetch('/post_j/_delete/')
         self.assertEqual(response.code, 200)
+
     def test_to_delete_sec(self):
         '''
         Test delete.
         '''
         response = self.fetch('/post_j/delete/')
         self.assertEqual(response.code, 200)
+
     # def test_to_recent(self):
     #     '''
     #     Test recent.
@@ -90,6 +92,7 @@ class TestPostAjaxHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/post_j/nullify/')
         self.assertEqual(response.code, 200)
+
     def test_to_update_valid(self):
         '''
         Test update_valid.

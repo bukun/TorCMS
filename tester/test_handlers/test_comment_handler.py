@@ -36,6 +36,7 @@ class TestCommentHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/comment/list')
         self.assertEqual(response.code, 200)
+
     def test_index_cur(self):
         '''
         Test index.

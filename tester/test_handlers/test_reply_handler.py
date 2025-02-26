@@ -3,6 +3,7 @@
 Test
 '''
 from tornado.testing import AsyncHTTPSTestCase
+
 from application import APP
 
 
@@ -33,13 +34,13 @@ class TestReplyHandler(AsyncHTTPSTestCase):
         response = self.fetch('/reply/list/')
         self.assertEqual(response.code, 200)
 
-
     def test_reply_delete(self):
         '''
         Test reply delete.
         '''
         response = self.fetch('/reply/delete/')
         self.assertEqual(response.code, 200)
+
     def test_reply_delete_com(self):
         '''
         Test reply delete_com.
@@ -59,12 +60,14 @@ class TestReplyHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/reply/count/')
         self.assertEqual(response.code, 200)
+
     def test_reply_com_count(self):
         '''
         Test reply com_count.
         '''
         response = self.fetch('/reply/com_count/')
         self.assertEqual(response.code, 200)
+
     def test_reply_add(self):
         '''
         Test reply com_count.
@@ -78,6 +81,8 @@ class TestReplyHandler(AsyncHTTPSTestCase):
     #     '''
     #     response = self.fetch('/reply/get_by_user/')
     #     self.assertEqual(response.code, 200)
+
+
 class TestReplyajaxHandler(AsyncHTTPSTestCase):
     def get_app(self):
         '''
@@ -105,13 +110,13 @@ class TestReplyajaxHandler(AsyncHTTPSTestCase):
         response = self.fetch('/reply_j/list/')
         self.assertEqual(response.code, 200)
 
-
     def test_reply_delete(self):
         '''
         Test reply delete.
         '''
         response = self.fetch('/reply_j/delete/')
         self.assertEqual(response.code, 200)
+
     def test_reply_delete_com(self):
         '''
         Test reply delete_com.
@@ -131,12 +136,14 @@ class TestReplyajaxHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/reply_j/count/')
         self.assertEqual(response.code, 200)
+
     def test_reply_com_count(self):
         '''
         Test reply com_count.
         '''
         response = self.fetch('/reply_j/com_count/')
         self.assertEqual(response.code, 200)
+
     def test_reply_add(self):
         '''
         Test reply com_count.

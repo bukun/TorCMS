@@ -11,6 +11,7 @@ from tornado.testing import AsyncHTTPSTestCase
 
 from application import APP
 
+
 class TestStateHandler(AsyncHTTPSTestCase):
     '''
     Test
@@ -28,12 +29,14 @@ class TestStateHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/api/state/list/')
         self.assertEqual(response.code, 200)
+
     def test_chainedOptions(self):
         '''
         Test.
         '''
         response = self.fetch('/api/state/chainedOptions/')
         self.assertEqual(response.code, 200)
+
     def test_edit(self):
         '''
         Test .
@@ -54,6 +57,7 @@ class TestStateHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/api/state/_delete/')
         self.assertEqual(response.code, 200)
+
     def test_batch_edit(self):
         '''
         Test .
@@ -67,6 +71,7 @@ class TestStateHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/api/state/batch_delete/')
         self.assertEqual(response.code, 200)
+
     def test_add(self):
         '''
         Test .

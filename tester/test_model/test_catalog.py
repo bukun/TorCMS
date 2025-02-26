@@ -5,7 +5,7 @@ from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
 
 
-class TestMCatalog():
+class TestMCatalog:
     def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
         self.post_id = 'r42w2'
@@ -37,7 +37,6 @@ class TestMCatalog():
             'extinfo': kwargs.get('extinfo', {}),
             'kind': kwargs.get('kind2', '1'),
             'valid': kwargs.get('valid', 0),
-
         }
         post_id = kwargs.get('post_id', self.post_id)
 
@@ -46,7 +45,6 @@ class TestMCatalog():
         MPost2Catalog.add_record(self.post_id, self.tag_id)
 
     def test_query_by_slug(self):
-
         aa = MCatalog.query_by_slug(self.slug)
         assert aa
         tf = False
@@ -54,7 +52,6 @@ class TestMCatalog():
             if i.uid == self.post_id:
                 tf = True
         assert tf
-
 
     def test_query_all(self):
         aa = MCatalog.query_all()
@@ -65,7 +62,6 @@ class TestMCatalog():
                 tf = True
         assert tf
 
-
     def teardown_method(self):
         print("function teardown")
         post = MPost.get_by_uid(self.post_id)
@@ -75,4 +71,3 @@ class TestMCatalog():
         if cate:
             MCategory.delete(self.tag_id)
         MPost2Catalog.remove_relation(self.post_id, self.tag_id)
-

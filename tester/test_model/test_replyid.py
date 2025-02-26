@@ -5,7 +5,7 @@ from torcms.model.core_tab import TabReplyid
 from torcms.model.replyid_model import MReplyid
 
 
-class TestMReplyid():
+class TestMReplyid:
     def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
         self.uid = ''
@@ -26,11 +26,9 @@ class TestMReplyid():
         assert b.reply0 == self.reply0
         assert b.reply1 == self.reply1
 
-
     def test_create_replyid(self):
         aa = self.add_message()
         assert aa.reply1 == self.reply1
-
 
     def test_get_by_rid(self):
         self.add_message()
@@ -38,7 +36,6 @@ class TestMReplyid():
         for i in aa:
             if i.reply1 == self.reply1:
                 assert i.uid == self.uid
-
 
     def teardown_method(self):
         print("function teardown")

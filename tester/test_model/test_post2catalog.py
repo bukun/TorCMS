@@ -6,7 +6,7 @@ from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
 
 
-class TestMPost2Catalog():
+class TestMPost2Catalog:
     def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
 
@@ -18,7 +18,6 @@ class TestMPost2Catalog():
         self.add_P2C()
 
     def test_add_record(self):
-
         MPost2Catalog.add_record(self.post_id, self.tag_id)
         Po = MPost2Catalog.query_by_post(self.post_id)
 
@@ -48,7 +47,6 @@ class TestMPost2Catalog():
             'extinfo': kwargs.get('extinfo', {}),
             'kind': kwargs.get('kind2', '1'),
             'valid': kwargs.get('valid', '1'),
-
         }
         post_id = kwargs.get('post_id', self.post_id)
         i = MPost.get_by_uid(post_id)
@@ -59,7 +57,6 @@ class TestMPost2Catalog():
         MPost2Catalog.add_record(self.post_id, self.tag_id)
 
     def test_just_query_all(self):
-
         a = MPost2Catalog.just_query_all()
         TF = False
 
@@ -70,7 +67,6 @@ class TestMPost2Catalog():
         assert TF
 
     def test_query_all(self):
-
         a = MPost2Catalog.query_all()
         TF = False
 
@@ -81,7 +77,6 @@ class TestMPost2Catalog():
         assert TF
 
     def test_remove_relation(self):
-
         MPost2Catalog.add_record(self.post_id, self.tag_id)
         MPost2Catalog.remove_relation(self.post_id, self.tag_id)
         a = MPost2Catalog.query_all()
@@ -94,30 +89,25 @@ class TestMPost2Catalog():
         assert TF
 
     def test_remove_tag(self):
-
         MPost2Catalog.remove_tag(self.tag_id)
         TF = MPost2Catalog.query_by_catid(self.tag_id)
 
         assert TF.count() == 0
 
     def test_query_by_catid(self):
-
         b = MPost2Catalog.query_by_catid(self.tag_id)
 
         assert b[0].post_id == self.post_id
 
     def test_query_postinfo_by_cat(self):
-
         ss = MPost2Catalog.query_postinfo_by_cat(self.tag_id)
         assert ss[0].logo == 'prprprprpr'
 
     def test_query_by_post(self):
-
         ss = MPost2Catalog.query_by_post(self.post_id)
         assert ss[0].tag_id == self.tag_id
 
     def test_query_count(self):
-
         ss = MPost2Catalog.query_count()
 
         TF = False
@@ -128,10 +118,7 @@ class TestMPost2Catalog():
         assert TF
 
     def test_update_field(self):
-
-        kwargs = {
-            'post_id': self.post_id2
-        }
+        kwargs = {'post_id': self.post_id2}
 
         self.add_message(**kwargs)
         ss = MPost2Catalog.query_by_post(self.post_id)
@@ -147,9 +134,7 @@ class TestMPost2Catalog():
         assert b >= 1
 
     def test_query_pager_by_slug(self):
-        kwargs = {
-            'slug': 'awer'
-        }
+        kwargs = {'slug': 'awer'}
 
         self.add_message(**kwargs)
 
@@ -158,25 +143,21 @@ class TestMPost2Catalog():
         assert a[0].uid == self.post_id
 
     def test_query_by_entity_uid(self):
-
         a = MPost2Catalog.query_by_entity_uid(self.post_id)
 
         assert a[0].tag_id == self.tag_id
 
     def test_del_by_uid(self):
-
         ss = MPost2Catalog.query_by_post(self.post_id)
         a = MPost2Catalog.del_by_uid(ss[0].uid)
         assert a
 
     def test_query_by_id(self):
-
         a = MPost2Catalog.query_by_id(self.post_id)
 
         assert a[0].tag_id == self.tag_id
 
     def test_get_first_category(self):
-
         a = MPost2Catalog.get_first_category(self.post_id)
         b = MPost2Catalog.del_by_uid(a)
 

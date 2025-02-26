@@ -36,6 +36,7 @@ class TestPostlistHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/post_list/recent')
         self.assertEqual(response.code, 200)
+
     def test_refresh(self):
         '''
         Test refresh.

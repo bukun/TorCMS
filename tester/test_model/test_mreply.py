@@ -10,7 +10,7 @@ from torcms.model.reply_model import MReply
 from torcms.model.user_model import MUser
 
 
-class TestMReply():
+class TestMReply:
     def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
         self.post = MPost()
@@ -56,7 +56,6 @@ class TestMReply():
             'extinfo': kwargs.get('extinfo', {}),
             'kind': kwargs.get('kind', '1'),
             'valid': kwargs.get('valid', 1),
-
         }
 
         MPost.add_or_update(self.post_uid, p_d)
@@ -68,7 +67,6 @@ class TestMReply():
         assert tt.title == self.post_title
 
     def test_insert_user(self):
-
         tt = self.user.get_by_uid(self.user_uid)
         assert tt.user_name == self.username
 
@@ -85,14 +83,12 @@ class TestMReply():
         self.r2u.create_reply(self.user_uid, uid)
 
     def test_insert_reply(self):
-
         aa = self.reply.get_by_uid(self.reply_uid)
         assert aa.user_name == self.username
         assert aa.post_id == self.post_uid
         assert aa.user_id == self.user_uid
 
     def test_update_vote(self):
-
         before = self.reply.get_by_uid(self.reply_uid)
         self.reply.update_vote(self.reply_uid, 10)
         after = self.reply.get_by_uid(self.reply_uid)
@@ -100,7 +96,6 @@ class TestMReply():
         assert before.vote < after.vote
 
     def test_delete_by_uid(self):
-
         yesrep = self.reply.get_by_uid(self.reply_uid)
         assert yesrep.post_id == self.post_uid
         aa = self.reply.delete_by_uid(self.reply_uid)
@@ -109,7 +104,6 @@ class TestMReply():
         assert nosrep == None
 
     def test_modify_by_uid(self):
-
         p_d = {
             'user_name': self.username,
             'user_id': self.user_uid,
@@ -123,12 +117,10 @@ class TestMReply():
         assert tt.cnt_md == p_d['cnt_reply']
 
     def test_query_pager(self):
-
         aa = self.reply.total_number()
         a = int(aa / 10)
         tf = False
         for i in range(a + 3):
-
             list = self.reply.query_pager(current_page_num=i)
             for x in list:
                 if x.uid == self.reply_uid:
@@ -148,7 +140,6 @@ class TestMReply():
         assert aa >= 1
 
     def test_query_all(self):
-
         bb = self.reply.query_all()
         tf = False
         for i in bb:
@@ -159,12 +150,10 @@ class TestMReply():
         assert tf
 
     def test_get_by_zan(self):
-
         aa = self.reply.get_by_zan(self.reply_uid)
         assert aa >= 1
 
     def test_query_by_post(self):
-
         aa = self.reply.query_by_post(self.post_uid)
         tf = False
         for i in aa:
@@ -174,7 +163,6 @@ class TestMReply():
         assert tf
 
     def test_get_by_uid(self):
-
         aa = self.reply.get_by_uid(self.reply_uid)
         assert aa.user_id == self.user_uid
 

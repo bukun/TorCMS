@@ -3,13 +3,12 @@ from torcms.model.nullify_info_model import MNullifyInfo
 from torcms.model.post_model import MPost
 
 
-class TestMNullifyInfo():
+class TestMNullifyInfo:
     def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
         self.post_id = 'r42w2'
 
     def add_message(self, **kwargs):
-
         p_d = {
             'title': kwargs.get('title', 'iiiii'),
             'cnt_md': kwargs.get('cnt_md', 'grgr'),
@@ -24,7 +23,6 @@ class TestMNullifyInfo():
             'extinfo': kwargs.get('extinfo', {}),
             'kind': kwargs.get('kind2', '1'),
             'valid': kwargs.get('valid', 0),
-
         }
         post_id = kwargs.get('post_id', self.post_id)
 

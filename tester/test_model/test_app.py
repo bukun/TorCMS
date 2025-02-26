@@ -19,7 +19,7 @@ from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
 
 
-class Test_App():
+class Test_App:
     '''
     Testing for map app.
     '''
@@ -65,18 +65,16 @@ class Test_App():
         assert tt.uid == uid
         assert tt.title == post_data['title']
 
-
     def test_insert2(self):
         uid = self.uid
         post_data = {
-
             'title': '',
             'keywords': 'sd,as',
             'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
             'logo': '/static/',
             'user_name': 'ss',
             'kind': '9',
-            'extinfo': ''
+            'extinfo': '',
         }
         extinfo = {}
 
@@ -96,12 +94,11 @@ class Test_App():
             'logo': '/static/',
             'user_name': 'ss',
             'kind': '9',
-            'extinfo': ''
+            'extinfo': '',
         }
         uu = MPost.add_or_update_post(self.uid, post_data)
 
         assert uu == uid
-
 
     def test_insert5(self):
         uid = self.uid
@@ -112,11 +109,10 @@ class Test_App():
             'logo': '/static/',
             'user_name': 'ss',
             'kind': '2',
-            'extinfo': ''
+            'extinfo': '',
         }
         uu = MPost.add_or_update_post(self.uid, post_data)
         assert uu == uid
-
 
     def test_insert8(self):
         uid = self.uid
@@ -127,13 +123,12 @@ class Test_App():
             'logo': '/static/',
             'user_name': 'ss',
             'kind': '2',
-            'extinfo': ''
+            'extinfo': '',
         }
         uu = MPost.add_or_update_post(self.uid, post_data)
         tt = MPost.get_by_uid(uid)
 
         assert tt.uid == uu
-
 
     def add_message(self, **kwargs):
         post_data = {
@@ -159,7 +154,6 @@ class Test_App():
             'extinfo': kwargs.get('extinfo', {}),
             'kind': kwargs.get('kind', '1'),
             'valid': kwargs.get('valid', 1),
-
         }
 
         tt = MPost.add_or_update(self.uid, p_d)
@@ -176,10 +170,8 @@ class Test_App():
         f = ff.count()
 
         gg = {
-
             'user_name': '7788',
             'kind': '2',
-
         }
         self.add_message(**gg)
 
@@ -198,10 +190,8 @@ class Test_App():
 
     def test_query_recent(self):
         kwargs = {
-
             'user_name': '7788',
             'kind': '2',
-
         }
         self.add_message(**kwargs)
 
@@ -222,20 +212,13 @@ class Test_App():
         # self.teardown_class()
 
     def test_query_all(self):
-
         kwargs = {
-
             'user_name': '7788',
             'kind': '2',
-
         }
         self.add_message(**kwargs)
 
-        kwargs = {
-            'order_by_create': True,
-            'kind': '2',
-            'limit': 100
-        }
+        kwargs = {'order_by_create': True, 'kind': '2', 'limit': 100}
         pp = MPost.query_all(**kwargs)
         TF = False
         for i in range(pp.count()):
@@ -249,12 +232,10 @@ class Test_App():
         # self.teardown_class()
 
     def test_query_keywords_empty(self):
-
         kwargs = {
             'keywords': '',
             'user_name': '7788',
             'kind': '1',
-
         }
         self.add_message(**kwargs)
 
@@ -271,12 +252,10 @@ class Test_App():
         # self.teardown_class()
 
     def test_query_recent_edited(self):
-
         kwargs = {
             'keywords': '',
             'user_name': '7788',
             'kind': '1',
-
         }
         self.add_message(**kwargs)
 
@@ -295,19 +274,17 @@ class Test_App():
     def test_query_dated(self):
         pp = MPost.query_dated()
 
-        # ToDo: the count ? 
+        # ToDo: the count ?
 
         assert pp.count() >= 0
         # self.teardown_class()
 
     def test_query_cat_recent(self):
-
         kwargs = {
             'keywords': '',
             'user_name': '7788',
             'kind': '1',
-            'extinfo': 'def_tag_arr'
-
+            'extinfo': 'def_tag_arr',
         }
         self.add_message(**kwargs)
         pp = MPost.query_cat_recent(self.tag_id, num=100)
@@ -322,12 +299,9 @@ class Test_App():
         # self.teardown_class()
 
     def test_query_most_pic(self):
-
         kwargs = {
-
             'user_name': '7788',
             'kind': '1',
-
         }
         self.add_message(**kwargs)
 
@@ -345,12 +319,9 @@ class Test_App():
         # self.teardown_class()
 
     def test_get_all(self):
-
         kwargs = {
-
             'user_name': '7788',
             'kind': '2',
-
         }
         self.add_message(**kwargs)
 

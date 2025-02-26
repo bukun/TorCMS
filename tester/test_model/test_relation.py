@@ -8,7 +8,7 @@ from torcms.model.post_model import MPost
 from torcms.model.relation_model import MRelation
 
 
-class TestMRelation():
+class TestMRelation:
     def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
 
@@ -25,7 +25,7 @@ class TestMRelation():
             'view_count': 1,
             'logo': ' ',
             'keywords': 'test',
-            'kind': '1'
+            'kind': '1',
         }
 
         uu1 = MPost.add_or_update(self.uid, post_data)
@@ -37,8 +37,7 @@ class TestMRelation():
             'view_count': 1,
             'logo': ' ',
             'keywords': 'test2',
-            'kind': '1'
-
+            'kind': '1',
         }
 
         uu2 = MPost.add_or_update(self.uid2, post_data2)

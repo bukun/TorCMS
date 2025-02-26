@@ -5,7 +5,7 @@ from torcms.model.label_model import MLabel, MPost2Label
 from torcms.model.post_model import MPost
 
 
-class TestMLabel():
+class TestMLabel:
     def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
         self.uu = MLabel()
@@ -68,7 +68,6 @@ class TestMLabel():
             'extinfo': kwargs.get('extinfo', {}),
             'kind': kwargs.get('kind2', '1'),
             'valid': kwargs.get('valid', 1),
-
         }
         post_id = kwargs.get('post_id', self.post_id)
 
@@ -77,19 +76,16 @@ class TestMLabel():
         MPost2Label.add_record(self.post_id, self.name)
 
     def test_get_id_by_name(self):
-
         a = self.uu.get_id_by_name(self.name)
         print(a)
         print(self.uid)
         assert a == self.uid
 
     def test_get_by_slug(self):
-
         a = self.uu.get_by_slug(self.uid)
         assert a.name == self.name
 
     def test_delete(self):
-
         a = self.uu.get_by_slug(self.uid)
         assert a.name == self.name
         self.uu.delete(self.uid)
@@ -98,7 +94,7 @@ class TestMLabel():
         assert a == False
 
 
-class TestMPost2Label():
+class TestMPost2Label:
     def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
 
@@ -137,7 +133,6 @@ class TestMPost2Label():
             'extinfo': kwargs.get('extinfo', {}),
             'kind': kwargs.get('kind2', '1'),
             'valid': kwargs.get('valid', 1),
-
         }
 
         post_id = MPost.add_or_update(self.post_id, p_d)
@@ -150,17 +145,14 @@ class TestMPost2Label():
         assert rec_id
 
     def test_query_count(self):
-
         a = MPost2Label.query_count(self.uid)
 
         assert a == 1
 
     def test_remove_relation(self):
-
         a = MPost2Label.get_by_uid(self.post_id)
         tf = False
         for i in a:
-
             if i.tag_id == self.tag_id:
                 tf = True
         assert tf
@@ -168,20 +160,17 @@ class TestMPost2Label():
         a = MPost2Label.get_by_uid(self.post_id)
         tf = True
         for i in a:
-
             if i.tag_id == self.tag_id:
                 tf = False
         assert tf
 
     def test_get_by_uid(self):
-
         a = MPost2Label.get_by_uid(self.post_id)
 
         assert a.count() == 1
         assert a.get().tag_id == self.uid
 
     def test_get_by_info(self):
-
         a = MPost2Label.get_by_info(self.post_id, self.tag_id)
         assert a != None
 
@@ -197,19 +186,16 @@ class TestMPost2Label():
         a = MPost2Label.get_by_uid(self.post_id)
         tf = False
         for i in a:
-
             if i.tag_id == self.tag_id:
                 tf = True
         assert tf
 
     def test_total_number(self):
-
         a = MPost2Label.total_number(self.uid)
 
         assert a
 
     def test_query_pager_by_slug(self):
-
         a = MPost2Label.query_pager_by_slug(self.uid)
         print(a)
         print(a.count())

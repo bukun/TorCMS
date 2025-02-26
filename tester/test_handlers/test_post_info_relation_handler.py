@@ -21,4 +21,3 @@ class TestPostHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/rel/1/')
         self.assertEqual(response.code, 200)
-

@@ -8,7 +8,7 @@ import cfg
 from config import REDIS_CFG
 
 
-class TestRedis():
+class TestRedis:
     '''
     Testing for redis.
     '''

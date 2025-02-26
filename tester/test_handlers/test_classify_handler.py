@@ -23,8 +23,6 @@ class TestClassifyHandler(AsyncHTTPSTestCase):
         '''
         return APP
 
-
-
     def test_index(self):
         '''
         Test index.
@@ -45,4 +43,3 @@ class TestClassifyHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/classify/list/2')
         self.assertEqual(response.code, 200)
-

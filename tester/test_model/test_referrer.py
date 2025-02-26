@@ -3,7 +3,7 @@
 from torcms.model.referrer_model import MReferrer
 
 
-class TestMReferrer():
+class TestMReferrer:
     def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
         self.uid = ''
@@ -21,12 +21,11 @@ class TestMReferrer():
         self.uid = MReferrer.add_meta('ftydd', post_data)
 
     def test_modify_meta(self):
-
         post_data = {
             'media': 'fffffff',
             'terminal': '4f4f4fgg',
             'kind': '9',
-            'userip': 'fw3er5'
+            'userip': 'fw3er5',
         }
         MReferrer.modify_meta(self.uid, post_data)
         b = MReferrer.get_by_uid(self.uid)

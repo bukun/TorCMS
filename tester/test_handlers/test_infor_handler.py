@@ -42,6 +42,7 @@ class TestSomeHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/info/_edit/')
         self.assertEqual(response.code, 200)
+
     def test_to_delete(self):
         '''
         Test delete.

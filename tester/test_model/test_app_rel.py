@@ -9,7 +9,7 @@ from torcms.model.post_model import MPost
 from torcms.model.relation_model import MRelation
 
 
-class TestMRelation():
+class TestMRelation:
     def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
         self.post_id = '66565'
@@ -30,6 +30,7 @@ class TestMRelation():
         }
         tf = MCategory.add_or_update(self.tag_id, post_data)
         assert tf == self.tag_id
+
     def add_post(self, **kwargs):
         p_d = {
             'title': kwargs.get('title', '一二三'),
@@ -45,7 +46,6 @@ class TestMRelation():
             'extinfo': kwargs.get('extinfo', {}),
             'kind': kwargs.get('kind', '1'),
             'valid': kwargs.get('valid', 1),
-
         }
         p_id = kwargs['post_uid']
 
@@ -80,20 +80,16 @@ class TestMRelation():
         self.uid = aa
 
     def test_add_relation(self):
-
         print('====')
         print(self.uid)
         aa = MHelper.get_by_uid(TabRel, self.uid)
         assert aa.post_f_id == self.post_id
         assert aa.post_t_id == self.post_id2
 
-
     def test_update_relation(self):
-
         MRelation.update_relation(self.post_id, self.post_id2, weight=2)
         aa = MHelper.get_by_uid(TabRel, self.uid)
         assert aa.count >= 2 + 1
-
 
     # def test_get_app_relations(self):
     #     self.add_tag()
@@ -108,15 +104,12 @@ class TestMRelation():
     #     self.teardown_class()
     #     assert tf
 
-
     def test_delete(self):
-
         aa = MHelper.get_by_uid(TabRel, self.uid)
         assert aa.post_f_id == self.post_id
         MRelation.delete(self.uid)
         aa = MHelper.get_by_uid(TabRel, self.uid)
         assert aa == None
-
 
     def teardown_method(self):
         print("function teardown")

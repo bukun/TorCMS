@@ -23,14 +23,13 @@ class TestUserApiHandler(AsyncHTTPSTestCase):
         '''
         return APP
 
-
-
     def test_logout(self):
         '''
         Test index.
         '''
         response = self.fetch('/api/user/logout')
         self.assertEqual(response.code, 200)
+
     # def test_reset_passwd(self):
     #     '''
     #     Test index.
@@ -43,4 +42,3 @@ class TestUserApiHandler(AsyncHTTPSTestCase):
     #     '''
     #     response = self.fetch('/api/user/list')
     #     self.assertEqual(response.code, 200)
-

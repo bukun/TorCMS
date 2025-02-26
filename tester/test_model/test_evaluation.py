@@ -5,7 +5,7 @@ from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
 
 
-class TestMEvaluation():
+class TestMEvaluation:
     def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
         self.user_id = '11111'
@@ -27,7 +27,6 @@ class TestMEvaluation():
             'extinfo': kwargs.get('extinfo', {}),
             'kind': kwargs.get('kind2', '1'),
             'valid': kwargs.get('valid', 1),
-
         }
         post_id = kwargs.get('post_id', self.post_id)
 
@@ -38,21 +37,16 @@ class TestMEvaluation():
         tt = MEvaluation.get_by_signature(user_id, self.app_id)
         assert tt.user_id == user_id
 
-
     def test_app_evaluation_count(self):
         b = MEvaluation.app_evaluation_count(self.app_id)
 
-        p = {
-            'user_id': '33336'
-        }
+        p = {'user_id': '33336'}
         self.add_message(**p)
-       
-        eval = MEvaluation.get_by_signature(p['user_id'],self.app_id)
+
+        eval = MEvaluation.get_by_signature(p['user_id'], self.app_id)
         assert eval
 
-        p = {
-            'user_id': '54436'
-        }
+        p = {'user_id': '54436'}
         self.add_message(**p)
 
         eval1 = MEvaluation.get_by_signature(p['user_id'], self.app_id)
@@ -60,7 +54,6 @@ class TestMEvaluation():
 
         a = MEvaluation.app_evaluation_count(self.app_id)
         assert a == b + 2
-
 
     def test_get_by_signature(self):
         a = MEvaluation.get_by_signature(self.user_id, self.app_id)
@@ -70,13 +63,11 @@ class TestMEvaluation():
         a = MEvaluation.get_by_signature(self.user_id, self.app_id)
         assert a
 
-
     def test_add_or_update(self):
         value = 1
         MEvaluation.add_or_update(self.user_id, self.app_id, value)
         a = MEvaluation.get_by_signature(self.user_id, self.app_id)
         assert a
-
 
     def teardown_method(self):
         print("function teardown")

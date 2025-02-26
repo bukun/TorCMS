@@ -29,4 +29,3 @@ class TestSysHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/sys/locale/')
         self.assertEqual(response.code, 200)
-

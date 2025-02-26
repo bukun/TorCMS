@@ -35,12 +35,14 @@ class TestSomeHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/post_man/edit/')
         self.assertEqual(response.code, 200)
+
     def test_post_man_restore(self):
         '''
         Test restore.
         '''
         response = self.fetch('/post_man/restore/')
         self.assertEqual(response.code, 200)
+
     def test_post_man_delete(self):
         '''
         Test delete.

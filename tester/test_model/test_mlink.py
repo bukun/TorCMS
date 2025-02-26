@@ -4,7 +4,7 @@ from torcms.core import tools
 from torcms.model.link_model import MLink
 
 
-class TestMLink():
+class TestMLink:
     def setup_method(self):
         self.id = tools.get_uu4d()
         self.raw_count = MLink.get_counts()
@@ -29,7 +29,6 @@ class TestMLink():
         assert tt.order == int(post_data['order'])
         assert tt.logo == post_data['logo']
         assert self.raw_count + 1 <= new_count
-        
 
     def add_message(self, **kwargs):
         uid = self.id
@@ -43,7 +42,6 @@ class TestMLink():
 
     def test_upate(self):
         post_data = {
-
             'name': 'fffffff',
             'link': '85tgr4ggbf',
             'order': '13',
@@ -55,7 +53,6 @@ class TestMLink():
         assert self.raw_count + 1 <= new_count
 
         post_data2 = {
-
             'name': 'asdlkjf',
             'link': 'sakljdf',
             'order': '12',
@@ -79,7 +76,6 @@ class TestMLink():
         assert tt.link == post_data2['link']
         assert tt.order == int(post_data2['order'])
         assert tt.logo == post_data2['logo']
-        
 
     def test_query_all(self):
         a = MLink.query_all()
@@ -89,13 +85,10 @@ class TestMLink():
                 tf = True
         assert tf
 
-
-
     def test_get_by_uid(self):
         a = MLink.get_by_uid(self.id)
 
         assert a.uid == self.id
-        
 
     def test_delete(self):
         a = MLink.get_by_uid(self.id)
@@ -103,21 +96,18 @@ class TestMLink():
         MLink.delete(self.id)
         a = MLink.get_by_uid(self.id)
         assert a == None
-        
 
     def test_get_counts(self):
         a = MLink.get_counts()
 
         assert a
-        
 
     def test_query_link(self):
-
         a = MLink.query_link(29)
         tf = False
         for i in a:
             if i.uid == self.id:
-                tf = True 
+                tf = True
         assert tf
 
     def teardown_method(self):

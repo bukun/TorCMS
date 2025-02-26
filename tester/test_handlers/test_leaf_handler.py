@@ -22,6 +22,7 @@ class TestCatalogHandler(AsyncHTTPSTestCase):
         Test
         '''
         return APP
+
     def test_add(self):
         '''
         Test add.
@@ -35,13 +36,13 @@ class TestCatalogHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/leaf/_edit_kind/')
         self.assertEqual(response.code, 200)
+
     def test_edit(self):
         '''
         Test edit.
         '''
         response = self.fetch('/leaf/_edit/')
         self.assertEqual(response.code, 200)
-
 
     def test_cat_add(self):
         '''

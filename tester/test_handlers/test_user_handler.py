@@ -20,9 +20,7 @@ class TestUserHandler(AsyncHTTPSTestCase):
         '''
         Test
         '''
-        self.app = Application(
-            handlers=[("/user/(.*)", UserHandler, {})],
-            **SETTINGS)
+        self.app = Application(handlers=[("/user/(.*)", UserHandler, {})], **SETTINGS)
         return self.app
 
     def test_to_login(self):
@@ -48,6 +46,7 @@ class TestUserHandler(AsyncHTTPSTestCase):
         #         m.return_value = userinfo
         #         reponse = self.fetch('/user/info', method = 'GET')
         #     self.assertEqual('sucess', reponse.body )
+
     def test_to_info(self):
         '''
         Test
@@ -68,6 +67,7 @@ class TestUserHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/user/logout')
         self.assertEqual(response.code, 200)
+
     def test_to_reset_password(self):
         '''
         Test
@@ -81,12 +81,14 @@ class TestUserHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/user/changepass')
         self.assertEqual(response.code, 200)
+
     def test_to_changeinfo(self):
         '''
         Test
         '''
         response = self.fetch('/user/changeinfo')
         self.assertEqual(response.code, 200)
+
     # def test_to_reset_passwd(self):
     #     '''
     #     Test
@@ -121,6 +123,7 @@ class TestUserHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/user/list')
         self.assertEqual(response.code, 200)
+
     def test_to_pass_strength(self):
         '''
         Test

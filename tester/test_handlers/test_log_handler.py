@@ -30,6 +30,7 @@ class TestLogHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/log/')
         self.assertEqual(response.code, 200)
+
     # def test_to_pageview(self):
     #     '''
     #     Test pageview.
@@ -50,6 +51,7 @@ class TestLogHandler(AsyncHTTPSTestCase):
         response = self.fetch('/log/_add')
         self.assertEqual(response.code, 200)
 
+
 class TestLogAjaxHandler(AsyncHTTPSTestCase):
     '''
     Test
@@ -60,6 +62,7 @@ class TestLogAjaxHandler(AsyncHTTPSTestCase):
         Test
         '''
         return APP
+
     def test_log_j(self):
         '''
         Test index.

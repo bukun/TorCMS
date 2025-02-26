@@ -11,6 +11,7 @@ from tornado.testing import AsyncHTTPSTestCase
 
 from application import APP
 
+
 class TestApiPostHandler(AsyncHTTPSTestCase):
     '''
     Test
@@ -35,6 +36,7 @@ class TestApiPostHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/api/post/_edit/')
         self.assertEqual(response.code, 200)
+
     def test_delete(self):
         '''
         Test .
@@ -48,12 +50,14 @@ class TestApiPostHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/api/post/submit_process/')
         self.assertEqual(response.code, 200)
+
     def test_amis_submit_action(self):
         '''
         Test .
         '''
         response = self.fetch('/api/post/amis_submit_action/')
         self.assertEqual(response.code, 200)
+
     def test_rovoke(self):
         '''
         Test .

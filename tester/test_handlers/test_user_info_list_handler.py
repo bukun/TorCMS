@@ -18,9 +18,7 @@ class TestUserHandler(AsyncHTTPSTestCase):
         '''
         Test
         '''
-        self.app = Application(
-            handlers=[("/user/(.*)", UserHandler, {})],
-            **SETTINGS)
+        self.app = Application(handlers=[("/user/(.*)", UserHandler, {})], **SETTINGS)
         return self.app
 
     def test_to_recent(self):
@@ -29,12 +27,14 @@ class TestUserHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/user_list/recent')
         self.assertEqual(response.code, 404)
+
     def test_to_app(self):
         '''
         Test
         '''
         response = self.fetch('/user_list/app')
         self.assertEqual(response.code, 404)
+
     # def test_to_user_recent(self):
     #     '''
     #     Test

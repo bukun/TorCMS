@@ -6,7 +6,7 @@ from torcms.model.post_model import MPost
 from torcms.model.usage_model import MUsage
 
 
-class TestMUsage():
+class TestMUsage:
     def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
 
@@ -44,7 +44,6 @@ class TestMUsage():
             'extinfo': kwargs.get('extinfo', {}),
             'kind': kwargs.get('kind2', '1'),
             'valid': kwargs.get('valid', 1),
-
         }
         post_id = kwargs.get('post_id', self.postid)
 
@@ -66,7 +65,6 @@ class TestMUsage():
         print(self.uid)
 
     def test_query_by_post(self):
-
         aa = MUsage.query_by_post(self.postid)
         tf = False
         for i in aa:
@@ -74,7 +72,7 @@ class TestMUsage():
                 assert i.uid == self.uid
                 tf = True
                 break
-   
+
         assert tf
 
     #
@@ -100,7 +98,6 @@ class TestMUsage():
     #     assert tf
 
     def test_query_random(self):
-
         aa = MUsage.query_random(limit=300)
         tf = False
         for i in aa:
@@ -108,7 +105,7 @@ class TestMUsage():
                 assert i.uid == self.uid
                 tf = True
                 break
-   
+
         assert tf
 
     def test_query_recent(self):
@@ -119,7 +116,7 @@ class TestMUsage():
                 assert i.uid == self.uid
                 tf = True
                 break
-   
+
         assert tf
 
     def test_query_recent_by_cat(self):
@@ -130,7 +127,7 @@ class TestMUsage():
                 assert i.uid == self.uid
                 tf = True
                 break
-   
+
         assert tf
 
     def test_query_most(self):
@@ -141,15 +138,12 @@ class TestMUsage():
                 assert i.uid == self.uid
                 tf = True
                 break
-   
+
         assert tf
 
     def test_query_by_signature(self):
-
         aa = MUsage.query_by_signature(self.userid, self.postid)
         assert aa[0].uid == self.uid
-
-   
 
     def test_count_increate(self):
         MUsage.count_increate(self.uid, self.tag_id, 8)
@@ -160,11 +154,10 @@ class TestMUsage():
                 assert i.count >= 8
                 tf = True
                 break
-   
+
         assert tf
 
     def test_add_or_update(self):
-
         aa = MUsage.query_recent(self.userid, '1')
         tf = False
         for i in aa:
@@ -173,7 +166,7 @@ class TestMUsage():
                 assert i.post_id == self.postid
                 tf = True
                 break
-   
+
         assert tf
 
     def teardown_method(self):

@@ -29,6 +29,7 @@ class TestProcessHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/api/process/chainedOptions')
         self.assertEqual(response.code, 200)
+
     def test_list(self):
         '''
         Test.

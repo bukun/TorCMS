@@ -30,4 +30,3 @@ class TestSomeHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/evaluate/')
         self.assertEqual(response.code, 200)
-

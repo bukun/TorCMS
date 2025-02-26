@@ -29,4 +29,3 @@ class TestCatalogHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/catalog/')
         self.assertEqual(response.code, 200)
-

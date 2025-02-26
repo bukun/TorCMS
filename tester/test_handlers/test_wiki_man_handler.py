@@ -23,6 +23,7 @@ class TestWikiHandler(AsyncHTTPSTestCase):
         response = self.fetch('/wiki_man/view/')
 
         self.assertEqual(response.code, 200)
+
     def test_to_edit(self):
         '''
         Test
@@ -47,6 +48,7 @@ class TestWikiHandler(AsyncHTTPSTestCase):
 
         self.assertEqual(response.code, 200)
 
+
 class TestWikiHistoryHandler(AsyncHTTPSTestCase):
     '''
     Test
@@ -65,6 +67,7 @@ class TestWikiHistoryHandler(AsyncHTTPSTestCase):
         response = self.fetch('/page_man/view/')
 
         self.assertEqual(response.code, 200)
+
     def test_to_edit(self):
         '''
         Test

@@ -26,6 +26,7 @@ class TestSearchHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/search/')
         self.assertEqual(response.code, 200)
+
     def test_to_more(self):
         '''
         Test

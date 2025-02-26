@@ -6,7 +6,7 @@ from torcms.model.entity_model import MEntity
 from torcms.model.user_model import MUser
 
 
-class TestMEntity2User():
+class TestMEntity2User:
     def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
         self.M2U = MEntity2User()
@@ -24,7 +24,9 @@ class TestMEntity2User():
         post_data = {
             'user_name': name,
             'user_pass': kwargs.get('user_pass', 'g131322'),
-            'user_email': kwargs.get('user_email', '{}@kljhqq.com'.format(random.randint(1, 1000000))),
+            'user_email': kwargs.get(
+                'user_email', '{}@kljhqq.com'.format(random.randint(1, 1000000))
+            ),
         }
 
         self.uu.create_user(post_data)
@@ -36,6 +38,7 @@ class TestMEntity2User():
         desc = 'create entity'
         tf = self.ee.create_entity(self.e_uid, self.path, desc)
         assert tf
+
     def add_E2U(self):
         self.add_user()
         self.add_entity()
@@ -51,7 +54,6 @@ class TestMEntity2User():
         tt = self.M2U.get_by_uid(self.uid)
         assert tt.user_ip == self.userip
         assert tt.entity_id == self.e_uid
-        
 
     def test_delete_by_uid(self):
         self.add_E2U()
@@ -63,7 +65,7 @@ class TestMEntity2User():
         for i in tt:
             if i.entity_id == self.e_uid:
                 tf = False
-        
+
         assert tf
 
     def test_query_all(self):
@@ -79,7 +81,7 @@ class TestMEntity2User():
         for i in tt:
             if i.entity_id == self.e_uid:
                 tf = True
-        
+
         assert tf
 
     def test_get_all_pager(self):
@@ -94,7 +96,7 @@ class TestMEntity2User():
                     tf = True
                     assert t.user_id == self.user_uid
                     assert t.user_ip == self.userip
-        
+
         assert tf
 
     def test_get_all_pager_by_username(self):
@@ -105,20 +107,19 @@ class TestMEntity2User():
             if t.uid == self.uid:
                 tf = True
                 assert t.user_ip == self.userip
-        
+
         assert tf
 
     def test_create_entity2user(self):
         self.add_E2U()
         tt = self.M2U.get_by_uid(self.uid)
         assert tt.user_ip == self.userip
-        
 
     def test_total_number(self):
         a = self.M2U.total_number()
         self.add_E2U()
         b = self.M2U.total_number()
-        
+
         assert a + 1 <= b
 
     def test_total_number_by_user(self):
@@ -126,7 +127,7 @@ class TestMEntity2User():
         aa = self.M2U.total_number_by_user(self.user_uid)
         self.add_E2U()
         bb = self.M2U.total_number_by_user(self.user_uid)
-        
+
         assert aa + 1 <= bb
 
     def teardown_method(self):

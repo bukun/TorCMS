@@ -8,6 +8,7 @@ import sys
 
 sys.path.append('.')
 import urllib
+
 from tornado.testing import AsyncHTTPSTestCase
 
 from application import APP
@@ -30,6 +31,7 @@ class TestSomeHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/entity/')
         self.assertEqual(response.code, 200)
+
     def test_to_add(self):
         '''
         Test add.
@@ -39,24 +41,28 @@ class TestSomeHandler(AsyncHTTPSTestCase):
         # self.assertEqual(response.code, 200)
         response = self.fetch('/entity/_add')
         self.assertEqual(response.code, 200)
+
     def test_to_list(self):
         '''
         Test list.
         '''
         response = self.fetch('/entity/list')
         self.assertEqual(response.code, 200)
+
     def test_entry_index(self):
         '''
         Test index.
         '''
         response = self.fetch('/entry/')
         self.assertEqual(response.code, 200)
+
     def test_entry_to_add(self):
         '''
         Test add.
         '''
         response = self.fetch('/entry/_add')
         self.assertEqual(response.code, 200)
+
     def test_entry_to_list(self):
         '''
         Test list.

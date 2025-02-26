@@ -5,7 +5,7 @@ from torcms.model.collect_model import MCollect
 from torcms.model.post_model import MPost
 
 
-class TestMCollect():
+class TestMCollect:
     def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
         self.user_id = 'pppp'
@@ -14,7 +14,6 @@ class TestMCollect():
         self.add_mess()
 
     def add_message(self, **kwargs):
-
         p_d = {
             'title': kwargs.get('title', 'iiiii'),
             'cnt_md': kwargs.get('cnt_md', 'grgr'),
@@ -29,23 +28,21 @@ class TestMCollect():
             'extinfo': kwargs.get('extinfo', {}),
             'kind': kwargs.get('kind2', '1'),
             'valid': kwargs.get('valid', 1),
-
         }
         post_id = kwargs.get('post_id', self.post_id)
 
         tf = MPost.add_or_update(post_id, p_d)
         assert tf == post_id
-    def test_add_or_update(self):
 
+    def test_add_or_update(self):
         user_id = self.user_id
         app_id = self.post_id
         MCollect.add_or_update(user_id, app_id)
-        tt = MCollect.get_by_signature(user_id,app_id)
+        tt = MCollect.get_by_signature(user_id, app_id)
         assert tt
         a = MCollect.get_by_signature(user_id, app_id)
 
         assert a != None
-
 
     def add_mess(self):
         self.add_message()
@@ -60,22 +57,17 @@ class TestMCollect():
         assert tf
 
     def test_query_recent(self):
-
         user_id = self.user_id
         a = MCollect.query_recent(user_id)
 
         assert a[0].post_id == self.post_id
 
-
     def test_get_by_signature(self):
-
         user_id = self.user_id
-
 
         a = MCollect.get_by_signature(user_id, self.post_id)
 
         assert a != None
-
 
     def test_count_of_user(self):
         user_id = self.user_id
@@ -88,7 +80,6 @@ class TestMCollect():
 
         assert a == b + 1
 
-
     def test_query_pager_by_all(self):
         user_id = self.user_id
 
@@ -98,7 +89,6 @@ class TestMCollect():
             if i.post_id == self.post_id:
                 tf = True
         assert tf
-
 
     def test_query_pager_by_userid(self):
         user_id = self.user_id
@@ -110,13 +100,10 @@ class TestMCollect():
                 tf = True
         assert tf
 
-
     def test_remove_collect(self):
-
         MCollect.remove_collect(self.user_id, self.post_id)
         rec = MCollect.get_by_signature(self.user_id, self.post_id)
         assert rec == None
-
 
     def teardown_method(self):
         print("function teardown")

@@ -2,6 +2,7 @@
 import time
 
 import tornado.escape
+from faker import Faker
 
 from torcms.core import tools
 from torcms.model.category_model import MCategory
@@ -9,10 +10,8 @@ from torcms.model.label_model import MLabel, MPost2Label
 from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
 
-from faker import Faker
 
-
-class TestMPost():
+class TestMPost:
     def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
         self.mpost = MPost()
@@ -52,7 +51,6 @@ class TestMPost():
             'view_count': 1,
             'logo': '/static/',
             'keywords': 'sdf',
-
         }
         self.mpost.add_or_update(self.uid, post_data)
         new_count = self.mpost.get_counts()
@@ -124,7 +122,6 @@ class TestMPost():
             'extinfo': kwargs.get('extinfo', {}),
             'kind': kwargs.get('kind2', '1'),
             'valid': kwargs.get('valid', 1),
-
         }
         post_id = kwargs.get('post_id', self.post_id)
 
@@ -133,9 +130,7 @@ class TestMPost():
         MPost2Catalog.add_record(self.post_id, self.tag_id)
 
     def test_get_by_title(self):
-
         post_data = {
-
             'title': self.post_title,
             'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
             'user_name': 'Tome',
@@ -149,11 +144,9 @@ class TestMPost():
         assert ss.title == post_data['title']
 
     def test_get_by_title2(self):
-
         '''Test Wiki title with SPACE'''
 
         post_data = {
-
             'title': '  ' + self.post_title + '  ',
             'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
             'user_name': 'Tome',
@@ -167,21 +160,16 @@ class TestMPost():
         assert ss.title == self.post_title
 
     def test_query_cat_random(self):
-
-        p = {
-            'limit': 300
-        }
+        p = {'limit': 300}
         TF = False
         qq = self.mpost.query_cat_random(self.tag_id, **p)
         for i in qq:
-
             if i.uid == self.post_id:
                 TF = True
 
         assert TF
 
     def test_query_recent_most(self):
-
         recs = self.mpost.query_recent_most(num=3000)
         is_true = False
         for rec in recs:
@@ -192,91 +180,75 @@ class TestMPost():
         assert is_true
 
     def test_query_recent(self):
-
         qq = self.mpost.query_recent(num=300)
         TF = False
         for i in qq:
-
             if i.uid == self.post_id:
                 TF = True
 
         assert TF
 
     def test_query_all(self):
-
         kwargs = {
             'limit': 300,
         }
         pp = self.mpost.query_all(**kwargs)
         TF = False
         for i in pp:
-
             if i.uid == self.post_id:
                 TF = True
 
         assert TF
 
     def test_query_keywords_empty(self):
-
         pp = self.mpost.query_keywords_empty()
         TF = False
         for i in pp:
-
             if i.uid == self.post_id:
                 TF = True
 
         assert TF
 
     def test_query_dated(self):
-
         qq = self.mpost.query_dated(num=2000)
 
         TF = False
         for i in qq:
-
             if i.uid == self.post_id:
                 TF = True
 
         assert TF
 
     def test_query_most_pic(self):
-
         qq = self.mpost.query_most_pic(300)
         TF = False
         for i in qq:
-
             if i.uid == self.post_id:
                 TF = True
 
         assert TF
 
     def test_query_cat_recent(self):
-
         qq = self.mpost.query_cat_recent(self.tag_id, num=300)
         TF = False
 
         for i in qq:
-
             if i.uid == self.post_id:
                 TF = True
 
         assert TF
 
     def test_query_most(self):
-
         qq = self.mpost.query_most(num=300)
         TF = False
         for i in qq:
-
             if i.uid == self.post_id:
                 TF = True
 
         assert TF
 
     def test_update_view_count_by_uid(self):
-
         post_data = {
-
             'title': self.post_title,
             'cnt_md': '## adslkfjasdf\n lasdfkjsadf',
             'user_name': 'Tome',
@@ -298,25 +270,16 @@ class TestMPost():
         assert viewcount1 >= 101
 
     def test_upate(self):
-        y = {
-            'logo': '123123'
-        }
+        y = {'logo': '123123'}
         self.add_message(**y)
-        qq = {
-            'title': 'oppssss',
-            'logo': 'fffff',
-            'cnt_md': 'iiii',
-            'user_name': 'yy'
-        }
+        qq = {'title': 'oppssss', 'logo': 'fffff', 'cnt_md': 'iiii', 'user_name': 'yy'}
         self.mpost.add_or_update(self.post_id, qq)
         aa = self.mpost.get_by_uid(self.post_id)
         assert aa.logo == qq['logo']
         assert aa.title == qq['title']
 
     def test_get_by_uid(self):
-        y = {
-            'logo': '123123'
-        }
+        y = {'logo': '123123'}
         self.add_message(**y)
         a = self.mpost.get_by_uid(self.post_id)
         assert a.logo == y['logo']
@@ -329,11 +292,7 @@ class TestMPost():
 
     def test_update_cnt(self):
         self.add_message()
-        qq = {
-
-            'cnt_md': 'iiii',
-            'user_name': ' yy  '
-        }
+        qq = {'cnt_md': 'iiii', 'user_name': ' yy  '}
         self.mpost.update_cnt(self.post_id, qq)
         bb = self.mpost.get_by_uid(self.post_id)
         assert bb.cnt_md == qq['cnt_md']
@@ -363,17 +322,11 @@ class TestMPost():
             'extinfo': {},
             'kind': '1',
             'valid': '1',
-
         }
         self.mpost.add_or_update(self.post_id, p_d)
         bb = self.mpost.get_by_uid(self.post_id)
         assert bb.title == p_d['title']
-        qq = {
-            'title': 'oppssss',
-            'logo': 'fffff',
-            'cnt_md': 'iiii',
-            'user_name': 'yy'
-        }
+        qq = {'title': 'oppssss', 'logo': 'fffff', 'cnt_md': 'iiii', 'user_name': 'yy'}
         self.mpost.add_or_update(self.post_id, qq)
         aa = self.mpost.get_by_uid(self.post_id)
 
@@ -381,27 +334,21 @@ class TestMPost():
         assert aa.title == qq['title']
 
     def test_query_random(self):
-
-        q = {
-            'num': 3000
-        }
+        q = {'num': 3000}
         qq = self.mpost.query_random(**q)
 
         TF = False
         for i in qq:
-
             if i.uid == self.post_id:
                 TF = True
 
         assert TF
 
     def test_query_recent_edited(self):
-
         qq = self.mpost.query_recent_edited(1555)
 
         TF = False
         for i in qq:
-
             if i.uid == self.post_id:
                 TF = True
 
@@ -422,10 +369,7 @@ class TestMPost():
 
     def test_query_cat_recent_with_label(self):
         name = 'kkkk'
-        p_d = {
-            'extinfo': {'def_tag_arr': name}
-
-        }
+        p_d = {'extinfo': {'def_tag_arr': name}}
         self.add_message(**p_d)
 
         self.mpost.query_cat_recent_with_label(self.tag_id, label=name, num=300)
@@ -433,7 +377,6 @@ class TestMPost():
         assert qq.extinfo['def_tag_arr'] == p_d['extinfo']['def_tag_arr']
 
     def test_query_cat_recent_no_label(self):
-
         qq = self.mpost.query_cat_recent_no_label(self.tag_id, num=300)
         tf = False
         for i in qq:
@@ -445,12 +388,11 @@ class TestMPost():
 
     def test_query_total_cat_recent(self):
         name = 'kkkk'
-        p_d = {
-            'extinfo': {'def_tag_arr': name}
-
-        }
+        p_d = {'extinfo': {'def_tag_arr': name}}
         self.add_message(**p_d)
-        qq = self.mpost.query_total_cat_recent([self.tag_id, '9090'], label=name, num=300)
+        qq = self.mpost.query_total_cat_recent(
+            [self.tag_id, '9090'], label=name, num=300
+        )
         tf = False
         for i in qq:
             if i.uid == self.post_id:
@@ -460,7 +402,6 @@ class TestMPost():
         assert tf
 
     def test_query_total_cat_recent_no_label(self):
-
         qq = self.mpost.query_total_cat_recent_no_label([self.tag_id], num=300)
         tf = False
         for i in qq:
@@ -504,7 +445,6 @@ class TestMPost():
     #     assert qq.uid == self.post_id2
 
     def test_get_all(self):
-
         eee = self.mpost.get_all(kind='1')
         TF = False
         for i in eee:
@@ -514,9 +454,7 @@ class TestMPost():
         assert TF
 
     def test_update_jsonb(self):
-        p = {
-            'ii': 'ii00ii'
-        }
+        p = {'ii': 'ii00ii'}
 
         self.mpost.update_jsonb(self.post_id, p)
         aa = self.mpost.get_by_uid(self.post_id)
@@ -524,7 +462,6 @@ class TestMPost():
         assert aa.extinfo == p
 
     def test_modify_meta(self):
-
         p_d = {
             'title': 'qqqii',
             'cnt_md': 'qwqwqw',
@@ -538,7 +475,6 @@ class TestMPost():
             'extinfo': {},
             'kind': '1',
             'valid': '1',
-
         }
         self.mpost.add_or_update_post(self.post_id, p_d)
         aa = self.mpost.get_by_uid(self.post_id)
@@ -546,7 +482,6 @@ class TestMPost():
         assert aa.title == p_d['title']
 
     def test_query_most_by_cat(self):
-
         a = self.mpost.query_most_by_cat(catid=self.tag_id, kind='1')
         tf = False
         for i in a:
@@ -557,7 +492,6 @@ class TestMPost():
         assert tf
 
     def test_query_least_by_cat(self):
-
         a = self.mpost.query_least_by_cat(cat_str=self.tag_id, kind='1')
         tf = False
         for i in a:
@@ -568,10 +502,7 @@ class TestMPost():
         assert tf
 
     def test_get_by_keyword(self):
-        p_d = {
-            'title': 'yyyyy'
-
-        }
+        p_d = {'title': 'yyyyy'}
         self.add_message(**p_d)
         aa = self.mpost.get_by_keyword('yy', kind='1')
         tf = False
@@ -584,10 +515,7 @@ class TestMPost():
 
     def test_query_extinfo_by_cat(self):
         oo = 'd99s9s'
-        p_d = {
-            'extinfo': {'def_cat_uid': oo}
-
-        }
+        p_d = {'extinfo': {'def_cat_uid': oo}}
         self.add_message(**p_d)
         aa = self.mpost.query_extinfo_by_cat(oo, kind='1')
         tf = False
@@ -600,10 +528,7 @@ class TestMPost():
 
     def test_query_by_tagname(self):
         oo = 'd99s9s'
-        p_d = {
-            'extinfo': {'def_tag_arr': oo}
-
-        }
+        p_d = {'extinfo': {'def_tag_arr': oo}}
         self.add_message(**p_d)
         aa = self.mpost.query_by_tagname(oo, kind='1')
         tf = False
@@ -616,10 +541,7 @@ class TestMPost():
 
     def test_query_pager_by_tag(self):
         oo = 'd99s9s'
-        p_d = {
-            'extinfo': {'def_tag_arr': oo}
-
-        }
+        p_d = {'extinfo': {'def_tag_arr': oo}}
         self.add_message(**p_d)
         aa = self.mpost.query_pager_by_tag(oo, kind='1')
         tf = False
@@ -641,10 +563,8 @@ class TestMPost():
             'logo': 'opps',
             'memo': '',
             'order': '1',
-
             'kind': '1',
             'valid': 1,
-
         }
         self.mpost.add_or_update_post(self.post_id, p_d)
 
@@ -654,10 +574,7 @@ class TestMPost():
 
     def test_query_under_condition(self):
         oo = {'def_tag_arr': 'd99s9s'}
-        p_d = {
-            'extinfo': oo
-
-        }
+        p_d = {'extinfo': oo}
         self.add_message(**p_d)
         qq = self.mpost.query_under_condition(oo, kind='1')
         tf = False
@@ -670,10 +587,7 @@ class TestMPost():
 
     def test_query_list_pager(self):
         oo = {'def_tag_arr': 'd99s9s'}
-        p_d = {
-            'extinfo': oo
-
-        }
+        p_d = {'extinfo': oo}
         self.add_message(**p_d)
         qq = self.mpost.query_list_pager(oo, 1, kind='1')
         tf = False
@@ -685,14 +599,11 @@ class TestMPost():
         assert tf
 
     def test_count_of_certain_kind(self):
-
         a = self.mpost.count_of_certain_kind(1)
 
         assert a >= 1
 
     def test_total_number(self):
-
         a = self.mpost.total_number(1)
 
         assert a >= 1
-

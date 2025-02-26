@@ -36,6 +36,7 @@ class TestNullifyinfoHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/nullify_info/list')
         self.assertEqual(response.code, 200)
+
     def test_index_cur(self):
         '''
         Test index.

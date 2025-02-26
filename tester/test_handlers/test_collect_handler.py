@@ -29,6 +29,7 @@ class TestSomeHandler(AsyncHTTPSTestCase):
         '''
         response = self.fetch('/collect/list')
         self.assertEqual(response.code, 200)
+
     def test_collect_remove(self):
         '''
         Test remove.

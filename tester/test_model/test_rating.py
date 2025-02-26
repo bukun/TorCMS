@@ -5,7 +5,7 @@ from torcms.model.core_tab import TabRating
 from torcms.model.rating_model import MRating
 
 
-class TestMRating():
+class TestMRating:
     def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
         self.uid = ''
@@ -24,7 +24,6 @@ class TestMRating():
                 self.uid = i.uid
 
     def test_query_by_post(self):
-
         aa = MRating.query_by_post(self.post_id)
         tf = False
         for i in aa:
@@ -36,7 +35,6 @@ class TestMRating():
         assert tf
 
     def test_query_average_rating(self):
-
         ave1 = MRating.query_average_rating(self.post_id)
         assert ave1 == self.rating
         MRating.update(self.post_id, 'fin', 4)
@@ -49,12 +47,10 @@ class TestMRating():
         MHelper.delete(TabRating, self.uid2)
 
     def test_get_rating(self):
-
         rat = MRating.get_rating(self.post_id, self.userid)
         assert rat == float(self.rating)
 
     def test_update(self):
-
         aa = MRating.query_by_post(self.post_id)
         tf = False
         for i in aa:

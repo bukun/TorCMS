@@ -36,6 +36,7 @@ class TestPageHandler(AsyncHTTPTestCase):
         '''
         response = self.fetch('/page/_edit/')
         self.assertEqual(response.code, 200)
+
     def test_to_list(self):
         '''
         Test

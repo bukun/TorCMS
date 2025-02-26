@@ -4,7 +4,7 @@ from torcms.model.reply_model import MReply
 from torcms.model.user_model import MUser
 
 
-class TestMReply2User():
+class TestMReply2User:
     def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
         self.user = MUser()
@@ -50,7 +50,6 @@ class TestMReply2User():
         aa = self.r2u.get_voter_count(self.reply_uid)
         assert aa >= 1
 
-
     #
     # def test_update(self):
     #     self.r2u.update()
@@ -63,12 +62,10 @@ class TestMReply2User():
         aa = self.r2u.get_voter_count(self.reply_uid)
         assert aa == 0
 
-
     def test_get_voter_count(self):
         self.r2u.create_reply(self.user_uid, self.reply_uid)
         aa = self.r2u.get_voter_count(self.reply_uid)
         assert aa >= 1
-
 
     def teardown_method(self):
         print("function teardown")
