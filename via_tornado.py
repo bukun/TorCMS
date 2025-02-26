@@ -38,7 +38,7 @@ def make_app():
         # (r"/portal/(.*)", FallbackHandler, dict(fallback=django_app)),
         # (r"/dataset/(.*)", FallbackHandler, dict(fallback=django_app)),
         # (r"/literature/(.*)", FallbackHandler, dict(fallback=django_app)),
-        # (r"/static/(.*)",  FallbackHandler, dict(fallback=django_app)),
+        (r"/static/(.*)",  FallbackHandler, dict(fallback=django_app)),
         # (r"/(.*)",  FallbackHandler, dict(fallback=django_app)),
     ], **SETTINGS
     )

@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+
 from cfg import DB_INFO
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -27,6 +29,14 @@ SECRET_KEY = 'django-insecure-w^n$#6y57z+9b+bnd07p0@b-90zk-4+&(yv%pi@sc=rxx#74_%
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+
+
+STATIC_URL = 'static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'xx_static')
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'yy_media')  # 上传图片的根目录
+MEDIA_URL = '/media/'
 
 # Application definition
 

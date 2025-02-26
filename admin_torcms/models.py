@@ -45,7 +45,7 @@ class TabTag(models.Model):
     pid = models.CharField(
         null=False, max_length=4, default='xxxx', help_text='parent id'
     )
-    tmpl = models.IntegerField(null=False, default='9',  max_length = 255,help_text='tmplate type')
+    tmpl = models.IntegerField(null=False, default='9',  help_text='tmplate type')
     class Meta:
         db_table = 'tabtag'
         verbose_name = "Tags"
@@ -187,73 +187,73 @@ class TabWikiHist(models.Model):
     time_update = models.IntegerField()
 
 
-# class TabMember(models.Model):
-#     '''
-#     role:  the index and value should not greater than 3.
-#     "0123"
-#     read,add,edit,delete,manage
-#     [0]: for wiki, and post editing.
-#     [1]: post create, and management.
-#     [2]: keep
-#     [3]: keep
-#     And, could be extended.
-#     The Value:
-#     0: for view
-#     1: for basic editing
-#     2: for management
-#     3:
-#     '''
-#
-#     uid = models.CharField(
-#         null=False,
-#         # index=True,
-#         unique=True,
-#         primary_key=True,
-#         max_length=36,
-#         help_text='',
-#     )
-#     user_name = models.CharField(
-#         null=False,
-#        #  index=True,
-#         unique=True, max_length=255, help_text='User Name'
-#     )
-#     user_email = models.CharField(
-#         null=False, unique=True, max_length=255, help_text='User Email'
-#     )
-#     user_pass = models.CharField(null=False, max_length=255, help_text='User Password')
-#     is_active = models.SmallIntegerField(null=False, help_text='', default=0)
-#     is_staff = models.SmallIntegerField(
-#         null=False, help_text='if 1 then could access backend', default=0
-#     )
-#     role = models.CharField(
-#         null=False, default='1000', help_text='Member Privilege', max_length='4'
-#     )
-#     '''
-#     进行审核的权限，与 role 配合使用。
-#     role 声明是否有权限， authority 声明对哪些 post 有权限。
-#     post 权限类型由二进制的 '1', '10', '100', '1000', ... 声明 ，成员的 authority 则根据二进制相加的结果来声明多种 post 的审核权限
-#     ToDo: 设计有问题。应该将采用RBAC进行解耦。
-#     '''
-#     authority = models.CharField(
-#         null=False,
-#         default='0',
-#         help_text='Member authority for checking',
-#         max_length='8',
-#     )
-#     time_reset_passwd = models.IntegerField(null=False, default=0)
-#     time_login = models.IntegerField(null=False, default=0)
-#     time_create = models.IntegerField(null=False, default=0)
-#     time_update = models.IntegerField(null=False, default=0)
-#     time_email = models.IntegerField(
-#         null=False, default=0, help_text='Time auto send email.'
-#     )
-#     failed_times = models.IntegerField(
-#         null=False, default=0, help_text='record the times for trying login.'
-#     )
-#     time_failed = models.IntegerField(
-#         null=False, default=0, help_text='timestamp for login failed.'
-#     )
-#     extinfo = models.JSONField(null=False, default={}, help_text='Extra data in JSON.')
+class TabMember(models.Model):
+    '''
+    role:  the index and value should not greater than 3.
+    "0123"
+    read,add,edit,delete,manage
+    [0]: for wiki, and post editing.
+    [1]: post create, and management.
+    [2]: keep
+    [3]: keep
+    And, could be extended.
+    The Value:
+    0: for view
+    1: for basic editing
+    2: for management
+    3:
+    '''
+
+    uid = models.CharField(
+        null=False,
+        # index=True,
+        unique=True,
+        primary_key=True,
+        max_length=36,
+        help_text='',
+    )
+    user_name = models.CharField(
+        null=False,
+       #  index=True,
+        unique=True, max_length=255, help_text='User Name'
+    )
+    user_email = models.CharField(
+        null=False, unique=True, max_length=255, help_text='User Email'
+    )
+    user_pass = models.CharField(null=False, max_length=255, help_text='User Password')
+    is_active = models.SmallIntegerField(null=False, help_text='', default=0)
+    is_staff = models.SmallIntegerField(
+        null=False, help_text='if 1 then could access backend', default=0
+    )
+    role = models.CharField(
+        null=False, default='1000', help_text='Member Privilege', max_length=4
+    )
+    '''
+    进行审核的权限，与 role 配合使用。
+    role 声明是否有权限， authority 声明对哪些 post 有权限。
+    post 权限类型由二进制的 '1', '10', '100', '1000', ... 声明 ，成员的 authority 则根据二进制相加的结果来声明多种 post 的审核权限
+    ToDo: 设计有问题。应该将采用RBAC进行解耦。
+    '''
+    authority = models.CharField(
+        null=False,
+        default='0',
+        help_text='Member authority for checking',
+        max_length=8,
+    )
+    time_reset_passwd = models.IntegerField(null=False, default=0)
+    time_login = models.IntegerField(null=False, default=0)
+    time_create = models.IntegerField(null=False, default=0)
+    time_update = models.IntegerField(null=False, default=0)
+    time_email = models.IntegerField(
+        null=False, default=0, help_text='Time auto send email.'
+    )
+    failed_times = models.IntegerField(
+        null=False, default=0, help_text='record the times for trying login.'
+    )
+    time_failed = models.IntegerField(
+        null=False, default=0, help_text='timestamp for login failed.'
+    )
+    extinfo = models.JSONField(null=False, default={}, help_text='Extra data in JSON.')
 
 
 class TabEntity(models.Model):
@@ -515,106 +515,110 @@ class TabReferrer(models.Model):
 # 参考： https://blog.csdn.net/fksfdh/article/details/106204317
 
 # 此表去掉， 使用 TabUser表即可。
-# class TabStaff(models.Model):
-#     '''
-#     后台人员表，名称使用 Staff.
-#     '''
-#     uid = models.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='')
-#     name = models.CharField(null=False, index=True, unique=True, max_length=255, help_text='User Name')
-#     email = models.CharField(null=False, unique=True, max_length=255, help_text='User Email')
-#     passwd = models.CharField(null=False, max_length=255, help_text='User Password')
-#     time_reset_passwd = models.IntegerField(null=False, default=0)
-#     time_login = models.IntegerField(null=False, default=0)
-#     time_create = models.IntegerField(null=False, default=0)
-#     time_update = models.IntegerField(null=False, default=0)
-#     time_email = models.IntegerField(null=False, default=0, help_text='Time auto send email.')
-#     failed_count = models.IntegerField(null=False, default=0, help_text='record the times for trying login.')
-#     time_failed = models.IntegerField(null=False, default=0, help_text='timestamp for login failed.')
-#     extinfo = BinaryJSONField(null=False, default={}, help_text='Extra data in JSON.')
+class TabStaff(models.Model):
+    '''
+    后台人员表，名称使用 Staff.
+    '''
+    uid = models.CharField(null=False, # index=True,
+                           unique=True, primary_key=True, max_length=36, help_text='')
+    name = models.CharField(null=False, # index=True,
+                            unique=True, max_length=255, help_text='User Name')
+    email = models.CharField(null=False, unique=True, max_length=255, help_text='User Email')
+    passwd = models.CharField(null=False, max_length=255, help_text='User Password')
+    time_reset_passwd = models.IntegerField(null=False, default=0)
+    time_login = models.IntegerField(null=False, default=0)
+    time_create = models.IntegerField(null=False, default=0)
+    time_update = models.IntegerField(null=False, default=0)
+    time_email = models.IntegerField(null=False, default=0, help_text='Time auto send email.')
+    failed_count = models.IntegerField(null=False, default=0, help_text='record the times for trying login.')
+    time_failed = models.IntegerField(null=False, default=0, help_text='timestamp for login failed.')
+    extinfo = models.JSONField(null=False, default={}, help_text='Extra data in JSON.')
 
 
-# class TabRole(models.Model):
-#     '''
-#     后台人员分组表，或角色表
-#     角色和组两个概念可能会让人混淆，在这里做个区分：角色赋予的是主体，主体可以是用户，也可以是组；角色是权限的集合；组是用户的集合
-#     '''
-#
-#     uid = models.CharField(
-#         null=False,
-#         # index=True,
-#         unique=True,
-#         primary_key=True,
-#         max_length=36,
-#         help_text='',
-#     )
-#     name = models.CharField(
-#         null=False, # index=True,
-#         unique=True, max_length=255, help_text='分组名称'
-#     )
-#     status = models.IntegerField(null=False, default=0, help_text='角色状态.0=禁用,1=启用')
-#     pid = models.CharField(null=False, max_length=36, help_text='parent id')
-#     time_create = models.IntegerField(null=False, default=0)
-#     time_update = models.IntegerField(null=False, default=0)
-#
-#
-# class TabPermission(models.Model):
-#     '''
-#     后台人员权限表
-#     action, 缺省的值如下：
-#     * assign_group:分组
-#     * assign_role:赋权限
-#     * can_view:查看
-#     * can_add:添加
-#     * can_edit:编辑
-#     * can_delete:删除
-#     * can_review:复查
-#     * can_verify:审核
-#     '''
-#
-#     uid = models.CharField(
-#         null=False,
-#         # index=True,
-#         unique=True,
-#         primary_key=True,
-#         max_length=36,
-#         help_text='',
-#     )
-#     name = models.CharField(
-#         null=False, # index=True,
-#         unique=True, max_length=255, help_text='权限名称'
-#     )
-#     action = models.CharField(null=False, max_length=255, help_text='允许动作,字符串编码')
-#     controller = models.CharField(null=False, max_length=255, help_text='控制器')
+class TabRole(models.Model):
+    '''
+    后台人员分组表，或角色表
+    角色和组两个概念可能会让人混淆，在这里做个区分：角色赋予的是主体，主体可以是用户，也可以是组；角色是权限的集合；组是用户的集合
+    '''
+
+    uid = models.CharField(
+        null=False,
+        # index=True,
+        unique=True,
+        primary_key=True,
+        max_length=36,
+        help_text='',
+    )
+    name = models.CharField(
+        null=False, # index=True,
+        unique=True, max_length=255, help_text='分组名称'
+    )
+    status = models.IntegerField(null=False, default=0, help_text='角色状态.0=禁用,1=启用')
+    pid = models.CharField(null=False, max_length=36, help_text='parent id')
+    time_create = models.IntegerField(null=False, default=0)
+    time_update = models.IntegerField(null=False, default=0)
 
 
-# class TabStaff2Role(models.Model):
-#     '''
-#     人员、角色关联表
-#     '''
-#
-#     staff = models.ForeignKeyField(TabMember, backref='staff', help_text='后台人员id')
-#     role = models.ForeignKeyField(TabRole, backref='role', help_text='后台角色id')
-#
-#
-# class TabRole2Permission(models.Model):
-#     '''
-#     角色、权限关联表
-#     '''
-#
-#     role = models.ForeignKeyField(TabRole, backref='role', help_text='后台角色id')
-#     permission = models.ForeignKeyField(
-#         TabPermission, backref='permission', help_text='后台权限id'
-#     )
-#     kind = models.CharField(null=False, max_length=1, default='1', help_text='app type')
+class TabPermission(models.Model):
+    '''
+    后台人员权限表
+    action, 缺省的值如下：
+    * assign_group:分组
+    * assign_role:赋权限
+    * can_view:查看
+    * can_add:添加
+    * can_edit:编辑
+    * can_delete:删除
+    * can_review:复查
+    * can_verify:审核
+    '''
 
-#
-# if __name__ == '__main__':
-#     from pprint import pprint
-#
-#     user = TabMember()
-#     # print(user.dirty_fields)
-#     for x in user.dirty_fields:
-#         print('=' * 40)
-#         print(x)
-#         print(x.name, x.field_type, x.index)
-#         pprint(dir(x))
+    uid = models.CharField(
+        null=False,
+        # index=True,
+        unique=True,
+        primary_key=True,
+        max_length=36,
+        help_text='',
+    )
+    name = models.CharField(
+        null=False, # index=True,
+        unique=True, max_length=255, help_text='权限名称'
+    )
+    action = models.CharField(null=False, max_length=255, help_text='允许动作,字符串编码')
+    controller = models.CharField(null=False, max_length=255, help_text='控制器')
+
+
+class TabStaff2Role(models.Model):
+    '''
+    人员、角色关联表
+    '''
+
+    staff = models.ForeignKey(TabMember,  help_text='后台人员id', on_delete=models.CASCADE)
+    role = models.ForeignKey(TabRole,  help_text='后台角色id', on_delete=models.CASCADE)
+
+
+class TabRole2Permission(models.Model):
+    '''
+    角色、权限关联表
+    '''
+    
+    
+
+    role = models.ForeignKey(TabRole,  help_text='后台角色id',on_delete=models.CASCADE)
+    permission = models.ForeignKey(
+        TabPermission,  help_text='后台权限id', on_delete=models.CASCADE
+    )
+    kind = models.CharField(null=False, max_length=1, default='1', help_text='app type')
+
+
+if __name__ == '__main__':
+    from pprint import pprint
+
+    user = TabMember()
+    # print(user.dirty_fields)
+    for x in user.dirty_fields:
+        print('=' * 40)
+        print(x)
+        print(x.name, x.field_type, x.index)
+        pprint(dir(x))
