@@ -18,7 +18,7 @@ class MainHandler(tornado.web.RequestHandler):
     def get(self):
         self.write("Hello, Tornado!")
 
-
+# For Tornado
 SETTINGS = {
     "template_path": Path("templates"),
     "static_path": Path(__file__) / 'xx_static',
