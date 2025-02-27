@@ -473,10 +473,13 @@ class UserHandler(BaseHandler):
         '''
         show the user info
         '''
-        if userid:
-            rec = MUser.get_by_uid(userid)
-        else:
-            rec = MUser.get_by_uid(self.userinfo.uid)
+
+        #
+        # if userid:
+        #     rec = MUser.get_by_uid(userid)
+        # else:
+        self.clear_all_cookies()
+        rec = MUser.get_by_uid(self.userinfo.uid)
         kwd = {}
 
         kwd['can_add'] = MStaff2Role.check_permissions(rec.uid, 'can_add')
