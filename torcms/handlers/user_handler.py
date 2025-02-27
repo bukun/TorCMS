@@ -478,7 +478,7 @@ class UserHandler(BaseHandler):
         # if userid:
         #     rec = MUser.get_by_uid(userid)
         # else:
-        self.clear_all_cookies()
+        # self.clear_all_cookies()
         rec = MUser.get_by_uid(self.userinfo.uid)
         kwd = {}
 
