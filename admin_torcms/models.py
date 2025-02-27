@@ -145,6 +145,11 @@ class TabWiki(models.Model):
     kind = models.CharField(
         null=False, max_length=1, default='1', help_text='1 for wiki, 2 for page.'
     )
+    class Meta:
+        db_table = 'tabwiki'
+        verbose_name = "wiki"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
 
 
 class TabPostHist(models.Model):
@@ -166,6 +171,11 @@ class TabPostHist(models.Model):
     cnt_md = models.TextField()
     time_update = models.IntegerField()
     logo = models.CharField( max_length = 255,)
+    class Meta:
+        db_table = 'tabposthist'
+        verbose_name = "PostHist"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
 
 class TabWikiHist(models.Model):
     '''
@@ -185,6 +195,11 @@ class TabWikiHist(models.Model):
     user_name = models.CharField( max_length = 255,)
     cnt_md = models.TextField()
     time_update = models.IntegerField()
+    class Meta:
+        db_table = 'tabwikihist'
+        verbose_name = "WikiHist"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
 
 
 class TabMember(models.Model):
@@ -254,6 +269,11 @@ class TabMember(models.Model):
         null=False, default=0, help_text='timestamp for login failed.'
     )
     extinfo = models.JSONField(null=False, default={}, help_text='Extra data in JSON.')
+    class Meta:
+        db_table = 'tabmember'
+        verbose_name = "Member"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
 
 
 class TabEntity(models.Model):
@@ -274,6 +294,11 @@ class TabEntity(models.Model):
     kind = models.CharField(
         null=False, max_length=1, default='1', help_text='1 for image'
     )
+    class Meta:
+        db_table = 'tabentity'
+        verbose_name = "Entity"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
 
 
 class TabPost2Tag(models.Model):
@@ -295,6 +320,11 @@ class TabPost2Tag(models.Model):
     tag_id = models.CharField(null=False, max_length=4, help_text='')
     post_id = models.TextField(null=False, help_text='')
     order = models.IntegerField()
+    class Meta:
+        db_table = 'tabpost2tag'
+        verbose_name = "Post2Tag"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
 
 
 class TabReply(models.Model):
@@ -320,6 +350,11 @@ class TabReply(models.Model):
     vote = models.IntegerField()
     category = models.CharField(null=False, default='0', max_length=255, help_text='0为评论，1为回复')
     extinfo = models.JSONField(null=False, default={}, help_text='Extra data in JSON.')
+    class Meta:
+        db_table = 'tabreply'
+        verbose_name = "Reply"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
 
 
 class TabUser2Reply(models.Model):
@@ -338,6 +373,11 @@ class TabUser2Reply(models.Model):
     reply_id = models.CharField(null=False, max_length=36, help_text='')  # index=True,
     user_id = models.CharField(null=False, max_length=36, help_text='')  #  index=True,
     timestamp = models.IntegerField()
+    class Meta:
+        db_table = 'tabuser2reply'
+        verbose_name = "User2Reply"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
 
 
 class TabCollect(models.Model):
@@ -356,6 +396,11 @@ class TabCollect(models.Model):
         help_text='',
     )
     timestamp = models.IntegerField()
+    class Meta:
+        db_table = 'tabcollect'
+        verbose_name = "Collect"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
 
 
 class TabEvaluation(models.Model):
@@ -369,6 +414,11 @@ class TabEvaluation(models.Model):
     post_id = models.TextField(null=False, help_text='')
     user_id = models.CharField(null=False, max_length=36, help_text='')  # index=True,
     value = models.IntegerField()  # 用户评价， 1 或 0, 作为计数
+    class Meta:
+        db_table = 'tabevaluation'
+        verbose_name = "Evaluation"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
 
 
 class TabRating(models.Model):
@@ -385,6 +435,11 @@ class TabRating(models.Model):
         null=False,
     )
     timestamp = models.IntegerField(null=False)
+    class Meta:
+        db_table = 'tabrating'
+        verbose_name = "Rating"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
 
 
 class TabUsage(models.Model):
@@ -402,6 +457,11 @@ class TabUsage(models.Model):
     tag_id = models.CharField(null=False, max_length=4, help_text='')
     kind = models.CharField(null=False, max_length=1)
     timestamp = models.IntegerField()
+    class Meta:
+        db_table = 'tabusage'
+        verbose_name = "Usage"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
 
 
 class TabRel(models.Model):
@@ -416,6 +476,11 @@ class TabRel(models.Model):
     post_f_id = models.TextField(null=False, help_text='')
     post_t_id = models.TextField(null=False, help_text='')
     count = models.IntegerField()
+    class Meta:
+        db_table = 'tabrel'
+        verbose_name = "Rel"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
 
 
 class TabCorrelation(models.Model):
@@ -436,6 +501,11 @@ class TabCorrelation(models.Model):
     rel_id = models.TextField(null=False, help_text='')
     kind = models.IntegerField()
     order = models.IntegerField()
+    class Meta:
+        db_table = 'tabcorrelation'
+        verbose_name = "Correlation"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
 
 
 class TabEntity2User(models.Model):
@@ -452,6 +522,11 @@ class TabEntity2User(models.Model):
     )
     user_ip = models.CharField(null=False, help_text='用户端ip', max_length=36)
     timestamp = models.IntegerField(null=False)
+    class Meta:
+        db_table = 'tabentity2user'
+        verbose_name = "Entity2User"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
 
 
 class TabLog(models.Model):
@@ -468,6 +543,11 @@ class TabLog(models.Model):
     time_create = models.BigIntegerField()
     time_out = models.BigIntegerField()
     time = models.BigIntegerField()
+    class Meta:
+        db_table = 'tablog'
+        verbose_name = "Log"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
 
 
 class TabReplyid(models.Model):
@@ -486,6 +566,11 @@ class TabReplyid(models.Model):
     reply0 = models.CharField(null=False, max_length=36, help_text='')
     reply1 = models.CharField(null=False, max_length=36, help_text='')
     time_create = models.IntegerField()
+    class Meta:
+        db_table = 'tabreplyid'
+        verbose_name = "Replyid"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
 
 
 class TabReferrer(models.Model):
@@ -509,6 +594,11 @@ class TabReferrer(models.Model):
     kind = models.CharField(null=False, max_length=1, default='1', help_text='')
     time_create = models.IntegerField()
     time_update = models.IntegerField()
+    class Meta:
+        db_table = 'tabreferrer'
+        verbose_name = "Referrer"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
 
 
 # 以下准备实现RBAC，
@@ -533,6 +623,11 @@ class TabStaff(models.Model):
     failed_count = models.IntegerField(null=False, default=0, help_text='record the times for trying login.')
     time_failed = models.IntegerField(null=False, default=0, help_text='timestamp for login failed.')
     extinfo = models.JSONField(null=False, default={}, help_text='Extra data in JSON.')
+    class Meta:
+        db_table = 'tabstaff'
+        verbose_name = "Staff"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
 
 
 class TabRole(models.Model):
@@ -557,6 +652,11 @@ class TabRole(models.Model):
     pid = models.CharField(null=False, max_length=36, help_text='parent id')
     time_create = models.IntegerField(null=False, default=0)
     time_update = models.IntegerField(null=False, default=0)
+    class Meta:
+        db_table = 'tabrole'
+        verbose_name = "Role"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
 
 
 class TabPermission(models.Model):
@@ -587,6 +687,11 @@ class TabPermission(models.Model):
     )
     action = models.CharField(null=False, max_length=255, help_text='允许动作,字符串编码')
     controller = models.CharField(null=False, max_length=255, help_text='控制器')
+    class Meta:
+        db_table = 'tabpermission'
+        verbose_name = "Permission"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
 
 
 class TabStaff2Role(models.Model):
@@ -596,6 +701,11 @@ class TabStaff2Role(models.Model):
 
     staff = models.ForeignKey(TabMember,  help_text='后台人员id', on_delete=models.CASCADE)
     role = models.ForeignKey(TabRole,  help_text='后台角色id', on_delete=models.CASCADE)
+    class Meta:
+        db_table = 'tabstaff2role'
+        verbose_name = "Staff2Role"
+        ordering = ['role']
+        verbose_name_plural = verbose_name
 
 
 class TabRole2Permission(models.Model):
@@ -610,6 +720,11 @@ class TabRole2Permission(models.Model):
         TabPermission,  help_text='后台权限id', on_delete=models.CASCADE
     )
     kind = models.CharField(null=False, max_length=1, default='1', help_text='app type')
+    class Meta:
+        db_table = 'tabrole2permission'
+        verbose_name = "Role2Permission"
+        ordering = ['kind']
+        verbose_name_plural = verbose_name
 
 
 if __name__ == '__main__':
