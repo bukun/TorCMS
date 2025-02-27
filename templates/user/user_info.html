@@ -29,33 +29,30 @@
                     <tr>
                         <td><b>{{ _('Email') }}</b>：</td>
                         <td>{{ userinfo.user_email }}</td>
-
                     </tr>
-
 
 
                     <tr>
                         <td><b>{{ _('Gender') }}</b>：</td>
                         <td>{{ userinfo.extinfo['def_gender'] if 'def_gender' in userinfo.extinfo else '' }}</td>
-                        <td></td>
+
                     </tr>
 
                     <tr>
                         <td><b>{{ _('Mobile') }}</b>：</td>
                         <td>{{ userinfo.extinfo['def_mobile'] if 'def_mobile' in userinfo.extinfo else '' }}</td>
-                        <td></td>
                     </tr>
 
 
                 </table>
 
-                <a href="/user/changepass" class="btn btn-xs btn-primary">
+                <a href="/user/changepass" class="btn btn-sm btn-primary">
                     <span class="glyphicon glyphicon-edit"></span>
                     {{ _('Change Password') }}</a>
-                <a href="/user/changeinfo" class="btn btn-xs btn-primary">
+                <a href="/user/changeinfo" class="btn btn-sm btn-primary">
                     <span class="glyphicon glyphicon-edit"></span>
                     {{ _('Modify Personal Information') }}</a>
-                <a href="/user/logout" class="btn btn-xs btn-primary">
+                <a href="/user/logout" class="btn btn-sm btn-primary">
                     {{ _('Logout') }}</a>
 
 
@@ -69,22 +66,22 @@
             <div class="panel-heading"><b> {{ _('Related operations') }} </b></div>
 
             <ul class="list-group">
-                 <li class="list-group-item">
-                     <b>{{ _('List of published information') }}</b><br><br>
+                <li class="list-group-item">
+                    <b>{{ _('List of published information') }}</b><br><br>
 
 
-                     {% module publish_list_menu('publish') %}
-                 </li>
-                    <li class="list-group-item">
-            <a href="/entity_download/{% if userinfo %}{{ userinfo.uid }}{% end %}/"
-                   class="btn btn-xs btn-warning" title="My download">
-                    <span class="glyphicon glyphicon-save"></span>
-                    {{ _('My download') }}</a>
-                          <a href="/reply/get_by_user/{{ userinfo.uid }}/"
-                   class="btn btn-xs btn-warning" title="My download">
-                    <span class="glyphicon glyphicon-save"></span>
-                    {{ _('My comments') }}</a>
-                     </li>
+                    {% module publish_list_menu('publish') %}
+                </li>
+                <li class="list-group-item">
+                    <a href="/entity_download/{% if userinfo %}{{ userinfo.uid }}{% end %}/"
+                       class="btn btn-xs btn-warning" title="My download">
+                        <span class="glyphicon glyphicon-save"></span>
+                        {{ _('My download') }}</a>
+                    <a href="/reply/get_by_user/{{ userinfo.uid }}/"
+                       class="btn btn-xs btn-warning" title="My download">
+                        <span class="glyphicon glyphicon-save"></span>
+                        {{ _('My comments') }}</a>
+                </li>
                 {% if userinfo and (userinfo.user_name=='admin' or kwd.get('can_add',False)) %}
                 <li class="list-group-item"><a href="/post/_add" class="btn btn-xs btn-success">
                     <span class="glyphicon glyphicon-list-alt"></span>
@@ -92,7 +89,7 @@
                     <a href="/publish/3" class="btn btn-xs btn-success">
                         <span class="glyphicon glyphicon-list-alt"></span>
                         {{ _('Publish Info') }}</a></li>
-{% end %}
+                {% end %}
 
                 {% if userinfo and (userinfo.user_name=='admin' or kwd.get('assign_role',False)) %}
                 <li class="list-group-item">
@@ -103,7 +100,7 @@
                         {{ _('Entity Download List') }}
                     </a>
                 </li>
-{% end %}
+                {% end %}
 
                 {% if userinfo and  kwd.get('assign_role',False) %}
                 <li class="list-group-item">

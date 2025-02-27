@@ -111,7 +111,8 @@ class PublishListMenu(tornado.web.UIModule):
         str = args[0]
         out_str = ""
 
-        tmpl = '<a href="/check/{}?kind={}" class="btn btn-xs btn-success">{}</a>'
+        tmpl = '''<a href="/check/{}?kind={}" class="btn btn-xs btn-success">{}</a>
+        '''
 
         for key in post_cfg:
             out_str = out_str + tmpl.format(str, key, post_cfg[key].get('show', post_cfg[key].get('router')))
