@@ -462,6 +462,9 @@ class TabUsage(models.Model):
         verbose_name = "Usage"
         ordering = ['uid']
         verbose_name_plural = verbose_name
+        indexes = [
+            models.Index(fields=['user_id'], name='tabusage_user_id'),
+        ]
 
 
 class TabRel(models.Model):
@@ -481,6 +484,9 @@ class TabRel(models.Model):
         verbose_name = "Rel"
         ordering = ['uid']
         verbose_name_plural = verbose_name
+        indexes = [
+            models.Index(fields=['uid'], name='tabrel_uid'),
+        ]
 
 
 class TabCorrelation(models.Model):
@@ -535,11 +541,11 @@ class TabLog(models.Model):
     '''
 
     uid = models.CharField(
-        null=False, unique=True, primary_key=True, max_length=36  # index=True,
+        null=False, unique=True, primary_key=True, max_length=36 # , db_index=True,
     )
     current_url = models.CharField(null=False, max_length = 255, help_text='')
     refer_url = models.CharField(null=False, max_length = 255, help_text='')
-    user_id = models.CharField(null=False, max_length=36, help_text='')  # index=True,
+    user_id = models.CharField(null=False, max_length=36, help_text='',  db_index=True)
     time_create = models.BigIntegerField()
     time_out = models.BigIntegerField()
     time = models.BigIntegerField()
@@ -548,6 +554,10 @@ class TabLog(models.Model):
         verbose_name = "Log"
         ordering = ['uid']
         verbose_name_plural = verbose_name
+        indexes = [
+            models.Index(fields=['user_id'], name='tablog_user_id'),
+            # models.Index(fields=['uid'], name='pkey'),
+        ]
 
 
 class TabReplyid(models.Model):
