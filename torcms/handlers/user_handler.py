@@ -28,6 +28,13 @@ from torcms.model.staff2role_model import MStaff2Role
 from torcms.model.role2permission_model import MRole2Permission
 from torcms.model.role_model import MRole
 
+def no_cache(method):
+    def wrapper(self, *args, **kwargs):
+        self.set_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
+        self.set_header("Pragma", "no-cache")
+        self.set_header("Expires", "Thu, 01 Jan 1970 00:00:00 GMT")
+        return method(self, *args, **kwargs)
+    return wrapper
 
 def check_regist_info(post_data):
     '''
@@ -356,13 +363,14 @@ class UserHandler(BaseHandler):
         '''
         user logout.
         '''
-
+        print('开始执行注销操作')
         self.clear_all_cookies()
 
         self.set_secure_cookie(
             "user",
             '',
         )
+        print('清除所有cookies并设置user cookie为空')
 
         print('log out')
         self.redirect('/')
@@ -469,6 +477,7 @@ class UserHandler(BaseHandler):
         )
 
     @tornado.web.authenticated
+    @no_cache
     def __to_show_info__(self, userid=''):
         '''
         show the user info
@@ -478,7 +487,7 @@ class UserHandler(BaseHandler):
         # if userid:
         #     rec = MUser.get_by_uid(userid)
         # else:
-        self.clear_all_cookies()
+
         rec = MUser.get_by_uid(self.userinfo.uid)
         kwd = {}
 
@@ -730,7 +739,6 @@ class UserHandler(BaseHandler):
         '''
         user login.
         '''
-
         post_data = self.get_request_arguments()
 
         if post_data.get('next', '') != '':
@@ -771,7 +779,6 @@ class UserHandler(BaseHandler):
                 expires_days=None,
                 expires=time.time() + 60 * CMS_CFG.get('expires_minutes', 120),
             )
-
             MUser.update_success_info(u_name)
             if self.is_p:
                 user_login_status = {
