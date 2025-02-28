@@ -1073,166 +1073,284 @@ class TabProcess(models.Model):
         indexes = []
 
 
-# class TabState(models.Model):
-#     uid = models.CharField(
-#         null=False,
-#         # db_index=True,
-#         unique=True,
-#         primary_key=True,
-#         max_length=36,
-#         help_text='',
-#     )
-#     process = models.ForeignKeyField(TabProcess, backref='process', help_text='')
-#     name = models.CharField(
-#         null=False,
-#         # db_index=True,
-#         max_length=255,
-#         help_text='名称'
-#     )
-#     state_type = models.CharField(
-#         null=False,
-#         # db_index=True,
-#         unique=True,
-#         max_length=255,
-#         help_text='名称'
-#     )
-#     description = models.TextField()
-#     class Meta:
-#         db_table = 'tabstate'
-#         verbose_name = "tabstate"
-#         ordering = ['uid']
-#         verbose_name_plural = verbose_name
-#         indexes = []
+class TabState(models.Model):
+    uid = models.CharField(
+        null=False,
+        # db_index=True,
+        unique=True,
+        primary_key=True,
+        max_length=36,
+        help_text='',
+    )
+    # process = models.ForeignKeyField(TabProcess, backref='process', help_text='')
+    process = models.ForeignKey(
+        TabProcess,
+        related_name='process',
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
+    )
+    name = models.CharField(
+        null=False,
+        # db_index=True,
+        max_length=255,
+        help_text='名称'
+    )
+    state_type = models.CharField(
+        null=False,
+        # db_index=True,
+        unique=True,
+        max_length=255,
+        help_text='名称'
+    )
+    description = models.TextField()
+    class Meta:
+        db_table = 'tabstate'
+        verbose_name = "tabstate"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
+        indexes = []
 
-# class TabTransition(models.Model):
-#     uid = models.CharField(
-#         null=False,
-#         # db_index=True,
-#         unique=True,
-#         primary_key=True,
-#         max_length=36,
-#         help_text='',
-#     )
-#     process = models.ForeignKeyField(TabProcess, backref='process', help_text='')
-#     current_state = models.ForeignKeyField(
-#         TabState, backref='current_state', help_text=''
-#     )
-#     next_state = models.ForeignKeyField(TabState, backref='next_state', help_text='')
-#     class Meta:
-#         db_table = 'tabtransition'
-#         verbose_name = "tabtransition"
-#         ordering = ['uid']
-#         verbose_name_plural = verbose_name
-#         indexes = []
+class TabTransition(models.Model):
+    uid = models.CharField(
+        null=False,
+        # db_index=True,
+        unique=True,
+        primary_key=True,
+        max_length=36,
+        help_text='',
+    )
+    # process = models.ForeignKeyField(TabProcess, backref='process', help_text='')
+    process = models.ForeignKey(
+        TabProcess,
+        related_name='tabtransition_process',
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
+    )
+    # current_state = models.ForeignKeyField(
+    #     TabState, backref='current_state', help_text=''
+    # )
+    current_state = models.ForeignKey(
+        TabState,
+        related_name='tabtransition_current_state',
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
+    )
+    # next_state = models.ForeignKeyField(TabState, backref='next_state', help_text='')
+    next_state = models.ForeignKey(
+        TabState,
+        related_name='tabtransition_next_state',
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
+    )
+    class Meta:
+        db_table = 'tabtransition'
+        verbose_name = "tabtransition"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
+        indexes = []
 
-# class TabAction(models.Model):
-#     uid = models.CharField(
-#         null=False,
-#         # db_index=True,
-#         unique=True,
-#         primary_key=True,
-#         max_length=36,
-#         help_text='',
-#     )
-#     process = models.ForeignKeyField(TabProcess, backref='process', help_text='')
-#     action_type = models.CharField(
-#         null=False,
-#         # db_index=True,
-#         unique=True,
-#         max_length=255,
-#         help_text='名称'
-#     )
-#     name = models.CharField(
-#         null=False,
-#         # db_index=True,
-#         max_length=255,
-#         help_text='名称'
-#     )
-#     description = models.TextField()
-#     class Meta:
-#         db_table = 'tabaction'
-#         verbose_name = "tabaction"
-#         ordering = ['uid']
-#         verbose_name_plural = verbose_name
-#         indexes = []
+class TabAction(models.Model):
+    uid = models.CharField(
+        null=False,
+        # db_index=True,
+        unique=True,
+        primary_key=True,
+        max_length=36,
+        help_text='',
+    )
+    # process = models.ForeignKeyField(TabProcess, backref='process', help_text='')
+    process = models.ForeignKey(
+        TabProcess,
+        related_name='tabaction_process',
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
+    )
+    action_type = models.CharField(
+        null=False,
+        # db_index=True,
+        unique=True,
+        max_length=255,
+        help_text='名称'
+    )
+    name = models.CharField(
+        null=False,
+        # db_index=True,
+        max_length=255,
+        help_text='名称'
+    )
+    description = models.TextField()
+    class Meta:
+        db_table = 'tabaction'
+        verbose_name = "tabaction"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
+        indexes = [
+            models.Index(fields=['name'], name='tabaction_name'),
+        ]
 
-# class TabPermissionAction(models.Model):
-#     uid = models.CharField(
-#         null=False,
-#         # db_index=True,
-#         unique=True,
-#         primary_key=True,
-#         max_length=36,
-#         help_text='',
-#     )
-#     permission = models.ForeignKeyField(TabPermission, backref='permission', help_text='')
-#     action = models.ForeignKeyField(TabAction, backref='action', help_text='')
-#     class Meta:
-#         db_table = 'tabpermissionaction'
-#         verbose_name = "tabpermissionaction"
-#         ordering = ['uid']
-#         verbose_name_plural = verbose_name
-#         indexes = []
+class TabPermissionAction(models.Model):
+    uid = models.CharField(
+        null=False,
+        # db_index=True,
+        unique=True,
+        primary_key=True,
+        max_length=36,
+        help_text='',
+    )
+    # permission = models.ForeignKeyField(TabPermission, backref='permission', help_text='')
+    permission = models.ForeignKey(
+        TabPermission,
+        related_name='tabpermissionaction_permission',
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
+    )
+    # action = models.ForeignKeyField(TabAction, backref='action', help_text='')
+    action = models.ForeignKey(
+        TabAction,
+        related_name='tabpermissionaction_action',
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
+    )
+    class Meta:
+        db_table = 'tabpermissionaction'
+        verbose_name = "tabpermissionaction"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
+        indexes = []
 
-# class TabTransitionAction(models.Model):
-#     uid = models.CharField(
-#         null=False,
-#         # db_index=True,
-#         unique=True,
-#         primary_key=True,
-#         max_length=36,
-#         help_text='',
-#     )
-#     transition = models.ForeignKeyField(TabTransition, backref='transition', help_text='')
-#     action = models.ForeignKeyField(TabAction, backref='action', help_text='')
-#
-#     class Meta:
-#         db_table = 'tabtransitionaction'
-#         verbose_name = "tabtransitionaction"
-#         ordering = ['uid']
-#         verbose_name_plural = verbose_name
-#         indexes = []
+class TabTransitionAction(models.Model):
+    uid = models.CharField(
+        null=False,
+        # db_index=True,
+        unique=True,
+        primary_key=True,
+        max_length=36,
+        help_text='',
+    )
+    # transition = models.ForeignKeyField(TabTransition, backref='transition', help_text='')
+    transition = models.ForeignKey(
+        TabTransition,
+        related_name='tabtransitionaction_transition',
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
+    )
 
-# class TabRequest(models.Model):
-#     uid = models.CharField(
-#         null=False,
-#         # db_index=True,
-#         unique=True,
-#         primary_key=True,
-#         max_length=36,
-#         help_text='',
-#     )
-#     process = models.ForeignKeyField(TabProcess, backref='process', help_text='')
-#     current_state = models.ForeignKeyField(TabState, backref='cur_state', help_text='')
-#     post = models.ForeignKeyField(TabPost, backref='post')
-#     user = models.ForeignKeyField(TabMember, backref='user')
-#     time_create = models.IntegerField()
-#     class Meta:
-#         db_table = 'tabrequest'
-#         verbose_name = "tabrequest"
-#         ordering = ['uid']
-#         verbose_name_plural = verbose_name
-#         indexes = []
+    # action = models.ForeignKeyField(TabAction, backref='action', help_text='')
+    action = models.ForeignKey(
+        TabAction,
+        related_name='tabtransitionaction_action',
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
+    )
 
-# class TabRequestAction(models.Model):
-#     uid = models.CharField(
-#         null=False,
-#         # db_index=True,
-#         unique=True,
-#         primary_key=True,
-#         max_length=36,
-#         help_text='',
-#     )
-#     request = models.ForeignKeyField(TabRequest, backref='request', help_text='')
-#     action = models.ForeignKeyField(TabAction, backref='action', help_text='')
-#     transition = models.ForeignKeyField(
-#         TabTransition, backref='transition', help_text=''
-#     )
-#     is_active = models.BooleanField(null=False, default=False)
-#     is_complete = models.BooleanField(null=False, default=False)
-#     class Meta:
-#         db_table = 'tabrequestaction'
-#         verbose_name = "tabrequestaction"
-#         ordering = ['uid']
-#         verbose_name_plural = verbose_name
-#         indexes = []
+    class Meta:
+        db_table = 'tabtransitionaction'
+        verbose_name = "tabtransitionaction"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
+        indexes = []
+
+class TabRequest(models.Model):
+    uid = models.CharField(
+        null=False,
+        # db_index=True,
+        unique=True,
+        primary_key=True,
+        max_length=36,
+        help_text='',
+    )
+    # process = models.ForeignKeyField(TabProcess, backref='process', help_text='')
+    process = models.ForeignKey(
+        TabProcess,
+        related_name='tabrequest_process',
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
+    )
+
+    # current_state = models.ForeignKeyField(TabState, backref='cur_state', help_text='')
+    current_state = models.ForeignKey(
+        TabState,
+        related_name='tabrequest_current_state',
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
+    )
+    # post = models.ForeignKeyField(TabPost, backref='post')
+    post = models.ForeignKey(
+        TabPost,
+        related_name='tabrequest_post',
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
+    )
+    # user = models.ForeignKeyField(TabMember, backref='user')
+    user = models.ForeignKey(
+        TabMember,
+        related_name='tabrequest_user',
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
+    )
+    time_create = models.IntegerField()
+    class Meta:
+        db_table = 'tabrequest'
+        verbose_name = "tabrequest"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
+        indexes = []
+
+class TabRequestAction(models.Model):
+    uid = models.CharField(
+        null=False,
+        # db_index=True,
+        unique=True,
+        primary_key=True,
+        max_length=36,
+        help_text='',
+    )
+    # request = models.ForeignKeyField(TabRequest, backref='request', help_text='')
+    request = models.ForeignKey(
+        TabRequest,
+        related_name='tabrequestaction_request',
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
+    )
+    # action = models.ForeignKeyField(TabAction, backref='action', help_text='')
+
+    action = models.ForeignKey(
+        TabAction,
+        related_name='tabrequestaction_action',
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
+    )
+    # transition = models.ForeignKeyField(
+    #     TabTransition, backref='transition', help_text=''
+    # )
+    transition = models.ForeignKey(
+        TabTransition,
+        related_name='tabrequestaction_transition',
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
+    )
+
+    is_active = models.BooleanField(null=False, default=False)
+    is_complete = models.BooleanField(null=False, default=False)
+    class Meta:
+        db_table = 'tabrequestaction'
+        verbose_name = "tabrequestaction"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
+        indexes = []
