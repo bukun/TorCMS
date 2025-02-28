@@ -1,58 +1,122 @@
 {% extends "../../theme/bage.html" %}
 {% block typebody %}
 <ol class="breadcrumb">
-   <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
+    <li>{{ _('Current location') }}: <a href="{% module site_url() %}">{{ _('Home') }}</a></li>
     <li><a href="/user/info"> {{ _('User') }}</a></li>
     <li>{{ _('Most use') }}</li>
 </ol>
-<div class="panel panel-black">
-    <div class="panel-heading">
+<div class="panel ">
+{#    <div class="panel-heading">#}
+{#        {{ _('Most use') }}#}
+{#    </div>#}
+{#    <div class="panel-body">#}
+{#        <div class=" marketing">#}
+{#            <div class="row-fluid home-tab-fluid">#}
+{#                <div class="row-fluid tabbedmain hidden-phone" id="tabselector">#}
+{#                    <ul class="nav nav-tabs nav-justified">#}
+{#                        <li class="span3 active main-selector main-tabs">#}
+{#                            <a href="#tab1" data-toggle="tab" class="home-tab-a">#}
+{#                                <span class="tabfix">#}
+{#                                    <h4>{{ _('Map') }}</h4>#}
+{#                                </span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                        <li class="span3 main-selector main-tabs">#}
+{#                            <a href="#tab2" data-toggle="tab" class="home-tab-a">#}
+{#                                <span class="tabfix">#}
+{#                                    <h4>{{ _('Document') }}</h4>#}
+{#                                </span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                    </ul>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="tab-content" id="#indexcontent">#}
+{#                <div class="tab-pane active fade in" id="tab1">#}
+{#                    <div class="row-fluid">#}
+{##}
+{#                        <ul class="list-group">#}
+{#                            {% module app_user_most(userinfo.uid,'m',20,with_tag=True,glyph="glyphicon glyphicon-map-marker") %}#}
+{#                        </ul>#}
+{##}
+{##}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="tab-pane fade in" id="tab2">#}
+{#                    <div class="row-fluid">#}
+{##}
+{#                        <ul class="list-group">#}
+{#                            {% module app_user_most(userinfo.uid,'1',20,with_tag=True) %}#}
+{#                        </ul>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#    -------------------------------------#}
+
+
+
+     <div class="panel-heading bg-secondary text-white">
         {{ _('Most use') }}
     </div>
     <div class="panel-body">
         <div class=" marketing">
-            <div class="row-fluid home-tab-fluid">
-                <div class="row-fluid tabbedmain hidden-phone" id="tabselector">
-                    <ul class="nav nav-tabs nav-justified">
-                        <li class="span3 active main-selector main-tabs">
-                            <a href="#tab1" data-toggle="tab" class="home-tab-a">
-                                <span class="tabfix">
+
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab"
+                       aria-controls="home"
+                       aria-selected="true">
+                          <span class="tabfix">
                                     <h4>{{ _('Map') }}</h4>
                                 </span>
-                            </a>
-                        </li>
-                        <li class="span3 main-selector main-tabs">
-                            <a href="#tab2" data-toggle="tab" class="home-tab-a">
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"
+                       aria-controls="profile"
+                       aria-selected="false">
                                 <span class="tabfix">
                                     <h4>{{ _('Document') }}</h4>
                                 </span>
-                            </a>
-                        </li>
+                    </a>
+                </li>
+
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <ul class="list-group">
+                          {% module app_user_most(userinfo.uid,'m',20,with_tag=True,glyph="glyphicon glyphicon-map-marker") %}
+                    </ul>
+
+                </div>
+                <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <ul class="list-group ">
+                            {% module app_user_most(userinfo.uid,'1',20,with_tag=True) %}
                     </ul>
                 </div>
             </div>
-            <div class="tab-content" id="#indexcontent">
-                <div class="tab-pane active fade in" id="tab1">
-                    <div class="row-fluid">
-
-                        <ul class="list-group">
-                            {% module app_user_most(userinfo.uid,'m',20,with_tag=True,glyph="glyphicon glyphicon-map-marker") %}
-                        </ul>
 
 
-                    </div>
-                </div>
-                <div class="tab-pane fade in" id="tab2">
-                    <div class="row-fluid">
-
-                        <ul class="list-group">
-                            {% module app_user_most(userinfo.uid,'1',20,with_tag=True) %}
-                        </ul>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
+
+
+    <script type="text/javascript">
+
+
+        var triggerEl = document.querySelector('#myTab a[href="#tab1-tab"]')
+        bootstrap.Tab.getInstance(triggerEl).show() // Select tab by name
+
+        var triggerFirstTabEl = document.querySelector('#myTab li:first-child a')
+        bootstrap.Tab.getInstance(triggerFirstTabEl).show() // Select first tab
+    </script>
+
     <div class="panel-footer">
         <div class="row">
             <div class="col-md-6">
