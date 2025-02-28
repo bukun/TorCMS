@@ -1,0 +1,6 @@
+'''
+BaseModel             models.Model
+peewee.               models.
+BinaryJSONField(      models.JSONField(
+index=                db_index =
+'''
