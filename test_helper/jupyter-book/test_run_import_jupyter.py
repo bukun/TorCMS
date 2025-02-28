@@ -25,7 +25,7 @@ inws = Path(__file__).parent / 'jupyter-book/judocs'
 
 def get_docker_name(the_str):
     # the_str = 'sd_dc-asdf/fdsaf_dc-wdsfadf/asdf'
-    regobj = re.compile('_dc-\w*/')
+    regobj = re.compile(r'_dc-\w*/')
 
     tt = regobj.search(the_str).span()
 

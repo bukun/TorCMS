@@ -5,6 +5,7 @@ import sys
 from torcms.script.command import entry
 
 if __name__ == '__main__':
+
     if len(sys.argv) == 1:
         print('run for help:')
         print('    python helper.py -h ')

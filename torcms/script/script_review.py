@@ -5,7 +5,7 @@ Check the difference of modification.
 import datetime
 import os
 
-from config import SITE_CFG, SMTP_CFG, post_emails, post_cfg
+from config import SITE_CFG, SMTP_CFG, post_cfg, post_emails
 from torcms.core import tools
 from torcms.core.tool.send_email import send_mail
 from torcms.core.tools import diff_table
@@ -159,7 +159,9 @@ def __get_post_review(email_cnt, idx):
                 idx,
                 editor_name,
                 recent_post.title,
-                os.path.join(SITE_CFG['site_url'], post_cfg[key]['router'], recent_post.uid),
+                os.path.join(
+                    SITE_CFG['site_url'], post_cfg[key]['router'], recent_post.uid
+                ),
             )
             email_cnt = email_cnt + foo_str
             idx = idx + 1
@@ -183,7 +185,9 @@ def __get_comment_list():
             idx,
             recent_post.title,
             os.path.join(
-                SITE_CFG['site_url'], post_cfg[recent_post.kind]['router'], recent_post.uid
+                SITE_CFG['site_url'],
+                post_cfg[recent_post.kind]['router'],
+                recent_post.uid,
             ),
         )
         comment_cnt = comment_cnt + foo_str

@@ -443,6 +443,7 @@ class MUser:
             out_dic['uid'] = uid
 
         except Exception as err:
+            print('Error: create user failed.')
             print(repr(err))
             out_dic['code'] = '91'
         return out_dic

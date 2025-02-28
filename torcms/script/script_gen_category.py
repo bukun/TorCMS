@@ -30,7 +30,6 @@ def gen_xlsx_category():
             kind_sig = str(sheet_ranges['A1'].value).strip()
 
             for row_num in range(3, 10000):
-
                 # 父类
                 a_cell_val = sheet_ranges['A{0}'.format(row_num)].value
                 b_cell_val = sheet_ranges['B{0}'.format(row_num)].value
@@ -83,7 +82,6 @@ def gen_category(yaml_file, sig):
     out_dic = yaml.full_load(open(yaml_file))
 
     for key in out_dic:
-
         if key.endswith('00'):
             uid = key[1:]
             cur_dic = out_dic[key]
