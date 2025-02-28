@@ -112,6 +112,9 @@ class TabPost(models.Model):
         verbose_name = "Table Posts"
         ordering = ['uid']
         verbose_name_plural = verbose_name
+        indexes = [
+            models.Index(fields=['extinfo'], name='tabpost_extinfo'),
+        ]
 
 
 class TabWiki(models.Model):
@@ -371,6 +374,11 @@ class TabReply(models.Model):
         verbose_name = "Reply"
         ordering = ['uid']
         verbose_name_plural = verbose_name
+        indexes = [
+            models.Index(fields=['extinfo'], name='tabreply_extinfo'),
+            models.Index(fields=['post_id'], name='tabreply_post_id'),
+            models.Index(fields=['user_id'], name='tabreply_user_id'),
+        ]
 
 
 class TabUser2Reply(models.Model):
@@ -399,7 +407,10 @@ class TabUser2Reply(models.Model):
         verbose_name = "User2Reply"
         ordering = ['uid']
         verbose_name_plural = verbose_name
-
+        indexes = [
+            models.Index(fields=['reply_id'], name='tabuser2reply_reply_id'),
+            models.Index(fields=['user_id'], name='tabuser2reply_user_id'),
+        ]
 
 class TabCollect(models.Model):
     '''
@@ -468,6 +479,10 @@ class TabRating(models.Model):
         verbose_name = "Rating"
         ordering = ['uid']
         verbose_name_plural = verbose_name
+        indexes = [
+            models.Index(fields=['post_id'], name='tabrating_post_id'),
+            models.Index(fields=['user_id'], name='tabrating_user_id'),
+        ]
 
 
 class TabUsage(models.Model):
@@ -862,7 +877,10 @@ class MabPost2Gson(models.Model):
         verbose_name = "mabpost2json"
         ordering = ['uid']
         verbose_name_plural = verbose_name
-        indexes = []
+        indexes = [
+            models.Index(fields=['json_id'], name='mabpost2gson_json_id'),
+            models.Index(fields=['post_id'], name='mabpost2gson_post_id'),
+        ]
 
 
 class MabLayout(models.Model):
@@ -905,7 +923,10 @@ class MabLayout(models.Model):
         verbose_name = "mablayout"
         ordering = ['uid']
         verbose_name_plural = verbose_name
-        indexes = []
+        indexes = [
+            models.Index(fields=['post_id'], name='mablayout_post_id'),
+            models.Index(fields=['user_id'], name='mablayout_user_id'),
+        ]
 
 
 class ExtabCalcInfo(models.Model):
@@ -1019,6 +1040,199 @@ class Records(models.Model):
     class Meta:
         db_table = 'records'
         verbose_name = "records"
+        # ordering = ['uid']
+        verbose_name_plural = verbose_name
+        indexes = []
+
+
+class TabProcess(models.Model):
+    '''
+    流程
+    '''
+
+    uid = models.CharField(
+        null=False,
+        # db_index=True,
+        unique=True,
+        primary_key=True,
+        max_length=36,
+        help_text='',
+    )
+    name = models.CharField(
+        null=False,
+        # db_index=True,
+        unique=True,
+        max_length=255,
+        help_text='名称'
+    )
+    class Meta:
+        db_table = 'tabprocess'
+        verbose_name = "tabprocess"
         ordering = ['uid']
         verbose_name_plural = verbose_name
         indexes = []
+
+
+# class TabState(models.Model):
+#     uid = models.CharField(
+#         null=False,
+#         # db_index=True,
+#         unique=True,
+#         primary_key=True,
+#         max_length=36,
+#         help_text='',
+#     )
+#     process = models.ForeignKeyField(TabProcess, backref='process', help_text='')
+#     name = models.CharField(
+#         null=False,
+#         # db_index=True,
+#         max_length=255,
+#         help_text='名称'
+#     )
+#     state_type = models.CharField(
+#         null=False,
+#         # db_index=True,
+#         unique=True,
+#         max_length=255,
+#         help_text='名称'
+#     )
+#     description = models.TextField()
+#     class Meta:
+#         db_table = 'tabstate'
+#         verbose_name = "tabstate"
+#         ordering = ['uid']
+#         verbose_name_plural = verbose_name
+#         indexes = []
+
+# class TabTransition(models.Model):
+#     uid = models.CharField(
+#         null=False,
+#         # db_index=True,
+#         unique=True,
+#         primary_key=True,
+#         max_length=36,
+#         help_text='',
+#     )
+#     process = models.ForeignKeyField(TabProcess, backref='process', help_text='')
+#     current_state = models.ForeignKeyField(
+#         TabState, backref='current_state', help_text=''
+#     )
+#     next_state = models.ForeignKeyField(TabState, backref='next_state', help_text='')
+#     class Meta:
+#         db_table = 'tabtransition'
+#         verbose_name = "tabtransition"
+#         ordering = ['uid']
+#         verbose_name_plural = verbose_name
+#         indexes = []
+
+# class TabAction(models.Model):
+#     uid = models.CharField(
+#         null=False,
+#         # db_index=True,
+#         unique=True,
+#         primary_key=True,
+#         max_length=36,
+#         help_text='',
+#     )
+#     process = models.ForeignKeyField(TabProcess, backref='process', help_text='')
+#     action_type = models.CharField(
+#         null=False,
+#         # db_index=True,
+#         unique=True,
+#         max_length=255,
+#         help_text='名称'
+#     )
+#     name = models.CharField(
+#         null=False,
+#         # db_index=True,
+#         max_length=255,
+#         help_text='名称'
+#     )
+#     description = models.TextField()
+#     class Meta:
+#         db_table = 'tabaction'
+#         verbose_name = "tabaction"
+#         ordering = ['uid']
+#         verbose_name_plural = verbose_name
+#         indexes = []
+
+# class TabPermissionAction(models.Model):
+#     uid = models.CharField(
+#         null=False,
+#         # db_index=True,
+#         unique=True,
+#         primary_key=True,
+#         max_length=36,
+#         help_text='',
+#     )
+#     permission = models.ForeignKeyField(TabPermission, backref='permission', help_text='')
+#     action = models.ForeignKeyField(TabAction, backref='action', help_text='')
+#     class Meta:
+#         db_table = 'tabpermissionaction'
+#         verbose_name = "tabpermissionaction"
+#         ordering = ['uid']
+#         verbose_name_plural = verbose_name
+#         indexes = []
+
+# class TabTransitionAction(models.Model):
+#     uid = models.CharField(
+#         null=False,
+#         # db_index=True,
+#         unique=True,
+#         primary_key=True,
+#         max_length=36,
+#         help_text='',
+#     )
+#     transition = models.ForeignKeyField(TabTransition, backref='transition', help_text='')
+#     action = models.ForeignKeyField(TabAction, backref='action', help_text='')
+#
+#     class Meta:
+#         db_table = 'tabtransitionaction'
+#         verbose_name = "tabtransitionaction"
+#         ordering = ['uid']
+#         verbose_name_plural = verbose_name
+#         indexes = []
+
+# class TabRequest(models.Model):
+#     uid = models.CharField(
+#         null=False,
+#         # db_index=True,
+#         unique=True,
+#         primary_key=True,
+#         max_length=36,
+#         help_text='',
+#     )
+#     process = models.ForeignKeyField(TabProcess, backref='process', help_text='')
+#     current_state = models.ForeignKeyField(TabState, backref='cur_state', help_text='')
+#     post = models.ForeignKeyField(TabPost, backref='post')
+#     user = models.ForeignKeyField(TabMember, backref='user')
+#     time_create = models.IntegerField()
+#     class Meta:
+#         db_table = 'tabrequest'
+#         verbose_name = "tabrequest"
+#         ordering = ['uid']
+#         verbose_name_plural = verbose_name
+#         indexes = []
+
+# class TabRequestAction(models.Model):
+#     uid = models.CharField(
+#         null=False,
+#         # db_index=True,
+#         unique=True,
+#         primary_key=True,
+#         max_length=36,
+#         help_text='',
+#     )
+#     request = models.ForeignKeyField(TabRequest, backref='request', help_text='')
+#     action = models.ForeignKeyField(TabAction, backref='action', help_text='')
+#     transition = models.ForeignKeyField(
+#         TabTransition, backref='transition', help_text=''
+#     )
+#     is_active = models.BooleanField(null=False, default=False)
+#     is_complete = models.BooleanField(null=False, default=False)
+#     class Meta:
+#         db_table = 'tabrequestaction'
+#         verbose_name = "tabrequestaction"
+#         ordering = ['uid']
+#         verbose_name_plural = verbose_name
+#         indexes = []
