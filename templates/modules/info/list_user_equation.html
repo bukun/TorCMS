@@ -1,5 +1,5 @@
 {% for rec in recs %}
-<li class="list-group-item">
+<li class="list-group-item list-group-item-action">
     <a href="/{{kwd['router']}}/{{ rec.post_id }}">
         {% if 'glyph' in kwd and kwd['glyph'] != '' %}
         <span class="{{ kwd['glyph'] }}"></span>
@@ -15,4 +15,3 @@
     {% end %}
 </li>
 {% end %}
-

@@ -5,61 +5,126 @@
     <li><a href="/user/info"> {{ _('User') }}</a></li>
     <li>{{ _('Recent use') }}</li>
 </ol>
-<div class="panel panel-black">
-    <div class="panel-heading">
+<div class="panel ">
+    <div class="panel-heading bg-secondary text-white">
         {{ _('Recent use') }}
     </div>
-    <div class="panel-body">
-        <div class=" marketing">
-            <div class="row-fluid home-tab-fluid">
-                <div class="row-fluid tabbedmain hidden-phone" id="tabselector">
+        <div class="panel-body">
+    <div class=" marketing">
+
+        {##}
+        {#            <div class="row-fluid home-tab-fluid">#}
+        {#                <div class="row-fluid tabbedmain hidden-phone" id="tabselector">#}
+        {##}
+        {##}
+        {#                    <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">#}
+        {#                        <li class="nav-item active " role="presentation">#}
+        {#                                                    <li class="span3 active main-selector main-tabs">#}
+        {#                            <a href="#tab1" data-toggle="tab" role="tab" class="home-tab-a" aria-controls="tab1"#}
+        {#                               id="tab1-tab"#}
+        {#                               aria-selected="true">#}
+        {#                                <span class="tabfix">#}
+        {#                                    <h4>{{ _('Map') }}</h4>#}
+        {#                                </span>#}
+        {#                            </a>#}
+        {#                        </li>#}
+        {#                        <li class="nav-item  " role="presentation">#}
+        {#                                                    <li class="span3 main-selector main-tabs">#}
+        {#                            <a href="#tab2" data-toggle="tab" role="tab" class="home-tab-a" aria-controls="tab2"#}
+        {#                               id="tab2-tab"#}
+        {#                               aria-selected="false">#}
+        {#                                <span class="tabfix">#}
+        {#                                    <h4>{{ _('Document') }}</h4>#}
+        {#                                </span>#}
+        {#                            </a>#}
+
+        {#    </div>#}
+        {#</div>         </li>#}
+        {#                    </ul>#}
+        {#                </div>#}
+        {#            </div>#}
+        {#            <div class="tab-content">#}
+        {#                <div class="tab-pane active fade in" role="tabpanel" aria-labelledby="tab1-tab" id="tab1">#}
+        {#                    <div class="row-fluid">#}
+        {#                        <ul class="list-group">#}
+        {#                            {% module app_recent_used(userinfo=userinfo,kind = 'm',num = 20,with_tag=True,glyph="glyphicon glyphicon-map-marker") %}#}
+        {#                        </ul>#}
+        {##}
+        {#                    </div>#}
+        {#                </div>#}
+        {#                <div class="tab-pane fade in" role="tabpanel" aria-labelledby="tab2-tab" id="tab2">#}
+        {#                    <div class="row-fluid">#}
+        {#                        <ul class="list-group">#}
+        {#                            {% module app_recent_used(userinfo = userinfo,kind = '1',num = 20,with_tag=True) %}#}
+        {#                        </ul>#}
+        {#                    </div>#}
+        {#                </div>#}
+        {#            </div>#}
 
 
-                    <ul class="nav nav-tabs nav-justified">
-                        <li class="nav-item  ">
-                            {#                        <li class="span3 active main-selector main-tabs">#}
-                            <a href="#tab1" data-toggle="tab" role="tab" class="home-tab-a">
-                                <span class="tabfix">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab"
+                   aria-controls="home"
+                   aria-selected="true">
+                          <span class="tabfix">
                                     <h4>{{ _('Map') }}</h4>
                                 </span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            {#                        <li class="span3 main-selector main-tabs">#}
-                            <a href="#tab2" data-toggle="tab" role="tab" class="home-tab-a">
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"
+                   aria-controls="profile"
+                   aria-selected="false">
                                 <span class="tabfix">
                                     <h4>{{ _('Document') }}</h4>
                                 </span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="tab-content" id="#indexcontent">
-                <div class="tab-pane active fade in" role="tabpanel" aria-labelledby="" id="tab1">
-                    <div class="row-fluid">
-                        <ul class="list-group">
-                            {% module app_recent_used(userinfo=userinfo,kind = 'm',num = 20,with_tag=True,glyph="glyphicon glyphicon-map-marker") %}
-                        </ul>
+                </a>
+            </li>
 
-                    </div>
-                </div>
-                <div class="tab-pane fade in" role="tabpanel" aria-labelledby="" id="tab2">
-                    <div class="row-fluid">
-                        <ul class="list-group">
-                            {% module app_recent_used(userinfo = userinfo,kind = '1',num = 20,with_tag=True) %}
-                        </ul>
-                    </div>
-                </div>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
+{#                <div class="row-fluid">#}
+                    <ul class="list-group">
+                        {% module app_recent_used(userinfo=userinfo,kind = 'm',num = 20,with_tag=True,glyph="glyphicon glyphicon-map-marker") %}
+                    </ul>
+
+{#                </div>#}
+            </div>
+            <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+{#                <div class="row-fluid">#}
+                    <ul class="list-group ">
+                        {% module app_recent_used(userinfo = userinfo,kind = '1',num = 20,with_tag=True) %}
+                    </ul>
+{#                </div>#}
             </div>
         </div>
+
+
     </div>
+        </div>
+
+
+    <script type="text/javascript">
+
+
+        var triggerEl = document.querySelector('#myTab a[href="#tab1-tab"]')
+        bootstrap.Tab.getInstance(triggerEl).show() // Select tab by name
+
+        var triggerFirstTabEl = document.querySelector('#myTab li:first-child a')
+        bootstrap.Tab.getInstance(triggerFirstTabEl).show() // Select first tab
+    </script>
 
 
     <div class="panel-footer">
         <div class="row">
             <div class="col-md-6">
-                {{ _('Article link') }}： <a href="/user_list/user_recent" style="color:#069">{{ _('Recent use') }}</a>
+                {{ _('Article link') }}： <a href="/user_list/user_recent"
+                                            style="color:#069">{{ _('Recent use') }}</a>
             </div>
             <div class="col-md-6" style="text-align: right;">
                 <div class="widget_baidu_share">{% module baidu_share() %}</div>
