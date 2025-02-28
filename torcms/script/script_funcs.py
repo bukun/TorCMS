@@ -42,7 +42,7 @@ def run_create_admin(*args):
     post_data = {
         'user_name': 'admin',
         'user_email': 'admin@osgeo.cn',
-        'user_pass': 'Gg01234567',
+        'user_pass': '01234567',
         'role': '3300',
     }
     userinfo = MUser.get_by_name(post_data['user_name'])
