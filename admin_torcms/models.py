@@ -105,7 +105,7 @@ class TabPost(models.Model):
     )
     rating = models.FloatField(null=False, default=5, help_text='Rating of the post.')
     memo = models.TextField(null=False, default='', help_text='Memo')
-    extinfo = models.JSONField(null=False, default={}, help_text='Extra data in JSON.')
+    extinfo = models.JSONField(null=True, default={}, help_text='Extra data in JSON.')
 
     class Meta:
         db_table = 'tabpost'
