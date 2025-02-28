@@ -17,6 +17,7 @@ from .models import *
 
 admin.site.register(TabMember)
 admin.site.register(TabPost)
+
 admin.site.register(TabPost2Tag)
 admin.site.register(TabPostHist)
 
