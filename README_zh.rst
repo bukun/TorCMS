@@ -243,3 +243,16 @@ API文档的建立
 ============================================================
 上面介绍了基础的相关操作完成了，可以自己的需求制作项目了。
 
+
+
+关于 `tornado_wtforms` 的说明
+======================================
+
+`tornado_wtforms` 是一个基于 `tornado` 和 `wtforms` 的表单验证库，
+它提供了 `tornado` 的 `RequestHandler` 的 `form` 属性，用于处理表单验证。
+
+`tornado_wtforms` 是从 `wtforms_tornado` 项目fork而来，它修复了 `wtforms_tornado` 的一些bug，同时添加了一些新的功能。
+但是在 pypi 上的 `tornado_wtforms` 项目自2022年发布后，就再也没有更新过。
+
+在项目使用中，直接将 `tornado_wtforms` 项目中的 `tornado_wtforms` 文件夹（模块）复制到项目中，
+然后使用 `from tornado_wtforms.form import Form` 即可。

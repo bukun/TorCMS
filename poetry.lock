@@ -1064,26 +1064,6 @@ type = "legacy"
 url = "https://mirrors.aliyun.com/pypi/simple"
 reference = "ali"
 
-[[package]]
-name = "tornado-wtforms"
-version = "0.0.1"
-description = "WTForms extensions for Tornado fork."
-optional = false
-python-versions = "*"
-groups = ["main"]
-files = [
-    {file = "tornado-wtforms-0.0.1.tar.gz", hash = "sha256:fcb7b8d78995e193bff1dac319c5394ea06d03c8832da760d5f657c619b94764"},
-    {file = "tornado_wtforms-0.0.1-py2.py3-none-any.whl", hash = "sha256:3efcba8be2399ae49ff368e77252dfcc3e98e5bed68de850a6473cb7ea0c5503"},
-]
-
-[package.dependencies]
-tornado = ">=6.1"
-wtforms = "*"
-
-[package.source]
-type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/simple"
-reference = "ali"
 
 [[package]]
 name = "typing-extensions"
@@ -1159,31 +1139,3 @@ files = [
 type = "legacy"
 url = "https://mirrors.aliyun.com/pypi/simple"
 reference = "ali"
-
-[[package]]
-name = "wtforms"
-version = "3.2.1"
-description = "Form validation and rendering for Python web development."
-optional = false
-python-versions = ">=3.9"
-groups = ["main"]
-files = [
-    {file = "wtforms-3.2.1-py3-none-any.whl", hash = "sha256:583bad77ba1dd7286463f21e11aa3043ca4869d03575921d1a1698d0715e0fd4"},
-    {file = "wtforms-3.2.1.tar.gz", hash = "sha256:df3e6b70f3192e92623128123ec8dca3067df9cfadd43d59681e210cfb8d4682"},
-]
-
-[package.dependencies]
-markupsafe = "*"
-
-[package.extras]
-email = ["email-validator"]
-
-[package.source]
-type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/simple"
-reference = "ali"
-
-[metadata]
-lock-version = "2.1"
-python-versions = "^3.11"
-content-hash = "cdd7f2a69343859879b2ee362548edb82b944165afa8f26117f2ad74641cae73"

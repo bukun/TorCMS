@@ -2,19 +2,15 @@ import datetime
 import json
 import re
 import time
-import config
+
 import jwt
 import tornado.web
-import wtforms.validators
-from wtforms.fields import StringField
-from wtforms.validators import DataRequired
-from wtforms_tornado import Form
 
 from datetime import datetime
 from config import CMS_CFG
 from torcms.core import privilege, tools
 from torcms.core.base_handler import BaseHandler
-from torcms.core.tool.send_email import send_mail
+
 from torcms.core.tools import logger
 from torcms.model.user_model import MUser
 from torcms.model.staff2role_model import MStaff2Role
