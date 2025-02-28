@@ -1,33 +1,18 @@
-# Create your models here.
 from django.db import models
-# from base.models import basemodel
-
-# Create your models here.
-
-
-# -*- coding:utf-8 -*-
-'''
-Define the schema of Tables in TorCMS.
-'''
-
-# import models
-# from playhouse.postgres_ext import BinaryJSONField
-
-# from torcms.core.base_model import models.Model
 
 
 class TabTag(models.Model):
     uid = models.CharField(
         null=False,
         max_length=4,
-        # index=True,
+        # db_index =True,
         unique=True,
         primary_key=True,
         help_text='',
     )
     slug = models.CharField(
         null=False,
-        # index=True,
+        # db_index =True,
         unique=True,
         max_length=36,
         help_text='',
@@ -45,12 +30,16 @@ class TabTag(models.Model):
     pid = models.CharField(
         null=False, max_length=4, default='xxxx', help_text='parent id'
     )
-    tmpl = models.IntegerField(null=False, default='9',  help_text='tmplate type')
+    tmpl = models.IntegerField(null=False, default='9', help_text='tmplate type')
+
     class Meta:
         db_table = 'tabtag'
         verbose_name = "Tags"
         ordering = ['uid']
         verbose_name_plural = verbose_name
+        indexes = [
+            models.Index(fields=['slug'], name='tabtag_slug'),
+        ]
 
 
 class TabLink(models.Model):
@@ -67,6 +56,7 @@ class TabLink(models.Model):
     name = models.CharField(null=False, max_length=255, help_text='')
     logo = models.CharField(null=False, max_length=255, help_text='')
     order = models.IntegerField()
+
     class Meta:
         db_table = 'tablink'
         verbose_name = "Links"
@@ -77,15 +67,17 @@ class TabLink(models.Model):
 class TabPost(models.Model):
     uid = models.TextField(
         null=False,
-        # index=True,
+        # db_index =True,
         unique=True,
         primary_key=True,
         default='00000',
         help_text='',
     )
-    title = models.CharField(null=False,  max_length = 255,help_text='Title')
-    keywords = models.CharField(null=False,  max_length = 255,default='', help_text='Keywords')
-    date = models.DateTimeField(null=False,  max_length = 255,help_text='')
+    title = models.CharField(null=False, max_length=255, help_text='Title')
+    keywords = models.CharField(
+        null=False, max_length=255, default='', help_text='Keywords'
+    )
+    date = models.DateTimeField(null=False, max_length=255, help_text='')
     time_create = models.IntegerField()
     user_name = models.CharField(
         null=False, default='', max_length=255, help_text='UserName'
@@ -97,7 +89,10 @@ class TabPost(models.Model):
     access_7d = models.IntegerField(default=0, help_text='7*24小时内阅读量')
     access_30d = models.IntegerField(default=0, help_text='30*24小时内阅读量')
 
-    logo = models.CharField(default='', max_length = 255,)
+    logo = models.CharField(
+        default='',
+        max_length=255,
+    )
     order = models.CharField(null=False, default='', max_length=8)
     valid = models.IntegerField(
         null=False, default=1, help_text='Whether the infor would show.'
@@ -111,6 +106,7 @@ class TabPost(models.Model):
     rating = models.FloatField(null=False, default=5, help_text='Rating of the post.')
     memo = models.TextField(null=False, default='', help_text='Memo')
     extinfo = models.JSONField(null=False, default={}, help_text='Extra data in JSON.')
+
     class Meta:
         db_table = 'tabpost'
         verbose_name = "Table Posts"
@@ -122,7 +118,7 @@ class TabWiki(models.Model):
     # slug for page, and '_12345678' for wiki.
     uid = models.CharField(
         null=False,
-        # index=True,
+        # db_index =True,
         unique=True,
         primary_key=True,
         max_length=36,
@@ -131,7 +127,7 @@ class TabWiki(models.Model):
     title = models.CharField(
         null=False,
         unique=True,
-        # index=True,
+        # db_index =True,
         help_text='Title',
         max_length=255,
     )
@@ -145,6 +141,7 @@ class TabWiki(models.Model):
     kind = models.CharField(
         null=False, max_length=1, default='1', help_text='1 for wiki, 2 for page.'
     )
+
     class Meta:
         db_table = 'tabwiki'
         verbose_name = "wiki"
@@ -159,7 +156,7 @@ class TabPostHist(models.Model):
 
     uid = models.CharField(
         null=False,
-        # index=True,
+        # db_index =True,
         unique=True,
         help_text='',
         primary_key=True,
@@ -167,15 +164,21 @@ class TabPostHist(models.Model):
     )
     title = models.CharField(null=False, max_length=255, help_text='')
     post_id = models.TextField(null=False, help_text='')
-    user_name = models.CharField( max_length = 255,)
+    user_name = models.CharField(
+        max_length=255,
+    )
     cnt_md = models.TextField()
     time_update = models.IntegerField()
-    logo = models.CharField( max_length = 255,)
+    logo = models.CharField(
+        max_length=255,
+    )
+
     class Meta:
         db_table = 'tabposthist'
         verbose_name = "PostHist"
         ordering = ['uid']
         verbose_name_plural = verbose_name
+
 
 class TabWikiHist(models.Model):
     '''
@@ -184,7 +187,7 @@ class TabWikiHist(models.Model):
 
     uid = models.CharField(
         null=False,
-        # index=True,
+        # db_index =True,
         unique=True,
         help_text='',
         primary_key=True,
@@ -192,9 +195,12 @@ class TabWikiHist(models.Model):
     )
     title = models.CharField(null=False, max_length=255, help_text='')
     wiki_id = models.CharField(null=False, max_length=36, help_text='')
-    user_name = models.CharField( max_length = 255,)
+    user_name = models.CharField(
+        max_length=255,
+    )
     cnt_md = models.TextField()
     time_update = models.IntegerField()
+
     class Meta:
         db_table = 'tabwikihist'
         verbose_name = "WikiHist"
@@ -221,7 +227,7 @@ class TabMember(models.Model):
 
     uid = models.CharField(
         null=False,
-        # index=True,
+        # db_index =True,
         unique=True,
         primary_key=True,
         max_length=36,
@@ -229,8 +235,10 @@ class TabMember(models.Model):
     )
     user_name = models.CharField(
         null=False,
-       #  index=True,
-        unique=True, max_length=255, help_text='User Name'
+        #  # db_index =True,
+        unique=True,
+        max_length=255,
+        help_text='User Name',
     )
     user_email = models.CharField(
         null=False, unique=True, max_length=255, help_text='User Email'
@@ -269,6 +277,7 @@ class TabMember(models.Model):
         null=False, default=0, help_text='timestamp for login failed.'
     )
     extinfo = models.JSONField(null=False, default={}, help_text='Extra data in JSON.')
+
     class Meta:
         db_table = 'tabmember'
         verbose_name = "Member"
@@ -283,7 +292,7 @@ class TabEntity(models.Model):
 
     uid = models.CharField(
         null=False,
-        # index=True,
+        # db_index =True,
         unique=True,
         primary_key=True,
         max_length=36,
@@ -294,6 +303,7 @@ class TabEntity(models.Model):
     kind = models.CharField(
         null=False, max_length=1, default='1', help_text='1 for image'
     )
+
     class Meta:
         db_table = 'tabentity'
         verbose_name = "Entity"
@@ -308,7 +318,7 @@ class TabPost2Tag(models.Model):
 
     uid = models.CharField(
         null=False,
-        # index=True,
+        # db_index =True,
         unique=True,
         primary_key=True,
         max_length=36,
@@ -320,6 +330,7 @@ class TabPost2Tag(models.Model):
     tag_id = models.CharField(null=False, max_length=4, help_text='')
     post_id = models.TextField(null=False, help_text='')
     order = models.IntegerField()
+
     class Meta:
         db_table = 'tabpost2tag'
         verbose_name = "Post2Tag"
@@ -334,22 +345,27 @@ class TabReply(models.Model):
 
     uid = models.CharField(
         null=False,
-        # index=True,
+        # db_index =True,
         unique=True,
         primary_key=True,
         max_length=36,
         help_text='',
     )
-    post_id = models.TextField(null=False, help_text='')  # index=True,
-    user_id = models.CharField(null=False, max_length=36, help_text='')  # index=True,
+    post_id = models.TextField(null=False, help_text='')  # db_index =True,
+    user_id = models.CharField(
+        null=False, max_length=36, help_text=''
+    )  # db_index =True,
     user_name = models.TextField()
     timestamp = models.IntegerField()
     date = models.DateTimeField()
     cnt_md = models.TextField()
     cnt_html = models.TextField()
     vote = models.IntegerField()
-    category = models.CharField(null=False, default='0', max_length=255, help_text='0为评论，1为回复')
+    category = models.CharField(
+        null=False, default='0', max_length=255, help_text='0为评论，1为回复'
+    )
     extinfo = models.JSONField(null=False, default={}, help_text='Extra data in JSON.')
+
     class Meta:
         db_table = 'tabreply'
         verbose_name = "Reply"
@@ -364,15 +380,20 @@ class TabUser2Reply(models.Model):
 
     uid = models.CharField(
         null=False,
-        # index=True,
+        # db_index =True,
         unique=True,
         primary_key=True,
         max_length=36,
         help_text='',
     )
-    reply_id = models.CharField(null=False, max_length=36, help_text='')  # index=True,
-    user_id = models.CharField(null=False, max_length=36, help_text='')  #  index=True,
+    reply_id = models.CharField(
+        null=False, max_length=36, help_text=''
+    )  # db_index =True,
+    user_id = models.CharField(
+        null=False, max_length=36, help_text=''
+    )  #  # db_index =True,
     timestamp = models.IntegerField()
+
     class Meta:
         db_table = 'tabuser2reply'
         verbose_name = "User2Reply"
@@ -391,11 +412,12 @@ class TabCollect(models.Model):
     post_id = models.TextField(null=False, help_text='')
     user_id = models.CharField(
         null=False,
-        # index=True,
+        # db_index =True,
         max_length=36,
         help_text='',
     )
     timestamp = models.IntegerField()
+
     class Meta:
         db_table = 'tabcollect'
         verbose_name = "Collect"
@@ -412,8 +434,11 @@ class TabEvaluation(models.Model):
         max_length=36, null=False, unique=True, help_text='', primary_key=True
     )
     post_id = models.TextField(null=False, help_text='')
-    user_id = models.CharField(null=False, max_length=36, help_text='')  # index=True,
+    user_id = models.CharField(
+        null=False, max_length=36, help_text=''
+    )  # db_index =True,
     value = models.IntegerField()  # 用户评价， 1 或 0, 作为计数
+
     class Meta:
         db_table = 'tabevaluation'
         verbose_name = "Evaluation"
@@ -429,12 +454,15 @@ class TabRating(models.Model):
     uid = models.CharField(
         max_length=36, null=False, unique=True, help_text='', primary_key=True
     )
-    user_id = models.CharField(null=False, max_length=36, help_text='')  # index=True,
-    post_id = models.TextField(null=False, help_text='')  # index=True,
+    user_id = models.CharField(
+        null=False, max_length=36, help_text=''
+    )  # db_index =True,
+    post_id = models.TextField(null=False, help_text='')  # db_index =True,
     rating = models.FloatField(
         null=False,
     )
     timestamp = models.IntegerField(null=False)
+
     class Meta:
         db_table = 'tabrating'
         verbose_name = "Rating"
@@ -452,11 +480,14 @@ class TabUsage(models.Model):
         max_length=36, null=False, unique=True, help_text='', primary_key=True
     )
     post_id = models.TextField(null=False, help_text='')
-    user_id = models.CharField(null=False, max_length=36, help_text='')  # index=True,
+    user_id = models.CharField(
+        null=False, max_length=36, help_text=''
+    )  # db_index =True,
     count = models.IntegerField()
     tag_id = models.CharField(null=False, max_length=4, help_text='')
     kind = models.CharField(null=False, max_length=1)
     timestamp = models.IntegerField()
+
     class Meta:
         db_table = 'tabusage'
         verbose_name = "Usage"
@@ -479,6 +510,7 @@ class TabRel(models.Model):
     post_f_id = models.TextField(null=False, help_text='')
     post_t_id = models.TextField(null=False, help_text='')
     count = models.IntegerField()
+
     class Meta:
         db_table = 'tabrel'
         verbose_name = "Rel"
@@ -507,6 +539,7 @@ class TabCorrelation(models.Model):
     rel_id = models.TextField(null=False, help_text='')
     kind = models.IntegerField()
     order = models.IntegerField()
+
     class Meta:
         db_table = 'tabcorrelation'
         verbose_name = "Correlation"
@@ -520,14 +553,15 @@ class TabEntity2User(models.Model):
     '''
 
     uid = models.CharField(
-        null=False, unique=True, primary_key=True, max_length=36  #  index=True,
+        null=False, unique=True, primary_key=True, max_length=36  #  # db_index =True,
     )
     entity_id = models.CharField(null=False, max_length=36, help_text='')
     user_id = models.CharField(
-        null=False, max_length=36, help_text='用户ID,未登录表示为xxxx'  # index=True,
+        null=False, max_length=36, help_text='用户ID,未登录表示为xxxx'  # db_index =True,
     )
     user_ip = models.CharField(null=False, help_text='用户端ip', max_length=36)
     timestamp = models.IntegerField(null=False)
+
     class Meta:
         db_table = 'tabentity2user'
         verbose_name = "Entity2User"
@@ -541,14 +575,15 @@ class TabLog(models.Model):
     '''
 
     uid = models.CharField(
-        null=False, unique=True, primary_key=True, max_length=36 # , db_index=True,
+        null=False, unique=True, primary_key=True, max_length=36  # , # db_index =True,
     )
-    current_url = models.CharField(null=False, max_length = 255, help_text='')
-    refer_url = models.CharField(null=False, max_length = 255, help_text='')
-    user_id = models.CharField(null=False, max_length=36, help_text='',  db_index=True)
+    current_url = models.CharField(null=False, max_length=255, help_text='')
+    refer_url = models.CharField(null=False, max_length=255, help_text='')
+    user_id = models.CharField(null=False, max_length=36, help_text='', db_index=True)
     time_create = models.BigIntegerField()
     time_out = models.BigIntegerField()
     time = models.BigIntegerField()
+
     class Meta:
         db_table = 'tablog'
         verbose_name = "Log"
@@ -576,6 +611,7 @@ class TabReplyid(models.Model):
     reply0 = models.CharField(null=False, max_length=36, help_text='')
     reply1 = models.CharField(null=False, max_length=36, help_text='')
     time_create = models.IntegerField()
+
     class Meta:
         db_table = 'tabreplyid'
         verbose_name = "Replyid"
@@ -597,13 +633,16 @@ class TabReferrer(models.Model):
         help_text='',
         max_length=255,
     )
-    media = models.CharField(null=False,  max_length = 255,help_text='来源')
-    terminal = models.CharField(null=False,  max_length = 255,help_text='终端')
-    userip = models.CharField(null=False, unique=True,  max_length = 255,help_text='用户端ip')
+    media = models.CharField(null=False, max_length=255, help_text='来源')
+    terminal = models.CharField(null=False, max_length=255, help_text='终端')
+    userip = models.CharField(
+        null=False, unique=True, max_length=255, help_text='用户端ip'
+    )
     # usercity = models.CharField(null=False, help_text='用户端城市', )
     kind = models.CharField(null=False, max_length=1, default='1', help_text='')
     time_create = models.IntegerField()
     time_update = models.IntegerField()
+
     class Meta:
         db_table = 'tabreferrer'
         verbose_name = "Referrer"
@@ -614,25 +653,45 @@ class TabReferrer(models.Model):
 # 以下准备实现RBAC，
 # 参考： https://blog.csdn.net/fksfdh/article/details/106204317
 
+
 # 此表去掉， 使用 TabUser表即可。
 class TabStaff(models.Model):
     '''
     后台人员表，名称使用 Staff.
     '''
-    uid = models.CharField(null=False, # index=True,
-                           unique=True, primary_key=True, max_length=36, help_text='')
-    name = models.CharField(null=False, # index=True,
-                            unique=True, max_length=255, help_text='User Name')
-    email = models.CharField(null=False, unique=True, max_length=255, help_text='User Email')
+
+    uid = models.CharField(
+        null=False,  # db_index =True,
+        unique=True,
+        primary_key=True,
+        max_length=36,
+        help_text='',
+    )
+    name = models.CharField(
+        null=False,
+        unique=True,
+        max_length=255,
+        help_text='User Name',  # db_index =True,
+    )
+    email = models.CharField(
+        null=False, unique=True, max_length=255, help_text='User Email'
+    )
     passwd = models.CharField(null=False, max_length=255, help_text='User Password')
     time_reset_passwd = models.IntegerField(null=False, default=0)
     time_login = models.IntegerField(null=False, default=0)
     time_create = models.IntegerField(null=False, default=0)
     time_update = models.IntegerField(null=False, default=0)
-    time_email = models.IntegerField(null=False, default=0, help_text='Time auto send email.')
-    failed_count = models.IntegerField(null=False, default=0, help_text='record the times for trying login.')
-    time_failed = models.IntegerField(null=False, default=0, help_text='timestamp for login failed.')
+    time_email = models.IntegerField(
+        null=False, default=0, help_text='Time auto send email.'
+    )
+    failed_count = models.IntegerField(
+        null=False, default=0, help_text='record the times for trying login.'
+    )
+    time_failed = models.IntegerField(
+        null=False, default=0, help_text='timestamp for login failed.'
+    )
     extinfo = models.JSONField(null=False, default={}, help_text='Extra data in JSON.')
+
     class Meta:
         db_table = 'tabstaff'
         verbose_name = "Staff"
@@ -648,20 +707,20 @@ class TabRole(models.Model):
 
     uid = models.CharField(
         null=False,
-        # index=True,
+        # db_index =True,
         unique=True,
         primary_key=True,
         max_length=36,
         help_text='',
     )
     name = models.CharField(
-        null=False, # index=True,
-        unique=True, max_length=255, help_text='分组名称'
+        null=False, unique=True, max_length=255, help_text='分组名称'  # db_index =True,
     )
     status = models.IntegerField(null=False, default=0, help_text='角色状态.0=禁用,1=启用')
     pid = models.CharField(null=False, max_length=36, help_text='parent id')
     time_create = models.IntegerField(null=False, default=0)
     time_update = models.IntegerField(null=False, default=0)
+
     class Meta:
         db_table = 'tabrole'
         verbose_name = "Role"
@@ -685,18 +744,18 @@ class TabPermission(models.Model):
 
     uid = models.CharField(
         null=False,
-        # index=True,
+        # db_index =True,
         unique=True,
         primary_key=True,
         max_length=36,
         help_text='',
     )
     name = models.CharField(
-        null=False, # index=True,
-        unique=True, max_length=255, help_text='权限名称'
+        null=False, unique=True, max_length=255, help_text='权限名称'  # db_index =True,
     )
     action = models.CharField(null=False, max_length=255, help_text='允许动作,字符串编码')
     controller = models.CharField(null=False, max_length=255, help_text='控制器')
+
     class Meta:
         db_table = 'tabpermission'
         verbose_name = "Permission"
@@ -709,8 +768,9 @@ class TabStaff2Role(models.Model):
     人员、角色关联表
     '''
 
-    staff = models.ForeignKey(TabMember,  help_text='后台人员id', on_delete=models.CASCADE)
-    role = models.ForeignKey(TabRole,  help_text='后台角色id', on_delete=models.CASCADE)
+    staff = models.ForeignKey(TabMember, help_text='后台人员id', on_delete=models.CASCADE)
+    role = models.ForeignKey(TabRole, help_text='后台角色id', on_delete=models.CASCADE)
+
     class Meta:
         db_table = 'tabstaff2role'
         verbose_name = "Staff2Role"
@@ -722,14 +782,13 @@ class TabRole2Permission(models.Model):
     '''
     角色、权限关联表
     '''
-    
-    
 
-    role = models.ForeignKey(TabRole,  help_text='后台角色id',on_delete=models.CASCADE)
+    role = models.ForeignKey(TabRole, help_text='后台角色id', on_delete=models.CASCADE)
     permission = models.ForeignKey(
-        TabPermission,  help_text='后台权限id', on_delete=models.CASCADE
+        TabPermission, help_text='后台权限id', on_delete=models.CASCADE
     )
     kind = models.CharField(null=False, max_length=1, default='1', help_text='app type')
+
     class Meta:
         db_table = 'tabrole2permission'
         verbose_name = "Role2Permission"
@@ -737,13 +796,229 @@ class TabRole2Permission(models.Model):
         verbose_name_plural = verbose_name
 
 
-if __name__ == '__main__':
-    from pprint import pprint
+class MabGson(models.Model):
+    '''
+    For GeoJson storage.
+    '''
 
-    user = TabMember()
-    # print(user.dirty_fields)
-    for x in user.dirty_fields:
-        print('=' * 40)
-        print(x)
-        print(x.name, x.field_type, x.index)
-        pprint(dir(x))
+    uid = models.CharField(
+        null=False,
+        # db_index =True,
+        unique=True,
+        primary_key=True,
+        max_length=4,
+        help_text='',
+    )
+    title = models.CharField(null=False, default='')
+    user_id = models.CharField(
+        null=False,
+        # db_index =True,
+        max_length=36,
+        help_text='',
+    )
+    json = models.JSONField()
+    time_create = models.IntegerField(null=False, default=0)
+    time_update = models.IntegerField(null=False, default=0)
+    public = models.IntegerField(null=False, default=0)
+    # 区分版本。
+    version = models.IntegerField(null=False, default=1)
+
+    class Meta:
+        db_table = 'mabjson'
+        verbose_name = "mabjson"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
+        indexes = []
+
+
+class MabPost2Gson(models.Model):
+    '''
+    relatio between Post2Json.
+    '''
+
+    uid = models.CharField(
+        null=False,
+        # db_index =True,
+        unique=True,
+        primary_key=True,
+        max_length=36,
+        help_text='',
+    )
+    post_id = models.CharField(
+        null=False,
+        # db_index =True,
+        max_length=5,
+        help_text='',
+    )
+    json_id = models.CharField(
+        null=False,
+        # db_index =True,
+        max_length=4,
+        help_text='',
+    )
+
+    class Meta:
+        db_table = 'mabpost2json'
+        verbose_name = "mabpost2json"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
+        indexes = []
+
+
+class MabLayout(models.Model):
+    '''
+    For Map layout.
+    '''
+
+    uid = models.CharField(
+        null=False,
+        # db_index =True,
+        unique=True,
+        primary_key=True,
+        max_length=8,
+        help_text='',
+    )
+    title = models.CharField(null=False, default='')
+    post_id = models.CharField(
+        null=False,
+        # db_index =True,
+        max_length=5,
+        help_text='',
+    )
+    user_id = models.CharField(
+        null=False,
+        # db_index =True,
+        max_length=36,
+        help_text='',
+    )
+    json = models.CharField(null=True, default='', max_length=4)
+    lon = models.FloatField(null=False, default=105)
+    lat = models.FloatField(null=False, default=36)
+    zoom = models.IntegerField(null=False, default=3)
+    marker = models.IntegerField(null=False, default=0)
+    time_create = models.IntegerField(null=False, default=0)
+    time_update = models.IntegerField(null=False, default=0)
+    public = models.IntegerField(null=False, default=0)
+
+    class Meta:
+        db_table = 'mablayout'
+        verbose_name = "mablayout"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
+        indexes = []
+
+
+class ExtabCalcInfo(models.Model):
+    uid = models.CharField(
+        null=False,
+        # db_index =True,
+        unique=True,
+        primary_key=True,
+        max_length=36,
+        help_text='',
+    )
+    title = models.CharField(
+        null=False,
+        help_text='标题',
+    )
+    post_id = models.CharField(
+        null=False,
+        max_length=5,
+        help_text='',
+    )
+    user_id = models.CharField(
+        null=False,
+        max_length=36,
+        help_text='',
+    )
+    time_create = models.IntegerField(default=0, null=False)
+    time_update = models.IntegerField(default=0, null=False)
+    extinfo = models.JSONField()
+
+    class Meta:
+        db_table = 'extabcalcinfo'
+        verbose_name = "extabcalcinfo"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
+        indexes = []
+
+
+class Records(models.Model):
+    identifier = models.CharField(
+        null=False,
+        # db_index =True,
+        unique=True,
+        primary_key=True,
+        help_text='主键',
+    )
+    typename = models.CharField(default='', help_text='typename')
+    schema = models.CharField(default='', help_text='schema')
+    mdsource = models.CharField(default='', help_text='mdsource')
+    insert_date = models.CharField(default='', help_text='insert_date')
+    xml = models.CharField(default='', help_text='xml')
+    anytext = models.CharField(default='', help_text='anytext')
+    language = models.CharField(default='', help_text='language')
+    type = models.CharField(default='', help_text='type')
+    title = models.CharField(default='', help_text='title')
+    title_alternate = models.CharField(default='', help_text='title_alternate')
+    abstract = models.CharField(default='', help_text='abstract')
+    keywords = models.CharField(default='', help_text='keywords')
+    keywordstype = models.CharField(default='', help_text='keywordstype')
+    parentidentifier = models.CharField(default='', help_text='parentidentifier')
+    relation = models.CharField(default='', help_text='relation')
+    time_begin = models.CharField(default='', help_text='time_begin')
+    time_end = models.CharField(default='', help_text='time_end')
+    topicategory = models.CharField(default='', help_text='topicategory')
+    resourcelanguage = models.CharField(default='', help_text='resourcelanguage')
+    creator = models.CharField(default='', help_text='creator')
+    publisher = models.CharField(default='', help_text='publisher')
+    contributor = models.CharField(default='', help_text='contributor')
+    organization = models.CharField(default='', help_text='organization')
+    securityconstraints = models.CharField(default='', help_text='securityconstraints')
+    accessconstraints = models.CharField(default='', help_text='accessconstraints')
+    otherconstraints = models.CharField(default='', help_text='otherconstraints')
+    date = models.CharField(default='', help_text='date')
+    date_revision = models.CharField(default='', help_text='date_revision')
+    date_creation = models.CharField(default='', help_text='date_creation')
+    date_publication = models.CharField(default='', help_text='date_publication')
+    date_modified = models.CharField(default='', help_text='date_modified')
+    format = models.CharField(default='', help_text='format')
+    source = models.CharField(default='', help_text='source')
+    crs = models.CharField(default='', help_text='crs')
+    geodescode = models.CharField(default='', help_text='geodescode')
+    denominator = models.CharField(default='', help_text='denominator')
+    distancevalue = models.CharField(default='', help_text='distancevalue')
+    distanceuom = models.CharField(default='', help_text='distanceuom')
+    wkt_geometry = models.CharField(default='', help_text='wkt_geometry')
+    servicetype = models.CharField(default='', help_text='servicetype')
+    servicetypeversion = models.CharField(default='', help_text='servicetypeversion')
+    operation = models.CharField(default='', help_text='operation')
+    couplingtype = models.CharField(default='', help_text='couplingtype')
+    operateson = models.CharField(default='', help_text='operateson')
+    operatesonidentifier = models.CharField(
+        default='', help_text='operatesonidentifier'
+    )
+    operatesoname = models.CharField(default='', help_text='operatesoname')
+    degree = models.CharField(default='', help_text='degree')
+    classification = models.CharField(default='', help_text='classification')
+    conditionapplyingtoaccessanduse = models.CharField(
+        default='', help_text='conditionapplyingtoaccessanduse'
+    )
+    lineage = models.CharField(default='', help_text='lineage')
+    responsiblepartyrole = models.CharField(
+        default='', help_text='responsiblepartyrole'
+    )
+    specificationtitle = models.CharField(default='', help_text='specificationtitle')
+    specificationdate = models.CharField(default='', help_text='specificationdate')
+    specificationdatetype = models.CharField(
+        default='', help_text='specificationdatetype'
+    )
+    links = models.CharField(default='', help_text='links')
+    metadata_type = models.CharField(default='', help_text='links')
+
+    class Meta:
+        db_table = 'records'
+        verbose_name = "records"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
+        indexes = []
