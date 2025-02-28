@@ -17,7 +17,6 @@ openpyxl
 requests
 
 # css_html_js_minify # replaced with htmlmin since it needs Python 3.6 above.
-htmlmin
 jupyter
 pyjwt==2.8.0
 

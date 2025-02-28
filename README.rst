@@ -116,7 +116,7 @@ If you are to use Python of OS system directly, install libs as:
 
 ::
 
-    sudo apt isntall -y python3-tornado python3-requests python3-openpyxl python3-markdown python3-htmlmin
+    sudo apt isntall -y python3-tornado python3-requests python3-openpyxl python3-markdown
 
 How to Run
 =========================

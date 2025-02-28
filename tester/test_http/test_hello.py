@@ -4,6 +4,7 @@
 import unittest
 
 from tornado.testing import AsyncHTTPTestCase
+from tornado.testing import AsyncHTTPClient
 
 # from server import application
 from application import APP as application
@@ -15,5 +16,10 @@ class TestMain(AsyncHTTPTestCase):
 
     def test_main(self):
         response = self.fetch('/')
+        print(response.body)
         self.assertEqual(response.code, 200)
         # self.assertEqual(response.body, b'Hello, world')
+
+    def test_hello(self):
+        client = AsyncHTTPClient()
+

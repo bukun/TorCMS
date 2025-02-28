@@ -13,7 +13,7 @@ from difflib import HtmlDiff
 
 import markdown
 import tornado.escape
-from htmlmin import minify
+# from htmlmin import minify
 from markdown.extensions.wikilinks import WikiLinkExtension
 from playhouse.postgres_ext import PostgresqlExtDatabase
 
@@ -38,16 +38,16 @@ logging.getLogger('').addHandler(stream_handler)
 logger = logging
 
 
-def html_min(func):
-    '''
-    used as decorator to minify HTML string.
-    Unused.
-    '''
-
-    def wrapper(*args):
-        return minify(func(*args))
-
-    return wrapper
+# def html_min(func):
+#     '''
+#     used as decorator to minify HTML string.
+#     Unused.
+#     '''
+#
+#     def wrapper(*args):
+#         return minify(func(*args))
+#
+#     return wrapper
 
 
 def diff_table(rawinfo, newinfo):
@@ -104,7 +104,7 @@ def check_pass_valid(pass_str):
     至少6-20个字符，至少1个大写字母，1个小写字母和1个数字，其他可以是任意字符
     '''
 
-    ck_str = "^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d][\s\S]{6,20}$"
+    ck_str = r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d][\s\S]{6,20}$"
     if re.match(ck_str, pass_str) is not None:
         return True
 
@@ -354,7 +354,7 @@ def get_cfg():
         host=db_cfg.get('host', '127.0.0.1'),
         port=db_cfg.get('port', '5432'),
         # autocommit=True,
-        autorollback=True,
+        # autorollback=True,
     )
 
     if 'REDIS_CFG' in cfg_var:
