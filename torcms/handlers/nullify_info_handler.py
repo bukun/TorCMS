@@ -5,8 +5,9 @@ ToDo: fix it.
 '''
 
 import tornado.web
-from torcms.core import privilege
+
 from config import CMS_CFG, post_cfg
+from torcms.core import privilege
 from torcms.core.base_handler import BaseHandler
 from torcms.model.nullify_info_model import MNullifyInfo
 
@@ -21,7 +22,6 @@ class NullifyInfoHandler(BaseHandler):
         if url_str == '' or url_str == 'list':
             self.list(url_str)
         elif len(url_arr) == 2:
-
             self.list(url_arr[0], cur_p=url_arr[1])
 
     @privilege.permission(action='assign_role')

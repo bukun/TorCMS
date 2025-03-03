@@ -1,7 +1,8 @@
-import config
 import tornado.web
-from torcms.core import privilege
+
+import config
 from config import CMS_CFG, post_cfg
+from torcms.core import privilege
 from torcms.core.base_handler import BaseHandler
 from torcms.model.comment_model import MComment
 

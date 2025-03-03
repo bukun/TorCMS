@@ -10,16 +10,16 @@ from concurrent.futures import ThreadPoolExecutor
 import tornado.escape
 import tornado.ioloop
 import tornado.web
+
 import config
 from config import CMS_CFG
 from torcms.core import privilege, tools
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tools import logger
 from torcms.model.category_model import MCategory
+from torcms.model.staff2role_model import MStaff2Role
 from torcms.model.wiki_hist_model import MWikiHist
 from torcms.model.wiki_model import MWiki
-
-from torcms.model.staff2role_model import MStaff2Role
 
 
 class PageHandler(BaseHandler):

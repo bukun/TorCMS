@@ -1,8 +1,8 @@
 # -*- coding:utf-8 -*-
 
 from peewee import JOIN
-from torcms.model.core_tab import TabStaff2Role, TabRole, TabRole2Permission, TabMember
 
+from torcms.model.core_tab import TabMember, TabRole, TabRole2Permission, TabStaff2Role
 
 # from torcms.model.user_model import MUser
 
@@ -24,10 +24,13 @@ class MStaff2Role:
 
     @staticmethod
     def get_role_by_uid(staff_id):
-        query = TabStaff2Role.select(
-            TabRole.uid, TabRole.name, TabRole.status, TabRole.pid
-        ).join(TabRole, JOIN.INNER).switch(
-            TabStaff2Role).join(TabMember, JOIN.INNER).where(TabStaff2Role.staff == staff_id)
+        query = (
+            TabStaff2Role.select(TabRole.uid, TabRole.name, TabRole.status, TabRole.pid)
+            .join(TabRole, JOIN.INNER)
+            .switch(TabStaff2Role)
+            .join(TabMember, JOIN.INNER)
+            .where(TabStaff2Role.staff == staff_id)
+        )
         # query = TabStaff2Role.select(
         #     ).where(TabStaff2Role.staff == staff_id)
 
@@ -51,7 +54,10 @@ class MStaff2Role:
 
         query = (
             TabStaff2Role.select(
-                TabStaff2Role.id, TabRole.uid, TabRole2Permission.permission_id, TabRole.name
+                TabStaff2Role.id,
+                TabRole.uid,
+                TabRole2Permission.permission_id,
+                TabRole.name,
             )
             .join(TabRole, JOIN.LEFT_OUTER)
             .join(TabRole2Permission, JOIN.LEFT_OUTER)
@@ -106,15 +112,12 @@ class MStaff2Role:
 
     @staticmethod
     def add_or_update(staff_id, role_id):
-
         record = TabStaff2Role.select().where(
             (TabStaff2Role.staff == staff_id) & (TabStaff2Role.role == role_id)
         )
 
         if record.count() > 0:
-
             pass
 
         else:
-
             TabStaff2Role.create(role=role_id, staff=staff_id)

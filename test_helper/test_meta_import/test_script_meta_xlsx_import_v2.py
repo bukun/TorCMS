@@ -4,9 +4,10 @@ Import metadata of pycsw schema.
 
 import os
 import pathlib
+from pathlib import Path
 
 from openpyxl import load_workbook
-from pathlib import Path
+
 from torcms.handlers.post_handler import update_category
 from torcms.model.category_model import MCategory
 from torcms.model.post_model import MPost

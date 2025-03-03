@@ -1,12 +1,13 @@
 # import tornado.web
 import os
 from pathlib import Path
+
 from openpyxl import Workbook
 
 from torcms.model.core_tab import TabPost, TabTag
 
 
-class Ext_tag():
+class Ext_tag:
     '''
     Model for Posts.
     '''
@@ -17,20 +18,17 @@ class Ext_tag():
         return taglist
 
 
-class Ext_Post():
+class Ext_Post:
     @staticmethod
     def query_all_bytag(tag, kind='2'):
         recs = TabPost.select().where(
-            (TabPost.kind == kind) &
-            (TabPost.extinfo['def_cat_uid'] == tag)
+            (TabPost.kind == kind) & (TabPost.extinfo['def_cat_uid'] == tag)
         )
         return recs
 
     @staticmethod
     def query_all_uid(uid):
-        recs = TabPost.select().where(
-            (TabPost.uid == uid)
-        )
+        recs = TabPost.select().where((TabPost.uid == uid))
         return recs
 
 

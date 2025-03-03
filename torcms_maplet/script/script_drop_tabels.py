@@ -4,7 +4,7 @@
 initialize table.s
 '''
 
-from torcms_maplet.model.map_tab import MabLayout, MabGson, MabPost2Gson
+from torcms_maplet.model.map_tab import MabGson, MabLayout, MabPost2Gson
 
 
 def drop_the_table(Tab):

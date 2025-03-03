@@ -1,18 +1,26 @@
 # -*- coding:utf-8 -*-
-from torcms.core import tools
-from pprint import  pprint
 from pathlib import Path
-from torcms.model.post_model import MPost
-from torcms.model.process_model import MProcess, MState, MTransition, MRequest, MAction, MRequestAction, \
-    MTransitionAction, MPermissionAction
-from torcms.handlers.post_handler import import_post
-
-from torcms.core.tools import get_uu4d, rst2html
+from pprint import pprint
 
 from faker import Faker
 
+from torcms.core import tools
+from torcms.core.tools import get_uu4d, rst2html
+from torcms.handlers.post_handler import import_post
+from torcms.model.post_model import MPost
+from torcms.model.process_model import (
+    MAction,
+    MPermissionAction,
+    MProcess,
+    MRequest,
+    MRequestAction,
+    MState,
+    MTransition,
+    MTransitionAction,
+)
 
-class TestFoo():
+
+class TestFoo:
     def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
 
@@ -62,9 +70,7 @@ class TestFoo():
         uid = '1' + get_uu4d()
         while MPost.get_by_uid(uid):
             uid = '1' + get_uu4d()
-        rst_info = rst2html(
-            open(self.rst_file).read()
-        )
+        rst_info = rst2html(open(self.rst_file).read())
         print(rst_info)
         post_data['valid'] = 0
         post_data['title'] = rst_info['title']
@@ -89,7 +95,7 @@ class TestFoo():
         import_post(uid, post_data, ext_dic)
         assert MPost.get_by_uid(uid)
 
-        self.new_sec_dir = (self.ch_dir / f'{self.sec_name}_{uid}')
+        self.new_sec_dir = self.ch_dir / f'{self.sec_name}_{uid}'
         self.new_rst_file = self.new_sec_dir / 'section.rst'
 
         assert self.sec_dir.rename(self.new_sec_dir)

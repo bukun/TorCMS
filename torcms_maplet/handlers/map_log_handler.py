@@ -21,7 +21,6 @@ class MapLogHandler(BaseHandler):
             self.show404()
 
     def post(self, *args, **kwargs):
-
         url_str = args[0]
         url_arr = self.parse_url(url_str)
 
@@ -50,11 +49,13 @@ class MapLogHandler(BaseHandler):
 
     def list(self):
         '''
-         地图日志列表
+        地图日志列表
         '''
         kwd = {}
         recs = MMapLog.get_all()
-        self.render('../torcms_maplet/tmpl/map_log.html',
-                    recs=recs,
-                    kwd=kwd,
-                    userinfo=self.userinfo)
+        self.render(
+            '../torcms_maplet/tmpl/map_log.html',
+            recs=recs,
+            kwd=kwd,
+            userinfo=self.userinfo,
+        )

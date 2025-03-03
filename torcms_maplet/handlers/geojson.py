@@ -2,12 +2,15 @@
 
 
 import json
+
 import tornado.escape
 import tornado.web
+
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
 from torcms.model.usage_model import MUsage
 from torcms_maplet.model.json_model import MJson
+
 
 class GeoJsonHandler(BaseHandler):
     def initialize(self):
@@ -44,23 +47,28 @@ class GeoJsonHandler(BaseHandler):
             'url': self.request.uri,
             'geojson': gid,
             'tdesc': '',
-            'login': 1 if self.get_current_user() else 0
+            'login': 1 if self.get_current_user() else 0,
         }
 
         map_hist = []
         if self.get_secure_cookie('map_hist'):
-            for the_index in range(0, len(self.get_secure_cookie('map_hist').decode('utf-8')), 4):
-                map_hist.append(self.get_secure_cookie('map_hist').decode('utf-8')[the_index: the_index + 4])
+            for the_index in range(
+                0, len(self.get_secure_cookie('map_hist').decode('utf-8')), 4
+            ):
+                map_hist.append(
+                    self.get_secure_cookie('map_hist').decode('utf-8')[
+                        the_index : the_index + 4
+                    ]
+                )
 
         self.render(
             '../torcms_maplet/tmpl/full_screen_draw.html',
             kwd=kwd,
             userinfo=self.userinfo,
             unescape=tornado.escape.xhtml_unescape,
-            recent_apps=MUsage.query_recent(
-                self.userinfo.uid,
-                'm',
-                6)[1:] if self.userinfo else []
+            recent_apps=MUsage.query_recent(self.userinfo.uid, 'm', 6)[1:]
+            if self.userinfo
+            else [],
         )
 
     def index(self):
@@ -69,7 +77,7 @@ class GeoJsonHandler(BaseHandler):
             kwd={},
             userinfo=self.userinfo,
             unescape=tornado.escape.xhtml_unescape,
-            json_arr=MJson.query_recent(self.userinfo.uid, 20) if self.userinfo else []
+            json_arr=MJson.query_recent(self.userinfo.uid, 20) if self.userinfo else [],
         )
 
     @tornado.web.authenticated
@@ -80,7 +88,7 @@ class GeoJsonHandler(BaseHandler):
             kwd=kwd,
             userinfo=self.userinfo,
             unescape=tornado.escape.xhtml_unescape,
-            json_arr=MJson.query_recent(self.userinfo.uid, 10)
+            json_arr=MJson.query_recent(self.userinfo.uid, 10),
         )
 
     @tornado.web.authenticated
@@ -105,8 +113,7 @@ class GeoJsonHandler(BaseHandler):
         for key in geojson.keys():
             out_arr = out_arr + geojson[key]['features']
 
-        out_dic = {"type": "FeatureCollection",
-                   "features": out_arr}
+        out_dic = {"type": "FeatureCollection", "features": out_arr}
 
         if rec:
             return json.dump(out_dic, self)
@@ -148,10 +155,12 @@ class GeoJsonHandler(BaseHandler):
                 if bcbc['coordinates'] in [[], [[None]]]:
                     return
 
-                bcbc = {'features': [{'geometry': bcbc,
-                                      "properties": {},
-                                      "type": "Feature"}],
-                        'type': "Feature"}
+                bcbc = {
+                    'features': [
+                        {'geometry': bcbc, "properties": {}, "type": "Feature"}
+                    ],
+                    'type': "Feature",
+                }
             return bcbc
 
         json_obj = json.loads(geojson_str)
@@ -195,7 +204,9 @@ class GeoJsonHandler(BaseHandler):
             return
 
         try:
-            MJson.add_or_update_json(uid, self.userinfo.uid, out_dic, post_data, version=1)
+            MJson.add_or_update_json(
+                uid, self.userinfo.uid, out_dic, post_data, version=1
+            )
             return_dic['status'] = 1
         except Exception:
             self.set_status(400)
@@ -204,7 +215,6 @@ class GeoJsonHandler(BaseHandler):
 
     @tornado.web.authenticated
     def add_data_with_map(self, url_arr):
-
         post_data = self.get_request_arguments()
         geojson_str = post_data['geojson']
         out_dic = self.parse_geojson(geojson_str)
@@ -256,9 +266,7 @@ class GeoJsonAjaxHandler(GeoJsonHandler):
                 'geojson': gson.json,
             }
         else:
-            out_dic = {
-                'uid': 0
-            }
+            out_dic = {'uid': 0}
         return json.dump(out_dic, self)
 
     def put(self, *args, **kwargs):
@@ -278,7 +286,6 @@ class GeoJsonAjaxHandler(GeoJsonHandler):
                 self.j_add(url_arr[1])
 
     def j_add(self, uid=''):
-
         post_data = self.get_request_arguments()
         print(post_data)
         geojson_str = post_data['geojson']

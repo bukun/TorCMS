@@ -17,7 +17,7 @@ def run_send_all(*args):
         send_mail(
             [email_add],
             f"{SMTP_CFG['name']}|{email_cfg['title']}",
-            email_cfg['content']
+            email_cfg['content'],
         )
 
 
@@ -31,6 +31,6 @@ def run_send_nologin(*args):
         send_mail(
             [email_add],
             f"{SMTP_CFG['name']}|{email_cfg['title']}",
-            email_cfg['content']
+            email_cfg['content'],
         )
         MUser.set_sendemail_time(user_rec.uid)

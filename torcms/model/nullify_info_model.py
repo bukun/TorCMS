@@ -17,7 +17,6 @@ class MNullifyInfo:
 
     @staticmethod
     def query_pager_by_valid(current_page_num=1):
-
         recs = (
             TabPost.select()
             .where(TabPost.valid == 0)
@@ -29,7 +28,6 @@ class MNullifyInfo:
 
     @staticmethod
     def count_of_certain():
-
         recs = TabPost.select().where(TabPost.valid == 0)
 
         return recs.count()

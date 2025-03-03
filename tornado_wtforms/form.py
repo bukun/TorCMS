@@ -20,14 +20,15 @@ __all__ = (
     'TornadoForm',
 )
 
-from .meta import TornadoMeta
+import warnings
+
 from tornado import escape
 from wtforms import form
-import warnings
+
+from .meta import TornadoMeta
 
 
 class TornadoInputWrapper(object):
-
     def __init__(self, multidict):
         self._wrapped = multidict
 
@@ -38,7 +39,7 @@ class TornadoInputWrapper(object):
         return len(self._wrapped)
 
     def __contains__(self, name):
-        return (name in self._wrapped)
+        return name in self._wrapped
 
     def __getitem__(self, name):
         return self._wrapped[name]
@@ -60,12 +61,19 @@ class TornadoForm(form.Form):
 
     Meta = TornadoMeta
 
-    def __init__(self, formdata=None, obj=None, prefix="", data=None,
-                 meta=None, **kwargs,):
+    def __init__(
+        self,
+        formdata=None,
+        obj=None,
+        prefix="",
+        data=None,
+        meta=None,
+        **kwargs,
+    ):
         self._locale_code = kwargs.get("locale_code", "en_US")
-        super(TornadoForm, self).__init__(formdata=formdata, obj=obj,
-                                          prefix=prefix, data=data,
-                                          meta=meta, **kwargs)
+        super(TornadoForm, self).__init__(
+            formdata=formdata, obj=obj, prefix=prefix, data=data, meta=meta, **kwargs
+        )
 
     @property
     def current_locale(self):
@@ -78,12 +86,15 @@ class TornadoForm(form.Form):
 
 
 class Form(TornadoForm):
-
-    def __init__(self, formdata=None, obj=None, prefix="", data=None,
-                 meta=None, **kwargs):
+    def __init__(
+        self, formdata=None, obj=None, prefix="", data=None, meta=None, **kwargs
+    ):
         warnings.warn(
             "The tornado_wtforms.form.Form class is depreciated, please use "
             "tornado_wtforms.form.TornadoForm.",
-            DeprecationWarning, stacklevel=3)
-        super(Form, self).__init__(formdata=formdata, obj=obj, prefix=prefix,
-                                   data=data, meta=meta, **kwargs)
+            DeprecationWarning,
+            stacklevel=3,
+        )
+        super(Form, self).__init__(
+            formdata=formdata, obj=obj, prefix=prefix, data=data, meta=meta, **kwargs
+        )

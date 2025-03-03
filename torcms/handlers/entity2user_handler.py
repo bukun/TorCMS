@@ -2,8 +2,10 @@
 '''
 Hander for entiey, such as files or URL.
 '''
-import tornado.web
 import json
+
+import tornado.web
+
 import config
 from torcms.core import privilege
 from torcms.core.base_handler import BaseHandler

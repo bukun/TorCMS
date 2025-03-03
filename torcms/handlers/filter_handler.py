@@ -5,11 +5,12 @@
 
 import json
 import math
-import config
-import tornado.escape
 from urllib.parse import unquote
+
+import tornado.escape
 from html2text import html2text
 
+import config
 from config import CMS_CFG, post_cfg
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tools import logger

@@ -28,7 +28,11 @@ def update_category(uid, postdata, kwargs):
     '''
     Update the category of the post.
     '''
-    catid = kwargs['catid'] if ('catid' in kwargs and MCategory.get_by_uid(kwargs['catid'])) else None
+    catid = (
+        kwargs['catid']
+        if ('catid' in kwargs and MCategory.get_by_uid(kwargs['catid']))
+        else None
+    )
 
     post_data = postdata
 
@@ -88,7 +92,9 @@ def fix_entity_path(sig):
         for filename in files:
             if sig in str(filename):
                 entity_path = os.path.join(home, filename)
-                out_path = os.path.join(out_dir, 'entityx_' + get_uu8d() + '_' + sig + '.7z')
+                out_path = os.path.join(
+                    out_dir, 'entityx_' + get_uu8d() + '_' + sig + '.7z'
+                )
 
                 shutil.copy(entity_path, out_path)
                 return out_path.strip('.') if out_path else None
@@ -101,7 +107,6 @@ def chuli_meta(sig, metafile):
     meta_dic = {}
 
     for row in cnts:
-
         if row:
             pass
         else:
@@ -110,7 +115,6 @@ def chuli_meta(sig, metafile):
         the_key, the_val = [x.strip() for x in row.split(':')]
 
         meta_dic[the_key] = the_val
-
 
     meta_dic['identifier'] = sig
 
@@ -130,7 +134,6 @@ def get_meta(catid, sig, kind_sig=''):
 
     for wroot, wdirs, wfiles in os.walk(meta_base):
         for wdir in wdirs:
-
             if wdir.lower().endswith(sig[1:]):
                 ds_base = pathlib.Path(os.path.join(wroot, wdir))
                 pp_data = {'logo': '', 'kind': kind_sig}
@@ -151,9 +154,7 @@ def get_meta(catid, sig, kind_sig=''):
                         pp_data['def_cat_pid'] = catid[:2] + '00'
                         pp_data['valid'] = 1
                         # 将主要数据添加到外扩展
-                        pp_data['extinfo'] = {
-
-                        }
+                        pp_data['extinfo'] = {}
 
                         kwargsa = {
                             'gcat0': catid,
@@ -162,7 +163,9 @@ def get_meta(catid, sig, kind_sig=''):
                     elif uu.name.startswith('thumbnail_'):
                         hou = os.path.splitext(uu.name)[-1]
                         if hou in ['.jpg', '.png', '.JPG', '.PNG', 'jpeg', 'JPEG']:
-                            thum_path = gen_thumb(os.path.join(wroot, wdir, uu.name), 'd' + sig[1:])
+                            thum_path = gen_thumb(
+                                os.path.join(wroot, wdir, uu.name), 'd' + sig[1:]
+                            )
                             pp_data['logo'] = thum_path.strip('.')
 
                 # ToDo: 未处理完
@@ -279,7 +282,6 @@ def chli_xlsx(cat_path):
 
     sheets = wb.sheetnames
     for sheet in sheets:
-
         catid = sheet.split('_')[0]
         ws = wb[sheet]
         rows = ws.max_row

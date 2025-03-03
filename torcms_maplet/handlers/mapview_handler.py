@@ -6,6 +6,7 @@ Handlers for Map application.
 
 import tornado.escape
 import tornado.web
+
 from torcms.core.base_handler import BaseHandler
 from torcms.model.post_model import MPost
 from torcms_maplet.core.tools import average_array
@@ -31,11 +32,8 @@ class MapViewHandler(BaseHandler):
             elif url_arr[0] == 'split':
                 self.show_split(url_arr[1:])
         else:
-            kwd = {'title': '',
-                   'info': ''}
-            self.render('misc/html/404.html',
-                        kwd=kwd,
-                        userinfo=self.userinfo)
+            kwd = {'title': '', 'info': ''}
+            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
     def show_overlay(self, app_arr):
         '''
@@ -57,24 +55,28 @@ class MapViewHandler(BaseHandler):
             zoom_min_arr.append(int(c_ap.extinfo['ext_zoom_min']))
             zoom_current_zrr.append(int(c_ap.extinfo['ext_zoom_current']))
 
-        kwd = {'url': 1,
-               'cookie_str': '',
-               'lon': average_array(lon_arr),
-               'lat': average_array(lat_arr),
-               'zoom_max': max(zoom_max_arr),
-               'zoom_min': min(zoom_min_arr),
-               'zoom_current': int(average_array(zoom_current_zrr))}
+        kwd = {
+            'url': 1,
+            'cookie_str': '',
+            'lon': average_array(lon_arr),
+            'lat': average_array(lat_arr),
+            'zoom_max': max(zoom_max_arr),
+            'zoom_min': min(zoom_min_arr),
+            'zoom_current': int(average_array(zoom_current_zrr)),
+        }
         if 'fullscreen' in self.request.arguments:
             tmpl = '../torcms_maplet/tmpl/mapview/overlay_full.html'
         else:
             tmpl = '../torcms_maplet/tmpl/mapview/overlay.html'
-        self.render(tmpl,
-                    topmenu='',
-                    kwd=kwd,
-                    userinfo=self.userinfo,
-                    unescape=tornado.escape.xhtml_unescape,
-                    app_arr=app_info_arr,
-                    app_str='/'.join(app_arr))
+        self.render(
+            tmpl,
+            topmenu='',
+            kwd=kwd,
+            userinfo=self.userinfo,
+            unescape=tornado.escape.xhtml_unescape,
+            app_arr=app_info_arr,
+            app_str='/'.join(app_arr),
+        )
 
     def show_sync(self, app_arr):
         '''
@@ -96,22 +98,26 @@ class MapViewHandler(BaseHandler):
             zoom_min_arr.append(int(c_ap.extinfo['ext_zoom_min']))
             zoom_current_zrr.append(int(c_ap.extinfo['ext_zoom_current']))
 
-        kwd = {'url': 1,
-               'cookie_str': '',
-               'lon': average_array(lon_arr),
-               'lat': average_array(lat_arr),
-               'zoom_max': max(zoom_max_arr),
-               'zoom_min': min(zoom_min_arr),
-               'zoom_current': int(average_array(zoom_current_zrr))}
+        kwd = {
+            'url': 1,
+            'cookie_str': '',
+            'lon': average_array(lon_arr),
+            'lat': average_array(lat_arr),
+            'zoom_max': max(zoom_max_arr),
+            'zoom_min': min(zoom_min_arr),
+            'zoom_current': int(average_array(zoom_current_zrr)),
+        }
 
         tmpl = '../torcms_maplet/tmpl/mapview/sync_full.html'
-        self.render(tmpl,
-                    topmenu='',
-                    kwd=kwd,
-                    userinfo=self.userinfo,
-                    unescape=tornado.escape.xhtml_unescape,
-                    app_arr=app_info_arr,
-                    app_str='/'.join(app_arr))
+        self.render(
+            tmpl,
+            topmenu='',
+            kwd=kwd,
+            userinfo=self.userinfo,
+            unescape=tornado.escape.xhtml_unescape,
+            app_arr=app_info_arr,
+            app_str='/'.join(app_arr),
+        )
 
     def show_split(self, app_arr):
         '''
@@ -133,19 +139,23 @@ class MapViewHandler(BaseHandler):
             zoom_min_arr.append(int(c_ap.extinfo['ext_zoom_min']))
             zoom_current_zrr.append(int(c_ap.extinfo['ext_zoom_current']))
 
-        kwd = {'url': 1,
-               'cookie_str': '',
-               'lon': average_array(lon_arr),
-               'lat': average_array(lat_arr),
-               'zoom_max': max(zoom_max_arr),
-               'zoom_min': min(zoom_min_arr),
-               'zoom_current': int(average_array(zoom_current_zrr))}
+        kwd = {
+            'url': 1,
+            'cookie_str': '',
+            'lon': average_array(lon_arr),
+            'lat': average_array(lat_arr),
+            'zoom_max': max(zoom_max_arr),
+            'zoom_min': min(zoom_min_arr),
+            'zoom_current': int(average_array(zoom_current_zrr)),
+        }
 
         tmpl = '../torcms_maplet/tmpl/mapview/split_full.html'
-        self.render(tmpl,
-                    topmenu='',
-                    kwd=kwd,
-                    userinfo=self.userinfo,
-                    unescape=tornado.escape.xhtml_unescape,
-                    app_arr=app_info_arr,
-                    app_str='/'.join(app_arr))
+        self.render(
+            tmpl,
+            topmenu='',
+            kwd=kwd,
+            userinfo=self.userinfo,
+            unescape=tornado.escape.xhtml_unescape,
+            app_arr=app_info_arr,
+            app_str='/'.join(app_arr),
+        )

@@ -1,19 +1,18 @@
 # -*- coding:utf-8 -*-
 import re
-
-import tornado.escape
-from torcms.core import tools
 from pathlib import Path
-from torcms.model.post_model import MPost
-from torcms.handlers.post_handler import import_post
-
-import bs4
-
-from faker import Faker
 from pprint import pprint
 
+import bs4
+import tornado.escape
+from faker import Faker
 
-class TestFoo():
+from torcms.core import tools
+from torcms.handlers.post_handler import import_post
+from torcms.model.post_model import MPost
+
+
+class TestFoo:
     def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
 
@@ -25,7 +24,6 @@ class TestFoo():
         # self.ws_dir = Path('/home/bk/tmp/gislite-pub/pt02_web_eb00ka')
         self.ws_dir = Path('/home/bk/tmp/gislite-pub/pt03_framework_eb00kb')
 
-
         self.re_pt = re.compile(r'/pt\d\d')
         self.re_ch = re.compile(r'/ch\d\d')
         self.re_sec = re.compile(r'/sec\d\d')
@@ -35,9 +33,7 @@ class TestFoo():
 
         self.book_sig = self.re_book.search(str(self.ws_dir))
 
-        self.img_ws = Path(
-            f'static/xx_book_{self.book_sig.group()}'
-        )
+        self.img_ws = Path(f'static/xx_book_{self.book_sig.group()}')
 
     def test_sig_exists(self):
         assert self.re_book.search(str(self.ws_dir))
@@ -56,7 +52,6 @@ class TestFoo():
         else:
             self.img_ws.mkdir()
         for wdir in self.ws_dir.rglob('_images'):
-
             for wfile in wdir.rglob('*'):
                 print(wfile)
                 if wfile.is_file():
@@ -71,10 +66,13 @@ class TestFoo():
                 self.insert_rst(wfile)
 
     def get_html(self, html_file: Path):
-
         File = open(str(html_file.resolve())).read()
-        File = File.replace('src="../../../_images/', f'src="/static/xx_book_{self.book_sig.group()}/')
-        File = File.replace('src="../../_images/', f'src="/static/xx_book_{self.book_sig.group()}/')
+        File = File.replace(
+            'src="../../../_images/', f'src="/static/xx_book_{self.book_sig.group()}/'
+        )
+        File = File.replace(
+            'src="../../_images/', f'src="/static/xx_book_{self.book_sig.group()}/'
+        )
         Soup = bs4.BeautifulSoup(File, features="html.parser")
         title = Soup.title.text.split('—')[0]
         content = Soup.select('.body')[0]
@@ -117,7 +115,10 @@ class TestFoo():
         rec = MPost.get_by_uid(uid)
         if rec:
             rec_cnt_md = rec.cnt_md
-            if rst_info['cnt'].strip() == tornado.escape.xhtml_unescape(rec_cnt_md).strip():
+            if (
+                rst_info['cnt'].strip()
+                == tornado.escape.xhtml_unescape(rec_cnt_md).strip()
+            ):
                 return
 
         import_post(uid, post_data)

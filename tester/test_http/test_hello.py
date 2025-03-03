@@ -3,8 +3,7 @@
 '''
 import unittest
 
-from tornado.testing import AsyncHTTPTestCase
-from tornado.testing import AsyncHTTPClient
+from tornado.testing import AsyncHTTPClient, AsyncHTTPTestCase
 
 # from server import application
 from application import APP as application
@@ -22,4 +21,3 @@ class TestMain(AsyncHTTPTestCase):
 
     def test_hello(self):
         client = AsyncHTTPClient()
-

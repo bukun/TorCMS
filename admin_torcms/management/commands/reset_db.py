@@ -3,7 +3,6 @@ from pathlib import Path
 from django.core.management.base import BaseCommand
 
 
-
 class Command(BaseCommand):
     help = '清空数据库迁移文件'
 

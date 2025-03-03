@@ -4,19 +4,19 @@ Handler for wiki, and page.
 '''
 
 import json
-import config
 from concurrent.futures import ThreadPoolExecutor
 
 import tornado.escape
 import tornado.gen
 import tornado.ioloop
 import tornado.web
-from torcms.model.staff2role_model import MStaff2Role
+
+import config
 from torcms.core import privilege, tools
 from torcms.core.base_handler import BaseHandler
+from torcms.model.staff2role_model import MStaff2Role
 from torcms.model.wiki_hist_model import MWikiHist
 from torcms.model.wiki_model import MWiki
-
 
 # from celery_server import cele_gen_whoosh
 
@@ -153,13 +153,15 @@ class WikiHandler(BaseHandler):
         '''
         View the wiki.
         '''
-        kwd = {
-            'pager': ''
-        }
+        kwd = {'pager': ''}
         MWiki.update_view_count(view.uid)
         if self.userinfo:
-            kwd['can_review'] = MStaff2Role.check_permissions(self.userinfo.uid, 'can_review')
-            kwd['can_edit'] = MStaff2Role.check_permissions(self.userinfo.uid, 'can_edit')
+            kwd['can_review'] = MStaff2Role.check_permissions(
+                self.userinfo.uid, 'can_review'
+            )
+            kwd['can_edit'] = MStaff2Role.check_permissions(
+                self.userinfo.uid, 'can_edit'
+            )
         self.render(
             'wiki_page/wiki_view.html', postinfo=view, kwd=kwd, userinfo=self.userinfo
         )

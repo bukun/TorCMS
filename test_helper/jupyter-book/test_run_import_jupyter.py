@@ -8,16 +8,18 @@ import os
 import sys
 
 sys.path.append('../..')
-from pathlib import Path
-from torcms.model.category_model import MCategory
-from torcms.model.post_model import MPost
-from torcms.handlers.post_handler import update_category
-from torcms.model.core_tab import TabTag
-import bs4
 import re
-import subprocess
-from torcms.core.tools import get_uu4d, get_uu8d
 import shutil
+import subprocess
+from pathlib import Path
+
+import bs4
+
+from torcms.core.tools import get_uu4d, get_uu8d
+from torcms.handlers.post_handler import update_category
+from torcms.model.category_model import MCategory
+from torcms.model.core_tab import TabTag
+from torcms.model.post_model import MPost
 
 pwd = os.getcwd()
 inws = Path(__file__).parent / 'jupyter-book/judocs'
@@ -30,7 +32,7 @@ def get_docker_name(the_str):
     tt = regobj.search(the_str).span()
 
     print(tt)
-    return the_str[tt[0]: tt[1]][4: -1]
+    return the_str[tt[0] : tt[1]][4:-1]
 
 
 def split_text(inws, in_text):
@@ -87,7 +89,7 @@ def filter_reg_text(inws, out_reg_arr):
                     # print('-' * 20)
                     # print(wfile.name)
                     if img == wfile.name:
-                        img = str(wfile.resolve())[len(pwd):]
+                        img = str(wfile.resolve())[len(pwd) :]
                 # print(img)
                 tt.append('src="{}"'.format(img))
             else:
@@ -101,7 +103,6 @@ def filter_reg_text(inws, out_reg_arr):
 rest_regs = [
     # '\s:.+?:`.+?`\/:.+?:`.+?`\/:.+?:`.+?`'
     '\<img.+?\/\>',  # 形如：   ``sadf``: :sdf:`slfkj`
-
 ]
 
 
@@ -122,7 +123,10 @@ def do_for_chapter(cat_id, ch_path):
 
         uid = jufile.stem.split('_')[-1]
         print(uid)
-        subprocess.run(f'jupyter nbconvert --to html {jufile.resolve()} --output /tmp/xx.html ', shell=True)
+        subprocess.run(
+            f'jupyter nbconvert --to html {jufile.resolve()} --output /tmp/xx.html ',
+            shell=True,
+        )
 
         pp_data = get_meta(cat_id, idx, uid, docker_name)
         print('u' * 40)
@@ -167,10 +171,7 @@ def get_appfile(uid):
             new_file = f'jupy{salt}_{uid}{app_7z.suffix}'.lower()
             print('copy ... ')
             new_file_path = ws_aim / new_file
-            shutil.copy(
-                app_7z,
-                new_file_path
-            )
+            shutil.copy(app_7z, new_file_path)
             return str(Path(new_file_path).resolve())
     else:
         print(uid)
@@ -228,7 +229,6 @@ def get_meta(catid, idx, uid, docker_name):
 
 def get_catname(ch_path, filename):
     for x in ch_path.rglob('*.html'):
-
         if x.name.startswith(filename):
             pass
         else:
@@ -254,13 +254,11 @@ def test_bainli():
     print(max(recs_arr))
 
     for wroot, wdirs, wfiles in os.walk(inws):
-
         if 'doctrees' in wroot:
             continue
         idx = max_order + 1
 
         for wdir in wdirs:
-
             if wdir.startswith('ch') and len(wdir.split('_')) > 2:
                 pass
             else:
@@ -282,11 +280,13 @@ def test_bainli():
             else:
                 cat_name = cat_slug
 
-            post_data = {'name': cat_name,
-                         'slug': cat_slug.lower(),
-                         'order': idx,
-                         'kind': 'k',
-                         'pid': pid}
+            post_data = {
+                'name': cat_name,
+                'slug': cat_slug.lower(),
+                'order': idx,
+                'kind': 'k',
+                'pid': pid,
+            }
 
             # try:
             # MCategory.add_or_update(cat_id, post_data)
@@ -294,9 +294,6 @@ def test_bainli():
             #     print('Error')
             #     pass
 
-            do_for_chapter(
-                cat_id,
-                Path(os.path.join(wroot, wdir))
-            )
+            do_for_chapter(cat_id, Path(os.path.join(wroot, wdir)))
 
             idx = idx + 1

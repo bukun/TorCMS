@@ -5,14 +5,16 @@
 '''
 
 import os
-import sys;
+import sys
 
 sys.path.extend('.')
 
 from pathlib import Path
+
+from PIL import Image
+
 from torcms.model.category_model import TabPost
 from torcms.model.post_model import MPost
-from PIL import Image
 
 # logo_cache_dir = './static/cache'
 logo_cache_dir = '/home/bk/deploy/fangzai/static/cache'
@@ -21,9 +23,7 @@ meta_base = Path('/home/bk/geows/data')
 
 
 def update_logo(logo, uid):
-    entry = TabPost.update(
-        logo=logo
-    ).where(TabPost.uid == uid)
+    entry = TabPost.update(logo=logo).where(TabPost.uid == uid)
     entry.execute()
 
     return True
@@ -43,7 +43,7 @@ def update_db_info(sig):
                 thum_path = gen_thumb(wfile, sig)
                 if thum_path:
                     print(thum_path)
-                    pp_data['logo'] = thum_path[len('/home/bk/deploy/fangzai'):]
+                    pp_data['logo'] = thum_path[len('/home/bk/deploy/fangzai') :]
                     update_logo(pp_data['logo'], sig)
 
 
@@ -66,7 +66,6 @@ def gen_thumb(img_path, sig):
 
 
 def import_meta():
-
     # 此文件夹下声明系统中的数据集及分类
     recs = MPost.query_all(kind='d', limit=10000)
     for rec in recs:

@@ -1,8 +1,9 @@
 '''
 pip install pyjwt  (2.8.0)
 '''
-import jwt
 import time
+
+import jwt
 
 JWT_TOKEN_EXPIRE_SECONDS = 3600 * 2  # token有效时间 2小时
 JWT_TOKEN_SECRET_SALT = 'sdftest'
@@ -22,7 +23,9 @@ def verify_jwt_token(user, jwtToken):
     print(user)
     data = {'user_id': user}
     try:
-        payload = jwt.decode(jwtToken, JWT_TOKEN_SECRET_SALT, algorithms=[JWT_TOKEN_ALGORITHM])
+        payload = jwt.decode(
+            jwtToken, JWT_TOKEN_SECRET_SALT, algorithms=[JWT_TOKEN_ALGORITHM]
+        )
         print("verify:", payload)
         exp = int(payload.pop('exp'))
         if time.time() > exp:
@@ -38,13 +41,13 @@ def verify_jwt_token(user, jwtToken):
 
 if __name__ == '__main__':
     '''
-    
+
     https://www.jb51.net/python/2852675y0.htm
-    
+
     AttributeError: module 'jwt' has no attribute 'encode'
 
     '''
     # generate_jwt_token('user')
 
-    aa='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidXNlciIsImV4cCI6MTY4OTg0ODQyMH0.jx1qEhWA4dv_WK48jiSxBFIyWfAqhpEcLfXjPsUP3mw'
+    aa = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidXNlciIsImV4cCI6MTY4OTg0ODQyMH0.jx1qEhWA4dv_WK48jiSxBFIyWfAqhpEcLfXjPsUP3mw'
     verify_jwt_token('usseasdasdr', aa)

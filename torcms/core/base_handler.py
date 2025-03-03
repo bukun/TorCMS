@@ -5,17 +5,16 @@ Basic for handler
 
 import socket
 import time
+
 import requests
 import tornado.web
 from tornado.concurrent import run_on_executor
 
 import torcms.core.tool.whoosh_tool
-
-# from torcms.core.tool import run_whoosh
-
+from config import post_cfg
 from torcms.model.user_model import MUser
 
-from config import post_cfg
+# from torcms.core.tool import run_whoosh
 
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -183,7 +182,6 @@ class BaseHandler(tornado.web.RequestHandler):
         location_data = {
             "ip": ip_address,
             "address": response.get("address"),
-
         }
 
         return location_data

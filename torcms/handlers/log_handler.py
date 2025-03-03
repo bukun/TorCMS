@@ -22,7 +22,6 @@ class LogHandler(BaseHandler):
         super().initialize()
 
     def get(self, *args, **kwargs):
-
         url_str = args[0]
 
         url_arr = self.parse_url(url_str)
@@ -35,7 +34,6 @@ class LogHandler(BaseHandler):
             self.render('misc/html/404.html', userinfo=self.userinfo, kwd={})
 
     def post(self, *args, **kwargs):
-
         url_str = args[0]
 
         url_arr = self.parse_url(url_str)

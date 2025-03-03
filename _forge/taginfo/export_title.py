@@ -8,13 +8,12 @@ import sys
 
 sys.path.append('.')
 
-from torcms.model.post_model import MPost
-from torcms.model.category_model import MCategory
-from torcms.model.post2catalog_model import MPost2Catalog
-
 import re
 
 from config import router_post
+from torcms.model.category_model import MCategory
+from torcms.model.post2catalog_model import MPost2Catalog
+from torcms.model.post_model import MPost
 
 out_ws = 'xx_title'
 
@@ -47,7 +46,6 @@ def do_for_cat(rec):
     out_file = os.path.join(out_base_dir, cat_id + '.md')
 
     with open(out_file, 'w') as fout_md:
-
         for post2tag_rec in post2tag_recs:
             # print(post2tag_rec.post_id)
             postinfo = MPost.get_by_uid(post2tag_rec.post_id)

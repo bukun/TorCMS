@@ -3,21 +3,23 @@
 Genereting role.
 '''
 import sys
-from config import post_cfg
-from openpyxl.reader.excel import load_workbook
-from torcms.script.autocrud.base_crud import FILTER_COLUMNS
-from torcms.model.role2permission_model import MRole2Permission
-from torcms.model.staff2role_model import MStaff2Role
-from torcms.model.permission_model import MPermission
-from torcms.model.role_model import MRole
-from torcms.model.user_model import MUser
 from pathlib import Path
+
+from openpyxl.reader.excel import load_workbook
+
+from config import post_cfg
+from torcms.model.permission_model import MPermission
+from torcms.model.role2permission_model import MRole2Permission
+from torcms.model.role_model import MRole
+from torcms.model.staff2role_model import MStaff2Role
+from torcms.model.user_model import MUser
+from torcms.script.autocrud.base_crud import FILTER_COLUMNS
 
 XLSX_FILE = '../../database/hlj_role.xlsx'
 if Path(XLSX_FILE).exists():
     pass
 else:
-    XLSX_FILE = Path(__file__).parent /'hlj_role.xlsx'
+    XLSX_FILE = Path(__file__).parent / 'hlj_role.xlsx'
 
 
 def test_gen_role():
@@ -26,7 +28,6 @@ def test_gen_role():
     '''
 
     for sheet_ranges in load_workbook(filename=XLSX_FILE):
-
         # role 入库
 
         cell_val = sheet_ranges['A1'].value
@@ -49,7 +50,6 @@ def test_gen_role():
 
         role_arr = []
         for row_num in range(3, 10000):
-
             # role入库
             a_cell_val = sheet_ranges['A{0}'.format(row_num)].value
             b_cell_val = sheet_ranges['B{0}'.format(row_num)].value
@@ -60,7 +60,6 @@ def test_gen_role():
                 name = cell_arr.split(":")[1]
                 pid = puid
                 shi_uid = uid
-
 
             elif b_cell_val and b_cell_val != '':
                 cell_arr = b_cell_val

@@ -4,8 +4,9 @@
 Define the metadata module for TorCMS.
 '''
 import tornado.web
-from torcms.model.category_model import MCategory
+
 from config import post_cfg
+from torcms.model.category_model import MCategory
 
 
 class Upload_excel(tornado.web.UIModule):
@@ -15,7 +16,7 @@ class Upload_excel(tornado.web.UIModule):
         return self.render_string(
             '../torcms_metadata_yml/tmpl_modules/yml_upload_excel.html',
             uid=uid,
-            router=router
+            router=router,
         )
 
 
@@ -38,11 +39,12 @@ class MetaCategory(tornado.web.UIModule):
             'cat_id': uid_with_str,
             'accid': kwargs.get('accid', ''),
             'router': post_cfg[kind]['router'],
-            'cur_catid': cur_catid
+            'cur_catid': cur_catid,
         }
 
-        return self.render_string('../torcms_metadata_yml/tmpl_modules/yml_catalog.html',
-                                  pcatinfo=curinfo,
-                                  recs=sub_cats,
-                                  kwd=kwd)
-
+        return self.render_string(
+            '../torcms_metadata_yml/tmpl_modules/yml_catalog.html',
+            pcatinfo=curinfo,
+            recs=sub_cats,
+            kwd=kwd,
+        )

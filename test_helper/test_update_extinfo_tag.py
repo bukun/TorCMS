@@ -1,8 +1,8 @@
-from pprint import pprint
 import copy
-from torcms.model.post_model import MPost
+from pprint import pprint
 
 from config import post_cfg
+from torcms.model.post_model import MPost
 
 
 def test_updata_extinfo_tag():
@@ -18,7 +18,6 @@ def test_updata_extinfo_tag():
             rec_extinfo = copy.deepcopy(rec.extinfo)
             upp = False
             for key in rec.extinfo:
-
                 if key.startswith('tag_'):
                     # print(key, rec_extinfo[key])
                     new_key = '_' + key

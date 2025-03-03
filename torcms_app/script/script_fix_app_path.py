@@ -13,8 +13,8 @@ pwd = os.getcwd()
 (qian, hou) = os.path.split(pwd)
 sys.path.append(qian)
 
-from torcms_app.model.ext_model import MAppYun
 from torcms_app._config import APP_MASK
+from torcms_app.model.ext_model import MAppYun
 
 mequ = MAppYun()
 
@@ -33,7 +33,6 @@ def javascript2database(htmlfile, html_path, kind='s'):
     desc = ''
     # print (soup('title'))
     for meta_tag in soup('meta'):
-
         # if 'name' in meta_tag:
         try:
             if meta_tag['name'] == 'description':
@@ -89,7 +88,7 @@ def run_fix_path(kind='s'):
                 # print(infile)
             else:
                 continue
-            html_path = infile[len(javascript_ws) + 1:]
+            html_path = infile[len(javascript_ws) + 1 :]
 
             for appmask in APP_MASK:
                 if appmask in infile:

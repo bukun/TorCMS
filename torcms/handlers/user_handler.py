@@ -8,15 +8,11 @@ import datetime
 import json
 import re
 import time
+
 import tornado.web
 import wtforms.validators
 from wtforms.fields import StringField
 from wtforms.validators import DataRequired
-# from wtforms_tornado import Form
-from tornado_wtforms.form import Form
-
-# ToDo: 需要进行切换、测试
-# from tornado_wtforms.form import TornadoForm as Form
 
 import config
 from config import CMS_CFG
@@ -24,18 +20,29 @@ from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tool.send_email import send_mail
 from torcms.core.tools import logger
-from torcms.model.user_model import MUser
-from torcms.model.staff2role_model import MStaff2Role
 from torcms.model.role2permission_model import MRole2Permission
 from torcms.model.role_model import MRole
+from torcms.model.staff2role_model import MStaff2Role
+from torcms.model.user_model import MUser
+
+# from wtforms_tornado import Form
+from tornado_wtforms.form import Form
+
+# ToDo: 需要进行切换、测试
+# from tornado_wtforms.form import TornadoForm as Form
+
 
 def no_cache(method):
     def wrapper(self, *args, **kwargs):
-        self.set_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
+        self.set_header(
+            "Cache-Control", "no-store, no-cache, must-revalidate, max-age=0"
+        )
         self.set_header("Pragma", "no-cache")
         self.set_header("Expires", "Thu, 01 Jan 1970 00:00:00 GMT")
         return method(self, *args, **kwargs)
+
     return wrapper
+
 
 def check_regist_info(post_data):
     '''
@@ -138,7 +145,6 @@ class UserHandler(BaseHandler):
         self.is_p = False
 
     def get(self, *args, **kwargs):
-
         url_str = args[0]
         url_arr = self.parse_url(url_str)
 
@@ -643,7 +649,6 @@ class UserHandler(BaseHandler):
         is_user_passed = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
 
         if is_user_passed == 1:
-
             user_create_status = check_modify_info(post_data)
             if not user_create_status['success']:
                 return json.dump(user_create_status, self)
@@ -669,7 +674,6 @@ class UserHandler(BaseHandler):
         check_usr_status = MUser.check_user(self.userinfo.uid, post_data['rawpass'])
 
         if check_usr_status == 1:
-
             user_create_status = check_valid_pass(post_data)
             if not user_create_status['success']:
                 return json.dump(user_create_status, self)
@@ -786,8 +790,7 @@ class UserHandler(BaseHandler):
                     'success': True,
                     'code': '1',
                     'info': 'Login successful',
-                    'user_name': u_name
-
+                    'user_name': u_name,
                 }
                 return json.dump(user_login_status, self)
             else:
@@ -1060,9 +1063,9 @@ class UserHandler(BaseHandler):
                 )
 
                 if send_mail(
-                        [userinfo.user_email],
-                        "{0}|密码重置".format(config.SMTP_CFG['name']),
-                        email_cnt,
+                    [userinfo.user_email],
+                    "{0}|密码重置".format(config.SMTP_CFG['name']),
+                    email_cnt,
                 ):
                     MUser.update_time_reset_passwd(username, timestamp)
                     self.set_status(200)
@@ -1127,9 +1130,7 @@ class UserHandler(BaseHandler):
     def get_role_by_uid(self, roles):
         role_arr = []
         if roles:
-
             for role in roles:
-
                 if ',' in role:
                     role1_id = role.split(',')[0]
                     role_id = role.split(',')[-1]
@@ -1204,10 +1205,10 @@ class UserHandler(BaseHandler):
             break
         for i in range(len(pwd)):
             if (
-                    ('null' <= pwdlist[i] < '0')
-                    or ('9' < pwdlist[i] <= '@')
-                    or ('Z' < pwdlist[i] <= '`')
-                    or ('z' < pwdlist[i] <= '~')
+                ('null' <= pwdlist[i] < '0')
+                or ('9' < pwdlist[i] <= '@')
+                or ('Z' < pwdlist[i] <= '`')
+                or ('z' < pwdlist[i] <= '~')
             ):
                 intensity += 2
                 break

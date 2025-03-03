@@ -1,5 +1,7 @@
 from pprint import pprint
+
 from owslib.csw import CatalogueServiceWeb
+
 csw = CatalogueServiceWeb('https://drr.ikcest.org/csw')
 print(csw.identification.type)
 
@@ -8,7 +10,8 @@ print(csw.identification.type)
 # csw.getdomain('GetRecords.resultType')
 # print(csw.results)
 
-from owslib.fes import PropertyIsEqualTo, PropertyIsLike, BBox
+from owslib.fes import BBox, PropertyIsEqualTo, PropertyIsLike
+
 
 def query_by_kw():
     # birds_query = PropertyIsEqualTo('csw:AnyText', '')
@@ -17,13 +20,19 @@ def query_by_kw():
     birds_query = PropertyIsLike('csw:AnyText', 'Food')
 
     # csw.getrecords2(constraints=[birds_query], maxrecords=20, )
-    csw.getrecords2(constraints=[birds_query], maxrecords=20, startposition = 0, distributedsearch=True, hopcount=2)
+    csw.getrecords2(
+        constraints=[birds_query],
+        maxrecords=20,
+        startposition=0,
+        distributedsearch=True,
+        hopcount=2,
+    )
     print(csw.results)
     for key in csw.records:
         rec = csw.records[key]
         print('=' * 40)
         print(rec)
-        ops = [x for  x in dir(rec) if not x.startswith('__')]
+        ops = [x for x in dir(rec) if not x.startswith('__')]
         pprint(ops)
         # for op in ops:
         #     print(f'## {op}:', eval(f'rec.{op}'))
@@ -60,8 +69,6 @@ def query_by_kw():
         print(rec.uris)
         print(rec.xml)
 
-
-
     # bbox_query = BBox([-141,42,-52,84])
     # csw.getrecords2(constraints=[birds_query, bbox_query])
     #
@@ -75,6 +82,7 @@ def query_by_id():
     '''
     c = csw.getrecordbyid(id=['xh_1_12073'])
     pprint(c.records['xh_1_12073'].title)
+
 
 if __name__ == '__main__':
     query_by_kw()

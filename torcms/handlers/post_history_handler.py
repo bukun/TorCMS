@@ -4,11 +4,13 @@ Manage the posts by Administrator.
 '''
 
 from abc import ABCMeta, abstractmethod
-import config
+
 import tornado.escape
 import tornado.web
-from torcms.core import privilege
+
+import config
 from config import post_cfg
+from torcms.core import privilege
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tools import diff_table
 from torcms.model.post_hist_model import MPostHist
@@ -121,7 +123,6 @@ class PostHistoryHandler(EditHistoryHander):
     @tornado.web.authenticated
     @privilege.permission(action='can_review')
     def update(self, uid):
-
         post_data = self.get_request_arguments()
         if self.userinfo:
             post_data['user_name'] = self.userinfo.user_name
@@ -142,7 +143,6 @@ class PostHistoryHandler(EditHistoryHander):
     @tornado.web.authenticated
     @privilege.permission(action='can_review')
     def to_edit(self, postid):
-
         post_rec = MPost.get_by_uid(postid)
         kwd = {}
         self.render(
@@ -166,7 +166,6 @@ class PostHistoryHandler(EditHistoryHander):
     @tornado.web.authenticated
     @privilege.permission(action='can_review')
     def delete(self, uid):
-
         histinfo = MPostHist.get_by_uid(uid)
         if histinfo:
             pass
@@ -190,7 +189,6 @@ class PostHistoryHandler(EditHistoryHander):
         hist_recs = MPostHist.query_by_postid(uid, limit=5)
         html_diff_arr = []
         if hist_recs:
-
             for hist_rec in hist_recs:
                 infobox = diff_table(hist_rec.cnt_md, postinfo.cnt_md)
                 hist_user = hist_rec.user_name
@@ -210,7 +208,9 @@ class PostHistoryHandler(EditHistoryHander):
                     }
                 )
         if self.userinfo:
-            kwd['can_review'] = MStaff2Role.check_permissions(self.userinfo.uid, 'can_review')
+            kwd['can_review'] = MStaff2Role.check_permissions(
+                self.userinfo.uid, 'can_review'
+            )
 
         self.render(
             'man_info/post_man_view.html',
@@ -225,7 +225,6 @@ class PostHistoryHandler(EditHistoryHander):
     @tornado.web.authenticated
     @privilege.permission(action='can_review')
     def restore(self, hist_uid):
-
         histinfo = MPostHist.get_by_uid(hist_uid)
         if histinfo:
             pass
@@ -243,4 +242,6 @@ class PostHistoryHandler(EditHistoryHander):
         MPostHist.update_cnt(
             histinfo.uid, {'cnt_md': cur_cnt, 'user_name': postinfo.user_name}
         )
-        self.redirect('/{0}/{1}'.format(post_cfg[postinfo.kind]['router'], postinfo.uid))
+        self.redirect(
+            '/{0}/{1}'.format(post_cfg[postinfo.kind]['router'], postinfo.uid)
+        )

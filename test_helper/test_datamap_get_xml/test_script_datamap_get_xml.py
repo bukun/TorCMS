@@ -2,9 +2,10 @@
 通过Data中相关图层名称获取url，并通过url获取xml数据
 '''
 import json
+from pathlib import Path
+
 import yaml
 from owslib.wms import WebMapService
-from pathlib import Path
 
 
 def test_get_xml():
@@ -18,8 +19,7 @@ def test_get_xml():
         data = yaml.load(content, Loader=yaml.FullLoader)
 
         for ii in data['layers']:
-
-            if (ii['name'] == maplayers):
+            if ii['name'] == maplayers:
                 mapurl = ii[maplayers]['req']['url']
                 try:
                     wms = WebMapService(mapurl, version='1.3.0')

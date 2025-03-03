@@ -5,8 +5,9 @@ The web page for publish, with category.
 
 import tornado
 import tornado.web
-from torcms.core import privilege
+
 from config import post_cfg
+from torcms.core import privilege
 from torcms.core.base_handler import BaseHandler
 from torcms.model.category_model import MCategory
 
@@ -86,14 +87,11 @@ class PublishHandler(BaseHandler):
         }
         self.render('misc/publish/publish.html', userinfo=self.userinfo, kwd=kwd)
 
-
     @tornado.web.authenticated
     def view_class2(self, fatherid=''):
         '''
         Publishing from 2ed range category.
         '''
-
-
 
         kwd = {
             'class1str': self.format_class2(fatherid),

@@ -1,17 +1,19 @@
 # -*- coding:utf-8 -*-
 
+import json
 import os
+
 import tornado.escape
+
 from torcms.core.base_handler import BaseHandler
+
 # from torcms.model.info_model import MInfor
 from torcms.model.post_model import MPost
-import json
 
 
 class JavascriptHandler(BaseHandler):
     def initialize(self):
         super(JavascriptHandler, self).initialize()
-
 
     def get(self, url_str=''):
         if len(url_str) > 0:

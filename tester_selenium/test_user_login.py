@@ -5,6 +5,7 @@ Test user login.
 '''
 
 import unittest
+
 # from application import APP
 from http import cookies
 
@@ -20,6 +21,7 @@ class LoginTest(AsyncHTTPTestCase):
     '''
     Test user login.
     '''
+
     print(".." * 100)
 
     def __init__(self, *rest):
@@ -32,8 +34,6 @@ class LoginTest(AsyncHTTPTestCase):
         Test
         '''
         LoginTest.__init__()
-
-
 
         # return APP
 

@@ -33,7 +33,6 @@ class YuansuanHandler(PostHandler):
             'recent': '/post_list/recent',
             'refresh': '/post_list/_refresh',
             '_refresh': '/post_list/_refresh',
-
         }
         sig = url_arr[0]
         for sig_enum in direct_dic:
@@ -59,7 +58,6 @@ class YuansuanHandler(PostHandler):
         return True
 
     def get(self, *args):
-
         url_str = args[0]
         url_arr = self.parse_url(url_str)
         if len(url_arr) > 0:
@@ -95,8 +93,7 @@ class YuansuanHandler(PostHandler):
                 'info': '404. Page not found!',
             }
             self.set_status(404)
-            self.render('misc/html/404.html', kwd=kwd,
-                        userinfo=self.userinfo)
+            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
     def ext_tmpl_view(self, rec):
         html_path = rec.extinfo['html_path']
@@ -112,7 +109,9 @@ class YuansuanHandler(PostHandler):
             for wroot, wdirs, wfiles in os.walk('./templates/jshtml'):
                 for wfile in wfiles:
                     if wfile == '{0}.html'.format(rec.uid):
-                        html_path = os.path.join(wroot, wfile[:-5])[len('./templates/jshtml'):]
+                        html_path = os.path.join(wroot, wfile[:-5])[
+                            len('./templates/jshtml') :
+                        ]
                         getit = True
                         break
                 if getit:
@@ -138,7 +137,9 @@ class YuansuanHandler(PostHandler):
 
         app_hist_recs = None
         if self.userinfo:
-            app_hist_recs = self.mcalcinfo.query_hist_recs(self.userinfo.uid, info_rec.uid)
+            app_hist_recs = self.mcalcinfo.query_hist_recs(
+                self.userinfo.uid, info_rec.uid
+            )
 
         kwd = {}
         post_data = self.get_request_arguments()

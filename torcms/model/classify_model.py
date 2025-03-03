@@ -38,7 +38,6 @@ class MClassify:
 
     @staticmethod
     def count_of_classify(tagid):
-
         if tagid.endswith('00'):
             recs = (
                 TabPost.select()

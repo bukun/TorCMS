@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from torcms_dde.model.ext import Records
 from torcms.script.script_init_tabels import create_table
+from torcms_dde.model.ext import Records
 
 
 def run_init_tables(*args):

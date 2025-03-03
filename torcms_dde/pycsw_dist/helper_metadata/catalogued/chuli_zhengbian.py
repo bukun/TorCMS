@@ -3,11 +3,10 @@
 在当前文件夹运行
 '''
 from pathlib import Path
-from osgeo import ogr
+
 import fiona
-from pyproj import Proj
-from pyproj import CRS
-from osgeo import osr
+from osgeo import ogr, osr
+from pyproj import CRS, Proj
 
 target = osr.SpatialReference()
 target.ImportFromEPSG(4326)
@@ -74,8 +73,9 @@ def get_geo(wdir):
 
 
 from pathlib import Path
-from openpyxl import load_workbook
 from xml.sax.saxutils import escape
+
+from openpyxl import load_workbook
 
 '''
 导入数据集的元数据，以及数据实体
@@ -83,8 +83,8 @@ from xml.sax.saxutils import escape
 
 import os
 import pathlib
-from openpyxl import load_workbook
 
+from openpyxl import load_workbook
 
 # HOST_QGSVR = '39.100.254.142:6626'
 
@@ -138,13 +138,27 @@ def chuli_meta(metafile, sig, ginfo=None):
                 pass
 
             # print(row[0].value.strip())
-            if row[0].value.strip() in ['creator', 'contributer', 'subject', 'relation', 'title', 'type', 'source']:
-                fo.write('<dc:{0}>{1}</dc:{0}>\n'.format(row[0].value, escape(row[1].value)))
+            if row[0].value.strip() in [
+                'creator',
+                'contributer',
+                'subject',
+                'relation',
+                'title',
+                'type',
+                'source',
+            ]:
+                fo.write(
+                    '<dc:{0}>{1}</dc:{0}>\n'.format(row[0].value, escape(row[1].value))
+                )
             if row[0].value.strip() in ['abstract']:
-                fo.write('<dct:{0}>{1}</dct:{0}>\n'.format(row[0].value, escape(row[1].value)))
+                fo.write(
+                    '<dct:{0}>{1}</dct:{0}>\n'.format(
+                        row[0].value, escape(row[1].value)
+                    )
+                )
         fo.write(tp_identifier.format('drrmd-' + sig))
         if ginfo:
-            fo.write(tmpl_geo.format( ginfo[1], ginfo[0], ginfo[3], ginfo[2]))
+            fo.write(tmpl_geo.format(ginfo[1], ginfo[0], ginfo[3], ginfo[2]))
             # fo.write(tmpl_geo.format(ginfo[1], ginfo[0], ginfo[3], ginfo[2]))
         fo.write(tmpl_9)
 
@@ -167,7 +181,6 @@ def get_meta():
         # print(wdirs)
         for wdir in wdirs:
             if wdir.startswith('dataset') and '_dn' in wdir:
-
                 #  Got the dataset of certain ID.
 
                 # ds_base = pathlib.Path()
@@ -178,7 +191,6 @@ def get_meta():
                 dataset_id = ds_base.name.split('_')[-1]
 
                 for uu in ds_base.iterdir():
-
                     if uu.name.endswith('.xlsx'):
                         if uu.name.startswith('~') or uu.name.startswith('.~'):
                             pass

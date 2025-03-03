@@ -13,6 +13,7 @@ from difflib import HtmlDiff
 
 import markdown
 import tornado.escape
+
 # from htmlmin import minify
 from markdown.extensions.wikilinks import WikiLinkExtension
 from playhouse.postgres_ext import PostgresqlExtDatabase
@@ -211,14 +212,16 @@ def get_uu6d():
 
     return func_rand_arr(list('0123456789abcdef'), 6)
 
+
 def rst2html(rst_text):
     '''
     convert restructuredtext to html.
     '''
-    from bs4 import BeautifulSoup
     # 创建beautifulsoup解析对象
     import docutils.core
-    html_doc =  docutils.core.publish_string(
+    from bs4 import BeautifulSoup
+
+    html_doc = docutils.core.publish_string(
         rst_text,
         writer_name='html',  # 'html' # pseudoxml
     ).decode('utf-8')
@@ -229,15 +232,13 @@ def rst2html(rst_text):
     # soup.find("div", class_="document")
     # content = soup.select('.body')[0]
     content = soup.select('.document')[0]
-    for a in content.find_all(["h1", "h2", "h3",  "p"]):
+    for a in content.find_all(["h1", "h2", "h3", "p"]):
         conz += str(a)
         conz += '\n'
 
-    out_dict = {
-        'title': soup.title.text,
-        'cnt': conz
-    }
+    out_dict = {'title': soup.title.text, 'cnt': conz}
     return out_dict
+
 
 def markdown2html(markdown_text):
     '''

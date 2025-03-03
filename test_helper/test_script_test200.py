@@ -4,10 +4,11 @@
 
 import os
 import time
-import config
-import requests
 from pathlib import Path
 
+import requests
+
+import config
 from torcms.core.tools import format_date, timestamp
 from torcms.model.post_model import MPost
 from torcms.model.wiki_model import MWiki
@@ -42,12 +43,14 @@ def test_200():
             the_url0 = '{site_url}/{kind_url}/{uid}'.format(
                 site_url=config.SITE_CFG['site_url'],
                 kind_url=config.post_cfg[post.kind],
-                uid=post.uid)
+                uid=post.uid,
+            )
 
             the_url = '{site_url}/{kind_url}/_edit/{uid}'.format(
                 site_url=config.SITE_CFG['site_url'],
                 kind_url=config.post_cfg[post.kind],
-                uid=post.uid)
+                uid=post.uid,
+            )
             uu = requests.get(the_url0)
 
             if uu.status_code == 200:
@@ -58,11 +61,15 @@ def test_200():
                 print(index)
                 print(the_url)
                 print(uu.status_code)
-                tstr = tstr + dt_str.format(title=the_url0, uid=uu.status_code, edit_link=the_url)
+                tstr = tstr + dt_str.format(
+                    title=the_url0, uid=uu.status_code, edit_link=the_url
+                )
 
     timeit = timestamp()
     time_local = time.localtime(timeit)
-    path = Path(__file__).parent / 'xx_posts_x200_{date0}.html'.format(date0=str(time.strftime("%Y_%m_%d", time_local)))
+    path = Path(__file__).parent / 'xx_posts_x200_{date0}.html'.format(
+        date0=str(time.strftime("%Y_%m_%d", time_local))
+    )
     with open(path, 'w') as fo:
         fo.write(html_tmpl.format(cnt=tstr))
     os.remove(path)

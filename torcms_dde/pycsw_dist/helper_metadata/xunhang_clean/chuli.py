@@ -1,7 +1,8 @@
 import sys
 from pathlib import Path
-from openpyxl import load_workbook
 from xml.sax.saxutils import escape
+
+from openpyxl import load_workbook
 
 inws = Path('./outws')
 
@@ -48,16 +49,17 @@ tp_language = '<dc:language>{}</dc:language>'
 
 
 def chuli_cell(cell):
-
     cv = cell.value if cell.value else ''
-    return escape(cv )
+    return escape(cv)
+
+
 for xlsx_file in inws.rglob('*.xlsx'):
     if xlsx_file.name.startswith('~$'):
         continue
     try:
         print(xlsx_file.name)
         wb = load_workbook(xlsx_file)
-        del(wb)
+        del wb
     except:
         print('Error:', xlsx_file.name)
         sys.exit()
@@ -65,7 +67,6 @@ for xlsx_file in inws.rglob('*.xlsx'):
 
 idx = 0
 for xlsx_file in inws.rglob('*.xlsx'):
-
     dir_sig = xlsx_file.stem
 
     sig = f'xh_{idx}_'
@@ -73,7 +74,6 @@ for xlsx_file in inws.rglob('*.xlsx'):
     idx = idx + 1
 
     print(xlsx_file.name)
-
 
     wb = load_workbook(xlsx_file)
 
@@ -87,18 +87,15 @@ for xlsx_file in inws.rglob('*.xlsx'):
             break
         # print(row)
 
-        v1 = chuli_cell(row[1]) # lang
-        v2 = chuli_cell(row[2])     # subject
-        v3 = chuli_cell(row[3])     # title
-        v4 = chuli_cell(row[4])     # url
-        v5 = chuli_cell(row[5])     # city
-        v6 = chuli_cell(row[6])     # country
-        v7 = chuli_cell(row[7])     # domain
-        v8 = chuli_cell(row[8])     # organiztion
-        v9 = chuli_cell(row[9])     # keyword
-
-
-
+        v1 = chuli_cell(row[1])  # lang
+        v2 = chuli_cell(row[2])  # subject
+        v3 = chuli_cell(row[3])  # title
+        v4 = chuli_cell(row[4])  # url
+        v5 = chuli_cell(row[5])  # city
+        v6 = chuli_cell(row[6])  # country
+        v7 = chuli_cell(row[7])  # domain
+        v8 = chuli_cell(row[8])  # organiztion
+        v9 = chuli_cell(row[9])  # keyword
 
         tt = outws / dir_sig
         if tt.exists():
@@ -109,7 +106,6 @@ for xlsx_file in inws.rglob('*.xlsx'):
 
         outfile = outws / dir_sig / (sig + f'{row[0].value}'.strip() + '.xml')
         with open(outfile, 'w') as fo:
-
             fo.write(tmpl_0)
             fo.write('\n')
             fo.write(tp_identifier.format(sig + f'{row[0].value}'.strip()))
@@ -124,11 +120,7 @@ for xlsx_file in inws.rglob('*.xlsx'):
             fo.write('\n')
             fo.write(tp_relation.format(v5))
             fo.write('\n')
-            fo.write(
-                tp_abstract.format(
-                    (v6 + ',' + v7 + ',' + v8)
-                )
-            )
+            fo.write(tp_abstract.format((v6 + ',' + v7 + ',' + v8)))
             fo.write(tp_contributor.format(v9))
 
             fo.write(tmpl_9)

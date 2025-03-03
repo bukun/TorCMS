@@ -10,8 +10,7 @@ import tornado.web
 from PIL import Image
 
 import config
-from torcms.core import tools
-from torcms.core import privilege
+from torcms.core import privilege, tools
 from torcms.core.base_handler import BaseHandler
 from torcms.model.entity2user_model import MEntity2User
 from torcms.model.entity_model import MEntity
@@ -38,7 +37,7 @@ def allowed_file_pdf(filename):
     Allowed PDF files
     '''
     return (
-            '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS_PDF
+        '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS_PDF
     )
 
 
@@ -130,7 +129,6 @@ class EntityHandler(BaseHandler):
             down_url = down_url2
 
         if down_url:
-
             if allowed_file(down_url):
                 kind = '1'
             elif allowed_file_pdf(down_url):

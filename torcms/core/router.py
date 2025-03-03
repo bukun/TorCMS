@@ -1,8 +1,17 @@
 # -*- coding:utf-8 -*-
 
+from torcms.api.action_handler import ActionHandler
+from torcms.api.login import UserApi
+from torcms.api.permission_handler import PermissionHandler
+from torcms.api.post_handler import ApiPostHandler
+from torcms.api.process_handler import ProcessHandler
+from torcms.api.role_handler import RoleHandler
+from torcms.api.state_handler import StateHandler
+from torcms.api.transition_handler import TransitionHandler
 from torcms.handlers.admin_handler import AdminHandler
 from torcms.handlers.catalog_hander import CatalogHandler
 from torcms.handlers.category_handler import CategoryAjaxHandler
+from torcms.handlers.check_handler import CheckHandler
 from torcms.handlers.classify_hander import ClassifyHandler
 from torcms.handlers.collect_handler import CollectHandler
 from torcms.handlers.comment_hander import CommentHandler
@@ -26,22 +35,13 @@ from torcms.handlers.post_list_handler import PostListHandler
 from torcms.handlers.publish_handler import PublishHandler
 from torcms.handlers.rating_handler import RatingHandler
 from torcms.handlers.relation_handler import RelHandler
-from torcms.handlers.reply_handler import ReplyHandler, ReplyAjaxHandler
+from torcms.handlers.reply_handler import ReplyAjaxHandler, ReplyHandler
 from torcms.handlers.search_handler import SearchHandler
 from torcms.handlers.sys_handler import SysHandler
 from torcms.handlers.user_handler import UserHandler, UserPartialHandler
 from torcms.handlers.user_info_list_handler import UserListHandler
 from torcms.handlers.wiki_handler import WikiHandler
 from torcms.handlers.wiki_history_manager import WikiHistoryHandler
-from torcms.handlers.check_handler import CheckHandler
-from torcms.api.permission_handler import PermissionHandler
-from torcms.api.role_handler import RoleHandler
-from torcms.api.login import UserApi
-from torcms.api.post_handler import ApiPostHandler
-from torcms.api.process_handler import ProcessHandler
-from torcms.api.state_handler import StateHandler
-from torcms.api.action_handler import ActionHandler
-from torcms.api.transition_handler import TransitionHandler
 
 urls = [
     ('/api/user/(.*)', UserApi, {}),

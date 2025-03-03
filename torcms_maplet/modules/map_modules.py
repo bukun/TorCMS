@@ -7,21 +7,20 @@ Define the map module for TorCMS.
 import tornado.web
 
 from config import SITE_CFG
+from torcms.model.post_model import MPost
 from torcms_maplet.model.json_model import MJson
 from torcms_maplet.model.layout_model import MLayout
-
-from torcms.model.post_model import MPost
 
 
 class MapAd(tornado.web.UIModule):
     def render(self, num=10, with_catalog=True, with_date=True):
-
         mrecs = MPost.query_random(num=1, kind='m')
         if mrecs.count() > 0:
             mrec = mrecs.get()
-            return self.render_string('../torcms_maplet/tmpl_modules/map_ad.html',
-                                      mapinfo=mrec,
-                                      )
+            return self.render_string(
+                '../torcms_maplet/tmpl_modules/map_ad.html',
+                mapinfo=mrec,
+            )
         else:
             return ''
 
@@ -49,10 +48,12 @@ class MapJson(tornado.web.UIModule):
             'site_url': SITE_CFG['site_url'],
         }
 
-        return self.render_string('../torcms_maplet/tmpl_modules/map_json.html',
-                                  json_recs=json_recs,
-                                  app_id=app_id,
-                                  kwd=kwd)
+        return self.render_string(
+            '../torcms_maplet/tmpl_modules/map_json.html',
+            json_recs=json_recs,
+            app_id=app_id,
+            kwd=kwd,
+        )
 
 
 class MapLayout(tornado.web.UIModule):
@@ -66,12 +67,10 @@ class MapLayout(tornado.web.UIModule):
         mlayout = MLayout()
         layout_recs = mlayout.query_by_app(app_id, user_id)
 
-        kwd = {
-            'pager': '',
-            'tdesc': '',
-            'site_url': SITE_CFG['site_url']
-        }
+        kwd = {'pager': '', 'tdesc': '', 'site_url': SITE_CFG['site_url']}
 
-        return self.render_string('../torcms_maplet/tmpl_modules/map_layout.html',
-                                  layout_recs=layout_recs,
-                                  kwd=kwd)
+        return self.render_string(
+            '../torcms_maplet/tmpl_modules/map_layout.html',
+            layout_recs=layout_recs,
+            kwd=kwd,
+        )

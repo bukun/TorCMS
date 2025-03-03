@@ -6,9 +6,10 @@ Export posts from database to Markdown files.
 import os
 import re
 import shutil
+from pathlib import Path
 
 import markdown
-from pathlib import Path
+
 from torcms.model.category_model import MCategory
 from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
@@ -30,7 +31,9 @@ def get_img(text):
 def do_for_cat(rec):
     pid = rec.pid
     cat_id = rec.uid
-    out_base_dir = os.path.join(out_ws, pid, 'ch{}_{}_{}'.format(rec.order, rec.uid, '_'.join(rec.name.split())))
+    out_base_dir = os.path.join(
+        out_ws, pid, 'ch{}_{}_{}'.format(rec.order, rec.uid, '_'.join(rec.name.split()))
+    )
     if os.path.exists(out_base_dir):
         pass
     else:
@@ -52,8 +55,13 @@ def do_for_cat(rec):
         else:
             stitle = postinfo.title.strip().replace('/', '-').replace(' ', '_')
 
-        out_cat_dir = os.path.join(out_base_dir, 'sec{}_'.format(post2tag_rec.order) + '_'.join(
-            stitle.split()) + '_uid' + post2tag_rec.post_id)
+        out_cat_dir = os.path.join(
+            out_base_dir,
+            'sec{}_'.format(post2tag_rec.order)
+            + '_'.join(stitle.split())
+            + '_uid'
+            + post2tag_rec.post_id,
+        )
 
         if os.path.exists(out_cat_dir):
             pass
@@ -63,24 +71,21 @@ def do_for_cat(rec):
         logo = postinfo.logo
         logo_name = os.path.split(logo)[-1]
         if logo.startswith('http'):
-
             # 下面代码，可同时处理 http 与 https
-            img_path = './' + logo[len('http://www.osgeo.cn/'):].strip('/')
+            img_path = './' + logo[len('http://www.osgeo.cn/') :].strip('/')
 
             out_img_path = os.path.join(out_cat_dir, logo_name)
             if os.path.exists(img_path):
                 shutil.copy(img_path, out_img_path)
             logo = out_img_path
 
-
         elif logo.startswith('//www.osgeo.cn'):
-            img_path = './' + logo[len('//www.osgeo.cn/'):].strip('/')
+            img_path = './' + logo[len('//www.osgeo.cn/') :].strip('/')
             print(img_path)
             out_img_path = os.path.join(out_cat_dir, logo_name)
             if os.path.exists(img_path):
                 shutil.copy(img_path, out_img_path)
             logo = out_img_path
-
 
         elif logo.startswith('/static'):
             img_path = '.' + logo
@@ -98,7 +103,7 @@ def do_for_cat(rec):
             img_name = os.path.split(img_url)[-1]
             if img_url.startswith('http'):
                 # 下面代码，可同时处理 http 与 https
-                img_path = './' + img_url[len('http://www.osgeo.cn/'):].strip('/')
+                img_path = './' + img_url[len('http://www.osgeo.cn/') :].strip('/')
                 print(img_path)
                 out_img_path = os.path.join(out_cat_dir, img_name)
                 if os.path.exists(img_path):
@@ -107,7 +112,7 @@ def do_for_cat(rec):
                 markdown_cnt = markdown_cnt.replace(img_url, img_name)
 
             elif img_url.startswith('//www.osgeo.cn'):
-                img_path = './' + img_url[len('//www.osgeo.cn/'):].strip('/')
+                img_path = './' + img_url[len('//www.osgeo.cn/') :].strip('/')
                 print(img_path)
                 out_img_path = os.path.join(out_cat_dir, img_name)
                 if os.path.exists(img_path):
@@ -158,7 +163,11 @@ def do_for_cat(rec):
             if md.Meta.get('cnt_md'):
                 pass
             else:
-                fout_md.write('cnt_md: {}\n'.format("{ " + markdown_cnt.replace('\r\n', '\n') + " }"))
+                fout_md.write(
+                    'cnt_md: {}\n'.format(
+                        "{ " + markdown_cnt.replace('\r\n', '\n') + " }"
+                    )
+                )
             if md.Meta.get('cnt_html'):
                 pass
             else:
@@ -177,7 +186,6 @@ def do_for_cat(rec):
 def test_run_export():
     all_cats = MCategory.query_all('1')
     for rec in all_cats:
-
         if rec.pid == '0000':
             continue
 

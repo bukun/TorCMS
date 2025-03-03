@@ -4,6 +4,7 @@
 Config for the website.
 """
 import tornado.web
+
 from torcms.core.tools import get_cfg
 
 try:
@@ -38,7 +39,7 @@ post_cfg = {
             "Document"
         ),
         "checker": "1",
-        "show": "Document"
+        "show": "Document",
     },
     "2": {
         "router": "page",
@@ -46,7 +47,7 @@ post_cfg = {
             "Page"
         ),
         "checker": "0",
-        "show": "Page"
+        "show": "Page",
     },
     "3": {
         "router": "info",
@@ -54,7 +55,7 @@ post_cfg = {
             "Info"
         ),
         "checker": "0",  # '10', '100', '1000', '10000'
-        "show": "Info"
+        "show": "Info",
     },
     "k": {
         "router": "tutorial",
@@ -62,7 +63,7 @@ post_cfg = {
             "Tutorial"
         ),
         "checker": "0",  # '10', '100', '1000', '10000'
-        "show": "Tutorial"
+        "show": "Tutorial",
     },
 }
 
@@ -95,7 +96,7 @@ class WidgetMenu(tornado.web.UIModule):
                 tmpl = '<li class="nav-item"><a class="nav-link active" aria-current="page" href="/{}/">{}</a></li>'
             out_str = out_str + tmpl.format(
                 post_cfg[key]['router'],
-                post_cfg[key].get('show', post_cfg[key].get('router'))
+                post_cfg[key].get('show', post_cfg[key].get('router')),
             )
 
         return out_str
@@ -115,7 +116,9 @@ class PublishListMenu(tornado.web.UIModule):
         '''
 
         for key in post_cfg:
-            out_str = out_str + tmpl.format(str, key, post_cfg[key].get('show', post_cfg[key].get('router')))
+            out_str = out_str + tmpl.format(
+                str, key, post_cfg[key].get('show', post_cfg[key].get('router'))
+            )
 
         return out_str
 

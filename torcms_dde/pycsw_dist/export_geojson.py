@@ -7,23 +7,17 @@
 import os
 import sys
 
-
 import geojson
-
-from geojson import Polygon, MultiPolygon, MultiPoint, Feature
+from geojson import Feature, MultiPoint, MultiPolygon, Polygon
 
 sys.path.extend('.')
 
-from torcms.model.post_model import MPost
-
 from shapely.geometry import shape
 
-
-
+from torcms.model.post_model import MPost
 
 
 def import_meta():
-
     # 此文件夹下声明系统中的数据集及分类
     recs = MPost.query_all(kind='d', limit=10000)
     index = 0
@@ -34,7 +28,7 @@ def import_meta():
         if _gson:
             print('-' * 40)
             index = index + 1
-            print('got', index )
+            print('got', index)
             print(_gson)
             print(type(_gson))
             gson = geojson.loads(str(_gson).replace("'", '"'))
@@ -68,9 +62,6 @@ def import_meta():
         geojson.dump(result_ct, fo)
 
 
-
-
 if __name__ == '__main__':
-
     import_meta()
     print(os.getcwd())

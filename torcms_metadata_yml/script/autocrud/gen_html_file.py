@@ -24,6 +24,8 @@ legend_html = ['''<legend>{{ _('Extra Metadata fields') }}</legend>''']
 
 def minify(the_str):
     return the_str
+
+
 def __get_view_tmpl(tag_key):
     '''
     根据分类uid的4位编码来找模板。如果4位的存在，则使用4位的；不然找其父类；再不然则使用通用模板
@@ -31,11 +33,11 @@ def __get_view_tmpl(tag_key):
     :return String.
     '''
     the_view_file_4 = './templates/tmpl_{0}/tpl_view_{1}.html'.format(
-        KIND_DICS['kind_' + tag_key.split('_')[-1]],
-        tag_key.split('_')[1])
+        KIND_DICS['kind_' + tag_key.split('_')[-1]], tag_key.split('_')[1]
+    )
     the_view_file_2 = './templates/tmpl_{0}/tpl_view_{1}.html'.format(
-        KIND_DICS['kind_' + tag_key.split('_')[-1]],
-        tag_key.split('_')[1][:2])
+        KIND_DICS['kind_' + tag_key.split('_')[-1]], tag_key.split('_')[1][:2]
+    )
 
     if os.path.exists(the_view_file_4):
         the_view_sig_str = '_{0}'.format(tag_key.split('_')[1])
@@ -45,6 +47,7 @@ def __get_view_tmpl(tag_key):
         the_view_sig_str = ''
 
     return the_view_sig_str
+
 
 def generate_html_files(*args):
     _ = args
@@ -69,14 +72,17 @@ def __gen_select_filter(bl_str):
     html_out = '''<li class="list-group-item">
     <div class="row"><div class="col-sm-3">{{{{_('{0}')}}}}</div><div class="col-sm-9">
      <span class="label label-default"  name='{1}' onclick='change(this);' value=''>{{{{_('All')}}}}</span>
-    '''.format(bianliang['zh'], '_'.join(bl_str.split('_')[1:]))
+    '''.format(
+        bianliang['zh'], '_'.join(bl_str.split('_')[1:])
+    )
 
     tmp_dic = bianliang['dic']
     for key in tmp_dic.keys():
         tmp_str = '''
         <span  class="label label-default" name='{0}' onclick='change(this);' value='{1}'>
-        {{{{_('{2}')}}}}</span>'''.format('_'.join(bl_str.split('_')[1:]), key,
-                                          tmp_dic[key])
+        {{{{_('{2}')}}}}</span>'''.format(
+            '_'.join(bl_str.split('_')[1:]), key, tmp_dic[key]
+        )
         html_out += tmp_str
     html_out += '''</div></div></li>'''
     return html_out
@@ -120,12 +126,11 @@ def __write_edit_tmpl(tag_key, tag_list):
     the_view_sig_str = __get_view_tmpl(tag_key)
     with open(edit_file, 'w') as fileout2:
         outstr = minify(
-        TPL_EDIT.replace('xxxxxx', ''.join(edit_widget_arr_all)).replace(
-            'yyyyyy',
-            tag_key.split('_')[1][:2]).replace(
-            'ssss', the_view_sig_str).replace(
-            'kkkk', KIND_DICS['kind_' + tag_key.split('_')[-1]])
-                        )
+            TPL_EDIT.replace('xxxxxx', ''.join(edit_widget_arr_all))
+            .replace('yyyyyy', tag_key.split('_')[1][:2])
+            .replace('ssss', the_view_sig_str)
+            .replace('kkkk', KIND_DICS['kind_' + tag_key.split('_')[-1]])
+        )
         fileout2.write(outstr)
 
 
@@ -159,7 +164,11 @@ def __write_view_tmpl(tag_key, tag_list):
 
         # The admin information should be hidden for user.
         if sig.startswith('_'):
-            tmpl = '''{% if userinfo and userinfo.extinfo.get('_per_assign_role', 0) == 1 %}''' + tmpl + '''{% end %}'''
+            tmpl = (
+                '''{% if userinfo and userinfo.extinfo.get('_per_assign_role', 0) == 1 %}'''
+                + tmpl
+                + '''{% end %}'''
+            )
         view_widget_arr.append(tmpl)
 
     for crud_dic in SWITCH_DICS_Meta:
@@ -170,12 +179,10 @@ def __write_view_tmpl(tag_key, tag_list):
     the_view_sig_str = __get_view_tmpl(tag_key)
     with open(view_file, 'w') as fileout:
         outstr = minify(
-
-        TPL_VIEW.replace('xxxxxx', ''.join(view_widget_arr_all)).replace(
-            'yyyyyy',
-            tag_key.split('_')[1][:2]).replace(
-            'ssss', the_view_sig_str).replace(
-            'kkkk', KIND_DICS['kind_' + tag_key.split('_')[-1]])
+            TPL_VIEW.replace('xxxxxx', ''.join(view_widget_arr_all))
+            .replace('yyyyyy', tag_key.split('_')[1][:2])
+            .replace('ssss', the_view_sig_str)
+            .replace('kkkk', KIND_DICS['kind_' + tag_key.split('_')[-1]])
         )
         fileout.write(outstr)
 
@@ -187,8 +194,7 @@ def __write_add_tmpl(tag_key, tag_list):
     :param tag_list: list of the tags.
     :return: None
     '''
-    add_file = os.path.join(OUT_DIR, 'add',
-                            'add_' + tag_key.split('_')[1] + '.html')
+    add_file = os.path.join(OUT_DIR, 'add', 'add_' + tag_key.split('_')[1] + '.html')
     add_widget_arr = []
     add_widget_arr_meta = []
     # var_dic = eval('dic_vars.' + bianliang)
@@ -220,13 +226,11 @@ def __write_add_tmpl(tag_key, tag_list):
     the_view_sig_str = __get_view_tmpl(tag_key)
     with open(add_file, 'w') as fileout:
         outstr = minify(
-
-        TPL_ADD.replace('xxxxxx', ''.join(add_widget_arr_all)).replace(
-            'yyyyyy',
-            tag_key.split('_')[1][:2]).replace(
-            'ssss', the_view_sig_str).replace(
-            'kkkk', KIND_DICS['kind_' + tag_key.split('_')[-1]])
-                        )
+            TPL_ADD.replace('xxxxxx', ''.join(add_widget_arr_all))
+            .replace('yyyyyy', tag_key.split('_')[1][:2])
+            .replace('ssss', the_view_sig_str)
+            .replace('kkkk', KIND_DICS['kind_' + tag_key.split('_')[-1]])
+        )
         fileout.write(outstr)
 
 
@@ -245,27 +249,22 @@ def __write_filter_tmpl(html_tpl):
             # 此处简化一下，不考虑子类的问题。
             subdir = ''
             outfile = os.path.join(
-                out_dir, 'list' + '_' + var_name.split('_')[1] + '.html')
+                out_dir, 'list' + '_' + var_name.split('_')[1] + '.html'
+            )
             html_view_str_arr = []
             # tview_var = eval('dic_vars.' + var_name)
             for the_val in bl_val:
                 # sig = eval('html_vars.html_' + x)
                 sig = HTML_DICS['html_' + the_val]
                 if sig['type'] == 'select':
-                    html_view_str_arr.append(
-                        __gen_select_filter('html_' + the_val))
+                    html_view_str_arr.append(__gen_select_filter('html_' + the_val))
 
             with open(outfile, 'w') as outfileo:
                 outstr = minify(
-
-                html_tpl.replace(
-                    'xxxxxx', ''.join(html_view_str_arr)).replace(
-                    'yyyyyy',
-                    var_name.split('_')[1][:2]).replace(
-                    'ssssss', subdir).replace(
-                    'kkkk',
-                    KIND_DICS['kind_' +
-                              var_name.split('_')[-1]])
+                    html_tpl.replace('xxxxxx', ''.join(html_view_str_arr))
+                    .replace('yyyyyy', var_name.split('_')[1][:2])
+                    .replace('ssssss', subdir)
+                    .replace('kkkk', KIND_DICS['kind_' + var_name.split('_')[-1]])
                 )
                 outfileo.write(outstr)
 
@@ -283,7 +282,8 @@ def __write_list_tmpl(html_tpl):
     for var_name, bl_val in SWITCH_DICS.items():
         if var_name.startswith('dic_'):
             outfile = os.path.join(
-                out_dir, 'infolist' + '_' + var_name.split('_')[1] + '.html')
+                out_dir, 'infolist' + '_' + var_name.split('_')[1] + '.html'
+            )
             html_view_str_arr = []
             # tview_var = eval('dic_vars.' + var_name)
             subdir = ''
@@ -292,24 +292,17 @@ def __write_list_tmpl(html_tpl):
 
                 sig = HTML_DICS['html_' + the_val2]
                 if sig['type'] == 'select':
-                    html_view_str_arr.append(
-                        func_gen_html.gen_select_list(sig))
+                    html_view_str_arr.append(func_gen_html.gen_select_list(sig))
                 elif sig['type'] == 'radio':
                     html_view_str_arr.append(func_gen_html.gen_radio_list(sig))
                 elif sig['type'] == 'checkbox':
-                    html_view_str_arr.append(
-                        func_gen_html.gen_checkbox_list(sig))
+                    html_view_str_arr.append(func_gen_html.gen_checkbox_list(sig))
 
             with open(outfile, 'w') as outfileo:
                 outstr = minify(
-
-                html_tpl.replace(
-                    'xxxxxx', ''.join(html_view_str_arr)).replace(
-                    'yyyyyy',
-                    var_name.split('_')[1][:2]).replace(
-                    'ssssss', subdir).replace(
-                    'kkkk',
-                    KIND_DICS['kind_' +
-                              var_name.split('_')[-1]])
-                                )
+                    html_tpl.replace('xxxxxx', ''.join(html_view_str_arr))
+                    .replace('yyyyyy', var_name.split('_')[1][:2])
+                    .replace('ssssss', subdir)
+                    .replace('kkkk', KIND_DICS['kind_' + var_name.split('_')[-1]])
+                )
                 outfileo.write(outstr)

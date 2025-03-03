@@ -1,19 +1,27 @@
 # -*- coding:utf-8 -*-
 import re
-
-from torcms.core import tools
 from pathlib import Path
-from torcms.model.post_model import MPost
-from torcms.model.process_model import MProcess, MState, MTransition, MRequest, MAction, MRequestAction, \
-    MTransitionAction, MPermissionAction
-from torcms.handlers.post_handler import import_post
-
-from torcms.core.tools import get_uu4d, rst2html
-
-from faker import Faker
 from pprint import pprint
 
-class TestFoo():
+from faker import Faker
+
+from torcms.core import tools
+from torcms.core.tools import get_uu4d, rst2html
+from torcms.handlers.post_handler import import_post
+from torcms.model.post_model import MPost
+from torcms.model.process_model import (
+    MAction,
+    MPermissionAction,
+    MProcess,
+    MRequest,
+    MRequestAction,
+    MState,
+    MTransition,
+    MTransitionAction,
+)
+
+
+class TestFoo:
     def setup_method(self):
         print('setup 方法执行于本类中每条用例之前')
 
@@ -57,9 +65,7 @@ class TestFoo():
         # while MPost.get_by_uid(uid):
         #     uid = 'k' + get_uu4d()
 
-        rst_info = rst2html(
-            open(rst_file).read()
-        )
+        rst_info = rst2html(open(rst_file).read())
         post_data['valid'] = 0
         post_data['title'] = rst_info['title']
         post_data['cnt_md'] = rst_info['cnt']

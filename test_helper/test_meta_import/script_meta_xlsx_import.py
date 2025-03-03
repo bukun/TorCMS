@@ -15,13 +15,15 @@ from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
 
 
-
-
 def update_category(uid, postdata, kwargs):
     '''
     Update the category of the post.
     '''
-    catid = kwargs['catid'] if ('catid' in kwargs and MCategory.get_by_uid(kwargs['catid'])) else None
+    catid = (
+        kwargs['catid']
+        if ('catid' in kwargs and MCategory.get_by_uid(kwargs['catid']))
+        else None
+    )
 
     post_data = postdata
 
@@ -105,11 +107,9 @@ def import_tables():
                         'def_cat_uid': uid,
                         'def_cat_pid': '5000',
                         'kind': '5',
-
                         'extinfo': {
                             'def_tab_path': '/'.join(str(xlsx)[:-5].split('/')[-2:]),
-                        }
-
+                        },
                     }
 
                     # title = title,
@@ -215,11 +215,9 @@ def test_import_meta():
             catid = sheet.split('_')[0]
             ws = wb[sheet]
             rows = ws.max_row
-            cols= ws.max_column
-            for i in range(1,rows):
+            cols = ws.max_column
+            for i in range(1, rows):
                 sig = ws.cell(row=i, column=1).value
                 print(sig)
                 if sig:
                     get_meta(catid, sig)
-
-

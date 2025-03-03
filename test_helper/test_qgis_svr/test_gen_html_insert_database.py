@@ -5,17 +5,20 @@ create YAML file  for MapProxy.
 """
 
 import sys
+
 sys.path.append('.')
-import yaml
 from pathlib import Path
-from shapely import wkt
-from torcms.model.post_model import MPost
-from torcms.model.post2catalog_model import MPost2Catalog
-from torcms.model.category_model import MCategory
-from osgeo import osr, ogr
-from torcms.core.tools import logger
+
 import requests
+import yaml
+from osgeo import ogr, osr
 from owslib.wms import WebMapService
+from shapely import wkt
+
+from torcms.core.tools import logger
+from torcms.model.category_model import MCategory
+from torcms.model.post2catalog_model import MPost2Catalog
+from torcms.model.post_model import MPost
 
 out_rst_dir = Path("static/map_legend")
 
@@ -158,7 +161,6 @@ def trans(bnd_box):
 
 
 def test_parse_proxy():
-
     yaml_file = Path(__file__).parent / 'pub_maproxy.yaml'
     map_dict = yaml.load(open(yaml_file), Loader=yaml.FullLoader)
 

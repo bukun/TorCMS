@@ -4,10 +4,18 @@ Handler for links.
 '''
 
 import json
+
 import tornado.web
-from torcms.core import tools, privilege
+
+from torcms.core import privilege, tools
 from torcms.core.base_handler import BaseHandler
-from torcms.model.process_model import MTransitionAction, MTransition, MState, MRequestAction, MProcess
+from torcms.model.process_model import (
+    MProcess,
+    MRequestAction,
+    MState,
+    MTransition,
+    MTransitionAction,
+)
 
 
 class TransitionHandler(BaseHandler):
@@ -52,7 +60,6 @@ class TransitionHandler(BaseHandler):
         elif url_arr[0] == '_add':
             self.add()
 
-
         else:
             self.redirect('misc/html/404.html')
 
@@ -74,7 +81,16 @@ class TransitionHandler(BaseHandler):
             cur_state_pro = MProcess.get_by_uid(cur_state.process).get()
             next_state_pro = MProcess.get_by_uid(next_state.process).get()
 
-            trans_name = cur_state.name +' ['+cur_state_pro.name+'] - ' + next_state.name + ' ['+next_state_pro.name+']'
+            trans_name = (
+                cur_state.name
+                + ' ['
+                + cur_state_pro.name
+                + '] - '
+                + next_state.name
+                + ' ['
+                + next_state_pro.name
+                + ']'
+            )
 
             dic = {"label": trans_name, "value": rec.uid}
 
@@ -124,12 +140,12 @@ class TransitionHandler(BaseHandler):
             cur_state = MState.get_by_uid(rec.current_state).get()
             next_state = MState.get_by_uid(rec.next_state).get()
 
-            cur_state_pro=MProcess.get_by_uid(cur_state.process).get()
-            next_state_pro=MProcess.get_by_uid(next_state.process).get()
+            cur_state_pro = MProcess.get_by_uid(cur_state.process).get()
+            next_state_pro = MProcess.get_by_uid(next_state.process).get()
             dic = {
                 "uid": rec.uid,
-                "current_state": cur_state.name + ' ['+cur_state_pro.name+'] ',
-                "next_state": next_state.name+ ' ['+next_state_pro.name+'] ',
+                "current_state": cur_state.name + ' [' + cur_state_pro.name + '] ',
+                "next_state": next_state.name + ' [' + next_state_pro.name + '] ',
                 "process": process.name,
             }
 
@@ -138,7 +154,7 @@ class TransitionHandler(BaseHandler):
             "ok": True,
             "status": 0,
             "msg": "ok",
-            "data": {"count": counts, "rows": dics}
+            "data": {"count": counts, "rows": dics},
         }
 
         return json.dump(out_dict, self, ensure_ascii=False)
@@ -161,29 +177,14 @@ class TransitionHandler(BaseHandler):
         process = post_data["process"]
         exis_rec = MTransition.get_by_cur_next(process, cur_state, next_state)
         if exis_rec.count() > 0:
-
-            output = {
-                "ok": False,
-                "status": 404,
-                "msg": "该流程下已存在当前转换，添加失败"
-            }
+            output = {"ok": False, "status": 404, "msg": "该流程下已存在当前转换，添加失败"}
 
         else:
-
             state_uid = MTransition.create(process, cur_state, next_state)
             if state_uid:
-
-                output = {
-                    "ok": True,
-                    "status": 0,
-                    "msg": "添加转换成功"
-                }
+                output = {"ok": True, "status": 0, "msg": "添加转换成功"}
             else:
-                output = {
-                    "ok": False,
-                    "status": 404,
-                    "msg": "添加转换失败"
-                }
+                output = {"ok": False, "status": 404, "msg": "添加转换失败"}
 
         return json.dump(output, self, ensure_ascii=False)
 
@@ -197,16 +198,9 @@ class TransitionHandler(BaseHandler):
         MRequestAction.delete_by_trans(trans_id)
 
         if MTransition.delete(trans_id):
-            output = {"ok": True,
-                      "status": 0,
-                      "msg": "删除转换成功"
-                      }
+            output = {"ok": True, "status": 0, "msg": "删除转换成功"}
         else:
-            output = {
-                "ok": False,
-                "status": 404,
-                "msg": "删除转换失败"
-            }
+            output = {"ok": False, "status": 404, "msg": "删除转换失败"}
 
         return json.dump(output, self, ensure_ascii=False)
 
@@ -223,15 +217,8 @@ class TransitionHandler(BaseHandler):
             MRequestAction.delete_by_trans(trans_id)
 
             if MTransition.delete(trans_id):
-                output = {"ok": True,
-                          "status": 0,
-                          "msg": "删除转换成功"
-                          }
+                output = {"ok": True, "status": 0, "msg": "删除转换成功"}
             else:
-                output = {
-                    "ok": False,
-                    "status": 404,
-                    "msg": "删除转换失败"
-                }
+                output = {"ok": False, "status": 404, "msg": "删除转换失败"}
 
         return json.dump(output, self, ensure_ascii=False)

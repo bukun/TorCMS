@@ -3,8 +3,9 @@
 For file entities. Just like pdf, zipfile, docx, etc.
 '''
 
-import time
 import datetime
+import time
+
 from config import CMS_CFG
 from torcms.core import tools
 from torcms.model.abc_model import MHelper

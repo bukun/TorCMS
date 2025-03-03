@@ -1,6 +1,7 @@
 # 导出仓储数据到excel
-import os
 import json
+import os
+
 import requests
 from openpyxl import Workbook
 
@@ -12,7 +13,7 @@ headers = {
     'User-Agent': 'apifox/1.0.0 (https://www.apifox.cn)',
     'Access-Control-Allow-Origin': '*',  # 这个地方可以写域名也可以是*
     'Access-Control-Allow-Headers': 'x-requested-with',
-    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS'
+    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
 }
 
 
@@ -28,12 +29,7 @@ def query_data():
     search_res = json.loads(search_req_s.text)
     id_list = []
 
-
-    search_payload1 = {
-        'data': 'data',
-        'pageNum': 1,
-        'pageSize': search_res['total']
-    }
+    search_payload1 = {'data': 'data', 'pageNum': 1, 'pageSize': search_res['total']}
 
     search_d1 = json.dumps(search_payload1)
     search_req_s1 = requests.post(search_url, data=search_d1, headers=headers)
@@ -48,9 +44,7 @@ def query_data():
 
 def export_data(id_list):
     for id in id_list:
-        payload = {
-            'datasetId': id
-        }
+        payload = {'datasetId': id}
         search_d = json.dumps(payload)
         url = 'http://47.243.238.139:2061/api/ext/v1.0/query/detail'
 

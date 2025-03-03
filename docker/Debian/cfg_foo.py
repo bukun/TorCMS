@@ -21,7 +21,7 @@ SMTP_CFG = {
 SITE_CFG = {
     'site_url': 'http://127.0.0.1:8888',
     'cookie_secret': '123456',
-    'DEBUG': True
+    'DEBUG': True,
 }
 
 ROLE_CFG = {

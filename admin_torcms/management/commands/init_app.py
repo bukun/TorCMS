@@ -1,10 +1,10 @@
 import random
 
 from django.contrib.auth.hashers import make_password
-from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
-
+from django.core.management.base import BaseCommand
 from faker import Faker
+
 
 def create_superuser(username, email, password):
     if User.objects.filter(username=username).exists():
@@ -19,9 +19,9 @@ def create_superuser(username, email, password):
         User.objects.create_superuser(username=username, email=email, password=password)
         print('Superuser created successfully')
 
+
 class Command(BaseCommand):
     help = '初始化实际使用的数据库'
-
 
     def handle(self, *args, **options):
         passwd = Faker().password()

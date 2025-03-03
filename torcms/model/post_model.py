@@ -9,8 +9,8 @@ import peewee
 import tornado.escape
 
 from config import CMS_CFG
-from torcms.core.tools import logger
 from torcms.core import tools
+from torcms.core.tools import logger
 from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import (
     TabCollect,
@@ -378,7 +378,6 @@ class MPost:
         '''
 
         if order:
-
             return (
                 TabPost.select()
                 .join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id))
@@ -432,8 +431,8 @@ class MPost:
                     (TabPost.kind == kind)
                     & (TabPost2Tag.tag_id << cat_id_arr)
                     & (  # the "<<" operator signifies an "IN" query
-                            TabPost.extinfo['def_tag_arr'].contains(label)
-                            & (TabPost.valid == 1)
+                        TabPost.extinfo['def_tag_arr'].contains(label)
+                        & (TabPost.valid == 1)
                     )
                 )
                 .order_by(sort_criteria, TabPost.time_create.asc())
@@ -449,8 +448,8 @@ class MPost:
                     (TabPost.kind == kind)
                     & (TabPost2Tag.tag_id << cat_id_arr)
                     & (  # the "<<" operator signifies an "IN" query
-                            TabPost.extinfo['def_tag_arr'].contains(label)
-                            & (TabPost.valid == 1)
+                        TabPost.extinfo['def_tag_arr'].contains(label)
+                        & (TabPost.valid == 1)
                     )
                 )
                 .order_by(sort_criteria)
@@ -868,7 +867,7 @@ class MPost:
         else:
             list_num = CMS_CFG['list_num']
 
-        return recs[(int(idx) - 1) * int(list_num): int(idx) * int(list_num)]
+        return recs[(int(idx) - 1) * int(list_num) : int(idx) * int(list_num)]
 
     @staticmethod
     def count_of_certain_kind(kind):
@@ -892,14 +891,20 @@ class MPost:
         )
 
     @staticmethod
-    def query_pager_by_slug(kind, current_page_num=1, perpage=CMS_CFG['list_num'], keywords=''):
+    def query_pager_by_slug(
+        kind, current_page_num=1, perpage=CMS_CFG['list_num'], keywords=''
+    ):
         '''
         Query pager
         '''
         if keywords:
             return (
                 TabPost.select()
-                .where((TabPost.title.contains(keywords)) & (TabPost.kind == kind) & (TabPost.valid == 0))
+                .where(
+                    (TabPost.title.contains(keywords))
+                    & (TabPost.kind == kind)
+                    & (TabPost.valid == 0)
+                )
                 .order_by(TabPost.time_create.desc())
                 .paginate(current_page_num, perpage)
             )
@@ -958,7 +963,6 @@ class MPost:
 
     @staticmethod
     def update_valid(uid):
-
         entry = TabPost.update(valid=1).where(TabPost.uid == uid)
 
         try:

@@ -412,6 +412,7 @@ class TabUser2Reply(models.Model):
             models.Index(fields=['user_id'], name='tabuser2reply_user_id'),
         ]
 
+
 class TabCollect(models.Model):
     '''
     用户收藏
@@ -1063,8 +1064,9 @@ class TabProcess(models.Model):
         # db_index=True,
         unique=True,
         max_length=255,
-        help_text='名称'
+        help_text='名称',
     )
+
     class Meta:
         db_table = 'tabprocess'
         verbose_name = "tabprocess"
@@ -1094,22 +1096,24 @@ class TabState(models.Model):
         null=False,
         # db_index=True,
         max_length=255,
-        help_text='名称'
+        help_text='名称',
     )
     state_type = models.CharField(
         null=False,
         # db_index=True,
         unique=True,
         max_length=255,
-        help_text='名称'
+        help_text='名称',
     )
     description = models.TextField()
+
     class Meta:
         db_table = 'tabstate'
         verbose_name = "tabstate"
         ordering = ['uid']
         verbose_name_plural = verbose_name
         indexes = []
+
 
 class TabTransition(models.Model):
     uid = models.CharField(
@@ -1146,12 +1150,14 @@ class TabTransition(models.Model):
         blank=False,
         on_delete=models.CASCADE,
     )
+
     class Meta:
         db_table = 'tabtransition'
         verbose_name = "tabtransition"
         ordering = ['uid']
         verbose_name_plural = verbose_name
         indexes = []
+
 
 class TabAction(models.Model):
     uid = models.CharField(
@@ -1175,15 +1181,16 @@ class TabAction(models.Model):
         # db_index=True,
         unique=True,
         max_length=255,
-        help_text='名称'
+        help_text='名称',
     )
     name = models.CharField(
         null=False,
         # db_index=True,
         max_length=255,
-        help_text='名称'
+        help_text='名称',
     )
     description = models.TextField()
+
     class Meta:
         db_table = 'tabaction'
         verbose_name = "tabaction"
@@ -1192,6 +1199,7 @@ class TabAction(models.Model):
         indexes = [
             models.Index(fields=['name'], name='tabaction_name'),
         ]
+
 
 class TabPermissionAction(models.Model):
     uid = models.CharField(
@@ -1218,12 +1226,14 @@ class TabPermissionAction(models.Model):
         blank=False,
         on_delete=models.CASCADE,
     )
+
     class Meta:
         db_table = 'tabpermissionaction'
         verbose_name = "tabpermissionaction"
         ordering = ['uid']
         verbose_name_plural = verbose_name
         indexes = []
+
 
 class TabTransitionAction(models.Model):
     uid = models.CharField(
@@ -1258,6 +1268,7 @@ class TabTransitionAction(models.Model):
         ordering = ['uid']
         verbose_name_plural = verbose_name
         indexes = []
+
 
 class TabRequest(models.Model):
     uid = models.CharField(
@@ -1302,12 +1313,14 @@ class TabRequest(models.Model):
         on_delete=models.CASCADE,
     )
     time_create = models.IntegerField()
+
     class Meta:
         db_table = 'tabrequest'
         verbose_name = "tabrequest"
         ordering = ['uid']
         verbose_name_plural = verbose_name
         indexes = []
+
 
 class TabRequestAction(models.Model):
     uid = models.CharField(
@@ -1348,6 +1361,7 @@ class TabRequestAction(models.Model):
 
     is_active = models.BooleanField(null=False, default=False)
     is_complete = models.BooleanField(null=False, default=False)
+
     class Meta:
         db_table = 'tabrequestaction'
         verbose_name = "tabrequestaction"

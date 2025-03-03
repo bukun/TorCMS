@@ -2,22 +2,19 @@
 从 Records 表中同步数据到 TabPost .
 '''
 
-import psycopg2
 from pprint import pprint
 
+import psycopg2
 import shapely
-from shapely.wkt import loads
 from shapely.geometry import mapping
-
-from torcms.core import tools
-from torcms.model.post_model import MPost
-from torcms.model.post2catalog_model import MPost2Catalog
-
-from torcms.handlers.post_handler import update_category,update_label
-
-from torcms.model.core_tab import TabPost
+from shapely.wkt import loads
 
 from cfg import DB_CFG
+from torcms.core import tools
+from torcms.handlers.post_handler import update_category, update_label
+from torcms.model.core_tab import TabPost
+from torcms.model.post2catalog_model import MPost2Catalog
+from torcms.model.post_model import MPost
 
 PYCSW_DB_FIELD = [
     'identifier',
@@ -150,12 +147,9 @@ def insert_into_tabpost(catid, rec):
         'pycsw_specificationdate': rec[53],
         'pycsw_specificationdatetype': rec[54],
         'pycsw_links': rec[55],
-        'geojson' : gson,
-
+        'geojson': gson,
         # 'pycsw_wkb_geometry': rec[56],
     }
-
-
 
     if rec[9]:
         pass
@@ -165,29 +159,24 @@ def insert_into_tabpost(catid, rec):
     sig = rec[0]
 
     if sig.startswith('drrmd'):
-        dde_dict["tag_data_source"] =  "2"
+        dde_dict["tag_data_source"] = "2"
         drr_rec = None
     elif sig.startswith('drrks'):
         drr_sig = sig.split('-')[-1]
         drr_rec = MPost.get_by_uid(drr_sig)
         dde_dict["tag_data_source"] = "1"
 
-
-
-    inrec = TabPost.select().where(TabPost.uid == sig )
+    inrec = TabPost.select().where(TabPost.uid == sig)
 
     kind = 'd'
     # sig = kind + tools.get_uu4d()
-
 
     # print('=' * 40)
     # print(sig)
 
     # pprint(dde_dict)
 
-
-    if inrec :
-
+    if inrec:
         inrec = inrec.get()
 
         pp_data = {}
@@ -215,7 +204,6 @@ def insert_into_tabpost(catid, rec):
         MPost.add_or_update(sig, pp_data)
 
     else:
-
         print('x' * 80)
 
         pp_data = {}
@@ -241,7 +229,7 @@ def insert_into_tabpost(catid, rec):
         # print('dodo')
         # print(pp_data)
         MPost.add_or_update(sig, pp_data)
-        MPost.update_misc(sig, kind = 'd')
+        MPost.update_misc(sig, kind='d')
 
         # cate_rec = MPost2Catalog.get_first_category(sig )
         # if 1== 2:
@@ -262,7 +250,7 @@ def fetch_pycsw():
         user=DB_CFG['db'],
         password=DB_CFG['pass'],
         host=DB_CFG['host'],
-        port=DB_CFG.get('port', 5432)
+        port=DB_CFG.get('port', 5432),
     )
 
     cur = conn.cursor()
@@ -285,7 +273,6 @@ def fetch_pycsw():
 
 
 if __name__ == '__main__':
-
     fetch_pycsw()
 
     new_dict = {}

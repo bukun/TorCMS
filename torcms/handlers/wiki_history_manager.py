@@ -5,12 +5,14 @@ History handler for wiki, and page.
 
 import tornado.escape
 import tornado.web
+
 import config
 from torcms.core import privilege
 from torcms.core.tools import diff_table
+from torcms.model.staff2role_model import MStaff2Role
 from torcms.model.wiki_hist_model import MWikiHist
 from torcms.model.wiki_model import MWiki
-from torcms.model.staff2role_model import MStaff2Role
+
 from .post_history_handler import EditHistoryHander
 
 
@@ -91,7 +93,6 @@ class WikiHistoryHandler(EditHistoryHander):
         hist_recs = MWikiHist.query_by_wikiid(uid, limit=5)
         html_diff_arr = []
         if hist_recs:
-
             for hist_rec in hist_recs:
                 infobox = diff_table(hist_rec.cnt_md, postinfo.cnt_md)
                 hist_user = hist_rec.user_name
@@ -113,8 +114,12 @@ class WikiHistoryHandler(EditHistoryHander):
 
         kwd = {}
         if self.userinfo:
-            kwd['can_review'] = MStaff2Role.check_permissions(self.userinfo.uid, 'can_review')
-            kwd['can_edit'] = MStaff2Role.check_permissions(self.userinfo.uid, 'can_edit')
+            kwd['can_review'] = MStaff2Role.check_permissions(
+                self.userinfo.uid, 'can_review'
+            )
+            kwd['can_edit'] = MStaff2Role.check_permissions(
+                self.userinfo.uid, 'can_edit'
+            )
         self.render(
             'man_info/wiki_man_view.html',
             userinfo=self.userinfo,

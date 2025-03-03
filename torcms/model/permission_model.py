@@ -57,7 +57,9 @@ class MPermission:
         '''
         Delete by uid
         '''
-        entry = TabPermissionAction.delete().where(TabPermissionAction.permission == uid)
+        entry = TabPermissionAction.delete().where(
+            TabPermissionAction.permission == uid
+        )
         try:
             entry.execute()
             pass

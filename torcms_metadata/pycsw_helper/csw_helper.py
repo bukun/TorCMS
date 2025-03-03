@@ -4,6 +4,7 @@ from peewee import SqliteDatabase
 
 try:
     from cfg import CSW_DB
+
     pycsw_db = SqliteDatabase(CSW_DB)
 except:
     pycsw_db = SqliteDatabase('xx_meta.db')
@@ -123,7 +124,6 @@ class Records(peewee.Model):
 
 
 class MRecords(object):
-
     def delete(self, del_id):
         entry = Records.delete().where(Records.identifier == del_id)
         entry.execute()
@@ -229,7 +229,8 @@ def init_table():
             geometry_type=3,
             coord_dimension=2,
             srid=4326,
-            geometry_format='WKT')
+            geometry_format='WKT',
+        )
     '''
     4326,'EPSG',4326,
     'GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]]'
@@ -241,7 +242,7 @@ def init_table():
             srid=4326,
             auth_name='EPSG',
             auth_srid=4326,
-            srtext='GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]]'
+            srtext='GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]]',
         )
 
 

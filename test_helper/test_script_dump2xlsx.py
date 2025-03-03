@@ -1,8 +1,9 @@
 import os
 import shutil
+from pathlib import Path
 
 import openpyxl
-from pathlib import Path
+
 from torcms.model.category_model import MCategory
 from torcms.model.post_model import MPost
 
@@ -30,7 +31,6 @@ def test_dump2xlsx():
         wb = openpyxl.Workbook()
 
         for s in ss:
-
             ws = wb.create_sheet(s.uid + '-' + clean_name(s.name))
 
             print(' ' * 4, s.uid, s.name, s.slug, s.pid, s.kind)

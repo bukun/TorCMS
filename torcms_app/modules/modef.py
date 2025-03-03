@@ -4,7 +4,4 @@
 define the Core Modules of TorCMS.
 '''
 
-_modules = {
-
-
-}
+_modules = {}

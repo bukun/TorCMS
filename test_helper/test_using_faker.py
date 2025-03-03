@@ -5,19 +5,24 @@
 '''
 
 from faker import Faker
-from torcms.model.category_model import MCategory
-from torcms.model.post2catalog_model import MPost2Catalog
-from torcms.model.post_model import MPost
-from torcms.model.label_model import MPost2Label
+
 from torcms.core.tools import get_uu4d
 from torcms.handlers.post_handler import import_post
+from torcms.model.category_model import MCategory
+from torcms.model.label_model import MPost2Label
+from torcms.model.post2catalog_model import MPost2Catalog
+from torcms.model.post_model import MPost
 
 
 def update_category(uid, postdata, kwargs):
     '''
     Update the category of the post.
     '''
-    catid = kwargs['catid'] if ('catid' in kwargs and MCategory.get_by_uid(kwargs['catid'])) else None
+    catid = (
+        kwargs['catid']
+        if ('catid' in kwargs and MCategory.get_by_uid(kwargs['catid']))
+        else None
+    )
 
     post_data = postdata
 
@@ -64,6 +69,7 @@ def update_category(uid, postdata, kwargs):
     for cur_info in current_infos:
         if cur_info.tag_id not in new_category_arr:
             MPost2Catalog.remove_relation(uid, cur_info.tag_id)
+
 
 def update_label(signature, post_data):
     '''
@@ -131,4 +137,3 @@ def test_meta():
         # MPost.add_or_update_post(uid,post_data,extinfo=ext_dic)
         # update_category(uid, post_data, kwargsa)
         # update_label(uid, post_data)
-

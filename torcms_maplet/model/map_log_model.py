@@ -4,8 +4,9 @@
 地图日志
 '''
 
-import sqlite3
 import os
+import sqlite3
+
 from torcms.core import tools
 
 '''
@@ -28,7 +29,7 @@ except:
 '''
 
 
-class MMapLog():
+class MMapLog:
     '''
     Handle the usage of the info.
     '''
@@ -48,26 +49,40 @@ class MMapLog():
         cursor = conn.cursor()
 
         try:
-            cursor.execute('CREATE TABLE TabMaplog (uid VARCHAR NOT NULL ,'
-                           'lat VARCHAR,'
-                           'lon VARCHAR,'
-                           'center VARCHAR,'
-                           'zoom VARCHAR,'
-                           'zoom_min VARCHAR,'
-                           'zoom_max VARCHAR,'
-                           'geojson VARCHAR,'
-                           'kind VARCHAR,'
-                           'create_time INTEGER,'
-                           'user_uid VARCHAR,'
-                           'user_ip VARCHAR,'
-                           'user_browser VARCHAR);')
+            cursor.execute(
+                'CREATE TABLE TabMaplog (uid VARCHAR NOT NULL ,'
+                'lat VARCHAR,'
+                'lon VARCHAR,'
+                'center VARCHAR,'
+                'zoom VARCHAR,'
+                'zoom_min VARCHAR,'
+                'zoom_max VARCHAR,'
+                'geojson VARCHAR,'
+                'kind VARCHAR,'
+                'create_time INTEGER,'
+                'user_uid VARCHAR,'
+                'user_ip VARCHAR,'
+                'user_browser VARCHAR);'
+            )
         except Exception:
             pass
         try:
             sql = '''insert into TabMaplog (uid,lat,lon,center,zoom,zoom_min,zoom_max,geojson,kind,create_time,user_uid,user_ip,user_browser) values (?,?,?,?,?,?,?,?,?,?,?,?,?)'''
-            para = (post_data['uid'], post_data['lat'], post_data['lon'], post_data['center'], post_data['zoom'],
-                    post_data['zoom_min'], post_data['zoom_max'], post_data['geojson'], post_data['kind'],
-                    tools.timestamp(), post_data['user'], post_data['user_ip'], post_data['browser'])
+            para = (
+                post_data['uid'],
+                post_data['lat'],
+                post_data['lon'],
+                post_data['center'],
+                post_data['zoom'],
+                post_data['zoom_min'],
+                post_data['zoom_max'],
+                post_data['geojson'],
+                post_data['kind'],
+                tools.timestamp(),
+                post_data['user'],
+                post_data['user_ip'],
+                post_data['browser'],
+            )
 
             cursor.execute(sql, para)
             conn.commit()

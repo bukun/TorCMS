@@ -3,8 +3,9 @@
 '''
 Router for extor.
 '''
-from torcms.handlers.referrer_handler import Referrer
 from torcms.handlers.post_handler import PostHandler
+from torcms.handlers.referrer_handler import Referrer
+
 # from torcms.handlers.static_handler import StaticHandler
 urls = [
     ("/topic/(.*)", PostHandler, dict(kind='q')),

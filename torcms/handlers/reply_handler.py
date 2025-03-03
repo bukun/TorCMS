@@ -3,16 +3,18 @@
 Handler for reply.
 '''
 
-import json
 import datetime
+import json
+
 import tornado.web
+
 from config import CMS_CFG
+from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tools import logger
 from torcms.model.reply2user_model import MReply2User
 from torcms.model.reply_model import MReply
 from torcms.model.replyid_model import MReplyid
-from torcms.core import tools
 
 
 class DateEncoder(json.JSONEncoder):
@@ -217,7 +219,6 @@ class ReplyHandler(BaseHandler):
             )
 
     def get_by_post(self, post_id, num='', **kwargs):
-
         list = []
         replys = MReply.query_by_post(post_id, reply_count=num)
 

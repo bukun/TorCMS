@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+
 from cfg import DB_CFG
 
 # Headless， 提供服务
@@ -15,20 +16,15 @@ def chuli_cfg_svr():
     cnts = open('./zz_pycsw_drr/default-sample.cfg').readlines()
 
     with open(pycsw_cfg_svr, 'w') as fo:
-
         for cnt in cnts:
-
             if 'home=' in cnt:
-                fo.write(
-                    f'home={pycsw_cfg_svr.parent.resolve()}' + '\n'
-                )
+                fo.write(f'home={pycsw_cfg_svr.parent.resolve()}' + '\n')
 
             elif 'database=sqlite' in cnt:
                 fo.write(
                     # f'database=sqlite:///{os.getcwd()}/cite.db'
                     'database=postgresql://{}:{}@localhost'.format(
-                        DB_CFG['db'],
-                        DB_CFG['pass']
+                        DB_CFG['db'], DB_CFG['pass']
                     )
                 )
                 fo.write('\n')
@@ -62,9 +58,7 @@ def chuli_cfg_portal():
     with open(pycsw_cfg_portal, 'w') as fo:
         for cnt in cnts:
             if cnt.startswith('url='):
-                fo.write(
-                    f'url=http://47.104.152.23:6794'
-                )
+                fo.write(f'url=http://47.104.152.23:6794')
                 fo.write('\n')
             else:
                 fo.write(cnt)
@@ -75,22 +69,14 @@ def chuli_cfg_wdc():
     with open(pycsw_cfg_wdc, 'w') as fo:
         for cnt in cnts:
             if cnt.startswith('url='):
-                fo.write(
-                    f'url=http://47.104.152.23:6795'
-                )
+                fo.write(f'url=http://47.104.152.23:6795')
                 fo.write('\n')
             elif 'database=' in cnt:
-                fo.write(
-                    f'database=sqlite:///{os.getcwd()}/zz_wdc.db\n'
-                )
+                fo.write(f'database=sqlite:///{os.getcwd()}/zz_wdc.db\n')
             elif 'home=' in cnt:
-                fo.write(
-                    f'home={pycsw_cfg_wdc.parent.resolve()}' + '\n'
-                )
+                fo.write(f'home={pycsw_cfg_wdc.parent.resolve()}' + '\n')
             elif cnt.startswith('table='):
-                fo.write(
-                    f'table=records_wdc'
-                )
+                fo.write(f'table=records_wdc')
                 fo.write('\n')
             else:
                 fo.write(cnt)
@@ -100,10 +86,11 @@ def chuli_run():
     for wfile in [pycsw_cfg_wdc, pycsw_cfg_portal]:
         with open(f'xx_run_{wfile.stem}.sh', 'w') as fo:
             fo.write(
-                f'cp -r /home/bk/deploy/fangzai/pycsw/pycsw/ogc/api/templates/* {wfile.parent.resolve()}/pycsw/ogc/api/templates/')
+                f'cp -r /home/bk/deploy/fangzai/pycsw/pycsw/ogc/api/templates/* {wfile.parent.resolve()}/pycsw/ogc/api/templates/'
+            )
             fo.write('\n')
             fo.write(
-f'''. ~/usr/vpy_csw/bin/activate \\
+                f'''. ~/usr/vpy_csw/bin/activate \\
     && export PYCSW_CONFIG={wfile.resolve()} \\
     && cd {wfile.parent.resolve()} \\
     && python3 ./pycsw/wsgi_flask.py'''
@@ -111,10 +98,11 @@ f'''. ~/usr/vpy_csw/bin/activate \\
     for wfile in [pycsw_cfg_svr]:
         with open(f'xx_run_{wfile.stem}.sh', 'w') as fo:
             fo.write(
-                f'cp -r /home/bk/deploy/fangzai/pycsw/pycsw/ogc/api/templates/* {wfile.parent.resolve()}/pycsw/ogc/api/templates/')
+                f'cp -r /home/bk/deploy/fangzai/pycsw/pycsw/ogc/api/templates/* {wfile.parent.resolve()}/pycsw/ogc/api/templates/'
+            )
             fo.write('\n')
             fo.write(
-f'''. ~/usr/vpy_csw/bin/activate \\
+                f'''. ~/usr/vpy_csw/bin/activate \\
     && export PYCSW_CONFIG={wfile.resolve()} \\
     && cd {wfile.parent.resolve()} \\
     && python3 ./pycsw/wsgi.py'''
@@ -137,7 +125,6 @@ def chuli_port():
             if '8000' in cnt:
                 cnt = cnt.replace('8000', '6794')
             fo.write(cnt)
-
 
     wfile = './zz_pycsw_wdc/pycsw/wsgi_flask.py'
     cnts = open(wfile).readlines()

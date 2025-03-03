@@ -39,7 +39,9 @@ def gen_app(list_sig):
     js_list_str = ','.join(['"{0}"'.format(x['sig']) for x in all_list])
     outall_str = file_tmpl.format(js_list_str, all_str)
 
-    with open('./templates/jshtml/1_auto/pyauto/{0}.html'.format(list_sig[4:]), 'w') as fo:
+    with open(
+        './templates/jshtml/1_auto/pyauto/{0}.html'.format(list_sig[4:]), 'w'
+    ) as fo:
         fo.write(outall_str)
 
 

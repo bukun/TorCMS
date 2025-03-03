@@ -1,4 +1,5 @@
 from openpyxl import load_workbook
+
 inw = 'meta20210222.xlsx'
 out_xlsx = 'meta20211101.xlsx'
 wb_new = load_workbook(out_xlsx)
@@ -16,12 +17,12 @@ for row in ws.iter_rows(min_row=2):
     meta_dic['cp_abs'] = row[4].value  # 简介
     meta_dic['xkfl'] = row[5].value  # 学科分类
 
-    for row_new in ws_new.iter_rows(min_row = 2):
+    for row_new in ws_new.iter_rows(min_row=2):
         if row_new[1].value == meta_dic['cpbh']:
             row_new[0].value = meta_dic['id']
             break
 
-    row_idx  = row_idx + 1
+    row_idx = row_idx + 1
     print(meta_dic)
 
 wb_new.save('xx_out.xlsx')

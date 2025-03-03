@@ -26,6 +26,7 @@ conn_string2 = (
 conn1 = psycopg2.connect(conn_string)
 conn2 = psycopg2.connect(conn_string2)
 
+
 def get_table_structure(conn, table):
     cur = conn.cursor()
     # SELECT column_name, data_type, is_nullable, column_default, is_identity

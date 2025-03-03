@@ -4,8 +4,7 @@ import sys
 
 from torcms.model.post_model import MPost
 from torcms.script.script_init_tabels import create_table
-
-from torcms_maplet.model.map_tab import MabGson, MabPost2Gson, MabLayout
+from torcms_maplet.model.map_tab import MabGson, MabLayout, MabPost2Gson
 
 
 def run_init():

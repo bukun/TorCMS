@@ -1,4 +1,3 @@
-
 from openpyxl import load_workbook
 
 
@@ -10,17 +9,19 @@ def get_xlsx():
         ws = wb['Sheet1']
         for x in ws.rows:
             if x[0].value:
-                field_slug = x[0].value.replace(' ','_').replace('\n','')
+                field_slug = x[0].value.replace(' ', '_').replace('\n', '')
 
                 field = x[4].value.replace('\n', '')
-                if field not in lists:lists.append({field_slug:field})
+                if field not in lists:
+                    lists.append({field_slug: field})
     return lists
+
 
 uuuu = '''
 class TabGaoshi(BaseModel):    
     uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True,help_text='主键', )            
 '''
-uadd= '''
+uadd = '''
 class TabGaoshi():
     def __init__(self):
         super(TabGaoshi, self).__init__() 
@@ -28,6 +29,8 @@ class TabGaoshi():
     def add_rec(the_data):     
         TabGaoshi.create(       
 '''
+
+
 def echo_schema(fields):
     print(fields)
     print('=' * 40)
@@ -93,8 +96,7 @@ def echo_schema(fields):
     print("index.html")
     for field in fields:
         for field_slug, field_val in field.items():
-            print(
-                f"'tag_{field_slug}',")
+            print(f"'tag_{field_slug}',")
 
     print('            )')
 
@@ -102,6 +104,7 @@ def echo_schema(fields):
 def get_keys():
     lists = get_xlsx()
     echo_schema(lists)
+
 
 if __name__ == '__main__':
     get_keys()

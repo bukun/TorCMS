@@ -29,7 +29,6 @@ class MHelper:
 
     @staticmethod
     def query_all_parger(model, current_page_num, perPage):
-
         return model.select().paginate(current_page_num, perPage)
 
     @staticmethod

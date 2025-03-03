@@ -9,13 +9,13 @@ import tornado.web
 import config
 from config import CMS_CFG
 from torcms.core import privilege, tools
+from torcms.core.tools import logger
 from torcms.handlers.post_handler import PostHandler
 from torcms.model.category_model import MCategory
-from torcms.model.post_model import MPost
 from torcms.model.label_model import MPost2Label
 from torcms.model.post2catalog_model import MPost2Catalog
-from torcms.core.tools import logger
 from torcms.model.post_hist_model import MPostHist
+from torcms.model.post_model import MPost
 from torcms.model.user_model import MUser
 
 
@@ -274,7 +274,6 @@ class PostAjaxHandler(PostHandler):
     @privilege.permission(action='can_add')
     @tornado.web.authenticated
     def json_add(self):
-
         '''
         in infor.
         '''
@@ -354,7 +353,6 @@ class PostAjaxHandler(PostHandler):
         uid = post_data.get('uid', '')
         postinfo = MPost.get_by_uid(uid)
         if postinfo:
-
             output = {
                 'code': '1',
                 'info': 'successful',

@@ -4,18 +4,11 @@ The basic HTML Page handler.
 '''
 
 import json
+import os
 import random
 import time
-from pathlib import Path
-import os
-
-# from tornado.template import Loader
-
-# loader = Loader(
-#     os.path.join(os.path.dirname(__file__), '../..', "templates"),
-# )
-
 from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
 
 import tornado.escape
 import tornado.gen
@@ -37,6 +30,12 @@ from torcms.model.post_hist_model import MPostHist
 from torcms.model.post_model import MPost
 from torcms.model.relation_model import MRelation
 from torcms.model.usage_model import MUsage
+
+# from tornado.template import Loader
+
+# loader = Loader(
+#     os.path.join(os.path.dirname(__file__), '../..', "templates"),
+# )
 
 
 def import_post(uid, post_data, extinfo={}):

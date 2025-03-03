@@ -46,7 +46,9 @@ class MCategory:
         '''
         if name:
             try:
-                rec = TabTag.select().where((TabTag.kind == kind) & (TabTag.name == name))
+                rec = TabTag.select().where(
+                    (TabTag.kind == kind) & (TabTag.name == name)
+                )
                 return rec.get()
             except:
                 return False

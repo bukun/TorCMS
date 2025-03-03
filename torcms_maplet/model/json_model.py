@@ -4,12 +4,13 @@
 For GeoJson storage.
 '''
 from torcms.core import tools
+
 # from torcms.model.abc_model import Mabc
 from torcms.model.user_model import MUser
 from torcms_maplet.model.map_tab import MabGson, MabPost2Gson
 
 
-class MPost2Gson():
+class MPost2Gson:
     def __init__(self):
         super(MPost2Gson, self).__init__()
 
@@ -25,20 +26,16 @@ class MPost2Gson():
         :param postid:
         :return:
         '''
-        return MabPost2Gson.select().where(
-            MabPost2Gson.post_id == postid
-        )
+        return MabPost2Gson.select().where(MabPost2Gson.post_id == postid)
 
     @staticmethod
     def update_field(uid, post_id=None):
         if post_id:
-            entry = MabPost2Gson.update(
-                post_id=post_id
-            ).where(MabPost2Gson.uid == uid)
+            entry = MabPost2Gson.update(post_id=post_id).where(MabPost2Gson.uid == uid)
             entry.execute()
 
 
-class MJson():
+class MJson:
     '''
     For GeoJson storage.
     '''
@@ -64,28 +61,24 @@ class MJson():
 
     @staticmethod
     def query_recent(user_id='', num=10):
-
         if user_id:
-            recs = MabGson.select().where(
-                MabGson.user_id == user_id
-            ).order_by(
-                MabGson.time_update.desc()
-            ).limit(num)
+            recs = (
+                MabGson.select()
+                .where(MabGson.user_id == user_id)
+                .order_by(MabGson.time_update.desc())
+                .limit(num)
+            )
         else:
-            recs = MabGson.select().order_by(
-                MabGson.time_update.desc()
-            ).limit(num)
+            recs = MabGson.select().order_by(MabGson.time_update.desc()).limit(num)
         return recs
 
     @staticmethod
     def query_by_app(app_id, user_id):
-        return MabGson.select().join(
-            MabPost2Gson, on=(MabPost2Gson.json_id == MabGson.uid)
-        ).where(
-            (MabPost2Gson.post_id == app_id) &
-            (MabGson.user_id == user_id)
-        ).order_by(
-            MabGson.time_update.desc()
+        return (
+            MabGson.select()
+            .join(MabPost2Gson, on=(MabPost2Gson.json_id == MabGson.uid))
+            .where((MabPost2Gson.post_id == app_id) & (MabGson.user_id == user_id))
+            .order_by(MabGson.time_update.desc())
         )
 
     @staticmethod
@@ -109,9 +102,7 @@ class MJson():
             pass
         else:
             user_id = ''
-        current_count = MabGson.select().where(
-            MabGson.uid == json_uid
-        ).count()
+        current_count = MabGson.select().where(MabGson.uid == json_uid).count()
 
         if current_count > 0:
             cur_record = MJson.get_by_uid(json_uid)
@@ -123,31 +114,28 @@ class MJson():
             entry.execute()
 
         else:
-            MabGson.create(uid=json_uid,
-                           title='',
-                           user_id=user_id,
-                           json=geojson,
-                           time_create=tools.timestamp(),
-                           time_update=tools.timestamp(),
-                           version=version,
-                           public=1)
+            MabGson.create(
+                uid=json_uid,
+                title='',
+                user_id=user_id,
+                json=geojson,
+                time_create=tools.timestamp(),
+                time_update=tools.timestamp(),
+                version=version,
+                public=1,
+            )
 
     @staticmethod
     def add_or_update(json_uid, user_id, app_id, geojson, version=2):
-        current_count = MabGson.select().where(
-            MabGson.uid == json_uid
-        ).count()
+        current_count = MabGson.select().where(MabGson.uid == json_uid).count()
         post_data = {'title': ''}
         MJson.add_or_update_json(json_uid, user_id, geojson, post_data, version=version)
 
         post2gson_rec = MabPost2Gson.select().where(
-            (MabPost2Gson.post_id == app_id) &
-            (MabPost2Gson.json_id == json_uid)
+            (MabPost2Gson.post_id == app_id) & (MabPost2Gson.json_id == json_uid)
         )
 
         if post2gson_rec.count():
             pass
         else:
-            MabPost2Gson.create(uid=tools.get_uuid(),
-                                post_id=app_id,
-                                json_id=json_uid)
+            MabPost2Gson.create(uid=tools.get_uuid(), post_id=app_id, json_id=json_uid)

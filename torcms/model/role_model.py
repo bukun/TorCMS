@@ -2,9 +2,9 @@
 '''
 For Roles
 '''
+from torcms.core import tools
 from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import TabRole
-from torcms.core import tools
 from torcms.model.role2permission_model import MRole2Permission
 from torcms.model.staff2role_model import MStaff2Role
 
@@ -64,7 +64,6 @@ class MRole:
 
     @staticmethod
     def get_by_pid(pid):
-
         recs = TabRole.select().where(TabRole.pid == pid)
 
         return recs
@@ -102,9 +101,7 @@ class MRole:
 
     @staticmethod
     def update_by_name(uid, name):
-        entry = TabRole.update(
-            uid=uid
-        ).where(TabRole.name == name)
+        entry = TabRole.update(uid=uid).where(TabRole.name == name)
         entry.execute()
 
     @staticmethod

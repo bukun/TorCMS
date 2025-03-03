@@ -4,20 +4,22 @@
 
 import os
 import pathlib
-from pathlib import Path
-from openpyxl import load_workbook
-from torcms.model.category_model import MCategory
-from torcms.model.post_model import MPost
-from torcms.core.tools import get_uu8d
-from torcms.handlers.post_handler import update_category
-from torcms.model.post2catalog_model import MPost2Catalog
-from torcms.model.label_model import MPost2Label
 import shutil
-from torcms.model.core_tab import TabPost
-from torcms.core import tools
 import time
 from datetime import datetime
+from pathlib import Path
+
 import tornado.escape
+from openpyxl import load_workbook
+
+from torcms.core import tools
+from torcms.core.tools import get_uu8d
+from torcms.handlers.post_handler import update_category
+from torcms.model.category_model import MCategory
+from torcms.model.core_tab import TabPost
+from torcms.model.label_model import MPost2Label
+from torcms.model.post2catalog_model import MPost2Catalog
+from torcms.model.post_model import MPost
 
 
 def chuli_meta(sig, metafile):
@@ -28,8 +30,16 @@ def chuli_meta(sig, metafile):
     ii = 1
     for row in sheet.iter_rows():
         ii = ii + 1
-        if row[0].value in ['date', 'date_revision', 'date_creation', 'date_publication', 'date_modified',
-                            'insert_date', 'time_begin', 'time_end']:
+        if row[0].value in [
+            'date',
+            'date_revision',
+            'date_creation',
+            'date_publication',
+            'date_modified',
+            'insert_date',
+            'time_begin',
+            'time_end',
+        ]:
             meta_dic['pycsw_' + str(row[0].value).strip()] = str(row[1].value)[:10]
         else:
             meta_dic['pycsw_' + str(row[0].value).strip()] = str(row[1].value)
@@ -77,9 +87,11 @@ def get_meta(catid, sig, dataset_id):
                         for meta_dic in meta_dics:
                             new_extinfo[meta_dic] = meta_dics[meta_dic]
 
-
-
-                    elif uu.name.startswith('thumbnail_') and hou.lower() in ['.jpg', '.png', '.gif']:
+                    elif uu.name.startswith('thumbnail_') and hou.lower() in [
+                        '.jpg',
+                        '.png',
+                        '.gif',
+                    ]:
                         pp_data['logo'] = os.path.join(wroot, wdir, uu.name).strip('.')
 
                 postinfo = MPost.get_by_uid(sig)
@@ -116,7 +128,7 @@ def update_post(uid, post_data, cur_extinfo):
         order=post_data.get('order', ''),
         cnt_html=tools.markdown2html(post_data['cnt_md']),
         extinfo=cur_extinfo,
-        valid=post_data.get('valid', 1)
+        valid=post_data.get('valid', 1),
     ).where(TabPost.uid == uid)
     entry.execute()
 
@@ -193,16 +205,15 @@ def fix_entity_path(data_id):
         test_sig = wfile.stem.split('_')[-1]
         # print(test_sig)
         if data_id == test_sig:
-            out_entity = os.path.join(out_dir, 'entityx_' + get_uu8d() + '_' + data_id + '.7z')
+            out_entity = os.path.join(
+                out_dir, 'entityx_' + get_uu8d() + '_' + data_id + '.7z'
+            )
 
             outpath = out_entity.strip('.')
             # print(f'Out path: {outpath}')
             print(f'Copy {wfile} to {out_entity}')
             # shutil.copy(wfile, out_entity)
-            os.symlink(
-                wfile,
-                os.path.join(os.getcwd(), out_entity)
-            )
+            os.symlink(wfile, os.path.join(os.getcwd(), out_entity))
             return outpath
 
     return False

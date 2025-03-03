@@ -31,7 +31,6 @@ class Referrer(BaseHandler):
             self.show404()
 
     def post(self, *args, **kwargs):
-
         url_str = args[0]
         logger.info('Post url: {0}'.format(url_str))
         url_arr = self.parse_url(url_str)

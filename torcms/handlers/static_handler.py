@@ -17,7 +17,6 @@ class StaticHandler(BaseHandler):
         super().initialize()
 
     def get(self, *args, **kwargs):
-
         url_str = args[0]
         if '../' in url_str:
             self.show404()

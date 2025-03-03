@@ -8,6 +8,8 @@ from math import ceil as math_ceil
 import bs4
 import tornado.escape
 import tornado.web
+
+import config
 from torcms.core.tool.whoosh_tool import YunSearch
 from torcms.model.category_model import MCategory
 from torcms.model.collect_model import MCollect
@@ -24,7 +26,6 @@ from torcms.model.reply2user_model import MReply2User
 from torcms.model.reply_model import MReply
 from torcms.model.user_model import MUser
 from torcms.model.wiki_model import MWiki
-import config
 
 
 class ShowPage(tornado.web.UIModule):
@@ -54,11 +55,9 @@ class PostLabels(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-
         post_uid = kwargs.get('post_uid', None)
 
         if post_uid:
-
             postinfo = MPost.get_by_uid(post_uid)
             kind = postinfo.kind
             tag_info = filter(
@@ -285,7 +284,6 @@ class PostCategoryRecent(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-
         cat_id = args[0]
         label = kwargs.get('label', None)
         num = kwargs.get('num', 10)

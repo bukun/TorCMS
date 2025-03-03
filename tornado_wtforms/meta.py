@@ -15,16 +15,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-__all__ = (
-    'TornadoMeta',
-)
+__all__ = ('TornadoMeta',)
 
 from wtforms.meta import DefaultMeta
+
 from .i18n import TornadoTranslations
 
 
 class TornadoMeta(DefaultMeta):
-
     def get_translations(self, form):
         """
         Override in subclasses to provide alternate translations factory.
