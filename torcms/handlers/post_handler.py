@@ -460,6 +460,12 @@ class PostHandler(BaseHandler):
 
         else:
             print('无信息')
+
+        if catinfo:
+            pass
+        else:
+            return self.show404()
+
         kwd = self._the_view_kwd(postinfo)
 
         MPost.update_misc(postinfo.uid, count=True)
