@@ -512,6 +512,14 @@ class PostHandler(BaseHandler):
         #     fo.write(result)
 
         # self.render(f'caches/{cache_file.name}')
+        p_cfg = post_cfg.get(postinfo.kind, None)
+
+        try:
+            p_type = post_cfg[catinfo.kind].get(
+                'show', post_cfg[catinfo.kind].get('router')
+            )
+        except:
+            p_type = ''
 
         self.render(
             tmpl,
@@ -530,10 +538,8 @@ class PostHandler(BaseHandler):
             ),
             recent_apps=recent_apps,
             cat_enum=cat_enum1,
-            router=post_cfg[catinfo.kind]['router'],
-            post_type=post_cfg[catinfo.kind].get(
-                'show', post_cfg[catinfo.kind].get('router')
-            ),
+            router= p_cfg['router'] if p_cfg else ''  ,
+            post_type= p_type ,
         )
 
     def _the_view_kwd(self, postinfo):
@@ -542,6 +548,7 @@ class PostHandler(BaseHandler):
         :param postinfo: the postinfo
         :return:  dict
         '''
+        p_cfg = post_cfg.get(postinfo.kind, None)
         kwd = {
             'pager': '',
             'url': self.request.uri,
@@ -556,7 +563,7 @@ class PostHandler(BaseHandler):
             'parentlist': MCategory.get_parent_list(),
             'parentname': '',
             'catname': '',
-            'router': post_cfg[postinfo.kind]['router'],
+            'router': p_cfg['router'] if p_cfg else '',
         }
         return kwd
 
