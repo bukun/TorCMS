@@ -13,7 +13,7 @@ def create_superuser(username, email, password):
             email=email,
             # 简单使用
             password=make_password(password),
-            vip_kind=1,
+            # vip_kind=1,
         )
     else:
         User.objects.create_superuser(username=username, email=email, password=password)
