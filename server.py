@@ -10,7 +10,7 @@ import tornado.ioloop
 
 
 from config import SITE_CFG
-from server import APP_URLS, SETTINGS
+from application import APP_URLS, SETTINGS
 
 
 PORT = SITE_CFG['PORT']
