@@ -498,7 +498,7 @@ class TabUsage(models.Model):
     post_id = models.TextField(null=False, help_text='')
     user_id = models.CharField(
         null=False, max_length=36, help_text=''
-    )  # db_index =True,
+    ) 
     count = models.IntegerField()
     tag_id = models.CharField(null=False, max_length=4, help_text='')
     kind = models.CharField(null=False, max_length=1)
@@ -591,7 +591,7 @@ class TabLog(models.Model):
     '''
 
     uid = models.CharField(
-        null=False, unique=True, primary_key=True, max_length=36  # , # db_index =True,
+        null=False, unique=True, primary_key=True, max_length=36
     )
     current_url = models.CharField(null=False, max_length=255, help_text='')
     refer_url = models.CharField(null=False, max_length=255, help_text='')
@@ -607,7 +607,6 @@ class TabLog(models.Model):
         verbose_name_plural = verbose_name
         indexes = [
             models.Index(fields=['user_id'], name='tablog_user_id'),
-            # models.Index(fields=['uid'], name='pkey'),
         ]
 
 
@@ -810,6 +809,48 @@ class TabRole2Permission(models.Model):
         verbose_name = "Role2Permission"
         ordering = ['kind']
         verbose_name_plural = verbose_name
+
+
+class TabAssociation(models.Model):
+    '''
+    与Post关联的扩展表。
+    '''
+
+    uid = models.CharField(
+        null=False,
+        unique=True,
+        primary_key=True,
+        max_length=8,
+        help_text='',
+    )
+    post_id = models.CharField(
+        null=False,
+        max_length=5,
+        help_text='',
+    )
+    user_id = models.CharField(
+        null=False,
+        max_length=36,
+        help_text='',
+    )
+    # 由于kind可能会对应多种扩展应用，使用 `variety` 进行区分。一般情况下可以与 `kind` 一致。
+    variety = models.CharField(null=False, default='')
+    title = models.CharField(null=False, blank=False, default='')
+    intro = models.CharField(null=True, blank=True)
+    time_create = models.IntegerField(null=False, default=0)
+    time_update = models.IntegerField(null=False, default=0)
+    public = models.IntegerField(null=False, default=0, help_text='是否公开')
+    extinfo = models.JSONField(null=False, default={}, help_text='Extra data in JSON.')
+
+    class Meta:
+        db_table = 'tabassociation'
+        verbose_name = "TabAssociation"
+        ordering = ['uid']
+        verbose_name_plural = verbose_name
+        indexes = [
+            models.Index(fields=['post_id'], name='tabassociation_post_id'),
+            models.Index(fields=['user_id'], name='tabassociation_user_id'),
+        ]
 
 
 class MabGson(models.Model):
