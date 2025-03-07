@@ -109,4 +109,6 @@ tags
 !administor/**/migrations/__init__.py
 migrations/
 ????_initial.py
+# Django admin static files.
+static/admin
 
