@@ -4,6 +4,7 @@ import tornado.web
 from django.core.wsgi import get_wsgi_application
 from tornado.web import FallbackHandler
 from tornado.wsgi import WSGIContainer
+import sys
 
 from application import APP_URLS, SETTINGS
 
@@ -17,6 +18,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'administor.settings')
 ```
 '''
 os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
+
 
 def make_app():
     '''
@@ -32,7 +34,11 @@ def make_app():
 
 
 if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        PORT = sys.argv[1]
     app = make_app()
-    app.listen(6797)
-    print('info')
+    app.listen(PORT)
+
+    print('Development server is running at http://127.0.0.1:{0}/'.format(PORT))
+    print('Quit the server with CONTROL-C')
     tornado.ioloop.IOLoop.current().start()

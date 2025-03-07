@@ -7,7 +7,7 @@ Test Post handler
 
 from tornado.testing import AsyncHTTPSTestCase, gen_test
 
-from application import APP
+from server import APP
 
 
 class TestWikiHandler(AsyncHTTPSTestCase):

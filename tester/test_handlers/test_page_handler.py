@@ -6,7 +6,7 @@ Test PageHandler PageAjaxHandler
 
 from tornado.testing import AsyncHTTPTestCase
 
-from application import APP
+from server import APP
 
 
 class TestPageHandler(AsyncHTTPTestCase):

@@ -23,23 +23,22 @@ from admin_torcms.models import TabPost, TabPost2Tag, TabTag
 
 fak = Faker('zh_CN')
 
+def gen_post():
 
-# def gen():
-#     for key in post_cfg:
-#         print(key)
-#         dt = datetime.now()
-#
-#         post = TabPost(
-#             uid=f'{key}{get_uu4d()}',
-#             title=fak.text(max_nb_chars=16),
-#             cnt_md=fak.text(max_nb_chars=300),
-#             cnt_html=fak.text(max_nb_chars=300),
-#             date=timezone.now(),
-#             time_create=dt.timestamp(),
-#             time_update=dt.timestamp(),
-#         )
-#
-#         post.save()
+    dt = datetime.now()
+    post_uid = f'{key}{get_uu4d()}'
+    dict_info = {
+        'uid': post_uid,
+        'title': fak.text(max_nb_chars=16),
+        'cnt_md': fak.text(max_nb_chars=300),
+        'cnt_html': fak.text(max_nb_chars=300),
+        'date': timezone.now(),
+        'time_create': dt.timestamp(),
+        'time_update': dt.timestamp(),
+        'kind': key,
+    }
+    uu = TabPost.objects.get_or_create(uid=post_uid, defaults=dict_info)
+    return  post_uid
 
 
 if __name__ == '__main__':
@@ -50,26 +49,9 @@ if __name__ == '__main__':
 
         for tag_rec in tag_recs:
             for ii  in range(10):
-                dt = datetime.now()
-                post_uid = f'{key}{get_uu4d()}'
-                dict_info =       {
-                    'uid':  post_uid,
-                'title':  fak.text(max_nb_chars=16),
-                'cnt_md':  fak.text(max_nb_chars=300),
-                'cnt_html':  fak.text(max_nb_chars=300),
-                'date':  timezone.now(),
-                'time_create':  dt.timestamp(),
-                'time_update':  dt.timestamp(),
-                    'kind':  key,
-                }
-                uu = TabPost.objects.get_or_create(uid=post_uid, defaults=dict_info)
+                post_uid = gen_post()
                 print(post_uid)
-                # print(uu.uid)
-                # post = TabPost(
-                #
-                # )
-                #
-                # post.save()
+
 
                 post2tag = TabPost2Tag(
                     uid=get_uuid(),

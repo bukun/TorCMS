@@ -6,12 +6,12 @@ import unittest
 from tornado.testing import AsyncHTTPClient, AsyncHTTPTestCase
 
 # from server import application
-from application import APP as application
+from server import APP 
 
 
 class TestMain(AsyncHTTPTestCase):
     def get_app(self):
-        return application
+        return APP 
 
     def test_main(self):
         response = self.fetch('/')

@@ -4,7 +4,7 @@ Test
 '''
 from tornado.testing import AsyncHTTPSTestCase
 
-from application import APP
+from server import APP
 
 
 class TestReplyHandler(AsyncHTTPSTestCase):

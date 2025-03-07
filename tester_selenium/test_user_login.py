@@ -6,7 +6,7 @@ Test user login.
 
 import unittest
 
-# from application import APP
+# from server import APP
 from http import cookies
 
 from selenium import webdriver
