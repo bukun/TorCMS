@@ -1,51 +1,34 @@
 import os
-from pathlib import Path
-
 import tornado.ioloop
 import tornado.web
 from django.core.wsgi import get_wsgi_application
-from tornado.web import Application, FallbackHandler, RequestHandler
+from tornado.web import FallbackHandler
 from tornado.wsgi import WSGIContainer
+
+from application import APP_URLS, SETTINGS
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'administor.settings')
 
-django_app = WSGIContainer(
-    # django.core.handlers.wsgi.WSGIHandler()
-    get_wsgi_application()
-)
-
-
-class MainHandler(tornado.web.RequestHandler):
-    def get(self):
-        self.write("Hello, Tornado!")
-
-
-# For Tornado
-SETTINGS = {
-    "template_path": Path("templates"),
-    "static_path": Path(__file__) / 'xx_static',
-    # "debug": SITE_CFG["DEBUG"],
-    "cookie_secret": 'asdf',
-    "login_url": "/user/login",
-    # "ui_modules": APP_MODUES,
-    # "ui_methods": uifuncs,
-}
-
+'''
+以下设置是为了兼容django的异步操作：
+```
+    SynchronousOnlyOperation at /admin/login/ 
+    You cannot call this from an async context - use a thread or sync_to_async.
+```
+'''
+os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 
 def make_app():
-    return tornado.web.Application(
-        [
-            # (r"/asdf", MainHandler),
-            # (r'/static/(.*)', tornado.web.StaticFileHandler, {'path': 'xx_static'}),
-            (r"/admin/(.*)", FallbackHandler, dict(fallback=django_app)),
-            # (r"/portal/(.*)", FallbackHandler, dict(fallback=django_app)),
-            # (r"/dataset/(.*)", FallbackHandler, dict(fallback=django_app)),
-            # (r"/literature/(.*)", FallbackHandler, dict(fallback=django_app)),
-            (r"/static/(.*)", FallbackHandler, dict(fallback=django_app)),
-            # (r"/(.*)",  FallbackHandler, dict(fallback=django_app)),
-        ],
-        **SETTINGS,
-    )
+    '''
+    注意 admin 静态文件的位置，由 TorCMS 的 admin 静态文件位置决定.
+    '''
+    django_app = WSGIContainer(get_wsgi_application())
+    djngo_handler = [
+        # Use admin in Django instead of Tornado.
+        (r"/admin/(.*)", FallbackHandler, dict(fallback=django_app)),
+    ]
+
+    return tornado.web.Application(handlers=djngo_handler + APP_URLS, **SETTINGS)
 
 
 if __name__ == "__main__":

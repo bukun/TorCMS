@@ -39,4 +39,4 @@ SETTINGS = {
 # else:
 #     os.mkdir(CACHES_PATH)
 
-APP = tornado.web.Application(handlers=APP_URLS, **SETTINGS)
+

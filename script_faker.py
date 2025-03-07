@@ -53,13 +53,14 @@ if __name__ == '__main__':
                 dt = datetime.now()
                 post_uid = f'{key}{get_uu4d()}'
                 dict_info =       {
-                    # 'uid':  post_uid,
+                    'uid':  post_uid,
                 'title':  fak.text(max_nb_chars=16),
                 'cnt_md':  fak.text(max_nb_chars=300),
                 'cnt_html':  fak.text(max_nb_chars=300),
                 'date':  timezone.now(),
                 'time_create':  dt.timestamp(),
                 'time_update':  dt.timestamp(),
+                    'kind':  key,
                 }
                 uu = TabPost.objects.get_or_create(uid=post_uid, defaults=dict_info)
                 print(post_uid)

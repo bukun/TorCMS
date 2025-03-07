@@ -8,8 +8,10 @@ import sys
 
 import tornado.ioloop
 
-from application import APP
+
 from config import SITE_CFG
+from application import APP_URLS, SETTINGS
+
 
 PORT = SITE_CFG['PORT']
 
@@ -19,8 +21,8 @@ if __name__ == "__main__":
     # tornado.locale.load_gettext_translations('locale', 'yunsuan')
     if len(sys.argv) > 1:
         PORT = sys.argv[1]
-
-    APP.listen(PORT)
+    app = tornado.web.Application(handlers=APP_URLS, **SETTINGS)
+    app.listen(PORT)
     print('Development server is running at http://127.0.0.1:{0}/'.format(PORT))
     print('Quit the server with CONTROL-C')
     tornado.ioloop.IOLoop.instance().start()
