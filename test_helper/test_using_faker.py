@@ -124,6 +124,8 @@ def test_meta():
         post_data['cnt_md'] = f.text()
         post_data['user_name'] = 'admin'
         post_data['kind'] = '3'
+        post_data['gcat0'] = '3101'
+
 
         ext_dic['def_uid'] = uid
         ext_dic['gcat0'] = '3101'

@@ -19,7 +19,7 @@ out_ws = 'xx_title'
 
 
 def get_img(text):
-    pattern = re.compile('!\[.*?\]\(.*?\)')
+    pattern = re.compile(r'!\[.*?\]\(.*?\)')
     # pattern = re.compile('''(?|(?<txt>(?<url>(?:ht|f)tps?://\S+(?<=\P{P})))|\(([^)]+)\)\[(\g<url>)\])''')
     tt = re.findall(pattern, text)
     for t in tt:

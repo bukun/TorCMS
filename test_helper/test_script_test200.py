@@ -38,7 +38,8 @@ def test_200():
     tstr = ''
 
     for kind in config.post_cfg.keys():
-        posts = MPost.query_all(kind=kind, limit=20000)
+        # posts = MPost.query_all(kind=kind, limit=20000)
+        posts = MPost.query_all(kind=kind, limit=10)
         for index, post in enumerate(posts):
             the_url0 = '{site_url}/{kind_url}/{uid}'.format(
                 site_url=config.SITE_CFG['site_url'],

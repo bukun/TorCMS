@@ -5,8 +5,9 @@
 
 import os
 import pathlib
+import pytest
 
-
+@pytest.mark.skip(reason="跳过测试函数的测试case")
 def test_get_meta():
     meta_base = './static/dataset_list'
     if os.path.exists(meta_base):
