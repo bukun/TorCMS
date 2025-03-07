@@ -109,7 +109,7 @@ class TabPost(models.Model):
 
     class Meta:
         db_table = 'tabpost'
-        verbose_name = "Table Posts"
+        verbose_name = "TabPost"
         ordering = ['uid']
         verbose_name_plural = verbose_name
         indexes = [
