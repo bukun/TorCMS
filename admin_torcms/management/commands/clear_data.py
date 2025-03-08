@@ -1,9 +1,12 @@
-from pathlib import Path
+import importlib
 import inspect
+from pathlib import Path
+
 from django.core.management.base import BaseCommand
-from admin_torcms.models import *
-import  importlib
+
 import admin_torcms.models as uu
+from admin_torcms.models import *
+
 
 class Command(BaseCommand):
     help = '清空数据库迁移文件'
@@ -18,13 +21,13 @@ class Command(BaseCommand):
         print(inspect.getmodule(uu).__name__)
         print(inspect.getmodule(uu).__dict__)
         for key in inspect.getmodule(uu).__dict__:
-            print(key )
+            print(key)
             if key.startswith('Tab'):
                 pass
             else:
                 continue
 
-            vv = getattr( uu, key  )
+            vv = getattr(uu, key)
             # vv = importlib.import_module(f'admin_torcms.models.{key }')
 
             print(vv)

@@ -1,10 +1,11 @@
 import os
+import sys
+
 import tornado.ioloop
 import tornado.web
 from django.core.wsgi import get_wsgi_application
 from tornado.web import FallbackHandler
 from tornado.wsgi import WSGIContainer
-import sys
 
 from application import APP_URLS, SETTINGS
 

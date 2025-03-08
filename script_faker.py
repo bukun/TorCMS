@@ -23,8 +23,8 @@ from admin_torcms.models import TabPost, TabPost2Tag, TabTag
 
 fak = Faker('zh_CN')
 
-def gen_post():
 
+def gen_post():
     dt = datetime.now()
     post_uid = f'{key}{get_uu4d()}'
     dict_info = {
@@ -38,20 +38,19 @@ def gen_post():
         'kind': key,
     }
     uu = TabPost.objects.get_or_create(uid=post_uid, defaults=dict_info)
-    return  post_uid
+    return post_uid
 
 
 if __name__ == '__main__':
     # gen()
 
     for key in post_cfg:
-        tag_recs = TabTag.objects.filter(kind=key ).all()
+        tag_recs = TabTag.objects.filter(kind=key).all()
 
         for tag_rec in tag_recs:
-            for ii  in range(10):
+            for ii in range(10):
                 post_uid = gen_post()
                 print(post_uid)
-
 
                 post2tag = TabPost2Tag(
                     uid=get_uuid(),
@@ -68,5 +67,3 @@ if __name__ == '__main__':
     #     print(rec.title)
     #
     #
-
-

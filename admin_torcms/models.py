@@ -496,9 +496,7 @@ class TabUsage(models.Model):
         max_length=36, null=False, unique=True, help_text='', primary_key=True
     )
     post_id = models.TextField(null=False, help_text='')
-    user_id = models.CharField(
-        null=False, max_length=36, help_text=''
-    ) 
+    user_id = models.CharField(null=False, max_length=36, help_text='')
     count = models.IntegerField()
     tag_id = models.CharField(null=False, max_length=4, help_text='')
     kind = models.CharField(null=False, max_length=1)
@@ -590,9 +588,7 @@ class TabLog(models.Model):
     用户访问行为记录
     '''
 
-    uid = models.CharField(
-        null=False, unique=True, primary_key=True, max_length=36
-    )
+    uid = models.CharField(null=False, unique=True, primary_key=True, max_length=36)
     current_url = models.CharField(null=False, max_length=255, help_text='')
     refer_url = models.CharField(null=False, max_length=255, help_text='')
     user_id = models.CharField(null=False, max_length=36, help_text='', db_index=True)

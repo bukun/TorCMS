@@ -42,7 +42,6 @@ class TestFoo:
         print("function teardown .. ")
 
     def test(self):
-
         # ToDo: 需要构建出来
         # assert self.ws_dir.exists()
 

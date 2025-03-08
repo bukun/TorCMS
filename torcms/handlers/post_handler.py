@@ -538,8 +538,8 @@ class PostHandler(BaseHandler):
             ),
             recent_apps=recent_apps,
             cat_enum=cat_enum1,
-            router= p_cfg['router'] if p_cfg else ''  ,
-            post_type= p_type ,
+            router=p_cfg['router'] if p_cfg else '',
+            post_type=p_type,
         )
 
     def _the_view_kwd(self, postinfo):

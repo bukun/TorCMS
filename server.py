@@ -2,9 +2,11 @@
 Entry for the application.
 '''
 import sys
+
 import tornado.ioloop
-from config import SITE_CFG
+
 from application import APP_URLS, SETTINGS
+from config import SITE_CFG
 
 PORT = SITE_CFG['PORT']
 APP = tornado.web.Application(handlers=APP_URLS, **SETTINGS)

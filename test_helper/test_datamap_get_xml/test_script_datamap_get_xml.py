@@ -4,14 +4,16 @@
 import json
 import sys
 from pathlib import Path
-import pytest
 
+import pytest
 import yaml
+
 try:
     from owslib.wms import WebMapService
 except:
     pass
     # sys.exit()
+
 
 @pytest.mark.skip(reason="跳过测试函数的测试case")
 def test_get_xml():
