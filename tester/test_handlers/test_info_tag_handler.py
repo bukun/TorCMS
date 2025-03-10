@@ -8,4 +8,4 @@ def Test():
         ("/label/(.*)", InfoTagHandler, {}),
     ]
 
-    assert urls
+    assert urls is not None

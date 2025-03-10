@@ -73,4 +73,4 @@ def test_200():
     )
     with open(path, 'w') as fo:
         fo.write(html_tmpl.format(cnt=tstr))
-    os.remove(path)
+    # os.remove(path)
