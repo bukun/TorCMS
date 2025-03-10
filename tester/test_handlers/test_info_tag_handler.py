@@ -3,7 +3,7 @@
 from torcms.handlers.label_handler import InfoTagHandler
 
 
-def Test():
+def test_foo():
     urls = [
         ("/label/(.*)", InfoTagHandler, {}),
     ]
