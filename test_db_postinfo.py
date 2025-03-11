@@ -6,7 +6,8 @@ from torcms.model.post_model import MPost
 from torcms.model.category_model import MCategory
 
 post_infos = MPost.query_all(kind='1')
-info_infos = MPost.query_all(kind='3')
+# info_infos = MPost.query_all(kind='3')
+info_infos = MPost.query_all(kind='2')
 # tutorial_infos = MPost.query_all(kind='k')
 tags = MCategory.query_all()
 # labels = MCategory.query_all(kind='z')

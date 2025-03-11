@@ -13,7 +13,7 @@ from torcms_app.script.autogen_formula.generate_app_html import run_gen_formula
 from torcms_app.script.script_fix_app_path import run_fix_path
 
 
-def run_gen_auto():
+def run_gen_auto(kind='s'):
     '''
     生成自动
     '''
