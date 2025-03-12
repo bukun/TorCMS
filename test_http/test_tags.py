@@ -23,24 +23,20 @@ class TestTornado(AsyncHTTPTestCase):
 
         for tag in tags:
 
-            if tag.kind == '1' or tag.kind == 'm':
+            if tag.kind in ['1', 'm']:
                 response = self.fetch('/list/{0}'.format(tag.slug))
                 self.assertEqual(response.code, 200)
 
                 response = self.fetch('/catalog/{0}'.format(tag.slug))
                 self.assertEqual(response.code, 200)
 
-                response = self.fetch('/label/{0}/{1}'.format(tag.kind, tag.slug))
-                self.assertEqual(response.code, 200)
 
-
-
-            elif tag.kind == '3' or tag.kind == '9':
+            elif tag.kind in ['3', '9', 'd']:
                 response = self.fetch('/filter/{0}'.format(tag.uid))
                 self.assertEqual(response.code, 200)
 
-                response = self.fetch('/label/{0}/{1}'.format(tag.kind, tag.slug))
-                self.assertEqual(response.code, 200)
+            response = self.fetch('/label/{0}/{1}'.format(tag.kind, tag.slug))
+            self.assertEqual(response.code, 200)
 
     def test_category_j(self):
         for kind in post_cfg.keys():
@@ -48,6 +44,5 @@ class TestTornado(AsyncHTTPTestCase):
             self.assertEqual(response.code, 200)
 
     def test_classify(self):
-        for kind in post_cfg.keys():
-            response = self.fetch('/classify/list'.format(kind))
-            self.assertEqual(response.code, 200)
+        response = self.fetch('/classify/list')
+        self.assertEqual(response.code, 200)
