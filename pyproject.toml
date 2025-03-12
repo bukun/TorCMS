@@ -37,6 +37,7 @@ jwt = "^1.3.1"
 pytest = "^8.3.4"
 faker = "^36.1.1"
 docutils = "^0.21.2"
+tornado-wtforms = "^0.0.1"
 
 [build-system]
 requires = ["poetry-core"]
