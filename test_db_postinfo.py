@@ -1,9 +1,10 @@
 # 针对导入的测试内容进行测试，当前测试页面时候能正常打开。
 # 测试添加的能容能否正确打开。
 from tornado.testing import AsyncHTTPSTestCase
+
 from server import APP
-from torcms.model.post_model import MPost
 from torcms.model.category_model import MCategory
+from torcms.model.post_model import MPost
 
 post_infos = MPost.query_all(kind='1')
 # info_infos = MPost.query_all(kind='3')
