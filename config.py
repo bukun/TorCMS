@@ -49,14 +49,14 @@ post_cfg = {
         "checker": "0",
         "show": "Page",
     },
-    "3": {
-        "router": "info",
-        "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
-            "Info"
-        ),
-        "checker": "0",  # '10', '100', '1000', '10000'
-        "show": "Info",
-    },
+    # "3": {
+    #     "router": "info",
+    #     "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
+    #         "Info"
+    #     ),
+    #     "checker": "0",  # '10', '100', '1000', '10000'
+    #     "show": "Info",
+    # },
     "k": {
         "router": "tutorial",
         "html": """<span style="color:blue;" class="glyphicon glyphicon-list-alt">[{0}]</span>""".format(
