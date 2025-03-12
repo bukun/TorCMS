@@ -25,3 +25,9 @@ class TestTornado(AsyncHTTPTestCase):
 
             self.assertEqual(response.status_code, 200)
 
+    def test_page(self):
+        for wiki in wiki_list:
+            response = requests.get(os.path.join(domain,'page/{0}'.format(wiki)))
+
+            self.assertEqual(response.status_code, 200)
+
