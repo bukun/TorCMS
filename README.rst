@@ -5,9 +5,6 @@ TorCMS Introduction
 Status
 ==============================
 
-.. image:: https://travis-ci.org/bukun/TorCMS.svg?branch=master
-    :target: https://travis-ci.org/bukun/TorCMS
-
 .. image:: https://img.shields.io/pypi/v/torcms.svg
     :target: https://pypi.python.org/pypi/torcms/
 
