@@ -348,14 +348,20 @@ def get_cfg():
     else:
         site_cfg['DEBUG'] = False
 
+    '''
+    默认情况下，Peewee的autocommit设置为True，这意味着每次数据库操作后都会自动提交事务。
+    如果设置为False，则需要显式调用commit()来提交事务。
+    默认情况下，Peewee的autorollback设置为False，意味着在发生错误时不会自动回滚事务。
+    如果设置为True，则在发生错误时会自动回滚事务。
+    '''
     db_con = PostgresqlExtDatabase(
         db_cfg['db'],
         user=db_cfg.get('user', db_cfg['db']),
         password=db_cfg['pass'],
         host=db_cfg.get('host', '127.0.0.1'),
         port=db_cfg.get('port', '5432'),
-        # autocommit=True,
-        # autorollback=True,
+        autocommit=True,
+        autorollback=True,
     )
 
     if 'REDIS_CFG' in cfg_var:

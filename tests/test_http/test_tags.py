@@ -20,16 +20,13 @@ class TestTornado(AsyncHTTPTestCase):
         return APP
 
     def test_category_label(self):
-
         for tag in tags:
-
             if tag.kind in ['1', 'm']:
                 response = self.fetch('/list/{0}'.format(tag.slug))
                 self.assertEqual(response.code, 200)
 
                 response = self.fetch('/catalog/{0}'.format(tag.slug))
                 self.assertEqual(response.code, 200)
-
 
             elif tag.kind in ['3', '9', 'd']:
                 response = self.fetch('/filter/{0}'.format(tag.uid))

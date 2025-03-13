@@ -25,6 +25,7 @@ from torcms.model.core_tab import (
     TabUser2Reply,
 )
 
+from config import DB_CON
 
 class MPost:
     '''
@@ -517,15 +518,16 @@ class MPost:
     @staticmethod
     def __update_view_count(uid):
         ''' '''
-        entry = TabPost.update(view_count=TabPost.view_count + 1).where(
-            TabPost.uid == uid
-        )
-        try:
+        with DB_CON.atomic():
+            entry = TabPost.update(view_count=TabPost.view_count + 1).where(
+                TabPost.uid == uid
+            )
             entry.execute()
-            return True
-        except Exception as err:
-            print(repr(err))
-            return False
+
+        #     return True
+        # except Exception as err:
+        #     print(repr(err))
+        #     return False
 
     @staticmethod
     def __update_keywords(uid, inkeywords):

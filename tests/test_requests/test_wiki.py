@@ -14,20 +14,19 @@ domain = SITE_CFG['site_url']
 
 wiki_list = MWiki.query_all(limit=None)
 
+
 class TestTornado(AsyncHTTPTestCase):
     def get_app(self):
         return APP
 
-
     def test_wiki_list(self):
         for wiki in wiki_list:
-            response = requests.get(os.path.join(domain,'wiki/{0}'.format(wiki)))
+            response = requests.get(os.path.join(domain, 'wiki/{0}'.format(wiki)))
 
             self.assertEqual(response.status_code, 200)
 
     def test_page(self):
         for wiki in wiki_list:
-            response = requests.get(os.path.join(domain,'page/{0}'.format(wiki)))
+            response = requests.get(os.path.join(domain, 'page/{0}'.format(wiki)))
 
             self.assertEqual(response.status_code, 200)
-

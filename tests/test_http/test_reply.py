@@ -14,10 +14,7 @@ class TestTornado(AsyncHTTPTestCase):
     def get_app(self):
         return APP
 
-
     def test_reply_list(self):
         for reply in reply_list:
-
             response = self.fetch('/reply/more/{0}'.format(reply))
             self.assertEqual(response.code, 200)
-

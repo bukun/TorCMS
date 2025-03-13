@@ -14,14 +14,12 @@ class TestTornado(AsyncHTTPTestCase):
     def get_app(self):
         return APP
 
-
     def test_wiki_list(self):
         for wiki in wiki_list:
-
             response = self.fetch('/wiki/{0}'.format(wiki))
             self.assertEqual(response.code, 200)
+
     def test_page(self):
         for wiki in wiki_list:
-
             response = self.fetch('/page/{0}'.format(wiki))
             self.assertEqual(response.code, 200)

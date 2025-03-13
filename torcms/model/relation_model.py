@@ -8,6 +8,7 @@ from torcms.model.label_model import MPost2Label
 from torcms.model.post2catalog_model import MPost2Catalog as MInfor2Catalog
 
 
+
 class MCorrelation:
     @staticmethod
     def add_relation(postid, relid, kind, order):

@@ -23,6 +23,8 @@ from cfg import SITE_CFG
 
 fak = Faker('zh_CN')
 domain = SITE_CFG['site_url']
+
+
 class TestPostHandler(AsyncHTTPSTestCase):
     def get_app(self):
         return APP
@@ -34,9 +36,9 @@ class TestPostHandler(AsyncHTTPSTestCase):
                 for post in postinfos:
                     pass
                     # # Todo：app类型数据报错信息tornado.general:web.py:3118 Could not open static file '/gitee/TorCMS/static/f2elib/bootstrap-star-rating-master/css/star-rating.css'
-                    # print('/{0}/{1}'.format(post_cfg[key]['router'],post.uid))
-                    # response = self.fetch('/{0}/{1}'.format(post_cfg[key]['router'],post.uid))
-                    # self.assertEqual(response.code, 200)
+                    print('/{0}/{1}'.format(post_cfg[key]['router'],post.uid))
+                    response = self.fetch('/{0}/{1}'.format(post_cfg[key]['router'],post.uid))
+                    self.assertEqual(response.code, 200)
                     # response_edit = self.fetch('/{0}/_edit/{1}'.format(post_cfg[key]['router'],post.uid))
                     # self.assertEqual(response_edit.code, 200)
                     # response_edit_kind = self.fetch('/{0}/_edit_kind/{1}'.format(post_cfg[key]['router'],post.uid))
@@ -48,7 +50,7 @@ class TestPostHandler(AsyncHTTPSTestCase):
     def test_tags(self):
         tags = MCategory.query_all()
         for tag in tags:
-            if tag.kind in ['1','m','k']:
+            if tag.kind in ['1', 'm', 'k']:
                 response = self.fetch('/list/{0}'.format(tag.slug))
                 self.assertEqual(response.code, 200)
             elif tag.kind == '3':
@@ -64,7 +66,9 @@ class TestPostHandler(AsyncHTTPSTestCase):
                 while MPost.get_by_uid(postuid):
                     postuid = f'{k}{get_uu4d()}'
 
-                response = self.fetch('/{0}/_add/{1}'.format(post_cfg[k]['router'], postuid))
+                response = self.fetch(
+                    '/{0}/_add/{1}'.format(post_cfg[k]['router'], postuid)
+                )
                 self.assertEqual(response.code, 200)
 
     # # Todo:测试post，需要登录用户并有相关权限。
@@ -95,8 +99,6 @@ class TestPostHandler(AsyncHTTPSTestCase):
     #         response = requests.post(os.path.join(domain, "{0}/_add".format(post_cfg[key]['router'])), json=dict_info)
     #         self.assertEqual(response.status_code, 200)
 
-
     # def test_posthandler_json(self):
     #     url = '/post_j/'
     #     pass
-
