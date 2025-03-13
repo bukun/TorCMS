@@ -4,10 +4,11 @@ import unittest
 
 import requests
 from tornado.testing import AsyncHTTPTestCase
-from torcms.model.category_model import MCategory
-from config import post_cfg
+
 from cfg import SITE_CFG
+from config import post_cfg
 from server import APP
+from torcms.model.category_model import MCategory
 
 domain = SITE_CFG['site_url']
 

@@ -6,21 +6,23 @@ Basic configuration for CRUD.
 import os
 from pathlib import Path
 
+from config import BaseDir
+
 CRUD_PATH = os.path.abspath('./templates/autogen')
 
-META_DIR = './database/meta'
+META_DIR = BaseDir / './database/meta'
 
 # XLSX_FILE = './database/meta/info_tags.xlsx'
 
 XLSX_FILE_LIST = []
 XLSX_CATEGORY_FILE_LIST = []
 
-for wfile in Path(META_DIR).rglob('*.xlsx'):
+for wfile in META_DIR.rglob('*.xlsx'):
     if wfile.name.startswith('~') or wfile.name.startswith('torcms'):
         continue
     XLSX_FILE_LIST.append(wfile)
 
-for wfile in Path(META_DIR).rglob('*.xlsx'):
+for wfile in META_DIR.rglob('*.xlsx'):
     if wfile.name.startswith('~'):
         continue
     XLSX_CATEGORY_FILE_LIST.append(wfile)

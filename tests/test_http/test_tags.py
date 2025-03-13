@@ -2,9 +2,10 @@ import json
 import unittest
 
 from tornado.testing import AsyncHTTPTestCase
-from torcms.model.category_model import MCategory
-from server import APP
+
 from config import post_cfg
+from server import APP
+from torcms.model.category_model import MCategory
 
 tags = MCategory.query_all()
 

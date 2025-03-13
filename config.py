@@ -3,6 +3,8 @@
 """
 Config for the website.
 """
+from pathlib import Path
+
 import tornado.web
 
 from torcms.core.tools import get_cfg
@@ -13,6 +15,8 @@ except:
     ADDONS = []
 
 DB_CON, SMTP_CFG, SITE_CFG, ROLE_CFG, REDIS_CFG = get_cfg()
+
+BaseDir = Path(__file__).resolve().parent
 
 CMS_CFG = {
     "list_num": 10,

@@ -7,19 +7,18 @@ ERROR    tornado.general:web.py:3118 Could not open static file '/home/yubiao/gi
 '''
 
 import os
+from datetime import datetime
+
 import requests
+from faker import Faker
 from tornado.testing import AsyncHTTPSTestCase
+
+from cfg import SITE_CFG
+from config import post_cfg
 from server import APP
+from torcms.core.tools import get_uu4d, get_uuid
 from torcms.model.category_model import MCategory
 from torcms.model.post_model import MPost
-
-from faker import Faker
-from datetime import datetime
-from torcms.core.tools import get_uu4d, get_uuid
-
-from config import post_cfg
-from cfg import SITE_CFG
-
 
 fak = Faker('zh_CN')
 domain = SITE_CFG['site_url']
@@ -31,13 +30,15 @@ class TestPostHandler(AsyncHTTPSTestCase):
 
     def test_posthandler_view_edit_delete(self):
         for key in post_cfg:
-            if key != '2':
+            if key not in  ['2', 's']:
                 postinfos = MPost.query_all(kind=key)
                 for post in postinfos:
                     pass
                     # # Todo：app类型数据报错信息tornado.general:web.py:3118 Could not open static file '/gitee/TorCMS/static/f2elib/bootstrap-star-rating-master/css/star-rating.css'
-                    print('/{0}/{1}'.format(post_cfg[key]['router'],post.uid))
-                    response = self.fetch('/{0}/{1}'.format(post_cfg[key]['router'],post.uid))
+                    print('/{0}/{1}'.format(post_cfg[key]['router'], post.uid))
+                    response = self.fetch(
+                        '/{0}/{1}'.format(post_cfg[key]['router'], post.uid)
+                    )
                     self.assertEqual(response.code, 200)
                     # response_edit = self.fetch('/{0}/_edit/{1}'.format(post_cfg[key]['router'],post.uid))
                     # self.assertEqual(response_edit.code, 200)

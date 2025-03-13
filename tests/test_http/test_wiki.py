@@ -4,7 +4,6 @@ import unittest
 from tornado.testing import AsyncHTTPTestCase
 
 from server import APP
-
 from torcms.model.wiki_model import MWiki
 
 wiki_list = MWiki.query_all(limit=None)

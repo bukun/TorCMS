@@ -4,7 +4,6 @@ import unittest
 from tornado.testing import AsyncHTTPTestCase
 
 from server import APP
-
 from torcms.model.reply_model import MReply
 
 reply_list = MReply.query_all()

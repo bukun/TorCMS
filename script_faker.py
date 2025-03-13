@@ -3,21 +3,20 @@ Use faker to generate test data in database.
 '''
 
 import os
-import bs4
-import re
-import django
-import os
-import sys
 import pathlib
-from torcms.model.category_model import MCategory
-from torcms.model.post_model import MPost
-from torcms.handlers.post_handler import update_category
-from torcms.model.wiki_model import MWiki
+import re
+import sys
 
+import bs4
+import django
 from faker import Faker
 
 from config import post_cfg
 from torcms.core.tools import get_uu4d, get_uuid
+from torcms.handlers.post_handler import update_category
+from torcms.model.category_model import MCategory
+from torcms.model.post_model import MPost
+from torcms.model.wiki_model import MWiki
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "administor.settings")
 django.setup()
@@ -37,6 +36,8 @@ fak = Faker('zh_CN')
 rest_regs = [
     '\<img.+?\/\>',
 ]
+
+
 def update_label(post_id, post_data):
     '''
     Update the label when updating.
@@ -69,6 +70,7 @@ def update_label(post_id, post_data):
         else:
             MPost2Label.remove_relation(post_id, cur_info.tag_id)
 
+
 def gen_post(tag_uid):
     dt = datetime.now()
     post_uid = f'{key}{get_uu4d()}'
@@ -76,11 +78,15 @@ def gen_post(tag_uid):
     # 增加地图缺少的信息
     if key == 'm':
         extinfo = {
-            'ext_lon':fak.pyfloat(left_digits=3, right_digits=3,min_value=0,max_value=180),
-            'ext_lat':fak.pyfloat(left_digits=2, right_digits=3,min_value=0,max_value=90),
-            'ext_zoom_current':'4',
-            'ext_zoom_max':'7',
-            'ext_zoom_min':'1',
+            'ext_lon': fak.pyfloat(
+                left_digits=3, right_digits=3, min_value=0, max_value=180
+            ),
+            'ext_lat': fak.pyfloat(
+                left_digits=2, right_digits=3, min_value=0, max_value=90
+            ),
+            'ext_zoom_current': '4',
+            'ext_zoom_max': '7',
+            'ext_zoom_min': '1',
         }
     dict_info = {
         'uid': post_uid,
@@ -91,13 +97,19 @@ def gen_post(tag_uid):
         'time_create': dt.timestamp(),
         'time_update': dt.timestamp(),
         'kind': key,
-        'extinfo':extinfo
+        'extinfo': extinfo,
     }
     uu = TabPost.objects.get_or_create(uid=post_uid, defaults=dict_info)
     return post_uid
-def gen_label(post_uid,kind):
-    post_data = {'tags': '{},{}'.format(fak.text(max_nb_chars=5), fak.text(max_nb_chars=5))}
+
+
+def gen_label(post_uid, kind):
+    post_data = {
+        'tags': '{},{}'.format(fak.text(max_nb_chars=5), fak.text(max_nb_chars=5))
+    }
     update_label(post_uid, post_data)
+
+
 pwd = os.getcwd()
 
 
@@ -133,15 +145,13 @@ def filter_reg_text(inws, out_reg_arr):
                 img_path = pathlib.Path(inws)
                 for wfile in img_path.rglob('*'):
                     if img == wfile.name:
-                        img = str(wfile.resolve())[len(pwd):]
+                        img = str(wfile.resolve())[len(pwd) :]
                 tt.append('src="{}"'.format(img))
             else:
                 tt.append(bb)
 
         outarr.append('<img {} />'.format(' '.join(tt)))
     return outarr
-
-
 
 
 def do_for_chapter(cat_id, ch_path):
@@ -174,7 +184,6 @@ def do_for_chapter(cat_id, ch_path):
 
 def do_for_page(cat_id, ch_path, filename, idx):
     for x in ch_path.rglob('*.html'):
-
         if x.name.startswith(filename):
             pass
         else:
@@ -188,7 +197,6 @@ def do_for_page(cat_id, ch_path, filename, idx):
 
 
 def get_page_meta(catid, the_file, idx):
-
     print(the_file.name)
     File = open(str(the_file.resolve()))
     Soup = bs4.BeautifulSoup(File.read(), features="html.parser")
@@ -208,7 +216,6 @@ def get_page_meta(catid, the_file, idx):
 
 
 def get_meta(catid, sig, the_file, idx):
-
     File = open(str(the_file.resolve()))
     Soup = bs4.BeautifulSoup(File.read(), features="html.parser")
     title = Soup.select('h1')[0].getText()
@@ -218,7 +225,6 @@ def get_meta(catid, sig, the_file, idx):
     result[::2] = uu
     result[1::2] = vv
     content = ' '.join(result)
-
 
     pp_data = {}
     pp_data['uid'] = sig
@@ -240,7 +246,6 @@ def get_meta(catid, sig, the_file, idx):
 
 def get_catname(ch_path, filename):
     for x in ch_path.rglob('*.html'):
-
         if x.name.startswith(filename):
             pass
         else:
@@ -271,7 +276,6 @@ def bianli(inws):
         idx = max_order + 1
 
         for wdir in wdirs:
-
             if wdir.startswith('ch') and len(wdir.split('_')) > 2:
                 pass
             else:
@@ -298,39 +302,27 @@ def bianli(inws):
             else:
                 cat_name = cat_slug
 
-            post_data = {'name': cat_name,
-                         'slug': cat_slug.lower(),
-                         'order': idx,
-                         'kind': 'k',
-                         'pid': pid}
+            post_data = {
+                'name': cat_name,
+                'slug': cat_slug.lower(),
+                'order': idx,
+                'kind': 'k',
+                'pid': pid,
+            }
 
             try:
                 MCategory.add_or_update(cat_id, post_data)
             except Exception:
                 pass
 
-            do_for_chapter(
-                cat_id,
-                pathlib.Path(os.path.join(wroot, wdir))
-            )
+            do_for_chapter(cat_id, pathlib.Path(os.path.join(wroot, wdir)))
 
             #  将 chapter.html 内容存入数据库， page/catid 形式访问
-            do_for_page(
-                cat_id,
-                pathlib.Path(os.path.join(wroot, wdir)),
-                'chapter',
-                idx
-            )
+            do_for_page(cat_id, pathlib.Path(os.path.join(wroot, wdir)), 'chapter', idx)
             #  将 index.html 内容存入数据库， page/catid 形式访问
-            do_for_page(
-                pid,
-                pathlib.Path(os.path.join(wroot)),
-                'index',
-                idx
-            )
+            do_for_page(pid, pathlib.Path(os.path.join(wroot)), 'index', idx)
 
             idx = idx + 1
-
 
 
 if __name__ == '__main__':
@@ -354,10 +346,12 @@ if __name__ == '__main__':
         else:
             tag_recs = TabTag.objects.filter(kind=key).all()
             for tag_rec in tag_recs:
+                if tag_rec.uid.endswith('00'):
+                    continue
                 for ii in range(10):
                     post_uid = gen_post(tag_rec.uid)
                     print(post_uid)
-                    gen_label(post_uid,key)
+                    gen_label(post_uid, key)
                     post2tag = TabPost2Tag(
                         uid=get_uuid(),
                         par_id=f'{tag_rec.uid[:2]}00',
@@ -366,7 +360,6 @@ if __name__ == '__main__':
                         order=0,
                     )
                     post2tag.save()
-
 
     #
     # recs = TabPost.objects.filter().all()

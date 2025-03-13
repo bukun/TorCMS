@@ -8,7 +8,7 @@ from datetime import datetime
 import peewee
 import tornado.escape
 
-from config import CMS_CFG
+from config import CMS_CFG, DB_CON
 from torcms.core import tools
 from torcms.core.tools import logger
 from torcms.model.abc_model import MHelper
@@ -25,7 +25,6 @@ from torcms.model.core_tab import (
     TabUser2Reply,
 )
 
-from config import DB_CON
 
 class MPost:
     '''

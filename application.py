@@ -4,6 +4,7 @@ The Application.
 
 
 from pathlib import Path
+
 import router as app_router
 import torcms.core.router
 import torcms.core.uifunction as uifuncs

@@ -168,6 +168,7 @@ class PostHandler(BaseHandler):
 
     def __str__(self):
         return 'PostHandler'
+
     def __repr__(self):
         return 'PostHandler'
 
