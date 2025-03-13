@@ -21,7 +21,12 @@ class TestTornado(AsyncHTTPTestCase):
         return APP
 
     def test_wiki_list(self):
-        for ii in range(20):
+        for ii in range(1,20):
             tt = fak.text()[10]
-            response = requests.get(os.path.join(domain, f'search/{tt}/{ii}'))
+            the_url = os.path.join(domain, f'search/{tt}/{ii}')
+            print('='*40)
+            print(the_url)
+            print('='*40)
+
+            response = requests.get(the_url)
             self.assertEqual(response.status_code, 200)

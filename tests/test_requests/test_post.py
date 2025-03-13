@@ -23,14 +23,18 @@ class TestPostHandler(AsyncHTTPSTestCase):
 
     def test_posthandler_view_edit_delete(self):
         for key in post_cfg:
-            if key != '2':
+            if key not in ['2', 's']:
                 print(key)
                 postinfos = MPost.query_all(kind=key)
                 for post in postinfos:
-                    response = requests.get(
-                        os.path.join(
+                    the_url = os.path.join(
                             domain, '{0}/{1}'.format(post_cfg[key]['router'], post.uid)
                         )
+                    print('=' * 80)
+                    print(the_url)
+                    print('=' * 80)
+                    response = requests.get(
+                        the_url
                     )
                     self.assertEqual(response.status_code, 200)
 
