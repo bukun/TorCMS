@@ -166,6 +166,11 @@ class PostHandler(BaseHandler):
 
     executor = ThreadPoolExecutor(2)
 
+    def __str__(self):
+        return 'PostHandler'
+    def __repr__(self):
+        return 'PostHandler'
+
     def initialize(self, **kwargs):
         super().initialize()
         self.kind = kwargs.get('kind', '1')
