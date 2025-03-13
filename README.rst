@@ -245,8 +245,7 @@ then run as follow:
 
 ::
 
-   python3 -m pytest tester --cov=./tester --cov-report=html
-
+   python3 -m pytest torcms/tests --cov=./torcms/tests --cov-report=html
 
 
 Build the API documents
@@ -284,13 +283,3 @@ Then, upload to the website.
 ::
 
     twine upload dist/torcms-version.tar.gz
-
-
-
-
-Application
-========================================
-
--  https://www.osgeo.cn (OSGeo中国中心)
--  http://wdcrre.data.ac.cn/ (可再生资源与环境世界数据中心)
--  https://ikcest-drr.data.ac.cn/ (联合国教科文组织国际工程科技知识中心防灾减灾知识服务平台)
