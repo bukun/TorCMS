@@ -1044,16 +1044,6 @@ type = "legacy"
 url = "https://mirrors.aliyun.com/pypi/simple"
 reference = "ali"
 
-[[package]]
-name = "tornado-wtforms"
-version = "0.0.1"
-description = "WTForms extensions for Tornado fork."
-optional = false
-python-versions = "*"
-files = [
-    {file = "tornado-wtforms-0.0.1.tar.gz", hash = "sha256:fcb7b8d78995e193bff1dac319c5394ea06d03c8832da760d5f657c619b94764"},
-    {file = "tornado_wtforms-0.0.1-py2.py3-none-any.whl", hash = "sha256:3efcba8be2399ae49ff368e77252dfcc3e98e5bed68de850a6473cb7ea0c5503"},
-]
 
 [package.dependencies]
 tornado = ">=6.1"

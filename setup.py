@@ -37,7 +37,6 @@ setup(
         'tornado',
         'Whoosh',
         'WTForms',
-        'tornado-wtforms',
         'email-validator',
         'psycopg2-binary',
         'html2text',
