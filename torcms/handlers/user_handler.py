@@ -26,7 +26,7 @@ from torcms.model.staff2role_model import MStaff2Role
 from torcms.model.user_model import MUser
 
 # from wtforms_tornado import Form
-from tornado_wtforms.form import Form
+from torcms.tornado_wtforms.form import Form
 
 # ToDo: 需要进行切换、测试
 # from tornado_wtforms.form import TornadoForm as Form
