@@ -2,11 +2,8 @@
 The Application.
 """
 
-import os
+
 from pathlib import Path
-
-import tornado.web
-
 import router as app_router
 import torcms.core.router
 import torcms.core.uifunction as uifuncs

@@ -21,7 +21,9 @@ Flexible, extensible web CMS framework built on Tornado and Peewee,
 compatible with Python 3.7 and above. Using PostgreSQL with JSON
 extension as the database( postgresql-server >= 11.0 ).
 
-pypi: The kernel of this CMS has been submit to pypi.
+In 2025, TorCMS had been integrated with Django for backend administration.
+
+pypi: TorCMS has been submit to pypi.
 https://pypi.python.org/pypi/torcms . Could be installed via:
 
 ::
@@ -32,6 +34,7 @@ Features
 ==============================
 
 - Build on Tornado, only with Web features, which made it is simple to use.
+- Integrated with Django for backend administration.
 - Markdown editor, make your HTML clean and clear.
 - Carefull desinged model for conents. Post, Info, Page, Wiki as default.
 - User roles for editing.
@@ -45,11 +48,9 @@ Features
 Application
 ==============================
 
--  http://drr.ikcest.org (Disaster Risk Reduction Knowledge Service of UNESCO)
--  http://wdcrre.data.ac.cn/ (World data center for Renewable Resources and Environment)
--  http://www.wds-china.org/ (ICSU-WDS, World Data System China)
 -  https://www.osgeo.cn (OSGeo China Chapter)
-
+-  https://ikcest-drr.data.ac.cn/ (Disaster Risk Reduction Knowledge Service of UNESCO)
+-  http://wdcrre.data.ac.cn/ (World data center for Renewable Resources and Environment)
 
 -  http://www.maphub.cn (Merged into https://www.osgeo.cn)
 -  http://www.yunsuan.org (Merged into https://www.osgeo.cn)
@@ -290,7 +291,6 @@ Then, upload to the website.
 Application
 ========================================
 
--  http://www.osgeo.cn (OSGeo中国中心)
--  http://www.wds-china.org (世界数据系统中国)
+-  https://www.osgeo.cn (OSGeo中国中心)
 -  http://wdcrre.data.ac.cn/ (可再生资源与环境世界数据中心)
--  http://drr.ikcest.org (联合国教科文组织国际工程科技知识中心防灾减灾知识服务平台)
+-  https://ikcest-drr.data.ac.cn/ (联合国教科文组织国际工程科技知识中心防灾减灾知识服务平台)
