@@ -11,10 +11,10 @@ ENV DEBIAN_FRONTEND noninteractive
 # ENV LANGUAGE en_US:en
 # ENV LC_ALL en_US.UTF-8
 
-RUN echo "deb http://mirrors.163.com/debian/ bullseye main non-free contrib" > /etc/apt/sources.list
-RUN echo "deb http://mirrors.163.com/debian/ bullseye-updates main non-free contrib" >> /etc/apt/sources.list
-RUN echo "deb http://mirrors.163.com/debian-security bullseye-security main" >> /etc/apt/sources.list
-RUN echo "deb http://mirrors.163.com/debian/ bullseye-backports main non-free contrib" >> /etc/apt/sources.list
+RUN echo "deb http://mirrors.163.com/debian/ bookworm main non-free contrib" > /etc/apt/sources.list
+#RUN echo "deb http://mirrors.163.com/debian/ bookworm-updates main non-free contrib" >> /etc/apt/sources.list
+RUN echo "deb http://mirrors.163.com/debian-security bookworm-security main" >> /etc/apt/sources.list
+#RUN echo "deb http://mirrors.163.com/debian/ bookworm-backports main non-free contrib" >> /etc/apt/sources.list
 
 
 #########################################
