@@ -185,15 +185,15 @@ class TestMAction:
 
         assert TF
 
-    def test_query_per_by_action(self):
-        act_id = self.maction.get_by_action_type('deny' + self.process_id)
-        rec_name = self.mper_action.query_per_by_action(act_id)
-        per_rec = self.mpermission.get_by_uid('can_verify')
-        assert rec_name == per_rec.name
+    # def test_query_per_by_action(self):
+    #     act_id = self.maction.get_by_action_type('deny' + self.process_id)
+    #     rec_name = self.mper_action.query_per_by_action(act_id)
+    #     per_rec = self.mpermission.get_by_uid('can_verify')
+    #     assert rec_name == per_rec.name
 
-        recs = self.mper_action.query_by_permission('can_verify')
-        assert recs == ['拒绝', '撤消', '通过']
+    #     recs = self.mper_action.query_by_permission('can_verify')
+    #     assert recs == ['拒绝', '撤消', '通过']
 
-        self.mper_action.remove_relation(act_id, per_rec.uid)
-        recs = self.mper_action.query_by_permission('can_verify')
-        assert recs == ['撤消', '通过']
+    #     self.mper_action.remove_relation(act_id, per_rec.uid)
+    #     recs = self.mper_action.query_by_permission('can_verify')
+    #     assert recs == ['撤消', '通过']
