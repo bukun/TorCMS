@@ -8,11 +8,11 @@ from setuptools import find_packages, setup
 
 desc = (
     'Flexible, extensible Web CMS framework built on Tornado,'
-    'compatible with Python 3.7 and above.'
+    'compatible with Python 3.9 and above.'
 )
 setup(
     name='torcms',
-    version='0.9.0',
+    version='0.9.1',
     keywords=['torcms', 'tornado', 'cms'],
     description=desc,
     long_description=''.join(open('README.rst').readlines()),
@@ -22,7 +22,7 @@ setup(
     author_email='bukun@osgeo.cn',
     packages=find_packages(
         # include=('torcms',),
-        exclude=('devops', "tester", "torcms_tester", 'flasky', 'torcms_*')
+        exclude=('devops', "tests", "torcms_tester", 'flasky', 'torcms_*', 'torcms/tests')
     ),
     include_package_data=True,
     platforms='any',
@@ -55,10 +55,10 @@ setup(
         # Pick your license as you wish (should match "license" above)
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
+        'Programming Language :: Python :: 3.13',
     ],
 )

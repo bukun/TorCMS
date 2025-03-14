@@ -6,7 +6,8 @@ TorCMS系统是使用Python 3.7，Tornado Web框架、Peewee、BootStrap开发�
 基于Tornado的开源CMS系统。
 
 此CMS系统原本用于云算笔记、开放地理空间实验室等网站，后来慢慢将 CMS 从中抽取出来。
-系统运行使用Python 3.7 （原版本基于 Python 3.4 ）进行开发，经过少量修改，可以运行在 Python 2.7下面，但是发布的版本不对Python 2.7进行特别的支持。
+系统运行使用Python 3.7 （原版本基于 Python 3.4 ）进行开发，
+经过少量修改，可以运行在 Python 2.7下面，但是发布的版本不对Python 2.7进行特别的支持。
 由于使用了 PostgreSQL 的 JSON 扩展功能，系统目前仅支持 PostgreSQL 。
 
 在网站设计方面，提出了文档（Post）、信息（Infor）两种对等的模型进行信息的组织。

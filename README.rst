@@ -11,15 +11,15 @@ Status
 .. image:: https://img.shields.io/pypi/pyversions/torcms.svg
     :target: https://pypi.python.org/pypi/torcms/
 
-Checking ``torcms`` with ``pylint`` using default configuration (Under Debian 11.0),
+Checking ``torcms`` with ``pylint`` using default configuration (Under Debian 12.0),
 gets score greater than 8.9.
 
 Introduction
 ==============================
 
 Flexible, extensible web CMS framework built on Tornado and Peewee,
-compatible with Python 3.7 and above. Using PostgreSQL with JSON
-extension as the database( postgresql-server >= 11.0 ).
+compatible with Python 3.9 and above. Using PostgreSQL with JSON
+extension as the database( postgresql-server >= 13.0 ).
 
 In 2025, TorCMS had been integrated with Django for backend administration.
 
@@ -39,7 +39,7 @@ Features
 - Carefull desinged model for conents. Post, Info, Page, Wiki as default.
 - User roles for editing.
 - Full text search with Whoosh.
-- PostgreSQL 9.4 above, with JSONB, which makes the framework extensible.
+- PostgreSQL 13.0 above, with JSONB, which makes the framework extensible.
 - Using XLXS, could be parsed by ``openpyxl``, to define the schema of the database.
 - Access database via Peewee.
 - SASS sub-project for Style.
@@ -97,9 +97,9 @@ And, create hstore extension in the database.
 For Python
 ----------
 
-You should be under Python 3.4 or Python 3.5.
+You should be use Python 3.9 above.
 
-Install libs for Python 3.4 or 3.5,
+Install libs,
 
 ::
 
@@ -247,6 +247,16 @@ then run as follow:
 
    python3 -m pytest torcms/tests --cov=./torcms/tests --cov-report=html
 
+Test vai Tox
+====================
+
+Activate virutal environment, and install `tox` .
+Then run with `tox.int` :
+
+::
+
+   tox
+
 
 Build the API documents
 ========================================
@@ -276,7 +286,7 @@ First, build the distribution.
 
 ::
 
-    python setup.py sdist
+    python3 setup.py sdist
 
 Then, upload to the website.
 

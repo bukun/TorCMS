@@ -12,7 +12,7 @@ url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/"
 
 [tool.poetry]
 name = "TorCMS"
-version = "0.1.0"
+version = "0.9.1"
 description = ""
 authors = ["bukun <bukun@osgeo.cn>"]
 readme = "README.rst"
