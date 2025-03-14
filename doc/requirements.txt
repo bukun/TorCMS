@@ -12,7 +12,9 @@ redis
 pyyaml
 openpyxl
 requests
-
+email_validator
+django
+wtforms
 jupyter
 pyjwt==2.8.0
 

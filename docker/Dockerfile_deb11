@@ -28,17 +28,11 @@ RUN apt update && apt -y dist-upgrade && apt install -y git locales python3-pip 
 
 
 RUN python3 -m venv /vpy
-
-
-RUN mkdir /coding
-WORKDIR /coding
-
-RUN git clone https://gitee.com/bukun/TorCMS.git
-
+RUN mkdir -p /coding/TorCMS
 WORKDIR /coding/TorCMS
+COPY xx_*.txt /coding/TorCMS/
+RUN /vpy/bin/python3 -m  pip install wheel
+RUN /vpy/bin/python3 -m  pip install -r /coding/TorCMS/xx_requirements.txt
+RUN /vpy/bin/python3 -m  pip install -r /coding/TorCMS/xx_requirements-dev.txt
 
-RUN /vpy/bin/python3 -m  pip install wheel 
-RUN /vpy/bin/python3 -m  pip install -r doc/requirements.txt
-RUN /vpy/bin/python3 -m  pip install -r doc/requirements-dev.txt
-RUN /vpy/bin/python3 -m  pip install email_validator django wtforms
 

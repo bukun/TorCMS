@@ -22,21 +22,12 @@ RUN echo "trusted-host=mirrors.aliyun.com" >> ~/.pip/pip.conf
 RUN  apt update &&  apt -y dist-upgrade 
 RUN  apt install -y git python3-pip redis-server python3-venv postgresql-server-dev-all libpq-dev postgresql postgresql-contrib redis-server sudo
 
-
 RUN python3 -m venv /vpy
-
-
-RUN mkdir /coding
-WORKDIR /coding
-
-RUN git clone https://gitee.com/bukun/TorCMS.git
-
+RUN mkdir -p /coding/TorCMS
 WORKDIR /coding/TorCMS
-
-RUN /vpy/bin/python3 -m  pip install wheel 
-RUN /vpy/bin/python3 -m  pip install -r doc/requirements.txt
-RUN /vpy/bin/python3 -m  pip install -r doc/requirements-dev.txt
-RUN /vpy/bin/python3 -m  pip install email_validator django wtforms
-
+COPY xx_*.txt /coding/TorCMS/
+RUN /vpy/bin/python3 -m  pip install wheel
+RUN /vpy/bin/python3 -m  pip install -r /coding/TorCMS/xx_requirements.txt
+RUN /vpy/bin/python3 -m  pip install -r /coding/TorCMS/xx_requirements-dev.txt
 
 
