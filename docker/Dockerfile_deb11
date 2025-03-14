@@ -1,0 +1,44 @@
+FROM debian:11
+
+MAINTAINER bukun <bukun@osgeo.cn>
+
+ENV DEBIAN_FRONTEND noninteractive
+
+# RUN echo     "en_US.UTF-8 UTF-8" > /etc/locale.gen
+# RUN echo     "zh_CN.UTF-8 UTF-8" >> /etc/locale.gen
+# RUN locale-gen
+# ENV LANG en_US.UTF-8
+# ENV LANGUAGE en_US:en
+# ENV LC_ALL en_US.UTF-8
+
+RUN echo "deb http://mirrors.163.com/debian/ bullseye main non-free contrib" > /etc/apt/sources.list
+RUN echo "deb http://mirrors.163.com/debian/ bullseye-updates main non-free contrib" >> /etc/apt/sources.list
+RUN echo "deb http://mirrors.163.com/debian-security bullseye-security main" >> /etc/apt/sources.list
+RUN echo "deb http://mirrors.163.com/debian/ bullseye-backports main non-free contrib" >> /etc/apt/sources.list
+
+
+#########################################
+RUN mkdir ~/.pip
+RUN echo "[global]" > ~/.pip/pip.conf
+RUN echo "index-url = http://mirrors.aliyun.com/pypi/simple" >> ~/.pip/pip.conf
+RUN echo "[install]" >> ~/.pip/pip.conf
+RUN echo "trusted-host=mirrors.aliyun.com" >> ~/.pip/pip.conf
+##############################################################################
+RUN apt update && apt -y dist-upgrade && apt install -y git locales python3-pip redis-server python3-venv postgresql-server-dev-all libpq-dev postgresql postgresql-contrib redis-server sudo
+
+
+RUN python3 -m venv /vpy
+
+
+RUN mkdir /coding
+WORKDIR /coding
+
+RUN git clone https://gitee.com/bukun/TorCMS.git
+
+WORKDIR /coding/TorCMS
+
+RUN /vpy/bin/python3 -m  pip install wheel 
+RUN /vpy/bin/python3 -m  pip install -r doc/requirements.txt
+RUN /vpy/bin/python3 -m  pip install -r doc/requirements-dev.txt
+RUN /vpy/bin/python3 -m  pip install email_validator django wtforms
+
