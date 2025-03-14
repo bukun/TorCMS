@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-copy ../doc/requirements.txt ./xx_requirements.txt
-copy ../doc/requirements-dev.txt ./xx_requirements-dev.txt
+cp ../doc/requirements.txt ./xx_requirements.txt
+cp ../doc/requirements-dev.txt ./xx_requirements-dev.txt
 
 podman build -t torcms-debian11 Dockerfile_deb11
 
