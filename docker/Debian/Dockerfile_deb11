@@ -51,5 +51,3 @@ RUN /vpy/bin/python3 -m  pip install -r doc/requirements.txt
 RUN /vpy/bin/python3 -m  pip install -r doc/requirements-dev.txt
 RUN /vpy/bin/python3 -m  pip install email_validator django wtforms
 
-
-

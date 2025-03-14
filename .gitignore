@@ -106,9 +106,10 @@ gh-pages
 tags
 
 # for Django
-!administor/**/migrations/__init__.py
 migrations/
 ????_initial.py
+!admin_torcms/migrations/__init__.py
+
 # Django admin static files.
 static/admin
 
