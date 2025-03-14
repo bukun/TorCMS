@@ -106,7 +106,7 @@ gh-pages
 tags
 
 # for Django
-# migrations/
+migrations/
 ????_initial.py
 !admin_torcms/migrations/__init__.py
 
