@@ -19,9 +19,9 @@ RUN echo "deb http://mirrors.163.com/debian/ bullseye-backports main non-free co
 #########################################
 RUN mkdir ~/.pip
 RUN echo "[global]" > ~/.pip/pip.conf
-RUN echo "index-url = https://pypi.douban.com/simple" >> ~/.pip/pip.conf
+RUN echo "index-url = http://mirrors.aliyun.com/pypi/simple" >> ~/.pip/pip.conf
 RUN echo "[install]" >> ~/.pip/pip.conf
-RUN echo "trusted-host=pypi.douban.com" >> ~/.pip/pip.conf
+RUN echo "trusted-host=mirrors.aliyun.com" >> ~/.pip/pip.conf
 ##############################################################################
 RUN apt update
 RUN apt -y dist-upgrade
@@ -56,11 +56,26 @@ RUN source /vpy/bin/activate && pip3 install wheel
 RUN source /vpy/bin/activate && pip3 install email_validator
 RUN source /vpy/bin/activate && pip3 install -r doc/requirements.txt
 RUN source /vpy/bin/activate && pip3 install -r doc/requirements-dev.txt
+RUN source /vpy/bin/activate && pip3 install django
+
+RUN apt install -y sudo postgresql postgresql-contrib redis-server
+
+RUN /etc/init.d/postgresql start
+
+
 
 # Add VOLUMEs to allow backup of config, logs and databases
+
+# 创建新用户
+# RUN sudo -u postgres psql -c "CREATE ROLE torcms WITH LOGIN PASSWORD '111111';"
+# 
+# # 创建新数据库并指定所有者
+# RUN sudo -u postgres psql -c "CREATE DATABASE torcms WITH OWNER torcms;"
+
 
 # USER postgres
 # Expose the PostgreSQL port
 
-COPY cfg.py /coding/TorCMS
+COPY cfg_demo.py /coding/TorCMS/cfg.py
+
 # RUN /vpy/bin/python3 helper.py -i init
