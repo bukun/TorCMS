@@ -92,8 +92,6 @@ urls = [
     ('/user_list/(.*)', UserListHandler, {}),
     ('/evaluate/(.*)', EvaluationHandler, {}),
     ('/sys/(.*)', SysHandler, {}),
-    ('/log/(.*)', LogHandler, {}),
-    ('/log_j/(.*)', LogPartialHandler, {}),
     ('/nullify_info/(.*)', NullifyInfoHandler, {}),
     ('/comment/(.*)', CommentHandler, {}),
     ('/classify/(.*)', ClassifyHandler, {}),
