@@ -24,7 +24,6 @@ from torcms.handlers.label_handler import InfoTagHandler, LabelHandler
 from torcms.handlers.leaf_handler import LeafHandler
 from torcms.handlers.link_handler import LinkHandler, LinkPartialHandler
 from torcms.handlers.list_handler import ListHandler, TagListHandler
-from torcms.handlers.log_handler import LogHandler, LogPartialHandler
 from torcms.handlers.nullify_info_handler import NullifyInfoHandler
 from torcms.handlers.page_ajax_handler import PageAjaxHandler
 from torcms.handlers.page_handler import PageHandler

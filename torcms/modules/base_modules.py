@@ -18,7 +18,6 @@ from torcms.model.entity2user_model import MEntity2User
 from torcms.model.entity_model import MEntity
 from torcms.model.label_model import MPost2Label
 from torcms.model.link_model import MLink
-from torcms.model.log_model import MLog
 from torcms.model.nullify_info_model import MNullifyInfo
 from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
