@@ -22,14 +22,14 @@
         <div class="accordion" id="accordionExample">
             {% else %}
             <div class="accordion-item ">
-                <div class="panel-heading ">
-                    <h5 class="panel-title" id="heading{{ ii }}">
+                <div class="panel-heading pe-auto">
+                    <h5 class="panel-title " id="heading{{ ii }}">
                         <span class="glyphicon glyphicon-book"></span>
                         <span class="fr"><a class="btn btn-primary btn-xs"
                                             href="/list/{{ x.slug }}"> {{ _('More') }}</a></span>
 
                         <a data-bs-toggle="collapse"
-                                data-bs-target="#collapse{{ ii }}"
+                                href="#collapse{{ ii }}"
                                 aria-expanded="{% if catid == x.uid %} true{% else %}false {% end %}" aria-controls="collapse{{ ii }}">
                             {{ _(x.name) }}
                         </a>
