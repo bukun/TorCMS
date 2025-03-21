@@ -1,6 +1,7 @@
 {% set ii = 1 %}
 
-<div class="panel-group" id="accordion">
+
+<div class="panel-group" >
     {% for x in recs %}
     {% if x.uid.endswith('00') %}
     <div class="panel panel-black">
@@ -16,30 +17,39 @@
         </div>
     </div>
 
+
     <div class="panel panel-info">
-        {% else %}
-        <div class="panel-heading">
-            <h5 class="panel-title">
-                <span class="glyphicon glyphicon-book"></span>
-                 <span class="fr"><a class="btn btn-primary btn-xs" href="/list/{{ x.slug }}"> {{ _('More') }}</a></span>
+        <div class="accordion" id="accordionExample">
+            {% else %}
+            <div class="accordion-item ">
+                <div class="panel-heading ">
+                    <h5 class="panel-title" id="heading{{ ii }}">
+                        <span class="glyphicon glyphicon-book"></span>
+                        <span class="fr"><a class="btn btn-primary btn-xs"
+                                            href="/list/{{ x.slug }}"> {{ _('More') }}</a></span>
 
-                <a data-toggle="collapse" data-parent="#accordion"
-                   href="#collapse{{ii}}">
-                    {{ _(x.name) }}
-                </a>
-            </h5>
+                        <a data-bs-toggle="collapse"
+                                data-bs-target="#collapse{{ ii }}"
+                                aria-expanded="{% if catid == x.uid %} true{% else %}false {% end %}" aria-controls="collapse{{ ii }}">
+                            {{ _(x.name) }}
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapse{{ ii }}" class=" accordion-collapse collapse  {% if catid == x.uid %} show {% end %} "
+                     aria-labelledby="heading{{ ii }}"
+                     data-bs-parent="#accordionExample">
+                        <ul class="list-group mb-0" >
+                            {% module post_cat_recent(x.uid, num = 40, with_date = False, with_catalog= False, order = True,post_uid= post_uid ) %}
+
+                        </ul>
+                </div>
+            </div>
+
+            {% set ii = ii + 1 %}
+            {% end %}
+            {% end %}
         </div>
 
-        <div id="collapse{{ii}}" class="panel-collapse collapse {% if catid == x.uid %} in {% end %}">
-            <ul class="list-group">
-                {% module post_cat_recent(x.uid, num = 40, with_date = False, with_catalog= False, order = True,post_uid= post_uid ) %}
-
-            </ul>
-        </div>
-
-        {% set ii = ii + 1 %}
-        {% end %}
-        {% end %}
 
     </div>
 </div>
