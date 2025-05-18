@@ -242,7 +242,6 @@ class TestMPost:
         qq = self.mpost.query_most(num=300)
         assert len(qq) <= 300
 
-
         # TF = False
         # for i in qq:
         #     if i.uid == self.post_id:

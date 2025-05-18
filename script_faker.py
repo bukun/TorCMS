@@ -20,13 +20,9 @@ from torcms.model.wiki_model import MWiki
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "administor.settings")
 django.setup()
-import time
 from datetime import datetime
 
-import django.utils.dates
 import django.utils.timezone as timezone
-from django.test import TestCase
-
 from admin_torcms.models import TabPost, TabPost2Tag, TabTag
 from torcms.model.label_model import MPost2Label
 from torcms_app.script.command import run_check_jshtml

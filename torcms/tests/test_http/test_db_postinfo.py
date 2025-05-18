@@ -30,7 +30,7 @@ class TestPostHandler(AsyncHTTPSTestCase):
 
     def test_posthandler_view_edit_delete(self):
         for key in post_cfg:
-            if key not in  ['2', 's']:
+            if key not in ['2', 's']:
                 postinfos = MPost.query_all(kind=key)
                 for post in postinfos:
                     pass

@@ -28,14 +28,12 @@ class TestPostHandler(AsyncHTTPSTestCase):
                 postinfos = MPost.query_all(kind=key)
                 for post in postinfos:
                     the_url = os.path.join(
-                            domain, '{0}/{1}'.format(post_cfg[key]['router'], post.uid)
-                        )
+                        domain, '{0}/{1}'.format(post_cfg[key]['router'], post.uid)
+                    )
                     print('=' * 80)
                     print(the_url)
                     print('=' * 80)
-                    response = requests.get(
-                        the_url
-                    )
+                    response = requests.get(the_url)
                     self.assertEqual(response.status_code, 200)
 
     def test_posthandler_add(self):

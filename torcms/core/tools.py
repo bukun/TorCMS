@@ -38,19 +38,6 @@ logging.getLogger('').addHandler(stream_handler)
 
 logger = logging
 
-
-# def html_min(func):
-#     '''
-#     used as decorator to minify HTML string.
-#     Unused.
-#     '''
-#
-#     def wrapper(*args):
-#         return minify(func(*args))
-#
-#     return wrapper
-
-
 def diff_table(rawinfo, newinfo):
     '''
     Generate the difference as the table format.
