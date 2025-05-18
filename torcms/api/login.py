@@ -2,24 +2,19 @@ import datetime
 import json
 import re
 import time
-import config
+from datetime import datetime
+
 import jwt
 import tornado.web
-import wtforms.validators
-from wtforms.fields import StringField
-from wtforms.validators import DataRequired
-from wtforms_tornado import Form
 
-from datetime import datetime
 from config import CMS_CFG
 from torcms.core import privilege, tools
 from torcms.core.base_handler import BaseHandler
-from torcms.core.tool.send_email import send_mail
 from torcms.core.tools import logger
-from torcms.model.user_model import MUser
-from torcms.model.staff2role_model import MStaff2Role
 from torcms.model.role2permission_model import MRole2Permission
 from torcms.model.role_model import MRole
+from torcms.model.staff2role_model import MStaff2Role
+from torcms.model.user_model import MUser
 
 
 def check_regist_info(post_data):
@@ -53,9 +48,6 @@ def check_regist_info(post_data):
     return user_create_status
 
 
-
-
-
 JWT_TOKEN_EXPIRE_SECONDS = 60 * CMS_CFG.get('expires_minutes', 15)  # token有效时间
 JWT_TOKEN_SECRET_SALT = 'salt.2023.07.21'
 JWT_TOKEN_ALGORITHM = 'HS256'  # HASH算法
@@ -72,16 +64,13 @@ class UserApi(BaseHandler):
         self.kind = 'u'
 
     def get(self, *args, **kwargs):
-
         url_str = args[0]
         url_arr = self.parse_url(url_str)
 
         dict_get = {
-
             'logout': self.__logout__,
             'vuelogout': self.__vue_logout__,
-            'list': self.__user_list__
-
+            'list': self.__user_list__,
         }
 
         if len(url_arr) == 1:
@@ -167,11 +156,7 @@ class UserApi(BaseHandler):
         out_dic = MUser.update_extinfo(user_id, extinfo)
 
         if not out_dic['success']:
-            user_edit_role = {
-                "ok": False,
-                "status": 404,
-                "msg": "更新失败"
-            }
+            user_edit_role = {"ok": False, "status": 404, "msg": "更新失败"}
             return json.dump(user_edit_role, self, ensure_ascii=False)
 
         if self.userinfo.uid == user_id:
@@ -191,7 +176,6 @@ class UserApi(BaseHandler):
 
         ids = post_data.get("ids", "").split(",")
         for uid in ids:
-
             user_id = uid
             userinfo = MUser.get_by_uid(user_id)
             if 'ext_role0' in post_data:
@@ -235,11 +219,7 @@ class UserApi(BaseHandler):
             out_dic = MUser.update_extinfo(user_id, extinfo)
 
             if not out_dic['success']:
-                user_edit_role = {
-                    "ok": False,
-                    "status": 404,
-                    "msg": "更新失败"
-                }
+                user_edit_role = {"ok": False, "status": 404, "msg": "更新失败"}
                 continue
 
             if self.userinfo.uid == user_id:
@@ -267,16 +247,11 @@ class UserApi(BaseHandler):
                 msg = "密码6-19位，需包含大小写字母"
             else:
                 msg = '注册失败'
-            user_check_status = {
-                "ok": False,
-                "status": 404,
-                "msg": msg
-            }
+            user_check_status = {"ok": False, "status": 404, "msg": msg}
             return json.dump(user_check_status, self, ensure_ascii=False)
 
         user_create_status = MUser.create_user(post_data)
         if user_create_status['success']:
-
             the_roles_arr = []
             extinfo = {}
             def_roles_arr = ['ext_role{0}'.format(x) for x in range(10)]
@@ -303,11 +278,7 @@ class UserApi(BaseHandler):
 
             MUser.update_extinfo(user_create_status['uid'], extinfo)
 
-            user_create_status = {
-                "ok": True,
-                "status": 0,
-                "msg": "注册成功"
-            }
+            user_create_status = {"ok": True, "status": 0, "msg": "注册成功"}
             logger.info('user_register_status: {0}'.format(user_create_status))
             return json.dump(user_create_status, self, ensure_ascii=False)
 
@@ -325,9 +296,7 @@ class UserApi(BaseHandler):
 
         print('log out')
 
-        output = {"ok": True,
-                  "status": 0,
-                  "msg": "注销登录成功"}
+        output = {"ok": True, "status": 0, "msg": "注销登录成功"}
         self.redirect('/')
 
     @tornado.web.authenticated
@@ -345,9 +314,7 @@ class UserApi(BaseHandler):
 
         print('log out')
 
-        output = {"ok": True,
-                  "status": 0,
-                  "msg": "注销登录成功"}
+        output = {"ok": True, "status": 0, "msg": "注销登录成功"}
         return json.dump(output, self, ensure_ascii=False)
 
     @tornado.web.authenticated
@@ -399,10 +366,15 @@ class UserApi(BaseHandler):
     def generate_jwt_token(self, user_name):
         """根据用户user_name生成token"""
 
-        data = {'user_name': user_name, 'exp': int(time.time()) + JWT_TOKEN_EXPIRE_SECONDS}
+        data = {
+            'user_name': user_name,
+            'exp': int(time.time()) + JWT_TOKEN_EXPIRE_SECONDS,
+        }
         print("generate data:", data)
         try:
-            jwtToken = jwt.encode(data, JWT_TOKEN_SECRET_SALT, algorithm=JWT_TOKEN_ALGORITHM)
+            jwtToken = jwt.encode(
+                data, JWT_TOKEN_SECRET_SALT, algorithm=JWT_TOKEN_ALGORITHM
+            )
 
         except:
             jwtToken = ''
@@ -418,7 +390,9 @@ class UserApi(BaseHandler):
         data = {'user_name': user_name}
 
         try:
-            payload = jwt.decode(token, JWT_TOKEN_SECRET_SALT, algorithms=[JWT_TOKEN_ALGORITHM])
+            payload = jwt.decode(
+                token, JWT_TOKEN_SECRET_SALT, algorithms=[JWT_TOKEN_ALGORITHM]
+            )
 
             print("data:", data)
             print("payload:", payload)
@@ -453,22 +427,33 @@ class UserApi(BaseHandler):
                     'username': user_name,
                     'access_token': token,
                     'user_pers': cur_user_per,
-                    'user_roles': cur_user_role
+                    'user_roles': cur_user_role,
                 }
                 print("验证成功:", payload)
-                return json.dump({'code': 0, 'state': True, 'info': 'Verification successful', 'userinfo': user_info},
-                                 self)
+                return json.dump(
+                    {
+                        'code': 0,
+                        'state': True,
+                        'info': 'Verification successful',
+                        'userinfo': user_info,
+                    },
+                    self,
+                )
             else:
                 print("验证失败:", payload)
                 return json.dump({'code': 1, 'state': False, 'info': 'expired'}, self)
 
         except jwt.exceptions.ExpiredSignatureError as ex:
             print('token签名过期:', ex)
-            return json.dump({'code': 1, 'state': False, 'info': 'Token signature expired'}, self)
+            return json.dump(
+                {'code': 1, 'state': False, 'info': 'Token signature expired'}, self
+            )
 
         except jwt.PyJWTError as ex:
             print('token解析失败:', ex)
-            return json.dump({'code': 1, 'state': False, 'info': 'Token parsing failed'}, self)
+            return json.dump(
+                {'code': 1, 'state': False, 'info': 'Token parsing failed'}, self
+            )
 
     def login(self):
         '''
@@ -490,7 +475,6 @@ class UserApi(BaseHandler):
                 result = MUser.check_user_by_name(user_x.user_name, u_pass)
 
         if result == 1:
-
             userinfo = MUser.get_by_name(u_name)
             if login_method == 'amis':
                 if u_name == 'admin':
@@ -498,11 +482,7 @@ class UserApi(BaseHandler):
                 elif userinfo.extinfo.get('_per_assign_role', 0) == 1:
                     pass
                 else:
-                    kwd = {
-                        "ok": False,
-                        "status": 404,
-                        "msg": "没有权限"
-                    }
+                    kwd = {"ok": False, "status": 404, "msg": "没有权限"}
                     return json.dump(kwd, self, ensure_ascii=False)
 
             self.set_secure_cookie(
@@ -517,7 +497,6 @@ class UserApi(BaseHandler):
                 "amisToken",
                 datetime.strftime(now, "%Y-%m-%d %H:%M:%S"),
                 expires_days=None,
-
                 expires=time.time() + 60 * CMS_CFG.get('expires_minutes', 15),
             )
 
@@ -548,15 +527,11 @@ class UserApi(BaseHandler):
                 'username': u_name,
                 'access_token': jwtToken,
                 'user_pers': cur_user_per,
-                'user_roles': cur_user_role
+                'user_roles': cur_user_role,
             }
             return json.dump({'data': user_login_status, 'status': 0}, self)
         else:
-            user_login_status = {
-                "ok": False,
-                "status": 404,
-                "msg": "帐号或密码错误，登录失败"
-            }
+            user_login_status = {"ok": False, "status": 404, "msg": "帐号或密码错误，登录失败"}
             return json.dump(user_login_status, self, ensure_ascii=False)
 
     def __user_list__(self):
@@ -597,7 +572,9 @@ class UserApi(BaseHandler):
         dics = []
         current_page_num = get_pager_idx()
 
-        recs = MUser.query_pager_by_slug(current_page_num, user_name=find_name, num=perPage)
+        recs = MUser.query_pager_by_slug(
+            current_page_num, user_name=find_name, num=perPage
+        )
 
         counts = MUser.count_of_certain()
 
@@ -623,7 +600,6 @@ class UserApi(BaseHandler):
         return json.dump(out_dict, self, ensure_ascii=False)
 
     def get_role_by_userid(self, user_id):
-
         roles = MStaff2Role.get_role_by_uid(user_id)
 
         role_arr = []
@@ -636,9 +612,7 @@ class UserApi(BaseHandler):
     def get_role_by_uid(self, roles):
         role_arr = []
         if roles:
-
             for role in roles:
-
                 if ',' in role:
                     role1_id = role.split(',')[0]
                     role_id = role.split(',')[-1]
@@ -647,14 +621,13 @@ class UserApi(BaseHandler):
                     if role_rec:
                         role_name = role_rec.name + ' [' + role1_rec.name + '] '
                     else:
-                        role_name=''
+                        role_name = ''
                 else:
                     role_rec = MRole.get_by_uid(role)
                     if role_rec:
                         role_name = role_rec.name
                     else:
                         role_name = ''
-
 
                 role_arr.append(role_name)
 
@@ -670,16 +643,9 @@ class UserApi(BaseHandler):
             MStaff2Role.remove_relation(del_rec.staff, del_rec.role)
 
         if MUser.delete(user_id):
-            output = {"ok": True,
-                      "status": 0,
-                      "msg": "删除用户成功"
-                      }
+            output = {"ok": True, "status": 0, "msg": "删除用户成功"}
         else:
-            output = {
-                "ok": False,
-                "status": 404,
-                "msg": "删除用户失败"
-            }
+            output = {"ok": False, "status": 404, "msg": "删除用户失败"}
 
         return json.dump(output, self, ensure_ascii=False)
 
@@ -697,15 +663,8 @@ class UserApi(BaseHandler):
                 MStaff2Role.remove_relation(del_rec.staff, del_rec.role)
 
             if MUser.delete(user_id):
-                output = {"ok": True,
-                          "status": 0,
-                          "msg": "删除用户成功"
-                          }
+                output = {"ok": True, "status": 0, "msg": "删除用户成功"}
             else:
-                output = {
-                    "ok": False,
-                    "status": 404,
-                    "msg": "删除用户失败"
-                }
+                output = {"ok": False, "status": 404, "msg": "删除用户失败"}
 
         return json.dump(output, self, ensure_ascii=False)

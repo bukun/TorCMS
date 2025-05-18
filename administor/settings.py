@@ -10,8 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
 
 from cfg import DB_INFO
 
@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'admin_torcms'
+    # 'administor'
+    'admin_torcms',
 ]
 
 MIDDLEWARE = [
@@ -91,8 +92,6 @@ WSGI_APPLICATION = 'administor.wsgi.application'
 #     }
 # }
 DATABASES = {'default': DB_INFO}
-
-
 
 
 # Password validation

@@ -2,14 +2,16 @@
 '''
 Genereting catetory.
 '''
-from openpyxl.reader.excel import load_workbook
-from torcms.script.autocrud.base_crud import FILTER_COLUMNS
-from torcms.model.role2permission_model import MRole2Permission
-from torcms.model.staff2role_model import MStaff2Role
-from torcms.model.permission_model import MPermission
-from torcms.model.role_model import MRole
-from torcms.model.user_model import MUser
 from pathlib import Path
+
+from openpyxl.reader.excel import load_workbook
+
+from torcms.model.permission_model import MPermission
+from torcms.model.role2permission_model import MRole2Permission
+from torcms.model.role_model import MRole
+from torcms.model.staff2role_model import MStaff2Role
+from torcms.model.user_model import MUser
+from torcms.script.autocrud.base_crud import FILTER_COLUMNS
 
 XLSX_FILE = './database/role_perm.xlsx'
 if Path(XLSX_FILE).exists():
@@ -24,7 +26,6 @@ def gen_xlsx_role_permission():
     '''
 
     for sheet_ranges in load_workbook(filename=XLSX_FILE):
-
         # permission 入库
         for col_idx in FILTER_COLUMNS:
             cell_val = sheet_ranges['{0}1'.format(col_idx)].value
@@ -36,7 +37,6 @@ def gen_xlsx_role_permission():
                 MPermission.add_or_update(puid, ppdata)
         role_arr = []
         for row_num in range(3, 10000):
-
             # role入库
             a_cell_val = sheet_ranges['A{0}'.format(row_num)].value
             b_cell_val = sheet_ranges['B{0}'.format(row_num)].value
@@ -87,7 +87,6 @@ def gen_xlsx_role_permission():
             }
             tt = MUser.create_user(user_data)
             if tt.get('uid'):
-
                 role_permission_relation(uid, tt['uid'], sheet_ranges, row_num)
 
                 # 编辑者添加权限
@@ -104,7 +103,6 @@ def gen_xlsx_role_permission():
 
 def role_permission_relation(role_uid, user_uid, work_sheet, row_num):
     for col_idx in FILTER_COLUMNS:
-
         cell_val = work_sheet['{0}{1}'.format(col_idx, row_num)].value
 
         if cell_val in [1, '1']:
@@ -132,43 +130,19 @@ def create_editor_role(role_uid):
 
     per_dic_v = {
         "uid": "can_view",
-
-        "per_data": {
-            "name": "查看",
-            "controller": 0,
-            "action": 0
-        },
-
+        "per_data": {"name": "查看", "controller": 0, "action": 0},
     }
     per_dic_a = {
         "uid": "can_add",
-
-        "per_data": {
-            "name": "添加",
-            "controller": 0,
-            "action": 0
-        },
-
+        "per_data": {"name": "添加", "controller": 0, "action": 0},
     }
     per_dic_e = {
         "uid": "can_edit",
-
-        "per_data": {
-            "name": "编辑",
-            "controller": 0,
-            "action": 0
-        },
-
+        "per_data": {"name": "编辑", "controller": 0, "action": 0},
     }
     per_dic_d = {
         "uid": "can_delete",
-
-        "per_data": {
-            "name": "删除",
-            "controller": 0,
-            "action": 0
-        },
-
+        "per_data": {"name": "删除", "controller": 0, "action": 0},
     }
     per_editor.append(per_dic_v)
     per_editor.append(per_dic_a)
@@ -177,43 +151,19 @@ def create_editor_role(role_uid):
 
     per_ad_r = {
         "uid": "can_review",
-
-        "per_data": {
-            "name": "复查",
-            "controller": 0,
-            "action": 0
-        },
-
+        "per_data": {"name": "复查", "controller": 0, "action": 0},
     }
     per_ad_v = {
         "uid": "can_verify",
-
-        "per_data": {
-            "name": "审核",
-            "controller": 0,
-            "action": 0
-        },
-
+        "per_data": {"name": "审核", "controller": 0, "action": 0},
     }
     per_ad_a = {
         "uid": "assign_role",
-
-        "per_data": {
-            "name": "权限",
-            "controller": 0,
-            "action": 0
-        },
-
+        "per_data": {"name": "权限", "controller": 0, "action": 0},
     }
     per_ad_g = {
         "uid": "assign_group",
-
-        "per_data": {
-            "name": "分组",
-            "controller": 0,
-            "action": 0
-        },
-
+        "per_data": {"name": "分组", "controller": 0, "action": 0},
     }
     per_admin.append(per_ad_r)
     per_admin.append(per_ad_v)
@@ -225,10 +175,10 @@ def create_editor_role(role_uid):
             MPermission.add_or_update(per_edit['uid'], per_edit['per_data'])
             MRole2Permission.add_or_update('editor', per_edit['uid'])
     else:
-
         for per_ad in per_admin:
             MPermission.add_or_update(per_ad['uid'], per_ad['per_data'])
             MRole2Permission.add_or_update('administrators', per_ad['uid'])
+
 
 if __name__ == '__main__':
     gen_xlsx_role_permission()

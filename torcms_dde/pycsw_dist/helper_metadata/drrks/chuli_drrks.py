@@ -1,38 +1,37 @@
 '''
 DRRKS本身数据集
 '''
+import sys
 from pprint import pprint
-import sys;
 
 import torcms.core.tool.whoosh_tool
 
 sys.path.append('.')
 import os
 
-from torcms.model.post_model import MPost
 import yaml
+
+from torcms.model.post_model import MPost
+
 # import ruamel.yaml
 
 '''
 解析DRR数据集，解压缩后获取每个的地理范围
 '''
 
-import tornado.escape
 import os
-from pathlib import Path
-from osgeo import ogr
-import fiona
-from pyproj import Proj
-from pyproj import CRS
-from osgeo import osr
 import shutil
+from pathlib import Path
+
+import fiona
+import tornado.escape
+from bs4 import BeautifulSoup
+from dehtml import dehtml
+from osgeo import ogr, osr
+from pyproj import CRS, Proj
+
 # import subprocess
 # import nltk
-
-from  dehtml import dehtml
-
-from bs4 import BeautifulSoup
-
 
 
 target = osr.SpatialReference()
@@ -77,7 +76,7 @@ tp_language = '<dc:language>{}</dc:language>'
 
 
 def get_geo(wdir):
-    a,b,c,d = -180, -90, 180, 90
+    a, b, c, d = -180, -90, 180, 90
     sig = False
     for wfile in wdir.rglob('*.shp'):
         sig = True
@@ -88,9 +87,7 @@ def get_geo(wdir):
         # env = lyr.GetEnvelope()
         ds = fiona.open(wfile)
 
-
         # print(ds.crs)
-
 
         try:
             crs = CRS(ds.crs)
@@ -105,8 +102,8 @@ def get_geo(wdir):
         p = Proj(crs)
         # print(p)
 
-        ll = p(ds.bounds[0], ds.bounds[1], inverse = True)
-        ur  = p(ds.bounds[2], ds.bounds[3], inverse = True)
+        ll = p(ds.bounds[0], ds.bounds[1], inverse=True)
+        ur = p(ds.bounds[2], ds.bounds[3], inverse=True)
         # srcp = osr.SpatialReference()
         # srcp.ImportFromEPSG(int(ds.crs['init'].split(':')[-1]))
         # trans = osr.CoordinateTransformation(srcp, target)
@@ -127,35 +124,33 @@ def get_geo(wdir):
             d = ur[1]
 
     if sig:
-        return a,b,c,d
+        return a, b, c, d
     else:
         return None
 
-
         # print(ext)
         # print(env)
+
 
 def clean():
     for wfile in workdir.rglob('*'):
         if wfile.is_file():
             wfile.unlink()
 
+
 def walk_dir(the_sig):
     os.chdir(workdir)
 
     for wfile in inws.rglob('*.7z'):
-
         if f'_dn{the_sig}' in wfile.name:
-
             clean()
             if wfile.exists():
                 pass
             else:
                 continue
-            shutil.copy(wfile, workdir / wfile.name )
+            shutil.copy(wfile, workdir / wfile.name)
             file7z = workdir / wfile.name
             if file7z.exists():
-
                 torcms.core.tool.whoosh_tool.run(['7z', 'x', f'{file7z}'])
                 print('=' * 40)
                 print(wfile)
@@ -164,11 +159,10 @@ def walk_dir(the_sig):
                 return uu
 
 
-
 def run_export():
     all_recs = MPost.query_all(kind='9', limit=10000)
     out_arr = []
-    fout = open('xx_links.txt','w')
+    fout = open('xx_links.txt', 'w')
     for postinfo in all_recs:
         print('=' * 40)
         pid = postinfo.extinfo.get('def_cat_pid')
@@ -178,7 +172,6 @@ def run_export():
         else:
             continue
         # print(postinfo.title)
-
 
         out_arr.append(
             {
@@ -196,14 +189,14 @@ def run_export():
         )
 
         ff = postinfo.extinfo.get('_tag__file_download')
-        if ff :
+        if ff:
             pprint(ff)
 
             # geoinfo = walk_dir(sig)
             # print(sig)
             # print(geoinfo)
 
-        #break
+        # break
 
         pp = Path('xx_xml')
         if pp.exists():
@@ -211,14 +204,13 @@ def run_export():
         else:
             pp.mkdir()
 
-        outfile = pp / ( 'drrks-' + postinfo.uid + '.xml')
+        outfile = pp / ('drrks-' + postinfo.uid + '.xml')
 
         fout.write(f'https://drr.ikcest.org/directory/drrks-{postinfo.uid}\n')
         with open(outfile, 'w') as fo:
-
             fo.write(tmpl_0)
             fo.write('\n')
-            fo.write(tp_identifier.format( 'drrks-' + postinfo.uid))
+            fo.write(tp_identifier.format('drrks-' + postinfo.uid))
             fo.write('\n')
             fo.write(tp_language.format('English'))
             fo.write('\n')
@@ -233,27 +225,19 @@ def run_export():
             # markup = postinfo.cnt_html
             # soup = BeautifulSoup(markup)
 
-
-
             fo.write(
                 tp_abstract.format(
-                    dehtml(
-                        tornado.escape.xhtml_unescape(
-                        postinfo.cnt_html
-                        )
-                    )
+                    dehtml(tornado.escape.xhtml_unescape(postinfo.cnt_html))
                     # nltk.clean_html(
                     #     str(
                     #     soup.get_text()
                     #     )
                     # )
-
                 )
             )
             # fo.write(tp_contributor.format(v9))
 
             fo.write(tmpl_9)
-
 
 
 if __name__ == '__main__':

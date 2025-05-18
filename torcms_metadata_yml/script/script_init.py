@@ -13,4 +13,3 @@ def run_init(*args):
     '''
     build_dir()
     run_auto()
-

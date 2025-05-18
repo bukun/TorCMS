@@ -29,13 +29,12 @@
 #
 # =================================================================
 
-from configparser import ConfigParser
 import os
-from pathlib import Path
 import sys
+from configparser import ConfigParser
+from pathlib import Path
 
-from flask import Flask, Blueprint, make_response, request
-
+from flask import Blueprint, Flask, make_response, request
 from pycsw.core.util import parse_ini_config
 from pycsw.ogc.api.records import API
 from pycsw.ogc.api.util import STATIC
@@ -45,14 +44,14 @@ import torcms.core.tool.whoosh_tool
 
 APP = Flask(__name__, static_folder=STATIC, static_url_path='/static')
 APP.url_map.strict_slashes = False
-APP.config['PYCSW_CONFIG'] = parse_ini_config(
-    Path('./default.cfg')
-)
+APP.config['PYCSW_CONFIG'] = parse_ini_config(Path('./default.cfg'))
 APP.config['JSONIFY_PRETTYPRINT_REGULAR'] = APP.config['PYCSW_CONFIG']['server'].get(
-    'pretty_print', True)
+    'pretty_print', True
+)
 
-BLUEPRINT = Blueprint('pycsw', __name__, static_folder=STATIC,
-                      static_url_path='/static')
+BLUEPRINT = Blueprint(
+    'pycsw', __name__, static_folder=STATIC, static_url_path='/static'
+)
 
 api_ = API(APP.config['PYCSW_CONFIG'])
 
@@ -129,8 +128,9 @@ def collection(collection='metadata:main'):
     :returns: HTTP response
     """
 
-    return get_response(api_.collection(dict(request.headers),
-                        request.args, collection))
+    return get_response(
+        api_.collection(dict(request.headers), request.args, collection)
+    )
 
 
 @BLUEPRINT.route('/collections/<collection>/queryables')
@@ -143,8 +143,9 @@ def queryables(collection='metadata:main'):
     :returns: HTTP response
     """
 
-    return get_response(api_.queryables(dict(request.headers), request.args,
-                        collection))
+    return get_response(
+        api_.queryables(dict(request.headers), request.args, collection)
+    )
 
 
 @BLUEPRINT.route('/search', methods=['GET', 'POST'])
@@ -164,8 +165,15 @@ def items(collection='metadata:main'):
     if 'search' in request.url_rule.rule:
         stac_item = True
 
-    return get_response(api_.items(dict(request.headers), request.json, dict(request.args),
-                        collection, stac_item))
+    return get_response(
+        api_.items(
+            dict(request.headers),
+            request.json,
+            dict(request.args),
+            collection,
+            stac_item,
+        )
+    )
 
 
 @BLUEPRINT.route('/stac/collections/<collection>/items/<item>')
@@ -185,8 +193,9 @@ def item(collection='metadata:main', item=None):
     if 'stac' in request.url_rule.rule:
         stac_item = True
 
-    return get_response(api_.item(dict(request.headers), request.args,
-                        collection, item, stac_item))
+    return get_response(
+        api_.item(dict(request.headers), request.args, collection, item, stac_item)
+    )
 
 
 @BLUEPRINT.route('/csw', methods=['GET', 'POST'])
@@ -253,5 +262,3 @@ if __name__ == '__main__':
         port = int(sys.argv[1])
     print(f'Serving on port {port}')
     torcms.core.tool.whoosh_tool.run(debug=True, host='0.0.0.0', port=port)
-
-

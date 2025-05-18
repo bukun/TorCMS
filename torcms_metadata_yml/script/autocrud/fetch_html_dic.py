@@ -74,7 +74,6 @@ def gen_html_dic():
     html_dics = {}
 
     for XLSX_FILE in META_FILE_LIST:
-
         if XLSX_FILE.exists():
             WORK_BOOK = load_workbook(filename=XLSX_FILE)
         else:
@@ -154,8 +153,7 @@ def __get_switch_arr(work_sheet, row_num):
         cell_val = work_sheet['{0}{1}'.format(col_idx, row_num)].value
         if cell_val in [1, '1']:
             # Appending the slug name of the switcher.
-            u_dic.append(
-                work_sheet['{0}1'.format(col_idx)].value.strip().split(',')[0])
+            u_dic.append(work_sheet['{0}1'.format(col_idx)].value.strip().split(',')[0])
     return u_dic
 
 
@@ -177,11 +175,11 @@ def gen_array_crud():
         else:
             continue
         for x in work_sheet.rows:
-
             if x[0].value and x[0].value != 'field_name':
                 field_slug = 'pycsw_' + x[0].value.replace(' ', '_').replace('\n', '')
 
                 field = x[3].value.replace('\n', '')
-                if field not in lists: lists.append({field_slug: field})
+                if field not in lists:
+                    lists.append({field_slug: field})
 
-    return (lists)
+    return lists

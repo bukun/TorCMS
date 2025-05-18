@@ -10,6 +10,7 @@ from .script_check import run_check
 from .script_drop_tabels import run_drop_tables
 from .script_dump import run_dump
 from .script_init import run_init
+from .script_init_tabels import run_init_tables
 from .script_review import run_review
 from .script_update import run_update
 
@@ -25,6 +26,7 @@ def entry(argv):
         'reset': run_drop_tables,
         'dump': run_dump,
         'update': run_update,
+        'init_db': run_init_tables,
     }
     try:
         # 这里的 h 就表示该选项无参数，i:表示 i 选项后需要有参数
@@ -45,10 +47,10 @@ def entry(argv):
             print('        update: (更新访问次数等)')
             print('          dump: (备份数据库)')
             print('\033[31m', '        reset: (Danger! drop all tables!)', '\033[0m')
+            print('\033[31m', '      init_db: (Deprecated)', '\033[0m')
 
             sys.exit()
         elif opt == "-i":
-
             if arg in command_dic:
                 command_dic[arg](args)
                 print('QED!')

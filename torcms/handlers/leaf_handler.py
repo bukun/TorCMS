@@ -22,11 +22,10 @@ class LeafHandler(PostHandler):
 
     def initialize(self, **kwargs):
         super().initialize()
-        self.kind =  kwargs.get('kind', '6')
+        self.kind = kwargs.get('kind', '6')
         self.filter_view = kwargs.get('filter_view', False)
 
     def post(self, *args, **kwargs):
-
         url_str = args[0]
         logger.info('Post url: {0}'.format(url_str))
         url_arr = self.parse_url(url_str)

@@ -2,19 +2,28 @@
 '''
 Define the widget modules for TorCMS.
 '''
+import random
+
 import tornado.escape
 import tornado.web
-import random
+
 import config
 from torcms.model.category_model import MCategory
+from torcms.model.post_model import MPost
+from torcms.model.process_model import (
+    MAction,
+    MProcess,
+    MRequest,
+    MRequestAction,
+    MState,
+    MTransition,
+    MTransitionAction,
+)
 from torcms.model.rating_model import MRating
 from torcms.model.reply_model import MReply
 from torcms.model.replyid_model import MReplyid
-from torcms.model.user_model import MUser
-from torcms.model.post_model import MPost
-from torcms.model.process_model import MState, MTransition, MRequest, MAction, MRequestAction, \
-    MTransitionAction, MProcess
 from torcms.model.staff2role_model import MStaff2Role
+from torcms.model.user_model import MUser
 
 
 class BaiduShare(tornado.web.UIModule):
@@ -305,7 +314,6 @@ class Userprofile(tornado.web.UIModule):
 
 
 class State(tornado.web.UIModule):
-
     def render(self, *args, **kwargs):
         postinfo = kwargs.get('postinfo', '')
         userinfo = kwargs.get('userinfo', '')
@@ -317,11 +325,13 @@ class State(tornado.web.UIModule):
         process = ''
         act_arr = []
         if request_rec:
-
-            act_recs = MTransitionAction.query_by_pro_state(request_rec.process, request_rec.current_state)
+            act_recs = MTransitionAction.query_by_pro_state(
+                request_rec.process, request_rec.current_state
+            )
             for act in act_recs:
-
-                reqact_rec = MRequestAction.get_by_action_request(act['action'], request_rec.uid)
+                reqact_rec = MRequestAction.get_by_action_request(
+                    act['action'], request_rec.uid
+                )
                 if reqact_rec and reqact_rec.is_active:
                     act_rec = MAction.get_by_id(act['action']).get()
 
@@ -330,13 +340,17 @@ class State(tornado.web.UIModule):
                         process = MProcess.query_all()
 
                     else:
-                        act_dic = {"act_name": act_rec.name, "act_uid": act_rec.uid, "request_id": request_rec.uid,
-                                   "state_id": request_rec.current_state, "process_id": request_rec.process}
+                        act_dic = {
+                            "act_name": act_rec.name,
+                            "act_uid": act_rec.uid,
+                            "request_id": request_rec.uid,
+                            "state_id": request_rec.current_state,
+                            "process_id": request_rec.process,
+                        }
 
                         act_arr.append(act_dic)
 
         else:
-
             # 选择提交的流程，提交审核
             process = MProcess.query_all()
 
@@ -352,7 +366,7 @@ class State(tornado.web.UIModule):
             userinfo=userinfo,
             kwd=kwd,
             action_arr=act_arr,
-            process=process
+            process=process,
         )
 
 

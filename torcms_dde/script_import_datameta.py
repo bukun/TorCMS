@@ -5,22 +5,26 @@
 
 '''
 import os
-
 import pathlib
-from openpyxl import load_workbook
 
 import tornado.escape
+from openpyxl import load_workbook
 
 from torcms.model.category_model import MCategory
+from torcms.model.label_model import MPost2Label
 from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
-from torcms.model.label_model import MPost2Label
+
 
 def update_category(uid, postdata, kwargs):
     '''
     Update the category of the post.
     '''
-    catid = kwargs['catid'] if ('catid' in kwargs and MCategory.get_by_uid(kwargs['catid'])) else None
+    catid = (
+        kwargs['catid']
+        if ('catid' in kwargs and MCategory.get_by_uid(kwargs['catid']))
+        else None
+    )
 
     post_data = postdata
 
@@ -78,7 +82,6 @@ def chuli_meta(metafile):
         the_val = row[1].value if row[1].value else ''
         meta_dic[the_key] = the_val
 
-
     cnt_md = meta_dic.get('anytext')
 
     if cnt_md:
@@ -119,7 +122,7 @@ def update_db_info(catid, sig, kind_sig, ds_base):
     pp_data = {'logo': '', 'kind': kind_sig}
     # 给数据新的id。
     sigs = 'd' + sig[-4:]
-    kwargsa = { }
+    kwargsa = {}
     # 对文件夹内容进行遍历，
     #  对不同文件进行处理。
     for uu in ds_base.iterdir():
@@ -142,8 +145,8 @@ def update_db_info(catid, sig, kind_sig, ds_base):
             # 将主要数据添加到外扩展
             pp_data['extinfo'] = {}
             for key in meta_dic.keys():
-                if key !='field_name':
-                    pp_data['extinfo']['pycsw_'+ str(key)] = meta_dic.get(key,'')
+                if key != 'field_name':
+                    pp_data['extinfo']['pycsw_' + str(key)] = meta_dic.get(key, '')
 
             kwargsa = {
                 'gcat0': catid,
@@ -161,11 +164,9 @@ def update_db_info(catid, sig, kind_sig, ds_base):
     else:
         MPost.add_or_update(sigs, pp_data)
 
-
     MPost.add_or_update(sigs, pp_data, update_time=False)
     update_category(sigs, pp_data, kwargsa)
     update_label(sigs, pp_data)
-
 
 
 def update_label(signature, post_data):
@@ -233,7 +234,6 @@ def chli_xlsx(cat_path):
             # print(sig)
             if sig:
                 get_meta(catid, sig, kind_sig='d')
-
 
 
 if __name__ == '__main__':

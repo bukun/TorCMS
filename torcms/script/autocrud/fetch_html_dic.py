@@ -75,7 +75,6 @@ def gen_html_dic():
     html_dics = {}
 
     for XLSX_FILE in XLSX_FILE_LIST:
-        print(type(XLSX_FILE))
         if XLSX_FILE.exists():
             WORK_BOOK = load_workbook(filename=XLSX_FILE)
         else:

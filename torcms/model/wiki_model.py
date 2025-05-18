@@ -97,7 +97,6 @@ class MWiki:
             MWiki.update(the_wiki.uid, post_data)
 
         else:
-
             uid = '_' + tools.get_uu8d()
 
             return MWiki.__create_rec(uid, '1', post_data=post_data)

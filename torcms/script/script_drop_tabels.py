@@ -5,12 +5,14 @@
 
 from torcms.model.core_tab import (
     TabCollect,
+    TabCorrelation,
     TabEntity,
     TabEntity2User,
     TabEvaluation,
     TabLink,
     TabLog,
     TabMember,
+    TabPermission,
     TabPost,
     TabPost2Tag,
     TabPostHist,
@@ -19,16 +21,14 @@ from torcms.model.core_tab import (
     TabRel,
     TabReply,
     TabReplyid,
+    TabRole,
+    TabRole2Permission,
+    TabStaff2Role,
     TabTag,
     TabUsage,
     TabUser2Reply,
     TabWiki,
     TabWikiHist,
-    TabCorrelation,
-    TabRole,
-    TabPermission,
-    TabRole2Permission,
-    TabStaff2Role,
 )
 from torcms.model.process_model import *
 
@@ -70,13 +70,11 @@ def run_drop_tables(_):
     drop_the_table(TabReplyid)
     drop_the_table(TabCorrelation)
 
-
     drop_the_table(TabRequestAction)
     drop_the_table(TabTransitionAction)
     drop_the_table(TabTransition)
     drop_the_table(TabStaff2Role)
     drop_the_table(TabRole2Permission)
-
 
     drop_the_table(TabRequest)
     drop_the_table(TabState)

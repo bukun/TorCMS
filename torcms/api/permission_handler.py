@@ -4,7 +4,9 @@ Handler for links.
 '''
 
 import json
+
 import tornado.web
+
 from torcms.core import privilege
 from torcms.core.base_handler import BaseHandler
 from torcms.model.permission_model import MPermission
@@ -98,11 +100,7 @@ class PermissionHandler(BaseHandler):
             }
         ]
 
-        out_dict = {"ok": True,
-                    "status": 0,
-                    "title": '权限详情',
-                    "permore_table": dic
-                    }
+        out_dict = {"ok": True, "status": 0, "title": '权限详情', "permore_table": dic}
 
         return json.dump(out_dict, self, ensure_ascii=False)
 
@@ -166,17 +164,9 @@ class PermissionHandler(BaseHandler):
         post_data = json.loads(self.request.body)
 
         if MPermission.update(uid, post_data):
-            output = {
-                "ok": True,
-                "status": 0,
-                "msg": "更新权限成功"
-            }
+            output = {"ok": True, "status": 0, "msg": "更新权限成功"}
         else:
-            output = {
-                "ok": False,
-                "status": 404,
-                "msg": "更新权限失败"
-            }
+            output = {"ok": False, "status": 404, "msg": "更新权限失败"}
         return json.dump(output, self, ensure_ascii=False)
 
     @privilege.permission(action='assign_role')
@@ -191,17 +181,9 @@ class PermissionHandler(BaseHandler):
         ids = post_data.get("ids", "").split(",")
         for uid in ids:
             if MPermission.update_action(uid, post_data):
-                output = {
-                    "ok": True,
-                    "status": 0,
-                    "msg": "更新权限成功"
-                }
+                output = {"ok": True, "status": 0, "msg": "更新权限成功"}
             else:
-                output = {
-                    "ok": False,
-                    "status": 404,
-                    "msg": "更新权限失败"
-                }
+                output = {"ok": False, "status": 404, "msg": "更新权限失败"}
         return json.dump(output, self, ensure_ascii=False)
 
     @privilege.permission(action='assign_role')
@@ -216,17 +198,9 @@ class PermissionHandler(BaseHandler):
         cur_uid = post_data.get('uid')
 
         if MPermission.add_or_update(cur_uid, post_data):
-            output = {
-                "ok": True,
-                "status": 0,
-                "msg": "添加/更新权限成功"
-            }
+            output = {"ok": True, "status": 0, "msg": "添加/更新权限成功"}
         else:
-            output = {
-                "ok": False,
-                "status": 404,
-                "msg": "添加/更新权限失败"
-            }
+            output = {"ok": False, "status": 404, "msg": "添加/更新权限失败"}
         return json.dump(output, self, ensure_ascii=False)
 
     @privilege.permission(action='assign_role')
@@ -240,17 +214,9 @@ class PermissionHandler(BaseHandler):
             MRole2Permission.remove_relation(del_role.role, del_role.permission)
 
         if MPermission.delete(del_id):
-            output = {
-                "ok": True,
-                "status": 0,
-                "msg": "删除权限成功"
-            }
+            output = {"ok": True, "status": 0, "msg": "删除权限成功"}
         else:
-            output = {
-                "ok": False,
-                "status": 0,
-                "msg": "删除权限失败"
-            }
+            output = {"ok": False, "status": 0, "msg": "删除权限失败"}
         return json.dump(output, self, ensure_ascii=False)
 
     @privilege.permission(action='assign_role')
@@ -267,15 +233,7 @@ class PermissionHandler(BaseHandler):
                 MRole2Permission.remove_relation(del_role.role, del_role.permission)
 
             if MPermission.delete(del_id):
-                output = {
-                    "ok": True,
-                    "status": 0,
-                    "msg": "删除权限成功"
-                }
+                output = {"ok": True, "status": 0, "msg": "删除权限成功"}
             else:
-                output = {
-                    "ok": False,
-                    "status": 0,
-                    "msg": "删除权限失败"
-                }
+                output = {"ok": False, "status": 0, "msg": "删除权限失败"}
         return json.dump(output, self, ensure_ascii=False)

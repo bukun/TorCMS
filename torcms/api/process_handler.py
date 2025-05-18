@@ -4,11 +4,21 @@ Handler for links.
 '''
 
 import json
+
 import tornado.web
-from torcms.core import tools, privilege
+
+from torcms.core import privilege, tools
 from torcms.core.base_handler import BaseHandler
-from torcms.model.process_model import MProcess, MTransition, MTransitionAction, MPermissionAction, MAction, \
-    MRequestAction, MRequest, MState
+from torcms.model.process_model import (
+    MAction,
+    MPermissionAction,
+    MProcess,
+    MRequest,
+    MRequestAction,
+    MState,
+    MTransition,
+    MTransitionAction,
+)
 
 
 class ProcessHandler(BaseHandler):
@@ -136,20 +146,10 @@ class ProcessHandler(BaseHandler):
         post_data = json.loads(self.request.body)
 
         if MProcess.update(uid, post_data):
-
-            output = {
-                "ok": True,
-                "status": 0,
-                "msg": "更新流程成功"
-            }
-
+            output = {"ok": True, "status": 0, "msg": "更新流程成功"}
 
         else:
-            output = {
-                "ok": False,
-                "status": 404,
-                "msg": "更新流程失败"
-            }
+            output = {"ok": False, "status": 404, "msg": "更新流程失败"}
 
         return json.dump(output, self, ensure_ascii=False)
 
@@ -164,18 +164,9 @@ class ProcessHandler(BaseHandler):
 
         role_uid = MProcess.create(post_data.get('name'))
         if role_uid:
-
-            output = {
-                "ok": True,
-                "status": 0,
-                "msg": "添加流程成功"
-            }
+            output = {"ok": True, "status": 0, "msg": "添加流程成功"}
         else:
-            output = {
-                "ok": False,
-                "status": 404,
-                "msg": "添加流程失败"
-            }
+            output = {"ok": False, "status": 404, "msg": "添加流程失败"}
         return json.dump(output, self, ensure_ascii=False)
 
     @privilege.permission(action='assign_group')
@@ -187,7 +178,6 @@ class ProcessHandler(BaseHandler):
         trans = MTransition.query_by_proid(process_id)
 
         for tran in trans:
-
             try:
                 MRequestAction.delete_by_trans(tran.uid)
                 pass
@@ -245,15 +235,9 @@ class ProcessHandler(BaseHandler):
                     pass
 
         if MProcess.delete_by_uid(process_id):
-            output = {
-                "ok": True,
-                "status": 0,
-                "msg": "删除流程成功"}
+            output = {"ok": True, "status": 0, "msg": "删除流程成功"}
         else:
-            output = {
-                "ok": False,
-                "status": 404,
-                "msg": "删除流程失败"}
+            output = {"ok": False, "status": 404, "msg": "删除流程失败"}
         return json.dump(output, self, ensure_ascii=False)
 
     @privilege.permission(action='assign_group')
@@ -268,7 +252,6 @@ class ProcessHandler(BaseHandler):
             trans = MTransition.query_by_proid(process_id)
 
             for tran in trans:
-
                 try:
                     MRequestAction.delete_by_trans(tran.uid)
                     pass
@@ -326,14 +309,8 @@ class ProcessHandler(BaseHandler):
                         pass
 
             if MProcess.delete_by_uid(process_id):
-                output = {
-                    "ok": True,
-                    "status": 0,
-                    "msg": "删除流程成功"}
+                output = {"ok": True, "status": 0, "msg": "删除流程成功"}
             else:
-                output = {
-                    "ok": False,
-                    "status": 404,
-                    "msg": "删除流程失败"}
+                output = {"ok": False, "status": 404, "msg": "删除流程失败"}
 
         return json.dump(output, self, ensure_ascii=False)

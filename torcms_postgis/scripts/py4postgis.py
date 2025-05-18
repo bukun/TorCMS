@@ -2,18 +2,19 @@
 使用psycopg2连接。
 '''
 
-from cfg import PostGIS_CFG
 import psycopg2
 
+from cfg import PostGIS_CFG
 
-class PGINFO():
 
+class PGINFO:
     def __init__(self):
         self.conn = psycopg2.connect(
             database=PostGIS_CFG['db'],
             user=PostGIS_CFG['user'],
             password=PostGIS_CFG['pass'],
-            host=PostGIS_CFG['host'], port="5432"
+            host=PostGIS_CFG['host'],
+            port="5432",
         )
 
     def query_meta(self, fea_name):

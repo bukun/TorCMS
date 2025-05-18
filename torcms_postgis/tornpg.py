@@ -30,8 +30,8 @@ import time
 try:
     import psycopg2
     import psycopg2.extensions
-    from psycopg2.extensions import (connection as base_connection,
-                                     cursor as base_cursor)
+    from psycopg2.extensions import connection as base_connection
+    from psycopg2.extensions import cursor as base_cursor
 except ImportError:
     # If psycopg2 isn't available this module won't actually be useable,
     # but we want it to at least be importable on readthedocs.org,
@@ -64,15 +64,24 @@ class Connection(object):
     --UTF-8 on all connections to avoid time zone and encoding errors.
     """
 
-    def __init__(self, host, database, port=None, user=None, password=None,
-                 max_idle_time=2 * 3600, connect_timeout=0,
-                 connection_factory=None):
+    def __init__(
+        self,
+        host,
+        database,
+        port=None,
+        user=None,
+        password=None,
+        max_idle_time=2 * 3600,
+        connect_timeout=0,
+        connection_factory=None,
+    ):
         self.host = host
         self.database = database
         self.max_idle_time = float(max_idle_time)
 
-        args = dict(client_encoding="utf8", database=database,
-                    connect_timeout=connect_timeout)
+        args = dict(
+            client_encoding="utf8", database=database, connect_timeout=connect_timeout
+        )
         if user is not None:
             args['user'] = user
         if password is not None:
@@ -87,8 +96,7 @@ class Connection(object):
             args['host'] = host
             args['port'] = port or 5432
 
-        args['connection_factory'] = \
-            connection_factory or base_connection
+        args['connection_factory'] = connection_factory or base_connection
 
         self._db = None
         self._db_args = args
@@ -96,8 +104,9 @@ class Connection(object):
         try:
             self.reconnect()
         except Exception:
-            logging.error("Cannot connect to Postgresql on %s:%s", self.host,
-                          exc_info=True)
+            logging.error(
+                "Cannot connect to Postgresql on %s:%s", self.host, exc_info=True
+            )
 
     def __del__(self):
         self.close()
@@ -227,8 +236,7 @@ class Connection(object):
         # until you try to perform a query and it fails.  Protect against
         # this case by preemptively closing and reopening the connection
         # if it has been idle for too long (7 hours by default).
-        if (self._db is None or
-                (time.time() - self._last_use_time > self.max_idle_time)):
+        if self._db is None or (time.time() - self._last_use_time > self.max_idle_time):
             self.reconnect()
         self._last_use_time = time.time()
 

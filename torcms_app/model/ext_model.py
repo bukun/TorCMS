@@ -7,14 +7,14 @@ import tornado.escape
 import tornado.web
 
 from torcms.core import tools
-from torcms.model.abc_model import  MHelper
+from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import TabPost as TabApp
 from torcms.model.post_model import MPost
 from torcms.model.reply_model import MReply
 from torcms_app.model.ext import ExtabCalcInfo
 
 
-class MCalcInfo():
+class MCalcInfo:
     '''
     For App infor.
     '''
@@ -31,7 +31,6 @@ class MCalcInfo():
 
     @staticmethod
     def create_info(post_data):
-
         ExtabCalcInfo.create(
             uid=tools.get_uuid(),
             title='',
@@ -40,15 +39,14 @@ class MCalcInfo():
             time_create=tools.timestamp(),
             time_update=tools.timestamp(),
             extinfo=post_data['extinfo'],
-
         )
 
     @staticmethod
     def query_hist_recs(userid, appid):
-        return ExtabCalcInfo.select().where(
-            (ExtabCalcInfo.user_id == userid) & (ExtabCalcInfo.post_id == appid)
-        ).order_by(
-            ExtabCalcInfo.time_create
+        return (
+            ExtabCalcInfo.select()
+            .where((ExtabCalcInfo.user_id == userid) & (ExtabCalcInfo.post_id == appid))
+            .order_by(ExtabCalcInfo.time_create)
         )
 
 
@@ -86,7 +84,7 @@ class MAppYun(MPost):
                 date=datetime.now(),
                 view_count=0,
                 extinfo=ext_info,
-                kind=data_dic['kind']
+                kind=data_dic['kind'],
             )
 
     @staticmethod
@@ -112,8 +110,7 @@ class MAppYun(MPost):
             update_time=int(time.time()),
             date=datetime.now(),
             cnt_md=data_dic['cnt_md'][0],
-            cnt_html=tools.markdown2html(data_dic['cnt_md'][0])
+            cnt_html=tools.markdown2html(data_dic['cnt_md'][0]),
         ).where(TabApp.uid == uid)
         entry.execute()
         return uid
-

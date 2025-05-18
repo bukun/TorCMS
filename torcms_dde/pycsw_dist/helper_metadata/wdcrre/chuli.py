@@ -1,12 +1,13 @@
+import sys
 from html.parser import HTMLParser
-import tornado.escape
+from pathlib import Path
 from re import sub
 from sys import stderr
 from traceback import print_exc
-import sys
-from pathlib import Path
-from openpyxl import load_workbook
 from xml.sax.saxutils import escape
+
+import tornado.escape
+from openpyxl import load_workbook
 
 inws = Path('./esheet')
 
@@ -55,9 +56,9 @@ tp_link = '<ows:OnlineResource xlink:type="simple" xlink:href="{}" />'
 
 
 def chuli_cell(cell):
-
     cv = cell.value if cell.value else ''
-    return escape(cv )
+    return escape(cv)
+
 
 for xlsx_file in inws.rglob('*.xlsx'):
     if xlsx_file.name.startswith('~$'):
@@ -65,7 +66,7 @@ for xlsx_file in inws.rglob('*.xlsx'):
     try:
         print(xlsx_file.name)
         wb = load_workbook(xlsx_file)
-        del(wb)
+        del wb
     except:
         print('Error:', xlsx_file.name)
         sys.exit()
@@ -74,15 +75,13 @@ for xlsx_file in inws.rglob('*.xlsx'):
 idx = 0
 
 
-xlsx_file =  './esheet/wdcrre_data.xlsx'
+xlsx_file = './esheet/wdcrre_data.xlsx'
 
 # dir_sig = xlsx_file.stem
 
 # sig = f'xh_{idx}_'
 #
 # idx = idx + 1
-
-
 
 
 class _DeHTMLParser(HTMLParser):
@@ -121,7 +120,6 @@ def dehtml(text):
         return text
 
 
-
 wb = load_workbook(xlsx_file)
 
 ws = wb.active
@@ -134,17 +132,14 @@ for row in ws.rows:
         break
     # print(row)
 
-    v0 = chuli_cell(row[0])  #id
-    v1 = chuli_cell(row[1]) # title
-    v2 = chuli_cell(row[2])     # keywords
-    v3 = chuli_cell(row[3])     # date
-    v4 = chuli_cell(row[4])     # cnt_html
-
-
+    v0 = chuli_cell(row[0])  # id
+    v1 = chuli_cell(row[1])  # title
+    v2 = chuli_cell(row[2])  # keywords
+    v3 = chuli_cell(row[3])  # date
+    v4 = chuli_cell(row[4])  # cnt_html
 
     outfile = outws / f'wdcrre-{v0}.xml'
     with open(outfile, 'w') as fo:
-
         fo.write(tmpl_0)
         fo.write('\n')
         fo.write(tp_identifier.format(f'wdcrre-{v0}'))
@@ -162,16 +157,9 @@ for row in ws.rows:
         fo.write('\n')
         fo.write(
             tp_abstract.format(
-                dehtml(
-                    tornado.escape.xhtml_unescape(
-                    tornado.escape.xhtml_unescape(
-                        v4
-                    )
-                    )
-                )
+                dehtml(tornado.escape.xhtml_unescape(tornado.escape.xhtml_unescape(v4)))
             )
         )
         # fo.write(tp_contributor.format(v9))
 
         fo.write(tmpl_9)
-

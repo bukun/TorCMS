@@ -7,12 +7,13 @@ import json
 
 import tornado.escape
 import tornado.web
-from torcms.core import privilege
+
 from config import CMS_CFG
+from torcms.core import privilege
 from torcms.handlers.page_handler import PageHandler
-from torcms.model.wiki_model import MWiki
-from torcms.model.wiki_hist_model import MWikiHist
 from torcms.model.user_model import MUser
+from torcms.model.wiki_hist_model import MWikiHist
+from torcms.model.wiki_model import MWiki
 
 
 class PageAjaxHandler(PageHandler):
@@ -167,7 +168,6 @@ class PageAjaxHandler(PageHandler):
 
         if rec_page:
             if rec_page.kind == self.kind:
-
                 out_json = {
                     'code': '1',
                     'info': 'success',

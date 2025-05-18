@@ -14,143 +14,15 @@
     {% block head %}
     {% end %}
 
-    {#
-    <script src="{{ static_url('jslib/dst/getIP.js') }}"></script>
-    <script language="javascript" type="text/javascript">
-        // 统计用户 访问网站步骤记录
-        var tjSecond = 0;
-        var tjRandom = 0;
-        var userinfo = "{{ userinfo.uid if userinfo else ''}}";
 
-        window.setInterval(function () {
-            tjSecond++;
-        }, 1000);
-        // 随机数
-        tjRandom = (new Date()).valueOf();
-
-        // 用户第一次访问页面记录部分数据
-        window.onload = function () {
-
-            var tjArr = localStorage.getItem("jsArr") ? localStorage.getItem("jsArr") : '[]';
-
-            var dataArr = {
-                'tjRd': tjRandom,
-                'url': location.href,
-                'refer': getReferrer(),
-                'user_id': userinfo
-            };
-            tjArr = eval('(' + tjArr + ')');
-            tjArr.push(dataArr);
-            var tjArr1 = JSON.stringify(tjArr);
-
-            localStorage.setItem("jsArr", tjArr1);
-
-
-        };
-        // 用户继续访问根据上面提供的key值补充数据
-        window.onbeforeunload = function () {
-
-            var tjArrRd = eval('(' + localStorage.getItem("jsArr") + ')');
-            var tjI = tjArrRd.length - 1;
-            if (tjArrRd[tjI].tjRd == tjRandom) {
-                tjArrRd[tjI].time = tjSecond;
-                tjArrRd[tjI].timeIn = Date.parse(new Date()) - (tjSecond * 1000);
-                tjArrRd[tjI].timeOut = Date.parse(new Date());
-
-                $.post("/log/_add", {
-                    url: tjArrRd[tjI].url,
-                    refer: tjArrRd[tjI].refer,
-                    user_id: tjArrRd[tjI].user_id,
-                    uid: tjArrRd[tjI].tjRd,
-                    timeon: tjArrRd[tjI].time,
-                    timein: tjArrRd[tjI].timeIn,
-                    timeOut: tjArrRd[tjI].timeOut
-                }, function (result) {
-                });
-                var tjArr1 = JSON.stringify(tjArrRd);
-                localStorage.setItem("jsArr", tjArr1);
-            }
-        };
-
-
-        function getReferrer() {
-            var referrer = '';
-            try {
-                referrer = window.top.document.referrer;
-            } catch (e) {
-                if (window.parent) {
-                    try {
-                        referrer = window.parent.document.referrer;
-                    } catch (e2) {
-                        referrer = '';
-                    }
-                }
-            }
-            if (referrer === '') {
-                referrer = document.referrer;
-            }
-
-            return referrer;
-
-        }
-
-    </script>
-    #}
 
     <link href="/static/css/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/tass/css/style.css" type="text/css">
 </head>
 <body>
-{#<div class="navbar navbar-default navbar-fixed-top" role="navigation">#}
-{#    <div class="col-sm-12">#}
-{#        <div class="navbar-header">#}
-{#            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target=".navbar-collapse">#}
-{#                <span class="sr-only">Toggle navigation</span>#}
-{#                <span class="icon-bar"></span>#}
-{#                <span class="icon-bar"></span>#}
-{#                <span class="icon-bar"></span>#}
-{#            </button>#}
-{#            <a class="navbar-brand" href="/">GISLite</a>#}
-{#        </div>#}
-{#        <div class="navbar-collapse collapse" id="nava">#}
-{#            <ul class="nav navbar-nav">#}
-{#                {% module widget_menu() %}#}
-{#                <li class="dropdown">#}
-{#                    <a href="" class="dropdown-toggle" data-toggle="dropdown">{{ _('User') }}#}
-{#                        <b class="caret"></b></a>#}
-{#                    <ul class="dropdown-menu">#}
-{#                        <li><a href="/user_list/user_recent">{{ _('Recent use') }}</a></li>#}
-{#                        <li><a href="/user_list/user_most">{{ _('Most use') }}</a></li>#}
-{#                        <li class="divider"></li>#}
-{#                        <li><a href="/collect/list">{{ _('My collection') }}</a></li>#}
-{#                        <li class="divider"></li>#}
-{#                        <li><a href="/user/info">{{ _('Personal Data') }}</a></li>#}
-{##}
-{#                    </ul>#}
-{#                </li>#}
-{#            </ul>#}
-{##}
-{#            <ul class="nav navbar-nav navbar-right">#}
-{#                <li>#}
-{#                    <div>#}
-{#                        {% module widget_search() %}#}
-{#                    </div>#}
-{#                </li>#}
-{##}
-{#                {% if userinfo %}#}
-{#                <li><a href="/user/info">{{ userinfo.user_name }}</a></li>#}
-{#                <li><a href="/user/logout">{{ _('Logout') }}</a></li>#}
-{#                {% else %}#}
-{#                <li><a href="/user/login">{{ _('Login') }}</a></li>#}
-{#                <li><a href="/user/regist">{{ _('Register') }}</a></li>#}
-{#                {% end %}#}
-{#            </ul>#}
-{#        </div>#}
-{#    </div>#}
-{#</div>#}
-{#--------------------------------------------------------------#}
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+
+<nav class="mb-4 navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">GISLite</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
@@ -161,15 +33,7 @@
             <ul class="navbar-nav">
 
                 {% module widget_menu() %}
-{#                <li class="nav-item">#}
-{#                    <a class="nav-link active" aria-current="page" href="#">Home</a>#}
-{#                </li>#}
-{#                <li class="nav-item">#}
-{#                    <a class="nav-link" href="#">Features</a>#}
-{#                </li>#}
-{#                <li class="nav-item">#}
-{#                    <a class="nav-link" href="#">Pricing</a>#}
-{#                </li>#}
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
@@ -177,23 +41,56 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
-                        <li><a class="dropdown-item"  href="/user_list/user_recent">{{ _('Recent use') }}</a></li>
-                        <li><a class="dropdown-item"  href="/user_list/user_most">{{ _('Most use') }}</a></li>
-{#                        <li class="divider"></li>#}
-                        <li><a class="dropdown-item"  href="/collect/list">{{ _('My collection') }}</a></li>
-{#                        <li class="divider"></li>#}
-                        <li><a class="dropdown-item"  href="/user/info">{{ _('Personal Data') }}</a></li>
+                        <li><a class="dropdown-item" href="/user_list/user_recent">{{ _('Recent use') }}</a></li>
+                        <li><a class="dropdown-item" href="/user_list/user_most">{{ _('Most use') }}</a></li>
+                        <li class="divider"></li>
+                        <li><a class="dropdown-item" href="/collect/list">{{ _('My collection') }}</a></li>
+                        <li class="divider"></li>
+                        <li><a class="dropdown-item" href="/user/info">{{ _('Personal Data') }}</a></li>
+
 
                     </ul>
                 </li>
             </ul>
         </div>
+        <div class="d-flex">
+
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav">
+                    {% if userinfo %}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/user/info">
+                            {{ userinfo.user_name }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/user/logout">
+                            {{ _('Logout') }}
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/user/login">
+                            {{ _('Login') }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/user/regist">
+                            {{ _('Register') }}
+                        </a>
+                    </li>
+                    {% end %}
+                </ul>
+            </div>
+            {% module widget_search() %}
+        </div>
     </div>
 </nav>
 
+
 {% block mainbody %}
 <div class="container" style="">
-{#<div class="container" style="padding-top: 80px">#}
+    {#<div class="container" style="padding-top: 80px">#}
     {% block typebody %}{% end %}
 </div>
 

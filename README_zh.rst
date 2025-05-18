@@ -6,7 +6,8 @@ TorCMS系统是使用Python 3.7，Tornado Web框架、Peewee、BootStrap开发�
 基于Tornado的开源CMS系统。
 
 此CMS系统原本用于云算笔记、开放地理空间实验室等网站，后来慢慢将 CMS 从中抽取出来。
-系统运行使用Python 3.7 （原版本基于 Python 3.4 ）进行开发，经过少量修改，可以运行在 Python 2.7下面，但是发布的版本不对Python 2.7进行特别的支持。
+系统运行使用Python 3.7 （原版本基于 Python 3.4 ）进行开发，
+经过少量修改，可以运行在 Python 2.7下面，但是发布的版本不对Python 2.7进行特别的支持。
 由于使用了 PostgreSQL 的 JSON 扩展功能，系统目前仅支持 PostgreSQL 。
 
 在网站设计方面，提出了文档（Post）、信息（Infor）两种对等的模型进行信息的组织。
@@ -18,9 +19,6 @@ TorCMS系统是使用Python 3.7，Tornado Web框架、Peewee、BootStrap开发�
 
 引言
 ===========================
-
-编写目的
-----------------------------------
 
 
 TorCMS系统的功能特征
@@ -243,3 +241,17 @@ API文档的建立
 ============================================================
 上面介绍了基础的相关操作完成了，可以自己的需求制作项目了。
 
+
+
+关于 `tornado_wtforms` 的说明
+======================================
+
+`tornado_wtforms` 是一个基于 `tornado` 和 `wtforms` 的表单验证库，
+它提供了 `tornado` 的 `RequestHandler` 的 `form` 属性，用于处理表单验证。
+
+`tornado_wtforms` 是从 `wtforms_tornado` 项目fork而来，它修复了 `wtforms_tornado` 的一些bug，
+同时添加了一些新的功能。
+但是在 pypi 上的 `tornado_wtforms` 项目自2022年发布后，就再也没有更新过。
+
+在项目使用中，直接将 `tornado_wtforms` 项目中的 `tornado_wtforms` 文件夹（模块）复制到项目中，
+然后使用 `from torcms.tornado_wtforms.form import Form` 即可。

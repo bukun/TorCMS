@@ -13,7 +13,7 @@ from torcms_app.script.autogen_formula.generate_app_html import run_gen_formula
 from torcms_app.script.script_fix_app_path import run_fix_path
 
 
-def run_gen_auto():
+def run_gen_auto(kind='s'):
     '''
     生成自动
     '''
@@ -32,7 +32,9 @@ def run_check_jshtml(kind='s'):
     js_recs = MPost.query_all(limit_num=10000, kind=kind)
     for js_rec in js_recs:
         os.path.join('./templates/jshtml', js_rec.extinfo['html_path'])
-        if os.path.exists(os.path.join('./templates/jshtml', js_rec.extinfo['html_path'] + '.html')):
+        if os.path.exists(
+            os.path.join('./templates/jshtml', js_rec.extinfo['html_path'] + '.html')
+        ):
             pass
         else:
             print('Error: not found ' + js_rec.uid)

@@ -3,12 +3,12 @@ import json
 
 import tornado.escape
 import tornado.web
+
 from torcms.core import tools
 from torcms.core.base_handler import BaseHandler
 from torcms.model.usage_model import MUsage
-from torcms_maplet.model.json_model import MJson
-
 from torcms_maplet.core.webdog_to_geojson import webdog_to_geojson
+from torcms_maplet.model.json_model import MJson
 
 
 class GeoJsonHandler(BaseHandler):
@@ -71,7 +71,6 @@ class GeoJsonHandler(BaseHandler):
                 self.delete(url_arr[1])
 
     def post(self, *args, **kwargs):
-
         url_arr = self.parse_url(args[0])
 
         if len(url_arr) == 1:
@@ -95,13 +94,17 @@ class GeoJsonHandler(BaseHandler):
             'url': self.request.uri,
             'geojson': gid,
             'tdesc': '',
-            'login': 1 if self.get_current_user() else 0
+            'login': 1 if self.get_current_user() else 0,
         }
 
         map_hist = []
         if self.get_secure_cookie('map_hist'):
-            for xx in range(0, len(self.get_secure_cookie('map_hist').decode('utf-8')), 4):
-                map_hist.append(self.get_secure_cookie('map_hist').decode('utf-8')[xx: xx + 4])
+            for xx in range(
+                0, len(self.get_secure_cookie('map_hist').decode('utf-8')), 4
+            ):
+                map_hist.append(
+                    self.get_secure_cookie('map_hist').decode('utf-8')[xx : xx + 4]
+                )
 
         self.render(
             # '../torcms_maplet/tmpl/full_screen_draw.html',
@@ -110,10 +113,9 @@ class GeoJsonHandler(BaseHandler):
             userinfo=self.userinfo,
             unescape=tornado.escape.xhtml_unescape,
             gsoninfo=gsoninfo,
-            recent_apps=MUsage.query_recent(
-                self.userinfo.uid,
-                'm',
-                6)[1:] if self.userinfo else []
+            recent_apps=MUsage.query_recent(self.userinfo.uid, 'm', 6)[1:]
+            if self.userinfo
+            else [],
         )
 
     def index(self):
@@ -122,33 +124,33 @@ class GeoJsonHandler(BaseHandler):
             kwd={},
             userinfo=self.userinfo,
             unescape=tornado.escape.xhtml_unescape,
-            json_arr=MJson.query_recent(self.userinfo.uid, 20) if self.userinfo else []
+            json_arr=MJson.query_recent(self.userinfo.uid, 20) if self.userinfo else [],
         )
 
     @tornado.web.authenticated
     def list(self):
-
         kwd = {}
         self.render(
             '../torcms_maplet/tmpl/geojson/gson_recent.html',
             kwd=kwd,
             userinfo=self.userinfo,
             unescape=tornado.escape.xhtml_unescape,
-            json_arr=MJson.query_recent(num=20)
+            json_arr=MJson.query_recent(num=20),
         )
 
     @tornado.web.authenticated
     def edit(self, uid):
-
         postinfo = MJson.get_by_uid(uid)
         if postinfo:
             pass
         else:
             return self.show404()
 
-        self.render('../torcms_maplet/tmpl/geojson/gson_edit.html',
-                    postinfo=postinfo,
-                    userinfo=self.userinfo)
+        self.render(
+            '../torcms_maplet/tmpl/geojson/gson_edit.html',
+            postinfo=postinfo,
+            userinfo=self.userinfo,
+        )
 
     @tornado.web.authenticated
     def delete(self, uid):
@@ -173,8 +175,7 @@ class GeoJsonHandler(BaseHandler):
         for key in geojson.keys():
             out_arr = out_arr + geojson[key]['features']
 
-        out_dic = {"type": "FeatureCollection",
-                   "features": out_arr}
+        out_dic = {"type": "FeatureCollection", "features": out_arr}
 
         if rec:
             return json.dump(out_dic, self)
@@ -214,10 +215,12 @@ class GeoJsonHandler(BaseHandler):
                 if bcbc['coordinates'] in [[], [[None]]]:
                     return
 
-                bcbc = {'features': [{'geometry': bcbc,
-                                      "properties": {},
-                                      "type": "Feature"}],
-                        'type': "Feature"}
+                bcbc = {
+                    'features': [
+                        {'geometry': bcbc, "properties": {}, "type": "Feature"}
+                    ],
+                    'type': "Feature",
+                }
             return bcbc
 
         json_obj = json.loads(geojson_str)
@@ -227,11 +230,9 @@ class GeoJsonHandler(BaseHandler):
 
         for x in json_obj['features']:
             if x['type'] == 'Feature':
-
                 out_dic[index] = get_geometry(x)
                 index += 1
             elif x['type'] == 'FeatureCollection':
-
                 for y in x['features']:
                     out_dic[index] = get_geometry(y)
                     index += 1
@@ -263,7 +264,9 @@ class GeoJsonHandler(BaseHandler):
             return
 
         try:
-            MJson.add_or_update_json(uid, self.userinfo.uid, out_dic, post_data, version=3)
+            MJson.add_or_update_json(
+                uid, self.userinfo.uid, out_dic, post_data, version=3
+            )
             return_dic['status'] = 1
         except Exception:
             self.set_status(400)
@@ -331,13 +334,9 @@ class GeoJsonAjaxHandler(GeoJsonHandler):
                     'geojson': json.dumps(gson.json),
                 }
             else:
-                out_dic = {
-                    'uid': 0
-                }
+                out_dic = {'uid': 0}
         else:
-            out_dic = {
-                'uid': 0
-            }
+            out_dic = {'uid': 0}
         print('From GeoJson Ajax get ...')
         print(out_dic)
         return json.dump(out_dic, self)

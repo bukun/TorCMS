@@ -68,7 +68,6 @@ class MCollect:
 
     @staticmethod
     def query_pager_by_all(user_id, current_page_num=1):
-
         recs = (
             TabCollect.select(
                 TabCollect,
@@ -121,7 +120,6 @@ class MCollect:
 
     @staticmethod
     def query_pager_by_userid(user_id, kind, num=10):
-
         recs = (
             TabCollect.select(
                 TabCollect,

@@ -4,6 +4,7 @@ For full text searching.
 '''
 
 import json
+
 from config import CMS_CFG, post_cfg
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tool.whoosh_tool import YunSearch
@@ -113,7 +114,7 @@ class SearchHandler(BaseHandler):
             cat_enum=tag_enum,
             tag_enum=tag_enum,
             kwd={},
-            post_cfg=post_cfg
+            post_cfg=post_cfg,
         )
 
     def post(self, *args, **kwargs):
@@ -194,5 +195,5 @@ class SearchHandler(BaseHandler):
                 ),
                 userinfo=self.userinfo,
                 cfg=CMS_CFG,
-                post_cfg=post_cfg
+                post_cfg=post_cfg,
             )

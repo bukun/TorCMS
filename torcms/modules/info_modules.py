@@ -3,20 +3,19 @@
 Tornado Modules for infor.
 '''
 
-import tornado.web
 import bs4
-import config
+import tornado.web
 from html2text import html2text
 
+import config
 from config import post_cfg
 from torcms.core.tools import logger
 from torcms.model.category_model import MCategory
 from torcms.model.label_model import MPost2Label
 from torcms.model.post2catalog_model import MPost2Catalog
 from torcms.model.post_model import MPost
-from torcms.model.relation_model import MRelation
+from torcms.model.relation_model import MCorrelation, MRelation
 from torcms.model.usage_model import MUsage
-from torcms.model.relation_model import MCorrelation
 
 
 class InfoCategory(tornado.web.UIModule):
@@ -90,7 +89,6 @@ class InfoMostUsed(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-
         kind = kwargs.get('kind', args[0] if args else '1')
         num = kwargs.get('num', args[1] if len(args) > 1 else 6)
 
@@ -151,7 +149,6 @@ class InfoRecentUsed(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-
         kind = kwargs.get('kind', args[0] if args else '1')
         num = kwargs.get('num', args[1] if len(args) > 1 else 6)
 
@@ -451,7 +448,6 @@ class InfoList(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
-
         # info = args[0]
 
         info = kwargs.get('info', args[0])
@@ -479,6 +475,8 @@ class InfoList(tornado.web.UIModule):
             html2text=html2text,
             post_info=info,
         )
+
+
 class InfoRightNav(tornado.web.UIModule):
     '''
     Web site Additional navigation
@@ -490,7 +488,6 @@ class InfoRightNav(tornado.web.UIModule):
         Soup = bs4.BeautifulSoup(content, features="html.parser")
         # for text in Soup.find_all(["h2", "h3"]):
         for text in Soup.find_all(["h2"]):
-
             text_tag = text.a.parent.name
             title = text.contents[0]
             if text_tag == 'h3':
@@ -499,16 +496,14 @@ class InfoRightNav(tornado.web.UIModule):
             con_dic = {'title': title, 'href': href}
             con_arr.append(con_dic)
 
-        kwd = {
+        kwd = {}
+        return self.render_string(
+            'modules/info/info_right_nav.html', con_arr=con_arr, kwd=kwd
+        )
 
-        }
-        return self.render_string('modules/info/info_right_nav.html',
-                                  con_arr=con_arr,
-                                  kwd=kwd)
+
 class TutorialCatalog(tornado.web.UIModule):
-    '''
-
-    '''
+    ''' '''
 
     def render(self, *args, **kwargs):
         cat_id = args[0]
@@ -520,18 +515,21 @@ class TutorialCatalog(tornado.web.UIModule):
         if catinfo.pid == '0000':
             subcats = MCategory.query_sub_cat(cat_id)
             sub_cat_ids = [x.uid for x in subcats]
-            recs = MPost.query_total_cat_recent(sub_cat_ids, label=label, kind=catinfo.kind)
+            recs = MPost.query_total_cat_recent(
+                sub_cat_ids, label=label, kind=catinfo.kind
+            )
 
         else:
-            recs = MPost.query_cat_recent(cat_id, label=label, kind=catinfo.kind, order=order)
+            recs = MPost.query_cat_recent(
+                cat_id, label=label, kind=catinfo.kind, order=order
+            )
 
         kwd = {
-
             'router': config.post_cfg[catinfo.kind]['router'],
             'title': catinfo.name,
             'slug': catinfo.slug,
-            'kind': catinfo.kind
+            'kind': catinfo.kind,
         }
-        return self.render_string('modules/post/tutorial_catalog.html',
-                                  recs=recs,
-                                  kwd=kwd)
+        return self.render_string(
+            'modules/post/tutorial_catalog.html', recs=recs, kwd=kwd
+        )

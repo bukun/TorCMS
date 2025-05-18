@@ -3,6 +3,7 @@
 针对增删改查的权限进行处理。
 '''
 import json
+
 from config import ROLE_CFG
 from torcms.model.staff2role_model import MStaff2Role
 
@@ -32,7 +33,6 @@ def auth_view(method):
         if ROLE_CFG['view'] == '':
             pass
         elif self.current_user:
-
             if is_prived(self.userinfo.role, ROLE_CFG['view']):
                 return method(self, *args, **kwargs)
             else:
@@ -89,7 +89,6 @@ def auth_edit(method):
         wrapper.
         '''
         if self.current_user:
-
             if is_prived(self.userinfo.role, ROLE_CFG['edit']):
                 return method(self, *args, **kwargs)
             else:
@@ -199,18 +198,12 @@ def permission(action=''):
             print('Need role: ', f'_per_{action}')
 
             if self.current_user:
-
                 if self.userinfo.user_name == 'admin':
                     func(self, *args, **kwargs)
                 elif self.userinfo.extinfo.get(f'_per_{action}', 0) == 1:
                     func(self, *args, **kwargs)
                 else:
-
-                    kwd = {
-                        "ok": False,
-                        "status": 404,
-                        "msg": "没有权限"
-                    }
+                    kwd = {"ok": False, "status": 404, "msg": "没有权限"}
                     return json.dump(kwd, self, ensure_ascii=False)
             else:
                 kwd = {

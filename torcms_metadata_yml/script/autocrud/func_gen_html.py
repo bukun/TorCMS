@@ -10,16 +10,22 @@ def gen_input_add_Meta(crud_key, crud_val):
     '''
     Adding for HTML Input control.
     '''
-    if crud_key in ['pycsw_title', 'pycsw_abstract', 'pycsw_keywords', 'pycsw_identifier']:
-        html_str = HTML_TPL_DICT['input_add_hidden'].format(sig_en=crud_key,
-                                                            sig_zh=crud_val)
+    if crud_key in [
+        'pycsw_title',
+        'pycsw_abstract',
+        'pycsw_keywords',
+        'pycsw_identifier',
+    ]:
+        html_str = HTML_TPL_DICT['input_add_hidden'].format(
+            sig_en=crud_key, sig_zh=crud_val
+        )
     else:
         html_str = HTML_TPL_DICT['input_add'].format(
-            sig_en=crud_key,
-            sig_zh=crud_val,
-            sig_dic=''
+            sig_en=crud_key, sig_zh=crud_val, sig_dic=''
         )
     return html_str
+
+
 def gen_input_add(sig_dic):
     '''
     Adding for HTML Input control.
@@ -29,29 +35,38 @@ def gen_input_add(sig_dic):
             sig_en=sig_dic['en'],
             sig_zh=sig_dic['zh'],
             sig_dic=sig_dic['dic'][1],
-            sig_type=sig_dic['type'])
+            sig_type=sig_dic['type'],
+        )
     else:
-        html_str = HTML_TPL_DICT['input_add'].format(sig_en=sig_dic['en'],
-                                                     sig_zh=sig_dic['zh'],
-                                                     sig_dic=sig_dic['dic'][1],
-                                                     sig_type=sig_dic['type'])
+        html_str = HTML_TPL_DICT['input_add'].format(
+            sig_en=sig_dic['en'],
+            sig_zh=sig_dic['zh'],
+            sig_dic=sig_dic['dic'][1],
+            sig_type=sig_dic['type'],
+        )
     return html_str
+
 
 def gen_input_edit_Meta(crud_key, crud_val):
     '''
     Editing for HTML input control.
     '''
-    if crud_key in ['pycsw_title', 'pycsw_abstract', 'pycsw_keywords', 'pycsw_identifier']:
-        html_str = HTML_TPL_DICT['input_edit_hidden'].format(sig_en=crud_key,
-                                                             sig_zh=crud_val)
+    if crud_key in [
+        'pycsw_title',
+        'pycsw_abstract',
+        'pycsw_keywords',
+        'pycsw_identifier',
+    ]:
+        html_str = HTML_TPL_DICT['input_edit_hidden'].format(
+            sig_en=crud_key, sig_zh=crud_val
+        )
     else:
         html_str = HTML_TPL_DICT['input_edit'].format(
-            sig_en=crud_key,
-            sig_zh=crud_val,
-            sig_dic=''
-
+            sig_en=crud_key, sig_zh=crud_val, sig_dic=''
         )
     return html_str
+
+
 def gen_input_edit(sig_dic):
     '''
     Editing for HTML input control.
@@ -61,30 +76,37 @@ def gen_input_edit(sig_dic):
             sig_en=sig_dic['en'],
             sig_zh=sig_dic['zh'],
             sig_dic=sig_dic['dic'][1],
-            sig_type=sig_dic['type'])
+            sig_type=sig_dic['type'],
+        )
     else:
         html_str = HTML_TPL_DICT['input_edit'].format(
             sig_en=sig_dic['en'],
             sig_zh=sig_dic['zh'],
             sig_dic=sig_dic['dic'][1],
-            sig_type=sig_dic['type'])
+            sig_type=sig_dic['type'],
+        )
     return html_str
+
 
 def gen_input_view_Meta(crud_key, crud_val):
     '''
     Viewing the HTML text.
     '''
-    if crud_key in ['pycsw_title', 'pycsw_abstract', 'pycsw_keywords', 'pycsw_identifier','pycsw_xml','pycsw_anytext']:
+    if crud_key in [
+        'pycsw_title',
+        'pycsw_abstract',
+        'pycsw_keywords',
+        'pycsw_identifier',
+        'pycsw_xml',
+        'pycsw_anytext',
+    ]:
         html_str = ''
     elif crud_key == 'pycsw_links':
-        html_str = HTML_TPL_DICT['input_view_link'].format(
-            crud_key, crud_val
-        )
+        html_str = HTML_TPL_DICT['input_view_link'].format(crud_key, crud_val)
     else:
-        html_str = HTML_TPL_DICT['input_view'].format(
-            crud_key, crud_val,''
-        )
+        html_str = HTML_TPL_DICT['input_view'].format(crud_key, crud_val, '')
     return html_str
+
 
 def gen_input_view(sig_dic):
     '''
@@ -92,21 +114,30 @@ def gen_input_view(sig_dic):
     '''
     if sig_dic['en'] in ['tag_file_download', 'tag__file_download']:
         html_str = HTML_TPL_DICT['input_view_download'].format(
-            sig_zh=sig_dic['zh'], sig_unit=sig_dic['dic'][1])
+            sig_zh=sig_dic['zh'], sig_unit=sig_dic['dic'][1]
+        )
     elif sig_dic['en'] in [
-            'tag_access_link', 'tag_dmoz_url', 'tag_online_link',
-            'tag_event_url', 'tag_expert_home', 'tag_pic_url', 'tag_url',
-            'tag__data_doc', 'tag__report_doc'
+        'tag_access_link',
+        'tag_dmoz_url',
+        'tag_online_link',
+        'tag_event_url',
+        'tag_expert_home',
+        'tag_pic_url',
+        'tag_url',
+        'tag__data_doc',
+        'tag__report_doc',
     ]:
         html_str = HTML_TPL_DICT['input_view_link'].format(
-            sig_dic['en'], sig_dic['zh'], sig_dic['dic'][1])
-
+            sig_dic['en'], sig_dic['zh'], sig_dic['dic'][1]
+        )
 
     else:
-        html_str = HTML_TPL_DICT['input_view'].format(sig_dic['en'],
-                                                      sig_dic['zh'],
-                                                      sig_dic['dic'][1])
+        html_str = HTML_TPL_DICT['input_view'].format(
+            sig_dic['en'], sig_dic['zh'], sig_dic['dic'][1]
+        )
     return html_str
+
+
 def gen_input_list(crud_key, crud_val):
     '''
     For generating List view HTML file for INPUT.
@@ -117,7 +148,9 @@ def gen_input_list(crud_key, crud_val):
     <div class="col-sm-8">
     <span class="iga_pd_val">{{{{ postinfo.extinfo['{0}'][0] }}}}</span>
     </div>
-    '''.format(crud_key, crud_val)
+    '''.format(
+        crud_key, crud_val
+    )
     return out_str
 
 
@@ -145,9 +178,9 @@ def gen_select_add(sig_dic):
     {{{{_('{sig_zh}')}}}}</span></label>
     <div class="col-sm-9"><select id="{sig_en}" name="{sig_en}" class="form-control">
     {option_str}</select></div></div>
-    '''.format(sig_en=sig_dic['en'],
-               sig_zh=sig_dic['zh'],
-               option_str=option_str)
+    '''.format(
+        sig_en=sig_dic['en'], sig_zh=sig_dic['zh'], option_str=option_str
+    )
 
 
 def gen_select_edit(sig_dic):
@@ -163,7 +196,9 @@ def gen_select_edit(sig_dic):
         selected = "selected"
         {{% end %}}
         >{{{{_('{2}')}}}}</option>
-        '''.format(sig_dic['en'], key, val)
+        '''.format(
+            sig_dic['en'], key, val
+        )
         option_str += tmp_str
 
     return ''' <div class="form-group">
@@ -172,9 +207,9 @@ def gen_select_edit(sig_dic):
     <select id="{sig_en}" name="{sig_en}" class="form-control">
     {option_str}
     </select></div></div>
-    '''.format(sig_en=sig_dic['en'],
-               sig_zh=sig_dic['zh'],
-               option_str=option_str)
+    '''.format(
+        sig_en=sig_dic['en'], sig_zh=sig_dic['zh'], option_str=option_str
+    )
 
 
 def gen_select_view(sig_dic):
@@ -194,7 +229,9 @@ def gen_select_view(sig_dic):
           {{% end %}}
           {{% end %}}
        
-         '''.format(sig_en=sig_dic['en'], sig_key=key, sig_dic=val)
+         '''.format(
+            sig_en=sig_dic['en'], sig_key=key, sig_dic=val
+        )
         option_str += tmp_str
 
     return '''
@@ -205,8 +242,9 @@ def gen_select_view(sig_dic):
     {option_str}
     </div></div>
     {{% end %}}
-    '''.format(sig_zh=sig_dic['zh'], option_str=option_str,sig_en=sig_dic['en'])
-
+    '''.format(
+        sig_zh=sig_dic['zh'], option_str=option_str, sig_en=sig_dic['en']
+    )
 
 
 def gen_select_list(sig_dic):
@@ -219,7 +257,9 @@ def gen_select_list(sig_dic):
     dic_tmp = sig_dic['dic']
     for key in dic_tmp.keys():
         tmp_str = '''{{% if '{0}' in postinfo.extinfo and postinfo.extinfo["{0}"][0] == "{1}" %}}
-        {{{{_('{2}')}}}} {{% end %}}'''.format(sig_dic['en'], key, dic_tmp[key])
+        {{{{_('{2}')}}}} {{% end %}}'''.format(
+            sig_dic['en'], key, dic_tmp[key]
+        )
         view_jushi += tmp_str
 
     view_jushi += '''</span>'''
@@ -236,7 +276,9 @@ def gen_radio_list(sig_dic):
     dic_tmp = sig_dic['dic']
     for key in dic_tmp.keys():
         tmp_str = '''{{% if postinfo.extinfo['{0}'][0] == "{1}" %}} {{{{_('{2}')}}}} {{% end %}}
-        '''.format(sig_dic['en'], key, dic_tmp[key])
+        '''.format(
+            sig_dic['en'], key, dic_tmp[key]
+        )
         view_zuoxiang += tmp_str
 
     view_zuoxiang += '''</span>'''
@@ -253,7 +295,9 @@ def gen_checkbox_list(sig_dic):
     dic_tmp = sig_dic['dic']
     for key in dic_tmp.keys():
         tmp_str = '''{{% if "{0}" in postinfo.extinfo["{1}"] %}} {{{{_('{2}')}}}}  {{% end %}}
-        '''.format(key, sig_dic['en'], dic_tmp[key])
+        '''.format(
+            key, sig_dic['en'], dic_tmp[key]
+        )
         view_zuoxiang += tmp_str
 
     view_zuoxiang += '''</span>'''
@@ -330,7 +374,9 @@ def gen_radio_add(sig_dic):
     for key, val in dic_tmp.items():
         tmp_str = '''
         <input id="{0}" name="{0}" type="radio" class="form-control" value="{1}">{{{{_('{2}')}}}}
-       '''.format(sig_dic['en'], key, val)
+       '''.format(
+            sig_dic['en'], key, val
+        )
         radio_control_str += tmp_str
 
     # html_zuoxiang += '''</label>'''
@@ -339,9 +385,9 @@ def gen_radio_add(sig_dic):
     <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
     </a>{{{{_('{sig_zh}')}}}}</span>
     {{{{_('{radio_str}')}}}}</label>
-    '''.format(sig_en=sig_dic['en'],
-               sig_zh=sig_dic['zh'],
-               radio_str=radio_control_str)
+    '''.format(
+        sig_en=sig_dic['en'], sig_zh=sig_dic['zh'], radio_str=radio_control_str
+    )
 
 
 def gen_radio_edit(sig_dic):
@@ -352,7 +398,9 @@ def gen_radio_edit(sig_dic):
     <label  for="{0}"><span>
     <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
     </a>{{{{_('{1}')}}}}</span>
-    '''.format(sig_dic['en'], sig_dic['zh'])
+    '''.format(
+        sig_dic['en'], sig_dic['zh']
+    )
 
     dic_tmp = sig_dic['dic']
     for key in dic_tmp.keys():
@@ -362,7 +410,9 @@ def gen_radio_edit(sig_dic):
         checked
         {{% end %}}
         >{{{{_('{2}')}}}}
-        '''.format(sig_dic['en'], key, dic_tmp[key])
+        '''.format(
+            sig_dic['en'], key, dic_tmp[key]
+        )
         edit_zuoxiang += tmp_str
 
     edit_zuoxiang += '''</label>'''
@@ -376,7 +426,9 @@ def gen_radio_view(sig_dic):
     view_zuoxiang = '''
     <div class="col-sm-4"><span class="des">{{{{_('{0}')}}}}</span></div>
     <div class="col-sm-8">
-    '''.format(sig_dic['zh'])
+    '''.format(
+        sig_dic['zh']
+    )
 
     dic_tmp = sig_dic['dic']
     for key in dic_tmp.keys():
@@ -384,7 +436,9 @@ def gen_radio_view(sig_dic):
          {{% if  '{0}' in postinfo.extinfo and postinfo.extinfo['{0}'] == "{1}" %}}
          {{{{_('{2}')}}}}
          {{% end %}}
-         </span>'''.format(sig_dic['en'], key, dic_tmp[key])
+         </span>'''.format(
+            sig_dic['en'], key, dic_tmp[key]
+        )
         view_zuoxiang += tmp_str
 
     view_zuoxiang += '''</div>'''
@@ -397,13 +451,17 @@ def gen_checkbox_add(sig_dic):
     '''
     html_wuneisheshi = '''<label  for="{0}"><span>
     <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
-    </a>{{{{_('{1}')}}}}</span>'''.format(sig_dic['en'], sig_dic['zh'])
+    </a>{{{{_('{1}')}}}}</span>'''.format(
+        sig_dic['en'], sig_dic['zh']
+    )
 
     dic_tmp = sig_dic['dic']
     for key in dic_tmp.keys():
         tmp_str = '''
         <input id="{0}" name="{0}" type="checkbox" class="form-control" value="{1}">{{{{_('{2}')}}}}
-        '''.format(sig_dic['en'], key, dic_tmp[key])
+        '''.format(
+            sig_dic['en'], key, dic_tmp[key]
+        )
         html_wuneisheshi += tmp_str
 
     html_wuneisheshi += '''</label>'''
@@ -417,7 +475,9 @@ def gen_checkbox_edit(sig_dic):
     edit_wuneisheshi = '''<label for="{0}"><span>
      <a class="glyphicon glyphicon-star" style="color: red;font-size: xx-small;">
      </a>{{{{_('{1}')}}}}</span>
-     '''.format(sig_dic['en'], sig_dic['zh'])
+     '''.format(
+        sig_dic['en'], sig_dic['zh']
+    )
 
     dic_tmp = sig_dic['dic']
     for key in dic_tmp.keys():
@@ -426,7 +486,9 @@ def gen_checkbox_edit(sig_dic):
          {{% if "{1}" in postinfo.extinfo["{0}"] %}}
          checked="checked"
          {{% end %}}
-         >{{{{_('{2}')}}}} '''.format(sig_dic['en'], key, dic_tmp[key])
+         >{{{{_('{2}')}}}} '''.format(
+            sig_dic['en'], key, dic_tmp[key]
+        )
         edit_wuneisheshi += tmp_str
 
     edit_wuneisheshi += '''</label>'''
@@ -440,7 +502,9 @@ def gen_checkbox_view(sig_dic):
     view_zuoxiang = '''
     <div class="col-sm-4"><span class="des">{{{{_('{0}')}}}}</span></div>
     <div class="col-sm-8">
-    '''.format(sig_dic['zh'])
+    '''.format(
+        sig_dic['zh']
+    )
 
     dic_tmp = sig_dic['dic']
     for key in dic_tmp.keys():
@@ -450,7 +514,9 @@ def gen_checkbox_view(sig_dic):
          {{{{_('{2}')}}}}
          {{% end %}}
          </span>
-         '''.format(key, sig_dic['en'], dic_tmp[key])
+         '''.format(
+            key, sig_dic['en'], dic_tmp[key]
+        )
         view_zuoxiang += tmp_str
 
     view_zuoxiang += '''</div>'''

@@ -1,8 +1,9 @@
-import tornado.web
 import tornado.escape
-from torcms.core.base_handler import BaseHandler
+import tornado.web
 from owslib.csw import CatalogueServiceWeb
-from owslib.fes import PropertyIsEqualTo, PropertyIsLike, BBox
+from owslib.fes import BBox, PropertyIsEqualTo, PropertyIsLike
+
+from torcms.core.base_handler import BaseHandler
 
 
 class DirectorySearchHandler(BaseHandler):
@@ -66,9 +67,11 @@ class DirectorySearchHandler(BaseHandler):
         # r = requests.get(url)
         # pprint.pprint(r.text)
 
-        self.render('../torcms_dde/search/meta_index.html',
-                    meta_results=csw.records,
-                    userinfo=self.userinfo)
+        self.render(
+            '../torcms_dde/search/meta_index.html',
+            meta_results=csw.records,
+            userinfo=self.userinfo,
+        )
 
         # self.parseXML(r.text.encode(encoding='UTF-8'))
 
@@ -78,12 +81,11 @@ class DirectorySearchHandler(BaseHandler):
         post_data = self.get_request_arguments()
         startnum = post_data.get('startnum', 0)
 
-        startposition = int(startnum) * int(max_num) +1
+        startposition = int(startnum) * int(max_num) + 1
         print("," * 50)
         print(startnum)
         csw = CatalogueServiceWeb('https://drr.ikcest.org/csw')
         # birds_query_like = PropertyIsLike('dc:title', '%{0}%'.format(keyw))
-
 
         if ldrt:
             print('=' * 40)
@@ -99,25 +101,39 @@ class DirectorySearchHandler(BaseHandler):
 
             bbox_query = BBox(xx_ldrt)
             if isweb == '1':
-
                 # birds_query = PropertyIsLike('dc:title', '%{0}%'.format(keyw))
-                csw.getrecords2(constraints=[bbox_query], startposition=startposition,maxrecords=max_num)
+                csw.getrecords2(
+                    constraints=[bbox_query],
+                    startposition=startposition,
+                    maxrecords=max_num,
+                )
 
             else:
-
                 birds_query = PropertyIsLike('csw:AnyText', '%{0}%'.format(keyw))
-                csw.getrecords2(constraints=[birds_query, bbox_query], maxrecords=max_num, startposition=startposition,
-                                distributedsearch=True,
-                                hopcount=2)
+                csw.getrecords2(
+                    constraints=[birds_query, bbox_query],
+                    maxrecords=max_num,
+                    startposition=startposition,
+                    distributedsearch=True,
+                    hopcount=2,
+                )
         else:
             if isweb == '1':
-
                 birds_query = PropertyIsLike('dc:title', '%{0}%'.format(keyw))
-                csw.getrecords2(constraints=[birds_query], startposition=startposition,maxrecords=max_num)
+                csw.getrecords2(
+                    constraints=[birds_query],
+                    startposition=startposition,
+                    maxrecords=max_num,
+                )
             else:
                 birds_query = PropertyIsLike('csw:AnyText', '%{0}%'.format(keyw))
-                csw.getrecords2(constraints=[birds_query], maxrecords=max_num, startposition=startposition, distributedsearch=True,
-                                hopcount=2)
+                csw.getrecords2(
+                    constraints=[birds_query],
+                    maxrecords=max_num,
+                    startposition=startposition,
+                    distributedsearch=True,
+                    hopcount=2,
+                )
         print('-' * 20)
         print(isweb)
         print(csw.results)
@@ -134,12 +150,13 @@ class DirectorySearchHandler(BaseHandler):
         # r = requests.get(url)
         # pprint.pprint(r.text)
 
-        self.render('../torcms_dde/search/show_result.html',
-                    meta_results=csw.records,
-                    userinfo=self.userinfo,
-                    isweb=isweb,
-                    startnum = startnum
-                    )
+        self.render(
+            '../torcms_dde/search/show_result.html',
+            meta_results=csw.records,
+            userinfo=self.userinfo,
+            isweb=isweb,
+            startnum=startnum,
+        )
 
         # self.parseXML(r.text.encode(encoding='UTF-8'))
 
@@ -168,8 +185,13 @@ class DirectorySearchHandler(BaseHandler):
             rec = csw.records.get(uuid)
         else:
             birds_query = PropertyIsLike('csw:AnyText', uuid)
-            csw.getrecords2(constraints=[birds_query], maxrecords=20, startposition=0, distributedsearch=True,
-                            hopcount=2)
+            csw.getrecords2(
+                constraints=[birds_query],
+                maxrecords=20,
+                startposition=0,
+                distributedsearch=True,
+                hopcount=2,
+            )
             print(csw.results)
             for key in csw.records:
                 rec = csw.records[key]
@@ -178,16 +200,16 @@ class DirectorySearchHandler(BaseHandler):
             'title': '',
             'uid': '',
             'sizhi': '',
-
         }
 
-        self.render('../torcms_dde/search/show_rec.html',
-                    kws=out_dict,
-                    # meta_rec=csw.records.get(uuid),
-                    meta_rec=rec,
-                    unescape=tornado.escape.xhtml_unescape,
-                    userinfo=self.userinfo
-                    )
+        self.render(
+            '../torcms_dde/search/show_rec.html',
+            kws=out_dict,
+            # meta_rec=csw.records.get(uuid),
+            meta_rec=rec,
+            unescape=tornado.escape.xhtml_unescape,
+            userinfo=self.userinfo,
+        )
 
         # #
         # def parseXML(self, data):
@@ -212,7 +234,7 @@ class DirectorySearchHandler(BaseHandler):
         #                 meta_arr=meta_arr)
 
 
-class MyXML():
+class MyXML:
     def __init__(self, in_ele):
         self.element = in_ele
 

@@ -140,7 +140,6 @@ def check_tag():
         posts = MPost.query_all(kind=kind, limit=20000)
 
         for post in posts:
-
             p_catinfo = None
 
             post2catinfo = MPost2Catalog.get_first_category(post.uid)
@@ -154,7 +153,6 @@ def check_tag():
                 and post.extinfo.get('gcat0')
                 and p_catinfo
             ):
-
                 pass
             else:
                 the_url0 = '{site_url}/{kind_url}/{uid}'.format(

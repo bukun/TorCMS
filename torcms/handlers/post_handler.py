@@ -4,18 +4,11 @@ The basic HTML Page handler.
 '''
 
 import json
+import os
 import random
 import time
-from pathlib import Path
-import os
-
-# from tornado.template import Loader
-
-# loader = Loader(
-#     os.path.join(os.path.dirname(__file__), '../..', "templates"),
-# )
-
 from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
 
 import tornado.escape
 import tornado.gen
@@ -37,6 +30,12 @@ from torcms.model.post_hist_model import MPostHist
 from torcms.model.post_model import MPost
 from torcms.model.relation_model import MRelation
 from torcms.model.usage_model import MUsage
+
+# from tornado.template import Loader
+
+# loader = Loader(
+#     os.path.join(os.path.dirname(__file__), '../..', "templates"),
+# )
 
 
 def import_post(uid, post_data, extinfo={}):
@@ -166,6 +165,12 @@ class PostHandler(BaseHandler):
     '''
 
     executor = ThreadPoolExecutor(2)
+
+    def __str__(self):
+        return 'PostHandler'
+
+    def __repr__(self):
+        return 'PostHandler'
 
     def initialize(self, **kwargs):
         super().initialize()
@@ -461,6 +466,12 @@ class PostHandler(BaseHandler):
 
         else:
             print('无信息')
+
+        if catinfo:
+            pass
+        else:
+            return self.show404()
+
         kwd = self._the_view_kwd(postinfo)
 
         MPost.update_misc(postinfo.uid, count=True)
@@ -507,6 +518,14 @@ class PostHandler(BaseHandler):
         #     fo.write(result)
 
         # self.render(f'caches/{cache_file.name}')
+        p_cfg = post_cfg.get(postinfo.kind, None)
+
+        try:
+            p_type = post_cfg[catinfo.kind].get(
+                'show', post_cfg[catinfo.kind].get('router')
+            )
+        except:
+            p_type = ''
 
         self.render(
             tmpl,
@@ -525,10 +544,8 @@ class PostHandler(BaseHandler):
             ),
             recent_apps=recent_apps,
             cat_enum=cat_enum1,
-            router=post_cfg[catinfo.kind]['router'],
-            post_type=post_cfg[catinfo.kind].get(
-                'show', post_cfg[catinfo.kind].get('router')
-            ),
+            router=p_cfg['router'] if p_cfg else '',
+            post_type=p_type,
         )
 
     def _the_view_kwd(self, postinfo):
@@ -537,6 +554,7 @@ class PostHandler(BaseHandler):
         :param postinfo: the postinfo
         :return:  dict
         '''
+        p_cfg = post_cfg.get(postinfo.kind, None)
         kwd = {
             'pager': '',
             'url': self.request.uri,
@@ -551,7 +569,7 @@ class PostHandler(BaseHandler):
             'parentlist': MCategory.get_parent_list(),
             'parentname': '',
             'catname': '',
-            'router': post_cfg[postinfo.kind]['router'],
+            'router': p_cfg['router'] if p_cfg else '',
         }
         return kwd
 

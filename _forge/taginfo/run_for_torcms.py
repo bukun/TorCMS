@@ -6,19 +6,20 @@
 
 import os
 import sys
+from pathlib import Path
+
 # sys.path.append('./')
 # sys.path.append('../')
 import nltk
 from nltk import data
-from pathlib import Path
 
 data.path.append("./nltk_data/packages")
 import jieba.analyse
-from nltk.tokenize import word_tokenize
-from nltk.stem.lancaster import LancasterStemmer
-from torcms.model.relation_model import MCorrelation
-
 from gensim import corpora, models, similarities
+from nltk.stem.lancaster import LancasterStemmer
+from nltk.tokenize import word_tokenize
+
+from torcms.model.relation_model import MCorrelation
 
 
 def prepare_data(filepath):
@@ -90,9 +91,28 @@ def pre_process_cn(courses, low_freq_filter=True):
     texts_filtered_stopwords = texts_tokenized
 
     # 去除标点符号
-    english_punctuations = [',', '.', ':', ';', '?', '(', ')', '[', ']', '&', '!', '*', '@', '#', '$', '%']
-    texts_filtered = [[word for word in document if not word in english_punctuations] for document in
-                      texts_filtered_stopwords]
+    english_punctuations = [
+        ',',
+        '.',
+        ':',
+        ';',
+        '?',
+        '(',
+        ')',
+        '[',
+        ']',
+        '&',
+        '!',
+        '*',
+        '@',
+        '#',
+        '$',
+        '%',
+    ]
+    texts_filtered = [
+        [word for word in document if not word in english_punctuations]
+        for document in texts_filtered_stopwords
+    ]
 
     # 词干化
 
@@ -103,7 +123,9 @@ def pre_process_cn(courses, low_freq_filter=True):
     if low_freq_filter:
         all_stems = sum(texts_stemmed, [])
         stems_once = set(stem for stem in set(all_stems) if all_stems.count(stem) == 1)
-        texts = [[stem for stem in text if stem not in stems_once] for text in texts_stemmed]
+        texts = [
+            [stem for stem in text if stem not in stems_once] for text in texts_stemmed
+        ]
     else:
         texts = texts_stemmed
     return texts
@@ -120,15 +142,18 @@ def train_by_lsi(lib_texts):
     # logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
     dictionary = corpora.Dictionary(lib_texts)
-    corpus = [dictionary.doc2bow(text) for text in
-              lib_texts]  # doc2bow(): 将collection words 转为词袋，用两元组(word_id, word_frequency)表示
+    corpus = [
+        dictionary.doc2bow(text) for text in lib_texts
+    ]  # doc2bow(): 将collection words 转为词袋，用两元组(word_id, word_frequency)表示
     tfidf = models.TfidfModel(corpus)
     corpus_tfidf = tfidf[corpus]
 
     # 拍脑袋的：训练topic数量为10的LSI模型
     lsi = models.LsiModel(corpus_tfidf, id2word=dictionary, num_topics=10)
 
-    index = similarities.MatrixSimilarity(lsi[corpus])  # index 是 gensim.similarities.docsim.MatrixSimilarity 实例
+    index = similarities.MatrixSimilarity(
+        lsi[corpus]
+    )  # index 是 gensim.similarities.docsim.MatrixSimilarity 实例
 
     return (index, dictionary, lsi)
 
@@ -152,7 +177,6 @@ def do_for_file(filepath):
         pass
     else:
         return
-
 
     lib_texts = pre_process_cn(courses)
     # 库建立完成 -- 这部分可能数据很大，可以预先处理好，存储起来

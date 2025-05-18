@@ -86,7 +86,6 @@ class MLabel:
 
     @staticmethod
     def create_tag_with_uid(uid, tag_name):
-
         if TabTag.select().where(TabTag.uid == uid).count():
             return False
 

@@ -41,9 +41,7 @@ class CatalogList(tornado.web.UIModule):
 
 
 class CatalogContent(tornado.web.UIModule):
-    '''
-
-    '''
+    ''' '''
 
     def render(self, *args, **kwargs):
         slug = args[0]
@@ -59,13 +57,12 @@ class CatalogContent(tornado.web.UIModule):
         recs = MPost2Catalog.query_list_by_uid(slug, uid=uid)
         cats = MCategory.query_sub_cat(cat_id, order_uid=True)
         kwd = {
-
             'slug': slug,
             'userinfo': userinfo,
             'cat_id': cat_id,
             'cats': cats,
         }
 
-        return self.render_string('modules/catalog/catalog_content.html',
-                                  recs=recs,
-                                  kwd=kwd)
+        return self.render_string(
+            'modules/catalog/catalog_content.html', recs=recs, kwd=kwd
+        )

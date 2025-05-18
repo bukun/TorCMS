@@ -6,9 +6,9 @@ Handler for links.
 import json
 
 import tornado.web
-from torcms.core import privilege
+
 from config import CMS_CFG
-from torcms.core import tools
+from torcms.core import privilege, tools
 from torcms.core.base_handler import BaseHandler
 from torcms.model.link_model import MLink
 
@@ -137,7 +137,6 @@ class LinkHandler(BaseHandler):
         '''
         Try to edit the link.
         '''
-
 
         self.render(
             'misc/link/link_edit.html',

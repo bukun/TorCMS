@@ -3,9 +3,11 @@
 Reply of users.
 '''
 import time
+
 from peewee import JOIN
+
 from torcms.core import tools
-from torcms.model.core_tab import TabRole, TabPermission, TabRole2Permission
+from torcms.model.core_tab import TabPermission, TabRole, TabRole2Permission
 
 
 class MRole2Permission:
@@ -29,7 +31,10 @@ class MRole2Permission:
     def query_permission_by_role(role_id):
         query = (
             TabRole2Permission.select(
-                TabPermission.uid, TabPermission.name, TabPermission.action, TabPermission.controller
+                TabPermission.uid,
+                TabPermission.name,
+                TabPermission.action,
+                TabPermission.controller,
             )
             .join(TabPermission, JOIN.INNER)
             .switch(TabRole2Permission)
@@ -58,7 +63,6 @@ class MRole2Permission:
 
     @staticmethod
     def add_or_update(role_uid, per_id, kind_sig='1'):
-
         record = TabRole2Permission.select().where(
             (TabRole2Permission.role == role_uid)
             & (TabRole2Permission.permission == per_id)
@@ -68,9 +72,10 @@ class MRole2Permission:
             pass
 
         else:
-
             try:
-                TabRole2Permission.create(role=role_uid, permission=per_id, kind=kind_sig)
+                TabRole2Permission.create(
+                    role=role_uid, permission=per_id, kind=kind_sig
+                )
                 return True
             except Exception as err:
                 print(repr(err))

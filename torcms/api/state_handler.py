@@ -4,10 +4,12 @@ Handler for links.
 '''
 
 import json
+
 import tornado.web
-from torcms.core import tools, privilege
+
+from torcms.core import privilege, tools
 from torcms.core.base_handler import BaseHandler
-from torcms.model.process_model import MState, MTransition, MProcess
+from torcms.model.process_model import MProcess, MState, MTransition
 
 
 class StateHandler(BaseHandler):
@@ -55,7 +57,6 @@ class StateHandler(BaseHandler):
         elif url_arr[0] == '_add':
             self.add()
 
-
         else:
             self.redirect('misc/html/404.html')
 
@@ -66,7 +67,6 @@ class StateHandler(BaseHandler):
 
         post_data = self.request.arguments  # {'page': [b'1'], 'perPage': [b'10']}
         if 'pro' in post_data:
-
             process = post_data.get('pro')[0].decode('utf-8')
             recs = MState.query_by_pro_id(process)
         else:
@@ -75,7 +75,10 @@ class StateHandler(BaseHandler):
 
         for rec in recs:
             cur_pro = MProcess.get_by_uid(rec.process).get()
-            dic = {"label": str(rec.name)+' ['+ str(cur_pro.name) +'] ', "value": rec.uid}
+            dic = {
+                "label": str(rec.name) + ' [' + str(cur_pro.name) + '] ',
+                "value": rec.uid,
+            }
 
             dics.append(dic)
         out_dict = {"ok": True, "status": 0, 'data': dics}
@@ -124,7 +127,7 @@ class StateHandler(BaseHandler):
                 "name": rec.name,
                 "state_type": rec.state_type,
                 "description": rec.description,
-                "process": process.name
+                "process": process.name,
             }
 
             dics.append(dic)
@@ -165,33 +168,18 @@ class StateHandler(BaseHandler):
             the_pro_arr.append(post_data[key])
 
         for process in the_pro_arr:
-
             exis_rec = MState.get_by_pro_statename(process, post_data['name'])
 
             if exis_rec.count() > 0:
-
-                output = {
-                    "ok": False,
-                    "status": 404,
-                    "msg": "该流程下已存在当前状态，修改失败"
-                }
+                output = {"ok": False, "status": 404, "msg": "该流程下已存在当前状态，修改失败"}
             else:
-
                 post_data["process"] = process
 
                 if MState.update(uid, post_data):
-                    output = {
-                        "ok": True,
-                        "status": 0,
-                        "msg": "更新状态成功"
-                    }
+                    output = {"ok": True, "status": 0, "msg": "更新状态成功"}
 
                 else:
-                    output = {
-                        "ok": False,
-                        "status": 404,
-                        "msg": "更新状态失败"
-                    }
+                    output = {"ok": False, "status": 404, "msg": "更新状态失败"}
 
         return json.dump(output, self, ensure_ascii=False)
 
@@ -228,27 +216,14 @@ class StateHandler(BaseHandler):
                 exis_rec = MState.get_by_pro_statename(process, rec.name)
 
                 if exis_rec.count() > 0:
-                    output = {
-                        "ok": False,
-                        "status": 404,
-                        "msg": "该流程下已存在当前状态，修改失败"
-                    }
+                    output = {"ok": False, "status": 404, "msg": "该流程下已存在当前状态，修改失败"}
                 else:
-
                     post_data["process"] = process
                     if MState.update_process(uid, post_data):
-                        output = {
-                            "ok": True,
-                            "status": 0,
-                            "msg": "更新流程成功"
-                        }
+                        output = {"ok": True, "status": 0, "msg": "更新流程成功"}
 
                     else:
-                        output = {
-                            "ok": False,
-                            "status": 404,
-                            "msg": "更新流程失败"
-                        }
+                        output = {"ok": False, "status": 404, "msg": "更新流程失败"}
 
         return json.dump(output, self, ensure_ascii=False)
 
@@ -280,35 +255,18 @@ class StateHandler(BaseHandler):
             the_pro_arr.append(post_data[key])
 
         for process in the_pro_arr:
-
             post_data["process"] = process
 
             exis_rec = MState.get_by_pro_statename(process, post_data['name'])
             if exis_rec.count() > 0:
-               
-
-                output = {
-                    "ok": False,
-                    "status": 404,
-                    "msg": "该流程下已存在当前状态，添加失败"
-                }
+                output = {"ok": False, "status": 404, "msg": "该流程下已存在当前状态，添加失败"}
 
             else:
-
                 state_uid = MState.create(post_data)
                 if state_uid:
-
-                    output = {
-                        "ok": True,
-                        "status": 0,
-                        "msg": "添加状态成功"
-                    }
+                    output = {"ok": True, "status": 0, "msg": "添加状态成功"}
                 else:
-                    output = {
-                        "ok": False,
-                        "status": 404,
-                        "msg": "添加状态失败"
-                    }
+                    output = {"ok": False, "status": 404, "msg": "添加状态失败"}
 
         return json.dump(output, self, ensure_ascii=False)
 
@@ -327,16 +285,9 @@ class StateHandler(BaseHandler):
         MTransition.delete_by_state(state_id)
 
         if MState.delete(state_id):
-            output = {"ok": True,
-                      "status": 0,
-                      "msg": "删除状态成功"
-                      }
+            output = {"ok": True, "status": 0, "msg": "删除状态成功"}
         else:
-            output = {
-                "ok": False,
-                "status": 404,
-                "msg": "删除状态失败"
-            }
+            output = {"ok": False, "status": 404, "msg": "删除状态失败"}
 
         return json.dump(output, self, ensure_ascii=False)
 
@@ -352,15 +303,8 @@ class StateHandler(BaseHandler):
             MTransition.delete_by_state(state_id)
 
             if MState.delete(state_id):
-                output = {"ok": True,
-                          "status": 0,
-                          "msg": "删除状态成功"
-                          }
+                output = {"ok": True, "status": 0, "msg": "删除状态成功"}
             else:
-                output = {
-                    "ok": False,
-                    "status": 404,
-                    "msg": "删除状态失败"
-                }
+                output = {"ok": False, "status": 404, "msg": "删除状态失败"}
 
         return json.dump(output, self, ensure_ascii=False)

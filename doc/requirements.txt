@@ -6,18 +6,15 @@ peewee >= 3.0.16
 Pillow
 tornado
 Whoosh
-# wtforms==2.3.3  # Deprecated
-# wtforms-tornado # the module files were copied into the project.
-tornado-wtforms
 email-validator
 psycopg2-binary
 redis
 pyyaml
 openpyxl
 requests
-
-# css_html_js_minify # replaced with htmlmin since it needs Python 3.6 above.
-htmlmin
+email_validator
+django
+wtforms
 jupyter
 pyjwt==2.8.0
 

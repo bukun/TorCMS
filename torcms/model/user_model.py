@@ -6,9 +6,9 @@ import time
 
 from config import CMS_CFG
 from torcms.core import tools
+from torcms.model.abc_model import MHelper
 from torcms.model.core_tab import TabMember
 from torcms.model.staff2role_model import MStaff2Role
-from torcms.model.abc_model import MHelper
 
 
 class MUser:
@@ -217,7 +217,6 @@ class MUser:
 
     @staticmethod
     def update_extinfo(user_id, extinfo):
-
         out_dic = {'success': False, 'code': '00'}
 
         cur_info = MUser.get_by_uid(user_id)
@@ -239,9 +238,8 @@ class MUser:
 
     @staticmethod
     def remove_extinfo(user_id, item):
-
         out_dic = {'success': False, 'code': '00'}
-        userinfo =MUser.get_by_uid(user_id)
+        userinfo = MUser.get_by_uid(user_id)
         userinfo.extinfo.pop(item)
 
         try:
@@ -255,6 +253,7 @@ class MUser:
             out_dic['code'] = '91'
 
         return out_dic
+
     @staticmethod
     def update_time_reset_passwd(user_name, the_time):
         '''
@@ -340,7 +339,6 @@ class MUser:
         perms = MStaff2Role.query_permissions(userinfo.uid)
         # 重新分配权限
         for key in perms:
-
             cur_extinfo[f"_per_{key['permission']}"] = 1
 
         entry = TabMember.update(extinfo=cur_extinfo).where(
@@ -401,7 +399,6 @@ class MUser:
             '''
             pass
         elif not tools.check_username_valid(post_data['user_name']):
-
             out_dic['code'] = '11'
             return out_dic
 
@@ -443,6 +440,7 @@ class MUser:
             out_dic['uid'] = uid
 
         except Exception as err:
+            print('Error: create user failed.')
             print(repr(err))
             out_dic['code'] = '91'
         return out_dic
@@ -496,12 +494,13 @@ class MUser:
         return TabMember.select().count(None)
 
     @staticmethod
-    def query_pager_by_slug(current_page_num=1, type='',user_name='', num=CMS_CFG['list_num']):
+    def query_pager_by_slug(
+        current_page_num=1, type='', user_name='', num=CMS_CFG['list_num']
+    ):
         '''
         Query pager
         '''
         if type:
-
             return (
                 TabMember.select()
                 .where(TabMember.extinfo['ext_type'] == type)
@@ -509,7 +508,11 @@ class MUser:
                 .paginate(current_page_num, num)
             )
         elif user_name:
-            return TabMember.select().where(TabMember.user_name.contains(user_name)).paginate(current_page_num, num)
+            return (
+                TabMember.select()
+                .where(TabMember.user_name.contains(user_name))
+                .paginate(current_page_num, num)
+            )
         else:
             return TabMember.select().paginate(current_page_num, num)
 

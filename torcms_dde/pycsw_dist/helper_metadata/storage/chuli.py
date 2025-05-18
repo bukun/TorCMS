@@ -1,7 +1,8 @@
 import sys
 from pathlib import Path
-from openpyxl import load_workbook
 from xml.sax.saxutils import escape
+
+from openpyxl import load_workbook
 
 inws = Path('./xx_outws')
 
@@ -59,14 +60,13 @@ for xlsx_file in inws.rglob('*.xlsx'):
     try:
         print(xlsx_file.name)
         wb = load_workbook(xlsx_file)
-        del (wb)
+        del wb
     except:
         print('Error:', xlsx_file.name)
         sys.exit()
 
 idx = 1
 for xlsx_file in inws.rglob('*.xlsx'):
-
     sig = f'sig{idx}_'
 
     idx = idx + 1
@@ -98,7 +98,6 @@ for xlsx_file in inws.rglob('*.xlsx'):
 
     outfile = outws / (sig + v1 + '.xml')
     with open(outfile, 'w') as fo:
-
         fo.write(tmpl_0)
         fo.write('\n')
         fo.write(tp_identifier.format(sig + v1.strip()))

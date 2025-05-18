@@ -3,23 +3,27 @@
 '''
 Handlers for Map application.
 '''
+import os
 import random
 import time
 from pathlib import Path
-import os
+
 import tornado.web
+
 import config
 from config import post_cfg
 from torcms.core.base_handler import BaseHandler
-from torcms.handlers.post_handler import PostHandler
-from torcms.model.post_model import MPost
-from torcms_maplet.model.layout_model import MLayout
-from torcms.model.category_model import MCategory
-from torcms.model.post2catalog_model import MPost2Catalog
-from torcms.model.label_model import MPost2Label
-from torcms.core.tools import logger
-from torcms.model.usage_model import MUsage
 from torcms.core.tool.sqlite_helper import MAcces
+from torcms.core.tools import logger
+from torcms.handlers.post_handler import PostHandler
+from torcms.model.category_model import MCategory
+from torcms.model.label_model import MPost2Label
+from torcms.model.post2catalog_model import MPost2Catalog
+from torcms.model.post_model import MPost
+from torcms.model.usage_model import MUsage
+from torcms_maplet.model.layout_model import MLayout
+
+
 class MapPostHandler(PostHandler):
     '''
     For meta handler of map.
@@ -39,7 +43,6 @@ class MapPostHandler(PostHandler):
             'recent': '/post_list/recent',
             'refresh': '/post_list/_refresh',
             '_refresh': '/post_list/_refresh',
-
         }
         sig = url_arr[0]
         for sig_enum in direct_dic:
@@ -52,7 +55,6 @@ class MapPostHandler(PostHandler):
             'modify': '_edit',
             'edit': '_edit',
             'delete': '_delete',
-
         }
         sig = url_arr[0]
         for sig_enum in pre_dic:
@@ -63,7 +65,6 @@ class MapPostHandler(PostHandler):
         return True
 
     def get(self, *args):
-
         url_str = args[0]
         url_arr = self.parse_url(url_str)
         # print('from map post get')
@@ -99,8 +100,7 @@ class MapPostHandler(PostHandler):
                 'info': '404. Page not found!',
             }
             self.set_status(404)
-            self.render('misc/html/404.html', kwd=kwd,
-                        userinfo=self.userinfo )
+            self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
     def ext_view_kwd(self, postinfo):
         post_data = self.get_request_arguments()
@@ -110,7 +110,7 @@ class MapPostHandler(PostHandler):
         out_dic = {
             'marker': 1 if 'marker' in post_data else 0,
             'geojson': post_data['gson'] if 'gson' in post_data else '',
-            'map_hist_arr': self.__extra_view(postinfo.uid)
+            'map_hist_arr': self.__extra_view(postinfo.uid),
         }
         if 'zoom' in post_data:
             out_dic['vzoom'] = post_data['zoom']
@@ -135,15 +135,18 @@ class MapPostHandler(PostHandler):
         self.set_secure_cookie('map_hist', (app_id + qian)[:20])
         map_hist = []
         if self.get_secure_cookie('map_hist'):
-            for idx in range(0, len(self.get_secure_cookie('map_hist').decode('utf-8')), 4):
-                map_hist.append(self.get_secure_cookie('map_hist').decode('utf-8')[idx: idx + 4])
+            for idx in range(
+                0, len(self.get_secure_cookie('map_hist').decode('utf-8')), 4
+            ):
+                map_hist.append(
+                    self.get_secure_cookie('map_hist').decode('utf-8')[idx : idx + 4]
+                )
         return map_hist
+
     def viewinfo(self, postinfo):
         '''
         查看 Post.
         '''
-
-
 
         __ext_catid = postinfo.extinfo.get('def_cat_uid', '')
         cat_enum1 = MCategory.get_qian2(__ext_catid[:2]) if __ext_catid else []
@@ -205,8 +208,6 @@ class MapPostHandler(PostHandler):
         #         post_type=post_cfg[catinfo.kind].get('show', post_cfg[catinfo.kind].get('router')),
         #     )
 
-
-
         # self.render(f'caches/{cache_file.name}')
 
         self.render(
@@ -227,8 +228,11 @@ class MapPostHandler(PostHandler):
             recent_apps=recent_apps,
             cat_enum=cat_enum1,
             router=post_cfg[catinfo.kind]['router'],
-            post_type=post_cfg[catinfo.kind].get('show', post_cfg[catinfo.kind].get('router')),
+            post_type=post_cfg[catinfo.kind].get(
+                'show', post_cfg[catinfo.kind].get('router')
+            ),
         )
+
     def ext_tmpl_view(self, rec):
         if 'fullscreen' in self.request.arguments:
             if 'version' in self.request.arguments:

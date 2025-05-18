@@ -39,4 +39,3 @@ class CalcInfo(BaseHandler):
         # recs = self.minfo.query_all()
         # for x in recs:
         #     print(x.uid, x.extinfo)
-

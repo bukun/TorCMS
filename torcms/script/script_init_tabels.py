@@ -9,12 +9,14 @@ from playhouse.postgres_ext import BinaryJSONField
 import config
 from torcms.model.core_tab import (
     TabCollect,
+    TabCorrelation,
     TabEntity,
     TabEntity2User,
     TabEvaluation,
     TabLink,
     TabLog,
     TabMember,
+    TabPermission,
     TabPost,
     TabPost2Tag,
     TabPostHist,
@@ -23,19 +25,27 @@ from torcms.model.core_tab import (
     TabRel,
     TabReply,
     TabReplyid,
+    TabRole,
+    TabRole2Permission,
+    TabStaff2Role,
     TabTag,
     TabUsage,
     TabUser2Reply,
     TabWiki,
     TabWikiHist,
-    TabCorrelation,
-    TabRole,
-    TabPermission,
-    TabRole2Permission,
-    TabStaff2Role,
+)
+from torcms.model.process_model import (
+    TabAction,
+    TabPermissionAction,
+    TabProcess,
+    TabRequest,
+    TabRequestAction,
+    TabState,
+    TabTransition,
+    TabTransitionAction,
 )
 
-from torcms.model.process_model import (TabState,TabTransition,TabAction,TabRequest,TabRequestAction,TabTransitionAction,TabProcess,TabPermissionAction)
+
 def create_table(the_table):
     '''
     Create a certain table.
@@ -109,7 +119,6 @@ def run_migrate(*args):
         conn.commit()
     except Exception as err:
         print(repr(err))
-
 
     ###############################################################################################
     try:
@@ -321,6 +330,3 @@ def run_migrate(*args):
         print(repr(err))
 
     print('Migration finished.')
-
-
-

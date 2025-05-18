@@ -22,7 +22,6 @@ class RatingHandler(BaseHandler):
         super().initialize()
 
     def post(self, *args, **kwargs):
-
         url_str = args[0]
 
         url_arr = self.parse_url(url_str)

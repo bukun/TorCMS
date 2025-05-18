@@ -1,18 +1,18 @@
 # -*- coding:utf-8 -*-
 
 import os
+
 import html2text
 import tornado.escape
-
-from whoosh.qparser import QueryParser
-from whoosh.query import And, Term
 from whoosh.analysis import StemmingAnalyzer
 from whoosh.fields import ID, TEXT, Schema
 from whoosh.index import create_in, open_dir
+from whoosh.qparser import QueryParser
+from whoosh.query import And, Term
 
+from config import SITE_CFG, post_cfg
 from torcms.model.post_model import MPost
 from torcms.model.wiki_model import MWiki
-from config import post_cfg, SITE_CFG
 
 try:
     from jieba.analyse import ChineseAnalyzer
@@ -88,7 +88,6 @@ class YunSearch:
             pass
 
     def search_pager(self, keyword, catid='', page_index=1, doc_per_page=10):
-
         queryit = self.parser.parse(keyword)
         if catid == '':
             pass
@@ -98,7 +97,7 @@ class YunSearch:
             queryres = self.whbase.searcher().search(
                 queryit, limit=page_index * doc_per_page
             )
-            return queryres[(page_index - 1) * doc_per_page: page_index * doc_per_page]
+            return queryres[(page_index - 1) * doc_per_page : page_index * doc_per_page]
         finally:
             pass
 
@@ -115,9 +114,9 @@ def do_for_document(rand=True, kind='', _=None):
 
     for rec in recs:
         text2 = (
-                rec.title
-                + ','
-                + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
+            rec.title
+            + ','
+            + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
         )
 
         writer = TOR_IDX.writer()
@@ -139,9 +138,9 @@ def do_for_wiki(rand=True, _=''):
 
     for rec in recs:
         text2 = (
-                rec.title
-                + ','
-                + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
+            rec.title
+            + ','
+            + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
         )
 
         writer = TOR_IDX.writer()
@@ -163,9 +162,9 @@ def do_for_page(rand=True, _=''):
 
     for rec in recs:
         text2 = (
-                rec.title
-                + ','
-                + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
+            rec.title
+            + ','
+            + html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
         )
 
         writer = TOR_IDX.writer()
@@ -200,5 +199,5 @@ def run():
     kind_arr = []
     for key, value in post_cfg.items():
         kind_arr.append(key)
- 
+
     gen_whoosh_database(kind_arr=kind_arr)

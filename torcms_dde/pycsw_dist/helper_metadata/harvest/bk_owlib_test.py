@@ -3,7 +3,6 @@ import sys
 sys.path.append('./')
 from owslib.csw import CatalogueServiceWeb
 
-
 csw = CatalogueServiceWeb('https://ddemd.deep-time.org/dcsw/csw.py?', version='2.0.2')
 # csw = CatalogueServiceWeb('https://ddemd.deep-time.org/dcsw/csw.py?', version='3.0.0')
 # csw = CatalogueServiceWeb('http://101.200.190.76:6670/pycsw/pycsw.py?', version='2.0.2')
@@ -19,7 +18,6 @@ print(csw.identification.type)
 
 # csw.getdomain('GetRecords.resultType')
 print(
-
     # csw.results
 )
 # {'values': ['results', 'validate', 'hits'], 'parameter': 'GetRecords.resultType', 'type': 'csw:DomainValuesType'}
@@ -29,11 +27,7 @@ print(
 print('x' * 40)
 
 
-from owslib.fes import PropertyIsEqualTo, PropertyIsLike, BBox
-
-from owslib.fes import PropertyIsEqualTo, PropertyIsLike, BBox, PropertyIsNull
-from owslib.fes import Not
-
+from owslib.fes import BBox, Not, PropertyIsEqualTo, PropertyIsLike, PropertyIsNull
 
 keyw = '青'
 # csw = CatalogueServiceWeb('http://csw-drr.osgeo.cn:8827/pycsw/csw.py?')

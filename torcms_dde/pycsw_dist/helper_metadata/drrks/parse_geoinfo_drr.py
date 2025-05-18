@@ -3,15 +3,13 @@
 '''
 
 import os
-from pathlib import Path
-from osgeo import ogr
-import fiona
-from pyproj import Proj
-from pyproj import CRS
-from osgeo import osr
 import shutil
 import subprocess
+from pathlib import Path
 
+import fiona
+from osgeo import ogr, osr
+from pyproj import CRS, Proj
 
 target = osr.SpatialReference()
 target.ImportFromEPSG(4326)
@@ -20,8 +18,9 @@ inws = Path('/pb1/drr_datasets')
 
 workdir = Path('/vb1/tmp')
 
+
 def get_geo(wdir):
-    a,b,c,d = -180, -90, 180, 90
+    a, b, c, d = -180, -90, 180, 90
     sig = False
     for wfile in wdir.rglob('*.shp'):
         sig = True
@@ -32,9 +31,7 @@ def get_geo(wdir):
         # env = lyr.GetEnvelope()
         ds = fiona.open(wfile)
 
-
         # print(ds.crs)
-
 
         try:
             crs = CRS(ds.crs)
@@ -49,8 +46,8 @@ def get_geo(wdir):
         p = Proj(crs)
         # print(p)
 
-        ll = p(ds.bounds[0], ds.bounds[1], inverse = True)
-        ur  = p(ds.bounds[2], ds.bounds[3], inverse = True)
+        ll = p(ds.bounds[0], ds.bounds[1], inverse=True)
+        ur = p(ds.bounds[2], ds.bounds[3], inverse=True)
         # srcp = osr.SpatialReference()
         # srcp.ImportFromEPSG(int(ds.crs['init'].split(':')[-1]))
         # trans = osr.CoordinateTransformation(srcp, target)
@@ -71,40 +68,38 @@ def get_geo(wdir):
             d = ur[1]
 
     if sig:
-        return a,b,c,d
+        return a, b, c, d
     else:
         return None
 
-
         # print(ext)
         # print(env)
+
 
 def clean():
     for wfile in workdir.rglob('*'):
         if wfile.is_file():
             wfile.unlink()
 
+
 def walk_dir(the_sig):
     os.chdir(workdir)
 
     for wfile in inws.rglob('*.7z'):
-
         clean()
         if wfile.exists():
             pass
         else:
             continue
-        shutil.copy(wfile, workdir / wfile.name )
+        shutil.copy(wfile, workdir / wfile.name)
         file7z = workdir / wfile.name
         if file7z.exists():
-
             subprocess.run(['7z', 'x', f'{file7z}'])
             print('=' * 40)
             print(wfile)
             uu = get_geo(workdir)
             print(uu)
         # break
-
 
         # print('=' * 40)
         # print(wdir)

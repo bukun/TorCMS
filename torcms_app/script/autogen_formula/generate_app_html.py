@@ -4,6 +4,7 @@
 自动生成根据进行转换的APP
 '''
 import os
+
 import yaml
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -95,7 +96,7 @@ def get_show_json(uu):
             res_tmp_str = res_tpl.replace('aaaa', mm)
             res_tmp_str = res_tmp_str.replace('bbbb', 'result["{0}"]'.format(mm))
             res_str += res_tmp_str
-    return (res_str)
+    return res_str
 
 
 def get_calc_it(uu):
@@ -125,7 +126,7 @@ def get_calc_it(uu):
             out_dic += tmp_str
     # out_dic += '}'
     do_equa_str += out_dic
-    return (do_equa_str)
+    return do_equa_str
 
 
 def get_rule(equa):
@@ -193,7 +194,9 @@ def gen_out(sig, uuin, out_dir_sig):
 
         out_str = cnts
 
-    with open('./templates/jshtml/1_auto/{0}/{1}.html'.format(out_dir_sig, sig), 'w') as fo:
+    with open(
+        './templates/jshtml/1_auto/{0}/{1}.html'.format(out_dir_sig, sig), 'w'
+    ) as fo:
         fo.write(out_str)
 
     out_str2 = ''
@@ -214,7 +217,9 @@ def gen_out(sig, uuin, out_dir_sig):
         cnts = cnts.replace('resres', get_calc_it(uu))
         out_str2 = cnts
 
-    with open('./templates/jshtml/1_auto/{0}/{1}_js.html'.format(out_dir_sig, sig), 'w') as fo:
+    with open(
+        './templates/jshtml/1_auto/{0}/{1}_js.html'.format(out_dir_sig, sig), 'w'
+    ) as fo:
         fo.write(out_str2)
 
 
@@ -234,5 +239,6 @@ def run_gen_formula():
 
                     gen_out(tsig[1:], s, out_dir_sig)
 
-if  __name__ == '__main__':
+
+if __name__ == '__main__':
     run_gen_formula()

@@ -5,26 +5,25 @@ TorCMS Introduction
 Status
 ==============================
 
-.. image:: https://travis-ci.org/bukun/TorCMS.svg?branch=master
-    :target: https://travis-ci.org/bukun/TorCMS
-
 .. image:: https://img.shields.io/pypi/v/torcms.svg
     :target: https://pypi.python.org/pypi/torcms/
 
 .. image:: https://img.shields.io/pypi/pyversions/torcms.svg
     :target: https://pypi.python.org/pypi/torcms/
 
-Checking ``torcms`` with ``pylint`` using default configuration (Under Debian 11.0),
+Checking ``torcms`` with ``pylint`` using default configuration (Under Debian 12.0),
 gets score greater than 8.9.
 
 Introduction
 ==============================
 
 Flexible, extensible web CMS framework built on Tornado and Peewee,
-compatible with Python 3.7 and above. Using PostgreSQL with JSON
-extension as the database( postgresql-server >= 11.0 ).
+compatible with Python 3.9 and above. Using PostgreSQL with JSON
+extension as the database( postgresql-server >= 13.0 ).
 
-pypi: The kernel of this CMS has been submit to pypi.
+In 2025, TorCMS had been integrated with Django for backend administration.
+
+pypi: TorCMS has been submit to pypi.
 https://pypi.python.org/pypi/torcms . Could be installed via:
 
 ::
@@ -35,11 +34,12 @@ Features
 ==============================
 
 - Build on Tornado, only with Web features, which made it is simple to use.
+- Integrated with Django for backend administration.
 - Markdown editor, make your HTML clean and clear.
 - Carefull desinged model for conents. Post, Info, Page, Wiki as default.
 - User roles for editing.
 - Full text search with Whoosh.
-- PostgreSQL 9.4 above, with JSONB, which makes the framework extensible.
+- PostgreSQL 13.0 above, with JSONB, which makes the framework extensible.
 - Using XLXS, could be parsed by ``openpyxl``, to define the schema of the database.
 - Access database via Peewee.
 - SASS sub-project for Style.
@@ -48,11 +48,9 @@ Features
 Application
 ==============================
 
--  http://drr.ikcest.org (Disaster Risk Reduction Knowledge Service of UNESCO)
--  http://wdcrre.data.ac.cn/ (World data center for Renewable Resources and Environment)
--  http://www.wds-china.org/ (ICSU-WDS, World Data System China)
 -  https://www.osgeo.cn (OSGeo China Chapter)
-
+-  https://ikcest-drr.data.ac.cn/ (Disaster Risk Reduction Knowledge Service of UNESCO)
+-  http://wdcrre.data.ac.cn/ (World data center for Renewable Resources and Environment)
 
 -  http://www.maphub.cn (Merged into https://www.osgeo.cn)
 -  http://www.yunsuan.org (Merged into https://www.osgeo.cn)
@@ -99,9 +97,9 @@ And, create hstore extension in the database.
 For Python
 ----------
 
-You should be under Python 3.4 or Python 3.5.
+You should be use Python 3.9 above.
 
-Install libs for Python 3.4 or 3.5,
+Install libs,
 
 ::
 
@@ -116,7 +114,7 @@ If you are to use Python of OS system directly, install libs as:
 
 ::
 
-    sudo apt isntall -y python3-tornado python3-requests python3-openpyxl python3-markdown python3-htmlmin
+    sudo apt isntall -y python3-tornado python3-requests python3-openpyxl python3-markdown
 
 How to Run
 =========================
@@ -247,8 +245,17 @@ then run as follow:
 
 ::
 
-   python3 -m pytest tester --cov=./tester --cov-report=html
+   python3 -m pytest torcms/tests --cov=./torcms/tests --cov-report=html
 
+Test vai Tox
+====================
+
+Activate virutal environment, and install `tox` .
+Then run with `tox.int` :
+
+::
+
+   tox
 
 
 Build the API documents
@@ -279,21 +286,10 @@ First, build the distribution.
 
 ::
 
-    python setup.py sdist
+    python3 setup.py sdist
 
 Then, upload to the website.
 
 ::
 
     twine upload dist/torcms-version.tar.gz
-
-
-
-
-Application
-========================================
-
--  http://www.osgeo.cn (OSGeo中国中心)
--  http://www.wds-china.org (世界数据系统中国)
--  http://wdcrre.data.ac.cn/ (可再生资源与环境世界数据中心)
--  http://drr.ikcest.org (联合国教科文组织国际工程科技知识中心防灾减灾知识服务平台)

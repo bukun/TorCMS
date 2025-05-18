@@ -4,11 +4,12 @@ https://segmentfault.com/a/1190000019161083
 '''
 
 import peewee
+from peewee import JOIN
+
+from torcms.core import tools
 from torcms.core.base_model import BaseModel
 from torcms.model.abc_model import MHelper
-from torcms.model.core_tab import TabMember, TabPost, TabRole, TabPermission
-from peewee import JOIN
-from torcms.core import tools
+from torcms.model.core_tab import TabMember, TabPermission, TabPost, TabRole
 
 
 class TabProcess(BaseModel):
@@ -39,9 +40,7 @@ class TabState(BaseModel):
         help_text='',
     )
     process = peewee.ForeignKeyField(TabProcess, backref='process', help_text='')
-    name = peewee.CharField(
-        null=False, index=True, max_length=255, help_text='名称'
-    )
+    name = peewee.CharField(null=False, index=True, max_length=255, help_text='名称')
     state_type = peewee.CharField(
         null=False, index=True, unique=True, max_length=255, help_text='名称'
     )
@@ -77,9 +76,7 @@ class TabAction(BaseModel):
     action_type = peewee.CharField(
         null=False, index=True, unique=True, max_length=255, help_text='名称'
     )
-    name = peewee.CharField(
-        null=False, index=True, max_length=255, help_text='名称'
-    )
+    name = peewee.CharField(null=False, index=True, max_length=255, help_text='名称')
     description = peewee.TextField()
 
 
@@ -92,7 +89,9 @@ class TabPermissionAction(BaseModel):
         max_length=36,
         help_text='',
     )
-    permission = peewee.ForeignKeyField(TabPermission, backref='permission', help_text='')
+    permission = peewee.ForeignKeyField(
+        TabPermission, backref='permission', help_text=''
+    )
     action = peewee.ForeignKeyField(TabAction, backref='action', help_text='')
 
 
@@ -105,7 +104,9 @@ class TabTransitionAction(BaseModel):
         max_length=36,
         help_text='',
     )
-    transition = peewee.ForeignKeyField(TabTransition, backref='transition', help_text='')
+    transition = peewee.ForeignKeyField(
+        TabTransition, backref='transition', help_text=''
+    )
     action = peewee.ForeignKeyField(TabAction, backref='action', help_text='')
 
 
@@ -144,20 +145,16 @@ class TabRequestAction(BaseModel):
 
 
 class MTransitionAction:
-
     @staticmethod
     def create(transition_id, action_id):
         rec = MTransitionAction.get_by_trans_act(transition_id, action_id)
         if rec.count() > 0:
             return False
         else:
-
             try:
                 uid = tools.get_uuid()
                 TabTransitionAction.create(
-                    uid=uid,
-                    transition=transition_id,
-                    action=action_id
+                    uid=uid, transition=transition_id, action=action_id
                 )
                 return uid
             except Exception as err:
@@ -166,11 +163,9 @@ class MTransitionAction:
 
     @staticmethod
     def update(transition_id, action_id):
-
-        entry = TabTransitionAction.update(
-            transition=transition_id
-
-        ).where(TabTransitionAction.action == action_id)
+        entry = TabTransitionAction.update(transition=transition_id).where(
+            TabTransitionAction.action == action_id
+        )
         try:
             entry.execute()
             return True
@@ -181,12 +176,15 @@ class MTransitionAction:
     @staticmethod
     def get_by_trans_act(trans_id, act_id):
         return TabTransitionAction.select().where(
-            (TabTransitionAction.transition == trans_id) &
-            (TabTransitionAction.action == act_id))
+            (TabTransitionAction.transition == trans_id)
+            & (TabTransitionAction.action == act_id)
+        )
 
     @staticmethod
     def get_by_trans(trans_id):
-        return TabTransitionAction.select().where(TabTransitionAction.transition == trans_id)
+        return TabTransitionAction.select().where(
+            TabTransitionAction.transition == trans_id
+        )
 
     @staticmethod
     def get_by_uid(uid):
@@ -207,17 +205,22 @@ class MTransitionAction:
     def query_by_pro_state(pro_id, state_id):
         query = (
             TabTransitionAction.select(
-                TabTransitionAction.transition, TabTransitionAction.action)
+                TabTransitionAction.transition, TabTransitionAction.action
+            )
             .join(TabTransition, JOIN.INNER)
-            .where((TabTransition.process == pro_id) & (
-                    TabTransition.current_state == state_id))
+            .where(
+                (TabTransition.process == pro_id)
+                & (TabTransition.current_state == state_id)
+            )
         )
         return query.dicts()
 
     @staticmethod
     def query_by_process(pro_id):
         query = (
-            TabTransitionAction.select(TabAction.uid, TabAction.name, TabTransitionAction.transition)
+            TabTransitionAction.select(
+                TabAction.uid, TabAction.name, TabTransitionAction.transition
+            )
             .join(TabTransition, JOIN.INNER)
             .switch(TabTransition)
             .join(TabProcess, JOIN.INNER)
@@ -255,8 +258,8 @@ class MTransitionAction:
     @staticmethod
     def remove_relation(trans_id, act_id):
         entry = TabTransitionAction.delete().where(
-            (TabTransitionAction.transition == trans_id) & (
-                    TabTransitionAction.action == act_id)
+            (TabTransitionAction.transition == trans_id)
+            & (TabTransitionAction.action == act_id)
         )
 
         try:
@@ -268,7 +271,6 @@ class MTransitionAction:
 
 
 class MProcess:
-
     @staticmethod
     def create(name):
         try:
@@ -315,20 +317,7 @@ class MProcess:
         Updat the link.
         '''
         raw_rec = TabProcess.get(TabProcess.uid == uid)
-        entry = TabProcess.update(
-            name=post_data.get('name', raw_rec.name)
-
-        ).where(TabProcess.uid == uid)
-        try:
-            entry.execute()
-            return True
-        except Exception as err:
-            print(repr(err))
-            return False
-
-    @staticmethod
-    def delete_by_uid(uid):
-        entry = TabProcess.delete().where(
+        entry = TabProcess.update(name=post_data.get('name', raw_rec.name)).where(
             TabProcess.uid == uid
         )
         try:
@@ -338,18 +327,24 @@ class MProcess:
             print(repr(err))
             return False
 
+    @staticmethod
+    def delete_by_uid(uid):
+        entry = TabProcess.delete().where(TabProcess.uid == uid)
+        try:
+            entry.execute()
+            return True
+        except Exception as err:
+            print(repr(err))
+            return False
+
 
 class MTransition:
-
     @staticmethod
     def create(pro_id, cur_state, next_state):
         try:
             uid = tools.get_uuid()
             rec = TabTransition.create(
-                uid=uid,
-                process=pro_id,
-                current_state=cur_state,
-                next_state=next_state
+                uid=uid, process=pro_id, current_state=cur_state, next_state=next_state
             )
             return rec.uid
         except Exception as err:
@@ -363,11 +358,14 @@ class MTransition:
     @staticmethod
     def query_by_action(action_id, pro_id):
         query = (
-            TabTransition.select(TabTransition.uid, TabTransition.current_state, TabTransition.next_state)
+            TabTransition.select(
+                TabTransition.uid, TabTransition.current_state, TabTransition.next_state
+            )
             .join(TabTransitionAction, JOIN.INNER)
-            .where((TabTransitionAction.action == action_id) & (
-                    TabTransition.process == pro_id))
-
+            .where(
+                (TabTransitionAction.action == action_id)
+                & (TabTransition.process == pro_id)
+            )
         )
         if query.count() > 0:
             return query
@@ -388,16 +386,17 @@ class MTransition:
     @staticmethod
     def get_by_cur_next(pro_id, cur_state, next_state):
         return TabTransition.select().where(
-            (TabTransition.process == pro_id) &
-            (TabTransition.current_state == cur_state) &
-            (TabTransition.next_state == next_state)
+            (TabTransition.process == pro_id)
+            & (TabTransition.current_state == cur_state)
+            & (TabTransition.next_state == next_state)
         )
 
     @staticmethod
     def query_by_proid_state(pro_id, state_id):
         return TabTransition.select().where(
-            (TabTransition.process == pro_id) &
-            (TabTransition.current_state == state_id))
+            (TabTransition.process == pro_id)
+            & (TabTransition.current_state == state_id)
+        )
 
     @staticmethod
     def query_by_state(state):
@@ -410,11 +409,9 @@ class MTransition:
 
     @staticmethod
     def delete_by_state(state_id):
-        recs1 = TabTransition.select().where(TabTransition.next_state == state_id
-                                             )
+        recs1 = TabTransition.select().where(TabTransition.next_state == state_id)
         recs2 = TabTransition.select().where(TabTransition.current_state == state_id)
         for rec in recs1:
-
             tran_acts = MTransitionAction.get_by_trans(rec.uid)
 
             for tract in tran_acts:
@@ -454,7 +451,6 @@ class MTransition:
                 print(repr(err))
                 pass
         for rec in recs2:
-
             tran_acts = MTransitionAction.get_by_trans(rec.uid)
 
             for tract in tran_acts:
@@ -521,12 +517,9 @@ class MTransition:
 
 
 class MRequestAction:
-
     @staticmethod
     def create(request_id, action_id, transition_id):
-
         try:
-
             uid = tools.get_uuid()
             TabRequestAction.create(
                 uid=uid,
@@ -534,7 +527,7 @@ class MRequestAction:
                 action=action_id,
                 transition=transition_id,
                 is_active=True,
-                is_complete=False
+                is_complete=False,
             )
             return True
         except Exception as err:
@@ -547,10 +540,9 @@ class MRequestAction:
 
     @staticmethod
     def update_by_request(request_id):
-
-        entry = TabRequestAction.update(
-            is_active=False
-        ).where(TabRequestAction.request == request_id)
+        entry = TabRequestAction.update(is_active=False).where(
+            TabRequestAction.request == request_id
+        )
 
         try:
             entry.execute()
@@ -561,12 +553,10 @@ class MRequestAction:
 
     @staticmethod
     def update_by_action(action_id, request_id):
-
-        entry = TabRequestAction.update(
-            is_active=False,
-            is_complete=True
-        ).where((TabRequestAction.request == request_id) & (
-                TabRequestAction.action == action_id))
+        entry = TabRequestAction.update(is_active=False, is_complete=True).where(
+            (TabRequestAction.request == request_id)
+            & (TabRequestAction.action == action_id)
+        )
 
         try:
             entry.execute()
@@ -577,11 +567,10 @@ class MRequestAction:
 
     @staticmethod
     def update_by_action_reqs(action_id, request_id):
-
-        entry = TabRequestAction.update(
-            is_active=False
-        ).where((TabRequestAction.request == request_id) & (
-                TabRequestAction.action != action_id))
+        entry = TabRequestAction.update(is_active=False).where(
+            (TabRequestAction.request == request_id)
+            & (TabRequestAction.action != action_id)
+        )
 
         try:
             entry.execute()
@@ -593,8 +582,9 @@ class MRequestAction:
     @staticmethod
     def query_by_request_trans(request_id, trans_id):
         rec = TabRequestAction.select().where(
-            (TabRequestAction.request == request_id) &
-            (TabRequestAction.transition == trans_id))
+            (TabRequestAction.request == request_id)
+            & (TabRequestAction.transition == trans_id)
+        )
         if rec.count() > 0:
             return rec.get()
         else:
@@ -603,8 +593,9 @@ class MRequestAction:
     @staticmethod
     def get_by_action_request(act_id, request_id):
         rec = TabRequestAction.select().where(
-            (TabRequestAction.action == act_id) &
-            (TabRequestAction.request == request_id))
+            (TabRequestAction.action == act_id)
+            & (TabRequestAction.request == request_id)
+        )
         if rec.count() > 0:
             return rec.get()
         else:
@@ -612,9 +603,7 @@ class MRequestAction:
 
     @staticmethod
     def delete_by_actid(action_id):
-        entry = TabRequestAction.delete().where(
-            TabRequestAction.action == action_id
-        )
+        entry = TabRequestAction.delete().where(TabRequestAction.action == action_id)
         try:
             entry.execute()
             return True
@@ -624,9 +613,7 @@ class MRequestAction:
 
     @staticmethod
     def delete_by_trans(trans_id):
-        entry = TabRequestAction.delete().where(
-            TabRequestAction.transition == trans_id
-        )
+        entry = TabRequestAction.delete().where(TabRequestAction.transition == trans_id)
 
         try:
             entry.execute()
@@ -637,7 +624,6 @@ class MRequestAction:
 
 
 class MRequest:
-
     @staticmethod
     def create(pro_id, post_id, user_id, cur_state_id):
         try:
@@ -648,7 +634,7 @@ class MRequest:
                 post=post_id,
                 user=user_id,
                 current_state=cur_state_id,
-                time_create=tools.timestamp()
+                time_create=tools.timestamp(),
             )
             return uid
         except Exception as err:
@@ -661,7 +647,11 @@ class MRequest:
 
     @staticmethod
     def query_by_postid(post_id):
-        recs = TabRequest.select().where(TabRequest.post == post_id).order_by(TabRequest.time_create.desc())
+        recs = (
+            TabRequest.select()
+            .where(TabRequest.post == post_id)
+            .order_by(TabRequest.time_create.desc())
+        )
         if recs.count() > 0:
             return recs.get()
         else:
@@ -669,11 +659,8 @@ class MRequest:
 
     @staticmethod
     def get_by_pro_state(pro_id, state_id):
-
-        query = (
-            TabRequest.select()
-
-            .where((TabRequest.process == pro_id) & (TabRequest.current_state == state_id))
+        query = TabRequest.select().where(
+            (TabRequest.process == pro_id) & (TabRequest.current_state == state_id)
         )
         if query.count() > 0:
             return query.get()
@@ -682,8 +669,11 @@ class MRequest:
 
     @staticmethod
     def get_by_pro(pro_id):
-
-        query = TabRequest.select().where(TabRequest.process == pro_id).order_by(TabRequest.time_create.desc())
+        query = (
+            TabRequest.select()
+            .where(TabRequest.process == pro_id)
+            .order_by(TabRequest.time_create.desc())
+        )
 
         if query.count() > 0:
             return query
@@ -699,9 +689,7 @@ class MRequest:
 
     @staticmethod
     def delete_by_state(state_id):
-        entry = TabRequest.delete().where(
-            TabRequest.current_state == state_id
-        )
+        entry = TabRequest.delete().where(TabRequest.current_state == state_id)
 
         try:
             entry.execute()
@@ -714,14 +702,9 @@ class MRequest:
 class MPermissionAction:
     @staticmethod
     def create(per, action):
-
         try:
             uid = tools.get_uuid()
-            TabPermissionAction.create(
-                uid=uid,
-                permission=per,
-                action=action
-            )
+            TabPermissionAction.create(uid=uid, permission=per, action=action)
             return True
         except Exception as err:
             print(repr(err))
@@ -730,7 +713,9 @@ class MPermissionAction:
     @staticmethod
     def query_by_permission(permission_id):
         query = (
-            TabPermissionAction.select(TabAction.uid, TabAction.name, TabPermissionAction.permission)
+            TabPermissionAction.select(
+                TabAction.uid, TabAction.name, TabPermissionAction.permission
+            )
             .join(TabAction, JOIN.INNER)
             .where(TabPermissionAction.permission == permission_id)
         )
@@ -749,7 +734,6 @@ class MPermissionAction:
 
     @staticmethod
     def query_by_action(act_id):
-
         return TabPermissionAction.select().where(TabPermissionAction.action == act_id)
 
     @staticmethod
@@ -769,9 +753,7 @@ class MPermissionAction:
 
     @staticmethod
     def delete_by_action(act_id):
-        entry = TabPermissionAction.delete().where(
-            TabPermissionAction.action == act_id
-        )
+        entry = TabPermissionAction.delete().where(TabPermissionAction.action == act_id)
         try:
             entry.execute()
             return True
@@ -781,10 +763,8 @@ class MPermissionAction:
 
 
 class MAction:
-
     @staticmethod
     def create(pro_id, action):
-
         try:
             uid = tools.get_uuid()
             TabAction.create(
@@ -792,7 +772,7 @@ class MAction:
                 process=pro_id,
                 name=action.get('name'),
                 action_type=action.get('action_type') + '_' + pro_id,
-                description=action.get('description')
+                description=action.get('description'),
             )
 
             return uid
@@ -810,8 +790,7 @@ class MAction:
             process=post_data.get('process', raw_rec.process),
             name=post_data.get('name', raw_rec.name),
             action_type=post_data.get('action_type', raw_rec.action_type),
-            description=post_data.get('description', raw_rec.description)
-
+            description=post_data.get('description', raw_rec.description),
         ).where(TabAction.uid == uid)
         try:
             entry.execute()
@@ -835,10 +814,7 @@ class MAction:
         Updat the link.
         '''
 
-        entry = TabAction.update(
-            process=process
-
-        ).where(TabAction.uid == uid)
+        entry = TabAction.update(process=process).where(TabAction.uid == uid)
         try:
             entry.execute()
             return True
@@ -873,12 +849,14 @@ class MAction:
     @staticmethod
     def get_by_pro_actname(pro_id, act_name):
         return TabAction.select().where(
-            (TabAction.process == pro_id) & (TabAction.name == act_name))
+            (TabAction.process == pro_id) & (TabAction.name == act_name)
+        )
 
     @staticmethod
     def get_by_pro_act(pro_id, act_id):
         return TabAction.select().where(
-            (TabAction.process == pro_id) & (TabAction.uid == act_id))
+            (TabAction.process == pro_id) & (TabAction.uid == act_id)
+        )
 
     @staticmethod
     def get_counts():
@@ -936,7 +914,8 @@ class MState:
         Get a link by ID.
         '''
         return TabState.select().where(
-            (TabState.process == pro_id) & (TabState.name == name))
+            (TabState.process == pro_id) & (TabState.name == name)
+        )
 
     @staticmethod
     def get_by_uid(uid):
@@ -988,8 +967,7 @@ class MState:
             process=post_data.get('process', raw_rec.process),
             name=post_data.get('name', raw_rec.name),
             state_type=post_data.get('state_type', raw_rec.state_type),
-            description=post_data.get('description', raw_rec.description)
-
+            description=post_data.get('description', raw_rec.description),
         ).where(TabState.uid == uid)
         try:
             entry.execute()
@@ -1021,15 +999,16 @@ class MState:
         '''
 
         try:
-
             uid = tools.get_uuid()
 
             TabState.create(
                 uid=uid,
                 process=post_data.get('process'),
                 name=post_data.get('name'),
-                state_type=str(post_data.get('state_type')) + '_' + str(post_data.get('process')),
-                description=post_data.get('description', '')
+                state_type=str(post_data.get('state_type'))
+                + '_'
+                + str(post_data.get('process')),
+                description=post_data.get('description', ''),
             )
 
             return uid

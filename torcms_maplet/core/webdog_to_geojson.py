@@ -1,5 +1,5 @@
-import json
 import io
+import json
 
 """
 这是一个webdog mapeditor3地图编辑器内部数据格式转换为geojson格式的工具
@@ -13,20 +13,15 @@ class Webdog:
     所以在存储配置时，只保存了dashArray的类型编号，而不是真正的array
     因此需要进行转换
     """
+
     WEIGHT = 2
     DASH_ARRAY = {
         1: None,
         2: lambda w: [w * 2],
         3: lambda w: [w * 3, w * 2, 1, w * 2],
         4: lambda w: [w * 4, w * 2, 1, w * 2, 1, w * 2],
-        5: {
-            'lineCap': 'butt',
-            'fn': lambda w: [1]
-        },
-        6: {
-            'lineCap': 'butt',
-            'fn': lambda w: [w, w]
-        }
+        5: {'lineCap': 'butt', 'fn': lambda w: [1]},
+        6: {'lineCap': 'butt', 'fn': lambda w: [w, w]},
     }
 
     def __init__(self, map_data):
@@ -136,15 +131,12 @@ class Webdog:
                 'properties': properties,
                 'geometry': {
                     'type': feature_type,
-                    'coordinates': self.reverse_coord(coord)
-                }
+                    'coordinates': self.reverse_coord(coord),
+                },
             }
             features.append(feature)
 
-        geojson = {
-            "type": "FeatureCollection",
-            "features": features
-        }
+        geojson = {"type": "FeatureCollection", "features": features}
 
         if dumps:
             return json.dumps(geojson)

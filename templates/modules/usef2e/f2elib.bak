@@ -1,5 +1,6 @@
 <script src="{{ static_url('f2elib/jquery/jquery-3.6.x.min.js') }}"></script>
-<script src="{{ static_url('f2elib/bootstrap-3.4.x/js/bootstrap.min.js') }}"></script>
+<script src="https://r.osgeo.cn/bootstrap-5.3.x/js/bootstrap.min.js"  rel="stylesheet" ></script>
+<script src="https://r.osgeo.cn/bootstrap-5.3.x/js/bootstrap.bundle.min.js" ></script>
 <script src="{{ static_url('f2elib/jquery-validate_1.15.0/jquery.validate.min.js') }}"></script>
 <script src="{{ static_url('f2elib/magnific-popup_1.1.0/jquery.magnific-popup.min.js') }}"></script>
 <script src="{{ static_url('f2elib/leaflet-1.9.x/leaflet.js') }}"></script>

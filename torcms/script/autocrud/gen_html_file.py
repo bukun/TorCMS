@@ -155,9 +155,9 @@ def __write_view_tmpl(tag_key, tag_list):
         # The admin information should be hidden for user.
         if sig.startswith('_'):
             tmpl = (
-                    '''{% if userinfo and userinfo.extinfo.get('_per_assign_role', 0) == 1 %}'''
-                    + tmpl
-                    + '''{% end %}'''
+                '''{% if userinfo and userinfo.extinfo.get('_per_assign_role', 0) == 1 %}'''
+                + tmpl
+                + '''{% end %}'''
             )
         view_widget_arr.append(tmpl)
     the_view_sig_str = __get_view_tmpl(tag_key)

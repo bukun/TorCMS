@@ -4,11 +4,13 @@ Handler for role.
 '''
 
 import json
+
 import tornado.web
-from torcms.core import tools, privilege
+
+from torcms.core import privilege, tools
 from torcms.core.base_handler import BaseHandler
-from torcms.model.role_model import MRole
 from torcms.model.role2permission_model import MRole2Permission
+from torcms.model.role_model import MRole
 
 
 class RoleHandler(BaseHandler):
@@ -65,7 +67,6 @@ class RoleHandler(BaseHandler):
             self.redirect('misc/html/404.html')
 
     def getpid(self):
-
         dics = [{"label": "无", "value": "0000"}]
         recs = MRole.query_all()
 
@@ -89,7 +90,6 @@ class RoleHandler(BaseHandler):
             parentId = '0000'
         dics = []
         recs = MRole.get_by_pid(parentId)
-        
 
         for rec in recs:
             dic = {"label": rec.name, "value": rec.uid}
@@ -174,7 +174,7 @@ class RoleHandler(BaseHandler):
             "time_create": tools.format_time(rec.time_create),
             "time_update": tools.format_time(rec.time_update),
             "permission": self.get_permission(rec.uid),
-            "pid_name": self.get_pid_name(rec.pid)
+            "pid_name": self.get_pid_name(rec.pid),
         }
         return rec
 
@@ -234,30 +234,21 @@ class RoleHandler(BaseHandler):
                 role_recs = MRole.get_by_pid(uid)
                 if role_recs:
                     for role_rec in role_recs:
-
                         per_recs = MRole2Permission.query_by_role(role_rec.uid)
 
                         for rec1 in per_recs:
-
                             if str(rec1.permission) in per_dics:
                                 print(rec1.permission)
                                 continue
                             else:
-                                MRole2Permission.remove_relation(role_rec.uid, rec1.permission)
+                                MRole2Permission.remove_relation(
+                                    role_rec.uid, rec1.permission
+                                )
 
-            output = {
-                "ok": True,
-                "status": 0,
-                "msg": "更新分组/角色成功"
-            }
-
+            output = {"ok": True, "status": 0, "msg": "更新分组/角色成功"}
 
         else:
-            output = {
-                "ok": False,
-                "status": 404,
-                "msg": "更新分组/角色失败"
-            }
+            output = {"ok": False, "status": 404, "msg": "更新分组/角色失败"}
 
         return json.dump(output, self, ensure_ascii=False)
 
@@ -286,29 +277,21 @@ class RoleHandler(BaseHandler):
                 role_recs = MRole.get_by_pid(uid)
                 if role_recs:
                     for role_rec in role_recs:
-
                         per_recs = MRole2Permission.query_by_role(role_rec.uid)
 
                         for rec1 in per_recs:
-
                             if str(rec1.permission) in per_dics:
                                 print(rec1.permission)
                                 continue
                             else:
-                                MRole2Permission.remove_relation(role_rec.uid, rec1.permission)
+                                MRole2Permission.remove_relation(
+                                    role_rec.uid, rec1.permission
+                                )
 
-                output = {
-                    "ok": True,
-                    "status": 0,
-                    "msg": "更新分组/角色成功"
-                }
+                output = {"ok": True, "status": 0, "msg": "更新分组/角色成功"}
 
             else:
-                output = {
-                    "ok": False,
-                    "status": 404,
-                    "msg": "批量更新分组/角色失败"
-                }
+                output = {"ok": False, "status": 404, "msg": "批量更新分组/角色失败"}
         return json.dump(output, self, ensure_ascii=False)
 
     @privilege.permission(action='assign_group')
@@ -330,17 +313,9 @@ class RoleHandler(BaseHandler):
                 for per in per_dics:
                     print(per)
                     MRole2Permission.add_or_update(role_uid, per)
-            output = {
-                "ok": True,
-                "status": 0,
-                "msg": "添加/更新分组/角色成功"
-            }
+            output = {"ok": True, "status": 0, "msg": "添加/更新分组/角色成功"}
         else:
-            output = {
-                "ok": False,
-                "status": 404,
-                "msg": "添加/更新分组/角色失败"
-            }
+            output = {"ok": False, "status": 404, "msg": "添加/更新分组/角色失败"}
         return json.dump(output, self, ensure_ascii=False)
 
     @privilege.permission(action='assign_group')
@@ -354,15 +329,9 @@ class RoleHandler(BaseHandler):
             MRole2Permission.remove_relation(del_role.role, del_role.permission)
 
         if MRole.delete(del_id):
-            output = {
-                "ok": True,
-                "status": 0,
-                "msg": "删除分组/角色成功"}
+            output = {"ok": True, "status": 0, "msg": "删除分组/角色成功"}
         else:
-            output = {
-                "ok": False,
-                "status": 404,
-                "msg": "删除分组/角色失败"}
+            output = {"ok": False, "status": 404, "msg": "删除分组/角色失败"}
         return json.dump(output, self, ensure_ascii=False)
 
     @privilege.permission(action='assign_group')
@@ -379,13 +348,7 @@ class RoleHandler(BaseHandler):
                 MRole2Permission.remove_relation(del_role.role, del_role.permission)
 
             if MRole.delete(del_id):
-                output = {
-                    "ok": True,
-                    "status": 0,
-                    "msg": "删除分组/角色成功"}
+                output = {"ok": True, "status": 0, "msg": "删除分组/角色成功"}
             else:
-                output = {
-                    "ok": False,
-                    "status": 404,
-                    "msg": "删除分组/角色失败"}
+                output = {"ok": False, "status": 404, "msg": "删除分组/角色失败"}
         return json.dump(output, self, ensure_ascii=False)

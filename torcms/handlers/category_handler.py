@@ -8,8 +8,7 @@ import json
 import tornado.web
 
 import config
-from torcms.core import privilege
-from torcms.core import tools
+from torcms.core import privilege, tools
 from torcms.core.base_handler import BaseHandler
 from torcms.model.category_model import MCategory
 from torcms.model.post2catalog_model import MPost2Catalog

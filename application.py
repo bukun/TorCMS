@@ -2,16 +2,14 @@
 The Application.
 """
 
-import os
+
 from pathlib import Path
-import tornado.web
-import torcms.core.uifunction as uifuncs
-from torcms.modules.modef import core_modules
+
 import router as app_router
 import torcms.core.router
-from config import config_modules
-from config import SITE_CFG
-from config import ADDONS
+import torcms.core.uifunction as uifuncs
+from config import ADDONS, SITE_CFG, config_modules
+from torcms.modules.modef import core_modules
 
 # 注册各个应用的模块，路由
 APP_MODUES = dict(core_modules, **config_modules)
@@ -38,5 +36,3 @@ SETTINGS = {
 #     pass
 # else:
 #     os.mkdir(CACHES_PATH)
-
-APP = tornado.web.Application(handlers=APP_URLS, **SETTINGS)

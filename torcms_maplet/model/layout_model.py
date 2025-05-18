@@ -4,11 +4,11 @@
 Model for map layout.
 '''
 from torcms.core import tools
-from torcms.model.abc_model import  MHelper
+from torcms.model.abc_model import MHelper
 from torcms_maplet.model.map_tab import MabLayout
 
 
-class MLayout():
+class MLayout:
     '''
     Model for map layout.
     '''
@@ -44,10 +44,10 @@ class MLayout():
         :param user_id:
         :return:
         '''
-        return MabLayout.select().where(
-            (MabLayout.post_id == app_id) & (MabLayout.user_id == user_id)
-        ).order_by(
-            MabLayout.time_update.desc()
+        return (
+            MabLayout.select()
+            .where((MabLayout.post_id == app_id) & (MabLayout.user_id == user_id))
+            .order_by(MabLayout.time_update.desc())
         )
 
     @staticmethod

@@ -96,5 +96,5 @@ MD_CORE_MODEL = {
         'pycsw:Contributor': 'contributor',
         'pycsw:Relation': 'relation',
         'pycsw:Links': 'links',
-    }
+    },
 }

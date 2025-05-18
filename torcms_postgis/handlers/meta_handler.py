@@ -1,22 +1,24 @@
-import tornado.escape
 import json
-import config
 import os
 import uuid
+
 import openpyxl
 import openpyxl.styles
-from config import post_cfg
-from torcms.handlers.post_handler import PostHandler
-from torcms.core.tools import logger
-from torcms.model.post_model import MPost
-from torcms.core import privilege
-from torcms.model.category_model import MCategory
-from torcms.model.post2catalog_model import MPost2Catalog
-from torcms.model.label_model import MPost2Label
-from torcms.model.post_hist_model import MPostHist
+import tornado.escape
 from openpyxl import load_workbook
 from openpyxl.worksheet.datavalidation import DataValidation
+
+import config
+from config import post_cfg
+from torcms.core import privilege
+from torcms.core.tools import logger
+from torcms.handlers.post_handler import PostHandler
+from torcms.model.category_model import MCategory
 from torcms.model.entity_model import MEntity
+from torcms.model.label_model import MPost2Label
+from torcms.model.post2catalog_model import MPost2Catalog
+from torcms.model.post_hist_model import MPostHist
+from torcms.model.post_model import MPost
 
 
 def update_category(uid, post_data):
@@ -116,7 +118,6 @@ def update_label(signature, post_data):
 
 
 class MetadataHandler(PostHandler):
-
     def initialize(self, **kwargs):
         super(MetadataHandler, self).initialize(**kwargs)
 
@@ -132,7 +133,6 @@ class MetadataHandler(PostHandler):
             self._to_add(catid=url_arr[1])
 
         elif url_arr[0] == 'download_excel':
-
             self.download_xlsx(url_arr[1])
 
         elif url_arr[0] == '_add':
@@ -153,7 +153,6 @@ class MetadataHandler(PostHandler):
             self.show404()
 
     def post(self, *args, **kwargs):
-
         url_str = args[0]
         logger.info('Post url: {0}'.format(url_str))
         url_arr = self.parse_url(url_str)
@@ -180,7 +179,6 @@ class MetadataHandler(PostHandler):
         else:
             self.show404()
 
-
     def chuli_meta(self, metafile):
         try:
             wb = load_workbook(str(metafile))
@@ -191,14 +189,21 @@ class MetadataHandler(PostHandler):
 
         ii = 1
         for row in sheet.iter_rows(min_row=2):
-
             if not (row[1].value):
                 continue
             else:
                 pass
             ii = ii + 1
-            if row[0].value in ['date', 'date_revision', 'date_creation', 'date_publication', 'date_modified',
-                                'insert_date', 'time_begin', 'time_end']:
+            if row[0].value in [
+                'date',
+                'date_revision',
+                'date_creation',
+                'date_publication',
+                'date_modified',
+                'insert_date',
+                'time_begin',
+                'time_end',
+            ]:
                 meta_dic['pycsw_' + str(row[0].value).strip()] = str(row[1].value)[:10]
             else:
                 meta_dic['pycsw_' + str(row[0].value).strip()] = str(row[1].value)
@@ -213,7 +218,11 @@ class MetadataHandler(PostHandler):
         ext_dic = {}
         ii = 1
         for key in self.request.arguments:
-            if key.startswith('ext_') or key.startswith('tag_') or key.startswith('pycsw_'):
+            if (
+                key.startswith('ext_')
+                or key.startswith('tag_')
+                or key.startswith('pycsw_')
+            ):
                 if key.startswith('tag_meta_'):
                     if self.get_argument(key) != '':
                         ext_dic[key] = {
@@ -261,10 +270,7 @@ class MetadataHandler(PostHandler):
         title = post_data['title'].strip()
 
         if len(title) < 2:
-            kwd = {
-                'info': 'Title cannot be less than 2 characters',
-                'link': '/'
-            }
+            kwd = {'info': 'Title cannot be less than 2 characters', 'link': '/'}
             self.render('misc/html/404.html', userinfo=self.userinfo, kwd=kwd)
 
         if 'gcat0' in post_data:
@@ -281,7 +287,6 @@ class MetadataHandler(PostHandler):
         ext_dic['gcat0'] = post_data['gcat0']
         ext_dic['def_cat_uid'] = post_data['gcat0']
         ext_dic['status'] = 'a0'
-
 
         # -----------------------------------------------
 
@@ -336,7 +341,6 @@ class MetadataHandler(PostHandler):
 
         ext_dic['def_uid'] = postinfo.uid
 
-
         cnt_old = tornado.escape.xhtml_unescape(postinfo.cnt_md).strip()
         cnt_new = post_data['cnt_md'].strip()
         if cnt_old == cnt_new:
@@ -363,7 +367,9 @@ class MetadataHandler(PostHandler):
 
         logger.info('post kind:' + self.kind)
         tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
-        self.redirect('/{0}/{1}'.format(post_cfg[postinfo.kind]['router'], postinfo.uid))
+        self.redirect(
+            '/{0}/{1}'.format(post_cfg[postinfo.kind]['router'], postinfo.uid)
+        )
 
     def download_xlsx(self, postid):
         '''
@@ -373,7 +379,8 @@ class MetadataHandler(PostHandler):
         print('======')
         keywords = ''
         for x in tag_info:
-            if x.tag_name not in keywords: keywords = keywords + str(x.tag_name) + ','
+            if x.tag_name not in keywords:
+                keywords = keywords + str(x.tag_name) + ','
 
         file_src2 = os.path.join('./torcms_metadata/meta_元数据模板20220921.xlsx')
         tmp_file = './static/xx_metadata_{0}.xlsx'.format(postid)
@@ -406,7 +413,9 @@ class MetadataHandler(PostHandler):
                 meta_name = 'pycsw_' + str(ws.cell(row=ii, column=1).value).strip()
                 print(meta_name)
 
-                post_value = postinfo.extinfo[meta_name] if meta_name in postinfo.extinfo else ''
+                post_value = (
+                    postinfo.extinfo[meta_name] if meta_name in postinfo.extinfo else ''
+                )
             # print(post_value)
             ws.cell(ii, 2).value = post_value
         ws.cell(2, 2).protection = openpyxl.styles.Protection(locked=True)
@@ -421,7 +430,9 @@ class MetadataHandler(PostHandler):
         return json.dump(output, self)
 
     def 生成验证语言(self):
-        dv = DataValidation(type="list", formula1='"英文,中文,法文,俄语,阿拉伯语,西班牙语,其他"', allow_blank=True)
+        dv = DataValidation(
+            type="list", formula1='"英文,中文,法文,俄语,阿拉伯语,西班牙语,其他"', allow_blank=True
+        )
         dv.error = 'Your entry is not in the list'
         dv.errorTitle = 'Invalid Entry'
         dv.prompt = 'Please select from the list'
@@ -445,12 +456,14 @@ class MetadataHandler(PostHandler):
         else:
             kwd = {
                 'pager': '',
-                'err_info': '* The formats of uploadable files are: xlsx'
+                'err_info': '* The formats of uploadable files are: xlsx',
             }
-            self.render('misc/entity/entity_add.html',
-                        cfg=config.CMS_CFG,
-                        kwd=kwd,
-                        userinfo=self.userinfo)
+            self.render(
+                'misc/entity/entity_add.html',
+                cfg=config.CMS_CFG,
+                kwd=kwd,
+                userinfo=self.userinfo,
+            )
             # return False
         if 'uid' in post_data:
             uid = post_data['uid']
@@ -477,7 +490,8 @@ class MetadataHandler(PostHandler):
                 signature,
                 outfilename,
                 img_desc,
-                kind=post_data['kind'] if 'kind' in post_data else '2')
+                kind=post_data['kind'] if 'kind' in post_data else '2',
+            )
 
         ext_dic = {}
         file_src = os.path.join('./static/upload/' + outfilename)
@@ -505,5 +519,7 @@ class MetadataHandler(PostHandler):
         Allowed xlsx files
         '''
         ALLOWED_EXTENSIONS_PDF = ['xlsx']
-        return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS_PDF
-
+        return (
+            '.' in filename
+            and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS_PDF
+        )

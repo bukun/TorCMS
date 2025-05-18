@@ -76,7 +76,6 @@ class MPost2Catalog:
 
     @staticmethod
     def query_postinfo_by_cat(catid):
-
         cat_con = TabPost2Tag.tag_id == catid
         recs = (
             TabPost.select()
@@ -244,7 +243,9 @@ class MPost2Catalog:
                     TabPost.select()
                     .join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id))
                     .where(
-                        cat_con & (TabPost.valid == 1) & TabPost.extinfo.contains(condition)
+                        cat_con
+                        & (TabPost.valid == 1)
+                        & TabPost.extinfo.contains(condition)
                     )
                     .order_by(sort_criteria, TabPost.time_create.asc())
                     .paginate(current_page_num, CMS_CFG['list_num'])
@@ -269,7 +270,9 @@ class MPost2Catalog:
                     TabPost.select()
                     .join(TabPost2Tag, on=(TabPost.uid == TabPost2Tag.post_id))
                     .where(
-                        cat_con & (TabPost.valid == 1) & TabPost.extinfo.contains(condition)
+                        cat_con
+                        & (TabPost.valid == 1)
+                        & TabPost.extinfo.contains(condition)
                     )
                     .order_by(sort_criteria)
                     .paginate(current_page_num, CMS_CFG['list_num'])
@@ -335,7 +338,6 @@ class MPost2Catalog:
         return None
 
     def query_list_by_uid(slug, uid=False):
-
         cat_rec = MCategory.get_by_slug(slug)
         if cat_rec:
             cat_id = cat_rec.uid
@@ -350,22 +352,24 @@ class MPost2Catalog:
             cat_con = TabPost2Tag.tag_id == cat_id
 
         if uid:
-            recs = TabPost.select().join(
-                TabPost2Tag,
-                on=((TabPost.uid == TabPost2Tag.post_id) & (TabPost.valid == 1))
-            ).where(
-                cat_con
-            ).order_by(
-                TabPost.uid, TabPost.time_create.asc()
+            recs = (
+                TabPost.select()
+                .join(
+                    TabPost2Tag,
+                    on=((TabPost.uid == TabPost2Tag.post_id) & (TabPost.valid == 1)),
+                )
+                .where(cat_con)
+                .order_by(TabPost.uid, TabPost.time_create.asc())
             )
         else:
-            recs = TabPost.select().join(
-                TabPost2Tag,
-                on=((TabPost.uid == TabPost2Tag.post_id) & (TabPost.valid == 1))
-            ).where(
-                cat_con
-            ).order_by(
-                TabPost.order.asc(), TabPost.time_create.asc()
+            recs = (
+                TabPost.select()
+                .join(
+                    TabPost2Tag,
+                    on=((TabPost.uid == TabPost2Tag.post_id) & (TabPost.valid == 1)),
+                )
+                .where(cat_con)
+                .order_by(TabPost.order.asc(), TabPost.time_create.asc())
             )
 
         return recs

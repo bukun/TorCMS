@@ -3,7 +3,7 @@
 import peewee
 
 from torcms.core import tools
-from torcms.model.core_tab import TabPost, TabPost2Tag, TabRel, TabCorrelation
+from torcms.model.core_tab import TabCorrelation, TabPost, TabPost2Tag, TabRel
 from torcms.model.label_model import MPost2Label
 from torcms.model.post2catalog_model import MPost2Catalog as MInfor2Catalog
 
@@ -144,7 +144,6 @@ class MRelation:
             tag_arr.append(tag.tag_uid)
 
         if len(tag_arr) > 0:
-
             recs = (
                 TabPost2Tag.select(
                     TabPost2Tag,

@@ -1,34 +1,33 @@
-import tornado.escape
 import json
-import config
 import os
-import uuid
-import bs4
 import re
 import shutil
 import subprocess
-
+import uuid
 from pathlib import Path
-from torcms.core.tools import get_uu4d, get_uu8d
-from config import CMS_CFG, post_cfg
-from torcms.handlers.post_handler import PostHandler
-from torcms.core.tools import logger
-from torcms.model.post_model import MPost
-from torcms.core import privilege
-from torcms.model.category_model import MCategory
-from torcms.model.post2catalog_model import MPost2Catalog
-from torcms.model.label_model import MPost2Label
-from torcms.model.post_hist_model import MPostHist
+
+import bs4
+import tornado.escape
 from openpyxl import load_workbook
 from openpyxl.worksheet.datavalidation import DataValidation
+
+import config
+from config import CMS_CFG, post_cfg
+from torcms.core import privilege
+from torcms.core.tools import get_uu4d, get_uu8d, logger
+from torcms.handlers.post_handler import PostHandler
+from torcms.model.category_model import MCategory
 from torcms.model.entity_model import MEntity
+from torcms.model.label_model import MPost2Label
+from torcms.model.post2catalog_model import MPost2Catalog
+from torcms.model.post_hist_model import MPostHist
+from torcms.model.post_model import MPost
 
 pwd = os.getcwd()
 
 rest_regs = [
     # '\s:.+?:`.+?`\/:.+?:`.+?`\/:.+?:`.+?`'
     '\<img.+?\/\>',  # 形如：   ``sadf``: :sdf:`slfkj`
-
 ]
 
 
@@ -129,7 +128,6 @@ def update_label(signature, post_data):
 
 
 class JupyterHandler(PostHandler):
-
     def initialize(self, **kwargs):
         super(JupyterHandler, self).initialize(**kwargs)
         self.kind = kwargs.get('kind', 'j')
@@ -160,7 +158,6 @@ class JupyterHandler(PostHandler):
             self.show404()
 
     def post(self, *args, **kwargs):
-
         url_str = args[0]
         logger.info('Post url: {0}'.format(url_str))
         url_arr = self.parse_url(url_str)
@@ -195,7 +192,6 @@ class JupyterHandler(PostHandler):
         ii = 1
         for key in self.request.arguments:
             if key.startswith('ext_') or key.startswith('tag_'):
-
                 ext_dic[key] = self.get_argument(key, default='')
 
             else:
@@ -231,10 +227,7 @@ class JupyterHandler(PostHandler):
         title = post_data['title'].strip()
 
         if len(title) < 2:
-            kwd = {
-                'info': 'Title cannot be less than 2 characters',
-                'link': '/'
-            }
+            kwd = {'info': 'Title cannot be less than 2 characters', 'link': '/'}
             self.render('misc/html/404.html', userinfo=self.userinfo, kwd=kwd)
 
         if 'gcat0' in post_data:
@@ -304,7 +297,9 @@ class JupyterHandler(PostHandler):
 
         logger.info('post kind:' + self.kind)
         tornado.ioloop.IOLoop.instance().add_callback(self.cele_gen_whoosh)
-        self.redirect('/{0}/{1}'.format(post_cfg[postinfo.kind]['router'], postinfo.uid))
+        self.redirect(
+            '/{0}/{1}'.format(post_cfg[postinfo.kind]['router'], postinfo.uid)
+        )
 
     @tornado.web.authenticated
     def upload_jupyter(self):
@@ -323,12 +318,14 @@ class JupyterHandler(PostHandler):
         else:
             kwd = {
                 'pager': '',
-                'err_info': '* The formats of uploadable files are: ipynb'
+                'err_info': '* The formats of uploadable files are: ipynb',
             }
-            self.render('misc/entity/entity_add.html',
-                        cfg=config.CMS_CFG,
-                        kwd=kwd,
-                        userinfo=self.userinfo)
+            self.render(
+                'misc/entity/entity_add.html',
+                cfg=config.CMS_CFG,
+                kwd=kwd,
+                userinfo=self.userinfo,
+            )
 
         _, hou = os.path.splitext(filename)
 
@@ -354,8 +351,8 @@ class JupyterHandler(PostHandler):
                 signature,
                 outfilename,
                 img_desc,
-                kind=post_data['kind'] if 'kind' in post_data else 'j')
-
+                kind=post_data['kind'] if 'kind' in post_data else 'j',
+            )
 
         file_src = os.path.join('./' + outpath + '/' + outfilename)
 
@@ -364,7 +361,10 @@ class JupyterHandler(PostHandler):
         uid = ch_path.stem.split('_')[-1]
         print(uid)
 
-        subprocess.run(f'jupyter nbconvert --to html {ch_path.resolve()} --output /tmp/xx.html ', shell=True)
+        subprocess.run(
+            f'jupyter nbconvert --to html {ch_path.resolve()} --output /tmp/xx.html ',
+            shell=True,
+        )
 
         html_file = '/tmp/xx.html'
         # File = open(str(the_file.resolve()))
@@ -443,7 +443,10 @@ class JupyterHandler(PostHandler):
         Allowed xlsx files
         '''
         ALLOWED_EXTENSIONS_PDF = ['ipynb']
-        return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS_PDF
+        return (
+            '.' in filename
+            and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS_PDF
+        )
 
     @tornado.web.authenticated
     def filter_reg_text(self, inws, out_reg_arr):
@@ -468,7 +471,7 @@ class JupyterHandler(PostHandler):
                         # print('-' * 20)
                         # print(wfile.name)
                         if img == wfile.name:
-                            img = str(wfile.resolve())[len(pwd):]
+                            img = str(wfile.resolve())[len(pwd) :]
                     # print(img)
                     tt.append('src="{}"'.format(img))
                 else:

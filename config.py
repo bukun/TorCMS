@@ -3,7 +3,10 @@
 """
 Config for the website.
 """
+from pathlib import Path
+
 import tornado.web
+
 from torcms.core.tools import get_cfg
 
 try:
@@ -12,6 +15,8 @@ except:
     ADDONS = []
 
 DB_CON, SMTP_CFG, SITE_CFG, ROLE_CFG, REDIS_CFG = get_cfg()
+
+BaseDir = Path(__file__).resolve().parent
 
 CMS_CFG = {
     "list_num": 10,
@@ -38,7 +43,7 @@ post_cfg = {
             "Document"
         ),
         "checker": "1",
-        "show": "Document"
+        "show": "Document",
     },
     "2": {
         "router": "page",
@@ -46,7 +51,7 @@ post_cfg = {
             "Page"
         ),
         "checker": "0",
-        "show": "Page"
+        "show": "Page",
     },
     "3": {
         "router": "info",
@@ -54,7 +59,7 @@ post_cfg = {
             "Info"
         ),
         "checker": "0",  # '10', '100', '1000', '10000'
-        "show": "Info"
+        "show": "Info",
     },
     "k": {
         "router": "tutorial",
@@ -62,7 +67,7 @@ post_cfg = {
             "Tutorial"
         ),
         "checker": "0",  # '10', '100', '1000', '10000'
-        "show": "Tutorial"
+        "show": "Tutorial",
     },
 }
 
@@ -84,21 +89,18 @@ class WidgetMenu(tornado.web.UIModule):
         out_str = ""
 
         tmpl = '<li class="nav-item"><a class="nav-link active" aria-current="page" href="/{}/">{}</a></li>'
-        # tmpl = '<li><a href="/{}/">{}</a></li>'
         ii = 1
         for key in post_cfg:
             if key == '2':
                 continue
 
             if post_cfg[key]['router'] == 'topic':
-                # tmpl = '<li><a href="/list/{}">{}</a></li>'
                 tmpl = '<li class="nav-item"><a class="nav-link active" aria-current="page" href="/list/{}">{}</a></li>'
             else:
                 tmpl = '<li class="nav-item"><a class="nav-link active" aria-current="page" href="/{}/">{}</a></li>'
-                # tmpl = '<li><a href="/{}/">{}</a></li>'
             out_str = out_str + tmpl.format(
                 post_cfg[key]['router'],
-                post_cfg[key].get('show', post_cfg[key].get('router'))
+                post_cfg[key].get('show', post_cfg[key].get('router')),
             )
 
         return out_str
@@ -114,10 +116,13 @@ class PublishListMenu(tornado.web.UIModule):
         str = args[0]
         out_str = ""
 
-        tmpl = '<a href="/check/{}?kind={}" class="btn btn-xs btn-success">{}</a>'
+        tmpl = '''<a href="/check/{}?kind={}" class="btn btn-xs btn-success">{}</a>
+        '''
 
         for key in post_cfg:
-            out_str = out_str + tmpl.format(str, key, post_cfg[key].get('show', post_cfg[key].get('router')))
+            out_str = out_str + tmpl.format(
+                str, key, post_cfg[key].get('show', post_cfg[key].get('router'))
+            )
 
         return out_str
 

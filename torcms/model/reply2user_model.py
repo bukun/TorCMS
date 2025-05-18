@@ -16,7 +16,6 @@ class MReply2User:
 
     @staticmethod
     def create_reply(user_id, reply_id):
-
         record = TabUser2Reply.select().where(
             (TabUser2Reply.reply_id == reply_id) & (TabUser2Reply.user_id == user_id)
         )
@@ -38,7 +37,6 @@ class MReply2User:
     @staticmethod
     def delete(uid):
         try:
-
             del_count2 = TabUser2Reply.delete().where(TabUser2Reply.reply_id == uid)
             del_count2.execute()
 

@@ -13,7 +13,8 @@ from difflib import HtmlDiff
 
 import markdown
 import tornado.escape
-from htmlmin import minify
+
+# from htmlmin import minify
 from markdown.extensions.wikilinks import WikiLinkExtension
 from playhouse.postgres_ext import PostgresqlExtDatabase
 
@@ -36,19 +37,6 @@ stream_handler.setFormatter(logger_formatter)
 logging.getLogger('').addHandler(stream_handler)
 
 logger = logging
-
-
-def html_min(func):
-    '''
-    used as decorator to minify HTML string.
-    Unused.
-    '''
-
-    def wrapper(*args):
-        return minify(func(*args))
-
-    return wrapper
-
 
 def diff_table(rawinfo, newinfo):
     '''
@@ -104,7 +92,7 @@ def check_pass_valid(pass_str):
     至少6-20个字符，至少1个大写字母，1个小写字母和1个数字，其他可以是任意字符
     '''
 
-    ck_str = "^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d][\s\S]{6,20}$"
+    ck_str = r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d][\s\S]{6,20}$"
     if re.match(ck_str, pass_str) is not None:
         return True
 
@@ -211,14 +199,16 @@ def get_uu6d():
 
     return func_rand_arr(list('0123456789abcdef'), 6)
 
+
 def rst2html(rst_text):
     '''
     convert restructuredtext to html.
     '''
-    from bs4 import BeautifulSoup
     # 创建beautifulsoup解析对象
     import docutils.core
-    html_doc =  docutils.core.publish_string(
+    from bs4 import BeautifulSoup
+
+    html_doc = docutils.core.publish_string(
         rst_text,
         writer_name='html',  # 'html' # pseudoxml
     ).decode('utf-8')
@@ -229,15 +219,13 @@ def rst2html(rst_text):
     # soup.find("div", class_="document")
     # content = soup.select('.body')[0]
     content = soup.select('.document')[0]
-    for a in content.find_all(["h1", "h2", "h3",  "p"]):
+    for a in content.find_all(["h1", "h2", "h3", "p"]):
         conz += str(a)
         conz += '\n'
 
-    out_dict = {
-        'title': soup.title.text,
-        'cnt': conz
-    }
+    out_dict = {'title': soup.title.text, 'cnt': conz}
     return out_dict
+
 
 def markdown2html(markdown_text):
     '''
@@ -347,13 +335,19 @@ def get_cfg():
     else:
         site_cfg['DEBUG'] = False
 
+    '''
+    默认情况下，Peewee的autocommit设置为True，这意味着每次数据库操作后都会自动提交事务。
+    如果设置为False，则需要显式调用commit()来提交事务。
+    默认情况下，Peewee的autorollback设置为False，意味着在发生错误时不会自动回滚事务。
+    如果设置为True，则在发生错误时会自动回滚事务。
+    '''
     db_con = PostgresqlExtDatabase(
         db_cfg['db'],
         user=db_cfg.get('user', db_cfg['db']),
         password=db_cfg['pass'],
         host=db_cfg.get('host', '127.0.0.1'),
         port=db_cfg.get('port', '5432'),
-        # autocommit=True,
+        autocommit=True,
         autorollback=True,
     )
 
