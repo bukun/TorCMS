@@ -14,6 +14,8 @@ from wtforms.fields import StringField
 from wtforms.validators import DataRequired
 from wtforms_tornado import Form
 
+# from helpers.helper import loger
+
 # ToDo: 需要进行切换、测试
 # from tornado_wtforms.form import TornadoForm as Form
 
@@ -135,6 +137,13 @@ class UserHandler(BaseHandler):
     def initialize(self, **kwargs):
         super().initialize()
         self.is_p = False
+
+    def set_default_headers(self):
+        self.set_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
+        self.set_header("Pragma", "no-cache")
+        self.set_header('Access-Control-Allow-Origin', '*')
+        # self.set_header("Expires", "Thu, 01 Jan 1970 00:00:00 GMT")
+
 
     def get(self, *args, **kwargs):
 
