@@ -88,16 +88,16 @@ class WidgetMenu(tornado.web.UIModule):
         """ """
         out_str = ""
 
-        tmpl = '<li class="nav-item"><a class="nav-link active" aria-current="page" href="/{}/">{}</a></li>'
+        tmpl = '<li class="nav-item"><a class="nav-link " aria-current="page" href="/{}/">{}</a></li>'
         ii = 1
         for key in post_cfg:
             if key == '2':
                 continue
 
             if post_cfg[key]['router'] == 'topic':
-                tmpl = '<li class="nav-item"><a class="nav-link active" aria-current="page" href="/list/{}">{}</a></li>'
+                tmpl = '<li class="nav-item"><a class="nav-link " aria-current="page" href="/list/{}">{}</a></li>'
             else:
-                tmpl = '<li class="nav-item"><a class="nav-link active" aria-current="page" href="/{}/">{}</a></li>'
+                tmpl = '<li class="nav-item"><a class="nav-link " aria-current="page" href="/{}/">{}</a></li>'
             out_str = out_str + tmpl.format(
                 post_cfg[key]['router'],
                 post_cfg[key].get('show', post_cfg[key].get('router')),

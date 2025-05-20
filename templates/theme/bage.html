@@ -59,23 +59,23 @@
                 <ul class="navbar-nav">
                     {% if userinfo %}
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/user/info">
+                        <a class="nav-link " aria-current="page" href="/user/info">
                             {{ userinfo.user_name }}
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/user/logout">
+                        <a class="nav-link " aria-current="page" href="/user/logout">
                             {{ _('Logout') }}
                         </a>
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/user/login">
+                        <a class="nav-link " aria-current="page" href="/user/login">
                             {{ _('Login') }}
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/user/regist">
+                        <a class="nav-link " aria-current="page" href="/user/regist">
                             {{ _('Register') }}
                         </a>
                     </li>
@@ -105,26 +105,33 @@
     </div>
 </div>
 <script type="text/javascript">
-    var urlstr = location.href;
+  var urlstr = location.href;
 
-    var urlstatus = false;
-    $("#nava a").each(function () {
-        if ((urlstr + '/').indexOf($(this).attr('href')) > -1 && $(this).attr('href') != '') {
-            $(this).addClass('current');
-            urlstatus = true;
-        } else {
-            $(this).removeClass('current');
+    // 先全局清理所有激活状态[7](@ref)
+    $('.nav-item, .dropdown').removeClass('active');
+
+    // 同时处理普通导航项和下拉菜单项
+    $(".nav-link, .dropdown-item").each(function () {
+        const $this = $(this);
+        const linkHref = new URL($this.attr('href'), location.origin).pathname;
+        const currentPath = new URL(urlstr).pathname;
+
+        // 增强路径匹配（支持子路径）[7](@ref)
+        if (currentPath.startsWith(linkHref) && linkHref !== '/') {
+            // 激活当前项
+            $this.addClass('active');
+
+            // 修正父级定位逻辑（关键）
+            const $dropdownParent = $this.closest('.dropdown-menu').closest('.dropdown');
+            if ($dropdownParent.length) {
+                // 同时激活父级菜单按钮和容器
+                $dropdownParent.addClass('active');
+                $dropdownParent.find('.dropdown-toggle').addClass('active');
+            }
+
+
         }
     });
-    $(".dropdown-menu a").each(function () {
-        if ($(this).hasClass('current')) {
-            $(this).parents('ul').siblings('a').eq(0).addClass('current');
-            urlstatus = true;
-        }
-    });
-    if (!urlstatus) {
-        $("#nava a").eq(-1).addClass('current');
-    }
 </script>
 <script src="/static/css/lib/jquery/jquery.min.js"></script>
 <script src="/static/css/lib/hover-pack/hover-pack.js"></script>
