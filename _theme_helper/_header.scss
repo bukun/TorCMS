@@ -1,0 +1,91 @@
+/* Header */
+
+.header {
+  float: left;
+  margin-bottom: 10px;
+  width: 980px;
+}
+
+/* Logo Banner */
+
+.toplb {
+  float: left;
+  width: 980px;
+  overflow: hidden;
+}
+
+.logo {
+  float: left;
+  text-indent: -9999px;
+
+  a {
+    &:link, &:visited, &:hover {
+      width: 450px;
+      height: 60px;
+
+      // background: url(../images/logo.gif) no-repeat 0 0
+      background: url(../images/osgeo_logo.png) no-repeat 0 0;
+      display: block;
+    }
+  }
+}
+
+.toptxt {
+  margin-top: 15px;
+  display: inline-block;
+  padding-right: 5px;
+  width: 320px;
+  height: 60px;
+  line-height: 20px;
+  text-align: right;
+  overflow: hidden;
+
+  a {
+    color: #4B4B4B;
+    text-decoration: underline;
+
+    &:hover {
+      color: #B00;
+    }
+  }
+}
+
+#osgeo_ad {
+  float: right;
+  display: inline-block;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.navbar-nav {
+  li {
+    a {
+      color: #fff;
+      font-size: 14px;
+
+      &:hover {
+        background: rgba(32, 32, 32, 1);
+        color: #fff;
+      }
+    }
+
+    a.current {
+      //box-shadow: 0 0 10px rgba(0,0,0,0.8)
+      background: rgba(32, 32, 32, 1);
+      color: #fff;
+      font-weight: bold;
+    }
+  }
+
+  .dropdown-menu {
+    color: #000;
+
+    a {
+      color: #000;
+    }
+  }
+}
+
+.leaflet-control {
+  font-size: 12px;
+}

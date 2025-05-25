@@ -1,0 +1,658 @@
+/* GLOBAL STYLES
+ *-------------------------------------------------- */
+/* Padding below the footer and lighter body text */
+// carousel.css
+// 主题
+
+body {
+  // font-family: "ff-tisa-web-pro-1", "ff-tisa-web-pro-2", "Lucida Grande", "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", "Hiragino Sans GB W3", "WenQuanYi Micro Hei", sans-serif
+  font-family: "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+}
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, .lead {
+  // font-family: "ff-tisa-web-pro-1", "ff-tisa-web-pro-2", "Lucida Grande", "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", "Hiragino Sans GB W3", "Microsoft YaHei UI", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif
+  font-family: "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+}
+
+a {
+  // @include link-colors(#006699, #006699);
+
+  // @include link-colors(#005588, #006699)
+  // @include link-colors(#006666, #006666)
+  // @include link-colors(#003366, #003366)
+  // @include hover-link;
+}
+
+/* CUSTOMIZE THE NAVBAR
+ *-------------------------------------------------- */
+
+/* Special class on .container surrounding .navbar, used for positioning it into place. */
+
+.navbar-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+
+  .container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .navbar {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+/* Flip around the padding for proper display in narrow viewports */
+
+/* CUSTOMIZE THE CAROUSEL
+ *-------------------------------------------------- */
+
+/* MARKETING CONTENT
+ *-------------------------------------------------- */
+
+/* Pad the edges of the mobile views a bit */
+
+.marketing {
+  padding-left: 15px;
+  padding-right: 15px;
+
+  .col-lg-4 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    font-weight: normal;
+  }
+
+  .col-lg-4 p {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+
+/* Center align the text within the three columns below the carousel */
+
+/* Featurettes
+ *------------------------- */
+
+.featurette-divider {
+  margin: 80px 0;
+}
+
+/* Space out the Bootstrap <hr> more */
+
+/* Thin out the marketing headings */
+
+.featurette-heading {
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+/* RESPONSIVE CSS
+ *-------------------------------------------------- */
+
+@media (min-width: 768px) {
+  /* Remove the edge padding needed for mobile */
+  .marketing {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* Navbar positioning foo */
+  .navbar-wrapper {
+    margin-top: 20px;
+
+    .container {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+
+    .navbar {
+      padding-left: 0;
+      padding-right: 0;
+      border-radius: 4px;
+    }
+  }
+
+  /* The navbar becomes detached from the top, so we round the corners */
+  /* Bump up size of carousel content */
+
+  .featurette-heading {
+    font-size: 38px;
+    line-height: 50px;
+  }
+}
+
+@media (min-width: 992px) {
+  .featurette-heading {
+    margin-top: 90px;
+  }
+}
+
+/* Common styles for all types */
+
+.bs-callout {
+  margin: 20px 0;
+  padding: 20px;
+  border-left: 3px solid #eee;
+
+  h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+  }
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* Variations */
+
+.bs-callout-danger {
+  background-color: #fdf7f7;
+  border-color: #eed3d7;
+
+  h4 {
+    color: #b94a48;
+  }
+}
+
+.bs-callout-warning {
+  background-color: #faf8f0;
+  border-color: #faebcc;
+
+  h4 {
+    color: #8a6d3b;
+  }
+}
+
+.bs-callout-info {
+  background-color: #f4f8fa;
+  border-color: #bce8f1;
+
+  h4 {
+    color: #34789a;
+  }
+}
+
+/* Side navigation
+ *
+ * Scrollspy and affixed enhanced navigation to highlight sections and secondary
+ * sections of docs content. */
+
+/* By default it's not affixed in mobile views, so undo that */
+
+.bs-sidebar.affix {
+  position: static;
+}
+
+/* First level of nav */
+
+.bs-sidenav {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-shadow: 0 1px 0 #fff;
+  background-color: #f7f5fa;
+  border-radius: 5px;
+}
+
+/* All levels of nav */
+
+.bs-sidebar .nav {
+  li {
+    a {
+      display: block;
+      color: #716b7a;
+      padding: 5px 20px;
+
+      &:hover, &:focus {
+        text-decoration: none;
+        background-color: #e5e3e9;
+        border-right: 1px solid #dbd8e0;
+      }
+    }
+
+    .active {
+      > a, &:hover > a, &:focus > a {
+        font-weight: bold;
+        color: #563d7c;
+        background-color: transparent;
+        border-right: 1px solid #563d7c;
+      }
+    }
+  }
+
+  .nav {
+    display: none;
+
+    /* Hide by default, but at >768px, show it */
+    margin-bottom: 8px;
+
+    > li > a {
+      padding-top: 3px;
+      padding-bottom: 3px;
+      padding-left: 30px;
+      font-size: 90%;
+    }
+  }
+}
+
+/* Nav: second level (shown on .active) */
+
+/* Show and affix the side nav when space allows it */
+@media (min-width: 992px) {
+  .bs-sidebar {
+    .nav > .active > ul {
+      display: block;
+    }
+
+    &.affix, &.affix-bottom {
+      width: 213px;
+    }
+
+    &.affix {
+      position: fixed;
+
+      /* Undo the static from mobile first approach */
+      top: 80px;
+    }
+
+    &.affix-bottom {
+      position: absolute;
+
+      /* Undo the static from mobile first approach */
+      .bs-sidenav {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+    }
+
+    &.affix .bs-sidenav {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+}
+
+/* Widen the fixed sidebar */
+
+@media (min-width: 1200px) {
+  /* Widen the fixed sidebar again */
+  .bs-sidebar {
+    &.affix-bottom, &.affix {
+      width: 263px;
+    }
+  }
+}
+
+/* Docs sections
+ *
+ * Content blocks for each component or feature. */
+
+/* Space things out */
+
+.bs-docs-section + .bs-docs-section {
+  padding-top: 40px;
+}
+
+/* Janky fix for preventing navbar from overlapping */
+
+h1[id] {
+  padding-top: 80px;
+  margin-top: -45px;
+}
+
+.footer {
+  color: #999;
+  padding: 30px 0;
+  margin-top: 70px;
+  border-top: 1px solid #e5e5e5;
+  background-color: #f5f5f5;
+}
+
+.subhead {
+  padding-top: 80px;
+  padding-bottom: 20px;
+  color: #fff;
+  background-repeat: repeat-x;
+  background-image: -webkit-linear-gradient(45deg, #020031, #6d3353);
+  background-image: -moz-linear-gradient(45deg, #020031, #6d3353);
+  background-image: linear-gradient(45deg, #020031, #6d3353);
+
+  &:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+}
+
+.redhead {
+  padding-top: 80px;
+  padding-bottom: 20px;
+  color: #fff;
+  background-repeat: repeat-x;
+  background-image: -webkit-linear-gradient(45deg, #FF3030, #FF3030);
+  background-image: -moz-linear-gradient(45deg, #020031, #6d3353);
+  background-image: linear-gradient(45deg, #4B0082, #FF3030);
+}
+
+.subhead:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+#scrollUp {
+  bottom: 20px;
+  right: 20px;
+  height: 38px;
+  width: 38px;
+}
+
+/* background: url("../images/top.png") no-repeat */
+
+.dropdown-menu > li > a {
+  &:hover, &:focus {
+    text-decoration: none;
+    background-image: -webkit-gradient(linear, left 0, left 100%, from(#428bca), to(#357ebd));
+    background-image: -webkit-linear-gradient(top, #428bca 0, #357ebd 100%);
+    background-image: -moz-linear-gradient(top, #428bca 0, #357ebd 100%);
+    background-image: linear-gradient(to bottom, #428bca 0, #357ebd 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff428bca', endColorstr='#ff357ebd', GradientType=0);
+    color: #FFF;
+    background-color: #357ebd;
+  }
+}
+
+.red {
+  color: #fff;
+}
+
+.lead {
+  font-size: 1.3em;
+
+  a:hover {
+    cursor: pointer;
+  }
+}
+
+.panel-black {
+  border-color: #666;
+
+  .panel-heading {
+    color: #fff;
+    background-color: #666;
+    border-color: #666;
+
+    a {
+      color: #fff;
+    }
+  }
+
+  .active {
+    color: #fff;
+    background-color: #666;
+    border-color: #666;
+
+    a {
+      color: #fff;
+    }
+
+    &:hover {
+      background: #666;
+    }
+  }
+
+  .tab-content {
+    .active {
+      color: #716b7a;
+      background-color: #fff;
+      border-color: #fff;
+    }
+
+    a {
+      color: #006699;
+    }
+
+    &:hover {
+      background: #006699;
+    }
+
+    .post_cat {
+      a {
+        color: #fff;
+      }
+    }
+  }
+}
+
+.panel-osgeo-map {
+  border-color: #666;
+
+  .panel-heading {
+    color: #fff;
+    background-color: #666;
+    border-color: #666;
+
+    + .panel-collapse > .panel-body {
+      border-top-color: #666;
+    }
+
+    .panel-footer + .panel-collapse > .panel-body {
+      border-color: #337ab7;
+    }
+
+    a {
+      color: #fff;
+    }
+  }
+
+  .active {
+    color: #fff;
+    background-color: #666;
+    border-color: #666;
+
+    a {
+      color: #fff;
+    }
+
+    &:hover {
+      background: #666;
+    }
+  }
+}
+
+.panel-osgeo-info {
+  border-color: #761c19;
+
+  .panel-heading {
+    color: #fff;
+    background-color: #666;
+    border-color: #666;
+
+    + .panel-collapse > .panel-body {
+      border-top-color: #666;
+    }
+
+    .panel-footer + .panel-collapse > .panel-body {
+      border-color: #337ab7;
+    }
+  }
+
+  .active {
+    color: #fff;
+    background-color: #666;
+    border-color: #666;
+
+    a {
+      color: #fff;
+    }
+
+    &:hover {
+      background: #666;
+    }
+  }
+}
+
+.panel-osgeo-info {
+  border-color: #761c19;
+
+  .panel-heading {
+    color: #fff;
+    background-color: #666;
+    border-color: #666;
+
+    + .panel-collapse > .panel-body {
+      border-top-color: #666;
+    }
+
+    .panel-footer + .panel-collapse > .panel-body {
+      border-color: #337ab7;
+    }
+  }
+
+  .active {
+    color: #fff;
+    background-color: #666;
+    border-color: #666;
+
+    a {
+      color: #fff;
+    }
+
+    &:hover {
+      background: #666;
+    }
+  }
+}
+
+.panel-info {
+  border-color: #31708f;
+  color: #333;
+
+  .panel-heading {
+    color: #d9edf7;
+    background-color: #31708f;
+    border-color: #31708f;
+
+    a {
+      // @include link-colors(#d9edf7, #d9edf7);
+      // @include hover-link;
+    }
+  }
+}
+
+.panel-primary {
+  .panel-heading {
+    a {
+      color: #fff;
+    }
+  }
+
+  .more {
+    color: #fff;
+    float: right;
+  }
+}
+
+input select textarea {
+  // font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif
+  font-family: "Lucida Console", Monaco, monospace;
+}
+
+.panel-heading {
+  h1 {
+    //font-size: 1.4em
+    // line-height: 1.5em
+    text-align: center;
+  }
+}
+
+.panel-black {
+  .panel-heading {
+    h4 {
+      text-align: center;
+    }
+  }
+}
+
+#wiki_cnt {
+  text-align: justify;
+
+  p {
+    text-indent: 2em;
+    line-height: 1.6em;
+  }
+
+  h1, h2, h3, h4, h5 {
+    text-indent: 0;
+  }
+
+  h1 {
+    font-size: 1.5em;
+    line-height: 1.6em;
+  }
+
+  h2 {
+    font-size: 1.4em;
+    line-height: 1.5em;
+  }
+
+  h3 {
+    font-size: 1.3em;
+    line-height: 1.4em;
+  }
+
+  h4 {
+    font-size: 1.2em;
+    line-height: 1.3em;
+  }
+
+  h5 {
+    font-size: 1.1em;
+    line-height: 1.2em;
+  }
+}
+
+.listinfo_content, .listinfo_title {
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+#bwlj {
+  a {
+    color: #003366;
+  }
+}
+
+.flbt {
+  color: #fff;
+
+  &:hover, &:focus {
+    color: #fff;
+    opacity: 0.8;
+  }
+}
+
+.btspan {
+  span {
+    padding-right: 10px;
+  }
+}

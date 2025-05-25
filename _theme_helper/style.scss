@@ -1,0 +1,26 @@
+//@import "compass/reset"
+
+$primary: teal;
+$secondary: green;
+
+@import "./node_modules/bootstrap/scss/bootstrap";
+// @import "bootstrap-compass";
+// @import "bootstrap-sprockets";
+// @import "bootstrap-variables";
+// @import "bootstrap";
+// @import "compass/typography";
+@import "carousel";
+@import "tags";
+@import "codemirror";
+@import "common";
+@import "header";
+@import "osgeo";
+@import "codeit";
+@import "map";
+@import "huatu";
+// @import "fonts";
+@import "footer";
+@import "train";
+@import "index";
+
+// @import "seashell"

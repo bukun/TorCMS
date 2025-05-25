@@ -1,0 +1,549 @@
+.navbar-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+}
+
+.navbar-wrapper .container {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.navbar-wrapper .navbar {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.marketing {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.marketing .col-lg-4 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.marketing h2 {
+  font-weight: normal;
+}
+
+.marketing .col-lg-4 p {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.featurette-divider {
+  margin: 80px 0;
+}
+
+/* Space out the Bootstrap <hr> more */
+
+/* Thin out the marketing headings */
+.featurette-heading {
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+@media (min-width: 768px) {}
+
+/* Remove the edge padding needed for mobile */
+.marketing {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Navbar positioning foo */
+.navbar-wrapper {
+  margin-top: 20px;
+}
+
+.navbar-wrapper .container {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.navbar-wrapper .navbar {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* The navbar becomes detached from the top, so we round the corners */
+.navbar-wrapper .navbar {
+  border-radius: 4px;
+}
+
+/* Bump up size of carousel content */
+.carousel-caption p {
+  margin-bottom: 20px;
+  font-size: 21px;
+  line-height: 1.4;
+}
+
+.featurette-heading {
+  font-size: 50px;
+}
+
+@media (min-width: 992px) {}
+
+.featurette-heading {
+  margin-top: 50px;
+}
+
+/* Common styles for all types */
+.bs-callout {
+  margin: 20px 0;
+  padding: 20px;
+  border-left: 3px solid #eee;
+}
+
+.bs-callout h4 {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.bs-callout p:last-child {
+  margin-bottom: 0;
+}
+
+/* Variations */
+.bs-callout-danger {
+  background-color: #fdf7f7;
+  border-color: #eed3d7;
+}
+
+.bs-callout-danger h4 {
+  color: #b94a48;
+}
+
+.bs-callout-warning {
+  background-color: #faf8f0;
+  border-color: #faebcc;
+}
+
+.bs-callout-warning h4 {
+  color: #8a6d3b;
+}
+
+.bs-callout-info {
+  background-color: #f4f8fa;
+  border-color: #bce8f1;
+}
+
+.bs-callout-info h4 {
+  color: #34789a;
+}
+
+/* Side navigation
+ *
+ * Scrollspy and affixed enhanced navigation to highlight sections and secondary
+ * sections of docs content.
+ */
+
+/* By default it's not affixed in mobile views, so undo that */
+.bs-sidebar.affix {
+  position: static;
+}
+
+/* First level of nav */
+.bs-sidenav {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-shadow: 0 1px 0 #fff;
+  background-color: #f7f5fa;
+  border-radius: 5px;
+}
+
+/* All levels of nav */
+.bs-sidebar .nav > li > a {
+  display: block;
+  color: #716b7a;
+  padding: 5px 20px;
+}
+
+.bs-sidebar .nav > li > a:hover,
+.bs-sidebar .nav > li > a:focus {
+  text-decoration: none;
+  background-color: #e5e3e9;
+  border-right: 1px solid #dbd8e0;
+}
+
+.bs-sidebar .nav > .active > a,
+.bs-sidebar .nav > .active:hover > a,
+.bs-sidebar .nav > .active:focus > a {
+  font-weight: bold;
+  color: #563d7c;
+  background-color: transparent;
+  border-right: 1px solid #563d7c;
+}
+
+/* Nav: second level (shown on .active) */
+.bs-sidebar .nav .nav {
+  display: none;
+
+  /* Hide by default, but at >768px, show it */
+  margin-bottom: 8px;
+}
+
+.bs-sidebar .nav .nav > li > a {
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 30px;
+  font-size: 90%;
+}
+
+/* Show and affix the side nav when space allows it */
+@media (min-width: 992px) {}
+
+.bs-sidebar .nav > .active > ul {
+  display: block;
+}
+
+/* Widen the fixed sidebar */
+.bs-sidebar.affix,
+.bs-sidebar.affix-bottom {
+  width: 213px;
+}
+
+.bs-sidebar.affix {
+  position: fixed;
+
+  /* Undo the static from mobile first approach */
+  top: 80px;
+}
+
+.bs-sidebar.affix-bottom {
+  position: absolute;
+}
+
+/* Undo the static from mobile first approach */
+
+.bs-sidebar.affix-bottom .bs-sidenav,
+.bs-sidebar.affix .bs-sidenav {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+@media (min-width: 1200px) {}
+
+/* Widen the fixed sidebar again */
+.bs-sidebar.affix-bottom, .bs-sidebar.affix {
+  width: 263px;
+}
+
+/* Docs sections
+ *
+ * Content blocks for each component or feature.
+ */
+
+/* Space things out */
+.bs-docs-section + .bs-docs-section {
+  padding-top: 40px;
+}
+
+/* Janky fix for preventing navbar from overlapping */
+h1[id] {
+  padding-top: 80px;
+  margin-top: -45px;
+}
+
+.footer {
+  color: #999;
+  text-align: center;
+  padding: 30px 0;
+  margin-top: 70px;
+  border-top: 1px solid #e5e5e5;
+  background-color: #f5f5f5;
+}
+
+.subhead {
+  padding-top: 80px;
+  padding-bottom: 20px;
+  color: #fff;
+  background-repeat: repeat-x;
+  background-image: -webkit-linear-gradient(45deg, #020031, #6d3353);
+  background-image: -moz-linear-gradient(45deg, #020031, #6d3353);
+  background-image: linear-gradient(45deg, #020031, #6d3353);
+}
+
+.subhead:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.redhead {
+  padding-top: 80px;
+  padding-bottom: 20px;
+  color: #fff;
+  background-repeat: repeat-x;
+  background-image: -webkit-linear-gradient(45deg, #FF3030, #FF3030);
+  background-image: -moz-linear-gradient(45deg, #020031, #6d3353);
+  background-image: linear-gradient(45deg, #4B0082, #FF3030);
+}
+
+.subhead:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+#scrollUp {
+  bottom: 20px;
+  right: 20px;
+  height: 38px;
+  width: 38px;
+  background: url("../images/top.png") no-repeat;
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+  text-decoration: none;
+  color: #262626;
+  background-image: -webkit-gradient(linear, left 0, left 100%, from(#428bca), to(#357ebd));
+  background-image: -webkit-linear-gradient(top, #428bca, 0, #357ebd, 100%);
+  background-image: -moz-linear-gradient(top, #428bca 0, #357ebd 100%);
+  background-image: linear-gradient(to bottom, #428bca 0, #357ebd 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff428bca', endColorstr='#ff357ebd', GradientType=0);
+  color: #FFF;
+  background-color: #357ebd;
+}
+
+.pakage-cat li {
+  width: 200px;
+  margin-right: 60px;
+  float: left;
+  text-align: center;
+}
+
+.pakage-cat li i {
+  width: 120px;
+  height: 120px;
+  display: block;
+  background: url(../images/icon-pakage.png) no-repeat 0 0;
+  margin: 0 auto;
+}
+
+.pakage-cat li .cat-name {
+  line-height: 30px;
+  padding: 13px 0;
+  font-size: 24px;
+}
+
+.pakage-cat li .cat-des {
+  line-height: 24px;
+  color: #999;
+  padding-bottom: 20px;
+}
+
+.pakage-cat li a {
+  width: 118px;
+  height: 38px;
+  background: #fff;
+  border: 1px solid #ccc;
+  color: #666;
+  display: block;
+  margin: 0 auto;
+  line-height: 38px;
+}
+
+.pakage-cat li.economic i {
+  background-position: 0 0;
+}
+
+.pakage-cat li.standard i {
+  background-position: 0 -140px;
+}
+
+.pakage-cat li.marketing i {
+  background-position: 0 -280px;
+}
+
+.pakage-cat li.high-end i {
+  background-position: 0 -420px;
+}
+
+.pakage-cat li.economic a:hover {
+  background: #f76e00;
+  color: #fff;
+}
+
+.pakage-cat li.standard a:hover {
+  background: #9bcc00;
+  color: #fff;
+}
+
+.pakage-cat li.marketing a:hover {
+  background: #0088cb;
+  color: #fff;
+}
+
+.pakage-cat li.high-end a:hover {
+  background: #0dc9be;
+  color: #fff;
+}
+
+.pure-img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.htbg {
+  background: #2d4980;
+
+  .col-sm-12 {
+    img {
+      padding: 0px;
+      margin: 15px 0;
+    }
+  }
+}
+
+.index_bak {
+  background: #f5f5f5;
+}
+
+.featurette {
+  border-bottom: 1px dashed #ddd;
+}
+
+.featurette h3 {
+  text-align: center;
+}
+
+.marketing {
+  padding-left: 15px;
+  padding-right: 15px;
+
+  .col-lg-4 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    font-weight: normal;
+  }
+
+  .col-lg-4 p {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+
+.home-tab-a {
+  color: #000;
+}
+
+.indexp {
+  font-size: 16px;
+  line-height: 30px;
+}
+
+.case {
+  border-radius: 8px;
+}
+
+.index_img_height {
+  height: 300px;
+}
+
+.img-boder {
+  border-radius: 3%;
+}
+
+.pakage-cat li {
+  width: 200px;
+  margin-right: 60px;
+  float: left;
+  text-align: center;
+
+  i {
+    width: 120px;
+    height: 120px;
+    display: block;
+    background: url(../images/icon-pakage.png) no-repeat 0 0;
+    margin: 0 auto;
+  }
+
+  .cat-name {
+    line-height: 30px;
+    padding: 13px 0;
+    font-size: 24px;
+  }
+
+  .cat-des {
+    line-height: 24px;
+    color: #999;
+    padding-bottom: 20px;
+  }
+
+  a {
+    width: 118px;
+    height: 38px;
+    background: #fff;
+    border: 1px solid #ccc;
+    color: #666;
+    display: block;
+    margin: 0 auto;
+    line-height: 38px;
+  }
+
+  &.economic i {
+    background-position: 0 0;
+  }
+
+  &.standard i {
+    background-position: 0 -140px;
+  }
+
+  &.marketing i {
+    background-position: 0 -280px;
+  }
+
+  &.high-end i {
+    background-position: 0 -420px;
+  }
+
+  &.economic a:hover {
+    background: #f76e00;
+    color: #fff;
+  }
+
+  &.standard a:hover {
+    background: #9bcc00;
+    color: #fff;
+  }
+
+  &.marketing a:hover {
+    background: #0088cb;
+    color: #fff;
+  }
+
+  &.high-end a:hover {
+    background: #0dc9be;
+    color: #fff;
+  }
+}
+
+.bk_img {
+  background: url(../images/bk.png) no-repeat 10px 5px;
+}
+
+.featurette {
+  border: 1px solid #ddd;
+  border-radius: 11px;
+}
