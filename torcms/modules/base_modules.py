@@ -832,10 +832,10 @@ class CategoryBySlug(tornado.web.UIModule):
 
         par = MCategory.get_by_uid(rec.pid)
         if rec.uid.endswith('00'):
-            tmp_str = '<li class="active">{0}</li>'.format(rec.name)
+            tmp_str = '<li class="breadcrumb-item active">{0}</li>'.format(rec.name)
 
         else:
-            tmp_str = '<li><a href="/catalog/{0}">{1}</a></li><li class="active">{2}</li>'.format(
+            tmp_str = '<li class="breadcrumb-item"><a href="/catalog/{0}">{1}</a></li><li class="breadcrumb-item active">{2}</li>'.format(
                 par.slug, par.name, rec.name
             )
         return tmp_str
