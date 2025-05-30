@@ -62,8 +62,8 @@ def echo_html_fenye_str(rec_num, fenye_num):
             else:
                 checkstr = ''
 
-            tmp_str_df = '''<li class="page-item {0} active" name='fenye' onclick='change(this);'
-              value='{1}'><a class="page-link active">{1}</a></li>'''.format(
+            tmp_str_df = '''<li class="page-item {0}" name='fenye' onclick='change(this);'
+              value='{1}'><a class="page-link {0}">{1}</a></li>'''.format(
                 checkstr, num
             )
 
