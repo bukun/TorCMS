@@ -36,13 +36,13 @@ def echo_html_fenye_str(rec_num, fenye_num):
         fenye_str = '<ul class="pagination">'
 
         if fenye_num > 1:
-            pager_home = '''<li class="{0}" name='fenye' onclick='change(this);'
-              value='{1}'><a>First Page</a></li>'''.format(
+            pager_home = '''<li class="page-item {0}" name='fenye' onclick='change(this);'
+              value='{1}'><a class="page-link">First Page</a></li>'''.format(
                 '', 1
             )
 
-            pager_pre = ''' <li class="{0}" name='fenye' onclick='change(this);'
-              value='{1}'><a>Previous Page</a></li>'''.format(
+            pager_pre = ''' <li class="page-item {0}" name='fenye' onclick='change(this);'
+              value='{1}'><a class="page-link">Previous Page</a></li>'''.format(
                 '', fenye_num - 1
             )
         if fenye_num > 5:
@@ -62,19 +62,19 @@ def echo_html_fenye_str(rec_num, fenye_num):
             else:
                 checkstr = ''
 
-            tmp_str_df = '''<li class="{0}" name='fenye' onclick='change(this);'
-              value='{1}'><a>{1}</a></li>'''.format(
+            tmp_str_df = '''<li class="page-item {0}" name='fenye' onclick='change(this);'
+              value='{1}'><a class="page-link {0}">{1}</a></li>'''.format(
                 checkstr, num
             )
 
             pager_mid += tmp_str_df
         if fenye_num < pagination_num:
-            pager_next = '''<li class="{0}" name='fenye' onclick='change(this);'
-              value='{1}'><a>Next Page</a></li>'''.format(
+            pager_next = '''<li class="page-item {0}" name='fenye' onclick='change(this);'
+              value='{1}'><a class="page-link">Next Page</a></li>'''.format(
                 '', fenye_num + 1
             )
-            pager_last = '''<li class="{0}" name='fenye' onclick='change(this);'
-              value='{1}'><a>End Page</a></li>'''.format(
+            pager_last = '''<li class="page-item {0}" name='fenye' onclick='change(this);'
+              value='{1}'><a class="page-link">End Page</a></li>'''.format(
                 '', pagination_num
             )
 
