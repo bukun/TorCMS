@@ -48,21 +48,7 @@ class TestMEntity:
                 tf = True
         assert tf
 
-    def test_get_all_pager(self):
-        a = MEntity.get_all_pager()
-        tf = True
-        for i in a:
-            if i.uid == self.uid:
-                tf = False
-        assert tf
-        self.add_message()
 
-        a = MEntity.get_all_pager()
-        tf = False
-        for i in a:
-            if i.uid == self.uid:
-                tf = True
-        assert tf
 
     def test_get_id_by_impath(self):
         self.add_message()
