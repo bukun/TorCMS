@@ -447,7 +447,7 @@ def gen_select_list(sig_dic):
     For generating List view HTML file for SELECT.
     for each item.
     '''
-    view_jushi = '''<span class="label label-primary" style="margin-right:10px">'''
+    view_jushi = '''<span class="badge text-bg-primary" style="margin-right:10px">'''
 
     dic_tmp = sig_dic['dic']
     for key in dic_tmp.keys():
