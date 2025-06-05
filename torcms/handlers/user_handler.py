@@ -1065,6 +1065,7 @@ class UserHandler(BaseHandler):
                 email_cnt = '''<div>请查看下面的信息，并<span style="color:red">谨慎操作</span>：</div>
                 <div>您在"{0}"网站（{1}）申请了密码重置，如果确定要进行密码重置，请打开下面链接：</div>
                 <div><a href={2}>{2}</a></div>
+                <div>如果点击链接无法直接打开页面，请复制链接地址到浏览器粘贴打开。</div>
                 <div>如果无法确定本信息的有效性，请忽略本邮件。</div>'''.format(
                     config.SMTP_CFG['name'], config.SITE_CFG['site_url'], url_reset
                 )
