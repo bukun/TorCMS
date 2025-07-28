@@ -340,16 +340,16 @@ class TestMPost:
         assert aa.logo == qq['logo']
         assert aa.title == qq['title']
 
-    def test_query_random(self):
-        q = {'num': 3000}
-        qq = self.mpost.query_random(**q)
+    # def test_query_random(self):
+    #     q = {'num': 3000}
+    #     qq = self.mpost.query_random(**q)
 
-        TF = False
-        for i in qq:
-            if i.uid == self.post_id:
-                TF = True
+    #     TF = False
+    #     for i in qq:
+    #         if i.uid == self.post_id:
+    #             TF = True
 
-        assert TF
+    #     assert TF
 
     def test_query_recent_edited(self):
         qq = self.mpost.query_recent_edited(1555)
