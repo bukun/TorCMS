@@ -175,7 +175,7 @@ class TabPostHist(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='post_id',
+        db_column='post_id',
     )
 
     user_name = models.CharField(
@@ -346,7 +346,7 @@ class TabPost2Tag(models.Model):
     # )
     # tag_id = models.CharField(null=False, max_length=4, help_text='')
     # post = models.ForeignKey(TabPost, null=True, blank=True,
-    #    on_delete=models.SET_NULL, db_constraint=False,db_colum = 'post_id')
+    #    on_delete=models.SET_NULL, db_constraint=False,db_column = 'post_id')
 
     par = models.ForeignKey(
         TabTag,
@@ -354,7 +354,7 @@ class TabPost2Tag(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='par_id',
+        db_column='par_id',
     )
     tag = models.ForeignKey(
         TabTag,
@@ -362,7 +362,7 @@ class TabPost2Tag(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='tag_id',
+        db_column='tag_id',
     )
     post = models.ForeignKey(
         TabPost,
@@ -370,7 +370,7 @@ class TabPost2Tag(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='post_id',
+        db_column='post_id',
     )
 
     order = models.IntegerField()
@@ -401,7 +401,7 @@ class TabReply(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='post_id',
+        db_column='post_id',
     )
 
     user = models.ForeignKey(
@@ -410,7 +410,7 @@ class TabReply(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='user_id',
+        db_column='user_id',
     )
     # db_index =True,
     user_name = models.TextField()
@@ -455,7 +455,7 @@ class TabUser2Reply(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='reply_id',
+        db_column='reply_id',
     )
     # reply_id = models.CharField(
     #     null=False, max_length=36, help_text=''
@@ -466,7 +466,7 @@ class TabUser2Reply(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='user_id',
+        db_column='user_id',
     )
     # user_id = models.CharField(
     #     null=False, max_length=36, help_text=''
@@ -498,7 +498,7 @@ class TabCollect(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='post_id',
+        db_column='post_id',
     )
     user = models.ForeignKey(
         TabMember,
@@ -506,7 +506,7 @@ class TabCollect(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='user_id',
+        db_column='user_id',
     )
     # user_id = models.CharField(
     #     null=False,
@@ -537,7 +537,7 @@ class TabEvaluation(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='post_id',
+        db_column='post_id',
     )
     user = models.ForeignKey(
         TabMember,
@@ -545,7 +545,7 @@ class TabEvaluation(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='user_id',
+        db_column='user_id',
     )  # db_index =True,
     value = models.IntegerField()  # 用户评价， 1 或 0, 作为计数
 
@@ -570,7 +570,7 @@ class TabRating(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='user_id',
+        db_column='user_id',
     )  # db_index =True,
     post = models.ForeignKey(
         TabPost,
@@ -578,7 +578,7 @@ class TabRating(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='post_id',
+        db_column='post_id',
     )
     rating = models.FloatField(
         null=False,
@@ -611,7 +611,7 @@ class TabUsage(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='post_id',
+        db_column='post_id',
     )
     user = models.ForeignKey(
         TabMember,
@@ -619,7 +619,7 @@ class TabUsage(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='user_id',
+        db_column='user_id',
     )
     # user_id = models.CharField(null=False, max_length=36, help_text='')
     count = models.IntegerField()
@@ -629,7 +629,7 @@ class TabUsage(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='tag_id',
+        db_column='tag_id',
     )
     # tag_id = models.CharField(null=False, max_length=4, help_text='')
     kind = models.CharField(null=False, max_length=1)
@@ -663,7 +663,7 @@ class TabRel(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='post_f_id',
+        db_column='post_f_id',
     )
     post_t = models.ForeignKey(
         TabPost,
@@ -671,7 +671,7 @@ class TabRel(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='post_t_id',
+        db_column='post_t_id',
     )
 
     count = models.IntegerField()
@@ -706,7 +706,7 @@ class TabCorrelation(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='post_id',
+        db_column='post_id',
     )
     # rel_id = models.TextField(null=False, help_text='')
     rel = models.ForeignKey(
@@ -715,7 +715,7 @@ class TabCorrelation(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='rel_id',
+        db_column='rel_id',
     )
     kind = models.IntegerField()
     order = models.IntegerField()
@@ -744,7 +744,7 @@ class TabEntity2User(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='entity_id',
+        db_column='entity_id',
     )
 
     user = models.ForeignKey(
@@ -753,7 +753,7 @@ class TabEntity2User(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='user_id',
+        db_column='user_id',
     )
 
     user_ip = models.CharField(null=False, help_text='用户端ip', max_length=36)
@@ -781,7 +781,7 @@ class TabLog(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='user_id',
+        db_column='user_id',
     )
     time_create = models.BigIntegerField()
     time_out = models.BigIntegerField()
@@ -1027,7 +1027,7 @@ class TabAssociation(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='post_id',
+        db_column='post_id',
     )
     # user_id = models.CharField(
     #     null=False,
@@ -1040,7 +1040,7 @@ class TabAssociation(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='user_id',
+        db_column='user_id',
     )
 
     # 由于kind可能会对应多种扩展应用，使用 `variety` 进行区分。一般情况下可以与 `kind` 一致。
@@ -1089,7 +1089,7 @@ class MabGson(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='user_id',
+        db_column='user_id',
     )
 
     json = models.JSONField()
@@ -1132,7 +1132,7 @@ class MabPost2Gson(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='post_id',
+        db_column='post_id',
     )
 
     json_id = models.CharField(
@@ -1179,7 +1179,7 @@ class MabLayout(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='post_id',
+        db_column='post_id',
     )
     # user_id = models.CharField(
     #     null=False,
@@ -1193,7 +1193,7 @@ class MabLayout(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='user_id',
+        db_column='user_id',
     )
     json = models.CharField(null=True, default='', max_length=4)
     lon = models.FloatField(null=False, default=105)
@@ -1239,7 +1239,7 @@ class ExtabCalcInfo(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='post_id',
+        db_column='post_id',
     )
     # user_id = models.CharField(
     #     null=False,
@@ -1252,7 +1252,7 @@ class ExtabCalcInfo(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         db_constraint=False,
-        db_colum='user_id',
+        db_column='user_id',
     )
     time_create = models.IntegerField(default=0, null=False)
     time_update = models.IntegerField(default=0, null=False)

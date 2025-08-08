@@ -38,6 +38,8 @@ pytest = "^8.3.4"
 faker = "^36.1.1"
 docutils = "^0.21.2"
 django = "^5.2.5"
+isort = "^6.0.1"
+black = "^25.1.0"
 
 [build-system]
 requires = ["poetry-core"]
