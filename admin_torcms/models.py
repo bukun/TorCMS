@@ -169,7 +169,15 @@ class TabPostHist(models.Model):
         max_length=36,
     )
     title = models.CharField(null=False, max_length=255, help_text='')
-    post_id = models.TextField(null=False, help_text='')
+    post = models.ForeignKey(
+        TabPost,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='post_id',
+    )
+
     user_name = models.CharField(
         max_length=255,
     )
@@ -200,7 +208,10 @@ class TabWikiHist(models.Model):
         max_length=36,
     )
     title = models.CharField(null=False, max_length=255, help_text='')
-    wiki_id = models.CharField(null=False, max_length=36, help_text='')
+    # wiki_id = models.CharField(null=False, max_length=36, help_text='')
+    wiki = models.ForeignKey(
+        TabWiki, null=True, blank=True, on_delete=models.SET_NULL, db_constraint=False
+    )
     user_name = models.CharField(
         max_length=255,
     )
@@ -330,11 +341,38 @@ class TabPost2Tag(models.Model):
         max_length=36,
         help_text='',
     )
-    par_id = models.CharField(
-        null=False, default='', max_length=4, help_text='父类id，对于label，top_id为""'
+    # par_id = models.CharField(
+    #     null=False, default='', max_length=4, help_text='父类id，对于label，top_id为""'
+    # )
+    # tag_id = models.CharField(null=False, max_length=4, help_text='')
+    # post = models.ForeignKey(TabPost, null=True, blank=True,
+    #    on_delete=models.SET_NULL, db_constraint=False,db_colum = 'post_id')
+
+    par = models.ForeignKey(
+        TabTag,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='par_id',
     )
-    tag_id = models.CharField(null=False, max_length=4, help_text='')
-    post_id = models.TextField(null=False, help_text='')
+    tag = models.ForeignKey(
+        TabTag,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='tag_id',
+    )
+    post = models.ForeignKey(
+        TabPost,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='post_id',
+    )
+
     order = models.IntegerField()
 
     class Meta:
@@ -357,10 +395,24 @@ class TabReply(models.Model):
         max_length=36,
         help_text='',
     )
-    post_id = models.TextField(null=False, help_text='')  # db_index =True,
-    user_id = models.CharField(
-        null=False, max_length=36, help_text=''
-    )  # db_index =True,
+    post = models.ForeignKey(
+        TabPost,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='post_id',
+    )
+
+    user = models.ForeignKey(
+        TabMember,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='user_id',
+    )
+    # db_index =True,
     user_name = models.TextField()
     timestamp = models.IntegerField()
     date = models.DateTimeField()
@@ -397,12 +449,28 @@ class TabUser2Reply(models.Model):
         max_length=36,
         help_text='',
     )
-    reply_id = models.CharField(
-        null=False, max_length=36, help_text=''
-    )  # db_index =True,
-    user_id = models.CharField(
-        null=False, max_length=36, help_text=''
-    )  #  # db_index =True,
+    reply = models.ForeignKey(
+        TabReply,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='reply_id',
+    )
+    # reply_id = models.CharField(
+    #     null=False, max_length=36, help_text=''
+    # )  # db_index =True,
+    user = models.ForeignKey(
+        TabMember,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='user_id',
+    )
+    # user_id = models.CharField(
+    #     null=False, max_length=36, help_text=''
+    # )  #  # db_index =True,
     timestamp = models.IntegerField()
 
     class Meta:
@@ -424,13 +492,28 @@ class TabCollect(models.Model):
     uid = models.CharField(
         max_length=36, null=False, unique=True, help_text='', primary_key=True
     )
-    post_id = models.TextField(null=False, help_text='')
-    user_id = models.CharField(
-        null=False,
-        # db_index =True,
-        max_length=36,
-        help_text='',
+    post = models.ForeignKey(
+        TabPost,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='post_id',
     )
+    user = models.ForeignKey(
+        TabMember,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='user_id',
+    )
+    # user_id = models.CharField(
+    #     null=False,
+    #     # db_index =True,
+    #     max_length=36,
+    #     help_text='',
+    # )
     timestamp = models.IntegerField()
 
     class Meta:
@@ -448,9 +531,21 @@ class TabEvaluation(models.Model):
     uid = models.CharField(
         max_length=36, null=False, unique=True, help_text='', primary_key=True
     )
-    post_id = models.TextField(null=False, help_text='')
-    user_id = models.CharField(
-        null=False, max_length=36, help_text=''
+    post = models.ForeignKey(
+        TabPost,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='post_id',
+    )
+    user = models.ForeignKey(
+        TabMember,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='user_id',
     )  # db_index =True,
     value = models.IntegerField()  # 用户评价， 1 或 0, 作为计数
 
@@ -469,10 +564,22 @@ class TabRating(models.Model):
     uid = models.CharField(
         max_length=36, null=False, unique=True, help_text='', primary_key=True
     )
-    user_id = models.CharField(
-        null=False, max_length=36, help_text=''
+    user = models.ForeignKey(
+        TabMember,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='user_id',
     )  # db_index =True,
-    post_id = models.TextField(null=False, help_text='')  # db_index =True,
+    post = models.ForeignKey(
+        TabPost,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='post_id',
+    )
     rating = models.FloatField(
         null=False,
     )
@@ -498,10 +605,33 @@ class TabUsage(models.Model):
     uid = models.CharField(
         max_length=36, null=False, unique=True, help_text='', primary_key=True
     )
-    post_id = models.TextField(null=False, help_text='')
-    user_id = models.CharField(null=False, max_length=36, help_text='')
+    post = models.ForeignKey(
+        TabPost,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='post_id',
+    )
+    user = models.ForeignKey(
+        TabMember,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='user_id',
+    )
+    # user_id = models.CharField(null=False, max_length=36, help_text='')
     count = models.IntegerField()
-    tag_id = models.CharField(null=False, max_length=4, help_text='')
+    tag = models.ForeignKey(
+        TabTag,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='tag_id',
+    )
+    # tag_id = models.CharField(null=False, max_length=4, help_text='')
     kind = models.CharField(null=False, max_length=1)
     timestamp = models.IntegerField()
 
@@ -524,8 +654,26 @@ class TabRel(models.Model):
     uid = models.CharField(
         max_length=36, null=False, unique=True, help_text='', primary_key=True
     )
-    post_f_id = models.TextField(null=False, help_text='')
-    post_t_id = models.TextField(null=False, help_text='')
+    # post_f_id = models.TextField(null=False, help_text='')
+    # post_t_id = models.TextField(null=False, help_text='')
+
+    post_f = models.ForeignKey(
+        TabPost,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='post_f_id',
+    )
+    post_t = models.ForeignKey(
+        TabPost,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='post_t_id',
+    )
+
     count = models.IntegerField()
 
     class Meta:
@@ -552,8 +700,23 @@ class TabCorrelation(models.Model):
     uid = models.CharField(
         max_length=36, null=False, unique=True, help_text='', primary_key=True
     )
-    post_id = models.TextField(null=False, help_text='')
-    rel_id = models.TextField(null=False, help_text='')
+    post = models.ForeignKey(
+        TabPost,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='post_id',
+    )
+    # rel_id = models.TextField(null=False, help_text='')
+    rel = models.ForeignKey(
+        TabRel,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='rel_id',
+    )
     kind = models.IntegerField()
     order = models.IntegerField()
 
@@ -572,12 +735,27 @@ class TabEntity2User(models.Model):
     uid = models.CharField(
         null=False, unique=True, primary_key=True, max_length=36  #  # db_index =True,
     )
-    entity_id = models.CharField(null=False, max_length=36, help_text='')
-    user_id = models.CharField(
-        null=False,
-        max_length=36,
-        help_text='用户ID,未登录表示为xxxx',  # db_index =True,
+
+    # entity_id = models.CharField(null=False, max_length=36, help_text='')
+
+    entity = models.ForeignKey(
+        TabEntity,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='entity_id',
     )
+
+    user = models.ForeignKey(
+        TabMember,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='user_id',
+    )
+
     user_ip = models.CharField(null=False, help_text='用户端ip', max_length=36)
     timestamp = models.IntegerField(null=False)
 
@@ -596,7 +774,15 @@ class TabLog(models.Model):
     uid = models.CharField(null=False, unique=True, primary_key=True, max_length=36)
     current_url = models.CharField(null=False, max_length=255, help_text='')
     refer_url = models.CharField(null=False, max_length=255, help_text='')
-    user_id = models.CharField(null=False, max_length=36, help_text='', db_index=True)
+    # user_id = models.CharField(null=False, max_length=36, help_text='', db_index=True)
+    user = models.ForeignKey(
+        TabMember,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='user_id',
+    )
     time_create = models.BigIntegerField()
     time_out = models.BigIntegerField()
     time = models.BigIntegerField()
@@ -830,16 +1016,33 @@ class TabAssociation(models.Model):
         max_length=8,
         help_text='',
     )
-    post_id = models.CharField(
-        null=False,
-        max_length=5,
-        help_text='',
+    # post_id = models.CharField(
+    #     null=False,
+    #     max_length=5,
+    #     help_text='',
+    # )
+    post = models.ForeignKey(
+        TabPost,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='post_id',
     )
-    user_id = models.CharField(
-        null=False,
-        max_length=36,
-        help_text='',
+    # user_id = models.CharField(
+    #     null=False,
+    #     max_length=36,
+    #     help_text='',
+    # )
+    user = models.ForeignKey(
+        TabMember,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='user_id',
     )
+
     # 由于kind可能会对应多种扩展应用，使用 `variety` 进行区分。一般情况下可以与 `kind` 一致。
     variety = models.CharField(null=False, default='')
     title = models.CharField(null=False, blank=False, default='')
@@ -874,12 +1077,21 @@ class MabGson(models.Model):
         help_text='',
     )
     title = models.CharField(null=False, default='')
-    user_id = models.CharField(
-        null=False,
-        # db_index =True,
-        max_length=36,
-        help_text='',
+    # user_id = models.CharField(
+    #     null=False,
+    #     # db_index =True,
+    #     max_length=36,
+    #     help_text='',
+    # )
+    user = models.ForeignKey(
+        TabMember,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='user_id',
     )
+
     json = models.JSONField()
     time_create = models.IntegerField(null=False, default=0)
     time_update = models.IntegerField(null=False, default=0)
@@ -908,12 +1120,21 @@ class MabPost2Gson(models.Model):
         max_length=36,
         help_text='',
     )
-    post_id = models.CharField(
-        null=False,
-        # db_index =True,
-        max_length=5,
-        help_text='',
+    # post_id = models.CharField(
+    #     null=False,
+    #     # db_index =True,
+    #     max_length=5,
+    #     help_text='',
+    # )
+    post = models.ForeignKey(
+        TabPost,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='post_id',
     )
+
     json_id = models.CharField(
         null=False,
         # db_index =True,
@@ -946,17 +1167,33 @@ class MabLayout(models.Model):
         help_text='',
     )
     title = models.CharField(null=False, default='')
-    post_id = models.CharField(
-        null=False,
-        # db_index =True,
-        max_length=5,
-        help_text='',
+    # post_id = models.CharField(
+    #     null=False,
+    #     # db_index =True,
+    #     max_length=5,
+    #     help_text='',
+    # )
+    post = models.ForeignKey(
+        TabPost,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='post_id',
     )
-    user_id = models.CharField(
-        null=False,
-        # db_index =True,
-        max_length=36,
-        help_text='',
+    # user_id = models.CharField(
+    #     null=False,
+    #     # db_index =True,
+    #     max_length=36,
+    #     help_text='',
+    # )
+    user = models.ForeignKey(
+        TabMember,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='user_id',
     )
     json = models.CharField(null=True, default='', max_length=4)
     lon = models.FloatField(null=False, default=105)
@@ -991,15 +1228,31 @@ class ExtabCalcInfo(models.Model):
         null=False,
         help_text='标题',
     )
-    post_id = models.CharField(
-        null=False,
-        max_length=5,
-        help_text='',
+    # post_id = models.CharField(
+    #     null=False,
+    #     max_length=5,
+    #     help_text='',
+    # )
+    post = models.ForeignKey(
+        TabPost,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='post_id',
     )
-    user_id = models.CharField(
-        null=False,
-        max_length=36,
-        help_text='',
+    # user_id = models.CharField(
+    #     null=False,
+    #     max_length=36,
+    #     help_text='',
+    # )
+    user = models.ForeignKey(
+        TabMember,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        db_constraint=False,
+        db_colum='user_id',
     )
     time_create = models.IntegerField(default=0, null=False)
     time_update = models.IntegerField(default=0, null=False)
