@@ -431,7 +431,9 @@ class MetadataHandler(PostHandler):
 
     def 生成验证语言(self):
         dv = DataValidation(
-            type="list", formula1='"英文,中文,法文,俄语,阿拉伯语,西班牙语,其他"', allow_blank=True
+            type="list",
+            formula1='"英文,中文,法文,俄语,阿拉伯语,西班牙语,其他"',
+            allow_blank=True,
         )
         dv.error = 'Your entry is not in the list'
         dv.errorTitle = 'Invalid Entry'

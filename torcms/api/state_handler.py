@@ -171,7 +171,11 @@ class StateHandler(BaseHandler):
             exis_rec = MState.get_by_pro_statename(process, post_data['name'])
 
             if exis_rec.count() > 0:
-                output = {"ok": False, "status": 404, "msg": "该流程下已存在当前状态，修改失败"}
+                output = {
+                    "ok": False,
+                    "status": 404,
+                    "msg": "该流程下已存在当前状态，修改失败",
+                }
             else:
                 post_data["process"] = process
 
@@ -216,7 +220,11 @@ class StateHandler(BaseHandler):
                 exis_rec = MState.get_by_pro_statename(process, rec.name)
 
                 if exis_rec.count() > 0:
-                    output = {"ok": False, "status": 404, "msg": "该流程下已存在当前状态，修改失败"}
+                    output = {
+                        "ok": False,
+                        "status": 404,
+                        "msg": "该流程下已存在当前状态，修改失败",
+                    }
                 else:
                     post_data["process"] = process
                     if MState.update_process(uid, post_data):
@@ -259,7 +267,11 @@ class StateHandler(BaseHandler):
 
             exis_rec = MState.get_by_pro_statename(process, post_data['name'])
             if exis_rec.count() > 0:
-                output = {"ok": False, "status": 404, "msg": "该流程下已存在当前状态，添加失败"}
+                output = {
+                    "ok": False,
+                    "status": 404,
+                    "msg": "该流程下已存在当前状态，添加失败",
+                }
 
             else:
                 state_uid = MState.create(post_data)

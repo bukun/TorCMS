@@ -2,7 +2,6 @@
 The Application.
 """
 
-
 from pathlib import Path
 
 import router as app_router

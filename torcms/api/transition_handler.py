@@ -177,7 +177,11 @@ class TransitionHandler(BaseHandler):
         process = post_data["process"]
         exis_rec = MTransition.get_by_cur_next(process, cur_state, next_state)
         if exis_rec.count() > 0:
-            output = {"ok": False, "status": 404, "msg": "该流程下已存在当前转换，添加失败"}
+            output = {
+                "ok": False,
+                "status": 404,
+                "msg": "该流程下已存在当前转换，添加失败",
+            }
 
         else:
             state_uid = MTransition.create(process, cur_state, next_state)

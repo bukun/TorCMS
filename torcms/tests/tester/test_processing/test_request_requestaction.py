@@ -135,7 +135,11 @@ class TestMProcess:
                 'state_type': 'cancelled',
                 'description': '表示此状态下的任何请求已被取消的状态(例如，工作已开始但尚未完成)',
             },
-            {'name': '正常', 'state_type': 'normal', 'description': '没有特殊名称的常规状态'},
+            {
+                'name': '正常',
+                'state_type': 'normal',
+                'description': '没有特殊名称的常规状态',
+            },
         ]
         if self.process_id:
             for state_data in state_datas:
@@ -355,11 +359,17 @@ class TestMProcess:
                             if new_state.name == '正常':
                                 new_act_arr = [{"act_name": "提交审核"}]
                             elif new_state.name == '开始':
-                                new_act_arr = [{"act_name": "拒绝"}, {"act_name": "通过"}]
+                                new_act_arr = [
+                                    {"act_name": "拒绝"},
+                                    {"act_name": "通过"},
+                                ]
                             elif new_state.name == '拒绝':
                                 new_act_arr = [{"act_name": "撤消"}]
                             elif new_state.name == '取消':
-                                new_act_arr = [{"act_name": "拒绝"}, {"act_name": "通过"}]
+                                new_act_arr = [
+                                    {"act_name": "拒绝"},
+                                    {"act_name": "通过"},
+                                ]
                             else:
                                 new_act_arr = []
                             print("~" * 50)

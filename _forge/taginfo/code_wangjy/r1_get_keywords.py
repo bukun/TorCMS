@@ -31,7 +31,9 @@ def seg_sentence(sentence):
 
 
 for line in inputs:
-    r1 = '[a-zA-Z0-9’!"#$%&\'()*+,-./:：;；|<=>?@，—。?★、…【】《》？“”‘’！[\\]^_`{|}~]+'
+    r1 = (
+        '[a-zA-Z0-9’!"#$%&\'()*+,-./:：;；|<=>?@，—。?★、…【】《》？“”‘’！[\\]^_`{|}~]+'
+    )
     line_seg = re.sub(r1, '', line)
     # line_seg = re.sub('[\d]', '', line)
     # line_seg2 = re.sub('[a-zA-Z]', '', line_seg)

@@ -101,7 +101,10 @@ class TabPost(models.Model):
     cnt_html = models.TextField()
     kind = models.CharField(null=False, max_length=1, default='1', help_text='app type')
     state = models.CharField(
-        null=False, max_length=4, default='0000', help_text='state for post. 发布/审核状态.'
+        null=False,
+        max_length=4,
+        default='0000',
+        help_text='state for post. 发布/审核状态.',
     )
     rating = models.FloatField(null=False, default=5, help_text='Rating of the post.')
     memo = models.TextField(null=False, default='', help_text='Memo')
@@ -571,7 +574,9 @@ class TabEntity2User(models.Model):
     )
     entity_id = models.CharField(null=False, max_length=36, help_text='')
     user_id = models.CharField(
-        null=False, max_length=36, help_text='用户ID,未登录表示为xxxx'  # db_index =True,
+        null=False,
+        max_length=36,
+        help_text='用户ID,未登录表示为xxxx',  # db_index =True,
     )
     user_ip = models.CharField(null=False, help_text='用户端ip', max_length=36)
     timestamp = models.IntegerField(null=False)
@@ -727,7 +732,9 @@ class TabRole(models.Model):
     name = models.CharField(
         null=False, unique=True, max_length=255, help_text='分组名称'  # db_index =True,
     )
-    status = models.IntegerField(null=False, default=0, help_text='角色状态.0=禁用,1=启用')
+    status = models.IntegerField(
+        null=False, default=0, help_text='角色状态.0=禁用,1=启用'
+    )
     pid = models.CharField(null=False, max_length=36, help_text='parent id')
     time_create = models.IntegerField(null=False, default=0)
     time_update = models.IntegerField(null=False, default=0)
@@ -764,7 +771,9 @@ class TabPermission(models.Model):
     name = models.CharField(
         null=False, unique=True, max_length=255, help_text='权限名称'  # db_index =True,
     )
-    action = models.CharField(null=False, max_length=255, help_text='允许动作,字符串编码')
+    action = models.CharField(
+        null=False, max_length=255, help_text='允许动作,字符串编码'
+    )
     controller = models.CharField(null=False, max_length=255, help_text='控制器')
 
     class Meta:
@@ -779,7 +788,9 @@ class TabStaff2Role(models.Model):
     人员、角色关联表
     '''
 
-    staff = models.ForeignKey(TabMember, help_text='后台人员id', on_delete=models.CASCADE)
+    staff = models.ForeignKey(
+        TabMember, help_text='后台人员id', on_delete=models.CASCADE
+    )
     role = models.ForeignKey(TabRole, help_text='后台角色id', on_delete=models.CASCADE)
 
     class Meta:

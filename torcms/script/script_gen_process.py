@@ -51,13 +51,21 @@ def test_state(process_id):
             'state_type': 'denied',
             'description': '表示此状态下的任何请求已被拒绝的状态(例如，从未开始且不会被处理)',
         },
-        {'name': '完成', 'state_type': 'complete', 'description': '表示此状态下的任何请求已正常完成的状态'},
+        {
+            'name': '完成',
+            'state_type': 'complete',
+            'description': '表示此状态下的任何请求已正常完成的状态',
+        },
         {
             'name': '取消',
             'state_type': 'cancelled',
             'description': '表示此状态下的任何请求已被取消的状态(例如，工作已开始但尚未完成)',
         },
-        {'name': '正常', 'state_type': 'normal', 'description': '没有特殊名称的常规状态'},
+        {
+            'name': '正常',
+            'state_type': 'normal',
+            'description': '没有特殊名称的常规状态',
+        },
     ]
 
     for state_data in state_datas:

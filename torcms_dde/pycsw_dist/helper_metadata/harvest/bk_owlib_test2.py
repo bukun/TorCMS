@@ -2,6 +2,7 @@
 https://www.osgeo.cn/geonetwork/annexes/gallery/gallery.html
 测试其中服务
 '''
+
 import sys
 
 sys.path.append('./')
@@ -94,7 +95,11 @@ geonetwork_svrs = {
         'url': 'https://download.data.grandlyon.com/catalogue/srv/eng/csw',
         'valid': True,
     },
-    's21': {'url': 'https://gdk.gdi-de.org/gdi-de/', 'valid': False, 'note': '无法访问'},
+    's21': {
+        'url': 'https://gdk.gdi-de.org/gdi-de/',
+        'valid': False,
+        'note': '无法访问',
+    },
     's22': {
         'url': 'https://geocatalogue.apur.org/catalogue/srv/eng/csw',
         'valid': True,

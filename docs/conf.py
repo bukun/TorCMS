@@ -11,6 +11,7 @@ copyright = '2025, Author'
 author = 'Author'
 
 import sys
+
 sys.path.append('..')
 
 # -- General configuration ---------------------------------------------------

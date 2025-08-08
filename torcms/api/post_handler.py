@@ -1,6 +1,7 @@
 '''
 Handler of Posts via Ajax.
 '''
+
 import json
 
 import tornado.escape

@@ -1,6 +1,7 @@
 '''
 逐行分词
 '''
+
 import re
 
 import jieba
@@ -35,7 +36,9 @@ inputs = open('地球大数据元数据0906.csv', 'r', encoding='utf-8')
 outputs = open('xx_fenci.txt', 'w', encoding='utf-8')
 
 for line in inputs:
-    r1 = '[a-zA-Z0-9’!"#$%&\'()*+,-./:：;；|<=>?@，—。?★、…【】《》？“”‘’！[\\]^_`{|}~]+'
+    r1 = (
+        '[a-zA-Z0-9’!"#$%&\'()*+,-./:：;；|<=>?@，—。?★、…【】《》？“”‘’！[\\]^_`{|}~]+'
+    )
     line_seg = re.sub(r1, '', line)
     # line_seg = re.sub('[\d]', '', line)
     # line_seg2 = re.sub('[a-zA-Z]', '', line_seg)

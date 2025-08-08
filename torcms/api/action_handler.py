@@ -186,7 +186,11 @@ class ActionHandler(BaseHandler):
         exis_rec = MAction.get_by_pro_actname(transition, post_data['name'])
 
         if exis_rec.count() > 0:
-            output = {"ok": False, "status": 404, "msg": "该流程下已存在当前动作，添加失败"}
+            output = {
+                "ok": False,
+                "status": 404,
+                "msg": "该流程下已存在当前动作，添加失败",
+            }
 
         else:
             per_dics = post_data.get("permission", "").split(",")
@@ -205,7 +209,11 @@ class ActionHandler(BaseHandler):
                 if trans_uid:
                     output = {"ok": True, "status": 0, "msg": "添加成功"}
                 else:
-                    output = {"ok": False, "status": 404, "msg": "该转换下已存在当前动作，添加失败"}
+                    output = {
+                        "ok": False,
+                        "status": 404,
+                        "msg": "该转换下已存在当前动作，添加失败",
+                    }
             else:
                 output = {"ok": True, "status": 0, "msg": "当前动作已存在,添加动作失败"}
 
@@ -249,7 +257,11 @@ class ActionHandler(BaseHandler):
 
         exis_rec = MAction.get_by_pro_act(transition, uid)
         if exis_rec.count() > 0:
-            output = {"ok": False, "status": 404, "msg": "该流程下已存在当前动作，修改失败"}
+            output = {
+                "ok": False,
+                "status": 404,
+                "msg": "该流程下已存在当前动作，修改失败",
+            }
 
         else:
             recs = MTransitionAction.query_by_actid(uid)

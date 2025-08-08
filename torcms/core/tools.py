@@ -38,6 +38,7 @@ logging.getLogger('').addHandler(stream_handler)
 
 logger = logging
 
+
 def diff_table(rawinfo, newinfo):
     '''
     Generate the difference as the table format.

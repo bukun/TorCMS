@@ -3,6 +3,7 @@ To run the script, run the following command the same direcotry.
 
     git clone https://github.com/bukun/pycsw_helper.git
 '''
+
 import os
 import uuid
 

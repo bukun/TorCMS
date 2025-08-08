@@ -66,9 +66,11 @@ class GeoJsonHandler(BaseHandler):
             kwd=kwd,
             userinfo=self.userinfo,
             unescape=tornado.escape.xhtml_unescape,
-            recent_apps=MUsage.query_recent(self.userinfo.uid, 'm', 6)[1:]
-            if self.userinfo
-            else [],
+            recent_apps=(
+                MUsage.query_recent(self.userinfo.uid, 'm', 6)[1:]
+                if self.userinfo
+                else []
+            ),
         )
 
     def index(self):

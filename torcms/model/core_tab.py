@@ -85,7 +85,10 @@ class TabPost(BaseModel):
     cnt_html = peewee.TextField()
     kind = peewee.CharField(null=False, max_length=1, default='1', help_text='app type')
     state = peewee.CharField(
-        null=False, max_length=4, default='0000', help_text='state for post. 发布/审核状态.'
+        null=False,
+        max_length=4,
+        default='0000',
+        help_text='state for post. 发布/审核状态.',
     )
     rating = peewee.FloatField(null=False, default=5, help_text='Rating of the post.')
     memo = peewee.TextField(null=False, default='', help_text='Memo')
@@ -507,7 +510,9 @@ class TabRole(BaseModel):
     name = peewee.CharField(
         null=False, index=True, unique=True, max_length=255, help_text='分组名称'
     )
-    status = peewee.IntegerField(null=False, default=0, help_text='角色状态.0=禁用,1=启用')
+    status = peewee.IntegerField(
+        null=False, default=0, help_text='角色状态.0=禁用,1=启用'
+    )
     pid = peewee.CharField(null=False, max_length=36, help_text='parent id')
     time_create = peewee.IntegerField(null=False, default=0)
     time_update = peewee.IntegerField(null=False, default=0)
@@ -538,7 +543,9 @@ class TabPermission(BaseModel):
     name = peewee.CharField(
         null=False, index=True, unique=True, max_length=255, help_text='权限名称'
     )
-    action = peewee.CharField(null=False, max_length=255, help_text='允许动作,字符串编码')
+    action = peewee.CharField(
+        null=False, max_length=255, help_text='允许动作,字符串编码'
+    )
     controller = peewee.CharField(null=False, max_length=255, help_text='控制器')
 
 

@@ -1,7 +1,7 @@
 # -*- coding=utf-8 -*-
 
 """
-     原始数据，用于建立模型
+原始数据，用于建立模型
 """
 
 import nltk
@@ -160,7 +160,9 @@ ml_bow = dictionary.doc2bow(ml_course)
 
 # 在上面选择的模型数据 lsi 中，计算其他数据与其的相似度
 ml_lsi = lsi[ml_bow]  # ml_lsi 形式如 (topic_id, topic_value)
-sims = index[ml_lsi]  # sims 是最终结果了， index[xxx] 调用内置方法 __getitem__() 来计算ml_lsi
+sims = index[
+    ml_lsi
+]  # sims 是最终结果了， index[xxx] 调用内置方法 __getitem__() 来计算ml_lsi
 
 # 排序，为输出方便
 sort_sims = sorted(enumerate(sims), key=lambda item: -item[1])

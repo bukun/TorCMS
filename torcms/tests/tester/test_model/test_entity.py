@@ -48,8 +48,6 @@ class TestMEntity:
                 tf = True
         assert tf
 
-
-
     def test_get_id_by_impath(self):
         self.add_message()
 

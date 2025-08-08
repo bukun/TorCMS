@@ -531,7 +531,11 @@ class UserApi(BaseHandler):
             }
             return json.dump({'data': user_login_status, 'status': 0}, self)
         else:
-            user_login_status = {"ok": False, "status": 404, "msg": "帐号或密码错误，登录失败"}
+            user_login_status = {
+                "ok": False,
+                "status": 404,
+                "msg": "帐号或密码错误，登录失败",
+            }
             return json.dump(user_login_status, self, ensure_ascii=False)
 
     def __user_list__(self):

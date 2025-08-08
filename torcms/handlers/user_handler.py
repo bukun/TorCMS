@@ -145,20 +145,23 @@ class UserHandler(BaseHandler):
         self.is_p = False
 
     def set_default_headers(self):
-        self.set_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
+        self.set_header(
+            "Cache-Control", "no-store, no-cache, must-revalidate, max-age=0"
+        )
         self.set_header("Pragma", "no-cache")
         self.set_header('Access-Control-Allow-Origin', '*')
         # self.set_header("Expires", "Thu, 01 Jan 1970 00:00:00 GMT")
-
 
     def get(self, *args, **kwargs):
         url_str = args[0]
         url_arr = self.parse_url(url_str)
 
         dict_get = {
-            'regist': (lambda: self.redirect('/user/info'))
-            if self.get_current_user()
-            else self.__to_register__,
+            'regist': (
+                (lambda: self.redirect('/user/info'))
+                if self.get_current_user()
+                else self.__to_register__
+            ),
             'j_regist': self.j_register,
             'login': self.__to_login__,
             'info': self.__to_show_info__,
