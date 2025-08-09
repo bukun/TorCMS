@@ -3,9 +3,9 @@ import os
 import unittest
 
 import requests
+from cfg import SITE_CFG
 from tornado.testing import AsyncHTTPTestCase
 
-from cfg import SITE_CFG
 from config import post_cfg
 from server import APP
 from torcms.model.category_model import MCategory

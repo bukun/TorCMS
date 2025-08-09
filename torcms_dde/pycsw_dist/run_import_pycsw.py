@@ -6,10 +6,10 @@ from pprint import pprint
 
 import psycopg2
 import shapely
+from cfg import DB_CFG
 from shapely.geometry import mapping
 from shapely.wkt import loads
 
-from cfg import DB_CFG
 from torcms.core import tools
 from torcms.handlers.post_handler import update_category, update_label
 from torcms.model.core_tab import TabPost

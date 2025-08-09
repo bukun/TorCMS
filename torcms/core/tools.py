@@ -11,14 +11,13 @@ import time
 import uuid
 from difflib import HtmlDiff
 
+import cfg
 import markdown
 import tornado.escape
 
 # from htmlmin import minify
 from markdown.extensions.wikilinks import WikiLinkExtension
 from playhouse.postgres_ext import PostgresqlExtDatabase
-
-import cfg
 
 logging.basicConfig(
     level=logging.DEBUG,

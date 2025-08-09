@@ -2,11 +2,10 @@
 
 from time import sleep
 
+from cfg import SITE_CFG
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
-
-from cfg import SITE_CFG
 
 driver = webdriver.Firefox()
 site_url = SITE_CFG['site_url']

@@ -5,7 +5,6 @@
 import difflib
 
 import psycopg2
-
 from cfg import DB_INFO
 
 # 连接数据库的参数

@@ -3,9 +3,9 @@ import os
 import unittest
 
 import requests
+from cfg import SITE_CFG
 from tornado.testing import AsyncHTTPTestCase
 
-from cfg import SITE_CFG
 from server import APP
 
 domain = SITE_CFG['site_url']

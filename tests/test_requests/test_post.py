@@ -2,10 +2,10 @@ import os
 from datetime import datetime
 
 import requests
+from cfg import SITE_CFG
 from faker import Faker
 from tornado.testing import AsyncHTTPSTestCase
 
-from cfg import SITE_CFG
 from config import post_cfg
 from server import APP
 from torcms.core.tools import get_uu4d, get_uuid

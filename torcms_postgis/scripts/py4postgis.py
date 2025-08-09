@@ -3,7 +3,6 @@
 '''
 
 import psycopg2
-
 from cfg import PostGIS_CFG
 
 

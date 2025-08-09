@@ -355,8 +355,8 @@ class TabPost2Tag(models.Model):
         on_delete=models.SET_NULL,
         db_constraint=False,
         db_column='par_id',
-        related_name = 'rel_par_tag' ,
-        related_query_name = 'rel_par_tag'
+        related_name='rel_par_tag',
+        related_query_name='rel_par_tag',
     )
     tag = models.ForeignKey(
         TabTag,
@@ -365,8 +365,8 @@ class TabPost2Tag(models.Model):
         on_delete=models.SET_NULL,
         db_constraint=False,
         db_column='tag_id',
-        related_name = 'rel_fri_tag',
-        related_query_name = 'rel_fri_tag'
+        related_name='rel_fri_tag',
+        related_query_name='rel_fri_tag',
     )
     post = models.ForeignKey(
         TabPost,
@@ -668,7 +668,7 @@ class TabRel(models.Model):
         on_delete=models.SET_NULL,
         db_constraint=False,
         db_column='post_f_id',
-        related_name = 'rel_post_f'
+        related_name='rel_post_f',
     )
     post_t = models.ForeignKey(
         TabPost,
@@ -677,7 +677,7 @@ class TabRel(models.Model):
         on_delete=models.SET_NULL,
         db_constraint=False,
         db_column='post_t_id',
-        related_name = 'rel_post_t'
+        related_name='rel_post_t',
     )
 
     count = models.IntegerField()

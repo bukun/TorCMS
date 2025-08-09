@@ -5,6 +5,7 @@ Testing for redis.
 '''
 
 import cfg
+
 from config import REDIS_CFG
 
 

@@ -7,9 +7,9 @@ from faker import Faker
 fak = Faker('zh_CN')
 
 import requests
+from cfg import SITE_CFG
 from tornado.testing import AsyncHTTPTestCase
 
-from cfg import SITE_CFG
 from server import APP
 from torcms.model.wiki_model import MWiki
 
