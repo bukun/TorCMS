@@ -300,6 +300,9 @@ class InfoCount(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
+        print('=' * 80)
+        print(args)
+        print(kwargs)
         pcat = kwargs['pcat']
         catid = kwargs['catid']
         kind = kwargs['kind']
@@ -307,7 +310,7 @@ class InfoCount(tornado.web.UIModule):
             recs = MPost.query_by_parid(catid, kind)
         else:
             recs = MPost.query_by_tag(catid, kind)
-        return recs.count()
+        return str(recs.count())
 
 
 class InfoCountByState(tornado.web.UIModule):
@@ -316,6 +319,7 @@ class InfoCountByState(tornado.web.UIModule):
     '''
 
     def render(self, *args, **kwargs):
+
         pcat = kwargs['pcat']
         catid = kwargs['catid']
         kind = kwargs['kind']
@@ -323,7 +327,7 @@ class InfoCountByState(tornado.web.UIModule):
             recs = MPost.query_by_parid(catid, kind)
         else:
             recs = MPost.query_by_tag(catid, kind)
-        return recs.count()
+        return str(recs.count())
 
 
 class InfoMenu(tornado.web.UIModule):
