@@ -16,7 +16,7 @@ from wtforms.validators import DataRequired
 
 import config
 from config import CMS_CFG
-from torcms.core import tools
+from torcms.core import privilege, tools
 from torcms.core.base_handler import BaseHandler
 from torcms.core.tool.send_email import send_mail
 from torcms.core.tools import logger
@@ -356,6 +356,7 @@ class UserHandler(BaseHandler):
             self.render('misc/html/404.html', kwd=kwd, userinfo=self.userinfo)
 
     @tornado.web.authenticated
+    @privilege.permission(action="assign_role")
     def __change_role__(self, xg_username):
         """
         Change th user rule
